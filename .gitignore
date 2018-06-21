@@ -1,0 +1,6 @@
+/bin/
+config/computate.config
+.classpath
+.project
+.settings
+/target/
