@@ -46,3 +46,4 @@ config_var solr PREFIXE_PORT_SOLR
 export PREFIXE_PORT_SOLR="${PREFIXE_PORT_SOLR:-103}"
 config_var solr PORT_SOLR
 export PORT_SOLR="${PORT_SOLR:-${PREFIXE_PORT_SOLR}83}"
+export URL_SOLR="http://localhost:${PORT_SOLR}/solr"

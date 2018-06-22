@@ -150,7 +150,7 @@ public class RegarderRepertoire {
 		
 		for(String chemin : cheminsBibliotheque) {
 			cheminsCheminClasse.add(chemin + "/*");
-		}
+		} 
 
 		cheminClasse = StringUtils.join(cheminsCheminClasse, File.pathSeparator);
 	}
@@ -164,7 +164,7 @@ public class RegarderRepertoire {
 				log.error("Erreur à ajouter chemin pour regarder.", e);
 			}
 		}
-	} 
+	}   
 
 	@SuppressWarnings("unchecked") static <T> WatchEvent<T> cast(WatchEvent<?> event) {
 		return (WatchEvent<T>) event;
@@ -217,8 +217,8 @@ public class RegarderRepertoire {
 
 				try { 
 					String classeCheminAbsolu = enfant.toAbsolutePath().toString();  
-					CommandLine ligneCommande = CommandLine.parse("mvn exec:java -Dexec.mainClass=" + EcrireClasse.class.getCanonicalName() + " -Dexec.args=\"" + classeCheminRepertoireAppli + " " + classeCheminAbsolu + "\"");
-					executeur.execute(ligneCommande);
+					CommandLine ligneCommande = CommandLine.parse("mvn -q exec:java -Dexec.mainClass=" + EcrireClasse.class.getCanonicalName() + " -Dexec.args=\"" + classeCheminRepertoireAppli + " " + classeCheminAbsolu + "\"");
+					executeur.execute(ligneCommande); 
 
 //					bricoleur = null;
 //					bricoleur = new JavaProjectBuilder();

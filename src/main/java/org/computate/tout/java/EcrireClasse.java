@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.client.solrj.SolrClient;
@@ -25,6 +26,7 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.computate.tout.couverture.Couverture;
 
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -33,85 +35,293 @@ import com.thoughtworks.qdox.model.JavaMember;
 
 public class EcrireClasse {
 
-	protected JavaProjectBuilder bricoleur;
-	protected String urlSolr;
-	protected SolrClient clientSolr;
-	protected String langue;
-	protected String[] autresLangues;
-	protected String cheminConfiguration;
-	protected File fichierConfiguration;
-	protected INIConfiguration configuration;
+	protected String[] args;
+
+	/**	Le chemin vers l'lappli. **/
+	protected String cheminAppli;
+	protected void _cheminAppli() throws Exception {
+		cheminAppli = args[0];
+	}
+	
+	protected String classeCheminAbsolu;
+	protected void _classeCheminAbsolu() throws Exception {
+		classeCheminAbsolu = args[1];
+	}
+
 	protected String cheminSrcMainJava;
+	protected void _cheminSrcMainJava() throws Exception {
+		cheminSrcMainJava = cheminAppli + "/src/main/java";
+	}
+
 	protected String cheminSrcGenJava;
-	protected ArrayList<String> cheminsBin = new ArrayList<String>();
-	protected ArrayList<String> cheminsCheminClasse = new ArrayList<String>();
-	protected ArrayList<String> cheminsARegarder = new ArrayList<String>();
-	protected ArrayList<String> nomsMethodeTest = new ArrayList<String>();
-	protected ArrayList<String> cheminsSource = new ArrayList<String>();
-	protected ArrayList<String> toutCheminsSource = new ArrayList<String>();
+	protected void _cheminSrcGenJava() throws Exception {
+		cheminSrcGenJava = cheminAppli + "/src/gen/java";
+	}
+
 	protected ArrayList<String> cheminsBibliotheque = new ArrayList<String>();
+	protected void _cheminsBibliotheque() throws Exception {
+		cheminsBibliotheque.add(cheminAppli + "/lib");
+		cheminsBibliotheque.add(cheminAppli + "/lib-tomcat");
+		cheminsBibliotheque.add(cheminAppli + "/lib-keycloak");
+	}
 
-	public static void main(String[] args) throws Exception {  
-		String classeCheminRepertoireAppli = args[0];
-		String classeCheminAbsolu = args[1];
+	protected ArrayList<String> cheminsBin = new ArrayList<String>();
+	protected void _cheminsBin() throws Exception {
+		cheminsBin.add(cheminAppli + "/bin");
+		cheminsBin.add(cheminAppli + "/src/main/resources");
+	}
+
+	protected String cheminConfiguration;
+	protected void _cheminConfiguration() throws Exception {
+		cheminConfiguration = cheminAppli + "/config/computate.config";
+	}
+
+	protected File fichierConfiguration;
+	protected void _fichierConfiguration() throws Exception {
+		fichierConfiguration = new File(cheminConfiguration);
+	}
+
+	/**  **/  
+	protected Configurations configurations;
+	protected void _configurations() throws Exception {
+		configurations = new Configurations();
+	}
+
+	/**  **/
+	protected INIConfiguration config;
+	protected void _config() throws Exception {
+		config = configurations.ini(fichierConfiguration);
+	}
+
+	/**	Le nom de la nomLangue. **/
+	protected String nomLangue;
+	protected void _nomLangue() throws Exception {
+		nomLangue = config.getString(nomAppli + "..NOM_LANGUE");
+	}
+
+	protected String[] toutesLangues;
+	protected void _toutesLangues() throws Exception {
+		toutesLangues = new String[] { "frFR", "enUS" };
+	}
+
+	protected String[] autresLangues;
+	protected void _autresLangues() throws Exception {
+		autresLangues = ArrayUtils.removeElement(toutesLangues, nomLangue);
+	}
+
+	/**	Le nom de l'lappli. **/
+	protected String nomAppli;
+	protected void _nomAppli() throws Exception {
+		nomAppli = config.getString("NOM_APPLI");
+	}
+
+	/**	 **/
+	protected String nomFichierConfig;
+	protected void _nomFicherConfig() throws Exception {
+		nomFichierConfig = config.getString(nomAppli + "..NOM_FICHIER_CONFIG", nomAppli + ".config");
+	}
+
+	/**	 **/
+	protected String cheminConfig;
+	protected void _cheminConfig() throws Exception {
+		cheminConfig = config.getString(nomAppli + "..CHEMIN_CONFIG", cheminAppli + "/config/" + nomFichierConfig);
+	}
+
+	/**	 **/
+	protected String versionMaven;
+	protected void _versionMaven() throws Exception {
+		versionMaven = config.getString("maven..VERSION_MAVEN", "3.5.3");
+	}
+
+	/**	 **/
+	protected String versionZookeeper;
+	protected void _versionZookeeper() throws Exception {
+		versionZookeeper = config.getString("maven..VERSION_ZOOKEEPER", "3.5.4");
+	}
+
+	/**	 **/
+	protected String prefixePortZookeeper;
+	protected void _prefixePortZookeeper() throws Exception {
+		prefixePortZookeeper = config.getString("zookeeper..PREFIXE_PORT_ZOOKEEPER", "102");
+	}
+
+	/**	 **/
+	protected String portClientZookeeper;
+	protected void _portClientZookeeper() throws Exception {
+		portClientZookeeper = config.getString("zookeeper..PORT_CLIENT_ZOOKEEPER", prefixePortZookeeper + "81");
+	}
+
+	/**	 **/
+	protected String portAdminZookeeper;
+	protected void _portAdminZookeeper() throws Exception {
+		portAdminZookeeper = config.getString("zookeeper..PORT_ADMIN_ZOOKEEPER", prefixePortZookeeper + "80");
+	}
+
+	/**	 **/
+	protected String versionSolr;
+	protected void _versionSolr() throws Exception {
+		versionSolr = config.getString("zookeeper..VERSION_SOLR", "7.3.1");
+	}
+
+	/**	 **/
+	protected String prefixePortSolr;
+	protected void _prefixePortSolr() throws Exception {
+		prefixePortSolr = config.getString("zookeeper..PREFIXE_PORT_SOLR", "103");
+	}
+
+	/**	 **/
+	protected String portSolr;
+	protected void _portSolr() throws Exception {
+		portSolr = config.getString("zookeeper..PORT_SOLR", prefixePortSolr + "83");
+	}
+
+	/**	 **/
+	protected String urlSolr;
+	protected void _urlSolr() throws Exception {
+		urlSolr = config.getString("zookeeper..URL_SOLR", "http://localhost:" + portSolr + "/solr/" + nomAppli);
+	}
+
+	protected SolrClient clientSolr;
+	protected void _clientSolr() throws Exception {
+		clientSolr = new HttpSolrClient.Builder(urlSolr).build();
+	}
+
+	protected ArrayList<String> cheminsARegarder = new ArrayList<String>();
+	protected void _cheminsARegarder() throws Exception {
+		cheminsARegarder.add(cheminSrcMainJava);
+	}
+
+	protected ArrayList<String> cheminsSource = new ArrayList<String>();
+	protected void _cheminsSource() throws Exception {
+		cheminsSource.add(cheminSrcMainJava);
+		cheminsSource.add(cheminSrcGenJava);
+	}
+
+	protected ArrayList<String> toutCheminsSource = new ArrayList<String>();
+	protected void _toutCheminsSource() throws Exception {
+		toutCheminsSource.add(cheminSrcMainJava);
+		toutCheminsSource.add(cheminSrcGenJava);
+	}
+
+	protected ArrayList<String> cheminsCheminClasse = new ArrayList<String>();
+	protected void _cheminsCheminClasse() throws Exception {
+		for(String chemin : cheminsBin) {
+			cheminsCheminClasse.add(chemin);
+		}
+		for(String chemin : cheminsBibliotheque) {
+			cheminsCheminClasse.add(chemin + "/*");
+		}
+	}
+
+	protected ArrayList<String> nomsMethodeTest = new ArrayList<String>();
+	protected void _nomsMethodeTest() throws Exception {
+	}
+
+	protected JavaProjectBuilder bricoleur;
+	protected void _bricoleur() throws Exception {
+		bricoleur = new JavaProjectBuilder();
+		for(String cheminSource : toutCheminsSource) {
+			File répertoireSource = new File(cheminSource);
+			bricoleur.addSourceFolder(répertoireSource);
+		}
+	}
+
+
+	public void initEcrireClasse() throws Exception {
+		_cheminAppli();
+		_classeCheminAbsolu();
+		_cheminSrcMainJava();
+		_cheminSrcGenJava();
+		_cheminsBibliotheque();
+		_cheminsBin();
+		_cheminConfiguration();
+		_fichierConfiguration();
+		_configurations();
+		_config();
+		_nomLangue();
+		_toutesLangues();
+		_autresLangues();
+		_nomAppli();
+		_nomFicherConfig();
+		_cheminConfig();
+		_versionMaven();
+		_versionZookeeper();
+		_prefixePortZookeeper();
+		_portClientZookeeper();
+		_portAdminZookeeper();
+		_versionSolr();
+		_prefixePortSolr();
+		_portSolr();
+		_urlSolr();
+		_clientSolr();
+		_cheminsARegarder();
+		_cheminsSource();
+		_toutCheminsSource();
+		_cheminsCheminClasse();
+		_nomsMethodeTest();
+		_bricoleur();
+	}
+
+	public static void main(String[] args) throws Exception {   
 		EcrireClasse ecrireClasse = new EcrireClasse();
-
-		ecrireClasse.cheminSrcMainJava = classeCheminRepertoireAppli + "/src/main/java";
-		ecrireClasse.cheminSrcGenJava = classeCheminRepertoireAppli + "/src/gen/java";
-
-		ecrireClasse.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib");
-		ecrireClasse.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib-tomcat");
-		ecrireClasse.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib-keycloak");
-
-		ecrireClasse.cheminsBin.add(classeCheminRepertoireAppli + "/bin");
-		ecrireClasse.cheminsBin.add(classeCheminRepertoireAppli + "/src/main/resources");
-
-		ecrireClasse.cheminConfiguration = classeCheminRepertoireAppli + "/config/computate.config";
-		ecrireClasse.fichierConfiguration = new File(ecrireClasse.cheminConfiguration);
-		Configurations configurations = new Configurations();
-		ecrireClasse.configuration = configurations.ini(ecrireClasse.fichierConfiguration);
-
-		ecrireClasse.langue = "frFR";
-		ecrireClasse.autresLangues = new String[] { "enUS" };
-		ecrireClasse.urlSolr = ecrireClasse.configuration.getString("urlSolr");
-		ecrireClasse.clientSolr = new HttpSolrClient.Builder(ecrireClasse.urlSolr).build();
 		try {
-			ecrireClasse.initialiserEcrireClasse();
+			ecrireClasse.args = args;
+			ecrireClasse.initEcrireClasse();
 		}
 		catch(Exception e) {
 			System.err.println("Erreur pendant traiterEvenements. ");
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
-		ecrireClasse.bricoleur = null;
-		ecrireClasse.bricoleur = new JavaProjectBuilder();
-		for(String cheminSource : ecrireClasse.toutCheminsSource) {
-			File répertoireSource = new File(cheminSource);
-			ecrireClasse.bricoleur.addSourceFolder(répertoireSource);
-		}
-		System.out.println("cheminAbsolu : " + classeCheminAbsolu);
+		System.out.println("cheminAbsolu : " + ecrireClasse.classeCheminAbsolu);
 
-		ecrireClasse.indexerClasse(classeCheminAbsolu);
-		ecrireClasse.ecrireClasseGen(classeCheminAbsolu);
+		ecrireClasse.indexerClasse(ecrireClasse.classeCheminAbsolu);
+		ecrireClasse.ecrireClasseGen(ecrireClasse.classeCheminAbsolu);
 	}
-	
-	public void initialiserEcrireClasse() throws Exception {
-		cheminsARegarder.add(cheminSrcMainJava);
-		cheminsSource.add(cheminSrcMainJava);
-		toutCheminsSource.add(cheminSrcMainJava);
 
-		cheminsSource.add(cheminSrcGenJava);
-		toutCheminsSource.add(cheminSrcGenJava);
-		
-		for(String chemin : cheminsBin) {
-			cheminsCheminClasse.add(chemin);
-		}
-		
-		for(String chemin : cheminsBibliotheque) {
-			cheminsCheminClasse.add(chemin + "/*");
-		}
+//	public static void main(String[] args) throws Exception {   
+//		String cheminAppli = args[0];
+//		String classeCheminAbsolu = args[1];
+//		EcrireClasse ecrireClasse = new EcrireClasse();
 //
-//		cheminClasse = StringUtils.join(cheminsCheminClasse, File.pathSeparator);
-	}
+//		ecrireClasse.cheminSrcMainJava = cheminAppli + "/src/main/java";
+//		ecrireClasse.cheminSrcGenJava = cheminAppli + "/src/gen/java";
+//
+//		ecrireClasse.cheminsBibliotheque.add(cheminAppli + "/lib");
+//		ecrireClasse.cheminsBibliotheque.add(cheminAppli + "/lib-tomcat");
+//		ecrireClasse.cheminsBibliotheque.add(cheminAppli + "/lib-keycloak");
+//
+//		ecrireClasse.cheminsBin.add(cheminAppli + "/bin");
+//		ecrireClasse.cheminsBin.add(cheminAppli + "/src/main/resources");
+//
+//		ecrireClasse.cheminConfiguration = cheminAppli + "/config/computate.config";
+//		System.out.println("cheminConfiguration: " + ecrireClasse.cheminConfiguration);
+//		ecrireClasse.fichierConfiguration = new File(ecrireClasse.cheminConfiguration);
+//		Configurations configurations = new Configurations();
+//		ecrireClasse.config = configurations.ini(ecrireClasse.fichierConfiguration);
+//
+//		ecrireClasse.nomLangue = "frFR";
+//		ecrireClasse.autresLangues = new String[] { "enUS" };
+//		ecrireClasse.initEcrireClasse();
+//		System.out.println("urlSolr: " + ecrireClasse.urlSolr);
+//		ecrireClasse.clientSolr = new HttpSolrClient.Builder(ecrireClasse.urlSolr).build();
+//		try {
+//			ecrireClasse.initialiserEcrireClasse();
+//		}
+//		catch(Exception e) {
+//			System.err.println("Erreur pendant traiterEvenements. ");
+//			System.err.println(ExceptionUtils.getStackTrace(e));
+//		}
+//		ecrireClasse.bricoleur = null;
+//		ecrireClasse.bricoleur = new JavaProjectBuilder();
+//		for(String cheminSource : ecrireClasse.toutCheminsSource) {
+//			File répertoireSource = new File(cheminSource);
+//			ecrireClasse.bricoleur.addSourceFolder(répertoireSource);
+//		}
+//		System.out.println("cheminAbsolu : " + classeCheminAbsolu);
+//
+//		ecrireClasse.indexerClasse(classeCheminAbsolu);
+//		ecrireClasse.ecrireClasseGen(classeCheminAbsolu);
+//	}
 
 	public String regex(String motif, String texte, Integer groupe) {
 		String o = null;
@@ -124,7 +334,7 @@ public class EcrireClasse {
 		return o;
 	}
 
-	public String concat(String...valeurs) throws Exception {
+	public String concat(String...valeurs) throws Exception { 
 		String resultat = Stream.of(valeurs).collect(Collectors.joining());
 		return resultat;
 	}  
@@ -144,8 +354,8 @@ public class EcrireClasse {
 		if(listeRecherche.size() > 0) {
 			System.out.println("Found");
 			SolrDocument document = listeRecherche.get(0);
-			String classeCheminRepertoireGen = (String)document.get("classeCheminRepertoireGen_" + langue + "_stocke_string");
-			String classeCheminGen = (String)document.get("classeCheminGen_" + langue + "_stocke_string");
+			String classeCheminRepertoireGen = (String)document.get("classeCheminRepertoireGen_" + nomLangue + "_stocke_string");
+			String classeCheminGen = (String)document.get("classeCheminGen_" + nomLangue + "_stocke_string");
 			File classeRepertoire = new File(classeCheminRepertoireGen);
 			classeRepertoire.mkdirs();
 			File classeFichier = new File(classeCheminGen);
@@ -172,44 +382,44 @@ public class EcrireClasse {
 		docClasse.addField("modifiee_indexe_date", modifieeDate);
 		docClasse.addField("modifiee_stocke_date", modifieeDate);
 
-		docClasse.addField(concat("classeNomCanonique_", langue, "_indexe_string"), classeNomCanonique);
-		docClasse.addField(concat("classeNomCanonique_", langue, "_stocke_string"), classeNomCanonique);
+		docClasse.addField(concat("classeNomCanonique_", nomLangue, "_indexe_string"), classeNomCanonique);
+		docClasse.addField(concat("classeNomCanonique_", nomLangue, "_stocke_string"), classeNomCanonique);
 
-		docClasse.addField(concat("classeNomEnsemble_", langue, "_indexe_string"), classeNomEnsemble);
-		docClasse.addField(concat("classeNomEnsemble_", langue, "_stocke_string"), classeNomEnsemble);
+		docClasse.addField(concat("classeNomEnsemble_", nomLangue, "_indexe_string"), classeNomEnsemble);
+		docClasse.addField(concat("classeNomEnsemble_", nomLangue, "_stocke_string"), classeNomEnsemble);
 
 		docClasse.addField(concat("classeCheminAbsolu_indexe_string"), classeCheminAbsolu);
 		docClasse.addField(concat("classeCheminAbsolu_stocke_string"), classeCheminAbsolu);
 
-		docClasse.addField(concat("classeChemin_", langue, "_indexe_string"), classeChemin);
-		docClasse.addField(concat("classeChemin_", langue, "_stocke_string"), classeChemin);
+		docClasse.addField(concat("classeChemin_", nomLangue, "_indexe_string"), classeChemin);
+		docClasse.addField(concat("classeChemin_", nomLangue, "_stocke_string"), classeChemin);
 
-		docClasse.addField(concat("classeCheminRepertoire_", langue, "_indexe_string"), classeCheminRepertoire);
-		docClasse.addField(concat("classeCheminRepertoire_", langue, "_stocke_string"), classeCheminRepertoire);
+		docClasse.addField(concat("classeCheminRepertoire_", nomLangue, "_indexe_string"), classeCheminRepertoire);
+		docClasse.addField(concat("classeCheminRepertoire_", nomLangue, "_stocke_string"), classeCheminRepertoire);
 
-		docClasse.addField(concat("classeCheminRepertoireGen_", langue, "_indexe_string"), classeCheminRepertoireGen);
-		docClasse.addField(concat("classeCheminRepertoireGen_", langue, "_stocke_string"), classeCheminRepertoireGen);
+		docClasse.addField(concat("classeCheminRepertoireGen_", nomLangue, "_indexe_string"), classeCheminRepertoireGen);
+		docClasse.addField(concat("classeCheminRepertoireGen_", nomLangue, "_stocke_string"), classeCheminRepertoireGen);
 
-		docClasse.addField(concat("classeCheminGen_", langue, "_indexe_string"), classeCheminGen);
-		docClasse.addField(concat("classeCheminGen_", langue, "_stocke_string"), classeCheminGen);
+		docClasse.addField(concat("classeCheminGen_", nomLangue, "_indexe_string"), classeCheminGen);
+		docClasse.addField(concat("classeCheminGen_", nomLangue, "_stocke_string"), classeCheminGen);
 
-		for(String langue : autresLangues) {  
-			String classeNomCanoniqueLangue = regex("classeNomCanonique\\." + langue + ": (.*)", commentaire, 1);
+		for(String nomLangue : autresLangues) {  
+			String classeNomCanoniqueLangue = regex("classeNomCanonique\\." + nomLangue + ": (.*)", commentaire, 1);
 			String classeNomEnsembleLangue = StringUtils.substringBeforeLast(classeNomCanoniqueLangue, ".");
 			String classeCheminLangue = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanoniqueLangue, ".", "/"), ".java");
 			String classeCheminRepertoireLangue = StringUtils.substringBeforeLast(classeCheminLangue, "/");
 
-			docClasse.addField(concat("classeNomCanonique_", langue, "_indexe_string"), classeNomCanoniqueLangue);
-			docClasse.addField(concat("classeNomCanonique_", langue, "_stocke_string"), classeNomCanoniqueLangue);
+			docClasse.addField(concat("classeNomCanonique_", nomLangue, "_indexe_string"), classeNomCanoniqueLangue);
+			docClasse.addField(concat("classeNomCanonique_", nomLangue, "_stocke_string"), classeNomCanoniqueLangue);
 
-			docClasse.addField(concat("classeNomEnsemble_", langue, "_indexe_string"), classeNomEnsembleLangue);
-			docClasse.addField(concat("classeNomEnsemble_", langue, "_stocke_string"), classeNomEnsembleLangue);
+			docClasse.addField(concat("classeNomEnsemble_", nomLangue, "_indexe_string"), classeNomEnsembleLangue);
+			docClasse.addField(concat("classeNomEnsemble_", nomLangue, "_stocke_string"), classeNomEnsembleLangue);
 
-			docClasse.addField(concat("classeChemin_", langue, "_indexe_string"), classeCheminLangue);
-			docClasse.addField(concat("classeChemin_", langue, "_stocke_string"), classeCheminLangue);
+			docClasse.addField(concat("classeChemin_", nomLangue, "_indexe_string"), classeCheminLangue);
+			docClasse.addField(concat("classeChemin_", nomLangue, "_stocke_string"), classeCheminLangue);
 
-			docClasse.addField(concat("classeCheminRepertoire_", langue, "_indexe_string"), classeCheminRepertoireLangue);
-			docClasse.addField(concat("classeCheminRepertoire_", langue, "_stocke_string"), classeCheminRepertoireLangue);
+			docClasse.addField(concat("classeCheminRepertoire_", nomLangue, "_indexe_string"), classeCheminRepertoireLangue);
+			docClasse.addField(concat("classeCheminRepertoire_", nomLangue, "_stocke_string"), classeCheminRepertoireLangue);
 		} 
 
 		SolrInputDocument docClasseClone = docClasse.deepCopy();
@@ -242,17 +452,17 @@ public class EcrireClasse {
 
 				docChamp.addField("cle", cleChamp);
 
-				docChamp.addField(concat("champVar_", langue, "_indexe_string"), champVar);
-				docChamp.addField(concat("champVar_", langue, "_stocke_string"), champVar);
+				docChamp.addField(concat("champVar_", nomLangue, "_indexe_string"), champVar);
+				docChamp.addField(concat("champVar_", nomLangue, "_stocke_string"), champVar);
 		
-				for(String langue : autresLangues) { 
+				for(String nomLangue : autresLangues) { 
 					String commentaireChamp = champQdox.getComment();
 
-					String champVarLangue = regex("var\\." + langue + ": (.*)", commentaireChamp, 1);
+					String champVarLangue = regex("var\\." + nomLangue + ": (.*)", commentaireChamp, 1);
 					champVarLangue = champVarLangue == null ? champVar : champVarLangue;
 		
-					docChamp.addField(concat("champVar_", langue, "_indexe_string"), champVarLangue);
-					docChamp.addField(concat("champVar_", langue, "_stocke_string"), champVarLangue);
+					docChamp.addField(concat("champVar_", nomLangue, "_indexe_string"), champVarLangue);
+					docChamp.addField(concat("champVar_", nomLangue, "_stocke_string"), champVarLangue);
 				}  
 
 //				docClasse.addField(concat("champEstChamp_indexe_boolean"), true);
@@ -582,7 +792,7 @@ public class EcrireClasse {
 		}
 		clientSolr.add(docClasse);
 		clientSolr.commit();
-		clientSolr.deleteByQuery(concat("classeChemin", "_", langue, "_indexe_string") + ":\"" + classeChemin + "\" AND modifiee_indexe_date:[* TO " + modifiee + "-1MILLI]");
+		clientSolr.deleteByQuery(concat("classeChemin", "_", nomLangue, "_indexe_string") + ":\"" + classeChemin + "\" AND modifiee_indexe_date:[* TO " + modifiee + "-1MILLI]");
 		clientSolr.commit(); 
 	}
 }
