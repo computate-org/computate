@@ -2,7 +2,7 @@
 
 source "$(dirname $0)/00-functions.sh"
 
-$CHEMIN_APPLI/sh/$NOM_LANGUE/01-installer-maven.sh
-$CHEMIN_APPLI/sh/$NOM_LANGUE/02-installer-zookeeper.sh
-$CHEMIN_APPLI/sh/$NOM_LANGUE/03-installer-solr.sh
-$CHEMIN_APPLI/sh/$NOM_LANGUE/04-installer-computate.sh
+$cheminAppli/sh/$nomLangue/01-installer-maven.sh
+$cheminAppli/sh/$nomLangue/02-installer-zookeeper.sh
+$cheminAppli/sh/$nomLangue/03-installer-solr.sh
+$cheminAppli/sh/$nomLangue/04-installer-computate.sh

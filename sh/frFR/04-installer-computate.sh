@@ -16,8 +16,8 @@ After=network.target
 Type=simple
 User=$USER
 Group=$USER
-WorkingDirectory=$CHEMIN_APPLI
-ExecStart=$CHEMIN_APPLI/sh/$NOM_LANGUE/regarder.sh
+WorkingDirectory=$cheminAppli
+ExecStart=$cheminAppli/sh/$nomLangue/regarder.sh
 Restart=on-failure
 
 [Install]

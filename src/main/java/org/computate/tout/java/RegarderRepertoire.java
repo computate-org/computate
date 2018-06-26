@@ -82,9 +82,9 @@ public class RegarderRepertoire {
 	/**
 	 * var.enUS: testRunner
 	 */
-	protected Class<?> coureurTest = SeulCoureurTestJUnit.class;
+//	protected Class<?> coureurTest = SeulCoureurTestJUnit.class;
 	protected ByteArrayOutputStream fluxSortie = new ByteArrayOutputStream();
-	protected PumpStreamHandler gestionnaireFluxPompe = new PumpStreamHandler(new ExecLogHandler(log, Level.INFO), new ExecLogHandler(log, Level.ERROR));
+//	protected PumpStreamHandler gestionnaireFluxPompe = new PumpStreamHandler(new ExecLogHandler(log, Level.INFO), new ExecLogHandler(log, Level.ERROR));
 	protected DefaultExecutor executeur = new DefaultExecutor();
 	protected ArrayList<String> cheminsBin = new ArrayList<String>();
 	protected ArrayList<String> cheminsCheminClasse = new ArrayList<String>();
@@ -135,7 +135,7 @@ public class RegarderRepertoire {
 	
 	public void initialiserRegarderRepertoire() throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
-		executeur.setStreamHandler(gestionnaireFluxPompe);
+//		executeur.setStreamHandler(gestionnaireFluxPompe);
 
 		cheminsÀRegarder.add(cheminSrcMainJava);
 		cheminsSource.add(cheminSrcMainJava);
@@ -217,7 +217,7 @@ public class RegarderRepertoire {
 
 				try { 
 					String classeCheminAbsolu = enfant.toAbsolutePath().toString();  
-					CommandLine ligneCommande = CommandLine.parse("mvn -q exec:java -Dexec.mainClass=" + EcrireClasse.class.getCanonicalName() + " -Dexec.args=\"" + classeCheminRepertoireAppli + " " + classeCheminAbsolu + "\"");
+					CommandLine ligneCommande = CommandLine.parse("mvn -q exec:java -Dexec.mainClass=" + RegarderClasse.class.getCanonicalName() + " -Dexec.args=\"" + classeCheminRepertoireAppli + " " + classeCheminAbsolu + "\"");
 					executeur.execute(ligneCommande); 
 
 //					bricoleur = null;
