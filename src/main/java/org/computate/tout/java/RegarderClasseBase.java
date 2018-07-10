@@ -14,7 +14,6 @@ import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.computate.tout.chaine.Chaine;
 
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -295,10 +294,6 @@ public class RegarderClasseBase {
 	// etend //
 	////////////
 	
-	protected boolean etendClasse(JavaClass classeQdox, Chaine nomCanonique) {
-		boolean resultat = etendClasse(classeQdox, nomCanonique.toString()); 
-		return resultat;
-	}
 	protected boolean etendClasse(JavaClass classeQdox, String nomCanonique) {
 //		for(JavaClass classeSuperQdox : classesSuperQdox) {
 //			if(classeSuperQdox.getCanonicalName().equals(nomCanonique))
