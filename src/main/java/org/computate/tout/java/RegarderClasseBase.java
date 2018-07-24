@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 
@@ -66,6 +67,7 @@ public class RegarderClasseBase {
 	protected String cheminConfiguration;
 	protected void _cheminConfiguration() throws Exception {
 		cheminConfiguration = cheminAppli + "/config/computate.config";
+		System.out.println("cheminConfiguration: " + cheminConfiguration);  
 	}
 
 	protected File fichierConfiguration;
@@ -85,11 +87,17 @@ public class RegarderClasseBase {
 		config = configurations.ini(fichierConfiguration);
 	}
 
+	/**	Le nom de l'lappli. **/
+	protected String nomAppli;
+	protected void _nomAppli() throws Exception {
+		nomAppli = config.getString("nomAppli"); 
+	}
+
 	/**	Le nom de la nomLangue. **/
 	protected String nomLangue;
 	protected void _nomLangue() throws Exception {
-		nomLangue = config.getString(nomAppli + "..nomLangue");
-	}
+		nomLangue = config.getString(nomAppli + ".nomLangue");
+	} 
 
 	protected String[] toutesLangues;
 	protected void _toutesLangues() throws Exception {
@@ -101,76 +109,70 @@ public class RegarderClasseBase {
 		autresLangues = ArrayUtils.removeElement(toutesLangues, nomLangue);
 	}
 
-	/**	Le nom de l'lappli. **/
-	protected String nomAppli;
-	protected void _nomAppli() throws Exception {
-		nomAppli = config.getString("nomAppli"); 
-	}
-
 	/**	 **/
 	protected String nomFichierConfig;
 	protected void _nomFicherConfig() throws Exception {
-		nomFichierConfig = config.getString(nomAppli + "..nomFichierConfig", nomAppli + ".config");
+		nomFichierConfig = config.getString(nomAppli + ".nomFichierConfig", nomAppli + ".config");
 	}
 
 	/**	 **/
 	protected String cheminConfig;
 	protected void _cheminConfig() throws Exception {
-		cheminConfig = config.getString(nomAppli + "..cheminConfig", cheminAppli + "/config/" + nomFichierConfig);
+		cheminConfig = config.getString(nomAppli + ".cheminConfig", cheminAppli + "/config/" + nomFichierConfig);
 	}
 
 	/**	 **/
 	protected String versionMaven;
 	protected void _versionMaven() throws Exception {
-		versionMaven = config.getString("maven..versionMaven", "3.5.3");
+		versionMaven = config.getString("maven.versionMaven", "3.5.3");
 	}
 
 	/**	 **/
 	protected String versionZookeeper;
 	protected void _versionZookeeper() throws Exception {
-		versionZookeeper = config.getString("maven..versionZookeeper", "3.5.4");
+		versionZookeeper = config.getString("maven.versionZookeeper", "3.5.4");
 	}
 
 	/**	 **/
 	protected String prefixePortZookeeper;
 	protected void _prefixePortZookeeper() throws Exception {
-		prefixePortZookeeper = config.getString("zookeeper..prefixePortZookeeper", "102");
+		prefixePortZookeeper = config.getString("zookeeper.prefixePortZookeeper", "102");
 	}
 
 	/**	 **/
 	protected String portClientZookeeper;
 	protected void _portClientZookeeper() throws Exception {
-		portClientZookeeper = config.getString("zookeeper..portClientZookeeper", prefixePortZookeeper + "81");
+		portClientZookeeper = config.getString("zookeeper.portClientZookeeper", prefixePortZookeeper + "81");
 	}
 
 	/**	 **/
 	protected String portAdminZookeeper;
 	protected void _portAdminZookeeper() throws Exception {
-		portAdminZookeeper = config.getString("zookeeper..portAdminZookeeper", prefixePortZookeeper + "80");
+		portAdminZookeeper = config.getString("zookeeper.portAdminZookeeper", prefixePortZookeeper + "80");
 	}
 
 	/**	 **/
 	protected String versionSolr;
 	protected void _versionSolr() throws Exception {
-		versionSolr = config.getString("zookeeper..versionSolr", "7.3.1");
+		versionSolr = config.getString("zookeeper.versionSolr", "7.3.1");
 	}
 
 	/**	 **/
 	protected String prefixePortSolr;
 	protected void _prefixePortSolr() throws Exception {
-		prefixePortSolr = config.getString("zookeeper..prefixePortSolr", "103");
+		prefixePortSolr = config.getString("zookeeper.prefixePortSolr", "103");
 	}
 
 	/**	 **/
 	protected String portSolr;
 	protected void _portSolr() throws Exception {
-		portSolr = config.getString("zookeeper..portSolr", prefixePortSolr + "83");
+		portSolr = config.getString("zookeeper.portSolr", prefixePortSolr + "83");
 	}
 
 	/**	 **/
 	protected String urlSolr;
 	protected void _urlSolr() throws Exception {
-		urlSolr = config.getString("zookeeper..urlSolr", "http://localhost:" + portSolr + "/solr/" + nomAppli);
+		urlSolr = config.getString("zookeeper.urlSolr", "http://localhost:" + portSolr + "/solr/" + nomAppli);
 	}
 
 	protected SolrClient clientSolr;
@@ -230,10 +232,10 @@ public class RegarderClasseBase {
 		_fichierConfiguration();
 		_configurations();
 		_config();
+		_nomAppli();
 		_nomLangue();
 		_toutesLangues();
 		_autresLangues();
-		_nomAppli();
 		_nomFicherConfig();
 		_cheminConfig();
 		_versionMaven();
@@ -283,6 +285,37 @@ public class RegarderClasseBase {
 			}
 		}
 		return resultats;
+	}   
+
+	public String regexRemplacerTout(String commentaire, String codeSource, String nomLangue) throws Exception {
+		String codeSourceLangue = codeSource;
+		if(!StringUtils.isEmpty(commentaire)) {
+			Matcher m = Pattern.compile("^r." + nomLangue + ": (.*\\n.*)", Pattern.MULTILINE).matcher(commentaire);
+			boolean trouve = m.find();
+			
+			while(trouve) {
+				String texteRechercheRemplacement = m.group(1);
+				String[] partisRechercheRemplacement = StringUtils.split(texteRechercheRemplacement, "\n");
+				if(partisRechercheRemplacement.length == 2) {
+					String texteRecherche = partisRechercheRemplacement[0];
+					String texteRemplacement = partisRechercheRemplacement[1];
+
+					Matcher m2 = Pattern.compile(Pattern.quote(texteRecherche), Pattern.MULTILINE).matcher(codeSourceLangue);
+					boolean trouve2 = m2.find();
+					StringBuffer sortie2 = new StringBuffer();
+					
+					while(trouve2) {
+						m2.appendReplacement(sortie2, texteRemplacement);
+						trouve2 = m2.find();
+					}
+					m2.appendTail(sortie2);
+					codeSourceLangue = sortie2.toString();
+				}
+
+				trouve = m.find();
+			}
+		}
+		return codeSourceLangue;
 	}
 
 	public String concat(String...valeurs) throws Exception { 
@@ -326,7 +359,7 @@ public class RegarderClasseBase {
 		JavaClass classeQdox = bricoleur.getClassByName(c.getCanonicalName());
 		Boolean o = contientChamp(classesSuperQdoxEtMoi, nomChamp, classeQdox);
 		return o;
-	}
+	} 
 	
 	public Boolean contientChamp(List<JavaClass> classesSuperQdoxEtMoi, String nomChamp, JavaClass...tableauParams) {
 		ArrayList<JavaType> listeParams = new ArrayList<JavaType>();

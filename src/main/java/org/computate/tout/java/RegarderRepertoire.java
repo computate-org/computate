@@ -217,7 +217,7 @@ public class RegarderRepertoire {
 
 				try { 
 					String classeCheminAbsolu = enfant.toAbsolutePath().toString();  
-					CommandLine ligneCommande = CommandLine.parse("mvn -q exec:java -Dexec.mainClass=" + RegarderClasse.class.getCanonicalName() + " -Dexec.args=\"" + classeCheminRepertoireAppli + " " + classeCheminAbsolu + "\"");
+					CommandLine ligneCommande = CommandLine.parse("mvn exec:java -Dexec.mainClass=" + RegarderClasse.class.getCanonicalName() + " -Dexec.args=\"" + classeCheminRepertoireAppli + " " + classeCheminAbsolu + "\"");
 					executeur.execute(ligneCommande); 
 
 //					bricoleur = null;

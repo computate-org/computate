@@ -1,2 +1,3 @@
-public class RegarderRepertoireGen {
+public class RegarderRepertoireGen extends Object {
+
 }

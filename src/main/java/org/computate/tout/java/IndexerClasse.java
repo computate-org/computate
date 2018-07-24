@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
+import org.junit.Test;
 
 import com.thoughtworks.qdox.model.JavaAnnotation;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -15,9 +15,8 @@ import com.thoughtworks.qdox.model.JavaConstructor;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMember;
 import com.thoughtworks.qdox.model.JavaMethod;
-import com.thoughtworks.qdox.model.JavaParameter;
 
-public class IndexerClasse extends RegarderClasseBase {
+public class IndexerClasse extends RegarderClasseBase { 
 
 	public void peuplerClassesSuperQdoxInterfacesEtMoi (
 			JavaClass c
@@ -51,9 +50,61 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 	}
 	
-	protected Boolean indexerStocker(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
+	protected Boolean stocker(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
 		doc.addField(concat(nomChamp, "_stocke_string"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	protected Boolean stocker(SolrInputDocument doc, String nomChamp, String nomLangue, Boolean valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_", nomLangue, "_stocke_string"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	protected String stocker(SolrInputDocument doc, String nomChamp, String valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_stocke_string"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	protected String stocker(SolrInputDocument doc, String nomChamp, String nomLangue, String valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_", nomLangue, "_stocke_string"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	protected Boolean indexer(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
 		doc.addField(concat(nomChamp, "_indexe_string"), valeurChamp);
+		return valeurChamp;
+	} 
+	
+	protected Boolean indexer(SolrInputDocument doc, String nomChamp, String nomLangue, Boolean valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_", nomLangue, "_indexe_string"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	protected String indexer(SolrInputDocument doc, String nomChamp, String valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_indexe_string"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	protected String indexer(SolrInputDocument doc, String nomChamp, String nomLangue, String valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_", nomLangue, "_indexe_string"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	protected Long indexerStocker(SolrInputDocument doc, String nomChamp, Long valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_stocke_long"), valeurChamp);
+		doc.addField(concat(nomChamp, "_indexe_long"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	protected Integer indexerStocker(SolrInputDocument doc, String nomChamp, Integer valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_stocke_int"), valeurChamp);
+		doc.addField(concat(nomChamp, "_indexe_int"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	protected Boolean indexerStocker(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_stocke_boolean"), valeurChamp);
+		doc.addField(concat(nomChamp, "_indexe_boolean"), valeurChamp);
 		return valeurChamp;
 	}
 	
@@ -76,7 +127,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	protected void indexerClasse(String classeCheminAbsolu) throws Exception { 
-		SolrInputDocument docClasse = new SolrInputDocument();
+		SolrInputDocument classeDoc = new SolrInputDocument();
 		String classeNomCanonique = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classeCheminAbsolu, "."), cheminSrcMainJava + "/"), "/", ".");
 		String classeNomSimple = StringUtils.substringAfterLast(classeNomCanonique, ".");
 		String classeNomCanoniqueGen = classeNomCanonique + "Gen";
@@ -103,44 +154,45 @@ public class IndexerClasse extends RegarderClasseBase {
 		classesSuperQdoxInterfacesEtMoi.add(classeQdoxClasse);
 		peuplerClassesSuperQdoxInterfacesEtMoi(classeQdoxClasse, classesSuperQdox, classesSuperQdoxEtMoi, classesSuperQdoxEtInterfaces, classesSuperQdoxInterfacesEtMoi);
 
-		docClasse.addField("modifiee_indexe_date", modifieeDate);
-		docClasse.addField("modifiee_stocke_date", modifieeDate);
+		indexerStocker(classeDoc, "nomLangue", nomLangue); 
+		classeDoc.addField("modifiee_indexe_date", modifieeDate); 
+		classeDoc.addField("modifiee_stocke_date", modifieeDate);
 
-		docClasse.addField(concat("classeNomCanonique_", nomLangue, "_indexe_string"), classeNomCanonique);
-		docClasse.addField(concat("classeNomCanonique_", nomLangue, "_stocke_string"), classeNomCanonique);
+		classeDoc.addField(concat("classeNomCanonique_", nomLangue, "_indexe_string"), classeNomCanonique);
+		classeDoc.addField(concat("classeNomCanonique_", nomLangue, "_stocke_string"), classeNomCanonique);
 
-		docClasse.addField(concat("classeNomSimple_", nomLangue, "_indexe_string"), classeNomSimple);
-		docClasse.addField(concat("classeNomSimple_", nomLangue, "_stocke_string"), classeNomSimple);
+		classeDoc.addField(concat("classeNomSimple_", nomLangue, "_indexe_string"), classeNomSimple);
+		classeDoc.addField(concat("classeNomSimple_", nomLangue, "_stocke_string"), classeNomSimple);
 
-		docClasse.addField(concat("classeNomEnsemble_", nomLangue, "_indexe_string"), classeNomEnsemble);
-		docClasse.addField(concat("classeNomEnsemble_", nomLangue, "_stocke_string"), classeNomEnsemble);
+		classeDoc.addField(concat("classeNomEnsemble_", nomLangue, "_indexe_string"), classeNomEnsemble);
+		classeDoc.addField(concat("classeNomEnsemble_", nomLangue, "_stocke_string"), classeNomEnsemble);
 
-		docClasse.addField(concat("classeNomCanoniqueGen_", nomLangue, "_indexe_string"), classeNomCanoniqueGen);
-		docClasse.addField(concat("classeNomCanoniqueGen_", nomLangue, "_stocke_string"), classeNomCanoniqueGen);
+		classeDoc.addField(concat("classeNomCanoniqueGen_", nomLangue, "_indexe_string"), classeNomCanoniqueGen);
+		classeDoc.addField(concat("classeNomCanoniqueGen_", nomLangue, "_stocke_string"), classeNomCanoniqueGen);
 
-		docClasse.addField(concat("classeNomSimpleGen_", nomLangue, "_indexe_string"), classeNomSimpleGen);
-		docClasse.addField(concat("classeNomSimpleGen_", nomLangue, "_stocke_string"), classeNomSimpleGen);
+		classeDoc.addField(concat("classeNomSimpleGen_", nomLangue, "_indexe_string"), classeNomSimpleGen);
+		classeDoc.addField(concat("classeNomSimpleGen_", nomLangue, "_stocke_string"), classeNomSimpleGen);
 
-		docClasse.addField(concat("classeNomCanoniqueSuper_", nomLangue, "_indexe_string"), classeNomCanoniqueSuper);
-		docClasse.addField(concat("classeNomCanoniqueSuper_", nomLangue, "_stocke_string"), classeNomCanoniqueSuper);
+		classeDoc.addField(concat("classeNomCanoniqueSuper_", nomLangue, "_indexe_string"), classeNomCanoniqueSuper);
+		classeDoc.addField(concat("classeNomCanoniqueSuper_", nomLangue, "_stocke_string"), classeNomCanoniqueSuper);
 
-		docClasse.addField(concat("classeNomSimpleSuper_", nomLangue, "_indexe_string"), classeNomSimpleSuper);
-		docClasse.addField(concat("classeNomSimpleSuper_", nomLangue, "_stocke_string"), classeNomSimpleSuper);
+		classeDoc.addField(concat("classeNomSimpleSuper_", nomLangue, "_indexe_string"), classeNomSimpleSuper);
+		classeDoc.addField(concat("classeNomSimpleSuper_", nomLangue, "_stocke_string"), classeNomSimpleSuper);
 
-		docClasse.addField(concat("classeCheminAbsolu_indexe_string"), classeCheminAbsolu);
-		docClasse.addField(concat("classeCheminAbsolu_stocke_string"), classeCheminAbsolu);
+		classeDoc.addField(concat("classeCheminAbsolu_indexe_string"), classeCheminAbsolu);
+		classeDoc.addField(concat("classeCheminAbsolu_stocke_string"), classeCheminAbsolu);
 
-		docClasse.addField(concat("classeChemin_", nomLangue, "_indexe_string"), classeChemin);
-		docClasse.addField(concat("classeChemin_", nomLangue, "_stocke_string"), classeChemin);
+		classeDoc.addField(concat("classeChemin_", nomLangue, "_indexe_string"), classeChemin);
+		classeDoc.addField(concat("classeChemin_", nomLangue, "_stocke_string"), classeChemin);
 
-		docClasse.addField(concat("classeCheminRepertoire_", nomLangue, "_indexe_string"), classeCheminRepertoire);
-		docClasse.addField(concat("classeCheminRepertoire_", nomLangue, "_stocke_string"), classeCheminRepertoire);
+		classeDoc.addField(concat("classeCheminRepertoire_", nomLangue, "_indexe_string"), classeCheminRepertoire);
+		classeDoc.addField(concat("classeCheminRepertoire_", nomLangue, "_stocke_string"), classeCheminRepertoire);
 
-		docClasse.addField(concat("classeCheminGen_", nomLangue, "_indexe_string"), classeCheminGen);
-		docClasse.addField(concat("classeCheminGen_", nomLangue, "_stocke_string"), classeCheminGen);
+		classeDoc.addField(concat("classeCheminGen_", nomLangue, "_indexe_string"), classeCheminGen);
+		classeDoc.addField(concat("classeCheminGen_", nomLangue, "_stocke_string"), classeCheminGen);
 
-		docClasse.addField(concat("classeCheminRepertoireGen_", nomLangue, "_indexe_string"), classeCheminRepertoireGen);
-		docClasse.addField(concat("classeCheminRepertoireGen_", nomLangue, "_stocke_string"), classeCheminRepertoireGen);
+		classeDoc.addField(concat("classeCheminRepertoireGen_", nomLangue, "_indexe_string"), classeCheminRepertoireGen);
+		classeDoc.addField(concat("classeCheminRepertoireGen_", nomLangue, "_stocke_string"), classeCheminRepertoireGen);
 
 		for(String nomLangue : autresLangues) {  
 			String classeNomCanoniqueLangue = regex("classeNomCanonique\\." + nomLangue + ": (.*)", commentaire);
@@ -153,46 +205,48 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classeCheminGenLangue = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanoniqueLangue, ".", "/"), ".java");
 			String classeCheminRepertoireGenLangue = StringUtils.substringBeforeLast(classeCheminGenLangue, "/");
 
-			docClasse.addField(concat("classeNomCanonique_", nomLangue, "_indexe_string"), classeNomCanoniqueLangue);
-			docClasse.addField(concat("classeNomCanonique_", nomLangue, "_stocke_string"), classeNomCanoniqueLangue);
+			classeDoc.addField(concat("classeNomCanonique_", nomLangue, "_indexe_string"), classeNomCanoniqueLangue);
+			classeDoc.addField(concat("classeNomCanonique_", nomLangue, "_stocke_string"), classeNomCanoniqueLangue);
 
-			docClasse.addField(concat("classeNomSimple_", nomLangue, "_indexe_string"), classeNomSimpleLangue);
-			docClasse.addField(concat("classeNomSimple_", nomLangue, "_stocke_string"), classeNomSimpleLangue);
+			classeDoc.addField(concat("classeNomSimple_", nomLangue, "_indexe_string"), classeNomSimpleLangue);
+			classeDoc.addField(concat("classeNomSimple_", nomLangue, "_stocke_string"), classeNomSimpleLangue);
 
-			docClasse.addField(concat("classeNomCanoniqueGen_", nomLangue, "_indexe_string"), classeNomCanoniqueGenLangue);
-			docClasse.addField(concat("classeNomCanoniqueGen_", nomLangue, "_stocke_string"), classeNomCanoniqueGenLangue);
+			classeDoc.addField(concat("classeNomCanoniqueGen_", nomLangue, "_indexe_string"), classeNomCanoniqueGenLangue);
+			classeDoc.addField(concat("classeNomCanoniqueGen_", nomLangue, "_stocke_string"), classeNomCanoniqueGenLangue);
 
-			docClasse.addField(concat("classeNomSimpleGen_", nomLangue, "_indexe_string"), classeNomSimpleGenLangue);
-			docClasse.addField(concat("classeNomSimpleGen_", nomLangue, "_stocke_string"), classeNomSimpleGenLangue);
+			classeDoc.addField(concat("classeNomSimpleGen_", nomLangue, "_indexe_string"), classeNomSimpleGenLangue);
+			classeDoc.addField(concat("classeNomSimpleGen_", nomLangue, "_stocke_string"), classeNomSimpleGenLangue);
 
-			docClasse.addField(concat("classeNomEnsemble_", nomLangue, "_indexe_string"), classeNomEnsembleLangue);
-			docClasse.addField(concat("classeNomEnsemble_", nomLangue, "_stocke_string"), classeNomEnsembleLangue);
+			classeDoc.addField(concat("classeNomEnsemble_", nomLangue, "_indexe_string"), classeNomEnsembleLangue);
+			classeDoc.addField(concat("classeNomEnsemble_", nomLangue, "_stocke_string"), classeNomEnsembleLangue);
 
-			docClasse.addField(concat("classeChemin_", nomLangue, "_indexe_string"), classeCheminLangue);
-			docClasse.addField(concat("classeChemin_", nomLangue, "_stocke_string"), classeCheminLangue);
+			classeDoc.addField(concat("classeChemin_", nomLangue, "_indexe_string"), classeCheminLangue);
+			classeDoc.addField(concat("classeChemin_", nomLangue, "_stocke_string"), classeCheminLangue);
 
-			docClasse.addField(concat("classeCheminRepertoire_", nomLangue, "_indexe_string"), classeCheminRepertoireLangue);
-			docClasse.addField(concat("classeCheminRepertoire_", nomLangue, "_stocke_string"), classeCheminRepertoireLangue);
+			classeDoc.addField(concat("classeCheminRepertoire_", nomLangue, "_indexe_string"), classeCheminRepertoireLangue);
+			classeDoc.addField(concat("classeCheminRepertoire_", nomLangue, "_stocke_string"), classeCheminRepertoireLangue);
 
-			docClasse.addField(concat("classeCheminGen_", nomLangue, "_indexe_string"), classeCheminGenLangue);
-			docClasse.addField(concat("classeCheminGen_", nomLangue, "_stocke_string"), classeCheminGenLangue);
+			classeDoc.addField(concat("classeCheminGen_", nomLangue, "_indexe_string"), classeCheminGenLangue);
+			classeDoc.addField(concat("classeCheminGen_", nomLangue, "_stocke_string"), classeCheminGenLangue);
 
-			docClasse.addField(concat("classeCheminRepertoireGen_", nomLangue, "_indexe_string"), classeCheminRepertoireGenLangue);
-			docClasse.addField(concat("classeCheminRepertoireGen_", nomLangue, "_stocke_string"), classeCheminRepertoireGenLangue);
+			classeDoc.addField(concat("classeCheminRepertoireGen_", nomLangue, "_indexe_string"), classeCheminRepertoireGenLangue);
+			classeDoc.addField(concat("classeCheminRepertoireGen_", nomLangue, "_stocke_string"), classeCheminRepertoireGenLangue);
 		} 
 
-		SolrInputDocument docClasseClone = docClasse.deepCopy();
+		SolrInputDocument docClasseClone = classeDoc.deepCopy();
+		Integer partNumero = 1;
 
-		docClasse.addField("cle", cleClasse);  
+		classeDoc.addField("cle", cleClasse);  
 
-		docClasse.addField(concat("classeEstClasse_indexe_boolean"), true);
-		docClasse.addField(concat("classeEstClasse_stocke_boolean"), true);
+		indexerStocker(classeDoc, "partEstClasse", true);
+		indexerStocker(classeDoc, "partNumero", partNumero);
 
 		List<JavaMember> membresQdox = new ArrayList<JavaMember>();
 		membresQdox.addAll(classeQdoxClasse.getFields());
 		membresQdox.addAll(classeQdoxClasse.getConstructors());
 		membresQdox.addAll(classeQdoxClasse.getMethods());
 		for(JavaMember membreQdox : membresQdox) {  
+			partNumero++;
 
 			if(membreQdox instanceof JavaField) {    
 				SolrInputDocument champDoc = docClasseClone.deepCopy();
@@ -215,10 +269,10 @@ public class IndexerClasse extends RegarderClasseBase {
 				champDoc.addField(concat("champVar_", nomLangue, "_indexe_string"), champVar);
 				champDoc.addField(concat("champVar_", nomLangue, "_stocke_string"), champVar);
 
-				champDoc.addField(concat("champEstChamp_indexe_boolean"), true);
-				champDoc.addField(concat("champEstChamp_stocke_boolean"), true);
+				indexerStocker(champDoc, "partEstChamp", true);
+				indexerStocker(champDoc, "partNumero", partNumero);
 
-				champDoc.addField(concat("champEstPublic_indexe_boolean"), champQdox.isPublic());
+				champDoc.addField(concat("champEstPublic_indexe_boolean"), champQdox.isPublic());   
 				champDoc.addField(concat("champEstPublic_stocke_boolean"), champQdox.isPublic());
 
 				champDoc.addField(concat("champEstProtege_indexe_boolean"), champQdox.isProtected());
@@ -283,8 +337,8 @@ public class IndexerClasse extends RegarderClasseBase {
 
 					String champBlocCode = champQdox.getCodeBlock();
 					String champBlocCodeLangue = champBlocCode;
-					ArrayList<String> remplacerClesLangue = regexListe("remplacer." + nomLangue + "\\s*=\\s*(.*)\\n.*", champCommentaire);
-					ArrayList<String> remplacerValeursLangue = regexListe("remplacer." + nomLangue + "\\s*=\\s*.*\\n(.*)", champCommentaire);
+					ArrayList<String> remplacerClesLangue = regexListe("^r." + nomLangue + "\\s*=\\s*(.*)\\n.*", champCommentaire);
+					ArrayList<String> remplacerValeursLangue = regexListe("^r." + nomLangue + "\\s*=\\s*.*\\n(.*)", champCommentaire);
 					for(int i = 0; i < remplacerClesLangue.size(); i++) {
 						String cle = remplacerClesLangue.get(i);
 						String valeur = remplacerValeursLangue.get(i);
@@ -304,8 +358,8 @@ public class IndexerClasse extends RegarderClasseBase {
 //
 //				constructeurDoc.addField("cle", constructeurCle);
 
-				docClasse.addField(concat("constructeurEstConstructeur_indexe_boolean"), true);
-				docClasse.addField(concat("constructeurEstConstructeur_stocke_boolean"), true);
+				classeDoc.addField(concat("constructeurEstConstructeur_indexe_boolean"), true);
+				classeDoc.addField(concat("constructeurEstConstructeur_stocke_boolean"), true);
 
 				constructeurDoc.addField(concat("constructeurEstPublic_indexe_boolean"), constructeurQdox.isPublic());
 				constructeurDoc.addField(concat("constructeurEstPublic_stocke_boolean"), constructeurQdox.isPublic());
@@ -350,7 +404,6 @@ public class IndexerClasse extends RegarderClasseBase {
 //				tout.add(constructeur);
 			}
 			else if(membreQdox instanceof JavaMethod) {
-				SolrInputDocument methodeDoc = docClasseClone.deepCopy();
 				JavaMethod methodeQdox = (JavaMethod)membreQdox;
 				String methodeCommentaire = methodeQdox.getComment();
 				Boolean ignorer = "true".equals(regex("ignorer: (.*)", methodeCommentaire));
@@ -383,89 +436,285 @@ public class IndexerClasse extends RegarderClasseBase {
 							&& methodeQdox.isProtected() && methodeQdox.getParameters().size() == 1 && classeQdoxRetour.isVoid()
 							&& StringUtils.startsWith(methodeQdox.getName(), "_")) {
 						// est Entite. 
+						SolrInputDocument entiteDoc = docClasseClone.deepCopy();
+						String entiteVar = indexerStocker(entiteDoc, "entiteVar", nomLangue, StringUtils.substringAfter(methodeQdox.getName(), "_"));
+						JavaClass entiteClasseQdox = methodeQdox.getParameters().get(0).getJavaClass();
+						boolean entiteCouverture = false;
+						String entiteNomCanonique = indexerStocker(entiteDoc, "entiteNomCanonique", nomLangue, entiteClasseQdox.getCanonicalName());
+
+						String entiteNomSimple;
+						if(entiteNomCanonique.contains("."))
+							entiteNomSimple = StringUtils.substringBefore(StringUtils.substringAfterLast(entiteNomCanonique, "."), ">");
+						else
+							entiteNomSimple = StringUtils.substringBefore(entiteNomCanonique.toString(), ">");
+						indexerStocker(entiteDoc, "entiteNomSimple", nomLangue, entiteNomSimple);
+
+						String entiteTypeOrigine = indexerStocker(entiteDoc, "entiteTypeOrigine", nomLangue, entiteClasseQdox.getGenericCanonicalName());
+
+						String entiteNomCompletGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteTypeOrigine, "<"), ">");
+						String entiteNomCanoniqueGenerique = null;
+						JavaClass entiteClasseGeneriqueQdox = null;
+						String entiteNomSimpleGenerique = null;
+						if(StringUtils.isNotEmpty(entiteNomCompletGenerique)) {
+							indexerStocker(entiteDoc, "entiteNomCompletGenerique", nomLangue, entiteNomCompletGenerique);
+							entiteNomCanoniqueGenerique = entiteNomCompletGenerique.contains("<") ? StringUtils.substringBefore(entiteNomCompletGenerique, "<") : entiteNomCompletGenerique;
+							entiteNomCanoniqueGenerique = entiteNomCompletGenerique.contains(",") ? StringUtils.substringBefore(entiteNomCompletGenerique, ",") : entiteNomCompletGenerique;
+							if(StringUtils.isNotEmpty(entiteNomCanoniqueGenerique)) {
+								indexerStocker(entiteDoc, "entiteNomCanoniqueGenerique", nomLangue, entiteNomCanoniqueGenerique);
+								entiteClasseGeneriqueQdox = bricoleur.getClassByName(entiteNomCanoniqueGenerique);
+	//							String nomCanoniqueGeneriqueEnUS = classe_.regex("nomCanonique.enUS:\\s*(.*)", commentaire, 1);
+	//							o.enUS(StringUtils.isEmpty(nomCanoniqueGeneriqueEnUS) ? o.frFR() : nomCanoniqueGeneriqueEnUS);
+	//							if(nomCanoniqueGenerique.frFR().contains(".")) {
+	//								classe_.importationsAjouter(nomCanoniqueGenerique);
+	//								classe_.importationsGenAjouter(nomCanoniqueGenerique);
+	//							}
 	
-						String nomEntite = StringUtils.substringAfter(methodeQdox.getName(), "_");
-						JavaClass classeEntite = methodeQdox.getParameters().get(0).getJavaClass();
-						boolean typeCouverture = false;
-						String nomTypeOrigine = classeEntite.getGenericCanonicalName();
-						String nomType = nomTypeOrigine;
-						String typeNomCanonique = classeEntite.getCanonicalName();
-	//					JavaClass classeEntite = typeBricoleur.getClassByName(typeNomCanonique);
-						String listeNomTypeOrigineGenerique = null;
-						String listeNomTypeGenerique = null;
-						String listeNomTypeGeneriqueComplet = null;
-						String varCouverture = nomEntite + "Couverture";
-	
-						String varEntiteEnUS = regex("^var.enUS: (.*)", methodeQdox.getComment());
-						entite.var.frFR(nomEntite);
-						entite.var.enUS(StringUtils.isEmpty(varEntiteEnUS) ? nomEntite : StringUtils.substringAfter(varEntiteEnUS, "_"));
-	
-						regexCommentaires(methodeQdox.getComment(), entite.commentaire);
-						regexRemplacerTout(methodeQdox.getComment(), methodeQdox.getSourceCode(), entite.codeSource);
-			
-						if(classeEntite.getFullyQualifiedName().equals(nomCanoniqueCouvertureActuel)) {
-							nomType = StringUtils.substringBeforeLast(StringUtils.substringAfter(nomType, "<"), ">");
-							if(StringUtils.contains(nomType, "<"))
-								classeEntite = typeBricoleur.getClassByName(StringUtils.substringBefore(nomType, "<"));
-							else
-								classeEntite = typeBricoleur.getClassByName(nomType);
-							typeNomCanonique = classeEntite.getCanonicalName();
-							typeCouverture = true;
-							entite.couverture(true);
-						} 
-						if(entite.cleUnique)
-							varCleUniqueActuel.tout(entite.var);
-						if(entite.suggere)
-							varSuggereActuel.tout(entite.var);
-	
-						if(!entitesTout.contains(entite))
-							entitesTout.add(entite);
-	
-						tout.add(entite);
-						importationsAjouter(new Chaine().tout(typeNomCanonique));
-						importationsGenAjouter(new Chaine().tout(typeNomCanonique));
-						if(listeNomTypeGenerique != null) {
-							Chaine importation = new Chaine().tout(listeNomTypeGenerique);
-							importationsAjouter(importation);
-							importationsGenAjouter(importation);
+								if(entiteNomCanoniqueGenerique.contains("."))
+									entiteNomSimpleGenerique = StringUtils.substringAfterLast(entiteNomCanoniqueGenerique, ".");
+								else
+									entiteNomSimpleGenerique = entiteNomCanoniqueGenerique;
+								indexerStocker(entiteDoc, "entiteNomSimpleGenerique", nomLangue, entiteNomSimpleGenerique);
+							}
 						}
-	
-						boolean etendCluster = entite.etendClasse(nomCanoniqueClusterActuel);
-						entite.etendCluster(etendCluster);
-						if(!etendCluster && entite.nomCanoniqueGenerique.pasVide()) {
-							boolean listeCluster = etendClasse(nomCanoniqueClusterActuel, entite.nomCanoniqueGenerique.toString());
-							entite.listeCluster(listeCluster);
+						
+						String entiteNomCanoniqueComplet;
+						if(StringUtils.isNotEmpty(entiteNomCompletGenerique))
+							entiteNomCanoniqueComplet = entiteNomCanonique + "<" + entiteNomCompletGenerique + ">";
+						else
+							entiteNomCanoniqueComplet = entiteNomCanonique;
+						indexerStocker(entiteDoc, "entiteNomCanoniqueComplet", nomLangue, entiteNomCanoniqueComplet);
+						
+						String entiteNomSimpleComplet = entiteNomSimple;
+						if(StringUtils.isNotEmpty(entiteNomCompletGenerique)) {
+							entiteNomSimpleComplet += "<";
+							if(entiteNomCompletGenerique.contains(".")) {
+								entiteNomSimpleComplet += StringUtils.substringAfterLast(entiteNomCompletGenerique, ".");
+							}
+							else {
+								entiteNomSimpleComplet += entiteNomCompletGenerique;
+							}
+							entiteNomSimpleComplet += ">";
 						}
-	
-						boolean etendPageXml = entite.etendClasse(nomCanoniquePageXmlActuel);
-						entite.etendPageXml(etendPageXml);
-						if(!etendPageXml && entite.nomCanoniqueGenerique.pasVide()) {
-							boolean listePageXml = etendClasse(nomCanoniquePageXmlActuel, entite.nomCanoniqueGenerique.toString());
-							entite.listePageXml(listePageXml);
+						indexerStocker(entiteDoc, "entiteNomSimpleComplet", nomLangue, entiteNomSimpleComplet);
+						
+						String entiteNomSimpleCompletGenerique = null;
+						if(StringUtils.isNotEmpty(entiteNomCompletGenerique)) {
+							if(entiteNomCompletGenerique.contains(".")) {
+								entiteNomSimpleCompletGenerique = StringUtils.substringAfterLast(entiteNomCompletGenerique, ".");
+							}
+							else {
+								entiteNomSimpleCompletGenerique = entiteNomCompletGenerique;
+							}
 						}
-	
-						boolean etendPageParti = entite.etendClasse(nomCanoniquePagePartiActuel);
-						entite.etendPageParti(etendPageParti);
-						if(!etendPageParti && entite.nomCanoniqueGenerique.pasVide()) {
-							boolean listePageParti = etendClasse(nomCanoniquePagePartiActuel, entite.nomCanoniqueGenerique.toString());
-							entite.listePageParti(listePageParti);
+						indexerStocker(entiteDoc, "entiteNomSimpleCompletGenerique", nomLangue, entiteNomSimpleCompletGenerique);
+						
+						JavaClass entiteClasseQdoxBase = null;
+						JavaClass entiteClasseSuperQdox = entiteClasseQdox.getSuperJavaClass();
+						if(entiteClasseSuperQdox != null) {
+							String entiteNomCanoniqueSuperQdox = entiteClasseSuperQdox.getCanonicalName();
+							if(entiteNomCanoniqueSuperQdox.endsWith("Gen")) {
+								entiteClasseQdoxBase = entiteClasseSuperQdox.getSuperJavaClass();
+							}
 						}
+						
+						String entiteNomCanoniqueBase = null;
+						if(entiteClasseQdoxBase != null) {
+							String s = entiteClasseQdoxBase.getCanonicalName();
+							if(s.contains("."))
+								entiteNomCanoniqueBase = s;
+						}
+						indexerStocker(entiteDoc, "entiteNomCanoniqueBase", nomLangue, entiteNomCanoniqueBase);
+						
+						String entiteNomSimpleBase = null;
+						if(StringUtils.isNotEmpty(entiteNomCanoniqueBase)) {
+							entiteNomSimpleBase = StringUtils.substringAfterLast(entiteNomCanoniqueBase, ".");
+						}
+						indexerStocker(entiteDoc, "entiteNomSimpleBase", nomLangue, entiteNomSimpleBase);
+						
+						String entiteVarParam;
+						if(entiteNomCanonique.equals(ArrayList.class.getCanonicalName()) || entiteNomCanonique.equals(List.class.getCanonicalName()))
+							entiteVarParam = "l";
+						else
+							entiteVarParam = "o";
+						indexerStocker(entiteDoc, "entiteVarParam", nomLangue, entiteVarParam);
+						
+						String entiteVarCouverture = indexerStocker(entiteDoc, "entiteVarCouverture", nomLangue, entiteVar + "Couverture");
+//						boolean entiteCouverture = false;
+//	
+//						String varEntiteEnUS = regex("^var.enUS: (.*)", methodeQdox.getComment());
+//						entite.var.frFR(entiteVar);
+//						entite.var.enUS(StringUtils.isEmpty(varEntiteEnUS) ? entiteVar : StringUtils.substringAfter(varEntiteEnUS, "_"));
+//	
+//						regexCommentaires(methodeQdox.getComment(), entite.commentaire);
+//						regexRemplacerTout(methodeQdox.getComment(), methodeQdox.getSourceCode(), entite.codeSource);
+//			
+//						if(entiteClasseQdox.getFullyQualifiedName().equals(nomCanoniqueCouvertureActuel)) {
+//							entiteType = StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteType, "<"), ">");
+//							if(StringUtils.contains(entiteType, "<"))
+//								entiteClasseQdox = typeBricoleur.getClassByName(StringUtils.substringBefore(entiteType, "<"));
+//							else
+//								entiteClasseQdox = typeBricoleur.getClassByName(entiteType);
+//							entiteNomCanonique = entiteClasseQdox.getCanonicalName();
+//							entiteCouverture = true;
+//							entite.couverture(true);
+//						} 
+//						if(entite.cleUnique)
+//							varCleUniqueActuel.tout(entite.var);
+//						if(entite.suggere)
+//							varSuggereActuel.tout(entite.var);
+//	
+//						if(!entitesTout.contains(entite))
+//							entitesTout.add(entite);
+//	
+//						tout.add(entite);
+//						importationsAjouter(new Chaine().tout(entiteNomCanonique));
+//						importationsGenAjouter(new Chaine().tout(entiteNomCanonique));
+//						if(entiteListeTypeGenerique != null) {
+//							Chaine importation = new Chaine().tout(entiteListeTypeGenerique);
+//							importationsAjouter(importation);
+//							importationsGenAjouter(importation);
+//						}
+//	
+//						boolean etendCluster = etendClasse(entiteNomCanoniqueClusterActuel);
+//						entite.etendCluster(etendCluster);
+//						if(!etendCluster && entite.nomCanoniqueGenerique.pasVide()) {
+//							boolean listeCluster = etendClasse(nomCanoniqueClusterActuel, entite.nomCanoniqueGenerique.toString());
+//							entite.listeCluster(listeCluster);
+//						}
+//	
+//						boolean etendPageXml = entite.etendClasse(nomCanoniquePageXmlActuel);
+//						entite.etendPageXml(etendPageXml);
+//						if(!etendPageXml && entite.nomCanoniqueGenerique.pasVide()) {
+//							boolean listePageXml = etendClasse(nomCanoniquePageXmlActuel, entite.nomCanoniqueGenerique.toString());
+//							entite.listePageXml(listePageXml);
+//						}
+//	
+//						boolean etendPageParti = entite.etendClasse(nomCanoniquePagePartiActuel);
+//						entite.etendPageParti(etendPageParti);
+//						if(!etendPageParti && entite.nomCanoniqueGenerique.pasVide()) {
+//							boolean listePageParti = etendClasse(nomCanoniquePagePartiActuel, entite.nomCanoniqueGenerique.toString());
+//							entite.listePageParti(listePageParti);
+//						}
+//	
+//	
+//						boolean contientRequeteSite = contientChamp(varRequeteSite.toString(), entite.classeQdox);
+//						entite.contientRequeteSite(contientRequeteSite);
+//	
+//						boolean contientSetterString = contientMethode(entite.var.toString(), classeQdoxString);
+//						entite.contientSetterString(contientSetterString);
+//	
+//						entiteEstCmd(entite);
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						indexerStocker(entiteDoc, "entiteVar", nomLangue, entiteVar);
+						for(JavaAnnotation annotation : annotations) {
+							String entiteAnnotationLangue = indexerStocker(entiteDoc, "entiteAnnotations", nomLangue, annotation.getType().getCanonicalName());
+						}
+//						if(classeQdoxRetour != null && !classeQdoxRetour.getCanonicalName().equals("void")) {
+//							entiteNomCanoniqueRetourComplet = indexerStocker(entiteDoc, "entiteNomCanoniqueRetourComplet", nomLangue, classeQdoxRetour.getGenericCanonicalName());
+//							entiteNomCanoniqueRetour = indexerStocker(entiteDoc, "entiteNomCanoniqueRetour", nomLangue, classeQdoxRetour.getCanonicalName());
+//							String entiteNomSimpleRetour = indexerStocker(entiteDoc, "entiteNomSimpleRetour", nomLangue, StringUtils.substringAfterLast(entiteNomCanoniqueRetour, "."));
+//							String listeNomTypeOrigineRetourGenerique = entiteNomCanoniqueRetourComplet;
+//							String entiteNomCanoniqueRetourGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(listeNomTypeOrigineRetourGenerique, "<"), ">");
+//							String entiteNomSimpleRetourComplet;
+//							String entiteNomSimpleRetourGenerique;
+//							entiteNomCanoniqueRetourGenerique = entiteNomCanoniqueRetourGenerique.contains("<") ? StringUtils.substringBefore(entiteNomCanoniqueRetourGenerique, "<") : entiteNomCanoniqueRetourGenerique;
+//							entiteNomCanoniqueRetourGenerique = entiteNomCanoniqueRetourGenerique.contains(",") ? StringUtils.substringBefore(entiteNomCanoniqueRetourGenerique, ",") : entiteNomCanoniqueRetourGenerique;
+//							if(StringUtils.isNotEmpty(entiteNomCanoniqueRetourGenerique)) {
+//								indexerStocker(entiteDoc, "entiteNomCanoniqueRetourGenerique", nomLangue, entiteNomCanoniqueRetourGenerique);
+//	
+//								if(StringUtils.contains(entiteNomCanoniqueRetourGenerique, "."))
+//									entiteNomSimpleRetourGenerique = indexerStocker(entiteDoc, "entiteNomSimpleRetourGenerique", nomLangue, StringUtils.substringAfterLast(entiteNomCanoniqueRetourGenerique, "."));
+//								else
+//									entiteNomSimpleRetourGenerique = indexerStocker(entiteDoc, "entiteNomSimpleRetourGenerique", nomLangue, entiteNomCanoniqueRetourGenerique);
+//	
+//								if(StringUtils.contains(entiteNomSimpleRetourGenerique, ".")) {
+//									entiteNomSimpleRetourComplet = indexerStocker(entiteDoc, "entiteNomSimpleRetourComplet", nomLangue, concat(StringUtils.substringAfterLast(entiteNomSimpleRetour, "."), "<", entiteNomSimpleRetourGenerique, ">"));
+//								}
+//								else {
+//									entiteNomSimpleRetourComplet = indexerStocker(entiteDoc, "entiteNomSimpleRetourComplet", nomLangue, concat(entiteNomSimpleRetour, "<", entiteNomSimpleRetourGenerique, ">"));
+//								}
+//							}
+//							else {
+//								entiteNomSimpleRetourComplet = indexerStocker(entiteDoc, "entiteNomCanoniqueRetourComplet", nomLangue, entiteNomSimpleRetour);
+//							}
+//						}
 	
+						String entiteCle = classeChemin + "." + entiteVar;
+		
+						// Entites Solr du entite. 
+		
+						entiteDoc.addField("cle", entiteCle);
+						indexerStocker(entiteDoc, "partEstEntite", true);
+						indexerStocker(entiteDoc, "partNumero", partNumero);
 	
-						boolean contientRequeteSite = contientChamp(varRequeteSite.toString(), entite.classeQdox);
-						entite.contientRequeteSite(contientRequeteSite);
+						String entiteVarLangue = regex("var\\." + nomLangue + ": (.*)", methodeCommentaire);
+						entiteVarLangue = indexerStocker(entiteDoc, "entiteVar", nomLangue, entiteVarLangue == null ? entiteVar : entiteVarLangue);
 	
-						boolean contientSetterString = contientMethode(entite.var.toString(), classeQdoxString);
-						entite.contientSetterString(contientSetterString);
+						List<String> entiteCommentairesLangue = regexListe("(.*)", methodeCommentaire);
+						String entiteCommentaireLangue = indexerStocker(entiteDoc, "entiteCommentaire", nomLangue, StringUtils.join(entiteCommentairesLangue, "\n"));
 	
-						entiteEstCmd(entite);
+						String entiteBlocCode = methodeQdox.getCodeBlock();
+						String entiteBlocCodeLangue = entiteBlocCode;
+						ArrayList<String> remplacerClesLangue = regexListe("^r." + nomLangue + "\\s*=\\s*(.*)\\n.*", methodeCommentaire);
+						ArrayList<String> remplacerValeursLangue = regexListe("^r." + nomLangue + "\\s*=\\s*.*\\n(.*)", methodeCommentaire);
+						for(int i = 0; i < remplacerClesLangue.size(); i++) {
+							String cle = remplacerClesLangue.get(i);
+							String valeur = remplacerValeursLangue.get(i);
+							StringUtils.replace(entiteBlocCodeLangue, cle, valeur);
+						}
+						stocker(entiteDoc, "entiteBlocCode", nomLangue, entiteBlocCodeLangue); 
+
+						clientSolr.add(entiteDoc); 
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 					}
 					else {
 						// est Méthode. 
+						SolrInputDocument methodeDoc = docClasseClone.deepCopy();
 						indexerStocker(methodeDoc, "methodeVar", nomLangue, methodeVar);
 						for(JavaAnnotation annotation : annotations) {
 							String methodeAnnotationLangue = indexerStocker(methodeDoc, "methodeAnnotations", nomLangue, annotation.getType().getCanonicalName());
 						}
+						Boolean methodeEstVide = false;
 						if(classeQdoxRetour != null && !classeQdoxRetour.getCanonicalName().equals("void")) {
 							methodeNomCanoniqueRetourComplet = indexerStocker(methodeDoc, "methodeNomCanoniqueRetourComplet", nomLangue, classeQdoxRetour.getGenericCanonicalName());
 							methodeNomCanoniqueRetour = indexerStocker(methodeDoc, "methodeNomCanoniqueRetour", nomLangue, classeQdoxRetour.getCanonicalName());
@@ -492,16 +741,22 @@ public class IndexerClasse extends RegarderClasseBase {
 								}
 							}
 							else {
-								methodeNomSimpleRetourComplet = indexerStocker(methodeDoc, "methodeNomCanoniqueRetourComplet", nomLangue, methodeNomSimpleRetour);
+								methodeNomSimpleRetourComplet = indexerStocker(methodeDoc, "methodeNomSimpleRetourComplet", nomLangue, methodeNomSimpleRetour);
 							}
 						}
+						else {
+							methodeEstVide = true;
+						}
+						methodeEstVide = indexerStocker(methodeDoc, "methodeEstVide", methodeEstVide);
 	
 						String methodeCle = classeChemin + "." + methodeVar;
 		
 						// Methodes Solr du methode. 
 		
 						methodeDoc.addField("cle", methodeCle);
-						indexerStocker(methodeDoc, "methodeEstMethode", true);
+						indexerStocker(methodeDoc, "partEstMethode", true);
+						indexerStocker(methodeDoc, "partNumero", partNumero);
+
 						indexerStocker(methodeDoc, "methodeEstPublic", methodeQdox.isPublic());
 						indexerStocker(methodeDoc, "methodeEstProtege", methodeQdox.isProtected());
 						indexerStocker(methodeDoc, "methodeEstPrive", methodeQdox.isPrivate());
@@ -513,236 +768,246 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStocker(methodeDoc, "methodeEstSubstitue", methodeEstSubstitue);
 	
 						String methodeVarLangue = regex("var\\." + nomLangue + ": (.*)", methodeCommentaire);
-						methodeVarLangue = indexerStocker(methodeDoc, "methodeVar", nomLangue, methodeVarLangue == null ? methodeVar : methodeVarLangue);
+						methodeVarLangue =  methodeVarLangue == null ? methodeVar : methodeVarLangue;
 	
-						List<String> methodeCommentairesLangue = regexListe("(.*)", methodeCommentaire);
-						String methodeCommentaireLangue = indexerStocker(methodeDoc, "methodeCommentaire", nomLangue, StringUtils.join(methodeCommentairesLangue, "\n"));
-	
-						String methodeBlocCode = methodeQdox.getCodeBlock();
-						String methodeBlocCodeLangue = methodeBlocCode;
-						ArrayList<String> remplacerClesLangue = regexListe("remplacer." + nomLangue + "\\s*=\\s*(.*)\\n.*", methodeCommentaire);
-						ArrayList<String> remplacerValeursLangue = regexListe("remplacer." + nomLangue + "\\s*=\\s*.*\\n(.*)", methodeCommentaire);
-						for(int i = 0; i < remplacerClesLangue.size(); i++) {
-							String cle = remplacerClesLangue.get(i);
-							String valeur = remplacerValeursLangue.get(i);
-							StringUtils.replace(methodeBlocCodeLangue, cle, valeur);
-						}
-						indexerStocker(methodeDoc, "methodeBlocCode", nomLangue, methodeBlocCodeLangue);
-		
-						String varEnUS = regex("^var.enUS: (.*)", methodeQdox.getComment());
-						methode.nomMethode.frFR(methodeQdox.getName());
-						methode.nomMethode.enUS(StringUtils.isEmpty(varEnUS) ? methodeQdox.getName() : varEnUS);
-		
-						List<JavaParameter> parametresQdox = methodeQdox.getParameters();
+						List<String> methodeCommentairesLangue = regexListe("^" + nomLangue + ":\\s*([^\n]+)", methodeCommentaire);
+						String methodeCommentaireLangue = stocker(methodeDoc, "methodeCommentaire", nomLangue, StringUtils.join(methodeCommentairesLangue, "\n"));
 
-						regexCommentaires(methodeQdox.getComment(), methode.commentaire);
-						regexRemplacerTout(methodeQdox.getComment(), methodeQdox.getSourceCode(), methode.codeSource);
-						methode.classe_(this);
-						methode.initialiserLoinUneMethode(requeteSite);
-						methodes.add(methode);
-						tout.add(methode);
-					}
-		
-					//////////////////
-					// Methode Langue //
-					//////////////////
-					for(String nomLangue : autresLangues) {  
-	
-						String methodeVarLangue = regex("var\\." + nomLangue + ": (.*)", methodeCommentaire);
-						methodeVarLangue = methodeVarLangue == null ? methodeVar : methodeVarLangue;
-						methodeDoc.addField(concat("methodeVar_", nomLangue, "_indexe_string"), methodeVarLangue);
-						methodeDoc.addField(concat("methodeVar_", nomLangue, "_stocke_string"), methodeVarLangue);
-	
-						List<String> methodeCommentairesLangue = regexListe("(.*)", methodeCommentaire);
-						String methodeCommentaireLangue = StringUtils.join(methodeCommentairesLangue, "\n");
-						methodeDoc.addField(concat("methodeCommentaire_", nomLangue, "_indexe_string"), methodeCommentaireLangue);
-						methodeDoc.addField(concat("methodeCommentaire_", nomLangue, "_stocke_string"), methodeCommentaireLangue);
-	
-						String methodeBlocCode = methodeQdox.getCodeBlock();
-						String methodeBlocCodeLangue = methodeBlocCode;
-						ArrayList<String> remplacerClesLangue = regexListe("remplacer." + nomLangue + "\\s*=\\s*(.*)\\n.*", methodeCommentaire);
-						ArrayList<String> remplacerValeursLangue = regexListe("remplacer." + nomLangue + "\\s*=\\s*.*\\n(.*)", methodeCommentaire);
+						String methodeCodeSource = methodeQdox.getSourceCode();
+						String methodeCodeSourceLangue = methodeCodeSource;
+						ArrayList<String> remplacerClesLangue = regexListe("^r." + nomLangue + "\\s*=\\s*(.*)\\n.*", methodeCommentaire);
+						ArrayList<String> remplacerValeursLangue = regexListe("^r." + nomLangue + "\\s*=\\s*.*\\n(.*)", methodeCommentaire);
 						for(int i = 0; i < remplacerClesLangue.size(); i++) {
 							String cle = remplacerClesLangue.get(i);
 							String valeur = remplacerValeursLangue.get(i);
-							StringUtils.replace(methodeBlocCodeLangue, cle, valeur);
+							StringUtils.replace(methodeCodeSourceLangue, cle, valeur);
 						}
-						methodeDoc.addField(concat("methodeBlocCode_", nomLangue, "_indexe_string"), methodeBlocCodeLangue);
-						methodeDoc.addField(concat("methodeBlocCode_", nomLangue, "_stocke_string"), methodeBlocCodeLangue);
-					
-						String nomCanoniqueRetourComplet = null;
-						if(classeQdoxRetour != null && !classeQdoxRetour.getCanonicalName().equals("void"))
-							nomCanoniqueRetourComplet = classeQdoxRetour.getGenericCanonicalName();
-		//						methode.nomCanoniqueRetourComplet(classeQdoxRetour.getGenericCanonicalName());
-		
-						String nomCanoniqueRetourEnUS = regex("nomCanonique.enUS: (.*)", classeQdoxRetour.getComment());
-						methode.nomCanoniqueRetour.frFR(StringUtils.substringBefore(nomCanoniqueRetourComplet, "<"));    
-						methode.nomCanoniqueRetour.enUS(StringUtils.isEmpty(nomCanoniqueRetourEnUS) ? methode.nomCanoniqueRetour.frFR() : nomCanoniqueRetourEnUS);
-		
-						if(StringUtils.contains(nomCanoniqueRetourComplet, "<")) {
-							methode.nomCanoniqueRetourGenerique.frFR(StringUtils.substringAfter(StringUtils.substringBeforeLast(nomCanoniqueRetourComplet, ">"), "<"));  
-							methode.nomCanoniqueRetourGenerique.enUS(StringUtils.substringAfter(StringUtils.substringBeforeLast(nomCanoniqueRetourComplet, ">"), "<"));  
-						}
-						if(StringUtils.contains(methode.nomCanoniqueRetour.toString(), ".")) {
-							methode.nomSimpleRetour.frFR(StringUtils.substringAfterLast(methode.nomCanoniqueRetour.frFR(), "."));    
-							methode.nomSimpleRetour.enUS(StringUtils.substringAfterLast(methode.nomCanoniqueRetour.enUS(), "."));    
-							if(methode.nomCanoniqueRetourGenerique.estVide()) {
-								methode.nomSimpleRetourComplet.frFR(methode.nomSimpleRetour.frFR());
-								methode.nomSimpleRetourComplet.enUS(methode.nomSimpleRetour.enUS());
-							}
-							else {
-								if(methode.nomCanoniqueRetourGenerique.contient(".")) {
-									methode.nomSimpleRetourComplet.frFR(methode.nomSimpleRetour.frFR(), "<", StringUtils.substringAfterLast(methode.nomCanoniqueRetourGenerique.frFR(), "."), ">");    
-									methode.nomSimpleRetourComplet.enUS(methode.nomSimpleRetour.enUS(), "<", StringUtils.substringAfterLast(methode.nomCanoniqueRetourGenerique.enUS(), "."), ">");    
-								}
-								else {
-									methode.nomSimpleRetourComplet.frFR(methode.nomSimpleRetour.frFR(), "<", methode.nomCanoniqueRetourGenerique.frFR(), ">");    
-									methode.nomSimpleRetourComplet.enUS(methode.nomSimpleRetour.enUS(), "<", methode.nomCanoniqueRetourGenerique.enUS(), ">");    
-								}
-							}
-						}
-						else {
-							methode.nomSimpleRetour.frFR(methode.nomCanoniqueRetour.frFR());
-							methode.nomSimpleRetour.enUS(methode.nomCanoniqueRetour.enUS());
-							if(methode.nomCanoniqueRetourGenerique.estVide()) {
-								methode.nomSimpleRetourComplet.frFR(methode.nomSimpleRetour.frFR());
-								methode.nomSimpleRetourComplet.enUS(methode.nomSimpleRetour.enUS());
-							}
-							else {
-								methode.nomSimpleRetourComplet.frFR(methode.nomSimpleRetour.frFR(), "<", methode.nomCanoniqueRetourGenerique.frFR(), ">");    
-								methode.nomSimpleRetourComplet.enUS(methode.nomSimpleRetour.enUS(), "<", methode.nomCanoniqueRetourGenerique.enUS(), ">");    
-							}
-						}
-		
-						if(methode.nomCanoniqueRetourGenerique.estVide()) {
-							methode.nomCanoniqueRetourComplet.enUS(methode.nomCanoniqueRetour.enUS());
-							methode.nomCanoniqueRetourComplet.frFR(methode.nomCanoniqueRetour.frFR());
-						}
-						else {
-							methode.nomCanoniqueRetourComplet.enUS(methode.nomCanoniqueRetour.enUS(), "<", methode.nomCanoniqueRetourGenerique.enUS(), ">");
-							methode.nomCanoniqueRetourComplet.frFR(methode.nomCanoniqueRetour.frFR(), "<", methode.nomCanoniqueRetourGenerique.frFR(), ">");
-						}
+						stocker(methodeDoc, "methodeCodeSource", nomLangue, methodeCodeSourceLangue);
 		
 						String varEnUS = regex("^var.enUS: (.*)", methodeQdox.getComment());
-						methode.nomMethode.frFR(methodeQdox.getName());
-						methode.nomMethode.enUS(StringUtils.isEmpty(varEnUS) ? methodeQdox.getName() : varEnUS);
+//						methode.nomMethode.frFR(methodeQdox.getName());
+//						methode.nomMethode.enUS(StringUtils.isEmpty(varEnUS) ? methodeQdox.getName() : varEnUS);
+//		
+//						List<JavaParameter> parametresQdox = methodeQdox.getParameters();
+//
+//						regexCommentaires(methodeQdox.getComment(), methode.commentaire);
+//						regexRemplacerTout(methodeQdox.getComment(), methodeQdox.getSourceCode(), methode.codeSource);
+//						methode.classe_(this);
+//						methode.initialiserLoinUneMethode(requeteSite);
+//						methodes.add(methode);
+//						tout.add(methode);
+
+						for(String nomLangue : autresLangues) {  
+
+							methodeVarLangue = regex("methodeVar\\_" + nomLangue + ":\\s*([^\n]+)", methodeCommentaire);
+							methodeVarLangue = indexerStocker(methodeDoc, "methodeVar", nomLangue, methodeVarLangue == null ? methodeVar : methodeVarLangue);
 		
-						List<JavaAnnotation> annotations = methodeQdox.getAnnotations();
-						methode.estSubstitue(false);
-						for(JavaAnnotation annotation : annotations) {
-							if("org.junit.Test".equals(annotation.getType().getCanonicalName())) {
-								methode.estTest(true);
-							}
-							if("java.lang.Override".equals(annotation.getType().getCanonicalName())) {
-								methode.estSubstitue(true);
-							}
+							methodeCommentairesLangue = regexListe("^" + nomLangue + ":\\s*([^\n]+)", methodeCommentaire);
+							methodeCommentaireLangue = stocker(methodeDoc, "methodeCommentaire", nomLangue, StringUtils.join(methodeCommentairesLangue, "\n"));
+		
+							methodeCodeSourceLangue = regexRemplacerTout(methodeCommentaire, methodeCodeSource, nomLangue);
+							stocker(methodeDoc, "methodeCodeSource", nomLangue, methodeCodeSourceLangue);
 						}
-						List<JavaParameter> parametresQdox = methodeQdox.getParameters();
-		
-						if(!methode.estSubstitue && !methode.champEstStatique && !methode.champEstFinale && methodeQdox.getDeclaringClass().equals(classeQdox) 
-								&& methode.champEstProtege && parametresQdox.size() == 1 && classeQdoxRetour.isVoid()
-								&& StringUtils.startsWith(methodeQdox.getName(), "_")) {
-				
-							String nomEntite = StringUtils.substringAfter(methodeQdox.getName(), "_");
-							UnEntite entite = new UnEntite();
-							JavaClass classeEntite = parametresQdox.get(0).getJavaClass();
-							boolean typeCouverture = false;
-							String nomTypeOrigine = classeEntite.getGenericCanonicalName();
-							String nomType = nomTypeOrigine;
-							String typeNomCanonique = classeEntite.getCanonicalName();
-		//					JavaClass classeEntite = typeBricoleur.getClassByName(typeNomCanonique);
-							String listeNomTypeOrigineGenerique = null;
-							String listeNomTypeGenerique = null;
-							String listeNomTypeGeneriqueComplet = null;
-							String varCouverture = nomEntite + varCouvertureCapitalise.toString();
-		
-							entite.classe_(this);
-							entite.requeteSite(requeteSite);
-		
-							String varEntiteEnUS = regex("^var.enUS: (.*)", methodeQdox.getComment());
-							entite.var.frFR(nomEntite);
-							entite.var.enUS(StringUtils.isEmpty(varEntiteEnUS) ? nomEntite : StringUtils.substringAfter(varEntiteEnUS, "_"));
-		
-							regexCommentaires(methodeQdox.getComment(), entite.commentaire);
-							regexRemplacerTout(methodeQdox.getComment(), methodeQdox.getSourceCode(), entite.codeSource);
-				
-							if(classeEntite.getFullyQualifiedName().equals(nomCanoniqueCouvertureActuel)) {
-								nomType = StringUtils.substringBeforeLast(StringUtils.substringAfter(nomType, "<"), ">");
-								if(StringUtils.contains(nomType, "<"))
-									classeEntite = typeBricoleur.getClassByName(StringUtils.substringBefore(nomType, "<"));
-								else
-									classeEntite = typeBricoleur.getClassByName(nomType);
-								typeNomCanonique = classeEntite.getCanonicalName();
-								typeCouverture = true;
-								entite.couverture(true);
-							} 
-				
-							entite.classeQdox(classeEntite);
-							entite.methodeQdox(methodeQdox);
-							entite.initialiserLoinUnEntite(requeteSite);
-							entites.add(entite);
-							if(entite.cleUnique)
-								varCleUniqueActuel.tout(entite.var);
-							if(entite.suggere)
-								varSuggereActuel.tout(entite.var);
-		
-							if(!entitesTout.contains(entite))
-								entitesTout.add(entite);
-		
-							tout.add(entite);
-							importationsAjouter(new Chaine().tout(typeNomCanonique));
-							importationsGenAjouter(new Chaine().tout(typeNomCanonique));
-							if(listeNomTypeGenerique != null) {
-								Chaine importation = new Chaine().tout(listeNomTypeGenerique);
-								importationsAjouter(importation);
-								importationsGenAjouter(importation);
-							}
-		
-							boolean etendCluster = entite.etendClasse(nomCanoniqueClusterActuel);
-							entite.etendCluster(etendCluster);
-							if(!etendCluster && entite.nomCanoniqueGenerique.pasVide()) {
-								boolean listeCluster = etendClasse(nomCanoniqueClusterActuel, entite.nomCanoniqueGenerique.toString());
-								entite.listeCluster(listeCluster);
-							}
-		
-							boolean etendPageXml = entite.etendClasse(nomCanoniquePageXmlActuel);
-							entite.etendPageXml(etendPageXml);
-							if(!etendPageXml && entite.nomCanoniqueGenerique.pasVide()) {
-								boolean listePageXml = etendClasse(nomCanoniquePageXmlActuel, entite.nomCanoniqueGenerique.toString());
-								entite.listePageXml(listePageXml);
-							}
-		
-							boolean etendPageParti = entite.etendClasse(nomCanoniquePagePartiActuel);
-							entite.etendPageParti(etendPageParti);
-							if(!etendPageParti && entite.nomCanoniqueGenerique.pasVide()) {
-								boolean listePageParti = etendClasse(nomCanoniquePagePartiActuel, entite.nomCanoniqueGenerique.toString());
-								entite.listePageParti(listePageParti);
-							}
-		
-		
-							boolean contientRequeteSite = contientChamp(varRequeteSite.toString(), entite.classeQdox);
-							entite.contientRequeteSite(contientRequeteSite);
-		
-							boolean contientSetterString = contientMethode(entite.var.toString(), classeQdoxString);
-							entite.contientSetterString(contientSetterString);
-		
-							entiteEstCmd(entite);
-						}
-						else {
-							regexCommentaires(methodeQdox.getComment(), methode.commentaire);
-							regexRemplacerTout(methodeQdox.getComment(), methodeQdox.getSourceCode(), methode.codeSource);
-							methode.classe_(this);
-							methode.initialiserLoinUneMethode(requeteSite);
-							methodes.add(methode);
-							tout.add(methode);
-						}
-					}  
 	
-					clientSolr.add(methodeDoc); 
+						clientSolr.add(methodeDoc); 
+					}
+			
+						//////////////////
+						// Methode Langue //
+						//////////////////
+		
+	//						String methodeVarLangue = regex("var\\." + nomLangue + ": (.*)", methodeCommentaire);
+	//						methodeVarLangue = methodeVarLangue == null ? methodeVar : methodeVarLangue;
+	//						methodeDoc.addField(concat("methodeVar_", nomLangue, "_indexe_string"), methodeVarLangue);
+	//						methodeDoc.addField(concat("methodeVar_", nomLangue, "_stocke_string"), methodeVarLangue);
+	//	
+	//						List<String> methodeCommentairesLangue = regexListe("(.*)", methodeCommentaire);
+	//						String methodeCommentaireLangue = StringUtils.join(methodeCommentairesLangue, "\n");
+	//						methodeDoc.addField(concat("methodeCommentaire_", nomLangue, "_indexe_string"), methodeCommentaireLangue);
+	//						methodeDoc.addField(concat("methodeCommentaire_", nomLangue, "_stocke_string"), methodeCommentaireLangue);
+	//	
+	//						String methodeBlocCode = methodeQdox.getCodeBlock();
+	//						String methodeBlocCodeLangue = methodeBlocCode;
+	//						ArrayList<String> remplacerClesLangue = regexListe("^r." + nomLangue + "\\s*=\\s*(.*)\\n.*", methodeCommentaire);
+	//						ArrayList<String> remplacerValeursLangue = regexListe("^r." + nomLangue + "\\s*=\\s*.*\\n(.*)", methodeCommentaire);
+	//						for(int i = 0; i < remplacerClesLangue.size(); i++) {
+	//							String cle = remplacerClesLangue.get(i);
+	//							String valeur = remplacerValeursLangue.get(i);
+	//							StringUtils.replace(methodeBlocCodeLangue, cle, valeur);
+	//						}
+	//						methodeDoc.addField(concat("methodeBlocCode_", nomLangue, "_indexe_string"), methodeBlocCodeLangue);
+	//						methodeDoc.addField(concat("methodeBlocCode_", nomLangue, "_stocke_string"), methodeBlocCodeLangue);
+	//					
+	//						String nomCanoniqueRetourComplet = null;
+	//						if(classeQdoxRetour != null && !classeQdoxRetour.getCanonicalName().equals("void"))
+	//							nomCanoniqueRetourComplet = classeQdoxRetour.getGenericCanonicalName();
+	//		//						methode.nomCanoniqueRetourComplet(classeQdoxRetour.getGenericCanonicalName());
+	//		
+	//						String nomCanoniqueRetourEnUS = regex("nomCanonique.enUS: (.*)", classeQdoxRetour.getComment());
+	//						methode.nomCanoniqueRetour.frFR(StringUtils.substringBefore(nomCanoniqueRetourComplet, "<"));    
+	//						methode.nomCanoniqueRetour.enUS(StringUtils.isEmpty(nomCanoniqueRetourEnUS) ? methode.nomCanoniqueRetour.frFR() : nomCanoniqueRetourEnUS);
+	//		
+	//						if(StringUtils.contains(nomCanoniqueRetourComplet, "<")) {
+	//							methode.nomCanoniqueRetourGenerique.frFR(StringUtils.substringAfter(StringUtils.substringBeforeLast(nomCanoniqueRetourComplet, ">"), "<"));  
+	//							methode.nomCanoniqueRetourGenerique.enUS(StringUtils.substringAfter(StringUtils.substringBeforeLast(nomCanoniqueRetourComplet, ">"), "<"));  
+	//						}
+	//						if(StringUtils.contains(methode.nomCanoniqueRetour.toString(), ".")) {
+	//							methode.nomSimpleRetour.frFR(StringUtils.substringAfterLast(methode.nomCanoniqueRetour.frFR(), "."));    
+	//							methode.nomSimpleRetour.enUS(StringUtils.substringAfterLast(methode.nomCanoniqueRetour.enUS(), "."));    
+	//							if(methode.nomCanoniqueRetourGenerique.estVide()) {
+	//								methode.nomSimpleRetourComplet.frFR(methode.nomSimpleRetour.frFR());
+	//								methode.nomSimpleRetourComplet.enUS(methode.nomSimpleRetour.enUS());
+	//							}
+	//							else {
+	//								if(methode.nomCanoniqueRetourGenerique.contient(".")) {
+	//									methode.nomSimpleRetourComplet.frFR(methode.nomSimpleRetour.frFR(), "<", StringUtils.substringAfterLast(methode.nomCanoniqueRetourGenerique.frFR(), "."), ">");    
+	//									methode.nomSimpleRetourComplet.enUS(methode.nomSimpleRetour.enUS(), "<", StringUtils.substringAfterLast(methode.nomCanoniqueRetourGenerique.enUS(), "."), ">");    
+	//								}
+	//								else {
+	//									methode.nomSimpleRetourComplet.frFR(methode.nomSimpleRetour.frFR(), "<", methode.nomCanoniqueRetourGenerique.frFR(), ">");    
+	//									methode.nomSimpleRetourComplet.enUS(methode.nomSimpleRetour.enUS(), "<", methode.nomCanoniqueRetourGenerique.enUS(), ">");    
+	//								}
+	//							}
+	//						}
+	//						else {
+	//							methode.nomSimpleRetour.frFR(methode.nomCanoniqueRetour.frFR());
+	//							methode.nomSimpleRetour.enUS(methode.nomCanoniqueRetour.enUS());
+	//							if(methode.nomCanoniqueRetourGenerique.estVide()) {
+	//								methode.nomSimpleRetourComplet.frFR(methode.nomSimpleRetour.frFR());
+	//								methode.nomSimpleRetourComplet.enUS(methode.nomSimpleRetour.enUS());
+	//							}
+	//							else {
+	//								methode.nomSimpleRetourComplet.frFR(methode.nomSimpleRetour.frFR(), "<", methode.nomCanoniqueRetourGenerique.frFR(), ">");    
+	//								methode.nomSimpleRetourComplet.enUS(methode.nomSimpleRetour.enUS(), "<", methode.nomCanoniqueRetourGenerique.enUS(), ">");    
+	//							}
+	//						}
+	//		
+	//						if(methode.nomCanoniqueRetourGenerique.estVide()) {
+	//							methode.nomCanoniqueRetourComplet.enUS(methode.nomCanoniqueRetour.enUS());
+	//							methode.nomCanoniqueRetourComplet.frFR(methode.nomCanoniqueRetour.frFR());
+	//						}
+	//						else {
+	//							methode.nomCanoniqueRetourComplet.enUS(methode.nomCanoniqueRetour.enUS(), "<", methode.nomCanoniqueRetourGenerique.enUS(), ">");
+	//							methode.nomCanoniqueRetourComplet.frFR(methode.nomCanoniqueRetour.frFR(), "<", methode.nomCanoniqueRetourGenerique.frFR(), ">");
+	//						}
+	//		
+	//						String varEnUS = regex("^var.enUS: (.*)", methodeQdox.getComment());
+	//						methode.nomMethode.frFR(methodeQdox.getName());
+	//						methode.nomMethode.enUS(StringUtils.isEmpty(varEnUS) ? methodeQdox.getName() : varEnUS);
+	//		
+	//						List<JavaAnnotation> annotations = methodeQdox.getAnnotations();
+	//						methode.estSubstitue(false);
+	//						for(JavaAnnotation annotation : annotations) {
+	//							if("org.junit.Test".equals(annotation.getType().getCanonicalName())) {
+	//								methode.estTest(true);
+	//							}
+	//							if("java.lang.Override".equals(annotation.getType().getCanonicalName())) {
+	//								methode.estSubstitue(true);
+	//							}
+	//						}
+	//						List<JavaParameter> parametresQdox = methodeQdox.getParameters();
+	//		
+	//						if(!methode.estSubstitue && !methode.champEstStatique && !methode.champEstFinale && methodeQdox.getDeclaringClass().equals(classeQdox) 
+	//								&& methode.champEstProtege && parametresQdox.size() == 1 && classeQdoxRetour.isVoid()
+	//								&& StringUtils.startsWith(methodeQdox.getName(), "_")) {
+	//				
+	//							String nomEntite = StringUtils.substringAfter(methodeQdox.getName(), "_");
+	//							UnEntite entite = new UnEntite();
+	//							JavaClass classeEntite = parametresQdox.get(0).getJavaClass();
+	//							boolean typeCouverture = false;
+	//							String nomTypeOrigine = classeEntite.getGenericCanonicalName();
+	//							String nomType = nomTypeOrigine;
+	//							String typeNomCanonique = classeEntite.getCanonicalName();
+	//		//					JavaClass classeEntite = typeBricoleur.getClassByName(typeNomCanonique);
+	//							String listeNomTypeOrigineGenerique = null;
+	//							String listeNomTypeGenerique = null;
+	//							String listeNomTypeGeneriqueComplet = null;
+	//							String varCouverture = nomEntite + varCouvertureCapitalise.toString();
+	//		
+	//							entite.classe_(this);
+	//							entite.requeteSite(requeteSite);
+	//		
+	//							String varEntiteEnUS = regex("^var.enUS: (.*)", methodeQdox.getComment());
+	//							entite.var.frFR(nomEntite);
+	//							entite.var.enUS(StringUtils.isEmpty(varEntiteEnUS) ? nomEntite : StringUtils.substringAfter(varEntiteEnUS, "_"));
+	//		
+	//							regexCommentaires(methodeQdox.getComment(), entite.commentaire);
+	//							regexRemplacerTout(methodeQdox.getComment(), methodeQdox.getSourceCode(), entite.codeSource);
+	//				
+	//							if(classeEntite.getFullyQualifiedName().equals(nomCanoniqueCouvertureActuel)) {
+	//								nomType = StringUtils.substringBeforeLast(StringUtils.substringAfter(nomType, "<"), ">");
+	//								if(StringUtils.contains(nomType, "<"))
+	//									classeEntite = typeBricoleur.getClassByName(StringUtils.substringBefore(nomType, "<"));
+	//								else
+	//									classeEntite = typeBricoleur.getClassByName(nomType);
+	//								typeNomCanonique = classeEntite.getCanonicalName();
+	//								typeCouverture = true;
+	//								entite.couverture(true);
+	//							} 
+	//				
+	//							entite.classeQdox(classeEntite);
+	//							entite.methodeQdox(methodeQdox);
+	//							entite.initialiserLoinUnEntite(requeteSite);
+	//							entites.add(entite);
+	//							if(entite.cleUnique)
+	//								varCleUniqueActuel.tout(entite.var);
+	//							if(entite.suggere)
+	//								varSuggereActuel.tout(entite.var);
+	//		
+	//							if(!entitesTout.contains(entite))
+	//								entitesTout.add(entite);
+	//		
+	//							tout.add(entite);
+	//							importationsAjouter(new Chaine().tout(typeNomCanonique));
+	//							importationsGenAjouter(new Chaine().tout(typeNomCanonique));
+	//							if(listeNomTypeGenerique != null) {
+	//								Chaine importation = new Chaine().tout(listeNomTypeGenerique);
+	//								importationsAjouter(importation);
+	//								importationsGenAjouter(importation);
+	//							}
+	//		
+	//							boolean etendCluster = entite.etendClasse(nomCanoniqueClusterActuel);
+	//							entite.etendCluster(etendCluster);
+	//							if(!etendCluster && entite.nomCanoniqueGenerique.pasVide()) {
+	//								boolean listeCluster = etendClasse(nomCanoniqueClusterActuel, entite.nomCanoniqueGenerique.toString());
+	//								entite.listeCluster(listeCluster);
+	//							}
+	//		
+	//							boolean etendPageXml = entite.etendClasse(nomCanoniquePageXmlActuel);
+	//							entite.etendPageXml(etendPageXml);
+	//							if(!etendPageXml && entite.nomCanoniqueGenerique.pasVide()) {
+	//								boolean listePageXml = etendClasse(nomCanoniquePageXmlActuel, entite.nomCanoniqueGenerique.toString());
+	//								entite.listePageXml(listePageXml);
+	//							}
+	//		
+	//							boolean etendPageParti = entite.etendClasse(nomCanoniquePagePartiActuel);
+	//							entite.etendPageParti(etendPageParti);
+	//							if(!etendPageParti && entite.nomCanoniqueGenerique.pasVide()) {
+	//								boolean listePageParti = etendClasse(nomCanoniquePagePartiActuel, entite.nomCanoniqueGenerique.toString());
+	//								entite.listePageParti(listePageParti);
+	//							}
+	//		
+	//		
+	//							boolean contientRequeteSite = contientChamp(varRequeteSite.toString(), entite.classeQdox);
+	//							entite.contientRequeteSite(contientRequeteSite);
+	//		
+	//							boolean contientSetterString = contientMethode(entite.var.toString(), classeQdoxString);
+	//							entite.contientSetterString(contientSetterString);
+	//		
+	//							entiteEstCmd(entite);
+	//						}
+	//						else {
+	//							regexCommentaires(methodeQdox.getComment(), methode.commentaire);
+	//							regexRemplacerTout(methodeQdox.getComment(), methodeQdox.getSourceCode(), methode.codeSource);
+	//							methode.classe_(this);
+	//							methode.initialiserLoinUneMethode(requeteSite);
+	//							methodes.add(methode);
+	//							tout.add(methode);
+	//						}
 				}
 			}
 		}
-		clientSolr.add(docClasse);
+		clientSolr.add(classeDoc);
 		clientSolr.commit();
 		clientSolr.deleteByQuery(concat("classeChemin", "_", nomLangue, "_indexe_string") + ":\"" + classeChemin + "\" AND modifiee_indexe_date:[* TO " + modifiee + "-1MILLI]");
 		clientSolr.commit(); 

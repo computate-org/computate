@@ -8,13 +8,14 @@ public class RegarderClasse extends EcrireClasse {
 		RegarderClasse ecrireClasse = new RegarderClasse();
 		try {
 			ecrireClasse.args = args;
-			ecrireClasse.initRegarderClasseBase();
+			ecrireClasse.initRegarderClasseBase(); 
 		}
 		catch(Exception e) {
 			System.err.println("Erreur pendant traiterEvenements. ");
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
 		System.out.println("cheminAbsolu : " + ecrireClasse.classeCheminAbsolu);
+		System.out.println("nomLangue : " + ecrireClasse.nomLangue);
 
 		ecrireClasse.indexerClasse(ecrireClasse.classeCheminAbsolu);
 		if("tout".equals(ecrireClasse.nomLangue)) {
