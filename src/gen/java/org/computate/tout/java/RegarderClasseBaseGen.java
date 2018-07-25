@@ -35,6 +35,7 @@ public class RegarderClasseBaseGen extends Object {
 	protege ;
 	protege ;
 	protege ;
+	protege ;
 	protected void _cheminAppli() {
 		cheminAppli = args[0];
 	}
@@ -88,11 +89,15 @@ public class RegarderClasseBaseGen extends Object {
 	}
 
 	protected void _toutesLangues() {
-		toutesLangues = new String[] { "frFR", "enUS" };
+		toutesLangues = config.getStringArray(nomAppli + ".nomLangue");
 	}
 
 	protected void _autresLangues() {
 		autresLangues = ArrayUtils.removeElement(toutesLangues, nomLangue);
+	}
+
+	protected void _langueIndexe() {
+		langueIndexe = ArrayUtils.contains(toutesLangues, nomLangue);
 	}
 
 	protected void _nomFicherConfig() {

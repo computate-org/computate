@@ -101,12 +101,17 @@ public class RegarderClasseBase {
 
 	protected String[] toutesLangues;
 	protected void _toutesLangues() throws Exception {
-		toutesLangues = new String[] { "frFR", "enUS" };
+		toutesLangues = config.getStringArray(nomAppli + ".toutesLangues");
 	}
 
 	protected String[] autresLangues;
 	protected void _autresLangues() throws Exception {
 		autresLangues = ArrayUtils.removeElement(toutesLangues, nomLangue);
+	}
+
+	protected Boolean langueIndexe;
+	protected void _langueIndexe() throws Exception {
+		langueIndexe = ArrayUtils.contains(toutesLangues, nomLangue);
 	}
 
 	/**	 **/
@@ -236,6 +241,7 @@ public class RegarderClasseBase {
 		_nomLangue();
 		_toutesLangues();
 		_autresLangues();
+		_langueIndexe();
 		_nomFicherConfig();
 		_cheminConfig();
 		_versionMaven();
@@ -259,6 +265,14 @@ public class RegarderClasseBase {
 	public String regex(String motif, String texte) {
 		String o = regex(motif, texte, 1);
 		return o;
+	}
+
+	public String regex(String motif, String texte, String valeurDefaut) {
+		String o = regex(motif, texte, 1);
+		if(StringUtils.isEmpty(o))
+			return valeurDefaut;
+		else
+			return o;
 	}
 
 	public String regex(String motif, String texte, Integer groupe) {

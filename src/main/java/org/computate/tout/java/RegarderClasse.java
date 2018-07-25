@@ -23,6 +23,10 @@ public class RegarderClasse extends EcrireClasse {
 			for(String nomLangue : ecrireClasse.toutesLangues) {
 				ecrireClasse.ecrireClasseGen(ecrireClasse.classeCheminAbsolu, nomLangue);
 			}
+			System.out.println("autresLangues: " + ecrireClasse.autresLangues); 
+			for(String nomLangue : ecrireClasse.autresLangues) {
+				ecrireClasse.ecrireClasse(ecrireClasse.classeCheminAbsolu, nomLangue);
+			}
 		}
 		else {
 			ecrireClasse.ecrireClasseGen(ecrireClasse.classeCheminAbsolu, ecrireClasse.nomLangue);

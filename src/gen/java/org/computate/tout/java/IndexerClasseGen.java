@@ -97,8 +97,7 @@ public class IndexerClasseGen extends RegarderClasseBase {
 		classeDoc.addField(concat("classeNomSimpleSuper_", nomLangue, "_indexe_string"), classeNomSimpleSuper);
 		classeDoc.addField(concat("classeNomSimpleSuper_", nomLangue, "_stocke_string"), classeNomSimpleSuper);
 
-		classeDoc.addField(concat("classeCheminAbsolu_indexe_string"), classeCheminAbsolu);
-		classeDoc.addField(concat("classeCheminAbsolu_stocke_string"), classeCheminAbsolu);
+		indexerStocker(classeDoc, "classeCheminAbsolu", classeCheminAbsolu);
 
 		classeDoc.addField(concat("classeChemin_", nomLangue, "_indexe_string"), classeChemin);
 		classeDoc.addField(concat("classeChemin_", nomLangue, "_stocke_string"), classeChemin);
@@ -113,15 +112,17 @@ public class IndexerClasseGen extends RegarderClasseBase {
 		classeDoc.addField(concat("classeCheminRepertoireGen_", nomLangue, "_stocke_string"), classeCheminRepertoireGen);
 
 		for(String nomLangue : autresLangues) {  
-			String classeNomCanoniqueLangue = regex("classeNomCanonique\\." + nomLangue + ": (.*)", commentaire);
+			String cheminAppliLangue = cheminAppli + "_" + nomLangue;
+			String cheminSrcMainJavaLangue = cheminAppliLangue + "/src/main/java";
+			String classeNomCanoniqueLangue = regex("^classeNomCanonique\\_" + nomLangue + ":\\s*(.*)", commentaire);
 			String classeNomSimpleLangue = StringUtils.substringAfterLast(classeNomCanoniqueLangue, ".") + "Gen";
 			String classeNomEnsembleLangue = StringUtils.substringBeforeLast(classeNomCanoniqueLangue, ".");
 			String classeNomCanoniqueGenLangue = classeNomCanoniqueLangue + "Gen";
 			String classeNomSimpleGenLangue = classeNomSimpleLangue + "Gen";
-			String classeCheminLangue = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanoniqueLangue, ".", "/"), ".java");
-			String classeCheminRepertoireLangue = StringUtils.substringBeforeLast(classeCheminLangue, "/");
-			String classeCheminGenLangue = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanoniqueLangue, ".", "/"), ".java");
-			String classeCheminRepertoireGenLangue = StringUtils.substringBeforeLast(classeCheminGenLangue, "/");
+			String classeCheminLangue = indexerStocker(classeDoc, "classeChemin", nomLangue, concat(cheminSrcMainJavaLangue, "/", StringUtils.replace(classeNomCanoniqueLangue, ".", "/"), ".java"));
+			String classeCheminRepertoireLangue = stocker(classeDoc, "classeCheminRepertoire", nomLangue, StringUtils.substringBeforeLast(classeCheminLangue, "/"));
+			String classeCheminGenLangue = indexerStocker(classeDoc, "classeCheminGen", nomLangue, concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanoniqueLangue, ".", "/"), ".java"));
+			String classeCheminRepertoireGenLangue = stocker(classeDoc, "classeCheminRepertoireGen", nomLangue, StringUtils.substringBeforeLast(classeCheminGenLangue, "/"));
 
 			classeDoc.addField(concat("classeNomCanonique_", nomLangue, "_indexe_string"), classeNomCanoniqueLangue);
 			classeDoc.addField(concat("classeNomCanonique_", nomLangue, "_stocke_string"), classeNomCanoniqueLangue);
@@ -137,18 +138,6 @@ public class IndexerClasseGen extends RegarderClasseBase {
 
 			classeDoc.addField(concat("classeNomEnsemble_", nomLangue, "_indexe_string"), classeNomEnsembleLangue);
 			classeDoc.addField(concat("classeNomEnsemble_", nomLangue, "_stocke_string"), classeNomEnsembleLangue);
-
-			classeDoc.addField(concat("classeChemin_", nomLangue, "_indexe_string"), classeCheminLangue);
-			classeDoc.addField(concat("classeChemin_", nomLangue, "_stocke_string"), classeCheminLangue);
-
-			classeDoc.addField(concat("classeCheminRepertoire_", nomLangue, "_indexe_string"), classeCheminRepertoireLangue);
-			classeDoc.addField(concat("classeCheminRepertoire_", nomLangue, "_stocke_string"), classeCheminRepertoireLangue);
-
-			classeDoc.addField(concat("classeCheminGen_", nomLangue, "_indexe_string"), classeCheminGenLangue);
-			classeDoc.addField(concat("classeCheminGen_", nomLangue, "_stocke_string"), classeCheminGenLangue);
-
-			classeDoc.addField(concat("classeCheminRepertoireGen_", nomLangue, "_indexe_string"), classeCheminRepertoireGenLangue);
-			classeDoc.addField(concat("classeCheminRepertoireGen_", nomLangue, "_stocke_string"), classeCheminRepertoireGenLangue);
 		} 
 
 		SolrInputDocument docClasseClone = classeDoc.deepCopy();

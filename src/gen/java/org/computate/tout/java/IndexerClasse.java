@@ -1,30 +1,8 @@
 package org.computate.tout.java;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+public class IndexerClasseGenGen extends null {
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.solr.common.SolrInputDocument;
-import org.junit.Test;
-
-import com.thoughtworks.qdox.model.JavaAnnotation;
-import com.thoughtworks.qdox.model.JavaClass;
-import com.thoughtworks.qdox.model.JavaConstructor;
-import com.thoughtworks.qdox.model.JavaField;
-import com.thoughtworks.qdox.model.JavaMember;
-import com.thoughtworks.qdox.model.JavaMethod;
-
-public class IndexerClasse extends RegarderClasseBase { 
-
-	public void peuplerClassesSuperQdoxInterfacesEtMoi (
-			JavaClass c
-			, ArrayList<JavaClass> classesSuperQdox
-			, ArrayList<JavaClass> classesSuperQdoxEtMoi
-			, ArrayList<JavaClass> classesSuperQdoxEtInterfaces
-			, ArrayList<JavaClass> classesSuperQdoxInterfacesEtMoi
-			) throws Exception { 
+	public void peuplerClassesSuperQdoxInterfacesEtMoi() { 
 		if(c != null) {
 			JavaClass classeSuper = c.getSuperJavaClass();
 			List<JavaClass> interfacesImplémentées = c.getInterfaces();
@@ -49,94 +27,22 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 	}
-	
-	protected Boolean stocker(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
-		doc.addField(concat(nomChamp, "_stocke_string"), valeurChamp);
-		return valeurChamp;
-	}
-	
-	protected Boolean stocker(SolrInputDocument doc, String nomChamp, String nomLangue, Boolean valeurChamp) throws Exception {
+
+	protected null stocker() {
 		if(langueIndexe || !StringUtils.equals(nomLangue, this.nomLangue)) {
 			doc.addField(concat(nomChamp, "_", nomLangue, "_stocke_string"), valeurChamp);
 		}
 		return valeurChamp;
 	}
-	
-	protected String stocker(SolrInputDocument doc, String nomChamp, String valeurChamp) throws Exception {
-		doc.addField(concat(nomChamp, "_stocke_string"), valeurChamp);
-		return valeurChamp;
-	}
-	
-	protected String stocker(SolrInputDocument doc, String nomChamp, String nomLangue, String valeurChamp) throws Exception {
-		if(langueIndexe || !StringUtils.equals(nomLangue, this.nomLangue)) {
-			doc.addField(concat(nomChamp, "_", nomLangue, "_stocke_string"), valeurChamp);
-		}
-		return valeurChamp;
-	}
-	
-	protected Boolean indexer(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
-		doc.addField(concat(nomChamp, "_indexe_string"), valeurChamp);
-		return valeurChamp;
-	} 
-	
-	protected Boolean indexer(SolrInputDocument doc, String nomChamp, String nomLangue, Boolean valeurChamp) throws Exception {
+
+	protected null indexer() {
 		if(langueIndexe || !StringUtils.equals(nomLangue, this.nomLangue)) {
 			doc.addField(concat(nomChamp, "_", nomLangue, "_indexe_string"), valeurChamp);
 		}
 		return valeurChamp;
 	}
-	
-	protected String indexer(SolrInputDocument doc, String nomChamp, String valeurChamp) throws Exception {
-		doc.addField(concat(nomChamp, "_indexe_string"), valeurChamp);
-		return valeurChamp;
-	}
-	
-	protected String indexer(SolrInputDocument doc, String nomChamp, String nomLangue, String valeurChamp) throws Exception {
-		if(langueIndexe || !StringUtils.equals(nomLangue, this.nomLangue)) {
-			doc.addField(concat(nomChamp, "_", nomLangue, "_indexe_string"), valeurChamp);
-		}
-		return valeurChamp;
-	}
-	
-	protected Long indexerStocker(SolrInputDocument doc, String nomChamp, Long valeurChamp) throws Exception {
-		doc.addField(concat(nomChamp, "_stocke_long"), valeurChamp);
-		doc.addField(concat(nomChamp, "_indexe_long"), valeurChamp);
-		return valeurChamp;
-	}
-	
-	protected Integer indexerStocker(SolrInputDocument doc, String nomChamp, Integer valeurChamp) throws Exception {
-		doc.addField(concat(nomChamp, "_stocke_int"), valeurChamp);
-		doc.addField(concat(nomChamp, "_indexe_int"), valeurChamp);
-		return valeurChamp;
-	}
-	
-	protected Boolean indexerStocker(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
-		doc.addField(concat(nomChamp, "_stocke_boolean"), valeurChamp);
-		doc.addField(concat(nomChamp, "_indexe_boolean"), valeurChamp);
-		return valeurChamp;
-	}
-	
-	protected Date indexerStocker(SolrInputDocument doc, String nomChamp, Date valeurChamp) throws Exception {
-		doc.addField(concat(nomChamp, "_stocke_boolean"), valeurChamp);
-		doc.addField(concat(nomChamp, "_indexe_boolean"), valeurChamp);
-		return valeurChamp;
-	}
-	
-	protected Boolean indexerStocker(SolrInputDocument doc, String nomChamp, String nomLangue, Boolean valeurChamp) throws Exception {
-		if(langueIndexe || !StringUtils.equals(nomLangue, this.nomLangue)) {
-			doc.addField(concat(nomChamp, "_", nomLangue, "_stocke_string"), valeurChamp);
-			doc.addField(concat(nomChamp, "_", nomLangue, "_indexe_string"), valeurChamp);
-		}
-		return valeurChamp;
-	}
-	
-	protected String indexerStocker(SolrInputDocument doc, String nomChamp, String valeurChamp) throws Exception {
-		doc.addField(concat(nomChamp, "_stocke_string"), valeurChamp);
-		doc.addField(concat(nomChamp, "_indexe_string"), valeurChamp);
-		return valeurChamp;
-	}
-	
-	protected String indexerStocker(SolrInputDocument doc, String nomChamp, String nomLangue, String valeurChamp) throws Exception {
+
+	protected null indexerStocker() {
 		if(langueIndexe || !StringUtils.equals(nomLangue, this.nomLangue)) {
 			doc.addField(concat(nomChamp, "_", nomLangue, "_stocke_string"), valeurChamp);
 			doc.addField(concat(nomChamp, "_", nomLangue, "_indexe_string"), valeurChamp);
@@ -144,7 +50,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		return valeurChamp;
 	}
 
-	protected void indexerClasse(String classeCheminAbsolu) throws Exception { 
+	protected void indexerClasse() { 
 		SolrInputDocument classeDoc = new SolrInputDocument();
 		String classeNomCanonique = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classeCheminAbsolu, "."), cheminSrcMainJava + "/"), "/", ".");
 		String classeNomSimple = StringUtils.substringAfterLast(classeNomCanonique, ".");
@@ -943,4 +849,5 @@ public class IndexerClasse extends RegarderClasseBase {
 		clientSolr.deleteByQuery(concat("classeChemin", "_", nomLangue, "_indexe_string") + ":\"" + classeChemin + "\" AND modifiee_indexe_date:[* TO " + modifiee + "-1MILLI]");
 		clientSolr.commit(); 
 	}
+
 }

@@ -1,60 +1,8 @@
-package org.computate.tout.java; 
+package org.computate.tout.java;
 
-import java.io.File;
-import java.nio.charset.Charset;
+public class EcrireClasseGenGen extends null {
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.util.ClientUtils;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-
-/**
- * classeNomCanonique_enUS: org.computate.enUS.java.WriteClass
- */       
-public class EcrireClasse extends IndexerClasse { 
-
-	/**
-	 * methodeVar_enUS: writeClass
-	 */
-	protected void ecrireClasse(String classeCheminAbsolu, String nomLangue) throws Exception { 
-		System.out.println("ecrireClasse: " + classeCheminAbsolu + " " + nomLangue); 
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1000000);
-		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexe_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
-		rechercheSolr.addSort("partNumero_indexe_int", ORDER.asc);
-
-		QueryResponse reponseRecherche = clientSolr.query(rechercheSolr);
-		ecrireClasse(reponseRecherche, nomLangue);
-	}
-
-	/**
-	 * methodeVar_enUS: writeClass
-	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
-	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
-	 * enUS: Retrieve the records for the class from the search engine, 
-	 * enUS: process them and write them into class files for each supported language. 
-	 * r.enUS: listeRecherche
-	 * searchList
-	 * r.enUS: rechercheSolr
-	 * solrSearch
-	 * r.enUS: reponseRecherche
-	 * searchResponse
-	 * r.enUS: classeCheminAbsolu
-	 * classAbsolutePath
-	 * r.enUS: _indexe
-	 * _indexed
-	 * r.enUS: _stocke
-	 * _stored
-	 * r.enUS: partNumero
-	 * partNumber
-	 */  
-	protected void ecrireClasse(QueryResponse reponseRecherche, String nomLangue) throws Exception { 
+	protected void ecrireClasse() { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
 		if(listeRecherche.size() > 0) {
@@ -149,59 +97,9 @@ public class EcrireClasse extends IndexerClasse {
 		else {
 			System.err.println("No file was found in the search engine. ");
 		}
-	}  
-
-	/**
-	 * methodeVar_enUS: writeClassGen
-	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
-	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
-	 * enUS: Retrieve the records for the class from the search engine, 
-	 * enUS: process them and write them into class files for each supported language. 
-	 * r.enUS: rechercheSolr
-	 * solrSearch
-	 * r.enUS: reponseRecherche
-	 * searchResponse
-	 * r.enUS: classeCheminAbsolu
-	 * classAbsolutePath
-	 * r.enUS: _indexe
-	 * _indexed
-	 * r.enUS: _stocke
-	 * _stored
-	 * r.enUS: partNumero
-	 * partNumber
-	 */    
-	protected void ecrireClasseGen(String classeCheminAbsolu, String nomLangue) throws Exception { 
-
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1000000);
-		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexe_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
-		rechercheSolr.addSort("partNumero_indexe_int", ORDER.asc);
-
-		QueryResponse reponseRecherche = clientSolr.query(rechercheSolr);
-		ecrireClasseGen(reponseRecherche, nomLangue);
 	}
 
-	/**
-	 * methodeVar_enUS: writeClassGen
-	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
-	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
-	 * enUS: Retrieve the records for the class from the search engine, 
-	 * enUS: process them and write them into class files for each supported language. 
-	 * r.enUS: rechercheSolr
-	 * solrSearch
-	 * r.enUS: reponseRecherche
-	 * searchResponse
-	 * r.enUS: classeCheminAbsolu
-	 * classAbsolutePath
-	 * r.enUS: _indexe
-	 * _indexed
-	 * r.enUS: _stocke
-	 * _stored
-	 * r.enUS: partNumero
-	 * partNumber
-	 */    
-	protected void ecrireClasseGen(QueryResponse reponseRecherche, String nomLangue) throws Exception { 
+	protected void ecrireClasseGen() { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
 		if(langueIndexe || !StringUtils.equals(nomLangue, this.nomLangue)) {    
@@ -294,5 +192,6 @@ public class EcrireClasse extends IndexerClasse {
 			s.append("}\n");
 			FileUtils.write(classeFichier, s, Charset.forName("UTF-8"));  
 		} 
-	}  
+	}
+
 }
