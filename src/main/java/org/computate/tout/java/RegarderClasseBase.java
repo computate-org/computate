@@ -99,6 +99,15 @@ public class RegarderClasseBase {
 		nomLangue = config.getString(nomAppli + ".nomLangue");
 	} 
 
+	/**	Le nom de la nomLangue. **/
+	protected String nomLangueActuel;
+	protected void _nomLangueActuel() throws Exception {
+		if(StringUtils.equals(nomLangue, "tout"))
+			nomLangueActuel = "frFR";
+		else
+			nomLangueActuel = nomLangue;
+	} 
+
 	protected String[] toutesLangues;
 	protected void _toutesLangues() throws Exception {
 		toutesLangues = config.getStringArray(nomAppli + ".toutesLangues");
@@ -112,6 +121,18 @@ public class RegarderClasseBase {
 	protected Boolean langueIndexe;
 	protected void _langueIndexe() throws Exception {
 		langueIndexe = ArrayUtils.contains(toutesLangues, nomLangue);
+	}
+
+	protected String nomDomaine;
+	protected void _nomDomaine() throws Exception {
+		nomDomaine = config.getString(nomAppli + ".nomDomaine");
+	}
+	
+	protected String nomEnsembleDomaine;
+	protected void _nomEnsembleDomaine() throws Exception {
+		String[] partis = StringUtils.split(nomDomaine, ".");
+		ArrayUtils.reverse(partis);
+		nomEnsembleDomaine = StringUtils.join(partis, ".");
 	}
 
 	/**	 **/
@@ -239,9 +260,12 @@ public class RegarderClasseBase {
 		_config();
 		_nomAppli();
 		_nomLangue();
+		_nomLangueActuel();
 		_toutesLangues();
 		_autresLangues();
 		_langueIndexe();
+		_nomDomaine();
+		_nomEnsembleDomaine();
 		_nomFicherConfig();
 		_cheminConfig();
 		_versionMaven();

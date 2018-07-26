@@ -1,10 +1,8 @@
 package org.computate.tout.java;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
+public class RegarderClasseGenGen extends null {
 
-public class RegarderClasse extends EcrireClasse {
-
-	public static void main(String[] args) throws Exception {   
+	public static void main() {   
 		RegarderClasse ecrireClasse = new RegarderClasse();
 		try {
 			ecrireClasse.args = args;
@@ -31,4 +29,5 @@ public class RegarderClasse extends EcrireClasse {
 			ecrireClasse.ecrireClasseGen(ecrireClasse.classeCheminAbsolu, ecrireClasse.nomLangue);
 		}
 	}
+
 }

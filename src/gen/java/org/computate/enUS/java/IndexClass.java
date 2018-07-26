@@ -1,6 +1,6 @@
-package org.computate.tout.java;
+package org.computate.enUS.java;
 
-public class IndexerClasseGen extends RegarderClasseBase {
+public class IndexClassGen extends RegarderClasseBase {
 
 	public void peuplerClassesSuperQdoxInterfacesEtMoi() { 
 		if(c != null) {

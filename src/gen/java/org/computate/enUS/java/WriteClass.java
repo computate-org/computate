@@ -1,6 +1,6 @@
 package org.computate.enUS.java;
 
-public class WriteClassGenGen extends null {
+public class WriteClassGen extends IndexClass {
 
 	protected void writeClass() { 
 		SolrDocumentList searchList = searchResponse.getResults();
@@ -15,8 +15,9 @@ public class WriteClassGenGen extends null {
 			String classeNomSimple = null;
 			String classeNomSimpleSuper = null;    
 			String classeNomEnsemble = null;
+			List<String> classeImportations = null;  
 	
-			for(int i = 0; i < searchList.size(); i++) {
+			for(int i = 0; i < searchList.size(); i++) { 
 				SolrDocument doc = searchList.get(i); 
 				Integer partNumber = (Integer)doc.get("partNumber_stored_int");
 				if(partNumber.equals(1)) {
@@ -28,9 +29,17 @@ public class WriteClassGenGen extends null {
 					classeNomSimple = (String)doc.get("classeNomSimple_" + nomLangue + "_stored_string");
 					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + nomLangue + "_stored_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + nomLangue + "_stored_string");
+					classeImportations = (List<String>)doc.get("classeImportations_" + nomLangue + "_stored_strings");
 		
 					s.append("package ").append(classeNomEnsemble).append(";\n\n");
-					s.append("public class ").append(classeNomSimple).append(" extends ").append(classeNomSimpleSuper);
+					if(classeImportations.size() > 0) {
+						for(String classeImportation : classeImportations) {
+							s.append("import ").append(classeImportation).append(";\n");
+						} 
+						s.append("\n");
+					}
+					s.append("public class ").append(classeNomSimple);
+					s.append(" extends ").append(classeNomSimpleSuper);
 					s.append(" {\n");
 					s.append("\n"); 
 				} 
@@ -114,7 +123,6 @@ public class WriteClassGenGen extends null {
 			String classeNomEnsemble = null;      
 	
 			for(int i = 0; i < listeRecherche.size(); i++) {
-				System.out.println("ecrireClasseGen: " + langueIndexe + " " + nomLangue);
 				SolrDocument doc = listeRecherche.get(i); 
 				Integer partNumber = (Integer)doc.get("partNumber_stored_int");
 				if(partNumber.equals(1)) {

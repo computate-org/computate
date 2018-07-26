@@ -1,6 +1,6 @@
 package org.computate.tout.java;
 
-public class EcrireClasseGenGen extends null {
+public class EcrireClasseGen extends IndexerClasse {
 
 	protected void ecrireClasse() { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
@@ -15,8 +15,9 @@ public class EcrireClasseGenGen extends null {
 			String classeNomSimple = null;
 			String classeNomSimpleSuper = null;    
 			String classeNomEnsemble = null;
+			List<String> classeImportations = null;  
 	
-			for(int i = 0; i < listeRecherche.size(); i++) {
+			for(int i = 0; i < listeRecherche.size(); i++) { 
 				SolrDocument doc = listeRecherche.get(i); 
 				Integer partNumero = (Integer)doc.get("partNumero_stocke_int");
 				if(partNumero.equals(1)) {
@@ -28,9 +29,17 @@ public class EcrireClasseGenGen extends null {
 					classeNomSimple = (String)doc.get("classeNomSimple_" + nomLangue + "_stocke_string");
 					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + nomLangue + "_stocke_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + nomLangue + "_stocke_string");
+					classeImportations = (List<String>)doc.get("classeImportations_" + nomLangue + "_stocke_strings");
 		
 					s.append("package ").append(classeNomEnsemble).append(";\n\n");
-					s.append("public class ").append(classeNomSimple).append(" extends ").append(classeNomSimpleSuper);
+					if(classeImportations.size() > 0) {
+						for(String classeImportation : classeImportations) {
+							s.append("import ").append(classeImportation).append(";\n");
+						} 
+						s.append("\n");
+					}
+					s.append("public class ").append(classeNomSimple);
+					s.append(" extends ").append(classeNomSimpleSuper);
 					s.append(" {\n");
 					s.append("\n"); 
 				} 
@@ -114,7 +123,6 @@ public class EcrireClasseGenGen extends null {
 			String classeNomEnsemble = null;      
 	
 			for(int i = 0; i < listeRecherche.size(); i++) {
-				System.out.println("ecrireClasseGen: " + langueIndexe + " " + nomLangue);
 				SolrDocument doc = listeRecherche.get(i); 
 				Integer partNumero = (Integer)doc.get("partNumero_stocke_int");
 				if(partNumero.equals(1)) {

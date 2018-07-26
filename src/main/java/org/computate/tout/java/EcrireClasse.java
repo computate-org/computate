@@ -2,6 +2,7 @@ package org.computate.tout.java;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -22,7 +23,6 @@ public class EcrireClasse extends IndexerClasse {
 	 * methodeVar_enUS: writeClass
 	 */
 	protected void ecrireClasse(String classeCheminAbsolu, String nomLangue) throws Exception { 
-		System.out.println("ecrireClasse: " + classeCheminAbsolu + " " + nomLangue); 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
 		rechercheSolr.setRows(1000000);
@@ -31,7 +31,7 @@ public class EcrireClasse extends IndexerClasse {
 
 		QueryResponse reponseRecherche = clientSolr.query(rechercheSolr);
 		ecrireClasse(reponseRecherche, nomLangue);
-	}
+	}        
 
 	/**
 	 * methodeVar_enUS: writeClass
@@ -53,7 +53,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * _stored
 	 * r.enUS: partNumero
 	 * partNumber
-	 */  
+	 */    
 	protected void ecrireClasse(QueryResponse reponseRecherche, String nomLangue) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
@@ -67,8 +67,9 @@ public class EcrireClasse extends IndexerClasse {
 			String classeNomSimple = null;
 			String classeNomSimpleSuper = null;    
 			String classeNomEnsemble = null;
+			List<String> classeImportations = null;  
 	
-			for(int i = 0; i < listeRecherche.size(); i++) {
+			for(int i = 0; i < listeRecherche.size(); i++) { 
 				SolrDocument doc = listeRecherche.get(i); 
 				Integer partNumero = (Integer)doc.get("partNumero_stocke_int");
 				if(partNumero.equals(1)) {
@@ -80,9 +81,17 @@ public class EcrireClasse extends IndexerClasse {
 					classeNomSimple = (String)doc.get("classeNomSimple_" + nomLangue + "_stocke_string");
 					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + nomLangue + "_stocke_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + nomLangue + "_stocke_string");
+					classeImportations = (List<String>)doc.get("classeImportations_" + nomLangue + "_stocke_strings");
 		
 					s.append("package ").append(classeNomEnsemble).append(";\n\n");
-					s.append("public class ").append(classeNomSimple).append(" extends ").append(classeNomSimpleSuper);
+					if(classeImportations.size() > 0) {
+						for(String classeImportation : classeImportations) {
+							s.append("import ").append(classeImportation).append(";\n");
+						} 
+						s.append("\n");
+					}
+					s.append("public class ").append(classeNomSimple);
+					s.append(" extends ").append(classeNomSimpleSuper);
 					s.append(" {\n");
 					s.append("\n"); 
 				} 
@@ -200,7 +209,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * _stored
 	 * r.enUS: partNumero
 	 * partNumber
-	 */    
+	 */       
 	protected void ecrireClasseGen(QueryResponse reponseRecherche, String nomLangue) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
@@ -216,7 +225,6 @@ public class EcrireClasse extends IndexerClasse {
 			String classeNomEnsemble = null;      
 	
 			for(int i = 0; i < listeRecherche.size(); i++) {
-				System.out.println("ecrireClasseGen: " + langueIndexe + " " + nomLangue);
 				SolrDocument doc = listeRecherche.get(i); 
 				Integer partNumero = (Integer)doc.get("partNumero_stocke_int");
 				if(partNumero.equals(1)) {
