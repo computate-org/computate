@@ -100,23 +100,33 @@ public class RegarderRepertoire {
 	protected String cheminConfiguration;
 	protected File fichierConfiguration;
 	protected INIConfiguration configuration;
+	protected String appliNom;
+	protected String appliChemin;
+	protected String appliComputateChemin;
 
 	public static void main(String[] args) throws Exception { 
-		String classeCheminRepertoireAppli = args[0];
+//		String appliNom = args[0];
+//		String appliChemin = args[1];
+		String appliNom = System.getenv("appliNom");
+		String appliChemin = System.getenv("appliChemin");
+		String appliComputateChemin = System.getenv("appliComputateChemin");
 		RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
-		regarderRepertoire.classeCheminRepertoireAppli = classeCheminRepertoireAppli;
+		regarderRepertoire.appliNom = appliNom;
+		regarderRepertoire.appliChemin = appliChemin;
+		regarderRepertoire.appliComputateChemin = appliComputateChemin;
+		regarderRepertoire.classeCheminRepertoireAppli = appliChemin;
 
-		regarderRepertoire.cheminSrcMainJava = classeCheminRepertoireAppli + "/src/main/java";
-		regarderRepertoire.cheminSrcGenJava = classeCheminRepertoireAppli + "/src/gen/java";
+		regarderRepertoire.cheminSrcMainJava = appliChemin + "/src/main/java";
+		regarderRepertoire.cheminSrcGenJava = appliChemin + "/src/gen/java";
+//
+//		regarderRepertoire.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib");
+//		regarderRepertoire.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib-tomcat");
+//		regarderRepertoire.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib-keycloak");
 
-		regarderRepertoire.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib");
-		regarderRepertoire.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib-tomcat");
-		regarderRepertoire.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib-keycloak");
+//		regarderRepertoire.cheminsBin.add(classeCheminRepertoireAppli + "/bin");
+		regarderRepertoire.cheminsBin.add(appliChemin + "/src/main/resources");
 
-		regarderRepertoire.cheminsBin.add(classeCheminRepertoireAppli + "/bin");
-		regarderRepertoire.cheminsBin.add(classeCheminRepertoireAppli + "/src/main/resources");
-
-		regarderRepertoire.cheminConfiguration = classeCheminRepertoireAppli + "/config/computate.config";
+		regarderRepertoire.cheminConfiguration = appliChemin + "/config/" + appliNom + ".config";
 		regarderRepertoire.fichierConfiguration = new File(regarderRepertoire.cheminConfiguration);
 		Configurations configurations = new Configurations();
 		regarderRepertoire.configuration = configurations.ini(regarderRepertoire.fichierConfiguration);
@@ -218,6 +228,9 @@ public class RegarderRepertoire {
 				try { 
 					String classeCheminAbsolu = enfant.toAbsolutePath().toString();  
 					CommandLine ligneCommande = CommandLine.parse("mvn exec:java -Dexec.mainClass=" + RegarderClasse.class.getCanonicalName() + " -Dexec.args=\"" + classeCheminRepertoireAppli + " " + classeCheminAbsolu + "\"");
+					File repertoireTravail = new File(appliComputateChemin);
+
+					executeur.setWorkingDirectory(repertoireTravail);
 					executeur.execute(ligneCommande); 
 
 //					bricoleur = null;

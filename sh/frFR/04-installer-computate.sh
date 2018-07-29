@@ -5,7 +5,7 @@ source "$(dirname $0)/00-functions.sh"
 # computate #
 #############
 
-computate "mvn install"
+computate "cd $appliChemin && mvn install"
 
 computate "echo '
 [Unit]
@@ -16,14 +16,16 @@ After=network.target
 Type=simple
 User=$USER
 Group=$USER
-WorkingDirectory=$cheminAppli
-ExecStart=$cheminAppli/sh/$nomLangue/regarder.sh
-Restart=on-failure
+WorkingDirectory=$appliChemin
+Environment=appliNom=$appliNom
+Environment=appliChemin=$appliChemin
+Environment=appliComputateChemin=$appliComputateChemin
+ExecStart=$appliComputateChemin/sh/$langueNom/regarder.sh
 
 [Install]
 WantedBy=multi-user.target
-' | sudo tee /usr/lib/systemd/system/regarder-computate.service"
+' | sudo tee /usr/lib/systemd/system/regarder-$appliNom.service"
 computate "sudo systemctl daemon-reload"
-computate "sudo systemctl restart regarder-computate.service"
-computate "systemctl status regarder-computate.service --no-pager"
-computate "sudo systemctl enable regarder-computate.service"
+computate "sudo systemctl restart regarder-$appliNom.service"
+computate "systemctl status regarder-$appliNom.service --no-pager"
+computate "sudo systemctl enable regarder-$appliNom.service"

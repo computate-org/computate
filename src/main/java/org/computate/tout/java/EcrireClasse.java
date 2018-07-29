@@ -22,16 +22,16 @@ public class EcrireClasse extends IndexerClasse {
 	/**
 	 * methodeVar_enUS: writeClass
 	 */
-	protected void ecrireClasse(String classeCheminAbsolu, String nomLangue) throws Exception { 
+	protected void ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
 		rechercheSolr.setRows(1000000);
 		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexe_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
 		rechercheSolr.addSort("partNumero_indexe_int", ORDER.asc);
 
-		QueryResponse reponseRecherche = clientSolr.query(rechercheSolr);
-		ecrireClasse(reponseRecherche, nomLangue);
-	}        
+		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+		ecrireClasse(reponseRecherche, langueNom);
+	}       
 
 	/**
 	 * methodeVar_enUS: writeClass
@@ -53,9 +53,9 @@ public class EcrireClasse extends IndexerClasse {
 	 * _stored
 	 * r.enUS: partNumero
 	 * partNumber
-	 */    
-	protected void ecrireClasse(QueryResponse reponseRecherche, String nomLangue) throws Exception { 
-		SolrDocumentList listeRecherche = reponseRecherche.getResults();
+	 */  
+	protected void ecrireClasse(QueryResponse reponseRecherche, String langueNom) throws Exception { 
+		SolrDocumentList listeRecherche = reponseRecherche.getResults(); 
 
 		if(listeRecherche.size() > 0) {
 			String classeCheminRepertoire = null;
@@ -73,15 +73,15 @@ public class EcrireClasse extends IndexerClasse {
 				SolrDocument doc = listeRecherche.get(i); 
 				Integer partNumero = (Integer)doc.get("partNumero_stocke_int");
 				if(partNumero.equals(1)) {
-					classeCheminRepertoire = (String)doc.get("classeCheminRepertoire_" + nomLangue + "_stocke_string");
-					classeChemin = (String)doc.get("classeChemin_" + nomLangue + "_stocke_string"); 
+					classeCheminRepertoire = (String)doc.get("classeCheminRepertoire_" + langueNom + "_stocke_string");
+					classeChemin = (String)doc.get("classeChemin_" + langueNom + "_stocke_string"); 
 					classeRepertoire = new File(classeCheminRepertoire);
 					classeRepertoire.mkdirs();
 					classeFichier = new File(classeChemin);
-					classeNomSimple = (String)doc.get("classeNomSimple_" + nomLangue + "_stocke_string");
-					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + nomLangue + "_stocke_string");
-					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + nomLangue + "_stocke_string");
-					classeImportations = (List<String>)doc.get("classeImportations_" + nomLangue + "_stocke_strings");
+					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stocke_string");
+					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stocke_string");
+					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stocke_string");
+					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stocke_strings");
 		
 					s.append("package ").append(classeNomEnsemble).append(";\n\n");
 					if(classeImportations.size() > 0) {
@@ -100,7 +100,7 @@ public class EcrireClasse extends IndexerClasse {
 					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stocke_boolean");
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stocke_boolean");
 					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stocke_boolean");
-					String champVar = (String)doc.get("champVar_" + nomLangue + "_stocke_string");
+					String champVar = (String)doc.get("champVar_" + langueNom + "_stocke_string");
 	
 					if(BooleanUtils.isTrue(partEstChamp)) {
 						s.append("\t");
@@ -122,8 +122,8 @@ public class EcrireClasse extends IndexerClasse {
 					}     
 	
 					if(BooleanUtils.isTrue(partEstMethode)) {
-						String methodeVar = (String)doc.get("methodeVar_" + nomLangue + "_stocke_string");
-						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + nomLangue + "_stocke_string");
+						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stocke_string");
+						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stocke_string");
 						s.append("\t");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stocke_boolean")))
 							s.append("public ");
@@ -179,19 +179,20 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: partNumero
 	 * partNumber
 	 */    
-	protected void ecrireClasseGen(String classeCheminAbsolu, String nomLangue) throws Exception { 
+	protected void ecrireClasseGen(String classeCheminAbsolu, String langueNom) throws Exception { 
 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
 		rechercheSolr.setRows(1000000);
 		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexe_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
+		rechercheSolr.addFilterQuery("classeEtendGen_indexe_boolean:true");
 		rechercheSolr.addSort("partNumero_indexe_int", ORDER.asc);
 
-		QueryResponse reponseRecherche = clientSolr.query(rechercheSolr);
-		ecrireClasseGen(reponseRecherche, nomLangue);
+		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+		ecrireClasseGen(reponseRecherche, langueNom);
 	}
 
-	/**
+	/**  
 	 * methodeVar_enUS: writeClassGen
 	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
 	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
@@ -210,10 +211,10 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: partNumero
 	 * partNumber
 	 */       
-	protected void ecrireClasseGen(QueryResponse reponseRecherche, String nomLangue) throws Exception { 
+	protected void ecrireClasseGen(QueryResponse reponseRecherche, String langueNom) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
-		if(langueIndexe || !StringUtils.equals(nomLangue, this.nomLangue)) {    
+		if(listeRecherche.size() > 0 && (langueIndexe || !StringUtils.equals(langueNom, this.langueNom))) {    
 			String classeCheminRepertoireGen = null;
 			String classeCheminGen = null; 
 			File classeRepertoire = null;
@@ -228,14 +229,14 @@ public class EcrireClasse extends IndexerClasse {
 				SolrDocument doc = listeRecherche.get(i); 
 				Integer partNumero = (Integer)doc.get("partNumero_stocke_int");
 				if(partNumero.equals(1)) {
-					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + nomLangue + "_stocke_string");
-					classeCheminGen = (String)doc.get("classeCheminGen_" + nomLangue + "_stocke_string"); 
+					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stocke_string");
+					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stocke_string"); 
 					classeRepertoire = new File(classeCheminRepertoireGen);
 					classeRepertoire.mkdirs();
 					classeFichier = new File(classeCheminGen);
-					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + nomLangue + "_stocke_string");
-					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + nomLangue + "_stocke_string");
-					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + nomLangue + "_stocke_string");
+					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stocke_string");
+					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stocke_string");
+					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stocke_string");
 		
 					s.append("package ").append(classeNomEnsemble).append(";\n\n");
 					s.append("public class ").append(classeNomSimpleGen).append(" extends ").append(classeNomSimpleSuper);
@@ -247,7 +248,7 @@ public class EcrireClasse extends IndexerClasse {
 					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stocke_boolean");
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stocke_boolean");
 					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stocke_boolean");
-					String champVar = (String)doc.get("champVar_" + nomLangue + "_stocke_string");
+					String champVar = (String)doc.get("champVar_" + langueNom + "_stocke_string");
 	
 					if(BooleanUtils.isTrue(partEstChamp)) {
 						s.append("\t");
@@ -269,8 +270,8 @@ public class EcrireClasse extends IndexerClasse {
 					}     
 	
 					if(BooleanUtils.isTrue(partEstMethode)) {
-						String methodeVar = (String)doc.get("methodeVar_" + nomLangue + "_stocke_string");
-						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + nomLangue + "_stocke_string");
+						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stocke_string");
+						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stocke_string");
 						s.append("\t");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stocke_boolean")))
 							s.append("public ");

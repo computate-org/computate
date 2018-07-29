@@ -14,6 +14,12 @@
 				</includes>
 			</resource>
 			<resource>
+				<directory>src/gen/java</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+			<resource>
 				<directory>src/ext/java</directory>
 				<excludes>
 					<exclude>**/*.java</exclude>

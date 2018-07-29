@@ -15,20 +15,20 @@ public class RegarderClasse extends EcrireClasse {
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
 		System.out.println("cheminAbsolu : " + ecrireClasse.classeCheminAbsolu);
-		System.out.println("nomLangue : " + ecrireClasse.nomLangue);
+		System.out.println("langueNom : " + ecrireClasse.langueNom);
 
 		ecrireClasse.indexerClasse(ecrireClasse.classeCheminAbsolu);
-		if("tout".equals(ecrireClasse.nomLangue)) {
-			ecrireClasse.ecrireClasseGen(ecrireClasse.classeCheminAbsolu, ecrireClasse.nomLangue);
-			for(String nomLangue : ecrireClasse.toutesLangues) {
-				ecrireClasse.ecrireClasseGen(ecrireClasse.classeCheminAbsolu, nomLangue);
+		if("tout".equals(ecrireClasse.langueNom)) {
+			ecrireClasse.ecrireClasseGen(ecrireClasse.classeCheminAbsolu, ecrireClasse.langueNom);
+			for(String langueNom : ecrireClasse.toutesLangues) {
+				ecrireClasse.ecrireClasseGen(ecrireClasse.classeCheminAbsolu, langueNom);
 			}
-			for(String nomLangue : ecrireClasse.autresLangues) {
-				ecrireClasse.ecrireClasse(ecrireClasse.classeCheminAbsolu, nomLangue);
+			for(String langueNom : ecrireClasse.autresLangues) {
+				ecrireClasse.ecrireClasse(ecrireClasse.classeCheminAbsolu, langueNom);
 			}
 		}
 		else {
-			ecrireClasse.ecrireClasseGen(ecrireClasse.classeCheminAbsolu, ecrireClasse.nomLangue);
+			ecrireClasse.ecrireClasseGen(ecrireClasse.classeCheminAbsolu, ecrireClasse.langueNom);
 		}
 	}
 }
