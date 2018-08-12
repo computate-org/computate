@@ -29,10 +29,10 @@ public class RegarderClasseBase extends ConfigSite {
 		classeCheminAbsolu = args[1];
 	}
 	
-	protected HashMap<String, String> appliChemins;
+	protected HashMap<String, String> appliChemins = new HashMap<String, String>(); 
 	protected void _appliChemins() throws Exception {
 		for(String langueNom : autresLangues) {  
-			String appliCheminLangue = config.getString(appliNom + ".appliChemin_" + langueNom);
+			String appliCheminLangue = config.getString(appliNom + ".appliChemin_" + langueNom); 
 			if(StringUtils.isEmpty(appliCheminLangue)) {
 				appliChemins.put(langueNom, appliCheminLangue);
 			}

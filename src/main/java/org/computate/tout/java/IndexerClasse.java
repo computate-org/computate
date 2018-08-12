@@ -19,6 +19,7 @@ import com.thoughtworks.qdox.model.JavaConstructor;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMember;
 import com.thoughtworks.qdox.model.JavaMethod;
+import com.thoughtworks.qdox.model.JavaParameter;
 
 /**
  * classeNomCanonique_enUS: org.computate.enUS.java.IndexClass
@@ -498,6 +499,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					String methodeNomCanoniqueRetourComplet = null;
 					String methodeNomCanoniqueRetour = null;
 					JavaClass classeQdoxRetour = methodeQdox.getReturns();
+					List<JavaParameter> methodeParamsQdox = methodeQdox.getParameters();
 		
 					///////////////////////
 					// Methode Annotations //
@@ -519,12 +521,12 @@ public class IndexerClasse extends RegarderClasseBase {
 					}
 	
 					if(!methodeEstSubstitue && !methodeQdox.isStatic() && !methodeQdox.isFinal() && methodeQdox.getDeclaringClass().equals(classeQdoxClasse) 
-							&& methodeQdox.isProtected() && methodeQdox.getParameters().size() == 1 && classeQdoxRetour.isVoid()
+							&& methodeQdox.isProtected() && methodeParamsQdox.size() == 1 && classeQdoxRetour.isVoid()
 							&& StringUtils.startsWith(methodeQdox.getName(), "_")) {
 						// est Entite. 
 						SolrInputDocument entiteDoc = docClasseClone.deepCopy();
 						String entiteVar = indexerStocker(entiteDoc, "entiteVar", langueNom, StringUtils.substringAfter(methodeQdox.getName(), "_"));
-						JavaClass entiteClasseQdox = methodeQdox.getParameters().get(0).getJavaClass();
+						JavaClass entiteClasseQdox = methodeParamsQdox.get(0).getJavaClass();
 						boolean entiteCouverture = false;
 						String entiteNomCanonique = indexerStocker(entiteDoc, "entiteNomCanonique", langueNom, entiteClasseQdox.getCanonicalName());
 
@@ -835,7 +837,15 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						methodeEstVide = indexerStocker(methodeDoc, "methodeEstVide", methodeEstVide);
 	
-						String methodeCle = classeChemin + "." + methodeVar;
+						String methodeCle = classeChemin + "." + methodeVar + "(";
+
+						for(int i = 0; i < methodeParamsQdox.size(); i++) {
+							JavaParameter paramQdox = methodeParamsQdox.get(i);
+							if(i > 0)
+								methodeCle += ", ";
+							methodeCle += paramQdox.getGenericCanonicalName() + " " + paramQdox.getName();
+						}
+						methodeCle += ")"; 
 		
 						// Methodes Solr du methode. 
 		
@@ -874,7 +884,7 @@ public class IndexerClasse extends RegarderClasseBase {
 //						methode.nomMethode.frFR(methodeQdox.getName());
 //						methode.nomMethode.enUS(StringUtils.isEmpty(varEnUS) ? methodeQdox.getName() : varEnUS);
 //		
-//						List<JavaParameter> parametresQdox = methodeQdox.getParameters();
+//						List<JavaParameter> parametresQdox = methodeParamsQdox;
 //
 //						regexCommentaires(methodeQdox.getComment(), methode.commentaire);
 //						regexRemplacerTout(methodeQdox.getComment(), methodeQdox.getSourceCode(), methode.codeSource);
@@ -991,7 +1001,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	//								methode.estSubstitue(true);
 	//							}
 	//						}
-	//						List<JavaParameter> parametresQdox = methodeQdox.getParameters();
+	//						List<JavaParameter> parametresQdox = methodeParamsQdox;
 	//		
 	//						if(!methode.estSubstitue && !methode.champEstStatique && !methode.champEstFinale && methodeQdox.getDeclaringClass().equals(classeQdox) 
 	//								&& methode.champEstProtege && parametresQdox.size() == 1 && classeQdoxRetour.isVoid()
