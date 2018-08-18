@@ -1,4 +1,4 @@
-package org.computate.frFR.java; 
+package org.computate.frFR.java;      
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -23,7 +23,7 @@ public class EcrireClasse extends IndexerClasse {
 
 	/**
 	 * methodeVar_enUS: writeClass
-	 */
+	 */ 
 	protected void ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
@@ -34,6 +34,21 @@ public class EcrireClasse extends IndexerClasse {
 		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
 		ecrireClasse(classeCheminAbsolu, langueNom, reponseRecherche);
 	}   
+
+	public void ecrireCommentaire(StringBuilder s, String commentaire, Integer tabulations) {
+		String tabulationsStr = StringUtils.repeat("\t", tabulations);
+		if(StringUtils.isNotEmpty(commentaire)) {
+			String[] partis = StringUtils.split(commentaire, "\n");
+			for(int j = 0; j < partis.length; j++) { 
+				String ligne = partis[j];
+				if(j == 0)
+					s.append(tabulationsStr).append("/**\t").append(ligne).append("\n");
+				else
+					s.append(tabulationsStr).append(" *\t").append(ligne).append("\n");
+			}   
+			s.append(tabulationsStr).append(" */\n");  
+		} 
+	}
 
 	/**
 	 * methodeVar_enUS: writeClass
@@ -90,30 +105,19 @@ public class EcrireClasse extends IndexerClasse {
 					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stocke_strings");
 		
 					s.append("package ").append(classeNomEnsemble).append(";\n\n");
-					if(classeImportations.size() > 0) {
+					if(classeImportations.size() > 0) { 
 						for(String classeImportation : classeImportations) {
 							s.append("import ").append(classeImportation).append(";\n");
 						} 
-						s.append("\n");
+						s.append("\n");  
 					}
-					if(StringUtils.isNotEmpty(classeCommentaire)) {
-						String[] partis = StringUtils.split(classeCommentaire, "\n");
-						int jDernier = partis.length - 1;
-						for(int j = 0; j < partis.length; j++) {
-							String ligne = partis[j];
-							if(j == 0)
-								s.append("/**\t").append(ligne).append("\n");
-							else
-								s.append(" *\t").append(ligne).append("\n");
-							s.append(" */\n");
-						}
-					}
+					ecrireCommentaire(s, classeCommentaire, 0); 
 					s.append("public class ").append(classeNomSimple);
 					s.append(" extends ").append(classeNomSimpleSuper);
 					s.append(" {\n");
 					s.append("\n"); 
 				} 
-				else {  
+				else { 
 					Boolean partEstChamp = (Boolean)doc.get("partEstChamp_stocke_boolean");
 					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stocke_boolean");
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stocke_boolean");
@@ -121,6 +125,9 @@ public class EcrireClasse extends IndexerClasse {
 					String champVar = (String)doc.get("champVar_" + langueNom + "_stocke_string");
 	
 					if(BooleanUtils.isTrue(partEstChamp)) {
+						String champCommentaire = (String)doc.get("champCommentaire_" + langueNom + "_stocke_string");
+
+						ecrireCommentaire(s, champCommentaire, 1);
 						s.append("\t");
 						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stocke_boolean")))
 							s.append("public ");
@@ -142,6 +149,9 @@ public class EcrireClasse extends IndexerClasse {
 					if(BooleanUtils.isTrue(partEstMethode)) {
 						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stocke_string");
 						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stocke_string");
+						String methodeCommentaire = (String)doc.get("methodeCommentaire_" + langueNom + "_stocke_string");
+
+						ecrireCommentaire(s, methodeCommentaire, 1);
 						s.append("\t");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stocke_boolean")))
 							s.append("public ");

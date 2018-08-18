@@ -159,8 +159,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 	
 	protected Date indexerStocker(SolrInputDocument doc, String nomChamp, Date valeurChamp) throws Exception {
-		doc.addField(concat(nomChamp, "_stocke_boolean"), valeurChamp);
-		doc.addField(concat(nomChamp, "_indexe_boolean"), valeurChamp);
+		doc.addField(concat(nomChamp, "_stocke_date"), valeurChamp);
+		doc.addField(concat(nomChamp, "_indexe_date"), valeurChamp);
 		return valeurChamp;
 	}
 	
@@ -252,7 +252,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 				trouve = m.find();
 			}
-			if(b.length() > 0)
+			if(StringUtils.isNotEmpty(b))
 				indexerStocker(doc, varEntite, langueNom, b.toString());
 		}
 		return commentaire;
@@ -434,6 +434,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				indexerStocker(champDoc, "champEstFinale", langueNom, champQdox.isFinal()); 
 				indexerStocker(champDoc, "champEstAbstrait", langueNom, champQdox.isAbstract()); 
 				indexerStocker(champDoc, "champEstNatif", langueNom, champQdox.isNative()); 
+				regexCommentaires(champCommentaire, langueNom, champDoc, "champCommentaire");
 	
 				///////////////////////
 				// Champ Annotations //
@@ -479,6 +480,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						StringUtils.replace(champBlocCodeLangue, cle, valeur);
 					}
 					indexerStocker(champDoc, "champBlocCode", langueNom, champBlocCodeLangue); 
+					regexCommentaires(champCommentaire, langueNom, classeDoc, "champCommentaire");
 				}  
 
 				clientSolrComputate.add(champDoc); 
@@ -793,6 +795,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						stocker(entiteDoc, "entiteBlocCode", langueNom, entiteBlocCodeLangue); 
 
+						regexCommentaires(methodeCommentaire, langueNom, entiteDoc, "entiteCommentaire");
+
 						clientSolrComputate.add(entiteDoc); 
 						
 						
@@ -891,12 +895,12 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStocker(methodeDoc, "methodeEstNatif", methodeQdox.isNative());
 						indexerStocker(methodeDoc, "methodeEstTest", methodeEstTest);
 						indexerStocker(methodeDoc, "methodeEstSubstitue", methodeEstSubstitue);
+						regexCommentaires(methodeCommentaire, langueNom, methodeDoc, "methodeCommentaire");
 	
 						String methodeVarLangue = regex("var\\." + langueNom + ": (.*)", methodeCommentaire);
 						methodeVarLangue =  methodeVarLangue == null ? methodeVar : methodeVarLangue;
 	
 						List<String> methodeCommentairesLangue = regexListe("^" + langueNom + ":\\s*([^\n]+)", methodeCommentaire);
-						String methodeCommentaireLangue = stocker(methodeDoc, "methodeCommentaire", langueNom, StringUtils.join(methodeCommentairesLangue, "\n"));
 
 						String methodeCodeSource = methodeQdox.getSourceCode();
 						String methodeCodeSourceLangue = methodeCodeSource;
@@ -928,11 +932,11 @@ public class IndexerClasse extends RegarderClasseBase {
 							methodeVarLangue = indexerStocker(methodeDoc, "methodeVar", langueNom, methodeVarLangue == null ? methodeVar : methodeVarLangue);
 		
 							methodeCommentairesLangue = regexListe("^" + langueNom + ":\\s*([^\n]+)", methodeCommentaire);
-							methodeCommentaireLangue = stocker(methodeDoc, "methodeCommentaire", langueNom, StringUtils.join(methodeCommentairesLangue, "\n"));
 		
 							methodeCodeSourceLangue = regexRemplacerTout(methodeCommentaire, methodeCodeSource, langueNom);
 							stocker(methodeDoc, "methodeCodeSource", langueNom, methodeCodeSourceLangue);
-						}
+							regexCommentaires(methodeCommentaire, langueNom, methodeDoc, "methodeCommentaire");
+						} 
 	
 						clientSolrComputate.add(methodeDoc); 
 					}
@@ -1134,7 +1138,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		clientSolrComputate.add(classeDoc);
 		clientSolrComputate.commit();
-		clientSolrComputate.deleteByQuery(concat("classeChemin", "_", langueNom, "_indexe_string") + ":\"" + classeChemin + "\" AND modifiee_indexe_date:[* TO " + modifiee + "-1MILLI]");
+		String qSupprimer = concat("classeCheminAbsolu_indexe_string", ":\"", classeChemin, "\" AND (modifiee_indexe_date:[* TO ", modifiee.toString(), "-1MILLI] OR (*:* NOT modifiee_indexe_date:*))");
+		System.out.println("qSupprimer: " + qSupprimer);
+		clientSolrComputate.deleteByQuery(qSupprimer);
 		clientSolrComputate.commit(); 
 	}
 }
