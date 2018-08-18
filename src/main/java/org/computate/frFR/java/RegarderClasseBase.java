@@ -1,14 +1,17 @@
-package org.computate.tout.java;
+package org.computate.frFR.java;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
-import org.computate.tout.config.ConfigSite;
+import org.computate.frFR.chaine.Chaine;
+import org.computate.frFR.config.ConfigSite;
 
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -16,7 +19,10 @@ import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaType;
 
-public class RegarderClasseBase extends ConfigSite {     
+/**     
+ * classeNomCanonique_enUS: org.computate.enUS.java.WatchClassBase
+ */  
+public class RegarderClasseBase extends ConfigSite {    
 
 	protected String[] args;
 
@@ -33,11 +39,12 @@ public class RegarderClasseBase extends ConfigSite {
 	protected void _appliChemins() throws Exception {
 		for(String langueNom : autresLangues) {  
 			String appliCheminLangue = config.getString(appliNom + ".appliChemin_" + langueNom); 
+			System.out.println("appliCheminLangue " + langueNom + ": " + appliCheminLangue);
 			if(StringUtils.isEmpty(appliCheminLangue)) {
-				appliChemins.put(langueNom, appliCheminLangue);
+				appliChemins.put(langueNom, appliChemin);
 			}
 			else {
-				appliChemins.put(langueNom, appliChemin);
+				appliChemins.put(langueNom, appliCheminLangue);
 			}
 		}
 	}

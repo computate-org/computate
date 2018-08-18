@@ -1,4 +1,4 @@
-package org.computate.tout.java;
+package org.computate.frFR.java;
 
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;

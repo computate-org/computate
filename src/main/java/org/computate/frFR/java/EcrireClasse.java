@@ -1,4 +1,4 @@
-package org.computate.tout.java; 
+package org.computate.frFR.java; 
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -16,6 +16,8 @@ import org.apache.solr.common.SolrDocumentList;
 
 /**
  * classeNomCanonique_enUS: org.computate.enUS.java.WriteClass
+ * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
+ * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  */       
 public class EcrireClasse extends IndexerClasse { 
 
@@ -30,8 +32,8 @@ public class EcrireClasse extends IndexerClasse {
 		rechercheSolr.addSort("partNumero_indexe_int", ORDER.asc);
 
 		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		ecrireClasse(reponseRecherche, langueNom);
-	}       
+		ecrireClasse(classeCheminAbsolu, langueNom, reponseRecherche);
+	}   
 
 	/**
 	 * methodeVar_enUS: writeClass
@@ -54,7 +56,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: partNumero
 	 * partNumber
 	 */  
-	protected void ecrireClasse(QueryResponse reponseRecherche, String langueNom) throws Exception { 
+	protected void ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults(); 
 
 		if(listeRecherche.size() > 0) {
@@ -67,11 +69,14 @@ public class EcrireClasse extends IndexerClasse {
 			String classeNomSimple = null;
 			String classeNomSimpleSuper = null;    
 			String classeNomEnsemble = null;
+			String classeCommentaire = null;      
 			List<String> classeImportations = null;  
 	
 			for(int i = 0; i < listeRecherche.size(); i++) { 
 				SolrDocument doc = listeRecherche.get(i); 
 				Integer partNumero = (Integer)doc.get("partNumero_stocke_int");
+				if(partNumero == null)
+					partNumero = 2;
 				if(partNumero.equals(1)) {
 					classeCheminRepertoire = (String)doc.get("classeCheminRepertoire_" + langueNom + "_stocke_string");
 					classeChemin = (String)doc.get("classeChemin_" + langueNom + "_stocke_string"); 
@@ -81,6 +86,7 @@ public class EcrireClasse extends IndexerClasse {
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stocke_string");
 					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stocke_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stocke_string");
+					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stocke_string");
 					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stocke_strings");
 		
 					s.append("package ").append(classeNomEnsemble).append(";\n\n");
@@ -89,6 +95,18 @@ public class EcrireClasse extends IndexerClasse {
 							s.append("import ").append(classeImportation).append(";\n");
 						} 
 						s.append("\n");
+					}
+					if(StringUtils.isNotEmpty(classeCommentaire)) {
+						String[] partis = StringUtils.split(classeCommentaire, "\n");
+						int jDernier = partis.length - 1;
+						for(int j = 0; j < partis.length; j++) {
+							String ligne = partis[j];
+							if(j == 0)
+								s.append("/**\t").append(ligne).append("\n");
+							else
+								s.append(" *\t").append(ligne).append("\n");
+							s.append(" */\n");
+						}
 					}
 					s.append("public class ").append(classeNomSimple);
 					s.append(" extends ").append(classeNomSimpleSuper);
@@ -152,8 +170,11 @@ public class EcrireClasse extends IndexerClasse {
 					} 
 				}
 			}
-			s.append("}\n");
-			FileUtils.write(classeFichier, s, Charset.forName("UTF-8")); 
+			s.append("}\n"); 
+			if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeChemin)) {
+				System.out.println("Ecrire: " + classeChemin); 
+				FileUtils.write(classeFichier, s, Charset.forName("UTF-8")); 
+			}
 		}
 		else {
 			System.err.println("No file was found in the search engine. ");
@@ -210,7 +231,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * _stored
 	 * r.enUS: partNumero
 	 * partNumber
-	 */       
+	 */      
 	protected void ecrireClasseGen(QueryResponse reponseRecherche, String langueNom) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
@@ -303,5 +324,5 @@ public class EcrireClasse extends IndexerClasse {
 			s.append("}\n");
 			FileUtils.write(classeFichier, s, Charset.forName("UTF-8"));  
 		} 
-	}  
+	} 
 }

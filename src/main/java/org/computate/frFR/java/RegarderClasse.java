@@ -1,5 +1,6 @@
-package org.computate.tout.java;
+package org.computate.frFR.java;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class RegarderClasse extends EcrireClasse {

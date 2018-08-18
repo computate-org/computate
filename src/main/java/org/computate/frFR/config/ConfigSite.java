@@ -1,4 +1,4 @@
-package org.computate.tout.config;
+package org.computate.frFR.config;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,7 +14,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 
-public class ConfigSite { 
+/**
+ * enUS: Loads the properties in the application configuration file into specific fields. 
+ * frFR: Charge les propriétés dans le fichier de configuration de l'application dans des champs spécifiques. 
+ */
+public class ConfigSite {
 
 	/**	Le nom de l'lappli. **/
 	protected String appliNom;
