@@ -226,8 +226,10 @@ public class RegarderRepertoire {
 				Path enfant = répertoire.resolve(nom);
 
 				try { 
-					String classeCheminAbsolu = enfant.toAbsolutePath().toString();  
-					CommandLine ligneCommande = CommandLine.parse("mvn exec:java -Dexec.mainClass=" + RegarderClasse.class.getCanonicalName() + " -Dexec.args=\"" + classeCheminRepertoireAppli + " " + classeCheminAbsolu + "\"");
+					String classeCheminAbsolu = enfant.toAbsolutePath().toString();   
+//					CommandLine ligneCommande = CommandLine.parse("mvn exec:java -Dexec.mainClass=" + RegarderClasse.class.getCanonicalName() + " -Dexec.args=\"" + classeCheminRepertoireAppli + " " + classeCheminAbsolu + "\"");
+					String cp = FileUtils.readFileToString(new File(appliChemin + "/config/cp.txt"), "UTF-8");
+					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + appliChemin + "/target/classes\" " + RegarderClasse.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
 					File repertoireTravail = new File(appliComputateChemin);
 
 					executeur.setWorkingDirectory(repertoireTravail);

@@ -19,7 +19,7 @@ import com.thoughtworks.qdox.model.JavaType;
 /**     
  * classeNomCanonique_enUS: org.computate.enUS.java.WatchClassBase
  */  
-public class RegarderClasseBase extends ConfigSite {    
+public class RegarderClasseBase extends ConfigSite {     
 
 	protected String[] args;
 
@@ -50,6 +50,10 @@ public class RegarderClasseBase extends ConfigSite {
 	protected void _classeDocs() throws Exception {
 	}
 
+	protected HashMap<String, ClassePartis> classePartis = new HashMap<String, ClassePartis>();
+	protected void _classePartis() throws Exception {
+	}
+
 	protected JavaProjectBuilder bricoleur;
 	protected void _bricoleur() throws Exception {
 		bricoleur = new JavaProjectBuilder();
@@ -65,6 +69,7 @@ public class RegarderClasseBase extends ConfigSite {
 		_classeCheminAbsolu();
 		_appliChemins();
 		_classeDocs();
+		_classePartis();
 		_bricoleur();
 	}
 

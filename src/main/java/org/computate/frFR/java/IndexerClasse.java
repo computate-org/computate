@@ -26,7 +26,7 @@ import com.thoughtworks.qdox.model.JavaParameter;
 /** 
  * classeNomCanonique_enUS: org.computate.enUS.java.IndexClass
  */  
-public class IndexerClasse extends RegarderClasseBase {
+public class IndexerClasse extends RegarderClasseBase { 
 
 	public void peuplerClassesSuperQdoxInterfacesEtMoi (
 			JavaClass c
@@ -77,6 +77,11 @@ public class IndexerClasse extends RegarderClasseBase {
 		return valeurChamp;
 	}
 	
+	protected String stockerListe(SolrInputDocument doc, String nomChamp, String valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_stocke_strings"), valeurChamp);
+		return valeurChamp;
+	}
+	
 	protected String stocker(SolrInputDocument doc, String nomChamp, String langueNom, String valeurChamp) throws Exception {
 		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
 			doc.addField(concat(nomChamp, "_", langueNom, "_stocke_string"), valeurChamp);
@@ -102,6 +107,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	
 	protected Boolean indexer(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
 		doc.addField(concat(nomChamp, "_indexe_string"), valeurChamp);
+		return valeurChamp;
+	} 
+	
+	protected Boolean indexerListe(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_indexe_strings"), valeurChamp);
 		return valeurChamp;
 	} 
 	
@@ -178,6 +188,12 @@ public class IndexerClasse extends RegarderClasseBase {
 		return valeurChamp;
 	}
 	
+	protected String indexerStockerListe(SolrInputDocument doc, String nomChamp, String valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_stocke_strings"), valeurChamp);
+		doc.addField(concat(nomChamp, "_indexe_strings"), valeurChamp);
+		return valeurChamp;
+	}
+	
 	protected String indexerStocker(SolrInputDocument doc, String nomChamp, String langueNom, String valeurChamp) throws Exception {
 		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
 			doc.addField(concat(nomChamp, "_", langueNom, "_stocke_string"), valeurChamp);
@@ -238,7 +254,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	// autres //
 	////////////
 
-	public String regexCommentaires(String commentaire, String langueNom, SolrInputDocument doc, String varEntite) throws Exception {
+	public String stockerRegexCommentaires(String commentaire, String langueNom, SolrInputDocument doc, String varEntite) throws Exception {
 		if(!StringUtils.isEmpty(commentaire)) {
 			Matcher m = Pattern.compile("^(enUS|frFR): (.*)", Pattern.MULTILINE).matcher(commentaire);
 			boolean trouve = m.find();
@@ -253,10 +269,31 @@ public class IndexerClasse extends RegarderClasseBase {
 				trouve = m.find();
 			}
 			if(StringUtils.isNotEmpty(b))
-				indexerStocker(doc, varEntite, langueNom, b.toString());
+				stocker(doc, varEntite, langueNom, b.toString());
 		}
 		return commentaire;
 	}
+//
+//	public SolrDocument documentSolr(ClassePartis classePartis) throws Exception {
+//		SolrDocument documentSolr = classePartis.documentSolr(this);
+//		return documentSolr;
+//	}
+
+	public ClassePartis classePartis(JavaClass classeQdox) throws Exception {
+		String nomCanonique = classeQdox.getCanonicalName();
+		ClassePartis resultat = classePartis.get(nomCanonique);
+		if(resultat == null) {
+			resultat = new ClassePartis().initClassePartis(classeQdox);
+			SolrDocument documentSolr = resultat.documentSolr(this);
+			classePartis.put(nomCanonique, resultat);
+		}
+		return resultat;
+	}
+
+	public ClassePartis classePartis(ClassePartis classePartis, String langueNom) throws Exception {
+		ClassePartis resultat = ClassePartis.initClassePartis(classePartis, langueNom);
+		return resultat;
+	} 
 
 	protected void indexerClasse(String classeCheminAbsolu) throws Exception { 
 		SolrInputDocument classeDoc = new SolrInputDocument();
@@ -295,7 +332,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 		
 		
-		String commentaire = regexCommentaires(classeQdoxClasse.getComment(), langueNom, classeDoc, "classeCommentaire");
+		String commentaire = stockerRegexCommentaires(classeQdoxClasse.getComment(), langueNom, classeDoc, "classeCommentaire");
 		String classeNomEnsemble = StringUtils.substringBeforeLast(classeNomCanonique, ".");
 		String classeChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), ".java");
 		String classeCheminRepertoire = StringUtils.substringBeforeLast(classeChemin, "/");
@@ -343,9 +380,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		}  
 		for(String langueNom : autresLangues) { 
 			String appliCheminLangue = appliChemins.get(langueNom);
-			System.out.println("appliChemins: " + appliChemins);
-			System.out.println("appliCheminLangue " + langueNom + ": " + appliCheminLangue);
-			regexCommentaires(commentaire, langueNom, classeDoc, "classeCommentaire");
+			stockerRegexCommentaires(commentaire, langueNom, classeDoc, "classeCommentaire");
 			String cheminSrcMainJavaLangue = appliCheminLangue + "/src/main/java";
 			String classeNomCanoniqueLangue = regex("^classeNomCanonique\\_" + langueNom + ":\\s*(.*)", commentaire, classeNomCanonique);
 			String classeNomSimpleLangue = StringUtils.substringAfterLast(classeNomCanoniqueLangue, ".");
@@ -420,6 +455,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				champNomCanoniqueGenerique = champNomCanoniqueGenerique.contains("<") ? StringUtils.substringBefore(champNomCanoniqueGenerique, "<") : champNomCanoniqueGenerique;
 				champNomCanoniqueGenerique = champNomCanoniqueGenerique.contains(",") ? StringUtils.substringBefore(champNomCanoniqueGenerique, ",") : champNomCanoniqueGenerique;
 				String champCle = classeCheminAbsolu + "." + champVar;
+				String champCodeSource = champQdox.getCodeBlock();
 
 				// Champs Solr du champ. 
 
@@ -427,14 +463,13 @@ public class IndexerClasse extends RegarderClasseBase {
 				indexerStocker(champDoc, "champVar", langueNom, champVar); 
 				indexerStocker(champDoc, "partEstChamp", true);
 				indexerStocker(champDoc, "partNumero", partNumero);
-				indexerStocker(champDoc, "champEstPublic", langueNom, champQdox.isPublic()); 
-				indexerStocker(champDoc, "champEstProtege", langueNom, champQdox.isProtected()); 
-				indexerStocker(champDoc, "champEstPrive", langueNom, champQdox.isPrivate()); 
-				indexerStocker(champDoc, "champEstStatique", langueNom, champQdox.isStatic()); 
-				indexerStocker(champDoc, "champEstFinale", langueNom, champQdox.isFinal()); 
-				indexerStocker(champDoc, "champEstAbstrait", langueNom, champQdox.isAbstract()); 
-				indexerStocker(champDoc, "champEstNatif", langueNom, champQdox.isNative()); 
-				regexCommentaires(champCommentaire, langueNom, champDoc, "champCommentaire");
+				indexerStocker(champDoc, "champEstPublic", champQdox.isPublic()); 
+				indexerStocker(champDoc, "champEstProtege", champQdox.isProtected()); 
+				indexerStocker(champDoc, "champEstPrive", champQdox.isPrivate()); 
+				indexerStocker(champDoc, "champEstStatique", champQdox.isStatic()); 
+				indexerStocker(champDoc, "champEstFinale", champQdox.isFinal()); 
+				indexerStocker(champDoc, "champEstAbstrait", champQdox.isAbstract()); 
+				indexerStocker(champDoc, "champEstNatif", champQdox.isNative()); 
 	
 				///////////////////////
 				// Champ Annotations //
@@ -456,31 +491,25 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 				indexerStocker(champDoc, "champEstTest", langueNom, champEstTest); 
 				indexerStocker(champDoc, "champEstSubstitue", langueNom, champEstSubstitue); 
+
+				ClassePartis champClassePartis = classePartis(champQdox.getType());
 	
+				stockerRegexCommentaires(champCommentaire, langueNom, champDoc, "champCommentaire");
+				stocker(champDoc, "champNomSimpleComplet", langueNom, champClassePartis.nomSimpleComplet);
+				stocker(champDoc, "champCodeSource", langueNom, champCodeSource);
 				//////////////////
 				// Champ Langue //
 				//////////////////
-				for(String langueNom : autresLangues) {  
-
-					String champVarLangue = regex("var\\." + langueNom + ": (.*)", champCommentaire);
+				for(String langueNom : autresLangues) { 
+					ClassePartis champClassePartisLangue = classePartis(champClassePartis, langueNom);
+					String champVarLangue = regex("champVar_" + langueNom + ": (.*)", champCommentaire);
 					champVarLangue = champVarLangue == null ? champVar : champVarLangue;
+					String champCodeSourceLangue = regexRemplacerTout(champCommentaire, champCodeSource, langueNom);
+
 					indexerStocker(champDoc, "champVar", langueNom, champVarLangue); 
-
-					List<String> champCommentairesLangue = regexListe("(.*)", champCommentaire);
-					String champCommentaireLangue = StringUtils.join(champCommentairesLangue, "\n");
-					indexerStocker(champDoc, "champCommentaire", langueNom, champCommentaireLangue); 
-
-					String champBlocCode = champQdox.getCodeBlock();
-					String champBlocCodeLangue = champBlocCode;
-					ArrayList<String> remplacerClesLangue = regexListe("^r." + langueNom + "\\s*=\\s*(.*)\\n.*", champCommentaire);
-					ArrayList<String> remplacerValeursLangue = regexListe("^r." + langueNom + "\\s*=\\s*.*\\n(.*)", champCommentaire);
-					for(int i = 0; i < remplacerClesLangue.size(); i++) {
-						String cle = remplacerClesLangue.get(i);
-						String valeur = remplacerValeursLangue.get(i);
-						StringUtils.replace(champBlocCodeLangue, cle, valeur);
-					}
-					indexerStocker(champDoc, "champBlocCode", langueNom, champBlocCodeLangue); 
-					regexCommentaires(champCommentaire, langueNom, classeDoc, "champCommentaire");
+					stocker(champDoc, "champNomSimpleComplet", langueNom, champClassePartisLangue.nomSimpleComplet);
+					stockerRegexCommentaires(champCommentaire, langueNom, champDoc, "champCommentaire");
+					stocker(champDoc, "champCodeSource", langueNom, champCodeSourceLangue);
 				}  
 
 				clientSolrComputate.add(champDoc); 
@@ -550,6 +579,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							methodeEstSubstitue = true;
 						}
 					}
+
+					List<JavaClass> methodeExceptionsQdox = methodeQdox.getExceptions();
 	
 					if(!methodeEstSubstitue && !methodeQdox.isStatic() && !methodeQdox.isFinal() && methodeQdox.getDeclaringClass().equals(classeQdoxClasse) 
 							&& methodeQdox.isProtected() && methodeParamsQdox.size() == 1 && classeQdoxRetour.isVoid()
@@ -795,7 +826,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						stocker(entiteDoc, "entiteBlocCode", langueNom, entiteBlocCodeLangue); 
 
-						regexCommentaires(methodeCommentaire, langueNom, entiteDoc, "entiteCommentaire");
+						stockerRegexCommentaires(methodeCommentaire, langueNom, entiteDoc, "entiteCommentaire");
 
 						clientSolrComputate.add(entiteDoc); 
 						
@@ -829,14 +860,88 @@ public class IndexerClasse extends RegarderClasseBase {
 						
 					}
 					else {
-						// est Méthode. 
+						// est Méthode.  
+						
 						SolrInputDocument methodeDoc = docClasseClone.deepCopy();
 						indexerStocker(methodeDoc, "methodeVar", langueNom, methodeVar);
+						for(Integer methodeParamNum = 1; methodeParamNum <= methodeParamsQdox.size(); methodeParamNum++) {
+							JavaParameter methodeParamQdox = methodeParamsQdox.get(methodeParamNum - 1);
+							String methodeParamVar = methodeParamQdox.getName();
+							stockerListe(methodeDoc, "methodeParamVar", langueNom, methodeParamVar);
+							ClassePartis methodeParamClassePartis = classePartis(methodeParamQdox.getJavaClass());
+							stockerListe(methodeDoc, "methodeParamNomSimpleComplet", langueNom, methodeParamClassePartis.nomSimpleComplet);
+							for(String langueNom : autresLangues) { 
+								String methodeParamVarLangue = regex("methodeParamVar_" + langueNom + "_" + methodeParamNum + ": (.*)", methodeCommentaire);
+								if(methodeParamVarLangue == null)
+									methodeParamVarLangue = methodeParamVar;
+								ClassePartis methodeParamClassePartisLangue = classePartis(methodeParamClassePartis, langueNom);
+
+								stockerListe(methodeDoc, "methodeParamNomSimpleComplet", langueNom, methodeParamClassePartisLangue.nomSimpleComplet);
+								stockerListe(methodeDoc, "methodeParamVar", langueNom, methodeParamVarLangue);
+							}  
+						}
 						for(JavaAnnotation annotation : annotations) {
-							String methodeAnnotationLangue = indexerStocker(methodeDoc, "methodeAnnotations", langueNom, annotation.getType().getCanonicalName());
+							String methodeAnnotationBlocCode = stockerListe(methodeDoc, "methodeAnnotationBlocCode", langueNom, annotation.getCodeBlock());
+						}
+						for(JavaClass methodeExceptionQdox : methodeExceptionsQdox) {
+							String methodeExceptionNomSimpleComplet = methodeExceptionQdox.getSimpleName();
+							stockerListe(methodeDoc, "methodeExceptionNomSimpleComplet", methodeExceptionNomSimpleComplet);
 						}
 						Boolean methodeEstVide = false;
 						if(classeQdoxRetour != null && !classeQdoxRetour.getCanonicalName().equals("void")) {
+	
+							ClassePartis methodeRetourClassePartis = classePartis(methodeQdox.getReturns());
+				
+							stocker(methodeDoc, "methodeRetourNomSimpleComplet", langueNom, methodeRetourClassePartis.nomSimpleComplet);
+							//////////////////
+							// Champ Langue //
+							//////////////////
+							for(String langueNom : autresLangues) { 
+								ClassePartis methodeRetourClassePartisLangue = classePartis(methodeRetourClassePartis, langueNom);
+								stocker(methodeDoc, "methodeNomSimpleComplet", langueNom, methodeRetourClassePartisLangue.nomSimpleComplet);
+							}  
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+//							ClassePartis methodeRetourClassePartis = classePartis(methodeQdox.getReturns());
+//				
+//							stockerRegexCommentaires(methodeCommentaire, langueNom, methodeDoc, "methodeCommentaire");
+//							stocker(methodeDoc, "methodeRetourNomSimpleComplet", langueNom, methodeRetourClassePartis.nomSimpleComplet);
+//							stocker(methodeDoc, "methodeCodeSource", langueNom, methodeCodeSource);
+//							//////////////////
+//							// Champ Langue //
+//							//////////////////
+//							for(String langueNom : autresLangues) { 
+//								ClassePartis methodeRetourClassePartisLangue = classePartis(methodeRetourClassePartis, langueNom);
+//								String methodeVarLangue = regex("methodeVar_" + langueNom + ": (.*)", methodeCommentaire);
+//								methodeVarLangue = methodeVarLangue == null ? methodeVar : methodeVarLangue;
+//								String methodeCodeSourceLangue = regexRemplacerTout(methodeCommentaire, methodeCodeSource, langueNom);
+//			
+//								indexerStocker(methodeDoc, "methodeVar", langueNom, methodeVarLangue); 
+//								stocker(methodeDoc, "methodeNomSimpleComplet", langueNom, methodeClassePartisLangue.nomSimpleComplet);
+//								stockerRegexCommentaires(methodeCommentaire, langueNom, methodeDoc, "methodeCommentaire");
+//								stocker(methodeDoc, "methodeCodeSource", langueNom, methodeCodeSourceLangue);
+//							}  
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+					
+					
+					
 							methodeNomCanoniqueRetourComplet = indexerStocker(methodeDoc, "methodeNomCanoniqueRetourComplet", langueNom, classeQdoxRetour.getGenericCanonicalName());
 							methodeNomCanoniqueRetour = indexerStocker(methodeDoc, "methodeNomCanoniqueRetour", langueNom, classeQdoxRetour.getCanonicalName());
 							String methodeNomSimpleRetour = indexerStocker(methodeDoc, "methodeNomSimpleRetour", langueNom, StringUtils.substringAfterLast(methodeNomCanoniqueRetour, "."));
@@ -895,7 +1000,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStocker(methodeDoc, "methodeEstNatif", methodeQdox.isNative());
 						indexerStocker(methodeDoc, "methodeEstTest", methodeEstTest);
 						indexerStocker(methodeDoc, "methodeEstSubstitue", methodeEstSubstitue);
-						regexCommentaires(methodeCommentaire, langueNom, methodeDoc, "methodeCommentaire");
+						stockerRegexCommentaires(methodeCommentaire, langueNom, methodeDoc, "methodeCommentaire");
 	
 						String methodeVarLangue = regex("var\\." + langueNom + ": (.*)", methodeCommentaire);
 						methodeVarLangue =  methodeVarLangue == null ? methodeVar : methodeVarLangue;
@@ -935,7 +1040,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 							methodeCodeSourceLangue = regexRemplacerTout(methodeCommentaire, methodeCodeSource, langueNom);
 							stocker(methodeDoc, "methodeCodeSource", langueNom, methodeCodeSourceLangue);
-							regexCommentaires(methodeCommentaire, langueNom, methodeDoc, "methodeCommentaire");
+							stockerRegexCommentaires(methodeCommentaire, langueNom, methodeDoc, "methodeCommentaire");
 						} 
 	
 						clientSolrComputate.add(methodeDoc); 
@@ -1139,7 +1244,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		clientSolrComputate.add(classeDoc);
 		clientSolrComputate.commit();
 		String qSupprimer = concat("classeCheminAbsolu_indexe_string", ":\"", classeChemin, "\" AND (modifiee_indexe_date:[* TO ", modifiee.toString(), "-1MILLI] OR (*:* NOT modifiee_indexe_date:*))");
-		System.out.println("qSupprimer: " + qSupprimer);
 		clientSolrComputate.deleteByQuery(qSupprimer);
 		clientSolrComputate.commit(); 
 	}

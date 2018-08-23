@@ -1,4 +1,4 @@
-package org.computate.frFR.config;
+package org.computate.frFR.config;    
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,68 +15,111 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 
 /**
+ * classeNomCanonique_enUS: org.computate.enUS.java.SiteConfig
  * enUS: Loads the properties in the application configuration file into specific fields. 
  * frFR: Charge les propriétés dans le fichier de configuration de l'application dans des champs spécifiques. 
- */
-public class ConfigSite {
+ */       
+public class ConfigSite {   
 
-	/**	Le nom de l'lappli. **/
-	protected String appliNom;
+	/**	
+	 * champVar_enUS: appName
+	 * frFR: Le nom de l'lappli. 
+	 * enUS: The name of the application. 
+	 **/ 
+	public String appliNom;
+	/**	
+	 * r.enUS: appliNom
+	 * appName
+	 **/ 
 	protected void _appliNom() throws Exception {
 		appliNom = System.getenv("appliNom"); 
 	}
 
 	/**	
-	 * var.enUS: appPath
+	 * champVar_enUS: appPath
 	 * frFR: Le chemin vers l'lappli. 
 	 * enUS: The path to the application. 
 	 * **/
-	protected String appliChemin;
+	public String appliChemin;
+	/**	
+	 * r.enUS: appliChemin
+	 * appPath
+	 **/ 
 	protected void _appliChemin() throws Exception {
 		appliChemin = System.getenv("appliChemin"); 
 	}
 
-	protected String cheminSrcMainJava;
+	/**
+	 * champVar_enUS: pathSrcMainJava
+	 * enUS: The absolute path to the /src/main/java directory. 
+	 */
+	public String cheminSrcMainJava;
+	/**	
+	 * r.enUS: cheminSrcMainJava
+	 * pathSrcMainJava
+	 **/ 
 	protected void _cheminSrcMainJava() throws Exception {
 		cheminSrcMainJava = appliChemin + "/src/main/java";
 	}
 
-	protected String cheminSrcGenJava;
+	/**
+	 * champVar_enUS: pathGenMainJava
+	 * enUS: The absolute path to the /src/gen/java directory. 
+	 */
+	public String cheminSrcGenJava;
 	protected void _cheminSrcGenJava() throws Exception {
 		cheminSrcGenJava = appliChemin + "/src/gen/java";
 	}
 
-	protected String cheminConfiguration;
+	/**
+	 * champVar_enUS: pathConfiguration
+	 * enUS: The absolute path to the app config file. 
+	 */
+	public String cheminConfiguration;
 	protected void _cheminConfiguration() throws Exception {
 		cheminConfiguration = appliChemin + "/config/" + appliNom + ".config";
 		System.out.println("cheminConfiguration: " + cheminConfiguration);  
 	}
 
-	protected File fichierConfiguration;
+	/**
+	 * champVar_enUS: fileConfiguration
+	 * enUS: The File Object for the app config file. 
+	 */
+	public File fichierConfiguration;
 	protected void _fichierConfiguration() throws Exception {
 		fichierConfiguration = new File(cheminConfiguration);
 	}
 
-	/**  **/  
-	protected Configurations configurations;
+	/**
+	 * enUS: The Apache Commons Configurations object for reading config files. 
+	 */
+	public Configurations configurations;
 	protected void _configurations() throws Exception {
 		configurations = new Configurations();
 	}
 
-	/**  **/
-	protected INIConfiguration config;
+	/**
+	 * The INI Configuration Object for the config file. 
+	 */
+	public INIConfiguration config;
 	protected void _config() throws Exception {
 		config = configurations.ini(fichierConfiguration);
 	}
 
-	/**	Le nom de la langueNom. **/
-	protected String langueNom;
+	/**
+	 * champVar_enUS: languageName
+	 * frFR: Le nom de la langueNom. 
+	 */
+	public String langueNom;
 	protected void _langueNom() throws Exception {
 		langueNom = config.getString(appliNom + ".langueNom");
 	} 
 
-	/**	Le nom de la langueNom. **/
-	protected String langueNomActuel;
+	/**
+	 * champVar_enUS: languageActualName
+	 * frFR:Le nom de la langueNom. 
+	 */
+	public String langueNomActuel;
 	protected void _langueNomActuel() throws Exception {
 		if(StringUtils.equals(langueNom, "tout"))
 			langueNomActuel = "frFR";
@@ -84,27 +127,27 @@ public class ConfigSite {
 			langueNomActuel = langueNom;
 	} 
 
-	protected String[] toutesLangues;
+	public String[] toutesLangues;
 	protected void _toutesLangues() throws Exception {
 		toutesLangues = config.getStringArray(appliNom + ".toutesLangues");
 	}
 
-	protected String[] autresLangues;
+	public String[] autresLangues;
 	protected void _autresLangues() throws Exception {
 		autresLangues = ArrayUtils.removeElement(toutesLangues, langueNom);
 	}
 
-	protected Boolean langueIndexe;
+	public Boolean langueIndexe;
 	protected void _langueIndexe() throws Exception {
 		langueIndexe = ArrayUtils.contains(toutesLangues, langueNom);
 	}
 
-	protected String nomDomaine;
+	public String nomDomaine;
 	protected void _nomDomaine() throws Exception {
 		nomDomaine = config.getString(appliNom + ".nomDomaine");
 	}
 	
-	protected String nomEnsembleDomaine;
+	public String nomEnsembleDomaine;
 	protected void _nomEnsembleDomaine() throws Exception {
 		String[] partis = StringUtils.split(nomDomaine, ".");
 		ArrayUtils.reverse(partis);
@@ -112,94 +155,94 @@ public class ConfigSite {
 	}
 
 	/**	 **/
-	protected String nomFichierConfig;
+	public String nomFichierConfig;
 	protected void _nomFicherConfig() throws Exception {
 		nomFichierConfig = config.getString(appliNom + ".nomFichierConfig", appliNom + ".config");
 	}
 
 	/**	 **/
-	protected String cheminConfig;
+	public String cheminConfig;
 	protected void _cheminConfig() throws Exception {
 		cheminConfig = config.getString(appliNom + ".cheminConfig", appliChemin + "/config/" + nomFichierConfig);
 	}
 
 	/**	 **/
-	protected String versionMaven;
+	public String versionMaven;
 	protected void _versionMaven() throws Exception {
 		versionMaven = config.getString("maven.versionMaven", "3.5.3");
 	}
 
 	/**	 **/
-	protected String versionZookeeper;
+	public String versionZookeeper;
 	protected void _versionZookeeper() throws Exception {
 		versionZookeeper = config.getString("maven.versionZookeeper", "3.5.4");
 	}
 
 	/**	 **/
-	protected String prefixePortZookeeper;
+	public String prefixePortZookeeper;
 	protected void _prefixePortZookeeper() throws Exception {
 		prefixePortZookeeper = config.getString("zookeeper.prefixePortZookeeper", "102");
 	}
 
 	/**	 **/
-	protected String portClientZookeeper;
+	public String portClientZookeeper;
 	protected void _portClientZookeeper() throws Exception {
 		portClientZookeeper = config.getString("zookeeper.portClientZookeeper", prefixePortZookeeper + "81");
 	}
 
 	/**	 **/
-	protected String portAdminZookeeper;
+	public String portAdminZookeeper;
 	protected void _portAdminZookeeper() throws Exception {
 		portAdminZookeeper = config.getString("zookeeper.portAdminZookeeper", prefixePortZookeeper + "80");
 	}
 
 	/**	 **/
-	protected String versionSolr;
+	public String versionSolr;
 	protected void _versionSolr() throws Exception {
 		versionSolr = config.getString("zookeeper.versionSolr", "7.3.1");
 	}
 
 	/**	 **/
-	protected String prefixePortSolr;
+	public String prefixePortSolr;
 	protected void _prefixePortSolr() throws Exception {
 		prefixePortSolr = config.getString("zookeeper.prefixePortSolr", "103");
 	}
 
 	/**	 **/
-	protected String portSolr;
+	public String portSolr;
 	protected void _portSolr() throws Exception {
 		portSolr = config.getString("zookeeper.portSolr", prefixePortSolr + "83");
 	}
 
 	/**	 **/
-	protected String urlSolrComputate;
+	public String urlSolrComputate;
 	protected void _urlSolrComputate() throws Exception {
 		urlSolrComputate = config.getString("zookeeper.urlSolr", "http://localhost:" + portSolr + "/solr/computate");
 	}
 
-	protected SolrClient clientSolrComputate;
+	public SolrClient clientSolrComputate;
 	protected void _clientSolrComputate() throws Exception {
 		clientSolrComputate = new HttpSolrClient.Builder(urlSolrComputate).build();
 	}
 
-	protected ArrayList<String> cheminsARegarder = new ArrayList<String>();
+	public ArrayList<String> cheminsARegarder = new ArrayList<String>();
 	protected void _cheminsARegarder() throws Exception {
 		cheminsARegarder.add(cheminSrcMainJava);
 	}
 
-	protected ArrayList<String> cheminsSource = new ArrayList<String>();
+	public ArrayList<String> cheminsSource = new ArrayList<String>();
 	protected void _cheminsSource() throws Exception {
 		cheminsSource.add(cheminSrcMainJava);
 		cheminsSource.add(cheminSrcGenJava);
 	}
 
-	protected ArrayList<String> toutCheminsSource = new ArrayList<String>();
+	public ArrayList<String> toutCheminsSource = new ArrayList<String>();
 	protected void _toutCheminsSource() throws Exception {
 		toutCheminsSource.add(cheminSrcMainJava);
 		toutCheminsSource.add(cheminSrcGenJava);
 	}
 
-	protected ArrayList<String> nomsMethodeTest = new ArrayList<String>();
+	public ArrayList<String> nomsMethodeTest = new ArrayList<String>();
 	protected void _nomsMethodeTest() throws Exception {
 	}
 
@@ -259,7 +302,7 @@ public class ConfigSite {
 				o = m.group(groupe);
 		}
 		return o;
-	}
+	}  
 
 	public ArrayList<String> regexListe(String motif, String texte) {
 		ArrayList<String> resultats = new ArrayList<String>();
@@ -269,12 +312,12 @@ public class ConfigSite {
 			boolean trouve = m.find();
 			while(trouve) {
 				o = m.group(1);
-				resultats.add(o);
+				resultats.add(o); 
 				trouve = m.find();
 			}
 		}
 		return resultats;
-	}   
+	}    
 
 	public String regexRemplacerTout(String commentaire, String codeSource, String langueNom) throws Exception {
 		String codeSourceLangue = codeSource;

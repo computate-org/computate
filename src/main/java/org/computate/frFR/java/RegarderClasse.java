@@ -16,7 +16,6 @@ public class RegarderClasse extends EcrireClasse {
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
 		System.out.println("cheminAbsolu : " + ecrireClasse.classeCheminAbsolu);
-		System.out.println("langueNom : " + ecrireClasse.langueNom);
 
 		ecrireClasse.indexerClasse(ecrireClasse.classeCheminAbsolu);
 		if("tout".equals(ecrireClasse.langueNom)) {

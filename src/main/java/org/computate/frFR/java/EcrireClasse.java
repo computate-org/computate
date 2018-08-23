@@ -18,12 +18,14 @@ import org.apache.solr.common.SolrDocumentList;
  * classeNomCanonique_enUS: org.computate.enUS.java.WriteClass
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
- */       
+ */     
 public class EcrireClasse extends IndexerClasse { 
 
 	/**
 	 * methodeVar_enUS: writeClass
-	 */ 
+	 * methodeParamVar_enUS_1: absoluteClassPath
+	 * methodeParamVar_enUS_2: languageName
+	 */    
 	protected void ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
@@ -33,7 +35,7 @@ public class EcrireClasse extends IndexerClasse {
 
 		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
 		ecrireClasse(classeCheminAbsolu, langueNom, reponseRecherche);
-	}   
+	}  
 
 	public void ecrireCommentaire(StringBuilder s, String commentaire, Integer tabulations) {
 		String tabulationsStr = StringUtils.repeat("\t", tabulations);
@@ -83,6 +85,7 @@ public class EcrireClasse extends IndexerClasse {
 			
 			String classeNomSimple = null;
 			String classeNomSimpleSuper = null;    
+			String classeNomCanoniqueSuper = null;    
 			String classeNomEnsemble = null;
 			String classeCommentaire = null;      
 			List<String> classeImportations = null;  
@@ -99,6 +102,7 @@ public class EcrireClasse extends IndexerClasse {
 					classeRepertoire.mkdirs();
 					classeFichier = new File(classeChemin);
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stocke_string");
+					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stocke_string");
 					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stocke_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stocke_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stocke_string");
@@ -113,20 +117,22 @@ public class EcrireClasse extends IndexerClasse {
 					}
 					ecrireCommentaire(s, classeCommentaire, 0); 
 					s.append("public class ").append(classeNomSimple);
-					s.append(" extends ").append(classeNomSimpleSuper);
+					if(!"java.lang.Object".equals(classeNomCanoniqueSuper))
+						s.append(" extends ").append(classeNomSimpleSuper);
 					s.append(" {\n");
-					s.append("\n"); 
 				} 
-				else { 
+				else {     
 					Boolean partEstChamp = (Boolean)doc.get("partEstChamp_stocke_boolean");
 					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stocke_boolean");
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stocke_boolean");
 					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stocke_boolean");
-					String champVar = (String)doc.get("champVar_" + langueNom + "_stocke_string");
 	
 					if(BooleanUtils.isTrue(partEstChamp)) {
 						String champCommentaire = (String)doc.get("champCommentaire_" + langueNom + "_stocke_string");
+						String champVar = (String)doc.get("champVar_" + langueNom + "_stocke_string");
+						String champNomSimpleComplet = (String)doc.get("champNomSimpleComplet_" + langueNom + "_stocke_string");
 
+						s.append("\n"); 
 						ecrireCommentaire(s, champCommentaire, 1);
 						s.append("\t");
 						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stocke_boolean")))
@@ -143,6 +149,8 @@ public class EcrireClasse extends IndexerClasse {
 							s.append("abstract ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("champEstNatif_stocke_boolean")))
 							s.append("native ");
+						
+						s.append(champNomSimpleComplet).append(" ").append(champVar);
 						s.append(";\n");
 					}     
 	
@@ -150,7 +158,9 @@ public class EcrireClasse extends IndexerClasse {
 						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stocke_string");
 						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stocke_string");
 						String methodeCommentaire = (String)doc.get("methodeCommentaire_" + langueNom + "_stocke_string");
+						List<String> methodeExceptionNomSimpleCompletListe = (List<String>)doc.get("methodeExceptionNomSimpleComplet_stocke_strings");
 
+						s.append("\n"); 
 						ecrireCommentaire(s, methodeCommentaire, 1);
 						s.append("\t");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stocke_boolean")))
@@ -170,14 +180,37 @@ public class EcrireClasse extends IndexerClasse {
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstVide_stocke_boolean")))
 							s.append("void ");
 						else
-							s.append((String)doc.get("methodeNomSimpleComplet_stocke_string")).append(" ");
+							s.append((String)doc.get("methodeNomSimpleComplet_" + langueNom + "_stocke_string")).append(" ");
 						s.append(methodeVar);
 						s.append("(");
+						List<String> methodeParamNomSimpleCompletListe = (List<String>)doc.get("methodeParamNomSimpleComplet_" + langueNom + "_stocke_strings"); 
+						List<String> methodeParamVarListe = (List<String>)doc.get("methodeParamVar_" + langueNom + "_stocke_strings");
+						if(methodeParamNomSimpleCompletListe != null && methodeParamVarListe != null && methodeParamNomSimpleCompletListe.size() == methodeParamVarListe.size()) {
+							for(int j = 0; j < methodeParamVarListe.size(); j++) {
+								String methodeParamNomSimpleComplet = methodeParamNomSimpleCompletListe.get(j);
+								String methodeParamVar = methodeParamVarListe.get(j);
+								if(j > 0)
+									s.append(", ");
+								s.append(methodeParamNomSimpleComplet).append(" ").append(methodeParamVar);
+							}
+						}    
 						s.append(")");
+						if(methodeExceptionNomSimpleCompletListe != null && methodeExceptionNomSimpleCompletListe.size() > 0) {
+							s.append(" throws ");
+							for(int j = 0; j < methodeExceptionNomSimpleCompletListe.size(); j++) {
+								String methodeExceptionNomSimpleComplet = methodeExceptionNomSimpleCompletListe.get(j);
+								if(j > 0)
+									s.append(", ");
+								s.append(methodeExceptionNomSimpleComplet);
+							}
+						}
 						s.append(" {");
 						s.append(methodeCodeSource);
-						s.append("}\n\n");
+						s.append("}\n");
 					} 
+					else if(BooleanUtils.isTrue(partEstEntite)) {
+						
+					}
 				}
 			}
 			s.append("}\n"); 
