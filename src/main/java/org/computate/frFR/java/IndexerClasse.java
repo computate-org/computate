@@ -445,15 +445,8 @@ public class IndexerClasse extends RegarderClasseBase {
 			if(membreQdox instanceof JavaField) {    
 				SolrInputDocument champDoc = docClasseClone.deepCopy();
 				JavaField champQdox = (JavaField)membreQdox;
-				JavaClass champClasseQdox = champQdox.getType();
 				String champCommentaire = champQdox.getComment();
 				String champVar = champQdox.getName();
-				String champNomCanonique = champQdox.getType().getCanonicalName();
-				String nomTypeOrigine = champClasseQdox.getGenericCanonicalName();
-				String listeNomTypeOrigineGenerique = nomTypeOrigine;
-				String champNomCanoniqueGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(listeNomTypeOrigineGenerique, "<"), ">");
-				champNomCanoniqueGenerique = champNomCanoniqueGenerique.contains("<") ? StringUtils.substringBefore(champNomCanoniqueGenerique, "<") : champNomCanoniqueGenerique;
-				champNomCanoniqueGenerique = champNomCanoniqueGenerique.contains(",") ? StringUtils.substringBefore(champNomCanoniqueGenerique, ",") : champNomCanoniqueGenerique;
 				String champCle = classeCheminAbsolu + "." + champVar;
 				String champCodeSource = champQdox.getCodeBlock();
 
