@@ -64,24 +64,30 @@ public class ClassePartis {
 		nomSimple = StringUtils.substringAfterLast(nomCanonique, ".");
 		listeNomTypeOrigineGenerique = nomCanoniqueComplet;
 		nomCanoniqueGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(listeNomTypeOrigineGenerique, "<"), ">");
-		nomCanoniqueGenerique = nomCanoniqueGenerique.contains("<") ? StringUtils.substringBefore(nomCanoniqueGenerique, "<") : nomCanoniqueGenerique;
-		nomCanoniqueGenerique = nomCanoniqueGenerique.contains(",") ? StringUtils.substringBefore(nomCanoniqueGenerique, ",") : nomCanoniqueGenerique;
+//		nomCanoniqueGenerique = nomCanoniqueGenerique.contains("<") ? StringUtils.substringBefore(nomCanoniqueGenerique, "<") : nomCanoniqueGenerique;
+//		nomCanoniqueGenerique = nomCanoniqueGenerique.contains(",") ? StringUtils.substringBefore(nomCanoniqueGenerique, ",") : nomCanoniqueGenerique;
+		nomSimpleGenerique = "";
+		nomSimpleComplet = nomSimple;
 		if(StringUtils.isNotEmpty(nomCanoniqueGenerique)) {
+			String[] partis = StringUtils.split(nomCanoniqueGenerique, ",");
+			for(int i = 0; i < partis.length; i++) {
+				String nomCanoniqueGeneriqueParti = partis[i];
+				String nomSimpleGeneriqueParti;
+				if(i > 0) {
+					nomSimpleGenerique += ", ";
+					nomSimpleComplet += ", ";
+				}
+	
+				if(StringUtils.contains(nomCanoniqueGeneriqueParti, "."))
+					nomSimpleGeneriqueParti = StringUtils.substringAfterLast(nomCanoniqueGeneriqueParti, ".");
+				else
+					nomSimpleGeneriqueParti = nomCanoniqueGeneriqueParti;
 
-			if(StringUtils.contains(nomCanoniqueGenerique, "."))
-				nomSimpleGenerique = StringUtils.substringAfterLast(nomCanoniqueGenerique, ".");
-			else
-				nomSimpleGenerique = nomCanoniqueGenerique;
-
-			if(StringUtils.contains(nomSimpleGenerique, ".")) {
-				nomSimpleComplet = concat(StringUtils.substringAfterLast(nomSimple, "."), "<", nomSimpleGenerique, ">");
-			}
-			else {
-				nomSimpleComplet = concat(nomSimple, "<", nomSimpleGenerique, ">");
+				nomSimpleGenerique += nomSimpleGeneriqueParti;
 			}
 		}
-		else {
-			nomSimpleComplet = nomSimple;
+		if(StringUtils.isNotEmpty(nomSimpleGenerique)) {
+			nomSimpleComplet = concat(nomSimple, "<", nomSimpleGenerique, ">");
 		}
 		return this;
 	}

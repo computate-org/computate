@@ -16,25 +16,44 @@ import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaType;
 
-/**     
+/**   
  * classeNomCanonique_enUS: org.computate.enUS.java.WatchClassBase
  */  
-public class RegarderClasseBase extends ConfigSite {     
+public class RegarderClasseBase extends ConfigSite {  
 
 	protected String[] args;
 
+	/**
+	 * var.enUS: _appPath
+	 * r: appliChemin
+	 * r.enUS: appPath
+	 */
 	@Override protected void _appliChemin() throws Exception {
 		appliChemin = args[0]; 
 	}
 
+	/**
+	 * var.enUS: absoluteClassPath
+	 */
 	protected String classeCheminAbsolu;
+	/** 
+	 * var.enUS: _absoluteClassPath
+	 * r: classeCheminAbsolu
+	 * r.enUS: absoluteClassPath
+	 */ 
 	protected void _classeCheminAbsolu() throws Exception {
 		classeCheminAbsolu = args[1];
 	}
 	
+	/**
+	 * var.enUS: appPaths
+	 */
 	protected HashMap<String, String> appliChemins = new HashMap<String, String>(); 
+	/**
+	 * var.enUS: _appPaths
+	 */
 	protected void _appliChemins() throws Exception {
-		for(String langueNom : autresLangues) {  
+		for(String langueNom : autresLangues) { 
 			String appliCheminLangue = config.getString(appliNom + ".appliChemin_" + langueNom); 
 			System.out.println("appliCheminLangue " + langueNom + ": " + appliCheminLangue);
 			if(StringUtils.isEmpty(appliCheminLangue)) {

@@ -19,7 +19,7 @@ import org.apache.solr.common.SolrDocumentList;
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  */     
-public class EcrireClasse extends IndexerClasse { 
+public class EcrireClasse extends IndexerClasse {
 
 	/**
 	 * methodeVar_enUS: writeClass
@@ -131,6 +131,7 @@ public class EcrireClasse extends IndexerClasse {
 						String champCommentaire = (String)doc.get("champCommentaire_" + langueNom + "_stocke_string");
 						String champVar = (String)doc.get("champVar_" + langueNom + "_stocke_string");
 						String champNomSimpleComplet = (String)doc.get("champNomSimpleComplet_" + langueNom + "_stocke_string");
+						String champCodeSource = (String)doc.get("champCodeSource_" + langueNom + "_stocke_string");
 
 						s.append("\n"); 
 						ecrireCommentaire(s, champCommentaire, 1);
@@ -138,9 +139,9 @@ public class EcrireClasse extends IndexerClasse {
 						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stocke_boolean")))
 							s.append("public ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stocke_boolean")))
-							s.append("protege ");
+							s.append("protected ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPrive_stocke_boolean")))
-							s.append("prive ");
+							s.append("private ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("champEstStatique_stocke_boolean")))
 							s.append("static ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("champEstFinale_stocke_boolean")))
@@ -151,6 +152,8 @@ public class EcrireClasse extends IndexerClasse {
 							s.append("native ");
 						
 						s.append(champNomSimpleComplet).append(" ").append(champVar);
+						if(champCodeSource != null)
+							s.append(" = ").append(champCodeSource);
 						s.append(";\n");
 					}     
 	

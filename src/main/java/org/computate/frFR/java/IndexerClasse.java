@@ -448,7 +448,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				String champCommentaire = champQdox.getComment();
 				String champVar = champQdox.getName();
 				String champCle = classeCheminAbsolu + "." + champVar;
-				String champCodeSource = champQdox.getCodeBlock();
+				String champCodeSource = StringUtils.substringBeforeLast(StringUtils.trim(regex("\\s+" + champVar + "\\s*=([\\s\\S]*)", champQdox.getCodeBlock(), 1)), ";");
 
 				// Champs Solr du champ. 
 
@@ -489,18 +489,20 @@ public class IndexerClasse extends RegarderClasseBase {
 	
 				stockerRegexCommentaires(champCommentaire, langueNom, champDoc, "champCommentaire");
 				stocker(champDoc, "champNomSimpleComplet", langueNom, champClassePartis.nomSimpleComplet);
+				stocker(champDoc, "champNomCanoniqueComplet", langueNom, champClassePartis.nomCanoniqueComplet);
 				stocker(champDoc, "champCodeSource", langueNom, champCodeSource);
 				//////////////////
 				// Champ Langue //
 				//////////////////
 				for(String langueNom : autresLangues) { 
 					ClassePartis champClassePartisLangue = classePartis(champClassePartis, langueNom);
-					String champVarLangue = regex("champVar_" + langueNom + ": (.*)", champCommentaire);
+					String champVarLangue = regex("^var\\." + langueNom + ": (.*)", champCommentaire);
 					champVarLangue = champVarLangue == null ? champVar : champVarLangue;
 					String champCodeSourceLangue = regexRemplacerTout(champCommentaire, champCodeSource, langueNom);
 
 					indexerStocker(champDoc, "champVar", langueNom, champVarLangue); 
 					stocker(champDoc, "champNomSimpleComplet", langueNom, champClassePartisLangue.nomSimpleComplet);
+					stocker(champDoc, "nomCanoniqueComplet", langueNom, champClassePartisLangue.nomCanoniqueComplet);
 					stockerRegexCommentaires(champCommentaire, langueNom, champDoc, "champCommentaire");
 					stocker(champDoc, "champCodeSource", langueNom, champCodeSourceLangue);
 				}  
@@ -802,7 +804,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStocker(entiteDoc, "partEstEntite", true);
 						indexerStocker(entiteDoc, "partNumero", partNumero);
 	
-						String entiteVarLangue = regex("var\\." + langueNom + ": (.*)", methodeCommentaire);
+						String entiteVarLangue = regex("^var\\." + langueNom + ": (.*)", methodeCommentaire);
 						entiteVarLangue = indexerStocker(entiteDoc, "entiteVar", langueNom, entiteVarLangue == null ? entiteVar : entiteVarLangue);
 	
 						List<String> entiteCommentairesLangue = regexListe("(.*)", methodeCommentaire);
@@ -853,7 +855,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						
 					}
 					else {
-						// est Méthode.  
+						// est Méthode. 
 						
 						SolrInputDocument methodeDoc = docClasseClone.deepCopy();
 						indexerStocker(methodeDoc, "methodeVar", langueNom, methodeVar);
@@ -864,7 +866,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							ClassePartis methodeParamClassePartis = classePartis(methodeParamQdox.getJavaClass());
 							stockerListe(methodeDoc, "methodeParamNomSimpleComplet", langueNom, methodeParamClassePartis.nomSimpleComplet);
 							for(String langueNom : autresLangues) { 
-								String methodeParamVarLangue = regex("methodeParamVar_" + langueNom + "_" + methodeParamNum + ": (.*)", methodeCommentaire);
+								String methodeParamVarLangue = regex("param" + methodeParamNum + "\\.var\\." + langueNom + ": (.*)", methodeCommentaire);
 								if(methodeParamVarLangue == null)
 									methodeParamVarLangue = methodeParamVar;
 								ClassePartis methodeParamClassePartisLangue = classePartis(methodeParamClassePartis, langueNom);
@@ -995,7 +997,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStocker(methodeDoc, "methodeEstSubstitue", methodeEstSubstitue);
 						stockerRegexCommentaires(methodeCommentaire, langueNom, methodeDoc, "methodeCommentaire");
 	
-						String methodeVarLangue = regex("var\\." + langueNom + ": (.*)", methodeCommentaire);
+						String methodeVarLangue = regex("^var\\." + langueNom + ": (.*)", methodeCommentaire);
 						methodeVarLangue =  methodeVarLangue == null ? methodeVar : methodeVarLangue;
 	
 						List<String> methodeCommentairesLangue = regexListe("^" + langueNom + ":\\s*([^\n]+)", methodeCommentaire);
@@ -1026,7 +1028,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						for(String langueNom : autresLangues) {  
 
-							methodeVarLangue = regex("methodeVar\\_" + langueNom + ":\\s*([^\n]+)", methodeCommentaire);
+							methodeVarLangue = regex("^var\\." + langueNom + ":\\s*([^\n]+)", methodeCommentaire);
 							methodeVarLangue = indexerStocker(methodeDoc, "methodeVar", langueNom, methodeVarLangue == null ? methodeVar : methodeVarLangue);
 		
 							methodeCommentairesLangue = regexListe("^" + langueNom + ":\\s*([^\n]+)", methodeCommentaire);
@@ -1043,7 +1045,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						// Methode Langue //
 						//////////////////
 		
-	//						String methodeVarLangue = regex("var\\." + langueNom + ": (.*)", methodeCommentaire);
+	//						String methodeVarLangue = regex("^var\\." + langueNom + ": (.*)", methodeCommentaire);
 	//						methodeVarLangue = methodeVarLangue == null ? methodeVar : methodeVarLangue;
 	//						methodeDoc.addField(concat("methodeVar_", langueNom, "_indexe_string"), methodeVarLangue);
 	//						methodeDoc.addField(concat("methodeVar_", langueNom, "_stocke_string"), methodeVarLangue);
