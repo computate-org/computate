@@ -20,6 +20,9 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
  * frFR: Charge les propriétés dans le fichier de config de l'application dans des champs spécifiques. 
  */
 public class ConfigSite { 
+	
+	public ConfigSite() {
+	}
 
 	/**	
 	 * var.enUS: appName
@@ -33,7 +36,8 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _appliNom() throws Exception {
-		appliNom = System.getenv("appliNom"); 
+		if(appliNom == null)
+			appliNom = System.getenv("appliNom"); 
 	}
 
 	/**	
@@ -48,7 +52,8 @@ public class ConfigSite {
 	 * r.enUS: appPath
 	 **/ 
 	protected void _appliChemin() throws Exception {
-		appliChemin = System.getenv("appliChemin"); 
+		if(appliChemin == null)
+			appliChemin = System.getenv("appliChemin"); 
 	}
 
 	/**

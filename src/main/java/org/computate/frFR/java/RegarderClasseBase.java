@@ -11,6 +11,7 @@ import org.apache.solr.common.SolrDocument;
 import org.computate.frFR.config.ConfigSite;
 
 import com.thoughtworks.qdox.JavaProjectBuilder;
+import com.thoughtworks.qdox.library.ClassLoaderLibrary;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
@@ -18,8 +19,8 @@ import com.thoughtworks.qdox.model.JavaType;
 
 /**   
  * classeNomCanonique_enUS: org.computate.enUS.java.WatchClassBase
- */  
-public class RegarderClasseBase extends ConfigSite {  
+ */   
+public class RegarderClasseBase extends ConfigSite {     
 
 	protected String[] args;
 
@@ -27,35 +28,46 @@ public class RegarderClasseBase extends ConfigSite {
 	 * var.enUS: _appPath
 	 * r: appliChemin
 	 * r.enUS: appPath
-	 */
-	@Override protected void _appliChemin() throws Exception {
+	 */ 
+	@Override protected void _appliChemin() throws Exception {  
 		appliChemin = args[0]; 
 	}
 
 	/**
 	 * var.enUS: absoluteClassPath
-	 */
+	 */ 
 	protected String classeCheminAbsolu;
 	/** 
 	 * var.enUS: _absoluteClassPath
 	 * r: classeCheminAbsolu
 	 * r.enUS: absoluteClassPath
-	 */ 
+	 */  
 	protected void _classeCheminAbsolu() throws Exception {
 		classeCheminAbsolu = args[1];
 	}
 	
-	/**
+	/** 
 	 * var.enUS: appPaths
 	 */
 	protected HashMap<String, String> appliChemins = new HashMap<String, String>(); 
-	/**
+	/** 
 	 * var.enUS: _appPaths
-	 */
+	 * r: autresLangues
+	 * r.enUS: otherLanguages
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: appliCheminLange
+	 * r.enUS: appPathLanguage
+	 * r: appliNom
+	 * r.enUS: appName
+	 * r: appliCheminLangue
+	 * r.enUS: appPathLanguage
+	 * r: appliChemin
+	 * r.enUS: appPath
+	 */  
 	protected void _appliChemins() throws Exception {
 		for(String langueNom : autresLangues) { 
 			String appliCheminLangue = config.getString(appliNom + ".appliChemin_" + langueNom); 
-			System.out.println("appliCheminLangue " + langueNom + ": " + appliCheminLangue);
 			if(StringUtils.isEmpty(appliCheminLangue)) {
 				appliChemins.put(langueNom, appliChemin);
 			}
@@ -65,24 +77,67 @@ public class RegarderClasseBase extends ConfigSite {
 		}
 	}
 
+	/**  
+	 * var.enUS: classDocs
+	 */
 	protected HashMap<String, SolrDocument> classeDocs = new HashMap<String, SolrDocument>();
+	/**
+	 * var.enUS: _classDocs
+	 */
 	protected void _classeDocs() throws Exception {
 	}
 
+	/** 
+	 * var.enUS: classParts
+	 * r: ClassePartis
+	 * r.enUS: ClassParts
+	 */
 	protected HashMap<String, ClassePartis> classePartis = new HashMap<String, ClassePartis>();
+	/**
+	 * var.enUS: _classParts
+	 */
 	protected void _classePartis() throws Exception {
 	}
 
+	/**
+	 * var.enUS: builder
+	 */ 
 	protected JavaProjectBuilder bricoleur;
-	protected void _bricoleur() throws Exception {
+	/**
+	 * var.enUS: _builder
+	 * r: bricoleur
+	 * r.enUS: builder
+	 * r: cheminSource
+	 * r.enUS: sourcePath
+	 * r: toutCheminsSource
+	 * r.enUS: allSourcePaths
+	 * r: repertoireSource
+	 * r.enUS: sourceDir
+	 */
+	protected void _bricoleur() throws Exception { 
 		bricoleur = new JavaProjectBuilder();
 		for(String cheminSource : toutCheminsSource) {
-			File répertoireSource = new File(cheminSource);
-			bricoleur.addSourceFolder(répertoireSource);
+			File repertoireSource = new File(cheminSource);
+			bricoleur.addSourceFolder(repertoireSource);
 		}
 	} 
 
 
+	/**
+	 * var.enUS: initWatchClassBase
+	 * r: ConfigSite
+	 * r.enUS: SiteConfig
+	 * r: classeCheminAbsolu
+	 * r.enUS: absoluteClassPath
+	 * r: appliChemins
+	 * r.enUS: appPaths
+	 * r: classeDocs
+	 * r.enUS: classDocs
+	 * r: classePartis
+	 * r.enUS: classParts
+	 * r: bricoleur
+	 * r.enUS: builder
+	 */
 	public void initRegarderClasseBase() throws Exception {
 		initConfigSite();
 		_classeCheminAbsolu();
@@ -90,7 +145,7 @@ public class RegarderClasseBase extends ConfigSite {
 		_classeDocs();
 		_classePartis();
 		_bricoleur();
-	}
+	} 
 
 	////////////
 	// etend //

@@ -23,7 +23,7 @@ import com.thoughtworks.qdox.model.JavaMember;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
 
-/** 
+/**
  * classeNomCanonique_enUS: org.computate.enUS.java.IndexClass
  */  
 public class IndexerClasse extends RegarderClasseBase { 
@@ -278,22 +278,23 @@ public class IndexerClasse extends RegarderClasseBase {
 //		SolrDocument documentSolr = classePartis.documentSolr(this);
 //		return documentSolr;
 //	}
-
-	public ClassePartis classePartis(JavaClass classeQdox) throws Exception {
-		String nomCanonique = classeQdox.getCanonicalName();
-		ClassePartis resultat = classePartis.get(nomCanonique);
-		if(resultat == null) {
-			resultat = new ClassePartis().initClassePartis(classeQdox);
-			SolrDocument documentSolr = resultat.documentSolr(this);
-			classePartis.put(nomCanonique, resultat);
-		}
-		return resultat;
-	}
-
-	public ClassePartis classePartis(ClassePartis classePartis, String langueNom) throws Exception {
-		ClassePartis resultat = ClassePartis.initClassePartis(classePartis, langueNom);
-		return resultat;
-	} 
+//
+//	public ClassePartis classePartis(JavaClass classeQdox, String langueNom) throws Exception {
+//		String nomCanoniqueGenerique = classeQdox.getGenericCanonicalName();
+//		ClassePartis resultat = classePartis.get(nomCanoniqueGenerique + "." + langueNom);
+//		if(resultat == null) {
+//			resultat = ClassePartis.initClassePartis(this, classeQdox, langueNom);
+//			SolrDocument documentSolr = resultat.documentSolr(this);
+//			resultat.documentSolr = documentSolr;
+//			classePartis.put(nomCanoniqueGenerique + "." + langueNom, resultat);
+//		}
+//		return resultat;
+//	}
+//
+//	public ClassePartis classePartis(ClassePartis classePartis, String langueNom) throws Exception {
+//		ClassePartis resultat = ClassePartis.initClassePartis(this, classePartis, langueNom);
+//		return resultat;
+//	} 
 
 	protected void indexerClasse(String classeCheminAbsolu) throws Exception { 
 		SolrInputDocument classeDoc = new SolrInputDocument();
@@ -485,7 +486,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				indexerStocker(champDoc, "champEstTest", langueNom, champEstTest); 
 				indexerStocker(champDoc, "champEstSubstitue", langueNom, champEstSubstitue); 
 
-				ClassePartis champClassePartis = classePartis(champQdox.getType());
+				ClassePartis champClassePartis = ClassePartis.initClassePartis(this, champQdox.getType(), langueNom);
 	
 				stockerRegexCommentaires(champCommentaire, langueNom, champDoc, "champCommentaire");
 				stocker(champDoc, "champNomSimpleComplet", langueNom, champClassePartis.nomSimpleComplet);
@@ -495,7 +496,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				// Champ Langue //
 				//////////////////
 				for(String langueNom : autresLangues) { 
-					ClassePartis champClassePartisLangue = classePartis(champClassePartis, langueNom);
+					ClassePartis champClassePartisLangue = ClassePartis.initClassePartis(this, champClassePartis, langueNom);
 					String champVarLangue = regex("^var\\." + langueNom + ": (.*)", champCommentaire);
 					champVarLangue = champVarLangue == null ? champVar : champVarLangue;
 					String champCodeSourceLangue = regexRemplacerTout(champCommentaire, champCodeSource, langueNom);
@@ -863,36 +864,36 @@ public class IndexerClasse extends RegarderClasseBase {
 							JavaParameter methodeParamQdox = methodeParamsQdox.get(methodeParamNum - 1);
 							String methodeParamVar = methodeParamQdox.getName();
 							stockerListe(methodeDoc, "methodeParamVar", langueNom, methodeParamVar);
-							ClassePartis methodeParamClassePartis = classePartis(methodeParamQdox.getJavaClass());
+							ClassePartis methodeParamClassePartis = ClassePartis.initClassePartis(this, methodeParamQdox.getJavaClass(), langueNom);
 							stockerListe(methodeDoc, "methodeParamNomSimpleComplet", langueNom, methodeParamClassePartis.nomSimpleComplet);
 							for(String langueNom : autresLangues) { 
 								String methodeParamVarLangue = regex("param" + methodeParamNum + "\\.var\\." + langueNom + ": (.*)", methodeCommentaire);
 								if(methodeParamVarLangue == null)
 									methodeParamVarLangue = methodeParamVar;
-								ClassePartis methodeParamClassePartisLangue = classePartis(methodeParamClassePartis, langueNom);
+								ClassePartis methodeParamClassePartisLangue = ClassePartis.initClassePartis(this, methodeParamClassePartis, langueNom);
 
 								stockerListe(methodeDoc, "methodeParamNomSimpleComplet", langueNom, methodeParamClassePartisLangue.nomSimpleComplet);
 								stockerListe(methodeDoc, "methodeParamVar", langueNom, methodeParamVarLangue);
 							}  
 						}
 						for(JavaAnnotation annotation : annotations) {
-							String methodeAnnotationBlocCode = stockerListe(methodeDoc, "methodeAnnotationBlocCode", langueNom, annotation.getCodeBlock());
+							String methodeAnnotationBlocCode = stockerListe(methodeDoc, "methodeAnnotationBlocCode", langueNom, annotation.toString());
 						}
 						for(JavaClass methodeExceptionQdox : methodeExceptionsQdox) {
-							String methodeExceptionNomSimpleComplet = methodeExceptionQdox.getSimpleName();
+							String methodeExceptionNomSimpleComplet = StringUtils.substringAfterLast(methodeExceptionQdox.getCanonicalName(), ".");
 							stockerListe(methodeDoc, "methodeExceptionNomSimpleComplet", methodeExceptionNomSimpleComplet);
 						}
 						Boolean methodeEstVide = false;
 						if(classeQdoxRetour != null && !classeQdoxRetour.getCanonicalName().equals("void")) {
 	
-							ClassePartis methodeRetourClassePartis = classePartis(methodeQdox.getReturns());
+							ClassePartis methodeRetourClassePartis = ClassePartis.initClassePartis(this, methodeQdox.getReturns(), langueNom);
 				
 							stocker(methodeDoc, "methodeRetourNomSimpleComplet", langueNom, methodeRetourClassePartis.nomSimpleComplet);
 							//////////////////
 							// Champ Langue //
 							//////////////////
 							for(String langueNom : autresLangues) { 
-								ClassePartis methodeRetourClassePartisLangue = classePartis(methodeRetourClassePartis, langueNom);
+								ClassePartis methodeRetourClassePartisLangue = ClassePartis.initClassePartis(this, methodeRetourClassePartis, langueNom);
 								stocker(methodeDoc, "methodeNomSimpleComplet", langueNom, methodeRetourClassePartisLangue.nomSimpleComplet);
 							}  
 							
