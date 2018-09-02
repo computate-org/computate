@@ -30,8 +30,8 @@ public class EcrireClasse extends IndexerClasse {
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
 		rechercheSolr.setRows(1000000);
-		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexe_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
-		rechercheSolr.addSort("partNumero_indexe_int", ORDER.asc);
+		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexed_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
+		rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
 
 		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
 		ecrireClasse(classeCheminAbsolu, langueNom, reponseRecherche);
@@ -92,21 +92,21 @@ public class EcrireClasse extends IndexerClasse {
 	
 			for(int i = 0; i < listeRecherche.size(); i++) { 
 				SolrDocument doc = listeRecherche.get(i); 
-				Integer partNumero = (Integer)doc.get("partNumero_stocke_int");
+				Integer partNumero = (Integer)doc.get("partNumero_stored_int");
 				if(partNumero == null)
 					partNumero = 2;
 				if(partNumero.equals(1)) {
-					classeCheminRepertoire = (String)doc.get("classeCheminRepertoire_" + langueNom + "_stocke_string");
-					classeChemin = (String)doc.get("classeChemin_" + langueNom + "_stocke_string"); 
+					classeCheminRepertoire = (String)doc.get("classeCheminRepertoire_" + langueNom + "_stored_string");
+					classeChemin = (String)doc.get("classeChemin_" + langueNom + "_stored_string"); 
 					classeRepertoire = new File(classeCheminRepertoire);
 					classeRepertoire.mkdirs();
 					classeFichier = new File(classeChemin);
-					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stocke_string");
-					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stocke_string");
-					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stocke_string");
-					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stocke_string");
-					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stocke_string");
-					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stocke_strings");
+					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
+					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
+					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stored_string");
+					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
+					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
+					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stored_strings");
 		
 					s.append("package ").append(classeNomEnsemble).append(";\n\n");
 					if(classeImportations.size() > 0) { 
@@ -122,33 +122,33 @@ public class EcrireClasse extends IndexerClasse {
 					s.append(" {\n");
 				} 
 				else {     
-					Boolean partEstChamp = (Boolean)doc.get("partEstChamp_stocke_boolean");
-					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stocke_boolean");
-					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stocke_boolean");
-					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stocke_boolean");
+					Boolean partEstChamp = (Boolean)doc.get("partEstChamp_stored_boolean");
+					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stored_boolean");
+					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
+					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
 	
 					if(BooleanUtils.isTrue(partEstChamp)) {
-						String champCommentaire = (String)doc.get("champCommentaire_" + langueNom + "_stocke_string");
-						String champVar = (String)doc.get("champVar_" + langueNom + "_stocke_string");
-						String champNomSimpleComplet = (String)doc.get("champNomSimpleComplet_" + langueNom + "_stocke_string");
-						String champCodeSource = (String)doc.get("champCodeSource_" + langueNom + "_stocke_string");
+						String champCommentaire = (String)doc.get("champCommentaire_" + langueNom + "_stored_string");
+						String champVar = (String)doc.get("champVar_" + langueNom + "_stored_string");
+						String champNomSimpleComplet = (String)doc.get("champNomSimpleComplet_" + langueNom + "_stored_string");
+						String champCodeSource = (String)doc.get("champCodeSource_" + langueNom + "_stored_string");
 
 						s.append("\n"); 
 						ecrireCommentaire(s, champCommentaire, 1);
 						s.append("\t");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stored_boolean")))
 							s.append("public ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stored_boolean")))
 							s.append("protected ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPrive_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPrive_stored_boolean")))
 							s.append("private ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstStatique_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstStatique_stored_boolean")))
 							s.append("static ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstFinale_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstFinale_stored_boolean")))
 							s.append("final ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstAbstrait_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstAbstrait_stored_boolean")))
 							s.append("abstract ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstNatif_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstNatif_stored_boolean")))
 							s.append("native ");
 						
 						s.append(champNomSimpleComplet).append(" ").append(champVar);
@@ -158,43 +158,53 @@ public class EcrireClasse extends IndexerClasse {
 					}     
 	
 					if(BooleanUtils.isTrue(partEstMethode)) {
-						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stocke_string");
-						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stocke_string");
-						String methodeCommentaire = (String)doc.get("methodeCommentaire_" + langueNom + "_stocke_string");
-						List<String> methodeExceptionNomSimpleCompletListe = (List<String>)doc.get("methodeExceptionNomSimpleComplet_stocke_strings");
+						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
+						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stored_string");
+						String methodeCommentaire = (String)doc.get("methodeCommentaire_" + langueNom + "_stored_string");
+						List<String> methodeExceptionNomSimpleCompletListe = (List<String>)doc.get("methodeExceptionNomSimpleComplet_stored_strings");
 
 						s.append("\n"); 
 						ecrireCommentaire(s, methodeCommentaire, 1);
 						s.append("\t");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stored_boolean")))
 							s.append("public ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstProtege_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstProtege_stored_boolean")))
 							s.append("protected ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPrive_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPrive_stored_boolean")))
 							s.append("private ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstStatique_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstStatique_stored_boolean")))
 							s.append("static ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstFinale_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstFinale_stored_boolean")))
 							s.append("final ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstAbstrait_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstAbstrait_stored_boolean")))
 							s.append("abstract ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstNatif_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstNatif_stored_boolean")))
 							s.append("native ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstVide_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstVide_stored_boolean")))
 							s.append("void ");
 						else
-							s.append((String)doc.get("methodeNomSimpleComplet_" + langueNom + "_stocke_string")).append(" ");
+							s.append((String)doc.get("methodeRetourNomSimpleComplet_" + langueNom + "_stored_string"));
+						s.append(" ");
 						s.append(methodeVar);
 						s.append("(");
-						List<String> methodeParamNomSimpleCompletListe = (List<String>)doc.get("methodeParamNomSimpleComplet_" + langueNom + "_stocke_strings"); 
-						List<String> methodeParamVarListe = (List<String>)doc.get("methodeParamVar_" + langueNom + "_stocke_strings");
+						List<String> methodeParamNomSimpleCompletListe = (List<String>)doc.get("methodeParamNomSimpleComplet_" + langueNom + "_stored_strings"); 
+						List<String> methodeParamVarListe = (List<String>)doc.get("methodeParamVar_" + langueNom + "_stored_strings");
+						List<Boolean> methodeParamArgsVariableListe = (List<Boolean>)doc.get("methodeParamArgsVariable_stored_booleans");
 						if(methodeParamNomSimpleCompletListe != null && methodeParamVarListe != null && methodeParamNomSimpleCompletListe.size() == methodeParamVarListe.size()) {
 							for(int j = 0; j < methodeParamVarListe.size(); j++) {
 								String methodeParamNomSimpleComplet = methodeParamNomSimpleCompletListe.get(j);
 								String methodeParamVar = methodeParamVarListe.get(j);
+								Boolean methodeParamArgsVariable = methodeParamArgsVariableListe.get(j);
 								if(j > 0)
 									s.append(", ");
-								s.append(methodeParamNomSimpleComplet).append(" ").append(methodeParamVar);
+								s.append(methodeParamNomSimpleComplet);
+
+								if(methodeParamArgsVariable)
+									s.append("...");
+								else
+									s.append(" ");
+
+								s.append(methodeParamVar);
 							}
 						}    
 						s.append(")");
@@ -251,9 +261,9 @@ public class EcrireClasse extends IndexerClasse {
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
 		rechercheSolr.setRows(1000000);
-		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexe_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
-		rechercheSolr.addFilterQuery("classeEtendGen_indexe_boolean:true");
-		rechercheSolr.addSort("partNumero_indexe_int", ORDER.asc);
+		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexed_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
+		rechercheSolr.addFilterQuery("classeEtendGen_indexed_boolean:true");
+		rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
 
 		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
 		ecrireClasseGen(reponseRecherche, langueNom);
@@ -294,16 +304,16 @@ public class EcrireClasse extends IndexerClasse {
 	
 			for(int i = 0; i < listeRecherche.size(); i++) {
 				SolrDocument doc = listeRecherche.get(i); 
-				Integer partNumero = (Integer)doc.get("partNumero_stocke_int");
+				Integer partNumero = (Integer)doc.get("partNumero_stored_int");
 				if(partNumero.equals(1)) {
-					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stocke_string");
-					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stocke_string"); 
+					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stored_string");
+					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stored_string"); 
 					classeRepertoire = new File(classeCheminRepertoireGen);
 					classeRepertoire.mkdirs();
 					classeFichier = new File(classeCheminGen);
-					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stocke_string");
-					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stocke_string");
-					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stocke_string");
+					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
+					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stored_string");
+					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 		
 					s.append("package ").append(classeNomEnsemble).append(";\n\n");
 					s.append("public class ").append(classeNomSimpleGen).append(" extends ").append(classeNomSimpleSuper);
@@ -311,53 +321,53 @@ public class EcrireClasse extends IndexerClasse {
 					s.append("\n"); 
 				} 
 				else {
-					Boolean partEstChamp = (Boolean)doc.get("partEstChamp_stocke_boolean");
-					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stocke_boolean");
-					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stocke_boolean");
-					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stocke_boolean");
-					String champVar = (String)doc.get("champVar_" + langueNom + "_stocke_string");
+					Boolean partEstChamp = (Boolean)doc.get("partEstChamp_stored_boolean");
+					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stored_boolean");
+					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
+					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
+					String champVar = (String)doc.get("champVar_" + langueNom + "_stored_string");
 	
 					if(BooleanUtils.isTrue(partEstChamp)) {
 						s.append("\t");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stored_boolean")))
 							s.append("public ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stored_boolean")))
 							s.append("protege ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPrive_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPrive_stored_boolean")))
 							s.append("prive ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstStatique_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstStatique_stored_boolean")))
 							s.append("static ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstFinale_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstFinale_stored_boolean")))
 							s.append("final ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstAbstrait_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstAbstrait_stored_boolean")))
 							s.append("abstract ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstNatif_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("champEstNatif_stored_boolean")))
 							s.append("native ");
 						s.append(";\n");
 					}     
 	
 					if(BooleanUtils.isTrue(partEstMethode)) {
-						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stocke_string");
-						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stocke_string");
+						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
+						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stored_string");
 						s.append("\t");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stored_boolean")))
 							s.append("public ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstProtege_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstProtege_stored_boolean")))
 							s.append("protected ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPrive_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPrive_stored_boolean")))
 							s.append("private ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstStatique_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstStatique_stored_boolean")))
 							s.append("static ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstFinale_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstFinale_stored_boolean")))
 							s.append("final ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstAbstrait_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstAbstrait_stored_boolean")))
 							s.append("abstract ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstNatif_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstNatif_stored_boolean")))
 							s.append("native ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstVide_stocke_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstVide_stored_boolean")))
 							s.append("void ");
 						else
-							s.append((String)doc.get("methodeNomSimpleComplet_stocke_string")).append(" ");
+							s.append((String)doc.get("methodeNomSimpleComplet_stored_string")).append(" ");
 						s.append(methodeVar);
 						s.append("(");
 						s.append(")");

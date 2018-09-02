@@ -18,7 +18,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
  * classeNomCanonique_enUS: org.computate.enUS.java.SiteConfig
  * enUS: Loads the properties in the application config file into specific fields. 
  * frFR: Charge les propriétés dans le fichier de config de l'application dans des champs spécifiques. 
- */
+ */ 
 public class ConfigSite { 
 	
 	public ConfigSite() {
@@ -54,7 +54,7 @@ public class ConfigSite {
 	protected void _appliChemin() throws Exception {
 		if(appliChemin == null)
 			appliChemin = System.getenv("appliChemin"); 
-	}
+	} 
 
 	/**
 	 * var.enUS: srcMainJavaPath

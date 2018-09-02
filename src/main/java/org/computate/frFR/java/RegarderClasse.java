@@ -44,7 +44,7 @@ public class RegarderClasse extends EcrireClasse {
 	public void testStuff() throws Exception {
 		String appliNom = "computate";
 		String appliChemin = "/usr/local/src/computate";
-		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderClasseBase.java";
+		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/ClasseParts.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;
