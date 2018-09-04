@@ -14,7 +14,7 @@ import org.computate.frFR.config.ConfigSite;
 import com.thoughtworks.qdox.model.JavaClass;
 
 /** 
- * classeNomCanonique_enUS: org.computate.enUS.java.ClassParts
+ * nomCanonique.enUS: org.computate.enUS.java.ClassParts
  */  
 public class ClasseParts {
 

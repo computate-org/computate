@@ -15,7 +15,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
 /**
- * classeNomCanonique_enUS: org.computate.enUS.java.WriteClass
+ * nomCanonique.enUS: org.computate.enUS.java.WriteClass
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  */     
@@ -72,7 +72,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * _stored
 	 * r.enUS: partNumero
 	 * partNumber
-	 */  
+	 */ 
 	protected void ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults(); 
 

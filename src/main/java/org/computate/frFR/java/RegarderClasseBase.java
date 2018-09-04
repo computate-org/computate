@@ -17,7 +17,7 @@ import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaType;
 
 /**   
- * classeNomCanonique_enUS: org.computate.enUS.java.WatchClassBase
+ * nomCanonique.enUS: org.computate.enUS.java.WatchClassBase
  */   
 public class RegarderClasseBase extends ConfigSite {
 

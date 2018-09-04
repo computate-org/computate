@@ -15,7 +15,7 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 
 /**
- * classeNomCanonique_enUS: org.computate.enUS.java.SiteConfig
+ * nomCanonique.enUS: org.computate.enUS.java.SiteConfig
  * enUS: Loads the properties in the application config file into specific fields. 
  * frFR: Charge les propriétés dans le fichier de config de l'application dans des champs spécifiques. 
  */ 
