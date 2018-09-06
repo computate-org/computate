@@ -4,7 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.Test;
 
-public class RegarderClasse extends EcrireClasse {
+public class RegarderClasse extends EcrireGenClasse {
 	
 	public RegarderClasse() {
 	}

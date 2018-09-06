@@ -72,6 +72,8 @@ public class EcrireClasse extends IndexerClasse {
 	 * _stored
 	 * r.enUS: partNumero
 	 * partNumber
+	 * r: classeParametreTypeNoms
+	 * r.enUS: classTypeParameterNames
 	 */ 
 	protected void ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults(); 
@@ -89,6 +91,9 @@ public class EcrireClasse extends IndexerClasse {
 			String classeNomEnsemble = null;
 			String classeCommentaire = null;      
 			List<String> classeImportations = null;  
+			List<String> classeParametreTypeNoms = null;  
+			List<String> classeSuperParametreTypeNoms = null;  
+			Boolean classeEtendGen = null;
 	
 			for(int i = 0; i < listeRecherche.size(); i++) { 
 				SolrDocument doc = listeRecherche.get(i); 
@@ -107,6 +112,9 @@ public class EcrireClasse extends IndexerClasse {
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stored_strings");
+					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
+					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
+					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
 		
 					s.append("package ").append(classeNomEnsemble).append(";\n\n");
 					if(classeImportations.size() > 0) { 
@@ -117,8 +125,35 @@ public class EcrireClasse extends IndexerClasse {
 					}
 					ecrireCommentaire(s, classeCommentaire, 0); 
 					s.append("public class ").append(classeNomSimple);
-					if(!"java.lang.Object".equals(classeNomCanoniqueSuper))
-						s.append(" extends ").append(classeNomSimpleSuper);
+					if(classeParametreTypeNoms != null && classeParametreTypeNoms.size() > 0) {
+						s.append("<");
+						for(int j = 0; j < classeParametreTypeNoms.size(); j++) {
+							String classeParametreTypeNom = classeParametreTypeNoms.get(j);
+							if(i > 0)
+								s.append(", ");
+							s.append(classeParametreTypeNom);
+						}
+						s.append(">");
+					}
+					if(!"java.lang.Object".equals(classeNomCanoniqueSuper)) {
+						s.append(" extends ");
+						if(classeEtendGen) {
+							s.append(classeNomSimple).append("Gen");
+						} 
+						else {
+							s.append(classeNomSimpleSuper);
+						}
+						if(classeSuperParametreTypeNoms != null && classeSuperParametreTypeNoms.size() > 0) {
+							s.append("<");
+							for(int j = 0; j < classeSuperParametreTypeNoms.size(); j++) {
+								String classeSuperParametreTypeNom = classeSuperParametreTypeNoms.get(j);
+								if(i > 0)
+									s.append(", ");
+								s.append(classeSuperParametreTypeNom);
+							}
+							s.append(">");
+						}
+					}
 					s.append(" {\n");
 				} 
 				else {     
@@ -236,149 +271,4 @@ public class EcrireClasse extends IndexerClasse {
 			System.err.println("No file was found in the search engine. ");
 		}
 	}  
-
-	/**
-	 * methodeVar_enUS: writeClassGen
-	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
-	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
-	 * enUS: Retrieve the records for the class from the search engine, 
-	 * enUS: process them and write them into class files for each supported language. 
-	 * r.enUS: rechercheSolr
-	 * solrSearch
-	 * r.enUS: reponseRecherche
-	 * searchResponse
-	 * r.enUS: classeCheminAbsolu
-	 * classAbsolutePath
-	 * r.enUS: _indexe
-	 * _indexed
-	 * r.enUS: _stocke
-	 * _stored
-	 * r.enUS: partNumero
-	 * partNumber
-	 */    
-	protected void ecrireClasseGen(String classeCheminAbsolu, String langueNom) throws Exception { 
-
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1000000);
-		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexed_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
-		rechercheSolr.addFilterQuery("classeEtendGen_indexed_boolean:true");
-		rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
-
-		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		ecrireClasseGen(reponseRecherche, langueNom);
-	}
-
-	/**  
-	 * methodeVar_enUS: writeClassGen
-	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
-	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
-	 * enUS: Retrieve the records for the class from the search engine, 
-	 * enUS: process them and write them into class files for each supported language. 
-	 * r.enUS: rechercheSolr
-	 * solrSearch
-	 * r.enUS: reponseRecherche
-	 * searchResponse
-	 * r.enUS: classeCheminAbsolu
-	 * classAbsolutePath
-	 * r.enUS: _indexe
-	 * _indexed
-	 * r.enUS: _stocke
-	 * _stored
-	 * r.enUS: partNumero
-	 * partNumber
-	 */      
-	protected void ecrireClasseGen(QueryResponse reponseRecherche, String langueNom) throws Exception { 
-		SolrDocumentList listeRecherche = reponseRecherche.getResults();
-
-		if(listeRecherche.size() > 0 && (langueIndexe || !StringUtils.equals(langueNom, this.langueNom))) {    
-			String classeCheminRepertoireGen = null;
-			String classeCheminGen = null; 
-			File classeRepertoire = null;
-			File classeFichier = null;
-			StringBuilder s = new StringBuilder();
-			
-			String classeNomSimpleGen = null;
-			String classeNomSimpleSuper = null;    
-			String classeNomEnsemble = null;      
-	
-			for(int i = 0; i < listeRecherche.size(); i++) {
-				SolrDocument doc = listeRecherche.get(i); 
-				Integer partNumero = (Integer)doc.get("partNumero_stored_int");
-				if(partNumero.equals(1)) {
-					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stored_string");
-					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stored_string"); 
-					classeRepertoire = new File(classeCheminRepertoireGen);
-					classeRepertoire.mkdirs();
-					classeFichier = new File(classeCheminGen);
-					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
-					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stored_string");
-					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
-		
-					s.append("package ").append(classeNomEnsemble).append(";\n\n");
-					s.append("public class ").append(classeNomSimpleGen).append(" extends ").append(classeNomSimpleSuper);
-					s.append(" {\n");
-					s.append("\n"); 
-				} 
-				else {
-					Boolean partEstChamp = (Boolean)doc.get("partEstChamp_stored_boolean");
-					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stored_boolean");
-					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
-					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
-					String champVar = (String)doc.get("champVar_" + langueNom + "_stored_string");
-	
-					if(BooleanUtils.isTrue(partEstChamp)) {
-						s.append("\t");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stored_boolean")))
-							s.append("public ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stored_boolean")))
-							s.append("protege ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPrive_stored_boolean")))
-							s.append("prive ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstStatique_stored_boolean")))
-							s.append("static ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstFinale_stored_boolean")))
-							s.append("final ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstAbstrait_stored_boolean")))
-							s.append("abstract ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstNatif_stored_boolean")))
-							s.append("native ");
-						s.append(";\n");
-					}     
-	
-					if(BooleanUtils.isTrue(partEstMethode)) {
-						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
-						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stored_string");
-						s.append("\t");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stored_boolean")))
-							s.append("public ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstProtege_stored_boolean")))
-							s.append("protected ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPrive_stored_boolean")))
-							s.append("private ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstStatique_stored_boolean")))
-							s.append("static ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstFinale_stored_boolean")))
-							s.append("final ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstAbstrait_stored_boolean")))
-							s.append("abstract ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstNatif_stored_boolean")))
-							s.append("native ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstVide_stored_boolean")))
-							s.append("void ");
-						else
-							s.append((String)doc.get("methodeNomSimpleComplet_stored_string")).append(" ");
-						s.append(methodeVar);
-						s.append("(");
-						s.append(")");
-						s.append(" {");
-						s.append(methodeCodeSource);
-						s.append("}\n\n");
-					} 
-				}
-			}
-			s.append("}\n");
-			FileUtils.write(classeFichier, s, Charset.forName("UTF-8"));  
-		} 
-	} 
 }
