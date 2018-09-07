@@ -1,19 +1,13 @@
-package org.computate.frFR.java;
+package org.computate.enUS.java;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.Test;
 
-/**
- * nomCanonique.enUS: org.computate.enUS.java.WatchClass
- */     
-public class RegarderClasse extends EcrireGenClasse {
-	
-	public RegarderClasse() {
-	}
+public class WatchClass extends EcrireGenClasse {
 
-	public static void main(String[] args) throws Exception {   
+	public static void  main(String[] args) throws Exception {   
 		RegarderClasse regarderClasse = new RegarderClasse();
 		try {
 			regarderClasse.args = args;
@@ -25,8 +19,8 @@ public class RegarderClasse extends EcrireGenClasse {
 		}
 		regarderClasse(regarderClasse);
 	}
-	
-	public static void regarderClasse(RegarderClasse regarderClasse) throws Exception {
+
+	public static void  regarderClasse(RegarderClasse regarderClasse) throws Exception {
 		System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
 
 		regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu);
@@ -45,8 +39,8 @@ public class RegarderClasse extends EcrireGenClasse {
 //		}
 	}
 
-	@Test
-	public void testStuff() throws Exception {
+	@Test()
+	public void  testStuff() throws Exception {
 		String appliNom = "computate";
 		String appliChemin = "/usr/local/src/computate";
 //		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderClasseBase.java";

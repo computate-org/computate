@@ -195,27 +195,11 @@ public class ConfigSite {
 	 * r.enUS: languageName
 	 **/ 
 	protected void _langueNomActuel() throws Exception {
-		if(StringUtils.equals(langueNom, "tout"))
-			langueNomActuel = "frFR";
-		else
+//		if(StringUtils.equals(langueNom, "tout"))
+//			langueNomActuel = "frFR";
+//		else
 			langueNomActuel = langueNom;
 	} 
-
-	/**
-	 * var.enUS: allLanguages
-	 * enUS: All language names supported in this application. 
-	 */
-	public String[] toutesLangues;
-	/**	
-	 * var.enUS: _allLanguages
-	 * r: toutesLangues
-	 * r.enUS: allLanguages
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/ 
-	protected void _toutesLangues() throws Exception {
-		toutesLangues = config.getStringArray(appliNom + ".toutesLangues");
-	}
 
 	/**
 	 * var.enUS: otherLanguages
@@ -232,7 +216,23 @@ public class ConfigSite {
 	 * r.enUS: languageName
 	 **/ 
 	protected void _autresLangues() throws Exception {
-		autresLangues = ArrayUtils.removeElement(toutesLangues, langueNom);
+		autresLangues = config.getStringArray(appliNom + ".autresLangues");
+	}
+
+	/**
+	 * var.enUS: allLanguages
+	 * enUS: All language names supported in this application. 
+	 */
+	public String[] toutesLangues;
+	/**	
+	 * var.enUS: _allLanguages
+	 * r: toutesLangues
+	 * r.enUS: allLanguages
+	 * r: appliNom
+	 * r.enUS: appName
+	 **/ 
+	protected void _toutesLangues() throws Exception {
+		toutesLangues = ArrayUtils.add(ArrayUtils.addAll(autresLangues), langueNom);
 	}
 
 	/**
@@ -597,8 +597,8 @@ public class ConfigSite {
 		_config();
 		_langueNom();
 		_langueNomActuel();
-		_toutesLangues();
 		_autresLangues();
+		_toutesLangues();
 		_langueIndexe();
 		_nomDomaine();
 		_nomEnsembleDomaine();

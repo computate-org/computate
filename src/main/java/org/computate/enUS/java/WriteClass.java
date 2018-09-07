@@ -1,9 +1,8 @@
-package org.computate.frFR.java;      
+package org.computate.enUS.java;
 
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,19 +13,11 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
-/**
- * nomCanonique.enUS: org.computate.enUS.java.WriteClass
- * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
- * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
- */     
-public class EcrireClasse extends IndexerClasse {
+/**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
+ */
+public class WriteClass extends IndexClass {
 
-	/**
-	 * methodeVar_enUS: writeClass
-	 * methodeParamVar_enUS_1: absoluteClassPath
-	 * methodeParamVar_enUS_2: languageName
-	 */    
-	protected void ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
+	protected void  ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
 		rechercheSolr.setRows(1000000);
@@ -35,9 +26,9 @@ public class EcrireClasse extends IndexerClasse {
 
 		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
 		ecrireClasse(classeCheminAbsolu, langueNom, reponseRecherche);
-	}  
+	}
 
-	public void ecrireCommentaire(StringBuilder s, String commentaire, Integer tabulations) {
+	public void  ecrireCommentaire(StringBuilder s, String commentaire, Integer tabulations) {
 		String tabulationsStr = StringUtils.repeat("\t", tabulations);
 		if(StringUtils.isNotEmpty(commentaire)) {
 			String[] partis = StringUtils.split(commentaire, "\n");
@@ -52,36 +43,10 @@ public class EcrireClasse extends IndexerClasse {
 		} 
 	}
 
-	/**
-	 * methodeVar_enUS: writeClass
-	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
-	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
-	 * enUS: Retrieve the records for the class from the search engine, 
-	 * enUS: process them and write them into class files for each supported language. 
-	 * r.enUS: listeRecherche
-	 * searchList
-	 * r.enUS: rechercheSolr
-	 * solrSearch
-	 * r.enUS: reponseRecherche
-	 * searchResponse
-	 * r.enUS: classeCheminAbsolu
-	 * classAbsolutePath
-	 * r.enUS: _indexe
-	 * _indexed
-	 * r.enUS: _stocke
-	 * _stored
-	 * r.enUS: partNumero
-	 * partNumber
-	 * r: classeParametreTypeNoms
-	 * r.enUS: classTypeParameterNames
-	 * r: classeParametreTypeNom
-	 * r.enUS: classTypeParameterName
-	 * r: methodeParametreTypeNoms
-	 * r.enUS: methodTypeParameterNames
-	 * r: methodeParametreTypeNom
-	 * r.enUS: methodTypeParameterName
-	 */ 
-	protected void ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
+	/**	Retrieve the records for the class from the search engine, 
+	 *	process them and write them into class files for each supported language. 
+	 */
+	protected void  ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults(); 
 
 		if(listeRecherche.size() > 0) {
@@ -97,7 +62,7 @@ public class EcrireClasse extends IndexerClasse {
 			String classeNomEnsemble = null;
 			String classeCommentaire = null;      
 			List<String> classeImportations = null;  
-			List<String> classeParametreTypeNoms = null;  
+			List<String> classTypeParameterNames = null;  
 			List<String> classeSuperParametreTypeNoms = null;  
 			Boolean classeEtendGen = null;
 	
@@ -118,7 +83,7 @@ public class EcrireClasse extends IndexerClasse {
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stored_strings");
-					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
+					classTypeParameterNames = (List<String>)doc.get("classTypeParameterNames_stored_strings");
 					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
 		
@@ -131,13 +96,13 @@ public class EcrireClasse extends IndexerClasse {
 					}
 					ecrireCommentaire(s, classeCommentaire, 0); 
 					s.append("public class ").append(classeNomSimple);
-					if(classeParametreTypeNoms != null && classeParametreTypeNoms.size() > 0) {
+					if(classTypeParameterNames != null && classTypeParameterNames.size() > 0) {
 						s.append("<");
-						for(int j = 0; j < classeParametreTypeNoms.size(); j++) {
-							String classeParametreTypeNom = classeParametreTypeNoms.get(j);
+						for(int j = 0; j < classTypeParameterNames.size(); j++) {
+							String classTypeParameterName = classTypeParameterNames.get(j);
 							if(j > 0)
 								s.append(", ");
-							s.append(classeParametreTypeNom);
+							s.append(classTypeParameterName);
 						}
 						s.append(">");
 					}
@@ -203,18 +168,16 @@ public class EcrireClasse extends IndexerClasse {
 						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stored_string");
 						String methodeCommentaire = (String)doc.get("methodeCommentaire_" + langueNom + "_stored_string");
 						List<String> methodeExceptionNomSimpleCompletListe = (List<String>)doc.get("methodeExceptionNomSimpleComplet_stored_strings");
-						List<String> methodeParametreTypeNoms = (List<String>)doc.get("methodeParametreTypeNoms_stored_strings");
+						List<String> methodTypeParameterNames = (List<String>)doc.get("methodTypeParameterNames_stored_strings");
 						List<String> methodeAnnotationsNomSimpleCompletListe = (List<String>)doc.get("methodeAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings");
 						List<String> methodeAnnotationsBlocCodeListe = (List<String>)doc.get("methodeAnnotationsBlocCode_" + langueNom + "_stored_strings");
 
 						s.append("\n"); 
 						ecrireCommentaire(s, methodeCommentaire, 1);
-						if(methodeAnnotationsNomSimpleCompletListe != null && methodeAnnotationsBlocCodeListe != null) {
-							for(int j = 0; j < methodeAnnotationsNomSimpleCompletListe.size(); j++) {
-								String methodeAnnotationNomSimpleComplet = methodeAnnotationsNomSimpleCompletListe.get(j);
-								String methodeAnnotationBlocCode = methodeAnnotationsBlocCodeListe.get(j);
-								s.append("\t@").append(methodeAnnotationNomSimpleComplet).append(methodeAnnotationBlocCode).append("\n");
-							}
+						for(int j = 0; j < methodeAnnotationsNomSimpleCompletListe.size(); j++) {
+							String methodeAnnotationNomSimpleComplet = methodeAnnotationsNomSimpleCompletListe.get(j);
+							String methodeAnnotationBlocCode = methodeAnnotationsBlocCodeListe.get(j);
+							s.append("\t@").append(methodeAnnotationNomSimpleComplet).append(methodeAnnotationBlocCode).append("\n");
 						}
 						s.append("\t");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stored_boolean")))
@@ -233,13 +196,13 @@ public class EcrireClasse extends IndexerClasse {
 							s.append("native ");
 
 
-						if(methodeParametreTypeNoms != null && methodeParametreTypeNoms.size() > 0) {
+						if(methodTypeParameterNames != null && methodTypeParameterNames.size() > 0) {
 							s.append("<");
-							for(int j = 0; j < methodeParametreTypeNoms.size(); j++) {
-								String methodeParametreTypeNom = methodeParametreTypeNoms.get(j);
+							for(int j = 0; j < methodTypeParameterNames.size(); j++) {
+								String methodTypeParameterName = methodTypeParameterNames.get(j);
 								if(j > 0)
 									s.append(", ");
-								s.append(methodeParametreTypeNom);
+								s.append(methodTypeParameterName);
 							}
 							s.append("> ");
 						}
@@ -299,5 +262,5 @@ public class EcrireClasse extends IndexerClasse {
 		else {
 			System.err.println("No file was found in the search engine. ");
 		}
-	}  
+	}
 }

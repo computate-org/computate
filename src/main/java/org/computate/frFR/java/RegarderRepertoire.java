@@ -9,7 +9,6 @@ import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -20,48 +19,27 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.log4j.Level;
-import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.util.ClientUtils;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.common.SolrInputDocument;
-
-import com.thoughtworks.qdox.JavaProjectBuilder;
-import com.thoughtworks.qdox.model.JavaClass;
-import com.thoughtworks.qdox.model.JavaField;
-import com.thoughtworks.qdox.model.JavaMember;
+import org.slf4j.Logger;
 
 /**
- * classeNomCanonique.enUS: org.computate.enUS.java.WatchDirectory
- */     
-public class RegarderRepertoire {   
+ * nomCanonique.enUS: org.computate.enUS.java.WatchDirectory
+ */    
+public class RegarderRepertoire {  
 	/** 
 	 * var.enUS: log
 	 */
-	protected final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
+	protected final Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
 	
 	/** 
 	 * var.enUS: observer
@@ -79,34 +57,118 @@ public class RegarderRepertoire {
 	 * var.enUS: paths
 	 */
 	protected ArrayList<Path> chemins = new ArrayList<Path>();
-	/**
-	 * var.enUS: testRunner
-	 */
 //	protected Class<?> coureurTest = SeulCoureurTestJUnit.class;
+	/**
+	 * var.enUS: outputStream
+	 */
 	protected ByteArrayOutputStream fluxSortie = new ByteArrayOutputStream();
 //	protected PumpStreamHandler gestionnaireFluxPompe = new PumpStreamHandler(new ExecLogHandler(log, Level.INFO), new ExecLogHandler(log, Level.ERROR));
+	/**
+	 * var.enUS: executor
+	 */
 	protected DefaultExecutor executeur = new DefaultExecutor();
+	/**
+	 * var.enUS: pathsBin
+	 */
 	protected ArrayList<String> cheminsBin = new ArrayList<String>();
+	/**
+	 * var.enUS: classPathPaths
+	 */
 	protected ArrayList<String> cheminsCheminClasse = new ArrayList<String>();
-	protected ArrayList<String> cheminsÀRegarder = new ArrayList<String>();
+	/**
+	 * var.enUS: pathsToWatch
+	 */
+	protected ArrayList<String> cheminsARegarder = new ArrayList<String>();
+	/**
+	 * var.enUS: testMethodNames
+	 */
 	protected ArrayList<String> nomsMethodeTest = new ArrayList<String>();
+	/**
+	 * var.enUS: sourcePaths
+	 */
 	protected ArrayList<String> cheminsSource = new ArrayList<String>();
+	/**
+	 * var.enUS: allSourcePaths
+	 */
 	protected ArrayList<String> toutCheminsSource = new ArrayList<String>();
+	/**
+	 * var.enUS: libraryPaths
+	 */
 	protected ArrayList<String> cheminsBibliotheque = new ArrayList<String>();
+	/**
+	 * var.enUS: classAppDirPath
+	 */
 	protected String classeCheminRepertoireAppli;
-	protected String cheminClasse;
+	/**
+	 * var.enUS: classPath
+	 */
+	protected String classeChemin;
+	/**
+	 * var.enUS: srcMainJavaPath
+	 */
 	protected String cheminSrcMainJava;
+	/**
+	 * var.enUS: srcGenJavaPath
+	 */
 	protected String cheminSrcGenJava;
-	protected String cheminConfiguration;
-	protected File fichierConfiguration;
+	/**
+	 * var.enUS: configPath
+	 */
+	protected String cheminConfig;
+	/**
+	 * var.enUS: configFile
+	 */
+	protected File fichierConfig;
+	/**
+	 * var.enUS: configuration
+	 */
 	protected INIConfiguration configuration;
+	/**
+	 * var.enUS: appName
+	 */
 	protected String appliNom;
+	/**
+	 * var.enUS: appPath
+	 */
 	protected String appliChemin;
+	/**
+	 * var.enUS: appComputatePath
+	 */
 	protected String appliComputateChemin;
 
+	 /**
+	 * r: appliNom
+	 * r.enUS: appName
+	 * r: appliChemin
+	 * r.enUS: appPath
+	 * r: cheminsBin
+	 * r.enUS: pathsBin
+	 * r: appliComputateChemin
+	 * r.enUS: appComputatePath
+	 * r: initialiserRegarderRepertoire
+	 * r.enUS: initializeWatchDirectory
+	 * r: ajouterCheminsARegarder
+	 * r.enUS: addPathsToWatch
+	 * r: Erreur pendant traiterEvenements. 
+	 * r.enUS: Error during handleEvents. 
+	 * r: traiterEvenements
+	 * r.enUS: handleEvents
+	 * r: RegarderRepertoire
+	 * r.enUS: WatchDirectory
+	 * r: regarderRepertoire
+	 * r.enUS: watchDirectory
+	 * r: classeCheminRepertoireAppli
+	 * r.enUS: classAppDirPath
+	 * r: cheminSrcMainJava
+	 * r.enUS: srcMainJavaPath
+	 * r: cheminSrcGenJava
+	 * r.enUS: srcGenJavaPath
+	 * r: cheminConfig
+	 * r.enUS: configPath
+	 * r: fichierConfig
+	 * r.enUS: configFile
+	 */
 	public static void main(String[] args) throws Exception { 
-//		String appliNom = args[0];
-//		String appliChemin = args[1];
 		String appliNom = System.getenv("appliNom");
 		String appliChemin = System.getenv("appliChemin");
 		String appliComputateChemin = System.getenv("appliComputateChemin");
@@ -118,18 +180,12 @@ public class RegarderRepertoire {
 
 		regarderRepertoire.cheminSrcMainJava = appliChemin + "/src/main/java";
 		regarderRepertoire.cheminSrcGenJava = appliChemin + "/src/gen/java";
-//
-//		regarderRepertoire.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib");
-//		regarderRepertoire.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib-tomcat");
-//		regarderRepertoire.cheminsBibliotheque.add(classeCheminRepertoireAppli + "/lib-keycloak");
-
-//		regarderRepertoire.cheminsBin.add(classeCheminRepertoireAppli + "/bin");
 		regarderRepertoire.cheminsBin.add(appliChemin + "/src/main/resources");
 
-		regarderRepertoire.cheminConfiguration = appliChemin + "/config/" + appliNom + ".config";
-		regarderRepertoire.fichierConfiguration = new File(regarderRepertoire.cheminConfiguration);
+		regarderRepertoire.cheminConfig = appliChemin + "/config/" + appliNom + ".config";
+		regarderRepertoire.fichierConfig = new File(regarderRepertoire.cheminConfig);
 		Configurations configurations = new Configurations();
-		regarderRepertoire.configuration = configurations.ini(regarderRepertoire.fichierConfiguration);
+		regarderRepertoire.configuration = configurations.ini(regarderRepertoire.fichierConfig);
 
 		regarderRepertoire.trace = true;
 		try {
@@ -142,12 +198,53 @@ public class RegarderRepertoire {
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
 	} 
-	
+	/*
+	 * r: cles
+	 * r: observateur
+	 * r.enUS: observer
+	 * r.enUS: keys
+	 * r: fluxSortie
+	 * r.enUS: outputStream
+	 * r: executeur
+	 * r.enUS: executor
+	 * r: cheminsCheminClasse
+	 * r.enUS: classPathPaths
+	 * r: nomsMethodeTest
+	 * r.enUS: testMethodNames
+	 * r: cheminsBibliotheque
+	 * r.enUS: libraryPaths
+	 * r: classeChemin
+	 * r.enUS: classPath
+	 */
+
+	/**
+	 * var.enUS: initializeWatchDirectory
+	 * r: observateur
+	 * r.enUS: observer
+	 * r: cheminsARegarder
+	 * r.enUS: pathsToWatch
+	 * r: cheminsSource
+	 * r.enUS: sourcePaths
+	 * r: toutCheminsSource
+	 * r.enUS: allSourcePaths
+	 * r: cheminSrcMainJava
+	 * r.enUS: srcMainJavaPath
+	 * r: cheminSrcGenJava
+	 * r.enUS: srcGenJavaPath
+	 * r: cheminsBin
+	 * r.enUS: pathsBin
+	 * r: cheminsCheminClasse
+	 * r.enUS: classPathPaths
+	 * r: cheminsBibliotheque
+	 * r.enUS: libraryPaths
+	 * r: classeChemin
+	 * r.enUS: classPath
+	 */
 	public void initialiserRegarderRepertoire() throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
 //		executeur.setStreamHandler(gestionnaireFluxPompe);
 
-		cheminsÀRegarder.add(cheminSrcMainJava);
+		cheminsARegarder.add(cheminSrcMainJava);
 		cheminsSource.add(cheminSrcMainJava);
 		toutCheminsSource.add(cheminSrcMainJava);
 
@@ -162,90 +259,181 @@ public class RegarderRepertoire {
 			cheminsCheminClasse.add(chemin + "/*");
 		} 
 
-		cheminClasse = StringUtils.join(cheminsCheminClasse, File.pathSeparator);
+		classeChemin = StringUtils.join(cheminsCheminClasse, File.pathSeparator);
 	}
 
+	/** 
+	 * var.enUS: addPathsToWatch
+	 * r: cheminsARegarder
+	 * r.enUS: pathsToWatch
+	 * r: cheminARegarder
+	 * r.enUS: pathToWatch
+	 * r: chemins
+	 * r.enUS: paths
+	 * r: enregistrerTout
+	 * r.enUS: saveAll
+	 * r: Regarder: 
+	 * r.enUS: Watch: 
+	 * r: Erreur à ajouter chemin pour regarder.
+	 * r.enUS: Error adding path to watch. 
+	 */  
 	public void ajouterCheminsARegarder() {
-		for(String cheminÀRegarder : cheminsÀRegarder) {
+		for(String cheminARegarder : cheminsARegarder) {
 			try {
-				chemins.add(enregistrerTout(Paths.get(cheminÀRegarder)));
-				log.info("Regarder: {}", cheminÀRegarder);
+				chemins.add(enregistrerTout(Paths.get(cheminARegarder)));
+				log.info("Regarder: {}", cheminARegarder);
 			} catch (IOException e) { 
 				log.error("Erreur à ajouter chemin pour regarder.", e);
 			}
 		}
-	}   
+	}      
 
-	@SuppressWarnings("unchecked") static <T> WatchEvent<T> cast(WatchEvent<?> event) {
-		return (WatchEvent<T>) event;
+	/**
+	 * param1.var.enUS: event
+	 * r: evenement
+	 * r.enUS: event
+	 */
+	@SuppressWarnings("unchecked") static <T> WatchEvent<T> cast(WatchEvent<?> evenement) {
+		return (WatchEvent<T>) evenement;
 	}
 
-	private void enregistrer(Path dir) throws IOException { 
-		WatchKey key = dir.register(observateur, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+	/**
+	 * var.enUS: save
+	 * param1.var.enUS: dirPath
+	 * r: regarderCle
+	 * r.enUS: watchKey
+	 * r: cheminRepertoire
+	 * r.enUS: dirPath
+	 * r: observateur
+	 * r.enUS: observer
+	 * r: cles
+	 * r.enUS: keys
+	 */
+	private void enregistrer(Path cheminRepertoire) throws IOException { 
+		WatchKey regarderCle = cheminRepertoire.register(observateur, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
 		if (trace) {
-			cles.get(key);
+			cles.get(regarderCle);
 		}
-		cles.put(key, dir);
+		cles.put(regarderCle, cheminRepertoire);
 	}
 
-	protected Path enregistrerTout(final Path démarrer) throws IOException { 
-		Files.walkFileTree(démarrer, new SimpleFileVisitor<Path>() {
-			@Override public FileVisitResult preVisitDirectory(Path répertoire, BasicFileAttributes champs) throws IOException {
-				enregistrer(répertoire);
+	/**
+	 * var.enUS: saveAll
+	 * param1.var.enUS: start
+	 * r: repertoire
+	 * r.enUS: dir
+	 * r: champs
+	 * r.enUS: fields
+	 * r: enregistrer
+	 * r.enUS: save
+	 * r: demarrer
+	 * r.enUS: start
+	 */
+	protected Path enregistrerTout(final Path demarrer) throws IOException { 
+		Files.walkFileTree(demarrer, new SimpleFileVisitor<Path>() {
+			@Override public FileVisitResult preVisitDirectory(Path repertoire, BasicFileAttributes champs) throws IOException {
+				enregistrer(repertoire);
 				return FileVisitResult.CONTINUE;
 			}
 		});
-		return démarrer;
+		return demarrer;
 	} 
 
+	/*
+	 * var.enUS: handleEvents
+	 * r: fluxSortie
+	 * r.enUS: outputStream
+	 * r: cheminsBin
+	 * r.enUS: pathsBin
+	 * r: cheminsCheminClasse
+	 * r.enUS: classPathPaths
+	 * r: cheminsARegarder
+	 * r.enUS: pathsToWatch
+	 * r: nomsMethodeTest
+	 * r.enUS: testMethodNames
+	 * r: cheminsSource
+	 * r.enUS: sourcePaths
+	 * r: toutCheminsSource
+	 * r.enUS: allSourcePaths
+	 * r: cheminsBibliotheque
+	 * r.enUS: libraryPaths
+	 * r: classeCheminRepertoireAppli
+	 * r.enUS: classAppDirPath
+	 * r: classeChemin
+	 * r.enUS: classPath
+	 * r: cheminSrcMainJava
+	 * r.enUS: srcMainJavaPath
+	 * r: cheminSrcGenJava
+	 * r.enUS: srcGenJavaPath
+	 * r: cheminConfig
+	 * r.enUS: configPath
+	 * r: fichierConfig
+	 * r.enUS: configFile
+	 * r: appliNom
+	 * r.enUS: appName
+	 * r: chemins
+	 * r.enUS: paths
+	 */
+
+	/**
+	 * 
+	 * 
+	 * r: classeCheminAbsolue
+	 * r.enUS: classAbsolutePath
+	 * r: executeur
+	 * r.enUS: executor
+	 * r: appliChemin
+	 * r.enUS: appPath
+	 * r: appliComputateChemin
+	 * r.enUS: appComputatePath
+	 * r: observateur
+	 * r.enUS: observer
+	 * r: cles
+	 * r.enUS: keys
+	 * r: enregistrerTout
+	 * r.enUS: saveAll
+	 * r: RegarderClasse
+	 * r.enUS: WatchClass
+	 * r: regarderCle
+	 * r.enUS: watchKey
+	 * r: repertoire
+	 * r.enUS: directory
+	 */
 	protected void traiterEvenements() {
 		for (;;) {
 
-			WatchKey clé;
+			WatchKey regarderCle;
 			try {
-				clé = observateur.take();
+				regarderCle = observateur.take();
 			} catch (InterruptedException x) {  
 				return;
 			}  
 
-			Path répertoire = cles.get(clé);
-			if (répertoire == null) {
+			Path repertoire = cles.get(regarderCle);
+			if (repertoire == null) {
 				System.err.println("Cle de surveillance n'est pas reconnue !");
 				continue;
 			}
 
-			for (WatchEvent<?> event : clé.pollEvents()) {
+			for (WatchEvent<?> event : regarderCle.pollEvents()) {
 				WatchEvent.Kind<?> kind = event.kind();
 
 				if (kind == OVERFLOW) {
 					continue;
 				}
 
-				WatchEvent<Path> événementSurveillance = cast(event);
-				Path nom = événementSurveillance.context();
-				Path enfant = répertoire.resolve(nom);
+				WatchEvent<Path> evenementSurveillance = cast(event);
+				Path nom = evenementSurveillance.context();
+				Path enfant = repertoire.resolve(nom);
 
 				try { 
 					String classeCheminAbsolu = enfant.toAbsolutePath().toString();   
-//					CommandLine ligneCommande = CommandLine.parse("mvn exec:java -Dexec.mainClass=" + RegarderClasse.class.getCanonicalName() + " -Dexec.args=\"" + classeCheminRepertoireAppli + " " + classeCheminAbsolu + "\"");
 					String cp = FileUtils.readFileToString(new File(appliChemin + "/config/cp.txt"), "UTF-8");
 					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + appliChemin + "/target/classes\" " + RegarderClasse.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
 					File repertoireTravail = new File(appliComputateChemin);
 
 					executeur.setWorkingDirectory(repertoireTravail);
 					executeur.execute(ligneCommande); 
-
-//					bricoleur = null;
-//					bricoleur = new JavaProjectBuilder();
-//					for(String cheminSource : toutCheminsSource) {
-//						File répertoireSource = new File(cheminSource);
-//						bricoleur.addSourceFolder(répertoireSource);
-//					}
-//					System.out.println("cheminAbsolu : " + classeCheminAbsolu);
-//					if (classeCheminAbsolu.endsWith(".java")) { 
-//						indexerClasse(classeCheminAbsolu);
-//						ecrireClasseGen(classeCheminAbsolu);
-//					}
 				} catch (Exception e) {  
 					String cheminAbsolu = enfant.toAbsolutePath().toString();  
 					log.error("Une Problème d'exécution de RegarderRepertoire: " + cheminAbsolu, e);
@@ -262,9 +450,9 @@ public class RegarderRepertoire {
 				}
 			}
 
-			boolean valide = clé.reset();
+			boolean valide = regarderCle.reset();
 			if (!valide) {
-				cles.remove(clé);
+				cles.remove(regarderCle);
 
 				if (cles.isEmpty()) {
 					break;

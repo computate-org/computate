@@ -1,12 +1,12 @@
 #!/bin/bash
 
+export langueNom="${langueNom:-frFR}"
 export appliNom="${appliNom:-computate}"
 #appliChemin="$(readlink -f $( dirname $( dirname $( dirname ${BASH_SOURCE[0]} ) ) ) )"
 export appliChemin="${appliChemin:-$(readlink -f $( dirname $( dirname $( dirname ${BASH_SOURCE[0]} ) ) ) )}"
 export appliComputateChemin="${appliComputateChemin:-$appliChemin}"
 export nomFichierConfig="${appliNom}.config"
 export cheminConfig="$appliChemin/config/$nomFichierConfig"
-export langueNom="frFR"
 
 function computate() {
 	echo "Voulez-vous exécuter la commande ci-dessous ? "

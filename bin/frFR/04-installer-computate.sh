@@ -20,7 +20,7 @@ WorkingDirectory=$appliChemin
 Environment=appliNom=$appliNom
 Environment=appliChemin=$appliChemin
 Environment=appliComputateChemin=$appliComputateChemin
-ExecStart=$appliComputateChemin/sh/$langueNom/regarder.sh
+ExecStart=$appliComputateChemin/bin/$langueNom/regarder.sh
 
 [Install]
 WantedBy=multi-user.target

@@ -1047,8 +1047,20 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: replaceValuesLanguage
 	 * r: annotationsLangue
 	 * r.enUS: annotationsLanguage
+	 * r: methodeParametreTypeNoms
+	 * r.enUS: methodTypeParameterNames
 	 * r: classeParametreTypeNoms
 	 * r.enUS: classTypeParameterNames
+	 * r: classeParametresType
+	 * r.enUS: classTypeParameters
+	 * r: classeParametreType
+	 * r.enUS: classTypeParameter
+	 * r: methodeParametreTypeNoms
+	 * r.enUS: methodTypeParameterNames
+	 * r: methodeParametresType
+	 * r.enUS: methodTypeParameters
+	 * r: methodeParametreType
+	 * r.enUS: methodTypeParameter
 	 */
 	protected void indexerClasse(String classeCheminAbsolu) throws Exception { 
 		SolrInputDocument classeDoc = new SolrInputDocument();
@@ -1063,11 +1075,13 @@ public class IndexerClasse extends RegarderClasseBase {
 		if(StringUtils.isEmpty(classeNomSimpleSuper))
 			classeNomSimpleSuper = classeNomCanoniqueSuper;
 		Boolean classeEtendGen = indexerStockerSolr(classeDoc, "classeEtendGen", StringUtils.endsWith(classeNomSimpleSuper, "Gen"));
+
 		List<JavaTypeVariable<JavaGenericDeclaration>> classeParametresType = classeQdox.getTypeParameters();
 		for(JavaTypeVariable<JavaGenericDeclaration> classeParametreType : classeParametresType) {
 			String classeParametreTypeNom = classeParametreType.getName();
 			stockerListeSolr(classeDoc, "classeParametreTypeNoms", classeParametreTypeNom);
 		}
+
 		if(classeQdoxSuper instanceof DefaultJavaParameterizedType) {
 			DefaultJavaParameterizedType typeSuper = (DefaultJavaParameterizedType)classeQdoxSuper;
 			List<JavaType> classeSuperParametresType = typeSuper.getActualTypeArguments();
@@ -1698,9 +1712,24 @@ public class IndexerClasse extends RegarderClasseBase {
 								stockerListeSolr(methodeDoc, "methodeParamVar", langueNom, methodeParamVarLangue);
 							}  
 						}
-						for(JavaAnnotation annotation : annotations) {
-							String methodeAnnotationBlocCode = stockerListeSolr(methodeDoc, "methodeAnnotationBlocCode", langueNom, annotation.toString());
+
+						List<JavaTypeVariable<JavaGenericDeclaration>> methodeParametresType = methodeQdox.getTypeParameters();
+						for(JavaTypeVariable<JavaGenericDeclaration> methodeParametreType : methodeParametresType) {
+							String methodeParametreTypeNom = methodeParametreType.getName();
+							stockerListeSolr(methodeDoc, "methodeParametreTypeNoms", methodeParametreTypeNom);
 						}
+
+						for(JavaAnnotation annotation : annotations) {
+							ClasseParts methodeAnnotationClasseParts = ClasseParts.initClasseParts(this, annotation.getType(), langueNom);
+							stockerListeSolr(methodeDoc, "methodeAnnotationsNomSimpleComplet", langueNom, methodeAnnotationClasseParts.nomSimpleComplet);
+							stockerListeSolr(methodeDoc, "methodeAnnotationsBlocCode", langueNom, StringUtils.substringAfter(annotation.toString(), methodeAnnotationClasseParts.nomSimple));
+							for(String langueNom : autresLangues) {  
+								ClasseParts methodeAnnotationClassePartsLangue = ClasseParts.initClasseParts(this, methodeAnnotationClasseParts, langueNom);
+								stockerListeSolr(methodeDoc, "methodeAnnotationsNomSimpleComplet", langueNom, methodeAnnotationClassePartsLangue.nomSimpleComplet);
+								stockerListeSolr(methodeDoc, "methodeAnnotationsBlocCode", langueNom, StringUtils.substringAfter(annotation.toString(), methodeAnnotationClasseParts.nomSimple));
+							}
+						}
+
 						for(JavaClass methodeExceptionQdox : methodeExceptionsQdox) {
 							String methodeExceptionNomSimpleComplet = StringUtils.substringAfterLast(methodeExceptionQdox.getCanonicalName(), ".");
 							stockerListeSolr(methodeDoc, "methodeExceptionNomSimpleComplet", methodeExceptionNomSimpleComplet);
