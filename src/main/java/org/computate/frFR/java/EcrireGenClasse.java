@@ -22,23 +22,29 @@ import org.apache.solr.common.SolrDocumentList;
 public class EcrireGenClasse extends EcrireClasse {
 
 	/**
-	 * methodeVar_enUS: writeClassGen
+	 * var.enUS: writeGenClass
+	 * param1.var.enUS: classAbsolutePath
+	 * param2.var.enUS: languageName
+	 * r: clientSolrComputate
+	 * r.enUS: solrClientComputate
+	 * r: rechercheSolr
+	 * r.enUS: solrSearch
+	 * r: classeCheminAbsolu
+	 * r.enUS: classAbsolutePath
+	 * r: partNumero
+	 * r.enUS: partNumber
+	 * r: reponseRecherche
+	 * r.enUS: searchResponse
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: ecrireClasseGen
+	 * r.enUS: writeGenClass
+	 * r: classeEtendGen
+	 * r.enUS: classExtendsGen
 	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
 	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
-	 * r.enUS: rechercheSolr
-	 * solrSearch
-	 * r.enUS: reponseRecherche
-	 * searchResponse
-	 * r.enUS: classeCheminAbsolu
-	 * classAbsolutePath
-	 * r.enUS: _indexe
-	 * _indexed
-	 * r.enUS: _stocke
-	 * _stored
-	 * r.enUS: partNumero
-	 * partNumber
 	 */    
 	protected void ecrireClasseGen(String classeCheminAbsolu, String langueNom) throws Exception { 
 
@@ -54,24 +60,109 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**  
-	 * methodeVar_enUS: writeClassGen
+	 * var.enUS: writeGenClass
+	 * param1.var.enUS: searchResponse
+	 * param2.var.enUS: languageName
+	 * r: langueIndexe
+	 * r.enUS: languageIndexed
+	 * r: listeRecherche
+	 * r.enUS: searchList
+	 * r: rechercheSolr
+	 * r.enUS: solrSearch
+	 * r: reponseRecherche
+	 * r.enUS: searchResponse
+	 * r: classeCheminAbsolu
+	 * r.enUS: classAbsolutePath
+	 * r: partNumero
+	 * r.enUS: partNumber
+	 * r: classeParametreTypeNoms
+	 * r.enUS: classTypeParameterNames
+	 * r: classeParametreTypeNom
+	 * r.enUS: classTypeParameterName
+	 * r: methodeParametreTypeNoms
+	 * r.enUS: methodTypeParameterNames
+	 * r: methodeParametreTypeNom
+	 * r.enUS: methodTypeParameterName
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: classeSuperParametreTypeNoms
+	 * r.enUS: classSuperTypeParameterNames
+	 * r: classeParametreTypeNoms
+	 * r.enUS: classTypeParameterNames
+	 * r: classeImportations
+	 * r.enUS: classImports
+	 * r: classeCommentaire
+	 * r.enUS: classComment
+	 * r: classeNomEnsemble
+	 * r.enUS: classPackageName
+	 * r: classeNomCanoniqueSuperGeneriqueLangue
+	 * r.enUS: classSuperCanonicalNameGenericLanguage
+	 * r: classeNomCanoniqueSuperGenerique
+	 * r.enUS: classSuperCanonicalNameGeneric
+	 * r: classeNomCanoniqueSuper
+	 * r.enUS: classSuperCanonicalName
+	 * r: classeNomCanoniqueGenLangue
+	 * r.enUS: classCanonicalNameGenLanguage
+	 * r: classeNomCanoniqueGen
+	 * r.enUS: classCanonicalNameGen
+	 * r: classeNomCanoniqueSuperDoc
+	 * r.enUS: classSuperCanonicalNameDoc
+	 * r: classeNomCanoniqueLangue
+	 * r.enUS: classCanonicalNameLanguage
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
+	 * r: classeNomSimpleSuperGeneriqueLangue
+	 * r.enUS: classSuperSimpleNameGenericLanguage
+	 * r: classeNomSimpleSuperGenerique
+	 * r.enUS: classSuperSimpleNameGeneric
+	 * r: classeNomSimpleSuper
+	 * r.enUS: classSuperSimpleName
+	 * r: classeNomSimpleGenLangue
+	 * r.enUS: classSimpleNameGenLanguage
+	 * r: classeNomSimpleGen
+	 * r.enUS: classSimpleNameGen
+	 * r: classeNomSimpleSuperDoc
+	 * r.enUS: classSuperSimpleNameDoc
+	 * r: classeNomSimpleGenLangue
+	 * r.enUS: classSimpleNameGenLanguage
+	 * r: classeNomSimpleLangue
+	 * r.enUS: classSimpleNameLanguage
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 * r: classeEtendGen
+	 * r.enUS: classExtendsGen
+	 * r: classeCheminRepertoireGenLangue
+	 * r.enUS: classGenDirPathLanguage
+	 * r: classeCheminRepertoireGen
+	 * r.enUS: classGenDirPath
+	 * r: classeCheminRepertoireLangue
+	 * r.enUS: classDirPathLanguage
+	 * r: classeCheminRepertoire
+	 * r.enUS: classDirPath
+	 * r: classeChemin
+	 * r.enUS: classPath
+	 * r: classeRepertoire
+	 * r.enUS: classDir
+	 * r: classeFichier
+	 * r.enUS: classFile
+	 * r: classeImportation
+	 * r.enUS: classImport
+	 * r: classePartsSuperLangue
+	 * r.enUS: classSuperPartsLanguage
+	 * r: ecrireCommentaire
+	 * r.enUS: writeComment
+	 * r: classeSuperParametreTypeNom
+	 * r.enUS: classSuperTypeParameterName
+	 * r: partEstChamp
+	 * r: partEstEntite
+	 * r.enUS: partIsEntity
+	 * r: Ecrire:
+	 * r.enUS: Write:
 	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
 	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
-	 * r.enUS: rechercheSolr
-	 * solrSearch
-	 * r.enUS: reponseRecherche
-	 * searchResponse
-	 * r.enUS: classeCheminAbsolu
-	 * classAbsolutePath
-	 * r.enUS: _indexe
-	 * _indexed
-	 * r.enUS: _stocke
-	 * _stored
-	 * r.enUS: partNumero
-	 * partNumber
-	 */      
+	 */
 	protected void ecrireClasseGen(QueryResponse reponseRecherche, String langueNom) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 

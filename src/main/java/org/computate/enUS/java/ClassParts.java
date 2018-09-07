@@ -153,6 +153,7 @@ public class ClassParts {
 		return o;
 	}
 
+	@Override()
 	public String toString() {
 		StringBuilder b = new StringBuilder();
 		b.append("canonicalNameComplete: ").append(canonicalNameComplete).append("\n");

@@ -5,37 +5,37 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.Test;
 
-public class WatchClass extends EcrireGenClasse {
+public class WatchClass extends WriteGenClass {
 
 	public static void  main(String[] args) throws Exception {   
-		RegarderClasse regarderClasse = new RegarderClasse();
+		WatchClass watchClass = new WatchClass();
 		try {
-			regarderClasse.args = args;
-			regarderClasse.initRegarderClasseBase(); 
+			watchClass.args = args;
+			watchClass.initWatchClassBase(); 
 		}
 		catch(Exception e) {
-			System.err.println("Erreur pendant traiterEvenements. ");
+			System.err.println("Error during initWatchClassBase. ");
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
-		regarderClasse(regarderClasse);
+		watchClass(watchClass);
 	}
 
-	public static void  regarderClasse(RegarderClasse regarderClasse) throws Exception {
-		System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
+	public static void  watchClass(WatchClass watchClass) throws Exception {
+		System.out.println("absolutePath : " + watchClass.classAbsolutePath);
 
-		regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu);
-//		if("tout".equals(regarderClasse.langueNom)) {
-//			regarderClasse.ecrireClasseGen(regarderClasse.classeCheminAbsolu, regarderClasse.langueNom);
-			for(String langueNom : regarderClasse.toutesLangues) {
-				regarderClasse.ecrireClasseGen(regarderClasse.classeCheminAbsolu, langueNom);
+		watchClass.indexerClasse(watchClass.classAbsolutePath);
+//		if("tout".equals(watchClass.languageName)) {
+//			watchClass.ecrireClasseGen(watchClass.classAbsolutePath, watchClass.languageName);
+			for(String languageName : watchClass.allLanguages) {
+				watchClass.ecrireClasseGen(watchClass.classAbsolutePath, languageName);
 			}
-			for(String langueNom : regarderClasse.autresLangues) {
-				if(!StringUtils.equals(langueNom, regarderClasse.langueNom))
-					regarderClasse.ecrireClasse(regarderClasse.classeCheminAbsolu, langueNom);
+			for(String languageName : watchClass.otherLanguages) {
+				if(!StringUtils.equals(languageName, watchClass.languageName))
+					watchClass.ecrireClasse(watchClass.classAbsolutePath, languageName);
 			}
 //		}
 //		else {
-//			regarderClasse.ecrireClasseGen(regarderClasse.classeCheminAbsolu, regarderClasse.langueNom);
+//			watchClass.ecrireClasseGen(watchClass.classAbsolutePath, watchClass.languageName);
 //		}
 	}
 

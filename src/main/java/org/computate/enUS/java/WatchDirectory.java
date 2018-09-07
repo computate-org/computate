@@ -167,7 +167,7 @@ public class WatchDirectory {
 		return start;
 	}
 
-	protected void  traiterEvenements() {
+	protected void  handleEvents() {
 		for (;;) {
 
 			WatchKey watchKey;
@@ -177,9 +177,9 @@ public class WatchDirectory {
 				return;
 			}  
 
-			Path directory = keys.get(watchKey);
-			if (directory == null) {
-				System.err.println("Cle de surveillance n'est pas reconnue !");
+			Path dirPath = keys.get(watchKey);
+			if (dirPath == null) {
+				System.err.println("Watch key is not recognized!");
 				continue;
 			}
 
@@ -190,36 +190,35 @@ public class WatchDirectory {
 					continue;
 				}
 
-				WatchEvent<Path> evenementSurveillance = cast(event);
-				Path nom = evenementSurveillance.context();
-				Path enfant = directory.resolve(nom);
+				WatchEvent<Path> watchEvent = cast(event);
+				Path relativePath = watchEvent.context();
+				Path completePath = dirPath.resolve(relativePath);
 
 				try { 
-					String classeCheminAbsolu = enfant.toAbsolutePath().toString();   
+					String classAbsolutePath = completePath.toAbsolutePath().toString();   
 					String cp = FileUtils.readFileToString(new File(appPath + "/config/cp.txt"), "UTF-8");
-					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + appPath + "/target/classes\" " + WatchClass.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
-					File directoryTravail = new File(appComputatePath);
+					CommandLine commandLine = CommandLine.parse("java -cp \"" + cp + ":" + appPath + "/target/classes\" " + WatchClass.class.getCanonicalName() + " \"" + classAppDirPath + "\" \"" + classAbsolutePath + "\"");
+					File workDir = new File(appComputatePath);
 
-					executor.setWorkingDirectory(directoryTravail);
-					executor.execute(ligneCommande); 
+					executor.setWorkingDirectory(workDir);
+					executor.execute(commandLine); 
 				} catch (Exception e) {  
-					String cheminAbsolu = enfant.toAbsolutePath().toString();  
-					log.error("Une Problème d'exécution de RegarderRepertoire: " + cheminAbsolu, e);
+					log.error("Une Problème d'exécution de RegarderRepertoire: " + completePath.toAbsolutePath().toString(), e);
 				} 
 
 				if (kind == ENTRY_CREATE) {
 					try {
-						if (Files.isDirectory(enfant, NOFOLLOW_LINKS)) {
-							saveAll(enfant);
+						if (Files.isDirectory(completePath, NOFOLLOW_LINKS)) {
+							saveAll(completePath);
 						}
 					} catch (IOException x) {
-						// ignorer pour simplifier le log.
+						// Ignore to simplify the log.
 					}
 				}
 			}
 
-			boolean valide = watchKey.reset();
-			if (!valide) {
+			boolean valid = watchKey.reset();
+			if (!valid) {
 				keys.remove(watchKey);
 
 				if (keys.isEmpty()) {

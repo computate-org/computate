@@ -1,4 +1,4 @@
-package org.computate.frFR.java;
+package org.computate.frFR.java; 
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

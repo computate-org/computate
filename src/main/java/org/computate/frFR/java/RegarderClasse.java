@@ -13,6 +13,16 @@ public class RegarderClasse extends EcrireGenClasse {
 	public RegarderClasse() {
 	}
 
+	/**
+	 * r: initRegarderClasseBase
+	 * r.enUS: initWatchClassBase
+	 * r: RegarderClasse
+	 * r.enUS: WatchClass
+	 * r: regarderClasse
+	 * r.enUS: watchClass
+	 * r: Erreur pendant traiterEvenements.
+	 * r.enUS: Error during initWatchClassBase.
+	 */
 	public static void main(String[] args) throws Exception {   
 		RegarderClasse regarderClasse = new RegarderClasse();
 		try {
@@ -26,6 +36,22 @@ public class RegarderClasse extends EcrireGenClasse {
 		regarderClasse(regarderClasse);
 	}
 	
+	/**
+	 * var.enUS: watchClass
+	 * param1.var.enUS: watchClass
+	 * r: regarderClasse
+	 * r.enUS: watchClass
+	 * r: cheminAbsolu
+	 * r.enUS: absolutePath
+	 * r: classeCheminAbsolu
+	 * r.enUS: classAbsolutePath
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: toutesLangues
+	 * r.enUS: allLanguages
+	 * r: autresLangues
+	 * r.enUS: otherLanguages
+	 */
 	public static void regarderClasse(RegarderClasse regarderClasse) throws Exception {
 		System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
 

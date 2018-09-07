@@ -17,85 +17,85 @@ import org.apache.solr.common.SolrDocumentList;
  */
 public class WriteClass extends IndexClass {
 
-	protected void  ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1000000);
-		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexed_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
-		rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
+	protected void  writeClass(String classAbsolutePath, String languageName) throws Exception { 
+		SolrQuery solrSearch = new SolrQuery();   
+		solrSearch.setQuery("*:*");
+		solrSearch.setRows(1000000);
+		solrSearch.addFilterQuery("classAbsolutePath_indexed_string:" + ClientUtils.escapeQueryChars(classAbsolutePath));
+		solrSearch.addSort("partNumber_indexed_int", ORDER.asc);
 
-		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		ecrireClasse(classeCheminAbsolu, langueNom, reponseRecherche);
+		QueryResponse searchResponse = solrClientComputate.query(solrSearch);
+		writeClass(classAbsolutePath, languageName, searchResponse);
 	}
 
-	public void  ecrireCommentaire(StringBuilder s, String commentaire, Integer tabulations) {
-		String tabulationsStr = StringUtils.repeat("\t", tabulations);
-		if(StringUtils.isNotEmpty(commentaire)) {
-			String[] partis = StringUtils.split(commentaire, "\n");
-			for(int j = 0; j < partis.length; j++) { 
-				String ligne = partis[j];
+	public void  writeComment(StringBuilder s, String comment, Integer tabs) {
+		String tabsStr = StringUtils.repeat("\t", tabs);
+		if(StringUtils.isNotEmpty(comment)) {
+			String[] parts = StringUtils.split(comment, "\n");
+			for(int j = 0; j < parts.length; j++) { 
+				String ligne = parts[j];
 				if(j == 0)
-					s.append(tabulationsStr).append("/**\t").append(ligne).append("\n");
+					s.append(tabsStr).append("/**\t").append(ligne).append("\n");
 				else
-					s.append(tabulationsStr).append(" *\t").append(ligne).append("\n");
-			}   
-			s.append(tabulationsStr).append(" */\n");  
+					s.append(tabsStr).append(" *\t").append(ligne).append("\n");
+			}
+			s.append(tabsStr).append(" */\n");  
 		} 
 	}
 
 	/**	Retrieve the records for the class from the search engine, 
-	 *	process them and write them into class files for each supported language. 
+	 *	process them and write them into class files for each supported language.
 	 */
-	protected void  ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
-		SolrDocumentList listeRecherche = reponseRecherche.getResults(); 
+	protected void  writeClass(String classAbsolutePath, String languageName, QueryResponse searchResponse) throws Exception { 
+		SolrDocumentList searchList = searchResponse.getResults(); 
 
-		if(listeRecherche.size() > 0) {
-			String classeCheminRepertoire = null;
-			String classeChemin = null; 
-			File classeRepertoire = null;
-			File classeFichier = null;
+		if(searchList.size() > 0) {
+			String classDirPath = null;
+			String classPath = null; 
+			File classDir = null;
+			File classFile = null;
 			StringBuilder s = new StringBuilder();
 			
-			String classeNomSimple = null;
-			String classeNomSimpleSuper = null;    
-			String classeNomCanoniqueSuper = null;    
-			String classeNomEnsemble = null;
-			String classeCommentaire = null;      
-			List<String> classeImportations = null;  
+			String classSimpleName = null;
+			String classSuperSimpleName = null;    
+			String classSuperCanonicalName = null;    
+			String classPackageName = null;
+			String classComment = null;      
+			List<String> classImports = null;  
 			List<String> classTypeParameterNames = null;  
-			List<String> classeSuperParametreTypeNoms = null;  
-			Boolean classeEtendGen = null;
+			List<String> classSuperTypeParameterNames = null;  
+			Boolean classExtendsGen = null;
 	
-			for(int i = 0; i < listeRecherche.size(); i++) { 
-				SolrDocument doc = listeRecherche.get(i); 
-				Integer partNumero = (Integer)doc.get("partNumero_stored_int");
-				if(partNumero == null)
-					partNumero = 2;
-				if(partNumero.equals(1)) {
-					classeCheminRepertoire = (String)doc.get("classeCheminRepertoire_" + langueNom + "_stored_string");
-					classeChemin = (String)doc.get("classeChemin_" + langueNom + "_stored_string"); 
-					classeRepertoire = new File(classeCheminRepertoire);
-					classeRepertoire.mkdirs();
-					classeFichier = new File(classeChemin);
-					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
-					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
-					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stored_string");
-					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
-					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
-					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stored_strings");
+			for(int i = 0; i < searchList.size(); i++) { 
+				SolrDocument doc = searchList.get(i); 
+				Integer partNumber = (Integer)doc.get("partNumber_stored_int");
+				if(partNumber == null)
+					partNumber = 2;
+				if(partNumber.equals(1)) {
+					classDirPath = (String)doc.get("classDirPath_" + languageName + "_stored_string");
+					classPath = (String)doc.get("classPath_" + languageName + "_stored_string"); 
+					classDir = new File(classDirPath);
+					classDir.mkdirs();
+					classFile = new File(classPath);
+					classSimpleName = (String)doc.get("classSimpleName_" + languageName + "_stored_string");
+					classSuperCanonicalName = (String)doc.get("classSuperCanonicalName_" + languageName + "_stored_string");
+					classSuperSimpleName = (String)doc.get("classSuperSimpleName_" + languageName + "_stored_string");
+					classPackageName = (String)doc.get("classPackageName_" + languageName + "_stored_string");
+					classComment = (String)doc.get("classComment_" + languageName + "_stored_string");
+					classImports = (List<String>)doc.get("classImports_" + languageName + "_stored_strings");
 					classTypeParameterNames = (List<String>)doc.get("classTypeParameterNames_stored_strings");
-					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
-					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
+					classSuperTypeParameterNames = (List<String>)doc.get("classSuperTypeParameterNames_stored_strings");
+					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
 		
-					s.append("package ").append(classeNomEnsemble).append(";\n\n");
-					if(classeImportations.size() > 0) { 
-						for(String classeImportation : classeImportations) {
-							s.append("import ").append(classeImportation).append(";\n");
+					s.append("package ").append(classPackageName).append(";\n\n");
+					if(classImports.size() > 0) { 
+						for(String classImport : classImports) {
+							s.append("import ").append(classImport).append(";\n");
 						} 
 						s.append("\n");  
 					}
-					ecrireCommentaire(s, classeCommentaire, 0); 
-					s.append("public class ").append(classeNomSimple);
+					writeComment(s, classComment, 0); 
+					s.append("public class ").append(classSimpleName);
 					if(classTypeParameterNames != null && classTypeParameterNames.size() > 0) {
 						s.append("<");
 						for(int j = 0; j < classTypeParameterNames.size(); j++) {
@@ -106,21 +106,21 @@ public class WriteClass extends IndexClass {
 						}
 						s.append(">");
 					}
-					if(!"java.lang.Object".equals(classeNomCanoniqueSuper)) {
+					if(!"java.lang.Object".equals(classSuperCanonicalName)) {
 						s.append(" extends ");
-						if(classeEtendGen) {
-							s.append(classeNomSimple).append("Gen");
+						if(classExtendsGen) {
+							s.append(classSimpleName).append("Gen");
 						} 
 						else {
-							s.append(classeNomSimpleSuper);
+							s.append(classSuperSimpleName);
 						}
-						if(classeSuperParametreTypeNoms != null && classeSuperParametreTypeNoms.size() > 0) {
+						if(classSuperTypeParameterNames != null && classSuperTypeParameterNames.size() > 0) {
 							s.append("<");
-							for(int j = 0; j < classeSuperParametreTypeNoms.size(); j++) {
-								String classeSuperParametreTypeNom = classeSuperParametreTypeNoms.get(j);
+							for(int j = 0; j < classSuperTypeParameterNames.size(); j++) {
+								String classSuperTypeParameterName = classSuperTypeParameterNames.get(j);
 								if(i > 0)
 									s.append(", ");
-								s.append(classeSuperParametreTypeNom);
+								s.append(classSuperTypeParameterName);
 							}
 							s.append(">");
 						}
@@ -128,71 +128,73 @@ public class WriteClass extends IndexClass {
 					s.append(" {\n");
 				} 
 				else {     
-					Boolean partEstChamp = (Boolean)doc.get("partEstChamp_stored_boolean");
-					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stored_boolean");
+					Boolean partIsField = (Boolean)doc.get("partIsField_stored_boolean");
+					Boolean partIsMethod = (Boolean)doc.get("partIsMethod_stored_boolean");
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
-					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
+					Boolean partIsEntity = (Boolean)doc.get("partIsEntity_stored_boolean");
 	
-					if(BooleanUtils.isTrue(partEstChamp)) {
-						String champCommentaire = (String)doc.get("champCommentaire_" + langueNom + "_stored_string");
-						String champVar = (String)doc.get("champVar_" + langueNom + "_stored_string");
-						String champNomSimpleComplet = (String)doc.get("champNomSimpleComplet_" + langueNom + "_stored_string");
-						String champCodeSource = (String)doc.get("champCodeSource_" + langueNom + "_stored_string");
+					if(BooleanUtils.isTrue(partIsField)) {
+						String fieldComment = (String)doc.get("fieldComment_" + languageName + "_stored_string");
+						String fieldVar = (String)doc.get("fieldVar_" + languageName + "_stored_string");
+						String fieldSimpleNameComplete = (String)doc.get("fieldSimpleNameComplete_" + languageName + "_stored_string");
+						String fieldSourceCode = (String)doc.get("fieldSourceCode_" + languageName + "_stored_string");
 
 						s.append("\n"); 
-						ecrireCommentaire(s, champCommentaire, 1);
+						writeComment(s, fieldComment, 1);
 						s.append("\t");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsPublic_stored_boolean")))
 							s.append("public ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsProtected_stored_boolean")))
 							s.append("protected ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPrive_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsPrivate_stored_boolean")))
 							s.append("private ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstStatique_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsStatic_stored_boolean")))
 							s.append("static ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstFinale_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsFinal_stored_boolean")))
 							s.append("final ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstAbstrait_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsAbstract_stored_boolean")))
 							s.append("abstract ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstNatif_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsNative_stored_boolean")))
 							s.append("native ");
 						
-						s.append(champNomSimpleComplet).append(" ").append(champVar);
-						if(StringUtils.isNotEmpty(champCodeSource))
-							s.append(" = ").append(champCodeSource);
+						s.append(fieldSimpleNameComplete).append(" ").append(fieldVar);
+						if(StringUtils.isNotEmpty(fieldSourceCode))
+							s.append(" = ").append(fieldSourceCode);
 						s.append(";\n");
 					}     
 	
-					if(BooleanUtils.isTrue(partEstMethode)) {
-						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
-						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stored_string");
-						String methodeCommentaire = (String)doc.get("methodeCommentaire_" + langueNom + "_stored_string");
-						List<String> methodeExceptionNomSimpleCompletListe = (List<String>)doc.get("methodeExceptionNomSimpleComplet_stored_strings");
+					if(BooleanUtils.isTrue(partIsMethod)) {
+						String methodVar = (String)doc.get("methodVar_" + languageName + "_stored_string");
+						String methodSourceCode = (String)doc.get("methodSourceCode_" + languageName + "_stored_string");
+						String methodComment = (String)doc.get("methodComment_" + languageName + "_stored_string");
+						List<String> methodExceptionSimpleNameCompleteList = (List<String>)doc.get("methodExceptionSimpleNameComplete_stored_strings");
 						List<String> methodTypeParameterNames = (List<String>)doc.get("methodTypeParameterNames_stored_strings");
-						List<String> methodeAnnotationsNomSimpleCompletListe = (List<String>)doc.get("methodeAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings");
-						List<String> methodeAnnotationsBlocCodeListe = (List<String>)doc.get("methodeAnnotationsBlocCode_" + langueNom + "_stored_strings");
+						List<String> methodAnnotationsSimpleNameCompleteList = (List<String>)doc.get("methodAnnotationsSimpleNameComplete_" + languageName + "_stored_strings");
+						List<String> methodAnnotationsCodeBlockList = (List<String>)doc.get("methodAnnotationsCodeBlock_" + languageName + "_stored_strings");
 
 						s.append("\n"); 
-						ecrireCommentaire(s, methodeCommentaire, 1);
-						for(int j = 0; j < methodeAnnotationsNomSimpleCompletListe.size(); j++) {
-							String methodeAnnotationNomSimpleComplet = methodeAnnotationsNomSimpleCompletListe.get(j);
-							String methodeAnnotationBlocCode = methodeAnnotationsBlocCodeListe.get(j);
-							s.append("\t@").append(methodeAnnotationNomSimpleComplet).append(methodeAnnotationBlocCode).append("\n");
+						writeComment(s, methodComment, 1);
+						if(methodAnnotationsSimpleNameCompleteList != null && methodAnnotationsCodeBlockList != null) {
+							for(int j = 0; j < methodAnnotationsSimpleNameCompleteList.size(); j++) {
+								String methodAnnotationSimpleNameComplete = methodAnnotationsSimpleNameCompleteList.get(j);
+								String methodAnnotationCodeBlock = methodAnnotationsCodeBlockList.get(j);
+								s.append("\t@").append(methodAnnotationSimpleNameComplete).append(methodAnnotationCodeBlock).append("\n");
+							}
 						}
 						s.append("\t");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsPublic_stored_boolean")))
 							s.append("public ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstProtege_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsProtected_stored_boolean")))
 							s.append("protected ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPrive_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsPrivate_stored_boolean")))
 							s.append("private ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstStatique_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsStatic_stored_boolean")))
 							s.append("static ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstFinale_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsFinal_stored_boolean")))
 							s.append("final ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstAbstrait_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsAbstract_stored_boolean")))
 							s.append("abstract ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstNatif_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsNative_stored_boolean")))
 							s.append("native ");
 
 
@@ -207,56 +209,56 @@ public class WriteClass extends IndexClass {
 							s.append("> ");
 						}
 
-						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstVide_stored_boolean")))
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsVoid_stored_boolean")))
 							s.append("void ");
 						else
-							s.append((String)doc.get("methodeRetourNomSimpleComplet_" + langueNom + "_stored_string"));
+							s.append((String)doc.get("methodReturnSimpleNameComplete_" + languageName + "_stored_string"));
 						s.append(" ");
-						s.append(methodeVar);
+						s.append(methodVar);
 						s.append("(");
-						List<String> methodeParamNomSimpleCompletListe = (List<String>)doc.get("methodeParamNomSimpleComplet_" + langueNom + "_stored_strings"); 
-						List<String> methodeParamVarListe = (List<String>)doc.get("methodeParamVar_" + langueNom + "_stored_strings");
-						List<Boolean> methodeParamArgsVariableListe = (List<Boolean>)doc.get("methodeParamArgsVariable_stored_booleans");
-						if(methodeParamNomSimpleCompletListe != null && methodeParamVarListe != null && methodeParamNomSimpleCompletListe.size() == methodeParamVarListe.size()) {
-							for(int j = 0; j < methodeParamVarListe.size(); j++) {
-								String methodeParamNomSimpleComplet = methodeParamNomSimpleCompletListe.get(j);
-								String methodeParamVar = methodeParamVarListe.get(j);
-								Boolean methodeParamArgsVariable = methodeParamArgsVariableListe.get(j);
+						List<String> methodParamSimpleNameCompleteList = (List<String>)doc.get("methodParamSimpleNameComplete_" + languageName + "_stored_strings"); 
+						List<String> methodParamVarList = (List<String>)doc.get("methodParamVar_" + languageName + "_stored_strings");
+						List<Boolean> methodParamVariableArgsList = (List<Boolean>)doc.get("methodParamVariableArgs_stored_booleans");
+						if(methodParamSimpleNameCompleteList != null && methodParamVarList != null && methodParamSimpleNameCompleteList.size() == methodParamVarList.size()) {
+							for(int j = 0; j < methodParamVarList.size(); j++) {
+								String methodParamSimpleNameComplete = methodParamSimpleNameCompleteList.get(j);
+								String methodParamVar = methodParamVarList.get(j);
+								Boolean methodParamVariableArgs = methodParamVariableArgsList.get(j);
 								if(j > 0)
 									s.append(", ");
-								s.append(methodeParamNomSimpleComplet);
+								s.append(methodParamSimpleNameComplete);
 
-								if(methodeParamArgsVariable)
+								if(methodParamVariableArgs)
 									s.append("...");
 								else
 									s.append(" ");
 
-								s.append(methodeParamVar);
+								s.append(methodParamVar);
 							}
 						}    
 						s.append(")");
-						if(methodeExceptionNomSimpleCompletListe != null && methodeExceptionNomSimpleCompletListe.size() > 0) {
+						if(methodExceptionSimpleNameCompleteList != null && methodExceptionSimpleNameCompleteList.size() > 0) {
 							s.append(" throws ");
-							for(int j = 0; j < methodeExceptionNomSimpleCompletListe.size(); j++) {
-								String methodeExceptionNomSimpleComplet = methodeExceptionNomSimpleCompletListe.get(j);
+							for(int j = 0; j < methodExceptionSimpleNameCompleteList.size(); j++) {
+								String methodExceptionSimpleNameComplete = methodExceptionSimpleNameCompleteList.get(j);
 								if(j > 0)
 									s.append(", ");
-								s.append(methodeExceptionNomSimpleComplet);
+								s.append(methodExceptionSimpleNameComplete);
 							}
 						}
 						s.append(" {");
-						s.append(methodeCodeSource);
+						s.append(methodSourceCode);
 						s.append("}\n");
 					} 
-					else if(BooleanUtils.isTrue(partEstEntite)) {
+					else if(BooleanUtils.isTrue(partIsEntity)) {
 						
 					}
 				}
 			}
 			s.append("}\n"); 
-			if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeChemin)) {
-				System.out.println("Ecrire: " + classeChemin); 
-				FileUtils.write(classeFichier, s, Charset.forName("UTF-8")); 
+			if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPath)) {
+				System.out.println("Write: " + classPath); 
+				FileUtils.write(classFile, s, Charset.forName("UTF-8")); 
 			}
 		}
 		else {

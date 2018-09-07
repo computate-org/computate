@@ -1,4 +1,4 @@
-package org.computate.frFR.java;
+package org.computate.frFR.java; 
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -825,6 +825,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classImportClassPartsLanguage
 	 * r: classeImportationClasseParts
 	 * r.enUS: classeImportClassParts
+	 * r: classeEtendGen
+	 * r.enUS: classExtendsGen
 	 * r: classeImportations
 	 * r.enUS: classImports
 	 * r: indexerStockerListeSolr
@@ -989,7 +991,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: methodParamQdox
 	 * r: methodeParamVarLangue
 	 * r.enUS: methodParamVarLanguage
-	 * r: methodeParamVarLangue
+	 * r: methodeParamVar
 	 * r.enUS: methodParamVar
 	 * r: methodeParamClassePartsLangue
 	 * r.enUS: methodParamClassPartsLanguage
@@ -1031,10 +1033,14 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: qDelete
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
+	 * r: nomCanoniqueGenerique
+	 * r.enUS: canonicalNameGeneric
 	 * r: nomCanoniqueComplet
 	 * r.enUS: canonicalNameComplete
 	 * r: nomCanonique
 	 * r.enUS: canonicalName
+	 * r: nomSimpleGenerique
+	 * r.enUS: simpleNameGeneric
 	 * r: nomSimpleComplet
 	 * r.enUS: simpleNameComplete
 	 * r: nomSimple
@@ -1049,6 +1055,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: annotationsLanguage
 	 * r: methodeParametreTypeNoms
 	 * r.enUS: methodTypeParameterNames
+	 * r: classeSuperParametreTypeNoms
+	 * r.enUS: classSuperTypeParameterNames
 	 * r: classeParametreTypeNoms
 	 * r.enUS: classTypeParameterNames
 	 * r: classeParametresType
@@ -1061,6 +1069,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: methodTypeParameters
 	 * r: methodeParametreType
 	 * r.enUS: methodTypeParameter
+	 * r: classePartsSuperLangue
+	 * r.enUS: classSuperPartsLanguage
 	 */
 	protected void indexerClasse(String classeCheminAbsolu) throws Exception { 
 		SolrInputDocument classeDoc = new SolrInputDocument();

@@ -25,7 +25,7 @@ import com.thoughtworks.qdox.model.JavaType;
 import com.thoughtworks.qdox.model.JavaTypeVariable;
 import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
 
-public class IndexClass extends RegarderClasseBase {
+public class IndexClass extends WatchClassBase {
 
 	public void  populateQdoxSuperClassesInterfacesAndMe(JavaClass c, ArrayList<JavaClass> qdoxSuperClasses, ArrayList<JavaClass> qdoxSuperClassesAndMe, ArrayList<JavaClass> qdoxSuperClassesAndInterfaces, ArrayList<JavaClass> qdoxSuperClassesInterfacesAndMe) throws Exception { 
 		if(c != null) {
@@ -290,7 +290,7 @@ public class IndexClass extends RegarderClasseBase {
 			List<JavaType> classeSuperParametresType = typeSuper.getActualTypeArguments();
 			for(JavaType classeSuperParametreType : classeSuperParametresType) {
 				String classeSuperParametreTypeNom = classeSuperParametreType.getValue();
-				storeListSolr(classDoc, "classeSuperParametreTypeNoms", classeSuperParametreTypeNom);
+				storeListSolr(classDoc, "classSuperTypeParameterNames", classeSuperParametreTypeNom);
 			}
 		}
 //		classTypeParameters.get(0).getGenericFullyQualifiedName(); // returns <DEV>
@@ -388,20 +388,20 @@ public class IndexClass extends RegarderClasseBase {
 			indexStoreSolr(classDoc, "classPackageName", languageName, classPackageNameLanguage); 
 
 			String classSuperCompleteNameLanguage;
-			ClassParts classePartsSuperLangue;
+			ClassParts classSuperPartsLanguage;
 
 			if(classExtendsGen)
-				classePartsSuperLangue = ClassParts.initClassParts(this, classCanonicalNameLanguage + "Gen", languageName);
+				classSuperPartsLanguage = ClassParts.initClassParts(this, classCanonicalNameLanguage + "Gen", languageName);
 			else
-				classePartsSuperLangue = ClassParts.initClassParts(this, classSuperQdox, languageName);
+				classSuperPartsLanguage = ClassParts.initClassParts(this, classSuperQdox, languageName);
 
-			indexStoreSolr(classDoc, "classSuperCanonicalName", languageName, classePartsSuperLangue.canonicalName); 
-			indexStoreSolr(classDoc, "classSuperSimpleName", languageName, classePartsSuperLangue.simpleName); 
-			indexStoreSolr(classDoc, "classCanonicalNameCompletSuper", languageName, classePartsSuperLangue.canonicalNameComplete);
-			indexStoreSolr(classDoc, "classSimpleNameCompletSuper", languageName, classePartsSuperLangue.simpleNameComplete);
-			if(StringUtils.isNotEmpty(classePartsSuperLangue.canonicalNameGenerique)) {
-				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classePartsSuperLangue.canonicalNameGenerique);
-				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classePartsSuperLangue.simpleNameGenerique);
+			indexStoreSolr(classDoc, "classSuperCanonicalName", languageName, classSuperPartsLanguage.canonicalName); 
+			indexStoreSolr(classDoc, "classSuperSimpleName", languageName, classSuperPartsLanguage.simpleName); 
+			indexStoreSolr(classDoc, "classCanonicalNameCompletSuper", languageName, classSuperPartsLanguage.canonicalNameComplete);
+			indexStoreSolr(classDoc, "classSimpleNameCompletSuper", languageName, classSuperPartsLanguage.simpleNameComplete);
+			if(StringUtils.isNotEmpty(classSuperPartsLanguage.canonicalNameGeneric)) {
+				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classSuperPartsLanguage.canonicalNameGeneric);
+				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classSuperPartsLanguage.simpleNameGeneric);
 			}
 
 
@@ -646,11 +646,11 @@ public class IndexClass extends RegarderClasseBase {
 							if(StringUtils.isNotEmpty(entiteNomCanoniqueGenerique)) {
 								indexStoreSolr(entiteDoc, "entiteNomCanoniqueGenerique", languageName, entiteNomCanoniqueGenerique);
 								entiteClasseGeneriqueQdox = builder.getClassByName(entiteNomCanoniqueGenerique);
-	//							String canonicalNameGeneriqueEnUS = classe_.regex("canonicalName.enUS:\\s*(.*)", comment, 1);
-	//							o.enUS(StringUtils.isEmpty(canonicalNameGeneriqueEnUS) ? o.frFR() : canonicalNameGeneriqueEnUS);
-	//							if(canonicalNameGenerique.frFR().contains(".")) {
-	//								classe_.importationsAjouter(canonicalNameGenerique);
-	//								classe_.importationsGenAjouter(canonicalNameGenerique);
+	//							String canonicalNameGenericEnUS = classe_.regex("canonicalName.enUS:\\s*(.*)", comment, 1);
+	//							o.enUS(StringUtils.isEmpty(canonicalNameGenericEnUS) ? o.frFR() : canonicalNameGenericEnUS);
+	//							if(canonicalNameGeneric.frFR().contains(".")) {
+	//								classe_.importationsAjouter(canonicalNameGeneric);
+	//								classe_.importationsGenAjouter(canonicalNameGeneric);
 	//							}
 	
 								if(entiteNomCanoniqueGenerique.contains("."))
@@ -761,22 +761,22 @@ public class IndexClass extends RegarderClasseBase {
 //	
 //						boolean etendCluster = etendClasse(entiteNomCanoniqueClusterActuel);
 //						entite.etendCluster(etendCluster);
-//						if(!etendCluster && entite.canonicalNameGenerique.pasVide()) {
-//							boolean listeCluster = etendClasse(canonicalNameClusterActuel, entite.canonicalNameGenerique.toString());
+//						if(!etendCluster && entite.canonicalNameGeneric.pasVide()) {
+//							boolean listeCluster = etendClasse(canonicalNameClusterActuel, entite.canonicalNameGeneric.toString());
 //							entite.listeCluster(listeCluster);
 //						}
 //	
 //						boolean etendPageXml = entite.etendClasse(canonicalNamePageXmlActuel);
 //						entite.etendPageXml(etendPageXml);
-//						if(!etendPageXml && entite.canonicalNameGenerique.pasVide()) {
-//							boolean listePageXml = etendClasse(canonicalNamePageXmlActuel, entite.canonicalNameGenerique.toString());
+//						if(!etendPageXml && entite.canonicalNameGeneric.pasVide()) {
+//							boolean listePageXml = etendClasse(canonicalNamePageXmlActuel, entite.canonicalNameGeneric.toString());
 //							entite.listePageXml(listePageXml);
 //						}
 //	
 //						boolean etendPagePart = entite.etendClasse(canonicalNamePagePartActuel);
 //						entite.etendPagePart(etendPagePart);
-//						if(!etendPagePart && entite.canonicalNameGenerique.pasVide()) {
-//							boolean listePagePart = etendClasse(canonicalNamePagePartActuel, entite.canonicalNameGenerique.toString());
+//						if(!etendPagePart && entite.canonicalNameGeneric.pasVide()) {
+//							boolean listePagePart = etendClasse(canonicalNamePagePartActuel, entite.canonicalNameGeneric.toString());
 //							entite.listePagePart(listePagePart);
 //						}
 //	
@@ -900,19 +900,19 @@ public class IndexClass extends RegarderClasseBase {
 						indexStoreSolr(methodDoc, "methodVar", languageName, methodVar);
 						for(Integer methodParamNum = 1; methodParamNum <= methodParamsQdox.size(); methodParamNum++) {
 							JavaParameter methodParamQdox = methodParamsQdox.get(methodParamNum - 1);
-							String methodeParamVar = methodParamQdox.getName();
-							storeListSolr(methodDoc, "methodeParamVar", languageName, methodeParamVar);
+							String methodParamVar = methodParamQdox.getName();
+							storeListSolr(methodDoc, "methodParamVar", languageName, methodParamVar);
 							ClassParts methodeParamClassParts = ClassParts.initClassParts(this, methodParamQdox.getJavaClass(), languageName);
 							storeListSolr(methodDoc, "methodParamSimpleNameComplete", languageName, methodeParamClassParts.simpleNameComplete);
 							storeListSolr(methodDoc, "methodParamVariableArgs", methodParamQdox.isVarArgs());
 							for(String languageName : otherLanguages) { 
 								String methodParamVarLanguage = regex("param" + methodParamNum + "\\.var\\." + languageName + ": (.*)", methodComment);
 								if(methodParamVarLanguage == null)
-									methodParamVarLanguage = methodeParamVar;
+									methodParamVarLanguage = methodParamVar;
 								ClassParts methodParamClassPartsLanguage = ClassParts.initClassParts(this, methodeParamClassParts, languageName);
 
 								storeListSolr(methodDoc, "methodParamSimpleNameComplete", languageName, methodParamClassPartsLanguage.simpleNameComplete);
-								storeListSolr(methodDoc, "methodeParamVar", languageName, methodParamVarLanguage);
+								storeListSolr(methodDoc, "methodParamVar", languageName, methodParamVarLanguage);
 							}  
 						}
 

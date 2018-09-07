@@ -24,10 +24,11 @@ public class WatchClassBase extends SiteConfig {
 
 	protected HashMap<String, SolrDocument> classDocs = new HashMap<String, SolrDocument>();
 
-	protected HashMap<String, ClasseParts> classParts = new HashMap<String, ClassParts>();
+	protected HashMap<String, ClassParts> classParts = new HashMap<String, ClassParts>();
 
 	protected JavaProjectBuilder builder;
 
+	@Override()
 	protected void  _appPath() throws Exception {
 		appPath = args[0]; 
 	}

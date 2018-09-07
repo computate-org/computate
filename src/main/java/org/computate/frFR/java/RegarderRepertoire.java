@@ -375,9 +375,8 @@ public class RegarderRepertoire {
 	 * r.enUS: paths
 	 */
 
-	/**
-	 * 
-	 * 
+	/** 
+	 * var.enUS: handleEvents
 	 * r: classeCheminAbsolue
 	 * r.enUS: classAbsolutePath
 	 * r: executeur
@@ -396,8 +395,28 @@ public class RegarderRepertoire {
 	 * r.enUS: WatchClass
 	 * r: regarderCle
 	 * r.enUS: watchKey
-	 * r: repertoire
-	 * r.enUS: directory
+	 * r: cheminRepertoire
+	 * r.enUS: dirPath
+	 * r: Cle de surveillance n'est pas reconnue !
+	 * r.enUS: Watch key is not recognized!
+	 * r: evenementSurveillance
+	 * r.enUS: watchEvent
+	 * r: cheminRelatif
+	 * r.enUS: relativePath
+	 * r: cheminComplet
+	 * r.enUS: completePath
+	 * r: classeCheminAbsolu
+	 * r.enUS: classAbsolutePath
+	 * r: ligneCommande
+	 * r.enUS: commandLine
+	 * r: repertoireTravail
+	 * r.enUS: workDir
+	 * r: Ignorer pour simplifier le log.
+	 * r.enUS: Ignore to simplify the log.
+	 * r: valide
+	 * r.enUS: valid
+	 * r: classeCheminRepertoireAppli
+	 * r.enUS: classAppDirPath
 	 */
 	protected void traiterEvenements() {
 		for (;;) {
@@ -409,8 +428,8 @@ public class RegarderRepertoire {
 				return;
 			}  
 
-			Path repertoire = cles.get(regarderCle);
-			if (repertoire == null) {
+			Path cheminRepertoire = cles.get(regarderCle);
+			if (cheminRepertoire == null) {
 				System.err.println("Cle de surveillance n'est pas reconnue !");
 				continue;
 			}
@@ -423,11 +442,11 @@ public class RegarderRepertoire {
 				}
 
 				WatchEvent<Path> evenementSurveillance = cast(event);
-				Path nom = evenementSurveillance.context();
-				Path enfant = repertoire.resolve(nom);
+				Path cheminRelatif = evenementSurveillance.context();
+				Path cheminComplet = cheminRepertoire.resolve(cheminRelatif);
 
 				try { 
-					String classeCheminAbsolu = enfant.toAbsolutePath().toString();   
+					String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
 					String cp = FileUtils.readFileToString(new File(appliChemin + "/config/cp.txt"), "UTF-8");
 					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + appliChemin + "/target/classes\" " + RegarderClasse.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
 					File repertoireTravail = new File(appliComputateChemin);
@@ -435,17 +454,16 @@ public class RegarderRepertoire {
 					executeur.setWorkingDirectory(repertoireTravail);
 					executeur.execute(ligneCommande); 
 				} catch (Exception e) {  
-					String cheminAbsolu = enfant.toAbsolutePath().toString();  
-					log.error("Une Problème d'exécution de RegarderRepertoire: " + cheminAbsolu, e);
+					log.error("Une Problème d'exécution de RegarderRepertoire: " + cheminComplet.toAbsolutePath().toString(), e);
 				} 
 
 				if (kind == ENTRY_CREATE) {
 					try {
-						if (Files.isDirectory(enfant, NOFOLLOW_LINKS)) {
-							enregistrerTout(enfant);
+						if (Files.isDirectory(cheminComplet, NOFOLLOW_LINKS)) {
+							enregistrerTout(cheminComplet);
 						}
 					} catch (IOException x) {
-						// ignorer pour simplifier le log.
+						// Ignorer pour simplifier le log.
 					}
 				}
 			}

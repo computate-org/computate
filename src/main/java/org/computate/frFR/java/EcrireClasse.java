@@ -1,4 +1,4 @@
-package org.computate.frFR.java;      
+package org.computate.frFR.java;     
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -22,9 +22,23 @@ import org.apache.solr.common.SolrDocumentList;
 public class EcrireClasse extends IndexerClasse {
 
 	/**
-	 * methodeVar_enUS: writeClass
-	 * methodeParamVar_enUS_1: absoluteClassPath
-	 * methodeParamVar_enUS_2: languageName
+	 * var.enUS: writeClass
+	 * param1.var.enUS: classAbsolutePath
+	 * param2.var.enUS: languageName
+	 * r: clientSolrComputate
+	 * r.enUS: solrClientComputate
+	 * r: rechercheSolr
+	 * r.enUS: solrSearch
+	 * r: classeCheminAbsolu
+	 * r.enUS: classAbsolutePath
+	 * r: partNumero
+	 * r.enUS: partNumber
+	 * r: reponseRecherche
+	 * r.enUS: searchResponse
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: ecrireClasse
+	 * r.enUS: writeClass
 	 */    
 	protected void ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
 		SolrQuery rechercheSolr = new SolrQuery();   
@@ -37,41 +51,46 @@ public class EcrireClasse extends IndexerClasse {
 		ecrireClasse(classeCheminAbsolu, langueNom, reponseRecherche);
 	}  
 
+	/**
+	 * var.enUS: writeComment
+	 * param2.var.enUS: comment
+	 * param3.var.enUS: tabs
+	 * r: commentaire
+	 * r.enUS: comment
+	 * r: tabulations
+	 * r.enUS: tabs
+	 * 
+	 */
 	public void ecrireCommentaire(StringBuilder s, String commentaire, Integer tabulations) {
 		String tabulationsStr = StringUtils.repeat("\t", tabulations);
 		if(StringUtils.isNotEmpty(commentaire)) {
-			String[] partis = StringUtils.split(commentaire, "\n");
-			for(int j = 0; j < partis.length; j++) { 
-				String ligne = partis[j];
+			String[] parts = StringUtils.split(commentaire, "\n");
+			for(int j = 0; j < parts.length; j++) { 
+				String ligne = parts[j];
 				if(j == 0)
 					s.append(tabulationsStr).append("/**\t").append(ligne).append("\n");
 				else
 					s.append(tabulationsStr).append(" *\t").append(ligne).append("\n");
-			}   
+			}
 			s.append(tabulationsStr).append(" */\n");  
 		} 
 	}
 
 	/**
-	 * methodeVar_enUS: writeClass
-	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
-	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
-	 * enUS: Retrieve the records for the class from the search engine, 
-	 * enUS: process them and write them into class files for each supported language. 
-	 * r.enUS: listeRecherche
-	 * searchList
-	 * r.enUS: rechercheSolr
-	 * solrSearch
-	 * r.enUS: reponseRecherche
-	 * searchResponse
-	 * r.enUS: classeCheminAbsolu
-	 * classAbsolutePath
-	 * r.enUS: _indexe
-	 * _indexed
-	 * r.enUS: _stocke
-	 * _stored
-	 * r.enUS: partNumero
-	 * partNumber
+	 * var.enUS: writeClass
+	 * param1.var.enUS: classAbsolutePath
+	 * param2.var.enUS: languageName
+	 * param3.var.enUS: searchResponse
+	 * r: listeRecherche
+	 * r.enUS: searchList
+	 * r: rechercheSolr
+	 * r.enUS: solrSearch
+	 * r: reponseRecherche
+	 * r.enUS: searchResponse
+	 * r: classeCheminAbsolu
+	 * r.enUS: classAbsolutePath
+	 * r: partNumero
+	 * r.enUS: partNumber
 	 * r: classeParametreTypeNoms
 	 * r.enUS: classTypeParameterNames
 	 * r: classeParametreTypeNom
@@ -80,7 +99,225 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: methodTypeParameterNames
 	 * r: methodeParametreTypeNom
 	 * r.enUS: methodTypeParameterName
-	 */ 
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: classeSuperParametreTypeNoms
+	 * r.enUS: classSuperTypeParameterNames
+	 * r: classeParametreTypeNoms
+	 * r.enUS: classTypeParameterNames
+	 * r: classeImportations
+	 * r.enUS: classImports
+	 * r: classeCommentaire
+	 * r.enUS: classComment
+	 * r: classeNomEnsemble
+	 * r.enUS: classPackageName
+	 * r: classeNomCanoniqueSuperGeneriqueLangue
+	 * r.enUS: classSuperCanonicalNameGenericLanguage
+	 * r: classeNomCanoniqueSuperGenerique
+	 * r.enUS: classSuperCanonicalNameGeneric
+	 * r: classeNomCanoniqueSuper
+	 * r.enUS: classSuperCanonicalName
+	 * r: classeNomCanoniqueGenLangue
+	 * r.enUS: classCanonicalNameGenLanguage
+	 * r: classeNomCanoniqueGen
+	 * r.enUS: classCanonicalNameGen
+	 * r: classeNomCanoniqueSuperDoc
+	 * r.enUS: classSuperCanonicalNameDoc
+	 * r: classeNomCanoniqueLangue
+	 * r.enUS: classCanonicalNameLanguage
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
+	 * r: classeNomSimpleSuperGeneriqueLangue
+	 * r.enUS: classSuperSimpleNameGenericLanguage
+	 * r: classeNomSimpleSuperGenerique
+	 * r.enUS: classSuperSimpleNameGeneric
+	 * r: classeNomSimpleSuper
+	 * r.enUS: classSuperSimpleName
+	 * r: classeNomSimpleGenLangue
+	 * r.enUS: classSimpleNameGenLanguage
+	 * r: classeNomSimpleGen
+	 * r.enUS: classSimpleNameGen
+	 * r: classeNomSimpleSuperDoc
+	 * r.enUS: classSuperSimpleNameDoc
+	 * r: classeNomSimpleGenLangue
+	 * r.enUS: classSimpleNameGenLanguage
+	 * r: classeNomSimpleLangue
+	 * r.enUS: classSimpleNameLanguage
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 * r: classeEtendGen
+	 * r.enUS: classExtendsGen
+	 * r: classeCheminRepertoireGenLangue
+	 * r.enUS: classGenDirPathLanguage
+	 * r: classeCheminRepertoireGen
+	 * r.enUS: classGenDirPath
+	 * r: classeCheminRepertoireLangue
+	 * r.enUS: classDirPathLanguage
+	 * r: classeCheminRepertoire
+	 * r.enUS: classDirPath
+	 * r: classeChemin
+	 * r.enUS: classPath
+	 * r: classeRepertoire
+	 * r.enUS: classDir
+	 * r: classeFichier
+	 * r.enUS: classFile
+	 * r: classeImportation
+	 * r.enUS: classImport
+	 * r: classePartsSuperLangue
+	 * r.enUS: classSuperPartsLanguage
+	 * r: ecrireCommentaire
+	 * r.enUS: writeComment
+	 * r: classeSuperParametreTypeNom
+	 * r.enUS: classSuperTypeParameterName
+	 * r: partEstChamp
+	 * r.enUS: partIsField
+	 * r: champEstPublic
+	 * r.enUS: fieldIsPublic
+	 * r: champEstProtege
+	 * r.enUS: fieldIsProtected
+	 * r: champEstPrive
+	 * r.enUS: fieldIsPrivate
+	 * r: champEstStatique
+	 * r.enUS: fieldIsStatic
+	 * r: champEstFinale
+	 * r.enUS: fieldIsFinal
+	 * r: champEstAbstrait
+	 * r.enUS: fieldIsAbstract
+	 * r: champEstNatif
+	 * r.enUS: fieldIsNative
+	 * r: champEstTest
+	 * r.enUS: fieldIsTest
+	 * r: champEstSubstitue
+	 * r.enUS: fieldIsOverride
+	 * r: champAnnotationLangue
+	 * r.enUS: fieldAnnotationLanguage
+	 * r: champClassePartsLangue
+	 * r.enUS: fieldClassPartsLanguage
+	 * r: champClasseParts
+	 * r.enUS: fieldClassParts
+	 * r: champVarLangue
+	 * r.enUS: fieldVarLanguage
+	 * r: champVar
+	 * r.enUS: fieldVar
+	 * r: champNomCanoniqueComplet
+	 * r.enUS: fieldCanonicalNameComplete
+	 * r: champNomSimpleComplet
+	 * r.enUS: fieldSimpleNameComplete
+	 * r: champCommentaire
+	 * r.enUS: fieldComment
+	 * r: champCle
+	 * r.enUS: fieldKey
+	 * r: champCodeSource
+	 * r.enUS: fieldSourceCode
+	 * r: methodeVarLangue
+	 * r.enUS: methodVarLanguage
+	 * r: methodeVar
+	 * r.enUS: methodVar
+	 * r: methodeDoc
+	 * r.enUS: methodDoc
+	 * r: methodeQdox
+	 * r.enUS: methodQdox
+	 * r: methodeCommentaire
+	 * r.enUS: methodComment
+	 * r: methodeCle
+	 * r.enUS: methodKey
+	 * r: methodeCodeSourceLangue
+	 * r.enUS: methodSourceCodeLanguage
+	 * r: methodeCodeSource
+	 * r.enUS: methodSourceCode
+	 * r: methodeEstPublic
+	 * r.enUS: methodIsPublic
+	 * r: methodeEstProtege
+	 * r.enUS: methodIsProtected
+	 * r: methodeEstPrive
+	 * r.enUS: methodIsPrivate
+	 * r: methodeEstStatique
+	 * r.enUS: methodIsStatic
+	 * r: methodeEstFinale
+	 * r.enUS: methodIsFinal
+	 * r: methodeEstAbstrait
+	 * r.enUS: methodIsAbstract
+	 * r: methodeEstNatif
+	 * r.enUS: methodIsNative
+	 * r: methodeAnnotationsNomSimpleCompletListe
+	 * r.enUS: methodAnnotationsSimpleNameCompleteList
+	 * r: methodeAnnotationsNomSimpleComplet
+	 * r.enUS: methodAnnotationsSimpleNameComplete
+	 * r: methodeAnnotationNomSimpleComplet
+	 * r.enUS: methodAnnotationSimpleNameComplete
+	 * r: methodeAnnotationsBlocCodeListe
+	 * r.enUS: methodAnnotationsCodeBlockList
+	 * r: methodeAnnotationsBlocCode
+	 * r.enUS: methodAnnotationsCodeBlock
+	 * r: methodeAnnotationBlocCode
+	 * r.enUS: methodAnnotationCodeBlock
+	 * r: methodeAnnotations
+	 * r.enUS: methodAnnotations
+	 * r: methodeAnnotationLangue
+	 * r.enUS: methodAnnotationLanguage
+	 * r: methodeParamsQdox
+	 * r.enUS: methodParamsQdox
+	 * r: methodeExceptionsQdox
+	 * r.enUS: methodExceptionsQdox
+	 * r: methodeParamNum
+	 * r.enUS: methodParamNum
+	 * r: methodeParamQdox
+	 * r.enUS: methodParamQdox
+	 * r: methodeParamVarLangue
+	 * r.enUS: methodParamVarLanguage
+	 * r: methodeParamVarLangue
+	 * r.enUS: methodParamVar
+	 * r: methodeParamClassePartsLangue
+	 * r.enUS: methodParamClassPartsLanguage
+	 * r: methodeParamNomSimpleCompletListe
+	 * r.enUS: methodParamSimpleNameCompleteList
+	 * r: methodeParamNomSimpleComplet
+	 * r.enUS: methodParamSimpleNameComplete
+	 * r: methodeParamVar
+	 * r.enUS: methodeParamVar
+	 * r: methodeParamArgsVariableListe
+	 * r.enUS: methodParamVariableArgsList
+	 * r: methodeParamArgsVariable
+	 * r.enUS: methodParamVariableArgs
+	 * r: methodeAnnotationBlocCode
+	 * r.enUS: methodAnnotationCodeBlock
+	 * r: methodeExceptionQdox
+	 * r.enUS: methodExceptionQdox
+	 * r: methodeExceptionNomSimpleCompletListe
+	 * r.enUS: methodExceptionSimpleNameCompleteList
+	 * r: methodeExceptionNomSimpleComplet
+	 * r.enUS: methodExceptionSimpleNameComplete
+	 * r: methodeAnnotation
+	 * r.enUS: methodAnnotation
+	 * r: partEstMethode
+	 * r.enUS: partIsMethod
+	 * r: methodeRetourNomSimpleComplet
+	 * r.enUS: methodReturnSimpleNameComplete
+	 * r: methodeRetourClassePartsLangue
+	 * r.enUS: methodReturnClassPartsLanguage
+	 * r: methodeRetourClasseParts
+	 * r.enUS: methodReturnClassParts
+	 * r: methodeEstVide
+	 * r.enUS: methodIsVoid
+	 * r: methodeNomSimpleRetourComplet
+	 * r.enUS: methodReturnSimpleNameComplete
+	 * r: methodeEstTest
+	 * r.enUS: methodIsTest
+	 * r: methodeEstSubstitue
+	 * r.enUS: methodIsOverride
+	 * r: methodeParamVarListe
+	 * r.enUS: methodParamVarList
+	 * r: methodeParamVar
+	 * r.enUS: methodParamVar
+	 * r: partEstEntite
+	 * r.enUS: partIsEntity
+	 * r: Ecrire:
+	 * r.enUS: Write:
+	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
+	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
+	 * enUS: Retrieve the records for the class from the search engine, 
+	 * enUS: process them and write them into class files for each supported language. 
+	 */  
 	protected void ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults(); 
 
