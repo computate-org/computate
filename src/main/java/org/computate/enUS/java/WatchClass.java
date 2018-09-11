@@ -3,6 +3,7 @@ package org.computate.enUS.java;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
 
 public class WatchClass extends WriteGenClass {
@@ -23,7 +24,7 @@ public class WatchClass extends WriteGenClass {
 	public static void  watchClass(WatchClass watchClass) throws Exception {
 		System.out.println("absolutePath : " + watchClass.classAbsolutePath);
 
-		watchClass.indexerClasse(watchClass.classAbsolutePath);
+		SolrInputDocument classeDoc = watchClass.indexerClasse(watchClass.classAbsolutePath);
 //		if("tout".equals(watchClass.languageName)) {
 //			watchClass.ecrireClasseGen(watchClass.classAbsolutePath, watchClass.languageName);
 			for(String languageName : watchClass.allLanguages) {

@@ -8,7 +8,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.computate.enUS.java.SiteConfig;
+import org.computate.frFR.config.ConfigSite;
 import com.thoughtworks.qdox.model.JavaClass;
 
 public class ClassParts {
@@ -27,7 +27,7 @@ public class ClassParts {
 
 	public SolrDocument solrDocument;
 
-	public static SolrDocument solrDocument(SiteConfig siteConfig, String canonicalName) throws Exception {
+	public static SolrDocument solrDocument(ConfigSite siteConfig, String canonicalName) throws Exception {
 		SolrDocument doc = null;   
 		if(StringUtils.startsWith(canonicalName, siteConfig.domainPackageName)) {
 			SolrQuery solrSearch = new SolrQuery();   
@@ -44,12 +44,12 @@ public class ClassParts {
 		return doc;
 	}
 
-	public static ClassParts initClassParts(SiteConfig siteConfig, ClassParts classParts, String languageName) throws Exception {
+	public static ClassParts initClassParts(ConfigSite siteConfig, ClassParts classParts, String languageName) throws Exception {
 		ClassParts o = initClassParts(siteConfig, classParts.canonicalNameComplete, languageName);
 		return o;
 	}
 
-	public static ClassParts initClassParts(SiteConfig siteConfig, JavaClass classQdox, String languageName) throws Exception {
+	public static ClassParts initClassParts(ConfigSite siteConfig, JavaClass classQdox, String languageName) throws Exception {
 		String canonicalName = classQdox.getCanonicalName();
 		String canonicalNameComplete = classQdox.getGenericFullyQualifiedName();
 		String genericSimpleValueBefore = classQdox.getGenericValue();
@@ -95,7 +95,7 @@ public class ClassParts {
 		return classParts;
 	}
 
-	public static ClassParts initClassParts(SiteConfig siteConfig, String canonicalNameComplete, String languageName) throws Exception {
+	public static ClassParts initClassParts(ConfigSite siteConfig, String canonicalNameComplete, String languageName) throws Exception {
 		ClassParts classParts = new ClassParts();
 		classParts.canonicalName = canonicalNameComplete;
 		classParts.canonicalNameGeneric = null;

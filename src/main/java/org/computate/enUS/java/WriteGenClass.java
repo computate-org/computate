@@ -1,6 +1,7 @@
 package org.computate.enUS.java;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
@@ -15,7 +16,7 @@ import org.apache.solr.common.SolrDocumentList;
 
 /**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  */
-public class WriteGenClass extends WriteClass {
+public class WriteGenClass extends WriteGenClassGen {
 
 	/**	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language.
@@ -67,6 +68,7 @@ public class WriteGenClass extends WriteClass {
 					classDirGen = new File(classGenDirPath);
 					classDirGen.mkdirs();
 					classFileGen = new File(classPathGen);
+					o = new PrintWriter(classFileGen);
 					classSimpleNameGen = (String)doc.get("classSimpleNameGen_" + languageName + "_stored_string");
 					classSuperCanonicalName = (String)doc.get("classSuperCanonicalName_" + languageName + "_stored_string");
 					classSuperSimpleName = (String)doc.get("classSuperSimpleName_" + languageName + "_stored_string");
@@ -79,45 +81,46 @@ public class WriteGenClass extends WriteClass {
 					classSuperTypeParameterNames = (List<String>)doc.get("classSuperTypeParameterNames_stored_strings");
 					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
 		
-					s.append("package ").append(classPackageName).append(";\n\n");
+					l("package ", classPackageName, ";");
+					l();
 					if(classImports.size() > 0) { 
 						for(String classImport : classImports) {
-							s.append("import ").append(classImport).append(";\n");
+							l("import ", classImport, ";");
 						} 
-						s.append("\n");  
+						l();  
 					}
-					writeComment(s, classComment, 0); 
-					s.append("public class ").append(classSimpleNameGen);
+					writeComment(classComment, 0); 
+					s("public class ", classSimpleNameGen);
 					if(classTypeParameterNames != null && classTypeParameterNames.size() > 0) {
-						s.append("<");
+						s("<");
 						for(int j = 0; j < classTypeParameterNames.size(); j++) {
 							String classTypeParameterName = classTypeParameterNames.get(j);
 							if(i > 0)
-								s.append(", ");
-							s.append(classTypeParameterName);
+								s(", ");
+							s(classTypeParameterName);
 						}
-						s.append(">");
+						s(">");
 					}
 					if(classSuperSimpleNameGeneric != null && !"java.lang.Object".equals(classSuperSimpleNameGeneric) && !"DEV".equals(classSuperSimpleNameGeneric)) {
-						s.append(" extends ");
+						s(" extends ");
 						if(classExtendsGen) {
-							s.append(classSimpleName).append("Gen");
+							s(classSimpleName, "Gen");
 						} 
 						else {
-							s.append(classSuperSimpleName);
+							s(classSuperSimpleName);
 						}
 						if(classSuperTypeParameterNames != null && classSuperTypeParameterNames.size() > 0) {
-							s.append("<");
+							s("<");
 							for(int j = 0; j < classSuperTypeParameterNames.size(); j++) {
 								String classSuperTypeParameterName = classSuperTypeParameterNames.get(j);
 								if(i > 0)
-									s.append(", ");
-								s.append(classSuperTypeParameterName);
+									s(", ");
+								s(classSuperTypeParameterName);
 							}
-							s.append(">");
+							s(">");
 						}
 					}
-					s.append(" {\n");
+					s(" {\n");
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
@@ -126,14 +129,32 @@ public class WriteGenClass extends WriteClass {
 					String entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + languageName + "_stored_string");
 	
 					if(BooleanUtils.isTrue(partIsEntity)) {
-						s.append("\t");
-						s.append(entiteNomSimpleComplet).append(" ").append(entiteVar);
-						s.append(";\n");
+						s("\t");
+						if(BooleanUtils.isTrue((Boolean)doc.get("entiteEstPublic_stored_boolean")))
+							s("public ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("entiteEstProtege_stored_boolean")))
+							s("protege ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("entiteEstPrive_stored_boolean")))
+							s("prive ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("entiteEstStatique_stored_boolean")))
+							s("static ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("entiteEstFinale_stored_boolean")))
+							s("final ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("entiteEstAbstrait_stored_boolean")))
+							s("abstract ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("entiteEstNatif_stored_boolean")))
+							s("native ");
+						s(entiteNomSimpleComplet, " ", entiteVar);
+						s(";\n");
 					}     
 				}
 			}
-			s.append("}\n");
-			FileUtils.write(classFileGen, s, Charset.forName("UTF-8"));  
+			l("}");
+			if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPathGen)) {
+				System.out.println("Write: " + classPathGen); 
+				o.flush();
+				o.close();
+			}
 		} 
 	}
 }

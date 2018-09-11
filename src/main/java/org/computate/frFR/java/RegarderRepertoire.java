@@ -88,6 +88,10 @@ public class RegarderRepertoire {
 	 */
 	protected ArrayList<String> cheminsSource = new ArrayList<String>();
 	/**
+	 * var.enUS: relativePathsToWatch
+	 */
+	protected ArrayList<String> cheminsRelatifsARegarder = new ArrayList<String>();
+	/**
 	 * var.enUS: allSourcePaths
 	 */
 	protected ArrayList<String> toutCheminsSource = new ArrayList<String>();
@@ -239,12 +243,18 @@ public class RegarderRepertoire {
 	 * r.enUS: libraryPaths
 	 * r: classeChemin
 	 * r.enUS: classPath
+	 * r: cheminsRelatifsARegarder
+	 * r.enUS: relativePathsToWatch
 	 */
 	public void initialiserRegarderRepertoire() throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
 //		executeur.setStreamHandler(gestionnaireFluxPompe);
+		String[] cheminsRelatifsARegarder = configuration.getStringArray(appliNom + ".cheminsRelatifsARegarder");
+		for(String cheminRelatifARegarder : cheminsRelatifsARegarder) {
+			String cheminARegarder = appliChemin + "/" + cheminRelatifARegarder;
+			cheminsARegarder.add(cheminARegarder);
+		}
 
-		cheminsARegarder.add(cheminSrcMainJava);
 		cheminsSource.add(cheminSrcMainJava);
 		toutCheminsSource.add(cheminSrcMainJava);
 

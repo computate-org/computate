@@ -121,10 +121,6 @@ public class SiteConfig {
 	 */
 	public SolrClient solrClientComputate;
 
-	/**	The absolute paths to watch for changes.
-	 */
-	public ArrayList<String> pathsToWatch = new ArrayList<String>();
-
 	/**	The absolute paths to source code directories in the app to watch for changes.
 	 */
 	public ArrayList<String> sourcePaths = new ArrayList<String>();
@@ -157,7 +153,6 @@ public class SiteConfig {
 
 	protected void  _configPath() throws Exception {
 		configPath = appPath + "/config/" + appName + ".config";
-		System.out.println("configPath: " + configPath);  
 	}
 
 	protected void  _configFile() throws Exception {
@@ -249,10 +244,6 @@ public class SiteConfig {
 		solrClientComputate = new HttpSolrClient.Builder(solrUrlComputate).build();
 	}
 
-	protected void  _pathsToWatch() throws Exception {
-		pathsToWatch.add(srcMainJavaPath);
-	}
-
 	protected void  _sourcePaths() throws Exception {
 		sourcePaths.add(srcMainJavaPath);
 		sourcePaths.add(srcGenJavaPath);
@@ -293,7 +284,6 @@ public class SiteConfig {
 		_solrPort();
 		_solrUrlComputate();
 		_solrClientComputate();
-		_pathsToWatch();
 		_sourcePaths();
 		_allSourcePaths();
 		_testMethodNames();
@@ -321,6 +311,15 @@ public class SiteConfig {
 				o = m.group(group);
 		}
 		return o;
+	}
+
+	public boolean regexFound(String pattern, String text) {
+		boolean found = false;
+		if(pattern != null && text != null) {
+			Matcher m = Pattern.compile(pattern, Pattern.MULTILINE).matcher(text);
+			found = m.find();
+		}
+		return found;
 	}
 
 	public ArrayList<String> regexList(String pattern, String text) {

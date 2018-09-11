@@ -104,7 +104,6 @@ public class ConfigSite {
 	 **/ 
 	protected void _cheminConfig() throws Exception {
 		cheminConfig = appliChemin + "/config/" + appliNom + ".config";
-		System.out.println("cheminConfig: " + cheminConfig);  
 	}
 //
 //	/**
@@ -459,22 +458,6 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: pathsToWatch
-	 * enUS: The absolute paths to watch for changes. 
-	 */ 
-	public ArrayList<String> cheminsARegarder = new ArrayList<String>();
-	/**	
-	 * var.enUS: _pathsToWatch
-	 * r: cheminsARegarder
-	 * r.enUS: pathsToWatch
-	 * r: cheminSrcMainJava
-	 * r.enUS: srcMainJavaPath
-	 **/ 
-	protected void _cheminsARegarder() throws Exception {
-		cheminsARegarder.add(cheminSrcMainJava);
-	}
-
-	/**
 	 * var.enUS: sourcePaths
 	 * enUS: The absolute paths to source code directories in the app to watch for changes. 
 	 */ 
@@ -573,8 +556,6 @@ public class ConfigSite {
 	 * r.enUS: solrUrlComputate
 	 * r: clientSolrComputate
 	 * r.enUS: solrClientComputate
-	 * r: cheminsARegarder
-	 * r.enUS: pathsToWatch
 	 * r: cheminsSource
 	 * r.enUS: sourcePaths
 	 * r: toutCheminsSource
@@ -613,7 +594,6 @@ public class ConfigSite {
 		_portSolr();
 		_urlSolrComputate();
 		_clientSolrComputate();
-		_cheminsARegarder();
 		_cheminsSource();
 		_toutCheminsSource();
 		_nomsMethodeTest();
@@ -673,6 +653,26 @@ public class ConfigSite {
 				o = m.group(groupe);
 		}
 		return o;
+	}  
+
+	/** 
+	 * var.enUS: regexFound
+	 * param1.var.enUS: pattern
+	 * param2.var.enUS: text
+	 * r: motif
+	 * r.enUS: pattern
+	 * r: texte
+	 * r.enUS: text
+	 * r: trouve
+	 * r.enUS: found
+	 */
+	public boolean regexTrouve(String motif, String texte) {
+		boolean trouve = false;
+		if(motif != null && texte != null) {
+			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
+			trouve = m.find();
+		}
+		return trouve;
 	}  
 
 	/**

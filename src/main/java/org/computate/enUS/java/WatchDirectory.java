@@ -56,6 +56,8 @@ public class WatchDirectory {
 
 	protected ArrayList<String> sourcePaths = new ArrayList<String>();
 
+	protected ArrayList<String> relativePathsToWatch = new ArrayList<String>();
+
 	protected ArrayList<String> allSourcePaths = new ArrayList<String>();
 
 	protected ArrayList<String> libraryPaths = new ArrayList<String>();
@@ -114,8 +116,12 @@ public class WatchDirectory {
 	public void  initializeWatchDirectory() throws Exception {
 		observer = FileSystems.getDefault().newWatchService();
 //		executeur.setStreamHandler(gestionnaireFluxPompe);
+		String[] relativePathsToWatch = configuration.getStringArray(appliNom + ".relativePathsToWatch");
+		for(String cheminRelatifARegarder : relativePathsToWatch) {
+			String cheminARegarder = appliChemin + "/" + cheminRelatifARegarder;
+			pathsToWatch.add(cheminARegarder);
+		}
 
-		pathsToWatch.add(srcMainJavaPath);
 		sourcePaths.add(srcMainJavaPath);
 		allSourcePaths.add(srcMainJavaPath);
 

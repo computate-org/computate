@@ -1071,8 +1071,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: methodTypeParameter
 	 * r: classePartsSuperLangue
 	 * r.enUS: classSuperPartsLanguage
+	 * r: regexTrouve
+	 * r.enUS: regexFound
 	 */
-	protected void indexerClasse(String classeCheminAbsolu) throws Exception { 
+	protected SolrInputDocument indexerClasse(String classeCheminAbsolu) throws Exception { 
 		SolrInputDocument classeDoc = new SolrInputDocument();
 		String classeNomCanonique = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classeCheminAbsolu, "."), cheminSrcMainJava + "/"), "/", ".");
 		String classeNomSimple = StringUtils.substringAfterLast(classeNomCanonique, ".");
@@ -1084,7 +1086,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomSimpleSuper = StringUtils.substringAfterLast(classeNomCanoniqueSuper, ".");
 		if(StringUtils.isEmpty(classeNomSimpleSuper))
 			classeNomSimpleSuper = classeNomCanoniqueSuper;
-		Boolean classeEtendGen = indexerStockerSolr(classeDoc, "classeEtendGen", StringUtils.endsWith(classeNomSimpleSuper, "Gen"));
 
 		List<JavaTypeVariable<JavaGenericDeclaration>> classeParametresType = classeQdox.getTypeParameters();
 		for(JavaTypeVariable<JavaGenericDeclaration> classeParametreType : classeParametresType) {
@@ -1127,7 +1128,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 		
 		
-		String commentaire = stockerRegexCommentaires(classeQdox.getComment(), langueNom, classeDoc, "classeCommentaire");
+		String classeCommentaire = stockerRegexCommentaires(classeQdox.getComment(), langueNom, classeDoc, "classeCommentaire");
 		String classeNomEnsemble = StringUtils.substringBeforeLast(classeNomCanonique, ".");
 		String classeChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), ".java");
 		String classeCheminRepertoire = StringUtils.substringBeforeLast(classeChemin, "/");
@@ -1136,6 +1137,11 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeCle = classeCheminAbsolu;
 		Instant modifiee = Instant.now();
 		Date modifieeDate = Date.from(modifiee);
+
+		Boolean classeEtendGen = StringUtils.endsWith(classeNomSimpleSuper, "Gen");
+		if(!classeEtendGen && regexTrouve("^gen:\\s*(true)$", classeCommentaire))
+			classeEtendGen = true;
+		indexerStockerSolr(classeDoc, "classeEtendGen", classeEtendGen);
 		
 		ArrayList<JavaClass> classesSuperQdox = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> classesSuperQdoxEtMoi = new ArrayList<JavaClass>();
@@ -1175,10 +1181,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		}  
 		for(String langueNom : autresLangues) { 
 			String appliCheminLangue = appliChemins.get(langueNom);
-			stockerRegexCommentaires(commentaire, langueNom, classeDoc, "classeCommentaire");
+			stockerRegexCommentaires(classeCommentaire, langueNom, classeDoc, "classeCommentaire");
 			String cheminSrcMainJavaLangue = appliCheminLangue + "/src/main/java";
 			String cheminSrcGenJavaLangue = appliCheminLangue + "/src/gen/java";
-			String classeNomCanoniqueLangue = regex("^nomCanonique\\." + langueNom + ":\\s*(.*)", commentaire, classeNomCanonique);
+			String classeNomCanoniqueLangue = regex("^nomCanonique\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeNomCanonique);
 			String classeNomSimpleLangue = StringUtils.substringAfterLast(classeNomCanoniqueLangue, ".");
 			String classeNomEnsembleLangue = StringUtils.substringBeforeLast(classeNomCanoniqueLangue, ".");
 			String classeNomCanoniqueGenLangue = classeNomCanoniqueLangue + "Gen";
@@ -1530,6 +1536,35 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteVarParam", langueNom, entiteVarParam);
 						
 						String entiteVarCouverture = indexerStockerSolr(entiteDoc, "entiteVarCouverture", langueNom, entiteVar + "Couverture");
+
+//						String entiteParamVar = StringUtils.equalsAny(entiteClasseQdox, "");
+//						indexerStockerSolr(entiteDoc, "entiteParamVar", regexTrouve("^exact:\\s*(true)$", methodeCommentaire));
+//							if(nomCanonique.equals(classe_.nomCanoniqueArrayList) || nomCanonique.equals(classe_.nomCanoniqueList))
+//								o.tout("l");
+//							else if(o.estVide())
+//								o.tout("o");
+
+						indexerStockerSolr(entiteDoc, "entiteExact", regexTrouve("^exact:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^cleUnique:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^indexe:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteStocke", regexTrouve("^stocke:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^crypte:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^suggere:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entitetexte", regexTrouve("^texte:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteIncremente", regexTrouve("^incremente:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteNomAffichage", regexTrouve("^nomAffichage:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteIgnorer", regexTrouve("^ignorer:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteDeclarer", regexTrouve("^declarer:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteRechercher", regexTrouve("^rechercher:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteAttribuer", regexTrouve("^attribuer:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteAjouter", regexTrouve("^ajouter:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSupprimer", regexTrouve("^supprimer:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteModifier", regexTrouve("^modifier:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteRecharger", regexTrouve("^recharger:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^multiligne:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^cles:\\s*(true)$", methodeCommentaire));
+
 //						boolean entiteCouverture = false;
 //	
 //						String varEntiteEnUS = regex("^var.enUS: (.*)", methodeQdox.getComment());
@@ -1819,5 +1854,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		String qSupprimer = concat("classeCheminAbsolu_indexed_string", ":\"", classeChemin, "\" AND (modifiee_indexed_date:[* TO ", modifiee.toString(), "-1MILLI] OR (*:* NOT modifiee_indexed_date:*))");
 		clientSolrComputate.deleteByQuery(qSupprimer);
 		clientSolrComputate.commit(); 
+		return classeDoc;
 	}
 }

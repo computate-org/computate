@@ -3,6 +3,7 @@ package org.computate.frFR.java;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
 
 /**
@@ -55,7 +56,7 @@ public class RegarderClasse extends EcrireGenClasse {
 	public static void regarderClasse(RegarderClasse regarderClasse) throws Exception {
 		System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
 
-		regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu);
+		SolrInputDocument classeDoc = regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu);
 //		if("tout".equals(regarderClasse.langueNom)) {
 //			regarderClasse.ecrireClasseGen(regarderClasse.classeCheminAbsolu, regarderClasse.langueNom);
 			for(String langueNom : regarderClasse.toutesLangues) {
