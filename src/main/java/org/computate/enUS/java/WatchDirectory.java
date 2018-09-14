@@ -116,9 +116,9 @@ public class WatchDirectory {
 	public void  initializeWatchDirectory() throws Exception {
 		observer = FileSystems.getDefault().newWatchService();
 //		executeur.setStreamHandler(gestionnaireFluxPompe);
-		String[] relativePathsToWatch = configuration.getStringArray(appliNom + ".relativePathsToWatch");
+		String[] relativePathsToWatch = configuration.getStringArray(appName + ".relativePathsToWatch");
 		for(String cheminRelatifARegarder : relativePathsToWatch) {
-			String cheminARegarder = appliChemin + "/" + cheminRelatifARegarder;
+			String cheminARegarder = appPath + "/" + cheminRelatifARegarder;
 			pathsToWatch.add(cheminARegarder);
 		}
 

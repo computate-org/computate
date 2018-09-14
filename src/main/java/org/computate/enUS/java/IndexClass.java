@@ -25,7 +25,7 @@ import com.thoughtworks.qdox.model.JavaType;
 import com.thoughtworks.qdox.model.JavaTypeVariable;
 import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
 
-public class IndexClass extends RegarderClasseBase {
+public class IndexClass extends WatchClassBase {
 
 	public void  populateQdoxSuperClassesInterfacesAndMe(JavaClass c, ArrayList<JavaClass> qdoxSuperClasses, ArrayList<JavaClass> qdoxSuperClassesAndMe, ArrayList<JavaClass> qdoxSuperClassesAndInterfaces, ArrayList<JavaClass> qdoxSuperClassesInterfacesAndMe) throws Exception { 
 		if(c != null) {
@@ -307,6 +307,7 @@ public class IndexClass extends RegarderClasseBase {
 			if(StringUtils.isNotEmpty(classSuperCanonicalNameGeneric)) {
 				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classSuperCanonicalNameGeneric);
 				classeSuperGeneriqueQdox = builder.getClassByName(classSuperCanonicalNameGeneric);
+				classSuperCompleteNameGeneric = classSuperCanonicalNameGeneric;
 
 				if(classSuperCanonicalNameGeneric.contains("."))
 					classSuperSimpleNameGeneric = StringUtils.substringAfterLast(classSuperCanonicalNameGeneric, ".");
@@ -357,6 +358,20 @@ public class IndexClass extends RegarderClasseBase {
 		indexStoreSolr(classDoc, "classGenPath", languageName, classGenPath); 
 		indexStoreSolr(classDoc, "classGenDirPath", languageName, classGenDirPath); 
 
+		if(classComment != null) {
+			Matcher classeValsRecherche = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classComment);
+			boolean classeValsTrouve = classeValsRecherche.find();
+			while(classeValsTrouve) {
+				String classeValVar = classeValsRecherche.group(1);
+				String classeValLangue = classeValsRecherche.group(2);
+				String classeValValeur = classeValsRecherche.group(3);
+				storeListSolr(classDoc, "classeValsVar", classeValVar);
+				storeListSolr(classDoc, "classeValsLangue", classeValLangue);
+				storeListSolr(classDoc, "classeValsValeur", classeValValeur);
+				classeValsTrouve = classeValsRecherche.find();
+			}
+		}
+
 		SolrDocument classSuperCanonicalNameDoc = null;   
 		if(StringUtils.startsWith(classSuperCanonicalName, domainPackageName)) {
 			SolrQuery solrSearch = new SolrQuery();   
@@ -394,25 +409,28 @@ public class IndexClass extends RegarderClasseBase {
 			String classSuperCompleteNameLanguage;
 			ClassParts classSuperPartsLanguage;
 
-			if(classExtendsGen)
+			if(classExtendsGen) {
 				classSuperPartsLanguage = ClassParts.initClassParts(this, classCanonicalNameLanguage + "Gen", languageName);
-			else
+			}
+			else {
 				classSuperPartsLanguage = ClassParts.initClassParts(this, classSuperQdox, languageName);
+			}
 
 			indexStoreSolr(classDoc, "classSuperCanonicalName", languageName, classSuperPartsLanguage.canonicalName); 
 			indexStoreSolr(classDoc, "classSuperSimpleName", languageName, classSuperPartsLanguage.simpleName); 
 			indexStoreSolr(classDoc, "classCanonicalNameCompletSuper", languageName, classSuperPartsLanguage.canonicalNameComplete);
 			indexStoreSolr(classDoc, "classSimpleNameCompletSuper", languageName, classSuperPartsLanguage.simpleNameComplete);
-			if(StringUtils.isNotEmpty(classSuperPartsLanguage.canonicalNameGeneric)) {
-				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classSuperPartsLanguage.canonicalNameGeneric);
-				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classSuperPartsLanguage.simpleNameGeneric);
+			if(StringUtils.isNotEmpty(classSuperCompleteNameGeneric)) {
+				ClassParts classePartsSuperGeneriqueLangue = ClassParts.initClassParts(this, classSuperCompleteNameGeneric, languageName);
+				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classePartsSuperGeneriqueLangue.canonicalNameComplete);
+				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classePartsSuperGeneriqueLangue.simpleNameComplete);
 			}
 
 
 
 
 
-//			if(classSuperCanonicalNameDoc == null) {
+//			if(classSuperCanonicalNameDoc == null) {  
 //				indexStoreSolr(classDoc, "classSuperCanonicalName", languageName, classSuperCanonicalName); 
 //				indexStoreSolr(classDoc, "classSuperSimpleName", languageName, classSuperSimpleName); 
 //			}

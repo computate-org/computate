@@ -23,7 +23,7 @@ import org.apache.solr.common.SolrDocumentList;
  * val.VAL_entiteCommentaireLigne1Part1.frFR:Le champ « 
  * gen: true
  */  
-public class EcrireClasse extends IndexerClasse { 
+public class EcrireClasse extends IndexerClasse {
 
 	/**
 	 * var.enUS: writeClass
@@ -43,7 +43,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: languageName
 	 * r: ecrireClasse
 	 * r.enUS: writeClass
-	 */   
+	 */  
 	protected void ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
@@ -321,7 +321,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
-	 */  
+	 */   
 	protected void ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults(); 
 
@@ -333,6 +333,7 @@ public class EcrireClasse extends IndexerClasse {
 			
 			String classeNomSimple = null;
 			String classeNomSimpleSuper = null;    
+			String classeNomSimpleSuperGenerique = null;    
 			String classeNomCanoniqueSuper = null;    
 			String classeNomEnsemble = null;
 			String classeCommentaire = null;      
@@ -356,6 +357,7 @@ public class EcrireClasse extends IndexerClasse {
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
 					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
 					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stored_string");
+					classeNomSimpleSuperGenerique = (String)doc.get("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stored_strings");
@@ -373,6 +375,7 @@ public class EcrireClasse extends IndexerClasse {
 					}
 					ecrireCommentaire(classeCommentaire, 0); 
 					s("public class ", classeNomSimple);
+
 					if(classeParametreTypeNoms != null && classeParametreTypeNoms.size() > 0) {
 						s("<");
 						for(int j = 0; j < classeParametreTypeNoms.size(); j++) {
@@ -383,6 +386,7 @@ public class EcrireClasse extends IndexerClasse {
 						}
 						s(">");
 					}
+
 					if(!"java.lang.Object".equals(classeNomCanoniqueSuper)) {
 						s(" extends ");
 						if(classeEtendGen) {
@@ -391,7 +395,11 @@ public class EcrireClasse extends IndexerClasse {
 						else {
 							s(classeNomSimpleSuper);
 						}
-						if(classeSuperParametreTypeNoms != null && classeSuperParametreTypeNoms.size() > 0) {
+
+						if(StringUtils.isNotEmpty(classeNomSimpleSuperGenerique)) {
+							s("<", classeNomSimpleSuperGenerique, ">");
+						}
+						else if(classeSuperParametreTypeNoms != null && classeSuperParametreTypeNoms.size() > 0) {
 							s("<");
 							for(int j = 0; j < classeSuperParametreTypeNoms.size(); j++) {
 								String classeSuperParametreTypeNom = classeSuperParametreTypeNoms.get(j);

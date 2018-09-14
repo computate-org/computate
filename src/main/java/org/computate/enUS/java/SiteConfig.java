@@ -179,11 +179,11 @@ public class SiteConfig {
 	}
 
 	protected void  _otherLanguages() throws Exception {
-		otherLanguages = config.getStringArray(appliNom + ".otherLanguages");
+		otherLanguages = config.getStringArray(appName + ".otherLanguages");
 	}
 
 	protected void  _allLanguages() throws Exception {
-		allLanguages = ArrayUtils.add(ArrayUtils.addAll(autresLangues), langueNom);
+		allLanguages = ArrayUtils.add(ArrayUtils.addAll(otherLanguages), languageName);
 	}
 
 	protected void  _languageIndexed() throws Exception {

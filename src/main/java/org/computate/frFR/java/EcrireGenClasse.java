@@ -2,12 +2,12 @@ package org.computate.frFR.java;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
+import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -15,13 +15,19 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
-/**
+/**  
  * nomCanonique.enUS: org.computate.enUS.java.WriteGenClass
  * gen: true
+ * 
+ * val.VAL_entityCommentLine1Part1.enUS:The "
+ * val.VAL_entiteCommentaireLigne1Part1.frFR:Le champ « 
+ * val.VAL_entityCommentLine1Part2.enUS:" field
+ * val.VAL_entiteCommentaireLigne1Part2.frFR: »
+ * 
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
- */   
-public class EcrireGenClasse extends EcrireClasse {
+ */  
+public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 	/**
 	 * var.enUS: writeGenClass
@@ -61,10 +67,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		ecrireClasseGen(reponseRecherche, langueNom);
 	}
 
-	/**  
+	/** 
 	 * var.enUS: writeGenClass
 	 * param1.var.enUS: searchResponse
 	 * param2.var.enUS: languageName
+	 * r: VAL_entiteCommentaireLigne1Part1
+	 * r.enUS: VAL_entityCommentLine1Part1
+	 * r: VAL_entiteCommentaireLigne1Part2
+	 * r.enUS: VAL_entityCommentLine1Part2
 	 * r: langueIndexe
 	 * r.enUS: languageIndexed
 	 * r: listeRecherche
@@ -229,26 +239,42 @@ public class EcrireGenClasse extends EcrireClasse {
 						}
 						s(">");
 					}
+					else {
+						s("<DEV>");
+					}
 					if(classeNomSimpleSuperGenerique != null && !"java.lang.Object".equals(classeNomSimpleSuperGenerique) && !"DEV".equals(classeNomSimpleSuperGenerique)) {
 						s(" extends ");
-						if(classeEtendGen) {
-							s(classeNomSimple, "Gen");
-						} 
-						else {
-							s(classeNomSimpleSuper);
+//						s(classeNomSimpleSuper);
+						
+						if(classeNomSimpleSuperGenerique != null) {
+							s(classeNomSimpleSuperGenerique);
 						}
-						if(classeSuperParametreTypeNoms != null && classeSuperParametreTypeNoms.size() > 0) {
-							s("<");
-							for(int j = 0; j < classeSuperParametreTypeNoms.size(); j++) {
-								String classeSuperParametreTypeNom = classeSuperParametreTypeNoms.get(j);
-								if(i > 0)
-									s(", ");
-								s(classeSuperParametreTypeNom);
-							}
-							s(">");
-						}
+//						else if(classeSuperParametreTypeNoms != null && classeSuperParametreTypeNoms.size() > 0) {
+////							s("<");
+//							for(int j = 0; j < classeSuperParametreTypeNoms.size(); j++) {
+//								String classeSuperParametreTypeNom = classeSuperParametreTypeNoms.get(j);
+//								if(i > 0)
+//									s(", ");
+//								s(classeSuperParametreTypeNom);
+//							}
+////							s(">");
+//						}	
 					}
 					s(" {\n");
+					List<String> classeValsVar = (List<String>)doc.get("classeValsVar_stored_strings");
+					List<String> classeValsLangue = (List<String>)doc.get("classeValsLangue_stored_strings");
+					List<String> classeValsValeur = (List<String>)doc.get("classeValsValeur_stored_strings");
+					if(classeValsVar != null && classeValsLangue != null && classeValsValeur != null) {
+						for(int j = 0; j < classeValsVar.size(); j++) {
+							String classeValVar = classeValsVar.get(j);
+							String classeValLangue = classeValsLangue.get(j);
+							String classeValValeur = classeValsValeur.get(j);
+
+							if(StringUtils.equals(langueNom, classeValLangue)) {
+								tl(1, "public static final String ", classeValVar, " = \"", StringEscapeUtils.escapeJava(classeValValeur), "\";");
+							}
+						}
+					}
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
@@ -274,6 +300,18 @@ public class EcrireGenClasse extends EcrireClasse {
 							s("native ");
 						s(entiteNomSimpleComplet, " ", entiteVar);
 						s(";\n");
+						l();
+	
+						String ligneCommentaire = "\t///" + String.join("", Collections.nCopies(entiteVar.length(), "/")) + "///";
+						l(ligneCommentaire);
+						tl(1, "// ", entiteVar, " //");
+						l(ligneCommentaire);
+						l();
+						t(1, "/**");
+						t(1);
+							s(VAL_entiteCommentaireLigne1Part1, entiteVar, VAL_entiteCommentaireLigne1Part2);
+						l();
+						tl(1, " */");
 					}     
 				}
 			}
@@ -285,7 +323,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		} 
 	}  
-//
+// 
 //	/**	Récupérer les enregistrements de la classe à partir du moteur de recherche, 
 //	 *	traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
 //	 */
@@ -462,7 +500,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //					o.tabLigne(2, "o.nomSimpleGenerique.enUS(\"", nomSimpleGenerique.enUS(), "\");");
 //					o.tabLigne(2, "o.nomSimpleGenerique.frFR(\"", nomSimpleGenerique.frFR(), "\");");
 //				}
-//			}
+//			} 
 //	
 //			if(nomCanoniqueComplet.pasVide()) {
 //				if(nomCanonique.commencePar("org.computate")) {

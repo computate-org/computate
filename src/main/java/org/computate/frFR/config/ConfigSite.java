@@ -213,6 +213,8 @@ public class ConfigSite {
 	 * r.enUS: allLanguages
 	 * r: langueNom
 	 * r.enUS: languageName
+	 * r: appliNom
+	 * r.enUS: appName
 	 **/ 
 	protected void _autresLangues() throws Exception {
 		autresLangues = config.getStringArray(appliNom + ".autresLangues");
@@ -229,6 +231,10 @@ public class ConfigSite {
 	 * r.enUS: allLanguages
 	 * r: appliNom
 	 * r.enUS: appName
+	 * r: autresLangues
+	 * r.enUS: otherLanguages
+	 * r: langueNom
+	 * r.enUS: languageName
 	 **/ 
 	protected void _toutesLangues() throws Exception {
 		toutesLangues = ArrayUtils.add(ArrayUtils.addAll(autresLangues), langueNom);

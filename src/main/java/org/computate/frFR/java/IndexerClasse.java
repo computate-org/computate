@@ -1116,6 +1116,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			if(StringUtils.isNotEmpty(classeNomCanoniqueSuperGenerique)) {
 				indexerStockerSolr(classeDoc, "classeNomCanoniqueSuperGenerique", langueNom, classeNomCanoniqueSuperGenerique);
 				classeSuperGeneriqueQdox = bricoleur.getClassByName(classeNomCanoniqueSuperGenerique);
+				classeNomCompletSuperGenerique = classeNomCanoniqueSuperGenerique;
 
 				if(classeNomCanoniqueSuperGenerique.contains("."))
 					classeNomSimpleSuperGenerique = StringUtils.substringAfterLast(classeNomCanoniqueSuperGenerique, ".");
@@ -1166,6 +1167,20 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "classeCheminGen", langueNom, classeCheminGen); 
 		indexerStockerSolr(classeDoc, "classeCheminRepertoireGen", langueNom, classeCheminRepertoireGen); 
 
+		if(classeCommentaire != null) {
+			Matcher classeValsRecherche = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classeCommentaire);
+			boolean classeValsTrouve = classeValsRecherche.find();
+			while(classeValsTrouve) {
+				String classeValVar = classeValsRecherche.group(1);
+				String classeValLangue = classeValsRecherche.group(2);
+				String classeValValeur = classeValsRecherche.group(3);
+				stockerListeSolr(classeDoc, "classeValsVar", classeValVar);
+				stockerListeSolr(classeDoc, "classeValsLangue", classeValLangue);
+				stockerListeSolr(classeDoc, "classeValsValeur", classeValValeur);
+				classeValsTrouve = classeValsRecherche.find();
+			}
+		}
+
 		SolrDocument classeNomCanoniqueSuperDoc = null;   
 		if(StringUtils.startsWith(classeNomCanoniqueSuper, nomEnsembleDomaine)) {
 			SolrQuery rechercheSolr = new SolrQuery();   
@@ -1203,25 +1218,28 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classeNomCompletSuperLangue;
 			ClasseParts classePartsSuperLangue;
 
-			if(classeEtendGen)
+			if(classeEtendGen) {
 				classePartsSuperLangue = ClasseParts.initClasseParts(this, classeNomCanoniqueLangue + "Gen", langueNom);
-			else
+			}
+			else {
 				classePartsSuperLangue = ClasseParts.initClasseParts(this, classeQdoxSuper, langueNom);
+			}
 
 			indexerStockerSolr(classeDoc, "classeNomCanoniqueSuper", langueNom, classePartsSuperLangue.nomCanonique); 
 			indexerStockerSolr(classeDoc, "classeNomSimpleSuper", langueNom, classePartsSuperLangue.nomSimple); 
 			indexerStockerSolr(classeDoc, "classeNomCanoniqueCompletSuper", langueNom, classePartsSuperLangue.nomCanoniqueComplet);
 			indexerStockerSolr(classeDoc, "classeNomSimpleCompletSuper", langueNom, classePartsSuperLangue.nomSimpleComplet);
-			if(StringUtils.isNotEmpty(classePartsSuperLangue.nomCanoniqueGenerique)) {
-				indexerStockerSolr(classeDoc, "classeNomCanoniqueSuperGenerique", langueNom, classePartsSuperLangue.nomCanoniqueGenerique);
-				indexerStockerSolr(classeDoc, "classeNomSimpleSuperGenerique", langueNom, classePartsSuperLangue.nomSimpleGenerique);
+			if(StringUtils.isNotEmpty(classeNomCompletSuperGenerique)) {
+				ClasseParts classePartsSuperGeneriqueLangue = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, langueNom);
+				indexerStockerSolr(classeDoc, "classeNomCanoniqueSuperGenerique", langueNom, classePartsSuperGeneriqueLangue.nomCanoniqueComplet);
+				indexerStockerSolr(classeDoc, "classeNomSimpleSuperGenerique", langueNom, classePartsSuperGeneriqueLangue.nomSimpleComplet);
 			}
 
 
 
 
 
-//			if(classeNomCanoniqueSuperDoc == null) {
+//			if(classeNomCanoniqueSuperDoc == null) {  
 //				indexerStockerSolr(classeDoc, "classeNomCanoniqueSuper", langueNom, classeNomCanoniqueSuper); 
 //				indexerStockerSolr(classeDoc, "classeNomSimpleSuper", langueNom, classeNomSimpleSuper); 
 //			}

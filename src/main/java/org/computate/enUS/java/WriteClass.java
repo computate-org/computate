@@ -16,7 +16,7 @@ import org.apache.solr.common.SolrDocumentList;
 
 /**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  */
-public class WriteClass extends WriteClassGen {
+public class WriteClass extends WriteClassGen<IndexClass> {
 
 	PrintWriter o;
 
@@ -62,6 +62,7 @@ public class WriteClass extends WriteClassGen {
 			
 			String classSimpleName = null;
 			String classSuperSimpleName = null;    
+			String classSuperSimpleNameGeneric = null;    
 			String classSuperCanonicalName = null;    
 			String classPackageName = null;
 			String classComment = null;      
@@ -85,6 +86,7 @@ public class WriteClass extends WriteClassGen {
 					classSimpleName = (String)doc.get("classSimpleName_" + languageName + "_stored_string");
 					classSuperCanonicalName = (String)doc.get("classSuperCanonicalName_" + languageName + "_stored_string");
 					classSuperSimpleName = (String)doc.get("classSuperSimpleName_" + languageName + "_stored_string");
+					classSuperSimpleNameGeneric = (String)doc.get("classSuperSimpleNameGeneric_" + languageName + "_stored_string");
 					classPackageName = (String)doc.get("classPackageName_" + languageName + "_stored_string");
 					classComment = (String)doc.get("classComment_" + languageName + "_stored_string");
 					classImports = (List<String>)doc.get("classImports_" + languageName + "_stored_strings");
@@ -102,6 +104,7 @@ public class WriteClass extends WriteClassGen {
 					}
 					writeComment(classComment, 0); 
 					s("public class ", classSimpleName);
+
 					if(classTypeParameterNames != null && classTypeParameterNames.size() > 0) {
 						s("<");
 						for(int j = 0; j < classTypeParameterNames.size(); j++) {
@@ -112,6 +115,7 @@ public class WriteClass extends WriteClassGen {
 						}
 						s(">");
 					}
+
 					if(!"java.lang.Object".equals(classSuperCanonicalName)) {
 						s(" extends ");
 						if(classExtendsGen) {
@@ -120,7 +124,11 @@ public class WriteClass extends WriteClassGen {
 						else {
 							s(classSuperSimpleName);
 						}
-						if(classSuperTypeParameterNames != null && classSuperTypeParameterNames.size() > 0) {
+
+						if(StringUtils.isNotEmpty(classSuperSimpleNameGeneric)) {
+							s("<", classSuperSimpleNameGeneric, ">");
+						}
+						else if(classSuperTypeParameterNames != null && classSuperTypeParameterNames.size() > 0) {
 							s("<");
 							for(int j = 0; j < classSuperTypeParameterNames.size(); j++) {
 								String classSuperTypeParameterName = classSuperTypeParameterNames.get(j);

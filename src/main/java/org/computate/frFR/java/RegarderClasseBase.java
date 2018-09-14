@@ -19,7 +19,7 @@ import com.thoughtworks.qdox.model.JavaType;
 /**   
  * nomCanonique.enUS: org.computate.enUS.java.WatchClassBase
  */   
-public class RegarderClasseBase extends ConfigSite {
+public class RegarderClasseBase extends ConfigSite { 
 
 	protected String[] args;
 

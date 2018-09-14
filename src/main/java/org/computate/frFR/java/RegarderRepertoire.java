@@ -245,6 +245,10 @@ public class RegarderRepertoire {
 	 * r.enUS: classPath
 	 * r: cheminsRelatifsARegarder
 	 * r.enUS: relativePathsToWatch
+	 * r: appliChemin
+	 * r.enUS: appPath
+	 * r: appliNom
+	 * r.enUS: appName
 	 */
 	public void initialiserRegarderRepertoire() throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();

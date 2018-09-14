@@ -2,11 +2,11 @@ package org.computate.enUS.java;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
+import java.util.Collections;
 import java.util.List;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -16,7 +16,7 @@ import org.apache.solr.common.SolrDocumentList;
 
 /**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  */
-public class WriteGenClass extends WriteGenClassGen {
+public class WriteGenClass extends WriteGenClassGen<EcrireGenClasseGen<WriteClass>> {
 
 	/**	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language.
@@ -101,26 +101,42 @@ public class WriteGenClass extends WriteGenClassGen {
 						}
 						s(">");
 					}
+					else {
+						s("<DEV>");
+					}
 					if(classSuperSimpleNameGeneric != null && !"java.lang.Object".equals(classSuperSimpleNameGeneric) && !"DEV".equals(classSuperSimpleNameGeneric)) {
 						s(" extends ");
-						if(classExtendsGen) {
-							s(classSimpleName, "Gen");
-						} 
-						else {
-							s(classSuperSimpleName);
+//						s(classSuperSimpleName);
+						
+						if(classSuperSimpleNameGeneric != null) {
+							s(classSuperSimpleNameGeneric);
 						}
-						if(classSuperTypeParameterNames != null && classSuperTypeParameterNames.size() > 0) {
-							s("<");
-							for(int j = 0; j < classSuperTypeParameterNames.size(); j++) {
-								String classSuperTypeParameterName = classSuperTypeParameterNames.get(j);
-								if(i > 0)
-									s(", ");
-								s(classSuperTypeParameterName);
-							}
-							s(">");
-						}
+//						else if(classSuperTypeParameterNames != null && classSuperTypeParameterNames.size() > 0) {
+////							s("<");
+//							for(int j = 0; j < classSuperTypeParameterNames.size(); j++) {
+//								String classSuperTypeParameterName = classSuperTypeParameterNames.get(j);
+//								if(i > 0)
+//									s(", ");
+//								s(classSuperTypeParameterName);
+//							}
+////							s(">");
+//						}	
 					}
 					s(" {\n");
+					List<String> classeValsVar = (List<String>)doc.get("classeValsVar_stored_strings");
+					List<String> classeValsLangue = (List<String>)doc.get("classeValsLangue_stored_strings");
+					List<String> classeValsValeur = (List<String>)doc.get("classeValsValeur_stored_strings");
+					if(classeValsVar != null && classeValsLangue != null && classeValsValeur != null) {
+						for(int j = 0; j < classeValsVar.size(); j++) {
+							String classeValVar = classeValsVar.get(j);
+							String classeValLangue = classeValsLangue.get(j);
+							String classeValValeur = classeValsValeur.get(j);
+
+							if(StringUtils.equals(languageName, classeValLangue)) {
+								tl(1, "public static final String ", classeValVar, " = \"", StringEscapeUtils.escapeJava(classeValValeur), "\";");
+							}
+						}
+					}
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
@@ -146,6 +162,18 @@ public class WriteGenClass extends WriteGenClassGen {
 							s("native ");
 						s(entiteNomSimpleComplet, " ", entiteVar);
 						s(";\n");
+						l();
+	
+						String ligneCommentaire = "\t///" + String.join("", Collections.nCopies(entiteVar.length(), "/")) + "///";
+						l(ligneCommentaire);
+						tl(1, "// ", entiteVar, " //");
+						l(ligneCommentaire);
+						l();
+						t(1, "/**");
+						t(1);
+							s(VAL_entityCommentLine1Part1, entiteVar, VAL_entityCommentLine1Part2);
+						l();
+						tl(1, " */");
 					}     
 				}
 			}

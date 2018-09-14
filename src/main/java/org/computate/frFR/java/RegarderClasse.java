@@ -52,7 +52,7 @@ public class RegarderClasse extends EcrireGenClasse {
 	 * r.enUS: allLanguages
 	 * r: autresLangues
 	 * r.enUS: otherLanguages
-	 */
+	 */ 
 	public static void regarderClasse(RegarderClasse regarderClasse) throws Exception {
 		System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
 
@@ -78,7 +78,9 @@ public class RegarderClasse extends EcrireGenClasse {
 		String appliChemin = "/usr/local/src/computate";
 //		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderClasseBase.java";
 //		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/couverture/Couverture.java";
-		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderRepertoire.java";
+//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderRepertoire.java";
+//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireGenClasse.java";
+		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireClasse.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;
