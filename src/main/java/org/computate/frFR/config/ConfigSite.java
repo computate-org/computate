@@ -218,6 +218,7 @@ public class ConfigSite {
 	 **/ 
 	protected void _autresLangues() throws Exception {
 		autresLangues = config.getStringArray(appliNom + ".autresLangues");
+		System.out.println("autresLangues: " + autresLangues);
 	}
 
 	/**
