@@ -350,6 +350,9 @@ public class EcrireClasse extends IndexerClasse {
 				if(partNumero.equals(1)) {
 					classeCheminRepertoire = (String)doc.get("classeCheminRepertoire_" + langueNom + "_stored_string");
 					classeChemin = (String)doc.get("classeChemin_" + langueNom + "_stored_string"); 
+					classeCheminAbsolu = (String)doc.get("classeCheminAbsolu_stored_string"); 
+					if(StringUtils.equals(classeChemin, classeCheminAbsolu))
+						break;
 					classeRepertoire = new File(classeCheminRepertoire);
 					classeRepertoire.mkdirs();
 					classeFichier = new File(classeChemin);
@@ -540,11 +543,13 @@ public class EcrireClasse extends IndexerClasse {
 					}
 				}
 			}
-			l("}"); 
-			if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeChemin)) {
-				System.out.println("Ecrire: " + classeChemin); 
-				o.flush();
-				o.close();
+			if(o != null) {
+				l("}"); 
+				if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeChemin)) {
+					System.out.println("Ecrire: " + classeChemin); 
+					o.flush();
+					o.close();
+				}
 			}
 		}
 		else {

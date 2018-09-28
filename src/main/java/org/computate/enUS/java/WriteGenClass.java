@@ -16,7 +16,7 @@ import org.apache.solr.common.SolrDocumentList;
 
 /**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  */
-public class WriteGenClass extends WriteGenClassGen<EcrireGenClasseGen<WriteClass>> {
+public class WriteGenClass extends WriteGenClassGen<WriteClass> {
 
 	/**	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language.
@@ -143,6 +143,7 @@ public class WriteGenClass extends WriteGenClassGen<EcrireGenClasseGen<WriteClas
 					Boolean partIsEntity = (Boolean)doc.get("partIsEntity_stored_boolean");
 					String entiteVar = (String)doc.get("entiteVar_" + languageName + "_stored_string");
 					String entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + languageName + "_stored_string");
+					String entiteCommentaire = (String)doc.get("entiteCommentaire_" + languageName + "_stored_string");
 	
 					if(BooleanUtils.isTrue(partIsEntity)) {
 						s("\t");
@@ -174,6 +175,50 @@ public class WriteGenClass extends WriteGenClassGen<EcrireGenClasseGen<WriteClas
 							s(VAL_entityCommentLine1Part1, entiteVar, VAL_entityCommentLine1Part2);
 						l();
 						tl(1, " */");
+
+//							page_.enUS("The \"", var, "\" attribute ");
+//							page_.frFR("Le champ « ", var, " » ");
+//						String[] lignes = commentaire.toString().split("\n");
+//						for(int i = 0; i < lignes.length; i++) {
+//							String ligne = lignes[i];
+//							if(!StringUtils.isEmpty(ligne)) {
+//								Boolean premier = i == 0;
+//								Integer tabulations = StringUtils.countMatches(ligne, "\t");
+//									if(!premier)
+//										page_.tab(1 + tabulations, " *\t");
+//									page_.tout(ligne.substring(tabulations));
+//								page_.toutLigne();
+//							}
+//						}
+//
+//						if(requeteSite.frFR()) {
+//
+//							if(couverture) {
+//								page_.tabLigne(1, " *\tIl est défini comme null avant d'être initialisé. ");
+//								page_.tabLigne(1, " *\t@param c est pour envelopper une valeur à assigner à ce champ lors de l'initialisation. ");
+//							}
+//							else {
+//								page_.tabLigne(1, " *\tIl est construit avant d'être initialisé avec le constructeur par défaut ", nomSimpleComplet, "(). ");
+//								page_.tabLigne(1, " *\t@param ", paramVar, " est le champ déjà construit. ");
+//							}
+//
+//							page_.tabLigne(1, " *\t@throws java.lang.Exception afin que toute exception lors de l'initialisation est gérée par le servlet. ");
+//						}
+//						else {
+//
+//							if(couverture) {
+//								page_.tabLigne(1, " *\tIt is set to null before it is initialized. ");
+//								page_.tabLigne(1, " *\t@param c is for wrapping a value to be assigned to this field during initialization. ");
+//							}
+//							else {
+//								page_.tabLigne(1, " *\tIt is constructed before it is initialized with the default constructor ", nomSimpleComplet, "(). ");
+//								page_.tabLigne(1, " *\t@param ", paramVar, " is the field already constructed. ");
+//							}
+//
+//							page_.tabLigne(1, " *\t@throws java.lang.Exception so that any exception during initialization is handled by the servlet. ");
+//						}
+//
+//						page_.tabLigne(1, " */");
 					}     
 				}
 			}

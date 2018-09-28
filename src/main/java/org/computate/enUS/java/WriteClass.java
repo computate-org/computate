@@ -16,7 +16,7 @@ import org.apache.solr.common.SolrDocumentList;
 
 /**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  */
-public class WriteClass extends WriteClassGen<IndexClass> {
+public class WriteClass extends WriteClassGen {
 
 	PrintWriter o;
 
@@ -79,6 +79,9 @@ public class WriteClass extends WriteClassGen<IndexClass> {
 				if(partNumber.equals(1)) {
 					classDirPath = (String)doc.get("classDirPath_" + languageName + "_stored_string");
 					classPath = (String)doc.get("classPath_" + languageName + "_stored_string"); 
+					classAbsolutePath = (String)doc.get("classAbsolutePath_stored_string"); 
+					if(StringUtils.equals(classPath, classAbsolutePath))
+						break;
 					classDir = new File(classDirPath);
 					classDir.mkdirs();
 					classFile = new File(classPath);
@@ -269,11 +272,13 @@ public class WriteClass extends WriteClassGen<IndexClass> {
 					}
 				}
 			}
-			l("}"); 
-			if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPath)) {
-				System.out.println("Write: " + classPath); 
-				o.flush();
-				o.close();
+			if(o != null) {
+				l("}"); 
+				if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPath)) {
+					System.out.println("Write: " + classPath); 
+					o.flush();
+					o.close();
+				}
 			}
 		}
 		else {

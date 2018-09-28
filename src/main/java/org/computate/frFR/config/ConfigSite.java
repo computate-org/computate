@@ -13,6 +13,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.computate.frFR.contexte.EcouteurContexte;
+import org.computate.frFR.couverture.Couverture;
+import org.computate.frFR.requete.RequeteSite;
 
 /**
  * nomCanonique.enUS: org.computate.enUS.java.SiteConfig
@@ -21,7 +24,16 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
  */ 
 public class ConfigSite { 
 	
-	public ConfigSite() {
+	/**	Tous les infos importants à propos de la requête actuelle. **/
+	protected void _requeteSite(RequeteSite o) throws Exception {
+	}
+	@Override protected void requeteSiteInitialiser() throws Exception {
+	}
+
+	/**	L'écouteur de contexte du site pour obtenir des objets globals du contexte. **/
+	protected void _ecouteurContexte(Couverture<EcouteurContexte> c) throws Exception {
+	}
+	@Override protected void ecouteurContexteInitialiser() throws Exception {
 	}
 
 	/**	
@@ -125,7 +137,7 @@ public class ConfigSite {
 //	 * configFileName
 //	 **/ 
 //	protected void _cheminConfig() throws Exception {
-//		cheminConfig = config.getString(appliNom + ".cheminConfig", appliChemin + "/config/" + nomFichierConfig);
+//		cheminConfig = config.getString(StringUtils.replace(appliNom, ".", "..") + ".cheminConfig", appliChemin + "/config/" + nomFichierConfig);
 //	}
 
 	/**
@@ -177,7 +189,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _langueNom() throws Exception {
-		langueNom = config.getString(appliNom + ".langueNom");
+		langueNom = config.getString(StringUtils.replace(appliNom, ".", "..") + ".langueNom");
 	} 
 
 	/**
@@ -217,7 +229,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _autresLangues() throws Exception {
-		autresLangues = config.getStringArray(appliNom + ".autresLangues");
+		autresLangues = config.getStringArray(StringUtils.replace(appliNom, ".", "..") + ".autresLangues");
 		System.out.println("autresLangues: " + autresLangues);
 	}
 
@@ -273,7 +285,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _nomDomaine() throws Exception {
-		nomDomaine = config.getString(appliNom + ".nomDomaine");
+		nomDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomDomaine");
 	}
 	
 	/**
@@ -309,7 +321,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _nomFichierConfig() throws Exception {
-		nomFichierConfig = config.getString(appliNom + ".nomFichierConfig", appliNom + ".config");
+		nomFichierConfig = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomFichierConfig", appliNom + ".config");
 	}
 
 	/**

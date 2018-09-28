@@ -12,6 +12,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.computate.frFR.contexte.EcouteurContexte;
+import org.computate.enUS.wrap.Wrap;
+import org.computate.frFR.requete.RequeteSite;
 
 /**	Loads the properties in the application config file into specific fields. 
  */
@@ -133,6 +136,14 @@ public class SiteConfig {
 	 */
 	public ArrayList<String> testMethodNames = new ArrayList<String>();
 
+	@Override()
+	protected void  requeteSiteInitialiser() throws Exception {
+	}
+
+	@Override()
+	protected void  ecouteurContexteInitialiser() throws Exception {
+	}
+
 	protected void  _appName() throws Exception {
 		if(appName == null)
 			appName = System.getenv("appName"); 
@@ -168,7 +179,7 @@ public class SiteConfig {
 	}
 
 	protected void  _languageName() throws Exception {
-		languageName = config.getString(appName + ".languageName");
+		languageName = config.getString(StringUtils.replace(appName, ".", "..") + ".languageName");
 	}
 
 	protected void  _languageActualName() throws Exception {
@@ -179,7 +190,8 @@ public class SiteConfig {
 	}
 
 	protected void  _otherLanguages() throws Exception {
-		otherLanguages = config.getStringArray(appName + ".otherLanguages");
+		otherLanguages = config.getStringArray(StringUtils.replace(appName, ".", "..") + ".otherLanguages");
+		System.out.println("otherLanguages: " + otherLanguages);
 	}
 
 	protected void  _allLanguages() throws Exception {
@@ -191,7 +203,7 @@ public class SiteConfig {
 	}
 
 	protected void  _domainName() throws Exception {
-		domainName = config.getString(appName + ".domainName");
+		domainName = config.getString(StringUtils.replace(appName, ".", "..") + ".domainName");
 	}
 
 	protected void  _domainPackageName() throws Exception {
@@ -201,7 +213,7 @@ public class SiteConfig {
 	}
 
 	protected void  _configFileName() throws Exception {
-		configFileName = config.getString(appName + ".configFileName", appName + ".config");
+		configFileName = config.getString(StringUtils.replace(appName, ".", "..") + ".configFileName", appName + ".config");
 	}
 
 	protected void  _mavenVersion() throws Exception {
