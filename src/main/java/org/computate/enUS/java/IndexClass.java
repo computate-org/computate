@@ -644,11 +644,17 @@ public class IndexClass extends WatchClassBase {
 						// est Entite. 
 						SolrInputDocument entiteDoc = classDocClone.deepCopy();
 						String entiteVar = indexStoreSolr(entiteDoc, "entiteVar", languageName, StringUtils.substringAfter(methodQdox.getName(), "_"));
+						String entiteVarCapitalise = indexStoreSolr(entiteDoc, "entiteVarCapitalise", languageName, StringUtils.capitalize(entiteVar));
 						JavaClass entiteClasseQdox = methodParamsQdox.get(0).getJavaClass();
 						ClassParts entiteClassParts = ClassParts.initClassParts(this, entiteClasseQdox, languageName);
+						Boolean entiteCouverture = false;
+
 						if(entiteClassParts.simpleName.equals("Couverture")) {
 							entiteClassParts = ClassParts.initClassParts(this, entiteClassParts.canonicalNameGeneric, entiteVar);
+							entiteCouverture = true;
 						}
+						indexStoreSolr(entiteDoc, "entiteCouverture", entiteCouverture);
+
 						indexStoreSolr(entiteDoc, "entiteNomCanonique", languageName, entiteClassParts.canonicalName);
 						indexStoreSolr(entiteDoc, "entiteNomSimple", languageName, entiteClassParts.simpleName);
 						indexStoreSolr(entiteDoc, "entiteNomCompletGenerique", languageName, entiteClassParts.canonicalNameGeneric);

@@ -2,6 +2,7 @@ package org.computate.frFR.java;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -544,8 +545,9 @@ public class EcrireClasse extends IndexerClasse {
 				}
 			}
 			if(o != null) {
-				l("}"); 
 				if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeChemin)) {
+					l("}"); 
+
 					System.out.println("Ecrire: " + classeChemin); 
 					o.flush();
 					o.close();

@@ -1082,6 +1082,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomSimpleGen = classeNomSimple + "Gen";
 		JavaClass classeQdox = bricoleur.getClassByName(classeNomCanonique.toString());
 		JavaClass classeQdoxSuper = classeQdox.getSuperJavaClass();
+		JavaClass classeQdoxString = bricoleur.getClassByName(String.class.getCanonicalName());
 		String classeNomCanoniqueSuper = classeQdoxSuper.getCanonicalName();
 		String classeNomSimpleSuper = StringUtils.substringAfterLast(classeNomCanoniqueSuper, ".");
 		if(StringUtils.isEmpty(classeNomSimpleSuper))
@@ -1453,11 +1454,18 @@ public class IndexerClasse extends RegarderClasseBase {
 						// est Entite. 
 						SolrInputDocument entiteDoc = classeDocClone.deepCopy();
 						String entiteVar = indexerStockerSolr(entiteDoc, "entiteVar", langueNom, StringUtils.substringAfter(methodeQdox.getName(), "_"));
+						String entiteVarCapitalise = indexerStockerSolr(entiteDoc, "entiteVarCapitalise", langueNom, StringUtils.capitalize(entiteVar));
 						JavaClass entiteClasseQdox = methodeParamsQdox.get(0).getJavaClass();
 						ClasseParts entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseQdox, langueNom);
+						Boolean entiteCouverture = false;
+
 						if(entiteClasseParts.nomSimple.equals("Couverture")) {
 							entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseParts.nomCanoniqueGenerique, entiteVar);
+							entiteCouverture = true;
 						}
+						indexerStockerSolr(entiteDoc, "entiteCouverture", entiteCouverture);
+						indexerStockerSolr(entiteDoc, "entiteInitialise", true);
+
 						indexerStockerSolr(entiteDoc, "entiteNomCanonique", langueNom, entiteClasseParts.nomCanonique);
 						indexerStockerSolr(entiteDoc, "entiteNomSimple", langueNom, entiteClasseParts.nomSimple);
 						indexerStockerSolr(entiteDoc, "entiteNomCompletGenerique", langueNom, entiteClasseParts.nomCanoniqueGenerique);
@@ -1499,12 +1507,49 @@ public class IndexerClasse extends RegarderClasseBase {
 						
 						String entiteVarCouverture = indexerStockerSolr(entiteDoc, "entiteVarCouverture", langueNom, entiteVar + "Couverture");
 
+						Boolean entiteInitLoin = indexerStockerSolr(entiteDoc, "entiteInitLoin", !entiteVar.endsWith("_") && classeEtendGen);
+						
 //						String entiteParamVar = StringUtils.equalsAny(entiteClasseQdox, "");
 //						indexerStockerSolr(entiteDoc, "entiteParamVar", regexTrouve("^exact:\\s*(true)$", methodeCommentaire));
 //							if(nomCanonique.equals(classe_.nomCanoniqueArrayList) || nomCanonique.equals(classe_.nomCanoniqueList))
 //								o.tout("l");
 //							else if(o.estVide())
 //								o.tout("o");
+
+						List<JavaMethod> entiteMethodesAvant = new ArrayList<JavaMethod>();
+						entiteMethodesAvant.add(classeQdox.getMethodBySignature(entiteVar + "Avant", new ArrayList<JavaType>() {{ add(entiteClasseQdox); }}, true));
+						for(JavaClass c : classesSuperQdoxEtMoi) {
+							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
+							entiteMethodesAvant.add(classeQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
+							entiteMethodesAvant.add(classeQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classeQdoxString); }}, true));
+						}
+						for(JavaMethod methode : entiteMethodesAvant) {
+							if(methode != null) {
+								JavaParameter param = methode.getParameters().get(0);
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantVisibilite", methode.isPublic() ? "public" : "protected");
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantVar", methode.getName());
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantParamVar", param.getName());
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantNomParam", methode.getParameters().size() > 1);
+							}
+						}
+
+						List<JavaMethod> entiteMethodesApres = new ArrayList<JavaMethod>();
+						entiteMethodesApres.add(classeQdox.getMethodBySignature(entiteVar + "Apres", new ArrayList<JavaType>() {{ add(entiteClasseQdox); }}, true));
+						for(JavaClass c : classesSuperQdoxEtMoi) {
+							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
+							entiteMethodesApres.add(classeQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
+							entiteMethodesApres.add(classeQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classeQdoxString); }}, true));
+						}
+						for(JavaMethod methode : entiteMethodesApres) {
+							if(methode != null) {
+								JavaParameter param = methode.getParameters().get(0);
+								stockerListeSolr(entiteDoc, "entiteMethodesApresVar", methode.getName());
+								stockerListeSolr(entiteDoc, "entiteMethodesApresParamVar", param.getName());
+								stockerListeSolr(entiteDoc, "entiteMethodesApresParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
+								stockerListeSolr(entiteDoc, "entiteMethodesApresNomParam", methode.getParameters().size() > 1);
+							}
+						}
 
 						indexerStockerSolr(entiteDoc, "entiteExact", regexTrouve("^exact:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^cleUnique:\\s*(true)$", methodeCommentaire));
