@@ -25,6 +25,8 @@ public class ClassParts {
 
 	public String simpleNameGeneric;
 
+	public Boolean extendsGen;
+
 	public SolrDocument solrDocument;
 
 	public static SolrDocument solrDocument(SiteConfig siteConfig, String canonicalName) throws Exception {
@@ -112,6 +114,7 @@ public class ClassParts {
 		if(classParts.solrDocument != null) {
 			canonicalName = (String)classParts.solrDocument.get("classCanonicalName_" + languageName + "_stored_string");
 			simpleName = (String)classParts.solrDocument.get("classSimpleName_" + languageName + "_stored_string");
+			classParts.etendGen = (Boolean)classParts.solrDocument.get("classeEtendGen_stored_boolean");
 
 		}
 		if(canonicalName != null && simpleName != null) {
@@ -162,6 +165,7 @@ public class ClassParts {
 		b.append("canonicalNameGeneric: ").append(canonicalNameGeneric).append("\n");
 		b.append("simpleNameComplete: ").append(simpleNameComplete).append("\n");
 		b.append("simpleNameGeneric: ").append(simpleNameGeneric).append("\n");
+		b.append("etendGen: ").append(etendGen).append("\n");
 		return b.toString();
 	}
 }

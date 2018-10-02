@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -273,6 +274,7 @@ public class IndexClass extends WatchClassBase {
 		String classSimpleNameGen = classSimpleName + "Gen";
 		JavaClass classQdox = builder.getClassByName(classCanonicalName.toString());
 		JavaClass classSuperQdox = classQdox.getSuperJavaClass();
+		JavaClass classQdoxString = builder.getClassByName(String.class.getCanonicalName());
 		String classSuperCanonicalName = classSuperQdox.getCanonicalName();
 		String classSuperSimpleName = StringUtils.substringAfterLast(classSuperCanonicalName, ".");
 		if(StringUtils.isEmpty(classSuperSimpleName))
@@ -300,6 +302,7 @@ public class IndexClass extends WatchClassBase {
 		String classSuperCanonicalNameGeneric = null;
 		String classSuperSimpleNameGeneric = null;
 		JavaClass classeSuperGeneriqueQdox = null;
+		Boolean classeBaseEtendGen = false;
 		if(StringUtils.isNotEmpty(classSuperCompleteName)) {
 			indexStoreSolr(classDoc, "classSuperCompleteNameGeneric", languageName, classSuperCompleteNameGeneric);
 			if(classSuperCompleteName.contains("<")) {
@@ -314,11 +317,13 @@ public class IndexClass extends WatchClassBase {
 				else
 					classSuperSimpleNameGeneric = classSuperCanonicalNameGeneric;
 				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classSuperSimpleNameGeneric);
+
+				ClassParts classePartsBase = ClassParts.initClassParts(this, classSuperCanonicalNameGeneric, languageName);
+				classeBaseEtendGen = classePartsBase.etendGen;
 			}
 		}
-		
-		
-		
+		indexStoreSolr(classDoc, "classeBaseEtendGen", classeBaseEtendGen);
+		indexStoreSolr(classDoc, "classeContientRequeteSite", classQdox.getMethodBySignature("getRequeteSite", null, true) != null);
 		
 		String classComment = storeRegexComments(classQdox.getComment(), languageName, classDoc, "classComment");
 		String classPackageName = StringUtils.substringBeforeLast(classCanonicalName, ".");
@@ -654,6 +659,7 @@ public class IndexClass extends WatchClassBase {
 							entiteCouverture = true;
 						}
 						indexStoreSolr(entiteDoc, "entiteCouverture", entiteCouverture);
+						indexStoreSolr(entiteDoc, "entiteInitialise", true);
 
 						indexStoreSolr(entiteDoc, "entiteNomCanonique", languageName, entiteClassParts.canonicalName);
 						indexStoreSolr(entiteDoc, "entiteNomSimple", languageName, entiteClassParts.simpleName);
@@ -696,12 +702,49 @@ public class IndexClass extends WatchClassBase {
 						
 						String entiteVarCouverture = indexStoreSolr(entiteDoc, "entiteVarCouverture", languageName, entiteVar + "Couverture");
 
+						Boolean entiteInitLoin = indexStoreSolr(entiteDoc, "entiteInitLoin", !entiteVar.endsWith("_") && BooleanUtils.isTrue(entiteClassParts.etendGen));
+						
 //						String entiteParamVar = StringUtils.equalsAny(entiteClasseQdox, "");
 //						indexStoreSolr(entiteDoc, "entiteParamVar", regexFound("^exact:\\s*(true)$", methodComment));
 //							if(canonicalName.equals(classe_.canonicalNameArrayList) || canonicalName.equals(classe_.canonicalNameList))
 //								o.tout("l");
 //							else if(o.estVide())
 //								o.tout("o");
+
+						List<JavaMethod> entiteMethodesAvant = new ArrayList<JavaMethod>();
+						entiteMethodesAvant.add(classQdox.getMethodBySignature(entiteVar + "Avant", new ArrayList<JavaType>() {{ add(entiteClasseQdox); }}, true));
+						for(JavaClass c : qdoxSuperClassesAndMe) {
+							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
+							entiteMethodesAvant.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
+							entiteMethodesAvant.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classQdoxString); }}, true));
+						}
+						for(JavaMethod methode : entiteMethodesAvant) {
+							if(methode != null) {
+								JavaParameter param = methode.getParameters().get(0);
+								storeListSolr(entiteDoc, "entiteMethodesAvantVisibilite", methode.isPublic() ? "public" : "protected");
+								storeListSolr(entiteDoc, "entiteMethodesAvantVar", methode.getName());
+								storeListSolr(entiteDoc, "entiteMethodesAvantParamVar", param.getName());
+								storeListSolr(entiteDoc, "entiteMethodesAvantParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
+								storeListSolr(entiteDoc, "entiteMethodesAvantNomParam", methode.getParameters().size() > 1);
+							}
+						}
+
+						List<JavaMethod> entiteMethodesApres = new ArrayList<JavaMethod>();
+						entiteMethodesApres.add(classQdox.getMethodBySignature(entiteVar + "Apres", new ArrayList<JavaType>() {{ add(entiteClasseQdox); }}, true));
+						for(JavaClass c : qdoxSuperClassesAndMe) {
+							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
+							entiteMethodesApres.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
+							entiteMethodesApres.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classQdoxString); }}, true));
+						}
+						for(JavaMethod methode : entiteMethodesApres) {
+							if(methode != null) {
+								JavaParameter param = methode.getParameters().get(0);
+								storeListSolr(entiteDoc, "entiteMethodesApresVar", methode.getName());
+								storeListSolr(entiteDoc, "entiteMethodesApresParamVar", param.getName());
+								storeListSolr(entiteDoc, "entiteMethodesApresParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
+								storeListSolr(entiteDoc, "entiteMethodesApresNomParam", methode.getParameters().size() > 1);
+							}
+						}
 
 						indexStoreSolr(entiteDoc, "entiteExact", regexFound("^exact:\\s*(true)$", methodComment));
 						indexStoreSolr(entiteDoc, "entiteCleUnique", regexFound("^cleUnique:\\s*(true)$", methodComment));

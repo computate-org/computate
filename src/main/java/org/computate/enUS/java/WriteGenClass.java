@@ -16,7 +16,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.computate.frFR.site.cours.c000.java.ChampJava;
 
 /**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  */
@@ -62,6 +61,8 @@ public class WriteGenClass extends WriteGenClassGen<WriteClass> {
 			List<String> classTypeParameterNames = null;  
 			List<String> classSuperTypeParameterNames = null;  
 			Boolean classExtendsGen = null;
+			Boolean classeBaseEtendGen = null;
+			Boolean classeContientRequeteSite = null;
 
 			StringWriter wInitialiserLoin = null;
 			PrintWriter codeInitialiserLoin = null;
@@ -71,9 +72,6 @@ public class WriteGenClass extends WriteGenClassGen<WriteClass> {
 				SolrDocument doc = searchList.get(i); 
 				Integer partNumber = (Integer)doc.get("partNumber_stored_int");
 				if(partNumber.equals(1)) {
-					wInitialiserLoin = new StringWriter();
-					codeInitialiserLoin = new PrintWriter(wInitialiserLoin);
-
 					classGenDirPath = (String)doc.get("classGenDirPath_" + languageName + "_stored_string");
 					classPathGen = (String)doc.get("classPathGen_" + languageName + "_stored_string"); 
 					classDirGen = new File(classGenDirPath);
@@ -92,6 +90,30 @@ public class WriteGenClass extends WriteGenClassGen<WriteClass> {
 					classTypeParameterNames = (List<String>)doc.get("classTypeParameterNames_stored_strings");
 					classSuperTypeParameterNames = (List<String>)doc.get("classSuperTypeParameterNames_stored_strings");
 					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
+					classeBaseEtendGen = (Boolean)doc.get("classeBaseEtendGen_stored_boolean");
+					classeContientRequeteSite = (Boolean)doc.get("classeContientRequeteSite_stored_boolean");
+
+					oAvant = o;
+					wInitialiserLoin = new StringWriter();
+					codeInitialiserLoin = new PrintWriter(wInitialiserLoin);
+					o = codeInitialiserLoin;
+					l(); 
+					tl(1, "protected boolean dejaInitialise", classSimpleName, " = false;");
+					if(BooleanUtils.isTrue(classeContientRequeteSite)) {
+						l();
+						tl(1, "public void initLoin", classSimpleName, "(RequeteSite requeteSite) throws Exception {");
+//						if(contientRequeteSite && !StringUtils.equals(classSimpleName, "RequeteSite"))
+							tl(2, "((", classSimpleName, ")this).requeteSite(requeteSite);");
+						tl(2, "requeteSite(requeteSite);");
+						tl(2, "initLoin", classSimpleName, "();");
+						tl(1, "}");
+					}
+					l();
+					tl(1, "public void initLoin", classSimpleName, "() throws Exception {");
+					tl(2, "if(!dejaInitialise", classSimpleName, ") {");
+					if(BooleanUtils.isTrue(classeBaseEtendGen)) 
+						tl(3, "super.initLoin", classSuperSimpleNameGeneric, "(requeteSite);");
+					o = oAvant;
 		
 					l("package ", classPackageName, ";");
 					l();
@@ -461,37 +483,28 @@ public class WriteGenClass extends WriteGenClassGen<WriteClass> {
 
 						oAvant = o;
 						o = codeInitialiserLoin;
-						l();
-						tl(1, "protected boolean dejaInitialise = false;");
-						tl(1, "public void initLoin(RequeteSite requeteSite) throws Exception {");
-						if(contientRequeteSite && !StringUtils.equals(classSimpleName, "RequeteSite"))
-							tl(2, "((", classSimpleName, ")this).requeteSite(requeteSite);");
-						tl(2, "requeteSite", classSimpleName, "(requeteSite);");
-						tl(2, "initLoin", classSimpleName, "();");
-						tl(1, "}");
-						tl(1, "public void initLoin", classSimpleName, "() throws Exception {");
-						tl("\t\tif(!dejaInitialise", classSimpleName, ") {");
-						if(StringUtils.startsWith(nomCanoniqueBase, nomEnsembleSite))
-							tl(3, "super.initLoin", nomSimpleBase, "(requeteSite);");
-						for(ChampJava champ : champs) {
-							if(champ.initialise) {
-								page_.tout("\t\t\t", champ.var).enUS("Initialize").frFR("Initialiser").toutLigne("();");
+							if(entiteInitialise) {
+								tl(3, entiteVar, "Init();");
 							}
-						}
-						page_.tout("\t\t\t").enUS("alreadyInitialized").frFR("dejaInitialise").toutLigne(nomSimple, " = true;");
-						page_.toutLigne("\t\t}");
-						page_.toutLigne("\t}");
-					
-						page_.toutLigne();
-						page_.tab(1, "public void ").enUS("initializeDeepForClass").frFR("initialiserLoinPourClasse").tout("(").enUS("SiteRequest").frFR("RequeteSite").tout(" ").enUS("siteRequest").frFR("requeteSite").toutLigne(") throws Exception {");
-						page_.tab(2).enUS("initializeDeep").frFR("initialiserLoin").tout(classSimpleName, "(").enUS("siteRequest").frFR("requeteSite").toutLigne(");");
-						page_.tabLigne(1, "}");
 						o = oAvant;
 					}
 				}
 			}
 			if(o != null) {
 				if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPathGen)) {
+
+					oAvant = o;
+					o = codeInitialiserLoin;
+					tl(3, "dejaInitialise", classSimpleName, " = true;");
+					tl(2, "}");
+					tl(1, "}");
+					if(classeContientRequeteSite) {
+						l();
+						tl(1, "public void initLoinPourClasse(RequeteSite requeteSite) throws Exception {");
+						tl(2, "initLoin", classSimpleName, "(requeteSite);");
+						tl(1, "}");  
+					}
+					o = oAvant; 
 
 					codeInitialiserLoin.flush();
 					codeInitialiserLoin.flush();

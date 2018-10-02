@@ -13,9 +13,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.computate.frFR.contexte.EcouteurContexte;
-import org.computate.frFR.couverture.Couverture;
-import org.computate.frFR.requete.RequeteSite;
 
 /**
  * nomCanonique.enUS: org.computate.enUS.java.SiteConfig
@@ -24,16 +21,7 @@ import org.computate.frFR.requete.RequeteSite;
  */ 
 public class ConfigSite { 
 	
-	/**	Tous les infos importants à propos de la requête actuelle. **/
-	protected void _requeteSite(RequeteSite o) throws Exception {
-	}
-	@Override protected void requeteSiteInitialiser() throws Exception {
-	}
-
-	/**	L'écouteur de contexte du site pour obtenir des objets globals du contexte. **/
-	protected void _ecouteurContexte(Couverture<EcouteurContexte> c) throws Exception {
-	}
-	@Override protected void ecouteurContexteInitialiser() throws Exception {
+	public ConfigSite() {
 	}
 
 	/**	

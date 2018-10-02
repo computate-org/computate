@@ -17,7 +17,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.computate.frFR.site.cours.c000.java.ChampJava;
 
 /**  
  * nomCanonique.enUS: org.computate.enUS.java.WriteGenClass
@@ -212,6 +211,8 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			List<String> classeParametreTypeNoms = null;  
 			List<String> classeSuperParametreTypeNoms = null;  
 			Boolean classeEtendGen = null;
+			Boolean classeBaseEtendGen = null;
+			Boolean classeContientRequeteSite = null;
 
 			StringWriter wInitialiserLoin = null;
 			PrintWriter codeInitialiserLoin = null;
@@ -221,9 +222,6 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 				SolrDocument doc = listeRecherche.get(i); 
 				Integer partNumero = (Integer)doc.get("partNumero_stored_int");
 				if(partNumero.equals(1)) {
-					wInitialiserLoin = new StringWriter();
-					codeInitialiserLoin = new PrintWriter(wInitialiserLoin);
-
 					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stored_string");
 					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stored_string"); 
 					classeRepertoireGen = new File(classeCheminRepertoireGen);
@@ -242,6 +240,30 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
 					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
+					classeBaseEtendGen = (Boolean)doc.get("classeBaseEtendGen_stored_boolean");
+					classeContientRequeteSite = (Boolean)doc.get("classeContientRequeteSite_stored_boolean");
+
+					oAvant = o;
+					wInitialiserLoin = new StringWriter();
+					codeInitialiserLoin = new PrintWriter(wInitialiserLoin);
+					o = codeInitialiserLoin;
+					l(); 
+					tl(1, "protected boolean dejaInitialise", classeNomSimple, " = false;");
+					if(BooleanUtils.isTrue(classeContientRequeteSite)) {
+						l();
+						tl(1, "public void initLoin", classeNomSimple, "(RequeteSite requeteSite) throws Exception {");
+//						if(contientRequeteSite && !StringUtils.equals(classeNomSimple, "RequeteSite"))
+							tl(2, "((", classeNomSimple, ")this).requeteSite(requeteSite);");
+						tl(2, "requeteSite(requeteSite);");
+						tl(2, "initLoin", classeNomSimple, "();");
+						tl(1, "}");
+					}
+					l();
+					tl(1, "public void initLoin", classeNomSimple, "() throws Exception {");
+					tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
+					if(BooleanUtils.isTrue(classeBaseEtendGen)) 
+						tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite);");
+					o = oAvant;
 		
 					l("package ", classeNomEnsemble, ";");
 					l();
@@ -611,37 +633,28 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 						oAvant = o;
 						o = codeInitialiserLoin;
-						l();
-						tl(1, "protected boolean dejaInitialise = false;");
-						tl(1, "public void initLoin(RequeteSite requeteSite) throws Exception {");
-						if(contientRequeteSite && !StringUtils.equals(classeNomSimple, "RequeteSite"))
-							tl(2, "((", classeNomSimple, ")this).requeteSite(requeteSite);");
-						tl(2, "requeteSite", classeNomSimple, "(requeteSite);");
-						tl(2, "initLoin", classeNomSimple, "();");
-						tl(1, "}");
-						tl(1, "public void initLoin", classeNomSimple, "() throws Exception {");
-						tl("\t\tif(!dejaInitialise", classeNomSimple, ") {");
-						if(StringUtils.startsWith(nomCanoniqueBase, nomEnsembleSite))
-							tl(3, "super.initLoin", nomSimpleBase, "(requeteSite);");
-						for(ChampJava champ : champs) {
-							if(champ.initialise) {
-								page_.tout("\t\t\t", champ.var).enUS("Initialize").frFR("Initialiser").toutLigne("();");
+							if(entiteInitialise) {
+								tl(3, entiteVar, "Init();");
 							}
-						}
-						page_.tout("\t\t\t").enUS("alreadyInitialized").frFR("dejaInitialise").toutLigne(nomSimple, " = true;");
-						page_.toutLigne("\t\t}");
-						page_.toutLigne("\t}");
-					
-						page_.toutLigne();
-						page_.tab(1, "public void ").enUS("initializeDeepForClass").frFR("initialiserLoinPourClasse").tout("(").enUS("SiteRequest").frFR("RequeteSite").tout(" ").enUS("siteRequest").frFR("requeteSite").toutLigne(") throws Exception {");
-						page_.tab(2).enUS("initializeDeep").frFR("initialiserLoin").tout(classeNomSimple, "(").enUS("siteRequest").frFR("requeteSite").toutLigne(");");
-						page_.tabLigne(1, "}");
 						o = oAvant;
 					}
 				}
 			}
 			if(o != null) {
 				if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeCheminGen)) {
+
+					oAvant = o;
+					o = codeInitialiserLoin;
+					tl(3, "dejaInitialise", classeNomSimple, " = true;");
+					tl(2, "}");
+					tl(1, "}");
+					if(classeContientRequeteSite) {
+						l();
+						tl(1, "public void initLoinPourClasse(RequeteSite requeteSite) throws Exception {");
+						tl(2, "initLoin", classeNomSimple, "(requeteSite);");
+						tl(1, "}");  
+					}
+					o = oAvant; 
 
 					codeInitialiserLoin.flush();
 					codeInitialiserLoin.flush();

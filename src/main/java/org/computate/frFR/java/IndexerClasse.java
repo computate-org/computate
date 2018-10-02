@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -1110,6 +1111,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomCanoniqueSuperGenerique = null;
 		String classeNomSimpleSuperGenerique = null;
 		JavaClass classeSuperGeneriqueQdox = null;
+		Boolean classeBaseEtendGen = false;
 		if(StringUtils.isNotEmpty(classeNomCompletSuper)) {
 			indexerStockerSolr(classeDoc, "classeNomCompletSuperGenerique", langueNom, classeNomCompletSuperGenerique);
 			if(classeNomCompletSuper.contains("<")) {
@@ -1124,11 +1126,13 @@ public class IndexerClasse extends RegarderClasseBase {
 				else
 					classeNomSimpleSuperGenerique = classeNomCanoniqueSuperGenerique;
 				indexerStockerSolr(classeDoc, "classeNomSimpleSuperGenerique", langueNom, classeNomSimpleSuperGenerique);
+
+				ClasseParts classePartsBase = ClasseParts.initClasseParts(this, classeNomCanoniqueSuperGenerique, langueNom);
+				classeBaseEtendGen = classePartsBase.etendGen;
 			}
 		}
-		
-		
-		
+		indexerStockerSolr(classeDoc, "classeBaseEtendGen", classeBaseEtendGen);
+		indexerStockerSolr(classeDoc, "classeContientRequeteSite", classeQdox.getMethodBySignature("getRequeteSite", null, true) != null);
 		
 		String classeCommentaire = stockerRegexCommentaires(classeQdox.getComment(), langueNom, classeDoc, "classeCommentaire");
 		String classeNomEnsemble = StringUtils.substringBeforeLast(classeNomCanonique, ".");
@@ -1507,7 +1511,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						
 						String entiteVarCouverture = indexerStockerSolr(entiteDoc, "entiteVarCouverture", langueNom, entiteVar + "Couverture");
 
-						Boolean entiteInitLoin = indexerStockerSolr(entiteDoc, "entiteInitLoin", !entiteVar.endsWith("_") && classeEtendGen);
+						Boolean entiteInitLoin = indexerStockerSolr(entiteDoc, "entiteInitLoin", !entiteVar.endsWith("_") && BooleanUtils.isTrue(entiteClasseParts.etendGen));
 						
 //						String entiteParamVar = StringUtils.equalsAny(entiteClasseQdox, "");
 //						indexerStockerSolr(entiteDoc, "entiteParamVar", regexTrouve("^exact:\\s*(true)$", methodeCommentaire));

@@ -22,7 +22,6 @@ import org.apache.solr.common.SolrDocumentList;
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  * val.VAL_entiteCommentaireLigne1Part1.enUS:The "
  * val.VAL_entiteCommentaireLigne1Part1.frFR:Le champ « 
- * gen: true
  */  
 public class EcrireClasse extends IndexerClasse {
 

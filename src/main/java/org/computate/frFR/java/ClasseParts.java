@@ -49,6 +49,11 @@ public class ClasseParts {
 	public String nomSimpleGenerique;
 
 	/**
+	 * var.enUS: extendsGen
+	 */
+	public Boolean etendGen;
+
+	/**
 	 * var.enUS: solrDocument
 	 */
 	public SolrDocument documentSolr;
@@ -281,6 +286,7 @@ public class ClasseParts {
 		if(classeParts.documentSolr != null) {
 			nomCanonique = (String)classeParts.documentSolr.get("classeNomCanonique_" + langueNom + "_stored_string");
 			nomSimple = (String)classeParts.documentSolr.get("classeNomSimple_" + langueNom + "_stored_string");
+			classeParts.etendGen = (Boolean)classeParts.documentSolr.get("classeEtendGen_stored_boolean");
 
 		}
 		if(nomCanonique != null && nomSimple != null) {
@@ -349,6 +355,7 @@ public class ClasseParts {
 		b.append("nomCanoniqueGenerique: ").append(nomCanoniqueGenerique).append("\n");
 		b.append("nomSimpleComplet: ").append(nomSimpleComplet).append("\n");
 		b.append("nomSimpleGenerique: ").append(nomSimpleGenerique).append("\n");
+		b.append("etendGen: ").append(etendGen).append("\n");
 		return b.toString();
 	}
 }
