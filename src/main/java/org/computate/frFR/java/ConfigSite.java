@@ -1,4 +1,4 @@
-package org.computate.frFR.config;    
+package org.computate.frFR.java;    
 
 import java.io.File;
 import java.util.ArrayList;

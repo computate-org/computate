@@ -9,7 +9,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.computate.frFR.config.ConfigSite;
 
 import com.thoughtworks.qdox.model.JavaClass;
 
