@@ -207,7 +207,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			String classeNomSimple = null;
 			String classeNomCanoniqueSuper = null;    
 			String classeCommentaire = null;      
-			List<String> classeImportations = null;  
+			List<String> classeImportationsGen = null;  
 			List<String> classeParametreTypeNoms = null;  
 			List<String> classeSuperParametreTypeNoms = null;  
 			Boolean classeEtendGen = null;
@@ -236,7 +236,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 					classeNomSimpleSuperGenerique = (String)doc.get("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
-					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stored_strings");
+					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
 					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
 					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
@@ -267,8 +267,8 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		
 					l("package ", classeNomEnsemble, ";");
 					l();
-					if(classeImportations.size() > 0) { 
-						for(String classeImportation : classeImportations) {
+					if(classeImportationsGen.size() > 0) { 
+						for(String classeImportation : classeImportationsGen) {
 							l("import ", classeImportation, ";");
 						} 
 						l();  

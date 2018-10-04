@@ -291,9 +291,12 @@ public class ConfigSite {
 	 * r.enUS: parts
 	 **/ 
 	protected void _nomEnsembleDomaine() throws Exception {
-		String[] partis = StringUtils.split(nomDomaine, ".");
-		ArrayUtils.reverse(partis);
-		nomEnsembleDomaine = StringUtils.join(partis, ".");
+		nomEnsembleDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomEnsembleDomaine");
+		if(StringUtils.isEmpty(nomEnsembleDomaine)) {
+			String[] partis = StringUtils.split(nomDomaine, ".");
+			ArrayUtils.reverse(partis);
+			nomEnsembleDomaine = StringUtils.join(partis, ".");
+		}
 	}
 
 	/**

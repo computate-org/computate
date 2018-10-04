@@ -90,11 +90,11 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 */
-	protected HashMap<String, ClasseParts> classeParts = new HashMap<String, ClasseParts>();
+	protected HashMap<String, ClasseParts> classePartsGen = new HashMap<String, ClasseParts>();
 	/**
 	 * var.enUS: _classParts
 	 */
-	protected void _classeParts() throws Exception {
+	protected void _classePartsGen() throws Exception {
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class RegarderClasseBase extends ConfigSite {
 		_classeCheminAbsolu();
 		_appliChemins();
 		_classeDocs();
-		_classeParts();
+		_classePartsGen();
 		_bricoleur();
 	} 
 

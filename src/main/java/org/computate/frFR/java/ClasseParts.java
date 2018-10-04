@@ -90,6 +90,7 @@ public class ClasseParts {
 			rechercheSolr.setRows(1);
 			rechercheSolr.addFilterQuery("classeNomCanonique_" + configSite.langueNomActuel + "_indexed_string:" + ClientUtils.escapeQueryChars(nomCanonique));
 			rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+			rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(configSite.nomEnsembleDomaine));
 			QueryResponse reponseRecherche = configSite.clientSolrComputate.query(rechercheSolr);
 			SolrDocumentList listeRecherche = reponseRecherche.getResults();
 			if(listeRecherche.size() > 0) { 
@@ -205,6 +206,7 @@ public class ClasseParts {
 				rechercheSolr.setRows(1);
 				rechercheSolr.addFilterQuery("classeNomSimple_" + configSite.langueNomActuel + "_indexed_string:" + ClientUtils.escapeQueryChars(nomSimplePart));
 				rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(configSite.nomEnsembleDomaine));
 				QueryResponse reponseRecherche = configSite.clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList listeRecherche = reponseRecherche.getResults();
 				if(listeRecherche.size() > 0) { 
