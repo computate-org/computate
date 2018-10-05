@@ -3,11 +3,14 @@ package org.computate.frFR.java;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -213,9 +216,38 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			Boolean classeEtendGen = null;
 			Boolean classeBaseEtendGen = null;
 			Boolean classeContientRequeteSite = null;
+			Boolean classeIndexe = null;
+			Boolean classeEtendBase = null;
+			Boolean classeEstBase = null;
+			Boolean classeSauvegarde = null;
 
 			StringWriter wInitialiserLoin = null;
 			PrintWriter codeInitialiserLoin = null;
+
+			StringWriter wIndexer = null;
+			PrintWriter codeIndexer = null;
+
+			StringWriter wObtenir = null;
+			PrintWriter codeObtenir = null;
+
+			StringWriter wAttribuer = null;
+			PrintWriter codeAttribuer = null;
+
+			StringWriter wDefinir = null;
+			PrintWriter codeDefinir = null;
+
+			StringWriter wPeupler = null;
+			PrintWriter codePeupler = null;
+
+			StringWriter wExiste = null;
+			PrintWriter codeExiste = null;
+
+			StringWriter wSauvegardes = null;
+			PrintWriter codeSauvegardes = null;
+
+			StringWriter wSauvegarder = null;
+			PrintWriter codeSauvegarder = null;
+
 			PrintWriter oAvant = null;
 	
 			for(int i = 0; i < listeRecherche.size(); i++) {
@@ -240,9 +272,16 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
 					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
+					classeEtendBase = classeEtendGen;
 					classeBaseEtendGen = (Boolean)doc.get("classeBaseEtendGen_stored_boolean");
+					classeEstBase = !classeBaseEtendGen;
 					classeContientRequeteSite = (Boolean)doc.get("classeContientRequeteSite_stored_boolean");
+					classeSauvegarde = BooleanUtils.isTrue((Boolean)doc.get("classeSauvegarde_stored_boolean"));
+					classeIndexe = BooleanUtils.isTrue((Boolean)doc.get("classeIndexe_stored_boolean"));
 
+					/////////////////////////
+					// codeInitialiserLoin //
+					/////////////////////////
 					oAvant = o;
 					wInitialiserLoin = new StringWriter();
 					codeInitialiserLoin = new PrintWriter(wInitialiserLoin);
@@ -264,14 +303,348 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 					if(BooleanUtils.isTrue(classeBaseEtendGen)) 
 						tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite);");
 					o = oAvant;
+
+					/////////////////
+					// codeIndexer //
+					/////////////////
+					oAvant = o;
+					wIndexer = new StringWriter();
+					codeIndexer = new PrintWriter(wIndexer);
+					o = codeIndexer;
+					if(classeIndexe) {
+						tl(0);
+						tl(1, "@Test public void indexer", classeNomSimple, "Test() throws Exception {");
+						tl(2, "RequeteSite requeteSite = new RequeteSite();");
+						tl(2, "requeteSite.initLoinRequeteSite();");
+						tl(2, "EcouteurContexte ecouteurContexte = new EcouteurContexte();");
+						tl(2, "ecouteurContexte.initLoinEcouteurContexte();");
+						tl(2, "ecouteurContexte.requeteSite(requeteSite);");
+						tl(2, "requeteSite.ecouteurContexte(ecouteurContexte);");
+						tl(2, "requeteSite.configSite(ecouteurContexte.configSite);");
+						tl(2, "requeteSite", classeNomSimple, "(requeteSite);");
+						tl(2, "initLoin", classeNomSimple, "(requeteSite);");
+						tl(2, "indexer", classeNomSimple, "(requeteSite);");
+						tl(1, "}");
+						tl(0);
+						if(classeEtendBase) {
+							tl(0);
+							t(1);
+							if(!classeEstBase)
+								s("@Override ");
+							s("public void indexerPourClasse(RequeteSite requeteSite) throws Exception {");
+							tl(2, "indexer", classeNomSimple, "(requeteSite);");
+							tl(1, "}");
+							tl(0);
+							t(1);
+							if(!classeEstBase)
+								s("@Override ");
+							s("public void indexerPourClasse(SolrInputDocument document) throws Exception {");
+							tl(2, "indexer", classeNomSimple, "(document);");
+							tl(1, "}");
+						}
+						tl(1, "public void indexer", classeNomSimple, "(RequeteSite requeteSite) throws Exception {");
+						tl(2, "SolrInputDocument document = new SolrInputDocument();");
+						tl(2, "indexer", classeNomSimple, "(document);");
+						if(classeSauvegarde)
+							tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes);");
+						tl(2, "SolrClient clientSolr = requeteSite.ecouteurContexte.clientSolr;");
+						tl(2, "clientSolr.add(document);");
+						tl(2, "clientSolr.commit();");
+						l("\t}");
+
+						tl(0);
+						tl(1, "public void indexer", classeNomSimple, "(SolrInputDocument document) throws Exception {");
+					}
+					o = oAvant;
+
+					/////////////////
+					// codeObtenir //
+					/////////////////
+					oAvant = o;
+					wObtenir = new StringWriter();
+					codeObtenir = new PrintWriter(wObtenir);
+					o = codeObtenir;
+					if(classeEtendBase) {
+						tl(0);
+						t(1);
+						if(!classeEstBase)
+							s("@Override ");
+						s("public Object obtenirPourClasse(String var) throws Exception {");
+						tl(2, "String[] vars = org.apache.commons.lang3.StringUtils.split(var, \".\");");
+						tl(2, "Object o = null;");
+						tl(2, "for(String v : vars) {");
+						tl(3, "if(o == null)");
+						tl(4, "o = obtenir", classeNomSimple, "(v);");
+						tl(3, "else if(o instanceof Cluster) {");
+						tl(4, "Cluster cluster = (Cluster)o;");
+						tl(4, "o = cluster.obtenirPourClasse(v);");
+						tl(3, "}");
+						tl(2, "}");
+						tl(2, "return o;");
+						tl(1, "}");
+						tl(1, "public Object obtenir", classeNomSimple, "(String var) throws Exception {");
+						tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
+						tl(2, "switch(var) {");
+					}
+					o = oAvant;
+
+					///////////////////
+					// codeAttribuer //
+					///////////////////
+					oAvant = o;
+					wAttribuer = new StringWriter();
+					codeAttribuer = new PrintWriter(wAttribuer);
+					o = codeAttribuer;
+					if(classeEtendBase) {
+						tl(0);
+						t(1);
+						if(!classeEstBase)
+							s("@Override ");
+						s("public boolean attribuerPourClasse(String var, Object val) throws Exception {");
+						tl(2, "String[] vars = org.apache.commons.lang3.StringUtils.split(var, \".\");");
+						tl(2, "Object o = null;");
+						tl(2, "for(String v : vars) {");
+						tl(3, "if(o == null)");
+						tl(4, "o = attribuer", classeNomSimple + "(v, val);");
+						tl(3, "else if(o instanceof Cluster) {");
+						tl(4, "Cluster cluster = (Cluster)o;");
+						tl(4, "o = cluster.attribuerPourClasse(v, val);");
+						tl(3, "}");
+						tl(2, "}");
+						tl(2, "return o != null;");
+						tl(1, "}");
+						tl(1, "public Object attribuer", classeNomSimple, "(String var, Object val) throws Exception {");
+						t(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
+						tl(2, "switch(var) {");
+
+					}
+					o = oAvant;
+
+					/////////////////
+					// codeDefinir //
+					/////////////////
+					oAvant = o;
+					wDefinir = new StringWriter();
+					codeDefinir = new PrintWriter(wDefinir);
+					o = codeDefinir;
+					if(classeEtendBase) {
+						tl(0);
+						t(1);
+						if(!classeEstBase)
+							s("@Override ");
+						s("public boolean definirPourClasse(String var, String...vals) throws Exception {");
+						tl(2, "String[] vars = org.apache.commons.lang3.StringUtils.split(var, \".\");");
+						tl(2, "Object o = null;");
+						tl(2, "String val = vals == null ? null : vals[vals.length - 1];");
+						tl(2, "if(val != null) {");
+						tl(3, "for(String v : vars) {");
+						tl(4, "if(o == null)");
+						tl(5, "o = definir", classeNomSimple + "(v, val);");
+						tl(4, "else if(o instanceof Cluster) {");
+						tl(5, "Cluster cluster = (Cluster)o;");
+						tl(5, "o = cluster.definirPourClasse(v, val);");
+						tl(4, "}");
+						tl(3, "}");
+						tl(2, "}");
+						tl(2, "return o != null;");
+						tl(1, "}");
+						tl(1, "public Object definir", classeNomSimple, "(String var, String val) throws Exception {");
+						tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
+						tl(2, "switch(var) {");
+					}
+					o = oAvant;
+
+					/////////////////
+					// codePeupler //
+					/////////////////
+					oAvant = o;
+					wPeupler = new StringWriter();
+					codePeupler = new PrintWriter(wPeupler);
+					o = codePeupler;
+					if(classeSauvegarde) {
+						tl(0);
+						t(1);
+						if(!classeNomSimple.equals("Cluster"))
+							s("@Override ");
+						s("public void peuplerPourClasse(", SolrDocument.class.getCanonicalName(), " documentSolr) throws Exception {");
+						if(classeSauvegarde) {
+							tl(2, "sauvegardes", classeNomSimple, " = (java.util.ArrayList<String>)documentSolr.get(\"sauvegardes", classeNomSimple, "_stored_strings\");");
+						tl(2, "peupler", classeNomSimple, "(documentSolr);");
+						}
+						tl(1, "}");
+						tl(1, "public void peupler", classeNomSimple, "(", SolrDocument.class.getCanonicalName(), " documentSolr) throws Exception {");
+						tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
+					}
+					o = oAvant;
+
+					////////////////
+					// codeExiste //
+					////////////////
+					oAvant = o;
+					wExiste = new StringWriter();
+					codeExiste = new PrintWriter(wExiste);
+					o = codeExiste;
+					if(classeSauvegarde) {
+						tl(0);
+						t(1);
+						if(!classeNomSimple.equals("Cluster"))
+							s("@Override ");
+						s("public Boolean existePourClasse() throws Exception {");
+						tl(2, "String cleStr = requeteSite.requete.getParameter(\"cle\");");
+						tl(2, "Long cle = ", StringUtils.class.getCanonicalName(), ".isNumeric(cleStr) ? Long.parseLong(cleStr) : null;");
+						tl(2, "Boolean existe = existePourClasse(cle);");
+						tl(2, "return existe;");
+						tl(1, "}");
+						t(1);
+						if(!classeNomSimple.equals("Cluster"))
+							s("@Override ");
+						s("public Boolean existePourClasse(Long cle) throws Exception {");
+						tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.ecouteurContexte.sourceDonnees);");
+						tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
+						tl(2, "utilisateurId = requeteSite.utilisateurId;");
+						tl(2, "this.cle = cle;");
+						tl(2, "String nomCanonique = getClass().getCanonicalName();");
+						tl(2, "Boolean existe = false;");
+						tl(2);
+						tl(2, "if(cle == null) {");
+						tl(3, "String sql = \"select clep from objet where objet.id_utilisateur=? and objet.nom_canonique=?\";");
+						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
+						tl(3, "existe = resultats.size() > 0;");
+						tl(3, "if(existe) {");
+						tl(4, "cle = (Long)resultats.get(0)[0];");
+						tl(4, "cle(cle);");
+						tl(3, "}");
+						tl(2, "}");
+						tl(2, "else {");
+						tl(3, "String sql = \"select count(*) from objet where objet.clep=? and objet.id_utilisateur=? and objet.nom_canonique=?\";");
+						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.clep=*/, cle /* and objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
+						tl(3, "existe = ((Long)resultats.get(0)[0]) > 0L;");
+
+						tl(2, "}");
+						tl(2, "return existe;");
+						tl(1, "}");
+					}
+					o = oAvant;
+
+					/////////////////////
+					// codeSauvegardes //
+					/////////////////////
+					oAvant = o;
+					wSauvegardes = new StringWriter();
+					codeSauvegardes = new PrintWriter(wSauvegardes);
+					o = codeSauvegardes;
+					if(classeSauvegarde) {
+						tl(0);
+						tl(1, "protected java.util.ArrayList<String> sauvegardes", classeNomSimple, " = new java.util.ArrayList<String>();");
+						t(1);
+						if(!classeNomSimple.equals("Cluster"))
+							s("@Override ");
+						s("public void sauvegardesPourClasse(RequeteSite requeteSite) throws Exception {");
+						tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.ecouteurContexte.sourceDonnees);");
+						tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
+
+						tl(2);
+						tl(2, "if(cle != null) {");
+						tl(3, "String sql = \"select cree, modifie from objet where objet.clep=?\";");
+						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select cree, modifie from objet where objet.clep=*/, cle);");
+						tl(3, "if(resultats.size() > 0) {");
+						tl(4, "cree((java.util.Date)resultats.get(0)[0]);");
+						tl(4, "modifie((java.util.Date)resultats.get(0)[1]);");
+						tl(3, "}");
+
+						t(3, "sql = \"select chemin, valeur from p where p.cle_objet=? ");
+						s("union select champ2, cle2::text from a where a.cle1=? ");
+						s("union select champ1, cle1::text from a where a.cle2=? ");
+						l("\";");
+						tl(3, "resultats = coureur.query(sql, gestionnaireListe /*select chemin, valeur from p where p.cle_objet=*/, cle, cle, cle);");
+						tl(3, "for(Object[] objets : resultats) {");
+						tl(4, "String chemin = (String)objets[0];");
+						tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
+						tl(4, "definirPourClasse(chemin, valeur);");
+						tl(4, "sauvegardes", classeNomSimple, ".add(chemin);");
+						tl(3, "}");
+						tl(2, "}");
+						tl(1, "}");
+					}
+					o = oAvant;
+
+					/////////////////////
+					// codeSauvegarder //
+					/////////////////////
+					oAvant = o;
+					wSauvegarder = new StringWriter();
+					codeSauvegarder = new PrintWriter(wSauvegarder);
+					o = codeSauvegarder;
+					if(classeSauvegarde) {
+						tl(0);
+						t(1);
+						if(!classeNomSimple.equals("Cluster"))
+							s("@Override ");
+						s("public void sauvegarderPourClasse(RequeteSite requeteSite) throws Exception {");
+						tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.ecouteurContexte.sourceDonnees);");
+						tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
+						tl(2, "String cleStr = requeteSite.requete.getParameter(\"cle\");");
+						tl(2, "cle = ", StringUtils.class.getCanonicalName(), ".isNumeric(cleStr) ? Long.parseLong(cleStr) : null;");
+						tl(2, "utilisateurId = requeteSite.utilisateurId;");
+						tl(2, "String nomCanonique = getClass().getCanonicalName();");
+						tl(2, "modifie = ", LocalDateTime.class.getCanonicalName(), ".now();");
+						tl(2, Timestamp.class.getCanonicalName(), " horodatage = java.sql.Timestamp.valueOf(modifie);");
+			
+						tl(2);
+						tl(2, "if(cle == null) {");
+						tl(3, "String sql = \"insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(?, ?, ?, ?) returning clep\";");
+						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.insert(sql, gestionnaireListe /*insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(*/, nomCanonique, requeteSite.utilisateurId, horodatage, horodatage /*) returning clep, cree*/);");
+						tl(3, "cle = (Long)resultats.get(0)[0];");
+						tl(3, "cree = modifie;");
+						tl(2, "}");
+						tl(2, "else {");
+						tl(3, "String sql = \"update objet set modifie=? where objet.clep=? and objet.id_utilisateur=? and objet.nom_canonique=? returning cree\";");
+						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*update objet set modifie=*/, horodatage /* where objet.clep=*/, cle /* and objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique /* returning cree*/);");
+						tl(3, "if(resultats.size() == 0)");
+						t(4, "throw new Exception(\"");
+						s("L'objet avec le cle \" + cle + \" et nom canonique \" + cle + \" pour utilisateur \" + requeteSite.utilisateurId + \" \" + requeteSite.utilisateurNom + \" n'existe pas dejà. ");
+						l("\");");
+						tl(3, "horodatage = (java.sql.Timestamp)resultats.get(0)[0];");
+						tl(3, "cree = ", LocalDateTime.class.getCanonicalName(), ".from(horodatage.toLocalDateTime());");
+						tl(2, "}");
+//						tl(0);
+//						tl(2, "{");
+//						tl(3, "String sqlSelectP = \"select chemin, valeur from p where p.cle_objet=?\";");
+//						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sqlSelectP, gestionnaireListe /*select chemin, valeur from p where p.cle_objet=*/, cle);");
+//						tl(3, "for(Object[] objets : resultats) {");
+//						tl(4, "String chemin = (String)objets[0];");
+//						if(coursCrypte)
+//							tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
+//						else
+//							tl(4, "String valeur = (String)objets[1];");
+//						tl(4, "definir(chemin, valeur);");
+//						tl(4, "sauvegardes", classeNomSimple, ".add(chemin);");
+//						tl(3, "}");
+//						tl(2, "}");
+						tl(0);
+//						tl(2, "{");
+						tl(2, "String sqlInsertP = \"insert into p(chemin, valeur, cle_objet) values(?, ?, ?) on conflict(chemin, cle_objet) do update set valeur=? where p.chemin=? and p.cle_objet=?\";");
+						tl(2, "String sqlInsertA = \"insert into a(champ1, cle1, champ2, cle2) values(?, ?, ?, ?) on conflict  do nothing\";");
+						tl(2, "String sqlDeleteP = \"delete from p where chemin=? and cle_objet=?\";");
+						tl(2, "String sqlDeleteA = \"delete from a where champ1=? and cle1=? and champ2=? and cle2=?\";");
+						tl(2, "sauvegarder", classeNomSimple, "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
+//						tl(2, "}");
+						tl(1, "}");
+						tl(1, "public void sauvegarder", classeNomSimple, "(RequeteSite requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
+					}
+					o = oAvant;
+
+					////////////
+					// classe //
+					////////////
 		
 					l("package ", classeNomEnsemble, ";");
 					l();
 					if(classeImportationsGen.size() > 0) { 
 						for(String classeImportation : classeImportationsGen) {
 							l("import ", classeImportation, ";");
-						} 
-						l();  
+						}
+						l();
 					}
 					ecrireCommentaire(classeCommentaire, 0); 
 					s("public abstract class ", classeNomSimpleGen);
@@ -280,7 +653,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 						for(int j = 0; j < classeParametreTypeNoms.size(); j++) {
 							String classeParametreTypeNom = classeParametreTypeNoms.get(j);
 							if(i > 0)
-								s(", ");
+								s();
 							s(classeParametreTypeNom);
 						}
 						s(">");
@@ -300,7 +673,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 //							for(int j = 0; j < classeSuperParametreTypeNoms.size(); j++) {
 //								String classeSuperParametreTypeNom = classeSuperParametreTypeNoms.get(j);
 //								if(i > 0)
-//									s(", ");
+//									s();
 //								s(classeSuperParametreTypeNom);
 //							}
 ////							s(">");
@@ -321,7 +694,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 							}
 						}
 					}
-				} 
+				}
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
 					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
@@ -339,6 +712,28 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 						Boolean entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
 						Boolean entiteInitialise = (Boolean)doc.get("entiteInitialise_stored_boolean");
 						Boolean entiteInitLoin = (Boolean)doc.get("entiteInitLoin_stored_boolean");
+
+						Boolean entiteExact = (Boolean)doc.get("entiteExact_stored_boolean");
+						Boolean entiteCleUnique = (Boolean)doc.get("entiteCleUnique_stored_boolean");
+						Boolean entiteCrypte = (Boolean)doc.get("entiteCrypte_stored_boolean");
+						Boolean entiteSuggere = (Boolean)doc.get("entiteSuggere_stored_boolean");
+						Boolean entiteSauvegarde = (Boolean)doc.get("entiteSauvegarde_stored_boolean");
+						Boolean entiteIndexe = (Boolean)doc.get("entiteIndexe_stored_boolean");
+						Boolean entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
+						Boolean entitetexte = (Boolean)doc.get("entitetexte_stored_boolean");
+						Boolean entiteIncremente = (Boolean)doc.get("entiteIncremente_stored_boolean");
+						Boolean entiteNomAffichage = (Boolean)doc.get("entiteNomAffichage_stored_boolean");
+						Boolean entiteIgnorer = (Boolean)doc.get("entiteIgnorer_stored_boolean");
+						Boolean entiteDeclarer = (Boolean)doc.get("entiteDeclarer_stored_boolean");
+						Boolean entiteRechercher = (Boolean)doc.get("entiteRechercher_stored_boolean");
+						Boolean entiteAttribuer = (Boolean)doc.get("entiteAttribuer_stored_boolean");
+						Boolean entiteAjouter = (Boolean)doc.get("entiteAjouter_stored_boolean");
+						Boolean entiteSupprimer = (Boolean)doc.get("entiteSupprimer_stored_boolean");
+						Boolean entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");
+						Boolean entiteRecharger = (Boolean)doc.get("entiteRecharger_stored_boolean");
+						Boolean entiteMultiligne = (Boolean)doc.get("entiteMultiligne_stored_boolean");
+						Boolean entiteCles = (Boolean)doc.get("entiteCles_stored_boolean");
+						Boolean entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
 
 						List<String> entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
 						List<String> entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_stored_strings");
@@ -631,11 +1026,272 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 							}
 						}
 
+						///////////////////////////
+						// codeIninitLoin //
+						///////////////////////////
 						oAvant = o;
 						o = codeInitialiserLoin;
-							if(entiteInitialise) {
-								tl(3, entiteVar, "Init();");
+						if(entiteInitialise) {
+							tl(3, entiteVar, "Init();");
+						}
+						o = oAvant;
+
+
+						/////////////////
+						// codeIndexer //
+						/////////////////
+						oAvant = o;
+						o = codeIndexer;
+						if(entiteIndexeOuStocke) {
+							tl(2, "if(", entiteVar, " != null) {");
+							if(entiteVarCleUnique.pasVide() && entiteCleUnique) {
+								// cleUnique
+								tl(3, "document.addField(\"", entiteVarCleUnique, "\"", entiteVar, ");");
 							}
+							if(entiteVarCrypte.pasVide() && champ.crypte) {
+								// crypte
+								tl(3, "String valCrypte = requeteSite.crypterStr(", entiteVar, ");");
+								tl(3, "document.addField(\"", entiteVarCrypte, "\"", "valCrypte);");
+							}
+							if(entiteVarIncremente.pasVide() && champ.incremente) {
+								// crypte
+								tl(3, "document.addField(\"", entiteVarIncremente, "\", new java.util.HashMap<String, ", champ.classeNomSimple, ">() {{ put(\"inc\"", ("Long".equals(champ.classeNomSimple.toString()) ? "1L" : "1"), "); }});");
+							}
+							if(entiteVarSuggere.pasVide() && champ.suggere) {
+								// suggere
+								if(champ.classeNomSimple.equals("Chaine")) {
+									tl(3, "document.addField(\"", entiteVarSuggereEnUS, "\"", entiteVar, ".enUS());");
+									tl(3, "document.addField(\"", entiteVarSuggereFrFR, "\"", entiteVar, ");");
+								}
+								else if(champ.classeNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName()) || champ.classeNomSimple.toString().equals("LocalDate")) {
+									tl(3, "document.addField(\"", entiteVarSuggere, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
+								}
+								else {
+									tl(3, "document.addField(\"", entiteVarSuggere, "\"", entiteVar, ");");
+								}
+							}
+
+							if(entiteVarIndexe.pasVide() && champ.indexe) {
+								// indexe
+								if(champ.classeNomSimple.equals("Chaine")) {
+									tl(3, "document.addField(\"", entiteVarIndexeEnUS, "\"", entiteVar, ".enUS());");
+									tl(3, "document.addField(\"", entiteVarIndexeFrFR, "\"", entiteVar, ");");
+								}
+								else if(champ.classeNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName()) || champ.classeNomSimple.toString().equals("LocalDate")) {
+									tl(3, "document.addField(\"", entiteVarIndexe, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
+								}
+								else if(champ.classeNomSimple.equals("List") || champ.classeNomSimple.equals("ArrayList")) {
+									tl(3, "for(", champ.nomCompletGenerique, " o : ", entiteVar, ") {");
+									tl(4, "document.addField(\"", entiteVarIndexe, "\", o);");
+									tl(3, "}");
+								}
+								else {
+									tl(3, "document.addField(\"", entiteVarIndexe, "\"", entiteVar, ");");
+								}
+							}
+							else {
+								if(entiteVarIndexeEnUS.pasVide()) {
+									tl(3, "document.addField(\"", entiteVarIndexeEnUS, "\"", entiteVar, ");");
+								}
+								if(entiteVarIndexeFrFR.pasVide()) {
+									tl(3, "document.addField(\"", entiteVarIndexeFrFR, "\"", entiteVar, ");");
+								}
+							}
+
+							if(entiteVarStocke.pasVide() && champ.stocke) {
+								// stocke
+								if(champ.classeNomSimple.equals("Chaine")) {
+									tl(3, "document.addField(\"", entiteVarStockeEnUS, "\"", entiteVar, ".enUS());");
+									tl(3, "document.addField(\"", entiteVarStockeFrFR, "\"", entiteVar, ");");
+								}
+								else if(champ.classeNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName()) || champ.classeNomSimple.toString().equals("LocalDate")) {
+									tl(3, "document.addField(\"", entiteVarStocke, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
+								}
+								else if(champ.classeNomSimple.equals("List") || champ.classeNomSimple.equals("ArrayList")) {
+									tl(3, "for(", champ.nomCompletGenerique, " o : ", entiteVar, ") {");
+									tl(4, "document.addField(\"", entiteVarStocke, "\", o);");
+									tl(3, "}");
+								}
+								else {
+									tl(3, "document.addField(\"", entiteVarStocke, "\"", entiteVar, ");");
+								}
+							}
+							tl(2, "}");
+						}
+						o = oAvant;
+	
+						/////////////////
+						// codeObtenir //
+						/////////////////
+						oAvant = o;
+						wObtenir = new StringWriter();
+						codeObtenir = new PrintWriter(wObtenir);
+						o = codeObtenir;
+						if(classeEtendBase) {
+							tl(2, "case \"", entiteVar, "\": return o", classeNomSimple, ".", entiteVar, ";");
+						}	
+						o = oAvant;
+	
+						///////////////////
+						// codeAttribuer //
+						///////////////////
+						oAvant = o;
+						wAttribuer = new StringWriter();
+						codeAttribuer = new PrintWriter(wAttribuer);
+						o = codeAttribuer;
+						if(classeEtendBase) {
+							tl(2, "case \"", entiteVar, "\": o", classeNomSimple, ".", entiteVar, "((", champ.classeNomSimpleComplet, ")val); return val;");
+						}	
+						o = oAvant;
+	
+						/////////////////
+						// codeDefinir //
+						/////////////////
+						oAvant = o;
+						wDefinir = new StringWriter();
+						codeDefinir = new PrintWriter(wDefinir);
+						o = codeDefinir;
+						if(classeEtendBase) {
+							String nomChamp = entiteVar.toString();
+							if(champ.contientSetterString) {
+								tl(2, "case \"", entiteVar, "\":");
+								tl(3, "o", classeNomSimple, ".", nomChamp, "(val);");
+								tl(3, "return val;");
+							}
+						}	
+						o = oAvant;
+	
+						/////////////////
+						// codePeupler //
+						/////////////////
+						oAvant = o;
+						wPeupler = new StringWriter();
+						codePeupler = new PrintWriter(wPeupler);
+						o = codePeupler;
+						if(classeSauvegarde) {
+							String nomChamp = entiteVar.toString();
+							String varCrypte = entiteVarCrypte.toString();
+							String varStocke = entiteVarStocke.toString();
+							String varSuggere = entiteVarSuggere.toString();
+							String varIncremente = entiteVarIncremente.toString();
+							String varCleUnique = entiteVarCleUnique.toString();
+							String typeSolr = champ.typeSolr.toString();
+							if(!StringUtils.isEmpty(varCrypte) || !StringUtils.isEmpty(varStocke) || !StringUtils.isEmpty(varCleUnique) || !StringUtils.isEmpty(varSuggere) || !StringUtils.isEmpty(varIncremente)) {
+								tl(0);
+
+								if(!StringUtils.isEmpty(varSuggere)) {
+//									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+									tl(4, typeSolr, " ", entiteVar, " = (", typeSolr, ")documentSolr.get(\"", varSuggere, "\");");
+									tl(4, "o", classeNomSimple, ".", nomChamp, "(", nomChamp, ");");
+//									tl(3, "}");
+								}
+								else if(!StringUtils.isEmpty(varSuggere)) {
+//									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+									tl(4, typeSolr, " ", entiteVar, " = (", typeSolr, ")documentSolr.get(\"", varIncremente, "\");");
+									tl(4, "o", classeNomSimple, ".", nomChamp, "(", nomChamp, ");");
+//									tl(3, "}");
+								}
+								else if(!StringUtils.isEmpty(varCleUnique)) {
+//									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+									tl(4, typeSolr, " ", entiteVar, " = org.apache.commons.lang3.math.NumberUtils.toLong((String)documentSolr.get(\"", varCleUnique, "\"));");
+									tl(4, "o", classeNomSimple, ".", nomChamp, "(", nomChamp, ");");
+//									tl(3, "}");
+								}
+								else if(!StringUtils.isEmpty(varCrypte)) {
+//									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+									if(coursCrypte)
+										tl(4, typeSolr, " ", entiteVar, " = requeteSite.decrypterStr((", typeSolr, ")documentSolr.get(\"", varCrypte, "\"));");
+									else
+										tl(4, typeSolr, " ", entiteVar, " = (", typeSolr, ")documentSolr.get(\"", varCrypte, "\");");
+									tl(4, "o", classeNomSimple, ".", nomChamp, "(", nomChamp, ");");
+//									tl(3, "}");
+								}
+								else {
+//									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+									tl(4, typeSolr, " ", entiteVar, " = (", typeSolr, ")documentSolr.get(\"", varStocke, "\");");
+									tl(4, "if(", nomChamp, " != null)");
+									if(StringUtils.contains(typeSolr, "<"))
+										tl(5, "o", classeNomSimple, ".", nomChamp, ".addAll(", nomChamp, ");");
+									else
+										tl(5, "o", classeNomSimple, ".", nomChamp, "(", nomChamp, ");");
+//									tl(3, "}");
+								}
+
+							}
+						}	
+						o = oAvant;
+	
+						/////////////////////
+						// codeSauvegarder //
+						/////////////////////
+						oAvant = o;
+						wSauvegarder = new StringWriter();
+						codeSauvegarder = new PrintWriter(wSauvegarder);
+						o = codeSauvegarder;
+						if(classeSauvegarde) {
+								String nomChamp = entiteVar.toString();
+								if(champ.sauvegarde) {
+									tl(0);
+	
+									tl(2, "if(\"true\".equals(requeteSite.requete.getParameter(\"", nomChamp, "Supprimer\"))) {");
+									tl(3, "coureur.update(sqlDeleteP /*delete from p where chemin=*/, \"", nomChamp, "\" /* and cle_objet=*/, cle);");
+									tl(2, "} else if(definirPourClasse(\"", nomChamp, "\"", "requeteSite.requete.getParameterValues(\"", nomChamp, "\"))) {");
+									if(coursCrypte) {
+										tl(3, "String valCrypte = requeteSite.crypterStr(", nomChamp, ");");
+										tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, cle_objet) values(*/, \"", nomChamp, "\"", "valCrypte, cle /*) on conflict(chemin, cle_objet) do update set valeur=*/, valCrypte /* where p.chemin=*/, \"", nomChamp, "\" /* and p.cle_objet=*/, cle);");
+									}
+									else {
+										tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, cle_objet) values(*/, \"", nomChamp, "\"", nomChamp, , "cle /*) on conflict(chemin, cle_objet) do update set valeur=*/, ", nomChamp, " /* where p.chemin=*/, \"", nomChamp, "\" /* and p.cle_objet=*/, cle);");
+									}
+									tl(3, "sauvegardes", classeNomSimple, ".add(\"", nomChamp, "\");");
+									tl(2, "}");
+								}
+	
+								if(champ.cles && champ.contexteParent != null) {
+									tl(0);
+									String parentContexteVar = entiteVar.toString() + "VarInverse";
+									String chaineVarInverse = champ.contexteParent.obtenirPourClasse(parentContexteVar).toString();
+									String var1, var2, val1, val2, val, valSupprimer, varSupprimer;
+									if(nomChamp.compareTo(chaineVarInverse) < 0) {
+										var1 = nomChamp;
+										var2 = chaineVarInverse;
+										varSupprimer = champ.contexteEnfant.nomVarMinuscule + (requeteSite ? "Cle" : "Key");
+										valSupprimer = nomChamp + (entiteNomCanonique.equals(ArrayList.class.getCanonicalName()) ? ".get(0)" : "");
+										val1 = varSupprimer;
+										val2 = requeteSite ? "cle" : "key";
+									}
+									else {
+										var1 = chaineVarInverse;
+										var2 = nomChamp;
+										varSupprimer = champ.contexteEnfant.nomVarMinuscule + (requeteSite ? "Cle" : "Key");
+										valSupprimer = nomChamp + (entiteNomCanonique.equals(ArrayList.class.getCanonicalName()) ? ".get(0)" : "");
+										val1 = requeteSite ? "cle" : "key";
+										val2 = varSupprimer;
+									}
+	
+									tl(2, "{");
+									tl(3, "String[] valeursCles = requeteSite.requete.getParameterValues(\"", nomChamp, "\");");
+									tl(3, "if(valeursCles != null) {");
+									tl(4, "String[] valeursSuppression = requeteSite.requete.getParameterValues(\"", nomChamp, "Supprimer\");");
+									tl(4, "Long ", varSupprimer, " = Long.parseLong(valeursCles[valeursCles.length - 1]);");
+									tl(4, "if(valeursSuppression != null && \"true\".equals(valeursSuppression[valeursSuppression.length - 1])) {");
+									tl(5, "coureur.update(sqlDeleteA /*delete from a where champ1=*/, \"", var1, "\" /* and cle1=*/, ", val1, " /* and champ2=*/, \"", var2, "\" /* and cle2=*/, ", val2, ");");
+									tl(4, "} else if(definirPourClasse(\"", nomChamp, "\"", "valeursCles[valeursCles.length - 1])) {");
+	//								tl(5, varSupprimer, " = ", valSupprimer, ";");
+									tl(5, "coureur.insert(sqlInsertA, gestionnaireListe /*insert into a(champ1, cle1, champ2, cle2) values(*/, \"", var1, "\"", val1, ", \"", var2, "\"", val2, " /*) on conflict do nothing */);");
+									tl(5, "sauvegardes", classeNomSimple, ".add(\"", nomChamp, "\");");
+									tl(4, "}");
+									tl(4, "if(", varSupprimer, " != null) {");
+									tl(5, champ.contexteEnfant.classeNomSimple, " ", champ.contexteEnfant.nomVarMinuscule, " = new ", champ.contexteEnfant.classeNomSimple, "();");
+									tl(5, champ.contexteEnfant.nomVarMinuscule, ".cle(", varSupprimer, ");");
+									tl(5, champ.contexteEnfant.nomVarMinuscule, ".sauvegardesPourClasse(requeteSite);");
+									tl(5, champ.contexteEnfant.nomVarMinuscule, ".initLoinPourClasse(requeteSite);");
+									tl(5, champ.contexteEnfant.nomVarMinuscule, ".indexerPourClasse(requeteSite);");
+									tl(4, "}");
+									tl(3, "}");
+									tl(2, "}");
+								}
+						}	
 						o = oAvant;
 					}
 				}
@@ -643,6 +1299,9 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			if(o != null) {
 				if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeCheminGen)) {
 
+					///////////////////////////
+					// codeIninitLoin //
+					///////////////////////////
 					oAvant = o;
 					o = codeInitialiserLoin;
 					tl(3, "dejaInitialise", classeNomSimple, " = true;");
@@ -655,6 +1314,135 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 						tl(1, "}");  
 					}
 					o = oAvant; 
+
+					/////////////////
+					// codeIndexer //
+					/////////////////
+					oAvant = o;
+					wIndexer = new StringWriter();
+					codeIndexer = new PrintWriter(wIndexer);
+					o = codeIndexer;
+					if(ecrireIndexer) {
+						if(ecrireIndexer && classeEtendBase && !classeEstBase) {
+							tl(2, "super.indexer", classeNomSimpleBase, "(document);");
+							tl(0);
+						}
+						l("\t}");
+
+						if(varCleUnique.pasVide()) {
+							tl(0);
+							tl(1, "@Test public void desindexer", classeNomSimple, "Test() throws Exception {");
+							tl(2, "RequeteSite requeteSite = new RequeteSite();");
+							tl(2, "requeteSite.initLoinRequeteSite();");
+							tl(2, "EcouteurContexte ecouteurContexte = new EcouteurContexte();");
+							tl(2, "ecouteurContexte.initLoinEcouteurContexte();");
+							tl(2, "ecouteurContexte.requeteSite(requeteSite);");
+							tl(2, "requeteSite.ecouteurContexte(ecouteurContexte);");
+							tl(2, "requeteSite.configSite(ecouteurContexte.configSite);");
+							tl(2, "initLoin", classeNomSimple, "(ecouteurContexte.requeteSite);");
+							tl(2, "SolrClient clientSolr = ecouteurContexte.clientSolr;");
+							tl(2, "clientSolr.deleteById(", varCleUnique, ".toString());");
+							tl(2, "clientSolr.commit();");
+							tl(1, "}");
+						}
+					}
+					o = oAvant;
+
+					/////////////////
+					// codeObtenir //
+					/////////////////
+					oAvant = o;
+					wObtenir = new StringWriter();
+					codeObtenir = new PrintWriter(wObtenir);
+					o = codeObtenir;
+					if(classeEtendBase) {
+						tl(2, "default:");
+
+						if(classeEstBase)
+							tl(3, "return null;");
+						else
+							tl(3, "return super.obtenir", classeNomSimpleBase, "(var);");
+
+						tl(2, "}");
+						tl(1, "}");
+					}	
+					o = oAvant;
+
+					///////////////////
+					// codeAttribuer //
+					///////////////////
+					oAvant = o;
+					wAttribuer = new StringWriter();
+					codeAttribuer = new PrintWriter(wAttribuer);
+					o = codeAttribuer;
+					if(classeEtendBase) {
+						tl(2, "default:");
+
+						if(classeEstBase)
+							tl(3, "return null;");
+						else
+							tl(3, "return super.attribuer", classeNomSimpleBase, "(var, val);");
+
+						tl(2, "}");
+						tl(1, "}");
+
+					}	
+					o = oAvant;
+
+					/////////////////
+					// codeDefinir //
+					/////////////////
+					oAvant = o;
+					wDefinir = new StringWriter();
+					codeDefinir = new PrintWriter(wDefinir);
+					o = codeDefinir;
+					if(classeEtendBase) {
+						tl(2, "default:");
+
+						if(classeEstBase)
+							tl(3, "return null;");
+						else
+							tl(3, "return super.definir", classeNomSimpleBase, "(var, val);");
+
+						tl(2, "}");
+						tl(1, "}");
+					}	
+					o = oAvant;
+
+					/////////////////
+					// codePeupler //
+					/////////////////
+					oAvant = o;
+					wPeupler = new StringWriter();
+					codePeupler = new PrintWriter(wPeupler);
+					o = codePeupler;
+					if(classeSauvegarde) {
+//						t(2, "}");
+
+						if(!classeNomSimple.equals("Cluster")) {
+							tl(0);
+							tl(2, "super.peupler", classeNomSimpleBase, "(documentSolr);");
+						}
+
+						tl(1, "}");
+					}	
+					o = oAvant;
+
+					/////////////////////
+					// codeSauvegarder //
+					/////////////////////
+					oAvant = o;
+					wSauvegarder = new StringWriter();
+					codeSauvegarder = new PrintWriter(wSauvegarder);
+					o = codeSauvegarder;
+					if(classeSauvegarde) {
+						if(!classeNomSimple.equals("Cluster")) {
+							tl(0);
+							tl(2, "super.sauvegarder", classeNomSimpleBase + "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
+						}
+						tl(1, "}");
+					}	
+					o = oAvant;
 
 					codeInitialiserLoin.flush();
 					codeInitialiserLoin.flush();
@@ -669,977 +1457,4 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			}
 		} 
 	}  
-// 
-//	/**	Récupérer les enregistrements de la classe à partir du moteur de recherche, 
-//	 *	traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
-//	 */
-//	protected void  ecrireClasseGen(QueryResponse reponseRecherche, String langueNom) throws Exception { 
-//		SolrDocumentList listeRecherche = reponseRecherche.getResults();
-//
-//		if(listeRecherche.size() > 0 && (langueIndexe || !StringUtils.equals(langueNom, this.langueNom))) {    
-//			String classeCheminRepertoireGen = null;
-//			String classeCheminGen = null; 
-//			File classeRepertoire = null;
-//			File classeFichier = null;
-//			StringBuilder s = new StringBuilder();
-//			
-//			String classeNomSimpleGen = null;
-//			String classeNomSimpleSuper = null;    
-//			String classeNomEnsemble = null;      
-//	
-//			for(int i = 0; i < listeRecherche.size(); i++) {
-//				SolrDocument doc = listeRecherche.get(i); 
-//				Integer partNumero = (Integer)doc.get("partNumero_stored_int");
-//				if(partNumero.equals(1)) {
-//					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stored_string");
-//					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stored_string"); 
-//					classeRepertoire = new File(classeCheminRepertoireGen);
-//					classeRepertoire.mkdirs();
-//					classeFichier = new File(classeCheminGen);
-//					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
-//					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stored_string");
-//					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
-//		
-//					s("package ", classeNomEnsemble, ";\n\n");
-//					s("public class ", classeNomSimpleGen, " extends ", classeNomSimpleSuper);
-//					s(" {\n");
-//					s("\n"); 
-//				} 
-//				else {
-//					Boolean partEstChamp = (Boolean)doc.get("partEstChamp_stored_boolean");
-//					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stored_boolean");
-//					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
-//					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
-//					String champVar = (String)doc.get("champVar_" + langueNom + "_stored_string");
-//	
-//					if(BooleanUtils.isTrue(partEstChamp)) {
-//						s("\t");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stored_boolean")))
-//							s("public ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stored_boolean")))
-//							s("protege ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPrive_stored_boolean")))
-//							s("prive ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("champEstStatique_stored_boolean")))
-//							s("static ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("champEstFinale_stored_boolean")))
-//							s("final ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("champEstAbstrait_stored_boolean")))
-//							s("abstract ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("champEstNatif_stored_boolean")))
-//							s("native ");
-//						s(";\n");
-//					}     
-//	
-//					if(BooleanUtils.isTrue(partEstMethode)) {
-//						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
-//						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stored_string");
-//						s("\t");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stored_boolean")))
-//							s("public ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstProtege_stored_boolean")))
-//							s("protected ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPrive_stored_boolean")))
-//							s("private ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstStatique_stored_boolean")))
-//							s("static ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstFinale_stored_boolean")))
-//							s("final ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstAbstrait_stored_boolean")))
-//							s("abstract ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstNatif_stored_boolean")))
-//							s("native ");
-//						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstVide_stored_boolean")))
-//							s("void ");
-//						else
-//							s((String)doc.get("methodeNomSimpleComplet_stored_string"), " ");
-//						s(methodeVar);
-//						s("(");
-//						s(")");
-//						s(" {");
-//						s(methodeCodeSource);
-//						s("}\n\n");
-//					} 
-//				}
-//			}
-//			s("}\n");
-//			FileUtils.write(classeFichier, s, Charset.forName("UTF-8"));  
-//		} 
-//	}
-//
-//	public void ecrireChampJava(SolrDocument doc) throws Exception {
-//		boolean exact = BooleanUtils.isTrue((Boolean)doc.get("entiteExact_stored_boolean"));
-//		boolean cleUnique = BooleanUtils.isTrue((Boolean)doc.get("entiteCleUnique_stored_boolean"));
-//		boolean indexe = BooleanUtils.isTrue((Boolean)doc.get("entiteIndexe_stored_boolean"));
-//		boolean stocke = BooleanUtils.isTrue((Boolean)doc.get("entiteStocke_stored_boolean"));
-//		boolean crypte = BooleanUtils.isTrue((Boolean)doc.get("entiteCrypte_stored_boolean"));
-//		boolean suggere = BooleanUtils.isTrue((Boolean)doc.get("entiteSuggere_stored_boolean"));
-//		boolean sauvegarde = BooleanUtils.isTrue((Boolean)doc.get("entiteSauvegarde_stored_boolean"));
-//		boolean texte = BooleanUtils.isTrue((Boolean)doc.get("entiteTexte_stored_boolean"));
-//		boolean incremente = BooleanUtils.isTrue((Boolean)doc.get("entiteNomAffichage_stored_boolean"));
-//		boolean nomAffichage = BooleanUtils.isTrue((Boolean)doc.get("entiteNomAffichage_stored_boolean"));
-//		boolean ignorer = BooleanUtils.isTrue((Boolean)doc.get("entiteIgnorer_stored_boolean"));
-//		boolean declarer = BooleanUtils.isTrue((Boolean)doc.get("entiteDeclarer_stored_boolean"));
-//		boolean rechercher = BooleanUtils.isTrue((Boolean)doc.get("entiteRechercher_stored_boolean"));
-//		boolean attribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
-//		boolean ajouter = BooleanUtils.isTrue((Boolean)doc.get("entiteAjouter_stored_boolean"));
-//		boolean supprimer = BooleanUtils.isTrue((Boolean)doc.get("entiteSupprimer_stored_boolean"));
-//		boolean modifier = BooleanUtils.isTrue((Boolean)doc.get("entiteModifier_stored_boolean"));
-//		boolean recharger = BooleanUtils.isTrue((Boolean)doc.get("entiteRecharger_stored_boolean"));
-//		boolean multiligne = BooleanUtils.isTrue((Boolean)doc.get("entiteMultiligne_stored_boolean"));
-//		boolean cles = BooleanUtils.isTrue((Boolean)doc.get("entiteCles_stored_boolean"));
-//
-//		String var;
-//		String nomCanoniqueContexteEnfant;
-//		String nomCanonique;
-//		String nomCanoniqueGenerique;
-//		String nomCompletGenerique;
-//		String nomSimpleGenerique;
-//		String nomCanoniqueComplet;
-//
-//		if(!ignorer) {
-//			if(attribuer || ajouter || supprimer || recharger || cles || rechercher) {
-//				o.tabLigne(0);
-//				o.tabLigne(1, "protected void _", var, "Contexte(", nomCanoniqueContexteEnfant, " o) throws Exception {}");
-//			}
-//			o.tabLigne(0);
-//			o.tabLigne(1, "protected void _", var, "Champ(ChampJava o) throws Exception {");
-//			o.tabLigne(2, "o.var.enUS(\"", var.enUS(), "\");");
-//			o.tabLigne(2, "o.var.frFR(\"", var.frFR(), "\");");
-//	
-//			if(nomCanonique.commencePar("org.computate")) {
-//				o.tabLigne(2, "o.nomCanonique.enUS(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanonique.enUS(), "org.computate"), "\");");
-//				o.tabLigne(2, "o.nomCanonique.frFR(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanonique.frFR(), "org.computate"), "\");");
-//			}
-//			else if(nomCanonique.pasVide()) {
-//				o.tabLigne(2, "o.nomCanonique.tout(\"", nomCanonique, "\");");
-//			}
-//	
-//			if(nomCanoniqueGenerique.pasVide()) {
-//				if(nomCanoniqueGenerique.commencePar("org.computate")) {
-//					o.tabLigne(2, "o.nomCanoniqueGenerique.enUS(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanoniqueGenerique.enUS(), "org.computate"), "\");");
-//					o.tabLigne(2, "o.nomCanoniqueGenerique.frFR(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanoniqueGenerique.frFR(), "org.computate"), "\");");
-//				}
-//				else if(nomCanoniqueGenerique.pasVide()) {
-//					o.tabLigne(2, "o.nomCanoniqueGenerique.enUS(\"", nomCanoniqueGenerique.enUS(), "\");");
-//					o.tabLigne(2, "o.nomCanoniqueGenerique.frFR(\"", nomCanoniqueGenerique.frFR(), "\");");
-//				}
-//			}
-//	
-//			if(nomCompletGenerique.pasVide()) {
-//				if(nomCompletGenerique.commencePar("org.computate")) {
-//					o.tabLigne(2, "o.nomCompletGenerique.enUS(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCompletGenerique.enUS(), "org.computate"), "\");");
-//					o.tabLigne(2, "o.nomCompletGenerique.frFR(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCompletGenerique.frFR(), "org.computate"), "\");");
-//				}
-//				else if(nomCompletGenerique.pasVide()) {
-//					o.tabLigne(2, "o.nomCompletGenerique.enUS(\"", nomCompletGenerique.enUS(), "\");");
-//					o.tabLigne(2, "o.nomCompletGenerique.frFR(\"", nomCompletGenerique.frFR(), "\");");
-//				}
-//			}
-//	
-//			if(nomSimpleGenerique.pasVide()) {
-//				if(nomSimpleGenerique.commencePar("org.computate")) {
-//					o.tabLigne(2, "o.nomSimpleGenerique.enUS(\"", nomSimpleGenerique.enUS(), "\");");
-//					o.tabLigne(2, "o.nomSimpleGenerique.frFR(\"", nomSimpleGenerique.frFR(), "\");");
-//				}
-//				else if(nomSimpleGenerique.pasVide()) {
-//					o.tabLigne(2, "o.nomSimpleGenerique.enUS(\"", nomSimpleGenerique.enUS(), "\");");
-//					o.tabLigne(2, "o.nomSimpleGenerique.frFR(\"", nomSimpleGenerique.frFR(), "\");");
-//				}
-//			} 
-//	
-//			if(nomCanoniqueComplet.pasVide()) {
-//				if(nomCanonique.commencePar("org.computate")) {
-//					o.tab(2, "o.nomCanoniqueComplet.enUS(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanonique.enUS(), "org.computate"));
-//					if(nomCanoniqueGenerique.pasVide()) {
-//						o.tout("<");
-//						if(nomCanoniqueGenerique.commencePar("org.computate")) {
-//							o.tout("\", cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanoniqueGenerique.enUS(), "org.computate"));
-//						}
-//						else if(nomCanoniqueGenerique.pasVide()) {
-//							o.tout(nomCanoniqueGenerique.enUS());
-//						}
-//						o.tout(">");
-//					}
-//					o.toutLigne("\");");
-//					o.tab(2, "o.nomCanoniqueComplet.frFR(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanonique.frFR(), "org.computate"));
-//					if(nomCanoniqueGenerique.pasVide()) {
-//						o.tout("<");
-//						if(nomCanoniqueGenerique.commencePar("org.computate")) {
-//							o.tout("\", cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanoniqueGenerique.frFR(), "org.computate"));
-//						}
-//						else if(nomCanoniqueGenerique.pasVide()) {
-//							o.tout(nomCanoniqueGenerique.frFR());
-//						}
-//						o.tout(">");
-//					}
-//					o.toutLigne("\");");
-//				}
-//				else if(nomCanonique.pasVide()) {
-//					o.tab(2, "o.nomCanoniqueComplet.enUS(\"", nomCanonique.enUS());
-//					if(nomCanoniqueGenerique.pasVide()) {
-//						o.tout("<");
-//						if(nomCanoniqueGenerique.commencePar("org.computate")) {
-//							o.tout("\", cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanoniqueGenerique.enUS(), "org.computate"));
-//						}
-//						else if(nomCompletGenerique.pasVide()) {
-//							o.tout(nomCompletGenerique.enUS());
-//						}
-//						o.tout(">");
-//					}
-//					o.toutLigne("\");");
-//					o.tab(2, "o.nomCanoniqueComplet.frFR(\"", nomCanonique.frFR());
-//					if(nomCanoniqueGenerique.pasVide()) {
-//						o.tout("<");
-//						if(nomCanoniqueGenerique.commencePar("org.computate")) {
-//							o.tout("\", cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanoniqueGenerique.frFR(), "org.computate"));
-//						}
-//						else if(nomCompletGenerique.pasVide()) {
-//							o.tout(nomCompletGenerique.frFR());
-//						}
-//						o.tout(">");
-//					}
-//					o.toutLigne("\");");
-//				}
-//			}
-//	
-//			if(nomSimpleComplet.pasVide()) {
-//				o.tab(2, "o.nomSimpleComplet.enUS(\"", nomSimple.enUS());
-//				if(nomCanoniqueGenerique.pasVide()) {
-//					o.tout("<");
-//					o.tout(nomSimpleCompletGenerique.enUS());
-//					o.tout(">");
-//				}
-//				o.toutLigne("\");");
-//				o.tab(2, "o.nomSimpleComplet.frFR(\"", nomSimple.frFR());
-//				if(nomCanoniqueGenerique.pasVide()) {
-//					o.tout("<");
-//					o.tout(nomSimpleCompletGenerique.frFR());
-//					o.tout(">");
-//				}
-//				o.toutLigne("\");");
-//			}
-//	
-//			if(nomSimpleCompletGenerique.pasVide()) {
-//				o.tab(2, "o.nomSimpleCompletGenerique.enUS(\"", nomSimpleCompletGenerique.enUS());
-//				o.toutLigne("\");");
-//				o.tab(2, "o.nomSimpleCompletGenerique.frFR(\"", nomSimpleCompletGenerique.frFR());
-//				o.toutLigne("\");");
-//			}
-//	
-//			if(nomCanoniqueBase.pasVide() && !nomCanoniqueBase.toString().equals("java.lang.Object")) {
-//				if(nomCanoniqueBase.commencePar("org.computate")) {
-//					o.tabLigne(2, "o.nomCanoniqueBase.enUS(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanoniqueBase.enUS(), "org.computate"), "\");");
-//					o.tabLigne(2, "o.nomCanoniqueBase.frFR(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomCanoniqueBase.frFR(), "org.computate"), "\");");
-//				}
-//				else if(nomCanoniqueBase.pasVide()) {
-//					o.tabLigne(2, "o.nomCanoniqueBase.enUS(\"", nomCanoniqueBase.enUS(), "\");");
-//					o.tabLigne(2, "o.nomCanoniqueBase.frFR(\"", nomCanoniqueBase.frFR(), "\");");
-//				}
-//			}
-//	
-//			if(nomSimpleBase.pasVide() && !nomCanoniqueBase.toString().equals("java.lang.Object")) {
-//				if(nomCanoniqueBase.commencePar("org.computate")) {
-//					o.tabLigne(2, "o.nomSimpleBase.enUS(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomSimpleBase.enUS(), "org.computate"), "\");");
-//					o.tabLigne(2, "o.nomSimpleBase.frFR(cours.nomEnsembleSite, \"", StringUtils.substringAfter(nomSimpleBase.frFR(), "org.computate"), "\");");
-//				}
-//				else if(nomCanoniqueBase.pasVide()) {
-//					o.tabLigne(2, "o.nomSimpleBase.enUS(\"", nomSimpleBase.enUS(), "\");");
-//					o.tabLigne(2, "o.nomSimpleBase.frFR(\"", nomSimpleBase.frFR(), "\");");
-//				}
-//			}
-//	
-//			if(nomCanonique.commencePar("org.computate")) {
-//				o.tabLigne(2, "o.nomSimple.enUS(\"", nomSimple.enUS(), "\");");
-//				o.tabLigne(2, "o.nomSimple.frFR(\"", nomSimple.frFR(), "\");");
-//			}
-//			else if(nomCanonique.pasVide()) {
-//				o.tabLigne(2, "o.nomSimple.enUS(\"", nomSimple.enUS(), "\");");
-//				o.tabLigne(2, "o.nomSimple.frFR(\"", nomSimple.frFR(), "\");");
-//			}
-//	
-//			if(!StringUtils.equals(paramVar.toString(), "o")) {
-//				o.tabLigne(2, "o.paramVar.tout(\"", paramVar, "\");");
-//			}
-//	
-//			if(typeSolr.pasVide()) {
-//				o.tabLigne(2, "o.typeSolr.tout(\"", typeSolr, "\");");
-//			}
-//
-//			if(etendPageXml)
-//				o.tabLigne(2, "o.etendPageXml(", etendPageXml, ");");
-//			if(etendPageParti)
-//				o.tabLigne(2, "o.etendPageParti(", etendPageParti, ");");
-//			if(etendCluster)
-//				o.tabLigne(2, "o.etendCluster(", etendCluster, ");");
-//			if(listePageXml)
-//				o.tabLigne(2, "o.listePageXml(", listePageXml, ");");
-//			if(listePageParti)
-//				o.tabLigne(2, "o.listePageParti(", listePageParti, ");");
-//			if(listeCluster)
-//				o.tabLigne(2, "o.listeCluster(", listeCluster, ");");
-//
-//			if(cleUnique)
-//				o.tabLigne(2, "o.cleUnique(", cleUnique, ");");
-//			if(indexe)
-//				o.tabLigne(2, "o.indexe(", indexe, ");");
-//			if(stocke)
-//				o.tabLigne(2, "o.stocke(", stocke, ");");
-//			if(crypte)
-//				o.tabLigne(2, "o.crypte(", crypte, ");");
-//			if(suggere)
-//				o.tabLigne(2, "o.suggere(", suggere, ");");
-//			if(sauvegarde)
-//				o.tabLigne(2, "o.sauvegarde(", sauvegarde, ");");
-//			if(texte)
-//				o.tabLigne(2, "o.texte(", texte, ");");
-//			if(enUS)
-//				o.tabLigne(2, "o.enUS(", enUS, ");");
-//			if(frFR)
-//				o.tabLigne(2, "o.frFR(", frFR, ");");
-//			if(incremente)
-//				o.tabLigne(2, "o.incremente(", incremente, ");");
-//			if(nomAffichage != null) {
-//				o.tabLigne(2, "o.nomAffichage.enUS(\"", nomAffichage.enUS().replace("\"", "\\\""), "\");");
-//				o.tabLigne(2, "o.nomAffichage.frFR(\"", nomAffichage.frFR().replace("\"", "\\\""), "\");");
-//			}
-//			if(declarer) {
-//				o.tabLigne(2, "o.declarer(", declarer, ");");
-//			}
-//			if(rechercher) {
-//				o.tabLigne(2, "o.rechercher(", rechercher, ");");
-//			}
-//			if(attribuer) {
-//				o.tabLigne(2, "o.attribuer(", attribuer, ");");
-//			}
-//			if(ajouter) {
-//				o.tabLigne(2, "o.ajouter(", ajouter, ");");
-//			}
-//			if(supprimer) {
-//				o.tabLigne(2, "o.supprimer(", supprimer, ");");
-//			}
-//			if(modifier) {
-//				o.tabLigne(2, "o.modifier(", modifier, ");");
-//			}
-//			if(recharger) {
-//				o.tabLigne(2, "o.recharger(", recharger, ");");
-//			}
-//			if(multiligne) {
-//				o.tabLigne(2, "o.multiligne(", multiligne, ");");
-//			}
-//			if(cles) {
-//				o.tabLigne(2, "o.cles(", cles, ");");
-//			}
-//			if(attribuer || ajouter || supprimer || recharger || cles || rechercher) {
-//				o.tabLigne(2, "o.contexteEnfant(", var, "Contexte);");
-//				o.tabLigne(2, "o.contexteParent(classeContexte);");
-//			}
-//			if(couverture)
-//				o.tabLigne(2, "o.couverture(", couverture, ");");
-//			if(!triAscendant)
-//				o.tabLigne(2, "o.triAscendant(", triAscendant, ");");
-//			if(initialise)
-//				o.tabLigne(2, "o.initialise(", initialise, ");");
-//			if(initLoin)
-//				o.tabLigne(2, "o.initLoin(", initLoin, ");");
-//			if(contientRequeteSite)
-//				o.tabLigne(2, "o.contientRequeteSite(", contientRequeteSite, ");");
-//			if(contientSetterString)
-//				o.tabLigne(2, "o.contientSetterString(", contientSetterString, ");");
-//			if(methodeInitialiserRemplace)
-//				o.tabLigne(2, "o.methodeInitialiserRemplace(", methodeInitialiserRemplace, ");");
-//			if(methodeRechercheRemplace)
-//				o.tabLigne(2, "o.methodeRechercheRemplace(", methodeRechercheRemplace, ");");
-//	
-//			if(varCleUnique.pasVide()) {
-//				o.tabLigne(2, "o.varCleUnique.enUS(\"", varCleUnique.enUS(), "\");");
-//				o.tabLigne(2, "o.varCleUnique.frFR(\"", varCleUnique.frFR(), "\");");
-//			}
-//			if(varSuggere.pasVide()) {
-//				o.tabLigne(2, "o.varSuggere.enUS(\"", varSuggere.enUS(), "\");");
-//				o.tabLigne(2, "o.varSuggere.frFR(\"", varSuggere.frFR(), "\");");
-//			}
-//			if(varSuggereEnUS.pasVide()) {
-//				o.tabLigne(2, "o.varSuggereEnUS.enUS(\"", varSuggereEnUS.enUS(), "\");");
-//				o.tabLigne(2, "o.varSuggereEnUS.frFR(\"", varSuggereEnUS.frFR(), "\");");
-//			}
-//			if(varSuggereFrFR.pasVide()) {
-//				o.tabLigne(2, "o.varSuggereFrFR.enUS(\"", varSuggereFrFR.enUS(), "\");");
-//				o.tabLigne(2, "o.varSuggereFrFR.frFR(\"", varSuggereFrFR.frFR(), "\");");
-//			}
-//			if(varIncremente.pasVide()) {
-//				o.tabLigne(2, "o.varIncremente.enUS(\"", varIncremente.enUS(), "\");");
-//				o.tabLigne(2, "o.varIncremente.frFR(\"", varIncremente.frFR(), "\");");
-//			}
-//			if(varCrypte.pasVide()) {
-//				o.tabLigne(2, "o.varCrypte.enUS(\"", varCrypte.enUS(), "\");");
-//				o.tabLigne(2, "o.varCrypte.frFR(\"", varCrypte.frFR(), "\");");
-//			}
-//			if(varIndexe.pasVide()) {
-//				o.tabLigne(2, "o.varIndexe.enUS(\"", varIndexe.enUS(), "\");");
-//				o.tabLigne(2, "o.varIndexe.frFR(\"", varIndexe.frFR(), "\");");
-//			}
-//			if(varIndexeEnUS.pasVide()) {
-//				o.tabLigne(2, "o.varIndexeEnUS.enUS(\"", varIndexeEnUS.enUS(), "\");");
-//				o.tabLigne(2, "o.varIndexeEnUS.frFR(\"", varIndexeEnUS.frFR(), "\");");
-//			}
-//			if(varIndexeFrFR.pasVide()) {
-//				o.tabLigne(2, "o.varIndexeFrFR.enUS(\"", varIndexeFrFR.enUS(), "\");");
-//				o.tabLigne(2, "o.varIndexeFrFR.frFR(\"", varIndexeFrFR.frFR(), "\");");
-//			}
-//			if(varStocke.pasVide()) {
-//				o.tabLigne(2, "o.varStocke.enUS(\"", varStocke.enUS(), "\");");
-//				o.tabLigne(2, "o.varStocke.frFR(\"", varStocke.frFR(), "\");");
-//			}
-//			if(varStockeAvantLangue.pasVide()) {
-//				o.tabLigne(2, "o.varStockeAvantLangue.enUS(\"", varStockeAvantLangue.enUS(), "\");");
-//				o.tabLigne(2, "o.varStockeAvantLangue.frFR(\"", varStockeAvantLangue.frFR(), "\");");
-//			}
-//			if(varStockeApresLangue.pasVide()) {
-//				o.tabLigne(2, "o.varStockeApresLangue.enUS(\"", varStockeApresLangue.enUS(), "\");");
-//				o.tabLigne(2, "o.varStockeApresLangue.frFR(\"", varStockeApresLangue.frFR(), "\");");
-//			}
-//			if(varStockeEnUS.pasVide()) {
-//				o.tabLigne(2, "o.varStockeEnUS.enUS(\"", varStockeEnUS.enUS(), "\");");
-//				o.tabLigne(2, "o.varStockeEnUS.frFR(\"", varStockeEnUS.frFR(), "\");");
-//			}
-//			if(varStockeFrFR.pasVide()) {
-//				o.tabLigne(2, "o.varStockeFrFR.enUS(\"", varStockeFrFR.enUS(), "\");");
-//				o.tabLigne(2, "o.varStockeFrFR.frFR(\"", varStockeFrFR.frFR(), "\");");
-//			}
-//	
-//			Boolean remplacerComputate = StringUtils.equals("true", classe_.regex("remplacerComputate:\\s*(.*)", commentaireQdox, 1));
-//			if(codeSource.pasVide()) {
-//				o.tabLigne(0);
-//				{
-//					o.tabLigne(2, "o.codeSource");
-//					String[] lignes = codeSource.frFR().split("\n");
-//					for(int i = 0; i < lignes.length; i++) {
-//						String ligne = lignes[i];
-//						Boolean dernier = i + 1 == lignes.length;
-//						Integer tabulations = StringUtils.countMatches(ligne, "\t");
-//						if(remplacerComputate) {
-//							if(dernier)
-//								o.tabLigne(3, ".frFRTab(", tabulations, ").frFR(\"", StringUtils.replace(StringUtils.replace(StringUtils.replace(ligne.substring(tabulations), "\\", "\\\\"), "\"", "\\\""), "computate.org", "\", cours.nomDomaine, \""), "\");");
-//							else
-//								o.tabLigne(3, ".frFRTab(", tabulations, ").frFRLigne(\"", StringUtils.replace(StringUtils.replace(StringUtils.replace(ligne.substring(tabulations), "\\", "\\\\"), "\"", "\\\""), "computate.org", "\", cours.nomDomaine, \""), "\")");
-//						}
-//						else {
-//							if(dernier)
-//								o.tabLigne(3, ".frFRTab(", tabulations, ").frFR(\"", StringUtils.replace(StringUtils.replace(ligne.substring(tabulations), "\\", "\\\\"), "\"", "\\\""), "\");");
-//							else
-//								o.tabLigne(3, ".frFRTab(", tabulations, ").frFRLigne(\"", StringUtils.replace(StringUtils.replace(ligne.substring(tabulations), "\\", "\\\\"), "\"", "\\\""), "\")");
-//						}
-//					}
-//				}
-//				{
-//					o.tabLigne(2, "o.codeSource");
-//					String[] lignes = codeSource.enUS().split("\n");
-//					for(int i = 0; i < lignes.length; i++) {
-//						String ligne = lignes[i];
-//						Boolean dernier = i + 1 == lignes.length;
-//						Integer tabulations = StringUtils.countMatches(ligne, "\t");
-//						if(remplacerComputate) {
-//							if(dernier)
-//								o.tabLigne(3, ".enUSTab(", tabulations, ").enUS(\"", StringUtils.replace(StringUtils.replace(StringUtils.replace(ligne.substring(tabulations), "\\", "\\\\"), "\"", "\\\""), "computate.org", "\", cours.nomDomaine, \""), "\");");
-//							else
-//								o.tabLigne(3, ".enUSTab(", tabulations, ").enUSLigne(\"", StringUtils.replace(StringUtils.replace(StringUtils.replace(ligne.substring(tabulations), "\\", "\\\\"), "\"", "\\\""), "computate.org", "\", cours.nomDomaine, \""), "\")");
-//						}
-//						else {
-//							if(dernier)
-//								o.tabLigne(3, ".enUSTab(", tabulations, ").enUS(\"", StringUtils.replace(StringUtils.replace(ligne.substring(tabulations), "\\", "\\\\"), "\"", "\\\""), "\");");
-//							else
-//								o.tabLigne(3, ".enUSTab(", tabulations, ").enUSLigne(\"", StringUtils.replace(StringUtils.replace(ligne.substring(tabulations), "\\", "\\\\"), "\"", "\\\""), "\")");
-//						}
-//					}
-//				}
-//			}
-//	
-//			if(commentaire.pasVide()) {
-//				o.tabLigne(0);
-//				{
-//					o.tabLigne(2, "if(requeteSite.frFR()) {");
-//					o.tabLigne(3, "o.commentaire");
-//					String[] lignes = commentaire.frFR().split("\n");
-//					for(int i = 0; i < lignes.length; i++) {
-//						String ligne = lignes[i];
-//						Boolean dernier = i + 1 == lignes.length;
-//						Integer tabulations = StringUtils.countMatches(ligne, "\t");
-//						if(dernier)
-//							o.tabLigne(4, ".tab(", tabulations, ", \"", StringUtils.replaceEach(ligne.substring(tabulations), new String[] {"\\", "\""}, new String[] {"\\\\", "\\\""}), "\");");
-//						else
-//							o.tabLigne(4, ".tabLigne(", tabulations, ", \"", StringUtils.replaceEach(ligne.substring(tabulations), new String[] {"\\", "\""}, new String[] {"\\\\", "\\\""}), "\")");
-//					}
-//					o.tabLigne(2, "}");
-//				}
-//				{
-//					o.tabLigne(2, "else {");
-//					o.tabLigne(3, "o.commentaire");
-//					String[] lignes = commentaire.enUS().split("\n");
-//					for(int i = 0; i < lignes.length; i++) {
-//						String ligne = lignes[i];
-//						Boolean dernier = i + 1 == lignes.length;
-//						Integer tabulations = StringUtils.countMatches(ligne, "\t");
-//						if(dernier)
-//							o.tabLigne(4, ".tab(", tabulations, ", \"", StringUtils.replaceEach(ligne.substring(tabulations), new String[] {"\\", "\""}, new String[] {"\\\\", "\\\""}), "\");");
-//						else
-//							o.tabLigne(4, ".tabLigne(", tabulations, ", \"", StringUtils.replaceEach(ligne.substring(tabulations), new String[] {"\\", "\""}, new String[] {"\\\\", "\\\""}), "\")");
-//					}
-//					o.tabLigne(2, "}");
-//				}
-//			}
-//	
-//			o.tabLigne(1, "}");
-//		}
-//	}
-//
-//	public void ecrireUnderscoreMethode(Chaine o, UneClasse classe) throws Exception {
-//		if(!nul && initialise) {
-//			// Préparer commentaire //
-//			Chaine comment = new Chaine();
-//			comment.requeteSite(requeteSite);
-//			comment.tout("\t/**\t");
-//			comment.enUS(StringUtils.trim(commentaire.enUS()).replaceAll("\n(\\s*\\S.*)", "\n\t *\t<br/>$1"));
-//			comment.frFR(StringUtils.trim(commentaire.frFR()).replaceAll("\n(\\s*\\S.*)", "\n\t *\t<br/>$1"));
-//			comment.tout(" **/\n");
-//	
-//			// Underscore méthode //
-//			o.toutLigne();
-//			o.tout(comment);
-//			if(couverture)
-//				o.toutLigne("\tprotected void _", varComplet, "(", classe.nomSimpleUneCouverture, "<", nomSimpleComplet, "> c) throws Exception {");
-//			else
-//				o.toutLigne("\tprotected void _", varComplet, "(", nomSimpleComplet + " " + paramVar, ") throws Exception {");
-////			o.tout(methodeJava.frFR().replaceAll("^(\\s*\\S.*)", "\t\t$1").replaceAll("\n(\\s*\\S.*)", "\n\t\t$1"));
-//			o.tout(codeSource);
-//			o.toutLigne("\t}");
-//		}
-//		o.tout(methodeJavaApres);
-//	}
-//
-//	public void ecrireUnderscoreMethodeAbstrait(Chaine o, UneClasse classe) throws Exception {
-//		if(!nul && initialise) {
-//			// Préparer commentaire //
-//			Chaine comment = new Chaine();
-//			comment.requeteSite(requeteSite);
-//			comment.tout("\t/**\t");
-//			comment.enUS(StringUtils.trim(commentaire.enUS()).replaceAll("\n(\\s*\\S.*)", "\n\t *\t<br/>$1"));
-//			comment.frFR(StringUtils.trim(commentaire.frFR()).replaceAll("\n(\\s*\\S.*)", "\n\t *\t<br/>$1"));
-//			comment.tout(" **/\n");
-//	
-//			// Underscore méthode //
-//			if(couverture)
-//				o.toutLigne("\tprotected abstract void _", varComplet, "(", classe.nomSimpleUneCouverture, "<", nomSimpleComplet, "> c) throws Exception;");
-//			else
-//				o.toutLigne("\tprotected abstract void _", varComplet, "(", nomSimpleComplet + " " + paramVar, ") throws Exception;");
-//		}
-//		o.tout(methodeJavaApres);
-//	}
-//
-//	public void ecrireChamp(Chaine o, UneClasse classe) throws Exception {
-//		// Préparer commentaire //
-//		Chaine comment = new Chaine();
-//		comment.requeteSite(requeteSite);
-//		comment.tout("\t/**\t");
-//		comment.enUS(StringUtils.trim(commentaire.enUS()).replaceAll("\n(\\s*\\S.*)", "\n\t *\t<br/>$1"));
-//		comment.frFR(StringUtils.trim(commentaire.frFR()).replaceAll("\n(\\s*\\S.*)", "\n\t *\t<br/>$1"));
-//		comment.tout(" **/\n");
-//
-//		// Préparer ligne //
-//		Chaine ligne = new Chaine();
-//		ligne.enUS("\t///", String.join("", Collections.nCopies(varComplet.enUS().length(), "/")), "///");
-//		ligne.frFR("\t///", String.join("", Collections.nCopies(varComplet.frFR().length(), "/")), "///");
-//
-//		// Ligne //
-//		o.toutLigne("");
-//		o.toutLigne(ligne);
-//		o.toutLigne("\t// ", varComplet, " //");
-//		o.toutLigne(ligne);
-//		o.toutLigne("");
-//
-//		// Champ //
-//		o.tout(comment);
-//		o.tout("\tpublic ", nomSimpleComplet, " ", var);
-//		if(couverture) 
-//			o.toutLigne(" = null;"); 
-//		else if(nul) {
-//			o.tout(" = ");
-//
-//			if(val.enUS.isEmpty())
-//				o.tout("null");
-//			else
-//				o.tout(val);
-//
-//			o.toutLigne(";"); 
-//		}
-//		else o.toutLigne(" = new ", nomSimpleComplet, "();");
-//
-//		// Couverture //
-//		if(!nul) {
-//			o.tout(comment);
-//			o.tout("\tpublic ", classe.nomSimpleUneCouverture, "<", nomSimpleComplet, "> ", varComplet, classe.varCouvertureCapitalise);
-////			o.toutLigne(" = new ", classe.nomSimpleUneCouverture, "<", nomSimpleComplet, ">(this, ", nomSimple, ".class, \"", varComplet, "\", ", varComplet, ");");
-//			o.tout(" = new ").enUS("Wrap").frFR("Couverture").tout("<", nomSimpleComplet, ">().p(this).c(", nomSimple, ".class).var(\"", var, "\").o(", var, ")");
-//			o.toutLigne(";");
-//		}
-//
-//		// Setter //
-//		if(setter) {
-//			o.toutLigne("\tpublic ", classe.nomSimpleComplet, " ", varComplet, "(", nomSimpleComplet, " o) throws Exception {");
-//			o.toutLigne("\t\tthis.", varComplet, " = o;");
-//			o.tabLigne(2, "if(o != null)");
-//			o.tabLigne(3, varComplet, classe.varCouvertureCapitalise, ".", classe.varDejaInitialise, "(true);");
-//			o.toutLigne("\t\treturn (", classe.nomSimple, ")this;");
-//			o.toutLigne("\t}");
-//
-//			if(nomCanonique.toString().equals(Boolean.class.getCanonicalName())) {
-//				o.tabLigne(1, "public ", classe.nomSimpleComplet, " ", varComplet, "(String o) throws Exception {");
-//				o.tabLigne(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
-//				o.tabLigne(3, "this.", varComplet, " = Boolean.parseBoolean(o);");
-//				o.tabLigne(2, varComplet, classe.varCouvertureCapitalise, ".", classe.varDejaInitialise, "(true);");
-//				o.tabLigne(2, "return (", classe.nomSimple, ")this;");
-//				o.tabLigne(1, "}");
-//			}
-//			else if(nomCanonique.toString().equals(Long.class.getCanonicalName())) {
-//				o.tabLigne(1, "public ", classe.nomSimpleComplet, " ", varComplet, "(String o) throws Exception {");
-//				o.tabLigne(2, "if(org.apache.commons.lang3.math.NumberUtils.isNumber(o))");
-//				o.tabLigne(3, "this.", varComplet, " = Long.parseLong(o);");
-//				o.tabLigne(3, varComplet, classe.varCouvertureCapitalise, ".", classe.varDejaInitialise, "(true);");
-//				o.tabLigne(2, "return (", classe.nomSimple, ")this;");
-//				o.tabLigne(1, "}");
-//			}
-//			else if(nomCanonique.equals(ArrayList.class.getCanonicalName()) && nomCanoniqueGenerique.equals(Long.class.getCanonicalName())) {
-//				o.tabLigne(1, "public ", classe.nomSimpleComplet, " ", varComplet, "(String o) throws Exception {");
-//				o.tabLigne(2, "if(org.apache.commons.lang3.math.NumberUtils.isNumber(o)) {");
-//				o.tabLigne(3, "Long l = Long.parseLong(o);");
-//				o.tabLigne(3, var, "Ajouter(l);");
-//				o.tabLigne(3, varComplet, classe.varCouvertureCapitalise, ".", classe.varDejaInitialise, "(true);");
-//				o.tabLigne(2, "}");
-//				o.tabLigne(2, "return (", classe.nomSimple, ")this;");
-//				o.tabLigne(1, "}");
-//			}
-//			else if(nomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-//				o.tabLigne(1, "public ", classe.nomSimpleComplet, " ", varComplet, "(String o) throws Exception {");
-//				o.tabLigne(2, "this.", varComplet, " = java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
-//				o.tabLigne(2, varComplet, classe.varCouvertureCapitalise, ".", classe.varDejaInitialise, "(true);");
-//				o.tabLigne(2, "return (", classe.nomSimple, ")this;");
-//				o.tabLigne(1, "}");
-//				o.tabLigne(1, "public ", classe.nomSimpleComplet, " ", varComplet, "(java.util.Date o) throws Exception {");
-//				o.tabLigne(2, "this.", varComplet, " = java.time.LocalDateTime.ofInstant(o.toInstant(), java.time.ZoneId.systemDefault());");
-//				o.tabLigne(2, varComplet, classe.varCouvertureCapitalise, ".", classe.varDejaInitialise, "(true);");
-//				o.tabLigne(2, "return (", classe.nomSimple, ")this;");
-//				o.tabLigne(1, "}");
-//			}
-//
-//			if(setterStringJava.enUS().length() > 0) {
-//				o.toutLigne("\tpublic ", classe.nomSimpleComplet, " ", varComplet, "(String s) throws Exception {");
-//				o.tout(setterStringJava.frFR().replaceAll("^(\\s*\\S.*)", "\t\t$1").replaceAll("\n(\\s*\\S.*)", "\n\t\t$1"));
-//				o.toutLigne("\t\treturn (", classe.nomSimple, ")this;");
-//				o.toutLigne("\t}");
-//			}
-//		}
-//
-//		// Ajouter //
-//		if(nomCanonique.equals(classe_.nomCanoniqueArrayList) || nomCanonique.equals(classe_.nomCanoniqueList)) {
-//			o.tabLigne(1, "public ", classe.nomSimpleComplet, " ", varComplet, classe.varAjouterCapitalise, "(", nomCompletGenerique, "...", classe_.varObjets, ") throws Exception {");
-//			o.tabLigne(2, "for(", nomCompletGenerique, " o : ", classe_.varObjets, ") {");
-//			o.tabLigne(3, "", varComplet, classe_.varAjouterCapitalise, "(o);");
-//			o.tabLigne(2, "}");
-//			o.tabLigne(2, "return (", classe.nomSimple, ")this;");
-//			o.tabLigne(1, "}");
-//			o.tabLigne(1, "public ", classe.nomSimpleComplet, " ", varComplet, classe.varAjouterCapitalise, "(", nomCompletGenerique, " o) throws Exception {");
-//			o.tabLigne(2, "if(o != null && !", varComplet, ".contains(o))");
-//			o.tabLigne(3, "this.", varComplet, ".add(o);");
-//			o.tabLigne(2, "return (", classe.nomSimple, ")this;");
-//			o.tabLigne(1, "}");
-//		}
-//		if(classeQdox != null && classeQdox.getCanonicalName().equals(classe_.nomCanoniqueChaineActuel.toString())) {
-//			o.tabLigne(1, "public ", classe.nomSimpleComplet, " ", varComplet, "(Object...", classe_.varObjets, ") {");
-//			o.tabLigne(2, varComplet, ".", classe_.varTout, "(", classe_.varObjets, ");");
-//			o.tabLigne(2, "return (", classe.nomSimple, ")this;");
-//			o.tabLigne(1, "}");
-//		}
-//
-//		{ // sh //
-//			String nomMethodeAvant = classe_.varSh.toString() + classe_.varAvantCapitalise.toString();
-//			String nomMethodeApres = classe_.varSh.toString() + classe_.varApresCapitalise.toString();
-//			JavaMethod methodeAvant = classe_.obtenirMethode(classeQdox, nomMethodeAvant);
-//			JavaMethod methodeApres = classe_.obtenirMethode(classeQdox, nomMethodeApres);
-////			if(methodeAvant != null && methodeApres != null) {
-//			if(etendPageParti) {
-//				o.tabLigne(1, "protected void _", varComplet, classe_.varShCapitalise, "() throws Exception {}");
-//				o.tabLigne(1, "public void ", varComplet, classe_.varShCapitalise, "() throws Exception {");
-//				o.tabLigne(2, varComplet, ".", classe_.varSh, classe_.varAvantCapitalise, "();");
-//				o.tabLigne(2, "_", varComplet, classe_.varShCapitalise, "();");
-//				o.tabLigne(2, varComplet, ".", classe_.varSh, classe_.varApresCapitalise, "();");
-//				o.tabLigne(1, "}");
-//			}
-//		}
-//		o.toutLigne();
-//
-//		{ // code //
-//			String nomMethodeAvant = "code" + classe_.varAvantCapitalise.toString();
-//			String nomMethodeApres = "code" + classe_.varApresCapitalise.toString();
-//			JavaMethod methodeAvant = classe_.obtenirMethode(classeQdox, nomMethodeAvant); 
-//			JavaMethod methodeApres = classe_.obtenirMethode(classeQdox, nomMethodeApres);
-////			if(methodeAvant != null && methodeApres != null) {
-//			if(etendPageParti) {
-//				o.tabLigne(1, "protected void _", varComplet, "Code", "() throws Exception {}");
-//				o.tabLigne(1, "public void ", varComplet, "Code", "() throws Exception {");
-//				o.tabLigne(2, varComplet, ".", "code", classe_.varAvantCapitalise, "();");
-//				o.tabLigne(2, "_", varComplet, "Code", "();");
-//				o.tabLigne(2, varComplet, ".", "code", classe_.varApresCapitalise, "();");
-//				o.tabLigne(1, "}");
-//			}
-//		}
-//		o.toutLigne();
-//
-//		{ // shShHtml //
-//			String nomMethodeAvant = classe_.varShHtml.toString() + classe_.varAvantCapitalise.toString();
-//			String nomMethodeApres = classe_.varShHtml.toString() + classe_.varApresCapitalise.toString();
-//			JavaMethod methodeAvant = classe_.obtenirMethode(classeQdox, nomMethodeAvant); 
-//			JavaMethod methodeApres = classe_.obtenirMethode(classeQdox, nomMethodeApres);
-////			if(methodeAvant != null && methodeApres != null) {
-//			if(etendPageParti) {
-//				o.tabLigne(1, "protected void _", varComplet, classe_.varShHtmlCapitalise, "() throws Exception {}");
-//				o.tabLigne(1, "public void ", varComplet, classe_.varShHtmlCapitalise, "() throws Exception {");
-//				o.tabLigne(2, varComplet, ".", classe_.varShHtml, classe_.varAvantCapitalise, "();");
-//				o.tabLigne(2, "_", varComplet, classe_.varShHtmlCapitalise, "();");
-//				o.tabLigne(2, varComplet, ".", classe_.varShHtml, classe_.varApresCapitalise, "();");
-//				o.tabLigne(1, "}");
-//			}
-//		}
-//		o.toutLigne();
-//
-//		{ // html //
-//			String nomMethodeAvant = classe_.varHtml.toString() + classe_.varAvantCapitalise.toString();
-//			String nomMethodeApres = classe_.varHtml.toString() + classe_.varApresCapitalise.toString();
-//			JavaMethod methodeAvant = classe_.obtenirMethode(classeQdox, nomMethodeAvant);
-//			JavaMethod methodeApres = classe_.obtenirMethode(classeQdox, nomMethodeApres);
-////			if(methodeAvant != null && methodeApres != null) {
-//			if(etendPageParti) {
-//				o.tabLigne(1, "protected void _", varComplet, classe_.varHtmlCapitalise, "() throws Exception {}");
-//				o.tabLigne(1, "public void ", varComplet, classe_.varHtmlCapitalise, "() throws Exception {");
-//				o.tabLigne(2, varComplet, ".", classe_.varHtml, classe_.varAvantCapitalise, "();");
-//				o.tabLigne(2, "_", varComplet, classe_.varHtmlCapitalise, "();");
-//				o.tabLigne(2, varComplet, ".", classe_.varHtml, classe_.varApresCapitalise, "();");
-//				o.tabLigne(1, "}");
-//			}
-//			else if(classe_.etendCluster && !classe_.nomCanonique.toString().equals(classe_.nomCanoniqueClusterActuel.toString())) {
-//				o.tabLigne(1, "public void ", varComplet, classe.varHtmlCapitalise, "() throws Exception {");
-//				o.tabLigne(2, "e(\"div\").a(\"class\", \"w3-cell w3-cell-middle w3-center w3-mobile\").f();");
-//					o.tabLigne(3, "e(\"label\").a(\"class\", \"\").f();");
-//						o.tabLigne(4, "toutXml(", var, classe_.nomSimpleUneCouverture, ".", classe_.varNomAffichage, "());");
-//						o.tabLigne(4, "page_.enUSXml(\": \");");
-//						o.tabLigne(4, "page_.frFRXml(\" : \");");
-//					o.tabLigne(3, "g(\"label\");");
-//					o.tabLigne(3, "e(\"form\").a(\"method\", \"POST\").a(\"action\", ", classe_.varPage, "_.", classe_.varPageUri, ").a(\"class\", \"champForm \").f();");
-//						o.tabLigne(4, "e(\"input\").a(\"type\", \"hidden\").a(\"name\", \"", classe_.varCle, "\").a(\"value\", ", classe_.varCle, ").fg();");
-//						o.tabLigne(4, "e(\"input\").a(\"class\", \"w3-input w3-border champInput \").a(\"name\", \"", var, "\").a(\"type\", \"text\").a(\"value\", ", var, ").a(\"title\", ", var, ");");
-//							// if lueur
-//							//o.tabLigne(5, "a(\"onchange\", \"envoyerFormulaire($(this), $('#\" + id + \"')); \");");
-//							o.tabLigne(5, "a(\"onchange\", \"envoyerFormulaire($(this), $(this)); \").a(\"onclick\", \"enleverLueur($(this)); \");");
-//							o.tabLigne(5, "fg();");
-//					o.tabLigne(3, "g(\"form\");");
-//				o.tabLigne(2, "g(\"div\");");
-//				o.tabLigne(1, "}");
-//			}
-//		}
-//		o.toutLigne();
-//
-//		// Html //
-//	}
-//
-//	public void ecrireInitialiser(Chaine o, UneClasse classe) throws Exception {
-//		if(initialise) {
-//			Chaine comment = new Chaine();
-//			comment.requeteSite(requeteSite);
-//			comment.tout("\t/**\t");
-//			comment.enUS(StringUtils.trim(commentaire.enUS()).replaceAll("\n(\\s*\\S.*)", "\n\t *\t<br/>$1"));
-//			comment.frFR(StringUtils.trim(commentaire.frFR()).replaceAll("\n(\\s*\\S.*)", "\n\t *\t<br/>$1"));
-//			comment.tout(" **/\n");
-//	
-//			// Initialiser //
-//			o.toutLigne("\tprotected void ", varComplet, classe.varInitialiserCapitalise, "() throws Exception {");
-//			if(nul) {
-//				o.toutLigne("\t\t_", varComplet, "(", varComplet, ");");
-//			}
-//			else {
-//
-//				// init
-//
-//				o.tout("\t\tif(!", varComplet, classe.varCouvertureCapitalise, ".", classe.varDejaInitialise);
-//				if(nomCanonique.equals(classe_.nomCanoniqueChaineActuel)) {
-//					o.tout(" && ", varComplet, ".", classe_.varEstVide, "()");
-//				}
-//				o.toutLigne(") {");
-//				if(couverture) {
-//					o.toutLigne("\t\t\t_", varComplet, "(", varComplet, classe.varCouvertureCapitalise, ");");
-//					o.toutLigne("\t\t\tif(", varComplet, " == null && ", varComplet, classe.varCouvertureCapitalise, " != null)");
-//					o.toutLigne("\t\t\t\t", varComplet, "(", varComplet, classe.varCouvertureCapitalise, ".o);");
-//				}
-//				else {
-//					o.toutLigne("\t\t\t_", varComplet, "(", varComplet, ");");
-//				}
-//				o.toutLigne("\t\t}");
-//
-//				// Avant champ //
-//				if(classeQdox != null) {
-//					String nomMethodeAvant = var.toString() + classe_.varAvantCapitalise;
-//					ArrayList<JavaType> params = new ArrayList<JavaType>();
-//					params.add(classeQdox);
-//					methodeAvantChamp = classe_.classeQdox.getMethod(nomMethodeAvant, params, false);
-//					if(methodeAvantChamp != null) {
-//						o.tab(2);
-//						if(!classe_.classeCopier && !classe_.classeCompleter)
-//							o.tout("((", classe_.nomSimple, ")this).");
-//						o.toutLigne(nomMethodeAvant, "(", var, ");");
-//					}
-//				}
-//
-//				// Avant classe //
-//				if(classeQdox != null) {
-//					String nomMethodeAvant = classe_.varAvant.toString() + nomSimple.toString();
-//					methodeAvantClasse = classe_.obtenirMethode(nomMethodeAvant, classeQdox, new DefaultJavaType(String.class.getCanonicalName()));
-//					if(methodeAvantClasse != null) {
-//						o.tab(2);
-//						if(!classe_.classeCopier && !classe_.classeCompleter)
-//							o.tout("((", classe_.nomSimple, ")this).");
-//						o.toutLigne(nomMethodeAvant, "(", var, ", \"", var, "\");");
-//					}
-//					else {
-//						methodeAvantClasse = classe_.obtenirMethode(nomMethodeAvant, classeQdox);
-//						if(methodeAvantClasse != null) {
-//							o.tab(2);
-//							if(!classe_.classeCopier && !classe_.classeCompleter)
-//								o.tout("((", classe_.nomSimple, ")this).");
-//							o.toutLigne(nomMethodeAvant, "(", var, ");");
-//						}
-//						else if(nomSimpleBase.pasVide()){
-//								
-//							nomMethodeAvant = classe_.varAvant.toString() + nomSimpleBase.toString();
-//							methodeAvantClasse = classe_.obtenirMethode(nomMethodeAvant, classeQdoxBase, new DefaultJavaType(String.class.getCanonicalName()));
-//							if(methodeAvantClasse != null) {
-//								o.tab(2);
-//								if(!classe_.classeCopier && !classe_.classeCompleter)
-//									o.tout("((", classe_.nomSimple, ")this).");
-//								o.toutLigne(nomMethodeAvant, "(", var, ", \"", var, "\");");
-//							}
-//							else {
-//								methodeAvantClasse = classe_.obtenirMethode(nomMethodeAvant, classeQdoxBase);
-//								if(methodeAvantClasse != null) {
-//									o.tab(2);
-//									if(!classe_.classeCopier && !classe_.classeCompleter)
-//										o.tout("((", classe_.nomSimple, ")this).");
-//									o.toutLigne(nomMethodeAvant, "(", var, ");");
-//								}
-//							}
-//						}
-//					}
-//				}
-//
-//				// initLoin
-//
-////				if(!couverture && nomCanonique.enUS().startsWith(classe.nomEnsembleDomaine.enUS()))
-//				if(initLoin && nomCanonique.enUS().startsWith(classe.nomEnsembleDomaine.enUS())) {
-//					if(couverture) {
-//						o.tabLigne(2, "if(", varComplet, " != null)");
-//						o.tabLigne(3, varComplet, ".", classe.varInitialiserLoin, nomSimple, "(", classe.varRequeteSite, ");");
-//					}
-//					else {
-//						o.tabLigne(2, varComplet, ".", classe.varInitialiserLoin, nomSimple, "(", classe.varRequeteSite, ");");
-//					}
-//				}
-//
-//				// Apres champ //
-//				if(classeQdox != null) {
-//					String nomMethodeApres = var.toString() + classe_.varApresCapitalise;
-//					ArrayList<JavaType> params = new ArrayList<JavaType>();
-//					params.add(classeQdox);
-//					methodeApresChamp = classe_.classeQdox.getMethod(nomMethodeApres, params, false);
-//					if(methodeApresChamp != null) {
-//						o.tab(2);
-//						if(!classe_.classeCopier && !classe_.classeCompleter)
-//							o.tout("((", classe_.nomSimple, ")this).");
-//						o.toutLigne(nomMethodeApres, "(", var, ");");
-//					}
-//				}
-//
-//				// Apres classe //
-//				if(classeQdox != null) {
-//					String nomMethodeApres = classe_.varApres.toString() + nomSimple.toString();
-//					methodeApresClasse = classe_.obtenirMethode(nomMethodeApres, classeQdox, new DefaultJavaType(String.class.getCanonicalName()));
-//					if(methodeApresClasse != null) {
-//						o.tab(2);
-//						if(!classe_.classeCopier && !classe_.classeCompleter)
-//							o.tout("((", classe_.nomSimple, ")this).");
-//						o.toutLigne(nomMethodeApres, "(", var, ", \"", var, "\");");
-//					}
-//					else {
-//						methodeApresClasse = classe_.obtenirMethode(nomMethodeApres, classeQdox);
-//						if(methodeApresClasse != null) {
-//							o.tab(2);
-//							if(!classe_.classeCopier && !classe_.classeCompleter)
-//								o.tout("((", classe_.nomSimple, ")this).");
-//							o.toutLigne(nomMethodeApres, "(", var, ");");
-//						}
-//						else if(nomSimpleBase.pasVide()){
-//								
-//							nomMethodeApres = classe_.varApres.toString() + nomSimpleBase.toString();
-//							methodeApresClasse = classe_.obtenirMethode(nomMethodeApres, classeQdoxBase, new DefaultJavaType(String.class.getCanonicalName()));
-//							if(methodeApresClasse != null) {
-//								o.tab(2);
-//								if(!classe_.classeCopier && !classe_.classeCompleter)
-//									o.tout("((", classe_.nomSimpleBase, ")this).");
-//								o.toutLigne(nomMethodeApres, "(", var, ", \"", var, "\");");
-//							}
-//							else {
-//								methodeApresClasse = classe_.obtenirMethode(nomMethodeApres, classeQdoxBase);
-//								if(methodeApresClasse != null) {
-//									o.tab(2);
-//									if(!classe_.classeCopier && !classe_.classeCompleter)
-//										o.tout("((", classe_.nomSimpleBase, ")this).");
-//									o.toutLigne(nomMethodeApres, "(", var, ");");
-//								}
-//							}
-//						}
-//					}
-//				}
-//
-//				o.toutLigne("\t\t", varComplet, classe.varCouvertureCapitalise, ".", classe.varDejaInitialise, "(true);");
-//			}
-//			o.toutLigne("\t}");
-//		}
-//	}
-//
-//	public void ecrirePageRequete(Chaine o, UneClasse classe) throws Exception {
-//		if(initialise) {
-//			o.tout("\t\t", varComplet, classe.varCouvertureCapitalise, ".", classe.varRequeteSite, "(", classe.varRequeteSite, ");");
-//			if(!couverture && nomCanonique.enUS().startsWith(classe.nomEnsembleProjet.enUS()))
-//				o.tout(" ", varComplet, ".", classe.varRequeteSite, nomSimple, "();");
-//			o.toutLigne();
-//		}
-//	}
-//
-//	@Override public String toString() {
-//		StringBuilder s = new StringBuilder();
-//		for(Object o : nomCanonique.frFR) {
-//			s(o);
-//		}
-//		s(" ");
-//		for(Object o : var.frFR) {
-//			s(o);
-//		}
-//		return s.toString();
-//	}
-//
-//	@Override public boolean equals(Object obj) {
-//		Boolean o = toString().equals(obj.toString());
-//		return o;
-//	}
-//
-//	@Override public int hashCode() {
-//		int o = toString().hashCode();
-//		return super.hashCode();
-//	}
 }
