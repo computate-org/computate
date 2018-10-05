@@ -1044,20 +1044,20 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 						o = codeIndexer;
 						if(entiteIndexeOuStocke) {
 							tl(2, "if(", entiteVar, " != null) {");
-							if(entiteVarCleUnique.pasVide() && entiteCleUnique) {
+							if(StringUtils.isNotEmpty(entiteVarCleUnique) && entiteCleUnique) {
 								// cleUnique
 								tl(3, "document.addField(\"", entiteVarCleUnique, "\"", entiteVar, ");");
 							}
-							if(entiteVarCrypte.pasVide() && champ.crypte) {
+							if(StringUtils.isNotEmpty(entiteVarCrypte) && entiteCrypte) {
 								// crypte
 								tl(3, "String valCrypte = requeteSite.crypterStr(", entiteVar, ");");
 								tl(3, "document.addField(\"", entiteVarCrypte, "\"", "valCrypte);");
 							}
-							if(entiteVarIncremente.pasVide() && champ.incremente) {
+							if(StringUtils.isNotEmpty(entiteVarIncremente) && entiteIncremente) {
 								// crypte
 								tl(3, "document.addField(\"", entiteVarIncremente, "\", new java.util.HashMap<String, ", champ.classeNomSimple, ">() {{ put(\"inc\"", ("Long".equals(champ.classeNomSimple.toString()) ? "1L" : "1"), "); }});");
 							}
-							if(entiteVarSuggere.pasVide() && champ.suggere) {
+							if(StringUtils.isNotEmpty(entiteVarSuggere) && champ.suggere) {
 								// suggere
 								if(champ.classeNomSimple.equals("Chaine")) {
 									tl(3, "document.addField(\"", entiteVarSuggereEnUS, "\"", entiteVar, ".enUS());");
@@ -1071,7 +1071,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 								}
 							}
 
-							if(entiteVarIndexe.pasVide() && champ.indexe) {
+							if(StringUtils.isNotEmpty(entiteVarIndexe) && champ.indexe) {
 								// indexe
 								if(champ.classeNomSimple.equals("Chaine")) {
 									tl(3, "document.addField(\"", entiteVarIndexeEnUS, "\"", entiteVar, ".enUS());");
@@ -1090,15 +1090,15 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 								}
 							}
 							else {
-								if(entiteVarIndexeEnUS.pasVide()) {
+								if(StringUtils.isNotEmpty(entiteVarIndexeEnUS)) {
 									tl(3, "document.addField(\"", entiteVarIndexeEnUS, "\"", entiteVar, ");");
 								}
-								if(entiteVarIndexeFrFR.pasVide()) {
+								if(StringUtils.isNotEmpty(entiteVarIndexeFrFR)) {
 									tl(3, "document.addField(\"", entiteVarIndexeFrFR, "\"", entiteVar, ");");
 								}
 							}
 
-							if(entiteVarStocke.pasVide() && champ.stocke) {
+							if(StringUtils.isNotEmpty(entiteVarStocke) && champ.stocke) {
 								// stocke
 								if(champ.classeNomSimple.equals("Chaine")) {
 									tl(3, "document.addField(\"", entiteVarStockeEnUS, "\"", entiteVar, ".enUS());");
@@ -1329,7 +1329,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 						}
 						l("\t}");
 
-						if(varCleUnique.pasVide()) {
+						if(StringUtils.isNotEmpty(varCleUnique)) {
 							tl(0);
 							tl(1, "@Test public void desindexer", classeNomSimple, "Test() throws Exception {");
 							tl(2, "RequeteSite requeteSite = new RequeteSite();");

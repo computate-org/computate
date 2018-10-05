@@ -4,3 +4,4 @@ config/cp.txt
 .project
 .settings
 /target/
+/bin/
