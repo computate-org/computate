@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
-import org.computate.frFR.config.ConfigSite;
 
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -19,7 +18,7 @@ import com.thoughtworks.qdox.model.JavaType;
 /**   
  * nomCanonique.enUS: org.computate.enUS.java.WatchClassBase
  */   
-public class RegarderClasseBase extends ConfigSite {
+public class RegarderClasseBase extends ConfigSite { 
 
 	protected String[] args;
 
@@ -91,11 +90,11 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 */
-	protected HashMap<String, ClasseParts> classeParts = new HashMap<String, ClasseParts>();
+	protected HashMap<String, ClasseParts> classePartsGen = new HashMap<String, ClasseParts>();
 	/**
 	 * var.enUS: _classParts
 	 */
-	protected void _classeParts() throws Exception {
+	protected void _classePartsGen() throws Exception {
 	}
 
 	/**
@@ -142,7 +141,7 @@ public class RegarderClasseBase extends ConfigSite {
 		_classeCheminAbsolu();
 		_appliChemins();
 		_classeDocs();
-		_classeParts();
+		_classePartsGen();
 		_bricoleur();
 	} 
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -573,6 +574,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			rechercheSolr.setRows(1);
 			rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(nomCanonique));
 			rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+			rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
 			QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
 			SolrDocumentList listeRecherche = reponseRecherche.getResults();
 			if(listeRecherche.size() > 0) {
@@ -611,6 +613,44 @@ public class IndexerClasse extends RegarderClasseBase {
 	////////////
 	// autres //
 	////////////
+
+	protected ClasseParts classePartsCouverture(String nomEnsembleDomaine) throws Exception {
+		ClasseParts classeParts = null;
+		SolrDocument doc = null;
+		SolrQuery rechercheSolr = new SolrQuery();   
+		rechercheSolr.setQuery("*:*");
+		rechercheSolr.setRows(1);
+		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:Couverture");
+		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+		SolrDocumentList listeRecherche = reponseRecherche.getResults();
+		if(listeRecherche.size() > 0) {
+			doc = listeRecherche.get(0);
+			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
+			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
+		}
+		return classeParts;
+	}
+
+	protected ClasseParts classePartsRequeteSite(String nomEnsembleDomaine) throws Exception {
+		ClasseParts classeParts = null;
+		SolrDocument doc = null;
+		SolrQuery rechercheSolr = new SolrQuery();   
+		rechercheSolr.setQuery("*:*");
+		rechercheSolr.setRows(1);
+		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:RequeteSite");
+		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+		SolrDocumentList listeRecherche = reponseRecherche.getResults();
+		if(listeRecherche.size() > 0) {
+			doc = listeRecherche.get(0);
+			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
+			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
+		}
+		return classeParts;
+	}
 
 	/**
 	 * var.enUS: storeRegexComments
@@ -651,6 +691,12 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		return commentaire;
 	}
+
+	public void classePartsGenAjouter(ClasseParts classeParts) {
+		if(classeParts != null && !classePartsGen.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, "."))
+			classePartsGen.put(classeParts.nomCanonique, classeParts);
+	}
+
 //
 //	public SolrDocument documentSolr(ClasseParts classeParts) throws Exception {
 //		SolrDocument documentSolr = classeParts.documentSolr(this);
@@ -1071,8 +1117,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: methodTypeParameter
 	 * r: classePartsSuperLangue
 	 * r.enUS: classSuperPartsLanguage
+	 * r: regexTrouve
+	 * r.enUS: regexFound
 	 */
-	protected void indexerClasse(String classeCheminAbsolu) throws Exception { 
+	protected SolrInputDocument indexerClasse(String classeCheminAbsolu) throws Exception { 
 		SolrInputDocument classeDoc = new SolrInputDocument();
 		String classeNomCanonique = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classeCheminAbsolu, "."), cheminSrcMainJava + "/"), "/", ".");
 		String classeNomSimple = StringUtils.substringAfterLast(classeNomCanonique, ".");
@@ -1080,11 +1128,11 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomSimpleGen = classeNomSimple + "Gen";
 		JavaClass classeQdox = bricoleur.getClassByName(classeNomCanonique.toString());
 		JavaClass classeQdoxSuper = classeQdox.getSuperJavaClass();
+		JavaClass classeQdoxString = bricoleur.getClassByName(String.class.getCanonicalName());
 		String classeNomCanoniqueSuper = classeQdoxSuper.getCanonicalName();
 		String classeNomSimpleSuper = StringUtils.substringAfterLast(classeNomCanoniqueSuper, ".");
 		if(StringUtils.isEmpty(classeNomSimpleSuper))
 			classeNomSimpleSuper = classeNomCanoniqueSuper;
-		Boolean classeEtendGen = indexerStockerSolr(classeDoc, "classeEtendGen", StringUtils.endsWith(classeNomSimpleSuper, "Gen"));
 
 		List<JavaTypeVariable<JavaGenericDeclaration>> classeParametresType = classeQdox.getTypeParameters();
 		for(JavaTypeVariable<JavaGenericDeclaration> classeParametreType : classeParametresType) {
@@ -1108,26 +1156,30 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomCanoniqueSuperGenerique = null;
 		String classeNomSimpleSuperGenerique = null;
 		JavaClass classeSuperGeneriqueQdox = null;
+		Boolean classeBaseEtendGen = false;
 		if(StringUtils.isNotEmpty(classeNomCompletSuper)) {
 			indexerStockerSolr(classeDoc, "classeNomCompletSuperGenerique", langueNom, classeNomCompletSuperGenerique);
-			classeNomCanoniqueSuperGenerique = classeNomCompletSuper.contains("<") ? StringUtils.substringBefore(classeNomCompletSuper, "<") : classeNomCompletSuper;
-			classeNomCanoniqueSuperGenerique = classeNomCompletSuper.contains(",") ? StringUtils.substringBefore(classeNomCompletSuper, ",") : classeNomCompletSuper;
-			if(StringUtils.isNotEmpty(classeNomCanoniqueSuperGenerique)) {
+			if(classeNomCompletSuper.contains("<")) {
+				classeNomCanoniqueSuperGenerique = StringUtils.substringAfter(StringUtils.substringBeforeLast(classeNomCompletSuper, ">"), "<");
+				classeNomCanoniqueSuperGenerique = classeNomCanoniqueSuperGenerique.contains(",") ? StringUtils.substringBefore(classeNomCanoniqueSuperGenerique, ",") : classeNomCanoniqueSuperGenerique;
 				indexerStockerSolr(classeDoc, "classeNomCanoniqueSuperGenerique", langueNom, classeNomCanoniqueSuperGenerique);
 				classeSuperGeneriqueQdox = bricoleur.getClassByName(classeNomCanoniqueSuperGenerique);
+				classeNomCompletSuperGenerique = classeNomCanoniqueSuperGenerique;
 
 				if(classeNomCanoniqueSuperGenerique.contains("."))
 					classeNomSimpleSuperGenerique = StringUtils.substringAfterLast(classeNomCanoniqueSuperGenerique, ".");
 				else
 					classeNomSimpleSuperGenerique = classeNomCanoniqueSuperGenerique;
 				indexerStockerSolr(classeDoc, "classeNomSimpleSuperGenerique", langueNom, classeNomSimpleSuperGenerique);
+
+				ClasseParts classePartsBase = ClasseParts.initClasseParts(this, classeNomCanoniqueSuperGenerique, langueNom);
+				classeBaseEtendGen = classePartsBase.etendGen;
 			}
 		}
+		indexerStockerSolr(classeDoc, "classeBaseEtendGen", classeBaseEtendGen);
+		indexerStockerSolr(classeDoc, "classeContientRequeteSite", classeQdox.getMethodBySignature("getRequeteSite", null, true) != null);
 		
-		
-		
-		
-		String commentaire = stockerRegexCommentaires(classeQdox.getComment(), langueNom, classeDoc, "classeCommentaire");
+		String classeCommentaire = stockerRegexCommentaires(classeQdox.getComment(), langueNom, classeDoc, "classeCommentaire");
 		String classeNomEnsemble = StringUtils.substringBeforeLast(classeNomCanonique, ".");
 		String classeChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), ".java");
 		String classeCheminRepertoire = StringUtils.substringBeforeLast(classeChemin, "/");
@@ -1136,6 +1188,18 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeCle = classeCheminAbsolu;
 		Instant modifiee = Instant.now();
 		Date modifieeDate = Date.from(modifiee);
+		Boolean classeContientCouverture = false;
+
+		Boolean classeEtendGen = StringUtils.endsWith(classeNomSimpleSuper, "Gen");
+		if(!classeEtendGen && regexTrouve("^gen:\\s*(true)$", classeCommentaire)) {
+			classeEtendGen = true;
+			indexerStockerSolr(classeDoc, "classeEtendGen", classeEtendGen);
+			ClasseParts classePartsRequeteSite = classePartsRequeteSite(nomEnsembleDomaine);
+			classePartsGenAjouter(classePartsRequeteSite);
+		}
+		indexerStockerSolr(classeDoc, "classeEtendGen", classeEtendGen);
+		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", classeCommentaire));
+		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde);
 		
 		ArrayList<JavaClass> classesSuperQdox = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> classesSuperQdoxEtMoi = new ArrayList<JavaClass>();
@@ -1159,6 +1223,21 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "classeCheminRepertoire", langueNom, classeCheminRepertoire);  
 		indexerStockerSolr(classeDoc, "classeCheminGen", langueNom, classeCheminGen); 
 		indexerStockerSolr(classeDoc, "classeCheminRepertoireGen", langueNom, classeCheminRepertoireGen); 
+		indexerStockerSolr(classeDoc, "nomEnsembleDomaine", nomEnsembleDomaine); 
+
+		if(classeCommentaire != null) {
+			Matcher classeValsRecherche = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classeCommentaire);
+			boolean classeValsTrouve = classeValsRecherche.find();
+			while(classeValsTrouve) {
+				String classeValVar = classeValsRecherche.group(1);
+				String classeValLangue = classeValsRecherche.group(2);
+				String classeValValeur = classeValsRecherche.group(3);
+				stockerListeSolr(classeDoc, "classeValsVar", classeValVar);
+				stockerListeSolr(classeDoc, "classeValsLangue", classeValLangue);
+				stockerListeSolr(classeDoc, "classeValsValeur", classeValValeur);
+				classeValsTrouve = classeValsRecherche.find();
+			}
+		}
 
 		SolrDocument classeNomCanoniqueSuperDoc = null;   
 		if(StringUtils.startsWith(classeNomCanoniqueSuper, nomEnsembleDomaine)) {
@@ -1167,6 +1246,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			rechercheSolr.setRows(1);
 			rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + ClientUtils.escapeQueryChars(classeNomCanoniqueSuper));
 			rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+			rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
 			QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
 			SolrDocumentList listeRecherche = reponseRecherche.getResults();
 			if(listeRecherche.size() > 0) { 
@@ -1175,10 +1255,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		}  
 		for(String langueNom : autresLangues) { 
 			String appliCheminLangue = appliChemins.get(langueNom);
-			stockerRegexCommentaires(commentaire, langueNom, classeDoc, "classeCommentaire");
+			stockerRegexCommentaires(classeCommentaire, langueNom, classeDoc, "classeCommentaire");
 			String cheminSrcMainJavaLangue = appliCheminLangue + "/src/main/java";
 			String cheminSrcGenJavaLangue = appliCheminLangue + "/src/gen/java";
-			String classeNomCanoniqueLangue = regex("^nomCanonique\\." + langueNom + ":\\s*(.*)", commentaire, classeNomCanonique);
+			String classeNomCanoniqueLangue = regex("^nomCanonique\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeNomCanonique);
 			String classeNomSimpleLangue = StringUtils.substringAfterLast(classeNomCanoniqueLangue, ".");
 			String classeNomEnsembleLangue = StringUtils.substringBeforeLast(classeNomCanoniqueLangue, ".");
 			String classeNomCanoniqueGenLangue = classeNomCanoniqueLangue + "Gen";
@@ -1197,25 +1277,28 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classeNomCompletSuperLangue;
 			ClasseParts classePartsSuperLangue;
 
-			if(classeEtendGen)
+			if(classeEtendGen) {
 				classePartsSuperLangue = ClasseParts.initClasseParts(this, classeNomCanoniqueLangue + "Gen", langueNom);
-			else
+			}
+			else {
 				classePartsSuperLangue = ClasseParts.initClasseParts(this, classeQdoxSuper, langueNom);
+			}
 
 			indexerStockerSolr(classeDoc, "classeNomCanoniqueSuper", langueNom, classePartsSuperLangue.nomCanonique); 
 			indexerStockerSolr(classeDoc, "classeNomSimpleSuper", langueNom, classePartsSuperLangue.nomSimple); 
 			indexerStockerSolr(classeDoc, "classeNomCanoniqueCompletSuper", langueNom, classePartsSuperLangue.nomCanoniqueComplet);
 			indexerStockerSolr(classeDoc, "classeNomSimpleCompletSuper", langueNom, classePartsSuperLangue.nomSimpleComplet);
-			if(StringUtils.isNotEmpty(classePartsSuperLangue.nomCanoniqueGenerique)) {
-				indexerStockerSolr(classeDoc, "classeNomCanoniqueSuperGenerique", langueNom, classePartsSuperLangue.nomCanoniqueGenerique);
-				indexerStockerSolr(classeDoc, "classeNomSimpleSuperGenerique", langueNom, classePartsSuperLangue.nomSimpleGenerique);
+			if(StringUtils.isNotEmpty(classeNomCompletSuperGenerique)) {
+				ClasseParts classePartsSuperGeneriqueLangue = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, langueNom);
+				indexerStockerSolr(classeDoc, "classeNomCanoniqueSuperGenerique", langueNom, classePartsSuperGeneriqueLangue.nomCanoniqueComplet);
+				indexerStockerSolr(classeDoc, "classeNomSimpleSuperGenerique", langueNom, classePartsSuperGeneriqueLangue.nomSimpleComplet);
 			}
 
 
 
 
 
-//			if(classeNomCanoniqueSuperDoc == null) {
+//			if(classeNomCanoniqueSuperDoc == null) {  
 //				indexerStockerSolr(classeDoc, "classeNomCanoniqueSuper", langueNom, classeNomCanoniqueSuper); 
 //				indexerStockerSolr(classeDoc, "classeNomSimpleSuper", langueNom, classeNomSimpleSuper); 
 //			}
@@ -1429,75 +1512,34 @@ public class IndexerClasse extends RegarderClasseBase {
 						// est Entite. 
 						SolrInputDocument entiteDoc = classeDocClone.deepCopy();
 						String entiteVar = indexerStockerSolr(entiteDoc, "entiteVar", langueNom, StringUtils.substringAfter(methodeQdox.getName(), "_"));
+						String entiteVarCapitalise = indexerStockerSolr(entiteDoc, "entiteVarCapitalise", langueNom, StringUtils.capitalize(entiteVar));
 						JavaClass entiteClasseQdox = methodeParamsQdox.get(0).getJavaClass();
-						boolean entiteCouverture = false;
-						String entiteNomCanonique = indexerStockerSolr(entiteDoc, "entiteNomCanonique", langueNom, entiteClasseQdox.getCanonicalName());
+						ClasseParts entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseQdox, langueNom);
+						Boolean entiteCouverture = false;
 
-						String entiteNomSimple;
-						if(entiteNomCanonique.contains("."))
-							entiteNomSimple = StringUtils.substringBefore(StringUtils.substringAfterLast(entiteNomCanonique, "."), ">");
-						else
-							entiteNomSimple = StringUtils.substringBefore(entiteNomCanonique.toString(), ">");
-						indexerStockerSolr(entiteDoc, "entiteNomSimple", langueNom, entiteNomSimple);
+						if(entiteClasseParts.nomSimple.equals("Couverture")) {
+							entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseParts.nomCanoniqueGenerique, entiteVar);
+							entiteCouverture = true;
+							classeContientCouverture = true;
+						}
 
-						String entiteTypeOrigine = indexerStockerSolr(entiteDoc, "entiteTypeOrigine", langueNom, entiteClasseQdox.getGenericCanonicalName());
+						classePartsGenAjouter(entiteClasseParts);
+						if(StringUtils.isNotEmpty(entiteClasseParts.nomCanoniqueGenerique)) {
+							ClasseParts classePartsGenerique = ClasseParts.initClasseParts(this, entiteClasseParts.nomCanoniqueGenerique, langueNom);
+							classePartsGenAjouter(classePartsGenerique);
+						}
 
-						String entiteNomCompletGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteTypeOrigine, "<"), ">");
-						String entiteNomCanoniqueGenerique = null;
-						JavaClass entiteClasseGeneriqueQdox = null;
-						String entiteNomSimpleGenerique = null;
-						if(StringUtils.isNotEmpty(entiteNomCompletGenerique)) {
-							indexerStockerSolr(entiteDoc, "entiteNomCompletGenerique", langueNom, entiteNomCompletGenerique);
-							entiteNomCanoniqueGenerique = entiteNomCompletGenerique.contains("<") ? StringUtils.substringBefore(entiteNomCompletGenerique, "<") : entiteNomCompletGenerique;
-							entiteNomCanoniqueGenerique = entiteNomCompletGenerique.contains(",") ? StringUtils.substringBefore(entiteNomCompletGenerique, ",") : entiteNomCompletGenerique;
-							if(StringUtils.isNotEmpty(entiteNomCanoniqueGenerique)) {
-								indexerStockerSolr(entiteDoc, "entiteNomCanoniqueGenerique", langueNom, entiteNomCanoniqueGenerique);
-								entiteClasseGeneriqueQdox = bricoleur.getClassByName(entiteNomCanoniqueGenerique);
-	//							String nomCanoniqueGeneriqueEnUS = classe_.regex("nomCanonique.enUS:\\s*(.*)", commentaire, 1);
-	//							o.enUS(StringUtils.isEmpty(nomCanoniqueGeneriqueEnUS) ? o.frFR() : nomCanoniqueGeneriqueEnUS);
-	//							if(nomCanoniqueGenerique.frFR().contains(".")) {
-	//								classe_.importationsAjouter(nomCanoniqueGenerique);
-	//								classe_.importationsGenAjouter(nomCanoniqueGenerique);
-	//							}
-	
-								if(entiteNomCanoniqueGenerique.contains("."))
-									entiteNomSimpleGenerique = StringUtils.substringAfterLast(entiteNomCanoniqueGenerique, ".");
-								else
-									entiteNomSimpleGenerique = entiteNomCanoniqueGenerique;
-								indexerStockerSolr(entiteDoc, "entiteNomSimpleGenerique", langueNom, entiteNomSimpleGenerique);
-							}
-						}
-						
-						String entiteNomCanoniqueComplet;
-						if(StringUtils.isNotEmpty(entiteNomCompletGenerique))
-							entiteNomCanoniqueComplet = entiteNomCanonique + "<" + entiteNomCompletGenerique + ">";
-						else
-							entiteNomCanoniqueComplet = entiteNomCanonique;
-						indexerStockerSolr(entiteDoc, "entiteNomCanoniqueComplet", langueNom, entiteNomCanoniqueComplet);
-						
-						String entiteNomSimpleComplet = entiteNomSimple;
-						if(StringUtils.isNotEmpty(entiteNomCompletGenerique)) {
-							entiteNomSimpleComplet += "<";
-							if(entiteNomCompletGenerique.contains(".")) {
-								entiteNomSimpleComplet += StringUtils.substringAfterLast(entiteNomCompletGenerique, ".");
-							}
-							else {
-								entiteNomSimpleComplet += entiteNomCompletGenerique;
-							}
-							entiteNomSimpleComplet += ">";
-						}
-						indexerStockerSolr(entiteDoc, "entiteNomSimpleComplet", langueNom, entiteNomSimpleComplet);
-						
-						String entiteNomSimpleCompletGenerique = null;
-						if(StringUtils.isNotEmpty(entiteNomCompletGenerique)) {
-							if(entiteNomCompletGenerique.contains(".")) {
-								entiteNomSimpleCompletGenerique = StringUtils.substringAfterLast(entiteNomCompletGenerique, ".");
-							}
-							else {
-								entiteNomSimpleCompletGenerique = entiteNomCompletGenerique;
-							}
-						}
-						indexerStockerSolr(entiteDoc, "entiteNomSimpleCompletGenerique", langueNom, entiteNomSimpleCompletGenerique);
+						indexerStockerSolr(entiteDoc, "entiteCouverture", entiteCouverture);
+						indexerStockerSolr(entiteDoc, "entiteInitialise", true);
+
+						indexerStockerSolr(entiteDoc, "entiteNomCanonique", langueNom, entiteClasseParts.nomCanonique);
+						indexerStockerSolr(entiteDoc, "entiteNomSimple", langueNom, entiteClasseParts.nomSimple);
+						indexerStockerSolr(entiteDoc, "entiteNomCompletGenerique", langueNom, entiteClasseParts.nomCanoniqueGenerique);
+						indexerStockerSolr(entiteDoc, "entiteNomCanoniqueGenerique", langueNom, entiteClasseParts.nomCanoniqueGenerique);
+						indexerStockerSolr(entiteDoc, "entiteNomSimpleGenerique", langueNom, entiteClasseParts.nomSimpleGenerique);
+						indexerStockerSolr(entiteDoc, "entiteNomCanoniqueComplet", langueNom, entiteClasseParts.nomCanoniqueComplet);
+						indexerStockerSolr(entiteDoc, "entiteNomSimpleComplet", langueNom, entiteClasseParts.nomSimpleComplet);
+						indexerStockerSolr(entiteDoc, "entiteNomSimpleCompletGenerique", langueNom, entiteClasseParts.nomSimpleGenerique);
 						
 						JavaClass entiteClasseQdoxBase = null;
 						JavaClass entiteClasseSuperQdox = entiteClasseQdox.getSuperJavaClass();
@@ -1523,13 +1565,80 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteNomSimpleBase", langueNom, entiteNomSimpleBase);
 						
 						String entiteVarParam;
-						if(entiteNomCanonique.equals(ArrayList.class.getCanonicalName()) || entiteNomCanonique.equals(List.class.getCanonicalName()))
+						if(entiteClasseParts.nomCanonique.equals(ArrayList.class.getCanonicalName()) || entiteClasseParts.nomCanonique.equals(List.class.getCanonicalName()))
 							entiteVarParam = "l";
 						else
 							entiteVarParam = "o";
 						indexerStockerSolr(entiteDoc, "entiteVarParam", langueNom, entiteVarParam);
 						
 						String entiteVarCouverture = indexerStockerSolr(entiteDoc, "entiteVarCouverture", langueNom, entiteVar + "Couverture");
+
+						Boolean entiteInitLoin = indexerStockerSolr(entiteDoc, "entiteInitLoin", !entiteVar.endsWith("_") && BooleanUtils.isTrue(entiteClasseParts.etendGen));
+						
+//						String entiteParamVar = StringUtils.equalsAny(entiteClasseQdox, "");
+//						indexerStockerSolr(entiteDoc, "entiteParamVar", regexTrouve("^exact:\\s*(true)$", methodeCommentaire));
+//							if(nomCanonique.equals(classe_.nomCanoniqueArrayList) || nomCanonique.equals(classe_.nomCanoniqueList))
+//								o.tout("l");
+//							else if(o.estVide())
+//								o.tout("o");
+
+						List<JavaMethod> entiteMethodesAvant = new ArrayList<JavaMethod>();
+						entiteMethodesAvant.add(classeQdox.getMethodBySignature(entiteVar + "Avant", new ArrayList<JavaType>() {{ add(entiteClasseQdox); }}, true));
+						for(JavaClass c : classesSuperQdoxEtMoi) {
+							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
+							entiteMethodesAvant.add(classeQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
+							entiteMethodesAvant.add(classeQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classeQdoxString); }}, true));
+						}
+						for(JavaMethod methode : entiteMethodesAvant) {
+							if(methode != null) {
+								JavaParameter param = methode.getParameters().get(0);
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantVisibilite", methode.isPublic() ? "public" : "protected");
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantVar", methode.getName());
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantParamVar", param.getName());
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantNomParam", methode.getParameters().size() > 1);
+							}
+						}
+
+						List<JavaMethod> entiteMethodesApres = new ArrayList<JavaMethod>();
+						entiteMethodesApres.add(classeQdox.getMethodBySignature(entiteVar + "Apres", new ArrayList<JavaType>() {{ add(entiteClasseQdox); }}, true));
+						for(JavaClass c : classesSuperQdoxEtMoi) {
+							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
+							entiteMethodesApres.add(classeQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
+							entiteMethodesApres.add(classeQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classeQdoxString); }}, true));
+						}
+						for(JavaMethod methode : entiteMethodesApres) {
+							if(methode != null) {
+								JavaParameter param = methode.getParameters().get(0);
+								stockerListeSolr(entiteDoc, "entiteMethodesApresVar", methode.getName());
+								stockerListeSolr(entiteDoc, "entiteMethodesApresParamVar", param.getName());
+								stockerListeSolr(entiteDoc, "entiteMethodesApresParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
+								stockerListeSolr(entiteDoc, "entiteMethodesApresNomParam", methode.getParameters().size() > 1);
+							}
+						}
+
+						indexerStockerSolr(entiteDoc, "entiteExact", regexTrouve("^exact:\\s*(true)$", methodeCommentaire));
+						Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^cleUnique:\\s*(true)$", methodeCommentaire));
+						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^crypte:\\s*(true)$", methodeCommentaire));
+						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^suggere:\\s*(true)$", methodeCommentaire));
+						Boolean entiteSauvegarde = indexerStockerSolr(entiteDoc, "entiteSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", methodeCommentaire));
+						Boolean entiteIndexe = indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^indexe:\\s*(true)$", methodeCommentaire));
+						Boolean entiteIncremente = indexerStockerSolr(entiteDoc, "entiteIncremente", regexTrouve("^incremente:\\s*(true)$", methodeCommentaire));
+						Boolean entiteStocke = indexerStockerSolr(entiteDoc, "entiteStocke", regexTrouve("^stocke:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteIndexeOuStocke", entiteCleUnique || entiteCrypte || entiteSuggere || entiteIndexe || entiteStocke || entiteIncremente);
+						indexerStockerSolr(entiteDoc, "entitetexte", regexTrouve("^texte:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteNomAffichage", regexTrouve("^nomAffichage:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteIgnorer", regexTrouve("^ignorer:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteDeclarer", regexTrouve("^declarer:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteRechercher", regexTrouve("^rechercher:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteAttribuer", regexTrouve("^attribuer:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteAjouter", regexTrouve("^ajouter:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSupprimer", regexTrouve("^supprimer:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteModifier", regexTrouve("^modifier:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteRecharger", regexTrouve("^recharger:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^multiligne:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^cles:\\s*(true)$", methodeCommentaire));
+
 //						boolean entiteCouverture = false;
 //	
 //						String varEntiteEnUS = regex("^var.enUS: (.*)", methodeQdox.getComment());
@@ -1608,7 +1717,6 @@ public class IndexerClasse extends RegarderClasseBase {
 						
 						
 						
-						indexerStockerSolr(entiteDoc, "entiteVar", langueNom, entiteVar);
 						for(JavaAnnotation annotation : annotations) {
 							String entiteAnnotationLangue = indexerStockerSolr(entiteDoc, "entiteAnnotations", langueNom, annotation.getType().getCanonicalName());
 						}
@@ -1649,25 +1757,28 @@ public class IndexerClasse extends RegarderClasseBase {
 						entiteDoc.addField("cle", entiteCle);
 						indexerStockerSolr(entiteDoc, "partEstEntite", true);
 						indexerStockerSolr(entiteDoc, "partNumero", partNumero);
-	
-						String entiteVarLangue = regex("^var\\." + langueNom + ": (.*)", methodeCommentaire);
-						entiteVarLangue = indexerStockerSolr(entiteDoc, "entiteVar", langueNom, entiteVarLangue == null ? entiteVar : entiteVarLangue);
-	
-						List<String> entiteCommentairesLangue = regexListe("(.*)", methodeCommentaire);
-						String entiteCommentaireLangue = indexerStockerSolr(entiteDoc, "entiteCommentaire", langueNom, StringUtils.join(entiteCommentairesLangue, "\n"));
-	
-						String entiteBlocCode = methodeQdox.getCodeBlock();
-						String entiteBlocCodeLangue = entiteBlocCode;
-						ArrayList<String> remplacerClesLangue = regexListe("^r." + langueNom + "\\s*=\\s*(.*)\\n.*", methodeCommentaire);
-						ArrayList<String> remplacerValeursLangue = regexListe("^r." + langueNom + "\\s*=\\s*.*\\n(.*)", methodeCommentaire);
-						for(int i = 0; i < remplacerClesLangue.size(); i++) {
-							String cle = remplacerClesLangue.get(i);
-							String valeur = remplacerValeursLangue.get(i);
-							StringUtils.replace(entiteBlocCodeLangue, cle, valeur);
-						}
-						stockerSolr(entiteDoc, "entiteBlocCode", langueNom, entiteBlocCodeLangue); 
 
-						stockerRegexCommentaires(methodeCommentaire, langueNom, entiteDoc, "entiteCommentaire");
+						String entiteBlocCode = methodeQdox.getCodeBlock();
+	
+						for(String langueNom : autresLangues) {  
+							String entiteVarLangue = regex("^var\\." + langueNom + ": (.*)", methodeCommentaire);
+							entiteVarLangue = indexerStockerSolr(entiteDoc, "entiteVar", langueNom, entiteVarLangue == null ? entiteVar : entiteVarLangue);
+//		
+//							List<String> entiteCommentairesLangue = regexListe("(.*)", methodeCommentaire);
+//							String entiteCommentaireLangue = indexerStockerSolr(entiteDoc, "entiteCommentaire", langueNom, StringUtils.join(entiteCommentairesLangue, "\n"));
+	
+							String entiteBlocCodeLangue = entiteBlocCode;
+							ArrayList<String> remplacerClesLangue = regexListe("^r." + langueNom + "\\s*=\\s*(.*)\\n.*", methodeCommentaire);
+							ArrayList<String> remplacerValeursLangue = regexListe("^r." + langueNom + "\\s*=\\s*.*\\n(.*)", methodeCommentaire);
+							for(int i = 0; i < remplacerClesLangue.size(); i++) {
+								String cle = remplacerClesLangue.get(i);
+								String valeur = remplacerValeursLangue.get(i);
+								StringUtils.replace(entiteBlocCodeLangue, cle, valeur);
+							}
+							stockerSolr(entiteDoc, "entiteBlocCode", langueNom, entiteBlocCodeLangue); 
+	
+							stockerRegexCommentaires(methodeCommentaire, langueNom, entiteDoc, "entiteCommentaire");
+						}
 
 						clientSolrComputate.add(entiteDoc); 
 						
@@ -1814,10 +1925,25 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
+		
+		if(classeContientCouverture) {
+			ClasseParts classePartsCouverture = classePartsCouverture(nomEnsembleDomaine);
+			classePartsGenAjouter(classePartsCouverture);
+		}
+
+		for(ClasseParts classePartGen : classePartsGen.values()) {
+			indexerStockerListeSolr(classeDoc, "classeImportationsGen", langueNom, classePartGen.nomCanonique);
+			for(String langueNom : autresLangues) {  
+				ClasseParts classeImportationClassePartsLangue = ClasseParts.initClasseParts(this, classePartGen, langueNom);
+				indexerStockerListeSolr(classeDoc, "classeImportationsGen", langueNom, classeImportationClassePartsLangue.nomCanonique);
+			}
+		}
+
 		clientSolrComputate.add(classeDoc);
 		clientSolrComputate.commit();
 		String qSupprimer = concat("classeCheminAbsolu_indexed_string", ":\"", classeChemin, "\" AND (modifiee_indexed_date:[* TO ", modifiee.toString(), "-1MILLI] OR (*:* NOT modifiee_indexed_date:*))");
 		clientSolrComputate.deleteByQuery(qSupprimer);
 		clientSolrComputate.commit(); 
+		return classeDoc;
 	}
 }

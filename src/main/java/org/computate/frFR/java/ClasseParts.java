@@ -9,13 +9,12 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.computate.frFR.config.ConfigSite;
 
 import com.thoughtworks.qdox.model.JavaClass;
 
-/** 
+/**
  * nomCanonique.enUS: org.computate.enUS.java.ClassParts
- */  
+ */ 
 public class ClasseParts {
 
 	/**
@@ -47,6 +46,11 @@ public class ClasseParts {
 	 * var.enUS: simpleNameGeneric
 	 */
 	public String nomSimpleGenerique;
+
+	/**
+	 * var.enUS: extendsGen
+	 */
+	public Boolean etendGen;
 
 	/**
 	 * var.enUS: solrDocument
@@ -86,6 +90,7 @@ public class ClasseParts {
 			rechercheSolr.setRows(1);
 			rechercheSolr.addFilterQuery("classeNomCanonique_" + configSite.langueNomActuel + "_indexed_string:" + ClientUtils.escapeQueryChars(nomCanonique));
 			rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+			rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(configSite.nomEnsembleDomaine));
 			QueryResponse reponseRecherche = configSite.clientSolrComputate.query(rechercheSolr);
 			SolrDocumentList listeRecherche = reponseRecherche.getResults();
 			if(listeRecherche.size() > 0) { 
@@ -201,6 +206,7 @@ public class ClasseParts {
 				rechercheSolr.setRows(1);
 				rechercheSolr.addFilterQuery("classeNomSimple_" + configSite.langueNomActuel + "_indexed_string:" + ClientUtils.escapeQueryChars(nomSimplePart));
 				rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(configSite.nomEnsembleDomaine));
 				QueryResponse reponseRecherche = configSite.clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList listeRecherche = reponseRecherche.getResults();
 				if(listeRecherche.size() > 0) { 
@@ -281,6 +287,7 @@ public class ClasseParts {
 		if(classeParts.documentSolr != null) {
 			nomCanonique = (String)classeParts.documentSolr.get("classeNomCanonique_" + langueNom + "_stored_string");
 			nomSimple = (String)classeParts.documentSolr.get("classeNomSimple_" + langueNom + "_stored_string");
+			classeParts.etendGen = (Boolean)classeParts.documentSolr.get("classeEtendGen_stored_boolean");
 
 		}
 		if(nomCanonique != null && nomSimple != null) {
@@ -349,6 +356,7 @@ public class ClasseParts {
 		b.append("nomCanoniqueGenerique: ").append(nomCanoniqueGenerique).append("\n");
 		b.append("nomSimpleComplet: ").append(nomSimpleComplet).append("\n");
 		b.append("nomSimpleGenerique: ").append(nomSimpleGenerique).append("\n");
+		b.append("etendGen: ").append(etendGen).append("\n");
 		return b.toString();
 	}
 }

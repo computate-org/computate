@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -265,7 +266,7 @@ public class IndexClass extends WatchClassBase {
 		return comment;
 	}
 
-	protected void  indexClass(String classAbsolutePath) throws Exception { 
+	protected SolrInputDocument indexClass(String classAbsolutePath) throws Exception { 
 		SolrInputDocument classDoc = new SolrInputDocument();
 		String classCanonicalName = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classAbsolutePath, "."), srcMainJavaPath + "/"), "/", ".");
 		String classSimpleName = StringUtils.substringAfterLast(classCanonicalName, ".");
@@ -273,11 +274,11 @@ public class IndexClass extends WatchClassBase {
 		String classSimpleNameGen = classSimpleName + "Gen";
 		JavaClass classQdox = builder.getClassByName(classCanonicalName.toString());
 		JavaClass classSuperQdox = classQdox.getSuperJavaClass();
+		JavaClass classQdoxString = builder.getClassByName(String.class.getCanonicalName());
 		String classSuperCanonicalName = classSuperQdox.getCanonicalName();
 		String classSuperSimpleName = StringUtils.substringAfterLast(classSuperCanonicalName, ".");
 		if(StringUtils.isEmpty(classSuperSimpleName))
 			classSuperSimpleName = classSuperCanonicalName;
-		Boolean classExtendsGen = indexStoreSolr(classDoc, "classExtendsGen", StringUtils.endsWith(classSuperSimpleName, "Gen"));
 
 		List<JavaTypeVariable<JavaGenericDeclaration>> classTypeParameters = classQdox.getTypeParameters();
 		for(JavaTypeVariable<JavaGenericDeclaration> classTypeParameter : classTypeParameters) {
@@ -301,26 +302,30 @@ public class IndexClass extends WatchClassBase {
 		String classSuperCanonicalNameGeneric = null;
 		String classSuperSimpleNameGeneric = null;
 		JavaClass classeSuperGeneriqueQdox = null;
+		Boolean classeBaseEtendGen = false;
 		if(StringUtils.isNotEmpty(classSuperCompleteName)) {
 			indexStoreSolr(classDoc, "classSuperCompleteNameGeneric", languageName, classSuperCompleteNameGeneric);
-			classSuperCanonicalNameGeneric = classSuperCompleteName.contains("<") ? StringUtils.substringBefore(classSuperCompleteName, "<") : classSuperCompleteName;
-			classSuperCanonicalNameGeneric = classSuperCompleteName.contains(",") ? StringUtils.substringBefore(classSuperCompleteName, ",") : classSuperCompleteName;
-			if(StringUtils.isNotEmpty(classSuperCanonicalNameGeneric)) {
+			if(classSuperCompleteName.contains("<")) {
+				classSuperCanonicalNameGeneric = StringUtils.substringAfter(StringUtils.substringBeforeLast(classSuperCompleteName, ">"), "<");
+				classSuperCanonicalNameGeneric = classSuperCanonicalNameGeneric.contains(",") ? StringUtils.substringBefore(classSuperCanonicalNameGeneric, ",") : classSuperCanonicalNameGeneric;
 				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classSuperCanonicalNameGeneric);
 				classeSuperGeneriqueQdox = builder.getClassByName(classSuperCanonicalNameGeneric);
+				classSuperCompleteNameGeneric = classSuperCanonicalNameGeneric;
 
 				if(classSuperCanonicalNameGeneric.contains("."))
 					classSuperSimpleNameGeneric = StringUtils.substringAfterLast(classSuperCanonicalNameGeneric, ".");
 				else
 					classSuperSimpleNameGeneric = classSuperCanonicalNameGeneric;
 				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classSuperSimpleNameGeneric);
+
+				ClassParts classePartsBase = ClassParts.initClassParts(this, classSuperCanonicalNameGeneric, languageName);
+				classeBaseEtendGen = classePartsBase.etendGen;
 			}
 		}
+		indexStoreSolr(classDoc, "classeBaseEtendGen", classeBaseEtendGen);
+		indexStoreSolr(classDoc, "classeContientRequeteSite", classQdox.getMethodBySignature("getRequeteSite", null, true) != null);
 		
-		
-		
-		
-		String comment = storeRegexComments(classQdox.getComment(), languageName, classDoc, "classComment");
+		String classComment = storeRegexComments(classQdox.getComment(), languageName, classDoc, "classComment");
 		String classPackageName = StringUtils.substringBeforeLast(classCanonicalName, ".");
 		String classPath = concat(srcMainJavaPath, "/", StringUtils.replace(classCanonicalName, ".", "/"), ".java");
 		String classDirPath = StringUtils.substringBeforeLast(classPath, "/");
@@ -329,6 +334,11 @@ public class IndexClass extends WatchClassBase {
 		String classKey = classAbsolutePath;
 		Instant modified = Instant.now();
 		Date modifiedDate = Date.from(modified);
+
+		Boolean classExtendsGen = StringUtils.endsWith(classSuperSimpleName, "Gen");
+		if(!classExtendsGen && regexFound("^gen:\\s*(true)$", classComment))
+			classExtendsGen = true;
+		indexStoreSolr(classDoc, "classExtendsGen", classExtendsGen);
 		
 		ArrayList<JavaClass> qdoxSuperClasses = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> qdoxSuperClassesAndMe = new ArrayList<JavaClass>();
@@ -353,6 +363,20 @@ public class IndexClass extends WatchClassBase {
 		indexStoreSolr(classDoc, "classGenPath", languageName, classGenPath); 
 		indexStoreSolr(classDoc, "classGenDirPath", languageName, classGenDirPath); 
 
+		if(classComment != null) {
+			Matcher classeValsRecherche = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classComment);
+			boolean classeValsTrouve = classeValsRecherche.find();
+			while(classeValsTrouve) {
+				String classeValVar = classeValsRecherche.group(1);
+				String classeValLangue = classeValsRecherche.group(2);
+				String classeValValeur = classeValsRecherche.group(3);
+				storeListSolr(classDoc, "classeValsVar", classeValVar);
+				storeListSolr(classDoc, "classeValsLangue", classeValLangue);
+				storeListSolr(classDoc, "classeValsValeur", classeValValeur);
+				classeValsTrouve = classeValsRecherche.find();
+			}
+		}
+
 		SolrDocument classSuperCanonicalNameDoc = null;   
 		if(StringUtils.startsWith(classSuperCanonicalName, domainPackageName)) {
 			SolrQuery solrSearch = new SolrQuery();   
@@ -368,10 +392,10 @@ public class IndexClass extends WatchClassBase {
 		}  
 		for(String languageName : otherLanguages) { 
 			String appPathLanguage = appPaths.get(languageName);
-			storeRegexComments(comment, languageName, classDoc, "classComment");
+			storeRegexComments(classComment, languageName, classDoc, "classComment");
 			String srcMainJavaPathLanguage = appPathLanguage + "/src/main/java";
 			String srcGenJavaPathLanguage = appPathLanguage + "/src/gen/java";
-			String classCanonicalNameLanguage = regex("^canonicalName\\." + languageName + ":\\s*(.*)", comment, classCanonicalName);
+			String classCanonicalNameLanguage = regex("^canonicalName\\." + languageName + ":\\s*(.*)", classComment, classCanonicalName);
 			String classSimpleNameLanguage = StringUtils.substringAfterLast(classCanonicalNameLanguage, ".");
 			String classPackageNameLanguage = StringUtils.substringBeforeLast(classCanonicalNameLanguage, ".");
 			String classCanonicalNameGenLanguage = classCanonicalNameLanguage + "Gen";
@@ -390,25 +414,28 @@ public class IndexClass extends WatchClassBase {
 			String classSuperCompleteNameLanguage;
 			ClassParts classSuperPartsLanguage;
 
-			if(classExtendsGen)
+			if(classExtendsGen) {
 				classSuperPartsLanguage = ClassParts.initClassParts(this, classCanonicalNameLanguage + "Gen", languageName);
-			else
+			}
+			else {
 				classSuperPartsLanguage = ClassParts.initClassParts(this, classSuperQdox, languageName);
+			}
 
 			indexStoreSolr(classDoc, "classSuperCanonicalName", languageName, classSuperPartsLanguage.canonicalName); 
 			indexStoreSolr(classDoc, "classSuperSimpleName", languageName, classSuperPartsLanguage.simpleName); 
 			indexStoreSolr(classDoc, "classCanonicalNameCompletSuper", languageName, classSuperPartsLanguage.canonicalNameComplete);
 			indexStoreSolr(classDoc, "classSimpleNameCompletSuper", languageName, classSuperPartsLanguage.simpleNameComplete);
-			if(StringUtils.isNotEmpty(classSuperPartsLanguage.canonicalNameGeneric)) {
-				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classSuperPartsLanguage.canonicalNameGeneric);
-				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classSuperPartsLanguage.simpleNameGeneric);
+			if(StringUtils.isNotEmpty(classSuperCompleteNameGeneric)) {
+				ClassParts classePartsSuperGeneriqueLangue = ClassParts.initClassParts(this, classSuperCompleteNameGeneric, languageName);
+				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classePartsSuperGeneriqueLangue.canonicalNameComplete);
+				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classePartsSuperGeneriqueLangue.simpleNameComplete);
 			}
 
 
 
 
 
-//			if(classSuperCanonicalNameDoc == null) {
+//			if(classSuperCanonicalNameDoc == null) {  
 //				indexStoreSolr(classDoc, "classSuperCanonicalName", languageName, classSuperCanonicalName); 
 //				indexStoreSolr(classDoc, "classSuperSimpleName", languageName, classSuperSimpleName); 
 //			}
@@ -622,75 +649,26 @@ public class IndexClass extends WatchClassBase {
 						// est Entite. 
 						SolrInputDocument entiteDoc = classDocClone.deepCopy();
 						String entiteVar = indexStoreSolr(entiteDoc, "entiteVar", languageName, StringUtils.substringAfter(methodQdox.getName(), "_"));
+						String entiteVarCapitalise = indexStoreSolr(entiteDoc, "entiteVarCapitalise", languageName, StringUtils.capitalize(entiteVar));
 						JavaClass entiteClasseQdox = methodParamsQdox.get(0).getJavaClass();
-						boolean entiteCouverture = false;
-						String entiteNomCanonique = indexStoreSolr(entiteDoc, "entiteNomCanonique", languageName, entiteClasseQdox.getCanonicalName());
+						ClassParts entiteClassParts = ClassParts.initClassParts(this, entiteClasseQdox, languageName);
+						Boolean entiteCouverture = false;
 
-						String entiteNomSimple;
-						if(entiteNomCanonique.contains("."))
-							entiteNomSimple = StringUtils.substringBefore(StringUtils.substringAfterLast(entiteNomCanonique, "."), ">");
-						else
-							entiteNomSimple = StringUtils.substringBefore(entiteNomCanonique.toString(), ">");
-						indexStoreSolr(entiteDoc, "entiteNomSimple", languageName, entiteNomSimple);
+						if(entiteClassParts.simpleName.equals("Couverture")) {
+							entiteClassParts = ClassParts.initClassParts(this, entiteClassParts.canonicalNameGeneric, entiteVar);
+							entiteCouverture = true;
+						}
+						indexStoreSolr(entiteDoc, "entiteCouverture", entiteCouverture);
+						indexStoreSolr(entiteDoc, "entiteInitialise", true);
 
-						String entiteTypeOrigine = indexStoreSolr(entiteDoc, "entiteTypeOrigine", languageName, entiteClasseQdox.getGenericCanonicalName());
-
-						String entiteNomCompletGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteTypeOrigine, "<"), ">");
-						String entiteNomCanoniqueGenerique = null;
-						JavaClass entiteClasseGeneriqueQdox = null;
-						String entiteNomSimpleGenerique = null;
-						if(StringUtils.isNotEmpty(entiteNomCompletGenerique)) {
-							indexStoreSolr(entiteDoc, "entiteNomCompletGenerique", languageName, entiteNomCompletGenerique);
-							entiteNomCanoniqueGenerique = entiteNomCompletGenerique.contains("<") ? StringUtils.substringBefore(entiteNomCompletGenerique, "<") : entiteNomCompletGenerique;
-							entiteNomCanoniqueGenerique = entiteNomCompletGenerique.contains(",") ? StringUtils.substringBefore(entiteNomCompletGenerique, ",") : entiteNomCompletGenerique;
-							if(StringUtils.isNotEmpty(entiteNomCanoniqueGenerique)) {
-								indexStoreSolr(entiteDoc, "entiteNomCanoniqueGenerique", languageName, entiteNomCanoniqueGenerique);
-								entiteClasseGeneriqueQdox = builder.getClassByName(entiteNomCanoniqueGenerique);
-	//							String canonicalNameGenericEnUS = classe_.regex("canonicalName.enUS:\\s*(.*)", comment, 1);
-	//							o.enUS(StringUtils.isEmpty(canonicalNameGenericEnUS) ? o.frFR() : canonicalNameGenericEnUS);
-	//							if(canonicalNameGeneric.frFR().contains(".")) {
-	//								classe_.importationsAjouter(canonicalNameGeneric);
-	//								classe_.importationsGenAjouter(canonicalNameGeneric);
-	//							}
-	
-								if(entiteNomCanoniqueGenerique.contains("."))
-									entiteNomSimpleGenerique = StringUtils.substringAfterLast(entiteNomCanoniqueGenerique, ".");
-								else
-									entiteNomSimpleGenerique = entiteNomCanoniqueGenerique;
-								indexStoreSolr(entiteDoc, "entiteNomSimpleGenerique", languageName, entiteNomSimpleGenerique);
-							}
-						}
-						
-						String entiteNomCanoniqueComplet;
-						if(StringUtils.isNotEmpty(entiteNomCompletGenerique))
-							entiteNomCanoniqueComplet = entiteNomCanonique + "<" + entiteNomCompletGenerique + ">";
-						else
-							entiteNomCanoniqueComplet = entiteNomCanonique;
-						indexStoreSolr(entiteDoc, "entiteNomCanoniqueComplet", languageName, entiteNomCanoniqueComplet);
-						
-						String entiteNomSimpleComplet = entiteNomSimple;
-						if(StringUtils.isNotEmpty(entiteNomCompletGenerique)) {
-							entiteNomSimpleComplet += "<";
-							if(entiteNomCompletGenerique.contains(".")) {
-								entiteNomSimpleComplet += StringUtils.substringAfterLast(entiteNomCompletGenerique, ".");
-							}
-							else {
-								entiteNomSimpleComplet += entiteNomCompletGenerique;
-							}
-							entiteNomSimpleComplet += ">";
-						}
-						indexStoreSolr(entiteDoc, "entiteNomSimpleComplet", languageName, entiteNomSimpleComplet);
-						
-						String entiteNomSimpleCompletGenerique = null;
-						if(StringUtils.isNotEmpty(entiteNomCompletGenerique)) {
-							if(entiteNomCompletGenerique.contains(".")) {
-								entiteNomSimpleCompletGenerique = StringUtils.substringAfterLast(entiteNomCompletGenerique, ".");
-							}
-							else {
-								entiteNomSimpleCompletGenerique = entiteNomCompletGenerique;
-							}
-						}
-						indexStoreSolr(entiteDoc, "entiteNomSimpleCompletGenerique", languageName, entiteNomSimpleCompletGenerique);
+						indexStoreSolr(entiteDoc, "entiteNomCanonique", languageName, entiteClassParts.canonicalName);
+						indexStoreSolr(entiteDoc, "entiteNomSimple", languageName, entiteClassParts.simpleName);
+						indexStoreSolr(entiteDoc, "entiteNomCompletGenerique", languageName, entiteClassParts.canonicalNameGeneric);
+						indexStoreSolr(entiteDoc, "entiteNomCanoniqueGenerique", languageName, entiteClassParts.canonicalNameGeneric);
+						indexStoreSolr(entiteDoc, "entiteNomSimpleGenerique", languageName, entiteClassParts.simpleNameGeneric);
+						indexStoreSolr(entiteDoc, "entiteNomCanoniqueComplet", languageName, entiteClassParts.canonicalNameComplete);
+						indexStoreSolr(entiteDoc, "entiteNomSimpleComplet", languageName, entiteClassParts.simpleNameComplete);
+						indexStoreSolr(entiteDoc, "entiteNomSimpleCompletGenerique", languageName, entiteClassParts.simpleNameGeneric);
 						
 						JavaClass entiteClasseQdoxBase = null;
 						JavaClass entiteClasseSuperQdox = entiteClasseQdox.getSuperJavaClass();
@@ -716,13 +694,79 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entiteDoc, "entiteNomSimpleBase", languageName, entiteNomSimpleBase);
 						
 						String entiteVarParam;
-						if(entiteNomCanonique.equals(ArrayList.class.getCanonicalName()) || entiteNomCanonique.equals(List.class.getCanonicalName()))
+						if(entiteClassParts.canonicalName.equals(ArrayList.class.getCanonicalName()) || entiteClassParts.canonicalName.equals(List.class.getCanonicalName()))
 							entiteVarParam = "l";
 						else
 							entiteVarParam = "o";
 						indexStoreSolr(entiteDoc, "entiteVarParam", languageName, entiteVarParam);
 						
 						String entiteVarCouverture = indexStoreSolr(entiteDoc, "entiteVarCouverture", languageName, entiteVar + "Couverture");
+
+						Boolean entiteInitLoin = indexStoreSolr(entiteDoc, "entiteInitLoin", !entiteVar.endsWith("_") && BooleanUtils.isTrue(entiteClassParts.etendGen));
+						
+//						String entiteParamVar = StringUtils.equalsAny(entiteClasseQdox, "");
+//						indexStoreSolr(entiteDoc, "entiteParamVar", regexFound("^exact:\\s*(true)$", methodComment));
+//							if(canonicalName.equals(classe_.canonicalNameArrayList) || canonicalName.equals(classe_.canonicalNameList))
+//								o.tout("l");
+//							else if(o.estVide())
+//								o.tout("o");
+
+						List<JavaMethod> entiteMethodesAvant = new ArrayList<JavaMethod>();
+						entiteMethodesAvant.add(classQdox.getMethodBySignature(entiteVar + "Avant", new ArrayList<JavaType>() {{ add(entiteClasseQdox); }}, true));
+						for(JavaClass c : qdoxSuperClassesAndMe) {
+							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
+							entiteMethodesAvant.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
+							entiteMethodesAvant.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classQdoxString); }}, true));
+						}
+						for(JavaMethod methode : entiteMethodesAvant) {
+							if(methode != null) {
+								JavaParameter param = methode.getParameters().get(0);
+								storeListSolr(entiteDoc, "entiteMethodesAvantVisibilite", methode.isPublic() ? "public" : "protected");
+								storeListSolr(entiteDoc, "entiteMethodesAvantVar", methode.getName());
+								storeListSolr(entiteDoc, "entiteMethodesAvantParamVar", param.getName());
+								storeListSolr(entiteDoc, "entiteMethodesAvantParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
+								storeListSolr(entiteDoc, "entiteMethodesAvantNomParam", methode.getParameters().size() > 1);
+							}
+						}
+
+						List<JavaMethod> entiteMethodesApres = new ArrayList<JavaMethod>();
+						entiteMethodesApres.add(classQdox.getMethodBySignature(entiteVar + "Apres", new ArrayList<JavaType>() {{ add(entiteClasseQdox); }}, true));
+						for(JavaClass c : qdoxSuperClassesAndMe) {
+							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
+							entiteMethodesApres.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
+							entiteMethodesApres.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classQdoxString); }}, true));
+						}
+						for(JavaMethod methode : entiteMethodesApres) {
+							if(methode != null) {
+								JavaParameter param = methode.getParameters().get(0);
+								storeListSolr(entiteDoc, "entiteMethodesApresVar", methode.getName());
+								storeListSolr(entiteDoc, "entiteMethodesApresParamVar", param.getName());
+								storeListSolr(entiteDoc, "entiteMethodesApresParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
+								storeListSolr(entiteDoc, "entiteMethodesApresNomParam", methode.getParameters().size() > 1);
+							}
+						}
+
+						indexStoreSolr(entiteDoc, "entiteExact", regexFound("^exact:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteCleUnique", regexFound("^cleUnique:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteIndexe", regexFound("^indexe:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteStocke", regexFound("^stocke:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteCrypte", regexFound("^crypte:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteSuggere", regexFound("^suggere:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteSauvegarde", regexFound("^sauvegarde:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entitetexte", regexFound("^texte:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteIncremente", regexFound("^incremente:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteNomAffichage", regexFound("^nomAffichage:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteIgnorer", regexFound("^ignorer:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteDeclarer", regexFound("^declarer:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteRechercher", regexFound("^rechercher:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteAttribuer", regexFound("^attribuer:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteAjouter", regexFound("^ajouter:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteSupprimer", regexFound("^supprimer:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteModifier", regexFound("^modifier:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteRecharger", regexFound("^recharger:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteMultiligne", regexFound("^multiligne:\\s*(true)$", methodComment));
+						indexStoreSolr(entiteDoc, "entiteCles", regexFound("^cles:\\s*(true)$", methodComment));
+
 //						boolean entiteCouverture = false;
 //	
 //						String varEntiteEnUS = regex("^var.enUS: (.*)", methodQdox.getComment());
@@ -801,7 +845,6 @@ public class IndexClass extends WatchClassBase {
 						
 						
 						
-						indexStoreSolr(entiteDoc, "entiteVar", languageName, entiteVar);
 						for(JavaAnnotation annotation : annotations) {
 							String entiteAnnotationLangue = indexStoreSolr(entiteDoc, "entiteAnnotations", languageName, annotation.getType().getCanonicalName());
 						}
@@ -842,25 +885,28 @@ public class IndexClass extends WatchClassBase {
 						entiteDoc.addField("key", entiteCle);
 						indexStoreSolr(entiteDoc, "partEstEntite", true);
 						indexStoreSolr(entiteDoc, "partNumber", partNumber);
-	
-						String entiteVarLangue = regex("^var\\." + languageName + ": (.*)", methodComment);
-						entiteVarLangue = indexStoreSolr(entiteDoc, "entiteVar", languageName, entiteVarLangue == null ? entiteVar : entiteVarLangue);
-	
-						List<String> entiteCommentairesLangue = regexList("(.*)", methodComment);
-						String entiteCommentaireLangue = indexStoreSolr(entiteDoc, "entiteCommentaire", languageName, StringUtils.join(entiteCommentairesLangue, "\n"));
-	
-						String entiteBlocCode = methodQdox.getCodeBlock();
-						String entiteBlocCodeLangue = entiteBlocCode;
-						ArrayList<String> replaceKeysLanguage = regexList("^r." + languageName + "\\s*=\\s*(.*)\\n.*", methodComment);
-						ArrayList<String> replaceValuesLanguage = regexList("^r." + languageName + "\\s*=\\s*.*\\n(.*)", methodComment);
-						for(int i = 0; i < replaceKeysLanguage.size(); i++) {
-							String cle = replaceKeysLanguage.get(i);
-							String valeur = replaceValuesLanguage.get(i);
-							StringUtils.replace(entiteBlocCodeLangue, cle, valeur);
-						}
-						storeSolr(entiteDoc, "entiteBlocCode", languageName, entiteBlocCodeLangue); 
 
-						storeRegexComments(methodComment, languageName, entiteDoc, "entiteCommentaire");
+						String entiteBlocCode = methodQdox.getCodeBlock();
+	
+						for(String languageName : otherLanguages) {  
+							String entiteVarLangue = regex("^var\\." + languageName + ": (.*)", methodComment);
+							entiteVarLangue = indexStoreSolr(entiteDoc, "entiteVar", languageName, entiteVarLangue == null ? entiteVar : entiteVarLangue);
+//		
+//							List<String> entiteCommentairesLangue = regexList("(.*)", methodComment);
+//							String entiteCommentaireLangue = indexStoreSolr(entiteDoc, "entiteCommentaire", languageName, StringUtils.join(entiteCommentairesLangue, "\n"));
+	
+							String entiteBlocCodeLangue = entiteBlocCode;
+							ArrayList<String> replaceKeysLanguage = regexList("^r." + languageName + "\\s*=\\s*(.*)\\n.*", methodComment);
+							ArrayList<String> replaceValuesLanguage = regexList("^r." + languageName + "\\s*=\\s*.*\\n(.*)", methodComment);
+							for(int i = 0; i < replaceKeysLanguage.size(); i++) {
+								String cle = replaceKeysLanguage.get(i);
+								String valeur = replaceValuesLanguage.get(i);
+								StringUtils.replace(entiteBlocCodeLangue, cle, valeur);
+							}
+							storeSolr(entiteDoc, "entiteBlocCode", languageName, entiteBlocCodeLangue); 
+	
+							storeRegexComments(methodComment, languageName, entiteDoc, "entiteCommentaire");
+						}
 
 						solrClientComputate.add(entiteDoc); 
 						
@@ -1012,5 +1058,6 @@ public class IndexClass extends WatchClassBase {
 		String qDelete = concat("classAbsolutePath_indexed_string", ":\"", classPath, "\" AND (modified_indexed_date:[* TO ", modified.toString(), "-1MILLI] OR (*:* NOT modified_indexed_date:*))");
 		solrClientComputate.deleteByQuery(qDelete);
 		solrClientComputate.commit(); 
+		return classDoc;
 	}
 }

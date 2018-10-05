@@ -3,6 +3,7 @@ package org.computate.frFR.java;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
 
 /**
@@ -51,11 +52,11 @@ public class RegarderClasse extends EcrireGenClasse {
 	 * r.enUS: allLanguages
 	 * r: autresLangues
 	 * r.enUS: otherLanguages
-	 */
+	 */ 
 	public static void regarderClasse(RegarderClasse regarderClasse) throws Exception {
 		System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
 
-		regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu);
+		SolrInputDocument classeDoc = regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu);
 //		if("tout".equals(regarderClasse.langueNom)) {
 //			regarderClasse.ecrireClasseGen(regarderClasse.classeCheminAbsolu, regarderClasse.langueNom);
 			for(String langueNom : regarderClasse.toutesLangues) {
@@ -73,11 +74,20 @@ public class RegarderClasse extends EcrireGenClasse {
 
 	@Test
 	public void testStuff() throws Exception {
-		String appliNom = "computate";
-		String appliChemin = "/usr/local/src/computate";
+//		String appliNom = "computate";
+//		String appliChemin = "/usr/local/src/computate";
 //		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderClasseBase.java";
 //		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/couverture/Couverture.java";
-		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderRepertoire.java";
+//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderRepertoire.java";
+//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireGenClasse.java";
+//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireClasse.java";
+//		String appliNom = "computate.org";
+//		String appliChemin = "/usr/local/src/computate.org";
+//		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/config/ConfigSite.java";
+//		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/EcouteurContexte.java";
+		String appliNom = "heytate-cardiac";
+		String appliChemin = "/usr/local/src/heytate-cardiac";
+		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/requete/RequeteSite.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;

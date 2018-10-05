@@ -88,6 +88,10 @@ public class RegarderRepertoire {
 	 */
 	protected ArrayList<String> cheminsSource = new ArrayList<String>();
 	/**
+	 * var.enUS: relativePathsToWatch
+	 */
+	protected ArrayList<String> cheminsRelatifsARegarder = new ArrayList<String>();
+	/**
 	 * var.enUS: allSourcePaths
 	 */
 	protected ArrayList<String> toutCheminsSource = new ArrayList<String>();
@@ -169,6 +173,7 @@ public class RegarderRepertoire {
 	 * r.enUS: configFile
 	 */
 	public static void main(String[] args) throws Exception { 
+		Logger log = org.slf4j.LoggerFactory.getLogger(RegarderRepertoire.class);
 		String appliNom = System.getenv("appliNom");
 		String appliChemin = System.getenv("appliChemin");
 		String appliComputateChemin = System.getenv("appliComputateChemin");
@@ -239,12 +244,22 @@ public class RegarderRepertoire {
 	 * r.enUS: libraryPaths
 	 * r: classeChemin
 	 * r.enUS: classPath
+	 * r: cheminsRelatifsARegarder
+	 * r.enUS: relativePathsToWatch
+	 * r: appliChemin
+	 * r.enUS: appPath
+	 * r: appliNom
+	 * r.enUS: appName
 	 */
 	public void initialiserRegarderRepertoire() throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
 //		executeur.setStreamHandler(gestionnaireFluxPompe);
+		String[] cheminsRelatifsARegarder = configuration.getStringArray(StringUtils.replace(appliNom, ".", "..") + ".cheminsRelatifsARegarder");
+		for(String cheminRelatifARegarder : cheminsRelatifsARegarder) {
+			String cheminARegarder = appliChemin + "/" + cheminRelatifARegarder;
+			cheminsARegarder.add(cheminARegarder);
+		}
 
-		cheminsARegarder.add(cheminSrcMainJava);
 		cheminsSource.add(cheminSrcMainJava);
 		toutCheminsSource.add(cheminSrcMainJava);
 
@@ -447,8 +462,8 @@ public class RegarderRepertoire {
 
 				try { 
 					String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
-					String cp = FileUtils.readFileToString(new File(appliChemin + "/config/cp.txt"), "UTF-8");
-					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + appliChemin + "/target/classes\" " + RegarderClasse.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
+					String cp = FileUtils.readFileToString(new File(appliComputateChemin + "/config/cp.txt"), "UTF-8");
+					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + appliComputateChemin + "/target/classes\" " + RegarderClasse.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
 					File repertoireTravail = new File(appliComputateChemin);
 
 					executeur.setWorkingDirectory(repertoireTravail);

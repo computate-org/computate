@@ -1,4 +1,4 @@
-package org.computate.frFR.config;    
+package org.computate.frFR.java;    
 
 import java.io.File;
 import java.util.ArrayList;
@@ -104,7 +104,6 @@ public class ConfigSite {
 	 **/ 
 	protected void _cheminConfig() throws Exception {
 		cheminConfig = appliChemin + "/config/" + appliNom + ".config";
-		System.out.println("cheminConfig: " + cheminConfig);  
 	}
 //
 //	/**
@@ -126,7 +125,7 @@ public class ConfigSite {
 //	 * configFileName
 //	 **/ 
 //	protected void _cheminConfig() throws Exception {
-//		cheminConfig = config.getString(appliNom + ".cheminConfig", appliChemin + "/config/" + nomFichierConfig);
+//		cheminConfig = config.getString(StringUtils.replace(appliNom, ".", "..") + ".cheminConfig", appliChemin + "/config/" + nomFichierConfig);
 //	}
 
 	/**
@@ -178,7 +177,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _langueNom() throws Exception {
-		langueNom = config.getString(appliNom + ".langueNom");
+		langueNom = config.getString(StringUtils.replace(appliNom, ".", "..") + ".langueNom");
 	} 
 
 	/**
@@ -214,9 +213,12 @@ public class ConfigSite {
 	 * r.enUS: allLanguages
 	 * r: langueNom
 	 * r.enUS: languageName
+	 * r: appliNom
+	 * r.enUS: appName
 	 **/ 
 	protected void _autresLangues() throws Exception {
-		autresLangues = config.getStringArray(appliNom + ".autresLangues");
+		autresLangues = config.getStringArray(StringUtils.replace(appliNom, ".", "..") + ".autresLangues");
+		System.out.println("autresLangues: " + autresLangues);
 	}
 
 	/**
@@ -230,6 +232,10 @@ public class ConfigSite {
 	 * r.enUS: allLanguages
 	 * r: appliNom
 	 * r.enUS: appName
+	 * r: autresLangues
+	 * r.enUS: otherLanguages
+	 * r: langueNom
+	 * r.enUS: languageName
 	 **/ 
 	protected void _toutesLangues() throws Exception {
 		toutesLangues = ArrayUtils.add(ArrayUtils.addAll(autresLangues), langueNom);
@@ -267,7 +273,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _nomDomaine() throws Exception {
-		nomDomaine = config.getString(appliNom + ".nomDomaine");
+		nomDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomDomaine");
 	}
 	
 	/**
@@ -285,9 +291,12 @@ public class ConfigSite {
 	 * r.enUS: parts
 	 **/ 
 	protected void _nomEnsembleDomaine() throws Exception {
-		String[] partis = StringUtils.split(nomDomaine, ".");
-		ArrayUtils.reverse(partis);
-		nomEnsembleDomaine = StringUtils.join(partis, ".");
+		nomEnsembleDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomEnsembleDomaine");
+		if(StringUtils.isEmpty(nomEnsembleDomaine)) {
+			String[] partis = StringUtils.split(nomDomaine, ".");
+			ArrayUtils.reverse(partis);
+			nomEnsembleDomaine = StringUtils.join(partis, ".");
+		}
 	}
 
 	/**
@@ -303,7 +312,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _nomFichierConfig() throws Exception {
-		nomFichierConfig = config.getString(appliNom + ".nomFichierConfig", appliNom + ".config");
+		nomFichierConfig = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomFichierConfig", appliNom + ".config");
 	}
 
 	/**
@@ -459,22 +468,6 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: pathsToWatch
-	 * enUS: The absolute paths to watch for changes. 
-	 */ 
-	public ArrayList<String> cheminsARegarder = new ArrayList<String>();
-	/**	
-	 * var.enUS: _pathsToWatch
-	 * r: cheminsARegarder
-	 * r.enUS: pathsToWatch
-	 * r: cheminSrcMainJava
-	 * r.enUS: srcMainJavaPath
-	 **/ 
-	protected void _cheminsARegarder() throws Exception {
-		cheminsARegarder.add(cheminSrcMainJava);
-	}
-
-	/**
 	 * var.enUS: sourcePaths
 	 * enUS: The absolute paths to source code directories in the app to watch for changes. 
 	 */ 
@@ -573,8 +566,6 @@ public class ConfigSite {
 	 * r.enUS: solrUrlComputate
 	 * r: clientSolrComputate
 	 * r.enUS: solrClientComputate
-	 * r: cheminsARegarder
-	 * r.enUS: pathsToWatch
 	 * r: cheminsSource
 	 * r.enUS: sourcePaths
 	 * r: toutCheminsSource
@@ -613,7 +604,6 @@ public class ConfigSite {
 		_portSolr();
 		_urlSolrComputate();
 		_clientSolrComputate();
-		_cheminsARegarder();
 		_cheminsSource();
 		_toutCheminsSource();
 		_nomsMethodeTest();
@@ -673,6 +663,26 @@ public class ConfigSite {
 				o = m.group(groupe);
 		}
 		return o;
+	}  
+
+	/** 
+	 * var.enUS: regexFound
+	 * param1.var.enUS: pattern
+	 * param2.var.enUS: text
+	 * r: motif
+	 * r.enUS: pattern
+	 * r: texte
+	 * r.enUS: text
+	 * r: trouve
+	 * r.enUS: found
+	 */
+	public boolean regexTrouve(String motif, String texte) {
+		boolean trouve = false;
+		if(motif != null && texte != null) {
+			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
+			trouve = m.find();
+		}
+		return trouve;
 	}  
 
 	/**

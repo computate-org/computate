@@ -121,10 +121,6 @@ public class SiteConfig {
 	 */
 	public SolrClient solrClientComputate;
 
-	/**	The absolute paths to watch for changes.
-	 */
-	public ArrayList<String> pathsToWatch = new ArrayList<String>();
-
 	/**	The absolute paths to source code directories in the app to watch for changes.
 	 */
 	public ArrayList<String> sourcePaths = new ArrayList<String>();
@@ -157,7 +153,6 @@ public class SiteConfig {
 
 	protected void  _configPath() throws Exception {
 		configPath = appPath + "/config/" + appName + ".config";
-		System.out.println("configPath: " + configPath);  
 	}
 
 	protected void  _configFile() throws Exception {
@@ -173,7 +168,7 @@ public class SiteConfig {
 	}
 
 	protected void  _languageName() throws Exception {
-		languageName = config.getString(appName + ".languageName");
+		languageName = config.getString(StringUtils.replace(appName, ".", "..") + ".languageName");
 	}
 
 	protected void  _languageActualName() throws Exception {
@@ -184,11 +179,12 @@ public class SiteConfig {
 	}
 
 	protected void  _otherLanguages() throws Exception {
-		otherLanguages = config.getStringArray(appliNom + ".otherLanguages");
+		otherLanguages = config.getStringArray(StringUtils.replace(appName, ".", "..") + ".otherLanguages");
+		System.out.println("otherLanguages: " + otherLanguages);
 	}
 
 	protected void  _allLanguages() throws Exception {
-		allLanguages = ArrayUtils.add(ArrayUtils.addAll(autresLangues), langueNom);
+		allLanguages = ArrayUtils.add(ArrayUtils.addAll(otherLanguages), languageName);
 	}
 
 	protected void  _languageIndexed() throws Exception {
@@ -196,7 +192,7 @@ public class SiteConfig {
 	}
 
 	protected void  _domainName() throws Exception {
-		domainName = config.getString(appName + ".domainName");
+		domainName = config.getString(StringUtils.replace(appName, ".", "..") + ".domainName");
 	}
 
 	protected void  _domainPackageName() throws Exception {
@@ -206,7 +202,7 @@ public class SiteConfig {
 	}
 
 	protected void  _configFileName() throws Exception {
-		configFileName = config.getString(appName + ".configFileName", appName + ".config");
+		configFileName = config.getString(StringUtils.replace(appName, ".", "..") + ".configFileName", appName + ".config");
 	}
 
 	protected void  _mavenVersion() throws Exception {
@@ -249,10 +245,6 @@ public class SiteConfig {
 		solrClientComputate = new HttpSolrClient.Builder(solrUrlComputate).build();
 	}
 
-	protected void  _pathsToWatch() throws Exception {
-		pathsToWatch.add(srcMainJavaPath);
-	}
-
 	protected void  _sourcePaths() throws Exception {
 		sourcePaths.add(srcMainJavaPath);
 		sourcePaths.add(srcGenJavaPath);
@@ -293,7 +285,6 @@ public class SiteConfig {
 		_solrPort();
 		_solrUrlComputate();
 		_solrClientComputate();
-		_pathsToWatch();
 		_sourcePaths();
 		_allSourcePaths();
 		_testMethodNames();
@@ -321,6 +312,15 @@ public class SiteConfig {
 				o = m.group(group);
 		}
 		return o;
+	}
+
+	public boolean regexFound(String pattern, String text) {
+		boolean found = false;
+		if(pattern != null && text != null) {
+			Matcher m = Pattern.compile(pattern, Pattern.MULTILINE).matcher(text);
+			found = m.find();
+		}
+		return found;
 	}
 
 	public ArrayList<String> regexList(String pattern, String text) {

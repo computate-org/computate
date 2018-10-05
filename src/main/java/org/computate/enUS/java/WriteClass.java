@@ -1,6 +1,8 @@
 package org.computate.enUS.java;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
@@ -17,6 +19,10 @@ import org.apache.solr.common.SolrDocumentList;
  */
 public class WriteClass extends IndexClass {
 
+	PrintWriter o;
+
+	String langueNom;
+
 	protected void  writeClass(String classAbsolutePath, String languageName) throws Exception { 
 		SolrQuery solrSearch = new SolrQuery();   
 		solrSearch.setQuery("*:*");
@@ -28,18 +34,18 @@ public class WriteClass extends IndexClass {
 		writeClass(classAbsolutePath, languageName, searchResponse);
 	}
 
-	public void  writeComment(StringBuilder s, String comment, Integer tabs) {
+	public void  writeComment(String commentaire, Integer comment) {
 		String tabsStr = StringUtils.repeat("\t", tabs);
 		if(StringUtils.isNotEmpty(comment)) {
 			String[] parts = StringUtils.split(comment, "\n");
 			for(int j = 0; j < parts.length; j++) { 
 				String ligne = parts[j];
 				if(j == 0)
-					s.append(tabsStr).append("/**\t").append(ligne).append("\n");
+					l(tabsStr, "/**\t", ligne);
 				else
-					s.append(tabsStr).append(" *\t").append(ligne).append("\n");
+					l(tabsStr, " *\t", ligne);
 			}
-			s.append(tabsStr).append(" */\n");  
+			l(tabsStr, " */");  
 		} 
 	}
 
@@ -54,10 +60,10 @@ public class WriteClass extends IndexClass {
 			String classPath = null; 
 			File classDir = null;
 			File classFile = null;
-			StringBuilder s = new StringBuilder();
 			
 			String classSimpleName = null;
 			String classSuperSimpleName = null;    
+			String classSuperSimpleNameGeneric = null;    
 			String classSuperCanonicalName = null;    
 			String classPackageName = null;
 			String classComment = null;      
@@ -74,12 +80,17 @@ public class WriteClass extends IndexClass {
 				if(partNumber.equals(1)) {
 					classDirPath = (String)doc.get("classDirPath_" + languageName + "_stored_string");
 					classPath = (String)doc.get("classPath_" + languageName + "_stored_string"); 
+					classAbsolutePath = (String)doc.get("classAbsolutePath_stored_string"); 
+					if(StringUtils.equals(classPath, classAbsolutePath))
+						break;
 					classDir = new File(classDirPath);
 					classDir.mkdirs();
 					classFile = new File(classPath);
+					o = new PrintWriter(classFile);
 					classSimpleName = (String)doc.get("classSimpleName_" + languageName + "_stored_string");
 					classSuperCanonicalName = (String)doc.get("classSuperCanonicalName_" + languageName + "_stored_string");
 					classSuperSimpleName = (String)doc.get("classSuperSimpleName_" + languageName + "_stored_string");
+					classSuperSimpleNameGeneric = (String)doc.get("classSuperSimpleNameGeneric_" + languageName + "_stored_string");
 					classPackageName = (String)doc.get("classPackageName_" + languageName + "_stored_string");
 					classComment = (String)doc.get("classComment_" + languageName + "_stored_string");
 					classImports = (List<String>)doc.get("classImports_" + languageName + "_stored_strings");
@@ -87,45 +98,52 @@ public class WriteClass extends IndexClass {
 					classSuperTypeParameterNames = (List<String>)doc.get("classSuperTypeParameterNames_stored_strings");
 					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
 		
-					s.append("package ").append(classPackageName).append(";\n\n");
-					if(classImports.size() > 0) { 
+					l("package ", classPackageName, ";"); 
+					l();
+					if(classImports != null && classImports.size() > 0) { 
 						for(String classImport : classImports) {
-							s.append("import ").append(classImport).append(";\n");
+							l("import ", classImport, ";");
 						} 
-						s.append("\n");  
+						l();  
 					}
-					writeComment(s, classComment, 0); 
-					s.append("public class ").append(classSimpleName);
+					writeComment(classComment, 0); 
+					s("public class ", classSimpleName);
+
 					if(classTypeParameterNames != null && classTypeParameterNames.size() > 0) {
-						s.append("<");
+						s("<");
 						for(int j = 0; j < classTypeParameterNames.size(); j++) {
 							String classTypeParameterName = classTypeParameterNames.get(j);
 							if(j > 0)
-								s.append(", ");
-							s.append(classTypeParameterName);
+								s(", ");
+							s(classTypeParameterName);
 						}
-						s.append(">");
+						s(">");
 					}
+
 					if(!"java.lang.Object".equals(classSuperCanonicalName)) {
-						s.append(" extends ");
+						s(" extends ");
 						if(classExtendsGen) {
-							s.append(classSimpleName).append("Gen");
+							s(classSimpleName, "Gen");
 						} 
 						else {
-							s.append(classSuperSimpleName);
+							s(classSuperSimpleName);
 						}
-						if(classSuperTypeParameterNames != null && classSuperTypeParameterNames.size() > 0) {
-							s.append("<");
+
+						if(StringUtils.isNotEmpty(classSuperSimpleNameGeneric)) {
+							s("<", classSuperSimpleNameGeneric, ">");
+						}
+						else if(classSuperTypeParameterNames != null && classSuperTypeParameterNames.size() > 0) {
+							s("<");
 							for(int j = 0; j < classSuperTypeParameterNames.size(); j++) {
 								String classSuperTypeParameterName = classSuperTypeParameterNames.get(j);
 								if(i > 0)
-									s.append(", ");
-								s.append(classSuperTypeParameterName);
+									s(", ");
+								s(classSuperTypeParameterName);
 							}
-							s.append(">");
+							s(">");
 						}
 					}
-					s.append(" {\n");
+					l(" {");
 				} 
 				else {     
 					Boolean partIsField = (Boolean)doc.get("partIsField_stored_boolean");
@@ -139,28 +157,28 @@ public class WriteClass extends IndexClass {
 						String fieldSimpleNameComplete = (String)doc.get("fieldSimpleNameComplete_" + languageName + "_stored_string");
 						String fieldSourceCode = (String)doc.get("fieldSourceCode_" + languageName + "_stored_string");
 
-						s.append("\n"); 
-						writeComment(s, fieldComment, 1);
-						s.append("\t");
+						l(); 
+						writeComment(fieldComment, 1);
+						s("\t");
 						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsPublic_stored_boolean")))
-							s.append("public ");
+							s("public ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsProtected_stored_boolean")))
-							s.append("protected ");
+							s("protected ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsPrivate_stored_boolean")))
-							s.append("private ");
+							s("private ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsStatic_stored_boolean")))
-							s.append("static ");
+							s("static ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsFinal_stored_boolean")))
-							s.append("final ");
+							s("final ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsAbstract_stored_boolean")))
-							s.append("abstract ");
+							s("abstract ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsNative_stored_boolean")))
-							s.append("native ");
+							s("native ");
 						
-						s.append(fieldSimpleNameComplete).append(" ").append(fieldVar);
+						s(fieldSimpleNameComplete, " ", fieldVar);
 						if(StringUtils.isNotEmpty(fieldSourceCode))
-							s.append(" = ").append(fieldSourceCode);
-						s.append(";\n");
+							s(" = ", fieldSourceCode);
+						l(";");
 					}     
 	
 					if(BooleanUtils.isTrue(partIsMethod)) {
@@ -172,50 +190,50 @@ public class WriteClass extends IndexClass {
 						List<String> methodAnnotationsSimpleNameCompleteList = (List<String>)doc.get("methodAnnotationsSimpleNameComplete_" + languageName + "_stored_strings");
 						List<String> methodAnnotationsCodeBlockList = (List<String>)doc.get("methodAnnotationsCodeBlock_" + languageName + "_stored_strings");
 
-						s.append("\n"); 
-						writeComment(s, methodComment, 1);
+						l(""); 
+						writeComment(methodComment, 1);
 						if(methodAnnotationsSimpleNameCompleteList != null && methodAnnotationsCodeBlockList != null) {
 							for(int j = 0; j < methodAnnotationsSimpleNameCompleteList.size(); j++) {
 								String methodAnnotationSimpleNameComplete = methodAnnotationsSimpleNameCompleteList.get(j);
 								String methodAnnotationCodeBlock = methodAnnotationsCodeBlockList.get(j);
-								s.append("\t@").append(methodAnnotationSimpleNameComplete).append(methodAnnotationCodeBlock).append("\n");
+								l("\t@", methodAnnotationSimpleNameComplete, methodAnnotationCodeBlock, "");
 							}
 						}
-						s.append("\t");
+						s("\t");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsPublic_stored_boolean")))
-							s.append("public ");
+							s("public ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsProtected_stored_boolean")))
-							s.append("protected ");
+							s("protected ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsPrivate_stored_boolean")))
-							s.append("private ");
+							s("private ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsStatic_stored_boolean")))
-							s.append("static ");
+							s("static ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsFinal_stored_boolean")))
-							s.append("final ");
+							s("final ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsAbstract_stored_boolean")))
-							s.append("abstract ");
+							s("abstract ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsNative_stored_boolean")))
-							s.append("native ");
+							s("native ");
 
 
 						if(methodTypeParameterNames != null && methodTypeParameterNames.size() > 0) {
-							s.append("<");
+							s("<");
 							for(int j = 0; j < methodTypeParameterNames.size(); j++) {
 								String methodTypeParameterName = methodTypeParameterNames.get(j);
 								if(j > 0)
-									s.append(", ");
-								s.append(methodTypeParameterName);
+									s(", ");
+								s(methodTypeParameterName);
 							}
-							s.append("> ");
+							s("> ");
 						}
 
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsVoid_stored_boolean")))
-							s.append("void ");
+							s("void ");
 						else
-							s.append((String)doc.get("methodReturnSimpleNameComplete_" + languageName + "_stored_string"));
-						s.append(" ");
-						s.append(methodVar);
-						s.append("(");
+							s((String)doc.get("methodReturnSimpleNameComplete_" + languageName + "_stored_string"));
+						s(" ");
+						s(methodVar);
+						s("(");
 						List<String> methodParamSimpleNameCompleteList = (List<String>)doc.get("methodParamSimpleNameComplete_" + languageName + "_stored_strings"); 
 						List<String> methodParamVarList = (List<String>)doc.get("methodParamVar_" + languageName + "_stored_strings");
 						List<Boolean> methodParamVariableArgsList = (List<Boolean>)doc.get("methodParamVariableArgs_stored_booleans");
@@ -225,44 +243,88 @@ public class WriteClass extends IndexClass {
 								String methodParamVar = methodParamVarList.get(j);
 								Boolean methodParamVariableArgs = methodParamVariableArgsList.get(j);
 								if(j > 0)
-									s.append(", ");
-								s.append(methodParamSimpleNameComplete);
+									s(", ");
+								s(methodParamSimpleNameComplete);
 
 								if(methodParamVariableArgs)
-									s.append("...");
+									s("...");
 								else
-									s.append(" ");
+									s(" ");
 
-								s.append(methodParamVar);
+								s(methodParamVar);
 							}
 						}    
-						s.append(")");
+						s(")");
 						if(methodExceptionSimpleNameCompleteList != null && methodExceptionSimpleNameCompleteList.size() > 0) {
-							s.append(" throws ");
+							s(" throws ");
 							for(int j = 0; j < methodExceptionSimpleNameCompleteList.size(); j++) {
 								String methodExceptionSimpleNameComplete = methodExceptionSimpleNameCompleteList.get(j);
 								if(j > 0)
-									s.append(", ");
-								s.append(methodExceptionSimpleNameComplete);
+									s(", ");
+								s(methodExceptionSimpleNameComplete);
 							}
 						}
-						s.append(" {");
-						s.append(methodSourceCode);
-						s.append("}\n");
+						s(" {");
+						s(methodSourceCode);
+						l("}");
 					} 
 					else if(BooleanUtils.isTrue(partIsEntity)) {
 						
 					}
 				}
 			}
-			s.append("}\n"); 
-			if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPath)) {
-				System.out.println("Write: " + classPath); 
-				FileUtils.write(classFile, s, Charset.forName("UTF-8")); 
+			if(o != null) {
+				if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPath)) {
+					l("}"); 
+
+					System.out.println("Write: " + classPath); 
+					o.flush();
+					o.close();
+				}
 			}
 		}
 		else {
 			System.err.println("No file was found in the search engine. ");
 		}
+	}
+
+	public WriteClass o(PrintWriter o) {
+		this.o = o;
+		return this;
+	}
+
+	public WriteClass langueNom(String langueNom) {
+		this.langueNom = langueNom;
+		return this;
+	}
+
+	public void  s(Object...objets) {
+		for(Object objet : objets)
+			if(objet != null)
+				o.append(objet.toString());
+	}
+
+	public void  t(int nombreTabulations, Object...objets) {
+		for(int i = 0; i < nombreTabulations; i++)
+			o.append("\t");
+		for(Object objet : objets)
+			if(objet != null)
+				o.append(objet.toString());
+	}
+
+	public void  l(Object...objets) {
+		for(Object objet : objets)
+			if(objet != null)
+				o.append(objet.toString());
+		o.append("\n");
+	}
+
+	public void  tl(int nombreTabulations, Object...objets) {
+		for(int i = 0; i < nombreTabulations; i++)
+			o.append("\t");
+		for(Object objet : objets)
+			if(objet != null)
+				o.append(objet.toString());
+		o.append("\n");
 	}
 }
