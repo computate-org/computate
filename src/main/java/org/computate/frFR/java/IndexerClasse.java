@@ -1,6 +1,9 @@
 package org.computate.frFR.java; 
 
+import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +35,17 @@ import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
  * nomCanonique.enUS: org.computate.enUS.java.IndexClass
  */
 public class IndexerClasse extends RegarderClasseBase { 
+	public final static String VAL_nomCanoniqueBoolean = Boolean.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueDate = Date.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueLong = Long.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueDouble = Double.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueInteger = Integer.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueTimestamp = Timestamp.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueLocalDateTime = LocalDateTime.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueLocalDate = LocalDate.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueList = List.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueArrayList = ArrayList.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueString = String.class.getCanonicalName();
 
 	/**
 	 * var.enUS: populateQdoxSuperClassesInterfacesAndMe
@@ -1532,11 +1546,11 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteCouverture", entiteCouverture);
 						indexerStockerSolr(entiteDoc, "entiteInitialise", true);
 
-						indexerStockerSolr(entiteDoc, "entiteNomCanonique", langueNom, entiteClasseParts.nomCanonique);
-						indexerStockerSolr(entiteDoc, "entiteNomSimple", langueNom, entiteClasseParts.nomSimple);
-						indexerStockerSolr(entiteDoc, "entiteNomCompletGenerique", langueNom, entiteClasseParts.nomCanoniqueGenerique);
-						indexerStockerSolr(entiteDoc, "entiteNomCanoniqueGenerique", langueNom, entiteClasseParts.nomCanoniqueGenerique);
-						indexerStockerSolr(entiteDoc, "entiteNomSimpleGenerique", langueNom, entiteClasseParts.nomSimpleGenerique);
+						String entiteNomCanonique = indexerStockerSolr(entiteDoc, "entiteNomCanonique", langueNom, entiteClasseParts.nomCanonique);
+						String entiteNomSimple = indexerStockerSolr(entiteDoc, "entiteNomSimple", langueNom, entiteClasseParts.nomSimple);
+						String entiteNomCompletGenerique = indexerStockerSolr(entiteDoc, "entiteNomCompletGenerique", langueNom, entiteClasseParts.nomCanoniqueGenerique);
+						String entiteNomCanoniqueGenerique = indexerStockerSolr(entiteDoc, "entiteNomCanoniqueGenerique", langueNom, entiteClasseParts.nomCanoniqueGenerique);
+						String entiteNomSimpleGenerique = indexerStockerSolr(entiteDoc, "entiteNomSimpleGenerique", langueNom, entiteClasseParts.nomSimpleGenerique);
 						indexerStockerSolr(entiteDoc, "entiteNomCanoniqueComplet", langueNom, entiteClasseParts.nomCanoniqueComplet);
 						indexerStockerSolr(entiteDoc, "entiteNomSimpleComplet", langueNom, entiteClasseParts.nomSimpleComplet);
 						indexerStockerSolr(entiteDoc, "entiteNomSimpleCompletGenerique", langueNom, entiteClasseParts.nomSimpleGenerique);
@@ -1759,6 +1773,129 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "partNumero", partNumero);
 
 						String entiteBlocCode = methodeQdox.getCodeBlock();
+
+
+
+
+
+						String entiteTypeSolr;
+						String entiteSuffixeType;
+						if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBoolean)) {
+							entiteTypeSolr = VAL_nomCanoniqueBoolean;
+							entiteSuffixeType = "_boolean";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueLocalDate)) {
+							entiteTypeSolr = VAL_nomCanoniqueDate;
+							entiteSuffixeType = "_date";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLong)) {
+							entiteTypeSolr = VAL_nomCanoniqueLong;
+							entiteSuffixeType = "_long";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
+							entiteTypeSolr = VAL_nomCanoniqueDouble;
+							entiteSuffixeType = "_double";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueInteger)) {
+							entiteTypeSolr = VAL_nomCanoniqueInteger;
+							entiteSuffixeType = "_int";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList)) {
+							if(entiteNomCanoniqueGenerique.equals(VAL_nomCanoniqueBoolean)) {
+								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueBoolean + ">";
+								entiteSuffixeType = "_booleans";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueLocalDate)) {
+								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueDate + ">";
+								entiteSuffixeType = "_dates";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueLong)) {
+								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueLong + ">";
+								entiteSuffixeType = "_longs";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueDouble)) {
+								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueDouble + ">";
+								entiteSuffixeType = "_doubles";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueInteger)) {
+								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueInteger + ">";
+								entiteSuffixeType = "_ints";
+							}
+							else {
+								entiteSuffixeType = "_strings";
+							}
+						}
+						else {
+							entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueString + ">";
+							entiteSuffixeType = "_string";
+////								if(videDernier)
+////									suffixeType += "_videDernier";
+						}
+						
+//						protected void _varCleUnique(Chaine o) throws Exception {
+//							if(cleUnique)
+//								o.tout(var);
+//						}
+//						protected void _varSuggere(Chaine o) throws Exception {
+//							if(suggere)
+//								o.tout(var).enUS("_suggested").frFR("_suggere");
+//						}
+//						protected void _varSuggereEnUS(Chaine o) throws Exception {
+//							if(indexe)
+//								o.tout(var).enUS("_enUS_suggested").frFR("_enUS_suggere");
+//						}
+//						protected void _varSuggereFrFR(Chaine o) throws Exception {
+//							if(indexe)
+//								o.tout(var).enUS("_frFR_suggested").frFR("_frFR_suggere");
+//						}
+//						protected void _varIncremente(Chaine o) throws Exception {
+//							if(incremente)
+//								o.tout(var).enUS("_incremented").frFR("_incremente").tout(suffixeType);
+//						}
+//
+//						protected void _varCrypte(Chaine o) throws Exception {
+//							if(crypte)
+//								o.tout(var).enUS("_encrypted").frFR("_crypte");
+//						}
+//
+//						protected void _varIndexe(Chaine o) throws Exception {
+//							if(indexe) {
+//								if(nomCanonique.equals(classe_.nomCanoniqueChaineActuel)) { 
+//									o.tout(var).enUS("_frFR_indexed").frFR("_frFR_indexe").tout(suffixeType);
+//								}
+//								else {
+//									o.tout(var).enUS("_indexed").frFR("_indexe").tout(suffixeType);
+//								}
+//							}
+//						}
+//						protected void _varIndexeEnUS(Chaine o) throws Exception {
+//							if(indexe)
+//								o.tout(var).enUS("_enUS_indexed").frFR("_enUS_indexe").tout(suffixeType);
+//						}
+//						protected void _varIndexeFrFR(Chaine o) throws Exception {
+//							if(indexe)
+//								o.tout(var).enUS("_frFR_indexed").frFR("_frFR_indexe").tout(suffixeType);
+//						}
+//
+//						protected void _varStocke(Chaine o) throws Exception {
+//							if(stocke) {
+//								if(nomCanonique.equals(classe_.nomCanoniqueChaineActuel)) {
+//									if(requeteSite.frFR)
+//										o.tout(var).enUS("_frFR_stored").frFR("_frFR_stocke").tout(suffixeType);
+//									else
+//										o.tout(var).enUS("_enUS_stored").frFR("_enUS_stocke").tout(suffixeType);
+//								}
+//								else {
+//									o.tout(var).enUS("_stored").frFR("_stocke").tout(suffixeType);
+//								}
+//							}
+//						}
+
+
+
+
+
+
 	
 						for(String langueNom : autresLangues) {  
 							String entiteVarLangue = regex("^var\\." + langueNom + ": (.*)", methodeCommentaire);
