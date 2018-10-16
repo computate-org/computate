@@ -1,5 +1,6 @@
 package org.computate.frFR.java; 
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -39,6 +40,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	public final static String VAL_nomCanoniqueDate = Date.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueLong = Long.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueDouble = Double.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueBigDecimal = BigDecimal.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueInteger = Integer.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueTimestamp = Timestamp.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueLocalDateTime = LocalDateTime.class.getCanonicalName();
@@ -622,7 +624,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			val = nomCanonique;  
 		}
 		return val;
-	}  
+	} 
 
 	////////////
 	// autres //
@@ -704,7 +706,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				stockerSolr(doc, varEntite, langueNom, b.toString());
 		}
 		return commentaire;
-	}
+	}  
 
 	public void classePartsGenAjouter(ClasseParts classeParts) {
 		if(classeParts != null && !classePartsGen.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, "."))
@@ -1140,6 +1142,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomSimple = StringUtils.substringAfterLast(classeNomCanonique, ".");
 		String classeNomCanoniqueGen = classeNomCanonique + "Gen";
 		String classeNomSimpleGen = classeNomSimple + "Gen";
+		String classeNomCanoniqueApi = classeNomCanonique + "Api";
+		String classeNomSimpleApi = classeNomSimple + "Api";
+		String classeNomCanoniquePage = classeNomCanonique + "Page";
+		String classeNomSimplePage = classeNomSimple + "Page";
 		JavaClass classeQdox = bricoleur.getClassByName(classeNomCanonique.toString());
 		JavaClass classeQdoxSuper = classeQdox.getSuperJavaClass();
 		JavaClass classeQdoxString = bricoleur.getClassByName(String.class.getCanonicalName());
@@ -1191,7 +1197,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 		indexerStockerSolr(classeDoc, "classeBaseEtendGen", classeBaseEtendGen);
-		indexerStockerSolr(classeDoc, "classeContientRequeteSite", classeQdox.getMethodBySignature("getRequeteSite", null, true) != null);
+		Boolean classeContientRequeteSite = indexerStockerSolr(classeDoc, "classeContientRequeteSite", classeQdox.getMethodBySignature("getRequeteSite", new ArrayList<JavaType>(), true) != null);
 		
 		String classeCommentaire = stockerRegexCommentaires(classeQdox.getComment(), langueNom, classeDoc, "classeCommentaire");
 		String classeNomEnsemble = StringUtils.substringBeforeLast(classeNomCanonique, ".");
@@ -1205,12 +1211,15 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeContientCouverture = false;
 
 		Boolean classeEtendGen = StringUtils.endsWith(classeNomSimpleSuper, "Gen");
+		ClasseParts classePartsRequeteSite = classePartsRequeteSite(nomEnsembleDomaine);
 		if(!classeEtendGen && regexTrouve("^gen:\\s*(true)$", classeCommentaire)) {
 			classeEtendGen = true;
-			indexerStockerSolr(classeDoc, "classeEtendGen", classeEtendGen);
-			ClasseParts classePartsRequeteSite = classePartsRequeteSite(nomEnsembleDomaine);
-			classePartsGenAjouter(classePartsRequeteSite);
 		}
+		Boolean classeModele = stockerSolr(classeDoc, "classeModele", regexTrouve("^modele: \\s*(true)$", classeCommentaire));
+		Boolean classeApi = stockerSolr(classeDoc, "classeApi", regexTrouve("^api: \\s*(true)$", classeCommentaire) || classeModele);
+		Boolean classePage = stockerSolr(classeDoc, "classePage", regexTrouve("^page: \\s*(true)$", classeCommentaire) || classeModele);
+		if(classeContientRequeteSite)
+			classePartsGenAjouter(classePartsRequeteSite);
 		indexerStockerSolr(classeDoc, "classeEtendGen", classeEtendGen);
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", classeCommentaire));
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde);
@@ -1267,6 +1276,12 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeNomCanoniqueSuperDoc = listeRecherche.get(0);
 			}
 		}  
+
+		if(classeEtendGen) {
+			ClasseParts classePartsSuperGenerique = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, langueNom);
+			classePartsGenAjouter(classePartsSuperGenerique);
+		}
+
 		for(String langueNom : autresLangues) { 
 			String appliCheminLangue = appliChemins.get(langueNom);
 			stockerRegexCommentaires(classeCommentaire, langueNom, classeDoc, "classeCommentaire");
@@ -1306,6 +1321,9 @@ public class IndexerClasse extends RegarderClasseBase {
 				ClasseParts classePartsSuperGeneriqueLangue = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, langueNom);
 				indexerStockerSolr(classeDoc, "classeNomCanoniqueSuperGenerique", langueNom, classePartsSuperGeneriqueLangue.nomCanoniqueComplet);
 				indexerStockerSolr(classeDoc, "classeNomSimpleSuperGenerique", langueNom, classePartsSuperGeneriqueLangue.nomSimpleComplet);
+				if(classeEtendGen) {
+					classePartsGenAjouter(classePartsSuperGeneriqueLangue);
+				}
 			}
 
 
@@ -1778,8 +1796,8 @@ public class IndexerClasse extends RegarderClasseBase {
 
 
 
-						String entiteTypeSolr;
-						String entiteSuffixeType;
+						String entiteTypeSolr = null;
+						String entiteSuffixeType = null;
 						if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBoolean)) {
 							entiteTypeSolr = VAL_nomCanoniqueBoolean;
 							entiteSuffixeType = "_boolean";
@@ -1791,6 +1809,10 @@ public class IndexerClasse extends RegarderClasseBase {
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLong)) {
 							entiteTypeSolr = VAL_nomCanoniqueLong;
 							entiteSuffixeType = "_long";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
+							entiteTypeSolr = VAL_nomCanoniqueBigDecimal;
+							entiteSuffixeType = "_double";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
 							entiteTypeSolr = VAL_nomCanoniqueDouble;
@@ -1813,6 +1835,10 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueLong + ">";
 								entiteSuffixeType = "_longs";
 							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
+								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueBigDecimal + ">";
+								entiteSuffixeType = "_doubles";
+							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueDouble)) {
 								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueDouble + ">";
 								entiteSuffixeType = "_doubles";
@@ -1831,72 +1857,21 @@ public class IndexerClasse extends RegarderClasseBase {
 ////								if(videDernier)
 ////									suffixeType += "_videDernier";
 						}
+						stockerSolr(entiteDoc, "entiteTypeSolr", entiteTypeSolr);
 						
-//						protected void _varCleUnique(Chaine o) throws Exception {
-//							if(cleUnique)
-//								o.tout(var);
-//						}
-//						protected void _varSuggere(Chaine o) throws Exception {
-//							if(suggere)
-//								o.tout(var).enUS("_suggested").frFR("_suggere");
-//						}
-//						protected void _varSuggereEnUS(Chaine o) throws Exception {
-//							if(indexe)
-//								o.tout(var).enUS("_enUS_suggested").frFR("_enUS_suggere");
-//						}
-//						protected void _varSuggereFrFR(Chaine o) throws Exception {
-//							if(indexe)
-//								o.tout(var).enUS("_frFR_suggested").frFR("_frFR_suggere");
-//						}
-//						protected void _varIncremente(Chaine o) throws Exception {
-//							if(incremente)
-//								o.tout(var).enUS("_incremented").frFR("_incremente").tout(suffixeType);
-//						}
-//
-//						protected void _varCrypte(Chaine o) throws Exception {
-//							if(crypte)
-//								o.tout(var).enUS("_encrypted").frFR("_crypte");
-//						}
-//
-//						protected void _varIndexe(Chaine o) throws Exception {
-//							if(indexe) {
-//								if(nomCanonique.equals(classe_.nomCanoniqueChaineActuel)) { 
-//									o.tout(var).enUS("_frFR_indexed").frFR("_frFR_indexe").tout(suffixeType);
-//								}
-//								else {
-//									o.tout(var).enUS("_indexed").frFR("_indexe").tout(suffixeType);
-//								}
-//							}
-//						}
-//						protected void _varIndexeEnUS(Chaine o) throws Exception {
-//							if(indexe)
-//								o.tout(var).enUS("_enUS_indexed").frFR("_enUS_indexe").tout(suffixeType);
-//						}
-//						protected void _varIndexeFrFR(Chaine o) throws Exception {
-//							if(indexe)
-//								o.tout(var).enUS("_frFR_indexed").frFR("_frFR_indexe").tout(suffixeType);
-//						}
-//
-//						protected void _varStocke(Chaine o) throws Exception {
-//							if(stocke) {
-//								if(nomCanonique.equals(classe_.nomCanoniqueChaineActuel)) {
-//									if(requeteSite.frFR)
-//										o.tout(var).enUS("_frFR_stored").frFR("_frFR_stocke").tout(suffixeType);
-//									else
-//										o.tout(var).enUS("_enUS_stored").frFR("_enUS_stocke").tout(suffixeType);
-//								}
-//								else {
-//									o.tout(var).enUS("_stored").frFR("_stocke").tout(suffixeType);
-//								}
-//							}
-//						}
+						if(entiteCleUnique)
+							stockerSolr(entiteDoc, "entiteVarCleUnique", entiteVar);
+						if(entiteSuggere)
+							stockerSolr(entiteDoc, "entiteVarSuggere", entiteVar + "_suggere");
+						if(entiteIncremente)
+							stockerSolr(entiteDoc, "entiteVarIncremente", entiteVar + "_incremente");
+						if(entiteCrypte)
+							stockerSolr(entiteDoc, "entiteVarCrypte", entiteVar + "_crypte");
+						if(entiteIndexe)
+							stockerSolr(entiteDoc, "entiteVarIndexe", entiteVar + "_indexe" + entiteSuffixeType);
+						if(entiteStocke)
+							stockerSolr(entiteDoc, "entiteVarStocke", entiteVar + "_stocke" + entiteSuffixeType);
 
-
-
-
-
-
-	
 						for(String langueNom : autresLangues) {  
 							String entiteVarLangue = regex("^var\\." + langueNom + ": (.*)", methodeCommentaire);
 							entiteVarLangue = indexerStockerSolr(entiteDoc, "entiteVar", langueNom, entiteVarLangue == null ? entiteVar : entiteVarLangue);

@@ -25,6 +25,8 @@ import org.apache.solr.common.SolrDocumentList;
  */  
 public class EcrireClasse extends IndexerClasse {
 
+	protected PrintWriter auteurClasse;
+
 	/**
 	 * var.enUS: writeClass
 	 * param1.var.enUS: classAbsolutePath

@@ -1,21 +1,6 @@
 package org.computate.frFR.java;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.util.ClientUtils;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
+import org.computate.frFR.java.EcrireClasse;
 
 /**	Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue.
  */

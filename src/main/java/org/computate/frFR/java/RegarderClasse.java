@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * nomCanonique.enUS: org.computate.enUS.java.WatchClass
  */     
-public class RegarderClasse extends EcrireGenClasse {
+public class RegarderClasse extends EcrireToutesClasses {
 	
 	public RegarderClasse() {
 	}
@@ -60,7 +60,7 @@ public class RegarderClasse extends EcrireGenClasse {
 //		if("tout".equals(regarderClasse.langueNom)) {
 //			regarderClasse.ecrireClasseGen(regarderClasse.classeCheminAbsolu, regarderClasse.langueNom);
 			for(String langueNom : regarderClasse.toutesLangues) {
-				regarderClasse.ecrireClasseGen(regarderClasse.classeCheminAbsolu, langueNom);
+				regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
 			}
 			for(String langueNom : regarderClasse.autresLangues) {
 				if(!StringUtils.equals(langueNom, regarderClasse.langueNom))
@@ -87,7 +87,10 @@ public class RegarderClasse extends EcrireGenClasse {
 //		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/EcouteurContexte.java";
 		String appliNom = "heytate-cardiac";
 		String appliChemin = "/usr/local/src/heytate-cardiac";
-		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/requete/RequeteSite.java";
+//		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/requete/RequeteSite.java";
+//		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/config/ConfigSite.java";
+		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/warfarin/InrEntry.java";
+//		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/cluster/Cluster.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;

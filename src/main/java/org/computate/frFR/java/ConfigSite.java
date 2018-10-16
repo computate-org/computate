@@ -516,6 +516,20 @@ public class ConfigSite {
 	protected void _nomsMethodeTest() throws Exception {
 	}
 
+	/**
+	 * var.enUS: siteEncrypted
+	 * enUS: True if the data for the site should be encrypted. 
+	 */
+	public Boolean siteCrypte;
+	/**	
+	 * var.enUS: _siteEncrypted
+	 * r: siteCrypte
+	 * r.enUS: siteEncrypted
+	 **/ 
+	protected void _siteCrypte() throws Exception {
+		siteCrypte = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + ".siteCrypte", false);
+	}
+
 	/**	
 	 * var.enUS: initSiteConfig
 	 * r: fichierConfig

@@ -1,25 +1,10 @@
 package org.computate.enUS.java;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.util.ClientUtils;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
+import org.computate.frFR.java.EcrireClasse;
 
 /**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  */
-public abstract class WriteGenClassGen<DEV> extends WriteClass {
+public abstract class WriteGenClassGen<DEV> extends EcrireClasse {
 	public static final String VAL_entityCommentLine1Part1 = "The \"";
 	public static final String VAL_entityCommentLine1Part2 = "\" entity";
 	public static final String VAL_entityWrapLine1Part1 = " is set to null before it is initialized. ";

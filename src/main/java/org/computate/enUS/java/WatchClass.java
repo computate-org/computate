@@ -6,7 +6,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
 
-public class WatchClass extends WriteGenClass {
+public class WatchClass extends WriteAllClasses {
 
 	public static void  main(String[] args) throws Exception {   
 		WatchClass watchClass = new WatchClass();
@@ -21,14 +21,14 @@ public class WatchClass extends WriteGenClass {
 		watchClass(watchClass);
 	}
 
-	public static void  watchClass(WatchClass watchClass) throws Exception {
+	public static void  watchClass(RegarderClasse watchClass) throws Exception {
 		System.out.println("absolutePath : " + watchClass.classAbsolutePath);
 
 		SolrInputDocument classeDoc = watchClass.indexerClasse(watchClass.classAbsolutePath);
 //		if("tout".equals(watchClass.languageName)) {
 //			watchClass.ecrireClasseGen(watchClass.classAbsolutePath, watchClass.languageName);
 			for(String languageName : watchClass.allLanguages) {
-				watchClass.ecrireClasseGen(watchClass.classAbsolutePath, languageName);
+				watchClass.ecrireGenClasses(watchClass.classAbsolutePath, languageName);
 			}
 			for(String languageName : watchClass.otherLanguages) {
 				if(!StringUtils.equals(languageName, watchClass.languageName))
@@ -49,10 +49,16 @@ public class WatchClass extends WriteGenClass {
 //		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderRepertoire.java";
 //		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireGenClasse.java";
 //		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireClasse.java";
-		String appliNom = "computate.org";
-		String appliChemin = "/usr/local/src/computate.org";
+//		String appliNom = "computate.org";
+//		String appliChemin = "/usr/local/src/computate.org";
 //		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/config/ConfigSite.java";
-		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/EcouteurContexte.java";
+//		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/EcouteurContexte.java";
+		String appliNom = "heytate-cardiac";
+		String appliChemin = "/usr/local/src/heytate-cardiac";
+//		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/requete/RequeteSite.java";
+//		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/config/ConfigSite.java";
+		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/warfarin/InrEntry.java";
+//		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/cluster/Cluster.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;
