@@ -186,13 +186,13 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 				if(partNumero.equals(1)) {
 					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stored_string");
 					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stored_string"); 
-					classeCheminApi = (String)doc.get("classeCheminApi_" + langueNom + "_stored_string"); 
-					classeCheminPage = (String)doc.get("classeCheminPage_" + langueNom + "_stored_string"); 
+					classeCheminApiGen = (String)doc.get("classeCheminApiGen_" + langueNom + "_stored_string"); 
+					classeCheminPageGen = (String)doc.get("classeCheminPageGen_" + langueNom + "_stored_string"); 
 					classeRepertoireGen = new File(classeCheminRepertoireGen);
 					classeRepertoireGen.mkdirs();
 					classeFichierGen = new File(classeCheminGen);
-					classeFichierApi = new File(classeCheminApi);
-					classeFichierPage = new File(classeCheminPage);
+					classeFichierApi = new File(classeCheminApiGen);
+					classeFichierPage = new File(classeCheminPageGen);
 					o = new PrintWriter(classeFichierGen);
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
 					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
@@ -209,15 +209,22 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
 					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
-					classeEtendBase = classeEtendGen;
 					classeBaseEtendGen = (Boolean)doc.get("classeBaseEtendGen_stored_boolean");
-					classeEstBase = !BooleanUtils.isNotTrue(classeBaseEtendGen);
+					classeEtendBase = (Boolean)doc.get("classeEtendBase_stored_boolean");
+					classeEstBase = (Boolean)doc.get("classeEstBase_stored_boolean");
 					classeContientRequeteSite = (Boolean)doc.get("classeContientRequeteSite_stored_boolean");
 					classeSauvegarde = BooleanUtils.isTrue((Boolean)doc.get("classeSauvegarde_stored_boolean"));
 					classeIndexe = BooleanUtils.isTrue((Boolean)doc.get("classeIndexe_stored_boolean"));
 					classeModele = BooleanUtils.isTrue((Boolean)doc.get("classeModele_stored_boolean"));
 					classeApi = BooleanUtils.isTrue((Boolean)doc.get("classeApi_stored_boolean"));
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
+
+					auteurGenClasse = new PrintWriter(classeFichierGen);
+					auteurApiGenClasse = new PrintWriter(classeFichierApi);
+//					auteurPageClasse = new PrintWriter(classeFichierPage);
+
+					genCodeInit();
+					o = auteurGenClasse;
 
 					genCodeInitialiserLoin(langueNom);
 					genCodeIndexer(langueNom);
@@ -229,69 +236,13 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					genCodeSauvegardes(langueNom);
 					genCodeSauvegarder(langueNom);
 					genCodeClasseDebut(langueNom);
+					apiCodeClasseDebut(langueNom);
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
 					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
 	
 					if(BooleanUtils.isTrue(partEstEntite)) {
-						String entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
-						String entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + langueNom + "_stored_string");
-						String entiteNomCanonique = (String)doc.get("entiteNomCanonique_" + langueNom + "_stored_string");
-						String entiteNomCanoniqueGenerique = (String)doc.get("entiteNomCanoniqueGenerique_" + langueNom + "_stored_string");
-						String entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
-						String entiteNomSimpleCompletGenerique = (String)doc.get("entiteNomSimpleCompletGenerique_" + langueNom + "_stored_string");
-						String entiteNomSimple = (String)doc.get("entiteNomSimple_" + langueNom + "_stored_string");
-						String entiteCommentaire = (String)doc.get("entiteCommentaire_" + langueNom + "_stored_string");
-						String entiteVarParam = (String)doc.get("entiteVarParam_" + langueNom + "_stored_string");
-						Boolean entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
-						Boolean entiteInitialise = (Boolean)doc.get("entiteInitialise_stored_boolean");
-						Boolean entiteInitLoin = (Boolean)doc.get("entiteInitLoin_stored_boolean");
-
-						String entiteVarCleUniqueActuel = (String)doc.get("entiteVarCleUnique_stored_boolean");
-						if(StringUtils.isNotEmpty(entiteVarCleUniqueActuel))
-							entiteVarCleUnique = entiteVarCleUniqueActuel;
-						String entiteVarSuggere = (String)doc.get("entiteVarSuggere_stored_boolean");
-						String entiteVarIncremente = (String)doc.get("entiteVarIncremente_stored_boolean");
-						String entiteVarCrypte = (String)doc.get("entiteVarCrypte_stored_boolean");
-						String entiteVarIndexe = (String)doc.get("entiteVarIndexe_stored_boolean");
-						String entiteVarStocke = (String)doc.get("entiteVarStocke_stored_boolean");
-						String entiteTypeSolr = (String)doc.get("entiteTypeSolr_stored_boolean");
-
-						Boolean entiteExact = (Boolean)doc.get("entiteExact_stored_boolean");
-						Boolean entiteCleUnique = (Boolean)doc.get("entiteCleUnique_stored_boolean");
-						Boolean entiteCrypte = (Boolean)doc.get("entiteCrypte_stored_boolean");
-						Boolean entiteSuggere = (Boolean)doc.get("entiteSuggere_stored_boolean");
-						Boolean entiteSauvegarde = (Boolean)doc.get("entiteSauvegarde_stored_boolean");
-						Boolean entiteIndexe = (Boolean)doc.get("entiteIndexe_stored_boolean");
-						Boolean entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
-						Boolean entitetexte = (Boolean)doc.get("entitetexte_stored_boolean");
-						Boolean entiteIncremente = (Boolean)doc.get("entiteIncremente_stored_boolean");
-						Boolean entiteNomAffichage = (Boolean)doc.get("entiteNomAffichage_stored_boolean");
-						Boolean entiteIgnorer = (Boolean)doc.get("entiteIgnorer_stored_boolean");
-						Boolean entiteDeclarer = (Boolean)doc.get("entiteDeclarer_stored_boolean");
-						Boolean entiteRechercher = (Boolean)doc.get("entiteRechercher_stored_boolean");
-						Boolean entiteAttribuer = (Boolean)doc.get("entiteAttribuer_stored_boolean");
-						Boolean entiteAjouter = (Boolean)doc.get("entiteAjouter_stored_boolean");
-						Boolean entiteSupprimer = (Boolean)doc.get("entiteSupprimer_stored_boolean");
-						Boolean entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");
-						Boolean entiteRecharger = (Boolean)doc.get("entiteRecharger_stored_boolean");
-						Boolean entiteMultiligne = (Boolean)doc.get("entiteMultiligne_stored_boolean");
-						Boolean entiteCles = (Boolean)doc.get("entiteCles_stored_boolean");
-						Boolean entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
-
-						List<String> entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
-						List<String> entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_stored_strings");
-						List<String> entiteMethodesAvantParamVar = (List<String>)doc.get("entiteMethodesAvantParamVar_stored_strings");
-						List<String> entiteMethodesAvantParamNomSimple = (List<String>)doc.get("entiteMethodesAvantParamNomSimple_stored_strings");
-						List<Boolean> entiteMethodesAvantNomParam = (List<Boolean>)doc.get("entiteMethodesAvantNomParam_stored_booleans");
-
-						List<String> entiteMethodesApresVisibilite = (List<String>)doc.get("entiteMethodesApresVisibilite_stored_strings");
-						List<String> entiteMethodesApresVar = (List<String>)doc.get("entiteMethodesApresVar_stored_strings");
-						List<String> entiteMethodesApresParamVar = (List<String>)doc.get("entiteMethodesApresParamVar_stored_strings");
-						List<String> entiteMethodesApresParamNomSimple = (List<String>)doc.get("entiteMethodesApresParamNomSimple_stored_strings");
-						List<Boolean> entiteMethodesApresNomParam = (List<Boolean>)doc.get("entiteMethodesApresNomParam_stored_booleans");
-
 						genCodeEntite(langueNom);
 					}
 				}

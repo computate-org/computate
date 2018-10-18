@@ -50,8 +50,8 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 	protected String classeCheminRepertoireGen;
 	protected String classeCheminGen;
-	protected String classeCheminApi;
-	protected String classeCheminPage;
+	protected String classeCheminApiGen;
+	protected String classeCheminPageGen;
 	protected File classeRepertoireGen;
 	protected File classeFichierGen;
 	protected File classeFichierApi;
@@ -107,8 +107,8 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 	protected StringWriter wSauvegarder;
 	protected PrintWriter codeSauvegarder;
-
-	protected PrintWriter oAvant;
+//
+//	protected PrintWriter oAvant;
 
 	protected String entiteVarCleUnique;
 
@@ -169,10 +169,37 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 	
 	protected PrintWriter auteurGenClasse;
 
-	public void genCodeInitialiserLoin(String langueNom) throws Exception {
-		oAvant = o;
+	public void genCodeInit() throws Exception {
+
 		wInitialiserLoin = new StringWriter();
 		codeInitialiserLoin = new PrintWriter(wInitialiserLoin);
+
+		wIndexer = new StringWriter();
+		codeIndexer = new PrintWriter(wIndexer);
+
+		wObtenir = new StringWriter();
+		codeObtenir = new PrintWriter(wObtenir);
+
+		wAttribuer = new StringWriter();
+		codeAttribuer = new PrintWriter(wAttribuer);
+
+		wDefinir = new StringWriter();
+		codeDefinir = new PrintWriter(wDefinir);
+
+		wPeupler = new StringWriter();
+		codePeupler = new PrintWriter(wPeupler);
+
+		wSauvegardes = new StringWriter();
+		codeSauvegardes = new PrintWriter(wSauvegardes);
+
+		wExiste = new StringWriter();
+		codeExiste = new PrintWriter(wExiste);
+
+		wSauvegarder = new StringWriter();
+		codeSauvegarder = new PrintWriter(wSauvegarder);
+	}
+
+	public void genCodeInitialiserLoin(String langueNom) throws Exception {
 		o = codeInitialiserLoin;
 		l(); 
 		tl(1, "protected boolean dejaInitialise", classeNomSimple, " = false;");
@@ -190,13 +217,9 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
 		if(BooleanUtils.isTrue(classeContientRequeteSite)) 
 			tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite);");
-		o = oAvant;
 	}
 
 	public void genCodeIndexer(String langueNom) throws Exception {
-		oAvant = o;
-		wIndexer = new StringWriter();
-		codeIndexer = new PrintWriter(wIndexer);
 		o = codeIndexer;
 		if(classeIndexe) {
 			tl(0);
@@ -218,14 +241,14 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 				t(1);
 				if(!classeEstBase)
 					s("@Override ");
-				s("public void indexerPourClasse(RequeteSite requeteSite) throws Exception {");
+				l("public void indexerPourClasse(RequeteSite requeteSite) throws Exception {");
 				tl(2, "indexer", classeNomSimple, "(requeteSite);");
 				tl(1, "}");
 				tl(0);
 				t(1);
 				if(!classeEstBase)
 					s("@Override ");
-				s("public void indexerPourClasse(SolrInputDocument document) throws Exception {");
+				l("public void indexerPourClasse(SolrInputDocument document) throws Exception {");
 				tl(2, "indexer", classeNomSimple, "(document);");
 				tl(1, "}");
 			}
@@ -242,20 +265,16 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(0);
 			tl(1, "public void indexer", classeNomSimple, "(SolrInputDocument document) throws Exception {");
 		}
-		o = oAvant;
 	}
 
 	public void genCodeObtenir(String langueNom) throws Exception {
-		oAvant = o;
-		wObtenir = new StringWriter();
-		codeObtenir = new PrintWriter(wObtenir);
 		o = codeObtenir;
 		if(classeEtendBase) {
 			tl(0);
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			s("public Object obtenirPourClasse(String var) throws Exception {");
+			l("public Object obtenirPourClasse(String var) throws Exception {");
 			tl(2, "String[] vars = org.apache.commons.lang3.StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
@@ -272,20 +291,16 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "switch(var) {");
 		}
-		o = oAvant;
 	}
 
 	public void genCodeAttribuer(String langueNom) throws Exception {
-		oAvant = o;
-		wAttribuer = new StringWriter();
-		codeAttribuer = new PrintWriter(wAttribuer);
 		o = codeAttribuer;
 		if(classeEtendBase) {
 			tl(0);
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			s("public boolean attribuerPourClasse(String var, Object val) throws Exception {");
+			l("public boolean attribuerPourClasse(String var, Object val) throws Exception {");
 			tl(2, "String[] vars = org.apache.commons.lang3.StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
@@ -303,20 +318,16 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(2, "switch(var) {");
 
 		}
-		o = oAvant;
 	}
 
 	public void genCodeDefinir(String langueNom) throws Exception {
-		oAvant = o;
-		wDefinir = new StringWriter();
-		codeDefinir = new PrintWriter(wDefinir);
 		o = codeDefinir;
 		if(classeEtendBase) {
 			tl(0);
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			s("public boolean definirPourClasse(String var, String...vals) throws Exception {");
+			l("public boolean definirPourClasse(String var, String...vals) throws Exception {");
 			tl(2, "String[] vars = org.apache.commons.lang3.StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "String val = vals == null ? null : vals[vals.length - 1];");
@@ -336,20 +347,16 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "switch(var) {");
 		}
-		o = oAvant;
 	}
 
 	public void genCodePeupler(String langueNom) throws Exception {
-		oAvant = o;
-		wPeupler = new StringWriter();
-		codePeupler = new PrintWriter(wPeupler);
 		o = codePeupler;
 		if(classeSauvegarde) {
 			tl(0);
 			t(1);
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
-			s("public void peuplerPourClasse(", SolrDocument.class.getCanonicalName(), " documentSolr) throws Exception {");
+			l("public void peuplerPourClasse(", SolrDocument.class.getCanonicalName(), " documentSolr) throws Exception {");
 			if(classeSauvegarde) {
 				tl(2, "sauvegardes", classeNomSimple, " = (java.util.ArrayList<String>)documentSolr.get(\"sauvegardes", classeNomSimple, "_stored_strings\");");
 			tl(2, "peupler", classeNomSimple, "(documentSolr);");
@@ -358,20 +365,16 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(1, "public void peupler", classeNomSimple, "(", SolrDocument.class.getCanonicalName(), " documentSolr) throws Exception {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 		}
-		o = oAvant;
 	}
 
 	public void genCodeExiste(String langueNom) throws Exception {
-		oAvant = o;
-		wExiste = new StringWriter();
-		codeExiste = new PrintWriter(wExiste);
 		o = codeExiste;
 		if(classeSauvegarde) {
 			tl(0);
 			t(1);
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
-			s("public Boolean existePourClasse() throws Exception {");
+			l("public Boolean existePourClasse() throws Exception {");
 			tl(2, "String cleStr = requeteSite.requete.getParameter(\"cle\");");
 			tl(2, "Long cle = ", StringUtils.class.getCanonicalName(), ".isNumeric(cleStr) ? Long.parseLong(cleStr) : null;");
 			tl(2, "Boolean existe = existePourClasse(cle);");
@@ -380,7 +383,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			t(1);
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
-			s("public Boolean existePourClasse(Long cle) throws Exception {");
+			l("public Boolean existePourClasse(Long cle) throws Exception {");
 			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.ecouteurContexte.sourceDonnees);");
 			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 			tl(2, "utilisateurId = requeteSite.utilisateurId;");
@@ -406,13 +409,9 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(2, "return existe;");
 			tl(1, "}");
 		}
-		o = oAvant;
 	}
 
 	public void genCodeSauvegardes(String langueNom) throws Exception {
-		oAvant = o;
-		wSauvegardes = new StringWriter();
-		codeSauvegardes = new PrintWriter(wSauvegardes);
 		o = codeSauvegardes;
 		if(classeSauvegarde) {
 			tl(0);
@@ -420,7 +419,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			t(1);
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
-			s("public void sauvegardesPourClasse(RequeteSite requeteSite) throws Exception {");
+			l("public void sauvegardesPourClasse(RequeteSite requeteSite) throws Exception {");
 			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.ecouteurContexte.sourceDonnees);");
 			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 
@@ -447,20 +446,16 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(2, "}");
 			tl(1, "}");
 		}
-		o = oAvant;
 	}
 
 	public void genCodeSauvegarder(String langueNom) throws Exception {
-		oAvant = o;
-		wSauvegarder = new StringWriter();
-		codeSauvegarder = new PrintWriter(wSauvegarder);
 		o = codeSauvegarder;
 		if(classeSauvegarde) {
 			tl(0);
 			t(1);
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
-			s("public void sauvegarderPourClasse(RequeteSite requeteSite) throws Exception {");
+			l("public void sauvegarderPourClasse(RequeteSite requeteSite) throws Exception {");
 			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.ecouteurContexte.sourceDonnees);");
 			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 			tl(2, "String cleStr = requeteSite.requete.getParameter(\"cle\");");
@@ -512,10 +507,11 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(1, "}");
 			tl(1, "public void sauvegarder", classeNomSimple, "(RequeteSite requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
 		}
-		o = oAvant;
 	}
 
 	public void genCodeClasseDebut(String langueNom) throws Exception {
+		o = auteurGenClasse;
+
 		l("package ", classeNomEnsemble, ";");
 		l();
 		if(classeImportationsGen.size() > 0) { 
@@ -631,6 +627,8 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		List<String> entiteMethodesApresParamVar = (List<String>)doc.get("entiteMethodesApresParamVar_stored_strings");
 		List<String> entiteMethodesApresParamNomSimple = (List<String>)doc.get("entiteMethodesApresParamNomSimple_stored_strings");
 		List<Boolean> entiteMethodesApresNomParam = (List<Boolean>)doc.get("entiteMethodesApresNomParam_stored_booleans");
+
+		o = auteurGenClasse;
 
 		l();
 		String ligneCommentaire = "\t///" + String.join("", Collections.nCopies(entiteVar.length(), "/")) + "///";
@@ -920,23 +918,20 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			}
 		}
 
-		///////////////////////////
+		////////////////////
 		// codeIninitLoin //
-		///////////////////////////
-		oAvant = o;
+		////////////////////
 		o = codeInitialiserLoin;
 		if(entiteInitialise) {
 			tl(3, entiteVar, "Init();");
 		}
-		o = oAvant;
 
 
 		/////////////////
 		// codeIndexer //
 		/////////////////
-		oAvant = o;
 		o = codeIndexer;
-		if(entiteIndexeOuStocke) {
+		if(classeIndexe && entiteIndexeOuStocke) {
 			tl(2, "if(", entiteVar, " != null) {");
 			if(StringUtils.isNotEmpty(entiteVarCleUniqueActuel) && entiteCleUnique) {
 				// cleUnique
@@ -1006,55 +1001,39 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			}
 			tl(2, "}");
 		}
-		o = oAvant;
 
 		/////////////////
 		// codeObtenir //
 		/////////////////
-		oAvant = o;
-		wObtenir = new StringWriter();
-		codeObtenir = new PrintWriter(wObtenir);
 		o = codeObtenir;
 		if(classeEtendBase) {
 			tl(2, "case \"", entiteVar, "\": return o", classeNomSimple, ".", entiteVar, ";");
 		}	
-		o = oAvant;
 
 		///////////////////
 		// codeAttribuer //
 		///////////////////
-		oAvant = o;
-		wAttribuer = new StringWriter();
-		codeAttribuer = new PrintWriter(wAttribuer);
 		o = codeAttribuer;
 		if(classeEtendBase) {
-			tl(2, "case \"", entiteVar, "\": o", classeNomSimple, ".", entiteVar, "((", entiteNomSimpleComplet, ")val); return val;");
+			tl(2, "case \"", entiteVar, "\": o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val); return val;");
 		}	
-		o = oAvant;
 
 		/////////////////
 		// codeDefinir //
 		/////////////////
-		oAvant = o;
-		wDefinir = new StringWriter();
-		codeDefinir = new PrintWriter(wDefinir);
 		o = codeDefinir;
 		if(classeEtendBase) {
 //							if(champ.contientSetterString) {
 //							if(entiteContientSetterString) {
 				tl(2, "case \"", entiteVar, "\":");
-				tl(3, "o", classeNomSimple, ".", entiteVarCapitalise, "(val);");
+				tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val);");
 				tl(3, "return val;");
 //							}
 		}	
-		o = oAvant;
 
 		/////////////////
 		// codePeupler //
 		/////////////////
-		oAvant = o;
-		wPeupler = new StringWriter();
-		codePeupler = new PrintWriter(wPeupler);
 		o = codePeupler;
 		if(classeSauvegarde) {
 //							String nomChamp = entiteVar.toString();
@@ -1106,14 +1085,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 			}
 		}	
-		o = oAvant;
 
 		/////////////////////
 		// codeSauvegarder //
 		/////////////////////
-		oAvant = o;
-		wSauvegarder = new StringWriter();
-		codeSauvegarder = new PrintWriter(wSauvegarder);
 		o = codeSauvegarder;
 		if(classeSauvegarde) {
 				String nomChamp = entiteVar.toString();
@@ -1179,14 +1154,12 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 //									tl(2, "}");
 //								}
 		}	
-		o = oAvant;
 	}
 
 	public void genCodeClasseFin(String langueNom) throws Exception {
-		///////////////////////////
+		////////////////////
 		// codeIninitLoin //
-		///////////////////////////
-		oAvant = o;
+		////////////////////
 		o = codeInitialiserLoin;
 		tl(3, "dejaInitialise", classeNomSimple, " = true;");
 		tl(2, "}");
@@ -1197,14 +1170,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(2, "initLoin", classeNomSimple, "(requeteSite);");
 			tl(1, "}");  
 		}
-		o = oAvant; 
 
 		/////////////////
 		// codeIndexer //
 		/////////////////
-		oAvant = o;
-		wIndexer = new StringWriter();
-		codeIndexer = new PrintWriter(wIndexer);
 		o = codeIndexer;
 		if(classeIndexe) {
 			if(classeEtendBase && !classeEstBase) {
@@ -1230,14 +1199,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 				tl(1, "}");
 			}
 		}
-		o = oAvant;
 
 		/////////////////
 		// codeObtenir //
 		/////////////////
-		oAvant = o;
-		wObtenir = new StringWriter();
-		codeObtenir = new PrintWriter(wObtenir);
 		o = codeObtenir;
 		if(classeEtendBase) {
 			tl(2, "default:");
@@ -1250,14 +1215,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(2, "}");
 			tl(1, "}");
 		}	
-		o = oAvant;
 
 		///////////////////
 		// codeAttribuer //
 		///////////////////
-		oAvant = o;
-		wAttribuer = new StringWriter();
-		codeAttribuer = new PrintWriter(wAttribuer);
 		o = codeAttribuer;
 		if(classeEtendBase) {
 			tl(2, "default:");
@@ -1271,14 +1232,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(1, "}");
 
 		}	
-		o = oAvant;
 
 		/////////////////
 		// codeDefinir //
 		/////////////////
-		oAvant = o;
-		wDefinir = new StringWriter();
-		codeDefinir = new PrintWriter(wDefinir);
 		o = codeDefinir;
 		if(classeEtendBase) {
 			tl(2, "default:");
@@ -1291,14 +1248,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(2, "}");
 			tl(1, "}");
 		}	
-		o = oAvant;
 
 		/////////////////
 		// codePeupler //
 		/////////////////
-		oAvant = o;
-		wPeupler = new StringWriter();
-		codePeupler = new PrintWriter(wPeupler);
 		o = codePeupler;
 		if(classeSauvegarde) {
 //						t(2, "}");
@@ -1310,14 +1263,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 			tl(1, "}");
 		}	
-		o = oAvant;
 
 		/////////////////////
 		// codeSauvegarder //
 		/////////////////////
-		oAvant = o;
-		wSauvegarder = new StringWriter();
-		codeSauvegarder = new PrintWriter(wSauvegarder);
 		o = codeSauvegarder;
 		if(classeSauvegarde) {
 			if(!classeNomSimple.equals("Cluster")) {
@@ -1326,7 +1275,6 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			}
 			tl(1, "}");
 		}	
-		o = oAvant;
 
 		codeInitialiserLoin.flush();
 		codeIndexer.flush();
@@ -1338,12 +1286,22 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		codeSauvegardes.flush();
 		codeSauvegarder.flush();
 
+		o = auteurGenClasse;
+
 		s(wInitialiserLoin.toString());
+		s(wIndexer.toString());
+		s(wObtenir.toString());
+		s(wAttribuer.toString());
+		s(wDefinir.toString());
+		s(wPeupler.toString());
+		s(wExiste.toString());
+		s(wSauvegardes.toString());
+		s(wSauvegarder.toString());
 
 		l("}"); 
 
 		System.out.println("Ecrire: " + classeCheminGen); 
-		o.flush();
-		o.close();
+		auteurGenClasse.flush();
+		auteurGenClasse.close();
 	}  
 }

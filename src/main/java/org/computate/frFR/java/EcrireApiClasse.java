@@ -10,10 +10,11 @@ import java.io.PrintWriter;
  */  
 public class EcrireApiClasse extends EcrireApiClasseGen<EcrireGenClasse> {   
 
-	protected PrintWriter auteurApiClasse;
+	protected PrintWriter auteurApiGenClasse;
 	protected String classeNomSimpleApi;
 
-	public void apiCodeClasseDebut() throws Exception {
+	public void apiCodeClasseDebut(String langueNom) throws Exception {
+		o = auteurApiGenClasse;
 		l("package ", classeNomEnsemble, ";");
 		l();
 		tl(1, "import javax.servlet.http.HttpServlet;");
@@ -28,7 +29,12 @@ public class EcrireApiClasse extends EcrireApiClasseGen<EcrireGenClasse> {
 		l(" extends HttpServlet {");
 	}
 
-	public void apiCodeClasseFin() throws Exception {
+	public void apiCodeClasseFin(String langueNom) throws Exception {
+		o = auteurApiGenClasse;
 		t(1, "}");
+
+		System.out.println("Ecrire: " + classeCheminApiGen); 
+		auteurApiGenClasse.flush();
+		auteurApiGenClasse.close();
 	}
 }

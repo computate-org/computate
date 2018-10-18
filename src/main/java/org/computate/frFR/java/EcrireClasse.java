@@ -358,7 +358,6 @@ public class EcrireClasse extends IndexerClasse {
 					classeRepertoire = new File(classeCheminRepertoire);
 					classeRepertoire.mkdirs();
 					classeFichier = new File(classeChemin);
-					o = new PrintWriter(classeFichier);
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
 					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
 					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stored_string");
@@ -369,6 +368,9 @@ public class EcrireClasse extends IndexerClasse {
 					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
 					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
+
+					auteurClasse = new PrintWriter(classeFichier);
+					o = auteurClasse;
 		
 					l("package ", classeNomEnsemble, ";"); 
 					l();
