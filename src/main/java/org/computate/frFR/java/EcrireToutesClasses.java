@@ -202,6 +202,7 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					classeNomSimpleSuperGenerique = (String)doc.get("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
 					classeNomCanoniqueSuperGenerique = (String)doc.get("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
+					classeNomSimpleApiGen = (String)doc.get("classeNomSimpleApiGen_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
 					if(classeImportationsGen == null)
@@ -212,7 +213,7 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					classeBaseEtendGen = (Boolean)doc.get("classeBaseEtendGen_stored_boolean");
 					classeEtendBase = (Boolean)doc.get("classeEtendBase_stored_boolean");
 					classeEstBase = (Boolean)doc.get("classeEstBase_stored_boolean");
-					classeContientRequeteSite = (Boolean)doc.get("classeContientRequeteSite_stored_boolean");
+					classeInitLoin = (Boolean)doc.get("classeInitLoin_stored_boolean");
 					classeSauvegarde = BooleanUtils.isTrue((Boolean)doc.get("classeSauvegarde_stored_boolean"));
 					classeIndexe = BooleanUtils.isTrue((Boolean)doc.get("classeIndexe_stored_boolean"));
 					classeModele = BooleanUtils.isTrue((Boolean)doc.get("classeModele_stored_boolean"));
@@ -227,6 +228,7 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					o = auteurGenClasse;
 
 					genCodeInitialiserLoin(langueNom);
+					genCodeRequeteSite(langueNom);
 					genCodeIndexer(langueNom);
 					genCodeObtenir(langueNom);
 					genCodeAttribuer(langueNom);

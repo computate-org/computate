@@ -36,10 +36,12 @@ import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
  * nomCanonique.enUS: org.computate.enUS.java.IndexClass
  */
 public class IndexerClasse extends RegarderClasseBase { 
+	public final static String VAL_nomCanoniqueString = String.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueBoolean = Boolean.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueDate = Date.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueLong = Long.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueDouble = Double.class.getCanonicalName();
+	public final static String VAL_nomCanoniqueFloat = Float.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueBigDecimal = BigDecimal.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueInteger = Integer.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueTimestamp = Timestamp.class.getCanonicalName();
@@ -47,7 +49,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	public final static String VAL_nomCanoniqueLocalDate = LocalDate.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueList = List.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueArrayList = ArrayList.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueString = String.class.getCanonicalName();
 
 	/**
 	 * var.enUS: populateQdoxSuperClassesInterfacesAndMe
@@ -668,6 +669,44 @@ public class IndexerClasse extends RegarderClasseBase {
 		return classeParts;
 	}
 
+	protected ClasseParts classePartsEcouteurContexte(String nomEnsembleDomaine) throws Exception {
+		ClasseParts classeParts = null;
+		SolrDocument doc = null;
+		SolrQuery rechercheSolr = new SolrQuery();   
+		rechercheSolr.setQuery("*:*");
+		rechercheSolr.setRows(1);
+		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:EcouteurContexte");
+		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+		SolrDocumentList listeRecherche = reponseRecherche.getResults();
+		if(listeRecherche.size() > 0) {
+			doc = listeRecherche.get(0);
+			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
+			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
+		}
+		return classeParts;
+	}
+
+	protected ClasseParts classePartsCluster(String nomEnsembleDomaine) throws Exception {
+		ClasseParts classeParts = null;
+		SolrDocument doc = null;
+		SolrQuery rechercheSolr = new SolrQuery();   
+		rechercheSolr.setQuery("*:*");
+		rechercheSolr.setRows(1);
+		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:Cluster");
+		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+		SolrDocumentList listeRecherche = reponseRecherche.getResults();
+		if(listeRecherche.size() > 0) {
+			doc = listeRecherche.get(0);
+			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
+			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
+		}
+		return classeParts;
+	}
+
 	/**
 	 * var.enUS: storeRegexComments
 	 * param1.var.enUS: comment
@@ -1137,15 +1176,16 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: regexFound
 	 */
 	protected SolrInputDocument indexerClasse(String classeCheminAbsolu) throws Exception { 
+
 		SolrInputDocument classeDoc = new SolrInputDocument();
 		String classeNomCanonique = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classeCheminAbsolu, "."), cheminSrcMainJava + "/"), "/", ".");
 		String classeNomSimple = StringUtils.substringAfterLast(classeNomCanonique, ".");
 		String classeNomCanoniqueGen = classeNomCanonique + "Gen";
 		String classeNomSimpleGen = classeNomSimple + "Gen";
-		String classeNomCanoniqueApi = classeNomCanonique + "Api";
-		String classeNomSimpleApi = classeNomSimple + "Api";
-		String classeNomCanoniquePage = classeNomCanonique + "Page";
-		String classeNomSimplePage = classeNomSimple + "Page";
+		String classeNomCanoniqueApiGen = classeNomCanonique + "ApiGen";
+		String classeNomSimpleApiGen = indexerStockerSolr(classeDoc, "classeNomSimpleApiGen", langueNom, classeNomSimple + "ApiGen");
+		String classeNomCanoniquePageGen = classeNomCanonique + "PageGen";
+		String classeNomSimplePageGen = indexerStockerSolr(classeDoc, "classeNomSimplePageGen", langueNom, classeNomSimple + "PageGen");
 		JavaClass classeQdox = bricoleur.getClassByName(classeNomCanonique.toString());
 		JavaClass classeQdoxSuper = classeQdox.getSuperJavaClass();
 		JavaClass classeQdoxString = bricoleur.getClassByName(String.class.getCanonicalName());
@@ -1198,8 +1238,8 @@ public class IndexerClasse extends RegarderClasseBase {
 					classeBaseEtendGen = false;
 			}
 		}
-		Boolean classeEtendBase = stockerSolr(classeDoc, "classeEtendBase", !classeBaseEtendGen || !StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
 		Boolean classeEstBase = stockerSolr(classeDoc, "classeEstBase", !classeBaseEtendGen || StringUtils.isEmpty(classeNomCompletSuperGenerique) || StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
+		Boolean classeEtendBase = stockerSolr(classeDoc, "classeEtendBase", !classeEstBase && classeBaseEtendGen && !StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
 		indexerStockerSolr(classeDoc, "classeBaseEtendGen", classeBaseEtendGen);
 		Boolean classeContientRequeteSite = indexerStockerSolr(classeDoc, "classeContientRequeteSite", classeQdox.getMethodBySignature("getRequeteSite", new ArrayList<JavaType>(), true) != null);
 		
@@ -1224,11 +1264,29 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeModele = stockerSolr(classeDoc, "classeModele", regexTrouve("^modele: \\s*(true)$", classeCommentaire));
 		Boolean classeApi = stockerSolr(classeDoc, "classeApi", regexTrouve("^api: \\s*(true)$", classeCommentaire) || classeModele);
 		Boolean classePage = stockerSolr(classeDoc, "classePage", regexTrouve("^page: \\s*(true)$", classeCommentaire) || classeModele);
-		if(classeContientRequeteSite)
+		Boolean classeInitLoin = stockerSolr(classeDoc, "classeInitLoin", classeEtendBase || classeEstBase);
+		if(classeInitLoin)
 			classePartsGenAjouter(classePartsRequeteSite);
 		indexerStockerSolr(classeDoc, "classeEtendGen", classeEtendGen);
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", classeCommentaire));
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele);
+
+		ClasseParts classePartsSolrInputDocument = ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrInputDocument", langueNom);
+		ClasseParts classePartsSolrClient = ClasseParts.initClasseParts(this, "org.apache.solr.client.solrj.SolrClient", langueNom);
+		ClasseParts classePartsTest = ClasseParts.initClasseParts(this, "org.junit.Test", langueNom);
+		ClasseParts classePartsEcouteurContexte = classePartsEcouteurContexte(nomEnsembleDomaine);
+		ClasseParts classePartsCluster = classePartsCluster(nomEnsembleDomaine);
+
+		if(classeIndexe) {
+			classePartsGenAjouter(classePartsSolrInputDocument);
+			classePartsGenAjouter(classePartsSolrClient);
+//			classePartsGenAjouter(classePartsTest);
+			classePartsGenAjouter(classePartsEcouteurContexte);
+		}
+		if(classeEtendBase || classeEstBase) {
+			classePartsGenAjouter(classePartsCluster);
+		}
+
 		
 		ArrayList<JavaClass> classesSuperQdox = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> classesSuperQdoxEtMoi = new ArrayList<JavaClass>();
@@ -1557,6 +1615,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					if(!methodeEstSubstitue && !methodeQdox.isStatic() && !methodeQdox.isFinal() && methodeQdox.getDeclaringClass().equals(classeQdox) 
 							&& methodeQdox.isProtected() && methodeParamsQdox.size() == 1 && classeQdoxRetour.isVoid()
 							&& StringUtils.startsWith(methodeQdox.getName(), "_")) {
+
 						// est Entite. 
 						SolrInputDocument entiteDoc = classeDocClone.deepCopy();
 						String entiteVar = indexerStockerSolr(entiteDoc, "entiteVar", langueNom, StringUtils.substringAfter(methodeQdox.getName(), "_"));
@@ -1588,6 +1647,23 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteNomCanoniqueComplet", langueNom, entiteClasseParts.nomCanoniqueComplet);
 						indexerStockerSolr(entiteDoc, "entiteNomSimpleComplet", langueNom, entiteClasseParts.nomSimpleComplet);
 						indexerStockerSolr(entiteDoc, "entiteNomSimpleCompletGenerique", langueNom, entiteClasseParts.nomSimpleGenerique);
+
+						JavaMethod entiteSetter = classeQdox.getMethodBySignature("set" + entiteVarCapitalise, new ArrayList<JavaType>() {{ add(classeQdoxString); }}, true);
+						Boolean entiteDefinir = stockerSolr(entiteDoc, "entiteDefinir", 
+								entiteNomCanonique.equals(VAL_nomCanoniqueString)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueString)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueBoolean)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueInteger)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueBigDecimal)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueDouble)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueFloat)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueLong)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueLocalDateTime)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueLocalDate)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
+								|| entiteSetter != null
+								);
 						
 						JavaClass entiteClasseQdoxBase = null;
 						JavaClass entiteClasseSuperQdox = entiteClasseQdox.getSuperJavaClass();

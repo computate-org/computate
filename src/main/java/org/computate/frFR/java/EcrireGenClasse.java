@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,7 +73,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 	protected List<String> classeSuperParametreTypeNoms;
 	protected Boolean classeEtendGen;
 	protected Boolean classeBaseEtendGen;
-	protected Boolean classeContientRequeteSite;
+	protected Boolean classeInitLoin;
 	protected Boolean classeIndexe;
 	protected Boolean classeEtendBase;
 	protected Boolean classeEstBase;
@@ -83,6 +84,9 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 	protected StringWriter wInitialiserLoin;
 	protected PrintWriter codeInitialiserLoin;
+
+	protected StringWriter wRequeteSite;
+	protected PrintWriter codeRequeteSite;
 
 	protected StringWriter wIndexer;
 	protected PrintWriter codeIndexer;
@@ -174,6 +178,9 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		wInitialiserLoin = new StringWriter();
 		codeInitialiserLoin = new PrintWriter(wInitialiserLoin);
 
+		wRequeteSite = new StringWriter();
+		codeRequeteSite = new PrintWriter(wRequeteSite);
+
 		wIndexer = new StringWriter();
 		codeIndexer = new PrintWriter(wIndexer);
 
@@ -202,8 +209,12 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 	public void genCodeInitialiserLoin(String langueNom) throws Exception {
 		o = codeInitialiserLoin;
 		l(); 
+		tl(1, "/////////////////////");
+		tl(1, "// initialiserLoin //");
+		tl(1, "/////////////////////");
+		l(); 
 		tl(1, "protected boolean dejaInitialise", classeNomSimple, " = false;");
-		if(BooleanUtils.isTrue(classeContientRequeteSite)) {
+		if(BooleanUtils.isTrue(classeInitLoin)) {
 			l();
 			tl(1, "public void initLoin", classeNomSimple, "(RequeteSite requeteSite) throws Exception {");
 //						if(contientRequeteSite && !StringUtils.equals(classeNomSimple, "RequeteSite"))
@@ -215,28 +226,46 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		l();
 		tl(1, "public void initLoin", classeNomSimple, "() throws Exception {");
 		tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
-		if(BooleanUtils.isTrue(classeContientRequeteSite)) 
+		if(BooleanUtils.isTrue(classeEtendBase)) 
 			tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite);");
+	}
+
+	public void genCodeRequeteSite(String langueNom) throws Exception {
+		o = codeRequeteSite;
+		if(BooleanUtils.isTrue(classeInitLoin)) {
+			l(); 
+			tl(1, "/////////////////");
+			tl(1, "// requeteSite //");
+			tl(1, "/////////////////");
+			l(); 
+			tl(1, "public void requeteSite", classeNomSimple, "(RequeteSite requeteSite) throws Exception {");
+			if(BooleanUtils.isTrue(classeEtendBase)) 
+				tl(3, "super.requeteSite", classeNomSimpleSuperGenerique, "(requeteSite);");
+		}
 	}
 
 	public void genCodeIndexer(String langueNom) throws Exception {
 		o = codeIndexer;
 		if(classeIndexe) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// indexer //");
+			tl(1, "/////////////");
 			tl(0);
-			tl(1, "@Test public void indexer", classeNomSimple, "Test() throws Exception {");
+			tl(1, "public void indexer", classeNomSimple, "() throws Exception {");
 			tl(2, "RequeteSite requeteSite = new RequeteSite();");
 			tl(2, "requeteSite.initLoinRequeteSite();");
 			tl(2, "EcouteurContexte ecouteurContexte = new EcouteurContexte();");
 			tl(2, "ecouteurContexte.initLoinEcouteurContexte();");
-			tl(2, "ecouteurContexte.requeteSite(requeteSite);");
-			tl(2, "requeteSite.ecouteurContexte(ecouteurContexte);");
-			tl(2, "requeteSite.configSite(ecouteurContexte.configSite);");
+			tl(2, "ecouteurContexte.setRequeteSite(requeteSite);");
+			tl(2, "requeteSite.setEcouteurContexte(ecouteurContexte);");
+			tl(2, "requeteSite.setConfigSite(ecouteurContexte.configSite);");
 			tl(2, "requeteSite", classeNomSimple, "(requeteSite);");
 			tl(2, "initLoin", classeNomSimple, "(requeteSite);");
 			tl(2, "indexer", classeNomSimple, "(requeteSite);");
 			tl(1, "}");
 			tl(0);
-			if(classeEtendBase) {
+			if(classeEtendBase || classeEstBase) {
 				tl(0);
 				t(1);
 				if(!classeEstBase)
@@ -269,7 +298,11 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 	public void genCodeObtenir(String langueNom) throws Exception {
 		o = codeObtenir;
-		if(classeEtendBase) {
+		if(classeEtendBase || classeEstBase) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// obtenir //");
+			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(!classeEstBase)
@@ -295,7 +328,11 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 	public void genCodeAttribuer(String langueNom) throws Exception {
 		o = codeAttribuer;
-		if(classeEtendBase) {
+		if(classeEtendBase || classeEstBase) {
+			l(); 
+			tl(1, "///////////////");
+			tl(1, "// attribuer //");
+			tl(1, "///////////////");
 			tl(0);
 			t(1);
 			if(!classeEstBase)
@@ -314,7 +351,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(2, "return o != null;");
 			tl(1, "}");
 			tl(1, "public Object attribuer", classeNomSimple, "(String var, Object val) throws Exception {");
-			t(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
+			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "switch(var) {");
 
 		}
@@ -322,7 +359,11 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 	public void genCodeDefinir(String langueNom) throws Exception {
 		o = codeDefinir;
-		if(classeEtendBase) {
+		if(classeEtendBase || classeEstBase) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// definir //");
+			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(!classeEstBase)
@@ -352,6 +393,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 	public void genCodePeupler(String langueNom) throws Exception {
 		o = codePeupler;
 		if(classeSauvegarde) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// peupler //");
+			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(!classeNomSimple.equals("Cluster"))
@@ -370,6 +415,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 	public void genCodeExiste(String langueNom) throws Exception {
 		o = codeExiste;
 		if(classeSauvegarde) {
+			l(); 
+			tl(1, "////////////");
+			tl(1, "// existe //");
+			tl(1, "////////////");
 			tl(0);
 			t(1);
 			if(!classeNomSimple.equals("Cluster"))
@@ -414,6 +463,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 	public void genCodeSauvegardes(String langueNom) throws Exception {
 		o = codeSauvegardes;
 		if(classeSauvegarde) {
+			l(); 
+			tl(1, "/////////////////");
+			tl(1, "// sauvegardes //");
+			tl(1, "/////////////////");
 			tl(0);
 			tl(1, "protected java.util.ArrayList<String> sauvegardes", classeNomSimple, " = new java.util.ArrayList<String>();");
 			t(1);
@@ -451,6 +504,10 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 	public void genCodeSauvegarder(String langueNom) throws Exception {
 		o = codeSauvegarder;
 		if(classeSauvegarde) {
+			l(); 
+			tl(1, "/////////////////");
+			tl(1, "// sauvegarder //");
+			tl(1, "/////////////////");
 			tl(0);
 			t(1);
 			if(!classeNomSimple.equals("Cluster"))
@@ -615,6 +672,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		Boolean entiteMultiligne = (Boolean)doc.get("entiteMultiligne_stored_boolean");
 		Boolean entiteCles = (Boolean)doc.get("entiteCles_stored_boolean");
 		Boolean entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
+		Boolean entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
 
 		List<String> entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
 		List<String> entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_stored_strings");
@@ -736,8 +794,8 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 		// Setter List //
 		if(StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) && StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
-			tl(1, "public ", classeNomSimple, " ", entiteVar, "(String o) throws Exception {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isNumber(o)) {");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
+			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 			tl(3, "Long l = Long.parseLong(o);");
 			tl(3, entiteVar, "Ajouter(l);");
 			tl(2, "}");
@@ -747,7 +805,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 		// Setter Boolean //
 		if(StringUtils.equals(entiteNomCanonique, Boolean.class.getCanonicalName())) {
-			tl(1, "public ", classeNomSimple, " ", entiteVar, "(String o) throws Exception {");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
 			tl(3, "this.", entiteVar, " = Boolean.parseBoolean(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
@@ -756,8 +814,8 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 		// Setter Integer //
 		if(StringUtils.equals(entiteNomCanonique, Integer.class.getCanonicalName())) {
-			tl(1, "public ", classeNomSimple, " ", entiteVar, "(String o) throws Exception {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isNumber(o))");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
+			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Integer.parseInt(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
@@ -765,17 +823,26 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 		// Setter BigDecimal //
 		if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
-			tl(1, "public ", classeNomSimple, " ", entiteVar, "(String o) throws Exception {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isNumber(o))");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
+			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = new BigDecimal(o);");
+			tl(2, "return (", classeNomSimple, ")this;");
+			tl(1, "}");
+		}
+
+		// Setter Float //
+		if(StringUtils.equals(entiteNomCanonique, Float.class.getCanonicalName())) {
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
+			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+			tl(3, "this.", entiteVar, " = Float.parseFloat(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
 		// Setter Double //
 		if(StringUtils.equals(entiteNomCanonique, Double.class.getCanonicalName())) {
-			tl(1, "public ", classeNomSimple, " ", entiteVar, "(String o) throws Exception {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isNumber(o))");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
+			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Double.parseDouble(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
@@ -783,20 +850,40 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 		// Setter Long //
 		if(StringUtils.equals(entiteNomCanonique, Long.class.getCanonicalName())) {
-			tl(1, "public ", classeNomSimple, " ", entiteVar, "(String o) throws Exception {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isNumber(o))");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
+			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Long.parseLong(o);");
+			tl(2, "return (", classeNomSimple, ")this;");
+			tl(1, "}");
+		}
+
+		// Setter Long //
+		if(StringUtils.equals(entiteNomSimple, "Chaine")) {
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
+			tl(2, entiteVar, ".tout(o);");
+			tl(2, "return (", classeNomSimple, ")this;");
+			tl(1, "}");
+		}
+
+		// Setter LocalDate //
+		if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
+			tl(2, "this.", entiteVar, " = java.time.LocalDate.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE);");
+			tl(2, "return (", classeNomSimple, ")this;");
+			tl(1, "}");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(java.util.Date o) throws Exception {");
+			tl(2, "this.", entiteVar, " = o.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
 		// Setter LocalDateTime //
 		if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
-			tl(1, "public ", classeNomSimple, " ", entiteVar, "(String o) throws Exception {");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
-			tl(1, "public ", classeNomSimple, " ", entiteVar, "(java.util.Date o) throws Exception {");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(java.util.Date o) throws Exception {");
 			tl(2, "this.", entiteVar, " = java.time.LocalDateTime.ofInstant(o.toInstant(), java.time.ZoneId.systemDefault());");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
@@ -927,6 +1014,14 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		}
 
 
+		/////////////////////
+		// codeRequeteSite //
+		/////////////////////
+		if(classeInitLoin && entiteInitLoin) {
+			o = codeRequeteSite;
+			tl(2, entiteVar, ".setRequeteSite(requeteSite);");
+		}
+
 		/////////////////
 		// codeIndexer //
 		/////////////////
@@ -1006,28 +1101,31 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		// codeObtenir //
 		/////////////////
 		o = codeObtenir;
-		if(classeEtendBase) {
-			tl(2, "case \"", entiteVar, "\": return o", classeNomSimple, ".", entiteVar, ";");
+		if(classeEtendBase || classeEstBase) {
+			tl(3, "case \"", entiteVar, "\":");
+			tl(4, "return o", classeNomSimple, ".", entiteVar, ";");
 		}	
 
 		///////////////////
 		// codeAttribuer //
 		///////////////////
 		o = codeAttribuer;
-		if(classeEtendBase) {
-			tl(2, "case \"", entiteVar, "\": o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val); return val;");
+		if(classeEtendBase || classeEstBase) {
+			tl(3, "case \"", entiteVar, "\":");
+			tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+			tl(4, "return val;");
 		}	
 
 		/////////////////
 		// codeDefinir //
 		/////////////////
 		o = codeDefinir;
-		if(classeEtendBase) {
+		if(classeEtendBase || classeEstBase && BooleanUtils.isTrue(entiteDefinir)) {
 //							if(champ.contientSetterString) {
 //							if(entiteContientSetterString) {
-				tl(2, "case \"", entiteVar, "\":");
-				tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val);");
-				tl(3, "return val;");
+				tl(3, "case \"", entiteVar, "\":");
+				tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val);");
+				tl(4, "return val;");
 //							}
 		}	
 
@@ -1157,17 +1255,29 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 	}
 
 	public void genCodeClasseFin(String langueNom) throws Exception {
-		////////////////////
-		// codeIninitLoin //
-		////////////////////
+		//////////////////
+		// codeInitLoin //
+		//////////////////
 		o = codeInitialiserLoin;
 		tl(3, "dejaInitialise", classeNomSimple, " = true;");
 		tl(2, "}");
 		tl(1, "}");
-		if(classeContientRequeteSite) {
+		if(classeInitLoin) {
 			l();
 			tl(1, "public void initLoinPourClasse(RequeteSite requeteSite) throws Exception {");
 			tl(2, "initLoin", classeNomSimple, "(requeteSite);");
+			tl(1, "}");  
+		}
+
+		/////////////////////
+		// codeRequeteSite //
+		/////////////////////
+		if(classeInitLoin) {
+			o = codeRequeteSite;
+			tl(1, "}");
+			l();
+			tl(1, "public void requeteSitePourClasse(RequeteSite requeteSite) throws Exception {");
+			tl(2, "requeteSite", classeNomSimple, "(requeteSite);");
 			tl(1, "}");  
 		}
 
@@ -1184,14 +1294,14 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 			if(StringUtils.isNotEmpty(entiteVarCleUnique)) {
 				tl(0);
-				tl(1, "@Test public void desindexer", classeNomSimple, "Test() throws Exception {");
+				tl(1, "public void desindexer", classeNomSimple, "() throws Exception {");
 				tl(2, "RequeteSite requeteSite = new RequeteSite();");
 				tl(2, "requeteSite.initLoinRequeteSite();");
 				tl(2, "EcouteurContexte ecouteurContexte = new EcouteurContexte();");
 				tl(2, "ecouteurContexte.initLoinEcouteurContexte();");
-				tl(2, "ecouteurContexte.requeteSite(requeteSite);");
-				tl(2, "requeteSite.ecouteurContexte(ecouteurContexte);");
-				tl(2, "requeteSite.configSite(ecouteurContexte.configSite);");
+				tl(2, "ecouteurContexte.setRequeteSite(requeteSite);");
+				tl(2, "requeteSite.setEcouteurContexte(ecouteurContexte);");
+				tl(2, "requeteSite.setConfigSite(ecouteurContexte.configSite);");
 				tl(2, "initLoin", classeNomSimple, "(ecouteurContexte.requeteSite);");
 				tl(2, "SolrClient clientSolr = ecouteurContexte.clientSolr;");
 				tl(2, "clientSolr.deleteById(", entiteVarCleUnique, ".toString());");
@@ -1204,13 +1314,13 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		// codeObtenir //
 		/////////////////
 		o = codeObtenir;
-		if(classeEtendBase) {
-			tl(2, "default:");
+		if(classeEtendBase || classeEstBase) {
+			tl(3, "default:");
 
 			if(classeEstBase)
-				tl(3, "return null;");
+				tl(4, "return null;");
 			else
-				tl(3, "return super.obtenir", classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return super.obtenir", classeNomSimpleSuperGenerique, "(var);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -1220,13 +1330,13 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		// codeAttribuer //
 		///////////////////
 		o = codeAttribuer;
-		if(classeEtendBase) {
-			tl(2, "default:");
+		if(classeEtendBase || classeEstBase) {
+			tl(3, "default:");
 
 			if(classeEstBase)
-				tl(3, "return null;");
+				tl(4, "return null;");
 			else
-				tl(3, "return super.attribuer", classeNomSimpleSuperGenerique, "(var, val);");
+				tl(4, "return super.attribuer", classeNomSimpleSuperGenerique, "(var, val);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -1237,13 +1347,13 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		// codeDefinir //
 		/////////////////
 		o = codeDefinir;
-		if(classeEtendBase) {
-			tl(2, "default:");
+		if(classeEtendBase || classeEstBase) {
+			tl(3, "default:");
 
 			if(classeEstBase)
-				tl(3, "return null;");
+				tl(4, "return null;");
 			else
-				tl(3, "return super.definir", classeNomSimpleSuperGenerique, "(var, val);");
+				tl(4, "return super.definir", classeNomSimpleSuperGenerique, "(var, val);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -1277,6 +1387,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		}	
 
 		codeInitialiserLoin.flush();
+		codeRequeteSite.flush();
 		codeIndexer.flush();
 		codeObtenir.flush();
 		codeAttribuer.flush();
@@ -1289,6 +1400,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		o = auteurGenClasse;
 
 		s(wInitialiserLoin.toString());
+		s(wRequeteSite.toString());
 		s(wIndexer.toString());
 		s(wObtenir.toString());
 		s(wAttribuer.toString());
