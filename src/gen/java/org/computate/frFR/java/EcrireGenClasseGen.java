@@ -1,10 +1,8 @@
 package org.computate.frFR.java;
 
-import org.computate.frFR.java.EcrireClasse;
-
 /**	Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue.
  */
-public abstract class EcrireGenClasseGen<DEV> extends EcrireClasse {
+public abstract class EcrireGenClasseGen<DEV> {
 	public static final String VAL_entiteCommentaireLigne1Part1 = "L'entit\u00E9 \u00AB ";
 	public static final String VAL_entiteCommentaireLigne1Part2 = " \u00BB";
 	public static final String VAL_entiteCouvertureLigne1Part1 = " est d\u00E9fini comme null avant d'\u00EAtre initialis\u00E9. ";
@@ -14,11 +12,113 @@ public abstract class EcrireGenClasseGen<DEV> extends EcrireClasse {
 	public static final String VAL_entiteConstruitLigne2Part1 = " est le champ d\u00E9j\u00E0 construit. ";
 	public static final String VAL_entiteThrowsLigne2Part1 = " afin que toute exception lors de l'initialisation est g\u00E9r\u00E9e par le servlet. ";
 
+	/////////////////////
+	// initialiserLoin //
+	/////////////////////
+
 	protected boolean dejaInitialiseEcrireGenClasse = false;
+
+	public void initLoinEcrireGenClasse(RequeteSite requeteSite) throws Exception {
+		setRequeteSite(requeteSite);
+		initLoinEcrireGenClasse();
+	}
 
 	public void initLoinEcrireGenClasse() throws Exception {
 		if(!dejaInitialiseEcrireGenClasse) {
 			dejaInitialiseEcrireGenClasse = true;
+		}
+	}
+
+	public void initLoinPourClasse(RequeteSite requeteSite) throws Exception {
+		initLoinEcrireGenClasse(requeteSite);
+	}
+
+	/////////////////
+	// requeteSite //
+	/////////////////
+
+	public void requeteSiteEcrireGenClasse(RequeteSite requeteSite) throws Exception {
+	}
+
+	public void requeteSitePourClasse(RequeteSite requeteSite) throws Exception {
+		requeteSiteEcrireGenClasse(requeteSite);
+	}
+
+	/////////////
+	// obtenir //
+	/////////////
+
+	public Object obtenirPourClasse(String var) throws Exception {
+		String[] vars = org.apache.commons.lang3.StringUtils.split(var, ".");
+		Object o = null;
+		for(String v : vars) {
+			if(o == null)
+				o = obtenirEcrireGenClasse(v);
+			else if(o instanceof Cluster) {
+				Cluster cluster = (Cluster)o;
+				o = cluster.obtenirPourClasse(v);
+			}
+		}
+		return o;
+	}
+	public Object obtenirEcrireGenClasse(String var) throws Exception {
+		EcrireGenClasse oEcrireGenClasse = (EcrireGenClasse)this;
+		switch(var) {
+			default:
+				return null;
+		}
+	}
+
+	///////////////
+	// attribuer //
+	///////////////
+
+	public boolean attribuerPourClasse(String var, Object val) throws Exception {
+		String[] vars = org.apache.commons.lang3.StringUtils.split(var, ".");
+		Object o = null;
+		for(String v : vars) {
+			if(o == null)
+				o = attribuerEcrireGenClasse(v, val);
+			else if(o instanceof Cluster) {
+				Cluster cluster = (Cluster)o;
+				o = cluster.attribuerPourClasse(v, val);
+			}
+		}
+		return o != null;
+	}
+	public Object attribuerEcrireGenClasse(String var, Object val) throws Exception {
+		EcrireGenClasse oEcrireGenClasse = (EcrireGenClasse)this;
+		switch(var) {
+			default:
+				return null;
+		}
+	}
+
+	/////////////
+	// definir //
+	/////////////
+
+	public boolean definirPourClasse(String var, String...vals) throws Exception {
+		String[] vars = org.apache.commons.lang3.StringUtils.split(var, ".");
+		Object o = null;
+		String val = vals == null ? null : vals[vals.length - 1];
+		if(val != null) {
+			for(String v : vars) {
+				if(o == null)
+					o = definirEcrireGenClasse(v, val);
+				else if(o instanceof Cluster) {
+					Cluster cluster = (Cluster)o;
+					o = cluster.definirPourClasse(v, val);
+				}
+			}
+		}
+		return o != null;
+	}
+	public Object definirEcrireGenClasse(String var, String val) throws Exception {
+		EcrireGenClasse oEcrireGenClasse = (EcrireGenClasse)this;
+		switch(var) {
+			default:
+				return null;
 		}
 	}
 }

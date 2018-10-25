@@ -195,8 +195,14 @@ public class ClasseParts {
 			String[] partsCanonique = StringUtils.split(valeurGeneriqueCanonique, ",");
 			String nomCanoniqueGenerique = "";
 			for(int i = 0; i < partsSimple.length; i++) {
+				String nomSimpleCompletPart = StringUtils.trim(partsSimple[i]);
 				String nomSimplePart = StringUtils.trim(partsSimple[i]);
+				if(StringUtils.contains(nomSimplePart, "<"))
+					nomSimplePart = StringUtils.substringBefore(nomSimplePart, "<");
+				String nomCanoniqueCompletPart = StringUtils.trim(partsCanonique[i]);
 				String nomCanoniquePart = StringUtils.trim(partsCanonique[i]);
+				if(StringUtils.contains(nomCanoniquePart, "<"))
+					nomCanoniquePart = StringUtils.substringBefore(nomCanoniquePart, "<");
 
 				if(i > 0) {
 					nomCanoniqueGenerique += ", ";
@@ -217,11 +223,17 @@ public class ClasseParts {
 						nomCanoniqueGenerique += nomCanoniqueGeneriquePart;
 					}
 					else {
-						nomCanoniqueGenerique += nomCanoniquePart;
+						nomCanoniqueGenerique += nomCanoniqueCompletPart;
 					}
 				}
+				else if(StringUtils.equals(nomSimplePart, "List")) {
+					nomCanoniqueGenerique = "java.util.List<" + StringUtils.substringAfter(nomCanoniqueCompletPart, "<");
+				}
+				else if(StringUtils.equals(nomSimplePart, "ArrayList")) {
+					nomCanoniqueGenerique = "java.util.ArrayList<" + StringUtils.substringAfter(nomCanoniqueCompletPart, "<");
+				}
 				else {
-					nomCanoniqueGenerique += nomCanoniquePart;
+					nomCanoniqueGenerique += nomCanoniqueCompletPart;
 				}
 			}
 			nomCanoniqueComplet = nomCanonique + "<" + nomCanoniqueGenerique + ">";

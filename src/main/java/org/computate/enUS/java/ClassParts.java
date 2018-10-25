@@ -8,7 +8,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.computate.enUS.java.SiteConfig;
 import com.thoughtworks.qdox.model.JavaClass;
 
 public class ClassParts {
@@ -29,7 +28,7 @@ public class ClassParts {
 
 	public SolrDocument solrDocument;
 
-	public static SolrDocument solrDocument(SiteConfig siteConfig, String canonicalName) throws Exception {
+	public static SolrDocument solrDocument(ConfigSite siteConfig, String canonicalName) throws Exception {
 		SolrDocument doc = null;   
 		if(StringUtils.startsWith(canonicalName, siteConfig.domainPackageName)) {
 			SolrQuery solrSearch = new SolrQuery();   
@@ -37,6 +36,7 @@ public class ClassParts {
 			solrSearch.setRows(1);
 			solrSearch.addFilterQuery("classCanonicalName_" + siteConfig.languageActualName + "_indexed_string:" + ClientUtils.escapeQueryChars(canonicalName));
 			solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
+			solrSearch.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(siteConfig.domainPackageName));
 			QueryResponse searchResponse = siteConfig.solrClientComputate.query(solrSearch);
 			SolrDocumentList searchList = searchResponse.getResults();
 			if(searchList.size() > 0) { 
@@ -46,12 +46,12 @@ public class ClassParts {
 		return doc;
 	}
 
-	public static ClassParts initClassParts(SiteConfig siteConfig, ClassParts classParts, String languageName) throws Exception {
+	public static ClassParts initClassParts(ConfigSite siteConfig, ClassParts classParts, String languageName) throws Exception {
 		ClassParts o = initClassParts(siteConfig, classParts.canonicalNameComplete, languageName);
 		return o;
 	}
 
-	public static ClassParts initClassParts(SiteConfig siteConfig, JavaClass classQdox, String languageName) throws Exception {
+	public static ClassParts initClassParts(ConfigSite siteConfig, JavaClass classQdox, String languageName) throws Exception {
 		String canonicalName = classQdox.getCanonicalName();
 		String canonicalNameComplete = classQdox.getGenericFullyQualifiedName();
 		String genericSimpleValueBefore = classQdox.getGenericValue();
@@ -63,8 +63,14 @@ public class ClassParts {
 			String[] canonicalParts = StringUtils.split(genericCanonicalValue, ",");
 			String canonicalNameGeneric = "";
 			for(int i = 0; i < simpleParts.length; i++) {
+				String nomSimpleCompletPart = StringUtils.trim(simpleParts[i]);
 				String simpleNamePart = StringUtils.trim(simpleParts[i]);
+				if(StringUtils.contains(simpleNamePart, "<"))
+					simpleNamePart = StringUtils.substringBefore(simpleNamePart, "<");
+				String canonicalNameCompletePart = StringUtils.trim(canonicalParts[i]);
 				String canonicalNamePart = StringUtils.trim(canonicalParts[i]);
+				if(StringUtils.contains(canonicalNamePart, "<"))
+					canonicalNamePart = StringUtils.substringBefore(canonicalNamePart, "<");
 
 				if(i > 0) {
 					canonicalNameGeneric += ", ";
@@ -74,6 +80,7 @@ public class ClassParts {
 				solrSearch.setRows(1);
 				solrSearch.addFilterQuery("classSimpleName_" + siteConfig.languageActualName + "_indexed_string:" + ClientUtils.escapeQueryChars(simpleNamePart));
 				solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
+				solrSearch.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(siteConfig.nomEnsembleDomaine));
 				QueryResponse searchResponse = siteConfig.solrClientComputate.query(solrSearch);
 				SolrDocumentList searchList = searchResponse.getResults();
 				if(searchList.size() > 0) { 
@@ -84,11 +91,17 @@ public class ClassParts {
 						canonicalNameGeneric += canonicalNameGenericPart;
 					}
 					else {
-						canonicalNameGeneric += canonicalNamePart;
+						canonicalNameGeneric += canonicalNameCompletePart;
 					}
 				}
+				else if(StringUtils.equals(simpleNamePart, "List")) {
+					canonicalNameGeneric = "java.util.List<" + StringUtils.substringAfter(canonicalNameCompletePart, "<");
+				}
+				else if(StringUtils.equals(simpleNamePart, "ArrayList")) {
+					canonicalNameGeneric = "java.util.ArrayList<" + StringUtils.substringAfter(canonicalNameCompletePart, "<");
+				}
 				else {
-					canonicalNameGeneric += canonicalNamePart;
+					canonicalNameGeneric += canonicalNameCompletePart;
 				}
 			}
 			canonicalNameComplete = canonicalName + "<" + canonicalNameGeneric + ">";
@@ -97,7 +110,7 @@ public class ClassParts {
 		return classParts;
 	}
 
-	public static ClassParts initClassParts(SiteConfig siteConfig, String canonicalNameComplete, String languageName) throws Exception {
+	public static ClassParts initClassParts(ConfigSite siteConfig, String canonicalNameComplete, String languageName) throws Exception {
 		ClassParts classParts = new ClassParts();
 		classParts.canonicalName = canonicalNameComplete;
 		classParts.canonicalNameGeneric = null;

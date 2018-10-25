@@ -21,7 +21,7 @@ public class WatchClass extends WriteAllClasses {
 		watchClass(watchClass);
 	}
 
-	public static void  watchClass(RegarderClasse watchClass) throws Exception {
+	public static void  watchClass(WatchClass watchClass) throws Exception {
 		System.out.println("absolutePath : " + watchClass.classAbsolutePath);
 
 		SolrInputDocument classeDoc = watchClass.indexerClasse(watchClass.classAbsolutePath);
@@ -53,12 +53,15 @@ public class WatchClass extends WriteAllClasses {
 //		String appliChemin = "/usr/local/src/computate.org";
 //		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/config/ConfigSite.java";
 //		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/EcouteurContexte.java";
-		String appliNom = "heytate-cardiac";
-		String appliChemin = "/usr/local/src/heytate-cardiac";
+//		String appliNom = "heytate-cardiac";
+//		String appliChemin = "/usr/local/src/heytate-cardiac";
 //		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/requete/RequeteSite.java";
 //		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/config/ConfigSite.java";
-		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/warfarin/InrEntry.java";
+//		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/warfarin/InrEntry.java";
 //		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/cluster/Cluster.java";
+		String appliNom = "cx";
+		String appliChemin = "/usr/local/src/cx";
+		String classeCheminAbsolu = "/usr/local/src/cx/src/main/java/com/heytate/frFR/cx/client/org/ClientOrg.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;

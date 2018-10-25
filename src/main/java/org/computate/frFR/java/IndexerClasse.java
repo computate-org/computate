@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +50,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	public final static String VAL_nomCanoniqueLocalDate = LocalDate.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueList = List.class.getCanonicalName();
 	public final static String VAL_nomCanoniqueArrayList = ArrayList.class.getCanonicalName();
+
+	protected HashMap<String, ClasseParts> classePartsGenApi = new HashMap<String, ClasseParts>();
+	protected HashMap<String, ClasseParts> classePartsGenPage = new HashMap<String, ClasseParts>();
 
 	/**
 	 * var.enUS: populateQdoxSuperClassesInterfacesAndMe
@@ -688,6 +692,44 @@ public class IndexerClasse extends RegarderClasseBase {
 		return classeParts;
 	}
 
+	protected ClasseParts classePartsConfigSite(String nomEnsembleDomaine) throws Exception {
+		ClasseParts classeParts = null;
+		SolrDocument doc = null;
+		SolrQuery rechercheSolr = new SolrQuery();   
+		rechercheSolr.setQuery("*:*");
+		rechercheSolr.setRows(1);
+		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:ConfigSite");
+		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+		SolrDocumentList listeRecherche = reponseRecherche.getResults();
+		if(listeRecherche.size() > 0) {
+			doc = listeRecherche.get(0);
+			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
+			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
+		}
+		return classeParts;
+	}
+
+	protected ClasseParts classePartsUtilisateurSite(String nomEnsembleDomaine) throws Exception {
+		ClasseParts classeParts = null;
+		SolrDocument doc = null;
+		SolrQuery rechercheSolr = new SolrQuery();   
+		rechercheSolr.setQuery("*:*");
+		rechercheSolr.setRows(1);
+		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:UtilisateurSite");
+		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+		SolrDocumentList listeRecherche = reponseRecherche.getResults();
+		if(listeRecherche.size() > 0) {
+			doc = listeRecherche.get(0);
+			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
+			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
+		}
+		return classeParts;
+	}
+
 	protected ClasseParts classePartsCluster(String nomEnsembleDomaine) throws Exception {
 		ClasseParts classeParts = null;
 		SolrDocument doc = null;
@@ -748,8 +790,18 @@ public class IndexerClasse extends RegarderClasseBase {
 	}  
 
 	public void classePartsGenAjouter(ClasseParts classeParts) {
-		if(classeParts != null && !classePartsGen.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, "."))
+		if(classePartsGen != null && classeParts != null && !classePartsGen.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, "."))
 			classePartsGen.put(classeParts.nomCanonique, classeParts);
+	}
+
+	public void classePartsGenApiAjouter(ClasseParts classeParts) {
+		if(classePartsGenApi != null && classeParts != null && !classePartsGenApi.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, "."))
+			classePartsGenApi.put(classeParts.nomCanonique, classeParts);
+	}
+
+	public void classePartsGenPageAjouter(ClasseParts classeParts) {
+		if(classePartsGenPage != null && classeParts != null && !classePartsGenPage.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, "."))
+			classePartsGenPage.put(classeParts.nomCanonique, classeParts);
 	}
 
 //
@@ -1275,8 +1327,60 @@ public class IndexerClasse extends RegarderClasseBase {
 		ClasseParts classePartsSolrClient = ClasseParts.initClasseParts(this, "org.apache.solr.client.solrj.SolrClient", langueNom);
 		ClasseParts classePartsTest = ClasseParts.initClasseParts(this, "org.junit.Test", langueNom);
 		ClasseParts classePartsEcouteurContexte = classePartsEcouteurContexte(nomEnsembleDomaine);
+		ClasseParts classePartsConfigSite = classePartsConfigSite(nomEnsembleDomaine);
+		ClasseParts classePartsUtilisateurSite = classePartsUtilisateurSite(nomEnsembleDomaine);
 		ClasseParts classePartsCluster = classePartsCluster(nomEnsembleDomaine);
 
+		if(classePage) {
+			classePartsGenPageAjouter(classePartsConfigSite);
+			classePartsGenPageAjouter(classePartsRequeteSite);
+			classePartsGenPageAjouter(classePartsEcouteurContexte);
+			classePartsGenPageAjouter(classePartsUtilisateurSite);
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.servlet.http.HttpServlet", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.servlet.http.HttpServletRequest", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.servlet.http.HttpServletResponse", langueNom));
+		}
+
+		if(classeApi) {
+			classePartsGenApiAjouter(classePartsConfigSite);
+			classePartsGenApiAjouter(classePartsRequeteSite);
+			classePartsGenApiAjouter(classePartsEcouteurContexte);
+			classePartsGenApiAjouter(classePartsUtilisateurSite);
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.servlet.http.HttpServlet", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.servlet.http.HttpServletRequest", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.servlet.http.HttpServletResponse", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collections", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Map", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.servlet.ServletException", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.concurrent.TimeUnit", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Collectors", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.json.Json", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.json.JsonArray", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.json.JsonObject", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.json.JsonReader", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.client.solrj.SolrQuery", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.client.solrj.SolrQuery.ORDER", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.client.solrj.response.QueryResponse", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.client.solrj.util.ClientUtils", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.keycloak.KeycloakPrincipal", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.keycloak.KeycloakSecurityContext", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.keycloak.representations.AccessToken", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.keycloak.representations.AccessToken.Access", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.security.Principal", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.mail.Message", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.mail.Session", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.mail.Transport", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.mail.internet.InternetAddress", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.mail.internet.MimeMessage", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.PrintWriter", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrDocumentList", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrDocument", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collection", langueNom));
+		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);
 			classePartsGenAjouter(classePartsSolrClient);
@@ -2140,6 +2244,22 @@ public class IndexerClasse extends RegarderClasseBase {
 			for(String langueNom : autresLangues) {  
 				ClasseParts classeImportationClassePartsLangue = ClasseParts.initClasseParts(this, classePartGen, langueNom);
 				indexerStockerListeSolr(classeDoc, "classeImportationsGen", langueNom, classeImportationClassePartsLangue.nomCanonique);
+			}
+		}
+
+		for(ClasseParts classePartGenApi : classePartsGenApi.values()) {
+			indexerStockerListeSolr(classeDoc, "classeImportationsGenApi", langueNom, classePartGenApi.nomCanonique);
+			for(String langueNom : autresLangues) {  
+				ClasseParts classeImportationClassePartsLangue = ClasseParts.initClasseParts(this, classePartGenApi, langueNom);
+				indexerStockerListeSolr(classeDoc, "classeImportationsGenApi", langueNom, classeImportationClassePartsLangue.nomCanonique);
+			}
+		}
+
+		for(ClasseParts classePartGenPage : classePartsGenPage.values()) {
+			indexerStockerListeSolr(classeDoc, "classeImportationsGenPage", langueNom, classePartGenPage.nomCanonique);
+			for(String langueNom : autresLangues) {  
+				ClasseParts classeImportationClassePartsLangue = ClasseParts.initClasseParts(this, classePartGenPage, langueNom);
+				indexerStockerListeSolr(classeDoc, "classeImportationsGenPage", langueNom, classeImportationClassePartsLangue.nomCanonique);
 			}
 		}
 

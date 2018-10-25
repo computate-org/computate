@@ -47,7 +47,16 @@ import org.apache.solr.common.SolrDocumentList;
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  */  
-public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
+public class EcrireGenClasse extends EcrireClasse {
+
+	public static final String VAL_entiteCommentaireLigne1Part1 = "L'entit\u00E9 \u00AB ";
+	public static final String VAL_entiteCommentaireLigne1Part2 = " \u00BB";
+	public static final String VAL_entiteCouvertureLigne1Part1 = " est d\u00E9fini comme null avant d'\u00EAtre initialis\u00E9. ";
+	public static final String VAL_entiteCouvertureLigne2Part1 = " est pour envelopper une valeur \u00E0 assigner \u00E0 ce champ lors de l'initialisation. ";
+	public static final String VAL_entiteConstruitLigne1Part1 = "Il est construit avant d'\u00EAtre initialis\u00E9 avec le constructeur par d\u00E9faut ";
+	public static final String VAL_entiteConstruitLigne1Part2 = "(). ";
+	public static final String VAL_entiteConstruitLigne2Part1 = " est le champ d\u00E9j\u00E0 construit. ";
+	public static final String VAL_entiteThrowsLigne2Part1 = " afin que toute exception lors de l'initialisation est g\u00E9r\u00E9e par le servlet. ";
 
 	protected String classeCheminRepertoireGen;
 	protected String classeCheminGen;
@@ -69,6 +78,8 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 	protected String classeNomCanoniqueSuper;
 	protected String classeCommentaire;
 	protected List<String> classeImportationsGen;
+	protected List<String> classeImportationsGenApi;
+	protected List<String> classeImportationsGenPage;
 	protected List<String> classeParametreTypeNoms;
 	protected List<String> classeSuperParametreTypeNoms;
 	protected Boolean classeEtendGen;
@@ -111,6 +122,15 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 	protected StringWriter wSauvegarder;
 	protected PrintWriter codeSauvegarder;
+
+	protected StringWriter wApiGet;
+	protected PrintWriter codeApiGet;
+
+	protected StringWriter wApiEcrireJson;
+	protected PrintWriter codeApiEcrireJson;
+
+	protected StringWriter wApiChamps;
+	protected PrintWriter codeApiChamps;
 //
 //	protected PrintWriter oAvant;
 
@@ -204,6 +224,15 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 
 		wSauvegarder = new StringWriter();
 		codeSauvegarder = new PrintWriter(wSauvegarder);
+
+		wApiChamps = new StringWriter();
+		codeApiChamps = new PrintWriter(wApiChamps);
+
+		wApiGet = new StringWriter();
+		codeApiGet = new PrintWriter(wApiGet);
+
+		wApiEcrireJson = new StringWriter();
+		codeApiEcrireJson = new PrintWriter(wApiEcrireJson);
 	}
 
 	public void genCodeInitialiserLoin(String langueNom) throws Exception {
@@ -644,12 +673,12 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		String entiteVarCleUniqueActuel = (String)doc.get("entiteVarCleUnique_stored_boolean");
 		if(StringUtils.isNotEmpty(entiteVarCleUniqueActuel))
 			entiteVarCleUnique = entiteVarCleUniqueActuel;
-		String entiteVarSuggere = (String)doc.get("entiteVarSuggere_stored_boolean");
-		String entiteVarIncremente = (String)doc.get("entiteVarIncremente_stored_boolean");
-		String entiteVarCrypte = (String)doc.get("entiteVarCrypte_stored_boolean");
-		String entiteVarIndexe = (String)doc.get("entiteVarIndexe_stored_boolean");
-		String entiteVarStocke = (String)doc.get("entiteVarStocke_stored_boolean");
-		String entiteTypeSolr = (String)doc.get("entiteTypeSolr_stored_boolean");
+		String entiteVarSuggere = (String)doc.get("entiteVarSuggere_stored_string");
+		String entiteVarIncremente = (String)doc.get("entiteVarIncremente_stored_string");
+		String entiteVarCrypte = (String)doc.get("entiteVarCrypte_stored_string");
+		String entiteVarIndexe = (String)doc.get("entiteVarIndexe_stored_string");
+		String entiteVarStocke = (String)doc.get("entiteVarStocke_stored_string");
+		String entiteTypeSolr = (String)doc.get("entiteTypeSolr_stored_string");
 
 		Boolean entiteExact = (Boolean)doc.get("entiteExact_stored_boolean");
 		Boolean entiteCleUnique = (Boolean)doc.get("entiteCleUnique_stored_boolean");
@@ -1030,7 +1059,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			tl(2, "if(", entiteVar, " != null) {");
 			if(StringUtils.isNotEmpty(entiteVarCleUniqueActuel) && entiteCleUnique) {
 				// cleUnique
-				tl(3, "document.addField(\"", entiteVarCleUniqueActuel, "\"", entiteVar, ");");
+				tl(3, "document.addField(\"", entiteVarCleUniqueActuel, "\", ", entiteVar, ");");
 			}
 			if(StringUtils.isNotEmpty(entiteVarCrypte) && entiteCrypte) {
 				// crypte
@@ -1044,23 +1073,29 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 			if(StringUtils.isNotEmpty(entiteVarSuggere) && entiteSuggere) {
 				// suggere
 				if(entiteNomSimple.equals("Chaine")) {
-					tl(3, "document.addField(\"", entiteVarSuggere, "\"", entiteVar, ");");
+					tl(3, "document.addField(\"", entiteVarSuggere, "\", ", entiteVar, ");");
 				}
-				else if(entiteNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName()) || entiteNomSimple.toString().equals("LocalDate")) {
+				else if(entiteNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 					tl(3, "document.addField(\"", entiteVarSuggere, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
 				}
+				else if(entiteNomSimple.toString().equals("LocalDate")) {
+					tl(3, "document.addField(\"", entiteVarSuggere, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(inrDate.atStartOfDay(java.time.ZoneId.of(\"UTC\"))));");
+				}
 				else {
-					tl(3, "document.addField(\"", entiteVarSuggere, "\"", entiteVar, ");");
+					tl(3, "document.addField(\"", entiteVarSuggere, "\", ", entiteVar, ");");
 				}
 			}
 
 			if(StringUtils.isNotEmpty(entiteVarIndexe) && entiteIndexe) {
 				// indexe
 				if(entiteNomSimple.equals("Chaine")) {
-					tl(3, "document.addField(\"", entiteVarIndexe, "\"", entiteVar, ");");
+					tl(3, "document.addField(\"", entiteVarIndexe, "\", ", entiteVar, ");");
 				}
-				else if(entiteNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName()) || entiteNomSimple.toString().equals("LocalDate")) {
+				else if(entiteNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 					tl(3, "document.addField(\"", entiteVarIndexe, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
+				}
+				else if(entiteNomSimple.toString().equals("LocalDate")) {
+					tl(3, "document.addField(\"", entiteVarIndexe, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(inrDate.atStartOfDay(java.time.ZoneId.of(\"UTC\"))));");
 				}
 				else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList")) {
 					tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");
@@ -1068,22 +1103,25 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 					tl(3, "}");
 				}
 				else {
-					tl(3, "document.addField(\"", entiteVarIndexe, "\"", entiteVar, ");");
+					tl(3, "document.addField(\"", entiteVarIndexe, "\", ", entiteVar, ");");
 				}
 			}
 			else {
 				if(StringUtils.isNotEmpty(entiteVarIndexe)) {
-					tl(3, "document.addField(\"", entiteVarIndexe, "\"", entiteVar, ");");
+					tl(3, "document.addField(\"", entiteVarIndexe, "\", ", entiteVar, ");");
 				}
 			}
 
 			if(StringUtils.isNotEmpty(entiteVarStocke) && entiteStocke) {
 				// stocke
 				if(entiteNomSimple.equals("Chaine")) {
-					tl(3, "document.addField(\"", entiteVarStocke, "\"", entiteVar, ");");
+					tl(3, "document.addField(\"", entiteVarStocke, "\", ", entiteVar, ");");
 				}
-				else if(entiteNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName()) || entiteNomSimple.toString().equals("LocalDate")) {
+				else if(entiteNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 					tl(3, "document.addField(\"", entiteVarStocke, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
+				}
+				else if(entiteNomSimple.toString().equals("LocalDate")) {
+					tl(3, "document.addField(\"", entiteVarStocke, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(inrDate.atStartOfDay(java.time.ZoneId.of(\"UTC\"))));");
 				}
 				else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList")) {
 					tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");
@@ -1091,7 +1129,7 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 					tl(3, "}");
 				}
 				else {
-					tl(3, "document.addField(\"", entiteVarStocke, "\"", entiteVar, ");");
+					tl(3, "document.addField(\"", entiteVarStocke, "\", ", entiteVar, ");");
 				}
 			}
 			tl(2, "}");
@@ -1252,6 +1290,39 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 //									tl(2, "}");
 //								}
 		}	
+
+		/////////////////
+		// codeApiChamps //
+		/////////////////
+		o = codeApiChamps;
+		l();
+		tl(1, "public static final String ENTITE_VAR_", entiteVar, " = \"", entiteVar, "\";");
+		if(classeIndexe) {
+			if(entiteIndexe)
+				tl(1, "public static final String ENTITE_VAR_INDEXE_", entiteVar, " = \"", entiteVarIndexe, "\";");
+			if(entiteStocke)
+				tl(1, "public static final String ENTITE_VAR_STOCKE_", entiteVar, " = \"", entiteVarStocke, "\";");
+			if(entiteCrypte)
+				tl(1, "public static final String ENTITE_VAR_CRYPTE_", entiteVar, " = \"", entiteVarCrypte, "\";");
+		}
+
+		/////////////////
+		// codeApiGet //
+		/////////////////
+		o = codeApiGet;
+		if(classeIndexe && entiteIndexe) {
+			tl(3, "case ENTITE_VAR_", entiteVar, ":");
+			tl(4, "return ENTITE_VAR_INDEXE_", entiteVar, ";");
+		}
+
+		///////////////////////
+		// codeApiEcrireJson //
+		///////////////////////
+		o = codeApiEcrireJson;
+		if(classeIndexe && entiteStocke) {
+			tl(3, "case ENTITE_VAR_STOCKE_", entiteVar, ":");
+			tl(4, "return ENTITE_VAR_", entiteVar, ";");
+		}
 	}
 
 	public void genCodeClasseFin(String langueNom) throws Exception {
@@ -1396,6 +1467,9 @@ public class EcrireGenClasse extends EcrireGenClasseGen<EcrireClasse> {
 		codeExiste.flush();
 		codeSauvegardes.flush();
 		codeSauvegarder.flush();
+		codeApiChamps.flush();
+		codeApiGet.flush();
+		codeApiEcrireJson.flush();
 
 		o = auteurGenClasse;
 

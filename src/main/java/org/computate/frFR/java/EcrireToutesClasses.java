@@ -207,6 +207,12 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
 					if(classeImportationsGen == null)
 						classeImportationsGen = new ArrayList<String>();
+					classeImportationsGenApi = (List<String>)doc.get("classeImportationsGenApi_" + langueNom + "_stored_strings");
+					if(classeImportationsGenApi == null)
+						classeImportationsGenApi = new ArrayList<String>();
+					classeImportationsGenPage = (List<String>)doc.get("classeImportationsGenPage_" + langueNom + "_stored_strings");
+					if(classeImportationsGenPage == null)
+						classeImportationsGenPage = new ArrayList<String>();
 					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
 					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
