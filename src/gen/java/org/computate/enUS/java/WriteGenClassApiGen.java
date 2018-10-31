@@ -5,12 +5,15 @@ package org.computate.enUS.java;
  */
 public abstract class WriteGenClassApiGen extends HttpServlet {
 
-	public String varIndexeWriteGenClass(String entiteVar) throws Exception {
-		switch(entiteVar) {
-			default:
-				throw new Exception(String.format("\"%s\" n'est pas une entité indexé. ", entiteVar));
-		}
-	}
+	public static final String VAL_virguleEspace = ", ";
+	public static final String VAL_citation = "\"";
+	public static final String VAL_citationDeuxPointsEspaceCitation = "\": \"";
+	public static final String VAL_citationDeuxPointsEspace = "\": ";
+	public static final String VAL_citationLigne = "\"\n";
+	public static final String VAL_ligne = "\n";
+	public static final String VAL_citationVirguleEspaceCitation = "\", \"";
+	public static final String VAL_citationDeuxPointsEspaceGuillmets = "\": [";
+	public static final String VAL_guillmetsFin = "]";
 
 	@Override protected void doGet(HttpServletRequest requeteServlet, HttpServletResponse reponseServlet) throws ServletException, IOException {
 		RequeteSite requeteSite = null;
@@ -18,9 +21,28 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 			SolrQuery rechercheSolr = genererRecherche(requeteServlet);
 			requeteSite = genererRequeteSite(requeteServlet, reponseServlet);
 			QueryResponse reponseRecherche = requeteSite.ecouteurContexte_.clientSolr.query(rechercheSolr);
-			genererJson(requeteSite, reponseRecherche);
+			genererGet(requeteSite, reponseRecherche);
 		} catch(Exception e) {
 			genererErreur(requeteSite, e);
+		}
+	}
+
+	@Override protected void doPost(HttpServletRequest requeteServlet, HttpServletResponse reponseServlet) throws ServletException, IOException {
+		RequeteSite requeteSite = null;
+		try {
+			SolrQuery rechercheSolr = genererRecherche(requeteServlet);
+			requeteSite = genererRequeteSite(requeteServlet, reponseServlet);
+			QueryResponse reponseRecherche = requeteSite.ecouteurContexte_.clientSolr.query(rechercheSolr);
+			genererPost(requeteSite, reponseRecherche);
+		} catch(Exception e) {
+			genererErreur(requeteSite, e);
+		}
+	}
+
+	public String varIndexeWriteGenClass(String entiteVar) throws Exception {
+		switch(entiteVar) {
+			default:
+				throw new Exception(String.format("\"%s\" n'est pas une entité indexé. ", entiteVar));
 		}
 	}
 
@@ -94,12 +116,25 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 		return requeteSite;
 	}
 
-	public void ecrireJsonWriteGenClass(String entiteVarStocke, Collection<Object> champValeurs) throws Exception {
-		switch(entiteVarStocke) {
+	public Integer genererGetWriteGenClass(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {
+		if(!champValeurs.isEmpty()) {
+			Object champValeur = champValeurs.iterator().next();
+			if(champValeur != null) {
+			}
 		}
+		return j;
 	}
 
-	public void genererJson(RequeteSite requeteSite, QueryResponse reponseRecherche) throws Exception {
+	public Integer genererPostWriteGenClass(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {
+		if(!champValeurs.isEmpty()) {
+			Object champValeur = champValeurs.iterator().next();
+			if(champValeur != null) {
+			}
+		}
+		return j;
+	}
+
+	public void genererGet(RequeteSite requeteSite, QueryResponse reponseRecherche) throws Exception {
 		PrintWriter ecrivain = requeteSite.ecrivain;
 		ecrivain.write("{\n");
 		Long millisRecherche = Long.valueOf(reponseRecherche.getQTime());
@@ -147,8 +182,65 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 				Integer j = 0;
 				for(String champNomStocke : champNoms) {
 					Collection<Object> champValeurs = resultatRecherche.getFieldValues(champNomStocke);
-					ecrireJsonWriteGenClass(champNomStocke, champValeurs);
-					j++;
+					j = genererGetWriteGenClass(j, ecrivain, champNomStocke, champValeurs);
+				}
+				ecrivain.write("\t\t}\n");
+			}
+		}
+		ecrivain.write("\t}\n");
+
+		ecrivain.write("}\n");
+	}
+
+	public void genererPost(RequeteSite requeteSite, QueryResponse reponseRecherche) throws Exception {
+		PrintWriter ecrivain = requeteSite.ecrivain;
+		ecrivain.write("{\n");
+		Long millisRecherche = Long.valueOf(reponseRecherche.getQTime());
+		Long millisTransmission = reponseRecherche.getElapsedTime();
+		Long numCommence = reponseRecherche.getResults().getStart();
+		Long numTrouve = reponseRecherche.getResults().getNumFound();
+		Integer numRetourne = reponseRecherche.getResponse().size();
+		String tempsRecherche = String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toSeconds(millisRecherche), TimeUnit.MILLISECONDS.toMillis(millisRecherche) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(millisRecherche)));
+		String tempsTransmission = String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toSeconds(millisTransmission), TimeUnit.MILLISECONDS.toMillis(millisTransmission) - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(millisTransmission)));
+		Exception exceptionRecherche = reponseRecherche.getException();
+		SolrDocumentList resultatsRecherche = reponseRecherche.getResults();
+
+		ecrivain.write("\t\"numCommence\": ");
+		ecrivain.write(numCommence.toString());
+
+		ecrivain.write("\t, \"numTrouve\": ");
+		ecrivain.write(numTrouve.toString());
+
+		ecrivain.write("\t, \"numRetourne\": ");
+		ecrivain.write(numRetourne);
+
+		ecrivain.write("\t, \"tempsRecherche\": \"");
+		ecrivain.write(tempsRecherche);
+		ecrivain.write("\"");
+
+		ecrivain.write("\t, \"tempsTransmission\": \"");
+		ecrivain.write(tempsTransmission);
+		ecrivain.write("\"");
+
+		if(exceptionRecherche != null) {
+			ecrivain.write("\t, \"exceptionRecherche\": \"");
+			ecrivain.write(exceptionRecherche.getMessage());
+			ecrivain.write("\"");
+		}
+
+		ecrivain.write("\t, \"resultats\": {\n");
+		if(resultatsRecherche != null) {
+			for(Integer i = 0; i < resultatsRecherche.size(); i++) {
+				ecrivain.write("\t\t");
+				if(resultatsRecherche != null && resultatsRecherche.size() > 0)
+					ecrivain.write(", ");
+				ecrivain.write("{\n");
+				SolrDocument resultatRecherche = resultatsRecherche.get(i);
+				Collection<String> champNoms = resultatRecherche.getFieldNames();
+				Integer j = 0;
+				for(String champNomStocke : champNoms) {
+					Collection<Object> champValeurs = resultatRecherche.getFieldValues(champNomStocke);
+					j = genererPostWriteGenClass(j, ecrivain, champNomStocke, champValeurs);
 				}
 				ecrivain.write("\t\t}\n");
 			}

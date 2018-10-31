@@ -584,6 +584,11 @@ public class IndexClass extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocumentList", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocument", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.Collection", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.math.BigDecimal", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.Date", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.List", languageName));
 		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);
@@ -1202,7 +1207,7 @@ public class IndexClass extends RegarderClasseBase {
 							entiteTypeSolr = VAL_canonicalNameBoolean;
 							entiteSuffixeType = "_boolean";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate)) {
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameDate)) {
 							entiteTypeSolr = VAL_canonicalNameDate;
 							entiteSuffixeType = "_date";
 						}
@@ -1211,12 +1216,16 @@ public class IndexClass extends RegarderClasseBase {
 							entiteSuffixeType = "_long";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameBigDecimal)) {
-							entiteTypeSolr = VAL_canonicalNameBigDecimal;
+							entiteTypeSolr = VAL_canonicalNameDouble;
 							entiteSuffixeType = "_double";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameDouble)) {
 							entiteTypeSolr = VAL_canonicalNameDouble;
 							entiteSuffixeType = "_double";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameFloat)) {
+							entiteTypeSolr = VAL_canonicalNameFloat;
+							entiteSuffixeType = "_float";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameInteger)) {
 							entiteTypeSolr = VAL_canonicalNameInteger;
@@ -1242,6 +1251,10 @@ public class IndexClass extends RegarderClasseBase {
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameDouble)) {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameDouble + ">";
 								entiteSuffixeType = "_doubles";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameFloat)) {
+								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameFloat + ">";
+								entiteSuffixeType = "_floats";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameInteger)) {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameInteger + ">";

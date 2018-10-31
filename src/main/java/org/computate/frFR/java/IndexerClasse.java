@@ -37,19 +37,19 @@ import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
  * nomCanonique.enUS: org.computate.enUS.java.IndexClass
  */
 public class IndexerClasse extends RegarderClasseBase { 
-	public final static String VAL_nomCanoniqueString = String.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueBoolean = Boolean.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueDate = Date.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueLong = Long.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueDouble = Double.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueFloat = Float.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueBigDecimal = BigDecimal.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueInteger = Integer.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueTimestamp = Timestamp.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueLocalDateTime = LocalDateTime.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueLocalDate = LocalDate.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueList = List.class.getCanonicalName();
-	public final static String VAL_nomCanoniqueArrayList = ArrayList.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueString = String.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueBoolean = Boolean.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueDate = Date.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueLong = Long.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueDouble = Double.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueFloat = Float.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueBigDecimal = BigDecimal.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueInteger = Integer.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueTimestamp = Timestamp.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueLocalDateTime = LocalDateTime.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueLocalDate = LocalDate.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueList = List.class.getCanonicalName();
+	public static final String VAL_nomCanoniqueArrayList = ArrayList.class.getCanonicalName();
 
 	protected HashMap<String, ClasseParts> classePartsGenApi = new HashMap<String, ClasseParts>();
 	protected HashMap<String, ClasseParts> classePartsGenPage = new HashMap<String, ClasseParts>();
@@ -1380,6 +1380,11 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrDocumentList", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrDocument", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collection", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.math.BigDecimal", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Date", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneId", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.List", langueNom));
 		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);
@@ -1998,7 +2003,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteTypeSolr = VAL_nomCanoniqueBoolean;
 							entiteSuffixeType = "_boolean";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueLocalDate)) {
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueLocalDate, VAL_nomCanoniqueDate)) {
 							entiteTypeSolr = VAL_nomCanoniqueDate;
 							entiteSuffixeType = "_date";
 						}
@@ -2007,12 +2012,16 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteSuffixeType = "_long";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
-							entiteTypeSolr = VAL_nomCanoniqueBigDecimal;
+							entiteTypeSolr = VAL_nomCanoniqueDouble;
 							entiteSuffixeType = "_double";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
 							entiteTypeSolr = VAL_nomCanoniqueDouble;
 							entiteSuffixeType = "_double";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueFloat)) {
+							entiteTypeSolr = VAL_nomCanoniqueFloat;
+							entiteSuffixeType = "_float";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueInteger)) {
 							entiteTypeSolr = VAL_nomCanoniqueInteger;
@@ -2038,6 +2047,10 @@ public class IndexerClasse extends RegarderClasseBase {
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueDouble)) {
 								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueDouble + ">";
 								entiteSuffixeType = "_doubles";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueFloat)) {
+								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueFloat + ">";
+								entiteSuffixeType = "_floats";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueInteger)) {
 								entiteTypeSolr = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueInteger + ">";

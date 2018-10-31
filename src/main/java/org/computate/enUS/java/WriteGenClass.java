@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
@@ -152,9 +153,13 @@ public class WriteGenClass extends WriteGenClassGen {
 
 	protected PrintWriter codeApiGet;
 
-	protected StringWriter wApiEcrireJson;
+	protected StringWriter wApiGenererGet;
 
-	protected PrintWriter codeApiEcrireJson;
+	protected PrintWriter codeApiGenererGet;
+
+	protected StringWriter wApiGenererPost;
+
+	protected PrintWriter codeApiGenererPost;
 
 	protected StringWriter wApiChamps;
 
@@ -305,8 +310,11 @@ public class WriteGenClass extends WriteGenClassGen {
 		wApiGet = new StringWriter();
 		codeApiGet = new PrintWriter(wApiGet);
 
-		wApiEcrireJson = new StringWriter();
-		codeApiEcrireJson = new PrintWriter(wApiEcrireJson);
+		wApiGenererGet = new StringWriter();
+		codeApiGenererGet = new PrintWriter(wApiGenererGet);
+
+		wApiGenererPost = new StringWriter();
+		codeApiGenererPost = new PrintWriter(wApiGenererPost);
 	}
 
 	public void  genCodeInitialiserLoin(String langueNom) throws Exception {
@@ -825,8 +833,16 @@ public class WriteGenClass extends WriteGenClassGen {
 		tl(1, " */");
 
 		t(1, "public ", entiteNomSimpleComplet, " ", entiteVar);
-		if(!entiteCouverture)
-			s(" = new ", entiteNomSimpleComplet, "()");
+		if(!entiteCouverture) {
+			if("java.util.List".equals(entiteNomCanonique)) {
+				s(" = new java.util.ArrayList<");
+				s(entiteNomCanoniqueGenerique);
+				s(">()");
+			}
+			else {
+				s(" = new ", entiteNomSimpleComplet, "()");
+			}
+		}
 		l(";");
 
 		t(1, "public Couverture<", entiteNomSimpleComplet, "> ", entiteVar, "Couverture");
@@ -900,7 +916,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 			tl(3, "Long l = Long.parseLong(o);");
-			tl(3, entiteVar, "Ajouter(l);");
+			tl(3, "add", entiteVarCapitalise, "(l);");
 			tl(2, "}");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
@@ -968,6 +984,22 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "}");
 		}
 
+		// Setter Timestamp //
+		if(StringUtils.equals(entiteNomCanonique, Timestamp.class.getCanonicalName())) {
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
+			tl(2, "this.", entiteVar, " = Timestamp.valueOf((java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+			tl(2, "return (", classeNomSimple, ")this;");
+			tl(1, "}");
+		}
+
+		// Setter Date //
+		if(StringUtils.equals(entiteNomCanonique, Date.class.getCanonicalName())) {
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
+			tl(2, "this.", entiteVar, " = Date.from(java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(java.time.ZoneId.systemDefault()).toInstant());");
+			tl(2, "return (", classeNomSimple, ")this;");
+			tl(1, "}");
+		}
+
 		// Setter LocalDate //
 		if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
@@ -994,17 +1026,128 @@ public class WriteGenClass extends WriteGenClassGen {
 
 		// Ajouter //
 		if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
-			tl(1, "public ", classeNomSimple, " ", entiteVar, "Ajouter(", entiteNomSimpleCompletGenerique, "...objets) throws Exception {");
+			tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(", entiteNomSimpleCompletGenerique, "...objets) throws Exception {");
 			tl(2, "for(", entiteNomSimpleCompletGenerique, " o : objets) {");
-			tl(3, "", entiteVar, "Ajouter(o);");
+			tl(3, "add", entiteVarCapitalise, "(o);");
 			tl(2, "}");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
-			tl(1, "public ", classeNomSimple, " ", entiteVar, "Ajouter(", entiteNomSimpleCompletGenerique, " o) throws Exception {");
+			tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(", entiteNomSimpleCompletGenerique, " o) throws Exception {");
 			tl(2, "if(o != null && !", entiteVar, ".contains(o))");
 			tl(3, "this.", entiteVar, ".add(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
+	
+			// Setter Boolean //
+			if(StringUtils.equals(entiteNomCanoniqueGenerique, Boolean.class.getCanonicalName())) {
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
+				tl(3, entiteNomSimpleCompletGenerique, " p = Boolean.parseBoolean(o);");
+				tl(2, "add", entiteVarCapitalise, "(p);");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+			}
+	
+			// Setter Integer //
+			if(StringUtils.equals(entiteNomCanoniqueGenerique, Integer.class.getCanonicalName())) {
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+				tl(3, entiteNomSimpleCompletGenerique, " p = Integer.parseInt(o);");
+				tl(3, "add", entiteVarCapitalise, "(p);");
+				tl(3, "}");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+			}
+	
+			// Setter BigDecimal //
+			if(StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+				tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o);");
+				tl(3, "add", entiteVarCapitalise, "(p);");
+				tl(2, "}");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+			}
+	
+			// Setter Float //
+			if(StringUtils.equals(entiteNomCanoniqueGenerique, Float.class.getCanonicalName())) {
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+				tl(3, entiteNomSimpleCompletGenerique, " p = Float.parseFloat(o);");
+				tl(3, "add", entiteVarCapitalise, "(p);");
+				tl(2, "}");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+			}
+	
+			// Setter Double //
+			if(StringUtils.equals(entiteNomCanoniqueGenerique, Double.class.getCanonicalName())) {
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+				tl(3, entiteNomSimpleCompletGenerique, " p = Double.parseDouble(o);");
+				tl(3, "add", entiteVarCapitalise, "(p);");
+				tl(2, "}");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+			}
+	
+			// Setter Long //
+			if(StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+				tl(3, entiteNomSimpleCompletGenerique, " p = Long.parseLong(o);");
+				tl(3, "add", entiteVarCapitalise, "(p);");
+				tl(2, "}");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+			}
+	
+			// Setter Timestamp //
+			if(StringUtils.equals(entiteNomCanoniqueGenerique, Timestamp.class.getCanonicalName())) {
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(2, entiteNomSimpleCompletGenerique, " p = Timestamp.valueOf((java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+				tl(2, "add", entiteVarCapitalise, "(p);");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+			}
+	
+			// Setter Date //
+			if(StringUtils.equals(entiteNomCanoniqueGenerique, Date.class.getCanonicalName())) {
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(java.time.ZoneId.systemDefault()).toInstant());");
+				tl(2, "add", entiteVarCapitalise, "(p);");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+			}
+	
+			// Setter LocalDate //
+			if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDate.class.getCanonicalName())) {
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(2, entiteNomSimpleCompletGenerique, " p = java.time.LocalDate.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE);");
+				tl(2, "add", entiteVarCapitalise, "(p);");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(java.util.Date o) throws Exception {");
+				tl(2, entiteNomSimpleCompletGenerique, " p = o.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();");
+				tl(2, "add", entiteVarCapitalise, "(p);");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+			}
+	
+			// Setter LocalDateTime //
+			if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDateTime.class.getCanonicalName())) {
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(2, entiteNomSimpleCompletGenerique, " p = java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
+				tl(2, "add", entiteVarCapitalise, "(p);");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(java.util.Date o) throws Exception {");
+				tl(2, entiteNomSimpleCompletGenerique, " p = java.time.LocalDateTime.ofInstant(o.toInstant(), java.time.ZoneId.systemDefault());");
+				tl(2, "add", entiteVarCapitalise, "(p);");
+				tl(2, "return (", classeNomSimple, ")this;");
+				tl(1, "}");
+			}
 		}
 
 		// Initialise //
@@ -1149,11 +1292,14 @@ public class WriteGenClass extends WriteGenClassGen {
 				if(entiteNomSimple.equals("Chaine")) {
 					tl(3, "document.addField(\"", entiteVarSuggere, "\", ", entiteVar, ");");
 				}
-				else if(entiteNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
+				else if(entiteNomSimple.equals("Timestamp")) {
+					tl(3, "document.addField(\"", entiteVarSuggere, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
+				}
+				else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 					tl(3, "document.addField(\"", entiteVarSuggere, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
 				}
 				else if(entiteNomSimple.toString().equals("LocalDate")) {
-					tl(3, "document.addField(\"", entiteVarSuggere, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(inrDate.atStartOfDay(java.time.ZoneId.of(\"UTC\"))));");
+					tl(3, "document.addField(\"", entiteVarSuggere, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(java.time.ZoneId.of(\"UTC\"))));");
 				}
 				else {
 					tl(3, "document.addField(\"", entiteVarSuggere, "\", ", entiteVar, ");");
@@ -1165,11 +1311,14 @@ public class WriteGenClass extends WriteGenClassGen {
 				if(entiteNomSimple.equals("Chaine")) {
 					tl(3, "document.addField(\"", entiteVarIndexe, "\", ", entiteVar, ");");
 				}
-				else if(entiteNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
+				else if(entiteNomSimple.equals("Timestamp")) {
+					tl(3, "document.addField(\"", entiteVarIndexe, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
+				}
+				else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 					tl(3, "document.addField(\"", entiteVarIndexe, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
 				}
 				else if(entiteNomSimple.toString().equals("LocalDate")) {
-					tl(3, "document.addField(\"", entiteVarIndexe, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(inrDate.atStartOfDay(java.time.ZoneId.of(\"UTC\"))));");
+					tl(3, "document.addField(\"", entiteVarIndexe, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(java.time.ZoneId.of(\"UTC\"))));");
 				}
 				else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList")) {
 					tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");
@@ -1191,11 +1340,14 @@ public class WriteGenClass extends WriteGenClassGen {
 				if(entiteNomSimple.equals("Chaine")) {
 					tl(3, "document.addField(\"", entiteVarStocke, "\", ", entiteVar, ");");
 				}
-				else if(entiteNomSimple.equals("Timestamp") || entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
+				else if(entiteNomSimple.equals("Timestamp")) {
+					tl(3, "document.addField(\"", entiteVarStocke, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
+				}
+				else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 					tl(3, "document.addField(\"", entiteVarStocke, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), java.time.ZoneId.of(\"UTC\"))));");
 				}
 				else if(entiteNomSimple.toString().equals("LocalDate")) {
-					tl(3, "document.addField(\"", entiteVarStocke, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(inrDate.atStartOfDay(java.time.ZoneId.of(\"UTC\"))));");
+					tl(3, "document.addField(\"", entiteVarStocke, "\", java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(java.time.ZoneId.of(\"UTC\"))));");
 				}
 				else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList")) {
 					tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");
@@ -1236,7 +1388,12 @@ public class WriteGenClass extends WriteGenClassGen {
 //							if(champ.contientSetterString) {
 //							if(entiteContientSetterString) {
 				tl(3, "case \"", entiteVar, "\":");
-				tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val);");
+				if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
+					tl(4, "o", classeNomSimple, ".add", entiteVarCapitalise, "(val);");
+				}
+				else {
+					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val);");
+				}
 				tl(4, "return val;");
 //							}
 		}	
@@ -1390,12 +1547,657 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 
 		///////////////////////
-		// codeApiEcrireJson //
+		// codeApiGenererGet //
 		///////////////////////
-		o = codeApiEcrireJson;
+		o = codeApiGenererGet;
 		if(classeIndexe && entiteStocke) {
-			tl(3, "case ENTITE_VAR_STOCKE_", entiteVar, ":");
-			tl(4, "return ENTITE_VAR_", entiteVar, ";");
+			tl(4, "if(ENTITE_VAR_STOCKE_", entiteVar, ".equals(entiteVarStocke)) {");
+			if (VAL_nomCanoniqueBoolean.equals(entiteTypeSolr)) {
+				tl(5, "if(j > 0)");
+				tl(6, "ecrivain.write(VAL_virguleEspace);");
+				tl(5, "ecrivain.write(VAL_citation);");
+				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "ecrivain.write(((Boolean)champValeur).toString());");
+				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(5, "j++;");
+				tl(5, "return j;");
+			} else if (VAL_nomCanoniqueDate.equals(entiteTypeSolr)) {
+				if (VAL_nomCanoniqueTimestamp.equals(entiteNomCanonique)) {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_virguleEspace);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				} else if (VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				} else if (VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				} else {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_virguleEspace);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				}
+			} else if (VAL_nomCanoniqueLong.equals(entiteTypeSolr)) {
+				tl(5, "if(j > 0)");
+				tl(6, "ecrivain.write(VAL_virguleEspace);");
+				tl(5, "ecrivain.write(VAL_citation);");
+				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "ecrivain.write(((Long)champValeur).toString());");
+				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(5, "j++;");
+				tl(5, "return j;");
+			} else if (VAL_nomCanoniqueDouble.equals(entiteTypeSolr)) {
+				if (VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_virguleEspace);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+					tl(5, "ecrivain.write(BigDecimal.valueOf((Double)champValeur).toString());");
+					tl(5, "ecrivain.write(VAL_ligne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				}
+				else {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_virguleEspace);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+					tl(5, "ecrivain.write(((Double)champValeur).toString());");
+					tl(5, "ecrivain.write(VAL_ligne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				}
+			} else if (VAL_nomCanoniqueFloat.equals(entiteTypeSolr)) {
+				tl(5, "if(j > 0)");
+				tl(6, "ecrivain.write(VAL_virguleEspace);");
+				tl(5, "ecrivain.write(VAL_citation);");
+				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "ecrivain.write(((Float)champValeur).toString());");
+				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(5, "j++;");
+				tl(5, "return j;");
+			} else if (VAL_nomCanoniqueInteger.equals(entiteTypeSolr)) {
+				tl(5, "if(j > 0)");
+				tl(6, "ecrivain.write(VAL_virguleEspace);");
+				tl(5, "ecrivain.write(VAL_citation);");
+				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "ecrivain.write(((Integer)champValeur).toString());");
+				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(5, "j++;");
+				tl(5, "return j;");
+			} else {
+				if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList)) {
+					if(VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(((Boolean)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(((Long)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(BigDecimal.valueOf((Double)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(((Double)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(((Float)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(((Integer)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "ecrivain.write(((String)champValeur));");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+				}
+				else {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_virguleEspace);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "ecrivain.write(Json.encodePointer((String)champValeurs.iterator().next()));");
+					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				}
+			}
+			tl(4, "}");
+		}
+
+		////////////////////////
+		// codeApiGenererPost //
+		////////////////////////
+		o = codeApiGenererGet;
+		if(classeIndexe && entiteStocke) {
+			tl(4, "if(ENTITE_VAR_STOCKE_", entiteVar, ".equals(entiteVarStocke)) {");
+			if (VAL_nomCanoniqueBoolean.equals(entiteTypeSolr)) {
+				tl(5, "if(j > 0)");
+				tl(6, "ecrivain.write(VAL_virguleEspace);");
+				tl(5, "ecrivain.write(VAL_citation);");
+				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "ecrivain.write(((Boolean)champValeur).toString());");
+				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(5, "j++;");
+				tl(5, "return j;");
+			} else if (VAL_nomCanoniqueDate.equals(entiteTypeSolr)) {
+				if (VAL_nomCanoniqueTimestamp.equals(entiteNomCanonique)) {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_virguleEspace);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				} else if (VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				} else if (VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				} else {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_virguleEspace);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				}
+			} else if (VAL_nomCanoniqueLong.equals(entiteTypeSolr)) {
+				tl(5, "if(j > 0)");
+				tl(6, "ecrivain.write(VAL_virguleEspace);");
+				tl(5, "ecrivain.write(VAL_citation);");
+				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "ecrivain.write(((Long)champValeur).toString());");
+				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(5, "j++;");
+				tl(5, "return j;");
+			} else if (VAL_nomCanoniqueDouble.equals(entiteTypeSolr)) {
+				if (VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_virguleEspace);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+					tl(5, "ecrivain.write(BigDecimal.valueOf((Double)champValeur).toString());");
+					tl(5, "ecrivain.write(VAL_ligne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				}
+				else {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_virguleEspace);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+					tl(5, "ecrivain.write(((Double)champValeur).toString());");
+					tl(5, "ecrivain.write(VAL_ligne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				}
+			} else if (VAL_nomCanoniqueFloat.equals(entiteTypeSolr)) {
+				tl(5, "if(j > 0)");
+				tl(6, "ecrivain.write(VAL_virguleEspace);");
+				tl(5, "ecrivain.write(VAL_citation);");
+				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "ecrivain.write(((Float)champValeur).toString());");
+				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(5, "j++;");
+				tl(5, "return j;");
+			} else if (VAL_nomCanoniqueInteger.equals(entiteTypeSolr)) {
+				tl(5, "if(j > 0)");
+				tl(6, "ecrivain.write(VAL_virguleEspace);");
+				tl(5, "ecrivain.write(VAL_citation);");
+				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "ecrivain.write(((Integer)champValeur).toString());");
+				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(5, "j++;");
+				tl(5, "return j;");
+			} else {
+				if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList)) {
+					if(VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(((Boolean)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(((Long)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(BigDecimal.valueOf((Double)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(((Double)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(((Float)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else if(VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)) {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(((Integer)champValeur).toString());");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else {
+						tl(5, "if(j > 0)");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "ecrivain.write(VAL_citation);");
+						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(5, "int k = 0;");
+						tl(5, "while(champValeur != null) {");
+						tl(6, "if(k > 0)");
+						tl(7, "ecrivain.write(VAL_virguleEspace);");
+						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "ecrivain.write(((String)champValeur));");
+						tl(6, "ecrivain.write(VAL_citation);");
+						tl(6, "champValeur = champValeurs.iterator().next();");
+						tl(5, "}");
+						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+				}
+				else {
+					tl(5, "if(j > 0)");
+					tl(6, "ecrivain.write(VAL_virguleEspace);");
+					tl(5, "ecrivain.write(VAL_citation);");
+					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "ecrivain.write(Json.encodePointer((String)champValeurs.iterator().next()));");
+					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				}
+			}
+			tl(4, "}");
 		}
 	}
 
@@ -1543,7 +2345,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		codeSauvegarder.flush();
 		codeApiChamps.flush();
 		codeApiGet.flush();
-		codeApiEcrireJson.flush();
+		codeApiGenererGet.flush();
 
 		o = auteurGenClasse;
 
