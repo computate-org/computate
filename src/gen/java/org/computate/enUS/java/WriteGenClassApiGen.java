@@ -15,11 +15,11 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 	public static final String VAL_citationDeuxPointsEspaceGuillmets = "\": [";
 	public static final String VAL_guillmetsFin = "]";
 
-	@Override protected void doGet(HttpServletRequest requeteServlet, HttpServletResponse reponseServlet) throws ServletException, IOException {
+	@Override protected void doGet(HttpServerRequest requeteServeur, HttpServerResponse reponseServeur) throws ServletException, IOException {
 		RequeteSite requeteSite = null;
 		try {
-			SolrQuery rechercheSolr = genererRecherche(requeteServlet);
-			requeteSite = genererRequeteSite(requeteServlet, reponseServlet);
+			SolrQuery rechercheSolr = genererRecherche(requeteServeur);
+			requeteSite = genererRequeteSite(requeteServeur, reponseServeur);
 			QueryResponse reponseRecherche = requeteSite.ecouteurContexte_.clientSolr.query(rechercheSolr);
 			genererGet(requeteSite, reponseRecherche);
 		} catch(Exception e) {
@@ -27,11 +27,11 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 		}
 	}
 
-	@Override protected void doPost(HttpServletRequest requeteServlet, HttpServletResponse reponseServlet) throws ServletException, IOException {
+	@Override protected void doPost(HttpServerRequest requeteServeur, HttpServerResponse reponseServeur) throws ServletException, IOException {
 		RequeteSite requeteSite = null;
 		try {
-			SolrQuery rechercheSolr = genererRecherche(requeteServlet);
-			requeteSite = genererRequeteSite(requeteServlet, reponseServlet);
+			SolrQuery rechercheSolr = genererRecherche(requeteServeur);
+			requeteSite = genererRequeteSite(requeteServeur, reponseServeur);
 			QueryResponse reponseRecherche = requeteSite.ecouteurContexte_.clientSolr.query(rechercheSolr);
 			genererPost(requeteSite, reponseRecherche);
 		} catch(Exception e) {
@@ -46,7 +46,7 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 		}
 	}
 
-	public SolrQuery genererRecherche(HttpServletRequest requeteServlet) throws Exception {
+	public SolrQuery genererRecherche(HttpServerRequest requeteServeur) throws Exception {
 		String entiteVar = null;
 		String valeurIndexe = null;
 		String varIndexe = null;
@@ -57,8 +57,8 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 		rechercheSolr.setQuery("*:*");
 		rechercheSolr.setRows(1000000);
 		rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
-		Map<String, String[]> paramMap = (Map<String, String[]>)Collections.list(requeteServlet.getParameterNames()).stream()
-				.collect(Collectors.toMap(parameterName -> parameterName, requeteServlet::getParameterValues));
+		Map<String, String[]> paramMap = (Map<String, String[]>)Collections.list(requeteServeur.getParameterNames()).stream()
+				.collect(Collectors.toMap(parameterName -> parameterName, requeteServeur::getParameterValues));
 		for(String paramCle : paramMap.keySet()) {
 			String[] paramValeurs = paramMap.get(paramCle);
 			for(String paramValeur : paramValeurs) {
@@ -100,13 +100,13 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 		return rechercheSolr;
 	}
 
-	public RequeteSite genererRequeteSite(HttpServletRequest requeteServlet, HttpServletResponse reponseServlet) throws Exception {
-		EcouteurContexte ecouteurContexte = (EcouteurContexte)requeteServlet.getServletContext().getAttribute("ecouteurContexte");
+	public RequeteSite genererRequeteSite(HttpServerRequest requeteServeur, HttpServerResponse reponseServeur) throws Exception {
+		EcouteurContexte ecouteurContexte = (EcouteurContexte)requeteServeur.getServletContext().getAttribute("ecouteurContexte");
 
 		RequeteSite requeteSite = new RequeteSite();
 		requeteSite.setEcouteurContexte_(ecouteurContexte);
-		requeteSite.setRequeteServlet(requeteServlet);
-		requeteSite.setReponseServlet(reponseServlet);
+		requeteSite.setRequeteServlet(requeteServeur);
+		requeteSite.setReponseServlet(reponseServeur);
 		requeteSite.initLoinRequeteSite(requeteSite);
 
 		UtilisateurSite utilisateurSite = new UtilisateurSite();
@@ -116,7 +116,7 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 		return requeteSite;
 	}
 
-	public Integer genererGetWriteGenClass(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {
+	public Integer genererGetWriteGenClass(Integer j, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {
 		if(!champValeurs.isEmpty()) {
 			Object champValeur = champValeurs.iterator().next();
 			if(champValeur != null) {
@@ -125,7 +125,7 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 		return j;
 	}
 
-	public Integer genererPostWriteGenClass(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {
+	public Integer genererPostWriteGenClass(Integer j, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {
 		if(!champValeurs.isEmpty()) {
 			Object champValeur = champValeurs.iterator().next();
 			if(champValeur != null) {
@@ -135,8 +135,8 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 	}
 
 	public void genererGet(RequeteSite requeteSite, QueryResponse reponseRecherche) throws Exception {
-		PrintWriter ecrivain = requeteSite.ecrivain;
-		ecrivain.write("{\n");
+		HttpServerResponse reponseServeur = requeteSite.reponseServeur;
+		reponseServeur.write("{\n");
 		Long millisRecherche = Long.valueOf(reponseRecherche.getQTime());
 		Long millisTransmission = reponseRecherche.getElapsedTime();
 		Long numCommence = reponseRecherche.getResults().getStart();
@@ -147,54 +147,54 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 		Exception exceptionRecherche = reponseRecherche.getException();
 		SolrDocumentList resultatsRecherche = reponseRecherche.getResults();
 
-		ecrivain.write("\t\"numCommence\": ");
-		ecrivain.write(numCommence.toString());
+		reponseServeur.write("\t\"numCommence\": ");
+		reponseServeur.write(numCommence.toString());
 
-		ecrivain.write("\t, \"numTrouve\": ");
-		ecrivain.write(numTrouve.toString());
+		reponseServeur.write("\t, \"numTrouve\": ");
+		reponseServeur.write(numTrouve.toString());
 
-		ecrivain.write("\t, \"numRetourne\": ");
-		ecrivain.write(numRetourne);
+		reponseServeur.write("\t, \"numRetourne\": ");
+		reponseServeur.write(numRetourne);
 
-		ecrivain.write("\t, \"tempsRecherche\": \"");
-		ecrivain.write(tempsRecherche);
-		ecrivain.write("\"");
+		reponseServeur.write("\t, \"tempsRecherche\": \"");
+		reponseServeur.write(tempsRecherche);
+		reponseServeur.write("\"");
 
-		ecrivain.write("\t, \"tempsTransmission\": \"");
-		ecrivain.write(tempsTransmission);
-		ecrivain.write("\"");
+		reponseServeur.write("\t, \"tempsTransmission\": \"");
+		reponseServeur.write(tempsTransmission);
+		reponseServeur.write("\"");
 
 		if(exceptionRecherche != null) {
-			ecrivain.write("\t, \"exceptionRecherche\": \"");
-			ecrivain.write(exceptionRecherche.getMessage());
-			ecrivain.write("\"");
+			reponseServeur.write("\t, \"exceptionRecherche\": \"");
+			reponseServeur.write(exceptionRecherche.getMessage());
+			reponseServeur.write("\"");
 		}
 
-		ecrivain.write("\t, \"resultats\": {\n");
+		reponseServeur.write("\t, \"resultats\": {\n");
 		if(resultatsRecherche != null) {
 			for(Integer i = 0; i < resultatsRecherche.size(); i++) {
-				ecrivain.write("\t\t");
+				reponseServeur.write("\t\t");
 				if(resultatsRecherche != null && resultatsRecherche.size() > 0)
-					ecrivain.write(", ");
-				ecrivain.write("{\n");
+					reponseServeur.write(", ");
+				reponseServeur.write("{\n");
 				SolrDocument resultatRecherche = resultatsRecherche.get(i);
 				Collection<String> champNoms = resultatRecherche.getFieldNames();
 				Integer j = 0;
 				for(String champNomStocke : champNoms) {
 					Collection<Object> champValeurs = resultatRecherche.getFieldValues(champNomStocke);
-					j = genererGetWriteGenClass(j, ecrivain, champNomStocke, champValeurs);
+					j = genererGetWriteGenClass(j, reponseServeur, champNomStocke, champValeurs);
 				}
-				ecrivain.write("\t\t}\n");
+				reponseServeur.write("\t\t}\n");
 			}
 		}
-		ecrivain.write("\t}\n");
+		reponseServeur.write("\t}\n");
 
-		ecrivain.write("}\n");
+		reponseServeur.write("}\n");
 	}
 
 	public void genererPost(RequeteSite requeteSite, QueryResponse reponseRecherche) throws Exception {
-		PrintWriter ecrivain = requeteSite.ecrivain;
-		ecrivain.write("{\n");
+		PrintWriter reponseServeur = requeteSite.reponseServeur;
+		reponseServeur.write("{\n");
 		Long millisRecherche = Long.valueOf(reponseRecherche.getQTime());
 		Long millisTransmission = reponseRecherche.getElapsedTime();
 		Long numCommence = reponseRecherche.getResults().getStart();
@@ -205,49 +205,49 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 		Exception exceptionRecherche = reponseRecherche.getException();
 		SolrDocumentList resultatsRecherche = reponseRecherche.getResults();
 
-		ecrivain.write("\t\"numCommence\": ");
-		ecrivain.write(numCommence.toString());
+		reponseServeur.write("\t\"numCommence\": ");
+		reponseServeur.write(numCommence.toString());
 
-		ecrivain.write("\t, \"numTrouve\": ");
-		ecrivain.write(numTrouve.toString());
+		reponseServeur.write("\t, \"numTrouve\": ");
+		reponseServeur.write(numTrouve.toString());
 
-		ecrivain.write("\t, \"numRetourne\": ");
-		ecrivain.write(numRetourne);
+		reponseServeur.write("\t, \"numRetourne\": ");
+		reponseServeur.write(numRetourne);
 
-		ecrivain.write("\t, \"tempsRecherche\": \"");
-		ecrivain.write(tempsRecherche);
-		ecrivain.write("\"");
+		reponseServeur.write("\t, \"tempsRecherche\": \"");
+		reponseServeur.write(tempsRecherche);
+		reponseServeur.write("\"");
 
-		ecrivain.write("\t, \"tempsTransmission\": \"");
-		ecrivain.write(tempsTransmission);
-		ecrivain.write("\"");
+		reponseServeur.write("\t, \"tempsTransmission\": \"");
+		reponseServeur.write(tempsTransmission);
+		reponseServeur.write("\"");
 
 		if(exceptionRecherche != null) {
-			ecrivain.write("\t, \"exceptionRecherche\": \"");
-			ecrivain.write(exceptionRecherche.getMessage());
-			ecrivain.write("\"");
+			reponseServeur.write("\t, \"exceptionRecherche\": \"");
+			reponseServeur.write(exceptionRecherche.getMessage());
+			reponseServeur.write("\"");
 		}
 
-		ecrivain.write("\t, \"resultats\": {\n");
+		reponseServeur.write("\t, \"resultats\": {\n");
 		if(resultatsRecherche != null) {
 			for(Integer i = 0; i < resultatsRecherche.size(); i++) {
-				ecrivain.write("\t\t");
+				reponseServeur.write("\t\t");
 				if(resultatsRecherche != null && resultatsRecherche.size() > 0)
-					ecrivain.write(", ");
-				ecrivain.write("{\n");
+					reponseServeur.write(", ");
+				reponseServeur.write("{\n");
 				SolrDocument resultatRecherche = resultatsRecherche.get(i);
 				Collection<String> champNoms = resultatRecherche.getFieldNames();
 				Integer j = 0;
 				for(String champNomStocke : champNoms) {
 					Collection<Object> champValeurs = resultatRecherche.getFieldValues(champNomStocke);
-					j = genererPostWriteGenClass(j, ecrivain, champNomStocke, champValeurs);
+					j = genererPostWriteGenClass(j, reponseServeur, champNomStocke, champValeurs);
 				}
-				ecrivain.write("\t\t}\n");
+				reponseServeur.write("\t\t}\n");
 			}
 		}
-		ecrivain.write("\t}\n");
+		reponseServeur.write("\t}\n");
 
-		ecrivain.write("}\n");
+		reponseServeur.write("}\n");
 	}
 
 	public void genererErreur(RequeteSite requeteSite, Exception e) {
@@ -259,13 +259,13 @@ public abstract class WriteGenClassApiGen extends HttpServlet {
 			destinaires[0] = new InternetAddress(requeteSite.configSite_.mailAdmin);
 			message.setRecipients(Message.RecipientType.TO, destinaires);
 			String nomDomaine = requeteSite.configSite_.nomDomaine;
-			String sujet = nomDomaine + " erreur " + " " + requeteSite.utilisateurNom + " " + requeteSite.requeteServlet.getRequestURI();
+			String sujet = nomDomaine + " erreur " + " " + requeteSite.utilisateurNom + " " + requeteSite.requeteServeur.getRequestURI();
 			String corps = ExceptionUtils.getStackTrace(e);
 			message.setSubject(sujet);
 			message.setContent(corps, "text/plain");
 			Transport.send(message);
 			String s = e.getMessage();
-			requeteSite.reponseServlet.sendError(500, s);
+			requeteSite.reponseServeur.sendError(500, s);
 		} catch(Exception e2) {
 			e.printStackTrace();
 		}

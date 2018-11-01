@@ -294,8 +294,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "EcouteurContexte ecouteurContexte = new EcouteurContexte();");
 			tl(2, "ecouteurContexte.initLoinEcouteurContexte();");
 			tl(2, "ecouteurContexte.setRequeteSite(requeteSite);");
-			tl(2, "requeteSite.setEcouteurContexte(ecouteurContexte);");
-			tl(2, "requeteSite.setConfigSite(ecouteurContexte.configSite);");
+			tl(2, "requeteSite.setEcouteurContexte_(ecouteurContexte);");
+			tl(2, "requeteSite.setConfigSite_(ecouteurContexte.configSite);");
 			tl(2, "requeteSite", classeNomSimple, "(requeteSite);");
 			tl(2, "initLoin", classeNomSimple, "(requeteSite);");
 			tl(2, "indexer", classeNomSimple, "(requeteSite);");
@@ -322,7 +322,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "indexer", classeNomSimple, "(document);");
 			if(classeSauvegarde)
 				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes);");
-			tl(2, "SolrClient clientSolr = requeteSite.ecouteurContexte.clientSolr;");
+			tl(2, "SolrClient clientSolr = requeteSite.ecouteurContexte_.clientSolr;");
 			tl(2, "clientSolr.add(document);");
 			tl(2, "clientSolr.commit();");
 			l("\t}");
@@ -911,6 +911,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		// Setter Timestamp //
 		if(StringUtils.equals(entiteNomCanonique, Timestamp.class.getCanonicalName())) {
+			tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = Timestamp.valueOf((java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
 			tl(2, "return (", classeNomSimple, ")this;");
@@ -919,6 +920,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		// Setter Date //
 		if(StringUtils.equals(entiteNomCanonique, Date.class.getCanonicalName())) {
+			tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = Date.from(java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(java.time.ZoneId.systemDefault()).toInstant());");
 			tl(2, "return (", classeNomSimple, ")this;");
@@ -927,6 +929,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		// Setter LocalDate //
 		if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
+			tl(1, "/** Example: 2011-12-03+01:00 **/");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = java.time.LocalDate.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE);");
 			tl(2, "return (", classeNomSimple, ")this;");
@@ -939,6 +942,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		// Setter LocalDateTime //
 		if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
+			tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
 			tl(2, "return (", classeNomSimple, ")this;");
@@ -1030,6 +1034,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Timestamp //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, Timestamp.class.getCanonicalName())) {
+				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
 				tl(2, entiteNomSimpleCompletGenerique, " p = Timestamp.valueOf((java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
 				tl(2, "add", entiteVarCapitalise, "(p);");
@@ -1039,6 +1044,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Date //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, Date.class.getCanonicalName())) {
+				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
 				tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(java.time.ZoneId.systemDefault()).toInstant());");
 				tl(2, "add", entiteVarCapitalise, "(p);");
@@ -1048,6 +1054,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter LocalDate //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDate.class.getCanonicalName())) {
+				tl(1, "/** Example: 2011-12-03+01:00 **/");
 				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
 				tl(2, entiteNomSimpleCompletGenerique, " p = java.time.LocalDate.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE);");
 				tl(2, "add", entiteVarCapitalise, "(p);");
@@ -1062,6 +1069,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter LocalDateTime //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDateTime.class.getCanonicalName())) {
+				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
 				tl(2, entiteNomSimpleCompletGenerique, " p = java.time.LocalDateTime.parse(o, java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
 				tl(2, "add", entiteVarCapitalise, "(p);");
@@ -1299,9 +1307,12 @@ public class EcrireGenClasse extends EcrireClasse {
 		// codeAttribuer //
 		///////////////////
 		o = codeAttribuer;
-		if(classeEtendBase || classeEstBase) {
+		if((classeEtendBase || classeEstBase) && entiteAttribuer) {
 			tl(3, "case \"", entiteVar, "\":");
-			tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+			if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()))
+				tl(4, "o", classeNomSimple, ".add", entiteVarCapitalise, "((", entiteNomSimpleCompletGenerique, ")val);");
+			else
+				tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
 			tl(4, "return val;");
 		}	
 
@@ -1309,7 +1320,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		// codeDefinir //
 		/////////////////
 		o = codeDefinir;
-		if(classeEtendBase || classeEstBase && BooleanUtils.isTrue(entiteDefinir)) {
+		if((classeEtendBase || classeEstBase) && BooleanUtils.isTrue(entiteDefinir)) {
 //							if(champ.contientSetterString) {
 //							if(entiteContientSetterString) {
 				tl(3, "case \"", entiteVar, "\":");
@@ -1479,318 +1490,318 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(4, "if(ENTITE_VAR_STOCKE_", entiteVar, ".equals(entiteVarStocke)) {");
 			if (VAL_nomCanoniqueBoolean.equals(entiteTypeSolr)) {
 				tl(5, "if(j > 0)");
-				tl(6, "ecrivain.write(VAL_virguleEspace);");
-				tl(5, "ecrivain.write(VAL_citation);");
-				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-				tl(5, "ecrivain.write(((Boolean)champValeur).toString());");
-				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(6, "reponseServeur.write(VAL_virguleEspace);");
+				tl(5, "reponseServeur.write(VAL_citation);");
+				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "reponseServeur.write(((Boolean)champValeur).toString());");
+				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else if (VAL_nomCanoniqueDate.equals(entiteTypeSolr)) {
 				if (VAL_nomCanoniqueTimestamp.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_virguleEspace);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(6, "reponseServeur.write(VAL_virguleEspace);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				} else if (VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				} else if (VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
-					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				} else {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_virguleEspace);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(6, "reponseServeur.write(VAL_virguleEspace);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
 			} else if (VAL_nomCanoniqueLong.equals(entiteTypeSolr)) {
 				tl(5, "if(j > 0)");
-				tl(6, "ecrivain.write(VAL_virguleEspace);");
-				tl(5, "ecrivain.write(VAL_citation);");
-				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-				tl(5, "ecrivain.write(((Long)champValeur).toString());");
-				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(6, "reponseServeur.write(VAL_virguleEspace);");
+				tl(5, "reponseServeur.write(VAL_citation);");
+				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "reponseServeur.write(((Long)champValeur).toString());");
+				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else if (VAL_nomCanoniqueDouble.equals(entiteTypeSolr)) {
 				if (VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_virguleEspace);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-					tl(5, "ecrivain.write(BigDecimal.valueOf((Double)champValeur).toString());");
-					tl(5, "ecrivain.write(VAL_ligne);");
+					tl(6, "reponseServeur.write(VAL_virguleEspace);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+					tl(5, "reponseServeur.write(BigDecimal.valueOf((Double)champValeur).toString());");
+					tl(5, "reponseServeur.write(VAL_ligne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
 				else {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_virguleEspace);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-					tl(5, "ecrivain.write(((Double)champValeur).toString());");
-					tl(5, "ecrivain.write(VAL_ligne);");
+					tl(6, "reponseServeur.write(VAL_virguleEspace);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+					tl(5, "reponseServeur.write(((Double)champValeur).toString());");
+					tl(5, "reponseServeur.write(VAL_ligne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
 			} else if (VAL_nomCanoniqueFloat.equals(entiteTypeSolr)) {
 				tl(5, "if(j > 0)");
-				tl(6, "ecrivain.write(VAL_virguleEspace);");
-				tl(5, "ecrivain.write(VAL_citation);");
-				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-				tl(5, "ecrivain.write(((Float)champValeur).toString());");
-				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(6, "reponseServeur.write(VAL_virguleEspace);");
+				tl(5, "reponseServeur.write(VAL_citation);");
+				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "reponseServeur.write(((Float)champValeur).toString());");
+				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else if (VAL_nomCanoniqueInteger.equals(entiteTypeSolr)) {
 				tl(5, "if(j > 0)");
-				tl(6, "ecrivain.write(VAL_virguleEspace);");
-				tl(5, "ecrivain.write(VAL_citation);");
-				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-				tl(5, "ecrivain.write(((Integer)champValeur).toString());");
-				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(6, "reponseServeur.write(VAL_virguleEspace);");
+				tl(5, "reponseServeur.write(VAL_citation);");
+				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "reponseServeur.write(((Integer)champValeur).toString());");
+				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else {
 				if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList)) {
 					if(VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(((Boolean)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(((Boolean)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(VAL_citation);");
-						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "ecrivain.write(VAL_citation);");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(VAL_citation);");
-						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "ecrivain.write(VAL_citation);");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(VAL_citation);");
-						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "ecrivain.write(VAL_citation);");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(VAL_citation);");
-						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
-						tl(6, "ecrivain.write(VAL_citation);");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(((Long)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(((Long)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(BigDecimal.valueOf((Double)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(BigDecimal.valueOf((Double)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(((Double)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(((Double)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(((Float)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(((Float)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(((Integer)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(((Integer)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(6, "ecrivain.write(VAL_citation);");
-						tl(6, "ecrivain.write(((String)champValeur));");
-						tl(6, "ecrivain.write(VAL_citation);");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(6, "reponseServeur.write(((String)champValeur));");
+						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 				}
 				else {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_virguleEspace);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "ecrivain.write(Json.encodePointer((String)champValeurs.iterator().next()));");
-					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(6, "reponseServeur.write(VAL_virguleEspace);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "reponseServeur.write(Json.encodePointer((String)champValeurs.iterator().next()));");
+					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
@@ -1806,318 +1817,318 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(4, "if(ENTITE_VAR_STOCKE_", entiteVar, ".equals(entiteVarStocke)) {");
 			if (VAL_nomCanoniqueBoolean.equals(entiteTypeSolr)) {
 				tl(5, "if(j > 0)");
-				tl(6, "ecrivain.write(VAL_virguleEspace);");
-				tl(5, "ecrivain.write(VAL_citation);");
-				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-				tl(5, "ecrivain.write(((Boolean)champValeur).toString());");
-				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(6, "reponseServeur.write(VAL_virguleEspace);");
+				tl(5, "reponseServeur.write(VAL_citation);");
+				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "reponseServeur.write(((Boolean)champValeur).toString());");
+				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else if (VAL_nomCanoniqueDate.equals(entiteTypeSolr)) {
 				if (VAL_nomCanoniqueTimestamp.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_virguleEspace);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(6, "reponseServeur.write(VAL_virguleEspace);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				} else if (VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				} else if (VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
-					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				} else {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_virguleEspace);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(6, "reponseServeur.write(VAL_virguleEspace);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
 			} else if (VAL_nomCanoniqueLong.equals(entiteTypeSolr)) {
 				tl(5, "if(j > 0)");
-				tl(6, "ecrivain.write(VAL_virguleEspace);");
-				tl(5, "ecrivain.write(VAL_citation);");
-				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-				tl(5, "ecrivain.write(((Long)champValeur).toString());");
-				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(6, "reponseServeur.write(VAL_virguleEspace);");
+				tl(5, "reponseServeur.write(VAL_citation);");
+				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "reponseServeur.write(((Long)champValeur).toString());");
+				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else if (VAL_nomCanoniqueDouble.equals(entiteTypeSolr)) {
 				if (VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_virguleEspace);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-					tl(5, "ecrivain.write(BigDecimal.valueOf((Double)champValeur).toString());");
-					tl(5, "ecrivain.write(VAL_ligne);");
+					tl(6, "reponseServeur.write(VAL_virguleEspace);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+					tl(5, "reponseServeur.write(BigDecimal.valueOf((Double)champValeur).toString());");
+					tl(5, "reponseServeur.write(VAL_ligne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
 				else {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_virguleEspace);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-					tl(5, "ecrivain.write(((Double)champValeur).toString());");
-					tl(5, "ecrivain.write(VAL_ligne);");
+					tl(6, "reponseServeur.write(VAL_virguleEspace);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+					tl(5, "reponseServeur.write(((Double)champValeur).toString());");
+					tl(5, "reponseServeur.write(VAL_ligne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
 			} else if (VAL_nomCanoniqueFloat.equals(entiteTypeSolr)) {
 				tl(5, "if(j > 0)");
-				tl(6, "ecrivain.write(VAL_virguleEspace);");
-				tl(5, "ecrivain.write(VAL_citation);");
-				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-				tl(5, "ecrivain.write(((Float)champValeur).toString());");
-				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(6, "reponseServeur.write(VAL_virguleEspace);");
+				tl(5, "reponseServeur.write(VAL_citation);");
+				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "reponseServeur.write(((Float)champValeur).toString());");
+				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else if (VAL_nomCanoniqueInteger.equals(entiteTypeSolr)) {
 				tl(5, "if(j > 0)");
-				tl(6, "ecrivain.write(VAL_virguleEspace);");
-				tl(5, "ecrivain.write(VAL_citation);");
-				tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "ecrivain.write(VAL_citationDeuxPointsEspace);");
-				tl(5, "ecrivain.write(((Integer)champValeur).toString());");
-				tl(5, "ecrivain.write(VAL_ligne);");
+				tl(6, "reponseServeur.write(VAL_virguleEspace);");
+				tl(5, "reponseServeur.write(VAL_citation);");
+				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(5, "reponseServeur.write(((Integer)champValeur).toString());");
+				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else {
 				if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList)) {
 					if(VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(((Boolean)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(((Boolean)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(VAL_citation);");
-						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "ecrivain.write(VAL_citation);");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(VAL_citation);");
-						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "ecrivain.write(VAL_citation);");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(VAL_citation);");
-						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "ecrivain.write(VAL_citation);");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(VAL_citation);");
-						tl(6, "ecrivain.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
-						tl(6, "ecrivain.write(VAL_citation);");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(((Long)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(((Long)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(BigDecimal.valueOf((Double)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(BigDecimal.valueOf((Double)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(((Double)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(((Double)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(((Float)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(((Float)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(((Integer)champValeur).toString());");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(((Integer)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else {
 						tl(5, "if(j > 0)");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "ecrivain.write(VAL_citation);");
-						tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(5, "reponseServeur.write(VAL_citation);");
+						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "ecrivain.write(VAL_virguleEspace);");
-						tl(6, "ecrivain.write(VAL_citationVirguleEspaceCitation);");
-						tl(6, "ecrivain.write(VAL_citation);");
-						tl(6, "ecrivain.write(((String)champValeur));");
-						tl(6, "ecrivain.write(VAL_citation);");
+						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(6, "reponseServeur.write(((String)champValeur));");
+						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "ecrivain.write(VAL_guillmetsFin);");
+						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 				}
 				else {
 					tl(5, "if(j > 0)");
-					tl(6, "ecrivain.write(VAL_virguleEspace);");
-					tl(5, "ecrivain.write(VAL_citation);");
-					tl(5, "ecrivain.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "ecrivain.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "ecrivain.write(Json.encodePointer((String)champValeurs.iterator().next()));");
-					tl(5, "ecrivain.write(VAL_citationLigne);");
+					tl(6, "reponseServeur.write(VAL_virguleEspace);");
+					tl(5, "reponseServeur.write(VAL_citation);");
+					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
+					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(5, "reponseServeur.write(Json.encodePointer((String)champValeurs.iterator().next()));");
+					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
@@ -2172,8 +2183,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "EcouteurContexte ecouteurContexte = new EcouteurContexte();");
 				tl(2, "ecouteurContexte.initLoinEcouteurContexte();");
 				tl(2, "ecouteurContexte.setRequeteSite(requeteSite);");
-				tl(2, "requeteSite.setEcouteurContexte(ecouteurContexte);");
-				tl(2, "requeteSite.setConfigSite(ecouteurContexte.configSite);");
+				tl(2, "requeteSite.setEcouteurContexte_(ecouteurContexte);");
+				tl(2, "requeteSite.setConfigSite_(ecouteurContexte.configSite);");
 				tl(2, "initLoin", classeNomSimple, "(ecouteurContexte.requeteSite);");
 				tl(2, "SolrClient clientSolr = ecouteurContexte.clientSolr;");
 				tl(2, "clientSolr.deleteById(", entiteVarCleUnique, ".toString());");

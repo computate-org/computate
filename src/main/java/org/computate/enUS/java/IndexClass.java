@@ -542,8 +542,8 @@ public class IndexClass extends RegarderClasseBase {
 			classePartsGenPageAjouter(classePartsUtilisateurSite);
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.io.IOException", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServlet", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServletRequest", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServletResponse", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerRequest", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerResponse", languageName));
 		}
 
 		if(classeApi) {
@@ -552,9 +552,9 @@ public class IndexClass extends RegarderClasseBase {
 			classePartsGenApiAjouter(classePartsEcouteurContexte);
 			classePartsGenApiAjouter(classePartsUtilisateurSite);
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.io.IOException", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServlet", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServletRequest", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServletResponse", languageName));
+//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServlet", languageName));
+//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServerRequest", languageName));
+//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServerResponse", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.Collections", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.Map", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.ServletException", languageName));
@@ -589,6 +589,12 @@ public class IndexClass extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.List", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.Handler", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.RoutingContext", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.Router", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.Vertx", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveReadStream", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveWriteStream", languageName));
 		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);
@@ -964,7 +970,6 @@ public class IndexClass extends RegarderClasseBase {
 						JavaMethod entiteSetter = classQdox.getMethodBySignature("set" + entiteVarCapitalise, new ArrayList<JavaType>() {{ add(classQdoxString); }}, true);
 						Boolean entiteDefinir = storeSolr(entiteDoc, "entiteDefinir", 
 								entiteNomCanonique.equals(VAL_canonicalNameString)
-								|| entiteNomCanonique.equals(VAL_canonicalNameString)
 								|| entiteNomCanonique.equals(VAL_canonicalNameBoolean)
 								|| entiteNomCanonique.equals(VAL_canonicalNameInteger)
 								|| entiteNomCanonique.equals(VAL_canonicalNameBigDecimal)
@@ -973,7 +978,30 @@ public class IndexClass extends RegarderClasseBase {
 								|| entiteNomCanonique.equals(VAL_canonicalNameLong)
 								|| entiteNomCanonique.equals(VAL_canonicalNameLocalDateTime)
 								|| entiteNomCanonique.equals(VAL_canonicalNameLocalDate)
+								|| entiteNomCanonique.equals(VAL_canonicalNameTimestamp)
+								|| entiteNomCanonique.equals(VAL_canonicalNameDate)
+								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameString.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameBoolean.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameInteger.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameBigDecimal.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameDouble.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameFloat.equals(entiteNomCanoniqueGenerique)
 								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameLong.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameLocalDateTime.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameLocalDate.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameTimestamp.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameDate.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameString.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameBoolean.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameInteger.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameBigDecimal.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameDouble.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameFloat.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLong.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLocalDateTime.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLocalDate.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameTimestamp.equals(entiteNomCanoniqueGenerique)
+								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameDate.equals(entiteNomCanoniqueGenerique)
 								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLong.equals(entiteNomCanoniqueGenerique)
 								|| entiteSetter != null
 								);
