@@ -595,6 +595,9 @@ public class IndexClass extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.Vertx", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveReadStream", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveWriteStream", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.MultiMap", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.auth.oauth2.OAuth2Auth", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.netty.handler.codec.http.HttpResponseStatus", languageName));
 		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);
@@ -618,6 +621,8 @@ public class IndexClass extends RegarderClasseBase {
 		indexStoreSolr(classDoc, "languageName", languageName); 
 		indexStoreSolr(classDoc, "modified", modifiedDate); 
 		indexStoreSolr(classDoc, "classCanonicalName", languageName, classCanonicalName); 
+		indexStoreSolr(classDoc, "classePageUri", languageName, regex("^pageUri\\." + languageName + ":\\s*(.*)", classComment));
+		indexStoreSolr(classDoc, "classeApiUri", languageName, regex("^apiUri\\." + languageName + ":\\s*(.*)", classComment));
 		indexStoreSolr(classDoc, "classSimpleName", languageName, classSimpleName); 
 		indexStoreSolr(classDoc, "classPackageName", languageName, classPackageName); 
 		indexStoreSolr(classDoc, "classCanonicalNameGen", languageName, classCanonicalNameGen); 
@@ -673,6 +678,8 @@ public class IndexClass extends RegarderClasseBase {
 			String srcMainJavaPathLanguage = appPathLanguage + "/src/main/java";
 			String srcGenJavaPathLanguage = appPathLanguage + "/src/gen/java";
 			String classCanonicalNameLanguage = regex("^canonicalName\\." + languageName + ":\\s*(.*)", classComment, classCanonicalName);
+			String classePageUriLangue = indexStoreSolr(classDoc, "classePageUri", languageName, regex("^pageUri\\." + languageName + ":\\s*(.*)", classComment));
+			String classeApiUriLangue = indexStoreSolr(classDoc, "classeApiUri", languageName, regex("^apiUri\\." + languageName + ":\\s*(.*)", classComment));
 			String classSimpleNameLanguage = StringUtils.substringAfterLast(classCanonicalNameLanguage, ".");
 			String classPackageNameLanguage = StringUtils.substringBeforeLast(classCanonicalNameLanguage, ".");
 			String classCanonicalNameGenLanguage = classCanonicalNameLanguage + "Gen";

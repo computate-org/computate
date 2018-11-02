@@ -77,6 +77,10 @@ public class WriteGenClass extends WriteGenClassGen {
 
 	protected String classeNomCanoniqueSuper;
 
+	protected String classePageUri;
+
+	protected String classeApiUri;
+
 	protected String classeCommentaire;
 
 	protected List<String> classeImportationsGen;

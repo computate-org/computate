@@ -77,6 +77,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeNomEnsemble;
 	protected String classeNomSimple;
 	protected String classeNomCanoniqueSuper;
+	protected String classePageUri;
+	protected String classeApiUri;
 	protected String classeCommentaire;
 	protected List<String> classeImportationsGen;
 	protected List<String> classeImportationsGenApi;

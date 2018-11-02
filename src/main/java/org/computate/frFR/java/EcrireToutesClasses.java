@@ -203,6 +203,8 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					classeNomCanoniqueSuperGenerique = (String)doc.get("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 					classeNomSimpleApiGen = (String)doc.get("classeNomSimpleApiGen_" + langueNom + "_stored_string");
+					classePageUri = (String)doc.get("classePageUri_" + langueNom + "_stored_string");
+					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
 					if(classeImportationsGen == null)

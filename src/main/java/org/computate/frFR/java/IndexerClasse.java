@@ -1391,6 +1391,9 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Vertx", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.reactivestreams.ReactiveReadStream", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.reactivestreams.ReactiveWriteStream", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.MultiMap", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.oauth2.OAuth2Auth", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.netty.handler.codec.http.HttpResponseStatus", langueNom));
 		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);
@@ -1414,6 +1417,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "langueNom", langueNom); 
 		indexerStockerSolr(classeDoc, "modifiee", modifieeDate); 
 		indexerStockerSolr(classeDoc, "classeNomCanonique", langueNom, classeNomCanonique); 
+		indexerStockerSolr(classeDoc, "classePageUri", langueNom, regex("^pageUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
+		indexerStockerSolr(classeDoc, "classeApiUri", langueNom, regex("^apiUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
 		indexerStockerSolr(classeDoc, "classeNomSimple", langueNom, classeNomSimple); 
 		indexerStockerSolr(classeDoc, "classeNomEnsemble", langueNom, classeNomEnsemble); 
 		indexerStockerSolr(classeDoc, "classeNomCanoniqueGen", langueNom, classeNomCanoniqueGen); 
@@ -1469,6 +1474,8 @@ public class IndexerClasse extends RegarderClasseBase {
 			String cheminSrcMainJavaLangue = appliCheminLangue + "/src/main/java";
 			String cheminSrcGenJavaLangue = appliCheminLangue + "/src/gen/java";
 			String classeNomCanoniqueLangue = regex("^nomCanonique\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeNomCanonique);
+			String classePageUriLangue = indexerStockerSolr(classeDoc, "classePageUri", langueNom, regex("^pageUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
+			String classeApiUriLangue = indexerStockerSolr(classeDoc, "classeApiUri", langueNom, regex("^apiUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
 			String classeNomSimpleLangue = StringUtils.substringAfterLast(classeNomCanoniqueLangue, ".");
 			String classeNomEnsembleLangue = StringUtils.substringBeforeLast(classeNomCanoniqueLangue, ".");
 			String classeNomCanoniqueGenLangue = classeNomCanoniqueLangue + "Gen";

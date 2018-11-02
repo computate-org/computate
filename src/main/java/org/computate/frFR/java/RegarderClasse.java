@@ -91,9 +91,10 @@ public class RegarderClasse extends EcrireToutesClasses {
 //		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/config/ConfigSite.java";
 //		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/warfarin/InrEntry.java";
 //		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/cluster/Cluster.java";
-		String appliNom = "cx";
-		String appliChemin = "/usr/local/src/cx";
-		String classeCheminAbsolu = "/usr/local/src/cx/src/main/java/com/heytate/frFR/cx/client/org/ClientOrg.java";
+		String appliNom = "computate-scolaire";
+		String appliChemin = "/usr/local/src/computate-scolaire";
+//		String classeCheminAbsolu = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/client/org/ClientOrg.java";
+		String classeCheminAbsolu = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/ecole/EcoleScolaire.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;
