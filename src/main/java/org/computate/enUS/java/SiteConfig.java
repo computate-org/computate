@@ -133,6 +133,10 @@ public class SiteConfig {
 	 */
 	public ArrayList<String> testMethodNames = new ArrayList<String>();
 
+	/**	True if the data for the site should be encrypted.
+	 */
+	public Boolean siteEncrypted;
+
 	protected void  _appName() throws Exception {
 		if(appName == null)
 			appName = System.getenv("appName"); 
@@ -180,7 +184,6 @@ public class SiteConfig {
 
 	protected void  _otherLanguages() throws Exception {
 		otherLanguages = config.getStringArray(StringUtils.replace(appName, ".", "..") + ".otherLanguages");
-		System.out.println("otherLanguages: " + otherLanguages);
 	}
 
 	protected void  _allLanguages() throws Exception {
@@ -196,9 +199,12 @@ public class SiteConfig {
 	}
 
 	protected void  _domainPackageName() throws Exception {
-		String[] parts = StringUtils.split(domainName, ".");
-		ArrayUtils.reverse(parts);
-		domainPackageName = StringUtils.join(parts, ".");
+		domainPackageName = config.getString(StringUtils.replace(appliNom, ".", "..") + ".domainPackageName");
+		if(StringUtils.isEmpty(domainPackageName)) {
+			String[] parts = StringUtils.split(domainName, ".");
+			ArrayUtils.reverse(parts);
+			domainPackageName = StringUtils.join(parts, ".");
+		}
 	}
 
 	protected void  _configFileName() throws Exception {
@@ -256,6 +262,10 @@ public class SiteConfig {
 	}
 
 	protected void  _testMethodNames() throws Exception {
+	}
+
+	protected void  _siteEncrypted() throws Exception {
+		siteEncrypted = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + ".siteEncrypted", false);
 	}
 
 	public void  initSiteConfig() throws Exception {
