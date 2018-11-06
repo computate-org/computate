@@ -1254,8 +1254,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomCanoniqueGen = classeNomCanonique + "Gen";
 		String classeNomSimpleGen = classeNomSimple + "Gen";
 		String classeNomCanoniqueApiGen = classeNomCanonique + "ApiGen";
+		String classeNomSimpleApi = indexerStockerSolr(classeDoc, "classeNomSimpleApi", langueNom, classeNomSimple + "Api");
 		String classeNomSimpleApiGen = indexerStockerSolr(classeDoc, "classeNomSimpleApiGen", langueNom, classeNomSimple + "ApiGen");
 		String classeNomCanoniquePageGen = classeNomCanonique + "PageGen";
+		String classeNomSimplePage = indexerStockerSolr(classeDoc, "classeNomSimplePage", langueNom, classeNomSimple + "Page");
 		String classeNomSimplePageGen = indexerStockerSolr(classeDoc, "classeNomSimplePageGen", langueNom, classeNomSimple + "PageGen");
 		JavaClass classeQdox = bricoleur.getClassByName(classeNomCanonique.toString());
 		JavaClass classeQdoxSuper = classeQdox.getSuperJavaClass();
@@ -1335,7 +1337,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeModele = stockerSolr(classeDoc, "classeModele", regexTrouve("^modele: \\s*(true)$", classeCommentaire));
 		Boolean classeApi = stockerSolr(classeDoc, "classeApi", regexTrouve("^api: \\s*(true)$", classeCommentaire) || classeModele);
 		Boolean classePage = stockerSolr(classeDoc, "classePage", regexTrouve("^page: \\s*(true)$", classeCommentaire) || classeModele);
-		Boolean classeInitLoin = stockerSolr(classeDoc, "classeInitLoin", classeEtendBase || classeEstBase);
+		Boolean classeInitLoin = !regexTrouve("^initLoin:\\s*(false)$", classeCommentaire);
+		if(classeInitLoin)
+			classeInitLoin = classeEtendBase || classeEstBase;
+		classeInitLoin = stockerSolr(classeDoc, "classeInitLoin", classeInitLoin);
 		if(classeInitLoin)
 			classePartsGenAjouter(classePartsRequeteSite);
 		indexerStockerSolr(classeDoc, "classeEtendGen", classeEtendGen);
@@ -1377,7 +1382,7 @@ public class IndexerClasse extends RegarderClasseBase {
 //			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.servlet.ServletException", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.concurrent.TimeUnit", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Collectors", langueNom));
-//			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.json.Json", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.Json", langueNom));
 //			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.json.JsonArray", langueNom));
 //			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.json.JsonObject", langueNom));
 //			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.json.JsonReader", langueNom));
@@ -1500,9 +1505,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classeNomSimpleLangue = StringUtils.substringAfterLast(classeNomCanoniqueLangue, ".");
 			String classeNomEnsembleLangue = StringUtils.substringBeforeLast(classeNomCanoniqueLangue, ".");
 			String classeNomCanoniqueGenLangue = classeNomCanoniqueLangue + "Gen";
+			String classeNomCanoniqueApiLangue = classeNomCanoniqueLangue + "Api";
 			String classeNomCanoniqueApiGenLangue = classeNomCanoniqueLangue + "ApiGen";
+			String classeNomCanoniquePageLangue = classeNomCanoniqueLangue + "Page";
 			String classeNomCanoniquePageGenLangue = classeNomCanoniqueLangue + "PageGen";
 			String classeNomSimpleGenLangue = classeNomSimpleLangue + "Gen";
+			String classeNomSimpleApiLangue = classeNomSimpleLangue + "Api";
+			String classeNomSimplePageLangue = classeNomSimpleLangue + "Page";
 			String classeNomSimpleApiGenLangue = classeNomSimpleLangue + "ApiGen";
 			String classeNomSimplePageGenLangue = classeNomSimpleLangue + "PageGen";
 			String classeCheminLangue = indexerStockerSolr(classeDoc, "classeChemin", langueNom, concat(cheminSrcMainJavaLangue, "/", StringUtils.replace(classeNomCanoniqueLangue, ".", "/"), ".java"));
@@ -1516,6 +1525,8 @@ public class IndexerClasse extends RegarderClasseBase {
 			indexerStockerSolr(classeDoc, "classeNomSimple", langueNom, classeNomSimpleLangue); 
 			indexerStockerSolr(classeDoc, "classeNomCanoniqueGen", langueNom, classeNomCanoniqueGenLangue); 
 			indexerStockerSolr(classeDoc, "classeNomSimpleGen", langueNom, classeNomSimpleGenLangue); 
+			indexerStockerSolr(classeDoc, "classeNomSimpleApi", langueNom, classeNomSimpleApiLangue); 
+			indexerStockerSolr(classeDoc, "classeNomSimplePage", langueNom, classeNomSimplePageLangue); 
 			indexerStockerSolr(classeDoc, "classeNomSimpleApiGen", langueNom, classeNomSimpleApiGenLangue); 
 			indexerStockerSolr(classeDoc, "classeNomSimplePageGen", langueNom, classeNomSimplePageGenLangue); 
 			indexerStockerSolr(classeDoc, "classeNomEnsemble", langueNom, classeNomEnsembleLangue); 

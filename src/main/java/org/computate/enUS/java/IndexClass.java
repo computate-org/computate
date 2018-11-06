@@ -458,8 +458,10 @@ public class IndexClass extends RegarderClasseBase {
 		String classCanonicalNameGen = classCanonicalName + "Gen";
 		String classSimpleNameGen = classSimpleName + "Gen";
 		String classCanonicalNameApiGen = classCanonicalName + "ApiGen";
+		String classSimpleNameApi = indexStoreSolr(classDoc, "classSimpleNameApi", languageName, classSimpleName + "Api");
 		String classSimpleNameApiGen = indexStoreSolr(classDoc, "classSimpleNameApiGen", languageName, classSimpleName + "ApiGen");
 		String classCanonicalNamePageGen = classCanonicalName + "PageGen";
+		String classSimpleNamePage = indexStoreSolr(classDoc, "classSimpleNamePage", languageName, classSimpleName + "Page");
 		String classSimpleNamePageGen = indexStoreSolr(classDoc, "classSimpleNamePageGen", languageName, classSimpleName + "PageGen");
 		JavaClass classQdox = builder.getClassByName(classCanonicalName.toString());
 		JavaClass classSuperQdox = classQdox.getSuperJavaClass();
@@ -539,7 +541,10 @@ public class IndexClass extends RegarderClasseBase {
 		Boolean classeModele = storeSolr(classDoc, "classeModele", regexFound("^modele: \\s*(true)$", classComment));
 		Boolean classeApi = storeSolr(classDoc, "classeApi", regexFound("^api: \\s*(true)$", classComment) || classeModele);
 		Boolean classePage = storeSolr(classDoc, "classePage", regexFound("^page: \\s*(true)$", classComment) || classeModele);
-		Boolean classeInitLoin = storeSolr(classDoc, "classeInitLoin", classeEtendBase || classeEstBase);
+		Boolean classeInitLoin = !regexFound("^initLoin:\\s*(false)$", classComment);
+		if(classeInitLoin)
+			classeInitLoin = classeEtendBase || classeEstBase;
+		classeInitLoin = storeSolr(classDoc, "classeInitLoin", classeInitLoin);
 		if(classeInitLoin)
 			classePartsGenAjouter(classePartsRequeteSite);
 		indexStoreSolr(classDoc, "classExtendsGen", classExtendsGen);
@@ -581,7 +586,7 @@ public class IndexClass extends RegarderClasseBase {
 //			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.ServletException", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.concurrent.TimeUnit", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.stream.Collectors", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.json.Json", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.json.Json", languageName));
 //			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.json.JsonArray", languageName));
 //			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.json.JsonObject", languageName));
 //			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.json.JsonReader", languageName));
@@ -704,9 +709,13 @@ public class IndexClass extends RegarderClasseBase {
 			String classSimpleNameLanguage = StringUtils.substringAfterLast(classCanonicalNameLanguage, ".");
 			String classPackageNameLanguage = StringUtils.substringBeforeLast(classCanonicalNameLanguage, ".");
 			String classCanonicalNameGenLanguage = classCanonicalNameLanguage + "Gen";
+			String classCanonicalNameApiLangue = classCanonicalNameLanguage + "Api";
 			String classCanonicalNameApiGenLangue = classCanonicalNameLanguage + "ApiGen";
+			String classCanonicalNamePageLangue = classCanonicalNameLanguage + "Page";
 			String classCanonicalNamePageGenLangue = classCanonicalNameLanguage + "PageGen";
 			String classSimpleNameGenLanguage = classSimpleNameLanguage + "Gen";
+			String classSimpleNameApiLangue = classSimpleNameLanguage + "Api";
+			String classSimpleNamePageLangue = classSimpleNameLanguage + "Page";
 			String classSimpleNameApiGenLangue = classSimpleNameLanguage + "ApiGen";
 			String classSimpleNamePageGenLangue = classSimpleNameLanguage + "PageGen";
 			String classPathLanguage = indexStoreSolr(classDoc, "classPath", languageName, concat(srcMainJavaPathLanguage, "/", StringUtils.replace(classCanonicalNameLanguage, ".", "/"), ".java"));
@@ -720,6 +729,8 @@ public class IndexClass extends RegarderClasseBase {
 			indexStoreSolr(classDoc, "classSimpleName", languageName, classSimpleNameLanguage); 
 			indexStoreSolr(classDoc, "classCanonicalNameGen", languageName, classCanonicalNameGenLanguage); 
 			indexStoreSolr(classDoc, "classSimpleNameGen", languageName, classSimpleNameGenLanguage); 
+			indexStoreSolr(classDoc, "classSimpleNameApi", languageName, classSimpleNameApiLangue); 
+			indexStoreSolr(classDoc, "classSimpleNamePage", languageName, classSimpleNamePageLangue); 
 			indexStoreSolr(classDoc, "classSimpleNameApiGen", languageName, classSimpleNameApiGenLangue); 
 			indexStoreSolr(classDoc, "classSimpleNamePageGen", languageName, classSimpleNamePageGenLangue); 
 			indexStoreSolr(classDoc, "classPackageName", languageName, classPackageNameLanguage); 

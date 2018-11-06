@@ -322,14 +322,14 @@ public class WriteGenClass extends WriteGenClassGen {
 	}
 
 	public void  genCodeInitialiserLoin(String langueNom) throws Exception {
-		o = codeInitialiserLoin;
-		l(); 
-		tl(1, "/////////////////////");
-		tl(1, "// initialiserLoin //");
-		tl(1, "/////////////////////");
-		l(); 
-		tl(1, "protected boolean dejaInitialise", classeNomSimple, " = false;");
 		if(BooleanUtils.isTrue(classeInitLoin)) {
+			o = codeInitialiserLoin;
+			l(); 
+			tl(1, "/////////////////////");
+			tl(1, "// initialiserLoin //");
+			tl(1, "/////////////////////");
+			l(); 
+			tl(1, "protected boolean dejaInitialise", classeNomSimple, " = false;");
 			l();
 			tl(1, "public void initLoin", classeNomSimple, "(RequeteSite requeteSite) throws Exception {");
 //						if(contientRequeteSite && !StringUtils.equals(classeNomSimple, "RequeteSite"))
@@ -337,17 +337,17 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(2, "setRequeteSite(requeteSite);");
 			tl(2, "initLoin", classeNomSimple, "();");
 			tl(1, "}");
+			l();
+			tl(1, "public void initLoin", classeNomSimple, "() throws Exception {");
+			tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
+			if(BooleanUtils.isTrue(classeEtendBase)) 
+				tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite);");
 		}
-		l();
-		tl(1, "public void initLoin", classeNomSimple, "() throws Exception {");
-		tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
-		if(BooleanUtils.isTrue(classeEtendBase)) 
-			tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite);");
 	}
 
 	public void  genCodeRequeteSite(String langueNom) throws Exception {
-		o = codeRequeteSite;
 		if(BooleanUtils.isTrue(classeInitLoin)) {
+			o = codeRequeteSite;
 			l(); 
 			tl(1, "/////////////////");
 			tl(1, "// requeteSite //");
@@ -413,7 +413,7 @@ public class WriteGenClass extends WriteGenClassGen {
 
 	public void  genCodeObtenir(String langueNom) throws Exception {
 		o = codeObtenir;
-		if(classeEtendBase || classeEstBase) {
+		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// obtenir //");
@@ -443,7 +443,7 @@ public class WriteGenClass extends WriteGenClassGen {
 
 	public void  genCodeAttribuer(String langueNom) throws Exception {
 		o = codeAttribuer;
-		if(classeEtendBase || classeEstBase) {
+		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "///////////////");
 			tl(1, "// attribuer //");
@@ -474,7 +474,7 @@ public class WriteGenClass extends WriteGenClassGen {
 
 	public void  genCodeDefinir(String langueNom) throws Exception {
 		o = codeDefinir;
-		if(classeEtendBase || classeEstBase) {
+		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// definir //");
@@ -1879,7 +1879,7 @@ public class WriteGenClass extends WriteGenClassGen {
 					tl(5, "reponseServeur.write(VAL_citation);");
 					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "reponseServeur.write(Json.encodePointer((String)champValeurs.iterator().next()));");
+					tl(5, "reponseServeur.write(Json.encode((String)champValeurs.iterator().next()));");
 					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
@@ -2206,7 +2206,7 @@ public class WriteGenClass extends WriteGenClassGen {
 					tl(5, "reponseServeur.write(VAL_citation);");
 					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
-					tl(5, "reponseServeur.write(Json.encodePointer((String)champValeurs.iterator().next()));");
+					tl(5, "reponseServeur.write(Json.encode((String)champValeurs.iterator().next()));");
 					tl(5, "reponseServeur.write(VAL_citationLigne);");
 					tl(5, "j++;");
 					tl(5, "return j;");
@@ -2221,14 +2221,16 @@ public class WriteGenClass extends WriteGenClassGen {
 		// codeInitLoin //
 		//////////////////
 		o = codeInitialiserLoin;
-		tl(3, "dejaInitialise", classeNomSimple, " = true;");
-		tl(2, "}");
-		tl(1, "}");
 		if(classeInitLoin) {
-			l();
-			tl(1, "public void initLoinPourClasse(RequeteSite requeteSite) throws Exception {");
-			tl(2, "initLoin", classeNomSimple, "(requeteSite);");
-			tl(1, "}");  
+			tl(3, "dejaInitialise", classeNomSimple, " = true;");
+			tl(2, "}");
+			tl(1, "}");
+			if(classeInitLoin) {
+				l();
+				tl(1, "public void initLoinPourClasse(RequeteSite requeteSite) throws Exception {");
+				tl(2, "initLoin", classeNomSimple, "(requeteSite);");
+				tl(1, "}");  
+			}
 		}
 
 		/////////////////////
@@ -2276,7 +2278,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		// codeObtenir //
 		/////////////////
 		o = codeObtenir;
-		if(classeEtendBase || classeEstBase) {
+		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			tl(3, "default:");
 
 			if(classeEstBase)
@@ -2292,7 +2294,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		// codeAttribuer //
 		///////////////////
 		o = codeAttribuer;
-		if(classeEtendBase || classeEstBase) {
+		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			tl(3, "default:");
 
 			if(classeEstBase)
@@ -2309,7 +2311,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		// codeDefinir //
 		/////////////////
 		o = codeDefinir;
-		if(classeEtendBase || classeEstBase) {
+		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			tl(3, "default:");
 
 			if(classeEstBase)

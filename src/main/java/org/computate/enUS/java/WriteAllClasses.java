@@ -70,6 +70,7 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 					classSuperSimpleNameGeneric = (String)doc.get("classSuperSimpleNameGeneric_" + languageName + "_stored_string");
 					classSuperCanonicalNameGeneric = (String)doc.get("classSuperCanonicalNameGeneric_" + languageName + "_stored_string");
 					classPackageName = (String)doc.get("classPackageName_" + languageName + "_stored_string");
+					classSimpleNameApi = (String)doc.get("classSimpleNameApi_" + languageName + "_stored_string");
 					classSimpleNameApiGen = (String)doc.get("classSimpleNameApiGen_" + languageName + "_stored_string");
 					classePageUri = (String)doc.get("classePageUri_" + languageName + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_" + languageName + "_stored_string");

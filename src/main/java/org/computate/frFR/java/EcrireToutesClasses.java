@@ -27,8 +27,9 @@ import org.apache.solr.common.SolrDocumentList;
  * 
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
- */  
-public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse> {   
+ * initLoin: false
+ */   
+public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse> {     
 
 	/**
 	 * var.enUS: writeAllClasses
@@ -202,6 +203,7 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					classeNomSimpleSuperGenerique = (String)doc.get("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
 					classeNomCanoniqueSuperGenerique = (String)doc.get("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
+					classeNomSimpleApi = (String)doc.get("classeNomSimpleApi_" + langueNom + "_stored_string");
 					classeNomSimpleApiGen = (String)doc.get("classeNomSimpleApiGen_" + langueNom + "_stored_string");
 					classePageUri = (String)doc.get("classePageUri_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
