@@ -19,7 +19,7 @@ public abstract class WriteGenClassGen<DEV> {
 	protected boolean dejaInitialiseWriteGenClass = false;
 
 	public void initLoinWriteGenClass(RequeteSite requeteSite) throws Exception {
-		setRequeteSite(requeteSite);
+		setRequeteSite_(requeteSite);
 		initLoinWriteGenClass();
 	}
 

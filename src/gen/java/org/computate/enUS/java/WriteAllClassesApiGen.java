@@ -28,7 +28,7 @@ public abstract class WriteAllClassesApiGen implements Handler<RoutingContext> {
 						SolrQuery rechercheSolr = genererRecherche(rc.request());
 						RequeteSite requeteSite = genererRequeteSite(rc.request(), rc.response());
 						requeteSite.setPrincipalUtilisateur(rc.user().principal());
-						QueryResponse reponseRecherche = requeteSite.ecouteurContexte_.clientSolr.query(rechercheSolr);
+						QueryResponse reponseRecherche = requeteSite.SiteContexte_.clientSolr.query(rechercheSolr);
 						requeteSite.setReponseRecherche(reponseRecherche);
 						SolrDocumentList resultatsRecherche = reponseRecherche.getResults();
 						genererGetDebut(requeteSite);
@@ -140,7 +140,7 @@ public abstract class WriteAllClassesApiGen implements Handler<RoutingContext> {
 		try {
 			SolrQuery rechercheSolr = genererRecherche(requeteServeur);
 			requeteSite = genererRequeteSite(requeteServeur, reponseServeur);
-			QueryResponse reponseRecherche = requeteSite.ecouteurContexte_.clientSolr.query(rechercheSolr);
+			QueryResponse reponseRecherche = requeteSite.SiteContexte_.clientSolr.query(rechercheSolr);
 			genererPost(requeteSite, reponseRecherche);
 		} catch(Exception e) {
 			genererErreur(requeteSite, e);
@@ -208,10 +208,10 @@ public abstract class WriteAllClassesApiGen implements Handler<RoutingContext> {
 	}
 
 	public RequeteSite genererRequeteSite(HttpServerRequest requeteServeur, HttpServerResponse reponseServeur) throws Exception {
-		EcouteurContexte ecouteurContexte = (EcouteurContexte)requeteServeur.getServletContext().getAttribute("ecouteurContexte");
+		SiteContexte SiteContexte = (SiteContexte)requeteServeur.getServletContext().getAttribute("SiteContexte");
 
 		RequeteSite requeteSite = new RequeteSite();
-		requeteSite.setEcouteurContexte_(ecouteurContexte);
+		requeteSite.setSiteContexte_(SiteContexte);
 		requeteSite.setRequeteServeur(requeteServeur);
 		requeteSite.setReponseServeur(reponseServeur);
 		requeteSite.initLoinRequeteSite(requeteSite);

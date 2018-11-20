@@ -229,9 +229,11 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					classeModele = BooleanUtils.isTrue((Boolean)doc.get("classeModele_stored_boolean"));
 					classeApi = BooleanUtils.isTrue((Boolean)doc.get("classeApi_stored_boolean"));
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
+					classeRolesTrouve = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouve_stored_boolean"));
 
 					auteurGenClasse = new PrintWriter(classeFichierGen);
-					auteurApiGenClasse = new PrintWriter(classeFichierApi);
+					if(classeApi)
+						auteurApiGenClasse = new PrintWriter(classeFichierApi);
 //					auteurPageClasse = new PrintWriter(classeFichierPage);
 
 					genCodeInit();
@@ -248,7 +250,8 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					genCodeSauvegardes(langueNom);
 					genCodeSauvegarder(langueNom);
 					genCodeClasseDebut(langueNom);
-					apiCodeClasseDebut(langueNom);
+					if(classeApi)
+						apiCodeClasseDebut(langueNom);
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
@@ -262,7 +265,8 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 			if(o != null) {
 				if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeCheminGen)) {
 					genCodeClasseFin(langueNom);
-					apiCodeClasseFin(langueNom);
+					if(classeApi)
+						apiCodeClasseFin(langueNom);
 				}
 			}
 		} 

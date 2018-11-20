@@ -673,13 +673,13 @@ public class IndexerClasse extends RegarderClasseBase {
 		return classeParts;
 	}
 
-	protected ClasseParts classePartsEcouteurContexte(String nomEnsembleDomaine) throws Exception {
+	protected ClasseParts classePartsSiteContexte(String nomEnsembleDomaine) throws Exception {
 		ClasseParts classeParts = null;
 		SolrDocument doc = null;
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
 		rechercheSolr.setRows(1);
-		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:EcouteurContexte");
+		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:SiteContexte");
 		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
 		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
 		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
@@ -1350,7 +1350,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		ClasseParts classePartsSolrInputDocument = ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrInputDocument", langueNom);
 		ClasseParts classePartsSolrClient = ClasseParts.initClasseParts(this, "org.apache.solr.client.solrj.SolrClient", langueNom);
 		ClasseParts classePartsTest = ClasseParts.initClasseParts(this, "org.junit.Test", langueNom);
-		ClasseParts classePartsEcouteurContexte = classePartsEcouteurContexte(nomEnsembleDomaine);
+		ClasseParts classePartsSiteContexte = classePartsSiteContexte(nomEnsembleDomaine);
 		ClasseParts classePartsConfigSite = classePartsConfigSite(nomEnsembleDomaine);
 		ClasseParts classePartsUtilisateurSite = classePartsUtilisateurSite(nomEnsembleDomaine);
 		ClasseParts classePartsCluster = classePartsCluster(nomEnsembleDomaine);
@@ -1359,7 +1359,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		if(classePage) {
 			classePartsGenPageAjouter(classePartsConfigSite);
 			classePartsGenPageAjouter(classePartsRequeteSite);
-			classePartsGenPageAjouter(classePartsEcouteurContexte);
+			classePartsGenPageAjouter(classePartsSiteContexte);
 			classePartsGenPageAjouter(classePartsUtilisateurSite);
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", langueNom));
 //			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.servlet.http.HttpServlet", langueNom));
@@ -1370,7 +1370,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		if(classeApi) {
 			classePartsGenApiAjouter(classePartsConfigSite);
 			classePartsGenApiAjouter(classePartsRequeteSite);
-			classePartsGenApiAjouter(classePartsEcouteurContexte);
+			classePartsGenApiAjouter(classePartsSiteContexte);
 			classePartsGenApiAjouter(classePartsUtilisateurSite);
 			classePartsGenApiAjouter(classePartsResultatRecherche);
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", langueNom));
@@ -1420,12 +1420,14 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.MultiMap", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.oauth2.OAuth2Auth", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.netty.handler.codec.http.HttpResponseStatus", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.Logger", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.LoggerFactory", langueNom));
 		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);
 			classePartsGenAjouter(classePartsSolrClient);
 //			classePartsGenAjouter(classePartsTest);
-			classePartsGenAjouter(classePartsEcouteurContexte);
+			classePartsGenAjouter(classePartsSiteContexte);
 		}
 		if(classeEtendBase || classeEstBase) {
 			classePartsGenAjouter(classePartsCluster);
@@ -1472,6 +1474,15 @@ public class IndexerClasse extends RegarderClasseBase {
 				stockerListeSolr(classeDoc, "classeValsValeur", classeValValeur);
 				classeValsTrouve = classeValsRecherche.find();
 			}
+
+			Matcher classeRolesRecherche = Pattern.compile("^role:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			boolean classeRolesTrouve = classeRolesRecherche.find();
+			while(classeRolesTrouve) {
+				String classeRole = classeRolesRecherche.group(1);
+				stockerListeSolr(classeDoc, "classeRoles", classeRole);
+				classeRolesTrouve = classeRolesRecherche.find();
+			}
+			indexerStockerSolr(classeDoc, "classeRolesTrouve", classeRolesTrouve); 
 		}
 
 		SolrDocument classeNomCanoniqueSuperDoc = null;   

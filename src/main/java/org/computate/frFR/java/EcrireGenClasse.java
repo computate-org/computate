@@ -95,6 +95,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected Boolean classeModele;
 	protected Boolean classeApi;
 	protected Boolean classePage;
+	protected Boolean classeRolesTrouve;
 
 	protected StringWriter wInitialiserLoin;
 	protected PrintWriter codeInitialiserLoin;
@@ -256,15 +257,15 @@ public class EcrireGenClasse extends EcrireClasse {
 			l();
 			tl(1, "public void initLoin", classeNomSimple, "(RequeteSite requeteSite) throws Exception {");
 //						if(contientRequeteSite && !StringUtils.equals(classeNomSimple, "RequeteSite"))
-//							tl(2, "((", classeNomSimple, ")this).setRequeteSite(requeteSite);");
-			tl(2, "setRequeteSite(requeteSite);");
+//							tl(2, "((", classeNomSimple, ")this).setRequeteSite_(requeteSite);");
+			tl(2, "setRequeteSite_(requeteSite);");
 			tl(2, "initLoin", classeNomSimple, "();");
 			tl(1, "}");
 			l();
 			tl(1, "public void initLoin", classeNomSimple, "() throws Exception {");
 			tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
-				tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite);");
+				tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite_);");
 		}
 	}
 
@@ -293,11 +294,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "public void indexer", classeNomSimple, "() throws Exception {");
 			tl(2, "RequeteSite requeteSite = new RequeteSite();");
 			tl(2, "requeteSite.initLoinRequeteSite();");
-			tl(2, "EcouteurContexte ecouteurContexte = new EcouteurContexte();");
-			tl(2, "ecouteurContexte.initLoinEcouteurContexte();");
-			tl(2, "ecouteurContexte.setRequeteSite(requeteSite);");
-			tl(2, "requeteSite.setEcouteurContexte_(ecouteurContexte);");
-			tl(2, "requeteSite.setConfigSite_(ecouteurContexte.configSite);");
+			tl(2, "SiteContexte SiteContexte = new SiteContexte();");
+			tl(2, "SiteContexte.initLoinSiteContexte();");
+			tl(2, "SiteContexte.setRequeteSite_(requeteSite);");
+			tl(2, "requeteSite.setSiteContexte_(SiteContexte);");
 			tl(2, "requeteSite", classeNomSimple, "(requeteSite);");
 			tl(2, "initLoin", classeNomSimple, "(requeteSite);");
 			tl(2, "indexer", classeNomSimple, "(requeteSite);");
@@ -309,7 +309,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(!classeEstBase)
 					s("@Override ");
 				l("public void indexerPourClasse(RequeteSite requeteSite) throws Exception {");
-				tl(2, "indexer", classeNomSimple, "(requeteSite);");
+				tl(2, "indexer", classeNomSimple, "(requeteSite_);");
 				tl(1, "}");
 				tl(0);
 				t(1);
@@ -324,7 +324,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "indexer", classeNomSimple, "(document);");
 			if(classeSauvegarde)
 				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes);");
-			tl(2, "SolrClient clientSolr = requeteSite.ecouteurContexte_.clientSolr;");
+			tl(2, "SolrClient clientSolr = requeteSite_.getSiteContexte_().getClientSolr();");
 			tl(2, "clientSolr.add(document);");
 			tl(2, "clientSolr.commit();");
 			l("\t}");
@@ -462,7 +462,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
 			l("public Boolean existePourClasse() throws Exception {");
-			tl(2, "String cleStr = requeteSite.requete.getParameter(\"cle\");");
+			tl(2, "String cleStr = requeteSite_.requete.getParameter(\"cle\");");
 			tl(2, "Long cle = ", StringUtils.class.getCanonicalName(), ".isNumeric(cleStr) ? Long.parseLong(cleStr) : null;");
 			tl(2, "Boolean existe = existePourClasse(cle);");
 			tl(2, "return existe;");
@@ -471,16 +471,16 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
 			l("public Boolean existePourClasse(Long cle) throws Exception {");
-			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.ecouteurContexte.sourceDonnees);");
+			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite_.SiteContexte.sourceDonnees);");
 			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
-			tl(2, "utilisateurId = requeteSite.utilisateurId;");
+			tl(2, "utilisateurId = requeteSite_.utilisateurId;");
 			tl(2, "this.cle = cle;");
 			tl(2, "String nomCanonique = getClass().getCanonicalName();");
 			tl(2, "Boolean existe = false;");
 			tl(2);
 			tl(2, "if(cle == null) {");
 			tl(3, "String sql = \"select clep from objet where objet.id_utilisateur=? and objet.nom_canonique=?\";");
-			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
+			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.id_utilisateur=*/, requeteSite_.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
 			tl(3, "existe = resultats.size() > 0;");
 			tl(3, "if(existe) {");
 			tl(4, "cle = (Long)resultats.get(0)[0];");
@@ -489,7 +489,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "}");
 			tl(2, "else {");
 			tl(3, "String sql = \"select count(*) from objet where objet.clep=? and objet.id_utilisateur=? and objet.nom_canonique=?\";");
-			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.clep=*/, cle /* and objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
+			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.clep=*/, cle /* and objet.id_utilisateur=*/, requeteSite_.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
 			tl(3, "existe = ((Long)resultats.get(0)[0]) > 0L;");
 
 			tl(2, "}");
@@ -511,7 +511,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
 			l("public void sauvegardesPourClasse(RequeteSite requeteSite) throws Exception {");
-			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.ecouteurContexte.sourceDonnees);");
+			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
 			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 
 			tl(2);
@@ -551,7 +551,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
 			l("public void sauvegarderPourClasse(RequeteSite requeteSite) throws Exception {");
-			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.ecouteurContexte.sourceDonnees);");
+			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
 			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 			tl(2, "String cleStr = requeteSite.requete.getParameter(\"cle\");");
 			tl(2, "cle = ", StringUtils.class.getCanonicalName(), ".isNumeric(cleStr) ? Long.parseLong(cleStr) : null;");
@@ -759,7 +759,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 		tl(1, " */");
 
-		t(1, "public ", entiteNomSimpleComplet, " ", entiteVar);
+		t(1, "protected ", entiteNomSimpleComplet, " ", entiteVar);
 		if(!entiteCouverture) {
 			if("java.util.List".equals(entiteNomCanonique)) {
 				s(" = new java.util.ArrayList<");
@@ -824,6 +824,11 @@ public class EcrireGenClasse extends EcrireClasse {
 //						tl(1, "}");
 
 		l();
+		tl(1, "public ", entiteNomSimpleComplet, " get", entiteVarCapitalise, "() {");
+		tl(2, "return ", entiteVar, ";");
+		tl(1, "}");
+
+		l();
 		tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVarParam, ") throws Exception {");
 		tl(2, "this.", entiteVar, " = ", entiteVarParam, ";");
 		tl(1, "}");
@@ -832,11 +837,6 @@ public class EcrireGenClasse extends EcrireClasse {
 //						tl(1, "public ", entiteNomSimpleComplet, " ", entiteVar, "() throws Exception {");
 //						tl(2, "return get", entiteVarCapitalise, "();");
 //						tl(1, "}");
-
-		l();
-		tl(1, "public ", entiteNomSimpleComplet, " get", entiteVarCapitalise, "() throws Exception {");
-		tl(2, "return ", entiteVar, ";");
-		tl(1, "}");
 
 		// Setter List //
 		if(StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) && StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
@@ -1148,10 +1148,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(entiteInitLoin) {
 				if(entiteCouverture) {
 					tl(2, "if(", entiteVar, " != null)");
-					tl(3, entiteVar, ".initLoinPourClasse(requeteSite);");
+					tl(3, entiteVar, ".initLoinPourClasse(requeteSite_);");
 				}
 				else {
-					tl(2, entiteVar, ".initLoinPourClasse(requeteSite);");
+					tl(2, entiteVar, ".initLoinPourClasse(requeteSite_);");
 				}
 			}
 
@@ -1200,7 +1200,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////////
 		if(classeInitLoin && entiteInitLoin) {
 			o = codeRequeteSite;
-			tl(2, entiteVar, ".setRequeteSite(requeteSite);");
+			tl(2, entiteVar, ".setRequeteSite_(requeteSite);");
 		}
 
 		/////////////////
@@ -1452,7 +1452,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //									tl(5, champ.contexteEnfant.classeNomSimple, " ", champ.contexteEnfant.nomVarMinuscule, " = new ", champ.contexteEnfant.classeNomSimple, "();");
 //									tl(5, champ.contexteEnfant.nomVarMinuscule, ".cle(", varSupprimer, ");");
 //									tl(5, champ.contexteEnfant.nomVarMinuscule, ".sauvegardesPourClasse(requeteSite);");
-//									tl(5, champ.contexteEnfant.nomVarMinuscule, ".initLoinPourClasse(requeteSite);");
+//									tl(5, champ.contexteEnfant.nomVarMinuscule, ".initLoinPourClasse(requeteSite_);");
 //									tl(5, champ.contexteEnfant.nomVarMinuscule, ".indexerPourClasse(requeteSite);");
 //									tl(4, "}");
 //									tl(3, "}");
@@ -2184,13 +2184,13 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public void desindexer", classeNomSimple, "() throws Exception {");
 				tl(2, "RequeteSite requeteSite = new RequeteSite();");
 				tl(2, "requeteSite.initLoinRequeteSite();");
-				tl(2, "EcouteurContexte ecouteurContexte = new EcouteurContexte();");
-				tl(2, "ecouteurContexte.initLoinEcouteurContexte();");
-				tl(2, "ecouteurContexte.setRequeteSite(requeteSite);");
-				tl(2, "requeteSite.setEcouteurContexte_(ecouteurContexte);");
-				tl(2, "requeteSite.setConfigSite_(ecouteurContexte.configSite);");
-				tl(2, "initLoin", classeNomSimple, "(ecouteurContexte.requeteSite);");
-				tl(2, "SolrClient clientSolr = ecouteurContexte.clientSolr;");
+				tl(2, "SiteContexte SiteContexte = new SiteContexte();");
+				tl(2, "SiteContexte.initLoinSiteContexte();");
+				tl(2, "SiteContexte.setRequeteSite_(requeteSite);");
+				tl(2, "requeteSite.setSiteContexte_(SiteContexte);");
+				tl(2, "requeteSite.setConfigSite_(SiteContexte.configSite);");
+				tl(2, "initLoin", classeNomSimple, "(SiteContexte.requeteSite);");
+				tl(2, "SolrClient clientSolr = SiteContexte.clientSolr;");
 				tl(2, "clientSolr.deleteById(", entiteVarCleUnique, ".toString());");
 				tl(2, "clientSolr.commit();");
 				tl(1, "}");

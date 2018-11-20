@@ -19,7 +19,7 @@ public abstract class EcrireGenClasseGen<DEV> {
 	protected boolean dejaInitialiseEcrireGenClasse = false;
 
 	public void initLoinEcrireGenClasse(RequeteSite requeteSite) throws Exception {
-		setRequeteSite(requeteSite);
+		setRequeteSite_(requeteSite);
 		initLoinEcrireGenClasse();
 	}
 

@@ -20,17 +20,11 @@ public abstract class EcrireGenClasseApiGen implements Handler<RoutingContext> {
 			rc.user().isAuthorized("realm:view-account", authRes -> {
 				try {
 					if (authRes.result() == Boolean.TRUE) {
-						ReactiveWriteStream<ResultatRecherche> rws = ReactiveWriteStream.writeStream(vertx);
-						ReactiveReadStream<ResultatRecherche> rrs = ReactiveReadStream.readStream();
-						HttpServerResponse outStream = rc.response();
-						outStream.putHeader("content-type", "application/json");
-						rws.subscribe(rrs);
-						SolrQuery rechercheSolr = genererRecherche(rc.request());
-						RequeteSite requeteSite = genererRequeteSite(rc.request(), rc.response());
-						requeteSite.setPrincipalUtilisateur(rc.user().principal());
-						QueryResponse reponseRecherche = requeteSite.ecouteurContexte_.clientSolr.query(rechercheSolr);
-						requeteSite.setReponseRecherche(reponseRecherche);
-						SolrDocumentList resultatsRecherche = reponseRecherche.getResults();
+						rc.response().putHeader("content-type", "application/json");
+						RequeteSite requeteSite = genererRequeteSitePourEcrireGenClasse(vertx, rc);
+						SolrDocumentList resultatsRecherche = requeteSite.reponseRecherche.getResults();
+						ReactiveReadStream<ResultatRecherche> flotLire = requeteSite.flotLire;
+						ReactiveWriteStream<ResultatRecherche> flotEcrire = requeteSite.flotEcrire;
 						genererGetDebutEcrireGenClasse(requeteSite);
 						for(int i = 0; i < resultatsRecherche.size(); i++) {
 							SolrDocument documentSolr = resultatsRecherche.get(i);
@@ -41,14 +35,14 @@ public abstract class EcrireGenClasseApiGen implements Handler<RoutingContext> {
 							if(i == 0)
 								genererGetIndividuelEcrireGenClasse(resultatRecherche);
 							else
-								rws.write(resultatRecherche);
+								flotEcrire.write(resultatRecherche);
 						}
-						rrs.handler(resultatRecherche -> {
-							if (outStream.writeQueueFull()) {
-								outStream.drainHandler((s) -> {
-									rrs.resume();
+						flotLire.handler(resultatRecherche -> {
+							if (flotEcrire.writeQueueFull()) {
+								flotEcrire.drainHandler((s) -> {
+									flotLire.resume();
 								});
-								rrs.pause();
+								flotLire.pause();
 							} else {
 								try {
 									genererGetIndividuelEcrireGenClasse(resultatRecherche);
@@ -58,7 +52,7 @@ public abstract class EcrireGenClasseApiGen implements Handler<RoutingContext> {
 							}
 						}).endHandler(h -> {
 							genererGetFinEcrireGenClasse(requeteSite);
-							outStream.end();
+							flotEcrire.end();
 						});
 					}
 					else {
@@ -67,7 +61,7 @@ public abstract class EcrireGenClasseApiGen implements Handler<RoutingContext> {
 				} catch(Exception e) {
 					// TODO
 				}
-				});
+			});
 		});
 	}
 
@@ -135,18 +129,6 @@ public abstract class EcrireGenClasseApiGen implements Handler<RoutingContext> {
 		reponseServeur.write("}\n");
 	}
 
-	@Override protected void doPost(HttpServerRequest requeteServeur, HttpServerResponse reponseServeur) throws ServletException, IOException {
-		RequeteSite requeteSite = null;
-		try {
-			SolrQuery rechercheSolr = genererRecherche(requeteServeur);
-			requeteSite = genererRequeteSite(requeteServeur, reponseServeur);
-			QueryResponse reponseRecherche = requeteSite.ecouteurContexte_.clientSolr.query(rechercheSolr);
-			genererPost(requeteSite, reponseRecherche);
-		} catch(Exception e) {
-			genererErreur(requeteSite, e);
-		}
-	}
-
 	public String varIndexeEcrireGenClasse(String entiteVar) throws Exception {
 		switch(entiteVar) {
 			default:
@@ -207,13 +189,15 @@ public abstract class EcrireGenClasseApiGen implements Handler<RoutingContext> {
 		return rechercheSolr;
 	}
 
-	public RequeteSite genererRequeteSite(HttpServerRequest requeteServeur, HttpServerResponse reponseServeur) throws Exception {
-		EcouteurContexte ecouteurContexte = (EcouteurContexte)requeteServeur.getServletContext().getAttribute("ecouteurContexte");
+	public RequeteSite genererRequeteSitePourEcrireGenClasse(Vertx vertx, RoutingContext contexteItineraire) throws Exception {
+		SiteContexte SiteContexte = (SiteContexte)vertx.sharedData().getLocalMap("SiteContexte");
+		SolrQuery rechercheSolr = genererRecherche(contexteItineraire.request());
 
 		RequeteSite requeteSite = new RequeteSite();
-		requeteSite.setEcouteurContexte_(ecouteurContexte);
-		requeteSite.setRequeteServeur(requeteServeur);
-		requeteSite.setReponseServeur(reponseServeur);
+		requeteSite.setVertx_(vertx);
+		requeteSite.setContexteItineraire_(contexteItineraire);
+		requeteSite.setSiteContexte_(SiteContexte);
+		requeteSite.setRechercheSolr_(rechercheSolr);
 		requeteSite.initLoinRequeteSite(requeteSite);
 
 		UtilisateurSite utilisateurSite = new UtilisateurSite();
@@ -234,7 +218,77 @@ public abstract class EcrireGenClasseApiGen implements Handler<RoutingContext> {
 		return j;
 	}
 
-	public Integer genererPostEcrireGenClasse(Integer j, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {
+	protected void handlePostEcrireGenClasse(Vertx vertx, Router router, OAuth2Auth oauth2) {
+		router.post("").handler(rc -> {
+			rc.user().isAuthorized("realm:view-account", authRes -> {
+				try {
+					if (authRes.result() == Boolean.TRUE) {
+						rc.response().putHeader("content-type", "application/json");
+						RequeteSite requeteSite = genererRequeteSitePourEcrireGenClasse(vertx, rc);
+						SolrDocumentList resultatsRecherche = requeteSite.reponseRecherche.getResults();
+						ReactiveReadStream<ResultatRecherche> flotLire = requeteSite.flotLire;
+						ReactiveWriteStream<ResultatRecherche> flotEcrire = requeteSite.flotEcrire;
+						genererGetDebutEcrireGenClasse(requeteSite);
+						for(int i = 0; i < resultatsRecherche.size(); i++) {
+							SolrDocument documentSolr = resultatsRecherche.get(i);
+							ResultatRecherche resultatRecherche = new ResultatRecherche();
+							resultatRecherche.setRequeteSite_(requeteSite);
+							resultatRecherche.setDocumentSolr(documentSolr);
+							resultatRecherche.setResultatIndice(i);
+							if(i == 0)
+								genererPostIndividuelEcrireGenClasse(resultatRecherche);
+							else
+								flotEcrire.write(resultatRecherche);
+						}
+						flotLire.handler(resultatRecherche -> {
+							if (flotEcrire.writeQueueFull()) {
+								flotEcrire.drainHandler((s) -> {
+									flotLire.resume();
+								});
+								flotLire.pause();
+							} else {
+								try {
+									genererPostIndividuelEcrireGenClasse(resultatRecherche);
+								} catch(Exception e) {
+									// TODO
+								}
+							}
+						}).endHandler(h -> {
+							genererGetFinEcrireGenClasse(requeteSite);
+							flotEcrire.end();
+						});
+					}
+					else {
+						rc.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();
+					}
+				} catch(Exception e) {
+					// TODO
+				}
+			});
+		});
+	}
+
+	public void genererPostIndividuelEcrireGenClasse(ResultatRecherche resultatRecherche) throws Exception {
+		RequeteSite requeteSite = resultatRecherche.requeteSite_;
+		SolrDocument documentSolr = resultatRecherche.documentSolr;
+		Integer resultatIndice = resultatRecherche.resultatIndice;
+		HttpServerResponse reponseServeur = requeteSite.reponseServeur;
+		reponseServeur.write("\t\t");
+		if(resultatIndice > 0)
+			reponseServeur.write(", ");
+		reponseServeur.write("{\n");
+		Collection<String> champNoms = documentSolr.getFieldNames();
+		Integer j = 0;
+		for(String champNomStocke : champNoms) {
+			Collection<Object> champValeurs = documentSolr.getFieldValues(champNomStocke);
+			j = genererPostEcrireGenClasse(j, resultatRecherche, champNomStocke, champValeurs);
+		}
+		reponseServeur.write("\t\t}\n");
+	}
+
+	public Integer genererPostEcrireGenClasse(Integer j, ResultatRecherche resultatRecherche, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {
+		RequeteSite requeteSite = resultatRecherche.requeteSite_;
+		HttpServerResponse reponseServeur = requeteSite.reponseServeur;
 		if(!champValeurs.isEmpty()) {
 			Object champValeur = champValeurs.iterator().next();
 			if(champValeur != null) {

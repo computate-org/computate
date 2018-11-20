@@ -96,9 +96,11 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 					classeModele = BooleanUtils.isTrue((Boolean)doc.get("classeModele_stored_boolean"));
 					classeApi = BooleanUtils.isTrue((Boolean)doc.get("classeApi_stored_boolean"));
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
+					classeRolesTrouve = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouve_stored_boolean"));
 
 					auteurGenClasse = new PrintWriter(classFileGen);
-					auteurApiGenClasse = new PrintWriter(classFileApi);
+					if(classeApi)
+						auteurApiGenClasse = new PrintWriter(classFileApi);
 //					auteurPageClasse = new PrintWriter(classFilePage);
 
 					genCodeInit();
@@ -115,7 +117,8 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 					genCodeSauvegardes(languageName);
 					genCodeSauvegarder(languageName);
 					genCodeClasseDebut(languageName);
-					apiCodeClasseDebut(languageName);
+					if(classeApi)
+						apiCodeClasseDebut(languageName);
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
@@ -129,7 +132,8 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 			if(o != null) {
 				if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPathGen)) {
 					genCodeClasseFin(languageName);
-					apiCodeClasseFin(languageName);
+					if(classeApi)
+						apiCodeClasseFin(languageName);
 				}
 			}
 		} 

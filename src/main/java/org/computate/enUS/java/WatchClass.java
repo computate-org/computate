@@ -53,7 +53,7 @@ public class WatchClass extends WriteAllClasses {
 //		String appliNom = "computate.org";
 //		String appliChemin = "/usr/local/src/computate.org";
 //		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/config/ConfigSite.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/EcouteurContexte.java";
+//		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/SiteContexte.java";
 //		String appliNom = "heytate-cardiac";
 //		String appliChemin = "/usr/local/src/heytate-cardiac";
 //		String classeCheminAbsolu = "/usr/local/src/heytate-cardiac/src/main/java/com/heytate/frFR/cardiaque/requete/RequeteSite.java";
