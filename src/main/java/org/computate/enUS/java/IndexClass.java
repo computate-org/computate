@@ -626,6 +626,9 @@ public class IndexClass extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.netty.handler.codec.http.HttpResponseStatus", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.logging.Logger", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.logging.LoggerFactory", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.HTTPRequestValidationHandler", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ParameterTypeValidator", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ValidationException", languageName));
 		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);

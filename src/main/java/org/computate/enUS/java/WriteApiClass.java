@@ -1,7 +1,6 @@
 package org.computate.enUS.java;
 
 import java.io.PrintWriter;
-import org.apache.solr.client.solrj.SolrQuery;
 
 /**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  */
@@ -51,8 +50,18 @@ public class WriteApiClass extends WriteGenClass {
 		l();
 		tl(1, "public void handleGet", classeNomSimple, "(SiteContexte siteContexte) {");
 		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur_();");
-
-		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
+		l();
+		tl(2, "HTTPRequestValidationHandler gestionnaireValidation = HTTPRequestValidationHandler.create();");
+		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"q\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", \"*:*\"), false, false);");
+		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fq\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
+		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"sort\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
+		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fl\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
+		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"start\", ParameterTypeValidator.createIntegerTypeValidator(null, 0D, null, 0), false, false);");
+		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"rows\", ParameterTypeValidator.createIntegerTypeValidator(null, 1D, null, 10), false, false);");
+		l();
+		tl(2, "siteRouteur.get(\"", classeApiUri, "\")");
+		tl(4, ".handler(gestionnaireValidation)");
+		tl(4, ".handler(rc -> {");
 		Integer tBase = 0;
 		if(classeRolesTrouve) {
 			tBase = 6;
@@ -64,6 +73,7 @@ public class WriteApiClass extends WriteGenClass {
 			tBase = 4;
 			tl(3, "try {");
 		}
+		l();
 		tl(tBase, "rc.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
 		tl(tBase, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, rc);");
 		tl(tBase, "SolrQuery rechercheSolr = requeteSite.getRechercheSolr_();");
@@ -101,6 +111,13 @@ public class WriteApiClass extends WriteGenClass {
 			tl(4, "rc.fail(e);");
 			tl(3, "}");
 		}
+		tl(2, "}).failureHandler((rc) -> {");
+		tl(3, "Throwable failure = rc.failure();");
+		tl(3, "if (failure instanceof ValidationException) {");
+		tl(4, "String validationErrorMessage = failure.getMessage();");
+		tl(4, "LOGGER.error(\"Error: \", validationErrorMessage);");
+		tl(4, "rc.fail(failure);");
+		tl(3, "}");
 		tl(2, "});");
 		tl(1, "}");
 		l();
