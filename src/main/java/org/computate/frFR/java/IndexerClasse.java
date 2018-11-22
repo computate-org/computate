@@ -1366,7 +1366,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		if(classeInitLoin)
 			classePartsGenAjouter(classePartsRequeteSite);
 		indexerStockerSolr(classeDoc, "classeEtendGen", classeEtendGen);
-		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", classeCommentaire));
+		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", classeCommentaire) || classeModele);
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele);
 
 		ClasseParts classePartsSolrInputDocument = ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrInputDocument", langueNom);
@@ -1489,6 +1489,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "nomEnsembleDomaine", nomEnsembleDomaine); 
 
 		if(classeCommentaire != null) {
+
 			Matcher classeValsRecherche = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeValsTrouve = classeValsRecherche.find();
 			while(classeValsTrouve) {
@@ -1952,6 +1953,22 @@ public class IndexerClasse extends RegarderClasseBase {
 								stockerListeSolr(entiteDoc, "entiteMethodesApresParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
 								stockerListeSolr(entiteDoc, "entiteMethodesApresNomParam", methode.getParameters().size() > 1);
 							}
+						}
+
+						if(methodeCommentaire != null) {
+							Matcher entiteOptionsRecherche = Pattern.compile("^option\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+							boolean entiteOptionsTrouve = entiteOptionsRecherche.find();
+							while(entiteOptionsTrouve) {
+								String entiteOptionVar = entiteOptionsRecherche.group(1);
+								String entiteOptionLangue = entiteOptionsRecherche.group(2);
+								String entiteOptionValeur = entiteOptionsRecherche.group(3);
+								stockerListeSolr(entiteDoc, "entiteOptionsVar", entiteOptionVar);
+								stockerListeSolr(entiteDoc, "entiteOptionsLangue", entiteOptionLangue);
+								stockerListeSolr(entiteDoc, "entiteOptionsValeur", entiteOptionValeur);
+								entiteOptionsTrouve = entiteOptionsRecherche.find();
+							}
+							if(entiteOptionsTrouve)
+								stockerSolr(entiteDoc, "entiteOptions", true);
 						}
 
 						indexerStockerSolr(entiteDoc, "entiteExact", regexTrouve("^exact:\\s*(true)$", methodeCommentaire));

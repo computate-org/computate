@@ -570,7 +570,7 @@ public class IndexClass extends RegarderClasseBase {
 		if(classeInitLoin)
 			classePartsGenAjouter(classePartsRequeteSite);
 		indexStoreSolr(classDoc, "classExtendsGen", classExtendsGen);
-		Boolean classeSauvegarde = indexStoreSolr(classDoc, "classeSauvegarde", regexFound("^sauvegarde:\\s*(true)$", classComment));
+		Boolean classeSauvegarde = indexStoreSolr(classDoc, "classeSauvegarde", regexFound("^sauvegarde:\\s*(true)$", classComment) || classeModele);
 		Boolean classeIndexe = indexStoreSolr(classDoc, "classeIndexe", regexFound("^indexe:\\s*(true)$", classComment) || classeSauvegarde || classeModele);
 
 		ClassParts classePartsSolrInputDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrInputDocument", languageName);
@@ -693,6 +693,7 @@ public class IndexClass extends RegarderClasseBase {
 		indexStoreSolr(classDoc, "domainPackageName", domainPackageName); 
 
 		if(classComment != null) {
+
 			Matcher classeValsRecherche = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classComment);
 			boolean classeValsTrouve = classeValsRecherche.find();
 			while(classeValsTrouve) {
@@ -1156,6 +1157,22 @@ public class IndexClass extends RegarderClasseBase {
 								storeListSolr(entiteDoc, "entiteMethodesApresParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
 								storeListSolr(entiteDoc, "entiteMethodesApresNomParam", methode.getParameters().size() > 1);
 							}
+						}
+
+						if(methodComment != null) {
+							Matcher entiteOptionsRecherche = Pattern.compile("^option\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
+							boolean entiteOptionsTrouve = entiteOptionsRecherche.find();
+							while(entiteOptionsTrouve) {
+								String entiteOptionVar = entiteOptionsRecherche.group(1);
+								String entiteOptionLangue = entiteOptionsRecherche.group(2);
+								String entiteOptionValeur = entiteOptionsRecherche.group(3);
+								storeListSolr(entiteDoc, "entiteOptionsVar", entiteOptionVar);
+								storeListSolr(entiteDoc, "entiteOptionsLangue", entiteOptionLangue);
+								storeListSolr(entiteDoc, "entiteOptionsValeur", entiteOptionValeur);
+								entiteOptionsTrouve = entiteOptionsRecherche.find();
+							}
+							if(entiteOptionsTrouve)
+								storeSolr(entiteDoc, "entiteOptions", true);
 						}
 
 						indexStoreSolr(entiteDoc, "entiteExact", regexFound("^exact:\\s*(true)$", methodComment));

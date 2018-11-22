@@ -18,15 +18,17 @@ public abstract class EcrireGenClasseGen<DEV> {
 
 	protected boolean dejaInitialiseEcrireGenClasse = false;
 
-	public void initLoinEcrireGenClasse(RequeteSite requeteSite) throws Exception {
+	public EcrireGenClasse initLoinEcrireGenClasse(RequeteSite requeteSite) throws Exception {
 		setRequeteSite_(requeteSite);
 		initLoinEcrireGenClasse();
+		return (EcrireGenClasse)this;
 	}
 
-	public void initLoinEcrireGenClasse() throws Exception {
+	public EcrireGenClasse initLoinEcrireGenClasse() throws Exception {
 		if(!dejaInitialiseEcrireGenClasse) {
 			dejaInitialiseEcrireGenClasse = true;
 		}
+		return (EcrireGenClasse)this;
 	}
 
 	public void initLoinPourClasse(RequeteSite requeteSite) throws Exception {

@@ -18,15 +18,17 @@ public abstract class WriteGenClassGen<DEV> {
 
 	protected boolean dejaInitialiseWriteGenClass = false;
 
-	public void initLoinWriteGenClass(RequeteSite requeteSite) throws Exception {
+	public WriteGenClass initLoinWriteGenClass(RequeteSite requeteSite) throws Exception {
 		setRequeteSite_(requeteSite);
 		initLoinWriteGenClass();
+		return (WriteGenClass)this;
 	}
 
-	public void initLoinWriteGenClass() throws Exception {
+	public WriteGenClass initLoinWriteGenClass() throws Exception {
 		if(!dejaInitialiseWriteGenClass) {
 			dejaInitialiseWriteGenClass = true;
 		}
+		return (WriteGenClass)this;
 	}
 
 	public void initLoinPourClasse(RequeteSite requeteSite) throws Exception {
