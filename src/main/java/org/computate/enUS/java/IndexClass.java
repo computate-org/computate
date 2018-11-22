@@ -301,6 +301,25 @@ public class IndexClass extends RegarderClasseBase {
 		return classeParts;
 	}
 
+	protected ClassParts classePartsChaine(String nomEnsembleDomaine) throws Exception {
+		ClasseParts classeParts = null;
+		SolrDocument doc = null;
+		SolrQuery rechercheSolr = new SolrQuery();   
+		rechercheSolr.setQuery("*:*");
+		rechercheSolr.setRows(1);
+		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:Chaine");
+		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+		SolrDocumentList listeRecherche = reponseRecherche.getResults();
+		if(listeRecherche.size() > 0) {
+			doc = listeRecherche.get(0);
+			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
+			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
+		}
+		return classeParts;
+	}
+
 	protected ClassParts classePartsRequeteSite(String nomEnsembleDomaine) throws Exception {
 		ClasseParts classeParts = null;
 		SolrDocument doc = null;
@@ -463,6 +482,8 @@ public class IndexClass extends RegarderClasseBase {
 		String classCanonicalNamePageGen = classCanonicalName + "PageGen";
 		String classSimpleNamePage = indexStoreSolr(classDoc, "classSimpleNamePage", languageName, classSimpleName + "Page");
 		String classSimpleNamePageGen = indexStoreSolr(classDoc, "classSimpleNamePageGen", languageName, classSimpleName + "PageGen");
+		indexStoreSolr(classDoc, "appliChemin", appliChemin);
+		indexStoreSolr(classDoc, "appliNom", appliNom);
 		JavaClass classQdox = builder.getClassByName(classCanonicalName.toString());
 		JavaClass classSuperQdox = classQdox.getSuperJavaClass();
 		JavaClass classQdoxString = builder.getClassByName(String.class.getCanonicalName());
@@ -533,14 +554,15 @@ public class IndexClass extends RegarderClasseBase {
 		Date modifiedDate = Date.from(modified);
 		Boolean classeContientCouverture = false;
 
+		ClassParts classePartsChaine = classePartsChaine(domainPackageName);
 		Boolean classExtendsGen = StringUtils.endsWith(classSuperSimpleName, "Gen");
 		ClassParts classePartsRequeteSite = classePartsRequeteSite(domainPackageName);
 		if(!classExtendsGen && regexFound("^gen:\\s*(true)$", classComment)) {
 			classExtendsGen = true;
 		}
-		Boolean classeModele = storeSolr(classDoc, "classeModele", regexFound("^modele: \\s*(true)$", classComment));
-		Boolean classeApi = storeSolr(classDoc, "classeApi", regexFound("^api: \\s*(true)$", classComment) || classeModele);
-		Boolean classePage = storeSolr(classDoc, "classePage", regexFound("^page: \\s*(true)$", classComment) || classeModele);
+		Boolean classeModele = indexStoreSolr(classDoc, "classeModele", regexFound("^modele: \\s*(true)$", classComment));
+		Boolean classeApi = indexStoreSolr(classDoc, "classeApi", regexFound("^api: \\s*(true)$", classComment) || classeModele);
+		Boolean classePage = indexStoreSolr(classDoc, "classePage", regexFound("^page: \\s*(true)$", classComment) || classeModele);
 		Boolean classeInitLoin = !regexFound("^initLoin:\\s*(false)$", classComment);
 		if(classeInitLoin)
 			classeInitLoin = classeEtendBase || classeEstBase;
@@ -629,6 +651,7 @@ public class IndexClass extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.HTTPRequestValidationHandler", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ParameterTypeValidator", languageName));
 			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ValidationException", languageName));
+			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory", languageName));
 		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);
@@ -1278,10 +1301,9 @@ public class IndexClass extends RegarderClasseBase {
 
 						String entiteBlocCode = methodQdox.getCodeBlock();
 
-
-
-
-
+						////////////////////
+						// entiteTypeSolr //
+						////////////////////
 						String entiteTypeSolr = null;
 						String entiteSuffixeType = null;
 						if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameBoolean)) {
@@ -1341,17 +1363,92 @@ public class IndexClass extends RegarderClasseBase {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameInteger + ">";
 								entiteSuffixeType = "_ints";
 							}
-							else {
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameString, classePartsChaine.canonicalName)) {
+								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameString + ">";
 								entiteSuffixeType = "_strings";
 							}
 						}
-						else {
-							entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameString + ">";
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameString, classePartsChaine.canonicalName)) {
+							entiteTypeSolr = VAL_canonicalNameString;
 							entiteSuffixeType = "_string";
 ////								if(videDernier)
 ////									suffixeType += "_videDernier";
 						}
 						storeSolr(entiteDoc, "entiteTypeSolr", entiteTypeSolr);
+
+						////////////////////
+						// entiteTypeJson //
+						////////////////////
+						String entiteTypeJson = null;
+						String entiteFormatJson = null;
+						String entiteListeTypeJson = null;
+						if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameBoolean)) {
+							entiteTypeJson = "boolean";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate)) {
+							entiteTypeJson = "string";
+							entiteFormatJson = "date-time";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameLocalDate)) {
+							entiteTypeJson = "string";
+							entiteFormatJson = "date";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameLong)) {
+							entiteTypeJson = "number";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameBigDecimal)) {
+							entiteTypeJson = "number";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameDouble)) {
+							entiteTypeJson = "number";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameFloat)) {
+							entiteTypeJson = "number";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameInteger)) {
+							entiteTypeJson = "number";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
+							if(entiteNomCanoniqueGenerique.equals(VAL_canonicalNameBoolean)) {
+								entiteTypeJson = VAL_canonicalNameList + "<" + VAL_canonicalNameBoolean + ">";
+								entiteListeTypeJson = "boolean";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate)) {
+								entiteTypeJson = VAL_canonicalNameList + "<" + VAL_canonicalNameDate + ">";
+								entiteListeTypeJson = "string";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameLong)) {
+								entiteTypeJson = VAL_canonicalNameList + "<" + VAL_canonicalNameLong + ">";
+								entiteListeTypeJson = "number";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameBigDecimal)) {
+								entiteTypeJson = VAL_canonicalNameList + "<" + VAL_canonicalNameBigDecimal + ">";
+								entiteListeTypeJson = "number";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameDouble)) {
+								entiteTypeJson = VAL_canonicalNameList + "<" + VAL_canonicalNameDouble + ">";
+								entiteListeTypeJson = "number";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameFloat)) {
+								entiteTypeJson = VAL_canonicalNameList + "<" + VAL_canonicalNameFloat + ">";
+								entiteListeTypeJson = "number";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameInteger)) {
+								entiteTypeJson = VAL_canonicalNameList + "<" + VAL_canonicalNameInteger + ">";
+								entiteListeTypeJson = "number";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameString, classePartsChaine.canonicalName)) {
+								entiteTypeJson = "array";
+								entiteListeTypeJson = "string";
+							}
+							storeSolr(entiteDoc, "entiteListeTypeJson", entiteListeTypeJson);
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameString, classePartsChaine.canonicalName)) {
+							entiteTypeJson = "string";
+						}
+						storeSolr(entiteDoc, "entiteTypeJson", entiteTypeJson);
+						if(entiteFormatJson != null)
+							storeSolr(entiteDoc, "entiteFormatJson", entiteFormatJson);
 						
 						if(entiteCleUnique)
 							storeSolr(entiteDoc, "entiteVarCleUnique", entiteVar);

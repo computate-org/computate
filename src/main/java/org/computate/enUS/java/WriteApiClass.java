@@ -49,19 +49,23 @@ public class WriteApiClass extends WriteGenClass {
 		s(wApiChamps.toString());
 		l();
 		tl(1, "public void handleGet", classeNomSimple, "(SiteContexte siteContexte) {");
-		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur_();");
+//		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur_();");
+		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur_();");
+
+//		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
 		l();
-		tl(2, "HTTPRequestValidationHandler gestionnaireValidation = HTTPRequestValidationHandler.create();");
-		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"q\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", \"*:*\"), false, false);");
-		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fq\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
-		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"sort\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
-		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fl\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
-		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"start\", ParameterTypeValidator.createIntegerTypeValidator(null, 0D, null, 0), false, false);");
-		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"rows\", ParameterTypeValidator.createIntegerTypeValidator(null, 1D, null, 10), false, false);");
-		l();
-		tl(2, "siteRouteur.get(\"", classeApiUri, "\")");
-		tl(4, ".handler(gestionnaireValidation)");
-		tl(4, ".handler(rc -> {");
+//		tl(2, "HTTPRequestValidationHandler gestionnaireValidation = HTTPRequestValidationHandler.create();");
+//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"q\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", \"*:*\"), false, false);");
+//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fq\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
+//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"sort\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
+//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fl\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
+//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"start\", ParameterTypeValidator.createIntegerTypeValidator(null, 0D, null, 0), false, false);");
+//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"rows\", ParameterTypeValidator.createIntegerTypeValidator(null, 1D, null, 10), false, false);");
+//		l();
+//		tl(2, "siteRouteur.get(\"", classeApiUri, "\")");
+//		tl(4, ".handler(gestionnaireValidation)");
+//		tl(4, ".handler(rc -> {");
+		tl(2, "usineRouteur.addHandlerByOperationId(\"get", classeNomSimple, "\", rc -> {");
 		Integer tBase = 0;
 		if(classeRolesTrouve) {
 			tBase = 6;
@@ -111,7 +115,8 @@ public class WriteApiClass extends WriteGenClass {
 			tl(4, "rc.fail(e);");
 			tl(3, "}");
 		}
-		tl(2, "}).failureHandler((rc) -> {");
+		tl(2, "});");
+		tl(2, "usineRouteur.addFailureHandlerByOperationId(\"get", classeNomSimple, "\", rc -> {");
 		tl(3, "Throwable failure = rc.failure();");
 		tl(3, "if (failure instanceof ValidationException) {");
 		tl(4, "String validationErrorMessage = failure.getMessage();");
@@ -292,9 +297,11 @@ public class WriteApiClass extends WriteGenClass {
 		tl(1, "}");
 		l();
 		tl(1, "protected void handlePost", classeNomSimple, "(SiteContexte siteContexte) {");
-		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur_();");
+//		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur_();");
+		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur_();");
 
-		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
+//		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
+		tl(2, "usineRouteur.addHandlerByOperationId(\"post", classeNomSimple, "\", rc -> {");
 		tBase = 0;
 		if(classeRolesTrouve) {
 			tBase = 6;

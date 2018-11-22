@@ -829,7 +829,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		tl(1, "}");
 
 		l();
-		tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVarParam, ") throws Exception {");
+		tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVarParam, ") {");
 		tl(2, "this.", entiteVar, " = ", entiteVarParam, ";");
 		tl(1, "}");
 //
@@ -871,6 +871,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+			tl(3, "this.", entiteVar, " = new BigDecimal(o);");
+			tl(2, "return (", classeNomSimple, ")this;");
+			tl(1, "}");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Double o) throws Exception {");
+			tl(3, "this.", entiteVar, " = new BigDecimal(o);");
+			tl(2, "return (", classeNomSimple, ")this;");
+			tl(1, "}");
+			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Integer o) throws Exception {");
 			tl(3, "this.", entiteVar, " = new BigDecimal(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");

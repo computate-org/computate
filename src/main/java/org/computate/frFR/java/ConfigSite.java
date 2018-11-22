@@ -92,30 +92,30 @@ public class ConfigSite {
 	 * var.enUS: configPath
 	 * enUS: The absolute path to the app config file. 
 	 */
-	public String cheminConfig;
+	public String configChemin;
 	/**	
 	 * var.enUS: _configPath
-	 * r: cheminConfig
+	 * r: configChemin
 	 * r.enUS: configPath
 	 * r: appliChemin
 	 * r.enUS: appPath
 	 * r: appliNom
 	 * r.enUS: appName
 	 **/ 
-	protected void _cheminConfig() throws Exception {
-		cheminConfig = appliChemin + "/config/" + appliNom + ".config";
+	protected void _configChemin() throws Exception {
+		configChemin = appliChemin + "/config/" + appliNom + ".config";
 	}
 //
 //	/**
 //	 * var.enUS: configPath
 //	 * enUS: The absolute path to the config file. 
 //	 */
-//	public String cheminConfig;
+//	public String configChemin;
 //	/**	
 //	 * var.enUS: _configPath
-//	 * r.enUS: cheminConfig
+//	 * r.enUS: configChemin
 //	 * configPath
-//	 * r.enUS: cheminConfig
+//	 * r.enUS: configChemin
 //	 * configPath
 //	 * r.enUS: appliNom
 //	 * appName
@@ -124,8 +124,8 @@ public class ConfigSite {
 //	 * r.enUS: nomFichierConfig
 //	 * configFileName
 //	 **/ 
-//	protected void _cheminConfig() throws Exception {
-//		cheminConfig = config.getString(StringUtils.replace(appliNom, ".", "..") + ".cheminConfig", appliChemin + "/config/" + nomFichierConfig);
+//	protected void _configChemin() throws Exception {
+//		configChemin = config.getString(StringUtils.replace(appliNom, ".", "..") + ".configChemin", appliChemin + "/config/" + nomFichierConfig);
 //	}
 
 	/**
@@ -137,11 +137,11 @@ public class ConfigSite {
 	 * var.enUS: _configFile
 	 * r: fichierConfig
 	 * r.enUS: configFile
-	 * r: cheminConfig
+	 * r: configChemin
 	 * r.enUS: configPath
 	 **/ 
 	protected void _fichierConfig() throws Exception {
-		fichierConfig = new File(cheminConfig);
+		fichierConfig = new File(configChemin);
 	}
 
 	/**
@@ -549,9 +549,9 @@ public class ConfigSite {
 	 * r.enUS: domainName
 	 * r: nomFichierConfig
 	 * r.enUS: configFileName
-	 * r: cheminConfig
+	 * r: configChemin
 	 * r.enUS: configPath
-	 * r: cheminConfig
+	 * r: configChemin
 	 * r.enUS: configPath
 	 * r: appliNom
 	 * r.enUS: appName
@@ -595,7 +595,7 @@ public class ConfigSite {
 		_appliChemin();
 		_cheminSrcMainJava();
 		_cheminSrcGenJava();
-		_cheminConfig();
+		_configChemin();
 		_fichierConfig();
 		_configurations();
 		_config();

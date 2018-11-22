@@ -118,7 +118,7 @@ public class RegarderRepertoire {
 	/**
 	 * var.enUS: configPath
 	 */
-	protected String cheminConfig;
+	protected String configChemin;
 	/**
 	 * var.enUS: configFile
 	 */
@@ -167,7 +167,7 @@ public class RegarderRepertoire {
 	 * r.enUS: srcMainJavaPath
 	 * r: cheminSrcGenJava
 	 * r.enUS: srcGenJavaPath
-	 * r: cheminConfig
+	 * r: configChemin
 	 * r.enUS: configPath
 	 * r: fichierConfig
 	 * r.enUS: configFile
@@ -187,8 +187,8 @@ public class RegarderRepertoire {
 		regarderRepertoire.cheminSrcGenJava = appliChemin + "/src/gen/java";
 		regarderRepertoire.cheminsBin.add(appliChemin + "/src/main/resources");
 
-		regarderRepertoire.cheminConfig = appliChemin + "/config/" + appliNom + ".config";
-		regarderRepertoire.fichierConfig = new File(regarderRepertoire.cheminConfig);
+		regarderRepertoire.configChemin = appliChemin + "/config/" + appliNom + ".config";
+		regarderRepertoire.fichierConfig = new File(regarderRepertoire.configChemin);
 		Configurations configurations = new Configurations();
 		regarderRepertoire.configuration = configurations.ini(regarderRepertoire.fichierConfig);
 
@@ -380,7 +380,7 @@ public class RegarderRepertoire {
 	 * r.enUS: srcMainJavaPath
 	 * r: cheminSrcGenJava
 	 * r.enUS: srcGenJavaPath
-	 * r: cheminConfig
+	 * r: configChemin
 	 * r.enUS: configPath
 	 * r: fichierConfig
 	 * r.enUS: configFile
