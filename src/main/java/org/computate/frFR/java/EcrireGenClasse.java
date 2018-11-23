@@ -463,34 +463,34 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
 			l("public Boolean existePourClasse() throws Exception {");
-			tl(2, "String cleStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
-			tl(2, "Long cle = ", StringUtils.class.getCanonicalName(), ".isNumeric(cleStr) ? Long.parseLong(cleStr) : null;");
-			tl(2, "Boolean existe = existePourClasse(cle);");
+			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
+			tl(2, "Long pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
+			tl(2, "Boolean existe = existePourClasse(pk);");
 			tl(2, "return existe;");
 			tl(1, "}");
 			t(1);
 			if(!classeNomSimple.equals("Cluster"))
 				s("@Override ");
-			l("public Boolean existePourClasse(Long cle) throws Exception {");
+			l("public Boolean existePourClasse(Long pk) throws Exception {");
 			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite_.SiteContexte.sourceDonnees);");
 			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 			tl(2, "utilisateurId = requeteSite_.utilisateurId;");
-			tl(2, "this.cle = cle;");
+			tl(2, "this.pk = pk;");
 			tl(2, "String nomCanonique = getClass().getCanonicalName();");
 			tl(2, "Boolean existe = false;");
 			tl(2);
-			tl(2, "if(cle == null) {");
-			tl(3, "String sql = \"select clep from objet where objet.id_utilisateur=? and objet.nom_canonique=?\";");
+			tl(2, "if(pk == null) {");
+			tl(3, "String sql = \"select pk from objet where objet.id_utilisateur=? and objet.nom_canonique=?\";");
 			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.id_utilisateur=*/, requeteSite_.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
 			tl(3, "existe = resultats.size() > 0;");
 			tl(3, "if(existe) {");
-			tl(4, "cle = (Long)resultats.get(0)[0];");
-			tl(4, "cle(cle);");
+			tl(4, "pk = (Long)resultats.get(0)[0];");
+			tl(4, "setPk(pk);");
 			tl(3, "}");
 			tl(2, "}");
 			tl(2, "else {");
-			tl(3, "String sql = \"select count(*) from objet where objet.clep=? and objet.id_utilisateur=? and objet.nom_canonique=?\";");
-			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.clep=*/, cle /* and objet.id_utilisateur=*/, requeteSite_.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
+			tl(3, "String sql = \"select count(*) from objet where objet.pk=? and objet.id_utilisateur=? and objet.nom_canonique=?\";");
+			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.pk=*/, pk /* and objet.id_utilisateur=*/, requeteSite_.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
 			tl(3, "existe = ((Long)resultats.get(0)[0]) > 0L;");
 
 			tl(2, "}");
@@ -516,19 +516,19 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 
 			tl(2);
-			tl(2, "if(cle != null) {");
-			tl(3, "String sql = \"select cree, modifie from objet where objet.clep=?\";");
-			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select cree, modifie from objet where objet.clep=*/, cle);");
+			tl(2, "if(pk != null) {");
+			tl(3, "String sql = \"select cree, modifie from objet where objet.pk=?\";");
+			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select cree, modifie from objet where objet.pk=*/, pk);");
 			tl(3, "if(resultats.size() > 0) {");
 			tl(4, "cree((java.util.Date)resultats.get(0)[0]);");
 			tl(4, "modifie((java.util.Date)resultats.get(0)[1]);");
 			tl(3, "}");
 
-			t(3, "sql = \"select chemin, valeur from p where p.cle_objet=? ");
-			s("union select champ2, cle2::text from a where a.cle1=? ");
-			s("union select champ1, cle1::text from a where a.cle2=? ");
+			t(3, "sql = \"select chemin, valeur from p where p.pk_objet=? ");
+			s("union select champ2, pk2::text from a where a.pk1=? ");
+			s("union select champ1, pk1::text from a where a.pk2=? ");
 			l("\";");
-			tl(3, "resultats = coureur.query(sql, gestionnaireListe /*select chemin, valeur from p where p.cle_objet=*/, cle, cle, cle);");
+			tl(3, "resultats = coureur.query(sql, gestionnaireListe /*select chemin, valeur from p where p.pk_objet=*/, pk, pk, pk);");
 			tl(3, "for(Object[] objets : resultats) {");
 			tl(4, "String chemin = (String)objets[0];");
 			tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
@@ -554,34 +554,34 @@ public class EcrireGenClasse extends EcrireClasse {
 			l("public void sauvegarderPourClasse(RequeteSite requeteSite) throws Exception {");
 			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
 			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
-			tl(2, "String cleStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
-			tl(2, "cle = ", StringUtils.class.getCanonicalName(), ".isNumeric(cleStr) ? Long.parseLong(cleStr) : null;");
+			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
+			tl(2, "pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
 			tl(2, "utilisateurId = requeteSite.utilisateurId;");
 			tl(2, "String nomCanonique = getClass().getCanonicalName();");
 			tl(2, "modifie = ", LocalDateTime.class.getCanonicalName(), ".now();");
 			tl(2, Timestamp.class.getCanonicalName(), " horodatage = java.sql.Timestamp.valueOf(modifie);");
 
 			tl(2);
-			tl(2, "if(cle == null) {");
-			tl(3, "String sql = \"insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(?, ?, ?, ?) returning clep\";");
-			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.insert(sql, gestionnaireListe /*insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(*/, nomCanonique, requeteSite.utilisateurId, horodatage, horodatage /*) returning clep, cree*/);");
-			tl(3, "cle = (Long)resultats.get(0)[0];");
+			tl(2, "if(pk == null) {");
+			tl(3, "String sql = \"insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(?, ?, ?, ?) returning pk\";");
+			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.insert(sql, gestionnaireListe /*insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(*/, nomCanonique, requeteSite.utilisateurId, horodatage, horodatage /*) returning pk, cree*/);");
+			tl(3, "pk = (Long)resultats.get(0)[0];");
 			tl(3, "cree = modifie;");
 			tl(2, "}");
 			tl(2, "else {");
-			tl(3, "String sql = \"update objet set modifie=? where objet.clep=? and objet.id_utilisateur=? and objet.nom_canonique=? returning cree\";");
-			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*update objet set modifie=*/, horodatage /* where objet.clep=*/, cle /* and objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique /* returning cree*/);");
+			tl(3, "String sql = \"update objet set modifie=? where objet.pk=? and objet.id_utilisateur=? and objet.nom_canonique=? returning cree\";");
+			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*update objet set modifie=*/, horodatage /* where objet.pk=*/, pk /* and objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique /* returning cree*/);");
 			tl(3, "if(resultats.size() == 0)");
 			t(4, "throw new Exception(\"");
-			s("L'objet avec le cle \" + cle + \" et nom canonique \" + cle + \" pour utilisateur \" + requeteSite.utilisateurId + \" \" + requeteSite.utilisateurNom + \" n'existe pas dejà. ");
+			s("L'objet avec le pk \" + pk + \" et nom canonique \" + pk + \" pour utilisateur \" + requeteSite.utilisateurId + \" \" + requeteSite.utilisateurNom + \" n'existe pas dejà. ");
 			l("\");");
 			tl(3, "horodatage = (java.sql.Timestamp)resultats.get(0)[0];");
 			tl(3, "cree = ", LocalDateTime.class.getCanonicalName(), ".from(horodatage.toLocalDateTime());");
 			tl(2, "}");
 //						tl(0);
 //						tl(2, "{");
-//						tl(3, "String sqlSelectP = \"select chemin, valeur from p where p.cle_objet=?\";");
-//						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sqlSelectP, gestionnaireListe /*select chemin, valeur from p where p.cle_objet=*/, cle);");
+//						tl(3, "String sqlSelectP = \"select chemin, valeur from p where p.pk_objet=?\";");
+//						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sqlSelectP, gestionnaireListe /*select chemin, valeur from p where p.pk_objet=*/, pk);");
 //						tl(3, "for(Object[] objets : resultats) {");
 //						tl(4, "String chemin = (String)objets[0];");
 //						if(coursCrypte)
@@ -594,10 +594,10 @@ public class EcrireGenClasse extends EcrireClasse {
 //						tl(2, "}");
 			tl(0);
 //						tl(2, "{");
-			tl(2, "String sqlInsertP = \"insert into p(chemin, valeur, cle_objet) values(?, ?, ?) on conflict(chemin, cle_objet) do update set valeur=? where p.chemin=? and p.cle_objet=?\";");
-			tl(2, "String sqlInsertA = \"insert into a(champ1, cle1, champ2, cle2) values(?, ?, ?, ?) on conflict  do nothing\";");
-			tl(2, "String sqlDeleteP = \"delete from p where chemin=? and cle_objet=?\";");
-			tl(2, "String sqlDeleteA = \"delete from a where champ1=? and cle1=? and champ2=? and cle2=?\";");
+			tl(2, "String sqlInsertP = \"insert into p(chemin, valeur, pk_objet) values(?, ?, ?) on conflict(chemin, pk_objet) do update set valeur=? where p.chemin=? and p.pk_objet=?\";");
+			tl(2, "String sqlInsertA = \"insert into a(champ1, pk1, champ2, pk2) values(?, ?, ?, ?) on conflict  do nothing\";");
+			tl(2, "String sqlDeleteP = \"delete from p where chemin=? and pk_objet=?\";");
+			tl(2, "String sqlDeleteA = \"delete from a where champ1=? and pk1=? and champ2=? and pk2=?\";");
 			tl(2, "sauvegarder", classeNomSimple, "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
 //						tl(2, "}");
 			tl(1, "}");
@@ -1411,14 +1411,14 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(0);
 
 					tl(2, "if(\"true\".equals(requeteSite.requete.getParameter(\"", nomChamp, "Supprimer\"))) {");
-					tl(3, "coureur.update(sqlDeleteP /*delete from p where chemin=*/, \"", nomChamp, "\" /* and cle_objet=*/, cle);");
+					tl(3, "coureur.update(sqlDeleteP /*delete from p where chemin=*/, \"", nomChamp, "\" /* and pk_objet=*/, pk);");
 					tl(2, "} else if(definirPourClasse(\"", nomChamp, "\"", "requeteSite.requete.getParameterValues(\"", nomChamp, "\"))) {");
 					if(siteCrypte) {
 						tl(3, "String valCrypte = requeteSite.crypterStr(", nomChamp, ");");
-						tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, cle_objet) values(*/, \"", nomChamp, "\"", "valCrypte, cle /*) on conflict(chemin, cle_objet) do update set valeur=*/, valCrypte /* where p.chemin=*/, \"", nomChamp, "\" /* and p.cle_objet=*/, cle);");
+						tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, pk_objet) values(*/, \"", nomChamp, "\"", "valCrypte, pk /*) on conflict(chemin, pk_objet) do update set valeur=*/, valCrypte /* where p.chemin=*/, \"", nomChamp, "\" /* and p.pk_objet=*/, pk);");
 					}
 					else {
-						tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, cle_objet) values(*/, \"", nomChamp, "\"", nomChamp, ", ", "cle /*) on conflict(chemin, cle_objet) do update set valeur=*/, ", nomChamp, " /* where p.chemin=*/, \"", nomChamp, "\" /* and p.cle_objet=*/, cle);");
+						tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, pk_objet) values(*/, \"", nomChamp, "\"", nomChamp, ", ", "pk /*) on conflict(chemin, pk_objet) do update set valeur=*/, ", nomChamp, " /* where p.chemin=*/, \"", nomChamp, "\" /* and p.pk_objet=*/, pk);");
 					}
 					tl(3, "sauvegardes", classeNomSimple, ".add(\"", nomChamp, "\");");
 					tl(2, "}");
@@ -1435,14 +1435,14 @@ public class EcrireGenClasse extends EcrireClasse {
 //										varSupprimer = champ.contexteEnfant.nomVarMinuscule + (requeteSite ? "Cle" : "Key");
 //										valSupprimer = nomChamp + (entiteNomCanonique.equals(ArrayList.class.getCanonicalName()) ? ".get(0)" : "");
 //										val1 = varSupprimer;
-//										val2 = requeteSite ? "cle" : "key";
+//										val2 = requeteSite ? "pk" : "key";
 //									}
 //									else {
 //										var1 = chaineVarInverse;
 //										var2 = nomChamp;
 //										varSupprimer = champ.contexteEnfant.nomVarMinuscule + (requeteSite ? "Cle" : "Key");
 //										valSupprimer = nomChamp + (entiteNomCanonique.equals(ArrayList.class.getCanonicalName()) ? ".get(0)" : "");
-//										val1 = requeteSite ? "cle" : "key";
+//										val1 = requeteSite ? "pk" : "key";
 //										val2 = varSupprimer;
 //									}
 //	
@@ -1452,15 +1452,15 @@ public class EcrireGenClasse extends EcrireClasse {
 //									tl(4, "String[] valeursSuppression = requeteSite.requete.getParameterValues(\"", nomChamp, "Supprimer\");");
 //									tl(4, "Long ", varSupprimer, " = Long.parseLong(valeursCles[valeursCles.length - 1]);");
 //									tl(4, "if(valeursSuppression != null && \"true\".equals(valeursSuppression[valeursSuppression.length - 1])) {");
-//									tl(5, "coureur.update(sqlDeleteA /*delete from a where champ1=*/, \"", var1, "\" /* and cle1=*/, ", val1, " /* and champ2=*/, \"", var2, "\" /* and cle2=*/, ", val2, ");");
+//									tl(5, "coureur.update(sqlDeleteA /*delete from a where champ1=*/, \"", var1, "\" /* and pk1=*/, ", val1, " /* and champ2=*/, \"", var2, "\" /* and pk2=*/, ", val2, ");");
 //									tl(4, "} else if(definirPourClasse(\"", nomChamp, "\"", "valeursCles[valeursCles.length - 1])) {");
 //	//								tl(5, varSupprimer, " = ", valSupprimer, ";");
-//									tl(5, "coureur.insert(sqlInsertA, gestionnaireListe /*insert into a(champ1, cle1, champ2, cle2) values(*/, \"", var1, "\"", val1, ", \"", var2, "\"", val2, " /*) on conflict do nothing */);");
+//									tl(5, "coureur.insert(sqlInsertA, gestionnaireListe /*insert into a(champ1, pk1, champ2, pk2) values(*/, \"", var1, "\"", val1, ", \"", var2, "\"", val2, " /*) on conflict do nothing */);");
 //									tl(5, "sauvegardes", classeNomSimple, ".add(\"", nomChamp, "\");");
 //									tl(4, "}");
 //									tl(4, "if(", varSupprimer, " != null) {");
 //									tl(5, champ.contexteEnfant.classeNomSimple, " ", champ.contexteEnfant.nomVarMinuscule, " = new ", champ.contexteEnfant.classeNomSimple, "();");
-//									tl(5, champ.contexteEnfant.nomVarMinuscule, ".cle(", varSupprimer, ");");
+//									tl(5, champ.contexteEnfant.nomVarMinuscule, ".pk(", varSupprimer, ");");
 //									tl(5, champ.contexteEnfant.nomVarMinuscule, ".sauvegardesPourClasse(requeteSite);");
 //									tl(5, champ.contexteEnfant.nomVarMinuscule, ".initLoinPourClasse(requeteSite_);");
 //									tl(5, champ.contexteEnfant.nomVarMinuscule, ".indexerPourClasse(requeteSite);");
