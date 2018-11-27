@@ -64,6 +64,7 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 					o = new PrintWriter(classFileGen);
 					classSimpleName = (String)doc.get("classSimpleName_" + languageName + "_stored_string");
 					classSimpleNameGen = (String)doc.get("classSimpleNameGen_" + languageName + "_stored_string");
+					classCanonicalName = (String)doc.get("classCanonicalName_" + languageName + "_stored_string");
 					classSuperCanonicalName = (String)doc.get("classSuperCanonicalName_" + languageName + "_stored_string");
 					classSuperSimpleName = (String)doc.get("classSuperSimpleName_" + languageName + "_stored_string");
 					classSuperCanonicalName = (String)doc.get("classSuperCanonicalName_" + languageName + "_stored_string");
@@ -97,6 +98,7 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 					classeApi = BooleanUtils.isTrue((Boolean)doc.get("classeApi_stored_boolean"));
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
 					classeRolesTrouve = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouve_stored_boolean"));
+					classeRoles = (List<String>)doc.get("classeRoles_" + languageName + "_stored_strings");
 
 					auteurGenClasse = new PrintWriter(classFileGen);
 					if(classeApi)
@@ -111,7 +113,7 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 					genCodeIndexer(languageName);
 					genCodeObtenir(languageName);
 					genCodeAttribuer(languageName);
-					genCodeDefinir(languageName);
+					genCodePut(languageName);
 					genCodePeupler(languageName);
 					genCodeExiste(languageName);
 					genCodeSauvegardes(languageName);

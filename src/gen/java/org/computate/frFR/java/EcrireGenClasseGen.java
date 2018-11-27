@@ -95,32 +95,4 @@ public abstract class EcrireGenClasseGen<DEV> {
 				return null;
 		}
 	}
-
-	/////////////
-	// definir //
-	/////////////
-
-	public boolean definirPourClasse(String var, String...vals) throws Exception {
-		String[] vars = org.apache.commons.lang3.StringUtils.split(var, ".");
-		Object o = null;
-		String val = vals == null ? null : vals[vals.length - 1];
-		if(val != null) {
-			for(String v : vars) {
-				if(o == null)
-					o = definirEcrireGenClasse(v, val);
-				else if(o instanceof Cluster) {
-					Cluster cluster = (Cluster)o;
-					o = cluster.definirPourClasse(v, val);
-				}
-			}
-		}
-		return o != null;
-	}
-	public Object definirEcrireGenClasse(String var, String val) throws Exception {
-		EcrireGenClasse oEcrireGenClasse = (EcrireGenClasse)this;
-		switch(var) {
-			default:
-				return null;
-		}
-	}
 }

@@ -29,7 +29,7 @@ import org.apache.solr.common.SolrDocumentList;
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  * initLoin: false
  */   
-public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse> {     
+public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse> {    
 
 	/**
 	 * var.enUS: writeAllClasses
@@ -197,6 +197,7 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					o = new PrintWriter(classeFichierGen);
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
 					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
+					classeNomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
 					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
 					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stored_string");
 					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
@@ -230,6 +231,7 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					classeApi = BooleanUtils.isTrue((Boolean)doc.get("classeApi_stored_boolean"));
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
 					classeRolesTrouve = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouve_stored_boolean"));
+					classeRoles = (List<String>)doc.get("classeRoles_" + langueNom + "_stored_strings");
 
 					auteurGenClasse = new PrintWriter(classeFichierGen);
 					if(classeApi)
@@ -244,7 +246,7 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					genCodeIndexer(langueNom);
 					genCodeObtenir(langueNom);
 					genCodeAttribuer(langueNom);
-					genCodeDefinir(langueNom);
+					genCodePut(langueNom);
 					genCodePeupler(langueNom);
 					genCodeExiste(langueNom);
 					genCodeSauvegardes(langueNom);
