@@ -787,7 +787,10 @@ public class WriteGenClass extends WriteGenClassGen {
 		Boolean entiteIgnorer = (Boolean)doc.get("entiteIgnorer_stored_boolean");
 		Boolean entiteDeclarer = (Boolean)doc.get("entiteDeclarer_stored_boolean");
 		Boolean entiteRechercher = (Boolean)doc.get("entiteRechercher_stored_boolean");
-		Boolean entiteAttribuer = (Boolean)doc.get("entiteAttribuer_stored_boolean");
+		Boolean entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
+		String entiteAttribuerNomCanonique = (String)doc.get("entiteAttribuerNomCanonique_" + langueNom + "_stored_string");
+		String entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
+		String entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
 		Boolean entiteAjouter = (Boolean)doc.get("entiteAjouter_stored_boolean");
 		Boolean entiteSupprimer = (Boolean)doc.get("entiteSupprimer_stored_boolean");
 		Boolean entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");
@@ -1577,6 +1580,8 @@ public class WriteGenClass extends WriteGenClassGen {
 			if(entiteCrypte)
 				tl(1, "public static final String ENTITE_VAR_CRYPTE_", entiteVar, " = \"", entiteVarCrypte, "\";");
 		}
+		if(entiteAttribuer)
+			tl(1, "public static final String ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, " = \"", entiteAttribuerVar, "\";");
 
 		/////////////////
 		// codeApiGet //
@@ -1968,23 +1973,111 @@ public class WriteGenClass extends WriteGenClassGen {
 			if(BooleanUtils.isTrue(entiteAttribuer)) {
 				if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 	
-					tl(tBase + 6, "case \"add", entiteVarCapitalise, "\":");
-					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_addA);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), patchPk));");
+					if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
+						tl(tBase + 6, "case \"add", entiteVarCapitalise, "\":");
+						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_addA);");
+						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 9, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 9, ", patchPk");
+						tl(tBase + 9, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 9, ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 9, "));");
+
+						tl(tBase + 6, "case \"addAll", entiteVarCapitalise, "\":");
+						tl(tBase + 7, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+						tl(tBase + 7, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
+						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_addA);");
+						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 10, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 10, ", patchPk");
+						tl(tBase + 10, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 10, ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
+						tl(tBase + 10, "));");
+						tl(tBase + 7, "}");
 	
-					tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
-					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_clearA);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), patchPk));");
-					tl(tBase + 7, "for() {");
-					tl(tBase + 8, "patchSql.append(SiteContexte.SQL_setA);");
-					tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), patchPk));");
-					tl(tBase + 7, "}");
+						tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
+						tl(tBase + 7, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_clearA1);");
+						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 9, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 9, ", patchPk");
+						tl(tBase + 9, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 9, "));");
+
+						tl(tBase + 7, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
+						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_addA);");
+						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 10, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 10, ", patchPk");
+						tl(tBase + 10, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 10, ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
+						tl(tBase + 10, "));");
+						tl(tBase + 7, "}");
+					}
+					else {
+						tl(tBase + 6, "case \"add", entiteVarCapitalise, "\":");
+						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_addA);");
+						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 9, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 9, ", patchPk");
+						tl(tBase + 9, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 9, ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 9, "));");
+
+						tl(tBase + 6, "case \"addAll", entiteVarCapitalise, "\":");
+						tl(tBase + 7, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+						tl(tBase + 7, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
+						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_addA2);");
+						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 10, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 10, ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
+						tl(tBase + 10, ", ENTITE_VAR_", entiteVar);
+						tl(tBase + 10, ", patchPk");
+						tl(tBase + 10, "));");
+						tl(tBase + 7, "}");
+	
+						tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
+						tl(tBase + 7, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_clearA2);");
+						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 9, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 9, ", ENTITE_VAR_", entiteVar);
+						tl(tBase + 9, ", patchPk");
+						tl(tBase + 9, "));");
+
+						tl(tBase + 7, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
+						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_addA2);");
+						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 10, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 10, ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
+						tl(tBase + 10, ", ENTITE_VAR_", entiteVar);
+						tl(tBase + 10, ", patchPk");
+						tl(tBase + 10, "));");
+						tl(tBase + 7, "}");
+					}
 				}
 				else {
 	
 					tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
-					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_setA);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), patchPk));");
+					if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
+						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_setA1);");
+						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 9, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 9, ", patchPk");
+						tl(tBase + 9, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+					}
+					else {
+						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_setA2);");
+						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 9, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 9, ", ENTITE_VAR_", entiteVar);
+						tl(tBase + 9, ", patchPk");
+					}
+					tl(tBase + 9, "));");
 				}
 	
 				tl(tBase + 7, "break;");
@@ -1994,17 +2087,21 @@ public class WriteGenClass extends WriteGenClassGen {
 	
 					tl(tBase + 6, "case \"add", entiteVarCapitalise, "\":");
 					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_addP);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), patchPk));");
+					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
+					tl(tBase + 9, "ENTITE_VAR_", entiteVar);
+					tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+					tl(tBase + 9, ", patchPk");
+					tl(tBase + 9, "));");
 	
 					tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
 					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_setP);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), patchPk));");
+					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom), patchPk));");
 				}
 				else {
 	
 					tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
 					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_setP);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), patchPk));");
+					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom), patchPk));");
 				}
 	
 				tl(tBase + 7, "break;");

@@ -1229,27 +1229,53 @@ public class IndexClass extends RegarderClasseBase {
 						indexStoreSolr(entiteDoc, "entiteMultiligne", regexFound("^multiligne:\\s*(true)$", methodComment));
 						indexStoreSolr(entiteDoc, "entiteCles", regexFound("^cles:\\s*(true)$", methodComment));
 
-						Matcher entiteAttribuerRecherche = Pattern.compile("^attribuer:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
+						Matcher entiteAttribuerRecherche = Pattern.compile("^attribuer:\\s*([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
 						boolean entiteAttribuerTrouve = entiteAttribuerRecherche.find();
 						if(entiteAttribuerTrouve) {
 							String entiteAttribuerNomSimple = entiteAttribuerRecherche.group(1);
-							SolrQuery solrSearch = new SolrQuery();   
+							String entiteAttribuerVar = entiteAttribuerRecherche.group(2);
 
-							solrSearch.setQuery("*:*");
-							solrSearch.setRows(1);
-							solrSearch.addFilterQuery("classSimpleName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomSimple));
-							solrSearch.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
-							solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
-							QueryResponse searchResponse = solrClientComputate.query(solrSearch);
-							SolrDocumentList searchList = searchResponse.getResults();
-							if(searchList.size() > 0) {
-								SolrDocument doc = searchList.get(0);
-								String entiteAttribuerNomCanonique = (String)doc.get("classCanonicalName_" + languageName + "_stored_string");
+							SolrQuery solrSearchClasse = new SolrQuery();   
+							solrSearchClasse.setQuery("*:*");
+							solrSearchClasse.setRows(1);
+							solrSearchClasse.addFilterQuery("classSimpleName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomSimple));
+							solrSearchClasse.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+							solrSearchClasse.addFilterQuery("partIsClass_indexed_boolean:true");
+							QueryResponse searchResponseClasse = solrClientComputate.query(solrSearchClasse);
+							SolrDocumentList searchListClasse = searchResponseClasse.getResults();
 
-								entiteAttribuerNomSimple = (String)doc.get("classSimpleName_" + languageName + "_stored_string");
-								storeListSolr(classDoc, "entiteAttribuer", true);
-								storeListSolr(classDoc, "entiteAttribuerNomSimple", languageName, entiteAttribuerNomSimple);
-								storeListSolr(classDoc, "entiteAttribuerNomCanonique", languageName, entiteAttribuerNomCanonique);
+							if(searchListClasse.size() > 0) {
+								SolrDocument docClasse = searchListClasse.get(0);
+								String entiteAttribuerNomCanonique = (String)docClasse.get("classCanonicalName_" + languageName + "_stored_string");
+
+								SolrQuery solrSearchVar = new SolrQuery();   
+								solrSearchVar.setQuery("*:*");
+								solrSearchVar.setRows(1);
+								solrSearchVar.addFilterQuery("classCanonicalName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomCanonique));
+								solrSearchVar.addFilterQuery("entiteVar_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerVar));
+								solrSearchVar.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+								solrSearchVar.addFilterQuery("partEstEntite_indexed_boolean:true");
+								QueryResponse searchResponseVar = solrClientComputate.query(solrSearchVar);
+								SolrDocumentList searchListVar = searchResponseVar.getResults();
+
+								if(searchListVar.size() > 0) {
+									SolrDocument docEntite = searchListClasse.get(0);
+
+									indexStoreSolr(entiteDoc, "entiteAttribuer", true);
+									indexStoreSolr(entiteDoc, "entiteAttribuerNomSimple", languageName, entiteAttribuerNomSimple);
+									indexStoreSolr(entiteDoc, "entiteAttribuerNomCanonique", languageName, entiteAttribuerNomCanonique);
+									indexStoreSolr(entiteDoc, "entiteAttribuerVar", languageName, entiteAttribuerVar);
+
+									for(String languageName : otherLanguages) {  
+										String entiteAttribuerNomCanoniqueLangue = (String)docClasse.get("classCanonicalName_" + languageName + "_stored_string");
+										String entiteAttribuerNomSimpleLangue = (String)docClasse.get("classCanonicalName_" + languageName + "_stored_string");
+										String entiteAttribuerVarLangue = (String)docEntite.get("entiteVar_" + languageName + "_stored_string");
+
+										indexStoreSolr(entiteDoc, "entiteAttribuerNomSimple", languageName, entiteAttribuerNomSimpleLangue);
+										indexStoreSolr(entiteDoc, "entiteAttribuerNomCanonique", languageName, entiteAttribuerNomCanoniqueLangue);
+										indexStoreSolr(entiteDoc, "entiteAttribuerVar", languageName, entiteAttribuerVarLangue);
+									}
+								}
 							}
 						}
 

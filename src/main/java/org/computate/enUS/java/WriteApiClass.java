@@ -336,7 +336,7 @@ public class WriteApiClass extends WriteGenClass {
 		l();
 		tl(tBase + 2, "connexionSql.queryWithParams(");
 		tl(tBase + 4, "SiteContexte.SQL_creer");
-		tl(tBase + 4, ", new JsonArray(Arrays.asList(VAL_nomCanoniqueCalculInr, utilisateurId))");
+		tl(tBase + 4, ", new JsonArray(Arrays.asList(VAL_nomCanonique", classeNomSimple, ", utilisateurId))");
 		tl(tBase + 4, ", asyncCreer");
 		tl(tBase + 4, "-> {");
 		tl(tBase + 3, "if(asyncCreer.succeeded()) {");
@@ -445,7 +445,7 @@ public class WriteApiClass extends WriteGenClass {
 		l();
 		tl(tBase + 2, "connexionSql.queryWithParams(");
 		tl(tBase + 4, "SiteContexte.SQL_creer");
-		tl(tBase + 4, ", new JsonArray(Arrays.asList(VAL_nomCanoniqueCalculInr, utilisateurId))");
+		tl(tBase + 4, ", new JsonArray(Arrays.asList(VAL_nomCanonique", classeNomSimple, ", utilisateurId))");
 		tl(tBase + 4, ", asyncCreer");
 		tl(tBase + 4, "-> {");
 		tl(tBase + 3, "if(asyncCreer.succeeded()) {");
@@ -454,9 +454,9 @@ public class WriteApiClass extends WriteGenClass {
 		tl(tBase + 4, "Long patchPk = patchLigne.getLong(0);");
 		tl(tBase + 4, "StringBuilder patchSql = new StringBuilder();");
 		tl(tBase + 4, "patchSqlParams = new ArrayList<Object>();");
-		tl(tBase + 4, "Set<String> entiteVars = requeteJson.fieldNames();");
-		tl(tBase + 4, "for(String entiteVar : entiteVars) {");
-		tl(tBase + 5, "switch(entiteVar) {");
+		tl(tBase + 4, "Set<String> methodeNoms = requeteJson.fieldNames();");
+		tl(tBase + 4, "for(String methodeNom : methodeNoms) {");
+		tl(tBase + 5, "switch(methodeNom) {");
 		s(wApiGenererPatch.toString());
 		tl(tBase + 5, "}");
 		tl(tBase + 4, "}");

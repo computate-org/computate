@@ -90,8 +90,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 		String appliChemin = "/usr/local/src/computate-cardiac";
 //		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/requete/RequeteSite.java";
 //		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/config/ConfigSite.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/warfarin/InrEntry.java";
-		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/cluster/Cluster.java";
+		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
+//		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/cluster/Cluster.java";
 //		String appliNom = "computate-scolaire";
 //		String appliChemin = "/usr/local/src/computate-scolaire";
 //		String classeCheminAbsolu = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/client/org/ClientOrg.java";
