@@ -54,11 +54,11 @@ public class WatchClass extends WriteAllClasses {
 //		String appliChemin = "/usr/local/src/computate.org";
 //		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/config/ConfigSite.java";
 //		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/SiteContexte.java";
-		String appliNom = "computate-cardiac";
-		String appliChemin = "/usr/local/src/computate-cardiac";
+//		String appliNom = "computate-cardiac";
+//		String appliChemin = "/usr/local/src/computate-cardiac";
 //		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/requete/RequeteSite.java";
 //		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/config/ConfigSite.java";
-		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
+//		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
 //		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/cluster/Cluster.java";
 //		String appliNom = "computate-scolaire";
 //		String appliChemin = "/usr/local/src/computate-scolaire";
@@ -67,6 +67,9 @@ public class WatchClass extends WriteAllClasses {
 //		String appliNom = "vertx-art";
 //		String appliChemin = "/usr/local/src/vertx-art";
 //		String classeCheminAbsolu = "/usr/local/src/vertx-art/src/main/java/org/computate/frFR/vertx/art/moisson/MoissoneurOai.java";
+		String appliNom = "citi-architect";
+		String appliChemin = "/home/ctate/workspace-citi/" + appliNom;
+		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/RepoCommon.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;
