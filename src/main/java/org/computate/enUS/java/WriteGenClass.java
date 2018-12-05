@@ -327,6 +327,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			l();
 			tl(1, "public ", classeNomSimple, " initLoin", classeNomSimple, "() throws Exception {");
 			tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
+			tl(3, "dejaInitialise", classeNomSimple, " = true;");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
 				tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite_);");
 		}
@@ -805,12 +806,14 @@ public class WriteGenClass extends WriteGenClassGen {
 		List<String> entiteMethodesAvantParamVar = (List<String>)doc.get("entiteMethodesAvantParamVar_stored_strings");
 		List<String> entiteMethodesAvantParamNomSimple = (List<String>)doc.get("entiteMethodesAvantParamNomSimple_stored_strings");
 		List<Boolean> entiteMethodesAvantNomParam = (List<Boolean>)doc.get("entiteMethodesAvantNomParam_stored_booleans");
+		List<Boolean> entiteMethodesAvantEcrire = (List<Boolean>)doc.get("entiteMethodesAvantEcrire_stored_booleans");
 
 		List<String> entiteMethodesApresVisibilite = (List<String>)doc.get("entiteMethodesApresVisibilite_stored_strings");
 		List<String> entiteMethodesApresVar = (List<String>)doc.get("entiteMethodesApresVar_stored_strings");
 		List<String> entiteMethodesApresParamVar = (List<String>)doc.get("entiteMethodesApresParamVar_stored_strings");
 		List<String> entiteMethodesApresParamNomSimple = (List<String>)doc.get("entiteMethodesApresParamNomSimple_stored_strings");
 		List<Boolean> entiteMethodesApresNomParam = (List<Boolean>)doc.get("entiteMethodesApresNomParam_stored_booleans");
+		List<Boolean> entiteMethodesApresEcrire = (List<Boolean>)doc.get("entiteMethodesApresEcrire_stored_booleans");
 
 		o = auteurGenClasse;
 
@@ -919,6 +922,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		l();
 		tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVarParam, ") {");
 		tl(2, "this.", entiteVar, " = ", entiteVarParam, ";");
+		tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 		tl(1, "}");
 //
 //						l();
@@ -934,6 +938,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(3, "add", entiteVarCapitalise, "(l);");
 			tl(2, "}");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -943,6 +948,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
 			tl(3, "this.", entiteVar, " = Boolean.parseBoolean(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -952,6 +958,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Integer.parseInt(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -969,6 +976,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Integer o) throws Exception {");
 			tl(3, "this.", entiteVar, " = new BigDecimal(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -978,6 +986,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Float.parseFloat(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -987,6 +996,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Double.parseDouble(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -996,6 +1006,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Long.parseLong(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -1004,6 +1015,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, entiteVar, ".tout(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -1013,6 +1025,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -1022,6 +1035,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -1039,6 +1053,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) throws Exception {");
 			tl(2, "this.", entiteVar, " = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -1056,6 +1071,7 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) throws Exception {");
 			tl(2, "this.", entiteVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
 			tl(2, "return (", classeNomSimple, ")this;");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 		}
 
@@ -1192,34 +1208,39 @@ public class WriteGenClass extends WriteGenClassGen {
 		// Initialise //
 		if(entiteInitialise) {
 
-			if(entiteMethodesAvantVar != null) {
+			if(entiteMethodesAvantVar != null && entiteMethodesAvantVar.size() > 0) {
 				for(int j = 0; j < entiteMethodesAvantVar.size(); j++) {
 					String entiteMethodeAvantVisibilite = entiteMethodesAvantVisibilite.get(j);
 					String entiteMethodeAvantVar = entiteMethodesAvantVar.get(j);
 					String entiteMethodeAvantParamVar = entiteMethodesAvantParamVar.get(j);
 					String entiteMethodeAvantParamNomSimple = entiteMethodesAvantParamNomSimple.get(j);
 					Boolean entiteMethodeAvantNomParam = entiteMethodesAvantNomParam.get(j);
+					Boolean entiteMethodeAvantEcrire = entiteMethodesAvantEcrire.get(j);
 
-					t(1, entiteMethodeAvantVisibilite, " abstract void ", entiteMethodeAvantVar, "Avant(", entiteMethodeAvantParamNomSimple, " ", entiteMethodeAvantParamVar);
-					if(entiteMethodeAvantNomParam)
-						s(", String entiteVar");
-					l(") throws Exception;");
+					if(BooleanUtils.isTrue(entiteMethodeAvantEcrire)) {
+						t(1, entiteMethodeAvantVisibilite, " abstract void ", entiteMethodeAvantVar, "(", entiteMethodeAvantParamNomSimple, " ", entiteMethodeAvantParamVar);
+						if(entiteMethodeAvantNomParam)
+							s(", String entiteVar");
+						l(");");
+					}
 				}
 			}
 	
 			// Initialiser //
 			tl(1, "protected ", classeNomSimple, " ", entiteVar, "Init() throws Exception {");
 
-			if(!entiteCouverture && entiteMethodesAvantVar != null) {
+			if(entiteNomCanoniqueGenerique == null && entiteMethodesAvantVar != null && entiteMethodesAvantVar.size() > 0) {
+				tl(2, "if(", entiteVar, " != null) {");
 				for(int j = 0; j < entiteMethodesAvantVar.size(); j++) {
 					String entiteMethodeAvantVar = entiteMethodesAvantVar.get(j);
 					Boolean entiteMethodeAvantNomParam = entiteMethodesAvantNomParam.get(j);
 
-					t(2, entiteMethodeAvantVar, "(", entiteVar);
+					t(3, entiteMethodeAvantVar, "(", entiteVar);
 					if(entiteMethodeAvantNomParam)
 						s(", \"", entiteVar, "\"");
 					l(");");
 				}
+				tl(2, "}");
 			}
 
 			tl(2, "if(!", entiteVar, "Couverture.dejaInitialise) {");
@@ -1232,19 +1253,6 @@ public class WriteGenClass extends WriteGenClassGen {
 				tl(3, "_", entiteVar, "(", entiteVar, ");");
 			}
 			tl(2, "}");
-
-
-			if(entiteCouverture && entiteMethodesAvantVar != null) {
-				for(int j = 0; j < entiteMethodesAvantVar.size(); j++) {
-					String entiteMethodeAvantVar = entiteMethodesAvantVar.get(j);
-					Boolean entiteMethodeAvantNomParam = entiteMethodesAvantNomParam.get(j);
-
-					t(2, entiteMethodeAvantVar, "(", entiteVar);
-					if(entiteMethodeAvantNomParam)
-						s(", \"", entiteVar, "\"");
-					l(");");
-				}
-			}
 
 			// initLoin
 
@@ -1259,16 +1267,19 @@ public class WriteGenClass extends WriteGenClassGen {
 				}
 			}
 
-			if(entiteMethodesApresVar != null) {
+			if(entiteNomCanoniqueGenerique == null && entiteMethodesApresVar != null && entiteMethodesApresVar.size() > 0) {
+				tl(2, "if(", entiteVar, " != null) {");
 				for(int j = 0; j < entiteMethodesApresVar.size(); j++) {
+					String entiteMethodeApresVisibilite = entiteMethodesApresVisibilite.get(j);
 					String entiteMethodeApresVar = entiteMethodesApresVar.get(j);
 					Boolean entiteMethodeApresNomParam = entiteMethodesApresNomParam.get(j);
 
-					t(2, entiteMethodeApresVar, "(", entiteVar);
+					t(3, entiteMethodeApresVar, "(", entiteVar);
 					if(entiteMethodeApresNomParam)
 						s(", \"", entiteVar, "\"");
 					l(");");
 				}
+				tl(2, "}");
 			}
 
 			tl(2, entiteVar, "Couverture.dejaInitialise(true);");
@@ -1282,11 +1293,14 @@ public class WriteGenClass extends WriteGenClassGen {
 					String entiteMethodeApresParamVar = entiteMethodesApresParamVar.get(j);
 					String entiteMethodeApresParamNomSimple = entiteMethodesApresParamNomSimple.get(j);
 					Boolean entiteMethodeApresNomParam = entiteMethodesApresNomParam.get(j);
+					Boolean entiteMethodeApresEcrire = entiteMethodesAvantEcrire.get(j);
 
-					t(1, entiteMethodeApresVisibilite, " abstract void ", entiteMethodeApresVar, "Apres(", entiteMethodeApresParamNomSimple, " ", entiteMethodeApresParamVar);
-					if(entiteMethodeApresNomParam)
-						s(", String entiteVar");
-					l(") throws Exception;");
+					if(BooleanUtils.isTrue(entiteMethodeApresEcrire)) {
+						t(1, entiteMethodeApresVisibilite, " abstract void ", entiteMethodeApresVar, "(", entiteMethodeApresParamNomSimple, " ", entiteMethodeApresParamVar);
+						if(entiteMethodeApresNomParam)
+							s(", String entiteVar");
+						l(");");
+					}
 				}
 			}
 		}
@@ -2115,7 +2129,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		//////////////////
 		o = codeInitialiserLoin;
 		if(classeInitLoin) {
-			tl(3, "dejaInitialise", classeNomSimple, " = true;");
+//			tl(3, "dejaInitialise", classeNomSimple, " = true;");
 			tl(2, "}");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");

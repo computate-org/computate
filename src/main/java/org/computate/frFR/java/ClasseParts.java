@@ -14,7 +14,7 @@ import com.thoughtworks.qdox.model.JavaClass;
 
 /**
  * nomCanonique.enUS: org.computate.enUS.java.ClassParts
- */ 
+ */  
 public class ClasseParts {
 
 	/**
@@ -182,7 +182,15 @@ public class ClasseParts {
 	 * r.enUS: simpleNameGenericPart
 	 * r: classeNomCanonique
 	 * r.enUS: classCanonicalName
-	 */
+	 * r: nomEnsembleDomaine
+	 * r.enUS: domainPackageName
+	 * r: nomSimpleCompletPart
+	 * r.enUS: simpleNameCompletePart
+	 * r: etendGen
+	 * r.enUS: extendsGen
+	 * r: classeEtendGen
+	 * r.enUS: classExtendsGen
+	 */ 
 	public static ClasseParts initClasseParts(ConfigSite configSite, JavaClass classeQdox, String langueNom) throws Exception {
 		String nomCanonique = classeQdox.getCanonicalName();
 		String nomCanoniqueComplet = classeQdox.getGenericFullyQualifiedName();
@@ -281,6 +289,10 @@ public class ClasseParts {
 	 * r.enUS: simpleName
 	 * r: partsGenerique
 	 * r.enUS: genericParts
+	 * r: etendGen
+	 * r.enUS: extendsGen
+	 * r: classeEtendGen
+	 * r.enUS: classExtendsGen
 	 */
 	public static ClasseParts initClasseParts(ConfigSite configSite, String nomCanoniqueComplet, String langueNom) throws Exception {
 		ClasseParts classeParts = new ClasseParts();
@@ -359,6 +371,8 @@ public class ClasseParts {
 	 * r.enUS: simpleNameGeneric
 	 * r: nomSimple
 	 * r.enUS: simpleName
+	 * r: etendGen
+	 * r.enUS: extendsGen
 	 */
 	@Override public String toString() {
 		StringBuilder b = new StringBuilder();

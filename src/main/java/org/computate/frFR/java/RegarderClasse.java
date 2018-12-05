@@ -101,7 +101,9 @@ public class RegarderClasse extends EcrireToutesClasses {
 //		String classeCheminAbsolu = "/usr/local/src/vertx-art/src/main/java/org/computate/frFR/vertx/art/moisson/MoissoneurOai.java";
 		String appliNom = "citi-architect";
 		String appliChemin = "/home/ctate/workspace-citi/" + appliNom;
-		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/RepoCommon.java";
+//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/RepoCommon.java";
+//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/repo/TeamRepo.java";
+		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/TeamPromotions.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;

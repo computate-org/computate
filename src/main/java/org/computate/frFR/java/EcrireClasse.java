@@ -97,19 +97,19 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: classAbsolutePath
 	 * r: partNumero
 	 * r.enUS: partNumber
-	 * r: classeParametreTypeNoms
+	 * r: classeParamsTypeNom
 	 * r.enUS: classTypeParameterNames
-	 * r: classeParametreTypeNom
+	 * r: classeParamTypeNom
 	 * r.enUS: classTypeParameterName
-	 * r: methodeParametreTypeNoms
+	 * r: methodeParamsTypeNom
 	 * r.enUS: methodTypeParameterNames
-	 * r: methodeParametreTypeNom
+	 * r: methodeParamTypeNom
 	 * r.enUS: methodTypeParameterName
 	 * r: langueNom
 	 * r.enUS: languageName
-	 * r: classeSuperParametreTypeNoms
+	 * r: classeSuperParamsTypeNom
 	 * r.enUS: classSuperTypeParameterNames
-	 * r: classeParametreTypeNoms
+	 * r: classeParamTypesNom
 	 * r.enUS: classTypeParameterNames
 	 * r: classeImportations
 	 * r.enUS: classImports
@@ -173,7 +173,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: classSuperPartsLanguage
 	 * r: ecrireCommentaire
 	 * r.enUS: writeComment
-	 * r: classeSuperParametreTypeNom
+	 * r: classeSuperParamTypeNom
 	 * r.enUS: classSuperTypeParameterName
 	 * r: partEstChamp
 	 * r.enUS: partIsField
@@ -281,9 +281,9 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: methodParamSimpleNameComplete
 	 * r: methodeParamVar
 	 * r.enUS: methodeParamVar
-	 * r: methodeParamArgsVariableListe
+	 * r: methodeParamsArgsVariablesListe
 	 * r.enUS: methodParamVariableArgsList
-	 * r: methodeParamArgsVariable
+	 * r: methodeParamsArgsVariables
 	 * r.enUS: methodParamVariableArgs
 	 * r: methodeAnnotationBlocCode
 	 * r.enUS: methodAnnotationCodeBlock
@@ -340,8 +340,8 @@ public class EcrireClasse extends IndexerClasse {
 			String classeNomEnsemble = null;
 			String classeCommentaire = null;      
 			List<String> classeImportations = null;  
-			List<String> classeParametreTypeNoms = null;  
-			List<String> classeSuperParametreTypeNoms = null;  
+			List<String> classeParamsTypeNom = null;  
+			List<String> classeSuperParamsTypeNom = null;  
 			Boolean classeEtendGen = null;
 	
 			for(int i = 0; i < listeRecherche.size(); i++) { 
@@ -365,8 +365,8 @@ public class EcrireClasse extends IndexerClasse {
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stored_strings");
-					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
-					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
+					classeParamsTypeNom = (List<String>)doc.get("classeParamsTypeNom_stored_strings");
+					classeSuperParamsTypeNom = (List<String>)doc.get("classeSuperParamsTypeNom_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
 
 					auteurClasse = new PrintWriter(classeFichier);
@@ -383,13 +383,13 @@ public class EcrireClasse extends IndexerClasse {
 					ecrireCommentaire(classeCommentaire, 0); 
 					s("public class ", classeNomSimple);
 
-					if(classeParametreTypeNoms != null && classeParametreTypeNoms.size() > 0) {
+					if(classeParamsTypeNom != null && classeParamsTypeNom.size() > 0) {
 						s("<");
-						for(int j = 0; j < classeParametreTypeNoms.size(); j++) {
-							String classeParametreTypeNom = classeParametreTypeNoms.get(j);
+						for(int j = 0; j < classeParamsTypeNom.size(); j++) {
+							String classeParamTypeNom = classeParamsTypeNom.get(j);
 							if(j > 0)
 								s(", ");
-							s(classeParametreTypeNom);
+							s(classeParamTypeNom);
 						}
 						s(">");
 					}
@@ -406,13 +406,13 @@ public class EcrireClasse extends IndexerClasse {
 						if(StringUtils.isNotEmpty(classeNomSimpleSuperGenerique)) {
 							s("<", classeNomSimpleSuperGenerique, ">");
 						}
-						else if(classeSuperParametreTypeNoms != null && classeSuperParametreTypeNoms.size() > 0) {
+						else if(classeSuperParamsTypeNom != null && classeSuperParamsTypeNom.size() > 0) {
 							s("<");
-							for(int j = 0; j < classeSuperParametreTypeNoms.size(); j++) {
-								String classeSuperParametreTypeNom = classeSuperParametreTypeNoms.get(j);
+							for(int j = 0; j < classeSuperParamsTypeNom.size(); j++) {
+								String classeSuperParamTypeNom = classeSuperParamsTypeNom.get(j);
 								if(i > 0)
 									s(", ");
-								s(classeSuperParametreTypeNom);
+								s(classeSuperParamTypeNom);
 							}
 							s(">");
 						}
@@ -459,8 +459,8 @@ public class EcrireClasse extends IndexerClasse {
 						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
 						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stored_string");
 						String methodeCommentaire = (String)doc.get("methodeCommentaire_" + langueNom + "_stored_string");
-						List<String> methodeExceptionNomSimpleCompletListe = (List<String>)doc.get("methodeExceptionNomSimpleComplet_stored_strings");
-						List<String> methodeParametreTypeNoms = (List<String>)doc.get("methodeParametreTypeNoms_stored_strings");
+						List<String> methodeExceptionsNomSimpleComplet = (List<String>)doc.get("methodeExceptionsNomSimpleComplet_stored_strings");
+						List<String> methodeParamsTypeNom = (List<String>)doc.get("methodeParamsTypeNom_" + langueNom + "_stored_strings");
 						List<String> methodeAnnotationsNomSimpleCompletListe = (List<String>)doc.get("methodeAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings");
 						List<String> methodeAnnotationsBlocCodeListe = (List<String>)doc.get("methodeAnnotationsBlocCode_" + langueNom + "_stored_strings");
 
@@ -490,13 +490,13 @@ public class EcrireClasse extends IndexerClasse {
 							s("native ");
 
 
-						if(methodeParametreTypeNoms != null && methodeParametreTypeNoms.size() > 0) {
+						if(methodeParamsTypeNom != null && methodeParamsTypeNom.size() > 0) {
 							s("<");
-							for(int j = 0; j < methodeParametreTypeNoms.size(); j++) {
-								String methodeParametreTypeNom = methodeParametreTypeNoms.get(j);
+							for(int j = 0; j < methodeParamsTypeNom.size(); j++) {
+								String methodeParamTypeNom = methodeParamsTypeNom.get(j);
 								if(j > 0)
 									s(", ");
-								s(methodeParametreTypeNom);
+								s(methodeParamTypeNom);
 							}
 							s("> ");
 						}
@@ -508,19 +508,19 @@ public class EcrireClasse extends IndexerClasse {
 						s(" ");
 						s(methodeVar);
 						s("(");
-						List<String> methodeParamNomSimpleCompletListe = (List<String>)doc.get("methodeParamNomSimpleComplet_" + langueNom + "_stored_strings"); 
-						List<String> methodeParamVarListe = (List<String>)doc.get("methodeParamVar_" + langueNom + "_stored_strings");
-						List<Boolean> methodeParamArgsVariableListe = (List<Boolean>)doc.get("methodeParamArgsVariable_stored_booleans");
-						if(methodeParamNomSimpleCompletListe != null && methodeParamVarListe != null && methodeParamNomSimpleCompletListe.size() == methodeParamVarListe.size()) {
-							for(int j = 0; j < methodeParamVarListe.size(); j++) {
-								String methodeParamNomSimpleComplet = methodeParamNomSimpleCompletListe.get(j);
-								String methodeParamVar = methodeParamVarListe.get(j);
-								Boolean methodeParamArgsVariable = methodeParamArgsVariableListe.get(j);
+						List<String> methodeParamsNomSimpleComplet = (List<String>)doc.get("methodeParamsNomSimpleComplet_" + langueNom + "_stored_strings"); 
+						List<String> methodeParamsVar = (List<String>)doc.get("methodeParamsVar_" + langueNom + "_stored_strings");
+						List<Boolean> methodeParamsArgsVariables = (List<Boolean>)doc.get("methodeParamsArgsVariables_stored_booleans");
+						if(methodeParamsNomSimpleComplet != null && methodeParamsVar != null && methodeParamsNomSimpleComplet.size() == methodeParamsVar.size()) {
+							for(int j = 0; j < methodeParamsVar.size(); j++) {
+								String methodeParamNomSimpleComplet = methodeParamsNomSimpleComplet.get(j);
+								String methodeParamVar = methodeParamsVar.get(j);
+								Boolean methodeParamArgsVariables = methodeParamsArgsVariables.get(j);
 								if(j > 0)
 									s(", ");
 								s(methodeParamNomSimpleComplet);
 
-								if(methodeParamArgsVariable)
+								if(methodeParamArgsVariables)
 									s("...");
 								else
 									s(" ");
@@ -529,10 +529,10 @@ public class EcrireClasse extends IndexerClasse {
 							}
 						}    
 						s(")");
-						if(methodeExceptionNomSimpleCompletListe != null && methodeExceptionNomSimpleCompletListe.size() > 0) {
+						if(methodeExceptionsNomSimpleComplet != null && methodeExceptionsNomSimpleComplet.size() > 0) {
 							s(" throws ");
-							for(int j = 0; j < methodeExceptionNomSimpleCompletListe.size(); j++) {
-								String methodeExceptionNomSimpleComplet = methodeExceptionNomSimpleCompletListe.get(j);
+							for(int j = 0; j < methodeExceptionsNomSimpleComplet.size(); j++) {
+								String methodeExceptionNomSimpleComplet = methodeExceptionsNomSimpleComplet.get(j);
 								if(j > 0)
 									s(", ");
 								s(methodeExceptionNomSimpleComplet);

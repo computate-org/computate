@@ -18,7 +18,7 @@ import com.thoughtworks.qdox.model.JavaType;
 /**   
  * nomCanonique.enUS: org.computate.enUS.java.WatchClassBase
  */   
-public class RegarderClasseBase extends ConfigSite { 
+public class RegarderClasseBase extends ConfigSite {
 
 	protected String[] args;
 
@@ -86,13 +86,13 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 
 	/** 
-	 * var.enUS: classParts
+	 * var.enUS: classPartsGen
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 */
 	protected HashMap<String, ClasseParts> classePartsGen = new HashMap<String, ClasseParts>();
 	/**
-	 * var.enUS: _classParts
+	 * var.enUS: _classPartsGen
 	 */
 	protected void _classePartsGen() throws Exception {
 	}
@@ -358,6 +358,8 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r.enUS: methodName
 	 * r: classeQdox
 	 * r.enUS: classQdox
+	 * r: methode
+	 * r.enUS: method
 	 */
 	public JavaMethod obtenirMethode(JavaClass classeQdox, String nomMethode, JavaClass...tableauParams) {
 		ArrayList<JavaType> listeParams = new ArrayList<JavaType>();
@@ -381,6 +383,8 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r.enUS: superClassAndMeQdox
 	 * r: classesSuperQdox
 	 * r.enUS: superClassQdox
+	 * r: methode
+	 * r.enUS: method
 	 */
 	public JavaMethod obtenirMethode(List<JavaClass> classesSuperQdoxEtMoi, String nomMethode, JavaClass...tableauParams) {
 		ArrayList<JavaType> listeParams = new ArrayList<JavaType>();
@@ -406,6 +410,8 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r.enUS: methodName
 	 * r: classeQdox
 	 * r.enUS: classQdox
+	 * r: methode
+	 * r.enUS: method
 	 */
 	public JavaMethod obtenirMethodeSeul(JavaClass classeQdox, String nomMethode, JavaClass...tableauParams) {
 		ArrayList<JavaType> listeParams = new ArrayList<JavaType>();

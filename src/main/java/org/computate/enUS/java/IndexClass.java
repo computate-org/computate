@@ -34,45 +34,45 @@ import com.thoughtworks.qdox.model.JavaType;
 import com.thoughtworks.qdox.model.JavaTypeVariable;
 import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
 
-public class IndexClass extends RegarderClasseBase {
+public class IndexClass extends WatchClassBase {
 
-	public static final String VAL_nomCanoniqueString = String.class.getCanonicalName();
+	public static final String VAL_canonicalNameString = String.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueBoolean = Boolean.class.getCanonicalName();
+	public static final String VAL_canonicalNameBoolean = Boolean.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueDate = Date.class.getCanonicalName();
+	public static final String VAL_canonicalNameDate = Date.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueLong = Long.class.getCanonicalName();
+	public static final String VAL_canonicalNameLong = Long.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueDouble = Double.class.getCanonicalName();
+	public static final String VAL_canonicalNameDouble = Double.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueFloat = Float.class.getCanonicalName();
+	public static final String VAL_canonicalNameFloat = Float.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueBigDecimal = BigDecimal.class.getCanonicalName();
+	public static final String VAL_canonicalNameBigDecimal = BigDecimal.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueInteger = Integer.class.getCanonicalName();
+	public static final String VAL_canonicalNameInteger = Integer.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueTimestamp = Timestamp.class.getCanonicalName();
+	public static final String VAL_canonicalNameTimestamp = Timestamp.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueLocalDateTime = LocalDateTime.class.getCanonicalName();
+	public static final String VAL_canonicalNameLocalDateTime = LocalDateTime.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueLocalDate = LocalDate.class.getCanonicalName();
+	public static final String VAL_canonicalNameLocalDate = LocalDate.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueList = List.class.getCanonicalName();
+	public static final String VAL_canonicalNameList = List.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueArrayList = ArrayList.class.getCanonicalName();
+	public static final String VAL_canonicalNameArrayList = ArrayList.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueInstant = Instant.class.getCanonicalName();
+	public static final String VAL_canonicalNameInstant = Instant.class.getCanonicalName();
 
-	public static final String VAL_nomCanoniqueVertxJsonArray = "io.vertx.core.json.JsonArray";
+	public static final String VAL_canonicalNameVertxJsonArray = "io.vertx.core.json.JsonArray";
 
-	public static final String VAL_nomCanoniqueVertxJsonObject = "io.vertx.core.json.JsonObject";
+	public static final String VAL_canonicalNameVertxJsonObject = "io.vertx.core.json.JsonObject";
 
-	protected HashMap<String, ClassParts> classePartsGenApi = new HashMap<String, ClasseParts>();
+	protected HashMap<String, ClassParts> classPartsGenApi = new HashMap<String, ClassParts>();
 
-	protected HashMap<String, ClassParts> classePartsGenPage = new HashMap<String, ClasseParts>();
+	protected HashMap<String, ClassParts> classPartsGenPage = new HashMap<String, ClassParts>();
 
-	public void  populateQdoxSuperClassesInterfacesAndMe(JavaClass c, ArrayList<JavaClass> qdoxSuperClasses, ArrayList<JavaClass> qdoxSuperClassesAndMe, ArrayList<JavaClass> qdoxSuperClassesAndInterfaces, ArrayList<JavaClass> qdoxSuperClassesInterfacesAndMe, ArrayList<JavaClass> classesSuperQdoxInterfacesEtMoi) throws Exception { 
+	public void  populateQdoxSuperClassesInterfacesAndMe(JavaClass c, ArrayList<JavaClass> qdoxSuperClasses, ArrayList<JavaClass> qdoxSuperClassesAndMe, ArrayList<JavaClass> qdoxSuperClassesAndMeWithoutGen, ArrayList<JavaClass> qdoxSuperClassesAndInterfaces, ArrayList<JavaClass> qdoxSuperClassesInterfacesAndMe) throws Exception { 
 		if(c != null) {
 			JavaClass superClass = c.getSuperJavaClass();
 			List<JavaClass> interfacesImplemented = c.getInterfaces();
@@ -81,17 +81,17 @@ public class IndexClass extends RegarderClasseBase {
 				if(interfaceQdox != null && !interfaceQdox.getCanonicalName().equals("java.lang.Object") && !c.equals(interfaceQdox)) {
 					qdoxSuperClassesInterfacesAndMe.add(interfaceQdox);
 					qdoxSuperClassesAndInterfaces.add(superClass);
-					populateQdoxSuperClassesInterfacesAndMe(interfaceQdox, qdoxSuperClasses, qdoxSuperClassesAndMe, qdoxSuperClassesAndMeSansGen, qdoxSuperClassesAndInterfaces, qdoxSuperClassesInterfacesAndMe); // Doesn't seem to work for interfaces that extend other interfaces.
+					populateQdoxSuperClassesInterfacesAndMe(interfaceQdox, qdoxSuperClasses, qdoxSuperClassesAndMe, qdoxSuperClassesAndMeWithoutGen, qdoxSuperClassesAndInterfaces, qdoxSuperClassesInterfacesAndMe); // Doesn't seem to work for interfaces that extend other interfaces.
 				}
 			}
 			qdoxSuperClassesInterfacesAndMe.add(c);
 			qdoxSuperClassesAndMe.add(c);
 			if(!StringUtils.endsWith(c.getCanonicalName(), "Gen"))
-				qdoxSuperClassesAndMeSansGen.add(c);
+				qdoxSuperClassesAndMeWithoutGen.add(c);
 			if(superClass != null && !superClass.getCanonicalName().equals("java.lang.Object") && !c.equals(superClass)) {
 				qdoxSuperClassesAndInterfaces.add(superClass);
 				qdoxSuperClasses.add(superClass);
-				populateQdoxSuperClassesInterfacesAndMe(superClass, qdoxSuperClasses, qdoxSuperClassesAndMe, qdoxSuperClassesAndMeSansGen, qdoxSuperClassesAndInterfaces, qdoxSuperClassesInterfacesAndMe);
+				populateQdoxSuperClassesInterfacesAndMe(superClass, qdoxSuperClasses, qdoxSuperClassesAndMe, qdoxSuperClassesAndMeWithoutGen, qdoxSuperClassesAndInterfaces, qdoxSuperClassesInterfacesAndMe);
 			}
 		}
 	}
@@ -292,156 +292,55 @@ public class IndexClass extends RegarderClasseBase {
 		return val;
 	}
 
-	protected ClassParts classePartsCouverture(String nomEnsembleDomaine) throws Exception {
-		ClasseParts classeParts = null;
+	protected ClassParts classPartsForSimpleName(String domainPackageName, String simpleName) throws Exception {
+		ClassParts classParts = null;
 		SolrDocument doc = null;
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1);
-		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:Couverture");
-		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
-		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		SolrDocumentList listeRecherche = reponseRecherche.getResults();
-		if(listeRecherche.size() > 0) {
-			doc = listeRecherche.get(0);
-			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
-			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
+		SolrQuery solrSearch = new SolrQuery();   
+		solrSearch.setQuery("*:*");
+		solrSearch.setRows(1);
+		solrSearch.addFilterQuery("classSimpleName_" + languageName + "_indexed_string:" + simpleName);
+		solrSearch.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+		solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
+		QueryResponse searchResponse = solrClientComputate.query(solrSearch);
+		SolrDocumentList searchList = searchResponse.getResults();
+		if(searchList.size() > 0) {
+			doc = searchList.get(0);
+			String nomCanonique = (String)doc.get("classCanonicalName_" + languageName + "_stored_string");
+			classParts = ClassParts.initClassParts(this, nomCanonique, languageName);
 		}
-		return classeParts;
+		return classParts;
 	}
 
-	protected ClassParts classePartsChaine(String nomEnsembleDomaine) throws Exception {
-		ClasseParts classeParts = null;
-		SolrDocument doc = null;
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1);
-		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:Chaine");
-		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
-		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		SolrDocumentList listeRecherche = reponseRecherche.getResults();
-		if(listeRecherche.size() > 0) {
-			doc = listeRecherche.get(0);
-			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
-			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
-		}
-		return classeParts;
+	protected ClassParts classPartsWrap(String domainPackageName) throws Exception {
+		return classPartsForSimpleName(domainPackageName, "Wrap");
 	}
 
-	protected ClassParts classePartsRequeteSite(String nomEnsembleDomaine) throws Exception {
-		ClasseParts classeParts = null;
-		SolrDocument doc = null;
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1);
-		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:RequeteSite");
-		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
-		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		SolrDocumentList listeRecherche = reponseRecherche.getResults();
-		if(listeRecherche.size() > 0) {
-			doc = listeRecherche.get(0);
-			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
-			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
-		}
-		return classeParts;
+	protected ClassParts classPartsChain(String domainPackageName) throws Exception {
+		return classPartsForSimpleName(domainPackageName, "Chain");
 	}
 
-	protected ClassParts classePartsSiteContexte(String nomEnsembleDomaine) throws Exception {
-		ClasseParts classeParts = null;
-		SolrDocument doc = null;
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1);
-		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:SiteContexte");
-		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
-		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		SolrDocumentList listeRecherche = reponseRecherche.getResults();
-		if(listeRecherche.size() > 0) {
-			doc = listeRecherche.get(0);
-			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
-			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
-		}
-		return classeParts;
+	protected ClassParts classPartsSiteRequest(String domainPackageName) throws Exception {
+		return classPartsForSimpleName(domainPackageName, "SiteRequest");
 	}
 
-	protected ClassParts classePartsConfigSite(String nomEnsembleDomaine) throws Exception {
-		ClasseParts classeParts = null;
-		SolrDocument doc = null;
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1);
-		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:ConfigSite");
-		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
-		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		SolrDocumentList listeRecherche = reponseRecherche.getResults();
-		if(listeRecherche.size() > 0) {
-			doc = listeRecherche.get(0);
-			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
-			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
-		}
-		return classeParts;
+	protected ClassParts classPartsSiteContext(String domainPackageName) throws Exception {
+		return classPartsForSimpleName(domainPackageName, "SiteContext");
 	}
 
-	protected ClassParts classePartsUtilisateurSite(String nomEnsembleDomaine) throws Exception {
-		ClasseParts classeParts = null;
-		SolrDocument doc = null;
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1);
-		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:UtilisateurSite");
-		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
-		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		SolrDocumentList listeRecherche = reponseRecherche.getResults();
-		if(listeRecherche.size() > 0) {
-			doc = listeRecherche.get(0);
-			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
-			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
-		}
-		return classeParts;
+	protected ClassParts classPartsSiteConfig(String domainPackageName) throws Exception {
+		return classPartsForSimpleName(domainPackageName, "SiteConfig");
 	}
 
-	protected ClassParts classePartsCluster(String nomEnsembleDomaine) throws Exception {
-		ClasseParts classeParts = null;
-		SolrDocument doc = null;
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1);
-		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:Cluster");
-		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
-		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		SolrDocumentList listeRecherche = reponseRecherche.getResults();
-		if(listeRecherche.size() > 0) {
-			doc = listeRecherche.get(0);
-			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
-			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
-		}
-		return classeParts;
+	protected ClassParts classPartsSiteUser(String domainPackageName) throws Exception {
+		return classPartsForSimpleName(domainPackageName, "SiteUser");
 	}
 
-	protected ClassParts classePartsResultatRecherche(String nomEnsembleDomaine) throws Exception {
-		ClasseParts classeParts = null;
-		SolrDocument doc = null;
-		SolrQuery rechercheSolr = new SolrQuery();   
-		rechercheSolr.setQuery("*:*");
-		rechercheSolr.setRows(1);
-		rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:ResultatRecherche");
-		rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
-		rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		SolrDocumentList listeRecherche = reponseRecherche.getResults();
-		if(listeRecherche.size() > 0) {
-			doc = listeRecherche.get(0);
-			String nomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
-			classeParts = ClasseParts.initClasseParts(this, nomCanonique, langueNom);
-		}
-		return classeParts;
+	protected ClassParts classPartsCluster(String domainPackageName) throws Exception {
+		return classPartsForSimpleName(domainPackageName, "Cluster");
+	}
+
+	protected ClassParts classPartsSearchResult(String domainPackageName) throws Exception {
+		return classPartsForSimpleName(domainPackageName, "SearchResult");
 	}
 
 	public String storeRegexComments(String comment, String languageName, SolrInputDocument doc, String entityVar) throws Exception {
@@ -464,19 +363,19 @@ public class IndexClass extends RegarderClasseBase {
 		return comment;
 	}
 
-	public void  classePartsGenAjouter(ClassParts classeParts) {
-		if(classePartsGen != null && classeParts != null && !classePartsGen.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, "."))
-			classePartsGen.put(classeParts.nomCanonique, classeParts);
+	public void  classPartsGenAdd(ClassParts classParts) {
+		if(classPartsGen != null && classParts != null && !classPartsGen.containsKey(classParts.canonicalName) && StringUtils.contains(classParts.canonicalName, "."))
+			classPartsGen.put(classParts.canonicalName, classParts);
 	}
 
-	public void  classePartsGenApiAjouter(ClassParts classeParts) {
-		if(classePartsGenApi != null && classeParts != null && !classePartsGenApi.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, "."))
-			classePartsGenApi.put(classeParts.nomCanonique, classeParts);
+	public void  classPartsGenApiAdd(ClassParts classParts) {
+		if(classPartsGenApi != null && classParts != null && !classPartsGenApi.containsKey(classParts.canonicalName) && StringUtils.contains(classParts.canonicalName, "."))
+			classPartsGenApi.put(classParts.canonicalName, classParts);
 	}
 
-	public void  classePartsGenPageAjouter(ClassParts classeParts) {
-		if(classePartsGenPage != null && classeParts != null && !classePartsGenPage.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, "."))
-			classePartsGenPage.put(classeParts.nomCanonique, classeParts);
+	public void  classPartsGenPageAdd(ClassParts classParts) {
+		if(classPartsGenPage != null && classParts != null && !classPartsGenPage.containsKey(classParts.canonicalName) && StringUtils.contains(classParts.canonicalName, "."))
+			classPartsGenPage.put(classParts.canonicalName, classParts);
 	}
 
 	protected SolrInputDocument indexClass(String classAbsolutePath) throws Exception { 
@@ -492,8 +391,8 @@ public class IndexClass extends RegarderClasseBase {
 		String classCanonicalNamePageGen = classCanonicalName + "PageGen";
 		String classSimpleNamePage = indexStoreSolr(classDoc, "classSimpleNamePage", languageName, classSimpleName + "Page");
 		String classSimpleNamePageGen = indexStoreSolr(classDoc, "classSimpleNamePageGen", languageName, classSimpleName + "PageGen");
-		indexStoreSolr(classDoc, "appliChemin", appliChemin);
-		indexStoreSolr(classDoc, "appliNom", appliNom);
+		indexStoreSolr(classDoc, "appPath", appPath);
+		indexStoreSolr(classDoc, "appName", appName);
 		JavaClass classQdox = builder.getClassByName(classCanonicalName.toString());
 		JavaClass classSuperQdox = classQdox.getSuperJavaClass();
 		JavaClass classQdoxString = builder.getClassByName(String.class.getCanonicalName());
@@ -502,18 +401,20 @@ public class IndexClass extends RegarderClasseBase {
 		if(StringUtils.isEmpty(classSuperSimpleName))
 			classSuperSimpleName = classSuperCanonicalName;
 
+		List<String> classMethodsWritten = new ArrayList<String>();
+
 		List<JavaTypeVariable<JavaGenericDeclaration>> classTypeParameters = classQdox.getTypeParameters();
 		for(JavaTypeVariable<JavaGenericDeclaration> classTypeParameter : classTypeParameters) {
-			String classTypeParameterNom = classTypeParameter.getName();
-			storeListSolr(classDoc, "classTypeParameterNames", classTypeParameterNom);
+			String classTypeParameterName = classTypeParameter.getName();
+			storeListSolr(classDoc, "classTypeParameterNames", classTypeParameterName);
 		}
 
 		if(classSuperQdox instanceof DefaultJavaParameterizedType) {
 			DefaultJavaParameterizedType typeSuper = (DefaultJavaParameterizedType)classSuperQdox;
-			List<JavaType> classeSuperParametresType = typeSuper.getActualTypeArguments();
-			for(JavaType classeSuperParametreType : classeSuperParametresType) {
-				String classeSuperParametreTypeNom = classeSuperParametreType.getValue();
-				storeListSolr(classDoc, "classSuperTypeParameterNames", classeSuperParametreTypeNom);
+			List<JavaType> classSuperTypeParameters = typeSuper.getActualTypeArguments();
+			for(JavaType classSuperTypeParameter : classSuperTypeParameters) {
+				String classSuperTypeParameterName = classSuperTypeParameter.getValue();
+				storeListSolr(classDoc, "classSuperTypeParametersNom", classSuperTypeParameterName);
 			}
 		}
 //		classTypeParameters.get(0).getGenericFullyQualifiedName(); // returns <DEV>
@@ -523,15 +424,15 @@ public class IndexClass extends RegarderClasseBase {
 		String classSuperCompleteNameGeneric = StringUtils.substringBeforeLast(StringUtils.substringAfter(classSuperCompleteName, "<"), ">");
 		String classSuperCanonicalNameGeneric = null;
 		String classSuperSimpleNameGeneric = null;
-		JavaClass classeSuperGeneriqueQdox = null;
-		Boolean classeBaseEtendGen = false;
+		JavaClass superClassGenericQdox = null;
+		Boolean baseClassExtendsGen = false;
 		if(StringUtils.isNotEmpty(classSuperCompleteName)) {
 			indexStoreSolr(classDoc, "classSuperCompleteNameGeneric", languageName, classSuperCompleteNameGeneric);
 			if(classSuperCompleteName.contains("<")) {
 				classSuperCanonicalNameGeneric = StringUtils.substringAfter(StringUtils.substringBeforeLast(classSuperCompleteName, ">"), "<");
 				classSuperCanonicalNameGeneric = classSuperCanonicalNameGeneric.contains(",") ? StringUtils.substringBefore(classSuperCanonicalNameGeneric, ",") : classSuperCanonicalNameGeneric;
 				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classSuperCanonicalNameGeneric);
-				classeSuperGeneriqueQdox = builder.getClassByName(classSuperCanonicalNameGeneric);
+				superClassGenericQdox = builder.getClassByName(classSuperCanonicalNameGeneric);
 				classSuperCompleteNameGeneric = classSuperCanonicalNameGeneric;
 
 				if(classSuperCanonicalNameGeneric.contains("."))
@@ -541,15 +442,15 @@ public class IndexClass extends RegarderClasseBase {
 				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classSuperSimpleNameGeneric);
 
 				ClassParts classePartsBase = ClassParts.initClassParts(this, classSuperCanonicalNameGeneric, languageName);
-				classeBaseEtendGen = classePartsBase.etendGen;
-				if(classeBaseEtendGen == null)
-					classeBaseEtendGen = false;
+				baseClassExtendsGen = classePartsBase.extendsGen;
+				if(baseClassExtendsGen == null)
+					baseClassExtendsGen = false;
 			}
 		}
-		Boolean classeEstBase = storeSolr(classDoc, "classeEstBase", !classeBaseEtendGen || StringUtils.isEmpty(classSuperCompleteNameGeneric) || StringUtils.equals(classSuperCompleteNameGeneric, "java.lang.Object"));
-		Boolean classeEtendBase = storeSolr(classDoc, "classeEtendBase", !classeEstBase && classeBaseEtendGen && !StringUtils.equals(classSuperCompleteNameGeneric, "java.lang.Object"));
-		indexStoreSolr(classDoc, "classeBaseEtendGen", classeBaseEtendGen);
-		Boolean classeContientRequeteSite = indexStoreSolr(classDoc, "classeContientRequeteSite", classQdox.getMethodBySignature("getRequeteSite", new ArrayList<JavaType>(), true) != null);
+		Boolean classIsBase = storeSolr(classDoc, "classIsBase", !baseClassExtendsGen || StringUtils.isEmpty(classSuperCompleteNameGeneric) || StringUtils.equals(classSuperCompleteNameGeneric, "java.lang.Object"));
+		Boolean classExtendsBase = storeSolr(classDoc, "classExtendsBase", !classIsBase && baseClassExtendsGen && !StringUtils.equals(classSuperCompleteNameGeneric, "java.lang.Object"));
+		indexStoreSolr(classDoc, "baseClassExtendsGen", baseClassExtendsGen);
+		Boolean classContainsSiteRequest = indexStoreSolr(classDoc, "classContainsSiteRequest", classQdox.getMethodBySignature("getRequeteSite", new ArrayList<JavaType>(), true) != null);
 		
 		String classComment = storeRegexComments(classQdox.getComment(), languageName, classDoc, "classComment");
 		String classPackageName = StringUtils.substringBeforeLast(classCanonicalName, ".");
@@ -562,147 +463,147 @@ public class IndexClass extends RegarderClasseBase {
 		String classKey = classAbsolutePath;
 		Instant modified = Instant.now();
 		Date modifiedDate = Date.from(modified);
-		Boolean classeContientCouverture = false;
+		Boolean classContainsWrap = false;
 
-		ClassParts classePartsChaine = classePartsChaine(domainPackageName);
+		ClassParts classPartsChain = classPartsChain(domainPackageName);
 		Boolean classExtendsGen = StringUtils.endsWith(classSuperSimpleName, "Gen");
-		ClassParts classePartsRequeteSite = classePartsRequeteSite(domainPackageName);
+		ClassParts classPartsSiteRequest = classPartsSiteRequest(domainPackageName);
 		if(!classExtendsGen && regexFound("^gen:\\s*(true)$", classComment)) {
 			classExtendsGen = true;
 		}
-		Boolean classeModele = indexStoreSolr(classDoc, "classeModele", regexFound("^modele: \\s*(true)$", classComment));
-		Boolean classeApi = indexStoreSolr(classDoc, "classeApi", regexFound("^api: \\s*(true)$", classComment) || classeModele);
-		Boolean classePage = indexStoreSolr(classDoc, "classePage", regexFound("^page: \\s*(true)$", classComment) || classeModele);
-		Boolean classeInitLoin = !regexFound("^initLoin:\\s*(false)$", classComment);
-		if(classeInitLoin)
-			classeInitLoin = classeEtendBase || classeEstBase;
-		classeInitLoin = storeSolr(classDoc, "classeInitLoin", classeInitLoin);
-		if(classeInitLoin)
-			classePartsGenAjouter(classePartsRequeteSite);
+		Boolean classModel = indexStoreSolr(classDoc, "classModel", regexFound("^modele: \\s*(true)$", classComment));
+		Boolean classeApi = indexStoreSolr(classDoc, "classeApi", regexFound("^api: \\s*(true)$", classComment) || classModel);
+		Boolean classePage = indexStoreSolr(classDoc, "classePage", regexFound("^page: \\s*(true)$", classComment) || classModel);
+		Boolean classInitDeep = !regexFound("^initLoin:\\s*(false)$", classComment);
+		if(classInitDeep)
+			classInitDeep = classExtendsBase || classIsBase;
+		classInitDeep = storeSolr(classDoc, "classInitDeep", classInitDeep);
+		if(classInitDeep)
+			classPartsGenAdd(classPartsSiteRequest);
 		indexStoreSolr(classDoc, "classExtendsGen", classExtendsGen);
-		Boolean classeSauvegarde = indexStoreSolr(classDoc, "classeSauvegarde", regexFound("^sauvegarde:\\s*(true)$", classComment) || classeModele);
-		Boolean classeIndexe = indexStoreSolr(classDoc, "classeIndexe", regexFound("^indexe:\\s*(true)$", classComment) || classeSauvegarde || classeModele);
+		Boolean classeSauvegarde = indexStoreSolr(classDoc, "classeSauvegarde", regexFound("^saved:\\s*(true)$", classComment) || classModel);
+		Boolean classeIndexe = indexStoreSolr(classDoc, "classeIndexe", regexFound("^indexed:\\s*(true)$", classComment) || classeSauvegarde || classModel);
 
-		ClassParts classePartsSolrInputDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrInputDocument", languageName);
-		ClassParts classePartsSolrClient = ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrClient", languageName);
+		ClassParts classPartsSolrInputDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrInputDocument", languageName);
+		ClassParts classPartsSolrClient = ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrClient", languageName);
 		ClassParts classePartsTest = ClassParts.initClassParts(this, "org.junit.Test", languageName);
-		ClassParts classePartsSiteContexte = classePartsSiteContexte(domainPackageName);
-		ClassParts classePartsConfigSite = classePartsConfigSite(domainPackageName);
-		ClassParts classePartsUtilisateurSite = classePartsUtilisateurSite(domainPackageName);
-		ClassParts classePartsCluster = classePartsCluster(domainPackageName);
-		ClassParts classePartsResultatRecherche = classePartsResultatRecherche(domainPackageName);
+		ClassParts classPartsSiteContext = classPartsSiteContext(domainPackageName);
+		ClassParts classPartsSiteConfig = classPartsSiteConfig(domainPackageName);
+		ClassParts classPartsSiteUser = classPartsSiteUser(domainPackageName);
+		ClassParts classPartsCluster = classPartsCluster(domainPackageName);
+		ClassParts classPartsSearchResult = classPartsSearchResult(domainPackageName);
 
 		if(classePage) {
-			classePartsGenPageAjouter(classePartsConfigSite);
-			classePartsGenPageAjouter(classePartsRequeteSite);
-			classePartsGenPageAjouter(classePartsSiteContexte);
-			classePartsGenPageAjouter(classePartsUtilisateurSite);
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.io.IOException", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServlet", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerRequest", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerResponse", languageName));
+			classPartsGenPageAdd(classPartsSiteConfig);
+			classPartsGenPageAdd(classPartsSiteRequest);
+			classPartsGenPageAdd(classPartsSiteContext);
+			classPartsGenPageAdd(classPartsSiteUser);
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.io.IOException", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.servlet.http.HttpServlet", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerRequest", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerResponse", languageName));
 		}
 
 		if(classeApi) {
-			classePartsGenApiAjouter(classePartsConfigSite);
-			classePartsGenApiAjouter(classePartsRequeteSite);
-			classePartsGenApiAjouter(classePartsSiteContexte);
-			classePartsGenApiAjouter(classePartsUtilisateurSite);
-			classePartsGenApiAjouter(classePartsResultatRecherche);
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.io.IOException", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServlet", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServerRequest", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.http.HttpServerResponse", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.Collections", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.Map", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.servlet.ServletException", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.concurrent.TimeUnit", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.stream.Collectors", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.json.Json", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.json.JsonArray", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.json.JsonObject", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.json.JsonReader", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrQuery", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrQuery.ORDER", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.response.QueryResponse", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.util.ClientUtils", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.apache.commons.lang3.StringUtils", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.keycloak.KeycloakPrincipal", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.keycloak.KeycloakSecurityContext", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.keycloak.representations.AccessToken", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.keycloak.representations.AccessToken.Access", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.security.Principal", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.mail.Message", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.mail.Session", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.mail.Transport", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.mail.internet.InternetAddress", languageName));
-//			classePartsGenApiAjouter(ClassParts.initClassParts(this, "javax.mail.internet.MimeMessage", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.io.PrintWriter", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocumentList", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocument", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.Collection", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.math.BigDecimal", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.Date", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.List", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.ArrayList", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.Arrays", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.util.Set", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.Handler", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.RoutingContext", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.Router", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.Vertx", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveReadStream", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveWriteStream", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.MultiMap", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.auth.oauth2.OAuth2Auth", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.netty.handler.codec.http.HttpResponseStatus", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.logging.Logger", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.logging.LoggerFactory", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.HTTPRequestValidationHandler", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ParameterTypeValidator", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ValidationException", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLClient", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.time.LocalDateTime", languageName));
-			classePartsGenApiAjouter(ClassParts.initClassParts(this, "java.sql.Timestamp", languageName));
+			classPartsGenApiAdd(classPartsSiteConfig);
+			classPartsGenApiAdd(classPartsSiteRequest);
+			classPartsGenApiAdd(classPartsSiteContext);
+			classPartsGenApiAdd(classPartsSiteUser);
+			classPartsGenApiAdd(classPartsSearchResult);
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.io.IOException", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.servlet.http.HttpServlet", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.servlet.http.HttpServerRequest", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.servlet.http.HttpServerResponse", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Collections", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Map", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.servlet.ServletException", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.concurrent.TimeUnit", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.stream.Collectors", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.Json", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.json.JsonArray", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.json.JsonObject", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.json.JsonReader", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrQuery", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrQuery.ORDER", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.response.QueryResponse", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.util.ClientUtils", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.StringUtils", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.keycloak.KeycloakPrincipal", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.keycloak.KeycloakSecurityContext", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.keycloak.representations.AccessToken", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.keycloak.representations.AccessToken.Access", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.security.Principal", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.mail.Message", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.mail.Session", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.mail.Transport", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.mail.internet.InternetAddress", languageName));
+//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.mail.internet.MimeMessage", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.io.PrintWriter", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocumentList", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocument", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Collection", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.math.BigDecimal", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Date", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.List", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.ArrayList", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Arrays", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Set", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Handler", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.RoutingContext", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.Router", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Vertx", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveReadStream", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveWriteStream", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.MultiMap", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.auth.oauth2.OAuth2Auth", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.netty.handler.codec.http.HttpResponseStatus", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.Logger", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.LoggerFactory", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.HTTPRequestValidationHandler", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ParameterTypeValidator", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ValidationException", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLClient", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.sql.Timestamp", languageName));
 		}
 		if(classeIndexe) {
-			classePartsGenAjouter(classePartsSolrInputDocument);
-			classePartsGenAjouter(classePartsSolrClient);
-//			classePartsGenAjouter(classePartsTest);
-			classePartsGenAjouter(classePartsSiteContexte);
+			classPartsGenAdd(classPartsSolrInputDocument);
+			classPartsGenAdd(classPartsSolrClient);
+//			classPartsGenAdd(classePartsTest);
+			classPartsGenAdd(classPartsSiteContext);
 		}
-		if(classeEtendBase || classeEstBase) {
-			classePartsGenAjouter(classePartsCluster);
+		if(classExtendsBase || classIsBase) {
+			classPartsGenAdd(classPartsCluster);
 		}
 		if(classeSauvegarde) {
-			classePartsGenAjouter(classePartsSiteContexte);
-			classePartsGenAjouter(ClassParts.initClassParts(this, "io.vertx.core.logging.Logger", languageName));
-			classePartsGenAjouter(ClassParts.initClassParts(this, "io.vertx.core.logging.LoggerFactory", languageName));
-			classePartsGenAjouter(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLClient", languageName));
-			classePartsGenAjouter(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", languageName));
-			classePartsGenAjouter(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", languageName));
-			classePartsGenAjouter(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", languageName));
-			classePartsGenAjouter(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
-			classePartsGenAjouter(ClassParts.initClassParts(this, "java.util.Set", languageName));
+			classPartsGenAdd(classPartsSiteContext);
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.Logger", languageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.LoggerFactory", languageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLClient", languageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", languageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", languageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", languageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Set", languageName));
 		}
 
 		
 		ArrayList<JavaClass> qdoxSuperClasses = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> qdoxSuperClassesAndMe = new ArrayList<JavaClass>();
-		ArrayList<JavaClass> qdoxSuperClassesAndMeSansGen = new ArrayList<JavaClass>();
+		ArrayList<JavaClass> qdoxSuperClassesAndMeWithoutGen = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> qdoxSuperClassesAndInterfaces = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> qdoxSuperClassesInterfacesAndMe = new ArrayList<JavaClass>();
-		populateQdoxSuperClassesInterfacesAndMe(classQdox, qdoxSuperClasses, qdoxSuperClassesAndMe, qdoxSuperClassesAndMeSansGen, qdoxSuperClassesAndInterfaces, qdoxSuperClassesInterfacesAndMe);
+		populateQdoxSuperClassesInterfacesAndMe(classQdox, qdoxSuperClasses, qdoxSuperClassesAndMe, qdoxSuperClassesAndMeWithoutGen, qdoxSuperClassesAndInterfaces, qdoxSuperClassesInterfacesAndMe);
 
-		for(JavaClass c : qdoxSuperClassesAndMeSansGen) {
-			indexStoreListSolr(classDoc, "qdoxSuperClassesAndMeSansGen", c.getCanonicalName()); 
+		for(JavaClass c : qdoxSuperClassesAndMeWithoutGen) {
+			indexStoreListSolr(classDoc, "entitySuperClassesAndMeWithoutGen", c.getCanonicalName()); 
 
 		}
 
@@ -728,29 +629,29 @@ public class IndexClass extends RegarderClasseBase {
 
 		if(classComment != null) {
 
-			Matcher classeValsRecherche = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classComment);
-			boolean classeValsTrouve = classeValsRecherche.find();
-			while(classeValsTrouve) {
-				String classeValVar = classeValsRecherche.group(1);
-				String classeValLangue = classeValsRecherche.group(2);
-				String classeValValeur = classeValsRecherche.group(3);
-				storeListSolr(classDoc, "classeValsVar", classeValVar);
-				storeListSolr(classDoc, "classeValsLangue", classeValLangue);
-				storeListSolr(classDoc, "classeValsValeur", classeValValeur);
-				classeValsTrouve = classeValsRecherche.find();
+			Matcher classValsSearch = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classComment);
+			boolean classValsFound = classValsSearch.find();
+			while(classValsFound) {
+				String classValVar = classValsSearch.group(1);
+				String classValLanguage = classValsSearch.group(2);
+				String classValValue = classValsSearch.group(3);
+				storeListSolr(classDoc, "classValsVar", classValVar);
+				storeListSolr(classDoc, "classValsLanguage", classValLanguage);
+				storeListSolr(classDoc, "classValsValue", classValValue);
+				classValsFound = classValsSearch.find();
 			}
 
-			Matcher classeRolesRecherche = Pattern.compile("^role\\.(\\w+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
-			boolean classeRolesTrouve = classeRolesRecherche.find();
-			boolean classeRolesTrouveActuel = classeRolesTrouve;
-			while(classeRolesTrouveActuel) {
-				String classeRoleLangue = classeRolesRecherche.group(1);
-				String classeRoleValeur = classeRolesRecherche.group(2);
-				storeListSolr(classDoc, "classeRoles", classeRoleLangue, classeRoleValeur);
-				classeRolesTrouve = true;
-				classeRolesTrouveActuel = classeRolesRecherche.find();
+			Matcher classRolesSearch = Pattern.compile("^role\\.(\\w+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
+			boolean classRolesFound = classRolesSearch.find();
+			boolean classRolesFoundCurrent = classRolesFound;
+			while(classRolesFoundCurrent) {
+				String classRoleLanguage = classRolesSearch.group(1);
+				String classRoleValue = classRolesSearch.group(2);
+				storeListSolr(classDoc, "classRoles", classRoleLanguage, classRoleValue);
+				classRolesFound = true;
+				classRolesFoundCurrent = classRolesSearch.find();
 			}
-			indexStoreSolr(classDoc, "classeRolesTrouve", classeRolesTrouve); 
+			indexStoreSolr(classDoc, "classRolesFound", classRolesFound); 
 		}
 
 		SolrDocument classSuperCanonicalNameDoc = null;   
@@ -758,9 +659,9 @@ public class IndexClass extends RegarderClasseBase {
 			SolrQuery solrSearch = new SolrQuery();   
 			solrSearch.setQuery("*:*");
 			solrSearch.setRows(1);
-			solrSearch.addFilterQuery("classCanonicalName_" + languageActualName + "_indexed_string:" + ClientUtils.escapeQueryChars(classSuperCanonicalName));
-			solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
-			solrSearch.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+			solrSearch.addFilterQuery("classCanonicalName_" + languageActualName + "_indexedd_string:" + ClientUtils.escapeQueryChars(classSuperCanonicalName));
+			solrSearch.addFilterQuery("partIsClass_indexedd_boolean:true");
+			solrSearch.addFilterQuery("domainPackageName_indexedd_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 			QueryResponse searchResponse = solrClientComputate.query(solrSearch);
 			SolrDocumentList searchList = searchResponse.getResults();
 			if(searchList.size() > 0) { 
@@ -769,8 +670,8 @@ public class IndexClass extends RegarderClasseBase {
 		}  
 
 		if(classExtendsGen) {
-			ClassParts classePartsSuperGenerique = ClassParts.initClassParts(this, classSuperCompleteNameGeneric, languageName);
-			classePartsGenAjouter(classePartsSuperGenerique);
+			ClassParts classPartsSuperGeneric = ClassParts.initClassParts(this, classSuperCompleteNameGeneric, languageName);
+			classPartsGenAdd(classPartsSuperGeneric);
 		}
 
 		for(String languageName : otherLanguages) { 
@@ -779,35 +680,35 @@ public class IndexClass extends RegarderClasseBase {
 			String srcMainJavaPathLanguage = appPathLanguage + "/src/main/java";
 			String srcGenJavaPathLanguage = appPathLanguage + "/src/gen/java";
 			String classCanonicalNameLanguage = regex("^canonicalName\\." + languageName + ":\\s*(.*)", classComment, classCanonicalName);
-			String classePageUriLangue = indexStoreSolr(classDoc, "classePageUri", languageName, regex("^pageUri\\." + languageName + ":\\s*(.*)", classComment));
-			String classeApiUriLangue = indexStoreSolr(classDoc, "classeApiUri", languageName, regex("^apiUri\\." + languageName + ":\\s*(.*)", classComment));
+			String classPageUriLanguage = indexStoreSolr(classDoc, "classePageUri", languageName, regex("^pageUri\\." + languageName + ":\\s*(.*)", classComment));
+			String classApiUriLanguage = indexStoreSolr(classDoc, "classeApiUri", languageName, regex("^apiUri\\." + languageName + ":\\s*(.*)", classComment));
 			String classSimpleNameLanguage = StringUtils.substringAfterLast(classCanonicalNameLanguage, ".");
 			String classPackageNameLanguage = StringUtils.substringBeforeLast(classCanonicalNameLanguage, ".");
 			String classCanonicalNameGenLanguage = classCanonicalNameLanguage + "Gen";
-			String classCanonicalNameApiLangue = classCanonicalNameLanguage + "Api";
-			String classCanonicalNameApiGenLangue = classCanonicalNameLanguage + "ApiGen";
-			String classCanonicalNamePageLangue = classCanonicalNameLanguage + "Page";
-			String classCanonicalNamePageGenLangue = classCanonicalNameLanguage + "PageGen";
+			String classCanonicalNameApiLanguage = classCanonicalNameLanguage + "Api";
+			String classCanonicalNameApiGenLanguage = classCanonicalNameLanguage + "ApiGen";
+			String classCanonicalNamePageLanguage = classCanonicalNameLanguage + "Page";
+			String classCanonicalNamePageGenLanguage = classCanonicalNameLanguage + "PageGen";
 			String classSimpleNameGenLanguage = classSimpleNameLanguage + "Gen";
-			String classSimpleNameApiLangue = classSimpleNameLanguage + "Api";
-			String classSimpleNamePageLangue = classSimpleNameLanguage + "Page";
-			String classSimpleNameApiGenLangue = classSimpleNameLanguage + "ApiGen";
-			String classSimpleNamePageGenLangue = classSimpleNameLanguage + "PageGen";
+			String classSimpleNameApiLanguage = classSimpleNameLanguage + "Api";
+			String classSimpleNamePageLanguage = classSimpleNameLanguage + "Page";
+			String classSimpleNameApiGenLanguage = classSimpleNameLanguage + "ApiGen";
+			String classSimpleNamePageGenLanguage = classSimpleNameLanguage + "PageGen";
 			String classPathLanguage = indexStoreSolr(classDoc, "classPath", languageName, concat(srcMainJavaPathLanguage, "/", StringUtils.replace(classCanonicalNameLanguage, ".", "/"), ".java"));
 			String classDirPathLanguage = storeSolr(classDoc, "classDirPath", languageName, StringUtils.substringBeforeLast(classPathLanguage, "/"));
 			String classGenPathLanguage = indexStoreSolr(classDoc, "classGenPath", languageName, concat(srcGenJavaPathLanguage, "/", StringUtils.replace(classCanonicalNameGenLanguage, ".", "/"), ".java"));
-			String classPathApiGenLangue = indexStoreSolr(classDoc, "classPathApiGen", languageName, concat(srcGenJavaPathLanguage, "/", StringUtils.replace(classCanonicalNameApiGenLangue, ".", "/"), ".java"));
-			String classPathPageGenLangue = indexStoreSolr(classDoc, "classPathPageGen", languageName, concat(srcGenJavaPathLanguage, "/", StringUtils.replace(classCanonicalNamePageGenLangue, ".", "/"), ".java"));
+			String classPathApiGenLangue = indexStoreSolr(classDoc, "classPathApiGen", languageName, concat(srcGenJavaPathLanguage, "/", StringUtils.replace(classCanonicalNameApiGenLanguage, ".", "/"), ".java"));
+			String classPathPageGenLangue = indexStoreSolr(classDoc, "classPathPageGen", languageName, concat(srcGenJavaPathLanguage, "/", StringUtils.replace(classCanonicalNamePageGenLanguage, ".", "/"), ".java"));
 			String classGenDirPathLanguage = storeSolr(classDoc, "classGenDirPath", languageName, StringUtils.substringBeforeLast(classGenPathLanguage, "/"));
 
 			indexStoreSolr(classDoc, "classCanonicalName", languageName, classCanonicalNameLanguage); 
 			indexStoreSolr(classDoc, "classSimpleName", languageName, classSimpleNameLanguage); 
 			indexStoreSolr(classDoc, "classCanonicalNameGen", languageName, classCanonicalNameGenLanguage); 
 			indexStoreSolr(classDoc, "classSimpleNameGen", languageName, classSimpleNameGenLanguage); 
-			indexStoreSolr(classDoc, "classSimpleNameApi", languageName, classSimpleNameApiLangue); 
-			indexStoreSolr(classDoc, "classSimpleNamePage", languageName, classSimpleNamePageLangue); 
-			indexStoreSolr(classDoc, "classSimpleNameApiGen", languageName, classSimpleNameApiGenLangue); 
-			indexStoreSolr(classDoc, "classSimpleNamePageGen", languageName, classSimpleNamePageGenLangue); 
+			indexStoreSolr(classDoc, "classSimpleNameApi", languageName, classSimpleNameApiLanguage); 
+			indexStoreSolr(classDoc, "classSimpleNamePage", languageName, classSimpleNamePageLanguage); 
+			indexStoreSolr(classDoc, "classSimpleNameApiGen", languageName, classSimpleNameApiGenLanguage); 
+			indexStoreSolr(classDoc, "classSimpleNamePageGen", languageName, classSimpleNamePageGenLanguage); 
 			indexStoreSolr(classDoc, "classPackageName", languageName, classPackageNameLanguage); 
 
 			String classSuperCompleteNameLanguage;
@@ -825,11 +726,11 @@ public class IndexClass extends RegarderClasseBase {
 			indexStoreSolr(classDoc, "classCanonicalNameCompletSuper", languageName, classSuperPartsLanguage.canonicalNameComplete);
 			indexStoreSolr(classDoc, "classSimpleNameCompletSuper", languageName, classSuperPartsLanguage.simpleNameComplete);
 			if(StringUtils.isNotEmpty(classSuperCompleteNameGeneric)) {
-				ClassParts classePartsSuperGeneriqueLangue = ClassParts.initClassParts(this, classSuperCompleteNameGeneric, languageName);
-				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classePartsSuperGeneriqueLangue.canonicalNameComplete);
-				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classePartsSuperGeneriqueLangue.simpleNameComplete);
+				ClassParts classPartsSuperGenericLanguage = ClassParts.initClassParts(this, classSuperCompleteNameGeneric, languageName);
+				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classPartsSuperGenericLanguage.canonicalNameComplete);
+				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classPartsSuperGenericLanguage.simpleNameComplete);
 				if(classExtendsGen) {
-					classePartsGenAjouter(classePartsSuperGeneriqueLangue);
+					classPartsGenAdd(classPartsSuperGenericLanguage);
 				}
 			}
 
@@ -862,11 +763,11 @@ public class IndexClass extends RegarderClasseBase {
 		indexStoreSolr(classDoc, "partIsClass", true);
 		indexStoreSolr(classDoc, "partNumber", partNumber);
 		
-		for(String classeImportation : classQdox.getSource().getImports()) {
-			ClassParts classeImportClassParts = ClassParts.initClassParts(this, classeImportation, languageName);
-			indexStoreListSolr(classDoc, "classImports", languageName, classeImportClassParts.canonicalName);
+		for(String classImport : classQdox.getSource().getImports()) {
+			ClassParts classImportClassParts = ClassParts.initClassParts(this, classImport, languageName);
+			indexStoreListSolr(classDoc, "classImports", languageName, classImportClassParts.canonicalName);
 			for(String languageName : otherLanguages) {  
-				ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classeImportClassParts, languageName);
+				ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classImportClassParts, languageName);
 				indexStoreListSolr(classDoc, "classImports", languageName, classImportClassPartsLanguage.canonicalName);
 			}
 		}
@@ -952,19 +853,19 @@ public class IndexClass extends RegarderClasseBase {
 				List<JavaClass> constructorExceptionsQdox = constructorQdox.getExceptions();
 				for(Integer constructorParamNum = 1; constructorParamNum <= constructorParamsQdox.size(); constructorParamNum++) {
 					JavaParameter constructorParamQdox = constructorParamsQdox.get(constructorParamNum - 1);
-					String constructeurParamVar = constructorParamQdox.getName();
-					storeListSolr(constructorDoc, "constructeurParamVar", languageName, constructeurParamVar);
-					ClassParts constructeurParamClassParts = ClassParts.initClassParts(this, constructorParamQdox.getJavaClass(), languageName);
-					storeListSolr(constructorDoc, "constructorParamSimpleNameComplete", languageName, constructeurParamClassParts.simpleNameComplete);
-					storeListSolr(constructorDoc, "constructorParamVariableArgs", constructorParamQdox.isVarArgs());
+					String constructorParamVar = constructorParamQdox.getName();
+					storeListSolr(constructorDoc, "constructorParamsVar", languageName, constructorParamVar);
+					ClassParts constructorParamClassParts = ClassParts.initClassParts(this, constructorParamQdox.getJavaClass(), languageName);
+					storeListSolr(constructorDoc, "constructorParamsSimpleNameComplete", languageName, constructorParamClassParts.simpleNameComplete);
+					storeListSolr(constructorDoc, "constructorParamsVariableArgs", constructorParamQdox.isVarArgs());
 					for(String languageName : otherLanguages) { 
 						String constructorParamVarLanguage = regex("param" + constructorParamNum + "\\.var\\." + languageName + ": (.*)", constructorComment);
 						if(constructorParamVarLanguage == null)
-							constructorParamVarLanguage = constructeurParamVar;
-						ClassParts constructorParamClassPartsLanguage = ClassParts.initClassParts(this, constructeurParamClassParts, languageName);
+							constructorParamVarLanguage = constructorParamVar;
+						ClassParts constructorParamClassPartsLanguage = ClassParts.initClassParts(this, constructorParamClassParts, languageName);
 
-						storeListSolr(constructorDoc, "constructorParamSimpleNameComplete", languageName, constructorParamClassPartsLanguage.simpleNameComplete);
-						storeListSolr(constructorDoc, "constructeurParamVar", languageName, constructorParamVarLanguage);
+						storeListSolr(constructorDoc, "constructorParamsSimpleNameComplete", languageName, constructorParamClassPartsLanguage.simpleNameComplete);
+						storeListSolr(constructorDoc, "constructorParamsVar", languageName, constructorParamVarLanguage);
 					}  
 				}
 				for(JavaAnnotation constructorAnnotation : constructorAnnotations) {
@@ -1016,14 +917,14 @@ public class IndexClass extends RegarderClasseBase {
 
 				solrClientComputate.add(constructorDoc); 
 			}
-			else if(memberQdox instanceof JavaMethod) {
+			else if(memberQdox instanceof JavaMethod) {   
 				JavaMethod methodQdox = (JavaMethod)memberQdox;
 				String methodComment = methodQdox.getComment();
-				Boolean ignorer = "true".equals(regex("ignorer: (.*)", methodComment));
-				if(!ignorer) {
-					JavaClass methodeClasseQdoxRetour = methodQdox.getReturns();
-					String methodeNomCanoniqueRetourComplet = null;
-					String methodeNomCanoniqueRetour = null;
+				Boolean ignore = "true".equals(regex("ignore: (.*)", methodComment));
+				if(!ignore) {
+					JavaClass methodClassQdoxReturn = methodQdox.getReturns();
+					String methodCanonicalNameReturnComplete = null;
+					String methodCanonicalNameReturn = null;
 					JavaClass classReturnQdox = methodQdox.getReturns();
 					List<JavaParameter> methodParamsQdox = methodQdox.getParameters();
 		
@@ -1049,239 +950,285 @@ public class IndexClass extends RegarderClasseBase {
 							&& methodQdox.isProtected() && methodParamsQdox.size() == 1 && classReturnQdox.isVoid()
 							&& StringUtils.startsWith(methodQdox.getName(), "_")) {
 
-						// est Entite. 
-						SolrInputDocument entiteDoc = classDocClone.deepCopy();
-						String entiteVar = indexStoreSolr(entiteDoc, "entiteVar", languageName, StringUtils.substringAfter(methodQdox.getName(), "_"));
-						String entiteVarCapitalise = indexStoreSolr(entiteDoc, "entiteVarCapitalise", languageName, StringUtils.capitalize(entiteVar));
-						JavaClass entiteClasseQdox = methodParamsQdox.get(0).getJavaClass();
-						ClassParts entiteClassParts = ClassParts.initClassParts(this, entiteClasseQdox, languageName);
-						Boolean entiteCouverture = false;
+						// is Entity. 
+						SolrInputDocument entityDoc = classDocClone.deepCopy();
+						String entityVar = indexStoreSolr(entityDoc, "entityVar", languageName, StringUtils.substringAfter(methodQdox.getName(), "_"));
+						String entityVarCapitalized = indexStoreSolr(entityDoc, "entityVarCapitalized", languageName, StringUtils.capitalize(entityVar));
+						JavaClass entityClassQdox = methodParamsQdox.get(0).getJavaClass();
+						ClassParts entityClassParts = ClassParts.initClassParts(this, entityClassQdox, languageName);
+						Boolean entityWrap = false;
 
-						if(entiteClassParts.simpleName.equals("Couverture")) {
-							entiteClassParts = ClassParts.initClassParts(this, entiteClassParts.canonicalNameGeneric, entiteVar);
-							entiteCouverture = true;
-							classeContientCouverture = true;
+						if(entityClassParts.simpleName.equals("Couverture")) {
+							entityClassParts = ClassParts.initClassParts(this, entityClassParts.canonicalNameGeneric, entityVar);
+							entityWrap = true;
+							classContainsWrap = true;
 						}
 
-						classePartsGenAjouter(entiteClassParts);
-						List<String> entiteNomsCanoniquesSuperEtMoi = new ArrayList<String>();
-						if(StringUtils.isNotEmpty(entiteClassParts.canonicalNameGeneric)) {
-							ClassParts classePartsGenerique = ClassParts.initClassParts(this, entiteClassParts.canonicalNameGeneric, languageName);
-							classePartsGenAjouter(classePartsGenerique);
+						classPartsGenAdd(entityClassParts);
+						List<String> entityCanonicalNamesSuperAndMeWithoutGen = new ArrayList<String>();
+						if(StringUtils.isNotEmpty(entityClassParts.canonicalNameGeneric)) {
+							ClassParts classPartsGeneric = ClassParts.initClassParts(this, entityClassParts.canonicalNameGeneric, languageName);
+							classPartsGenAdd(classPartsGeneric);
 
-							if(classePartsGenerique.documentSolr != null) {
-								List<String> entiteClassesSuperQdoxEtMoi = (List<String>)classePartsGenerique.documentSolr.get("qdoxSuperClassesAndMeSansGen_stored_strings");
-								if(entiteClassesSuperQdoxEtMoi != null) {
-									for(String canonicalName : entiteClassesSuperQdoxEtMoi) {
-										entiteNomsCanoniquesSuperEtMoi.add(canonicalName);
-										indexStoreListSolr(entiteDoc, "entiteClassesSuperQdoxEtMoiSansGen", canonicalName); 
+							if(classPartsGeneric.solrDocument != null) {
+								List<String> entitySuperClassesAndMeWithoutGen = (List<String>)classPartsGeneric.solrDocument.get("entitySuperClassesAndMeWithoutGen_stored_strings");
+								if(entitySuperClassesAndMeWithoutGen != null) {
+									for(String canonicalName : entitySuperClassesAndMeWithoutGen) {
+										entityCanonicalNamesSuperAndMeWithoutGen.add(canonicalName);
+										indexStoreListSolr(entityDoc, "entiteClassesSuperQdoxEtMoiSansGen", canonicalName); 
 									}
 								}
 							}
 						}
-						else if(entiteClassParts != null && entiteClassParts.documentSolr != null) {
+						else if(entityClassParts != null && entityClassParts.solrDocument != null) {
 
-							List<String> entiteClassesSuperQdoxEtMoi = (List<String>)entiteClassParts.documentSolr.get("qdoxSuperClassesAndMeSansGen_stored_strings");
-							if(entiteClassesSuperQdoxEtMoi != null) {
-								for(String canonicalName : entiteClassesSuperQdoxEtMoi) {
-									entiteNomsCanoniquesSuperEtMoi.add(canonicalName);
-									indexStoreListSolr(entiteDoc, "entiteClassesSuperQdoxEtMoiSansGen", canonicalName); 
+							List<String> entitySuperClassesAndMeWithoutGen = (List<String>)entityClassParts.solrDocument.get("entitySuperClassesAndMeWithoutGen_stored_strings");
+							if(entitySuperClassesAndMeWithoutGen != null) {
+								for(String canonicalName : entitySuperClassesAndMeWithoutGen) {
+									entityCanonicalNamesSuperAndMeWithoutGen.add(canonicalName);
+									indexStoreListSolr(entityDoc, "entiteClassesSuperQdoxEtMoiSansGen", canonicalName); 
 								}
 							}
 						}
 
-						indexStoreSolr(entiteDoc, "entiteCouverture", entiteCouverture);
-						indexStoreSolr(entiteDoc, "entiteInitialise", true);
+						indexStoreSolr(entityDoc, "entityWrap", entityWrap);
+						indexStoreSolr(entityDoc, "entityInitialized", true);
 
-						String entiteNomCanonique = indexStoreSolr(entiteDoc, "entiteNomCanonique", languageName, entiteClassParts.canonicalName);
-						String entiteNomSimple = indexStoreSolr(entiteDoc, "entiteNomSimple", languageName, entiteClassParts.simpleName);
-						String entiteNomCompletGenerique = indexStoreSolr(entiteDoc, "entiteNomCompletGenerique", languageName, entiteClassParts.canonicalNameGeneric);
-						String entiteNomCanoniqueGenerique = indexStoreSolr(entiteDoc, "entiteNomCanoniqueGenerique", languageName, entiteClassParts.canonicalNameGeneric);
-						String entiteNomSimpleGenerique = indexStoreSolr(entiteDoc, "entiteNomSimpleGenerique", languageName, entiteClassParts.simpleNameGeneric);
-						String entiteNomCanoniqueActuel = entiteNomCanoniqueGenerique == null ? entiteNomCanonique : entiteNomCanoniqueGenerique;
-						String entiteNomSimpleActuel = entiteNomSimpleGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique;
-						indexStoreSolr(entiteDoc, "entiteNomCanoniqueComplet", languageName, entiteClassParts.canonicalNameComplete);
-						indexStoreSolr(entiteDoc, "entiteNomSimpleComplet", languageName, entiteClassParts.simpleNameComplete);
-						indexStoreSolr(entiteDoc, "entiteNomSimpleCompletGenerique", languageName, entiteClassParts.simpleNameGeneric);
+						String entityCanonicalName = indexStoreSolr(entityDoc, "entityCanonicalName", languageName, entityClassParts.canonicalName);
+						String entitySimpleName = indexStoreSolr(entityDoc, "entitySimpleName", languageName, entityClassParts.simpleName);
+						String entityCompleteNameGeneric = indexStoreSolr(entityDoc, "entityCompleteNameGeneric", languageName, entityClassParts.canonicalNameGeneric);
+						String entityCanonicalNameGeneric = indexStoreSolr(entityDoc, "entityCanonicalNameGeneric", languageName, entityClassParts.canonicalNameGeneric);
+						String entitySimpleNameGeneric = indexStoreSolr(entityDoc, "entitySimpleNameGeneric", languageName, entityClassParts.simpleNameGeneric);
+						String entityCanonicalNameActuel = entityCanonicalNameGeneric == null ? entityCanonicalName : entityCanonicalNameGeneric;
+						String entitySimpleNameActuel = entitySimpleNameGeneric == null ? entitySimpleName : entitySimpleNameGeneric;
+						indexStoreSolr(entityDoc, "entityCanonicalNameComplete", languageName, entityClassParts.canonicalNameComplete);
+						indexStoreSolr(entityDoc, "entitySimpleNameComplete", languageName, entityClassParts.simpleNameComplete);
+						indexStoreSolr(entityDoc, "entitySimpleNameCompleteGeneric", languageName, entityClassParts.simpleNameGeneric);
 
-						JavaMethod entiteSetter = classQdox.getMethodBySignature("set" + entiteVarCapitalise, new ArrayList<JavaType>() {{ add(classQdoxString); }}, true);
-						Boolean entiteDefinir = storeSolr(entiteDoc, "entiteDefinir", 
-								entiteNomCanonique.equals(VAL_canonicalNameString)
-								|| classePartsChaine != null && entiteNomCanonique.equals(classePartsChaine.canonicalName)
-								|| entiteNomCanonique.equals(VAL_canonicalNameBoolean)
-								|| entiteNomCanonique.equals(VAL_canonicalNameInteger)
-								|| entiteNomCanonique.equals(VAL_canonicalNameBigDecimal)
-								|| entiteNomCanonique.equals(VAL_canonicalNameDouble)
-								|| entiteNomCanonique.equals(VAL_canonicalNameFloat)
-								|| entiteNomCanonique.equals(VAL_canonicalNameLong)
-								|| entiteNomCanonique.equals(VAL_canonicalNameLocalDateTime)
-								|| entiteNomCanonique.equals(VAL_canonicalNameLocalDate)
-								|| entiteNomCanonique.equals(VAL_canonicalNameTimestamp)
-								|| entiteNomCanonique.equals(VAL_canonicalNameDate)
-								|| classePartsChaine != null && entiteNomCanonique.equals(VAL_canonicalNameList) && classePartsChaine.canonicalName.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameString.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameBoolean.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameInteger.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameBigDecimal.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameDouble.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameFloat.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameLong.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameLocalDateTime.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameLocalDate.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameTimestamp.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameList) && VAL_canonicalNameDate.equals(entiteNomCanoniqueGenerique)
-								|| classePartsChaine != null && entiteNomCanonique.equals(VAL_canonicalNameArrayList) && classePartsChaine.canonicalName.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameString.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameBoolean.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameInteger.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameBigDecimal.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameDouble.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameFloat.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLong.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLocalDateTime.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLocalDate.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameTimestamp.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameDate.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLong.equals(entiteNomCanoniqueGenerique)
-								|| entiteSetter != null
+						JavaMethod entitySetter = classQdox.getMethodBySignature("set" + entityVarCapitalized, new ArrayList<JavaType>() {{ add(classQdoxString); }}, true);
+						Boolean entityDefined = storeSolr(entityDoc, "entityDefined", 
+								entityCanonicalName.equals(VAL_canonicalNameString)
+								|| classPartsChain != null && entityCanonicalName.equals(classPartsChain.canonicalName)
+								|| entityCanonicalName.equals(VAL_canonicalNameBoolean)
+								|| entityCanonicalName.equals(VAL_canonicalNameInteger)
+								|| entityCanonicalName.equals(VAL_canonicalNameBigDecimal)
+								|| entityCanonicalName.equals(VAL_canonicalNameDouble)
+								|| entityCanonicalName.equals(VAL_canonicalNameFloat)
+								|| entityCanonicalName.equals(VAL_canonicalNameLong)
+								|| entityCanonicalName.equals(VAL_canonicalNameLocalDateTime)
+								|| entityCanonicalName.equals(VAL_canonicalNameLocalDate)
+								|| entityCanonicalName.equals(VAL_canonicalNameTimestamp)
+								|| entityCanonicalName.equals(VAL_canonicalNameDate)
+								|| classPartsChain != null && entityCanonicalName.equals(VAL_canonicalNameList) && classPartsChain.canonicalName.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameString.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameInteger.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameBigDecimal.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)
+								|| classPartsChain != null && entityCanonicalName.equals(VAL_canonicalNameArrayList) && classPartsChain.canonicalName.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameString.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameInteger.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameBigDecimal.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
+								|| entitySetter != null
 								);
 						
-						JavaClass entiteClasseQdoxBase = null;
-						JavaClass entiteClasseSuperQdox = entiteClasseQdox.getSuperJavaClass();
-						if(entiteClasseSuperQdox != null) {
-							String entiteNomCanoniqueSuperQdox = entiteClasseSuperQdox.getCanonicalName();
-							if(entiteNomCanoniqueSuperQdox.endsWith("Gen")) {
-								entiteClasseQdoxBase = entiteClasseSuperQdox.getSuperJavaClass();
+						JavaClass entityClassQdoxBase = null;
+						JavaClass entitySuperClassQdox = entityClassQdox.getSuperJavaClass();
+						if(entitySuperClassQdox != null) {
+							String entityCanonicalNameSuperQdox = entitySuperClassQdox.getCanonicalName();
+							if(entityCanonicalNameSuperQdox.endsWith("Gen")) {
+								entityClassQdoxBase = entitySuperClassQdox.getSuperJavaClass();
 							}
 						}
 						
-						String entiteNomCanoniqueBase = null;
-						if(entiteClasseQdoxBase != null) {
-							String s = entiteClasseQdoxBase.getCanonicalName();
+						String entityCanonicalNameBase = null;
+						if(entityClassQdoxBase != null) {
+							String s = entityClassQdoxBase.getCanonicalName();
 							if(s.contains("."))
-								entiteNomCanoniqueBase = s;
+								entityCanonicalNameBase = s;
 						}
-						indexStoreSolr(entiteDoc, "entiteNomCanoniqueBase", languageName, entiteNomCanoniqueBase);
+						indexStoreSolr(entityDoc, "entityCanonicalNameBase", languageName, entityCanonicalNameBase);
 						
-						String entiteNomSimpleBase = null;
-						if(StringUtils.isNotEmpty(entiteNomCanoniqueBase)) {
-							entiteNomSimpleBase = StringUtils.substringAfterLast(entiteNomCanoniqueBase, ".");
+						String entitySimpleNameBase = null;
+						if(StringUtils.isNotEmpty(entityCanonicalNameBase)) {
+							entitySimpleNameBase = StringUtils.substringAfterLast(entityCanonicalNameBase, ".");
 						}
-						indexStoreSolr(entiteDoc, "entiteNomSimpleBase", languageName, entiteNomSimpleBase);
+						indexStoreSolr(entityDoc, "entitySimpleNameBase", languageName, entitySimpleNameBase);
 						
-						String entiteVarParam;
-						if(entiteClassParts.canonicalName.equals(ArrayList.class.getCanonicalName()) || entiteClassParts.canonicalName.equals(List.class.getCanonicalName()))
-							entiteVarParam = "l";
+						String entityVarParam;
+						if(entityClassParts.canonicalName.equals(ArrayList.class.getCanonicalName()) || entityClassParts.canonicalName.equals(List.class.getCanonicalName()))
+							entityVarParam = "l";
 						else
-							entiteVarParam = "o";
-						indexStoreSolr(entiteDoc, "entiteVarParam", languageName, entiteVarParam);
+							entityVarParam = "o";
+						indexStoreSolr(entityDoc, "entityVarParam", languageName, entityVarParam);
 						
-						String entiteVarCouverture = indexStoreSolr(entiteDoc, "entiteVarCouverture", languageName, entiteVar + "Couverture");
+						String entityVarCouverture = indexStoreSolr(entityDoc, "entityVarCouverture", languageName, entityVar + "Couverture");
 
-						Boolean entiteInitLoin = indexStoreSolr(entiteDoc, "entiteInitLoin", !entiteVar.endsWith("_") && BooleanUtils.isTrue(entiteClassParts.etendGen));
+						Boolean entityInitDeep = indexStoreSolr(entityDoc, "entityInitDeep", !entityVar.endsWith("_") && BooleanUtils.isTrue(entityClassParts.extendsGen));
 						
-//						String entiteParamVar = StringUtils.equalsAny(entiteClasseQdox, "");
-//						indexStoreSolr(entiteDoc, "entiteParamVar", regexFound("^exact:\\s*(true)$", methodComment));
+//						String entityParamVar = StringUtils.equalsAny(entityClassQdox, "");
+//						indexStoreSolr(entityDoc, "entityParamVar", regexFound("^exact:\\s*(true)$", methodComment));
 //							if(canonicalName.equals(classe_.canonicalNameArrayList) || canonicalName.equals(classe_.canonicalNameList))
 //								o.tout("l");
 //							else if(o.estVide())
 //								o.tout("o");
 
-						List<JavaMethod> entiteMethodesAvant = new ArrayList<JavaMethod>();
-						entiteMethodesAvant.add(classQdox.getMethodBySignature(entiteVar + "Avant", new ArrayList<JavaType>() {{ add(entiteClasseQdox); }}, true));
-						for(JavaClass c : qdoxSuperClassesAndMe) {
-							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
-							entiteMethodesAvant.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
-							entiteMethodesAvant.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classQdoxString); }}, true));
-						}
-						for(JavaMethod methode : entiteMethodesAvant) {
-							if(methode != null) {
-								JavaParameter param = methode.getParameters().get(0);
-								storeListSolr(entiteDoc, "entiteMethodesAvantVisibilite", methode.isPublic() ? "public" : "protected");
-								storeListSolr(entiteDoc, "entiteMethodesAvantVar", methode.getName());
-								storeListSolr(entiteDoc, "entiteMethodesAvantParamVar", param.getName());
-								storeListSolr(entiteDoc, "entiteMethodesAvantParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
-								storeListSolr(entiteDoc, "entiteMethodesAvantNomParam", methode.getParameters().size() > 1);
+						if(entityCanonicalNamesSuperAndMeWithoutGen.size() > 0) {
+							String fqSuperClassesAndMe = "(" + qdoxSuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c.getCanonicalName())).collect(Collectors.joining(" OR ")) + ")";
+
+							SolrQuery solrSearchMethodBefore = new SolrQuery();   
+							solrSearchMethodBefore.setQuery("*:*");
+							solrSearchMethodBefore.setRows(10);
+							String fqMethodBefore = "(" + entityCanonicalNamesSuperAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars("avant" + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
+							solrSearchMethodBefore.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexedd_strings:" + fqSuperClassesAndMe);
+							solrSearchMethodBefore.addFilterQuery("domainPackageName_indexedd_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+							solrSearchMethodBefore.addFilterQuery("partIsMethod_indexedd_boolean:true");
+							solrSearchMethodBefore.addFilterQuery("methodVar_" + languageName + "_indexedd_string:" + fqMethodBefore);
+							QueryResponse searchResponseMethodBefore = solrClientComputate.query(solrSearchMethodBefore);
+							SolrDocumentList searchListMethodBefore = searchResponseMethodBefore.getResults();
+	
+							for(SolrDocument solrDocument : searchListMethodBefore) {
+								String methodVarCurrent = (String)solrDocument.get("methodVar_" + languageName + "_stored_string");
+								String methodClassCanonicalName = (String)solrDocument.get("classCanonicalName_frFR_stored_string");
+								List<String> methodParamsSimpleNameComplete = (List<String>)solrDocument.get("methodParamsSimpleNameComplete_" + languageName + "_stored_strings");
+								String methodParamSimpleNameComplete = methodParamsSimpleNameComplete.get(0);
+								List<String> methodParamsVar = (List<String>)solrDocument.get("methodParamsVar_" + languageName + "_stored_strings");
+								String methodeParamVar = methodParamsVar.get(0);
+								storeListSolr(entityDoc, "entityMethodsBeforeVisibility", BooleanUtils.isTrue((Boolean)solrDocument.get("methodIsPublic_stored_boolean")) ? "public" : "protected");
+								storeListSolr(entityDoc, "entityMethodsBeforeVar", methodVarCurrent);
+								storeListSolr(entityDoc, "entityMethodsBeforeParamVar", methodeParamVar);
+								storeListSolr(entityDoc, "entityMethodsBeforeSimpleName", methodParamSimpleNameComplete);
+								storeListSolr(entityDoc, "entityMethodsBeforeParamName", methodParamsVar.size() > 1);
+								Boolean entityMethodsBeforeWrite = (StringUtils.equals(methodClassCanonicalName, classCanonicalName)) && !classMethodsWritten.contains(methodVarCurrent);
+								storeListSolr(entityDoc, "entityMethodsBeforeWrite", entityMethodsBeforeWrite);
+								classMethodsWritten.add(methodVarCurrent);
+								List<String> methodParamCanonicalNames = (List<String>)solrDocument.get("methodParamCanonicalNames_" + languageName + "_stored_strings");
+								if(methodParamCanonicalNames != null) {
+									String methodParamCanonicalName = methodParamCanonicalNames.get(0);
+									classPartsGenAdd(ClassParts.initClassParts(this, methodParamCanonicalName, languageName));
+								}
+							}
+	
+	//						List<JavaMethod> entityMethodsBefore = new ArrayList<JavaMethod>();
+	//						entityMethodsBefore.add(classQdox.getMethodBySignature(entityVar + "Avant", new ArrayList<JavaType>() {{ add(entityClassQdox); }}, true));
+	//						for(JavaClass c : qdoxSuperClassesAndMe) {
+	//							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
+	//							entityMethodsBefore.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
+	//							entityMethodsBefore.add(classQdox.getMethodBySignature("avant" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classQdoxString); }}, true));
+	//						}
+	//						for(JavaMethod methode : entityMethodsBefore) {
+	//							if(methode != null) {
+	//								JavaParameter param = methode.getParameters().get(0);
+	//								storeListSolr(entityDoc, "entityMethodsBeforeVisibility", methode.isPublic() ? "public" : "protected");
+	//								storeListSolr(entityDoc, "entityMethodsBeforeVar", methode.getName());
+	//								storeListSolr(entityDoc, "entityMethodsBeforeParamVar", param.getName());
+	//								storeListSolr(entityDoc, "entityMethodsBeforeSimpleName", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
+	//								storeListSolr(entityDoc, "entityMethodsBeforeParamName", methode.getParameters().size() > 1);
+	//							}
+	//						}
+	
+							SolrQuery solrSearchMethodAfter = new SolrQuery();   
+							solrSearchMethodAfter.setQuery("*:*");
+							solrSearchMethodAfter.setRows(10);
+							String fqMethodAfter = "(" + entityCanonicalNamesSuperAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars("apres" + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
+							solrSearchMethodAfter.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexedd_strings:" + fqSuperClassesAndMe);
+							solrSearchMethodAfter.addFilterQuery("domainPackageName_indexedd_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+							solrSearchMethodAfter.addFilterQuery("partIsMethod_indexedd_boolean:true");
+							solrSearchMethodAfter.addFilterQuery("methodVar_" + languageName + "_indexedd_string:" + fqMethodAfter);
+							QueryResponse searchResponseMethodAfter = solrClientComputate.query(solrSearchMethodAfter);
+							SolrDocumentList searchListMethodAfter = searchResponseMethodAfter.getResults();
+	
+							for(SolrDocument solrDocument : searchListMethodAfter) {
+								String methodVarCurrent = (String)solrDocument.get("methodVar_" + languageName + "_stored_string");
+								String methodClassCanonicalName = (String)solrDocument.get("classCanonicalName_frFR_stored_string");
+								List<String> methodParamsSimpleNameComplete = (List<String>)solrDocument.get("methodParamsSimpleNameComplete_" + languageName + "_stored_strings");
+								String methodParamSimpleNameComplete = methodParamsSimpleNameComplete.get(0);
+								List<String> methodParamsVar = (List<String>)solrDocument.get("methodParamsVar_" + languageName + "_stored_strings");
+								String methodeParamVar = methodParamsVar.get(0);
+								storeListSolr(entityDoc, "entityMethodsAfterVisibility", BooleanUtils.isTrue((Boolean)solrDocument.get("methodIsPublic_stored_boolean")) ? "public" : "protected");
+								storeListSolr(entityDoc, "entityMethodsAfterVar", methodVarCurrent);
+								storeListSolr(entityDoc, "entityMethodsAfterParamVar", methodeParamVar);
+								storeListSolr(entityDoc, "entityMethodsAfterSimpleName", methodParamSimpleNameComplete);
+								storeListSolr(entityDoc, "entityMethodsAfterParamName", methodParamsVar.size() > 1);
+								Boolean entityMethodsBeforeWrite = (StringUtils.equals(methodClassCanonicalName, classCanonicalName)) && !classMethodsWritten.contains(methodVarCurrent);
+								storeListSolr(entityDoc, "entityMethodsBeforeWrite", entityMethodsBeforeWrite);
+								classMethodsWritten.add(methodVarCurrent);
+								List<String> methodParamCanonicalNames = (List<String>)solrDocument.get("methodParamCanonicalNames_" + languageName + "_stored_strings");
+								if(methodParamCanonicalNames != null) {
+									String methodParamCanonicalName = methodParamCanonicalNames.get(0);
+									classPartsGenAdd(ClassParts.initClassParts(this, methodParamCanonicalName, languageName));
+								}
 							}
 						}
 
-						List<JavaMethod> entiteMethodesApres = new ArrayList<JavaMethod>();
-
-						SolrQuery solrSearchMethodeApres = new SolrQuery();   
-						solrSearchMethodeApres.setQuery("*:*");
-						solrSearchMethodeApres.setRows(10);
-						String fqClassesSuperQdoxEtMoi = "(" + qdoxSuperClassesAndMeSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c.getCanonicalName())).collect(Collectors.joining(" OR ")) + ")";
-						String fqMethode = "(" + entiteNomsCanoniquesSuperEtMoi.stream().map(c -> ClientUtils.escapeQueryChars("apres" + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
-						solrSearchMethodeApres.addFilterQuery("qdoxSuperClassesAndMeSansGen_indexed_strings:" + fqClassesSuperQdoxEtMoi);
-						solrSearchMethodeApres.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
-						solrSearchMethodeApres.addFilterQuery("partIsMethod_indexed_boolean:true");
-						solrSearchMethodeApres.addFilterQuery("methodVar_" + languageName + "_indexed_string:" + fqMethode);
-						QueryResponse searchResponseMethodeApres = solrClientComputate.query(solrSearchMethodeApres);
-						SolrDocumentList searchListMethodeApres = searchResponseMethodeApres.getResults();
-
-						for(SolrDocument documentSolr : searchListMethodeApres) {
-							String methodVarActuel = (String)documentSolr.get("methodVar_stored_string");
-							List<String> methodParamSimpleNameCompletes = (List<String>)documentSolr.get("methodParamSimpleNameComplete_" + languageName + "_stored_strings");
-							String methodParamSimpleNameComplete = methodParamSimpleNameCompletes.get(0);
-							List<String> methodParamVars = (List<String>)documentSolr.get("methodParamVar_" + languageName + "_stored_strings");
-							String methodParamVar = methodParamVars.get(0);
-							storeListSolr(entiteDoc, "entiteMethodesApresVar", methodVarActuel);
-							storeListSolr(entiteDoc, "entiteMethodesApresParamVar", methodParamVar);
-							storeListSolr(entiteDoc, "entiteMethodesApresParamNomSimple", methodParamSimpleNameComplete);
-							storeListSolr(entiteDoc, "entiteMethodesApresNomParam", methodParamVars.size() > 1);
-						}
-//						entiteMethodesApres.add(classQdox.getMethodBySignature(entiteVar + "Apres", new ArrayList<JavaType>() {{ add(entiteClasseQdox); }}, true));
+//						List<JavaMethod> entityMethodsAfter = new ArrayList<JavaMethod>();
+//						entityMethodsAfter.add(classQdox.getMethodBySignature(entityVar + "Apres", new ArrayList<JavaType>() {{ add(entityClassQdox); }}, true));
 //						for(JavaClass c : qdoxSuperClassesAndMe) {
 //							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
-//							entiteMethodesApres.add(classQdox.getMethodBySignature("apres" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
-//							entiteMethodesApres.add(classQdox.getMethodBySignature("apres" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classQdoxString); }}, true));
+//							entityMethodsAfter.add(classQdox.getMethodBySignature("apres" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
+//							entityMethodsAfter.add(classQdox.getMethodBySignature("apres" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classQdoxString); }}, true));
 //						}
-//						for(JavaMethod methode : entiteMethodesApres) {
+//						for(JavaMethod methode : entityMethodsAfter) {
 //							if(methode != null) {
 //								JavaParameter param = methode.getParameters().get(0);
-//								storeListSolr(entiteDoc, "entiteMethodesApresVar", methode.getName());
-//								storeListSolr(entiteDoc, "entiteMethodesApresParamVar", param.getName());
-//								storeListSolr(entiteDoc, "entiteMethodesApresParamNomSimple", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
-//								storeListSolr(entiteDoc, "entiteMethodesApresNomParam", methode.getParameters().size() > 1);
+//								storeListSolr(entityDoc, "entityMethodsAfterVar", methode.getName());
+//								storeListSolr(entityDoc, "entityMethodsAfterParamVar", param.getName());
+//								storeListSolr(entityDoc, "entityMethodsAfterSimpleName", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
+//								storeListSolr(entityDoc, "entityMethodsAfterParamName", methode.getParameters().size() > 1);
 //							}
 //						}
 
 						if(methodComment != null) {
-							Matcher entiteOptionsRecherche = Pattern.compile("^option\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
-							boolean entiteOptionsTrouve = entiteOptionsRecherche.find();
-							while(entiteOptionsTrouve) {
-								String entiteOptionVar = entiteOptionsRecherche.group(1);
-								String entiteOptionLangue = entiteOptionsRecherche.group(2);
-								String entiteOptionValeur = entiteOptionsRecherche.group(3);
-								storeListSolr(entiteDoc, "entiteOptionsVar", entiteOptionVar);
-								storeListSolr(entiteDoc, "entiteOptionsLangue", entiteOptionLangue);
-								storeListSolr(entiteDoc, "entiteOptionsValeur", entiteOptionValeur);
-								entiteOptionsTrouve = entiteOptionsRecherche.find();
+							Matcher entityOptionsSearch = Pattern.compile("^option\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
+							boolean entityOptionsFound = entityOptionsSearch.find();
+							while(entityOptionsFound) {
+								String entityOptionVar = entityOptionsSearch.group(1);
+								String entityOptionLanguage = entityOptionsSearch.group(2);
+								String entityOptionValue = entityOptionsSearch.group(3);
+								storeListSolr(entityDoc, "entityOptionsVar", entityOptionVar);
+								storeListSolr(entityDoc, "entityOptionsLanguage", entityOptionLanguage);
+								storeListSolr(entityDoc, "entityOptionsValue", entityOptionValue);
+								entityOptionsFound = entityOptionsSearch.find();
 							}
-							if(entiteOptionsTrouve)
-								storeSolr(entiteDoc, "entiteOptions", true);
+							if(entityOptionsFound)
+								storeSolr(entityDoc, "entityOptions", true);
 						}
 
-						indexStoreSolr(entiteDoc, "entiteExact", regexFound("^exact:\\s*(true)$", methodComment));
-						Boolean entiteCleUnique = indexStoreSolr(entiteDoc, "entiteCleUnique", regexFound("^cleUnique:\\s*(true)$", methodComment));
-						Boolean entiteCrypte = indexStoreSolr(entiteDoc, "entiteCrypte", regexFound("^crypte:\\s*(true)$", methodComment));
-						Boolean entiteSuggere = indexStoreSolr(entiteDoc, "entiteSuggere", regexFound("^suggere:\\s*(true)$", methodComment));
-						Boolean entiteSauvegarde = indexStoreSolr(entiteDoc, "entiteSauvegarde", regexFound("^sauvegarde:\\s*(true)$", methodComment));
-						Boolean entiteIndexe = indexStoreSolr(entiteDoc, "entiteIndexe", regexFound("^indexe:\\s*(true)$", methodComment));
-						Boolean entiteIncremente = indexStoreSolr(entiteDoc, "entiteIncremente", regexFound("^incremente:\\s*(true)$", methodComment));
-						Boolean entiteStocke = indexStoreSolr(entiteDoc, "entiteStocke", regexFound("^stocke:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteIndexeOuStocke", entiteCleUnique || entiteCrypte || entiteSuggere || entiteIndexe || entiteStocke || entiteIncremente);
-						indexStoreSolr(entiteDoc, "entitetexte", regexFound("^texte:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteNomAffichage", regexFound("^nomAffichage:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteIgnorer", regexFound("^ignorer:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteDeclarer", regexFound("^declarer:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteRechercher", regexFound("^rechercher:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteAjouter", regexFound("^ajouter:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteSupprimer", regexFound("^supprimer:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteModifier", regexFound("^modifier:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteRecharger", regexFound("^recharger:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteMultiligne", regexFound("^multiligne:\\s*(true)$", methodComment));
-						indexStoreSolr(entiteDoc, "entiteCles", regexFound("^cles:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityExact", regexFound("^exact:\\s*(true)$", methodComment));
+						Boolean entityUniqueKey = indexStoreSolr(entityDoc, "entityUniqueKey", regexFound("^uniqueKey:\\s*(true)$", methodComment));
+						Boolean entityEnencryptedd = indexStoreSolr(entityDoc, "entityEnencryptedd", regexFound("^encrypted:\\s*(true)$", methodComment));
+						Boolean entitySuggested = indexStoreSolr(entityDoc, "entitySuggested", regexFound("^suggested:\\s*(true)$", methodComment));
+						Boolean entitySaved = indexStoreSolr(entityDoc, "entitySaved", regexFound("^saved:\\s*(true)$", methodComment));
+						Boolean entityIndexed = indexStoreSolr(entityDoc, "entityIndexed", regexFound("^indexed:\\s*(true)$", methodComment));
+						Boolean entityIncremented = indexStoreSolr(entityDoc, "entityIncremented", regexFound("^incremented:\\s*(true)$", methodComment));
+						Boolean entityStored = indexStoreSolr(entityDoc, "entityStored", regexFound("^stored:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityIndexedOrStored", entityUniqueKey || entityEnencryptedd || entitySuggested || entityIndexed || entityStored || entityIncremented);
+						indexStoreSolr(entityDoc, "entityText", regexFound("^text:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityDisplayName", regexFound("^displayName:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityIgnored", regexFound("^ignore:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityDeclared", regexFound("^declared:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entitySearch", regexFound("^search:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityAdd", regexFound("^add:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityDelete", regexFound("^delete:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityModify", regexFound("^modify:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityRefresh", regexFound("^refresh:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityMultiLine", regexFound("^multiLine:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityKeys", regexFound("^keys:\\s*(true)$", methodComment));
 
 						Matcher entiteAttribuerRecherche = methodComment == null ? null : Pattern.compile("^attribuer:\\s*([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
 						boolean entiteAttribuerTrouve = entiteAttribuerRecherche == null ? false : entiteAttribuerRecherche.find();
@@ -1292,9 +1239,9 @@ public class IndexClass extends RegarderClasseBase {
 							SolrQuery solrSearchClasse = new SolrQuery();   
 							solrSearchClasse.setQuery("*:*");
 							solrSearchClasse.setRows(1);
-							solrSearchClasse.addFilterQuery("classSimpleName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomSimple));
-							solrSearchClasse.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
-							solrSearchClasse.addFilterQuery("partIsClass_indexed_boolean:true");
+							solrSearchClasse.addFilterQuery("classSimpleName_" + languageName + "_indexedd_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomSimple));
+							solrSearchClasse.addFilterQuery("domainPackageName_indexedd_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+							solrSearchClasse.addFilterQuery("partIsClass_indexedd_boolean:true");
 							QueryResponse searchResponseClasse = solrClientComputate.query(solrSearchClasse);
 							SolrDocumentList searchListClasse = searchResponseClasse.getResults();
 
@@ -1305,71 +1252,71 @@ public class IndexClass extends RegarderClasseBase {
 								SolrQuery solrSearchVar = new SolrQuery();   
 								solrSearchVar.setQuery("*:*");
 								solrSearchVar.setRows(1);
-								solrSearchVar.addFilterQuery("classCanonicalName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomCanonique));
-								solrSearchVar.addFilterQuery("entiteVar_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerVar));
-								solrSearchVar.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
-								solrSearchVar.addFilterQuery("partEstEntite_indexed_boolean:true");
+								solrSearchVar.addFilterQuery("classCanonicalName_" + languageName + "_indexedd_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomCanonique));
+								solrSearchVar.addFilterQuery("entityVar_" + languageName + "_indexedd_string:" + ClientUtils.escapeQueryChars(entiteAttribuerVar));
+								solrSearchVar.addFilterQuery("domainPackageName_indexedd_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+								solrSearchVar.addFilterQuery("partEstEntite_indexedd_boolean:true");
 								QueryResponse searchResponseVar = solrClientComputate.query(solrSearchVar);
 								SolrDocumentList searchListVar = searchResponseVar.getResults();
 
 								if(searchListVar.size() > 0) {
 									SolrDocument docEntite = searchListClasse.get(0);
 
-									indexStoreSolr(entiteDoc, "entiteAttribuer", true);
-									indexStoreSolr(entiteDoc, "entiteAttribuerNomSimple", languageName, entiteAttribuerNomSimple);
-									indexStoreSolr(entiteDoc, "entiteAttribuerNomCanonique", languageName, entiteAttribuerNomCanonique);
-									indexStoreSolr(entiteDoc, "entiteAttribuerVar", languageName, entiteAttribuerVar);
+									indexStoreSolr(entityDoc, "entiteAttribuer", true);
+									indexStoreSolr(entityDoc, "entiteAttribuerNomSimple", languageName, entiteAttribuerNomSimple);
+									indexStoreSolr(entityDoc, "entiteAttribuerNomCanonique", languageName, entiteAttribuerNomCanonique);
+									indexStoreSolr(entityDoc, "entiteAttribuerVar", languageName, entiteAttribuerVar);
 
 									for(String languageName : otherLanguages) {  
 										String entiteAttribuerNomCanoniqueLangue = (String)docClasse.get("classCanonicalName_" + languageName + "_stored_string");
 										String entiteAttribuerNomSimpleLangue = (String)docClasse.get("classCanonicalName_" + languageName + "_stored_string");
-										String entiteAttribuerVarLangue = (String)docEntite.get("entiteVar_" + languageName + "_stored_string");
+										String entiteAttribuerVarLangue = (String)docEntite.get("entityVar_" + languageName + "_stored_string");
 
-										indexStoreSolr(entiteDoc, "entiteAttribuerNomSimple", languageName, entiteAttribuerNomSimpleLangue);
-										indexStoreSolr(entiteDoc, "entiteAttribuerNomCanonique", languageName, entiteAttribuerNomCanoniqueLangue);
-										indexStoreSolr(entiteDoc, "entiteAttribuerVar", languageName, entiteAttribuerVarLangue);
+										indexStoreSolr(entityDoc, "entiteAttribuerNomSimple", languageName, entiteAttribuerNomSimpleLangue);
+										indexStoreSolr(entityDoc, "entiteAttribuerNomCanonique", languageName, entiteAttribuerNomCanoniqueLangue);
+										indexStoreSolr(entityDoc, "entiteAttribuerVar", languageName, entiteAttribuerVarLangue);
 									}
 								}
 							}
 						}
 
-//						boolean entiteCouverture = false;
+//						boolean entityWrap = false;
 //	
 //						String varEntiteEnUS = regex("^var.enUS: (.*)", methodQdox.getComment());
-//						entite.var.frFR(entiteVar);
-//						entite.var.enUS(StringUtils.isEmpty(varEntiteEnUS) ? entiteVar : StringUtils.substringAfter(varEntiteEnUS, "_"));
+//						entite.var.frFR(entityVar);
+//						entite.var.enUS(StringUtils.isEmpty(varEntiteEnUS) ? entityVar : StringUtils.substringAfter(varEntiteEnUS, "_"));
 //	
 //						regexCommentaires(methodQdox.getComment(), entite.comment);
 //						regexReplaceAll(methodQdox.getComment(), methodQdox.getSourceCode(), entite.codeSource);
 //			
-//						if(entiteClasseQdox.getFullyQualifiedName().equals(canonicalNameCouvertureActuel)) {
+//						if(entityClassQdox.getFullyQualifiedName().equals(canonicalNameCouvertureActuel)) {
 //							entiteType = StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteType, "<"), ">");
 //							if(StringUtils.contains(entiteType, "<"))
-//								entiteClasseQdox = typeBricoleur.getClassByName(StringUtils.substringBefore(entiteType, "<"));
+//								entityClassQdox = typeBricoleur.getClassByName(StringUtils.substringBefore(entiteType, "<"));
 //							else
-//								entiteClasseQdox = typeBricoleur.getClassByName(entiteType);
-//							entiteNomCanonique = entiteClasseQdox.getCanonicalName();
-//							entiteCouverture = true;
+//								entityClassQdox = typeBricoleur.getClassByName(entiteType);
+//							entityCanonicalName = entityClassQdox.getCanonicalName();
+//							entityWrap = true;
 //							entite.couverture(true);
 //						} 
-//						if(entite.cleUnique)
+//						if(entite.uniqueKey)
 //							varCleUniqueActuel.tout(entite.var);
-//						if(entite.suggere)
+//						if(entite.suggested)
 //							varSuggereActuel.tout(entite.var);
 //	
 //						if(!entitesTout.contains(entite))
 //							entitesTout.add(entite);
 //	
 //						tout.add(entite);
-//						importationsAjouter(new Chaine().tout(entiteNomCanonique));
-//						importationsGenAjouter(new Chaine().tout(entiteNomCanonique));
+//						importationsAjouter(new Chaine().tout(entityCanonicalName));
+//						importationsGenAjouter(new Chaine().tout(entityCanonicalName));
 //						if(entiteListeTypeGenerique != null) {
 //							Chaine importation = new Chaine().tout(entiteListeTypeGenerique);
 //							importationsAjouter(importation);
 //							importationsGenAjouter(importation);
 //						}
 //	
-//						boolean etendCluster = etendClasse(entiteNomCanoniqueClusterActuel);
+//						boolean etendCluster = etendClasse(entityCanonicalNameClusterActuel);
 //						entite.etendCluster(etendCluster);
 //						if(!etendCluster && entite.canonicalNameGeneric.pasVide()) {
 //							boolean listeCluster = etendClasse(canonicalNameClusterActuel, entite.canonicalNameGeneric.toString());
@@ -1412,230 +1359,230 @@ public class IndexClass extends RegarderClasseBase {
 						
 						
 						for(JavaAnnotation annotation : annotations) {
-							String entiteAnnotationLangue = indexStoreSolr(entiteDoc, "entiteAnnotations", languageName, annotation.getType().getCanonicalName());
+							String entiteAnnotationLangue = indexStoreSolr(entityDoc, "entiteAnnotations", languageName, annotation.getType().getCanonicalName());
 						}
 //						if(classReturnQdox != null && !classReturnQdox.getCanonicalName().equals("void")) {
-//							entiteNomCanoniqueRetourComplet = indexerStocker(entiteDoc, "entiteNomCanoniqueRetourComplet", languageName, classReturnQdox.getGenericCanonicalName());
-//							entiteNomCanoniqueRetour = indexerStocker(entiteDoc, "entiteNomCanoniqueRetour", languageName, classReturnQdox.getCanonicalName());
-//							String entiteNomSimpleRetour = indexerStocker(entiteDoc, "entiteNomSimpleRetour", languageName, StringUtils.substringAfterLast(entiteNomCanoniqueRetour, "."));
-//							String listeNomTypeOrigineRetourGenerique = entiteNomCanoniqueRetourComplet;
-//							String entiteNomCanoniqueRetourGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(listeNomTypeOrigineRetourGenerique, "<"), ">");
-//							String entiteNomSimpleRetourComplet;
-//							String entiteNomSimpleRetourGenerique;
-//							entiteNomCanoniqueRetourGenerique = entiteNomCanoniqueRetourGenerique.contains("<") ? StringUtils.substringBefore(entiteNomCanoniqueRetourGenerique, "<") : entiteNomCanoniqueRetourGenerique;
-//							entiteNomCanoniqueRetourGenerique = entiteNomCanoniqueRetourGenerique.contains(",") ? StringUtils.substringBefore(entiteNomCanoniqueRetourGenerique, ",") : entiteNomCanoniqueRetourGenerique;
-//							if(StringUtils.isNotEmpty(entiteNomCanoniqueRetourGenerique)) {
-//								indexerStocker(entiteDoc, "entiteNomCanoniqueRetourGenerique", languageName, entiteNomCanoniqueRetourGenerique);
+//							entityCanonicalNameRetourComplet = indexedrStocker(entityDoc, "entityCanonicalNameRetourComplet", languageName, classReturnQdox.getGenericCanonicalName());
+//							entityCanonicalNameRetour = indexedrStocker(entityDoc, "entityCanonicalNameRetour", languageName, classReturnQdox.getCanonicalName());
+//							String entitySimpleNameRetour = indexedrStocker(entityDoc, "entitySimpleNameRetour", languageName, StringUtils.substringAfterLast(entityCanonicalNameRetour, "."));
+//							String listeNomTypeOrigineRetourGenerique = entityCanonicalNameRetourComplet;
+//							String entityCanonicalNameRetourGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(listeNomTypeOrigineRetourGenerique, "<"), ">");
+//							String entitySimpleNameRetourComplet;
+//							String entitySimpleNameRetourGenerique;
+//							entityCanonicalNameRetourGenerique = entityCanonicalNameRetourGenerique.contains("<") ? StringUtils.substringBefore(entityCanonicalNameRetourGenerique, "<") : entityCanonicalNameRetourGenerique;
+//							entityCanonicalNameRetourGenerique = entityCanonicalNameRetourGenerique.contains(",") ? StringUtils.substringBefore(entityCanonicalNameRetourGenerique, ",") : entityCanonicalNameRetourGenerique;
+//							if(StringUtils.isNotEmpty(entityCanonicalNameRetourGenerique)) {
+//								indexedrStocker(entityDoc, "entityCanonicalNameRetourGenerique", languageName, entityCanonicalNameRetourGenerique);
 //	
-//								if(StringUtils.contains(entiteNomCanoniqueRetourGenerique, "."))
-//									entiteNomSimpleRetourGenerique = indexerStocker(entiteDoc, "entiteNomSimpleRetourGenerique", languageName, StringUtils.substringAfterLast(entiteNomCanoniqueRetourGenerique, "."));
+//								if(StringUtils.contains(entityCanonicalNameRetourGenerique, "."))
+//									entitySimpleNameRetourGenerique = indexedrStocker(entityDoc, "entitySimpleNameRetourGenerique", languageName, StringUtils.substringAfterLast(entityCanonicalNameRetourGenerique, "."));
 //								else
-//									entiteNomSimpleRetourGenerique = indexerStocker(entiteDoc, "entiteNomSimpleRetourGenerique", languageName, entiteNomCanoniqueRetourGenerique);
+//									entitySimpleNameRetourGenerique = indexedrStocker(entityDoc, "entitySimpleNameRetourGenerique", languageName, entityCanonicalNameRetourGenerique);
 //	
-//								if(StringUtils.contains(entiteNomSimpleRetourGenerique, ".")) {
-//									entiteNomSimpleRetourComplet = indexerStocker(entiteDoc, "entiteNomSimpleRetourComplet", languageName, concat(StringUtils.substringAfterLast(entiteNomSimpleRetour, "."), "<", entiteNomSimpleRetourGenerique, ">"));
+//								if(StringUtils.contains(entitySimpleNameRetourGenerique, ".")) {
+//									entitySimpleNameRetourComplet = indexedrStocker(entityDoc, "entitySimpleNameRetourComplet", languageName, concat(StringUtils.substringAfterLast(entitySimpleNameRetour, "."), "<", entitySimpleNameRetourGenerique, ">"));
 //								}
 //								else {
-//									entiteNomSimpleRetourComplet = indexerStocker(entiteDoc, "entiteNomSimpleRetourComplet", languageName, concat(entiteNomSimpleRetour, "<", entiteNomSimpleRetourGenerique, ">"));
+//									entitySimpleNameRetourComplet = indexedrStocker(entityDoc, "entitySimpleNameRetourComplet", languageName, concat(entitySimpleNameRetour, "<", entitySimpleNameRetourGenerique, ">"));
 //								}
 //							}
 //							else {
-//								entiteNomSimpleRetourComplet = indexerStocker(entiteDoc, "entiteNomCanoniqueRetourComplet", languageName, entiteNomSimpleRetour);
+//								entitySimpleNameRetourComplet = indexedrStocker(entityDoc, "entityCanonicalNameRetourComplet", languageName, entitySimpleNameRetour);
 //							}
 //						}
 	
-						String entiteCle = classAbsolutePath + "." + entiteVar;
+						String entiteCle = classAbsolutePath + "." + entityVar;
 		
 						// Entites Solr du entite. 
 		
-						entiteDoc.addField("key", entiteCle);
-						indexStoreSolr(entiteDoc, "partEstEntite", true);
-						indexStoreSolr(entiteDoc, "partNumber", partNumber);
+						entityDoc.addField("key", entiteCle);
+						indexStoreSolr(entityDoc, "partEstEntite", true);
+						indexStoreSolr(entityDoc, "partNumber", partNumber);
 
 						String entiteBlocCode = methodQdox.getCodeBlock();
 
 						/////////////////////////
 						// entiteTypeVertxJson //
 						/////////////////////////
-						String entiteNomSimpleVertxJson = null;
-						String entiteNomCanoniqueVertxJson = null;
+						String entitySimpleNameVertxJson = null;
+						String entityCanonicalNameVertxJson = null;
 						String entiteListeNomSimpleVertxJson = null;
 						String entiteListeNomCanoniqueVertxJson = null;
-						if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameBoolean)) {
-							entiteNomSimpleVertxJson = "Boolean";
-							entiteNomCanoniqueVertxJson = VAL_canonicalNameBoolean;
+						if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBoolean)) {
+							entitySimpleNameVertxJson = "Boolean";
+							entityCanonicalNameVertxJson = VAL_canonicalNameBoolean;
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate)) {
-							entiteNomSimpleVertxJson = "Instant";
-							entiteNomCanoniqueVertxJson = VAL_canonicalNameInstant;
-							classePartsGenAjouter(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
-							classePartsGenAjouter(ClassParts.initClassParts(this, "java.time.LocalDateTime", languageName));
-							classePartsGenAjouter(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
-							classePartsGenAjouter(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate)) {
+							entitySimpleNameVertxJson = "Instant";
+							entityCanonicalNameVertxJson = VAL_canonicalNameInstant;
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", languageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameLocalDate)) {
-							entiteNomSimpleVertxJson = "Instant";
-							entiteNomCanoniqueVertxJson = VAL_canonicalNameInstant;
-							classePartsGenAjouter(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
-							classePartsGenAjouter(ClassParts.initClassParts(this, "java.time.LocalDate", languageName));
-							classePartsGenAjouter(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
-							classePartsGenAjouter(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLocalDate)) {
+							entitySimpleNameVertxJson = "Instant";
+							entityCanonicalNameVertxJson = VAL_canonicalNameInstant;
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDate", languageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameLong)) {
-							entiteNomSimpleVertxJson = "Long";
-							entiteNomCanoniqueVertxJson = VAL_canonicalNameLong;
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLong)) {
+							entitySimpleNameVertxJson = "Long";
+							entityCanonicalNameVertxJson = VAL_canonicalNameLong;
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameBigDecimal)) {
-							entiteNomSimpleVertxJson = "Long";
-							entiteNomCanoniqueVertxJson = VAL_canonicalNameLong;
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBigDecimal)) {
+							entitySimpleNameVertxJson = "Long";
+							entityCanonicalNameVertxJson = VAL_canonicalNameLong;
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameDouble)) {
-							entiteNomSimpleVertxJson = "Double";
-							entiteNomCanoniqueVertxJson = VAL_canonicalNameDouble;
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameDouble)) {
+							entitySimpleNameVertxJson = "Double";
+							entityCanonicalNameVertxJson = VAL_canonicalNameDouble;
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameFloat)) {
-							entiteNomSimpleVertxJson = "Float";
-							entiteNomCanoniqueVertxJson = VAL_canonicalNameFloat;
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameFloat)) {
+							entitySimpleNameVertxJson = "Float";
+							entityCanonicalNameVertxJson = VAL_canonicalNameFloat;
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameInteger)) {
-							entiteNomSimpleVertxJson = "Integer";
-							entiteNomCanoniqueVertxJson = VAL_canonicalNameInteger;
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameInteger)) {
+							entitySimpleNameVertxJson = "Integer";
+							entityCanonicalNameVertxJson = VAL_canonicalNameInteger;
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
-							if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameBoolean)) {
-								entiteNomSimpleVertxJson = "JsonArray";
-								entiteNomCanoniqueVertxJson = VAL_canonicalNameVertxJsonArray;
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
+							if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameBoolean)) {
+								entitySimpleNameVertxJson = "JsonArray";
+								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Boolean";
 								entiteListeNomCanoniqueVertxJson = VAL_canonicalNameBoolean;
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate)) {
-								entiteNomSimpleVertxJson = "JsonArray";
-								entiteNomCanoniqueVertxJson = VAL_canonicalNameVertxJsonArray;
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate)) {
+								entitySimpleNameVertxJson = "JsonArray";
+								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Instant";
 								entiteListeNomCanoniqueVertxJson = VAL_canonicalNameInstant;
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameLocalDate)) {
-								entiteNomSimpleVertxJson = "JsonArray";
-								entiteNomCanoniqueVertxJson = VAL_canonicalNameVertxJsonArray;
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameLocalDate)) {
+								entitySimpleNameVertxJson = "JsonArray";
+								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Instant";
 								entiteListeNomCanoniqueVertxJson = VAL_canonicalNameInstant;
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameLong)) {
-								entiteNomSimpleVertxJson = "JsonArray";
-								entiteNomCanoniqueVertxJson = VAL_canonicalNameVertxJsonArray;
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameLong)) {
+								entitySimpleNameVertxJson = "JsonArray";
+								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Long";
 								entiteListeNomCanoniqueVertxJson = VAL_canonicalNameLong;
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameBigDecimal)) {
-								entiteNomSimpleVertxJson = "JsonArray";
-								entiteNomCanoniqueVertxJson = VAL_canonicalNameVertxJsonArray;
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameBigDecimal)) {
+								entitySimpleNameVertxJson = "JsonArray";
+								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Long";
 								entiteListeNomCanoniqueVertxJson = VAL_canonicalNameLong;
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameDouble)) {
-								entiteNomSimpleVertxJson = "JsonArray";
-								entiteNomCanoniqueVertxJson = VAL_canonicalNameVertxJsonArray;
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameDouble)) {
+								entitySimpleNameVertxJson = "JsonArray";
+								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Double";
 								entiteListeNomCanoniqueVertxJson = VAL_canonicalNameDouble;
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameFloat)) {
-								entiteNomSimpleVertxJson = "JsonArray";
-								entiteNomCanoniqueVertxJson = VAL_canonicalNameVertxJsonArray;
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameFloat)) {
+								entitySimpleNameVertxJson = "JsonArray";
+								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Float";
 								entiteListeNomCanoniqueVertxJson = VAL_canonicalNameFloat;
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameInteger)) {
-								entiteNomSimpleVertxJson = "JsonArray";
-								entiteNomCanoniqueVertxJson = VAL_canonicalNameVertxJsonArray;
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameInteger)) {
+								entitySimpleNameVertxJson = "JsonArray";
+								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Integer";
 								entiteListeNomCanoniqueVertxJson = VAL_canonicalNameInteger;
 							}
-							storeSolr(entiteDoc, "entiteListeNomSimpleVertxJson", entiteListeNomSimpleVertxJson);
-							storeSolr(entiteDoc, "entiteListeNomCanoniqueVertxJson", entiteListeNomCanoniqueVertxJson);
-							classePartsGenAjouter(ClassParts.initClassParts(this, entiteListeNomCanoniqueVertxJson, languageName));
+							storeSolr(entityDoc, "entiteListeNomSimpleVertxJson", entiteListeNomSimpleVertxJson);
+							storeSolr(entityDoc, "entiteListeNomCanoniqueVertxJson", entiteListeNomCanoniqueVertxJson);
+							classPartsGenAdd(ClassParts.initClassParts(this, entiteListeNomCanoniqueVertxJson, languageName));
 						}
-						else if(classePartsChaine != null && StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameString, classePartsChaine.canonicalName)) {
-							entiteNomSimpleVertxJson = "String";
-							entiteNomCanoniqueVertxJson = VAL_canonicalNameString;
+						else if(classPartsChain != null && StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameString, classPartsChain.canonicalName)) {
+							entitySimpleNameVertxJson = "String";
+							entityCanonicalNameVertxJson = VAL_canonicalNameString;
 						}
-						classePartsGenAjouter(ClassParts.initClassParts(this, entiteNomCanoniqueVertxJson, languageName));
-						storeSolr(entiteDoc, "entiteNomSimpleVertxJson", entiteNomSimpleVertxJson);
-						storeSolr(entiteDoc, "entiteNomCanoniqueVertxJson", entiteNomCanoniqueVertxJson);
+						classPartsGenAdd(ClassParts.initClassParts(this, entityCanonicalNameVertxJson, languageName));
+						storeSolr(entityDoc, "entitySimpleNameVertxJson", entitySimpleNameVertxJson);
+						storeSolr(entityDoc, "entityCanonicalNameVertxJson", entityCanonicalNameVertxJson);
 
 						////////////////////
 						// entiteTypeSolr //
 						////////////////////
 						String entiteTypeSolr = null;
 						String entiteSuffixeType = null;
-						if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameBoolean)) {
+						if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBoolean)) {
 							entiteTypeSolr = VAL_canonicalNameBoolean;
 							entiteSuffixeType = "_boolean";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameDate)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameDate)) {
 							entiteTypeSolr = VAL_canonicalNameDate;
 							entiteSuffixeType = "_date";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameLong)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLong)) {
 							entiteTypeSolr = VAL_canonicalNameLong;
 							entiteSuffixeType = "_long";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameBigDecimal)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBigDecimal)) {
 							entiteTypeSolr = VAL_canonicalNameDouble;
 							entiteSuffixeType = "_double";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameDouble)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameDouble)) {
 							entiteTypeSolr = VAL_canonicalNameDouble;
 							entiteSuffixeType = "_double";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameFloat)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameFloat)) {
 							entiteTypeSolr = VAL_canonicalNameFloat;
 							entiteSuffixeType = "_float";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameInteger)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameInteger)) {
 							entiteTypeSolr = VAL_canonicalNameInteger;
 							entiteSuffixeType = "_int";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
-							if(entiteNomCanoniqueGenerique.equals(VAL_canonicalNameBoolean)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
+							if(entityCanonicalNameGeneric.equals(VAL_canonicalNameBoolean)) {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameBoolean + ">";
 								entiteSuffixeType = "_booleans";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate)) {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameDate + ">";
 								entiteSuffixeType = "_dates";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameLong)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameLong)) {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameLong + ">";
 								entiteSuffixeType = "_longs";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameBigDecimal)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameBigDecimal)) {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameBigDecimal + ">";
 								entiteSuffixeType = "_doubles";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameDouble)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameDouble)) {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameDouble + ">";
 								entiteSuffixeType = "_doubles";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameFloat)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameFloat)) {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameFloat + ">";
 								entiteSuffixeType = "_floats";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameInteger)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameInteger)) {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameInteger + ">";
 								entiteSuffixeType = "_ints";
 							}
-							else if(classePartsChaine != null && StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameString, classePartsChaine.canonicalName)) {
+							else if(classPartsChain != null && StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameString, classPartsChain.canonicalName)) {
 								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameString + ">";
 								entiteSuffixeType = "_strings";
 							}
 						}
-						else if(classePartsChaine != null && StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameString, classePartsChaine.canonicalName)) {
+						else if(classPartsChain != null && StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameString, classPartsChain.canonicalName)) {
 							entiteTypeSolr = VAL_canonicalNameString;
 							entiteSuffixeType = "_string";
 ////								if(videDernier)
 ////									suffixeType += "_videDernier";
 						}
-						storeSolr(entiteDoc, "entiteTypeSolr", entiteTypeSolr);
+						storeSolr(entityDoc, "entiteTypeSolr", entiteTypeSolr);
 
 						////////////////////
 						// entiteTypeJson //
@@ -1643,93 +1590,93 @@ public class IndexClass extends RegarderClasseBase {
 						String entiteTypeJson = null;
 						String entiteFormatJson = null;
 						String entiteListeTypeJson = null;
-						if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameBoolean)) {
+						if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBoolean)) {
 							entiteTypeJson = "boolean";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate)) {
 							entiteTypeJson = "string";
 							entiteFormatJson = "date-time";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameLocalDate)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLocalDate)) {
 							entiteTypeJson = "string";
 							entiteFormatJson = "date";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameLong)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLong)) {
 							entiteTypeJson = "number";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameBigDecimal)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBigDecimal)) {
 							entiteTypeJson = "number";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameDouble)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameDouble)) {
 							entiteTypeJson = "number";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameFloat)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameFloat)) {
 							entiteTypeJson = "number";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameInteger)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameInteger)) {
 							entiteTypeJson = "number";
 						}
-						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
-							if(entiteNomCanoniqueGenerique.equals(VAL_canonicalNameBoolean)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
+							if(entityCanonicalNameGeneric.equals(VAL_canonicalNameBoolean)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "boolean";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "string";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameLong)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameLong)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "number";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameBigDecimal)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameBigDecimal)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "number";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameDouble)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameDouble)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "number";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameFloat)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameFloat)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "number";
 							}
-							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameInteger)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameInteger)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "number";
 							}
-							else if(classePartsChaine != null && StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_canonicalNameString, classePartsChaine.canonicalName)) {
+							else if(classPartsChain != null && StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameString, classPartsChain.canonicalName)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "string";
 							}
-							storeSolr(entiteDoc, "entiteListeTypeJson", entiteListeTypeJson);
+							storeSolr(entityDoc, "entiteListeTypeJson", entiteListeTypeJson);
 						}
-						else if(classePartsChaine != null && StringUtils.equalsAny(entiteNomCanonique, VAL_canonicalNameString, classePartsChaine.canonicalName)) {
+						else if(classPartsChain != null && StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameString, classPartsChain.canonicalName)) {
 							entiteTypeJson = "string";
 						}
-						storeSolr(entiteDoc, "entiteTypeJson", entiteTypeJson);
+						storeSolr(entityDoc, "entiteTypeJson", entiteTypeJson);
 						if(entiteFormatJson != null)
-							storeSolr(entiteDoc, "entiteFormatJson", entiteFormatJson);
+							storeSolr(entityDoc, "entiteFormatJson", entiteFormatJson);
 						
-						if(entiteCleUnique)
-							storeSolr(entiteDoc, "entiteVarCleUnique", entiteVar);
-						if(entiteSuggere)
-							storeSolr(entiteDoc, "entiteVarSuggere", entiteVar + "_suggere");
-						if(entiteIncremente)
-							storeSolr(entiteDoc, "entiteVarIncremente", entiteVar + "_incremente");
-						if(entiteCrypte)
-							storeSolr(entiteDoc, "entiteVarCrypte", entiteVar + "_crypte");
-						if(entiteIndexe)
-							storeSolr(entiteDoc, "entiteVarIndexe", entiteVar + "_indexe" + entiteSuffixeType);
-						if(entiteStocke)
-							storeSolr(entiteDoc, "entiteVarStocke", entiteVar + "_stocke" + entiteSuffixeType);
+						if(entityUniqueKey)
+							storeSolr(entityDoc, "entityVarCleUnique", entityVar);
+						if(entitySuggested)
+							storeSolr(entityDoc, "entityVarSuggere", entityVar + "_suggested");
+						if(entityIncremented)
+							storeSolr(entityDoc, "entityVarIncremente", entityVar + "_incremented");
+						if(entityEnencryptedd)
+							storeSolr(entityDoc, "entityVarCrypte", entityVar + "_encrypted");
+						if(entityIndexed)
+							storeSolr(entityDoc, "entityVarIndexe", entityVar + "_indexed" + entiteSuffixeType);
+						if(entityStored)
+							storeSolr(entityDoc, "entityVarStocke", entityVar + "_stored" + entiteSuffixeType);
 
 						for(String languageName : otherLanguages) {  
-							String entiteVarLangue = regex("^var\\." + languageName + ": (.*)", methodComment);
-							entiteVarLangue = indexStoreSolr(entiteDoc, "entiteVar", languageName, entiteVarLangue == null ? entiteVar : entiteVarLangue);
+							String entityVarLangue = regex("^var\\." + languageName + ": (.*)", methodComment);
+							entityVarLangue = indexStoreSolr(entityDoc, "entityVar", languageName, entityVarLangue == null ? entityVar : entityVarLangue);
 //		
 //							List<String> entiteCommentairesLangue = regexList("(.*)", methodComment);
-//							String entiteCommentaireLangue = indexStoreSolr(entiteDoc, "entiteCommentaire", languageName, StringUtils.join(entiteCommentairesLangue, "\n"));
+//							String entiteCommentaireLangue = indexStoreSolr(entityDoc, "entiteCommentaire", languageName, StringUtils.join(entiteCommentairesLangue, "\n"));
 	
 							String entiteBlocCodeLangue = entiteBlocCode;
 							ArrayList<String> replaceKeysLanguage = regexList("^r." + languageName + "\\s*=\\s*(.*)\\n.*", methodComment);
@@ -1739,69 +1686,42 @@ public class IndexClass extends RegarderClasseBase {
 								String valeur = replaceValuesLanguage.get(i);
 								StringUtils.replace(entiteBlocCodeLangue, cle, valeur);
 							}
-							storeSolr(entiteDoc, "entiteBlocCode", languageName, entiteBlocCodeLangue); 
+							storeSolr(entityDoc, "entiteBlocCode", languageName, entiteBlocCodeLangue); 
 	
-							storeRegexComments(methodComment, languageName, entiteDoc, "entiteCommentaire");
+							storeRegexComments(methodComment, languageName, entityDoc, "entiteCommentaire");
 						}
 
-						solrClientComputate.add(entiteDoc); 
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
+						solrClientComputate.add(entityDoc); 
 					}
-					else {
+					else { 
 						// est Methode. 
 						
 						SolrInputDocument methodDoc = classDocClone.deepCopy();
 						indexStoreSolr(methodDoc, "methodVar", languageName, methodVar);
 						for(Integer methodParamNum = 1; methodParamNum <= methodParamsQdox.size(); methodParamNum++) {
 							JavaParameter methodParamQdox = methodParamsQdox.get(methodParamNum - 1);
-							String methodParamVar = methodParamQdox.getName();
-							storeListSolr(methodDoc, "methodParamVar", languageName, methodParamVar);
-							ClassParts methodeParamClassParts = ClassParts.initClassParts(this, methodParamQdox.getJavaClass(), languageName);
-							storeListSolr(methodDoc, "methodParamSimpleNameComplete", languageName, methodeParamClassParts.simpleNameComplete);
-							storeListSolr(methodDoc, "methodParamVariableArgs", methodParamQdox.isVarArgs());
+							String methodeParamVar = methodParamQdox.getName();
+							storeListSolr(methodDoc, "methodParamsVar", languageName, methodeParamVar);
+							ClassParts methodeParamsClassePart = ClassParts.initClassParts(this, methodParamQdox.getJavaClass(), languageName);
+							storeListSolr(methodDoc, "methodParamCanonicalNames", languageName, methodeParamsClassePart.canonicalName);
+							storeListSolr(methodDoc, "methodParamsSimpleNameComplete", languageName, methodeParamsClassePart.simpleNameComplete);
+							storeListSolr(methodDoc, "methodeParamsArgsVariables", methodParamQdox.isVarArgs());
 							for(String languageName : otherLanguages) { 
 								String methodParamVarLanguage = regex("param" + methodParamNum + "\\.var\\." + languageName + ": (.*)", methodComment);
 								if(methodParamVarLanguage == null)
-									methodParamVarLanguage = methodParamVar;
-								ClassParts methodParamClassPartsLanguage = ClassParts.initClassParts(this, methodeParamClassParts, languageName);
+									methodParamVarLanguage = methodeParamVar;
+								ClassParts methodParamClassPartsLanguage = ClassParts.initClassParts(this, methodeParamsClassePart, languageName);
 
-								storeListSolr(methodDoc, "methodParamSimpleNameComplete", languageName, methodParamClassPartsLanguage.simpleNameComplete);
-								storeListSolr(methodDoc, "methodParamVar", languageName, methodParamVarLanguage);
+								storeListSolr(methodDoc, "methodParamCanonicalNames", languageName, methodParamClassPartsLanguage.canonicalName);
+								storeListSolr(methodDoc, "methodParamsSimpleNameComplete", languageName, methodParamClassPartsLanguage.simpleNameComplete);
+								storeListSolr(methodDoc, "methodParamsVar", languageName, methodParamVarLanguage);
 							}  
 						}
 
-						List<JavaTypeVariable<JavaGenericDeclaration>> methodTypeParameters = methodQdox.getTypeParameters();
-						for(JavaTypeVariable<JavaGenericDeclaration> methodTypeParameter : methodTypeParameters) {
-							String methodTypeParameterNom = methodTypeParameter.getName();
-							storeListSolr(methodDoc, "methodTypeParameterNames", methodTypeParameterNom);
+						List<JavaTypeVariable<JavaGenericDeclaration>> methodParamsType = methodQdox.getTypeParameters();
+						for(JavaTypeVariable<JavaGenericDeclaration> methodParamType : methodParamsType) {
+							String methodParamTypeNom = methodParamType.getName();
+							storeListSolr(methodDoc, "methodParamsTypeName", methodParamTypeNom);
 						}
 
 						for(JavaAnnotation annotation : annotations) {
@@ -1815,9 +1735,9 @@ public class IndexClass extends RegarderClasseBase {
 							}
 						}
 
-						for(JavaClass methodExceptionQdox : methodExceptionsQdox) {
+						for(JavaClass methodExceptionQdox : methodExceptionsQdox) { 
 							String methodExceptionSimpleNameComplete = StringUtils.substringAfterLast(methodExceptionQdox.getCanonicalName(), ".");
-							storeListSolr(methodDoc, "methodExceptionSimpleNameComplete", methodExceptionSimpleNameComplete);
+							storeListSolr(methodDoc, "methodeExceptionsNomSimpleComplet", methodExceptionSimpleNameComplete);
 						}
 						Boolean methodIsVoid = false;
 						if(classReturnQdox != null && !classReturnQdox.getCanonicalName().equals("void")) {
@@ -1891,7 +1811,7 @@ public class IndexClass extends RegarderClasseBase {
 		}
 		
 		ClassParts classePartsCouverture = classePartsCouverture(domainPackageName);
-		classePartsGenAjouter(classePartsCouverture);
+		classPartsGenAdd(classePartsCouverture);
 
 		for(ClassParts classePartGen : classePartsGen.values()) {
 			indexStoreListSolr(classDoc, "classImportsGen", languageName, classePartGen.canonicalName);
@@ -1919,7 +1839,7 @@ public class IndexClass extends RegarderClasseBase {
 
 		solrClientComputate.add(classDoc);
 		solrClientComputate.commit();
-		String qDelete = concat("classAbsolutePath_indexed_string", ":\"", classPath, "\" AND (modified_indexed_date:[* TO ", modified.toString(), "-1MILLI] OR (*:* NOT modified_indexed_date:*))");
+		String qDelete = concat("classAbsolutePath_indexedd_string", ":\"", classPath, "\" AND (modified_indexedd_date:[* TO ", modified.toString(), "-1MILLI] OR (*:* NOT modified_indexedd_date:*))");
 		solrClientComputate.deleteByQuery(qDelete);
 		solrClientComputate.commit(); 
 		return classDoc;
