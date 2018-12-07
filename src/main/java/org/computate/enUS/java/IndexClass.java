@@ -72,7 +72,7 @@ public class IndexClass extends WatchClassBase {
 
 	protected HashMap<String, ClassParts> classPartsGenPage = new HashMap<String, ClassParts>();
 
-	public void  populateQdoxSuperClassesInterfacesAndMe(JavaClass c, ArrayList<JavaClass> qdoxSuperClasses, ArrayList<JavaClass> qdoxSuperClassesAndMe, ArrayList<JavaClass> qdoxSuperClassesAndMeWithoutGen, ArrayList<JavaClass> qdoxSuperClassesAndInterfaces, ArrayList<JavaClass> qdoxSuperClassesInterfacesAndMe) throws Exception { 
+	public void  populateQdoxSuperClassesInterfacesAndMe(JavaClass c, ArrayList<JavaClass> qdoxSuperClasses, ArrayList<JavaClass> qdoxSuperClassesAndMe, ArrayList<JavaClass> qdoxSuperClassesAndMeWithoutGen, ArrayList<JavaClass> qdoxSuperClassesAndInterfaces, ArrayList<JavaClass> qdoxSuperClassesInterfacesAndMe) throws Exception, Exception { 
 		if(c != null) {
 			JavaClass superClass = c.getSuperJavaClass();
 			List<JavaClass> interfacesImplemented = c.getInterfaces();
@@ -96,48 +96,48 @@ public class IndexClass extends WatchClassBase {
 		}
 	}
 
-	protected Boolean storeSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception {
+	protected Boolean storeSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_boolean"), fieldValue);
 		return fieldValue;
 	}
 
-	protected Boolean storeSolr(SolrInputDocument doc, String fieldName, String languageName, Boolean fieldValue) throws Exception {
+	protected Boolean storeSolr(SolrInputDocument doc, String fieldName, String languageName, Boolean fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_boolean"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected String storeSolr(SolrInputDocument doc, String fieldName, String fieldValue) throws Exception {
+	protected String storeSolr(SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_string"), fieldValue);
 		return fieldValue;
 	}
 
-	protected String storeListSolr(SolrInputDocument doc, String fieldName, String fieldValue) throws Exception {
+	protected String storeListSolr(SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_strings"), fieldValue);
 		return fieldValue;
 	}
 
-	protected Boolean storeListSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception {
+	protected Boolean storeListSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_booleans"), fieldValue);
 		return fieldValue;
 	}
 
-	protected String storeSolr(SolrInputDocument doc, String fieldName, String languageName, String fieldValue) throws Exception {
+	protected String storeSolr(SolrInputDocument doc, String fieldName, String languageName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_string"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected String storeListSolr(SolrInputDocument doc, String fieldName, String languageName, String fieldValue) throws Exception {
+	protected String storeListSolr(SolrInputDocument doc, String fieldName, String languageName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_strings"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected List<String> storeSolr(SolrInputDocument doc, String fieldName, String languageName, List<String> fieldValues) throws Exception {
+	protected List<String> storeSolr(SolrInputDocument doc, String fieldName, String languageName, List<String> fieldValues) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			for(String fieldValue : fieldValues) {
 				doc.addField(concat(fieldName, "_", languageName, "_stored_strings"), fieldValue);
@@ -146,43 +146,43 @@ public class IndexClass extends WatchClassBase {
 		return fieldValues;
 	}
 
-	protected Boolean indexSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception {
+	protected Boolean indexSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_indexed_string"), fieldValue);
 		return fieldValue;
 	}
 
-	protected Boolean indexListSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception {
+	protected Boolean indexListSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_indexed_strings"), fieldValue);
 		return fieldValue;
 	}
 
-	protected Boolean indexSolr(SolrInputDocument doc, String fieldName, String languageName, Boolean fieldValue) throws Exception {
+	protected Boolean indexSolr(SolrInputDocument doc, String fieldName, String languageName, Boolean fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_string"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected String indexSolr(SolrInputDocument doc, String fieldName, String fieldValue) throws Exception {
+	protected String indexSolr(SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_indexed_string"), fieldValue);
 		return fieldValue;
 	}
 
-	protected String indexSolr(SolrInputDocument doc, String fieldName, String languageName, String fieldValue) throws Exception {
+	protected String indexSolr(SolrInputDocument doc, String fieldName, String languageName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_string"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected String indexListSolr(SolrInputDocument doc, String fieldName, String languageName, String fieldValue) throws Exception {
+	protected String indexListSolr(SolrInputDocument doc, String fieldName, String languageName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_strings"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected List<String> indexSolr(SolrInputDocument doc, String fieldName, String languageName, List<String> fieldValues) throws Exception {
+	protected List<String> indexSolr(SolrInputDocument doc, String fieldName, String languageName, List<String> fieldValues) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			for(String fieldValue : fieldValues) {
 				doc.addField(concat(fieldName, "_", languageName, "_indexed_strings"), fieldValue);
@@ -191,31 +191,31 @@ public class IndexClass extends WatchClassBase {
 		return fieldValues;
 	}
 
-	protected Long indexStoreSolr(SolrInputDocument doc, String fieldName, Long fieldValue) throws Exception {
+	protected Long indexStoreSolr(SolrInputDocument doc, String fieldName, Long fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_long"), fieldValue);
 		doc.addField(concat(fieldName, "_indexed_long"), fieldValue);
 		return fieldValue;
 	}
 
-	protected Integer indexStoreSolr(SolrInputDocument doc, String fieldName, Integer fieldValue) throws Exception {
+	protected Integer indexStoreSolr(SolrInputDocument doc, String fieldName, Integer fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_int"), fieldValue);
 		doc.addField(concat(fieldName, "_indexed_int"), fieldValue);
 		return fieldValue;
 	}
 
-	protected Boolean indexStoreSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception {
+	protected Boolean indexStoreSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_boolean"), fieldValue);
 		doc.addField(concat(fieldName, "_indexed_boolean"), fieldValue);
 		return fieldValue;
 	}
 
-	protected Date indexStoreSolr(SolrInputDocument doc, String fieldName, Date fieldValue) throws Exception {
+	protected Date indexStoreSolr(SolrInputDocument doc, String fieldName, Date fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_date"), fieldValue);
 		doc.addField(concat(fieldName, "_indexed_date"), fieldValue);
 		return fieldValue;
 	}
 
-	protected Boolean indexStoreSolr(SolrInputDocument doc, String fieldName, String languageName, Boolean fieldValue) throws Exception {
+	protected Boolean indexStoreSolr(SolrInputDocument doc, String fieldName, String languageName, Boolean fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_string"), fieldValue);
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_string"), fieldValue);
@@ -223,19 +223,19 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected String indexStoreSolr(SolrInputDocument doc, String fieldName, String fieldValue) throws Exception {
+	protected String indexStoreSolr(SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_string"), fieldValue);
 		doc.addField(concat(fieldName, "_indexed_string"), fieldValue);
 		return fieldValue;
 	}
 
-	protected String indexStoreListSolr(SolrInputDocument doc, String fieldName, String fieldValue) throws Exception {
+	protected String indexStoreListSolr(SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_strings"), fieldValue);
 		doc.addField(concat(fieldName, "_indexed_strings"), fieldValue);
 		return fieldValue;
 	}
 
-	protected String indexStoreSolr(SolrInputDocument doc, String fieldName, String languageName, String fieldValue) throws Exception {
+	protected String indexStoreSolr(SolrInputDocument doc, String fieldName, String languageName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_string"), fieldValue);
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_string"), fieldValue);
@@ -243,7 +243,7 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected String indexStoreListSolr(SolrInputDocument doc, String fieldName, String fieldValue, String valeurChamp) throws Exception {
+	protected String indexStoreListSolr(SolrInputDocument doc, String fieldName, String fieldValue, String valeurChamp) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_strings"), fieldValue);
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_strings"), fieldValue);
@@ -251,7 +251,7 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected List<String> indexStoreSolr(SolrInputDocument doc, String fieldName, String languageName, List<String> fieldValues) throws Exception {
+	protected List<String> indexStoreSolr(SolrInputDocument doc, String fieldName, String languageName, List<String> fieldValues) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			for(String fieldValue : fieldValues) {
 				doc.addField(concat(fieldName, "_", languageName, "_stored_strings"), fieldValue);
@@ -261,7 +261,7 @@ public class IndexClass extends WatchClassBase {
 		return fieldValues;
 	}
 
-	protected SolrDocument classDocsAdd(String canonicalName) throws Exception {
+	protected SolrDocument classDocsAdd(String canonicalName) throws Exception, Exception {
 		SolrDocument doc = null;
 		if(StringUtils.startsWith(domainPackageName, canonicalName)) {
 			SolrQuery solrSearch = new SolrQuery();   
@@ -280,7 +280,7 @@ public class IndexClass extends WatchClassBase {
 		return doc;
 	}
 
-	protected String searchCanonicalName(String languageName, String canonicalName) throws Exception {
+	protected String searchCanonicalName(String languageName, String canonicalName) throws Exception, Exception {
 		SolrDocument doc = classDocsAdd(canonicalName);
 		String val = null;
 		if(doc != null) {
@@ -292,7 +292,7 @@ public class IndexClass extends WatchClassBase {
 		return val;
 	}
 
-	protected ClassParts classPartsForSimpleName(String domainPackageName, String simpleName) throws Exception {
+	protected ClassParts classPartsForSimpleName(String domainPackageName, String simpleName) throws Exception, Exception {
 		ClassParts classParts = null;
 		SolrDocument doc = null;
 		SolrQuery solrSearch = new SolrQuery();   
@@ -311,39 +311,39 @@ public class IndexClass extends WatchClassBase {
 		return classParts;
 	}
 
-	protected ClassParts classPartsWrap(String domainPackageName) throws Exception {
+	protected ClassParts classPartsWrap(String domainPackageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "Wrap");
 	}
 
-	protected ClassParts classPartsChain(String domainPackageName) throws Exception {
+	protected ClassParts classPartsChain(String domainPackageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "Chain");
 	}
 
-	protected ClassParts classPartsSiteRequest(String domainPackageName) throws Exception {
+	protected ClassParts classPartsSiteRequest(String domainPackageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SiteRequest");
 	}
 
-	protected ClassParts classPartsSiteContext(String domainPackageName) throws Exception {
+	protected ClassParts classPartsSiteContext(String domainPackageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SiteContext");
 	}
 
-	protected ClassParts classPartsSiteConfig(String domainPackageName) throws Exception {
+	protected ClassParts classPartsSiteConfig(String domainPackageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SiteConfig");
 	}
 
-	protected ClassParts classPartsSiteUser(String domainPackageName) throws Exception {
+	protected ClassParts classPartsSiteUser(String domainPackageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SiteUser");
 	}
 
-	protected ClassParts classPartsCluster(String domainPackageName) throws Exception {
+	protected ClassParts classPartsCluster(String domainPackageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "Cluster");
 	}
 
-	protected ClassParts classPartsSearchResult(String domainPackageName) throws Exception {
+	protected ClassParts classPartsSearchResult(String domainPackageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SearchResult");
 	}
 
-	public String storeRegexComments(String comment, String languageName, SolrInputDocument doc, String entityVar) throws Exception {
+	public String storeRegexComments(String comment, String languageName, SolrInputDocument doc, String entityVar) throws Exception, Exception {
 		if(!StringUtils.isEmpty(comment)) {
 			Matcher m = Pattern.compile("^(enUS|frFR): (.*)", Pattern.MULTILINE).matcher(comment);
 			boolean found = m.find();
@@ -378,7 +378,7 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenPage.put(classParts.canonicalName, classParts);
 	}
 
-	protected SolrInputDocument indexClass(String classAbsolutePath) throws Exception { 
+	protected SolrInputDocument indexClass(String classAbsolutePath) throws Exception, Exception { 
 
 		SolrInputDocument classDoc = new SolrInputDocument();
 		String classCanonicalName = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classAbsolutePath, "."), srcMainJavaPath + "/"), "/", ".");
@@ -581,6 +581,7 @@ public class IndexClass extends WatchClassBase {
 		}
 		if(classExtendsBase || classIsBase) {
 			classPartsGenAdd(classPartsCluster);
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerResponse", languageName));
 		}
 		if(classeSauvegarde) {
 			classPartsGenAdd(classPartsSiteContext);
@@ -592,6 +593,7 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", languageName));
 			classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
 			classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Set", languageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.text.StringEscapeUtils", languageName));
 		}
 
 		
@@ -659,9 +661,9 @@ public class IndexClass extends WatchClassBase {
 			SolrQuery solrSearch = new SolrQuery();   
 			solrSearch.setQuery("*:*");
 			solrSearch.setRows(1);
-			solrSearch.addFilterQuery("classCanonicalName_" + languageActualName + "_indexedd_string:" + ClientUtils.escapeQueryChars(classSuperCanonicalName));
-			solrSearch.addFilterQuery("partIsClass_indexedd_boolean:true");
-			solrSearch.addFilterQuery("domainPackageName_indexedd_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+			solrSearch.addFilterQuery("classCanonicalName_" + languageActualName + "_indexed_string:" + ClientUtils.escapeQueryChars(classSuperCanonicalName));
+			solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
+			solrSearch.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 			QueryResponse searchResponse = solrClientComputate.query(solrSearch);
 			SolrDocumentList searchList = searchResponse.getResults();
 			if(searchList.size() > 0) { 
@@ -1095,10 +1097,10 @@ public class IndexClass extends WatchClassBase {
 							solrSearchMethodBefore.setQuery("*:*");
 							solrSearchMethodBefore.setRows(10);
 							String fqMethodBefore = "(" + entityCanonicalNamesSuperAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars("avant" + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
-							solrSearchMethodBefore.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexedd_strings:" + fqSuperClassesAndMe);
-							solrSearchMethodBefore.addFilterQuery("domainPackageName_indexedd_string:" + ClientUtils.escapeQueryChars(domainPackageName));
-							solrSearchMethodBefore.addFilterQuery("partIsMethod_indexedd_boolean:true");
-							solrSearchMethodBefore.addFilterQuery("methodVar_" + languageName + "_indexedd_string:" + fqMethodBefore);
+							solrSearchMethodBefore.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqSuperClassesAndMe);
+							solrSearchMethodBefore.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+							solrSearchMethodBefore.addFilterQuery("partIsMethod_indexed_boolean:true");
+							solrSearchMethodBefore.addFilterQuery("methodVar_" + languageName + "_indexed_string:" + fqMethodBefore);
 							QueryResponse searchResponseMethodBefore = solrClientComputate.query(solrSearchMethodBefore);
 							SolrDocumentList searchListMethodBefore = searchResponseMethodBefore.getResults();
 	
@@ -1146,10 +1148,10 @@ public class IndexClass extends WatchClassBase {
 							solrSearchMethodAfter.setQuery("*:*");
 							solrSearchMethodAfter.setRows(10);
 							String fqMethodAfter = "(" + entityCanonicalNamesSuperAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars("apres" + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
-							solrSearchMethodAfter.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexedd_strings:" + fqSuperClassesAndMe);
-							solrSearchMethodAfter.addFilterQuery("domainPackageName_indexedd_string:" + ClientUtils.escapeQueryChars(domainPackageName));
-							solrSearchMethodAfter.addFilterQuery("partIsMethod_indexedd_boolean:true");
-							solrSearchMethodAfter.addFilterQuery("methodVar_" + languageName + "_indexedd_string:" + fqMethodAfter);
+							solrSearchMethodAfter.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqSuperClassesAndMe);
+							solrSearchMethodAfter.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+							solrSearchMethodAfter.addFilterQuery("partIsMethod_indexed_boolean:true");
+							solrSearchMethodAfter.addFilterQuery("methodVar_" + languageName + "_indexed_string:" + fqMethodAfter);
 							QueryResponse searchResponseMethodAfter = solrClientComputate.query(solrSearchMethodAfter);
 							SolrDocumentList searchListMethodAfter = searchResponseMethodAfter.getResults();
 	
@@ -1211,15 +1213,14 @@ public class IndexClass extends WatchClassBase {
 
 						indexStoreSolr(entityDoc, "entityExact", regexFound("^exact:\\s*(true)$", methodComment));
 						Boolean entityUniqueKey = indexStoreSolr(entityDoc, "entityUniqueKey", regexFound("^uniqueKey:\\s*(true)$", methodComment));
-						Boolean entityEnencryptedd = indexStoreSolr(entityDoc, "entityEnencryptedd", regexFound("^encrypted:\\s*(true)$", methodComment));
+						Boolean entityEncrypted = indexStoreSolr(entityDoc, "entityEncrypted", regexFound("^encrypted:\\s*(true)$", methodComment));
 						Boolean entitySuggested = indexStoreSolr(entityDoc, "entitySuggested", regexFound("^suggested:\\s*(true)$", methodComment));
 						Boolean entitySaved = indexStoreSolr(entityDoc, "entitySaved", regexFound("^saved:\\s*(true)$", methodComment));
 						Boolean entityIndexed = indexStoreSolr(entityDoc, "entityIndexed", regexFound("^indexed:\\s*(true)$", methodComment));
 						Boolean entityIncremented = indexStoreSolr(entityDoc, "entityIncremented", regexFound("^incremented:\\s*(true)$", methodComment));
 						Boolean entityStored = indexStoreSolr(entityDoc, "entityStored", regexFound("^stored:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityIndexedOrStored", entityUniqueKey || entityEnencryptedd || entitySuggested || entityIndexed || entityStored || entityIncremented);
+						indexStoreSolr(entityDoc, "entityIndexedOrStored", entityUniqueKey || entityEncrypted || entitySuggested || entityIndexed || entityStored || entityIncremented);
 						indexStoreSolr(entityDoc, "entityText", regexFound("^text:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityDisplayName", regexFound("^displayName:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityIgnored", regexFound("^ignore:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityDeclared", regexFound("^declared:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entitySearch", regexFound("^search:\\s*(true)$", methodComment));
@@ -1227,8 +1228,11 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "entityDelete", regexFound("^delete:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityModify", regexFound("^modify:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityRefresh", regexFound("^refresh:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityMultiLine", regexFound("^multiLine:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityMultiLine", regexFound("^multiline:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityKeys", regexFound("^keys:\\s*(true)$", methodComment));
+
+						indexStoreSolr(entityDoc, "entityDisplayName", languageName, regex("^displayName:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "entiteTitre", languageName, regex("^title:\\s*(.*)$", methodComment, 1));
 
 						Matcher entiteAttribuerRecherche = methodComment == null ? null : Pattern.compile("^attribuer:\\s*([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
 						boolean entiteAttribuerTrouve = entiteAttribuerRecherche == null ? false : entiteAttribuerRecherche.find();
@@ -1239,9 +1243,9 @@ public class IndexClass extends WatchClassBase {
 							SolrQuery solrSearchClasse = new SolrQuery();   
 							solrSearchClasse.setQuery("*:*");
 							solrSearchClasse.setRows(1);
-							solrSearchClasse.addFilterQuery("classSimpleName_" + languageName + "_indexedd_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomSimple));
-							solrSearchClasse.addFilterQuery("domainPackageName_indexedd_string:" + ClientUtils.escapeQueryChars(domainPackageName));
-							solrSearchClasse.addFilterQuery("partIsClass_indexedd_boolean:true");
+							solrSearchClasse.addFilterQuery("classSimpleName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomSimple));
+							solrSearchClasse.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+							solrSearchClasse.addFilterQuery("partIsClass_indexed_boolean:true");
 							QueryResponse searchResponseClasse = solrClientComputate.query(solrSearchClasse);
 							SolrDocumentList searchListClasse = searchResponseClasse.getResults();
 
@@ -1252,10 +1256,10 @@ public class IndexClass extends WatchClassBase {
 								SolrQuery solrSearchVar = new SolrQuery();   
 								solrSearchVar.setQuery("*:*");
 								solrSearchVar.setRows(1);
-								solrSearchVar.addFilterQuery("classCanonicalName_" + languageName + "_indexedd_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomCanonique));
-								solrSearchVar.addFilterQuery("entityVar_" + languageName + "_indexedd_string:" + ClientUtils.escapeQueryChars(entiteAttribuerVar));
-								solrSearchVar.addFilterQuery("domainPackageName_indexedd_string:" + ClientUtils.escapeQueryChars(domainPackageName));
-								solrSearchVar.addFilterQuery("partEstEntite_indexedd_boolean:true");
+								solrSearchVar.addFilterQuery("classCanonicalName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomCanonique));
+								solrSearchVar.addFilterQuery("entityVar_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerVar));
+								solrSearchVar.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+								solrSearchVar.addFilterQuery("partEstEntite_indexed_boolean:true");
 								QueryResponse searchResponseVar = solrClientComputate.query(solrSearchVar);
 								SolrDocumentList searchListVar = searchResponseVar.getResults();
 
@@ -1299,9 +1303,9 @@ public class IndexClass extends WatchClassBase {
 //							entityWrap = true;
 //							entite.couverture(true);
 //						} 
-//						if(entite.uniqueKey)
+//						if(entite.cleUnique)
 //							varCleUniqueActuel.tout(entite.var);
-//						if(entite.suggested)
+//						if(entite.suggere)
 //							varSuggereActuel.tout(entite.var);
 //	
 //						if(!entitesTout.contains(entite))
@@ -1362,9 +1366,9 @@ public class IndexClass extends WatchClassBase {
 							String entiteAnnotationLangue = indexStoreSolr(entityDoc, "entiteAnnotations", languageName, annotation.getType().getCanonicalName());
 						}
 //						if(classReturnQdox != null && !classReturnQdox.getCanonicalName().equals("void")) {
-//							entityCanonicalNameRetourComplet = indexedrStocker(entityDoc, "entityCanonicalNameRetourComplet", languageName, classReturnQdox.getGenericCanonicalName());
-//							entityCanonicalNameRetour = indexedrStocker(entityDoc, "entityCanonicalNameRetour", languageName, classReturnQdox.getCanonicalName());
-//							String entitySimpleNameRetour = indexedrStocker(entityDoc, "entitySimpleNameRetour", languageName, StringUtils.substringAfterLast(entityCanonicalNameRetour, "."));
+//							entityCanonicalNameRetourComplet = indexerStocker(entityDoc, "entityCanonicalNameRetourComplet", languageName, classReturnQdox.getGenericCanonicalName());
+//							entityCanonicalNameRetour = indexerStocker(entityDoc, "entityCanonicalNameRetour", languageName, classReturnQdox.getCanonicalName());
+//							String entitySimpleNameRetour = indexerStocker(entityDoc, "entitySimpleNameRetour", languageName, StringUtils.substringAfterLast(entityCanonicalNameRetour, "."));
 //							String listeNomTypeOrigineRetourGenerique = entityCanonicalNameRetourComplet;
 //							String entityCanonicalNameRetourGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(listeNomTypeOrigineRetourGenerique, "<"), ">");
 //							String entitySimpleNameRetourComplet;
@@ -1372,22 +1376,22 @@ public class IndexClass extends WatchClassBase {
 //							entityCanonicalNameRetourGenerique = entityCanonicalNameRetourGenerique.contains("<") ? StringUtils.substringBefore(entityCanonicalNameRetourGenerique, "<") : entityCanonicalNameRetourGenerique;
 //							entityCanonicalNameRetourGenerique = entityCanonicalNameRetourGenerique.contains(",") ? StringUtils.substringBefore(entityCanonicalNameRetourGenerique, ",") : entityCanonicalNameRetourGenerique;
 //							if(StringUtils.isNotEmpty(entityCanonicalNameRetourGenerique)) {
-//								indexedrStocker(entityDoc, "entityCanonicalNameRetourGenerique", languageName, entityCanonicalNameRetourGenerique);
+//								indexerStocker(entityDoc, "entityCanonicalNameRetourGenerique", languageName, entityCanonicalNameRetourGenerique);
 //	
 //								if(StringUtils.contains(entityCanonicalNameRetourGenerique, "."))
-//									entitySimpleNameRetourGenerique = indexedrStocker(entityDoc, "entitySimpleNameRetourGenerique", languageName, StringUtils.substringAfterLast(entityCanonicalNameRetourGenerique, "."));
+//									entitySimpleNameRetourGenerique = indexerStocker(entityDoc, "entitySimpleNameRetourGenerique", languageName, StringUtils.substringAfterLast(entityCanonicalNameRetourGenerique, "."));
 //								else
-//									entitySimpleNameRetourGenerique = indexedrStocker(entityDoc, "entitySimpleNameRetourGenerique", languageName, entityCanonicalNameRetourGenerique);
+//									entitySimpleNameRetourGenerique = indexerStocker(entityDoc, "entitySimpleNameRetourGenerique", languageName, entityCanonicalNameRetourGenerique);
 //	
 //								if(StringUtils.contains(entitySimpleNameRetourGenerique, ".")) {
-//									entitySimpleNameRetourComplet = indexedrStocker(entityDoc, "entitySimpleNameRetourComplet", languageName, concat(StringUtils.substringAfterLast(entitySimpleNameRetour, "."), "<", entitySimpleNameRetourGenerique, ">"));
+//									entitySimpleNameRetourComplet = indexerStocker(entityDoc, "entitySimpleNameRetourComplet", languageName, concat(StringUtils.substringAfterLast(entitySimpleNameRetour, "."), "<", entitySimpleNameRetourGenerique, ">"));
 //								}
 //								else {
-//									entitySimpleNameRetourComplet = indexedrStocker(entityDoc, "entitySimpleNameRetourComplet", languageName, concat(entitySimpleNameRetour, "<", entitySimpleNameRetourGenerique, ">"));
+//									entitySimpleNameRetourComplet = indexerStocker(entityDoc, "entitySimpleNameRetourComplet", languageName, concat(entitySimpleNameRetour, "<", entitySimpleNameRetourGenerique, ">"));
 //								}
 //							}
 //							else {
-//								entitySimpleNameRetourComplet = indexedrStocker(entityDoc, "entityCanonicalNameRetourComplet", languageName, entitySimpleNameRetour);
+//								entitySimpleNameRetourComplet = indexerStocker(entityDoc, "entityCanonicalNameRetourComplet", languageName, entitySimpleNameRetour);
 //							}
 //						}
 	
@@ -1433,7 +1437,7 @@ public class IndexClass extends WatchClassBase {
 							entityCanonicalNameVertxJson = VAL_canonicalNameLong;
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBigDecimal)) {
-							entitySimpleNameVertxJson = "Long";
+							entitySimpleNameVertxJson = "Double";
 							entityCanonicalNameVertxJson = VAL_canonicalNameLong;
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameDouble)) {
@@ -1510,79 +1514,80 @@ public class IndexClass extends WatchClassBase {
 						storeSolr(entityDoc, "entityCanonicalNameVertxJson", entityCanonicalNameVertxJson);
 
 						////////////////////
-						// entiteTypeSolr //
+						// entiteSolrNomCanonique //
 						////////////////////
-						String entiteTypeSolr = null;
+						String entiteSolrNomCanonique = null;
 						String entiteSuffixeType = null;
 						if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBoolean)) {
-							entiteTypeSolr = VAL_canonicalNameBoolean;
+							entiteSolrNomCanonique = VAL_canonicalNameBoolean;
 							entiteSuffixeType = "_boolean";
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameDate)) {
-							entiteTypeSolr = VAL_canonicalNameDate;
+							entiteSolrNomCanonique = VAL_canonicalNameDate;
 							entiteSuffixeType = "_date";
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLong)) {
-							entiteTypeSolr = VAL_canonicalNameLong;
+							entiteSolrNomCanonique = VAL_canonicalNameLong;
 							entiteSuffixeType = "_long";
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBigDecimal)) {
-							entiteTypeSolr = VAL_canonicalNameDouble;
+							entiteSolrNomCanonique = VAL_canonicalNameDouble;
 							entiteSuffixeType = "_double";
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameDouble)) {
-							entiteTypeSolr = VAL_canonicalNameDouble;
+							entiteSolrNomCanonique = VAL_canonicalNameDouble;
 							entiteSuffixeType = "_double";
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameFloat)) {
-							entiteTypeSolr = VAL_canonicalNameFloat;
+							entiteSolrNomCanonique = VAL_canonicalNameFloat;
 							entiteSuffixeType = "_float";
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameInteger)) {
-							entiteTypeSolr = VAL_canonicalNameInteger;
+							entiteSolrNomCanonique = VAL_canonicalNameInteger;
 							entiteSuffixeType = "_int";
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
 							if(entityCanonicalNameGeneric.equals(VAL_canonicalNameBoolean)) {
-								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameBoolean + ">";
+								entiteSolrNomCanonique = VAL_canonicalNameList + "<" + VAL_canonicalNameBoolean + ">";
 								entiteSuffixeType = "_booleans";
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate)) {
-								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameDate + ">";
+								entiteSolrNomCanonique = VAL_canonicalNameList + "<" + VAL_canonicalNameDate + ">";
 								entiteSuffixeType = "_dates";
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameLong)) {
-								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameLong + ">";
+								entiteSolrNomCanonique = VAL_canonicalNameList + "<" + VAL_canonicalNameLong + ">";
 								entiteSuffixeType = "_longs";
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameBigDecimal)) {
-								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameBigDecimal + ">";
+								entiteSolrNomCanonique = VAL_canonicalNameList + "<" + VAL_canonicalNameBigDecimal + ">";
 								entiteSuffixeType = "_doubles";
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameDouble)) {
-								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameDouble + ">";
+								entiteSolrNomCanonique = VAL_canonicalNameList + "<" + VAL_canonicalNameDouble + ">";
 								entiteSuffixeType = "_doubles";
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameFloat)) {
-								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameFloat + ">";
+								entiteSolrNomCanonique = VAL_canonicalNameList + "<" + VAL_canonicalNameFloat + ">";
 								entiteSuffixeType = "_floats";
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameInteger)) {
-								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameInteger + ">";
+								entiteSolrNomCanonique = VAL_canonicalNameList + "<" + VAL_canonicalNameInteger + ">";
 								entiteSuffixeType = "_ints";
 							}
 							else if(classPartsChain != null && StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameString, classPartsChain.canonicalName)) {
-								entiteTypeSolr = VAL_canonicalNameList + "<" + VAL_canonicalNameString + ">";
+								entiteSolrNomCanonique = VAL_canonicalNameList + "<" + VAL_canonicalNameString + ">";
 								entiteSuffixeType = "_strings";
 							}
 						}
 						else if(classPartsChain != null && StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameString, classPartsChain.canonicalName)) {
-							entiteTypeSolr = VAL_canonicalNameString;
+							entiteSolrNomCanonique = VAL_canonicalNameString;
 							entiteSuffixeType = "_string";
 ////								if(videDernier)
 ////									suffixeType += "_videDernier";
 						}
-						storeSolr(entityDoc, "entiteTypeSolr", entiteTypeSolr);
+						storeSolr(entityDoc, "entiteSolrNomCanonique", entiteSolrNomCanonique);
+						storeSolr(entityDoc, "entiteSolrNomSimple", StringUtils.substringAfterLast(entiteSolrNomCanonique, "."));
 
 						////////////////////
 						// entiteTypeJson //
@@ -1661,15 +1666,15 @@ public class IndexClass extends WatchClassBase {
 						if(entityUniqueKey)
 							storeSolr(entityDoc, "entityVarCleUnique", entityVar);
 						if(entitySuggested)
-							storeSolr(entityDoc, "entityVarSuggere", entityVar + "_suggested");
+							storeSolr(entityDoc, "entityVarSuggere", entityVar + "_suggere");
 						if(entityIncremented)
-							storeSolr(entityDoc, "entityVarIncremente", entityVar + "_incremented");
-						if(entityEnencryptedd)
-							storeSolr(entityDoc, "entityVarCrypte", entityVar + "_encrypted");
+							storeSolr(entityDoc, "entityVarIncremente", entityVar + "_incremente");
+						if(entityEncrypted)
+							storeSolr(entityDoc, "entityVarCrypte", entityVar + "_crypte");
 						if(entityIndexed)
-							storeSolr(entityDoc, "entityVarIndexe", entityVar + "_indexed" + entiteSuffixeType);
+							storeSolr(entityDoc, "entityVarIndexe", entityVar + "_indexe" + entiteSuffixeType);
 						if(entityStored)
-							storeSolr(entityDoc, "entityVarStocke", entityVar + "_stored" + entiteSuffixeType);
+							storeSolr(entityDoc, "entityVarStocke", entityVar + "_stocke" + entiteSuffixeType);
 
 						for(String languageName : otherLanguages) {  
 							String entityVarLangue = regex("^var\\." + languageName + ": (.*)", methodComment);
@@ -1689,6 +1694,15 @@ public class IndexClass extends WatchClassBase {
 							storeSolr(entityDoc, "entiteBlocCode", languageName, entiteBlocCodeLangue); 
 	
 							storeRegexComments(methodComment, languageName, entityDoc, "entiteCommentaire");
+						}
+
+						for(JavaClass methodExceptionQdox : methodExceptionsQdox) { 
+							String methodExceptionSimpleNameComplete = StringUtils.substringAfterLast(methodExceptionQdox.getCanonicalName(), ".");
+							storeListSolr(entityDoc, "methodeExceptionsNomSimpleComplet", methodExceptionSimpleNameComplete);
+							for(String languageName : otherLanguages) {  
+								ClassParts methodeExceptionClassPartsLangue = ClassParts.initClassParts(this, methodExceptionQdox.getCanonicalName(), languageName);
+								storeListSolr(entityDoc, "methodeExceptionsNomSimpleComplet", methodeExceptionClassPartsLangue.simpleNameComplete);
+							}
 						}
 
 						solrClientComputate.add(entityDoc); 
@@ -1738,7 +1752,12 @@ public class IndexClass extends WatchClassBase {
 						for(JavaClass methodExceptionQdox : methodExceptionsQdox) { 
 							String methodExceptionSimpleNameComplete = StringUtils.substringAfterLast(methodExceptionQdox.getCanonicalName(), ".");
 							storeListSolr(methodDoc, "methodeExceptionsNomSimpleComplet", methodExceptionSimpleNameComplete);
+							for(String languageName : otherLanguages) {  
+								ClassParts methodeExceptionClassPartsLangue = ClassParts.initClassParts(this, methodExceptionQdox.getCanonicalName(), languageName);
+								storeListSolr(methodDoc, "methodeExceptionsNomSimpleComplet", methodeExceptionClassPartsLangue.simpleNameComplete);
+							}
 						}
+
 						Boolean methodIsVoid = false;
 						if(classReturnQdox != null && !classReturnQdox.getCanonicalName().equals("void")) {
 							ClassParts methodReturnClassParts = ClassParts.initClassParts(this, methodQdox.getReturns(), languageName);
@@ -1839,7 +1858,7 @@ public class IndexClass extends WatchClassBase {
 
 		solrClientComputate.add(classDoc);
 		solrClientComputate.commit();
-		String qDelete = concat("classAbsolutePath_indexedd_string", ":\"", classPath, "\" AND (modified_indexedd_date:[* TO ", modified.toString(), "-1MILLI] OR (*:* NOT modified_indexedd_date:*))");
+		String qDelete = concat("classAbsolutePath_indexed_string", ":\"", classPath, "\" AND (modified_indexed_date:[* TO ", modified.toString(), "-1MILLI] OR (*:* NOT modified_indexed_date:*))");
 		solrClientComputate.deleteByQuery(qDelete);
 		solrClientComputate.commit(); 
 		return classDoc;

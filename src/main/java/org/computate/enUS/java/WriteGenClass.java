@@ -16,12 +16,8 @@ import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 
 /**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  */
@@ -218,7 +214,7 @@ public class WriteGenClass extends WriteGenClassGen {
 //	protected String entiteVarCrypte;
 //	protected String entiteVarIndexe;
 //	protected String entiteVarStocke;
-//	protected String entiteTypeSolr;
+//	protected String entiteSolrNomCanonique;
 //
 //	protected Boolean entiteExact;
 //	protected Boolean entiteCleUnique;
@@ -256,7 +252,7 @@ public class WriteGenClass extends WriteGenClassGen {
 	
 	  ;
 
-	public void  genCodeInit() throws Exception {
+	public void  genCodeInit() throws Exception, Exception {
 
 		wInitialiserLoin = new StringWriter();
 		codeInitialiserLoin = new PrintWriter(wInitialiserLoin);
@@ -307,7 +303,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		codeApiGenererPatch = new PrintWriter(wApiGenererPatch);
 	}
 
-	public void  genCodeInitialiserLoin(String langueNom) throws Exception {
+	public void  genCodeInitialiserLoin(String langueNom) throws Exception, Exception {
 		if(BooleanUtils.isTrue(classeInitLoin)) {
 			o = codeInitialiserLoin;
 			l(); 
@@ -333,7 +329,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodeRequeteSite(String langueNom) throws Exception {
+	public void  genCodeRequeteSite(String langueNom) throws Exception, Exception {
 		if(BooleanUtils.isTrue(classeInitLoin)) {
 			o = codeRequeteSite;
 			l(); 
@@ -347,7 +343,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodeIndexer(String langueNom) throws Exception {
+	public void  genCodeIndexer(String langueNom) throws Exception, Exception {
 		o = codeIndexer;
 		if(classeIndexe) {
 			l(); 
@@ -398,7 +394,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodeObtenir(String langueNom) throws Exception {
+	public void  genCodeObtenir(String langueNom) throws Exception, Exception {
 		o = codeObtenir;
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
@@ -428,7 +424,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodeAttribuer(String langueNom) throws Exception {
+	public void  genCodeAttribuer(String langueNom) throws Exception, Exception {
 		o = codeAttribuer;
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
@@ -459,7 +455,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodePut(String langueNom) throws Exception {
+	public void  genCodePut(String langueNom) throws Exception, Exception {
 		o = codePut;
 		if(classeSauvegarde) {
 //		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
@@ -486,7 +482,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodePeupler(String langueNom) throws Exception {
+	public void  genCodePeupler(String langueNom) throws Exception, Exception {
 		o = codePeupler;
 		if(classeSauvegarde) {
 			l(); 
@@ -508,7 +504,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodeExiste(String langueNom) throws Exception {
+	public void  genCodeExiste(String langueNom) throws Exception, Exception {
 		o = codeExiste;
 		if(classeSauvegarde) {
 			l(); 
@@ -577,7 +573,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodeSauvegardes(String langueNom) throws Exception {
+	public void  genCodeSauvegardes(String langueNom) throws Exception, Exception {
 		o = codeSauvegardes;
 		if(classeSauvegarde) {
 			l(); 
@@ -618,7 +614,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodeSauvegarder(String langueNom) throws Exception {
+	public void  genCodeSauvegarder(String langueNom) throws Exception, Exception {
 		o = codeSauvegarder;
 		if(classeSauvegarde) {
 			l(); 
@@ -683,7 +679,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodeClasseDebut(String langueNom) throws Exception {
+	public void  genCodeClasseDebut(String langueNom) throws Exception, Exception {
 		o = auteurGenClasse;
 
 		l("package ", classeNomEnsemble, ";");
@@ -747,7 +743,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 	}
 
-	public void  genCodeEntite(String langueNom) throws Exception {
+	public void  genCodeEntite(String langueNom) throws Exception, Exception {
 		String entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
 		String entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + langueNom + "_stored_string");
 		String entiteNomCanonique = (String)doc.get("entiteNomCanonique_" + langueNom + "_stored_string");
@@ -760,6 +756,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		Boolean entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
 		Boolean entiteInitialise = (Boolean)doc.get("entiteInitialise_stored_boolean");
 		Boolean entiteInitLoin = (Boolean)doc.get("entiteInitLoin_stored_boolean");
+		List<String> methodExceptionsSimpleNameComplete = (List<String>)doc.get("methodExceptionsSimpleNameComplete_stored_strings");
 
 		String entiteVarCleUniqueActuel = (String)doc.get("entiteVarCleUnique_stored_boolean");
 		if(StringUtils.isNotEmpty(entiteVarCleUniqueActuel))
@@ -769,7 +766,8 @@ public class WriteGenClass extends WriteGenClassGen {
 		String entiteVarCrypte = (String)doc.get("entiteVarCrypte_stored_string");
 		String entiteVarIndexe = (String)doc.get("entiteVarIndexe_stored_string");
 		String entiteVarStocke = (String)doc.get("entiteVarStocke_stored_string");
-		String entiteTypeSolr = (String)doc.get("entiteTypeSolr_stored_string");
+		String entiteSolrNomCanonique = (String)doc.get("entiteSolrNomCanonique_stored_string");
+		String entiteSolrNomSimple = (String)doc.get("entiteSolrNomSimple_stored_string");
 		String entiteNomSimpleVertxJson = (String)doc.get("entiteNomSimpleVertxJson_stored_string");
 		String entiteNomCanoniqueVertxJson = (String)doc.get("entiteNomCanoniqueVertxJson_stored_string");
 		String entiteListeNomSimpleVertxJson = (String)doc.get("entiteListeNomSimpleVertxJson_stored_string");
@@ -784,7 +782,6 @@ public class WriteGenClass extends WriteGenClassGen {
 		Boolean entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
 		Boolean entitetexte = (Boolean)doc.get("entitetexte_stored_boolean");
 		Boolean entiteIncremente = (Boolean)doc.get("entiteIncremente_stored_boolean");
-		Boolean entiteNomAffichage = (Boolean)doc.get("entiteNomAffichage_stored_boolean");
 		Boolean entiteIgnorer = (Boolean)doc.get("entiteIgnorer_stored_boolean");
 		Boolean entiteDeclarer = (Boolean)doc.get("entiteDeclarer_stored_boolean");
 		Boolean entiteRechercher = (Boolean)doc.get("entiteRechercher_stored_boolean");
@@ -800,6 +797,9 @@ public class WriteGenClass extends WriteGenClassGen {
 		Boolean entiteCles = (Boolean)doc.get("entiteCles_stored_boolean");
 		Boolean entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
 		Boolean entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
+
+		String entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
+		String entiteTitre = (String)doc.get("entiteTitre_" + langueNom + "_stored_string");
 
 		List<String> entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
 		List<String> entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_stored_strings");
@@ -870,7 +870,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		l();
 		t(1, "/**");
 		t(1);
-			s(VAL_entiteCommentaireLigne1Part1, entiteVar, VAL_entiteCommentaireLigne1Part2);
+		s("<br/>", VAL_entiteCommentaireLigne1Part1, entiteVar, VAL_entiteCommentaireLigne1Part2);
 		l();
 
 		if(entiteCommentaire != null) {
@@ -888,14 +888,29 @@ public class WriteGenClass extends WriteGenClassGen {
 		}
 
 		if(entiteCouverture) {
-			tl(1, " *\t", VAL_entiteCouvertureLigne1Part1);
-			tl(1, " *\t@param ", entiteVarParam, VAL_entiteCouvertureLigne2Part1);
+			tl(1, " * ", VAL_entiteCouvertureLigne1Part1);
 		}
 		else {
-			tl(1, " *\t", VAL_entiteConstruitLigne1Part1, entiteNomSimpleComplet, VAL_entiteConstruitLigne1Part2);
-			tl(1, " *\t@param ", entiteVar, VAL_entiteConstruitLigne2Part1);
+			tl(1, " * ", VAL_entiteConstruitLigne1Part1, entiteNomSimpleComplet, VAL_entiteConstruitLigne1Part2);
 		}
-		tl(1, " *\t@throws java.lang.Exception", VAL_entiteThrowsLigne2Part1);
+
+		// Lien vers Solr //
+		tl(1, " * <br/><a href=\"", urlSolrComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">Trouver l'entité ", entiteVar, " dans Solr</a>");
+		tl(1, " * <br/>");
+
+		if(entiteCouverture) {
+			tl(1, " * @param ", entiteVarParam, VAL_entiteCouvertureLigne2Part1);
+		}
+		else {
+			tl(1, " * @param ", entiteVar, VAL_entiteConstruitLigne2Part1);
+		}
+//		if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
+//
+//			for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
+//				String methodExceptionSimpleNameComplete = methodExceptionsSimpleNameComplete.get(i);
+//				tl(1, " * @throws ", methodExceptionSimpleNameComplete);
+//			}
+//		}
 		tl(1, " */");
 		t(1, "protected abstract void");
 		s(" _", entiteVar);
@@ -906,7 +921,18 @@ public class WriteGenClass extends WriteGenClassGen {
 		else {
 			s(entiteNomSimpleComplet, " ", entiteVarParam);
 		}
-		l(") throws Exception;");
+		s(")");
+		if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
+
+			s(" throws ");
+			for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
+				String methodExceptionSimpleNameComplete = methodExceptionsSimpleNameComplete.get(i);
+				if(i > 0) 
+					s(", ");
+				s(methodExceptionSimpleNameComplete);
+			}
+		}
+		l(";");
 
 //						l();
 //						tl(1, "public ", classeNomSimple, " ", entiteVar, "(", entiteNomSimpleComplet, " ", entiteVarParam, ") throws Exception {");
@@ -937,8 +963,8 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(3, "Long l = Long.parseLong(o);");
 			tl(3, "add", entiteVarCapitalise, "(l);");
 			tl(2, "}");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -947,8 +973,8 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
 			tl(3, "this.", entiteVar, " = Boolean.parseBoolean(o);");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -957,8 +983,8 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Integer.parseInt(o);");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -967,16 +993,18 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = new BigDecimal(o);");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Double o) throws Exception {");
 			tl(3, "this.", entiteVar, " = new BigDecimal(o);");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Integer o) throws Exception {");
 			tl(3, "this.", entiteVar, " = new BigDecimal(o);");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -985,8 +1013,8 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Float.parseFloat(o);");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -995,8 +1023,8 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Double.parseDouble(o);");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -1005,8 +1033,8 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 			tl(3, "this.", entiteVar, " = Long.parseLong(o);");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -1014,8 +1042,8 @@ public class WriteGenClass extends WriteGenClassGen {
 		if(StringUtils.equals(entiteNomSimple, "Chaine")) {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, entiteVar, ".tout(o);");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -1024,8 +1052,8 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -1034,8 +1062,8 @@ public class WriteGenClass extends WriteGenClassGen {
 			tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -1043,17 +1071,19 @@ public class WriteGenClass extends WriteGenClassGen {
 		if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Instant o) throws Exception {");
 			tl(2, "this.", entiteVar, " = LocalDate.from(o);");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 			tl(1, "/** Example: 2011-12-03+01:00 **/");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) throws Exception {");
 			tl(2, "this.", entiteVar, " = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -1061,17 +1091,19 @@ public class WriteGenClass extends WriteGenClassGen {
 		if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Instant o) throws Exception {");
 			tl(2, "this.", entiteVar, " = LocalDateTime.from(o);");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 			tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) throws Exception {");
 			tl(2, "this.", entiteVar, " = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
+			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 			tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) throws Exception {");
 			tl(2, "this.", entiteVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 		}
 
@@ -1305,6 +1337,76 @@ public class WriteGenClass extends WriteGenClassGen {
 			}
 		}
 
+		//////////
+		// html //
+		//////////
+		if(entiteSolrNomCanonique != null) {
+
+			//////////
+			// solr //
+			//////////
+			l();
+			tl(1, "public ", entiteSolrNomSimple, " solr", entiteVarCapitalise, "() {");
+			if(entiteNomSimple.equals("Chaine")) {
+				tl(2, "return ", entiteVar, " == null ? null : ", entiteVar, ";");
+			}
+			else if(entiteNomSimple.equals("Timestamp")) {
+				tl(2, "return ", entiteVar, " == null ? null : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"UTC\")));");
+			}
+			else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
+				tl(2, "return ", entiteVar, " == null ? null : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"UTC\")));");
+			}
+			else if(entiteNomSimple.toString().equals("LocalDate")) {
+				tl(2, "return ", entiteVar, " == null ? null : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(\"UTC\")));");
+			}
+			else if(entiteNomSimple.toString().equals("BigDecimal")) {
+				tl(2, "return ", entiteVar, " == null ? null : ", entiteVar, ".doubleValue();");
+			}
+			else {
+				tl(2, "return ", entiteVar, ";");
+			}
+			tl(1, "}");
+
+			/////////
+			// str //
+			/////////
+			l();
+			tl(1, "public String str", entiteVarCapitalise, "() {");
+			if(VAL_nomCanoniqueString.equals(entiteSolrNomCanonique))
+				tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ";");
+			else
+				tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".toString();");
+			tl(1, "}");
+
+			//////////
+			// htm //
+			//////////
+
+			l();
+			tl(1, "public String htm", entiteVarCapitalise, "() {");
+			tl(2, "return ", entiteVar, " == null ? \"\" : StringEscapeUtils.escapeHtml4(str", entiteVarCapitalise, "());");
+			tl(1, "}");
+
+			if(classeSauvegarde && entiteSolrNomCanonique != null) {
+				l();
+				tl(1, "public void htm", entiteVarCapitalise, "(HttpServerResponse r) {");
+				tl(2, "r.write(\"<div class=\\\"\\\">\"); {");
+				tl(3, "r.write(\"<label>\"); {");
+				tl(4, "r.write(\"<span>", StringEscapeUtils.escapeHtml4(entiteNomAffichage), "</span>\");");
+				tl(4, "r.write(\"<input\"); {"); {
+					tl(5, "r.write(\" name=\\\"", entiteVar, "\\\"\");");
+					tl(5, "r.write(\" value=\\\"\").write(htm", entiteVarCapitalise, "()).write(\"\\\");\");");
+					if(entiteTitre != null)
+						tl(5, "r.write(\" title=\\\"", StringEscapeUtils.escapeHtml4(entiteTitre), "\\\"\");");
+					tl(5, "r.write(\" onchange=\\\"\\\"\");");
+					tl(4, "r.write(\"/>\"); }");
+				}
+				tl(3, "r.write(\"</label>\"); }");
+				tl(2, "r.write(\"</div>\"); }");
+				tl(1, "}");
+			}
+		}
+
 		////////////////////
 		// codeIninitLoin //
 		////////////////////
@@ -1472,36 +1574,36 @@ public class WriteGenClass extends WriteGenClassGen {
 
 				if(!StringUtils.isEmpty(entiteVarSuggere)) {
 //									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-					tl(4, entiteTypeSolr, " ", entiteVar, " = (", entiteTypeSolr, ")documentSolr.get(\"", entiteVarSuggere, "\");");
+					tl(4, entiteSolrNomCanonique, " ", entiteVar, " = (", entiteSolrNomCanonique, ")documentSolr.get(\"", entiteVarSuggere, "\");");
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //									tl(3, "}");
 				}
 				else if(!StringUtils.isEmpty(entiteVarIncremente)) {
 //									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-					tl(4, entiteTypeSolr, " ", entiteVar, " = (", entiteTypeSolr, ")documentSolr.get(\"", entiteVarIncremente, "\");");
+					tl(4, entiteSolrNomCanonique, " ", entiteVar, " = (", entiteSolrNomCanonique, ")documentSolr.get(\"", entiteVarIncremente, "\");");
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //									tl(3, "}");
 				}
 				else if(!StringUtils.isEmpty(entiteVarCleUniqueActuel)) {
 //									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-					tl(4, entiteTypeSolr, " ", entiteVar, " = org.apache.commons.lang3.math.NumberUtils.toLong((String)documentSolr.get(\"", entiteVarCleUniqueActuel, "\"));");
+					tl(4, entiteSolrNomCanonique, " ", entiteVar, " = org.apache.commons.lang3.math.NumberUtils.toLong((String)documentSolr.get(\"", entiteVarCleUniqueActuel, "\"));");
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //									tl(3, "}");
 				}
 				else if(!StringUtils.isEmpty(entiteVarCrypte)) {
 //									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
 					if(siteCrypte)
-						tl(4, entiteTypeSolr, " ", entiteVar, " = requeteSite.decrypterStr((", entiteTypeSolr, ")documentSolr.get(\"", entiteVarCrypte, "\"));");
+						tl(4, entiteSolrNomCanonique, " ", entiteVar, " = requeteSite.decrypterStr((", entiteSolrNomCanonique, ")documentSolr.get(\"", entiteVarCrypte, "\"));");
 					else
-						tl(4, entiteTypeSolr, " ", entiteVar, " = (", entiteTypeSolr, ")documentSolr.get(\"", entiteVarCrypte, "\");");
+						tl(4, entiteSolrNomCanonique, " ", entiteVar, " = (", entiteSolrNomCanonique, ")documentSolr.get(\"", entiteVarCrypte, "\");");
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //									tl(3, "}");
 				}
 				else {
 //									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-					tl(4, entiteTypeSolr, " ", entiteVar, " = (", entiteTypeSolr, ")documentSolr.get(\"", entiteVarStocke, "\");");
+					tl(4, entiteSolrNomCanonique, " ", entiteVar, " = (", entiteSolrNomCanonique, ")documentSolr.get(\"", entiteVarStocke, "\");");
 					tl(4, "if(", entiteVar, " != null)");
-					if(StringUtils.contains(entiteTypeSolr, "<"))
+					if(StringUtils.contains(entiteSolrNomCanonique, "<"))
 						tl(5, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
 					else
 						tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
@@ -1612,7 +1714,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		o = codeApiGenererGet;
 		if(classeIndexe && entiteStocke) {
 			tl(4, "if(ENTITE_VAR_STOCKE_", entiteVar, ".equals(entiteVarStocke)) {");
-			if (VAL_nomCanoniqueBoolean.equals(entiteTypeSolr)) {
+			if (VAL_nomCanoniqueBoolean.equals(entiteSolrNomCanonique)) {
 				tl(5, "if(j > 0)");
 				tl(6, "reponseServeur.write(VAL_virguleEspace);");
 				tl(5, "reponseServeur.write(VAL_citation);");
@@ -1622,7 +1724,7 @@ public class WriteGenClass extends WriteGenClassGen {
 				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
-			} else if (VAL_nomCanoniqueDate.equals(entiteTypeSolr)) {
+			} else if (VAL_nomCanoniqueDate.equals(entiteSolrNomCanonique)) {
 				if (VAL_nomCanoniqueTimestamp.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
 					tl(6, "reponseServeur.write(VAL_virguleEspace);");
@@ -1664,7 +1766,7 @@ public class WriteGenClass extends WriteGenClassGen {
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
-			} else if (VAL_nomCanoniqueLong.equals(entiteTypeSolr)) {
+			} else if (VAL_nomCanoniqueLong.equals(entiteSolrNomCanonique)) {
 				tl(5, "if(j > 0)");
 				tl(6, "reponseServeur.write(VAL_virguleEspace);");
 				tl(5, "reponseServeur.write(VAL_citation);");
@@ -1674,7 +1776,7 @@ public class WriteGenClass extends WriteGenClassGen {
 				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
-			} else if (VAL_nomCanoniqueDouble.equals(entiteTypeSolr)) {
+			} else if (VAL_nomCanoniqueDouble.equals(entiteSolrNomCanonique)) {
 				if (VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
 					tl(6, "reponseServeur.write(VAL_virguleEspace);");
@@ -1697,7 +1799,7 @@ public class WriteGenClass extends WriteGenClassGen {
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
-			} else if (VAL_nomCanoniqueFloat.equals(entiteTypeSolr)) {
+			} else if (VAL_nomCanoniqueFloat.equals(entiteSolrNomCanonique)) {
 				tl(5, "if(j > 0)");
 				tl(6, "reponseServeur.write(VAL_virguleEspace);");
 				tl(5, "reponseServeur.write(VAL_citation);");
@@ -1707,7 +1809,7 @@ public class WriteGenClass extends WriteGenClassGen {
 				tl(5, "reponseServeur.write(VAL_ligne);");
 				tl(5, "j++;");
 				tl(5, "return j;");
-			} else if (VAL_nomCanoniqueInteger.equals(entiteTypeSolr)) {
+			} else if (VAL_nomCanoniqueInteger.equals(entiteSolrNomCanonique)) {
 				tl(5, "if(j > 0)");
 				tl(6, "reponseServeur.write(VAL_virguleEspace);");
 				tl(5, "reponseServeur.write(VAL_citation);");
@@ -2123,7 +2225,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		}	
 	}
 
-	public void  genCodeClasseFin(String langueNom) throws Exception {
+	public void  genCodeClasseFin(String langueNom) throws Exception, Exception {
 		//////////////////
 		// codeInitLoin //
 		//////////////////
