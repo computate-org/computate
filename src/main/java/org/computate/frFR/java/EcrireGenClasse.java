@@ -77,6 +77,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classePageUri;
 	protected String classeApiUri;
 	protected String classeCommentaire;
+	protected String classeVarCleUnique;
 	protected List<String> classeImportationsGen;
 	protected List<String> classeImportationsGenApi;
 	protected List<String> classeImportationsGenPage;
@@ -142,10 +143,14 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected StringWriter wApiChamps;
 	protected PrintWriter codeApiChamps;
+
+	protected StringWriter wPageChamps;
+	protected PrintWriter codePageChamps;
+
+	protected StringWriter wPageGet;
+	protected PrintWriter codePageGet;
 //
 //	protected PrintWriter oAvant;
-
-	protected String entiteVarCleUnique;
 
 	protected String entiteVar;
 	protected String entiteVarCapitalise;
@@ -239,6 +244,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		wApiChamps = new StringWriter();
 		codeApiChamps = new PrintWriter(wApiChamps);
 
+		wPageChamps = new StringWriter();
+		codePageChamps = new PrintWriter(wPageChamps);
+
 		wApiGet = new StringWriter();
 		codeApiGet = new PrintWriter(wApiGet);
 
@@ -253,6 +261,9 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		wApiGenererPatch = new StringWriter();
 		codeApiGenererPatch = new PrintWriter(wApiGenererPatch);
+
+		wPageGet = new StringWriter();
+		codePageGet = new PrintWriter(wPageGet);
 	}
 
 	public void genCodeInitialiserLoin(String langueNom) throws Exception {
@@ -334,8 +345,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "public void indexer", classeNomSimple, "(RequeteSite requeteSite) throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "indexer", classeNomSimple, "(document);");
-			if(classeSauvegarde)
-				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
+//			if(classeSauvegarde)
+//				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
 			tl(2, "SolrClient clientSolr = requeteSite_.getSiteContexte_().getClientSolr();");
 			tl(2, "clientSolr.add(document);");
 			tl(2, "clientSolr.commit();");
@@ -419,7 +430,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public boolean putPourClasse(JsonObject requeteJson) throws Exception {");
+			l("public void putPourClasse(JsonObject requeteJson) throws Exception {");
 			tl(2, "Set<String> vars = requeteJson.fieldNames();");
 			tl(2, "for(String var : vars) {");
 			tl(3, "put", classeNomSimple + "(requeteJson, var);");
@@ -716,9 +727,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		Boolean entiteInitLoin = (Boolean)doc.get("entiteInitLoin_stored_boolean");
 		List<String> methodeExceptionsNomSimpleComplet = (List<String>)doc.get("methodeExceptionsNomSimpleComplet_stored_strings");
 
-		String entiteVarCleUniqueActuel = (String)doc.get("entiteVarCleUnique_stored_boolean");
-		if(StringUtils.isNotEmpty(entiteVarCleUniqueActuel))
-			entiteVarCleUnique = entiteVarCleUniqueActuel;
+//		String entiteVarCleUniqueActuel = (String)doc.get("entiteVarCleUnique_stored_string");
+//		if(StringUtils.isNotEmpty(entiteVarCleUniqueActuel))
+//			entiteVarCleUnique = entiteVarCleUniqueActuel;
 		String entiteVarSuggere = (String)doc.get("entiteVarSuggere_stored_string");
 		String entiteVarIncremente = (String)doc.get("entiteVarIncremente_stored_string");
 		String entiteVarCrypte = (String)doc.get("entiteVarCrypte_stored_string");
@@ -757,7 +768,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		Boolean entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
 
 		String entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
-		String entiteTitre = (String)doc.get("entiteTitre_" + langueNom + "_stored_string");
+		String entiteHtmlTooltip = (String)doc.get("entiteHtmlTooltip_" + langueNom + "_stored_string");
 
 		List<String> entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
 		List<String> entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_stored_strings");
@@ -1306,16 +1317,16 @@ public class EcrireGenClasse extends EcrireClasse {
 			l();
 			tl(1, "public ", entiteSolrNomSimple, " solr", entiteVarCapitalise, "() {");
 			if(entiteNomSimple.equals("Chaine")) {
-				tl(2, "return ", entiteVar, " == null ? null : ", entiteVar, ";");
+				tl(2, "return ", entiteVar, " == null ? null : ", entiteVar, ".toString();");
 			}
 			else if(entiteNomSimple.equals("Timestamp")) {
-				tl(2, "return ", entiteVar, " == null ? null : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"UTC\")));");
+				tl(2, "return ", entiteVar, " == null ? null : Date.from(", entiteVar, ".toInstant());");
 			}
 			else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-				tl(2, "return ", entiteVar, " == null ? null : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"UTC\")));");
+				tl(2, "return ", entiteVar, " == null ? null : Date.from(", entiteVar, ".atZone(ZoneId.systemDefault()).toInstant());");
 			}
 			else if(entiteNomSimple.toString().equals("LocalDate")) {
-				tl(2, "return ", entiteVar, " == null ? null : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(\"UTC\")));");
+				tl(2, "return ", entiteVar, " == null ? null : Date.from(", entiteVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant());");
 			}
 			else if(entiteNomSimple.toString().equals("BigDecimal")) {
 				tl(2, "return ", entiteVar, " == null ? null : ", entiteVar, ".doubleValue();");
@@ -1330,37 +1341,81 @@ public class EcrireGenClasse extends EcrireClasse {
 			/////////
 			l();
 			tl(1, "public String str", entiteVarCapitalise, "() {");
-			if(VAL_nomCanoniqueString.equals(entiteSolrNomCanonique))
+			if(VAL_nomCanoniqueString.equals(entiteNomCanonique))
 				tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ";");
 			else
 				tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".toString();");
 			tl(1, "}");
 
+			//////////////////
+			// nomAffichage //
+			//////////////////
+			l();
+			tl(1, "public String nomAffichage", entiteVarCapitalise, "() {");
+			tl(2, "return ", entiteNomAffichage == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entiteNomAffichage) + "\"", ";");
+			tl(1, "}");
+
+			/////////////////
+			// htmlTooltip //
+			/////////////////
+			l();
+			tl(1, "public String htmlTooltip", entiteVarCapitalise, "() {");
+			tl(2, "return ", entiteHtmlTooltip == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entiteHtmlTooltip) + "\"", ";");
+			tl(1, "}");
+
 			//////////
-			// htm //
+			// html //
 			//////////
 
 			l();
-			tl(1, "public String htm", entiteVarCapitalise, "() {");
+			tl(1, "public String html", entiteVarCapitalise, "() {");
 			tl(2, "return ", entiteVar, " == null ? \"\" : StringEscapeUtils.escapeHtml4(str", entiteVarCapitalise, "());");
 			tl(1, "}");
 
-			if(classeSauvegarde && entiteSolrNomCanonique != null) {
+			if(entiteVarCapitalise != null && classeSauvegarde && entiteSolrNomCanonique != null) {
 				l();
-				tl(1, "public void htm", entiteVarCapitalise, "(HttpServerResponse r) {");
-				tl(2, "r.write(\"<div class=\\\"\\\">\"); {");
-				tl(3, "r.write(\"<label>\"); {");
-				tl(4, "r.write(\"<span>", StringEscapeUtils.escapeHtml4(entiteNomAffichage), "</span>\");");
-				tl(4, "r.write(\"<input\"); {"); {
-					tl(5, "r.write(\" name=\\\"", entiteVar, "\\\"\");");
-					tl(5, "r.write(\" value=\\\"\").write(htm", entiteVarCapitalise, "()).write(\"\\\");\");");
-					if(entiteTitre != null)
-						tl(5, "r.write(\" title=\\\"", StringEscapeUtils.escapeHtml4(entiteTitre), "\\\"\");");
-					tl(5, "r.write(\" onchange=\\\"\\\"\");");
-					tl(4, "r.write(\"/>\"); }");
+				tl(1, "public void html", entiteVarCapitalise, "(HttpServerResponse r, Boolean patchDroits) {");
+				tl(2, "if(", classeVarCleUnique, "!= null) {");
+				tl(3, "r.write(\"<div id=\\\"patch", classeNomSimple, "\").write(str", StringUtils.capitalize(classeVarCleUnique), "()).write(\"", entiteVarCapitalise, "\\\">\");");
+				tl(3, "if(patchDroits) {");
+				tl(4, "r.write(\"\\n\");");
+				tl(4, "r.write(\"	<script>//<![CDATA[\\n\");");
+				tl(4, "r.write(\"		function patch", classeNomSimple, "\").write(str", StringUtils.capitalize(classeVarCleUnique), "()).write(\"", entiteVarCapitalise, "() {\\n\");");
+				tl(4, "r.write(\"			$.ajax({\\n\");");
+				tl(4, "r.write(\"				url: '", classeApiUri, "?fq=", classeVarCleUnique, ":\").write(str", StringUtils.capitalize(classeVarCleUnique), "()).write(\"',\\n\");");
+				tl(4, "r.write(\"				dataType: 'json',\\n\");");
+				tl(4, "r.write(\"				type: 'patch',\\n\");");
+				tl(4, "r.write(\"				contentType: 'application/json',\\n\");");
+				tl(4, "r.write(\"				processData: false,\\n\");");
+				tl(4, "r.write(\"				success: function( data, textStatus, jQxhr ) {\\n\");");
+				tl(4, "r.write(\"					\\n\");");
+				tl(4, "r.write(\"				},\\n\");");
+				tl(4, "r.write(\"				error: function( jqXhr, textStatus, errorThrown ) {\\n\");");
+				tl(4, "r.write(\"					\\n\");");
+				tl(4, "r.write(\"				},\\n\");");
+				tl(4, "r.write(\"				data: {\\\"set", entiteVarCapitalise, "\\\": this.value },\\n\");");
+				tl(4, "r.write(\"				\\n\");");
+				tl(4, "r.write(\"			});\\n\");");
+				tl(4, "r.write(\"		}\\n\");");
+				tl(4, "r.write(\"	//]]></script>\\n\");");
+				tl(4, "r.write(\"	<div class=\\\"\\\">\\n\");");
+				tl(4, "r.write(\"		<label class=\\\"w3-tooltip \\\">\\n\");");
+				tl(4, "r.write(\"			<span>\").write(StringEscapeUtils.escapeHtml4(nomAffichage", entiteVarCapitalise, "())).write(\"</span>\\n\");");
+				tl(4, "r.write(\"			<input\");"); {
+					tl(7, "r.write(\" name=\\\"", entiteVar, "\\\"\");");
+					tl(7, "r.write(\" value=\\\"\").write(html", entiteVarCapitalise, "()).write(\"\\\");\");");
+					tl(7, "r.write(\" onchange=\\\"\\\"\");");
+					tl(7, "r.write(\"/>\\n\");");
 				}
-				tl(3, "r.write(\"</label>\"); }");
-				tl(2, "r.write(\"</div>\"); }");
+				if(entiteHtmlTooltip != null)
+					tl(4, "r.write(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", StringEscapeUtils.escapeJava(entiteHtmlTooltip), "</span>\");");
+				tl(4, "r.write(\"		</label>\\n\");");
+				tl(4, "r.write(\"	</div>\\n\");");
+				tl(3, "} else {");
+				tl(4, "r.write(html", entiteVarCapitalise, "());");
+				tl(3, "}");
+				tl(3, "r.write(\"</div>\\n\");");
+				tl(2, "}");
 				tl(1, "}");
 			}
 		}
@@ -1388,9 +1443,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		o = codeIndexer;
 		if(classeIndexe && entiteIndexeOuStocke) {
 			tl(2, "if(", entiteVar, " != null) {");
-			if(StringUtils.isNotEmpty(entiteVarCleUniqueActuel) && entiteCleUnique) {
-				// cleUnique
-				tl(3, "document.addField(\"", entiteVarCleUniqueActuel, "\", ", entiteVar, ");");
+			if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteCleUnique) {
+				// clePrimaire
+				tl(3, "document.addField(\"", classeVarCleUnique, "\", ", entiteVar, ");");
 			}
 			if(StringUtils.isNotEmpty(entiteVarCrypte) && entiteCrypte) {
 				// crypte
@@ -1527,7 +1582,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //							String varSuggere = entiteVarSuggere.toString();
 //							String varIncremente = entiteVarIncremente.toString();
 //							String varCleUnique = entiteVarCleUniqueActuel.toString();
-			if(!StringUtils.isEmpty(entiteVarCrypte) || !StringUtils.isEmpty(entiteVarStocke) || !StringUtils.isEmpty(entiteVarCleUniqueActuel) || !StringUtils.isEmpty(entiteVarSuggere) || !StringUtils.isEmpty(entiteVarIncremente)) {
+			if(!StringUtils.isEmpty(entiteVarCrypte) || !StringUtils.isEmpty(entiteVarStocke) || !StringUtils.isEmpty(classeVarCleUnique) || !StringUtils.isEmpty(entiteVarSuggere) || !StringUtils.isEmpty(entiteVarIncremente)) {
 				tl(0);
 
 				if(!StringUtils.isEmpty(entiteVarSuggere)) {
@@ -1542,9 +1597,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //									tl(3, "}");
 				}
-				else if(!StringUtils.isEmpty(entiteVarCleUniqueActuel)) {
+				else if(!StringUtils.isEmpty(classeVarCleUnique)) {
 //									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-					tl(4, entiteSolrNomCanonique, " ", entiteVar, " = org.apache.commons.lang3.math.NumberUtils.toLong((String)documentSolr.get(\"", entiteVarCleUniqueActuel, "\"));");
+					tl(4, entiteSolrNomCanonique, " ", entiteVar, " = org.apache.commons.lang3.math.NumberUtils.toLong((String)documentSolr.get(\"", classeVarCleUnique, "\"));");
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //									tl(3, "}");
 				}
@@ -2102,7 +2157,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(tBase + 6, "case \"addAll", entiteVarCapitalise, "\":");
 						tl(tBase + 7, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
 						tl(tBase + 7, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
-						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_addA2);");
+						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_setA2);");
 						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
 						tl(tBase + 10, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
 						tl(tBase + 10, ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
@@ -2122,7 +2177,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(tBase + 9, "));");
 
 						tl(tBase + 7, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
-						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_addA2);");
+						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_setA2);");
 						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
 						tl(tBase + 10, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
 						tl(tBase + 10, ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
@@ -2160,7 +2215,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 	
 					tl(tBase + 6, "case \"add", entiteVarCapitalise, "\":");
-					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_addP);");
+					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_addA);");
 					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
 					tl(tBase + 9, "ENTITE_VAR_", entiteVar);
 					tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
@@ -2224,19 +2279,19 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			l("\t}");
 
-			if(StringUtils.isNotEmpty(entiteVarCleUnique)) {
+			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
 				tl(0);
 				tl(1, "public void desindexer", classeNomSimple, "() throws Exception {");
 				tl(2, "RequeteSite requeteSite = new RequeteSite();");
 				tl(2, "requeteSite.initLoinRequeteSite();");
-				tl(2, "SiteContexte SiteContexte = new SiteContexte();");
-				tl(2, "SiteContexte.initLoinSiteContexte();");
-				tl(2, "SiteContexte.setRequeteSite_(requeteSite);");
-				tl(2, "requeteSite.setSiteContexte_(SiteContexte);");
-				tl(2, "requeteSite.setConfigSite_(SiteContexte.configSite);");
-				tl(2, "initLoin", classeNomSimple, "(SiteContexte.requeteSite);");
-				tl(2, "SolrClient clientSolr = SiteContexte.clientSolr;");
-				tl(2, "clientSolr.deleteById(", entiteVarCleUnique, ".toString());");
+				tl(2, "SiteContexte siteContexte = new SiteContexte();");
+				tl(2, "siteContexte.initLoinSiteContexte();");
+				tl(2, "siteContexte.setRequeteSite_(requeteSite);");
+				tl(2, "requeteSite.setSiteContexte_(siteContexte);");
+				tl(2, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
+				tl(2, "initLoin", classeNomSimple, "(siteContexte.getRequeteSite_());");
+				tl(2, "SolrClient clientSolr = siteContexte.getClientSolr();");
+				tl(2, "clientSolr.deleteById(", classeVarCleUnique, ".toString());");
 				tl(2, "clientSolr.commit();");
 				tl(1, "}");
 			}
@@ -2332,6 +2387,8 @@ public class EcrireGenClasse extends EcrireClasse {
 		codeApiChamps.flush();
 		codeApiGet.flush();
 		codeApiGenererGet.flush();
+		codePageChamps.flush();
+		codePageGet.flush();
 
 		o = auteurGenClasse;
 
@@ -2340,11 +2397,11 @@ public class EcrireGenClasse extends EcrireClasse {
 		s(wIndexer.toString());
 		s(wObtenir.toString());
 		s(wAttribuer.toString());
-		s(wDefinir.toString());
-		s(wPeupler.toString());
-		s(wExiste.toString());
-		s(wSauvegardes.toString());
-		s(wSauvegarder.toString());
+//		s(wDefinir.toString());
+//		s(wPeupler.toString());
+//		s(wExiste.toString());
+//		s(wSauvegardes.toString());
+//		s(wSauvegarder.toString());
 
 		l("}"); 
 

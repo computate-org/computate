@@ -1,6 +1,7 @@
 package org.computate.frFR.java;
 
 import io.vertx.core.http.HttpServerResponse;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**	Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue.
  */

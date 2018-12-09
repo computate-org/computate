@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class WatchClass extends WriteAllClasses {
 
-	public static void  main(String[] args) throws Exception {   
+	public static void  main(String[] args) throws Exception, Exception {   
 		WatchClass watchClass = new WatchClass();
 		try {
 			watchClass.args = args;
@@ -21,7 +21,7 @@ public class WatchClass extends WriteAllClasses {
 		watchClass(watchClass);
 	}
 
-	public static void  watchClass(WatchClass watchClass) throws Exception {
+	public static void  watchClass(WatchClass watchClass) throws Exception, Exception {
 		System.out.println("absolutePath : " + watchClass.classAbsolutePath);
 
 		SolrInputDocument classeDoc = watchClass.indexerClasse(watchClass.classAbsolutePath);
@@ -41,7 +41,7 @@ public class WatchClass extends WriteAllClasses {
 	}
 
 	@Test()
-	public void  testStuff() throws Exception {
+	public void  testStuff() throws Exception, Exception {
 //		String appliNom = "computate";
 //		String appliChemin = "/usr/local/src/computate";
 //		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderClasseBase.java";
@@ -71,7 +71,8 @@ public class WatchClass extends WriteAllClasses {
 		String appliChemin = "/home/ctate/workspace-citi/" + appliNom;
 //		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/RepoCommon.java";
 //		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/repo/TeamRepo.java";
-		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/TeamPromotions.java";
+//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/TeamPromotions.java";
+		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/product/automation/AutomationBase.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;

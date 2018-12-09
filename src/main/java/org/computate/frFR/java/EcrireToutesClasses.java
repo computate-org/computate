@@ -29,7 +29,7 @@ import org.apache.solr.common.SolrDocumentList;
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  * initLoin: false
  */   
-public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse> {    
+public class EcrireToutesClasses extends EcrirePageClasse {        
 
 	/**
 	 * var.enUS: writeAllClasses
@@ -206,6 +206,7 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 					classeNomSimpleApi = (String)doc.get("classeNomSimpleApi_" + langueNom + "_stored_string");
 					classeNomSimpleApiGen = (String)doc.get("classeNomSimpleApiGen_" + langueNom + "_stored_string");
+					classeVarCleUnique = (String)doc.get("classeVarCleUnique_" + langueNom + "_stored_string");
 					classePageUri = (String)doc.get("classePageUri_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
@@ -254,6 +255,8 @@ public class EcrireToutesClasses extends EcrireToutesClassesGen<EcrireApiClasse>
 					genCodeClasseDebut(langueNom);
 					if(classeApi)
 						apiCodeClasseDebut(langueNom);
+					if(classePage)
+						pageCodeClasseDebut(langueNom);
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");

@@ -28,7 +28,7 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 	/**	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language.
 	 */
-	protected void  writeAllClasses(String classAbsolutePath, String languageName) throws Exception { 
+	protected void  writeAllClasses(String classAbsolutePath, String languageName) throws Exception, Exception { 
 
 		SolrQuery solrSearch = new SolrQuery();   
 		solrSearch.setQuery("*:*");
@@ -44,7 +44,7 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 	/**	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language.
 	 */
-	protected void  writeAllClasses(QueryResponse searchResponse, String languageName) throws Exception { 
+	protected void  writeAllClasses(QueryResponse searchResponse, String languageName) throws Exception, Exception { 
 		SolrDocumentList searchList = searchResponse.getResults();
 
 		if(searchList.size() > 0 && (languageIndexed || !StringUtils.equals(languageName, this.languageName))) {    
@@ -73,6 +73,7 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 					classPackageName = (String)doc.get("classPackageName_" + languageName + "_stored_string");
 					classSimpleNameApi = (String)doc.get("classSimpleNameApi_" + languageName + "_stored_string");
 					classSimpleNameApiGen = (String)doc.get("classSimpleNameApiGen_" + languageName + "_stored_string");
+					classeVarCleUnique = (String)doc.get("classeVarCleUnique_" + languageName + "_stored_string");
 					classePageUri = (String)doc.get("classePageUri_" + languageName + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_" + languageName + "_stored_string");
 					classComment = (String)doc.get("classComment_" + languageName + "_stored_string");
@@ -121,6 +122,8 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 					genCodeClasseDebut(languageName);
 					if(classeApi)
 						apiCodeClasseDebut(languageName);
+					if(classePage)
+						pageCodeClasseDebut(languageName);
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");

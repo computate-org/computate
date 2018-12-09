@@ -7,7 +7,6 @@ import java.io.PrintWriter;
  * 
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
- * apiUri.enUS: /api/v1/oai/moissoneur
  */  
 public class EcrireApiClasse extends EcrireGenClasse {  
 
@@ -300,116 +299,116 @@ public class EcrireApiClasse extends EcrireGenClasse {
 		tl(2, "}");
 		tl(2, "return j;");
 		tl(1, "}");
-
-		//////////
-		// POST //
-		//////////
-		l();
-//		tl(1, "protected void handlePost", classeNomSimple, "(SiteContexte siteContexte) {");
-		tl(1, "protected void post", classeNomSimple, "(SiteContexte siteContexte) {");
-//		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur_();");
-		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur_();");
-
-//		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
-		tl(2, "usineRouteur.addHandlerByOperationId(\"post", classeNomSimple, "\", contexteRoutage -> {");
-		tBase = 0;
-		if(classeRolesTrouve) {
-			String requeteRole = classeRoles.get(0);
-			tBase = 6;
-			tl(3, "contexteRoutage.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
-			tl(4, "try {");
-			tl(5, "if (authRes.result() == Boolean.TRUE) {");
-		}
-		else {
-			tBase = 4;
-			tl(3, "try {");
-		}
-		tl(tBase + 0, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, contexteRoutage);");
-		tl(tBase + 0, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-		tl(tBase + 0, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
-		tl(tBase + 0, "JsonObject requeteJson = contexteRoutage.getBodyAsJson();");
-		tl(tBase + 0, "SQLClient clientSql = requeteSite.getSiteContexte_().getClientSql();");
-		l();
-		tl(tBase + 0, "clientSql.getConnection(resultatAsync -> {");
-		tl(tBase + 1, "if(resultatAsync.succeeded()) {");
-		tl(tBase + 2, "LocalDateTime modifie = java.time.LocalDateTime.now();");
-		tl(tBase + 2, "String horodatageStr = Timestamp.valueOf(modifie).toString();");
-		tl(tBase + 2, "String utilisateurId = requeteSite.getUtilisateurId();");
-		tl(tBase + 2, "SQLConnection connexionSql = resultatAsync.result();");
-		l();
-		tl(tBase + 2, "connexionSql.queryWithParams(");
-		tl(tBase + 4, "SiteContexte.SQL_creer");
-		tl(tBase + 4, ", new JsonArray(Arrays.asList(VAL_nomCanonique", classeNomSimple, ", utilisateurId))");
-		tl(tBase + 4, ", asyncCreer");
-		tl(tBase + 4, "-> {");
-		tl(tBase + 3, "if(asyncCreer.succeeded()) {");
-		tl(tBase + 4, "List<Object> postSqlParams = Arrays.asList();");
-		tl(tBase + 4, "JsonArray postLigne = asyncCreer.result().getResults().stream().findFirst().orElseGet(() -> null);");
-		tl(tBase + 4, "Long postPk = postLigne.getLong(0);");
-		tl(tBase + 4, "StringBuilder postSql = new StringBuilder();");
-		tl(tBase + 4, "postSqlParams = new ArrayList<Object>();");
-		tl(tBase + 4, "Set<String> entiteVars = requeteJson.fieldNames();");
-		tl(tBase + 4, "for(String entiteVar : entiteVars) {");
-		tl(tBase + 5, "switch(entiteVar) {");
-		s(wApiGenererPost.toString());
-		tl(tBase + 5, "}");
-		tl(tBase + 4, "}");
-		tl(tBase + 4, "connexionSql.queryWithParams(postSql.toString(), new JsonArray(postSqlParams), asyncParams -> {");
-		tl(tBase + 5, "connexionSql.close();");
-		tl(tBase + 5, "if(asyncParams.succeeded()) {");
-		tl(tBase + 6, classeNomSimple, " o = new ", classeNomSimple, "();");
-		tl(tBase + 6, "o.putPourClasse(requeteJson);");
-		tl(tBase + 6, "o.sauvegarderPourClasse();");
-		tl(tBase + 6, "o.sauvegardesPourClasse();");
-		tl(tBase + 6, "o.initialiserLoinPourClasse();");
-		tl(tBase + 6, "o.indexerPourClasse();");
-		tl(tBase + 6, "requeteSite.setRequetePk(o.getPk());");
-		l();
-		tl(tBase + 5, "}");
-		tl(tBase + 4, "});");
-		tl(tBase + 3, "} else {");
-		tl(tBase + 4, "connexionSql.close();");
-		tl(tBase + 4, "contexteRoutage.fail(resultatAsync.cause());");
-		tl(tBase + 3, "}");
-		tl(tBase + 2, "});");
-		tl(tBase + 1, "} else {");
-		tl(tBase + 2, "LOGGER.error(\"Impossible d'ouvrir une connexion à la base de données. \", resultatAsync.cause());");
-		tl(tBase + 2, "contexteRoutage.fail(resultatAsync.cause());");
-		tl(tBase + 1, "}");
-		tl(tBase + 0, "});");
-		l();
-		tl(tBase, "contexteRoutage.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
-		l();
-		tl(tBase, "genererPostDebut", classeNomSimple, "(requeteSite);");
-		tl(tBase, classeNomSimple, " nouveau", classeNomSimple, " = new ", classeNomSimple, "();");
-		tl(tBase, "nouveau", classeNomSimple, ".initLoin", classeNomSimple, "(requeteSite);");
-		tl(tBase, "nouveau", classeNomSimple, ".peupler", classeNomSimple, "();");
-		tl(tBase, "post", classeNomSimple, "();");
-		tl(tBase, "genererPostFin", classeNomSimple, "(requeteSite);");
-		tl(tBase, "requeteSite.getReponseServeur().end();");
-		l();
-		l();
-		tl(tBase + 0, "reponseServeur.write(\"\\t]\\n\");");
-		tl(tBase + 0, "reponseServeur.write(\"}\\n\");");
-		if(classeRolesTrouve) {
-			tl(5, "}");
-			tl(5, "else {");
-			tl(6, "contexteRoutage.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
-			tl(5, "}");
-			tl(4, "} catch(Exception e) {");
-			tl(5, "LOGGER.error(\"Error: \", e.getMessage());");
-			tl(5, "contexteRoutage.fail(e);");
-			tl(4, "}");
-			tl(3, "});");
-		}
-		else {
-			tl(3, "} catch(Exception e) {");
-			tl(4, "LOGGER.error(\"Error: \", e.getMessage());");
-			tl(4, "contexteRoutage.fail(e);");
-			tl(3, "}");
-		}
-		tl(2, "});");
-		tl(1, "}");
+//
+//		//////////
+//		// POST //
+//		//////////
+//		l();
+////		tl(1, "protected void handlePost", classeNomSimple, "(SiteContexte siteContexte) {");
+//		tl(1, "protected void post", classeNomSimple, "(SiteContexte siteContexte) {");
+////		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur_();");
+//		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur_();");
+//
+////		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
+//		tl(2, "usineRouteur.addHandlerByOperationId(\"post", classeNomSimple, "\", contexteRoutage -> {");
+//		tBase = 0;
+//		if(classeRolesTrouve) {
+//			String requeteRole = classeRoles.get(0);
+//			tBase = 6;
+//			tl(3, "contexteRoutage.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
+//			tl(4, "try {");
+//			tl(5, "if (authRes.result() == Boolean.TRUE) {");
+//		}
+//		else {
+//			tBase = 4;
+//			tl(3, "try {");
+//		}
+//		tl(tBase + 0, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, contexteRoutage);");
+//		tl(tBase + 0, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
+//		tl(tBase + 0, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
+//		tl(tBase + 0, "JsonObject requeteJson = contexteRoutage.getBodyAsJson();");
+//		tl(tBase + 0, "SQLClient clientSql = requeteSite.getSiteContexte_().getClientSql();");
+//		l();
+//		tl(tBase + 0, "clientSql.getConnection(resultatAsync -> {");
+//		tl(tBase + 1, "if(resultatAsync.succeeded()) {");
+//		tl(tBase + 2, "LocalDateTime modifie = java.time.LocalDateTime.now();");
+//		tl(tBase + 2, "String horodatageStr = Timestamp.valueOf(modifie).toString();");
+//		tl(tBase + 2, "String utilisateurId = requeteSite.getUtilisateurId();");
+//		tl(tBase + 2, "SQLConnection connexionSql = resultatAsync.result();");
+//		l();
+//		tl(tBase + 2, "connexionSql.queryWithParams(");
+//		tl(tBase + 4, "SiteContexte.SQL_creer");
+//		tl(tBase + 4, ", new JsonArray(Arrays.asList(VAL_nomCanonique", classeNomSimple, ", utilisateurId))");
+//		tl(tBase + 4, ", asyncCreer");
+//		tl(tBase + 4, "-> {");
+//		tl(tBase + 3, "if(asyncCreer.succeeded()) {");
+//		tl(tBase + 4, "List<Object> postSqlParams = Arrays.asList();");
+//		tl(tBase + 4, "JsonArray postLigne = asyncCreer.result().getResults().stream().findFirst().orElseGet(() -> null);");
+//		tl(tBase + 4, "Long postPk = postLigne.getLong(0);");
+//		tl(tBase + 4, "StringBuilder postSql = new StringBuilder();");
+//		tl(tBase + 4, "postSqlParams = new ArrayList<Object>();");
+//		tl(tBase + 4, "Set<String> entiteVars = requeteJson.fieldNames();");
+//		tl(tBase + 4, "for(String entiteVar : entiteVars) {");
+//		tl(tBase + 5, "switch(entiteVar) {");
+//		s(wApiGenererPost.toString());
+//		tl(tBase + 5, "}");
+//		tl(tBase + 4, "}");
+//		tl(tBase + 4, "connexionSql.queryWithParams(postSql.toString(), new JsonArray(postSqlParams), asyncParams -> {");
+//		tl(tBase + 5, "connexionSql.close();");
+//		tl(tBase + 5, "if(asyncParams.succeeded()) {");
+//		tl(tBase + 6, classeNomSimple, " o = new ", classeNomSimple, "();");
+////		tl(tBase + 6, "o.putPourClasse(requeteJson);");
+////		tl(tBase + 6, "o.sauvegarderPourClasse();");
+////		tl(tBase + 6, "o.sauvegardesPourClasse();");
+////		tl(tBase + 6, "o.initialiserLoinPourClasse();");
+////		tl(tBase + 6, "o.indexerPourClasse();");
+//		tl(tBase + 6, "requeteSite.setRequetePk(o.getPk());");
+//		l();
+//		tl(tBase + 5, "}");
+//		tl(tBase + 4, "});");
+//		tl(tBase + 3, "} else {");
+//		tl(tBase + 4, "connexionSql.close();");
+//		tl(tBase + 4, "contexteRoutage.fail(resultatAsync.cause());");
+//		tl(tBase + 3, "}");
+//		tl(tBase + 2, "});");
+//		tl(tBase + 1, "} else {");
+//		tl(tBase + 2, "LOGGER.error(\"Impossible d'ouvrir une connexion à la base de données. \", resultatAsync.cause());");
+//		tl(tBase + 2, "contexteRoutage.fail(resultatAsync.cause());");
+//		tl(tBase + 1, "}");
+//		tl(tBase + 0, "});");
+//		l();
+//		tl(tBase, "contexteRoutage.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
+//		l();
+////		tl(tBase, "genererPostDebut", classeNomSimple, "(requeteSite);");
+////		tl(tBase, classeNomSimple, " nouveau", classeNomSimple, " = new ", classeNomSimple, "();");
+////		tl(tBase, "nouveau", classeNomSimple, ".initLoin", classeNomSimple, "(requeteSite);");
+////		tl(tBase, "nouveau", classeNomSimple, ".peupler", classeNomSimple, "();");
+////		tl(tBase, "post", classeNomSimple, "();");
+////		tl(tBase, "genererPostFin", classeNomSimple, "(requeteSite);");
+//		tl(tBase, "requeteSite.getReponseServeur().end();");
+//		l();
+//		l();
+//		tl(tBase + 0, "reponseServeur.write(\"\\t]\\n\");");
+//		tl(tBase + 0, "reponseServeur.write(\"}\\n\");");
+//		if(classeRolesTrouve) {
+//			tl(5, "}");
+//			tl(5, "else {");
+//			tl(6, "contexteRoutage.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
+//			tl(5, "}");
+//			tl(4, "} catch(Exception e) {");
+//			tl(5, "LOGGER.error(\"Error: \", e.getMessage());");
+//			tl(5, "contexteRoutage.fail(e);");
+//			tl(4, "}");
+//			tl(3, "});");
+//		}
+//		else {
+//			tl(3, "} catch(Exception e) {");
+//			tl(4, "LOGGER.error(\"Error: \", e.getMessage());");
+//			tl(4, "contexteRoutage.fail(e);");
+//			tl(3, "}");
+//		}
+//		tl(2, "});");
+//		tl(1, "}");
 
 		///////////
 		// PATCH //
@@ -467,11 +466,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 		tl(tBase + 5, "connexionSql.close();");
 		tl(tBase + 5, "if(asyncParams.succeeded()) {");
 		tl(tBase + 6, classeNomSimple, " o = new ", classeNomSimple, "();");
-		tl(tBase + 6, "o.putPourClasse(requeteJson);");
-		tl(tBase + 6, "o.sauvegarderPourClasse();");
-		tl(tBase + 6, "o.sauvegardesPourClasse();");
-		tl(tBase + 6, "o.initialiserLoinPourClasse();");
-		tl(tBase + 6, "o.indexerPourClasse();");
+//		tl(tBase + 6, "o.putPourClasse(requeteJson);");
+//		tl(tBase + 6, "o.sauvegarderPourClasse();");
+//		tl(tBase + 6, "o.sauvegardesPourClasse();");
+//		tl(tBase + 6, "o.initialiserLoinPourClasse();");
+//		tl(tBase + 6, "o.indexerPourClasse();");
 		tl(tBase + 6, "requeteSite.setRequetePk(o.getPk());");
 		l();
 		tl(tBase + 5, "}");
@@ -489,12 +488,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 		l();
 		tl(tBase, "contexteRoutage.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
 		l();
-		tl(tBase, "genererPatchDebut", classeNomSimple, "(requeteSite);");
-		tl(tBase, classeNomSimple, " nouveau", classeNomSimple, " = new ", classeNomSimple, "();");
-		tl(tBase, "nouveau", classeNomSimple, ".initLoin", classeNomSimple, "(requeteSite);");
-		tl(tBase, "nouveau", classeNomSimple, ".peupler", classeNomSimple, "();");
-		tl(tBase, "patch", classeNomSimple, "();");
-		tl(tBase, "genererPatchFin", classeNomSimple, "(requeteSite);");
+//		tl(tBase, "genererPatchDebut", classeNomSimple, "(requeteSite);");
+//		tl(tBase, classeNomSimple, " nouveau", classeNomSimple, " = new ", classeNomSimple, "();");
+//		tl(tBase, "nouveau", classeNomSimple, ".initLoin", classeNomSimple, "(requeteSite);");
+//		tl(tBase, "nouveau", classeNomSimple, ".peupler", classeNomSimple, "();");
+//		tl(tBase, "patch", classeNomSimple, "();");
+//		tl(tBase, "genererPatchFin", classeNomSimple, "(requeteSite);");
 		tl(tBase, "requeteSite.getReponseServeur().end();");
 		l();
 		l();
