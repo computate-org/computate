@@ -677,6 +677,16 @@ public class IndexClass extends WatchClassBase {
 				classRolesFoundCurrent = classRolesSearch.find();
 			}
 			indexStoreSolr(classDoc, "classRolesFound", classRolesFound); 
+
+			Matcher classKeywordsRecherche = Pattern.compile("^motCle:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
+			boolean classKeywordsFoundActuel = classKeywordsFound;
+			while(classKeywordsFoundActuel) {
+				String classKeywordValue = classKeywordsRecherche.group(1);
+				classKeywordsFoundActuel = classKeywordsRecherche.find();
+				if(!classKeywords.contains(classKeywordValue))
+					classKeywords.add(classKeywordValue);
+				classKeywordsFound = true;
+			}
 		}
 
 		SolrDocument classSuperCanonicalNameDoc = null;   
@@ -1769,10 +1779,10 @@ public class IndexClass extends WatchClassBase {
 
 						for(JavaClass methodExceptionQdox : methodExceptionsQdox) { 
 							String methodExceptionSimpleNameComplete = StringUtils.substringAfterLast(methodExceptionQdox.getCanonicalName(), ".");
-							storeListSolr(entityDoc, "methodeExceptionsNomSimpleComplet", methodExceptionSimpleNameComplete);
+							storeListSolr(entityDoc, "methodExceptionsSimpleNameComplete", methodExceptionSimpleNameComplete);
 							for(String languageName : otherLanguages) {  
 								ClassParts methodeExceptionClassPartsLangue = ClassParts.initClassParts(this, methodExceptionQdox.getCanonicalName(), languageName);
-								storeListSolr(entityDoc, "methodeExceptionsNomSimpleComplet", methodeExceptionClassPartsLangue.simpleNameComplete);
+								storeListSolr(entityDoc, "methodExceptionsSimpleNameComplete", methodeExceptionClassPartsLangue.simpleNameComplete);
 							}
 						}
 
@@ -1822,10 +1832,10 @@ public class IndexClass extends WatchClassBase {
 
 						for(JavaClass methodExceptionQdox : methodExceptionsQdox) { 
 							String methodExceptionSimpleNameComplete = StringUtils.substringAfterLast(methodExceptionQdox.getCanonicalName(), ".");
-							storeListSolr(methodDoc, "methodeExceptionsNomSimpleComplet", methodExceptionSimpleNameComplete);
+							storeListSolr(methodDoc, "methodExceptionsSimpleNameComplete", methodExceptionSimpleNameComplete);
 							for(String languageName : otherLanguages) {  
 								ClassParts methodeExceptionClassPartsLangue = ClassParts.initClassParts(this, methodExceptionQdox.getCanonicalName(), languageName);
-								storeListSolr(methodDoc, "methodeExceptionsNomSimpleComplet", methodeExceptionClassPartsLangue.simpleNameComplete);
+								storeListSolr(methodDoc, "methodExceptionsSimpleNameComplete", methodeExceptionClassPartsLangue.simpleNameComplete);
 							}
 						}
 
@@ -1904,29 +1914,29 @@ public class IndexClass extends WatchClassBase {
 		for(String classKeywordValue : classKeywords)
 			storeListSolr(classDoc, "classKeywords", classKeywordValue); 
 		
-		ClassParts classePartsCouverture = classePartsCouverture(domainPackageName);
-		classPartsGenAdd(classePartsCouverture);
+		ClassParts classPartsWrap = classPartsWrap(domainPackageName);
+		classPartsGenAdd(classPartsWrap);
 
-		for(ClassParts classePartGen : classePartsGen.values()) {
-			indexStoreListSolr(classDoc, "classImportsGen", languageName, classePartGen.canonicalName);
+		for(ClassParts classPartGen : classPartsGen.values()) {
+			indexStoreListSolr(classDoc, "classImportsGen", languageName, classPartGen.canonicalName);
 			for(String languageName : otherLanguages) {  
-				ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classePartGen, languageName);
+				ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classPartGen, languageName);
 				indexStoreListSolr(classDoc, "classImportsGen", languageName, classImportClassPartsLanguage.canonicalName);
 			}
 		}
 
-		for(ClassParts classePartGenApi : classePartsGenApi.values()) {
-			indexStoreListSolr(classDoc, "classImportsGenApi", languageName, classePartGenApi.canonicalName);
+		for(ClassParts classPartGenApi : classPartsGenApi.values()) {
+			indexStoreListSolr(classDoc, "classImportsGenApi", languageName, classPartGenApi.canonicalName);
 			for(String languageName : otherLanguages) {  
-				ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classePartGenApi, languageName);
+				ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classPartGenApi, languageName);
 				indexStoreListSolr(classDoc, "classImportsGenApi", languageName, classImportClassPartsLanguage.canonicalName);
 			}
 		}
 
-		for(ClassParts classePartGenPage : classePartsGenPage.values()) {
-			indexStoreListSolr(classDoc, "classImportsGenPage", languageName, classePartGenPage.canonicalName);
+		for(ClassParts classPartGenPage : classPartsGenPage.values()) {
+			indexStoreListSolr(classDoc, "classImportsGenPage", languageName, classPartGenPage.canonicalName);
 			for(String languageName : otherLanguages) {  
-				ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classePartGenPage, languageName);
+				ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classPartGenPage, languageName);
 				indexStoreListSolr(classDoc, "classImportsGenPage", languageName, classImportClassPartsLanguage.canonicalName);
 			}
 		}

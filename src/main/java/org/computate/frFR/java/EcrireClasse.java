@@ -23,7 +23,7 @@ import org.apache.solr.common.SolrDocumentList;
  * val.VAL_entiteCommentaireLigne1Part1.enUS:The "
  * val.VAL_entiteCommentaireLigne1Part1.frFR:Le champ « 
  */  
-public class EcrireClasse extends IndexerClasse {
+public class EcrireClasse extends IndexerClasse { 
 
 	protected PrintWriter auteurClasse;
 
@@ -59,8 +59,8 @@ public class EcrireClasse extends IndexerClasse {
 
 	/**
 	 * var.enUS: writeComment
-	 * param2.var.enUS: comment
-	 * param3.var.enUS: tabs
+	 * param1.var.enUS: comment
+	 * param2.var.enUS: tabs
 	 * r: commentaire
 	 * r.enUS: comment
 	 * r: tabulations
@@ -175,6 +175,8 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: writeComment
 	 * r: classeSuperParamTypeNom
 	 * r.enUS: classSuperTypeParameterName
+	 * r: partEstConstructeur
+	 * r.enUS: partIsConstructor
 	 * r: partEstChamp
 	 * r.enUS: partIsField
 	 * r: champEstPublic
@@ -245,6 +247,14 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: methodIsAbstract
 	 * r: methodeEstNatif
 	 * r.enUS: methodIsNative
+	 * r: methodeParamsNomSimpleComplet
+	 * r.enUS: methodParamsSimpleNameComplete
+	 * r: methodeParamArgsVariables
+	 * r.enUS: methodParamVariableArgs
+	 * r: methodeParamsVar
+	 * r.enUS: methodParamsVar
+	 * r: methodeExceptionsNomSimpleComplet
+	 * r.enUS: methodExceptionsSimpleNameComplete
 	 * r: methodeAnnotationsNomSimpleCompletListe
 	 * r.enUS: methodAnnotationsSimpleNameCompleteList
 	 * r: methodeAnnotationsNomSimpleComplet
@@ -284,7 +294,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * r: methodeParamsArgsVariablesListe
 	 * r.enUS: methodParamVariableArgsList
 	 * r: methodeParamsArgsVariables
-	 * r.enUS: methodParamVariableArgs
+	 * r.enUS: methodParamsVariableArgs
 	 * r: methodeAnnotationBlocCode
 	 * r.enUS: methodAnnotationCodeBlock
 	 * r: methodeExceptionQdox
@@ -568,18 +578,44 @@ public class EcrireClasse extends IndexerClasse {
 		return this;
 	}
 
+	/**
+	 * var.enUS: languageName
+	 */
 	String langueNom;
+	/**
+	 * var.enUS: languageName
+	 * param1.var.enUS: languageName
+	 * r: langueNom
+	 * r.enUS: languageName
+	 */
 	public EcrireClasse langueNom(String langueNom) {
 		this.langueNom = langueNom;
 		return this;
 	}
 
+	/**
+	 * param1.var.enUS: objects
+	 * r: objets
+	 * r.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
 	public void s(Object...objets) {
 		for(Object objet : objets)
 			if(objet != null)
 				o.append(objet.toString());
 	}
 
+	/**
+	 * param1.var.enUS: numberTabs
+	 * param2.var.enUS: objects
+	 * r: nombreTabulations
+	 * r.enUS: numberTabs
+	 * r: objets
+	 * r.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
 	public void t(int nombreTabulations, Object...objets) {
 		for(int i = 0; i < nombreTabulations; i++)
 			o.append("\t");
@@ -588,6 +624,13 @@ public class EcrireClasse extends IndexerClasse {
 				o.append(objet.toString());
 	}
 
+	/**
+	 * param1.var.enUS: objects
+	 * r: objets
+	 * r.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
 	public void l(Object...objets) {
 		for(Object objet : objets)
 			if(objet != null)
@@ -595,6 +638,16 @@ public class EcrireClasse extends IndexerClasse {
 		o.append("\n");
 	}
 
+	/**
+	 * param1.var.enUS: numberTabs
+	 * param2.var.enUS: objects
+	 * r: nombreTabulations
+	 * r.enUS: numberTabs
+	 * r: objets
+	 * r.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
 	public void tl(int nombreTabulations, Object...objets) {
 		for(int i = 0; i < nombreTabulations; i++)
 			o.append("\t");

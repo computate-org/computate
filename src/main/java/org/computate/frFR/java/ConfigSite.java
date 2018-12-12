@@ -288,6 +288,8 @@ public class ConfigSite {
 	 * r.enUS: domainName
 	 * r: partis
 	 * r.enUS: parts
+	 * r: appliNom
+	 * r.enUS: appName
 	 **/ 
 	protected void _nomEnsembleDomaine() throws Exception {
 		nomEnsembleDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomEnsembleDomaine");
@@ -524,6 +526,8 @@ public class ConfigSite {
 	 * var.enUS: _siteEncrypted
 	 * r: siteCrypte
 	 * r.enUS: siteEncrypted
+	 * r: appliNom
+	 * r.enUS: appName
 	 **/ 
 	protected void _siteCrypte() throws Exception {
 		siteCrypte = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + ".siteCrypte", false);

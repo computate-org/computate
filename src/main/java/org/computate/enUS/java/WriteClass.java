@@ -23,9 +23,9 @@ public class WriteClass extends IndexClass {
 
 	PrintWriter o;
 
-	String langueNom;
+	String languageName;
 
-	protected void  writeClass(String classAbsolutePath, String languageName) { 
+	protected void  writeClass(String classAbsolutePath, String languageName) throws Exception, Exception { 
 		SolrQuery solrSearch = new SolrQuery();   
 		solrSearch.setQuery("*:*");
 		solrSearch.setRows(1000000);
@@ -36,7 +36,7 @@ public class WriteClass extends IndexClass {
 		writeClass(classAbsolutePath, languageName, searchResponse);
 	}
 
-	public void  writeComment(String commentaire, Integer comment) {
+	public void  writeComment(String comment, Integer tabs) {
 		String tabsStr = StringUtils.repeat("\t", tabs);
 		if(StringUtils.isNotEmpty(comment)) {
 			String[] parts = StringUtils.split(comment, "\n");
@@ -54,7 +54,7 @@ public class WriteClass extends IndexClass {
 	/**	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language.
 	 */
-	protected void  writeClass(String classAbsolutePath, String languageName, QueryResponse searchResponse) { 
+	protected void  writeClass(String classAbsolutePath, String languageName, QueryResponse searchResponse) throws Exception, Exception { 
 		SolrDocumentList searchList = searchResponse.getResults(); 
 
 		if(searchList.size() > 0) {
@@ -152,7 +152,7 @@ public class WriteClass extends IndexClass {
 				else {     
 					Boolean partIsField = (Boolean)doc.get("partIsField_stored_boolean");
 					Boolean partIsMethod = (Boolean)doc.get("partIsMethod_stored_boolean");
-					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
+					Boolean partIsConstructor = (Boolean)doc.get("partIsConstructor_stored_boolean");
 					Boolean partIsEntity = (Boolean)doc.get("partIsEntity_stored_boolean");
 	
 					if(BooleanUtils.isTrue(partIsField)) {
@@ -189,7 +189,7 @@ public class WriteClass extends IndexClass {
 						String methodVar = (String)doc.get("methodVar_" + languageName + "_stored_string");
 						String methodSourceCode = (String)doc.get("methodSourceCode_" + languageName + "_stored_string");
 						String methodComment = (String)doc.get("methodComment_" + languageName + "_stored_string");
-						List<String> methodeExceptionsNomSimpleComplet = (List<String>)doc.get("methodeExceptionsNomSimpleComplet_stored_strings");
+						List<String> methodExceptionsSimpleNameComplete = (List<String>)doc.get("methodExceptionsSimpleNameComplete_stored_strings");
 						List<String> methodTypeParameterNames = (List<String>)doc.get("methodTypeParameterNames_" + languageName + "_stored_strings");
 						List<String> methodAnnotationsSimpleNameCompleteList = (List<String>)doc.get("methodAnnotationsSimpleNameComplete_" + languageName + "_stored_strings");
 						List<String> methodAnnotationsCodeBlockList = (List<String>)doc.get("methodAnnotationsCodeBlock_" + languageName + "_stored_strings");
@@ -238,19 +238,19 @@ public class WriteClass extends IndexClass {
 						s(" ");
 						s(methodVar);
 						s("(");
-						List<String> methodeParamsNomSimpleComplet = (List<String>)doc.get("methodeParamsNomSimpleComplet_" + languageName + "_stored_strings"); 
-						List<String> methodeParamsVar = (List<String>)doc.get("methodeParamsVar_" + languageName + "_stored_strings");
-						List<Boolean> methodParamVariableArgs = (List<Boolean>)doc.get("methodParamVariableArgs_stored_booleans");
-						if(methodeParamsNomSimpleComplet != null && methodeParamsVar != null && methodeParamsNomSimpleComplet.size() == methodeParamsVar.size()) {
-							for(int j = 0; j < methodeParamsVar.size(); j++) {
-								String methodParamSimpleNameComplete = methodeParamsNomSimpleComplet.get(j);
-								String methodParamVar = methodeParamsVar.get(j);
-								Boolean methodeParamArgsVariables = methodParamVariableArgs.get(j);
+						List<String> methodParamsSimpleNameComplete = (List<String>)doc.get("methodParamsSimpleNameComplete_" + languageName + "_stored_strings"); 
+						List<String> methodParamsVar = (List<String>)doc.get("methodParamsVar_" + languageName + "_stored_strings");
+						List<Boolean> methodParamsVariableArgs = (List<Boolean>)doc.get("methodParamsVariableArgs_stored_booleans");
+						if(methodParamsSimpleNameComplete != null && methodParamsVar != null && methodParamsSimpleNameComplete.size() == methodParamsVar.size()) {
+							for(int j = 0; j < methodParamsVar.size(); j++) {
+								String methodParamSimpleNameComplete = methodParamsSimpleNameComplete.get(j);
+								String methodParamVar = methodParamsVar.get(j);
+								Boolean methodParamVariableArgs = methodParamsVariableArgs.get(j);
 								if(j > 0)
 									s(", ");
 								s(methodParamSimpleNameComplete);
 
-								if(methodeParamArgsVariables)
+								if(methodParamVariableArgs)
 									s("...");
 								else
 									s(" ");
@@ -259,10 +259,10 @@ public class WriteClass extends IndexClass {
 							}
 						}    
 						s(")");
-						if(methodeExceptionsNomSimpleComplet != null && methodeExceptionsNomSimpleComplet.size() > 0) {
+						if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
 							s(" throws ");
-							for(int j = 0; j < methodeExceptionsNomSimpleComplet.size(); j++) {
-								String methodExceptionSimpleNameComplete = methodeExceptionsNomSimpleComplet.get(j);
+							for(int j = 0; j < methodExceptionsSimpleNameComplete.size(); j++) {
+								String methodExceptionSimpleNameComplete = methodExceptionsSimpleNameComplete.get(j);
 								if(j > 0)
 									s(", ");
 								s(methodExceptionSimpleNameComplete);
@@ -297,38 +297,38 @@ public class WriteClass extends IndexClass {
 		return this;
 	}
 
-	public WriteClass langueNom(String langueNom) {
-		this.langueNom = langueNom;
+	public WriteClass languageName(String languageName) {
+		this.languageName = languageName;
 		return this;
 	}
 
-	public void  s(Object...objets) {
-		for(Object objet : objets)
-			if(objet != null)
-				o.append(objet.toString());
+	public void  s(Object...objects) {
+		for(Object object : objects)
+			if(object != null)
+				o.append(object.toString());
 	}
 
-	public void  t(int nombreTabulations, Object...objets) {
-		for(int i = 0; i < nombreTabulations; i++)
+	public void  t(int numberTabs, Object...objects) {
+		for(int i = 0; i < numberTabs; i++)
 			o.append("\t");
-		for(Object objet : objets)
-			if(objet != null)
-				o.append(objet.toString());
+		for(Object object : objects)
+			if(object != null)
+				o.append(object.toString());
 	}
 
-	public void  l(Object...objets) {
-		for(Object objet : objets)
-			if(objet != null)
-				o.append(objet.toString());
+	public void  l(Object...objects) {
+		for(Object object : objects)
+			if(object != null)
+				o.append(object.toString());
 		o.append("\n");
 	}
 
-	public void  tl(int nombreTabulations, Object...objets) {
-		for(int i = 0; i < nombreTabulations; i++)
+	public void  tl(int numberTabs, Object...objects) {
+		for(int i = 0; i < numberTabs; i++)
 			o.append("\t");
-		for(Object objet : objets)
-			if(objet != null)
-				o.append(objet.toString());
+		for(Object object : objects)
+			if(object != null)
+				o.append(object.toString());
 		o.append("\n");
 	}
 }

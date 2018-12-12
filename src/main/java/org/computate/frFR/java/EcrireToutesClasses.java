@@ -206,7 +206,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 					classeNomSimpleApi = (String)doc.get("classeNomSimpleApi_" + langueNom + "_stored_string");
 					classeNomSimpleApiGen = (String)doc.get("classeNomSimpleApiGen_" + langueNom + "_stored_string");
-					classeVarCleUnique = (String)doc.get("classeVarCleUnique_" + langueNom + "_stored_string");
+					classeVarClePrimaire = (String)doc.get("classeVarCleUnique_" + langueNom + "_stored_string");
 					classePageUri = (String)doc.get("classePageUri_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
@@ -244,7 +244,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					genCodeInit();
 					o = auteurGenClasse;
 
-					genCodeInitialiserLoin(langueNom);
+					genCodeInitLoin(langueNom);
 					genCodeRequeteSite(langueNom);
 					genCodeIndexer(langueNom);
 					genCodeObtenir(langueNom);

@@ -1346,6 +1346,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: methodIsTest
 	 * r: methodeEstSubstitue
 	 * r.enUS: methodIsOverride
+	 * r: methodeExceptionsNomSimpleComplet
+	 * r.enUS: methodExceptionsSimpleNameComplete
+	 * r: methodeExceptionNomSimpleComplet
+	 * r.enUS: methodExceptionSimpleNameComplete
 	 * r: regexCle
 	 * r.enUS: regexKey
 	 * r: regexValeur
@@ -1737,6 +1741,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: ^keys
 	 * r: classeSuperErreur
 	 * r.enUS: superClassError
+	 * r: classePartsCouverture
+	 * r.enUS: classPartsWrap
+	 * r: classePartsGen
+	 * r.enUS: classPartsGen
+	 * r: classePartGen
+	 * r.enUS: classPartGen
 	 * 
 	 * 
 	 * r: ClasseParts
@@ -2044,6 +2054,16 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeRolesTrouveActuel = classeRolesRecherche.find();
 			}
 			indexerStockerSolr(classeDoc, "classeRolesTrouve", classeRolesTrouve); 
+
+			Matcher classeMotsClesRecherche = Pattern.compile("^motCle:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			boolean classeMotsClesTrouveActuel = classeMotsClesTrouve;
+			while(classeMotsClesTrouveActuel) {
+				String classeMotCleValeur = classeMotsClesRecherche.group(1);
+				classeMotsClesTrouveActuel = classeMotsClesRecherche.find();
+				if(!classeMotsCles.contains(classeMotCleValeur))
+					classeMotsCles.add(classeMotCleValeur);
+				classeMotsClesTrouve = true;
+			}
 		}
 
 		SolrDocument classeNomCanoniqueSuperDoc = null;   

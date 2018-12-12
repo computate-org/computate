@@ -22,96 +22,312 @@ import org.apache.solr.common.SolrDocument;
 
 /**  
  * nomCanonique.enUS: org.computate.enUS.java.WriteGenClass
- * gen: true
- * 
- * val.VAL_entityCommentLine1Part1.enUS:The "
- * val.VAL_entiteCommentaireLigne1Part1.frFR:L'entité « 
- * val.VAL_entityCommentLine1Part2.enUS:" entity
- * val.VAL_entiteCommentaireLigne1Part2.frFR: »
- * val.VAL_entityWrapLine1Part1.enUS: is set to null before it is initialized. 
- * val.VAL_entiteCouvertureLigne1Part1.frFR: est défini comme null avant d'être initialisé. 
- * val.VAL_entityWrapLine2Part1.enUS: is for wrapping a value to be assigned to this field during initialization. 
- * val.VAL_entiteCouvertureLigne2Part1.frFR: est pour envelopper une valeur à assigner à ce champ lors de l'initialisation. 
- * val.VAL_entityConstructedLine1Part1.enUS:It is constructed before it is initialized with the default constructor 
- * val.VAL_entiteConstruitLigne1Part1.frFR:Il est construit avant d'être initialisé avec le constructeur par défaut 
- * val.VAL_entityConstructedLine1Part2.enUS:(). 
- * val.VAL_entiteConstruitLigne1Part2.frFR:(). 
- * val.VAL_entityConstructedLine2Part1.enUS: is the field already constructed. 
- * val.VAL_entiteConstruitLigne2Part1.frFR: est le champ déjà construit. 
- * val.VAL_entityThrowsLine2Part1.enUS: so that any exception during initialization is handled by the servlet. 
- * val.VAL_entiteThrowsLigne2Part1.frFR: afin que toute exception lors de l'initialisation est gérée par le servlet. 
- * 
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  */  
-public class EcrireGenClasse extends EcrireClasse {
+public class EcrireGenClasse extends EcrireClasse { 
 
-	public static final String VAL_entiteCommentaireLigne1Part1 = "L'entit\u00E9 \u00AB ";
-	public static final String VAL_entiteCommentaireLigne1Part2 = " \u00BB";
-	public static final String VAL_entiteCouvertureLigne1Part1 = " est d\u00E9fini comme null avant d'\u00EAtre initialis\u00E9. ";
-	public static final String VAL_entiteCouvertureLigne2Part1 = " est pour envelopper une valeur \u00E0 assigner \u00E0 ce champ lors de l'initialisation. ";
-	public static final String VAL_entiteConstruitLigne1Part1 = "Il est construit avant d'\u00EAtre initialis\u00E9 avec le constructeur par d\u00E9faut ";
+	/**
+	 * var.enUS: VAL_entityCommentLine1Part1
+	 * r: "L'entité « "
+	 * r.enUS: "The entity \\" "
+	 */
+	public static final String VAL_entiteCommentaireLigne1Part1 = "L'entité « ";
+
+	/**
+	 * var.enUS: VAL_entityCommentLine1Part2
+	 * r: " »"
+	 * r.enUS: " \\""
+	 */
+	public static final String VAL_entiteCommentaireLigne1Part2 = " »";
+
+	/**
+	 * var.enUS: VAL_entityWrapLine1Part1
+	 * r: " est défini comme null avant d'être initialisé. "
+	 * r.enUS: " is defined as null before being initialized. "
+	 */
+	public static final String VAL_entiteCouvertureLigne1Part1 = " est défini comme null avant d'être initialisé. ";
+
+	/**
+	 * var.enUS: VAL_entityWrapLine2Part1
+	 * r: " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. "
+	 * r.enUS: " is for wrapping a value to assign to this entity at initialization. "
+	 */
+	public static final String VAL_entiteCouvertureLigne2Part1 = " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. ";
+
+	/**
+	 * var.enUS: VAL_entityConstructedLine1Part1
+	 * r: "Il est construit avant d'être initialisé avec le constructeur par défaut "
+	 * r.enUS: "It is constructed before bing initialized with the constructor by default "
+	 */
+	public static final String VAL_entiteConstruitLigne1Part1 = "Il est construit avant d'être initialisé avec le constructeur par défaut ";
+
+	/**
+	 * var.enUS: VAL_entityConstructedLine1Part2
+	 */
 	public static final String VAL_entiteConstruitLigne1Part2 = "(). ";
-	public static final String VAL_entiteConstruitLigne2Part1 = " est le champ d\u00E9j\u00E0 construit. ";
-	public static final String VAL_entiteThrowsLigne2Part1 = " afin que toute exception lors de l'initialisation est g\u00E9r\u00E9e par le servlet. ";
 
+	/**
+	 * var.enUS: VAL_entityConstructedLine2Part1
+	 * r: " est l'entité déjà construit. "
+	 * r.enUS: " is the entity already constructed. "
+	 */
+	public static final String VAL_entiteConstruitLigne2Part1 = " est l'entité déjà construit. ";
+
+	/**
+	 * var.enUS: VAL_entityThrowsLine2Part1
+	 * r: " afin que toute exception lors de l'initialisation est gérée par le servlet. "
+	 * r.enUS: " so that every exception at initialization is managed by the servlet. "
+	 */
+	public static final String VAL_entiteThrowsLigne2Part1 = " afin que toute exception lors de l'initialisation est gérée par le servlet. ";
+
+	/**
+	 * var.enUS: classPathDirectoryGen
+	 */
 	protected String classeCheminRepertoireGen;
+
+	/**
+	 * var.enUS: classPathGen
+	 */
 	protected String classeCheminGen;
+
+	/**
+	 * var.enUS: classPathApiGen
+	 */
 	protected String classeCheminApiGen;
+
+	/**
+	 * var.enUS: classPathPageGen
+	 */
 	protected String classeCheminPageGen;
+
+	/**
+	 * var.enUS: classDirectoryGen
+	 */
 	protected File classeRepertoireGen;
+
+	/**
+	 * var.enUS: classFileGen
+	 */
 	protected File classeFichierGen;
+
+	/**
+	 * var.enUS: classFileApi
+	 */
 	protected File classeFichierApi;
+
+	/**
+	 * var.enUS: classFileApiPage
+	 */
 	protected File classeFichierPage;
+
 	protected StringBuilder s = new StringBuilder();
 			
 	protected SolrDocument doc;
+
+	/**
+	 * var.enUS: classCanonicalName
+	 */
 	protected String classeNomCanonique;
+
+	/**
+	 * var.enUS: classSimpleNameGen
+	 */
 	protected String classeNomSimpleGen;
+
+	/**
+	 * var.enUS: classSimpleNameSuper
+	 */
 	protected String classeNomSimpleSuper;
+
+	/**
+	 * var.enUS: classSimpleNameSuperGeneric
+	 */
 	protected String classeNomSimpleSuperGenerique;
+
+	/**
+	 * var.enUS: classCanonicalNameSuperGeneric
+	 */
 	protected String classeNomCanoniqueSuperGenerique;
+
+	/**
+	 * var.enUS: classPackageName
+	 */
 	protected String classeNomEnsemble;
+
+	/**
+	 * var.enUS: classSimpleName
+	 */
 	protected String classeNomSimple;
+
+	/**
+	 * var.enUS: classCanonicalNameSuper
+	 */
 	protected String classeNomCanoniqueSuper;
+
+	/**
+	 * var.enUS: classPageUri
+	 */
 	protected String classePageUri;
+
+	/**
+	 * var.enUS: classApiUri
+	 */
 	protected String classeApiUri;
+
+	/**
+	 * var.enUS: classComment
+	 */
 	protected String classeCommentaire;
-	protected String classeVarCleUnique;
+
+	/**
+	 * var.enUS: classVarPrimaryKey
+	 */
+	protected String classeVarClePrimaire;
+
+	/**
+	 * var.enUS: classImportsGen
+	 */
 	protected List<String> classeImportationsGen;
+
+	/**
+	 * var.enUS: classImportsGenApi
+	 */
 	protected List<String> classeImportationsGenApi;
+
+	/**
+	 * var.enUS: classImportsGenPage
+	 */ 
 	protected List<String> classeImportationsGenPage;
+
+	/**
+	 * var.enUS: classParameterTypeNames
+	 */
 	protected List<String> classeParametreTypeNoms;
+
+	/**
+	 * var.enUS: classSuperParameterTypeNames
+	 */
 	protected List<String> classeSuperParametreTypeNoms;
+
+	/**
+	 * var.enUS: classExtendsGen
+	 */
 	protected Boolean classeEtendGen;
+
+	/**
+	 * var.enUS: classBaseExtendsGen
+	 */
 	protected Boolean classeBaseEtendGen;
+
+	/**
+	 * var.enUS: classInitLoin
+	 */
 	protected Boolean classeInitLoin;
+
+	/**
+	 * var.enUS: classIndexed
+	 */
 	protected Boolean classeIndexe;
+
+	/**
+	 * var.enUS: classExtendsBase
+	 */
 	protected Boolean classeEtendBase;
+
+	/**
+	 * var.enUS: classIsBase
+	 */
 	protected Boolean classeEstBase;
+
+	/**
+	 * var.enUS: classSaved
+	 */
 	protected Boolean classeSauvegarde;
+
+	/**
+	 * var.enUS: classModel
+	 */
 	protected Boolean classeModele;
+
+	/**
+	 * var.enUS: classApi
+	 */
 	protected Boolean classeApi;
+
+	/**
+	 * var.enUS: classPage
+	 */
 	protected Boolean classePage;
+
+	/**
+	 * var.enUS: classRolesFound
+	 */
 	protected Boolean classeRolesTrouve;
+
+	/**
+	 * var.enUS: classRoles
+	 */
 	protected List<String> classeRoles;
 
-	protected StringWriter wInitialiserLoin;
-	protected PrintWriter codeInitialiserLoin;
+	/**
+	 * var.enUS: wInitDeep
+	 */
+	protected StringWriter wInitLoin;
 
+	/**
+	 * var.enUS: codeInitDeep
+	 */
+	protected PrintWriter codeInitLoin;
+
+	/**
+	 * var.enUS: wSiteRequest
+	 */
 	protected StringWriter wRequeteSite;
+
+	/**
+	 * var.enUS: codeSiteRequest
+	 */
 	protected PrintWriter codeRequeteSite;
 
+	/**
+	 * var.enUS: wIndex
+	 */
 	protected StringWriter wIndexer;
+
+	/**
+	 * var.enUS: codeIndex
+	 */
 	protected PrintWriter codeIndexer;
 
+	/**
+	 * var.enUS: wObtain
+	 */
 	protected StringWriter wObtenir;
+
+	/**
+	 * var.enUS: codeObtain
+	 */
 	protected PrintWriter codeObtenir;
 
+	/**
+	 * var.enUS: wAttribute
+	 */
 	protected StringWriter wAttribuer;
+
+	/**
+	 * var.enUS: codeAttribute
+	 */
 	protected PrintWriter codeAttribuer;
 
-	protected StringWriter wDefinir;
+	/**
+	 * var.enUS: wPut
+	 */ 
+	protected StringWriter wPut;
+
+	/**
+	 * var.enUS: codePut
+	 */
 	protected PrintWriter codePut;
 
 	protected StringWriter wPeupler;
@@ -164,55 +380,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected Boolean entiteCouverture;
 	protected Boolean entiteInitialise;
 	protected Boolean entiteInitLoin;
-
-//	protected String entiteVarCleUniqueActuel;
-//	protected String entiteVarSuggere;
-//	protected String entiteVarIncremente;
-//	protected String entiteVarCrypte;
-//	protected String entiteVarIndexe;
-//	protected String entiteVarStocke;
-//	protected String entiteSolrNomCanonique;
-//
-//	protected Boolean entiteExact;
-//	protected Boolean entiteClePrimaire;
-//	protected Boolean entiteCrypte;
-//	protected Boolean entiteSuggere;
-//	protected Boolean entiteSauvegarde;
-//	protected Boolean entiteIndexe;
-//	protected Boolean entiteStocke;
-//	protected Boolean entitetexte;
-//	protected Boolean entiteIncremente;
-//	protected Boolean entiteNomAffichage;
-//	protected Boolean entiteIgnorer;
-//	protected Boolean entiteDeclarer;
-//	protected Boolean entiteRechercher;
-//	protected Boolean entiteAttribuer;
-//	protected Boolean entiteAjouter;
-//	protected Boolean entiteSupprimer;
-//	protected Boolean entiteModifier;
-//	protected Boolean entiteRecharger;
-//	protected Boolean entiteMultiligne;
-//	protected Boolean entiteCles;
-//	protected Boolean entiteIndexeOuStocke;
-//
-//	protected List<String> entiteMethodesAvantVisibilite;
-//	protected List<String> entiteMethodesAvantVar;
-//	protected List<String> entiteMethodesAvantParamVar;
-//	protected List<String> entiteMethodesAvantParamNomSimple;
-//	protected List<Boolean> entiteMethodesAvantNomParam;
-//
-//	protected List<String> entiteMethodesApresVisibilite;
-//	protected List<String> entiteMethodesApresVar;
-//	protected List<String> entiteMethodesApresParamVar;
-//	protected List<String> entiteMethodesApresParamNomSimple;
-//	protected List<Boolean> entiteMethodesApresNomParam;
 	
 	protected PrintWriter auteurGenClasse;
 
 	public void genCodeInit() throws Exception {
 
-		wInitialiserLoin = new StringWriter();
-		codeInitialiserLoin = new PrintWriter(wInitialiserLoin);
+		wInitLoin = new StringWriter();
+		codeInitLoin = new PrintWriter(wInitLoin);
 
 		wRequeteSite = new StringWriter();
 		codeRequeteSite = new PrintWriter(wRequeteSite);
@@ -226,8 +400,8 @@ public class EcrireGenClasse extends EcrireClasse {
 		wAttribuer = new StringWriter();
 		codeAttribuer = new PrintWriter(wAttribuer);
 
-		wDefinir = new StringWriter();
-		codePut = new PrintWriter(wDefinir);
+		wPut = new StringWriter();
+		codePut = new PrintWriter(wPut);
 
 		wPeupler = new StringWriter();
 		codePeupler = new PrintWriter(wPeupler);
@@ -266,9 +440,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		codePageGet = new PrintWriter(wPageGet);
 	}
 
-	public void genCodeInitialiserLoin(String langueNom) throws Exception {
+	public void genCodeInitLoin(String langueNom) throws Exception {
 		if(BooleanUtils.isTrue(classeInitLoin)) {
-			o = codeInitialiserLoin;
+			o = codeInitLoin;
 			l(); 
 			tl(1, "/////////////////////");
 			tl(1, "// initialiserLoin //");
@@ -707,10 +881,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * r: methodeExceptionsNomSimpleComplet
-	 * r.enUS: methodExceptionsSimpleNameComplete
-	 * r: methodeExceptionNomSimpleComplet
-	 * r.enUS: methodExceptionSimpleNameComplete
 	 */
 	public void genCodeEntite(String langueNom) throws Exception {
 		String entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
@@ -1375,14 +1545,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(entiteVarCapitalise != null && classeSauvegarde && entiteSolrNomCanonique != null) {
 				l();
 				tl(1, "public void html", entiteVarCapitalise, "(HttpServerResponse r, Boolean patchDroits) {");
-				tl(2, "if(", classeVarCleUnique, "!= null) {");
-				tl(3, "r.write(\"<div id=\\\"patch", classeNomSimple, "\").write(str", StringUtils.capitalize(classeVarCleUnique), "()).write(\"", entiteVarCapitalise, "\\\">\");");
+				tl(2, "if(", classeVarClePrimaire, "!= null) {");
+				tl(3, "r.write(\"<div id=\\\"patch", classeNomSimple, "\").write(str", StringUtils.capitalize(classeVarClePrimaire), "()).write(\"", entiteVarCapitalise, "\\\">\");");
 				tl(3, "if(patchDroits) {");
 				tl(4, "r.write(\"\\n\");");
 				tl(4, "r.write(\"	<script>//<![CDATA[\\n\");");
-				tl(4, "r.write(\"		function patch", classeNomSimple, "\").write(str", StringUtils.capitalize(classeVarCleUnique), "()).write(\"", entiteVarCapitalise, "() {\\n\");");
+				tl(4, "r.write(\"		function patch", classeNomSimple, "\").write(str", StringUtils.capitalize(classeVarClePrimaire), "()).write(\"", entiteVarCapitalise, "() {\\n\");");
 				tl(4, "r.write(\"			$.ajax({\\n\");");
-				tl(4, "r.write(\"				url: '", classeApiUri, "?fq=", classeVarCleUnique, ":\").write(str", StringUtils.capitalize(classeVarCleUnique), "()).write(\"',\\n\");");
+				tl(4, "r.write(\"				url: '", classeApiUri, "?fq=", classeVarClePrimaire, ":\").write(str", StringUtils.capitalize(classeVarClePrimaire), "()).write(\"',\\n\");");
 				tl(4, "r.write(\"				dataType: 'json',\\n\");");
 				tl(4, "r.write(\"				type: 'patch',\\n\");");
 				tl(4, "r.write(\"				contentType: 'application/json',\\n\");");
@@ -1423,7 +1593,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		////////////////////
 		// codeIninitLoin //
 		////////////////////
-		o = codeInitialiserLoin;
+		o = codeInitLoin;
 		if(entiteInitialise) {
 			tl(3, entiteVar, "Init();");
 		}
@@ -1443,9 +1613,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		o = codeIndexer;
 		if(classeIndexe && entiteIndexeOuStocke) {
 			tl(2, "if(", entiteVar, " != null) {");
-			if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteClePrimaire) {
+			if(StringUtils.isNotEmpty(classeVarClePrimaire) && entiteClePrimaire) {
 				// clePrimaire
-				tl(3, "document.addField(\"", classeVarCleUnique, "\", ", entiteVar, ");");
+				tl(3, "document.addField(\"", classeVarClePrimaire, "\", ", entiteVar, ");");
 			}
 			if(StringUtils.isNotEmpty(entiteVarCrypte) && entiteCrypte) {
 				// crypte
@@ -1582,7 +1752,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //							String varSuggere = entiteVarSuggere.toString();
 //							String varIncremente = entiteVarIncremente.toString();
 //							String varCleUnique = entiteVarCleUniqueActuel.toString();
-			if(!StringUtils.isEmpty(entiteVarCrypte) || !StringUtils.isEmpty(entiteVarStocke) || !StringUtils.isEmpty(classeVarCleUnique) || !StringUtils.isEmpty(entiteVarSuggere) || !StringUtils.isEmpty(entiteVarIncremente)) {
+			if(!StringUtils.isEmpty(entiteVarCrypte) || !StringUtils.isEmpty(entiteVarStocke) || !StringUtils.isEmpty(classeVarClePrimaire) || !StringUtils.isEmpty(entiteVarSuggere) || !StringUtils.isEmpty(entiteVarIncremente)) {
 				tl(0);
 
 				if(!StringUtils.isEmpty(entiteVarSuggere)) {
@@ -1597,9 +1767,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //									tl(3, "}");
 				}
-				else if(!StringUtils.isEmpty(classeVarCleUnique)) {
+				else if(!StringUtils.isEmpty(classeVarClePrimaire)) {
 //									tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-					tl(4, entiteSolrNomCanonique, " ", entiteVar, " = org.apache.commons.lang3.math.NumberUtils.toLong((String)documentSolr.get(\"", classeVarCleUnique, "\"));");
+					tl(4, entiteSolrNomCanonique, " ", entiteVar, " = org.apache.commons.lang3.math.NumberUtils.toLong((String)documentSolr.get(\"", classeVarClePrimaire, "\"));");
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //									tl(3, "}");
 				}
@@ -2242,7 +2412,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		//////////////////
 		// codeInitLoin //
 		//////////////////
-		o = codeInitialiserLoin;
+		o = codeInitLoin;
 		if(classeInitLoin) {
 //			tl(3, "dejaInitialise", classeNomSimple, " = true;");
 			tl(2, "}");
@@ -2279,7 +2449,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			l("\t}");
 
-			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
+			if(StringUtils.isNotEmpty(classeVarClePrimaire)) {
 				tl(0);
 				tl(1, "public void desindexer", classeNomSimple, "() throws Exception {");
 				tl(2, "RequeteSite requeteSite = new RequeteSite();");
@@ -2291,7 +2461,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
 				tl(2, "initLoin", classeNomSimple, "(siteContexte.getRequeteSite_());");
 				tl(2, "SolrClient clientSolr = siteContexte.getClientSolr();");
-				tl(2, "clientSolr.deleteById(", classeVarCleUnique, ".toString());");
+				tl(2, "clientSolr.deleteById(", classeVarClePrimaire, ".toString());");
 				tl(2, "clientSolr.commit();");
 				tl(1, "}");
 			}
@@ -2374,7 +2544,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 		}	
 
-		codeInitialiserLoin.flush();
+		codeInitLoin.flush();
 		codeRequeteSite.flush();
 		codeIndexer.flush();
 		codeObtenir.flush();
@@ -2392,7 +2562,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		o = auteurGenClasse;
 
-		s(wInitialiserLoin.toString());
+		s(wInitLoin.toString());
 		s(wRequeteSite.toString());
 		s(wIndexer.toString());
 		s(wObtenir.toString());

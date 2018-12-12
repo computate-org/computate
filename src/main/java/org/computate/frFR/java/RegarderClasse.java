@@ -10,9 +10,6 @@ import org.junit.Test;
  * nomCanonique.enUS: org.computate.enUS.java.WatchClass
  */     
 public class RegarderClasse extends EcrireToutesClasses {
-	
-	public RegarderClasse() {
-	}
 
 	/**
 	 * r: initRegarderClasseBase

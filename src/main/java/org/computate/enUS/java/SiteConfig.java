@@ -137,69 +137,69 @@ public class SiteConfig {
 	 */
 	public Boolean siteEncrypted;
 
-	protected void  _appName() throws Exception {
+	protected void  _appName() throws Exception, Exception {
 		if(appName == null)
 			appName = System.getenv("appName"); 
 	}
 
-	protected void  _appPath() throws Exception {
+	protected void  _appPath() throws Exception, Exception {
 		if(appPath == null)
 			appPath = System.getenv("appPath"); 
 	}
 
-	protected void  _srcMainJavaPath() throws Exception {
+	protected void  _srcMainJavaPath() throws Exception, Exception {
 		srcMainJavaPath = appPath + "/src/main/java";
 	}
 
-	protected void  _srcGenJavaPath() throws Exception {
+	protected void  _srcGenJavaPath() throws Exception, Exception {
 		srcGenJavaPath = appPath + "/src/gen/java";
 	}
 
-	protected void  _configPath() throws Exception {
+	protected void  _configPath() throws Exception, Exception {
 		configPath = appPath + "/config/" + appName + ".config";
 	}
 
-	protected void  _configFile() throws Exception {
+	protected void  _configFile() throws Exception, Exception {
 		configFile = new File(configPath);
 	}
 
-	protected void  _configurations() throws Exception {
+	protected void  _configurations() throws Exception, Exception {
 		configurations = new Configurations();
 	}
 
-	protected void  _config() throws Exception {
+	protected void  _config() throws Exception, Exception {
 		config = configurations.ini(configFile);
 	}
 
-	protected void  _languageName() throws Exception {
+	protected void  _languageName() throws Exception, Exception {
 		languageName = config.getString(StringUtils.replace(appName, ".", "..") + ".languageName");
 	}
 
-	protected void  _languageActualName() throws Exception {
+	protected void  _languageActualName() throws Exception, Exception {
 //		if(StringUtils.equals(languageName, "tout"))
 //			languageActualName = "frFR";
 //		else
 			languageActualName = languageName;
 	}
 
-	protected void  _otherLanguages() throws Exception {
+	protected void  _otherLanguages() throws Exception, Exception {
 		otherLanguages = config.getStringArray(StringUtils.replace(appName, ".", "..") + ".otherLanguages");
 	}
 
-	protected void  _allLanguages() throws Exception {
+	protected void  _allLanguages() throws Exception, Exception {
 		allLanguages = ArrayUtils.add(ArrayUtils.addAll(otherLanguages), languageName);
 	}
 
-	protected void  _languageIndexed() throws Exception {
+	protected void  _languageIndexed() throws Exception, Exception {
 		languageIndexed = ArrayUtils.contains(allLanguages, languageName);
 	}
 
-	protected void  _domainName() throws Exception {
+	protected void  _domainName() throws Exception, Exception {
 		domainName = config.getString(StringUtils.replace(appName, ".", "..") + ".domainName");
 	}
 
-	protected void  _domainPackageName() throws Exception {
-		domainPackageName = config.getString(StringUtils.replace(appliNom, ".", "..") + ".domainPackageName");
+	protected void  _domainPackageName() throws Exception, Exception {
+		domainPackageName = config.getString(StringUtils.replace(appName, ".", "..") + ".domainPackageName");
 		if(StringUtils.isEmpty(domainPackageName)) {
 			String[] parts = StringUtils.split(domainName, ".");
 			ArrayUtils.reverse(parts);
@@ -207,68 +207,68 @@ public class SiteConfig {
 		}
 	}
 
-	protected void  _configFileName() throws Exception {
+	protected void  _configFileName() throws Exception, Exception {
 		configFileName = config.getString(StringUtils.replace(appName, ".", "..") + ".configFileName", appName + ".config");
 	}
 
-	protected void  _mavenVersion() throws Exception {
+	protected void  _mavenVersion() throws Exception, Exception {
 		mavenVersion = config.getString("maven.mavenVersion", "3.5.3");
 	}
 
-	protected void  _zookeeperVersion() throws Exception {
+	protected void  _zookeeperVersion() throws Exception, Exception {
 		zookeeperVersion = config.getString("maven.zookeeperVersion", "3.5.4");
 	}
 
-	protected void  _zookeeperPortPrefix() throws Exception {
+	protected void  _zookeeperPortPrefix() throws Exception, Exception {
 		zookeeperPortPrefix = config.getString("zookeeper.zookeeperPortPrefix", "102");
 	}
 
-	protected void  _zookeeperClientPort() throws Exception {
+	protected void  _zookeeperClientPort() throws Exception, Exception {
 		zookeeperClientPort = config.getString("zookeeper.zookeeperClientPort", zookeeperPortPrefix + "81");
 	}
 
-	protected void  _zookeeperAdminPort() throws Exception {
+	protected void  _zookeeperAdminPort() throws Exception, Exception {
 		zookeeperAdminPort = config.getString("zookeeper.zookeeperAdminPort", zookeeperPortPrefix + "80");
 	}
 
-	protected void  _solrVersion() throws Exception {
+	protected void  _solrVersion() throws Exception, Exception {
 		solrVersion = config.getString("solr.solrVersion", "7.3.1");
 	}
 
-	protected void  _solrPortPrefix() throws Exception {
+	protected void  _solrPortPrefix() throws Exception, Exception {
 		solrPortPrefix = config.getString("solr.solrPortPrefix", "103");
 	}
 
-	protected void  _solrPort() throws Exception {
+	protected void  _solrPort() throws Exception, Exception {
 		solrPort = config.getString("solr.solrPort", solrPortPrefix + "83");
 	}
 
-	protected void  _solrUrlComputate() throws Exception {
+	protected void  _solrUrlComputate() throws Exception, Exception {
 		solrUrlComputate = config.getString("solr.solrUrl", "http://localhost:" + solrPort + "/solr/computate");
 	}
 
-	protected void  _solrClientComputate() throws Exception {
+	protected void  _solrClientComputate() throws Exception, Exception {
 		solrClientComputate = new HttpSolrClient.Builder(solrUrlComputate).build();
 	}
 
-	protected void  _sourcePaths() throws Exception {
+	protected void  _sourcePaths() throws Exception, Exception {
 		sourcePaths.add(srcMainJavaPath);
 		sourcePaths.add(srcGenJavaPath);
 	}
 
-	protected void  _allSourcePaths() throws Exception {
+	protected void  _allSourcePaths() throws Exception, Exception {
 		allSourcePaths.add(srcMainJavaPath);
 		allSourcePaths.add(srcGenJavaPath);
 	}
 
-	protected void  _testMethodNames() throws Exception {
+	protected void  _testMethodNames() throws Exception, Exception {
 	}
 
-	protected void  _siteEncrypted() throws Exception {
-		siteEncrypted = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + ".siteEncrypted", false);
+	protected void  _siteEncrypted() throws Exception, Exception {
+		siteEncrypted = config.getBoolean(StringUtils.replace(appName, ".", "..") + ".siteEncrypted", false);
 	}
 
-	public void  initSiteConfig() throws Exception {
+	public void  initSiteConfig() throws Exception, Exception {
 		_appName();
 		_appPath();
 		_srcMainJavaPath();
@@ -348,7 +348,7 @@ public class SiteConfig {
 		return results;
 	}
 
-	public String regexReplaceAll(String comment, String sourceCode, String languageName) throws Exception {
+	public String regexReplaceAll(String comment, String sourceCode, String languageName) throws Exception, Exception {
 		String sourceCodeLanguage = sourceCode;
 		if(!StringUtils.isEmpty(comment)) {
 			Matcher m = Pattern.compile("^r:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + languageName + ":\\s*(.*)", Pattern.MULTILINE).matcher(comment);
@@ -376,7 +376,7 @@ public class SiteConfig {
 		return sourceCodeLanguage;
 	}
 
-	public String concat(String...values) throws Exception { 
+	public String concat(String...values) throws Exception, Exception { 
 		String result = Stream.of(values).collect(Collectors.joining());
 		return result;
 	}
