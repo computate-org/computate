@@ -174,7 +174,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //	protected String entiteSolrNomCanonique;
 //
 //	protected Boolean entiteExact;
-//	protected Boolean entiteCleUnique;
+//	protected Boolean entiteClePrimaire;
 //	protected Boolean entiteCrypte;
 //	protected Boolean entiteSuggere;
 //	protected Boolean entiteSauvegarde;
@@ -743,7 +743,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		String entiteListeNomCanoniqueVertxJson = (String)doc.get("entiteListeNomCanoniqueVertxJson_stored_string");
 
 		Boolean entiteExact = (Boolean)doc.get("entiteExact_stored_boolean");
-		Boolean entiteCleUnique = (Boolean)doc.get("entiteCleUnique_stored_boolean");
+		Boolean entiteClePrimaire = (Boolean)doc.get("entiteClePrimaire_stored_boolean");
 		Boolean entiteCrypte = (Boolean)doc.get("entiteCrypte_stored_boolean");
 		Boolean entiteSuggere = (Boolean)doc.get("entiteSuggere_stored_boolean");
 		Boolean entiteSauvegarde = (Boolean)doc.get("entiteSauvegarde_stored_boolean");
@@ -1443,7 +1443,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		o = codeIndexer;
 		if(classeIndexe && entiteIndexeOuStocke) {
 			tl(2, "if(", entiteVar, " != null) {");
-			if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteCleUnique) {
+			if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteClePrimaire) {
 				// clePrimaire
 				tl(3, "document.addField(\"", classeVarCleUnique, "\", ", entiteVar, ");");
 			}

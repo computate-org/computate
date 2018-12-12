@@ -238,6 +238,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					if(classeApi)
 						auteurApiGenClasse = new PrintWriter(classeFichierApi);
 //					auteurPageClasse = new PrintWriter(classeFichierPage);
+					if(classePage)
+						auteurPageGenClasse = new PrintWriter(classeFichierPage);
 
 					genCodeInit();
 					o = auteurGenClasse;

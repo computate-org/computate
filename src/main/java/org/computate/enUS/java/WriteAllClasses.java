@@ -23,7 +23,7 @@ import org.apache.solr.common.SolrDocumentList;
 
 /**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  */
-public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
+public class WriteAllClasses extends WritePageClass {
 
 	/**	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language.
@@ -105,6 +105,8 @@ public class WriteAllClasses extends WriteAllClassesGen<WriteApiClass> {
 					if(classeApi)
 						auteurApiGenClasse = new PrintWriter(classFileApi);
 //					auteurPageClasse = new PrintWriter(classFilePage);
+					if(classePage)
+						auteurPageGenClasse = new PrintWriter(classFilePage);
 
 					genCodeInit();
 					o = auteurGenClasse;

@@ -104,7 +104,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 //		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/RepoCommon.java";
 //		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/repo/TeamRepo.java";
 //		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/TeamPromotions.java";
-		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/product/automation/AutomationBase.java";
+//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/product/automation/AutomationBase.java";
+		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/promotions/model/Adjustment.java";
 		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
 		RegarderClasse regarderClasse = new RegarderClasse();
 		regarderClasse.args = args;

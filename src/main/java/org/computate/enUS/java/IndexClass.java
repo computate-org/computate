@@ -399,6 +399,8 @@ public class IndexClass extends WatchClassBase {
 		JavaClass classQdox = builder.getClassByName(classCanonicalName.toString());
 		JavaClass classSuperQdox = classQdox.getSuperJavaClass();
 		JavaClass classQdoxString = builder.getClassByName(String.class.getCanonicalName());
+		Boolean classKeywordsFound = false;
+		List<String> classKeywords = new ArrayList<String>();
 
 		String classSuperCanonicalName = Object.class.getCanonicalName();
 		Boolean superClassError = false;
@@ -1222,6 +1224,7 @@ public class IndexClass extends WatchClassBase {
 //						}
 
 						if(methodComment != null) {
+
 							Matcher entityOptionsSearch = Pattern.compile("^option\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityOptionsFound = entityOptionsSearch.find();
 							while(entityOptionsFound) {
@@ -1235,6 +1238,20 @@ public class IndexClass extends WatchClassBase {
 							}
 							if(entityOptionsFound)
 								storeSolr(entityDoc, "entityOptions", true);
+
+							Matcher entityKeywordsSearch = Pattern.compile("^motCle:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
+							boolean entityKeywordsFound = entityKeywordsSearch.find();
+							boolean entityKeywordsFoundCurrent = entityKeywordsFound;
+							while(entityKeywordsFoundCurrent) {
+								String entityKeywordValue = entityKeywordsSearch.group(1);
+								indexStoreListSolr(entityDoc, "entityKeywords", entityKeywordValue);
+								entityKeywordsFound = true;
+								entityKeywordsFoundCurrent = entityKeywordsSearch.find();
+								if(!classKeywords.contains(entityKeywordValue))
+									classKeywords.add(entityKeywordValue);
+								classKeywordsFound = true;
+							}
+							indexStoreSolr(entityDoc, "entityKeywordsFound", entityKeywordsFound); 
 						}
 
 						indexStoreSolr(entityDoc, "entityExact", regexFound("^exact:\\s*(true)$", methodComment));
@@ -1882,6 +1899,10 @@ public class IndexClass extends WatchClassBase {
 				}
 			}
 		}
+
+		indexStoreSolr(classDoc, "classKeywordsFound", classKeywordsFound); 
+		for(String classKeywordValue : classKeywords)
+			storeListSolr(classDoc, "classKeywords", classKeywordValue); 
 		
 		ClassParts classePartsCouverture = classePartsCouverture(domainPackageName);
 		classPartsGenAdd(classePartsCouverture);

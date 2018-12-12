@@ -181,6 +181,14 @@ public class WriteGenClass extends WriteGenClassGen {
 
 	protected PrintWriter codeApiChamps;
 
+	protected StringWriter wPageChamps;
+
+	protected PrintWriter codePageChamps;
+
+	protected StringWriter wPageGet;
+
+	protected PrintWriter codePageGet;
+
 	protected String entiteVar = //
 //	protected PrintWriter oAvant;
 
@@ -217,7 +225,7 @@ public class WriteGenClass extends WriteGenClassGen {
 //	protected String entiteSolrNomCanonique;
 //
 //	protected Boolean entiteExact;
-//	protected Boolean entiteCleUnique;
+//	protected Boolean entiteClePrimaire;
 //	protected Boolean entiteCrypte;
 //	protected Boolean entiteSuggere;
 //	protected Boolean entiteSauvegarde;
@@ -287,6 +295,9 @@ public class WriteGenClass extends WriteGenClassGen {
 		wApiChamps = new StringWriter();
 		codeApiChamps = new PrintWriter(wApiChamps);
 
+		wPageChamps = new StringWriter();
+		codePageChamps = new PrintWriter(wPageChamps);
+
 		wApiGet = new StringWriter();
 		codeApiGet = new PrintWriter(wApiGet);
 
@@ -301,6 +312,9 @@ public class WriteGenClass extends WriteGenClassGen {
 
 		wApiGenererPatch = new StringWriter();
 		codeApiGenererPatch = new PrintWriter(wApiGenererPatch);
+
+		wPageGet = new StringWriter();
+		codePageGet = new PrintWriter(wPageGet);
 	}
 
 	public void  genCodeInitialiserLoin(String langueNom) throws Exception, Exception {
@@ -774,7 +788,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		String entiteListeNomCanoniqueVertxJson = (String)doc.get("entiteListeNomCanoniqueVertxJson_stored_string");
 
 		Boolean entiteExact = (Boolean)doc.get("entiteExact_stored_boolean");
-		Boolean entiteCleUnique = (Boolean)doc.get("entiteCleUnique_stored_boolean");
+		Boolean entiteClePrimaire = (Boolean)doc.get("entiteClePrimaire_stored_boolean");
 		Boolean entiteCrypte = (Boolean)doc.get("entiteCrypte_stored_boolean");
 		Boolean entiteSuggere = (Boolean)doc.get("entiteSuggere_stored_boolean");
 		Boolean entiteSauvegarde = (Boolean)doc.get("entiteSauvegarde_stored_boolean");
@@ -1474,7 +1488,7 @@ public class WriteGenClass extends WriteGenClassGen {
 		o = codeIndexer;
 		if(classeIndexe && entiteIndexeOuStocke) {
 			tl(2, "if(", entiteVar, " != null) {");
-			if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteCleUnique) {
+			if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteClePrimaire) {
 				// clePrimaire
 				tl(3, "document.addField(\"", classeVarCleUnique, "\", ", entiteVar, ");");
 			}
@@ -2418,6 +2432,8 @@ public class WriteGenClass extends WriteGenClassGen {
 		codeApiChamps.flush();
 		codeApiGet.flush();
 		codeApiGenererGet.flush();
+		codePageChamps.flush();
+		codePageGet.flush();
 
 		o = auteurGenClasse;
 
