@@ -1,20 +1,18 @@
-package org.computate.frFR.java;
+package org.computate.enUS.java;
 
 import java.io.PrintWriter;
 
-/**   
- * nomCanonique.enUS: org.computate.enUS.java.WritePageClass
- * 
- * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
- * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
- */  
-public class EcrirePageClasse extends EcrireApiClasse {  
+/**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
+ */
+public class WritePageClass extends WriteApiClass {
 
 	protected PrintWriter auteurPageGenClasse;
+
 	protected String classeNomSimplePage;
+
 	protected String classeNomSimplePageGen;
 
-	public void pageCodeClasseDebut(String langueNom) throws Exception {
+	public void  pageCodeClasseDebut(String langueNom) throws Exception, Exception {
 		o = auteurPageGenClasse;
 		l("package ", classeNomEnsemble, ";");
 		l();
@@ -33,7 +31,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimplePageGen, ".class);");
 	}
 
-	public void pageCodeClasseFin(String langueNom) throws Exception {
+	public void  pageCodeClasseFin(String langueNom) throws Exception, Exception {
 		o = auteurPageGenClasse;
 
 		s(wPageEntites.toString());

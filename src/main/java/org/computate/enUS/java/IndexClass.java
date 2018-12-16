@@ -470,7 +470,7 @@ public class IndexClass extends WatchClassBase {
 		indexStoreSolr(classDoc, "baseClassExtendsGen", baseClassExtendsGen);
 		Boolean classContainsSiteRequest = false;
 		try {
-			indexStoreSolr(classDoc, "classContainsSiteRequest", classQdox.getMethodBySignature("getRequeteSite", new ArrayList<JavaType>(), true) != null);
+			indexStoreSolr(classDoc, "classContainsSiteRequest", classQdox.getMethodBySignature("getRequestSite", new ArrayList<JavaType>(), true) != null);
 		} catch (Exception e) {
 			// TODO ctate fix this to pull from solr. 
 		}
@@ -497,7 +497,7 @@ public class IndexClass extends WatchClassBase {
 		Boolean classModel = indexStoreSolr(classDoc, "classModel", regexFound("^modele: \\s*(true)$", classComment));
 		Boolean classeApi = indexStoreSolr(classDoc, "classeApi", regexFound("^api: \\s*(true)$", classComment) || classModel);
 		Boolean classePage = indexStoreSolr(classDoc, "classePage", regexFound("^page: \\s*(true)$", classComment) || classModel);
-		Boolean classInitDeep = !regexFound("^initLoin:\\s*(false)$", classComment);
+		Boolean classInitDeep = !regexFound("^initDeep:\\s*(false)$", classComment);
 		if(classInitDeep)
 			classInitDeep = classExtendsBase || classIsBase;
 		classInitDeep = storeSolr(classDoc, "classInitDeep", classInitDeep);
@@ -636,7 +636,31 @@ public class IndexClass extends WatchClassBase {
 		indexStoreSolr(classDoc, "modified", modifiedDate); 
 		indexStoreSolr(classDoc, "classCanonicalName", languageName, classCanonicalName); 
 		indexStoreSolr(classDoc, "classePageUri", languageName, regex("^pageUri\\." + languageName + ":\\s*(.*)", classComment));
-		indexStoreSolr(classDoc, "classeApiUri", languageName, regex("^apiUri\\." + languageName + ":\\s*(.*)", classComment));
+
+		if(classModel) {
+			String classApiUri = indexStoreSolr(classDoc, "classApiUri", languageName, regex("^apiUri\\." + languageName + ":\\s*(.*)", classComment));
+			String classApiUriSearch = indexStoreSolr(classDoc, "classApiUriSearch", languageName, regex("^apiUriSearch\\." + languageName + ":\\s*(.*)", classComment, classApiUri));
+			String classApiUriPOST = indexStoreSolr(classDoc, "classApiUriPOST", languageName, regex("^apiUriPOST\\." + languageName + ":\\s*(.*)", classComment, classApiUri));
+			String classApiUriPATCH = indexStoreSolr(classDoc, "classApiUriPATCH", languageName, regex("^apiUriPATCH\\." + languageName + ":\\s*(.*)", classComment, classApiUri));
+			String classApiUriGET = indexStoreSolr(classDoc, "classApiUriGET", languageName, regex("^apiUriGET\\." + languageName + ":\\s*(.*)", classComment, classApiUri + "/{pk}"));
+			String classApiUriPUT = indexStoreSolr(classDoc, "classApiUriPUT", languageName, regex("^apiUriPUT\\." + languageName + ":\\s*(.*)", classComment, classApiUri + "/{pk}"));
+			String classApiUriDELETE = indexStoreSolr(classDoc, "classApiUriDELETE", languageName, regex("^apiUriDELETE\\." + languageName + ":\\s*(.*)", classComment, classApiUri + "/{pk}"));
+
+			indexStoreSolr(classDoc, "classApiSchemaRequestRecherche", languageName, regex("^apiSchemaRequestRecherche\\." + languageName + ":\\s*(.*)", classComment, "searchRequest-" + classSimpleName));
+			indexStoreSolr(classDoc, "classApiSchemaRequestPOST", languageName, regex("^apiSchemaRequestPOST\\." + languageName + ":\\s*(.*)", classComment, "POSTRequest-" + classSimpleName));
+			indexStoreSolr(classDoc, "classApiSchemaRequestPATCH", languageName, regex("^apiSchemaRequestPATCH\\." + languageName + ":\\s*(.*)", classComment, "PATCHRequest-" + classSimpleName));
+			indexStoreSolr(classDoc, "classApiSchemaRequestGET", languageName, regex("^apiSchemaRequestGET\\." + languageName + ":\\s*(.*)", classComment, "GETRequest-" + classSimpleName));
+			indexStoreSolr(classDoc, "classApiSchemaRequestPUT", languageName, regex("^apiSchemaRequestPUT\\." + languageName + ":\\s*(.*)", classComment, "PUTRequest-" + classSimpleName));
+			indexStoreSolr(classDoc, "classApiSchemaRequestDELETE", languageName, regex("^apiSchemaRequestDELETE\\." + languageName + ":\\s*(.*)", classComment, "DELETERequest-" + classSimpleName));
+
+			indexStoreSolr(classDoc, "classApiSchemaResponseRecherche", languageName, regex("^apiSchemaResponseRecherche\\." + languageName + ":\\s*(.*)", classComment, "searchResponse-" + classSimpleName));
+			indexStoreSolr(classDoc, "classApiSchemaResponsePOST", languageName, regex("^apiSchemaResponsePOST\\." + languageName + ":\\s*(.*)", classComment, "POSTResponse-" + classSimpleName));
+			indexStoreSolr(classDoc, "classApiSchemaResponsePATCH", languageName, regex("^apiSchemaResponsePATCH\\." + languageName + ":\\s*(.*)", classComment, "PATCHResponse-" + classSimpleName));
+			indexStoreSolr(classDoc, "classApiSchemaResponseGET", languageName, regex("^apiSchemaResponseGET\\." + languageName + ":\\s*(.*)", classComment, "GETResponse-" + classSimpleName));
+			indexStoreSolr(classDoc, "classApiSchemaResponsePUT", languageName, regex("^apiSchemaResponsePUT\\." + languageName + ":\\s*(.*)", classComment, "PUTResponse-" + classSimpleName));
+			indexStoreSolr(classDoc, "classApiSchemaResponseDELETE", languageName, regex("^apiSchemaResponseDELETE\\." + languageName + ":\\s*(.*)", classComment, "DELETEResponse-" + classSimpleName));
+		}
+
 		indexStoreSolr(classDoc, "classSimpleName", languageName, classSimpleName); 
 		indexStoreSolr(classDoc, "classPackageName", languageName, classPackageName); 
 		indexStoreSolr(classDoc, "classCanonicalNameGen", languageName, classCanonicalNameGen); 
@@ -709,14 +733,38 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenAdd(classPartsSuperGeneric);
 		}
 
-		for(String languageName : otherLanguages) { 
+		for(String languageName : otherLanguages) {
 			String appPathLanguage = appPaths.get(languageName);
 			storeRegexComments(classComment, languageName, classDoc, "classComment");
 			String srcMainJavaPathLanguage = appPathLanguage + "/src/main/java";
 			String srcGenJavaPathLanguage = appPathLanguage + "/src/gen/java";
 			String classCanonicalNameLanguage = regex("^canonicalName\\." + languageName + ":\\s*(.*)", classComment, classCanonicalName);
 			String classPageUriLanguage = indexStoreSolr(classDoc, "classePageUri", languageName, regex("^pageUri\\." + languageName + ":\\s*(.*)", classComment));
-			String classApiUriLanguage = indexStoreSolr(classDoc, "classeApiUri", languageName, regex("^apiUri\\." + languageName + ":\\s*(.*)", classComment));
+
+			if(classModel) {
+				String classApiUriLangue = indexStoreSolr(classDoc, "classApiUri", languageName, regex("^apiUri\\." + languageName + ":\\s*(.*)", classComment));
+				String classApiUriSearchLangue = indexStoreSolr(classDoc, "classApiUriSearch", languageName, regex("^apiUriSearch\\." + languageName + ":\\s*(.*)", classComment, classApiUriLangue));
+				String classApiUriPOSTLangue = indexStoreSolr(classDoc, "classApiUriPOST", languageName, regex("^apiUriPOST\\." + languageName + ":\\s*(.*)", classComment, classApiUriLangue));
+				String classApiUriPATCHLangue = indexStoreSolr(classDoc, "classApiUriPATCH", languageName, regex("^apiUriPATCH\\." + languageName + ":\\s*(.*)", classComment, classApiUriLangue));
+				String classApiUriGETLangue = indexStoreSolr(classDoc, "classApiUriGET", languageName, regex("^apiUriGET\\." + languageName + ":\\s*(.*)", classComment, classApiUriLangue + "/{pk}"));
+				String classApiUriPUTLangue = indexStoreSolr(classDoc, "classApiUriPUT", languageName, regex("^apiUriPUT\\." + languageName + ":\\s*(.*)", classComment, classApiUriLangue + "/{pk}"));
+				String classApiUriDELETELangue = indexStoreSolr(classDoc, "classApiUriDELETE", languageName, regex("^apiUriDELETE\\." + languageName + ":\\s*(.*)", classComment, classApiUriLangue + "/{pk}"));
+
+				indexStoreSolr(classDoc, "classApiSchemaRequestRecherche", languageName, regex("^apiSchemaRequestRecherche\\." + languageName + ":\\s*(.*)", classComment, "searchRequest-" + classSimpleName));
+				indexStoreSolr(classDoc, "classApiSchemaRequestPOST", languageName, regex("^apiSchemaRequestPOST\\." + languageName + ":\\s*(.*)", classComment, "POSTRequest-" + classSimpleName));
+				indexStoreSolr(classDoc, "classApiSchemaRequestPATCH", languageName, regex("^apiSchemaRequestPATCH\\." + languageName + ":\\s*(.*)", classComment, "PATCHRequest-" + classSimpleName));
+				indexStoreSolr(classDoc, "classApiSchemaRequestGET", languageName, regex("^apiSchemaRequestGET\\." + languageName + ":\\s*(.*)", classComment, "GETRequest-" + classSimpleName));
+				indexStoreSolr(classDoc, "classApiSchemaRequestPUT", languageName, regex("^apiSchemaRequestPUT\\." + languageName + ":\\s*(.*)", classComment, "PUTRequest-" + classSimpleName));
+				indexStoreSolr(classDoc, "classApiSchemaRequestDELETE", languageName, regex("^apiSchemaRequestDELETE\\." + languageName + ":\\s*(.*)", classComment, "DELETERequest-" + classSimpleName));
+
+				indexStoreSolr(classDoc, "classApiSchemaResponseRecherche", languageName, regex("^apiSchemaResponseRecherche\\." + languageName + ":\\s*(.*)", classComment, "searchResponse-" + classSimpleName));
+				indexStoreSolr(classDoc, "classApiSchemaResponsePOST", languageName, regex("^apiSchemaResponsePOST\\." + languageName + ":\\s*(.*)", classComment, "POSTResponse-" + classSimpleName));
+				indexStoreSolr(classDoc, "classApiSchemaResponsePATCH", languageName, regex("^apiSchemaResponsePATCH\\." + languageName + ":\\s*(.*)", classComment, "PATCHResponse-" + classSimpleName));
+				indexStoreSolr(classDoc, "classApiSchemaResponseGET", languageName, regex("^apiSchemaResponseGET\\." + languageName + ":\\s*(.*)", classComment, "GETResponse-" + classSimpleName));
+				indexStoreSolr(classDoc, "classApiSchemaResponsePUT", languageName, regex("^apiSchemaResponsePUT\\." + languageName + ":\\s*(.*)", classComment, "PUTResponse-" + classSimpleName));
+				indexStoreSolr(classDoc, "classApiSchemaResponseDELETE", languageName, regex("^apiSchemaResponseDELETE\\." + languageName + ":\\s*(.*)", classComment, "DELETEResponse-" + classSimpleName));
+			}
+
 			String classSimpleNameLanguage = StringUtils.substringAfterLast(classCanonicalNameLanguage, ".");
 			String classPackageNameLanguage = StringUtils.substringBeforeLast(classCanonicalNameLanguage, ".");
 			String classCanonicalNameGenLanguage = classCanonicalNameLanguage + "Gen";
@@ -1399,8 +1447,8 @@ public class IndexClass extends WatchClassBase {
 //						}
 //	
 //	
-//						boolean contientRequeteSite = contientChamp(varRequeteSite.toString(), entite.classQdox);
-//						entite.contientRequeteSite(contientRequeteSite);
+//						boolean contientRequestSite = contientChamp(varRequestSite.toString(), entite.classQdox);
+//						entite.contientRequestSite(contientRequestSite);
 //	
 //						boolean contientSetterString = contientMethode(entite.var.toString(), classQdoxString);
 //						entite.contientSetterString(contientSetterString);

@@ -47,7 +47,7 @@ public class WriteApiClass extends WriteGenClass {
 	public void  apiCodeClasseFin(String langueNom) throws Exception, Exception {
 		o = auteurApiGenClasse;
 
-		s(wApiChamps.toString());
+		s(wApiEntites.toString());
 		l();
 		tl(1, "public void handleGet", classeNomSimple, "(SiteContexte siteContexte) {");
 //		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur_();");

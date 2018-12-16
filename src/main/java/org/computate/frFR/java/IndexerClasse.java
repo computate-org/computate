@@ -1518,8 +1518,45 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classPartsSuperGeneric
 	 * r: classePageUriLangue
 	 * r.enUS: classPageUriLanguage
+	 * 
+	 * r: apiUriRecherche
+	 * r.enUS: apiUriSearch
+	 * r: classeApiUriRecherche
+	 * r.enUS: classApiUriSearch
+	 * r: classeApiUriPOST
+	 * r.enUS: classApiUriPOST
+	 * r: classeApiUriPATCH
+	 * r.enUS: classApiUriPATCH
+	 * r: classeApiUriGET
+	 * r.enUS: classApiUriGET
+	 * r: classeApiUriPUT
+	 * r.enUS: classApiUriPUT
+	 * r: classeApiUriDELETE
+	 * r.enUS: classApiUriDELETE
+	 * r: classeApiUri
+	 * r.enUS: classApiUri
 	 * r: classeApiUriLangue
 	 * r.enUS: classApiUriLanguage
+	 * 
+	 * r: apiSchemaRecherche
+	 * r.enUS: apiSchemaSearch
+	 * r: classeApiSchemaRecherche
+	 * r.enUS: classApiSchemaSearch
+	 * r: classeApiSchemaPOST
+	 * r.enUS: classApiSchemaPOST
+	 * r: classeApiSchemaPATCH
+	 * r.enUS: classApiSchemaPATCH
+	 * r: classeApiSchemaGET
+	 * r.enUS: classApiSchemaGET
+	 * r: classeApiSchemaPUT
+	 * r.enUS: classApiSchemaPUT
+	 * r: classeApiSchemaDELETE
+	 * r.enUS: classApiSchemaDELETE
+	 * r: classeApiSchema
+	 * r.enUS: classApiSchema
+	 * r: classeApiSchemaLangue
+	 * r.enUS: classApiSchemaLanguage
+	 * 
 	 * r: classeImportClassParts
 	 * r.enUS: classImportClassParts
 	 * r: classeImportation
@@ -1698,6 +1735,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityMultiLine
 	 * r: entiteCles
 	 * r.enUS: entityKeys
+	 * r: initLoin
+	 * r.enUS: initDeep
 	 * 
 	 * r: ^exact
 	 * r.enUS: ^exact
@@ -1757,6 +1796,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: searchResponse
 	 * r: listeRecherche
 	 * r.enUS: searchList
+	 * r: recherche
+	 * r.enUS: search
+	 * r: Requete
+	 * r.enUS: Request
+	 * r: Reponse
+	 * r.enUS: Response
 	 */ 
 	protected SolrInputDocument indexerClasse(String classeCheminAbsolu) throws Exception { 
 
@@ -2013,7 +2058,31 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "modifiee", modifieeDate); 
 		indexerStockerSolr(classeDoc, "classeNomCanonique", langueNom, classeNomCanonique); 
 		indexerStockerSolr(classeDoc, "classePageUri", langueNom, regex("^pageUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
-		indexerStockerSolr(classeDoc, "classeApiUri", langueNom, regex("^apiUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
+
+		if(classeModele) {
+			String classeApiUri = indexerStockerSolr(classeDoc, "classeApiUri", langueNom, regex("^apiUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
+			String classeApiUriRecherche = indexerStockerSolr(classeDoc, "classeApiUriRecherche", langueNom, regex("^apiUriRecherche\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUri));
+			String classeApiUriPOST = indexerStockerSolr(classeDoc, "classeApiUriPOST", langueNom, regex("^apiUriPOST\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUri));
+			String classeApiUriPATCH = indexerStockerSolr(classeDoc, "classeApiUriPATCH", langueNom, regex("^apiUriPATCH\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUri));
+			String classeApiUriGET = indexerStockerSolr(classeDoc, "classeApiUriGET", langueNom, regex("^apiUriGET\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUri + "/{pk}"));
+			String classeApiUriPUT = indexerStockerSolr(classeDoc, "classeApiUriPUT", langueNom, regex("^apiUriPUT\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUri + "/{pk}"));
+			String classeApiUriDELETE = indexerStockerSolr(classeDoc, "classeApiUriDELETE", langueNom, regex("^apiUriDELETE\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUri + "/{pk}"));
+
+			indexerStockerSolr(classeDoc, "classeApiSchemaRequeteRecherche", langueNom, regex("^apiSchemaRequeteRecherche\\." + langueNom + ":\\s*(.*)", classeCommentaire, "rechercheRequete-" + classeNomSimple));
+			indexerStockerSolr(classeDoc, "classeApiSchemaRequetePOST", langueNom, regex("^apiSchemaRequetePOST\\." + langueNom + ":\\s*(.*)", classeCommentaire, "POSTRequete-" + classeNomSimple));
+			indexerStockerSolr(classeDoc, "classeApiSchemaRequetePATCH", langueNom, regex("^apiSchemaRequetePATCH\\." + langueNom + ":\\s*(.*)", classeCommentaire, "PATCHRequete-" + classeNomSimple));
+			indexerStockerSolr(classeDoc, "classeApiSchemaRequeteGET", langueNom, regex("^apiSchemaRequeteGET\\." + langueNom + ":\\s*(.*)", classeCommentaire, "GETRequete-" + classeNomSimple));
+			indexerStockerSolr(classeDoc, "classeApiSchemaRequetePUT", langueNom, regex("^apiSchemaRequetePUT\\." + langueNom + ":\\s*(.*)", classeCommentaire, "PUTRequete-" + classeNomSimple));
+			indexerStockerSolr(classeDoc, "classeApiSchemaRequeteDELETE", langueNom, regex("^apiSchemaRequeteDELETE\\." + langueNom + ":\\s*(.*)", classeCommentaire, "DELETERequete-" + classeNomSimple));
+
+			indexerStockerSolr(classeDoc, "classeApiSchemaReponseRecherche", langueNom, regex("^apiSchemaReponseRecherche\\." + langueNom + ":\\s*(.*)", classeCommentaire, "rechercheReponse-" + classeNomSimple));
+			indexerStockerSolr(classeDoc, "classeApiSchemaReponsePOST", langueNom, regex("^apiSchemaReponsePOST\\." + langueNom + ":\\s*(.*)", classeCommentaire, "POSTReponse-" + classeNomSimple));
+			indexerStockerSolr(classeDoc, "classeApiSchemaReponsePATCH", langueNom, regex("^apiSchemaReponsePATCH\\." + langueNom + ":\\s*(.*)", classeCommentaire, "PATCHReponse-" + classeNomSimple));
+			indexerStockerSolr(classeDoc, "classeApiSchemaReponseGET", langueNom, regex("^apiSchemaReponseGET\\." + langueNom + ":\\s*(.*)", classeCommentaire, "GETReponse-" + classeNomSimple));
+			indexerStockerSolr(classeDoc, "classeApiSchemaReponsePUT", langueNom, regex("^apiSchemaReponsePUT\\." + langueNom + ":\\s*(.*)", classeCommentaire, "PUTReponse-" + classeNomSimple));
+			indexerStockerSolr(classeDoc, "classeApiSchemaReponseDELETE", langueNom, regex("^apiSchemaReponseDELETE\\." + langueNom + ":\\s*(.*)", classeCommentaire, "DELETEReponse-" + classeNomSimple));
+		}
+
 		indexerStockerSolr(classeDoc, "classeNomSimple", langueNom, classeNomSimple); 
 		indexerStockerSolr(classeDoc, "classeNomEnsemble", langueNom, classeNomEnsemble); 
 		indexerStockerSolr(classeDoc, "classeNomCanoniqueGen", langueNom, classeNomCanoniqueGen); 
@@ -2086,14 +2155,38 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(classePartsSuperGenerique);
 		}
 
-		for(String langueNom : autresLangues) { 
+		for(String langueNom : autresLangues) {
 			String appliCheminLangue = appliChemins.get(langueNom);
 			stockerRegexCommentaires(classeCommentaire, langueNom, classeDoc, "classeCommentaire");
 			String cheminSrcMainJavaLangue = appliCheminLangue + "/src/main/java";
 			String cheminSrcGenJavaLangue = appliCheminLangue + "/src/gen/java";
 			String classeNomCanoniqueLangue = regex("^nomCanonique\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeNomCanonique);
 			String classePageUriLangue = indexerStockerSolr(classeDoc, "classePageUri", langueNom, regex("^pageUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
-			String classeApiUriLangue = indexerStockerSolr(classeDoc, "classeApiUri", langueNom, regex("^apiUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
+
+			if(classeModele) {
+				String classeApiUriLangue = indexerStockerSolr(classeDoc, "classeApiUri", langueNom, regex("^apiUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
+				String classeApiUriRechercheLangue = indexerStockerSolr(classeDoc, "classeApiUriRecherche", langueNom, regex("^apiUriRecherche\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUriLangue));
+				String classeApiUriPOSTLangue = indexerStockerSolr(classeDoc, "classeApiUriPOST", langueNom, regex("^apiUriPOST\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUriLangue));
+				String classeApiUriPATCHLangue = indexerStockerSolr(classeDoc, "classeApiUriPATCH", langueNom, regex("^apiUriPATCH\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUriLangue));
+				String classeApiUriGETLangue = indexerStockerSolr(classeDoc, "classeApiUriGET", langueNom, regex("^apiUriGET\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUriLangue + "/{pk}"));
+				String classeApiUriPUTLangue = indexerStockerSolr(classeDoc, "classeApiUriPUT", langueNom, regex("^apiUriPUT\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUriLangue + "/{pk}"));
+				String classeApiUriDELETELangue = indexerStockerSolr(classeDoc, "classeApiUriDELETE", langueNom, regex("^apiUriDELETE\\." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiUriLangue + "/{pk}"));
+
+				indexerStockerSolr(classeDoc, "classeApiSchemaRequeteRecherche", langueNom, regex("^apiSchemaRequeteRecherche\\." + langueNom + ":\\s*(.*)", classeCommentaire, "rechercheRequete-" + classeNomSimple));
+				indexerStockerSolr(classeDoc, "classeApiSchemaRequetePOST", langueNom, regex("^apiSchemaRequetePOST\\." + langueNom + ":\\s*(.*)", classeCommentaire, "POSTRequete-" + classeNomSimple));
+				indexerStockerSolr(classeDoc, "classeApiSchemaRequetePATCH", langueNom, regex("^apiSchemaRequetePATCH\\." + langueNom + ":\\s*(.*)", classeCommentaire, "PATCHRequete-" + classeNomSimple));
+				indexerStockerSolr(classeDoc, "classeApiSchemaRequeteGET", langueNom, regex("^apiSchemaRequeteGET\\." + langueNom + ":\\s*(.*)", classeCommentaire, "GETRequete-" + classeNomSimple));
+				indexerStockerSolr(classeDoc, "classeApiSchemaRequetePUT", langueNom, regex("^apiSchemaRequetePUT\\." + langueNom + ":\\s*(.*)", classeCommentaire, "PUTRequete-" + classeNomSimple));
+				indexerStockerSolr(classeDoc, "classeApiSchemaRequeteDELETE", langueNom, regex("^apiSchemaRequeteDELETE\\." + langueNom + ":\\s*(.*)", classeCommentaire, "DELETERequete-" + classeNomSimple));
+
+				indexerStockerSolr(classeDoc, "classeApiSchemaReponseRecherche", langueNom, regex("^apiSchemaReponseRecherche\\." + langueNom + ":\\s*(.*)", classeCommentaire, "rechercheReponse-" + classeNomSimple));
+				indexerStockerSolr(classeDoc, "classeApiSchemaReponsePOST", langueNom, regex("^apiSchemaReponsePOST\\." + langueNom + ":\\s*(.*)", classeCommentaire, "POSTReponse-" + classeNomSimple));
+				indexerStockerSolr(classeDoc, "classeApiSchemaReponsePATCH", langueNom, regex("^apiSchemaReponsePATCH\\." + langueNom + ":\\s*(.*)", classeCommentaire, "PATCHReponse-" + classeNomSimple));
+				indexerStockerSolr(classeDoc, "classeApiSchemaReponseGET", langueNom, regex("^apiSchemaReponseGET\\." + langueNom + ":\\s*(.*)", classeCommentaire, "GETReponse-" + classeNomSimple));
+				indexerStockerSolr(classeDoc, "classeApiSchemaReponsePUT", langueNom, regex("^apiSchemaReponsePUT\\." + langueNom + ":\\s*(.*)", classeCommentaire, "PUTReponse-" + classeNomSimple));
+				indexerStockerSolr(classeDoc, "classeApiSchemaReponseDELETE", langueNom, regex("^apiSchemaReponseDELETE\\." + langueNom + ":\\s*(.*)", classeCommentaire, "DELETEReponse-" + classeNomSimple));
+			}
+
 			String classeNomSimpleLangue = StringUtils.substringAfterLast(classeNomCanoniqueLangue, ".");
 			String classeNomEnsembleLangue = StringUtils.substringBeforeLast(classeNomCanoniqueLangue, ".");
 			String classeNomCanoniqueGenLangue = classeNomCanoniqueLangue + "Gen";

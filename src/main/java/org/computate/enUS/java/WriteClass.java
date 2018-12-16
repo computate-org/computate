@@ -15,8 +15,9 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
-/**	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
- */
+/**	
+ *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
+ **/
 public class WriteClass extends IndexClass {
 
 	protected PrintWriter auteurClasse;
@@ -42,18 +43,31 @@ public class WriteClass extends IndexClass {
 			String[] parts = StringUtils.split(comment, "\n");
 			for(int j = 0; j < parts.length; j++) { 
 				String ligne = parts[j];
-				if(j == 0)
-					l(tabsStr, "/**\t", ligne);
-				else
-					l(tabsStr, " *\t", ligne);
+				if(j == 0) {
+					l(tabsStr, "/**\t");
+					break;
+				}
 			}
-			l(tabsStr, " */");  
+			writeCommentPart(comment, tabs);
+			l(tabsStr, " **/");  
 		} 
 	}
 
-	/**	Retrieve the records for the class from the search engine, 
+	public void  writeCommentPart(String comment, Integer tabs) {
+		String tabsStr = StringUtils.repeat("\t", tabs);
+		if(StringUtils.isNotEmpty(comment)) {
+			String[] parts = StringUtils.split(comment, "\n");
+			for(int j = 0; j < parts.length; j++) { 
+				String ligne = parts[j];
+				l(tabsStr, " *\t", ligne);
+			}
+		} 
+	}
+
+	/**	
+	 *	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language.
-	 */
+	 **/
 	protected void  writeClass(String classAbsolutePath, String languageName, QueryResponse searchResponse) throws Exception, Exception { 
 		SolrDocumentList searchList = searchResponse.getResults(); 
 

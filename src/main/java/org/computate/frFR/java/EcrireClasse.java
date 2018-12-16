@@ -65,7 +65,8 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: comment
 	 * r: tabulations
 	 * r.enUS: tabs
-	 * 
+	 * r: ecrireCommentairePart
+	 * r.enUS: writeCommentPart
 	 */
 	public void ecrireCommentaire(String commentaire, Integer tabulations) {
 		String tabulationsStr = StringUtils.repeat("\t", tabulations);
@@ -73,12 +74,34 @@ public class EcrireClasse extends IndexerClasse {
 			String[] parts = StringUtils.split(commentaire, "\n");
 			for(int j = 0; j < parts.length; j++) { 
 				String ligne = parts[j];
-				if(j == 0)
-					l(tabulationsStr, "/**\t", ligne);
-				else
-					l(tabulationsStr, " *\t", ligne);
+				if(j == 0) {
+					l(tabulationsStr, "/**\t");
+					break;
+				}
 			}
-			l(tabulationsStr, " */");  
+			ecrireCommentairePart(commentaire, tabulations);
+			l(tabulationsStr, " **/");  
+		} 
+	}
+
+	/**
+	 * var.enUS: writeCommentPart
+	 * param1.var.enUS: comment
+	 * param2.var.enUS: tabs
+	 * r: commentaire
+	 * r.enUS: comment
+	 * r: tabulations
+	 * r.enUS: tabs
+	 * 
+	 */
+	public void ecrireCommentairePart(String commentaire, Integer tabulations) {
+		String tabulationsStr = StringUtils.repeat("\t", tabulations);
+		if(StringUtils.isNotEmpty(commentaire)) {
+			String[] parts = StringUtils.split(commentaire, "\n");
+			for(int j = 0; j < parts.length; j++) { 
+				String ligne = parts[j];
+				l(tabulationsStr, " *\t", ligne);
+			}
 		} 
 	}
 
