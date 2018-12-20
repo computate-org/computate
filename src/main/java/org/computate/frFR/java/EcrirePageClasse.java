@@ -44,6 +44,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimplePageGen, ".class);");
 	}
 
+	/**
+	 * r: Ecrire: 
+	 * r.enUS: Write: 
+	 */
 	public void pageCodeClasseFin(String langueNom) throws Exception {
 //		o = auteurPageGenClasse;
 //

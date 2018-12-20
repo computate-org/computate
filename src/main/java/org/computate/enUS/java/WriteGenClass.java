@@ -311,7 +311,7 @@ public class WriteGenClass extends WriteClass {
 			tl(2, "SiteContext siteContext = new SiteContext();");
 			tl(2, "siteContext.initDeepSiteContext();");
 			tl(2, "siteContext.setSiteRequest_(siteRequest);");
-			tl(2, "siteRequest.setSiteContext_(SiteContext);");
+			tl(2, "siteRequest.setSiteContext_(siteContext);");
 			tl(2, "siteRequest", classSimpleName, "(siteRequest);");
 			tl(2, "initDeep", classSimpleName, "(siteRequest);");
 			tl(2, "index", classSimpleName, "(siteRequest);");
@@ -338,7 +338,7 @@ public class WriteGenClass extends WriteClass {
 			tl(2, "index", classSimpleName, "(document);");
 //			if(classeSauvegarde)
 //				tl(2, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
-			tl(2, "SolrClient clientSolr = siteRequest_.getSiteContext_().getClientSolr();");
+			tl(2, "SolrClient clientSolr = siteRequest_.getSiteContext_().getSolrClient();");
 			tl(2, "clientSolr.add(document);");
 			tl(2, "clientSolr.commit();");
 			l("\t}");
@@ -1208,7 +1208,7 @@ public class WriteGenClass extends WriteClass {
 					Boolean entityMethodBeforeWrite = entityMethodsBeforeWrite.get(j);
 
 					if(BooleanUtils.isTrue(entityMethodBeforeWrite)) {
-						t(1, entityMethodBeforeVisibility, " abstract void ", entityMethodBeforeVar, "(", entityMethodBeforeSimpleName, " ", entityMethodBeforeParamVar);
+						t(1, "((", classSimpleName, ")this).", entityMethodBeforeVisibility, " abstract void ", entityMethodBeforeVar, "(", entityMethodBeforeSimpleName, " ", entityMethodBeforeParamVar);
 						if(entityMethodBeforeParamName)
 							s(", String entityVar");
 						l(");");
@@ -1225,7 +1225,7 @@ public class WriteGenClass extends WriteClass {
 					String entityMethodBeforeVar = entityMethodsBeforeVar.get(j);
 					Boolean entityMethodBeforeParamName = entityMethodsBeforeParamName.get(j);
 
-					t(3, entityMethodBeforeVar, "(", entityVar);
+					t(3, "((", classSimpleName, ")this).", entityMethodBeforeVar, "(", entityVar);
 					if(entityMethodBeforeParamName)
 						s(", \"", entityVar, "\"");
 					l(");");
@@ -1250,10 +1250,10 @@ public class WriteGenClass extends WriteClass {
 			if(entityInitDeep) {
 				if(entityWrap) {
 					tl(2, "if(", entityVar, " != null)");
-					tl(3, entityVar, ".initLoinPourClasse(siteRequest_);");
+					tl(3, entityVar, ".initDeepForClass(siteRequest_);");
 				}
 				else {
-					tl(2, entityVar, ".initLoinPourClasse(siteRequest_);");
+					tl(2, entityVar, ".initDeepForClass(siteRequest_);");
 				}
 			}
 
@@ -1264,7 +1264,7 @@ public class WriteGenClass extends WriteClass {
 					String entityMethodAfterVar = entityMethodsAfterVar.get(j);
 					Boolean entityMethodAfterParamName = entityMethodsAfterParamName.get(j);
 
-					t(3, entityMethodAfterVar, "(", entityVar);
+					t(3, "((", classSimpleName, ")this).", entityMethodAfterVar, "(", entityVar);
 					if(entityMethodAfterParamName)
 						s(", \"", entityVar, "\"");
 					l(");");
@@ -1337,10 +1337,10 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "}");
 
 			//////////////////
-			// nomAffichage //
+			// displayName //
 			//////////////////
 			l();
-			tl(1, "public String nomAffichage", entityVarCapitalized, "() {");
+			tl(1, "public String displayName", entityVarCapitalized, "() {");
 			tl(2, "return ", entityDisplayName == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entityDisplayName) + "\"", ";");
 			tl(1, "}");
 
@@ -1389,7 +1389,7 @@ public class WriteGenClass extends WriteClass {
 				tl(4, "r.write(\"	//]]></script>\\n\");");
 				tl(4, "r.write(\"	<div class=\\\"\\\">\\n\");");
 				tl(4, "r.write(\"		<label class=\\\"w3-tooltip \\\">\\n\");");
-				tl(4, "r.write(\"			<span>\").write(StringEscapeUtils.escapeHtml4(nomAffichage", entityVarCapitalized, "())).write(\"</span>\\n\");");
+				tl(4, "r.write(\"			<span>\").write(StringEscapeUtils.escapeHtml4(displayName", entityVarCapitalized, "())).write(\"</span>\\n\");");
 				tl(4, "r.write(\"			<input\");"); {
 					tl(7, "r.write(\" name=\\\"", entityVar, "\\\"\");");
 					tl(7, "r.write(\" value=\\\"\").write(html", entityVarCapitalized, "()).write(\"\\\");\");");
@@ -1423,7 +1423,7 @@ public class WriteGenClass extends WriteClass {
 		/////////////////////
 		if(classInitDeep && entityInitDeep) {
 			o = codeSiteRequest;
-			tl(2, entityVar, ".setRequeteSite_(siteRequest);");
+			tl(2, entityVar, ".setSiteRequest_(siteRequest);");
 		}
 
 		/////////////////
@@ -1676,7 +1676,7 @@ public class WriteGenClass extends WriteClass {
 //									tl(5, field.contexteEnfant.classSimpleName, " ", field.contexteEnfant.nomVarMinuscule, " = new ", field.contexteEnfant.classSimpleName, "();");
 //									tl(5, field.contexteEnfant.nomVarMinuscule, ".pk(", varSupprimer, ");");
 //									tl(5, field.contexteEnfant.nomVarMinuscule, ".sauvegardesPourClasse(siteRequest);");
-//									tl(5, field.contexteEnfant.nomVarMinuscule, ".initLoinPourClasse(siteRequest_);");
+//									tl(5, field.contexteEnfant.nomVarMinuscule, ".initDeepForClass(siteRequest_);");
 //									tl(5, field.contexteEnfant.nomVarMinuscule, ".indexerPourClasse(siteRequest);");
 //									tl(4, "}");
 //									tl(3, "}");
@@ -2368,7 +2368,7 @@ public class WriteGenClass extends WriteClass {
 
 		l("}"); 
 
-		System.out.println("Ecrire: " + classPathGen); 
+		System.out.println("Write:" + classPathGen); 
 		writerGenClass.flush();
 		writerGenClass.close();
 	}

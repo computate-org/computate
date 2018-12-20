@@ -104,6 +104,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * 
 	 * r: siteContexte
 	 * r.enUS: siteContext
+	 * r: Ecrire: 
+	 * r.enUS: Write: 
 	 */
 	public void apiCodeClasseFin(String langueNom) throws Exception {
 		o = auteurApiGenClasse;

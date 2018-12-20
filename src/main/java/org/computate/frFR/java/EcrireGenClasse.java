@@ -672,6 +672,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: indexerPourClasse
 	 * r.enUS: indexForClass
 	 * 
+	 * r: ClientSolr
+	 * r.enUS: SolrClient
 	 * r: indexer
 	 * r.enUS: index
 	 * r: initLoin
@@ -691,7 +693,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "SiteContexte siteContexte = new SiteContexte();");
 			tl(2, "siteContexte.initLoinSiteContexte();");
 			tl(2, "siteContexte.setRequeteSite_(requeteSite);");
-			tl(2, "requeteSite.setSiteContexte_(SiteContexte);");
+			tl(2, "requeteSite.setSiteContexte_(siteContexte);");
 			tl(2, "requeteSite", classeNomSimple, "(requeteSite);");
 			tl(2, "initLoin", classeNomSimple, "(requeteSite);");
 			tl(2, "indexer", classeNomSimple, "(requeteSite);");
@@ -1550,7 +1552,15 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: codeApiGeneratePatch
 	 * r: classeEtendGen
 	 * r.enUS: classExtendsGen
+	 * r: initLoinPourClasse
+	 * r.enUS: initDeepForClass
 	 * 
+	 * r: nomAffichage
+	 * r.enUS: displayName
+	 * r: ClientSolr
+	 * r.enUS: SolrClient
+	 * r: RequeteSite
+	 * r.enUS: SiteRequest
 	 * r: requete
 	 * r.enUS: request
 	 * r: entite
@@ -2083,7 +2093,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					Boolean entiteMethodeAvantEcrire = entiteMethodesAvantEcrire.get(j);
 
 					if(BooleanUtils.isTrue(entiteMethodeAvantEcrire)) {
-						t(1, entiteMethodeAvantVisibilite, " abstract void ", entiteMethodeAvantVar, "(", entiteMethodeAvantParamNomSimple, " ", entiteMethodeAvantParamVar);
+						t(1, "((", classeNomSimple, ")this).", entiteMethodeAvantVisibilite, " abstract void ", entiteMethodeAvantVar, "(", entiteMethodeAvantParamNomSimple, " ", entiteMethodeAvantParamVar);
 						if(entiteMethodeAvantNomParam)
 							s(", String entiteVar");
 						l(");");
@@ -2100,7 +2110,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					String entiteMethodeAvantVar = entiteMethodesAvantVar.get(j);
 					Boolean entiteMethodeAvantNomParam = entiteMethodesAvantNomParam.get(j);
 
-					t(3, entiteMethodeAvantVar, "(", entiteVar);
+					t(3, "((", classeNomSimple, ")this).", entiteMethodeAvantVar, "(", entiteVar);
 					if(entiteMethodeAvantNomParam)
 						s(", \"", entiteVar, "\"");
 					l(");");
@@ -2139,7 +2149,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					String entiteMethodeApresVar = entiteMethodesApresVar.get(j);
 					Boolean entiteMethodeApresNomParam = entiteMethodesApresNomParam.get(j);
 
-					t(3, entiteMethodeApresVar, "(", entiteVar);
+					t(3, "((", classeNomSimple, ")this).", entiteMethodeApresVar, "(", entiteVar);
 					if(entiteMethodeApresNomParam)
 						s(", \"", entiteVar, "\"");
 					l(");");
@@ -3177,6 +3187,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: siteRequest
 	 * r: initLoin
 	 * r.enUS: initDeep
+	 * r: Ecrire: 
+	 * r.enUS: Write: 
 	 */
 	public void genCodeClasseFin(String langueNom) throws Exception {
 		//////////////////

@@ -544,7 +544,7 @@ public class WriteApiClass extends WriteGenClass {
 //		tl(1, "}");
 		tl(0, "}");
 
-		System.out.println("Ecrire: " + classPathApiGen); 
+		System.out.println("Write:" + classPathApiGen); 
 		writerApiGenClass.flush();
 		writerApiGenClass.close();
 	}

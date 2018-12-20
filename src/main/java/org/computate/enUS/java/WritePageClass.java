@@ -298,7 +298,7 @@ public class WritePageClass extends WriteApiClass {
 ////		tl(1, "}");
 //		tl(0, "}");
 //
-//		System.out.println("Ecrire: " + classeCheminPageGen); 
+//		System.out.println("Write:" + classeCheminPageGen); 
 //		auteurPageGenClasse.flush();
 //		auteurPageGenClasse.close();
 	}

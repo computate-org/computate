@@ -345,6 +345,20 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: fieldValue
 	 */
 	protected Boolean indexerListeSolr(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_indexed_booleans"), valeurChamp);
+		return valeurChamp;
+	} 
+	
+	/**
+	 * var.enUS: indexListSolr
+	 * param2.var.enUS: fieldName
+	 * param3.var.enUS: fieldValue
+	 * r: nomChamp
+	 * r.enUS: fieldName
+	 * r: valeurChamp
+	 * r.enUS: fieldValue
+	 */ 
+	protected String indexerListeSolr(SolrInputDocument doc, String nomChamp, String valeurChamp) throws Exception {
 		doc.addField(concat(nomChamp, "_indexed_strings"), valeurChamp);
 		return valeurChamp;
 	} 
@@ -1196,6 +1210,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: fieldCanonicalNameComplete
 	 * r: champNomSimpleComplet
 	 * r.enUS: fieldSimpleNameComplete
+	 * r: indexerListeSolr
+	 * r.enUS: indexListSolr
 	 * r: stockerListeSolr
 	 * r.enUS: storeListSolr
 	 * r: constructeurDoc
@@ -1710,7 +1726,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: entiteExact
 	 * r.enUS: entityExact
 	 * r: entiteClePrimaire
-	 * r.enUS: entityUniqueKey
+	 * r.enUS: entityPrimaryKey
 	 * r: entiteCrypte
 	 * r.enUS: entityEncrypted
 	 * r: entiteSuggere
@@ -1802,6 +1818,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: classeVarClePrimaire
 	 * r.enUS: classVarPrimaryKey
 	 * 
+	 * r: ^modele
+	 * r.enUS: ^model
 	 * r: ^exact
 	 * r.enUS: ^exact
 	 * r: ^clePrimaire
@@ -1851,7 +1869,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: classePartGen
 	 * r.enUS: classPartGen
 	 * 
-	 * 
+	 * r: motCle
+	 * r.enUS: keyword
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 * r: rechercheSolr
@@ -1868,7 +1887,15 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: Response
 	 * r: Couverture
 	 * r.enUS: Wrap
-	 */ 
+	 * r: Avant
+	 * r.enUS: Before
+	 * r: avant
+	 * r.enUS: before
+	 * r: Apres
+	 * r.enUS: After
+	 * r: apres
+	 * r.enUS: after
+	 */  
 	protected SolrInputDocument indexerClasse(String classeCheminAbsolu) throws Exception { 
 
 		SolrInputDocument classeDoc = new SolrInputDocument();
@@ -2192,7 +2219,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			indexerStockerSolr(classeDoc, "classeRolesTrouve", classeRolesTrouve); 
 
 			Matcher classeMotsClesRecherche = Pattern.compile("^motCle:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
-			boolean classeMotsClesTrouveActuel = classeMotsClesTrouve;
+			boolean classeMotsClesTrouveActuel = classeMotsClesRecherche.find();
 			while(classeMotsClesTrouveActuel) {
 				String classeMotCleValeur = classeMotsClesRecherche.group(1);
 				classeMotsClesTrouveActuel = classeMotsClesRecherche.find();
@@ -3451,8 +3478,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 
 		indexerStockerSolr(classeDoc, "classeMotsClesTrouve", classeMotsClesTrouve); 
-		for(String classeMotCleValeur : classeMotsCles)
+		for(String classeMotCleValeur : classeMotsCles) {
+			indexerListeSolr(classeDoc, "classeMotsCles", classeMotCleValeur); 
 			stockerListeSolr(classeDoc, "classeMotsCles", classeMotCleValeur); 
+		}
 		
 		ClasseParts classePartsCouverture = classePartsCouverture(nomEnsembleDomaine);
 		classePartsGenAjouter(classePartsCouverture);
