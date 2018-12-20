@@ -32,7 +32,7 @@ import org.apache.solr.common.SolrDocumentList;
 public class EcrireToutesClasses extends EcrirePageClasse {        
 
 	/**
-	 * var.enUS: writeAllClasses
+	 * var.enUS: writeGenClasses
 	 * param1.var.enUS: classAbsolutePath
 	 * param2.var.enUS: languageName
 	 * r: clientSolrComputate
@@ -51,6 +51,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: writeGenClass
 	 * r: classeEtendGen
 	 * r.enUS: classExtendsGen
+	 * r: ecrireGenClasses
+	 * r.enUS: writeGenClasses
 	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
 	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
 	 * enUS: Retrieve the records for the class from the search engine, 
@@ -70,7 +72,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	}
 
 	/** 
-	 * var.enUS: writeAllClasses
+	 * var.enUS: writeGenClasses
 	 * param1.var.enUS: searchResponse
 	 * param2.var.enUS: languageName
 	 * r: VAL_entiteCommentaireLigne1Part1
@@ -90,17 +92,17 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r: partNumero
 	 * r.enUS: partNumber
 	 * r: classeParametreTypeNoms
-	 * r.enUS: classTypeParameterNames
+	 * r.enUS: classParameterTypeNames
 	 * r: classeParametreTypeNom
-	 * r.enUS: classTypeParameterName
+	 * r.enUS: classParameterTypeName
 	 * r: methodeParametreTypeNoms
-	 * r.enUS: methodTypeParameterNames
+	 * r.enUS: methodParameterTypeNames
 	 * r: methodeParametreTypeNom
-	 * r.enUS: methodTypeParameterName
+	 * r.enUS: methodParameterTypeName
 	 * r: langueNom
 	 * r.enUS: languageName
 	 * r: classeSuperParametreTypeNoms
-	 * r.enUS: classSuperTypeParameterNames
+	 * r.enUS: classSuperParameterTypeNames
 	 * r: classeParametreTypeNoms
 	 * r.enUS: classTypeParameterNames
 	 * r: classeImportations
@@ -146,9 +148,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r: classeEtendGen
 	 * r.enUS: classExtendsGen
 	 * r: classeCheminRepertoireGenLangue
-	 * r.enUS: classGenDirPathLanguage
+	 * r.enUS: classDirPathGenLanguage
 	 * r: classeCheminRepertoireGen
-	 * r.enUS: classGenDirPath
+	 * r.enUS: classDirPathGen
 	 * r: classeCheminRepertoireLangue
 	 * r.enUS: classDirPathLanguage
 	 * r: classeCheminRepertoire
@@ -170,6 +172,71 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r: partEstChamp
 	 * r: partEstEntite
 	 * r.enUS: partIsEntity
+	 * r: classeVarClePrimaire
+	 * r.enUS: classVarPrimaryKey
+	 * r: classePageUri
+	 * r.enUS: classPageUri
+	 * r: classeApiUri
+	 * r.enUS: classApiUri
+	 * r: classeBaseEtendGen
+	 * r.enUS: classBaseExtendsGen
+	 * r: classeEtendBase
+	 * r.enUS: classExtendsBase
+	 * r: classeEstBase
+	 * r.enUS: classIsBase
+	 * r: classeInitLoin
+	 * r.enUS: classInitDeep
+	 * r: classeSauvegarde
+	 * r.enUS: classSaved
+	 * r: classeIndexe
+	 * r.enUS: classIndexed
+	 * r: classeModele
+	 * r.enUS: classModel
+	 * r: classeApi
+	 * r.enUS: classApi
+	 * r: classePage
+	 * r.enUS: classPage
+	 * r: classeRolesTrouve
+	 * r.enUS: classRolesFound
+	 * r: classeRoles
+	 * r.enUS: classRoles
+	 * r: auteurGenClasse
+	 * r.enUS: writerGenClass
+	 * r: auteurApiGenClasse
+	 * r.enUS: writerApiGenClass
+	 * r: auteurPageGenClasse
+	 * r.enUS: writerPageGenClass
+	 * r: genCodeInitLoin
+	 * r.enUS: genCodeInitDeep
+	 * r: genCodeRequeteSite
+	 * r.enUS: genCodeSiteRequest
+	 * r: genCodeIndexer
+	 * r.enUS: genCodeIndex
+	 * r: genCodeObtenir
+	 * r.enUS: genCodeObtain
+	 * r: genCodeAttribuer
+	 * r.enUS: genCodeAttribute
+	 * r: genCodePeupler
+	 * r.enUS: genCodePopulate
+	 * r: genCodeExiste
+	 * r.enUS: genCodeExists
+	 * r: genCodeSauvegardes
+	 * r.enUS: genCodeSaves
+	 * r: genCodeSauvegarder
+	 * r.enUS: genCodeSave
+	 * r: genCodeClasseDebut
+	 * r.enUS: genCodeClassBegin
+	 * r: genCodeEntite
+	 * r.enUS: genCodeEntity
+	 * r: partEstConstructeur
+	 * r.enUS: partIsConstructor
+	 * r: genCodeClasseFin
+	 * r.enUS: genCodeClassEnd
+	 * r: apiCodeClasseDebut
+	 * r.enUS: apiCodeClassBegin
+	 * r: apiCodeClasseFin
+	 * r.enUS: apiCodeClassEnd
+	 * 
 	 * r: Ecrire:
 	 * r.enUS: Write:
 	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
@@ -206,7 +273,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 					classeNomSimpleApi = (String)doc.get("classeNomSimpleApi_" + langueNom + "_stored_string");
 					classeNomSimpleApiGen = (String)doc.get("classeNomSimpleApiGen_" + langueNom + "_stored_string");
-					classeVarClePrimaire = (String)doc.get("classeVarCleUnique_" + langueNom + "_stored_string");
+					classeVarClePrimaire = (String)doc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
 					classePageUri = (String)doc.get("classePageUri_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");

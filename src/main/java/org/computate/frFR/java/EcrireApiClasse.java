@@ -10,10 +10,43 @@ import java.io.PrintWriter;
  */  
 public class EcrireApiClasse extends EcrireGenClasse {  
 
+	/**
+	 * var.enUS: writerApiGenClass
+	 */
 	protected PrintWriter auteurApiGenClasse;
+
+	/**
+	 * var.enUS: classSimpleNameApi
+	 */
 	protected String classeNomSimpleApi;
+
+	/**
+	 * var.enUS: classSimpleNameApiGen
+	 */
 	protected String classeNomSimpleApiGen;
 
+	/**
+	 * var.enUS: apiCodeClassBegin
+	 * param1.var.enUS: languageName
+	 * r: auteurApiGenClasse
+	 * r.enUS: writerApiGenClass
+	 * r: classeNomEnsemble
+	 * r.enUS: classPackageName
+	 * r: classeImporationsGenApi
+	 * r.enUS: classImportsGenApi
+	 * r: classeImportation
+	 * r.enUS: classImport
+	 * r: classeCommentaire
+	 * r.enUS: classComment
+	 * r: ecrireCommentaire
+	 * r.enUS: writeComment
+	 * r: classeNomSimpleApiGen
+	 * r.enUS: classSimpleNameApiGen
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
+	 */
 	public void apiCodeClasseDebut(String langueNom) throws Exception {
 		o = auteurApiGenClasse;
 		l("package ", classeNomEnsemble, ";");
@@ -46,6 +79,32 @@ public class EcrireApiClasse extends EcrireGenClasse {
 		tl(1, "public static final String VAL_guillmetsFin = \"]\";");
 	}
 
+	/**
+	 * var.enUS: apiCodeClassEnd
+	 * param1.var.enUS: languageName
+	 * 
+	 * r: auteurApiGenClasse
+	 * r.enUS: writerApiGenClass
+	 * r: wApiEntites
+	 * r.enUS: wApiEntities
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 * r: classeRolesTrouve
+	 * r.enUS: classRolesFound
+	 * r: classeRoles
+	 * r.enUS: classRoles
+	 * r: wApiGenererGet
+	 * r.enUS: wApiGenerateGet
+	 * r: wApiGenererPatch
+	 * r.enUS: wApiGeneratePatch
+	 * r: classeCheminApiGen
+	 * r.enUS: classPathApiGen
+	 * r: entiteVar
+	 * r.enUS: entityVar
+	 * 
+	 * r: siteContexte
+	 * r.enUS: siteContext
+	 */
 	public void apiCodeClasseFin(String langueNom) throws Exception {
 		o = auteurApiGenClasse;
 

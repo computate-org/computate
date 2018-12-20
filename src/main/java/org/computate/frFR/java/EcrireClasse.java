@@ -493,7 +493,7 @@ public class EcrireClasse extends IndexerClasse {
 						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stored_string");
 						String methodeCommentaire = (String)doc.get("methodeCommentaire_" + langueNom + "_stored_string");
 						List<String> methodeExceptionsNomSimpleComplet = (List<String>)doc.get("methodeExceptionsNomSimpleComplet_stored_strings");
-						List<String> methodeParamsTypeNom = (List<String>)doc.get("methodeParamsTypeNom_" + langueNom + "_stored_strings");
+						List<String> methodeParamsTypeNom = (List<String>)doc.get("methodeParamsTypeNom_stored_strings");
 						List<String> methodeAnnotationsNomSimpleCompletListe = (List<String>)doc.get("methodeAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings");
 						List<String> methodeAnnotationsBlocCodeListe = (List<String>)doc.get("methodeAnnotationsBlocCode_" + langueNom + "_stored_strings");
 

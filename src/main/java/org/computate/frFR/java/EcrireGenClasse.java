@@ -28,61 +28,7 @@ import org.apache.solr.common.SolrDocument;
 public class EcrireGenClasse extends EcrireClasse { 
 
 	/**
-	 * var.enUS: VAL_entityCommentLine1Part1
-	 * r: "L'entité « "
-	 * r.enUS: "The entity \\" "
-	 */
-	public static final String VAL_entiteCommentaireLigne1Part1 = "L'entité « ";
-
-	/**
-	 * var.enUS: VAL_entityCommentLine1Part2
-	 * r: " »"
-	 * r.enUS: " \\""
-	 */
-	public static final String VAL_entiteCommentaireLigne1Part2 = " »";
-
-	/**
-	 * var.enUS: VAL_entityWrapLine1Part1
-	 * r: " est défini comme null avant d'être initialisé. "
-	 * r.enUS: " is defined as null before being initialized. "
-	 */
-	public static final String VAL_entiteCouvertureLigne1Part1 = " est défini comme null avant d'être initialisé. ";
-
-	/**
-	 * var.enUS: VAL_entityWrapLine2Part1
-	 * r: " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. "
-	 * r.enUS: " is for wrapping a value to assign to this entity at initialization. "
-	 */
-	public static final String VAL_entiteCouvertureLigne2Part1 = " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. ";
-
-	/**
-	 * var.enUS: VAL_entityConstructedLine1Part1
-	 * r: "Il est construit avant d'être initialisé avec le constructeur par défaut "
-	 * r.enUS: "It is constructed before bing initialized with the constructor by default "
-	 */
-	public static final String VAL_entiteConstruitLigne1Part1 = "Il est construit avant d'être initialisé avec le constructeur par défaut ";
-
-	/**
-	 * var.enUS: VAL_entityConstructedLine1Part2
-	 */
-	public static final String VAL_entiteConstruitLigne1Part2 = "(). ";
-
-	/**
-	 * var.enUS: VAL_entityConstructedLine2Part1
-	 * r: " est l'entité déjà construit. "
-	 * r.enUS: " is the entity already constructed. "
-	 */
-	public static final String VAL_entiteConstruitLigne2Part1 = " est l'entité déjà construit. ";
-
-	/**
-	 * var.enUS: VAL_entityThrowsLine2Part1
-	 * r: " afin que toute exception lors de l'initialisation est gérée par le servlet. "
-	 * r.enUS: " so that every exception at initialization is managed by the servlet. "
-	 */
-	public static final String VAL_entiteThrowsLigne2Part1 = " afin que toute exception lors de l'initialisation est gérée par le servlet. ";
-
-	/**
-	 * var.enUS: classPathDirectoryGen
+	 * var.enUS: classDirPathGen
 	 */
 	protected String classeCheminRepertoireGen;
 
@@ -102,7 +48,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeCheminPageGen;
 
 	/**
-	 * var.enUS: classDirectoryGen
+	 * var.enUS: classDirGen
 	 */
 	protected File classeRepertoireGen;
 
@@ -117,7 +63,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected File classeFichierApi;
 
 	/**
-	 * var.enUS: classFileApiPage
+	 * var.enUS: classFilePage
 	 */
 	protected File classeFichierPage;
 
@@ -1190,6 +1136,66 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 	}
 
+	/**
+	 * var.enUS: genCodeClassBegin
+	 * param1.var.enUS: languageName
+	 * r: auteurGenClasse
+	 * r.enUS: writerGenClass
+	 * r: classeNomEnsemble
+	 * r.enUS: classPackageName
+	 * r: classeImportationsGen
+	 * r.enUS: classImportsGen
+	 * r: classeImportation
+	 * r.enUS: classImport
+	 * r: ecrireCommentairePart
+	 * r.enUS: writeCommentPart
+	 * r: classeCommentaire
+	 * r.enUS: classComment
+	 * r: urlSolrComputate
+	 * r.enUS: solrUrlComputate
+	 * r: partEstClasse
+	 * r.enUS: partIsClass
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: classeEtendGen
+	 * r.enUS: classExtendsGen
+	 * r: entiteVar
+	 * r.enUS: entityVar
+	 * r: Trouver la classe 
+	 * r.enUS: Find the class 
+	 * r: dans Solr
+	 * r.enUS: in Solr
+	 * r: classeNomSimpleGen
+	 * r.enUS: classSimpleNameGen
+	 * r: classeParametreTypeNoms
+	 * r.enUS: classParameterTypeNames
+	 * r: classeParametreTypeNom
+	 * r.enUS: classParameterTypeName
+	 * r: classeNomSimpleSuperGenerique
+	 * r.enUS: classSuperSimpleNameGeneric
+	 * r: classeSuperParametreTypeNoms
+	 * r.enUS: classSuperParameterTypeNames
+	 * r: classeSuperParametreTypeNom
+	 * r.enUS: classSuperParameterTypeName
+	 * r: classeSauvegarde
+	 * r.enUS: classSaved
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 * r: classeValsVar
+	 * r.enUS: classValsVar
+	 * r: classeValsLangue
+	 * r.enUS: classValsLanguage
+	 * r: classeValsValeur
+	 * r.enUS: classValsValue
+	 * r: classeValVar
+	 * r.enUS: classValVar
+	 * r: classeValLangue
+	 * r.enUS: classValLanguage
+	 * r: classeValValeur
+	 * r.enUS: classValValue
+	 */
 	public void genCodeClasseDebut(String langueNom) throws Exception {
 		o = auteurGenClasse;
 
@@ -1259,6 +1265,316 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
+	 * var.enUS: genCodeEntity
+	 * param1.var.enUS: languageName
+	 * r: entiteVarCapitalise
+	 * r.enUS: entityVarCapitalized
+	 * r: entiteInitialise
+	 * r.enUS: entityInitialized
+	 * r: entiteNomCanoniqueCompletGenerique
+	 * r.enUS: entityCanonicalNameCompleteGeneric
+	 * r: entiteNomCanoniqueComplet
+	 * r.enUS: entityCanonicalNameComplete
+	 * r: entiteNomCanoniqueGenerique
+	 * r.enUS: entityCanonicalNameGeneric
+	 * r: entiteNomCanonique
+	 * r.enUS: entityCanonicalName
+	 * r: entiteNomSimpleCompletGenerique
+	 * r.enUS: entitySimpleNameCompleteGeneric
+	 * r: entiteNomSimpleComplet
+	 * r.enUS: entitySimpleNameComplete
+	 * r: entiteNomSimpleGenerique
+	 * r.enUS: entitySimpleNameGeneric
+	 * r: entiteNomSimple
+	 * r.enUS: entitySimpleName
+	 * r: entiteNomCompletGenerique
+	 * r.enUS: entityCompleteNameGeneric
+	 * r: entiteCommentaire
+	 * r.enUS: entityComment
+	 * r: entiteCouverture
+	 * r.enUS: entityWrap
+	 * r: entiteInitLoin
+	 * r.enUS: entityInitDeep
+	 * r: methodeExceptionsNomSimpleComplet
+	 * r.enUS: methodExceptionsSimpleNameComplete
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: auteurGenClasse
+	 * r.enUS: writerGenClass
+	 * r: ligneCommentaire
+	 * r.enUS: commentLine
+	 * r: "L'entité « "
+	 * r.enUS: "The entity \\" "
+	 * r: " »"
+	 * r.enUS: " \\""
+	 * r: " est défini comme null avant d'être initialisé. "
+	 * r.enUS: " is defined as null before being initialized. "
+	 * r: " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. "
+	 * r.enUS: " is for wrapping a value to assign to this entity at initialization. "
+	 * r: "Il est construit avant d'être initialisé avec le constructeur par défaut "
+	 * r.enUS: "It is constructed before being initialized with the constructor by default "
+	 * r: " est l'entité déjà construit. "
+	 * r.enUS: " is the entity already constructed. "
+	 * r: " afin que toute exception lors de l'initialisation est gérée par le servlet. "
+	 * r.enUS: " so that every exception at initialization is managed by the servlet. "
+	 * r: entiteSolrNomCanonique
+	 * r.enUS: entitySolrCanonicalName
+	 * r: entiteSolrNomSimple
+	 * r.enUS: entitySolrSimpleName
+	 * r: entiteListeNomSimpleVertxJson
+	 * r.enUS: entityListSimpleNameVertxJson
+	 * r: entiteListeNomCanoniqueVertxJson
+	 * r.enUS: entityListCanonicalNameVertxJson
+	 * 
+	 * r: entiteMethodesAvantVisibilite
+	 * r.enUS: entityMethodsBeforeVisibility
+	 * r: entiteMethodesAvantVar
+	 * r.enUS: entityMethodsBeforeVar
+	 * r: entiteMethodesAvantParamVar
+	 * r.enUS: entityMethodsBeforeParamVar
+	 * r: entiteMethodesAvantParamNomSimple
+	 * r.enUS: entityMethodsBeforeSimpleName
+	 * r: entiteMethodesAvantNomParam
+	 * r.enUS: entityMethodsBeforeParamName
+	 * r: entiteMethodesAvantEcrire
+	 * r.enUS: entityMethodsBeforeWrite
+	 * r: entiteMethodesApresVisibilite
+	 * r.enUS: entityMethodsAfterVisibility
+	 * r: entiteMethodesApresVar
+	 * r.enUS: entityMethodsAfterVar
+	 * r: entiteMethodesApresParamVar
+	 * r.enUS: entityMethodsAfterParamVar
+	 * r: entiteMethodesApresParamNomSimple
+	 * r.enUS: entityMethodsAfterSimpleName
+	 * r: entiteMethodesApresNomParam
+	 * r.enUS: entityMethodsAfterParamName
+	 * r: entiteMethodesApresEcrire
+	 * r.enUS: entityMethodsAfterWrite
+	 * 
+	 * r: entiteMethodeAvantVisibilite
+	 * r.enUS: entityMethodBeforeVisibility
+	 * r: entiteMethodeAvantVar
+	 * r.enUS: entityMethodBeforeVar
+	 * r: entiteMethodeAvantParamVar
+	 * r.enUS: entityMethodBeforeParamVar
+	 * r: entiteMethodeAvantParamNomSimple
+	 * r.enUS: entityMethodBeforeSimpleName
+	 * r: entiteMethodeAvantNomParam
+	 * r.enUS: entityMethodBeforeParamName
+	 * r: entiteMethodeAvantEcrire
+	 * r.enUS: entityMethodBeforeWrite
+	 * r: entiteMethodeApresVisibilite
+	 * r.enUS: entityMethodAfterVisibility
+	 * r: entiteMethodeApresVar
+	 * r.enUS: entityMethodAfterVar
+	 * r: entiteMethodeApresParamVar
+	 * r.enUS: entityMethodAfterParamVar
+	 * r: entiteMethodeApresParamNomSimple
+	 * r.enUS: entityMethodAfterSimpleName
+	 * r: entiteMethodeApresNomParam
+	 * r.enUS: entityMethodAfterParamName
+	 * r: entiteMethodeApresEcrire
+	 * r.enUS: entityMethodAfterWrite
+	 * 
+	 * r: methodeParamsNomCanonique
+	 * r.enUS: methodParamCanonicalNames
+	 * r: methodeParamNomCanonique
+	 * r.enUS: methodParamCanonicalName
+	 * r: entiteMethodesAvant
+	 * r.enUS: entityMethodsBefore
+	 * r: entiteMethodesApres
+	 * r.enUS: entityMethodsAfter
+	 * r: entiteOptionsRecherche
+	 * r.enUS: entityOptionsSearch
+	 * r: entiteOptionsTrouve
+	 * r.enUS: entityOptionsFound
+	 * r: entiteOptionsVar
+	 * r.enUS: entityOptionsVar
+	 * r: entiteOptionsLangue
+	 * r.enUS: entityOptionsLanguage
+	 * r: entiteOptionsValeur
+	 * r.enUS: entityOptionsValue
+	 * r: entiteOptionVar
+	 * r.enUS: entityOptionVar
+	 * r: entiteOptionLangue
+	 * r.enUS: entityOptionLanguage
+	 * r: entiteOptionValeur
+	 * r.enUS: entityOptionValue
+	 * r: entiteOptions
+	 * r.enUS: entityOptions
+	 * r: entiteIndexeOuStocke
+	 * r.enUS: entityIndexedOrStored
+	 * r: entiteExact
+	 * r.enUS: entityExact
+	 * r: entiteClePrimaire
+	 * r.enUS: entityPrimaryKey
+	 * r: entiteCrypte
+	 * r.enUS: entityEncrypted
+	 * r: entiteSuggere
+	 * r.enUS: entitySuggested
+	 * r: entiteSauvegarde
+	 * r.enUS: entitySaved
+	 * r: entiteIndexe
+	 * r.enUS: entityIndexed
+	 * r: entiteIncremente
+	 * r.enUS: entityIncremented
+	 * r: entiteStocke
+	 * r.enUS: entityStored
+	 * r: entiteTexte
+	 * r.enUS: entityText
+	 * r: entiteNomAffichage
+	 * r.enUS: entityDisplayName
+	 * r: entiteIgnorer
+	 * r.enUS: entityIgnored
+	 * r: entiteDeclarer
+	 * r.enUS: entityDeclared
+	 * r: entiteRechercher
+	 * r.enUS: entitySearch
+	 * r: entiteAjouter
+	 * r.enUS: entityAdd
+	 * r: entiteSupprimer
+	 * r.enUS: entityDelete
+	 * r: entiteModifier
+	 * r.enUS: entityModify
+	 * r: entiteRecharger
+	 * r.enUS: entityRefresh
+	 * r: entiteMultiligne
+	 * r.enUS: entityMultiLine
+	 * r: entiteCles
+	 * r.enUS: entityKeys
+	 * r: entiteAttribuer
+	 * r.enUS: entityAttribute
+	 * r: entiteAttribuerNomCanonique
+	 * r.enUS: entityAttributeCanonicalName
+	 * r: entiteAttribuerNomSimple
+	 * r.enUS: entityAttributeSimpleName
+	 * r: entiteAttribuerVar
+	 * r.enUS: entityAttributeVar
+	 * r: entiteAttribuer
+	 * r.enUS: entityAttribute
+	 * r: entiteDefinir
+	 * r.enUS: entityDefined
+	 * r: entiteHtmlTooltip
+	 * r.enUS: entityHtmlTooltip
+	 * r: urlSolrComputate
+	 * r.enUS: solrUrlComputate
+	 * r: partEstEntite
+	 * r.enUS: partIsEntity
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
+	 * r: Trouver l'entité 
+	 * r.enUS: Find the entity 
+	 * r: dans Solr
+	 * r.enUS: in Solr
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 * r: dejaInitialise
+	 * r.enUS: alreadyInitialized
+	 * r: classeSauvegarde
+	 * r.enUS: classSaved
+	 * r: classeVarClePrimaire
+	 * r.enUS: classVarPrimaryKey
+	 * r: classeApiUri
+	 * r.enUS: classApiUri
+	 * r: codeInitLoin
+	 * r.enUS: codeInitDeep
+	 * r: classeInitLoin
+	 * r.enUS: classInitDeep
+	 * r: codeRequeteSite
+	 * r.enUS: codeSiteRequest
+	 * r: codeIndexer
+	 * r.enUS: codeIndex
+	 * r: classeIndexe
+	 * r.enUS: classIndexed
+	 * r: entiteVarCrypte
+	 * r.enUS: entityVarEncrypted
+	 * r: valCrypte
+	 * r.enUS: valEncrypted
+	 * r: requeteSite
+	 * r.enUS: siteRequest
+	 * r: crypterStr
+	 * r.enUS: encryptStr
+	 * r: entiteVarIncremente
+	 * r.enUS: entityVarIncremented
+	 * r: entiteVarSuggere
+	 * r.enUS: entityVarSuggested
+	 * r: entiteVarIndexe
+	 * r.enUS: entityVarIndexed
+	 * r: entiteVarStocke
+	 * r.enUS: entityVarStored
+	 * r: codeObtenir
+	 * r.enUS: codeObtain
+	 * r: classeEtendBase
+	 * r.enUS: classExtendsBase
+	 * r: classeEstBase
+	 * r.enUS: classIsBase
+	 * r: codeAttribuer
+	 * r.enUS: codeAttribute
+	 * r: requeteJson
+	 * r.enUS: requestJson
+	 * r: codePeupler
+	 * r.enUS: codePopulate
+	 * r: documentSolr
+	 * r.enUS: solrDocument
+	 * r: siteCrypte
+	 * r.enUS: siteEncrypted
+	 * r: codeSauvegarder
+	 * r.enUS: codeSave
+	 * r: codeApiEntites
+	 * r.enUS: codeApiEntities
+	 * r: ENTITE_VAR_INDEXE_
+	 * r.enUS: ENTITY_VAR_INDEXED_
+	 * r: ENTITE_VAR_STOCKE_
+	 * r.enUS: ENTITY_VAR_STORED_
+	 * r: ENTITE_VAR_CRYPTE_
+	 * r.enUS: ENTITY_VAR_ENCRYPTED_
+	 * r: ENTITE_VAR_
+	 * r.enUS: ENTITY_VAR_
+	 * r: _ATTRIBUER_
+	 * r.enUS: _ATTRIBUTE_
+	 * r: codeApiGenererGet
+	 * r.enUS: codeApiGenerateGet
+	 * r: reponseServeur
+	 * r.enUS: serverResponse
+	 * r: champValeur
+	 * r.enUS: fieldValue
+	 * r: codeApiGenererPost
+	 * r.enUS: codeApiGeneratePost
+	 * r: classeRolesTrouve
+	 * r.enUS: classRolesFound
+	 * r: codeApiGenererPut
+	 * r.enUS: codeApiGeneratePut
+	 * r: SiteContexte
+	 * r.enUS: SiteContext
+	 * r: codeApiGenererPatch
+	 * r.enUS: codeApiGeneratePatch
+	 * r: classeEtendGen
+	 * r.enUS: classExtendsGen
+	 * 
+	 * r: requete
+	 * r.enUS: request
+	 * r: entite
+	 * r.enUS: entity
+	 * r: champ
+	 * r.enUS: field
+	 * r: Chaine
+	 * r.enUS: Chain
+	 * r: clePrimaire
+	 * r.enUS: primaryKey
+	 * r: entiteVar
+	 * r.enUS: entityVar
+	 * r: lignes
+	 * r.enUS: lines
+	 * r: ligne
+	 * r.enUS: line
+	 * r: premier
+	 * r.enUS: first
+	 * r: tabulations
+	 * r.enUS: tabs
+	 * r: nomCanonique
+	 * r.enUS: canonicalName
+	 * r: Couverture
+	 * r.enUS: Wrap
 	 */
 	public void genCodeEntite(String langueNom) throws Exception {
 		String entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
@@ -1342,7 +1658,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		l();
 		t(1, "/**");
 		t(1);
-			s(VAL_entiteCommentaireLigne1Part1, entiteVar, VAL_entiteCommentaireLigne1Part2);
+			s("L'entité « ", entiteVar, " »");
 		l();
 
 		if(entiteCommentaire != null) {
@@ -1360,10 +1676,10 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		if(entiteCouverture) {
-			tl(1, " *\t", VAL_entiteCouvertureLigne1Part1);
+			tl(1, " *\t", " is defined as null before being initialized. ");
 		}
 		else {
-			tl(1, " *\t", VAL_entiteConstruitLigne1Part1, entiteNomSimpleComplet, VAL_entiteConstruitLigne1Part2);
+			tl(1, " *\t", "Il est construit avant d'être initialisé avec le constructeur par défaut ", entiteNomSimpleComplet, "(). ");
 		}
 		tl(1, " */");
 
@@ -1387,7 +1703,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		l();
 		t(1, "/**");
 		t(1);
-		s("<br/>", VAL_entiteCommentaireLigne1Part1, entiteVar, VAL_entiteCommentaireLigne1Part2);
+		s("<br/>", "L'entité « ", entiteVar, " »");
 		l();
 
 		if(entiteCommentaire != null) {
@@ -1405,10 +1721,10 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		if(entiteCouverture) {
-			tl(1, " * ", VAL_entiteCouvertureLigne1Part1);
+			tl(1, " * ", " est défini comme null avant d'être initialisé. ");
 		}
 		else {
-			tl(1, " * ", VAL_entiteConstruitLigne1Part1, entiteNomSimpleComplet, VAL_entiteConstruitLigne1Part2);
+			tl(1, " * ", "Il est construit avant d'être initialisé avec le constructeur par défaut ", entiteNomSimpleComplet, "(). ");
 		}
 
 		// Lien vers Solr //
@@ -1416,10 +1732,10 @@ public class EcrireGenClasse extends EcrireClasse {
 		tl(1, " * <br/>");
 
 		if(entiteCouverture) {
-			tl(1, " * @param ", entiteVarParam, VAL_entiteCouvertureLigne2Part1);
+			tl(1, " * @param ", entiteVarParam, " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. ");
 		}
 		else {
-			tl(1, " * @param ", entiteVar, VAL_entiteConstruitLigne2Part1);
+			tl(1, " * @param ", entiteVar, " est l'entité déjà construit. ");
 		}
 //		if(methodeExceptionsNomSimpleComplet != null && methodeExceptionsNomSimpleComplet.size() > 0) {
 //
@@ -1626,13 +1942,13 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		// Ajouter //
 		if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
-			tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(", entiteNomSimpleCompletGenerique, "...objets) throws Exception {");
+			tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(", entiteNomSimpleCompletGenerique, "...objets) {");
 			tl(2, "for(", entiteNomSimpleCompletGenerique, " o : objets) {");
 			tl(3, "add", entiteVarCapitalise, "(o);");
 			tl(2, "}");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
-			tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(", entiteNomSimpleCompletGenerique, " o) throws Exception {");
+			tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(", entiteNomSimpleCompletGenerique, " o) {");
 			tl(2, "if(o != null && !", entiteVar, ".contains(o))");
 			tl(3, "this.", entiteVar, ".add(o);");
 			tl(2, "return (", classeNomSimple, ")this;");
@@ -1640,7 +1956,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Boolean //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, Boolean.class.getCanonicalName())) {
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
 				tl(3, entiteNomSimpleCompletGenerique, " p = Boolean.parseBoolean(o);");
 				tl(2, "add", entiteVarCapitalise, "(p);");
@@ -1650,7 +1966,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Integer //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, Integer.class.getCanonicalName())) {
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 				tl(3, entiteNomSimpleCompletGenerique, " p = Integer.parseInt(o);");
 				tl(3, "add", entiteVarCapitalise, "(p);");
@@ -1661,7 +1977,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter BigDecimal //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 				tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o);");
 				tl(3, "add", entiteVarCapitalise, "(p);");
@@ -1672,7 +1988,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Float //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, Float.class.getCanonicalName())) {
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 				tl(3, entiteNomSimpleCompletGenerique, " p = Float.parseFloat(o);");
 				tl(3, "add", entiteVarCapitalise, "(p);");
@@ -1683,7 +1999,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Double //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, Double.class.getCanonicalName())) {
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 				tl(3, entiteNomSimpleCompletGenerique, " p = Double.parseDouble(o);");
 				tl(3, "add", entiteVarCapitalise, "(p);");
@@ -1694,7 +2010,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Long //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 				tl(3, entiteNomSimpleCompletGenerique, " p = Long.parseLong(o);");
 				tl(3, "add", entiteVarCapitalise, "(p);");
@@ -1706,7 +2022,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Setter Timestamp //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, Timestamp.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 				tl(2, entiteNomSimpleCompletGenerique, " p = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
 				tl(2, "add", entiteVarCapitalise, "(p);");
 				tl(2, "return (", classeNomSimple, ")this;");
@@ -1716,7 +2032,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Setter Date //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, Date.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 				tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
 				tl(2, "add", entiteVarCapitalise, "(p);");
 				tl(2, "return (", classeNomSimple, ")this;");
@@ -1726,12 +2042,12 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Setter LocalDate //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDate.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03+01:00 **/");
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 				tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
 				tl(2, "add", entiteVarCapitalise, "(p);");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(Date o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(Date o) {");
 				tl(2, entiteNomSimpleCompletGenerique, " p = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
 				tl(2, "add", entiteVarCapitalise, "(p);");
 				tl(2, "return (", classeNomSimple, ")this;");
@@ -1741,12 +2057,12 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Setter LocalDateTime //
 			if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDateTime.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 				tl(2, entiteNomSimpleCompletGenerique, " p = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
 				tl(2, "add", entiteVarCapitalise, "(p);");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(Date o) throws Exception {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(Date o) {");
 				tl(2, entiteNomSimpleCompletGenerique, " p = LocalDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
 				tl(2, "add", entiteVarCapitalise, "(p);");
 				tl(2, "return (", classeNomSimple, ")this;");
@@ -1857,7 +2173,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		//////////
 		// html //
 		//////////
-		if(entiteSolrNomCanonique != null) {
+		if(entiteNomSimple != null && entiteSolrNomCanonique != null) {
 
 			//////////
 			// solr //
@@ -2277,121 +2593,99 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(4, "if(ENTITE_VAR_STOCKE_", entiteVar, ".equals(entiteVarStocke)) {");
 			if (VAL_nomCanoniqueBoolean.equals(entiteSolrNomCanonique)) {
 				tl(5, "if(j > 0)");
-				tl(6, "reponseServeur.write(VAL_virguleEspace);");
-				tl(5, "reponseServeur.write(VAL_citation);");
-				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(6, "reponseServeur.write(\", \");");
+				tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \");");
 				tl(5, "reponseServeur.write(((Boolean)champValeur).toString());");
-				tl(5, "reponseServeur.write(VAL_ligne);");
+				tl(5, "reponseServeur.write(\"\\n\");");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else if (VAL_nomCanoniqueDate.equals(entiteSolrNomCanonique)) {
 				if (VAL_nomCanoniqueTimestamp.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "reponseServeur.write(VAL_virguleEspace);");
-					tl(5, "reponseServeur.write(VAL_citation);");
-					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(6, "reponseServeur.write(\", \");");
+					tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \\\"\");");
 					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "reponseServeur.write(VAL_citationLigne);");
+					tl(5, "reponseServeur.write(\"\\\"\\n\");");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				} else if (VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
-					tl(5, "reponseServeur.write(VAL_citation);");
-					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(6, "reponseServeur.write(\", \");");
+					tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \\\"\");");
 					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "reponseServeur.write(VAL_citationLigne);");
+					tl(5, "reponseServeur.write(\"\\\"\\n\");");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				} else if (VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
-					tl(5, "reponseServeur.write(VAL_citation);");
-					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(6, "reponseServeur.write(\", \");");
+					tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \\\"\");");
 					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
-					tl(5, "reponseServeur.write(VAL_citationLigne);");
+					tl(5, "reponseServeur.write(\"\\\"\\n\");");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				} else {
 					tl(5, "if(j > 0)");
-					tl(6, "reponseServeur.write(VAL_virguleEspace);");
-					tl(5, "reponseServeur.write(VAL_citation);");
-					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(6, "reponseServeur.write(\", \");");
+					tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \\\"\");");
 					tl(5, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "reponseServeur.write(VAL_citationLigne);");
+					tl(5, "reponseServeur.write(\"\\\"\\n\");");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
 			} else if (VAL_nomCanoniqueLong.equals(entiteSolrNomCanonique)) {
 				tl(5, "if(j > 0)");
-				tl(6, "reponseServeur.write(VAL_virguleEspace);");
-				tl(5, "reponseServeur.write(VAL_citation);");
-				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(6, "reponseServeur.write(\", \");");
+				tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \");");
 				tl(5, "reponseServeur.write(((Long)champValeur).toString());");
-				tl(5, "reponseServeur.write(VAL_ligne);");
+				tl(5, "reponseServeur.write(\"\\n\");");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else if (VAL_nomCanoniqueDouble.equals(entiteSolrNomCanonique)) {
 				if (VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
 					tl(5, "if(j > 0)");
-					tl(6, "reponseServeur.write(VAL_virguleEspace);");
-					tl(5, "reponseServeur.write(VAL_citation);");
-					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+					tl(6, "reponseServeur.write(\", \");");
+					tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \");");
 					tl(5, "reponseServeur.write(BigDecimal.valueOf((Double)champValeur).toString());");
-					tl(5, "reponseServeur.write(VAL_ligne);");
+					tl(5, "reponseServeur.write(\"\\n\");");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
 				else {
 					tl(5, "if(j > 0)");
-					tl(6, "reponseServeur.write(VAL_virguleEspace);");
-					tl(5, "reponseServeur.write(VAL_citation);");
-					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+					tl(6, "reponseServeur.write(\", \");");
+					tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \");");
 					tl(5, "reponseServeur.write(((Double)champValeur).toString());");
-					tl(5, "reponseServeur.write(VAL_ligne);");
+					tl(5, "reponseServeur.write(\"\\n\");");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
 			} else if (VAL_nomCanoniqueFloat.equals(entiteSolrNomCanonique)) {
 				tl(5, "if(j > 0)");
-				tl(6, "reponseServeur.write(VAL_virguleEspace);");
-				tl(5, "reponseServeur.write(VAL_citation);");
-				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(6, "reponseServeur.write(\", \");");
+				tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \");");
 				tl(5, "reponseServeur.write(((Float)champValeur).toString());");
-				tl(5, "reponseServeur.write(VAL_ligne);");
+				tl(5, "reponseServeur.write(\"\\n\");");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else if (VAL_nomCanoniqueInteger.equals(entiteSolrNomCanonique)) {
 				tl(5, "if(j > 0)");
-				tl(6, "reponseServeur.write(VAL_virguleEspace);");
-				tl(5, "reponseServeur.write(VAL_citation);");
-				tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-				tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspace);");
+				tl(6, "reponseServeur.write(\", \");");
+				tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \");");
 				tl(5, "reponseServeur.write(((Integer)champValeur).toString());");
-				tl(5, "reponseServeur.write(VAL_ligne);");
+				tl(5, "reponseServeur.write(\"\\n\");");
 				tl(5, "j++;");
 				tl(5, "return j;");
 			} else {
 				if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList)) {
 					if(VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(\", \");");
+						tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \");");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(7, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(((Boolean)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
@@ -2401,14 +2695,12 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "reponseServeur.write(\", \");");
+						tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \");");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(7, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 						tl(6, "reponseServeur.write(VAL_citation);");
@@ -2420,14 +2712,14 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(\", \");");
 						tl(5, "reponseServeur.write(VAL_citation);");
 						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(7, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 						tl(6, "reponseServeur.write(VAL_citation);");
@@ -2439,14 +2731,14 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(\", \");");
 						tl(5, "reponseServeur.write(VAL_citation);");
 						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(7, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 						tl(6, "reponseServeur.write(VAL_citation);");
@@ -2458,14 +2750,14 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(\", \");");
 						tl(5, "reponseServeur.write(VAL_citation);");
 						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(7, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)champValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
 						tl(6, "reponseServeur.write(VAL_citation);");
@@ -2477,14 +2769,14 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(\", \");");
 						tl(5, "reponseServeur.write(VAL_citation);");
 						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(7, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(((Long)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
@@ -2494,14 +2786,14 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(\", \");");
 						tl(5, "reponseServeur.write(VAL_citation);");
 						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(7, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(BigDecimal.valueOf((Double)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
@@ -2511,14 +2803,14 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(\", \");");
 						tl(5, "reponseServeur.write(VAL_citation);");
 						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(7, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(((Double)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
@@ -2528,14 +2820,14 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(\", \");");
 						tl(5, "reponseServeur.write(VAL_citation);");
 						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(7, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(((Float)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
@@ -2545,14 +2837,14 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(\", \");");
 						tl(5, "reponseServeur.write(VAL_citation);");
 						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
+						tl(7, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(((Integer)champValeur).toString());");
 						tl(6, "champValeur = champValeurs.iterator().next();");
 						tl(5, "}");
@@ -2562,15 +2854,15 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(6, "reponseServeur.write(\", \");");
 						tl(5, "reponseServeur.write(VAL_citation);");
 						tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
 						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
 						tl(5, "int k = 0;");
 						tl(5, "while(champValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(VAL_virguleEspace);");
-						tl(6, "reponseServeur.write(VAL_citationVirguleEspaceCitation);");
+						tl(7, "reponseServeur.write(\", \");");
+						tl(6, "reponseServeur.write(\", \");");
 						tl(6, "reponseServeur.write(VAL_citation);");
 						tl(6, "reponseServeur.write(((String)champValeur));");
 						tl(6, "reponseServeur.write(VAL_citation);");
@@ -2583,12 +2875,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				else {
 					tl(5, "if(j > 0)");
-					tl(6, "reponseServeur.write(VAL_virguleEspace);");
-					tl(5, "reponseServeur.write(VAL_citation);");
-					tl(5, "reponseServeur.write(ENTITE_VAR_", entiteVar, ");");
-					tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceCitation);");
+					tl(6, "reponseServeur.write(\", \");");
+					tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \\\"\");");
 					tl(5, "reponseServeur.write(Json.encode((String)champValeurs.iterator().next()));");
-					tl(5, "reponseServeur.write(VAL_citationLigne);");
+					tl(5, "reponseServeur.write(\"\\\"\\n\");");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				}
@@ -2786,6 +3076,108 @@ public class EcrireGenClasse extends EcrireClasse {
 		}	
 	}
 
+	/**
+	 * var.enUS: genCodeClassEnd
+	 * param1.var.enUS: languageName
+	 * r: codeInitLoin
+	 * r.enUS: codeInitDeep
+	 * r: classeInitLoin
+	 * r.enUS: classInitDeep
+	 * r: classeNomSimpleSuperGenerique
+	 * r.enUS: classSuperSimpleNameGeneric
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 * r: dejaInitialise
+	 * r.enUS: alreadyInitialized
+	 * r: initLoinPourClasse
+	 * r.enUS: initDeepForClass
+	 * r: requeteSitePourClasse
+	 * r.enUS: siteRequestForClass
+	 * r: codeIndexer
+	 * r.enUS: codeIndex
+	 * r: classeIndexe
+	 * r.enUS: classIndexed
+	 * r: classeEtendBase
+	 * r.enUS: classExtendsBase
+	 * r: classeEstBase
+	 * r.enUS: classIsBase
+	 * r: classeVarClePrimaire
+	 * r.enUS: classVarPrimaryKey
+	 * r: codeObtenir
+	 * r.enUS: codeObtain
+	 * r: codeAttribuer
+	 * r.enUS: codeAttribute
+	 * r: classeSauvegarde
+	 * r.enUS: classSaved
+	 * r: codePeupler
+	 * r.enUS: codePopulate
+	 * r: documentSolr
+	 * r.enUS: solrDocument
+	 * r: codeSauvegarder
+	 * r.enUS: codeSave
+	 * r: codeExiste
+	 * r.enUS: codeExists
+	 * r: codeSauvegardes
+	 * r.enUS: codeSaves
+	 * r: codeApiEntites
+	 * r.enUS: codeApiEntities
+	 * r: codeApiGenererGet
+	 * r.enUS: codeApiGenerateGet
+	 * r: codePageEntites
+	 * r.enUS: codePageEntities
+	 * r: auteurGenClasse
+	 * r.enUS: writerGenClass
+	 * r: wInitLoin
+	 * r.enUS: wInitDeep
+	 * r: wIndexer
+	 * r.enUS: wIndex
+	 * r: wObtenir
+	 * r.enUS: wObtain
+	 * r: wAttribuer
+	 * r.enUS: wAttribute
+	 * r: wDefinir
+	 * r.enUS: wDefine
+	 * r: wPeupler
+	 * r.enUS: wPopulate
+	 * r: wExiste
+	 * r.enUS: wExists
+	 * r: wSauvegardes
+	 * r.enUS: wSaves
+	 * r: wSauvegarder
+	 * r.enUS: wSave
+	 * r: classeCheminGen
+	 * r.enUS: classPathGen
+	 * 
+	 * r: sauvegarder
+	 * r.enUS: save
+	 * r: peupler
+	 * r.enUS: populate
+	 * r: requeteJson
+	 * r.enUS: requestJson
+	 * r: attribuer
+	 * r.enUS: attribute
+	 * r: obtenir
+	 * r.enUS: obtain
+	 * r: ClientSolr
+	 * r.enUS: SolrClient
+	 * r: clientSolr
+	 * r.enUS: solrClient
+	 * r.enUS: SiteConfig
+	 * r: desindexer
+	 * r.enUS: unindex
+	 * r: ConfigSite
+	 * r.enUS: SiteConfig
+	 * r: SiteContexte
+	 * r.enUS: SiteContext
+	 * r: siteContexte
+	 * r.enUS: siteContext
+	 * r: RequeteSite
+	 * r.enUS: SiteRequest
+	 * r: requeteSite
+	 * r.enUS: siteRequest
+	 * r: initLoin
+	 * r.enUS: initDeep
+	 */
 	public void genCodeClasseFin(String langueNom) throws Exception {
 		//////////////////
 		// codeInitLoin //

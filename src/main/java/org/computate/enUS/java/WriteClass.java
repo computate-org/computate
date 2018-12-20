@@ -204,7 +204,7 @@ public class WriteClass extends IndexClass {
 						String methodSourceCode = (String)doc.get("methodSourceCode_" + languageName + "_stored_string");
 						String methodComment = (String)doc.get("methodComment_" + languageName + "_stored_string");
 						List<String> methodExceptionsSimpleNameComplete = (List<String>)doc.get("methodExceptionsSimpleNameComplete_stored_strings");
-						List<String> methodTypeParameterNames = (List<String>)doc.get("methodTypeParameterNames_" + languageName + "_stored_strings");
+						List<String> methodTypeParameterNames = (List<String>)doc.get("methodTypeParameterNames_stored_strings");
 						List<String> methodAnnotationsSimpleNameCompleteList = (List<String>)doc.get("methodAnnotationsSimpleNameComplete_" + languageName + "_stored_strings");
 						List<String> methodAnnotationsCodeBlockList = (List<String>)doc.get("methodAnnotationsCodeBlock_" + languageName + "_stored_strings");
 

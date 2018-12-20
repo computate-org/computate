@@ -17,7 +17,7 @@ public class WatchClassBase extends SiteConfig {
 
 	protected String[] args;
 
-	protected String absoluteClassPath;
+	protected String classAbsolutePath;
 
 	protected HashMap<String, String> appPaths = new HashMap<String, String>();
 
@@ -28,15 +28,15 @@ public class WatchClassBase extends SiteConfig {
 	protected JavaProjectBuilder builder;
 
 	@Override()
-	protected void  _appPath() throws Exception {
+	protected void  _appPath() throws Exception, Exception {
 		appPath = args[0]; 
 	}
 
-	protected void  _absoluteClassPath() throws Exception {
-		absoluteClassPath = args[1];
+	protected void  _classAbsolutePath() throws Exception, Exception {
+		classAbsolutePath = args[1];
 	}
 
-	protected void  _appPaths() throws Exception {
+	protected void  _appPaths() throws Exception, Exception {
 		for(String languageName : otherLanguages) { 
 			String appPathLanguage = config.getString(appName + ".appPath_" + languageName); 
 			if(StringUtils.isEmpty(appPathLanguage)) {
@@ -48,13 +48,13 @@ public class WatchClassBase extends SiteConfig {
 		}
 	}
 
-	protected void  _classDocs() throws Exception {
+	protected void  _classDocs() throws Exception, Exception {
 	}
 
-	protected void  _classPartsGen() throws Exception {
+	protected void  _classPartsGen() throws Exception, Exception {
 	}
 
-	protected void  _builder() throws Exception { 
+	protected void  _builder() throws Exception, Exception { 
 		builder = new JavaProjectBuilder();
 		for(String sourcePath : allSourcePaths) {
 			File sourceDir = new File(sourcePath);
@@ -62,9 +62,9 @@ public class WatchClassBase extends SiteConfig {
 		}
 	}
 
-	public void  initWatchClassBase() throws Exception {
+	public void  initWatchClassBase() throws Exception, Exception {
 		initSiteConfig();
-		_absoluteClassPath();
+		_classAbsolutePath();
 		_appPaths();
 		_classDocs();
 		_classPartsGen();
@@ -149,8 +149,8 @@ public class WatchClassBase extends SiteConfig {
 	public JavaMethod obtainMethod(List<JavaClass> superClassAndMeQdox, String methodName, JavaClass...paramsArray) {
 		ArrayList<JavaType> paramsList = new ArrayList<JavaType>();
 		Collections.addAll(paramsList, paramsArray);
-		for(JavaClass classeSuperQdox : superClassAndMeQdox) {
-			JavaMethod method = classeSuperQdox.getMethodBySignature(methodName, paramsList);
+		for(JavaClass superClassQdox : superClassAndMeQdox) {
+			JavaMethod method = superClassQdox.getMethodBySignature(methodName, paramsList);
 			if(method != null)
 				return method;
 		}

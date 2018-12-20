@@ -28,7 +28,7 @@ public class ClassParts {
 
 	public SolrDocument solrDocument;
 
-	public static SolrDocument solrDocument(SiteConfig siteConfig, String canonicalName) throws Exception {
+	public static SolrDocument solrDocument(SiteConfig siteConfig, String canonicalName) throws Exception, Exception {
 		SolrDocument doc = null;   
 		if(StringUtils.startsWith(canonicalName, siteConfig.domainPackageName)) {
 			SolrQuery solrSearch = new SolrQuery();   
@@ -46,12 +46,12 @@ public class ClassParts {
 		return doc;
 	}
 
-	public static ClassParts initClassParts(SiteConfig siteConfig, ClassParts classParts, String languageName) throws Exception {
+	public static ClassParts initClassParts(SiteConfig siteConfig, ClassParts classParts, String languageName) throws Exception, Exception {
 		ClassParts o = initClassParts(siteConfig, classParts.canonicalNameComplete, languageName);
 		return o;
 	}
 
-	public static ClassParts initClassParts(SiteConfig siteConfig, JavaClass classQdox, String languageName) throws Exception {
+	public static ClassParts initClassParts(SiteConfig siteConfig, JavaClass classQdox, String languageName) throws Exception, Exception {
 		String canonicalName = classQdox.getCanonicalName();
 		String canonicalNameComplete = classQdox.getGenericFullyQualifiedName();
 		String genericSimpleValueBefore = classQdox.getGenericValue();
@@ -110,7 +110,7 @@ public class ClassParts {
 		return classParts;
 	}
 
-	public static ClassParts initClassParts(SiteConfig siteConfig, String canonicalNameComplete, String languageName) throws Exception {
+	public static ClassParts initClassParts(SiteConfig siteConfig, String canonicalNameComplete, String languageName) throws Exception, Exception {
 		ClassParts classParts = new ClassParts();
 		classParts.canonicalName = canonicalNameComplete;
 		classParts.canonicalNameGeneric = null;
@@ -164,7 +164,7 @@ public class ClassParts {
 		return classParts;
 	}
 
-	public static String concat(String...values) throws Exception { 
+	public static String concat(String...values) throws Exception, Exception { 
 		String o = Stream.of(values).collect(Collectors.joining());
 		return o;
 	}

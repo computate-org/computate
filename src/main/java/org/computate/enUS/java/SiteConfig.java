@@ -13,128 +13,158 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 
-/**	Loads the properties in the application config file into specific fields. 
- */
+/**	
+ *	Loads the properties in the application config file into specific fields. 
+ **/
 public class SiteConfig {
 
-	/**	The name of the application.
-	 */
+	/**	
+	 *	The name of the application.
+	 **/
 	public String appName;
 
-	/**	The path to the application.
-	 */
+	/**	
+	 *	The path to the application.
+	 **/
 	public String appPath;
 
-	/**	The absolute path to the /src/main/java directory.
-	 */
+	/**	
+	 *	The absolute path to the /src/main/java directory.
+	 **/
 	public String srcMainJavaPath;
 
-	/**	The absolute path to the /src/gen/java directory.
-	 */
+	/**	
+	 *	The absolute path to the /src/gen/java directory.
+	 **/
 	public String srcGenJavaPath;
 
-	/**	The absolute path to the app config file.
-	 */
+	/**	
+	 *	The absolute path to the app config file.
+	 **/
 	public String configPath;
 
-	/**	The File Object for the app config file.
-	 */
+	/**	
+	 *	The File Object for the app config file.
+	 **/
 	public File configFile;
 
-	/**	The Apache Commons Configurations object for reading config files.
-	 */
+	/**	
+	 *	The Apache Commons Configurations object for reading config files.
+	 **/
 	public Configurations configurations;
 
 	public INIConfiguration config;
 
-	/**	The configured language name for this app.
-	 */
+	/**	
+	 *	The configured language name for this app.
+	 **/
 	public String languageName;
 
-	/**	The actual language of the code. 
+	/**	
+	 *	The actual language of the code. 
 	 *	If the languageName is configured as "tout", then the languageActualName would be "frFR".
-	 */
+	 **/
 	public String languageActualName;
 
-	/**	Other languages supported by this app besides the actual language name.
-	 */
+	/**	
+	 *	Other languages supported by this app besides the actual language name.
+	 **/
 	public String[] otherLanguages;
 
-	/**	All language names supported in this application.
-	 */
+	/**	
+	 *	All language names supported in this application.
+	 **/
 	public String[] allLanguages;
 
-	/**	True if the languageName is an actual locale that can be indexed. 
+	/**	
+	 *	True if the languageName is an actual locale that can be indexed. 
 	 *	If the languageName is configured as "tout", then that language would not be indexed.
-	 */
+	 **/
 	public Boolean languageIndexed;
 
-	/**	The domain name of the website where this will be deployed (like "example.com").
-	 */
+	/**	
+	 *	The domain name of the website where this will be deployed (like "example.com").
+	 **/
 	public String domainName;
 
-	/**	The Java package name for the domain (example.com would have a package name of "com.example").
-	 */
+	/**	
+	 *	The Java package name for the domain (example.com would have a package name of "com.example").
+	 **/
 	public String domainPackageName;
 
-	/**	The name of the config file which defaults to the appName followed by ".config".
-	 */
+	/**	
+	 *	The name of the config file which defaults to the appName followed by ".config".
+	 **/
 	public String configFileName;
 
-	/**	The version of maven being used.
-	 */
+	/**	
+	 *	The version of maven being used.
+	 **/
 	public String mavenVersion;
 
-	/**	The version of Zookeeper being used.
-	 */
+	/**	
+	 *	The version of Zookeeper being used.
+	 **/
 	public String zookeeperVersion;
 
-	/**	The port prefix for zookeeper (default is "102").
-	 */
+	/**	
+	 *	The port prefix for zookeeper (default is "102").
+	 **/
 	public String zookeeperPortPrefix;
 
-	/**	The Zookeeper client port (default is "10281").
-	 */
+	/**	
+	 *	The Zookeeper client port (default is "10281").
+	 **/
 	public String zookeeperClientPort;
 
-	/**	The Zookeeper admin port (default is "10280").
-	 */
+	/**	
+	 *	The Zookeeper admin port (default is "10280").
+	 **/
 	public String zookeeperAdminPort;
 
-	/**	The version of Solr being used.
-	 */
+	/**	
+	 *	The version of Solr being used.
+	 **/
 	public String solrVersion;
 
-	/**	The port prefix for Solr (default is "103").
-	 */
+	/**	
+	 *	The port prefix for Solr (default is "103").
+	 **/
 	public String solrPortPrefix;
 
-	/**	The Solr web port (default is "10383").
-	 */
+	/**	
+	 *	The Solr web port (default is "10383").
+	 **/
 	public String solrPort;
 
-	/**	The Solr web URL for the "computate" index.
-	 */
+	/**	
+	 *	The Solr web URL for the "computate" index.
+	 **/
 	public String solrUrlComputate;
 
-	/**	The Solrj client for the "computate" index.
-	 */
+	/**	
+	 *	The Solrj client for the "computate" index.
+	 **/
 	public SolrClient solrClientComputate;
 
-	/**	The absolute paths to source code directories in the app to watch for changes.
-	 */
+	/**	
+	 *	The absolute paths to source code directories in the app to watch for changes.
+	 **/
 	public ArrayList<String> sourcePaths = new ArrayList<String>();
 
-	/**	The absolute paths to source code directories in all apps to watch for changes.
-	 */
+	/**	
+	 *	The absolute paths to source code directories in all apps to watch for changes.
+	 **/
 	public ArrayList<String> allSourcePaths = new ArrayList<String>();
 
-	/**	The names of methods that will be tested when a source file is updated.
-	 */
+	/**	
+	 *	The names of methods that will be tested when a source file is updated.
+	 **/
 	public ArrayList<String> testMethodNames = new ArrayList<String>();
 
-	/**	True if the data for the site should be encrypted.
-	 */
+	/**	
+	 *	True if the data for the site should be encrypted.
+	 **/
 	public Boolean siteEncrypted;
 
 	protected void  _appName() throws Exception, Exception {

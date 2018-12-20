@@ -1,5 +1,6 @@
 package org.computate.enUS.java;
 
+import java.io.File;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -24,62 +25,65 @@ public class WatchClass extends WriteAllClasses {
 	public static void  watchClass(WatchClass watchClass) throws Exception, Exception {
 		System.out.println("absolutePath : " + watchClass.classAbsolutePath);
 
-		SolrInputDocument classeDoc = watchClass.indexerClasse(watchClass.classAbsolutePath);
-//		if("tout".equals(watchClass.languageName)) {
-//			watchClass.ecrireClasseGen(watchClass.classAbsolutePath, watchClass.languageName);
-			for(String languageName : watchClass.allLanguages) {
-				watchClass.ecrireGenClasses(watchClass.classAbsolutePath, languageName);
-			}
-			for(String languageName : watchClass.otherLanguages) {
-				if(!StringUtils.equals(languageName, watchClass.languageName))
-					watchClass.ecrireClasse(watchClass.classAbsolutePath, languageName);
-			}
-//		}
-//		else {
-//			watchClass.ecrireClasseGen(watchClass.classAbsolutePath, watchClass.languageName);
-//		}
+		if(new File(watchClass.classAbsolutePath).isFile()) {
+			SolrInputDocument classDoc = watchClass.indexClass(watchClass.classAbsolutePath);
+	//		if("tout".equals(watchClass.languageName)) {
+	//			watchClass.writeClassGen(watchClass.classAbsolutePath, watchClass.languageName);
+				for(String languageName : watchClass.allLanguages) {
+					watchClass.writeGenClasses(watchClass.classAbsolutePath, languageName);
+				}
+				for(String languageName : watchClass.otherLanguages) {
+					if(!StringUtils.equals(languageName, watchClass.languageName))
+						watchClass.writeClass(watchClass.classAbsolutePath, languageName);
+				}
+	//		}
+	//		else {
+	//			watchClass.writeClassGen(watchClass.classAbsolutePath, watchClass.languageName);
+	//		}
+		}
 	}
 
 	@Test()
 	public void  testStuff() throws Exception, Exception {
-//		String appliNom = "computate";
-//		String appliChemin = "/usr/local/src/computate";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderClasseBase.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/couverture/Couverture.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderRepertoire.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireGenClasse.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireToutesClasses.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireClasse.java";
-//		String appliNom = "computate.org";
-//		String appliChemin = "/usr/local/src/computate.org";
-//		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/config/ConfigSite.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/SiteContexte.java";
-//		String appliNom = "computate-cardiac";
-//		String appliChemin = "/usr/local/src/computate-cardiac";
-//		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/requete/RequeteSite.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/config/ConfigSite.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/cluster/Cluster.java";
-//		String appliNom = "computate-scolaire";
-//		String appliChemin = "/usr/local/src/computate-scolaire";
-//		String classeCheminAbsolu = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/client/org/ClientOrg.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/ecole/EcoleScolaire.java";
-//		String appliNom = "vertx-art";
-//		String appliChemin = "/usr/local/src/vertx-art";
-//		String classeCheminAbsolu = "/usr/local/src/vertx-art/src/main/java/org/computate/frFR/vertx/art/moisson/MoissoneurOai.java";
-		String appliNom = "citi-architect";
-		String appliChemin = "/home/ctate/workspace-citi/" + appliNom;
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/RepoCommon.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/repo/TeamRepo.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/TeamPromotions.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/product/automation/AutomationBase.java";
-		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/promotions/model/Adjustment.java";
-		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
-		RegarderClasse regarderClasse = new RegarderClasse();
-		regarderClasse.args = args;
-		regarderClasse.appliNom = appliNom;
-		regarderClasse.appliChemin = appliChemin;
-		regarderClasse.initRegarderClasseBase(); 
-		regarderClasse(regarderClasse);
+//		String appName = "computate";
+//		String appPath = "/usr/local/src/" + appName;
+//		String classAbsolutePath = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/WatchClassBase.java";
+//		String classAbsolutePath = "/usr/local/src/computate/src/main/java/org/computate/frFR/couverture/Couverture.java";
+//		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/java/RegarderRepertoire.java";
+//		String classAbsolutePath = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireGenClasse.java";
+//		String classAbsolutePath = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireToutesClasses.java";
+//		String classAbsolutePath = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireClasse.java";
+//		String appName = "computate.org";
+//		String appPath = "/usr/local/src/computate.org";
+//		String classAbsolutePath = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/config/ConfigSite.java";
+//		String classAbsolutePath = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/SiteContexte.java";
+//		String appName = "computate-cardiac";
+//		String appPath = "/usr/local/src/computate-cardiac";
+//		String classAbsolutePath = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/requete/RequeteSite.java";
+//		String classAbsolutePath = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/config/ConfigSite.java";
+//		String classAbsolutePath = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
+//		String classAbsolutePath = "/usr/local/src/computate-cardiac/src/main/java/org/computate/frFR/cardiaque/cluster/Cluster.java";
+//		String appName = "computate-scolaire";
+//		String appPath = "/usr/local/src/computate-scolaire";
+//		String classAbsolutePath = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/client/org/ClientOrg.java";
+//		String classAbsolutePath = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/ecole/EcoleScolaire.java";
+//		String appName = "vertx-art";
+//		String appPath = "/usr/local/src/vertx-art";
+//		String classAbsolutePath = "/usr/local/src/vertx-art/src/main/java/org/computate/frFR/vertx/art/moisson/MoissoneurOai.java";
+		String appName = "citi-architect";
+		String appPath = "/home/ctate/workspace-citi/" + appName;
+//		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/team/promotions/RepoCommon.java";
+//		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/repo/TeamRepo.java";
+//		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/team/promotions/TeamPromotions.java";
+//		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/product/automation/AutomationBase.java";
+		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/promotions/model/Adjustment.java";
+//		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/payments/integration/rplid/service/AutpayI18n.java";
+		String[] args = ArrayUtils.toArray(appPath, classAbsolutePath);
+		WatchClass watchClass = new WatchClass();
+		watchClass.args = args;
+		watchClass.appName = appName;
+		watchClass.appPath = appPath;
+		watchClass.initWatchClassBase(); 
+		watchClass(watchClass);
 	}
 }

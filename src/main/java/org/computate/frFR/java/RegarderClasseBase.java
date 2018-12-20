@@ -32,13 +32,13 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 
 	/**
-	 * var.enUS: absoluteClassPath
+	 * var.enUS: classAbsolutePath
 	 */ 
 	protected String classeCheminAbsolu;
 	/** 
-	 * var.enUS: _absoluteClassPath
+	 * var.enUS: _classAbsolutePath
 	 * r: classeCheminAbsolu
-	 * r.enUS: absoluteClassPath
+	 * r.enUS: classAbsolutePath
 	 */  
 	protected void _classeCheminAbsolu() throws Exception {
 		classeCheminAbsolu = args[1];
@@ -126,7 +126,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r: ConfigSite
 	 * r.enUS: SiteConfig
 	 * r: classeCheminAbsolu
-	 * r.enUS: absoluteClassPath
+	 * r.enUS: classAbsolutePath
 	 * r: appliChemins
 	 * r.enUS: appPaths
 	 * r: classeDocs
@@ -385,6 +385,8 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r.enUS: superClassQdox
 	 * r: methode
 	 * r.enUS: method
+	 * r: classeSuperQdox
+	 * r.enUS: superClassQdox
 	 */
 	public JavaMethod obtenirMethode(List<JavaClass> classesSuperQdoxEtMoi, String nomMethode, JavaClass...tableauParams) {
 		ArrayList<JavaType> listeParams = new ArrayList<JavaType>();

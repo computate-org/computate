@@ -82,7 +82,7 @@ public class WatchDirectory {
 
 	protected String appComputatePath;
 
-	public static void  main(String[] args) throws Exception { 
+	public static void  main(String[] args) throws Exception, Exception { 
 		Logger log = org.slf4j.LoggerFactory.getLogger(WatchDirectory.class);
 		String appName = System.getenv("appName");
 		String appPath = System.getenv("appPath");
@@ -114,7 +114,7 @@ public class WatchDirectory {
 		}
 	}
 
-	public void  initializeWatchDirectory() throws Exception {
+	public void  initializeWatchDirectory() throws Exception, Exception {
 		observer = FileSystems.getDefault().newWatchService();
 //		executeur.setStreamHandler(gestionnaireFluxPompe);
 		String[] relativePathsToWatch = configuration.getStringArray(StringUtils.replace(appName, ".", "..") + ".relativePathsToWatch");
@@ -156,7 +156,7 @@ public class WatchDirectory {
 		return (WatchEvent<T>) event;
 	}
 
-	private void  save(Path dirPath) throws IOException { 
+	private void  save(Path dirPath) throws IOException, IOException { 
 		WatchKey watchKey = dirPath.register(observer, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
 		if (trace) {
 			keys.get(watchKey);
@@ -164,7 +164,7 @@ public class WatchDirectory {
 		keys.put(watchKey, dirPath);
 	}
 
-	protected Path saveAll(Path start) throws IOException { 
+	protected Path saveAll(Path start) throws IOException, IOException { 
 		Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
 			@Override public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes fields) throws IOException {
 				save(dir);

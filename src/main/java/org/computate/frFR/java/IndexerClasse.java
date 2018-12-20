@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
@@ -591,7 +592,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * var.enUS: indexStoreListSolr
 	 * param2.var.enUS: fieldName
-	 * param3.var.enUS: fieldValue
+	 * param3.var.enUS: languageName
+	 * param4.var.enUS: fieldValue
 	 * r: nomChamp
 	 * r.enUS: fieldName
 	 * r: langueNom
@@ -916,7 +918,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: canonicalName
 	 */
 	public void classePartsGenAjouter(ClasseParts classeParts) {
-		if(classePartsGen != null && classeParts != null && !classePartsGen.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, "."))
+		if(classePartsGen != null && classeParts != null && !classePartsGen.containsKey(classeParts.nomCanonique) && StringUtils.contains(classeParts.nomCanonique, ".") && !StringUtils.contains(classeParts.nomCanonique, ","))
 			classePartsGen.put(classeParts.nomCanonique, classeParts);
 	}
 
@@ -1069,17 +1071,17 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: classeNomEnsemble
 	 * r.enUS: classPackageName
 	 * r: classeCheminRepertoireGenLangue
-	 * r.enUS: classGenDirPathLanguage
+	 * r.enUS: classDirPathGenLanguage
 	 * r: classeCheminRepertoireGen
-	 * r.enUS: classGenDirPath
+	 * r.enUS: classDirPathGen
 	 * r: classeCheminRepertoireLangue
 	 * r.enUS: classDirPathLanguage
 	 * r: classeCheminRepertoire
 	 * r.enUS: classDirPath
 	 * r: classeCheminGenLangue
-	 * r.enUS: classGenPathLanguage
+	 * r.enUS: classPathGenLanguage
 	 * r: classeCheminGen
-	 * r.enUS: classGenPath
+	 * r.enUS: classPathGen
 	 * r: classeCheminAbsolu
 	 * r.enUS: classPathAbsolute
 	 * r: classeCheminLangue
@@ -1124,8 +1126,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: regexReplaceAll
 	 * r: classeDocClone
 	 * r.enUS: classDocClone
-	 * r: "cle"
-	 * r.enUS: "key"
 	 * r: partNumero
 	 * r.enUS: partNumber
 	 * r: classeImportationClassePartsLangue
@@ -1182,6 +1182,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: fieldAnnotationLanguage
 	 * r: champClassePartsLangue
 	 * r.enUS: fieldClassPartsLanguage
+	 * r: champStrLangue
+	 * r.enUS: fieldStrLanguage
+	 * r: champStr
+	 * r.enUS: fieldStr
 	 * r: champClasseParts
 	 * r.enUS: fieldClassParts
 	 * r: champVarLangue
@@ -1332,6 +1336,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: methodAnnotation
 	 * r: partEstMethode
 	 * r.enUS: partIsMethod
+	 * r: partEstEntite
+	 * r.enUS: partIsEntity
 	 * r: methodeRetourNomSimpleComplet
 	 * r.enUS: methodReturnSimpleNameComplete
 	 * r: methodeRetourClassePartsLangue
@@ -1577,8 +1583,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityDoc
 	 * r: entiteVarCapitalise
 	 * r.enUS: entityVarCapitalized
+	 * r: entiteVarCouverture
+	 * r.enUS: entityVarWrap
 	 * r: entiteVar
 	 * r.enUS: entityVar
+	 * r: entiteCommentaire
+	 * r.enUS: entityComment
 	 * r: entiteClasseQdox
 	 * r.enUS: entityClassQdox
 	 * r: entiteClasseParts
@@ -1735,8 +1745,62 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityMultiLine
 	 * r: entiteCles
 	 * r.enUS: entityKeys
+	 * r: entiteAttribuerNomCanonique
+	 * r.enUS: entityAttributeCanonicalName
+	 * r: entiteAttribuerNomSimple
+	 * r.enUS: entityAttributeSimpleName
+	 * r: entiteAttribuerVar
+	 * r.enUS: entityAttributeVar
+	 * r: entiteAttribuer
+	 * r.enUS: entityAttribute
+	 * r: entiteHtmlTooltip
+	 * r.enUS: entityHtmlTooltip
 	 * r: initLoin
 	 * r.enUS: initDeep
+	 * r: entiteClassesSuperEtMoiSansGen
+	 * r.enUS: entitySuperClassesAndMeWithoutGen
+	 * r: entiteAnnotations
+	 * r.enuS: entityAnnotations
+	 * r: entiteCle
+	 * r.enUS: entityKey
+	 * r: entiteBlocCode
+	 * r.enUS: entityCodeBlock
+	 * r: entiteListeNomSimpleVertxJson
+	 * r.enUS: entityListSimpleNameVertxJson
+	 * r: entiteListeNomCanoniqueVertxJson
+	 * r.enUS: entityListCanonicalNameVertxJson
+	 * r: entiteSolrNomCanonique
+	 * r.enUS: entitySolrCanonicalName
+	 * r: entiteSolrNomSimple
+	 * r.enUS: entitySolrSimpleName
+	 * r: entiteSuffixeType
+	 * r.enUS: entityTypeSuffix
+	 * r: entiteTypeJson
+	 * r.enUS: entityJsonType
+	 * r: entiteFormatJson
+	 * r.enUS: entityJsonFormat
+	 * r: entiteListeTypeJson
+	 * r.enUS: entityListJsonType
+	 * r: entiteAnnotationLangue
+	 * r.enUS: entityAnnotationLanguage
+	 * r: entiteAnnotations
+	 * r.enUS: entityAnnotations
+	 * r: classePartsBase
+	 * r.enUS: classPartsBase
+	 * r: classeApi
+	 * r.enUS: classApi
+	 * r: classePage
+	 * r.enUS: classPage
+	 * r: classePartsTest
+	 * r.enUS: classPartsTest
+	 * r: classeSauvegarde
+	 * r.enUS: classSaved
+	 * r: classeIndexe
+	 * r.enUS: classIndexed
+	 * r: classePageUri
+	 * r.enUS: classPageUri
+	 * r: classeVarClePrimaire
+	 * r.enUS: classVarPrimaryKey
 	 * 
 	 * r: ^exact
 	 * r.enUS: ^exact
@@ -1802,6 +1866,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: Request
 	 * r: Reponse
 	 * r.enUS: Response
+	 * r: Couverture
+	 * r.enUS: Wrap
 	 */ 
 	protected SolrInputDocument indexerClasse(String classeCheminAbsolu) throws Exception { 
 
@@ -2040,6 +2106,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Set", langueNom));
 		}
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.text.StringEscapeUtils", langueNom));
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", langueNom));
 
 		
 		ArrayList<JavaClass> classesSuperQdox = new ArrayList<JavaClass>();
@@ -2263,7 +2330,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		SolrInputDocument classeDocClone = classeDoc.deepCopy();
 		Integer partNumero = 1;
 
-		classeDoc.addField("cle", classeCle);  
+		classeDoc.addField("id", classeCle);  
 
 		indexerStockerSolr(classeDoc, "partEstClasse", true);
 		indexerStockerSolr(classeDoc, "partNumero", partNumero);
@@ -2291,10 +2358,13 @@ public class IndexerClasse extends RegarderClasseBase {
 				String champVar = champQdox.getName();
 				String champCle = classeCheminAbsolu + "." + champVar;
 				String champCodeSource = StringUtils.substringBeforeLast(StringUtils.trim(regex("\\s+" + champVar + "\\s*=([\\s\\S]*)", champQdox.getCodeBlock(), 1)), ";");
+				String champStr = regex("^str\\." + langueNom + ":(.*)", champCommentaire);
+				if(StringUtils.isNotBlank(champStr))
+					champCodeSource = "\"" + StringUtils.replace(StringUtils.replace(champStr, "\\", "\\\\"), "\"", "\\\"") + "\"";
 
 				// Champs Solr du champ. 
 
-				champDoc.addField("cle", champCle);
+				champDoc.addField("id", champCle);
 				indexerStockerSolr(champDoc, "champVar", langueNom, champVar); 
 				indexerStockerSolr(champDoc, "partEstChamp", true);
 				indexerStockerSolr(champDoc, "partNumero", partNumero);
@@ -2339,6 +2409,9 @@ public class IndexerClasse extends RegarderClasseBase {
 					String champVarLangue = regex("^var\\." + langueNom + ": (.*)", champCommentaire);
 					champVarLangue = champVarLangue == null ? champVar : champVarLangue;
 					String champCodeSourceLangue = regexRemplacerTout(champCommentaire, champCodeSource, langueNom);
+					String champStrLangue = regex("^str\\." + langueNom + ":(.*)", champCommentaire);
+					if(StringUtils.isNotBlank(champStrLangue))
+						champCodeSourceLangue = "\"" + StringUtils.replace(StringUtils.replace(champStrLangue, "\\", "\\\\"), "\"", "\\\"") + "\"";
 
 					indexerStockerSolr(champDoc, "champVar", langueNom, champVarLangue); 
 					stockerSolr(champDoc, "champNomSimpleComplet", langueNom, champClassePartsLangue.nomSimpleComplet);
@@ -2390,7 +2463,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 				constructeurCle += ")"; 
 
-				constructeurDoc.addField("cle", constructeurCle);
+				constructeurDoc.addField("id", constructeurCle);
 				indexerStockerSolr(constructeurDoc, "partEstConstructeur", true);
 				indexerStockerSolr(constructeurDoc, "partNumero", partNumero);
 
@@ -2480,7 +2553,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								if(entiteClassesSuperEtMoiSansGen != null) {
 									for(String nomCanonique : entiteClassesSuperEtMoiSansGen) {
 										entiteNomsCanoniquesSuperEtMoiSansGen.add(nomCanonique);
-										indexerStockerListeSolr(entiteDoc, "entiteClassesSuperQdoxEtMoiSansGen", nomCanonique); 
+										indexerStockerListeSolr(entiteDoc, "entiteClassesSuperEtMoiSansGen", nomCanonique); 
 									}
 								}
 							}
@@ -2491,7 +2564,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							if(entiteClassesSuperEtMoiSansGen != null) {
 								for(String nomCanonique : entiteClassesSuperEtMoiSansGen) {
 									entiteNomsCanoniquesSuperEtMoiSansGen.add(nomCanonique);
-									indexerStockerListeSolr(entiteDoc, "entiteClassesSuperQdoxEtMoiSansGen", nomCanonique); 
+									indexerStockerListeSolr(entiteDoc, "entiteClassesSuperEtMoiSansGen", nomCanonique); 
 								}
 							}
 						}
@@ -2926,7 +2999,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 						// Entites Solr du entite. 
 		
-						entiteDoc.addField("cle", entiteCle);
+						entiteDoc.addField("id", entiteCle);
 						indexerStockerSolr(entiteDoc, "partEstEntite", true);
 						indexerStockerSolr(entiteDoc, "partNumero", partNumero);
 
@@ -3221,18 +3294,15 @@ public class IndexerClasse extends RegarderClasseBase {
 //							stockerSolr(entiteDoc, "entiteVarStocke", entiteVar + "_stocke" + entiteSuffixeType);
 
 						if(entiteClePrimaire) {
-							stockerSolr(classeDoc, "classeVarCleUnique", langueNom, entiteVar);
+							stockerSolr(classeDoc, "classeVarClePrimaire", langueNom, entiteVar);
 						}
 
 						for(String langueNom : autresLangues) {  
 							String entiteVarLangue = regex("^var\\." + langueNom + ": (.*)", methodeCommentaire);
 							entiteVarLangue = indexerStockerSolr(entiteDoc, "entiteVar", langueNom, entiteVarLangue == null ? entiteVar : entiteVarLangue);
 							if(entiteClePrimaire) {
-								stockerSolr(classeDoc, "classeVarCleUnique", langueNom, entiteVarLangue);
+								stockerSolr(classeDoc, "classeVarClePrimaire", langueNom, entiteVarLangue);
 							}
-//		
-//							List<String> entiteCommentairesLangue = regexListe("(.*)", methodeCommentaire);
-//							String entiteCommentaireLangue = indexerStockerSolr(entiteDoc, "entiteCommentaire", langueNom, StringUtils.join(entiteCommentairesLangue, "\n"));
 	
 							String entiteBlocCodeLangue = entiteBlocCode;
 							ArrayList<String> remplacerClesLangue = regexListe("^r." + langueNom + "\\s*=\\s*(.*)\\n.*", methodeCommentaire);
@@ -3330,11 +3400,11 @@ public class IndexerClasse extends RegarderClasseBase {
 								methodeCle += ", ";
 							methodeCle += paramQdox.getGenericCanonicalName() + " " + paramQdox.getName();
 						}
-						methodeCle += ")"; 
+						methodeCle += ")";  
 		
 						// Methodes Solr du methode. 
 		
-						methodeDoc.addField("cle", methodeCle);
+						methodeDoc.addField("id", methodeCle);
 						indexerStockerSolr(methodeDoc, "partEstMethode", true);
 						indexerStockerSolr(methodeDoc, "partNumero", partNumero);
 
