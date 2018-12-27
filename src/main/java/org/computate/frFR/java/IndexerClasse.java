@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -489,6 +490,21 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: valeurChamp
 	 * r.enUS: fieldValue
 	 */
+	protected Double indexerStockerSolr(SolrInputDocument doc, String nomChamp, Double valeurChamp) throws Exception {
+		doc.addField(concat(nomChamp, "_stored_double"), valeurChamp);
+		doc.addField(concat(nomChamp, "_indexed_double"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	/**
+	 * var.enUS: indexStoreSolr
+	 * param2.var.enUS: fieldName
+	 * param3.var.enUS: fieldValue
+	 * r: nomChamp
+	 * r.enUS: fieldName
+	 * r: valeurChamp
+	 * r.enUS: fieldValue
+	 */
 	protected Integer indexerStockerSolr(SolrInputDocument doc, String nomChamp, Integer valeurChamp) throws Exception {
 		doc.addField(concat(nomChamp, "_stored_int"), valeurChamp);
 		doc.addField(concat(nomChamp, "_indexed_int"), valeurChamp);
@@ -524,28 +540,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		doc.addField(concat(nomChamp, "_indexed_date"), valeurChamp);
 		return valeurChamp;
 	}
-	
-	/**
-	 * var.enUS: indexStoreSolr
-	 * param2.var.enUS: fieldName
-	 * param3.var.enUS: languageName
-	 * param4.var.enUS: fieldValue
-	 * r: nomChamp
-	 * r.enUS: fieldName
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: langueIndexe
-	 * r.enUS: languageIndexed
-	 * r: valeurChamp
-	 * r.enUS: fieldValue
-	 */
-	protected Boolean indexerStockerSolr(SolrInputDocument doc, String nomChamp, String langueNom, Boolean valeurChamp) throws Exception {
-		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
-			doc.addField(concat(nomChamp, "_", langueNom, "_stored_string"), valeurChamp);
-			doc.addField(concat(nomChamp, "_", langueNom, "_indexed_string"), valeurChamp);
-		}
-		return valeurChamp;
-	}   
 	
 	/**
 	 * var.enUS: indexStoreSolr
@@ -1474,6 +1468,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classPartsSolrInputDocument
 	 * r: classePartsSolrClient
 	 * r.enUS: classPartsSolrClient
+	 * 
 	 * r: classeValsRecherche
 	 * r.enUS: classValsSearch
 	 * r: classeValsTrouve
@@ -1490,6 +1485,24 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classValLanguage
 	 * r: classeValValeur
 	 * r.enUS: classValValue
+	 * 
+	 * r: entiteValsRecherche
+	 * r.enUS: entityValsSearch
+	 * r: entiteValsTrouve
+	 * r.enUS: entityValsFound
+	 * r: entiteValsVar
+	 * r.enUS: entityValsVar
+	 * r: entiteValsLangue
+	 * r.enUS: entityValsLanguage
+	 * r: entiteValsValeur
+	 * r.enUS: entityValsValue
+	 * r: entiteValVar
+	 * r.enUS: entityValVar
+	 * r: entiteValLangue
+	 * r.enUS: entityValLanguage
+	 * r: entiteValValeur
+	 * r.enUS: entityValValue
+	 * 
 	 * r: classeRolesRecherche
 	 * r.enUS: classRolesSearch
 	 * r: classeRolesTrouveActuel
@@ -1509,6 +1522,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: classeRoles
 	 * r.enUS: classRoles
 	 * 
+	 * r: classeMotsClesRecherche
+	 * r.enUS: classKeywordsSearch
+	 * r: classeMotsClesTrouveActuel
+	 * r.enUS: classKeywordsFoundActual
 	 * r: classeMotsClesTrouve
 	 * r.enUS: classKeywordsFound
 	 * r: classeMotsCles
@@ -1533,6 +1550,37 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityKeywordValue
 	 * r: entiteMotsCles
 	 * r.enUS: entityKeywords
+	 * 
+	 * r: classeMapRecherche
+	 * r.enUS: classMapSearch
+	 * r: classeMapTrouveActuel
+	 * r.enUS: classMapFoundActual
+	 * r: classeMapCle
+	 * r.enUS: classMapKey
+	 * r: classeMapValeur
+	 * r.enUS: classMapValue
+	 * r: classeMap
+	 * r.enUS: classMap
+	 * r: entiteMapRecherche
+	 * r.enUS: entityMapSearch
+	 * r: entiteMapTrouveActuel
+	 * r.enUS: entityMapFoundCurrent
+	 * r: entiteMapTrouve
+	 * r.enUS: entityMapFound
+	 * r: entiteMapVar
+	 * r.enUS: entityMapVar
+	 * r: entiteMapLangue
+	 * r.enUS: entityMapLanguage
+	 * r: entiteMapCle
+	 * r.enUS: entityMapKey
+	 * r: entiteMapMapValeur
+	 * r.enUS: entityMapValue
+	 * r: entiteMapLangue
+	 * r.enUS: entityMapLanguage
+	 * r: entiteMapValeur
+	 * r.enUS: entityMapValue
+	 * r: entiteMap
+	 * r.enUS: entityMap
 	 * 
 	 * r: classePartsSuperGeneriqueLangue
 	 * r.enUS: classPartsSuperGenericLanguage
@@ -1743,6 +1791,18 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityText
 	 * r: entiteNomAffichage
 	 * r.enUS: entityDisplayName
+	 * r: entiteDescription
+	 * r.enUS: entityDescription
+	 * r: entiteLongeurMin
+	 * r.enUS: entityMinLength
+	 * r: entiteLongeurMax
+	 * r.enUS: entityMaxLength
+	 * r: entiteMin
+	 * r.enUS: entityMin
+	 * r: entiteMax
+	 * r.enUS: entityMax
+	 * r: entiteOptionnel
+	 * r.enUS: entityOptional
 	 * r: entiteIgnorer
 	 * r.enUS: entityIgnored
 	 * r: entiteDeclarer
@@ -1838,6 +1898,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: ^stored
 	 * r: ^texte
 	 * r.enUS: ^text
+	 * r: ^longeurMin
+	 * r.enUS: ^minLength
+	 * r: ^longeurMax
+	 * r.enUS: ^maxLength
+	 * r: ^optionnel
+	 * r.enUS: ^optional
 	 * r: ^nomAffichage
 	 * r.enUS: ^displayName
 	 * r: ^titre
@@ -2227,6 +2293,15 @@ public class IndexerClasse extends RegarderClasseBase {
 					classeMotsCles.add(classeMotCleValeur);
 				classeMotsClesTrouve = true;
 			}
+
+			Matcher classeMapRecherche = Pattern.compile("^map.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			boolean classeMapTrouveActuel = classeMapRecherche.find();
+			while(classeMapTrouveActuel) {
+				String classeMapCle = classeMapRecherche.group(1);
+				String classeMapValeur = classeMapRecherche.group(2);
+				classeMapTrouveActuel = classeMapRecherche.find();
+				indexerStockerSolr(classeDoc, classeMapCle, classeMapValeur);
+			}
 		}
 
 		SolrDocument classeNomCanoniqueSuperDoc = null;   
@@ -2421,8 +2496,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						champEstSubstitue = true;
 					}
 				}
-				indexerStockerSolr(champDoc, "champEstTest", langueNom, champEstTest); 
-				indexerStockerSolr(champDoc, "champEstSubstitue", langueNom, champEstSubstitue); 
+				indexerStockerSolr(champDoc, "champEstTest", champEstTest); 
+				indexerStockerSolr(champDoc, "champEstSubstitue", champEstSubstitue); 
 
 				ClasseParts champClasseParts = ClasseParts.initClasseParts(this, champQdox.getType(), langueNom);
 	
@@ -2805,11 +2880,23 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						if(methodeCommentaire != null) {
 
-							Matcher entiteOptionsRecherche = Pattern.compile("^option\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+							Matcher entiteValsRecherche = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+							boolean entiteValsTrouve = entiteValsRecherche.find();
+							while(entiteValsTrouve) {
+								String entiteValLangue = entiteValsRecherche.group(1);
+								String entiteValVar = entiteValsRecherche.group(2);
+								String entiteValValeur = entiteValsRecherche.group(3);
+								stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
+								stockerListeSolr(entiteDoc, "entiteValsLangue", entiteValLangue);
+								stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
+								entiteValsTrouve = entiteValsRecherche.find();
+							}
+
+							Matcher entiteOptionsRecherche = Pattern.compile("^option\\.(\\w+)\\.([^:]+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteOptionsTrouve = entiteOptionsRecherche.find();
 							while(entiteOptionsTrouve) {
-								String entiteOptionVar = entiteOptionsRecherche.group(1);
-								String entiteOptionLangue = entiteOptionsRecherche.group(2);
+								String entiteOptionLangue = entiteOptionsRecherche.group(1);
+								String entiteOptionVar = entiteOptionsRecherche.group(2);
 								String entiteOptionValeur = entiteOptionsRecherche.group(3);
 								stockerListeSolr(entiteDoc, "entiteOptionsVar", entiteOptionVar);
 								stockerListeSolr(entiteDoc, "entiteOptionsLangue", entiteOptionLangue);
@@ -2832,6 +2919,17 @@ public class IndexerClasse extends RegarderClasseBase {
 								classeMotsClesTrouve = true;
 							}
 							indexerStockerSolr(entiteDoc, "entiteMotsClesTrouve", entiteMotsClesTrouve); 
+
+							Matcher entiteMapRecherche = Pattern.compile("^map.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
+							boolean entiteMapTrouve = entiteMapRecherche.find();
+							boolean entiteMapTrouveActuel = entiteMapTrouve;
+							while(entiteMapTrouveActuel) {
+								String entiteMapCle = entiteMapRecherche.group(1);
+								String entiteMapValeur = entiteMapRecherche.group(2);
+								indexerStockerSolr(entiteDoc, entiteMapCle, entiteMapValeur);
+								entiteMapTrouve = true;
+								entiteMapTrouveActuel = entiteMapRecherche.find();
+							}
 						}
 
 						indexerStockerSolr(entiteDoc, "entiteExact", regexTrouve("^exact:\\s*(true)$", methodeCommentaire));
@@ -2855,7 +2953,38 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^cles:\\s*(true)$", methodeCommentaire));
 
 						indexerStockerSolr(entiteDoc, "entiteNomAffichage", langueNom, regex("^nomAffichage." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
+						indexerStockerSolr(entiteDoc, "entiteDescription", langueNom, regex("^description." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
+						indexerStockerSolr(entiteDoc, "entiteOptionnel", regexTrouve("^optionnel:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", langueNom, regex("^htmlTooltip." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
+
+						{
+							String str = regex("^longeurMin:\\s*(.*)$", methodeCommentaire, 1);
+							Integer num = NumberUtils.isCreatable(str) ? Integer.parseInt(str) : null;
+							if(num != null)
+								indexerStockerSolr(entiteDoc, "entiteLongeurMin", num);
+						}
+
+						{
+							String str = regex("^longeurMax:\\s*(.*)$", methodeCommentaire, 1);
+							Integer num = NumberUtils.isCreatable(str) ? Integer.parseInt(str) : null;
+							if(num != null)
+								indexerStockerSolr(entiteDoc, "entiteLongeurMax", num);
+						}
+
+						{
+							String str = regex("^min:\\s*(.*)$", methodeCommentaire, 1);
+							Double num = NumberUtils.isCreatable(str) ? Double.parseDouble(str) : null;
+							if(num != null)
+								indexerStockerSolr(entiteDoc, "entiteMin", num);
+						}
+
+						{
+							String str = regex("^max:\\s*(.*)$", methodeCommentaire, 1);
+							Double num = NumberUtils.isCreatable(str) ? Double.parseDouble(str) : null;
+							if(num != null)
+								indexerStockerSolr(entiteDoc, "entiteMax", num);
+						}
+
 						for(String langueNom : autresLangues) {  
 							indexerStockerSolr(entiteDoc, "entiteNomAffichage", langueNom, regex("^nomAffichage." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
 							indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", langueNom, regex("^htmlTooltip." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));

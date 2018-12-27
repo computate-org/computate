@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -206,6 +207,12 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
+	protected Double indexStoreSolr(SolrInputDocument doc, String fieldName, Double fieldValue) throws Exception, Exception {
+		doc.addField(concat(fieldName, "_stored_double"), fieldValue);
+		doc.addField(concat(fieldName, "_indexed_double"), fieldValue);
+		return fieldValue;
+	}
+
 	protected Integer indexStoreSolr(SolrInputDocument doc, String fieldName, Integer fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_int"), fieldValue);
 		doc.addField(concat(fieldName, "_indexed_int"), fieldValue);
@@ -221,14 +228,6 @@ public class IndexClass extends WatchClassBase {
 	protected Date indexStoreSolr(SolrInputDocument doc, String fieldName, Date fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_date"), fieldValue);
 		doc.addField(concat(fieldName, "_indexed_date"), fieldValue);
-		return fieldValue;
-	}
-
-	protected Boolean indexStoreSolr(SolrInputDocument doc, String fieldName, String languageName, Boolean fieldValue) throws Exception, Exception {
-		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
-			doc.addField(concat(fieldName, "_", languageName, "_stored_string"), fieldValue);
-			doc.addField(concat(fieldName, "_", languageName, "_indexed_string"), fieldValue);
-		}
 		return fieldValue;
 	}
 
@@ -709,14 +708,23 @@ public class IndexClass extends WatchClassBase {
 			}
 			indexStoreSolr(classDoc, "classRolesFound", classRolesFound); 
 
-			Matcher classKeywordsRecherche = Pattern.compile("^keyword:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
-			boolean classKeywordsFoundActuel = classKeywordsRecherche.find();
-			while(classKeywordsFoundActuel) {
-				String classKeywordValue = classKeywordsRecherche.group(1);
-				classKeywordsFoundActuel = classKeywordsRecherche.find();
+			Matcher classKeywordsSearch = Pattern.compile("^keyword:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
+			boolean classKeywordsFoundActual = classKeywordsSearch.find();
+			while(classKeywordsFoundActual) {
+				String classKeywordValue = classKeywordsSearch.group(1);
+				classKeywordsFoundActual = classKeywordsSearch.find();
 				if(!classKeywords.contains(classKeywordValue))
 					classKeywords.add(classKeywordValue);
 				classKeywordsFound = true;
+			}
+
+			Matcher classMapSearch = Pattern.compile("^map.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
+			boolean classMapFoundActual = classMapSearch.find();
+			while(classMapFoundActual) {
+				String classMapKey = classMapSearch.group(1);
+				String classMapValue = classMapSearch.group(2);
+				classMapFoundActual = classMapSearch.find();
+				indexStoreSolr(classDoc, classMapKey, classMapValue);
 			}
 		}
 
@@ -912,8 +920,8 @@ public class IndexClass extends WatchClassBase {
 						fieldIsOverride = true;
 					}
 				}
-				indexStoreSolr(fieldDoc, "fieldIsTest", languageName, fieldIsTest); 
-				indexStoreSolr(fieldDoc, "fieldIsOverride", languageName, fieldIsOverride); 
+				indexStoreSolr(fieldDoc, "fieldIsTest", fieldIsTest); 
+				indexStoreSolr(fieldDoc, "fieldIsOverride", fieldIsOverride); 
 
 				ClassParts fieldClassParts = ClassParts.initClassParts(this, fieldQdox.getType(), languageName);
 	
@@ -1296,11 +1304,23 @@ public class IndexClass extends WatchClassBase {
 
 						if(methodComment != null) {
 
-							Matcher entityOptionsSearch = Pattern.compile("^option\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
+							Matcher entityValsSearch = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
+							boolean entityValsFound = entityValsSearch.find();
+							while(entityValsFound) {
+								String entityValLanguage = entityValsSearch.group(1);
+								String entityValVar = entityValsSearch.group(2);
+								String entityValValue = entityValsSearch.group(3);
+								storeListSolr(entityDoc, "entityValsVar", entityValVar);
+								storeListSolr(entityDoc, "entityValsLanguage", entityValLanguage);
+								storeListSolr(entityDoc, "entityValsValue", entityValValue);
+								entityValsFound = entityValsSearch.find();
+							}
+
+							Matcher entityOptionsSearch = Pattern.compile("^option\\.(\\w+)\\.([^:]+):(.*)", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityOptionsFound = entityOptionsSearch.find();
 							while(entityOptionsFound) {
-								String entityOptionVar = entityOptionsSearch.group(1);
-								String entityOptionLanguage = entityOptionsSearch.group(2);
+								String entityOptionLanguage = entityOptionsSearch.group(1);
+								String entityOptionVar = entityOptionsSearch.group(2);
 								String entityOptionValue = entityOptionsSearch.group(3);
 								storeListSolr(entityDoc, "entityOptionsVar", entityOptionVar);
 								storeListSolr(entityDoc, "entityOptionsLanguage", entityOptionLanguage);
@@ -1323,6 +1343,17 @@ public class IndexClass extends WatchClassBase {
 								classKeywordsFound = true;
 							}
 							indexStoreSolr(entityDoc, "entityKeywordsFound", entityKeywordsFound); 
+
+							Matcher entityMapSearch = Pattern.compile("^map.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
+							boolean entityMapFound = entityMapSearch.find();
+							boolean entityMapFoundCurrent = entityMapFound;
+							while(entityMapFoundCurrent) {
+								String entityMapKey = entityMapSearch.group(1);
+								String entityMapValue = entityMapSearch.group(2);
+								indexStoreSolr(entityDoc, entityMapKey, entityMapValue);
+								entityMapFound = true;
+								entityMapFoundCurrent = entityMapSearch.find();
+							}
 						}
 
 						indexStoreSolr(entityDoc, "entityExact", regexFound("^exact:\\s*(true)$", methodComment));
@@ -1346,7 +1377,38 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "entityKeys", regexFound("^keys:\\s*(true)$", methodComment));
 
 						indexStoreSolr(entityDoc, "entityDisplayName", languageName, regex("^displayName." + languageName + ":\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "entityDescription", languageName, regex("^description." + languageName + ":\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "entityOptional", regexFound("^optional:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityHtmlTooltip", languageName, regex("^htmlTooltip." + languageName + ":\\s*(.*)$", methodComment, 1));
+
+						{
+							String str = regex("^minLength:\\s*(.*)$", methodComment, 1);
+							Integer num = NumberUtils.isCreatable(str) ? Integer.parseInt(str) : null;
+							if(num != null)
+								indexStoreSolr(entityDoc, "entityMinLength", num);
+						}
+
+						{
+							String str = regex("^maxLength:\\s*(.*)$", methodComment, 1);
+							Integer num = NumberUtils.isCreatable(str) ? Integer.parseInt(str) : null;
+							if(num != null)
+								indexStoreSolr(entityDoc, "entityMaxLength", num);
+						}
+
+						{
+							String str = regex("^min:\\s*(.*)$", methodComment, 1);
+							Double num = NumberUtils.isCreatable(str) ? Double.parseDouble(str) : null;
+							if(num != null)
+								indexStoreSolr(entityDoc, "entityMin", num);
+						}
+
+						{
+							String str = regex("^max:\\s*(.*)$", methodComment, 1);
+							Double num = NumberUtils.isCreatable(str) ? Double.parseDouble(str) : null;
+							if(num != null)
+								indexStoreSolr(entityDoc, "entityMax", num);
+						}
+
 						for(String languageName : otherLanguages) {  
 							indexStoreSolr(entityDoc, "entityDisplayName", languageName, regex("^displayName." + languageName + ":\\s*(.*)$", methodComment, 1));
 							indexStoreSolr(entityDoc, "entityHtmlTooltip", languageName, regex("^htmlTooltip." + languageName + ":\\s*(.*)$", methodComment, 1));
