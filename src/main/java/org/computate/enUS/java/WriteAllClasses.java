@@ -64,7 +64,7 @@ public class WriteAllClasses extends WritePageClass {
 					classFileGen = new File(classPathGen);
 					classFileApi = new File(classPathApiGen);
 					classFilePage = new File(classPathPageGen);
-					o = new PrintWriter(classFileGen);
+					o = StringPrintWriter.create(classFileGen);
 					classSimpleName = (String)doc.get("classSimpleName_" + languageName + "_stored_string");
 					classSimpleNameGen = (String)doc.get("classSimpleNameGen_" + languageName + "_stored_string");
 					classCanonicalName = (String)doc.get("classCanonicalName_" + languageName + "_stored_string");
@@ -89,6 +89,9 @@ public class WriteAllClasses extends WritePageClass {
 					classImportsGenPage = (List<String>)doc.get("classImportsGenPage_" + languageName + "_stored_strings");
 					if(classImportsGenPage == null)
 						classImportsGenPage = new ArrayList<String>();
+					classInitDeepExceptions = (List<String>)doc.get("classInitDeepExceptions_stored_strings");
+					if(classInitDeepExceptions == null)
+						classInitDeepExceptions = new ArrayList<String>();
 					classParameterTypeNames = (List<String>)doc.get("classParameterTypeNames_stored_strings");
 					classSuperParameterTypeNames = (List<String>)doc.get("classSuperParameterTypeNames_stored_strings");
 					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
@@ -103,13 +106,14 @@ public class WriteAllClasses extends WritePageClass {
 					classPage = BooleanUtils.isTrue((Boolean)doc.get("classPage_stored_boolean"));
 					classRolesFound = BooleanUtils.isTrue((Boolean)doc.get("classRolesFound_stored_boolean"));
 					classRoles = (List<String>)doc.get("classRoles_" + languageName + "_stored_strings");
+					entityIndex = 0;
 
-					writerGenClass = new PrintWriter(classFileGen);
+					writerGenClass = StringPrintWriter.create(classFileGen);
 					if(classApi)
-						writerApiGenClass = new PrintWriter(classFileApi);
+						writerApiGenClass = StringPrintWriter.create(classFileApi);
 //					auteurPageClasse = new PrintWriter(classFilePage);
 					if(classPage)
-						writerPageGenClass = new PrintWriter(classFilePage);
+						writerPageGenClass = StringPrintWriter.create(classFilePage);
 
 					genCodeInit();
 					o = writerGenClass;
@@ -129,6 +133,9 @@ public class WriteAllClasses extends WritePageClass {
 						apiCodeClassBegin(languageName);
 					if(classPage)
 						pageCodeClasseDebut(languageName);
+					genCodeHashCode(languageName);
+					genCodeToString(languageName);
+					genCodeEquals(languageName);
 				} 
 				else {
 					Boolean partIsConstructor = (Boolean)doc.get("partIsConstructor_stored_boolean");

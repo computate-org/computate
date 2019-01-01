@@ -1,4 +1,4 @@
-package org.computate.frFR.java;
+package org.computate.frFR.java; 
 
 import java.io.PrintWriter;
 
@@ -13,7 +13,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	/**
 	 * var.enUS: writerApiGenClass
 	 */
-	protected PrintWriter auteurApiGenClasse;
+	protected StringPrintWriter auteurApiGenClasse;
 
 	/**
 	 * var.enUS: classSimpleNameApi
@@ -607,7 +607,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 		tl(0, "}");
 
 		System.out.println("Ecrire: " + classeCheminApiGen); 
-		auteurApiGenClasse.flush();
-		auteurApiGenClasse.close();
+		auteurApiGenClasse.flushClose();
 	}
 }

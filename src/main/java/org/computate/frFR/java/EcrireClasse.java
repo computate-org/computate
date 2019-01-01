@@ -1,4 +1,4 @@
-package org.computate.frFR.java;     
+package org.computate.frFR.java;    
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -25,7 +25,7 @@ import org.apache.solr.common.SolrDocumentList;
  */  
 public class EcrireClasse extends IndexerClasse { 
 
-	protected PrintWriter auteurClasse;
+	protected StringPrintWriter auteurClasse;
 
 	/**
 	 * var.enUS: writeClass
@@ -402,7 +402,7 @@ public class EcrireClasse extends IndexerClasse {
 					classeSuperParamsTypeNom = (List<String>)doc.get("classeSuperParamsTypeNom_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
 
-					auteurClasse = new PrintWriter(classeFichier);
+					auteurClasse = StringPrintWriter.create(classeFichier);
 					o = auteurClasse;
 		
 					l("package ", classeNomEnsemble, ";"); 
@@ -585,8 +585,7 @@ public class EcrireClasse extends IndexerClasse {
 					l("}"); 
 
 					System.out.println("Ecrire: " + classeChemin); 
-					o.flush();
-					o.close();
+					o.flushClose();
 				}
 			}
 		}
@@ -595,8 +594,8 @@ public class EcrireClasse extends IndexerClasse {
 		}
 	}  
 
-	PrintWriter o;
-	public EcrireClasse o(PrintWriter o) {
+	StringPrintWriter o;
+	public EcrireClasse o(StringPrintWriter o) {
 		this.o = o;
 		return this;
 	}
@@ -626,7 +625,7 @@ public class EcrireClasse extends IndexerClasse {
 	public void s(Object...objets) {
 		for(Object objet : objets)
 			if(objet != null)
-				o.append(objet.toString());
+				o.s(objet.toString());
 	}
 
 	/**
@@ -641,10 +640,10 @@ public class EcrireClasse extends IndexerClasse {
 	 */
 	public void t(int nombreTabulations, Object...objets) {
 		for(int i = 0; i < nombreTabulations; i++)
-			o.append("\t");
+			o.s("\t");
 		for(Object objet : objets)
 			if(objet != null)
-				o.append(objet.toString());
+				o.s(objet.toString());
 	}
 
 	/**
@@ -657,8 +656,8 @@ public class EcrireClasse extends IndexerClasse {
 	public void l(Object...objets) {
 		for(Object objet : objets)
 			if(objet != null)
-				o.append(objet.toString());
-		o.append("\n");
+				o.s(objet.toString());
+		o.s("\n");
 	}
 
 	/**
@@ -673,10 +672,10 @@ public class EcrireClasse extends IndexerClasse {
 	 */
 	public void tl(int nombreTabulations, Object...objets) {
 		for(int i = 0; i < nombreTabulations; i++)
-			o.append("\t");
+			o.s("\t");
 		for(Object objet : objets)
 			if(objet != null)
-				o.append(objet.toString());
-		o.append("\n");
+				o.s(objet.toString());
+		o.s("\n");
 	}
 }

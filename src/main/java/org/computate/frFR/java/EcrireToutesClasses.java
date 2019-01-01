@@ -1,4 +1,4 @@
-package org.computate.frFR.java;     
+package org.computate.frFR.java;      
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -236,6 +236,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: apiCodeClassBegin
 	 * r: apiCodeClasseFin
 	 * r.enUS: apiCodeClassEnd
+	 * r: entiteIndice
+	 * r.enUS: entityIndex
 	 * 
 	 * r: Ecrire:
 	 * r.enUS: Write:
@@ -261,7 +263,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeFichierGen = new File(classeCheminGen);
 					classeFichierApi = new File(classeCheminApiGen);
 					classeFichierPage = new File(classeCheminPageGen);
-					o = new PrintWriter(classeFichierGen);
+					o = StringPrintWriter.create(classeFichierGen);
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
 					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
 					classeNomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
@@ -286,6 +288,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeImportationsGenPage = (List<String>)doc.get("classeImportationsGenPage_" + langueNom + "_stored_strings");
 					if(classeImportationsGenPage == null)
 						classeImportationsGenPage = new ArrayList<String>();
+					classeInitLoinExceptions = (List<String>)doc.get("classeInitLoinExceptions_stored_strings");
+					if(classeInitLoinExceptions == null)
+						classeInitLoinExceptions = new ArrayList<String>();
 					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
 					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
@@ -300,13 +305,14 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
 					classeRolesTrouve = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouve_stored_boolean"));
 					classeRoles = (List<String>)doc.get("classeRoles_" + langueNom + "_stored_strings");
+					entiteIndice = 0;
 
-					auteurGenClasse = new PrintWriter(classeFichierGen);
+					auteurGenClasse = StringPrintWriter.create(classeFichierGen);
 					if(classeApi)
-						auteurApiGenClasse = new PrintWriter(classeFichierApi);
+						auteurApiGenClasse = StringPrintWriter.create(classeFichierApi);
 //					auteurPageClasse = new PrintWriter(classeFichierPage);
 					if(classePage)
-						auteurPageGenClasse = new PrintWriter(classeFichierPage);
+						auteurPageGenClasse = StringPrintWriter.create(classeFichierPage);
 
 					genCodeInit();
 					o = auteurGenClasse;
@@ -326,6 +332,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 						apiCodeClasseDebut(langueNom);
 					if(classePage)
 						pageCodeClasseDebut(langueNom);
+					genCodeHashCode(langueNom);
+					genCodeToString(langueNom);
+					genCodeEquals(langueNom);
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");

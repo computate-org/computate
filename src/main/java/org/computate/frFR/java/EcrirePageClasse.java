@@ -8,12 +8,12 @@ import java.io.PrintWriter;
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  */  
-public class EcrirePageClasse extends EcrireApiClasse {  
+public class EcrirePageClasse extends EcrireApiClasse { 
 
 	/**
 	 * var.enUS: writerPageGenClass
 	 */
-	protected PrintWriter auteurPageGenClasse;
+	protected StringPrintWriter auteurPageGenClasse;
 
 	/**
 	 * var.enUS: classSimpleNamePage

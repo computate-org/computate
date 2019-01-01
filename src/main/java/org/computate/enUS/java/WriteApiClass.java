@@ -7,7 +7,7 @@ import java.io.PrintWriter;
  **/
 public class WriteApiClass extends WriteGenClass {
 
-	protected PrintWriter writerApiGenClass;
+	protected StringPrintWriter writerApiGenClass;
 
 	protected String classSimpleNameApi;
 
@@ -545,7 +545,6 @@ public class WriteApiClass extends WriteGenClass {
 		tl(0, "}");
 
 		System.out.println("Write:" + classPathApiGen); 
-		writerApiGenClass.flush();
-		writerApiGenClass.close();
+		writerApiGenClass.flushClose();
 	}
 }

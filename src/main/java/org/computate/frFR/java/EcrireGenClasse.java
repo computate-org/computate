@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
@@ -137,6 +138,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected List<String> classeImportationsGen;
 
 	/**
+	 * var.enUS: classInitDeepExceptions
+	 */
+	protected List<String> classeInitLoinExceptions;
+
+	/**
 	 * var.enUS: classImportsGenApi
 	 */
 	protected List<String> classeImportationsGenApi;
@@ -219,168 +225,92 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: wInitDeep
 	 */
-	protected StringWriter wInitLoin;
-
-	/**
-	 * var.enUS: codeInitDeep
-	 */
-	protected PrintWriter codeInitLoin;
+	protected StringPrintWriter wInitLoin;
 
 	/**
 	 * var.enUS: wSiteRequest
 	 */
-	protected StringWriter wRequeteSite;
-
-	/**
-	 * var.enUS: codeSiteRequest
-	 */
-	protected PrintWriter codeRequeteSite;
+	protected StringPrintWriter wRequeteSite;
 
 	/**
 	 * var.enUS: wIndex
 	 */
-	protected StringWriter wIndexer;
-
-	/**
-	 * var.enUS: codeIndex
-	 */
-	protected PrintWriter codeIndexer;
+	protected StringPrintWriter wIndexer;
 
 	/**
 	 * var.enUS: wObtain
 	 */
-	protected StringWriter wObtenir;
-
-	/**
-	 * var.enUS: codeObtain
-	 */
-	protected PrintWriter codeObtenir;
+	protected StringPrintWriter wObtenir;
 
 	/**
 	 * var.enUS: wAttribute
 	 */
-	protected StringWriter wAttribuer;
-
-	/**
-	 * var.enUS: codeAttribute
-	 */
-	protected PrintWriter codeAttribuer;
+	protected StringPrintWriter wAttribuer;
 
 	/**
 	 * var.enUS: wPut
 	 */ 
-	protected StringWriter wPut;
-
-	/**
-	 * var.enUS: codePut
-	 */
-	protected PrintWriter codePut;
+	protected StringPrintWriter wPut;
 
 	/**
 	 * var.enUS: wPopulate
 	 */
-	protected StringWriter wPeupler;
-
-	/**
-	 * var.enUS: codePopulate
-	 */
-	protected PrintWriter codePeupler;
+	protected StringPrintWriter wPeupler;
 
 	/**
 	 * var.enUS: wExists
 	 */
-	protected StringWriter wExiste;
-
-	/**
-	 * var.enUS: codeExists
-	 */
-	protected PrintWriter codeExiste;
+	protected StringPrintWriter wExiste;
 
 	/**
 	 * var.enUS: wSaves
 	 */
-	protected StringWriter wSauvegardes;
-
-	/**
-	 * var.enUS: codeSaves
-	 */
-	protected PrintWriter codeSauvegardes;
+	protected StringPrintWriter wSauvegardes;
 
 	/**
 	 * var.enUS: wSave
 	 */
-	protected StringWriter wSauvegarder;
-	/**
-	 * var.enUS: codeSave
-	 */
-	protected PrintWriter codeSauvegarder;
+	protected StringPrintWriter wSauvegarder;
 
-	protected StringWriter wApiGet;
-
-	protected PrintWriter codeApiGet;
+	protected StringPrintWriter wApiGet;
 
 	/**
 	 * var.enUS: wApiGenerateGet
 	 */
-	protected StringWriter wApiGenererGet;
-
-	/**
-	 * var.enUS: codeApiGenerateGet
-	 */
-	protected PrintWriter codeApiGenererGet;
+	protected StringPrintWriter wApiGenererGet;
 
 	/**
 	 * var.enUS: wApiGeneratePost
 	 */
-	protected StringWriter wApiGenererPost;
-
-	/**
-	 * var.enUS: codeApiGeneratePost
-	 */
-	protected PrintWriter codeApiGenererPost;
+	protected StringPrintWriter wApiGenererPost;
 
 	/**
 	 * var.enUS: wApiGeneratePut
 	 */
-	protected StringWriter wApiGenererPut;
-
-	/**
-	 * var.enUS: codeApiGeneratePut
-	 */
-	protected PrintWriter codeApiGenererPut;
+	protected StringPrintWriter wApiGenererPut;
 
 	/**
 	 * var.enUS: wApiGeneratePatch
 	 */
-	protected StringWriter wApiGenererPatch;
-
-	/**
-	 * var.enUS: codeApiGeneratePatch
-	 */
-	protected PrintWriter codeApiGenererPatch;
+	protected StringPrintWriter wApiGenererPatch;
 
 	/**
 	 * var.enUS: wApiEntities
 	 */
-	protected StringWriter wApiEntites;
-
-	/**
-	 * var.enUS: codeApiEntities
-	 */
-	protected PrintWriter codeApiEntites;
+	protected StringPrintWriter wApiEntites;
 
 	/**
 	 * var.enUS: wPageEntities
 	 */
-	protected StringWriter wPageEntites;
+	protected StringPrintWriter wPageEntites;
 
-	/**
-	 * var.enUS: codePageEntities
-	 */
-	protected PrintWriter codePageEntites;
+	protected StringPrintWriter wPageGet;
 
-	protected StringWriter wPageGet;
-	protected PrintWriter codePageGet;
+	protected StringPrintWriter wHashCode;
+
+	protected StringPrintWriter wToString;
+
+	protected StringPrintWriter wEquals;
 
 	/**
 	 * var.enUS: entityVar
@@ -445,137 +375,88 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: writerGenClass
 	 */
-	protected PrintWriter auteurGenClasse;
+	protected StringPrintWriter auteurGenClasse;
 
 	/**
+	 * var.enUS: entityIndex
+	 */
+	protected Integer entiteIndice;
+
+	/** 
 	 * r: wInitLoin
 	 * r.enUS: wInitDeep
-	 * r: codeInitLoin
-	 * r.enUS: codeInitDeep
 	 * r: wRequeteSite
 	 * r.enUS: wSiteRequest
-	 * r: codeRequeteSite
-	 * r.enUS: codeSiteRequest
 	 * r: wIndexer
 	 * r.enUS: wIndex
-	 * r: codeIndexer
-	 * r.enUS: codeIndex
 	 * r: wObtenir
 	 * r.enUS: wObtain
-	 * r: codeObtenir
-	 * r.enUS: codeObtain
 	 * r: wAttribuer
 	 * r.enUS: wAttribute
-	 * r: codeAttribuer
-	 * r.enUS: codeAttribute
 	 * r: wPeupler
 	 * r.enUS: wPopulate
-	 * r: codePeupler
-	 * r.enUS: codePopulate
 	 * r: wExiste
 	 * r.enUS: wExists
-	 * r: codeExiste
-	 * r.enUS: codeExists
 	 * r: wSauvegardes
 	 * r.enUS: wSaves
-	 * r: codeSauvegardes
-	 * r.enUS: codeSaves
 	 * r: wSauvegarder
 	 * r.enUS: wSave
-	 * r: codeSauvegarder
-	 * r.enUS: codeSave
 	 * r: wApiGenererGet
 	 * r.enUS: wApiGenerateGet
-	 * r: codeApiGenererGet
-	 * r.enUS: codeApiGenerateGet
 	 * r: wApiGenererPost
 	 * r.enUS: wApiGeneratePost
-	 * r: codeApiGenererPost
-	 * r.enUS: codeApiGeneratePost
 	 * r: wApiGenererPut
 	 * r.enUS: wApiGeneratePut
-	 * r: codeApiGenererPut
-	 * r.enUS: codeApiGeneratePut
 	 * r: wApiGenererPatch
 	 * r.enUS: wApiGeneratePatch
-	 * r: codeApiGenererPatch
-	 * r.enUS: codeApiGeneratePatch
 	 * r: wApiEntites
 	 * r.enUS: wApiEntities
-	 * r: codeApiEntites
-	 * r.enUS: codeApiEntities
 	 * r: wPageEntites
 	 * r.enUS: wPageEntities
-	 * r: codePageEntites
-	 * r.enUS: codePageEntities
-	 */
+	 */ 
 	public void genCodeInit() throws Exception {
 
-		wInitLoin = new StringWriter();
-		codeInitLoin = new PrintWriter(wInitLoin);
-
-		wRequeteSite = new StringWriter();
-		codeRequeteSite = new PrintWriter(wRequeteSite);
-
-		wIndexer = new StringWriter();
-		codeIndexer = new PrintWriter(wIndexer);
-
-		wObtenir = new StringWriter();
-		codeObtenir = new PrintWriter(wObtenir);
-
-		wAttribuer = new StringWriter();
-		codeAttribuer = new PrintWriter(wAttribuer);
-
-		wPut = new StringWriter();
-		codePut = new PrintWriter(wPut);
-
-		wPeupler = new StringWriter();
-		codePeupler = new PrintWriter(wPeupler);
-
-		wSauvegardes = new StringWriter();
-		codeSauvegardes = new PrintWriter(wSauvegardes);
-
-		wExiste = new StringWriter();
-		codeExiste = new PrintWriter(wExiste);
-
-		wSauvegarder = new StringWriter();
-		codeSauvegarder = new PrintWriter(wSauvegarder);
-
-		wApiEntites = new StringWriter();
-		codeApiEntites = new PrintWriter(wApiEntites);
-
-		wPageEntites = new StringWriter();
-		codePageEntites = new PrintWriter(wPageEntites);
-
-		wApiGet = new StringWriter();
-		codeApiGet = new PrintWriter(wApiGet);
-
-		wApiGenererGet = new StringWriter();
-		codeApiGenererGet = new PrintWriter(wApiGenererGet);
-
-		wApiGenererPost = new StringWriter();
-		codeApiGenererPost = new PrintWriter(wApiGenererPost);
-
-		wApiGenererPut = new StringWriter();
-		codeApiGenererPut = new PrintWriter(wApiGenererPut);
-
-		wApiGenererPatch = new StringWriter();
-		codeApiGenererPatch = new PrintWriter(wApiGenererPatch);
-
-		wPageGet = new StringWriter();
-		codePageGet = new PrintWriter(wPageGet);
+		wInitLoin = StringPrintWriter.create();
+		wRequeteSite = StringPrintWriter.create();
+		wIndexer = StringPrintWriter.create();
+		wObtenir = StringPrintWriter.create();
+		wAttribuer = StringPrintWriter.create();
+		wPut = StringPrintWriter.create();
+		wPeupler = StringPrintWriter.create();
+		wSauvegardes = StringPrintWriter.create();
+		wExiste = StringPrintWriter.create();
+		wSauvegarder = StringPrintWriter.create();
+		wApiEntites = StringPrintWriter.create();
+		wPageEntites = StringPrintWriter.create();
+		wApiGet = StringPrintWriter.create();
+		wApiGenererGet = StringPrintWriter.create();
+		wApiGenererPost = StringPrintWriter.create();
+		wApiGenererPut = StringPrintWriter.create();
+		wApiGenererPatch = StringPrintWriter.create();
+		wPageGet = StringPrintWriter.create();
+		wHashCode = StringPrintWriter.create();
+		wToString = StringPrintWriter.create();
+		wEquals = StringPrintWriter.create();
 	}
 
 	/**
 	 * var.enUS: genCodeInitDeep
 	 * param1.var.enUS: languageName
+	 * r: classeInitLoinExceptionNomSimple
+	 * r.enUS: classInitDeepExceptionSimpleName
+	 * r: classeInitLoinExceptions
+	 * r.enUS: classInitDeepExceptions
+	 * r: classeInitLoinException
+	 * r.enUS: classInitDeepException
 	 * r: classeInitLoin
 	 * r.enUS: classInitDeep
-	 * r: codeInitLoin
-	 * r.enUS: codeInitDeep
-	 * r.enUS: codeIndex
+	 * r: wInitLoin
+	 * r.enUS: wInitDeep
+	 * r.enUS: wIndex
 	 * r: dejaInitialise
 	 * r.enUS: alreadyInitialized
+	 * r: initLoinPourClasse
+	 * r.enUS: initDeepForClass
 	 * r: initLoin
 	 * r.enUS: initDeep
 	 * r: RequeteSite
@@ -592,27 +473,48 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	public void genCodeInitLoin(String langueNom) throws Exception {
 		if(BooleanUtils.isTrue(classeInitLoin)) {
-			o = codeInitLoin;
-			l(); 
-			tl(1, "//////////////");
-			tl(1, "// initLoin //");
-			tl(1, "//////////////");
-			l(); 
-			tl(1, "protected boolean dejaInitialise", classeNomSimple, " = false;");
-			l();
-			tl(1, "public ", classeNomSimple, " initLoin", classeNomSimple, "(RequeteSite requeteSite) throws Exception {");
+			wInitLoin.l(); 
+			wInitLoin.tl(1, "//////////////");
+			wInitLoin.tl(1, "// initLoin //");
+			wInitLoin.tl(1, "//////////////");
+			wInitLoin.l(); 
+			wInitLoin.tl(1, "protected boolean dejaInitialise", classeNomSimple, " = false;");
+			wInitLoin.l();
+			wInitLoin.t(1, "public ", classeNomSimple, " initLoin", classeNomSimple, "(RequeteSite requeteSite)");
+			if(classeInitLoinExceptions.size() > 0) {
+				wInitLoin.s(" throws ");
+				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+					String classeInitLoinException = classeInitLoinExceptions.get(i);
+					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+					if(i > 0)
+						wInitLoin.s(", ");
+					wInitLoin.s(classeInitLoinExceptionNomSimple);
+				}
+			}
+			wInitLoin.l(" {");
 //						if(contientRequeteSite && !StringUtils.equals(classeNomSimple, "RequeteSite"))
 //							tl(2, "((", classeNomSimple, ")this).setRequeteSite_(requeteSite);");
-			tl(2, "setRequeteSite_(requeteSite);");
-			tl(2, "initLoin", classeNomSimple, "();");
-			tl(2, "return (", classeNomSimple, ")this;");
-			tl(1, "}");
-			l();
-			tl(1, "public ", classeNomSimple, " initLoin", classeNomSimple, "() throws Exception {");
-			tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
-			tl(3, "dejaInitialise", classeNomSimple, " = true;");
+			wInitLoin.tl(2, "setRequeteSite_(requeteSite);");
+			wInitLoin.tl(2, "initLoin", classeNomSimple, "();");
+			wInitLoin.tl(2, "return (", classeNomSimple, ")this;");
+			wInitLoin.tl(1, "}");
+			wInitLoin.l();
+			wInitLoin.t(1, "public ", classeNomSimple, " initLoin", classeNomSimple, "()");
+			if(classeInitLoinExceptions.size() > 0) {
+				wInitLoin.s(" throws ");
+				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+					String classeInitLoinException = classeInitLoinExceptions.get(i);
+					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+					if(i > 0)
+						wInitLoin.s(", ");
+					wInitLoin.s(classeInitLoinExceptionNomSimple);
+				}
+			}
+			wInitLoin.l(" {");
+			wInitLoin.tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
+			wInitLoin.tl(3, "dejaInitialise", classeNomSimple, " = true;");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
-				tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite_);");
+				wInitLoin.tl(3, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite_);");
 		}
 	}
 
@@ -625,8 +527,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: SiteRequest
 	 * r: requeteSite
 	 * r.enUS: siteRequest
-	 * r: codeRequeteSite
-	 * r.enUS: codeSiteRequest
+	 * r: wRequeteSite
+	 * r.enUS: wSiteRequest
 	 * r: classeNomSimpleSuperGenerique
 	 * r.enUS: classSuperSimpleNameGeneric
 	 * r: classeNomSimple
@@ -636,13 +538,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	public void genCodeRequeteSite(String langueNom) throws Exception {
 		if(BooleanUtils.isTrue(classeInitLoin)) {
-			o = codeRequeteSite;
+			o = wRequeteSite;
 			l(); 
 			tl(1, "/////////////////");
 			tl(1, "// requeteSite //");
 			tl(1, "/////////////////");
 			l(); 
-			tl(1, "public void requeteSite", classeNomSimple, "(RequeteSite requeteSite) throws Exception {");
+			tl(1, "public void requeteSite", classeNomSimple, "(RequeteSite requeteSite) {");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
 				tl(3, "super.requeteSite", classeNomSimpleSuperGenerique, "(requeteSite);");
 		}
@@ -651,8 +553,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: genCodeIndex
 	 * param1.var.enUS: languageName
-	 * r: codeIndexer
-	 * r.enUS: codeIndex
+	 * r: wIndexer
+	 * r.enUS: wIndex
 	 * r: classeIndexe
 	 * r.enUS: classIndexed
 	 * r: RequeteSite
@@ -680,7 +582,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: initDeep
 	 */
 	public void genCodeIndexer(String langueNom) throws Exception {
-		o = codeIndexer;
+		o = wIndexer;
 		if(classeIndexe) {
 			l(); 
 			tl(1, "/////////////");
@@ -733,8 +635,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: genCodeObtain
 	 * param1.var.enUS: languageName
-	 * r: codeObtenir
-	 * r.enUS: codeObtain
+	 * r: wObtenir
+	 * r.enUS: wObtain
 	 * r: classeInitLoin
 	 * r.enUS: classInitDeep
 	 * r: classeNomSimple
@@ -750,7 +652,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: obtain
 	 */
 	public void genCodeObtenir(String langueNom) throws Exception {
-		o = codeObtenir;
+		o = wObtenir;
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "/////////////");
@@ -782,8 +684,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: genCodeAttribute
 	 * param1.var.enUS: languageName
-	 * r: codeAttribuer
-	 * r.enUS: codeAttribute
+	 * r: wAttribuer
+	 * r.enUS: wAttribute
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
 	 * r: classeInitLoin
@@ -801,7 +703,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: attribute
 	 */
 	public void genCodeAttribuer(String langueNom) throws Exception {
-		o = codeAttribuer;
+		o = wAttribuer;
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "///////////////");
@@ -849,7 +751,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * 
 	 */
 	public void genCodePut(String langueNom) throws Exception {
-		o = codePut;
+		o = wPut;
 		if(classeSauvegarde) {
 //		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
@@ -878,8 +780,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: genCodePopulate
 	 * param1.var.enUS: languageName
-	 * r: codePeupler
-	 * r.enUS: codePopulate
+	 * r: wPeupler
+	 * r.enUS: wPopulate
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
 	 * r: classeSauvegarde
@@ -895,7 +797,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: saves
 	 */
 	public void genCodePeupler(String langueNom) throws Exception {
-		o = codePeupler;
+		o = wPeupler;
 		if(classeSauvegarde) {
 			l(); 
 			tl(1, "/////////////");
@@ -919,8 +821,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: genCodeExists
 	 * param1.var.enUS: languageName
-	 * r: codeExiste
-	 * r.enUS: codeExists
+	 * r: wExiste
+	 * r.enUS: wExists
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
 	 * r: classeSauvegarde
@@ -938,7 +840,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: exists
 	 */
 	public void genCodeExiste(String langueNom) throws Exception {
-		o = codeExiste;
+		o = wExiste;
 		if(classeSauvegarde) {
 //			l(); 
 //			tl(1, "////////////");
@@ -1009,18 +911,22 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: genCodeSaves
 	 * param1.var.enUS: languageName
-	 * r: codeSauvegardes
-	 * r.enUS: codeSaves
+	 * r: wSauvegardes
+	 * r.enUS: wSaves
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
 	 * r: classeSauvegarde
 	 * r.enUS: classSaved
 	 * 
+	 * r: definirPourClasse
+	 * r.enUS: defineForClass
+	 * r: sauvegardesPourClasse
+	 * r.enUS: savesForClass
 	 * r: sauvegardes
 	 * r.enUS: saves
 	 */
 	public void genCodeSauvegardes(String langueNom) throws Exception {
-		o = codeSauvegardes;
+		o = wSauvegardes;
 		if(classeSauvegarde) {
 //			l(); 
 //			tl(1, "/////////////////");
@@ -1063,18 +969,20 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: genCodeSave
 	 * param1.var.enUS: languageName
-	 * r: codeSauvegarder
-	 * r.enUS: codeSave
+	 * r: wSauvegarder
+	 * r.enUS: wSave
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
 	 * r: classeSauvegarde
 	 * r.enUS: classSaved
 	 * 
+	 * r: sauvegarderPourClasse
+	 * r.enUS: saveForClass
 	 * r: sauvegarder
 	 * r.enUS: save
 	 */
 	public void genCodeSauvegarder(String langueNom) throws Exception {
-		o = codeSauvegarder;
+		o = wSauvegarder;
 		if(classeSauvegarde) {
 //			l(); 
 //			tl(1, "/////////////////");
@@ -1135,6 +1043,69 @@ public class EcrireGenClasse extends EcrireClasse {
 ////						tl(2, "}");
 //			tl(1, "}");
 //			tl(1, "public void sauvegarder", classeNomSimple, "(RequeteSite requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
+		}
+	}
+
+	/**
+	 * param1.var.enUS: languageName
+	 * r: classeEtendBase
+	 * r.enUS: classExtendsBase
+	 */
+	public void genCodeHashCode(String langueNom) throws Exception {
+		wHashCode.l(); 
+		wHashCode.tl(1, "//////////////");
+		wHashCode.tl(1, "// hashCode //");
+		wHashCode.tl(1, "//////////////");
+		wHashCode.l();
+		wHashCode.tl(1, "@Override public int hashCode() {");
+		wHashCode.t(2, "return Objects.hash(");
+		if(BooleanUtils.isTrue(classeEtendBase)) 
+			wHashCode.s("super.hashCode(), ");
+	}
+
+	/**
+	 * param1.var.enUS: languageName
+	 * r: classeEtendBase
+	 * r.enUS: classExtendsBase
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 */
+	public void genCodeToString(String langueNom) throws Exception {
+		wToString.l(); 
+		wToString.tl(1, "//////////////");
+		wToString.tl(1, "// toString //");
+		wToString.tl(1, "//////////////");
+		wToString.l();
+		wToString.tl(1, "@Override public String toString() {");
+		wToString.tl(2, "StringBuilder sb = new StringBuilder();");
+		if(BooleanUtils.isTrue(classeEtendBase)) 
+			wToString.tl(2, "sb.append(super.toString() + \"\\n\");");
+		wToString.tl(2, "sb.append(\"", classeNomSimple, " {\");");
+	}
+
+	/**
+	 * param1.var.enUS: languageName
+	 * r: classeEtendBase
+	 * r.enUS: classExtendsBase
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 */
+	public void genCodeEquals(String langueNom) throws Exception {
+		wEquals.l(); 
+		wEquals.tl(1, "////////////");
+		wEquals.tl(1, "// equals //");
+		wEquals.tl(1, "////////////");
+		wEquals.l();
+		wEquals.tl(1, "@Override public boolean equals(Object o) {");
+		wEquals.tl(2, "if(this == o)");
+		wEquals.tl(3, "return true;");
+		wEquals.tl(2, "if(!(o instanceof ", classeNomSimple, "))");
+		wEquals.tl(3, "return false;");
+		wEquals.tl(2, classeNomSimple, " that = (", classeNomSimple, ")o;");
+		wEquals.t(2, "return ");
+		if(BooleanUtils.isTrue(classeEtendBase)) {
+			wEquals.l("super.equals(o)");
+			wEquals.t(4, "&& ");
 		}
 	}
 
@@ -1472,20 +1443,22 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classSimpleName
 	 * r: dejaInitialise
 	 * r.enUS: alreadyInitialized
+	 * r: definirPourClasse
+	 * r.enUS: defineForClass
 	 * r: classeSauvegarde
 	 * r.enUS: classSaved
 	 * r: classeVarClePrimaire
 	 * r.enUS: classVarPrimaryKey
 	 * r: classeApiUri
 	 * r.enUS: classApiUri
-	 * r: codeInitLoin
-	 * r.enUS: codeInitDeep
+	 * r: wInitLoin
+	 * r.enUS: wInitDeep
 	 * r: classeInitLoin
 	 * r.enUS: classInitDeep
-	 * r: codeRequeteSite
-	 * r.enUS: codeSiteRequest
-	 * r: codeIndexer
-	 * r.enUS: codeIndex
+	 * r: wRequeteSite
+	 * r.enUS: wSiteRequest
+	 * r: wIndexer
+	 * r.enUS: wIndex
 	 * r: classeIndexe
 	 * r.enUS: classIndexed
 	 * r: entiteVarCrypte
@@ -1504,26 +1477,28 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: entityVarIndexed
 	 * r: entiteVarStocke
 	 * r.enUS: entityVarStored
-	 * r: codeObtenir
-	 * r.enUS: codeObtain
+	 * r: entiteIndice
+	 * r.enUS: entityIndex
+	 * r: wObtenir
+	 * r.enUS: wObtain
 	 * r: classeEtendBase
 	 * r.enUS: classExtendsBase
 	 * r: classeEstBase
 	 * r.enUS: classIsBase
-	 * r: codeAttribuer
-	 * r.enUS: codeAttribute
+	 * r: wAttribuer
+	 * r.enUS: wAttribute
 	 * r: requeteJson
 	 * r.enUS: requestJson
-	 * r: codePeupler
-	 * r.enUS: codePopulate
+	 * r: wPeupler
+	 * r.enUS: wPopulate
 	 * r: documentSolr
 	 * r.enUS: solrDocument
 	 * r: siteCrypte
 	 * r.enUS: siteEncrypted
-	 * r: codeSauvegarder
-	 * r.enUS: codeSave
-	 * r: codeApiEntites
-	 * r.enUS: codeApiEntities
+	 * r: wSauvegarder
+	 * r.enUS: wSave
+	 * r: wApiEntites
+	 * r.enUS: wApiEntities
 	 * r: ENTITE_VAR_INDEXE_
 	 * r.enUS: ENTITY_VAR_INDEXED_
 	 * r: ENTITE_VAR_STOCKE_
@@ -1534,22 +1509,22 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: ENTITY_VAR_
 	 * r: _ATTRIBUER_
 	 * r.enUS: _ATTRIBUTE_
-	 * r: codeApiGenererGet
-	 * r.enUS: codeApiGenerateGet
+	 * r: wApiGenererGet
+	 * r.enUS: wApiGenerateGet
 	 * r: reponseServeur
 	 * r.enUS: serverResponse
 	 * r: champValeur
 	 * r.enUS: fieldValue
-	 * r: codeApiGenererPost
-	 * r.enUS: codeApiGeneratePost
+	 * r: wApiGenererPost
+	 * r.enUS: wApiGeneratePost
 	 * r: classeRolesTrouve
 	 * r.enUS: classRolesFound
-	 * r: codeApiGenererPut
-	 * r.enUS: codeApiGeneratePut
+	 * r: wApiGenererPut
+	 * r.enUS: wApiGeneratePut
 	 * r: SiteContexte
 	 * r.enUS: SiteContext
-	 * r: codeApiGenererPatch
-	 * r.enUS: codeApiGeneratePatch
+	 * r: wApiGenererPatch
+	 * r.enUS: wApiGeneratePatch
 	 * r: classeEtendGen
 	 * r.enUS: classExtendsGen
 	 * r: initLoinPourClasse
@@ -2102,7 +2077,17 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 	
 			// Initialiser //
-			tl(1, "protected ", classeNomSimple, " ", entiteVar, "Init() throws Exception {");
+			tl(1, "protected ", classeNomSimple, " ", entiteVar, "Init()");
+			if(methodeExceptionsNomSimpleComplet != null && methodeExceptionsNomSimpleComplet.size() > 0) {
+				s(" throws ");
+				for(int i = 0; i < methodeExceptionsNomSimpleComplet.size(); i++) {
+					String methodeExceptionNomSimpleComplet = methodeExceptionsNomSimpleComplet.get(i);
+					if(i > 0)
+						s(", ");
+					s(methodeExceptionNomSimpleComplet);
+				}
+			}
+			l(" {");
 
 			if(entiteNomCanoniqueGenerique == null && entiteMethodesAvantVar != null && entiteMethodesAvantVar.size() > 0) {
 				tl(2, "if(", entiteVar, " != null) {");
@@ -2181,7 +2166,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		//////////
-		// html //
+		// htm //
 		//////////
 		if(entiteNomSimple != null && entiteSolrNomCanonique != null) {
 
@@ -2230,65 +2215,65 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 
 			/////////////////
-			// htmlTooltip //
+			// htmTooltip //
 			/////////////////
 			l();
-			tl(1, "public String htmlTooltip", entiteVarCapitalise, "() {");
+			tl(1, "public String htmTooltip", entiteVarCapitalise, "() {");
 			tl(2, "return ", entiteHtmlTooltip == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entiteHtmlTooltip) + "\"", ";");
 			tl(1, "}");
 
 			//////////
-			// html //
+			// htm //
 			//////////
 
 			l();
-			tl(1, "public String html", entiteVarCapitalise, "() {");
+			tl(1, "public String htm", entiteVarCapitalise, "() {");
 			tl(2, "return ", entiteVar, " == null ? \"\" : StringEscapeUtils.escapeHtml4(str", entiteVarCapitalise, "());");
 			tl(1, "}");
 
 			if(entiteVarCapitalise != null && classeSauvegarde && entiteSolrNomCanonique != null) {
 				l();
-				tl(1, "public void html", entiteVarCapitalise, "(HttpServerResponse r, Boolean patchDroits) {");
+				tl(1, "public void htm", entiteVarCapitalise, "(ToutEcrivain r, Boolean patchDroits) {");
 				tl(2, "if(", classeVarClePrimaire, "!= null) {");
-				tl(3, "r.write(\"<div id=\\\"patch", classeNomSimple, "\").write(str", StringUtils.capitalize(classeVarClePrimaire), "()).write(\"", entiteVarCapitalise, "\\\">\");");
+				tl(3, "r.s(\"<div id=\\\"patch", classeNomSimple, "\", str", StringUtils.capitalize(classeVarClePrimaire), "(), \"", entiteVarCapitalise, "\\\">\");");
 				tl(3, "if(patchDroits) {");
-				tl(4, "r.write(\"\\n\");");
-				tl(4, "r.write(\"	<script>//<![CDATA[\\n\");");
-				tl(4, "r.write(\"		function patch", classeNomSimple, "\").write(str", StringUtils.capitalize(classeVarClePrimaire), "()).write(\"", entiteVarCapitalise, "() {\\n\");");
-				tl(4, "r.write(\"			$.ajax({\\n\");");
-				tl(4, "r.write(\"				url: '", classeApiUri, "?fq=", classeVarClePrimaire, ":\").write(str", StringUtils.capitalize(classeVarClePrimaire), "()).write(\"',\\n\");");
-				tl(4, "r.write(\"				dataType: 'json',\\n\");");
-				tl(4, "r.write(\"				type: 'patch',\\n\");");
-				tl(4, "r.write(\"				contentType: 'application/json',\\n\");");
-				tl(4, "r.write(\"				processData: false,\\n\");");
-				tl(4, "r.write(\"				success: function( data, textStatus, jQxhr ) {\\n\");");
-				tl(4, "r.write(\"					\\n\");");
-				tl(4, "r.write(\"				},\\n\");");
-				tl(4, "r.write(\"				error: function( jqXhr, textStatus, errorThrown ) {\\n\");");
-				tl(4, "r.write(\"					\\n\");");
-				tl(4, "r.write(\"				},\\n\");");
-				tl(4, "r.write(\"				data: {\\\"set", entiteVarCapitalise, "\\\": this.value },\\n\");");
-				tl(4, "r.write(\"				\\n\");");
-				tl(4, "r.write(\"			});\\n\");");
-				tl(4, "r.write(\"		}\\n\");");
-				tl(4, "r.write(\"	//]]></script>\\n\");");
-				tl(4, "r.write(\"	<div class=\\\"\\\">\\n\");");
-				tl(4, "r.write(\"		<label class=\\\"w3-tooltip \\\">\\n\");");
-				tl(4, "r.write(\"			<span>\").write(StringEscapeUtils.escapeHtml4(nomAffichage", entiteVarCapitalise, "())).write(\"</span>\\n\");");
-				tl(4, "r.write(\"			<input\");"); {
-					tl(7, "r.write(\" name=\\\"", entiteVar, "\\\"\");");
-					tl(7, "r.write(\" value=\\\"\").write(html", entiteVarCapitalise, "()).write(\"\\\");\");");
-					tl(7, "r.write(\" onchange=\\\"\\\"\");");
-					tl(7, "r.write(\"/>\\n\");");
+				tl(4, "r.l();");
+				tl(4, "r.l(\"	<script>//<![CDATA[\");");
+				tl(4, "r.l(\"		function patch", classeNomSimple, "\", str", StringUtils.capitalize(classeVarClePrimaire), "(), \"", entiteVarCapitalise, "() {\");");
+				tl(4, "r.l(\"			$.ajax({\");");
+				tl(4, "r.l(\"				url: '", classeApiUri, "?fq=", classeVarClePrimaire, ":\", str", StringUtils.capitalize(classeVarClePrimaire), "(), \"',\");");
+				tl(4, "r.l(\"				dataType: 'json',\");");
+				tl(4, "r.l(\"				type: 'patch',\");");
+				tl(4, "r.l(\"				contentType: 'application/json',\");");
+				tl(4, "r.l(\"				processData: false,\");");
+				tl(4, "r.l(\"				success: function( data, textStatus, jQxhr ) {\");");
+				tl(4, "r.l(\"					\");");
+				tl(4, "r.l(\"				},\");");
+				tl(4, "r.l(\"				error: function( jqXhr, textStatus, errorThrown ) {\");");
+				tl(4, "r.l(\"					\");");
+				tl(4, "r.l(\"				},\");");
+				tl(4, "r.l(\"				data: {\\\"set", entiteVarCapitalise, "\\\": this.value },\");");
+				tl(4, "r.l(\"				\");");
+				tl(4, "r.l(\"			});\");");
+				tl(4, "r.l(\"		}\");");
+				tl(4, "r.l(\"	//]]></script>\");");
+				tl(4, "r.l(\"	<div class=\\\"\\\">\");");
+				tl(4, "r.l(\"		<label class=\\\"w3-tooltip \\\">\");");
+				tl(4, "r.l(\"			<span>\", StringEscapeUtils.escapeHtml4(nomAffichage", entiteVarCapitalise, "()), \"</span>\");");
+				tl(4, "r.s(\"			<input\");"); {
+					tl(7, "r.s(\" name=\\\"", entiteVar, "\\\"\");");
+					tl(7, "r.s(\" value=\\\"\", htm", entiteVarCapitalise, "(), \"\\\");\");");
+					tl(7, "r.s(\" onchange=\\\"\\\"\");");
+					tl(7, "r.l(\"/>\");");
 				}
 				if(entiteHtmlTooltip != null)
-					tl(4, "r.write(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", StringEscapeUtils.escapeJava(entiteHtmlTooltip), "</span>\");");
-				tl(4, "r.write(\"		</label>\\n\");");
-				tl(4, "r.write(\"	</div>\\n\");");
+					tl(4, "r.s(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", StringEscapeUtils.escapeJava(entiteHtmlTooltip), "</span>\");");
+				tl(4, "r.l(\"		</label>\");");
+				tl(4, "r.l(\"	</div>\");");
 				tl(3, "} else {");
-				tl(4, "r.write(html", entiteVarCapitalise, "());");
+				tl(4, "r.s(htm", entiteVarCapitalise, "());");
 				tl(3, "}");
-				tl(3, "r.write(\"</div>\\n\");");
+				tl(3, "r.l(\"</div>\");");
 				tl(2, "}");
 				tl(1, "}");
 			}
@@ -2297,9 +2282,8 @@ public class EcrireGenClasse extends EcrireClasse {
 		////////////////////
 		// codeIninitLoin //
 		////////////////////
-		o = codeInitLoin;
 		if(entiteInitialise) {
-			tl(3, entiteVar, "Init();");
+			wInitLoin.tl(3, entiteVar, "Init();");
 		}
 
 
@@ -2307,14 +2291,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		// codeRequeteSite //
 		/////////////////////
 		if(classeInitLoin && entiteInitLoin) {
-			o = codeRequeteSite;
+			o = wRequeteSite;
 			tl(2, entiteVar, ".setRequeteSite_(requeteSite);");
 		}
 
 		/////////////////
 		// codeIndexer //
 		/////////////////
-		o = codeIndexer;
+		o = wIndexer;
 		if(classeIndexe && entiteIndexeOuStocke) {
 			tl(2, "if(", entiteVar, " != null) {");
 			if(StringUtils.isNotEmpty(classeVarClePrimaire) && entiteClePrimaire) {
@@ -2407,7 +2391,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////
 		// codeObtenir //
 		/////////////////
-		o = codeObtenir;
+		o = wObtenir;
 		if(classeEtendBase || classeEstBase) {
 			tl(3, "case \"", entiteVar, "\":");
 			tl(4, "return o", classeNomSimple, ".", entiteVar, ";");
@@ -2416,7 +2400,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		///////////////////
 		// codeAttribuer //
 		///////////////////
-		o = codeAttribuer;
+		o = wAttribuer;
 		if((classeEtendBase || classeEstBase) && entiteAttribuer) {
 			tl(3, "case \"", entiteVar, "\":");
 			if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()))
@@ -2429,7 +2413,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////
 		// codePut //
 		/////////////
-		o = codePut;
+		o = wPut;
 		if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 //		if((classeEtendBase || classeEstBase) && BooleanUtils.isTrue(entiteDefinir)) {
 //							if(champ.contientSetterString) {
@@ -2448,7 +2432,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////
 		// codePeupler //
 		/////////////////
-		o = codePeupler;
+		o = wPeupler;
 		if(classeSauvegarde) {
 //							String nomChamp = entiteVar.toString();
 //							String varCrypte = entiteVarCrypte.toString();
@@ -2503,7 +2487,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////////
 		// codeSauvegarder //
 		/////////////////////
-		o = codeSauvegarder;
+		o = wSauvegarder;
 		if(classeSauvegarde) {
 				String nomChamp = entiteVar.toString();
 				if(entiteSauvegarde) {
@@ -2572,7 +2556,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////
 		// codeApiChamps //
 		/////////////////
-		o = codeApiEntites;
+		o = wApiEntites;
 		l();
 		tl(1, "public static final String ENTITE_VAR_", entiteVar, " = \"", entiteVar, "\";");
 		if(classeIndexe) {
@@ -2589,7 +2573,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////
 		// codeApiGet //
 		/////////////////
-		o = codeApiGet;
+		o = wApiGet;
 		if(classeIndexe && entiteIndexe) {
 			tl(3, "case ENTITE_VAR_", entiteVar, ":");
 			tl(4, "return ENTITE_VAR_INDEXE_", entiteVar, ";");
@@ -2598,7 +2582,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		///////////////////////
 		// codeApiGenererGet //
 		///////////////////////
-		o = codeApiGenererGet;
+		o = wApiGenererGet;
 		if(classeIndexe && entiteStocke) {
 			tl(4, "if(ENTITE_VAR_STOCKE_", entiteVar, ".equals(entiteVarStocke)) {");
 			if (VAL_nomCanoniqueBoolean.equals(entiteSolrNomCanonique)) {
@@ -2899,7 +2883,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		////////////////////////
 		// codeApiGenererPost //
 		////////////////////////
-		o = codeApiGenererPost;
+		o = wApiGenererPost;
 
 		Integer tBase = 0;
 		if(classeRolesTrouve) {
@@ -2918,7 +2902,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		///////////////////////
 		// codeApiGenererPut //
 		///////////////////////
-		o = codeApiGenererPut;
+		o = wApiGenererPut;
 
 		tBase = 0;
 		if(classeRolesTrouve) {
@@ -2937,7 +2921,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		////////////////////////
 		// codeApiGenererPatch //
 		////////////////////////
-		o = codeApiGenererPatch;
+		o = wApiGenererPatch;
 
 		tBase = 0;
 		if(classeRolesTrouve) {
@@ -3084,13 +3068,46 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(tBase + 7, "break;");
 			}
 		}	
+
+		if(entiteDefinir) {
+	
+			//////////////
+			// hashCode //
+			//////////////
+	
+			if(entiteIndice > 0) 
+				wHashCode.s(", ");
+			wHashCode.s(entiteVar);
+	
+			////////////
+			// equals //
+			////////////
+	
+			if(entiteIndice > 0) 
+				wEquals.l().t(4, "&& ");
+			wEquals.s("Objects.equals( " + entiteVar + ", that." + entiteVar + " )");
+	
+			//////////////
+			// toString //
+			//////////////
+	
+			wToString.tl(2, "sb.append( \"" + (entiteIndice > 0 ? ", " : "") + entiteVar + ": " + ("String".equals(entiteNomSimpleComplet) ? "\\\"" : "") + "\" ).append(" + entiteVar + "" + ("String".equals(entiteNomSimpleComplet) ? ").append( \"\\\"\" " : "") + ");");
+	
+			entiteIndice++;
+		}
 	}
 
 	/**
 	 * var.enUS: genCodeClassEnd
 	 * param1.var.enUS: languageName
-	 * r: codeInitLoin
-	 * r.enUS: codeInitDeep
+	 * r: classeInitLoinExceptionNomSimple
+	 * r.enUS: classInitDeepExceptionSimpleName
+	 * r: classeInitLoinExceptions
+	 * r.enUS: classInitDeepExceptions
+	 * r: classeInitLoinException
+	 * r.enUS: classInitDeepException
+	 * r: wInitLoin
+	 * r.enUS: wInitDeep
 	 * r: classeInitLoin
 	 * r.enUS: classInitDeep
 	 * r: classeNomSimpleSuperGenerique
@@ -3103,8 +3120,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: initDeepForClass
 	 * r: requeteSitePourClasse
 	 * r.enUS: siteRequestForClass
-	 * r: codeIndexer
-	 * r.enUS: codeIndex
+	 * r: wIndexer
+	 * r.enUS: wIndex
 	 * r: classeIndexe
 	 * r.enUS: classIndexed
 	 * r: classeEtendBase
@@ -3113,28 +3130,28 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classIsBase
 	 * r: classeVarClePrimaire
 	 * r.enUS: classVarPrimaryKey
-	 * r: codeObtenir
-	 * r.enUS: codeObtain
-	 * r: codeAttribuer
-	 * r.enUS: codeAttribute
+	 * r: wObtenir
+	 * r.enUS: wObtain
+	 * r: wAttribuer
+	 * r.enUS: wAttribute
 	 * r: classeSauvegarde
 	 * r.enUS: classSaved
-	 * r: codePeupler
-	 * r.enUS: codePopulate
+	 * r: wPeupler
+	 * r.enUS: wPopulate
 	 * r: documentSolr
 	 * r.enUS: solrDocument
-	 * r: codeSauvegarder
-	 * r.enUS: codeSave
-	 * r: codeExiste
-	 * r.enUS: codeExists
-	 * r: codeSauvegardes
-	 * r.enUS: codeSaves
-	 * r: codeApiEntites
-	 * r.enUS: codeApiEntities
-	 * r: codeApiGenererGet
-	 * r.enUS: codeApiGenerateGet
-	 * r: codePageEntites
-	 * r.enUS: codePageEntities
+	 * r: wSauvegarder
+	 * r.enUS: wSave
+	 * r: wExiste
+	 * r.enUS: wExists
+	 * r: wSauvegardes
+	 * r.enUS: wSaves
+	 * r: wApiEntites
+	 * r.enUS: wApiEntities
+	 * r: wApiGenererGet
+	 * r.enUS: wApiGenerateGet
+	 * r: wPageEntites
+	 * r.enUS: wPageEntities
 	 * r: auteurGenClasse
 	 * r.enUS: writerGenClass
 	 * r: wInitLoin
@@ -3194,17 +3211,30 @@ public class EcrireGenClasse extends EcrireClasse {
 		//////////////////
 		// codeInitLoin //
 		//////////////////
-		o = codeInitLoin;
 		if(classeInitLoin) {
-//			tl(3, "dejaInitialise", classeNomSimple, " = true;");
-			tl(2, "}");
-			tl(2, "return (", classeNomSimple, ")this;");
-			tl(1, "}");
+//			wInitLoin.tl(3, "dejaInitialise", classeNomSimple, " = true;");
+			wInitLoin.tl(2, "}");
+			wInitLoin.tl(2, "return (", classeNomSimple, ")this;");
+			wInitLoin.tl(1, "}");
 			if(classeInitLoin) {
-				l();
-				tl(1, "public void initLoinPourClasse(RequeteSite requeteSite) throws Exception {");
-				tl(2, "initLoin", classeNomSimple, "(requeteSite);");
-				tl(1, "}");  
+				wInitLoin.l();
+				wInitLoin.t(1);
+				if(classeEtendBase)
+					wInitLoin.s("@Override ");
+				wInitLoin.s("public void initLoinPourClasse(RequeteSite requeteSite)");
+				if(classeInitLoinExceptions.size() > 0) {
+					wInitLoin.s(" throws ");
+					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+						String classeInitLoinException = classeInitLoinExceptions.get(i);
+						String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+						if(i > 0)
+							wInitLoin.s(", ");
+						wInitLoin.s(classeInitLoinExceptionNomSimple);
+					}
+				}
+				wInitLoin.l(" {");
+				wInitLoin.tl(2, "initLoin", classeNomSimple, "(requeteSite);");
+				wInitLoin.tl(1, "}");  
 			}
 		}
 
@@ -3212,10 +3242,10 @@ public class EcrireGenClasse extends EcrireClasse {
 		// codeRequeteSite //
 		/////////////////////
 		if(classeInitLoin) {
-			o = codeRequeteSite;
+			o = wRequeteSite;
 			tl(1, "}");
 			l();
-			tl(1, "public void requeteSitePourClasse(RequeteSite requeteSite) throws Exception {");
+			tl(1, "public void requeteSitePourClasse(RequeteSite requeteSite) {");
 			tl(2, "requeteSite", classeNomSimple, "(requeteSite);");
 			tl(1, "}");  
 		}
@@ -3223,7 +3253,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////
 		// codeIndexer //
 		/////////////////
-		o = codeIndexer;
+		o = wIndexer;
 		if(classeIndexe) {
 			if(classeEtendBase && !classeEstBase) {
 				tl(2, "super.indexer", classeNomSimpleSuperGenerique, "(document);");
@@ -3252,7 +3282,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////
 		// codeObtenir //
 		/////////////////
-		o = codeObtenir;
+		o = wObtenir;
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			tl(3, "default:");
 
@@ -3268,7 +3298,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		///////////////////
 		// codeAttribuer //
 		///////////////////
-		o = codeAttribuer;
+		o = wAttribuer;
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			tl(3, "default:");
 
@@ -3285,7 +3315,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////
 		// codePut //
 		/////////////
-		o = codePut;
+		o = wPut;
 		if(classeSauvegarde) {
 //		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			tl(3, "default:");
@@ -3302,7 +3332,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////
 		// codePeupler //
 		/////////////////
-		o = codePeupler;
+		o = wPeupler;
 		if(classeSauvegarde) {
 //						t(2, "}");
 
@@ -3317,7 +3347,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////////
 		// codeSauvegarder //
 		/////////////////////
-		o = codeSauvegarder;
+		o = wSauvegarder;
 		if(classeSauvegarde) {
 			if(!classeNomSimple.equals("Cluster")) {
 				tl(0);
@@ -3326,21 +3356,43 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 		}	
 
-		codeInitLoin.flush();
-		codeRequeteSite.flush();
-		codeIndexer.flush();
-		codeObtenir.flush();
-		codeAttribuer.flush();
-		codePut.flush();
-		codePeupler.flush();
-		codeExiste.flush();
-		codeSauvegardes.flush();
-		codeSauvegarder.flush();
-		codeApiEntites.flush();
-		codeApiGet.flush();
-		codeApiGenererGet.flush();
-		codePageEntites.flush();
-		codePageGet.flush();
+		//////////////
+		// hashCode //
+		//////////////
+		wHashCode.l(");");
+		wHashCode.tl(1, "}");
+
+		//////////////
+		// toString //
+		//////////////
+		wToString.tl(2, "sb.append(\" }\");");
+		wToString.tl(2, "return sb.toString();");
+		wToString.tl(1, "}");
+
+		////////////
+		// equals //
+		////////////
+		wEquals.l(";");
+		wEquals.tl(1, "}");
+
+		wInitLoin.flushClose();
+		wRequeteSite.flushClose();
+		wIndexer.flushClose();
+		wObtenir.flushClose();
+		wAttribuer.flushClose();
+		wPut.flushClose();
+		wPeupler.flushClose();
+		wExiste.flushClose();
+		wSauvegardes.flushClose();
+		wSauvegarder.flushClose();
+		wApiEntites.flushClose();
+		wApiGet.flushClose();
+		wApiGenererGet.flushClose();
+		wPageEntites.flushClose();
+		wPageGet.flushClose();
+		wHashCode.flushClose();
+		wToString.flushClose();
+		wEquals.flushClose();
 
 		o = auteurGenClasse;
 
@@ -3354,11 +3406,13 @@ public class EcrireGenClasse extends EcrireClasse {
 //		s(wExiste.toString());
 //		s(wSauvegardes.toString());
 //		s(wSauvegarder.toString());
+		s(wHashCode.toString());
+		s(wEquals.toString());
+		s(wToString.toString());
 
 		l("}"); 
 
 		System.out.println("Ecrire: " + classeCheminGen); 
-		auteurGenClasse.flush();
-		auteurGenClasse.close();
+		auteurGenClasse.flushClose();
 	}  
 }

@@ -20,9 +20,9 @@ import org.apache.solr.common.SolrDocumentList;
  **/
 public class WriteClass extends IndexClass {
 
-	protected PrintWriter auteurClasse;
+	protected StringPrintWriter auteurClasse;
 
-	PrintWriter o;
+	StringPrintWriter o;
 
 	String languageName;
 
@@ -113,7 +113,7 @@ public class WriteClass extends IndexClass {
 					classSuperTypeParameterNames = (List<String>)doc.get("classSuperTypeParameterNames_stored_strings");
 					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
 
-					auteurClasse = new PrintWriter(classFile);
+					auteurClasse = StringPrintWriter.create(classFile);
 					o = auteurClasse;
 		
 					l("package ", classPackageName, ";"); 
@@ -296,8 +296,7 @@ public class WriteClass extends IndexClass {
 					l("}"); 
 
 					System.out.println("Write: " + classPath); 
-					o.flush();
-					o.close();
+					o.flushClose();
 				}
 			}
 		}
@@ -306,7 +305,7 @@ public class WriteClass extends IndexClass {
 		}
 	}
 
-	public WriteClass o(PrintWriter o) {
+	public WriteClass o(StringPrintWriter o) {
 		this.o = o;
 		return this;
 	}
@@ -319,30 +318,30 @@ public class WriteClass extends IndexClass {
 	public void  s(Object...objects) {
 		for(Object object : objects)
 			if(object != null)
-				o.append(object.toString());
+				o.s(object.toString());
 	}
 
 	public void  t(int numberTabs, Object...objects) {
 		for(int i = 0; i < numberTabs; i++)
-			o.append("\t");
+			o.s("\t");
 		for(Object object : objects)
 			if(object != null)
-				o.append(object.toString());
+				o.s(object.toString());
 	}
 
 	public void  l(Object...objects) {
 		for(Object object : objects)
 			if(object != null)
-				o.append(object.toString());
-		o.append("\n");
+				o.s(object.toString());
+		o.s("\n");
 	}
 
 	public void  tl(int numberTabs, Object...objects) {
 		for(int i = 0; i < numberTabs; i++)
-			o.append("\t");
+			o.s("\t");
 		for(Object object : objects)
 			if(object != null)
-				o.append(object.toString());
-		o.append("\n");
+				o.s(object.toString());
+		o.s("\n");
 	}
 }

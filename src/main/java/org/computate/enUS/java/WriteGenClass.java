@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.lang3.BooleanUtils;
@@ -70,6 +71,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected List<String> classImportsGen;
 
+	protected List<String> classInitDeepExceptions;
+
 	protected List<String> classImportsGenApi;
 
 	protected List<String> classImportsGenPage;
@@ -102,77 +105,47 @@ public class WriteGenClass extends WriteClass {
 
 	protected List<String> classRoles;
 
-	protected StringWriter wInitDeep;
+	protected StringPrintWriter wInitDeep;
 
-	protected PrintWriter codeInitDeep;
+	protected StringPrintWriter wSiteRequest;
 
-	protected StringWriter wSiteRequest;
+	protected StringPrintWriter wIndex;
 
-	protected PrintWriter codeSiteRequest;
+	protected StringPrintWriter wObtain;
 
-	protected StringWriter wIndex;
+	protected StringPrintWriter wAttribute;
 
-	protected PrintWriter codeIndex;
+	protected StringPrintWriter wPut;
 
-	protected StringWriter wObtain;
+	protected StringPrintWriter wPopulate;
 
-	protected PrintWriter codeObtain;
+	protected StringPrintWriter wExists;
 
-	protected StringWriter wAttribute;
+	protected StringPrintWriter wSaves;
 
-	protected PrintWriter codeAttribute;
+	protected StringPrintWriter wSave;
 
-	protected StringWriter wPut;
+	protected StringPrintWriter wApiGet;
 
-	protected PrintWriter codePut;
+	protected StringPrintWriter wApiGenerateGet;
 
-	protected StringWriter wPopulate;
+	protected StringPrintWriter wApiGeneratePost;
 
-	protected PrintWriter codePopulate;
+	protected StringPrintWriter wApiGeneratePut;
 
-	protected StringWriter wExists;
+	protected StringPrintWriter wApiGeneratePatch;
 
-	protected PrintWriter codeExists;
+	protected StringPrintWriter wApiEntities;
 
-	protected StringWriter wSaves;
+	protected StringPrintWriter wPageEntities;
 
-	protected PrintWriter codeSaves;
+	protected StringPrintWriter wPageGet;
 
-	protected StringWriter wSave;
+	protected StringPrintWriter wHashCode;
 
-	protected PrintWriter codeSave;
+	protected StringPrintWriter wToString;
 
-	protected StringWriter wApiGet;
-
-	protected PrintWriter codeApiGet;
-
-	protected StringWriter wApiGenerateGet;
-
-	protected PrintWriter codeApiGenerateGet;
-
-	protected StringWriter wApiGeneratePost;
-
-	protected PrintWriter codeApiGeneratePost;
-
-	protected StringWriter wApiGeneratePut;
-
-	protected PrintWriter codeApiGeneratePut;
-
-	protected StringWriter wApiGeneratePatch;
-
-	protected PrintWriter codeApiGeneratePatch;
-
-	protected StringWriter wApiEntities;
-
-	protected PrintWriter codeApiEntities;
-
-	protected StringWriter wPageEntities;
-
-	protected PrintWriter codePageEntities;
-
-	protected StringWriter wPageGet;
-
-	protected PrintWriter codePageGet;
+	protected StringPrintWriter wEquals;
 
 	protected String entityVar;
 
@@ -198,107 +171,98 @@ public class WriteGenClass extends WriteClass {
 
 	protected Boolean entityInitDeep;
 
-	protected PrintWriter writerGenClass;
+	protected StringPrintWriter writerGenClass;
+
+	protected Integer entityIndex;
 
 	public void  genCodeInit() throws Exception, Exception {
 
-		wInitDeep = new StringWriter();
-		codeInitDeep = new PrintWriter(wInitDeep);
-
-		wSiteRequest = new StringWriter();
-		codeSiteRequest = new PrintWriter(wSiteRequest);
-
-		wIndex = new StringWriter();
-		codeIndex = new PrintWriter(wIndex);
-
-		wObtain = new StringWriter();
-		codeObtain = new PrintWriter(wObtain);
-
-		wAttribute = new StringWriter();
-		codeAttribute = new PrintWriter(wAttribute);
-
-		wPut = new StringWriter();
-		codePut = new PrintWriter(wPut);
-
-		wPopulate = new StringWriter();
-		codePopulate = new PrintWriter(wPopulate);
-
-		wSaves = new StringWriter();
-		codeSaves = new PrintWriter(wSaves);
-
-		wExists = new StringWriter();
-		codeExists = new PrintWriter(wExists);
-
-		wSave = new StringWriter();
-		codeSave = new PrintWriter(wSave);
-
-		wApiEntities = new StringWriter();
-		codeApiEntities = new PrintWriter(wApiEntities);
-
-		wPageEntities = new StringWriter();
-		codePageEntities = new PrintWriter(wPageEntities);
-
-		wApiGet = new StringWriter();
-		codeApiGet = new PrintWriter(wApiGet);
-
-		wApiGenerateGet = new StringWriter();
-		codeApiGenerateGet = new PrintWriter(wApiGenerateGet);
-
-		wApiGeneratePost = new StringWriter();
-		codeApiGeneratePost = new PrintWriter(wApiGeneratePost);
-
-		wApiGeneratePut = new StringWriter();
-		codeApiGeneratePut = new PrintWriter(wApiGeneratePut);
-
-		wApiGeneratePatch = new StringWriter();
-		codeApiGeneratePatch = new PrintWriter(wApiGeneratePatch);
-
-		wPageGet = new StringWriter();
-		codePageGet = new PrintWriter(wPageGet);
+		wInitDeep = StringPrintWriter.create();
+		wSiteRequest = StringPrintWriter.create();
+		wIndex = StringPrintWriter.create();
+		wObtain = StringPrintWriter.create();
+		wAttribute = StringPrintWriter.create();
+		wPut = StringPrintWriter.create();
+		wPopulate = StringPrintWriter.create();
+		wSaves = StringPrintWriter.create();
+		wExists = StringPrintWriter.create();
+		wSave = StringPrintWriter.create();
+		wApiEntities = StringPrintWriter.create();
+		wPageEntities = StringPrintWriter.create();
+		wApiGet = StringPrintWriter.create();
+		wApiGenerateGet = StringPrintWriter.create();
+		wApiGeneratePost = StringPrintWriter.create();
+		wApiGeneratePut = StringPrintWriter.create();
+		wApiGeneratePatch = StringPrintWriter.create();
+		wPageGet = StringPrintWriter.create();
+		wHashCode = StringPrintWriter.create();
+		wToString = StringPrintWriter.create();
+		wEquals = StringPrintWriter.create();
 	}
 
 	public void  genCodeInitDeep(String languageName) throws Exception, Exception {
 		if(BooleanUtils.isTrue(classInitDeep)) {
-			o = codeInitDeep;
-			l(); 
-			tl(1, "//////////////");
-			tl(1, "// initDeep //");
-			tl(1, "//////////////");
-			l(); 
-			tl(1, "protected boolean alreadyInitialized", classSimpleName, " = false;");
-			l();
-			tl(1, "public ", classSimpleName, " initDeep", classSimpleName, "(SiteRequest siteRequest) throws Exception {");
+			wInitDeep.l(); 
+			wInitDeep.tl(1, "//////////////");
+			wInitDeep.tl(1, "// initDeep //");
+			wInitDeep.tl(1, "//////////////");
+			wInitDeep.l(); 
+			wInitDeep.tl(1, "protected boolean alreadyInitialized", classSimpleName, " = false;");
+			wInitDeep.l();
+			wInitDeep.t(1, "public ", classSimpleName, " initDeep", classSimpleName, "(SiteRequest siteRequest)");
+			if(classInitDeepExceptions.size() > 0) {
+				wInitDeep.s(" throws ");
+				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
+					String classInitDeepException = classInitDeepExceptions.get(i);
+					String classInitDeepExceptionSimpleName = StringUtils.substringAfterLast(classInitDeepException, ".");
+					if(i > 0)
+						wInitDeep.s(", ");
+					wInitDeep.s(classInitDeepExceptionSimpleName);
+				}
+			}
+			wInitDeep.l(" {");
 //						if(contientSiteRequest && !StringUtils.equals(classSimpleName, "SiteRequest"))
 //							tl(2, "((", classSimpleName, ")this).setSiteRequest_(siteRequest);");
-			tl(2, "setSiteRequest_(siteRequest);");
-			tl(2, "initDeep", classSimpleName, "();");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-			l();
-			tl(1, "public ", classSimpleName, " initDeep", classSimpleName, "() throws Exception {");
-			tl(2, "if(!alreadyInitialized", classSimpleName, ") {");
-			tl(3, "alreadyInitialized", classSimpleName, " = true;");
+			wInitDeep.tl(2, "setSiteRequest_(siteRequest);");
+			wInitDeep.tl(2, "initDeep", classSimpleName, "();");
+			wInitDeep.tl(2, "return (", classSimpleName, ")this;");
+			wInitDeep.tl(1, "}");
+			wInitDeep.l();
+			wInitDeep.t(1, "public ", classSimpleName, " initDeep", classSimpleName, "()");
+			if(classInitDeepExceptions.size() > 0) {
+				wInitDeep.s(" throws ");
+				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
+					String classInitDeepException = classInitDeepExceptions.get(i);
+					String classInitDeepExceptionSimpleName = StringUtils.substringAfterLast(classInitDeepException, ".");
+					if(i > 0)
+						wInitDeep.s(", ");
+					wInitDeep.s(classInitDeepExceptionSimpleName);
+				}
+			}
+			wInitDeep.l(" {");
+			wInitDeep.tl(2, "if(!alreadyInitialized", classSimpleName, ") {");
+			wInitDeep.tl(3, "alreadyInitialized", classSimpleName, " = true;");
 			if(BooleanUtils.isTrue(classExtendsBase)) 
-				tl(3, "super.initDeep", classSuperSimpleNameGeneric, "(siteRequest_);");
+				wInitDeep.tl(3, "super.initDeep", classSuperSimpleNameGeneric, "(siteRequest_);");
 		}
 	}
 
 	public void  genCodeSiteRequest(String languageName) throws Exception, Exception {
 		if(BooleanUtils.isTrue(classInitDeep)) {
-			o = codeSiteRequest;
+			o = wSiteRequest;
 			l(); 
 			tl(1, "/////////////////");
 			tl(1, "// siteRequest //");
 			tl(1, "/////////////////");
 			l(); 
-			tl(1, "public void siteRequest", classSimpleName, "(SiteRequest siteRequest) throws Exception {");
+			tl(1, "public void siteRequest", classSimpleName, "(SiteRequest siteRequest) {");
 			if(BooleanUtils.isTrue(classExtendsBase)) 
 				tl(3, "super.siteRequest", classSuperSimpleNameGeneric, "(siteRequest);");
 		}
 	}
 
 	public void  genCodeIndex(String languageName) throws Exception, Exception {
-		o = codeIndex;
+		o = wIndex;
 		if(classIndexed) {
 			l(); 
 			tl(1, "/////////////");
@@ -349,7 +313,7 @@ public class WriteGenClass extends WriteClass {
 	}
 
 	public void  genCodeObtain(String languageName) throws Exception, Exception {
-		o = codeObtain;
+		o = wObtain;
 		if(classInitDeep && (classExtendsBase || classIsBase)) {
 			l(); 
 			tl(1, "/////////////");
@@ -379,7 +343,7 @@ public class WriteGenClass extends WriteClass {
 	}
 
 	public void  genCodeAttribute(String languageName) throws Exception, Exception {
-		o = codeAttribute;
+		o = wAttribute;
 		if(classInitDeep && (classExtendsBase || classIsBase)) {
 			l(); 
 			tl(1, "///////////////");
@@ -410,7 +374,7 @@ public class WriteGenClass extends WriteClass {
 	}
 
 	public void  genCodePut(String languageName) throws Exception, Exception {
-		o = codePut;
+		o = wPut;
 		if(classSaved) {
 //		if(classInitDeep && (classExtendsBase || classIsBase)) {
 			l(); 
@@ -437,7 +401,7 @@ public class WriteGenClass extends WriteClass {
 	}
 
 	public void  genCodePopulate(String languageName) throws Exception, Exception {
-		o = codePopulate;
+		o = wPopulate;
 		if(classSaved) {
 			l(); 
 			tl(1, "/////////////");
@@ -459,7 +423,7 @@ public class WriteGenClass extends WriteClass {
 	}
 
 	public void  genCodeExists(String languageName) throws Exception, Exception {
-		o = codeExists;
+		o = wExists;
 		if(classSaved) {
 //			l(); 
 //			tl(1, "////////////");
@@ -528,7 +492,7 @@ public class WriteGenClass extends WriteClass {
 	}
 
 	public void  genCodeSaves(String languageName) throws Exception, Exception {
-		o = codeSaves;
+		o = wSaves;
 		if(classSaved) {
 //			l(); 
 //			tl(1, "/////////////////");
@@ -539,7 +503,7 @@ public class WriteGenClass extends WriteClass {
 //			t(1);
 //			if(!classSimpleName.equals("Cluster"))
 //				s("@Override ");
-//			l("public void savesPourClasse(RequeteSite requeteSite) throws Exception {");
+//			l("public void savesForClass(RequeteSite requeteSite) throws Exception {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //
@@ -560,7 +524,7 @@ public class WriteGenClass extends WriteClass {
 //			tl(3, "for(Object[] objets : resultats) {");
 //			tl(4, "String chemin = (String)objets[0];");
 //			tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
-//			tl(4, "definirPourClasse(chemin, valeur);");
+//			tl(4, "defineForClass(chemin, valeur);");
 //			tl(4, "saves", classSimpleName, ".add(chemin);");
 //			tl(3, "}");
 //			tl(2, "}");
@@ -569,7 +533,7 @@ public class WriteGenClass extends WriteClass {
 	}
 
 	public void  genCodeSave(String languageName) throws Exception, Exception {
-		o = codeSave;
+		o = wSave;
 		if(classSaved) {
 //			l(); 
 //			tl(1, "/////////////////");
@@ -579,7 +543,7 @@ public class WriteGenClass extends WriteClass {
 //			t(1);
 //			if(!classSimpleName.equals("Cluster"))
 //				s("@Override ");
-//			l("public void savePourClasse(RequeteSite requeteSite) throws Exception {");
+//			l("public void saveForClass(RequeteSite requeteSite) throws Exception {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
@@ -630,6 +594,50 @@ public class WriteGenClass extends WriteClass {
 ////						tl(2, "}");
 //			tl(1, "}");
 //			tl(1, "public void save", classSimpleName, "(RequeteSite requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
+		}
+	}
+
+	public void  genCodeHashCode(String languageName) throws Exception, Exception {
+		wHashCode.l(); 
+		wHashCode.tl(1, "//////////////");
+		wHashCode.tl(1, "// hashCode //");
+		wHashCode.tl(1, "//////////////");
+		wHashCode.l();
+		wHashCode.tl(1, "@Override public int hashCode() {");
+		wHashCode.t(2, "return Objects.hash(");
+		if(BooleanUtils.isTrue(classExtendsBase)) 
+			wHashCode.s("super.hashCode(), ");
+	}
+
+	public void  genCodeToString(String languageName) throws Exception, Exception {
+		wToString.l(); 
+		wToString.tl(1, "//////////////");
+		wToString.tl(1, "// toString //");
+		wToString.tl(1, "//////////////");
+		wToString.l();
+		wToString.tl(1, "@Override public String toString() {");
+		wToString.tl(2, "StringBuilder sb = new StringBuilder();");
+		if(BooleanUtils.isTrue(classExtendsBase)) 
+			wToString.tl(2, "sb.append(super.toString() + \"\\n\");");
+		wToString.tl(2, "sb.append(\"", classSimpleName, " {\");");
+	}
+
+	public void  genCodeEquals(String languageName) throws Exception, Exception {
+		wEquals.l(); 
+		wEquals.tl(1, "////////////");
+		wEquals.tl(1, "// equals //");
+		wEquals.tl(1, "////////////");
+		wEquals.l();
+		wEquals.tl(1, "@Override public boolean equals(Object o) {");
+		wEquals.tl(2, "if(this == o)");
+		wEquals.tl(3, "return true;");
+		wEquals.tl(2, "if(!(o instanceof ", classSimpleName, "))");
+		wEquals.tl(3, "return false;");
+		wEquals.tl(2, classSimpleName, " that = (", classSimpleName, ")o;");
+		wEquals.t(2, "return ");
+		if(BooleanUtils.isTrue(classExtendsBase)) {
+			wEquals.l("super.equals(o)");
+			wEquals.t(4, "&& ");
 		}
 	}
 
@@ -1217,7 +1225,17 @@ public class WriteGenClass extends WriteClass {
 			}
 	
 			// Initialiser //
-			tl(1, "protected ", classSimpleName, " ", entityVar, "Init() throws Exception {");
+			tl(1, "protected ", classSimpleName, " ", entityVar, "Init()");
+			if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
+				s(" throws ");
+				for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
+					String methodeExceptionNomSimpleComplet = methodExceptionsSimpleNameComplete.get(i);
+					if(i > 0)
+						s(", ");
+					s(methodeExceptionNomSimpleComplet);
+				}
+			}
+			l(" {");
 
 			if(entityCanonicalNameGeneric == null && entityMethodsBeforeVar != null && entityMethodsBeforeVar.size() > 0) {
 				tl(2, "if(", entityVar, " != null) {");
@@ -1296,7 +1314,7 @@ public class WriteGenClass extends WriteClass {
 		}
 
 		//////////
-		// html //
+		// htm //
 		//////////
 		if(entitySimpleName != null && entitySolrCanonicalName != null) {
 
@@ -1345,65 +1363,65 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "}");
 
 			/////////////////
-			// htmlTooltip //
+			// htmTooltip //
 			/////////////////
 			l();
-			tl(1, "public String htmlTooltip", entityVarCapitalized, "() {");
+			tl(1, "public String htmTooltip", entityVarCapitalized, "() {");
 			tl(2, "return ", entityHtmlTooltip == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entityHtmlTooltip) + "\"", ";");
 			tl(1, "}");
 
 			//////////
-			// html //
+			// htm //
 			//////////
 
 			l();
-			tl(1, "public String html", entityVarCapitalized, "() {");
+			tl(1, "public String htm", entityVarCapitalized, "() {");
 			tl(2, "return ", entityVar, " == null ? \"\" : StringEscapeUtils.escapeHtml4(str", entityVarCapitalized, "());");
 			tl(1, "}");
 
 			if(entityVarCapitalized != null && classSaved && entitySolrCanonicalName != null) {
 				l();
-				tl(1, "public void html", entityVarCapitalized, "(HttpServerResponse r, Boolean patchDroits) {");
+				tl(1, "public void htm", entityVarCapitalized, "(ToutEcrivain r, Boolean patchDroits) {");
 				tl(2, "if(", classVarPrimaryKey, "!= null) {");
-				tl(3, "r.write(\"<div id=\\\"patch", classSimpleName, "\").write(str", StringUtils.capitalize(classVarPrimaryKey), "()).write(\"", entityVarCapitalized, "\\\">\");");
+				tl(3, "r.s(\"<div id=\\\"patch", classSimpleName, "\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"", entityVarCapitalized, "\\\">\");");
 				tl(3, "if(patchDroits) {");
-				tl(4, "r.write(\"\\n\");");
-				tl(4, "r.write(\"	<script>//<![CDATA[\\n\");");
-				tl(4, "r.write(\"		function patch", classSimpleName, "\").write(str", StringUtils.capitalize(classVarPrimaryKey), "()).write(\"", entityVarCapitalized, "() {\\n\");");
-				tl(4, "r.write(\"			$.ajax({\\n\");");
-				tl(4, "r.write(\"				url: '", classApiUri, "?fq=", classVarPrimaryKey, ":\").write(str", StringUtils.capitalize(classVarPrimaryKey), "()).write(\"',\\n\");");
-				tl(4, "r.write(\"				dataType: 'json',\\n\");");
-				tl(4, "r.write(\"				type: 'patch',\\n\");");
-				tl(4, "r.write(\"				contentType: 'application/json',\\n\");");
-				tl(4, "r.write(\"				processData: false,\\n\");");
-				tl(4, "r.write(\"				success: function( data, textStatus, jQxhr ) {\\n\");");
-				tl(4, "r.write(\"					\\n\");");
-				tl(4, "r.write(\"				},\\n\");");
-				tl(4, "r.write(\"				error: function( jqXhr, textStatus, errorThrown ) {\\n\");");
-				tl(4, "r.write(\"					\\n\");");
-				tl(4, "r.write(\"				},\\n\");");
-				tl(4, "r.write(\"				data: {\\\"set", entityVarCapitalized, "\\\": this.value },\\n\");");
-				tl(4, "r.write(\"				\\n\");");
-				tl(4, "r.write(\"			});\\n\");");
-				tl(4, "r.write(\"		}\\n\");");
-				tl(4, "r.write(\"	//]]></script>\\n\");");
-				tl(4, "r.write(\"	<div class=\\\"\\\">\\n\");");
-				tl(4, "r.write(\"		<label class=\\\"w3-tooltip \\\">\\n\");");
-				tl(4, "r.write(\"			<span>\").write(StringEscapeUtils.escapeHtml4(displayName", entityVarCapitalized, "())).write(\"</span>\\n\");");
-				tl(4, "r.write(\"			<input\");"); {
-					tl(7, "r.write(\" name=\\\"", entityVar, "\\\"\");");
-					tl(7, "r.write(\" value=\\\"\").write(html", entityVarCapitalized, "()).write(\"\\\");\");");
-					tl(7, "r.write(\" onchange=\\\"\\\"\");");
-					tl(7, "r.write(\"/>\\n\");");
+				tl(4, "r.l();");
+				tl(4, "r.l(\"	<script>//<![CDATA[\");");
+				tl(4, "r.l(\"		function patch", classSimpleName, "\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"", entityVarCapitalized, "() {\");");
+				tl(4, "r.l(\"			$.ajax({\");");
+				tl(4, "r.l(\"				url: '", classApiUri, "?fq=", classVarPrimaryKey, ":\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"',\");");
+				tl(4, "r.l(\"				dataType: 'json',\");");
+				tl(4, "r.l(\"				type: 'patch',\");");
+				tl(4, "r.l(\"				contentType: 'application/json',\");");
+				tl(4, "r.l(\"				processData: false,\");");
+				tl(4, "r.l(\"				success: function( data, textStatus, jQxhr ) {\");");
+				tl(4, "r.l(\"					\");");
+				tl(4, "r.l(\"				},\");");
+				tl(4, "r.l(\"				error: function( jqXhr, textStatus, errorThrown ) {\");");
+				tl(4, "r.l(\"					\");");
+				tl(4, "r.l(\"				},\");");
+				tl(4, "r.l(\"				data: {\\\"set", entityVarCapitalized, "\\\": this.value },\");");
+				tl(4, "r.l(\"				\");");
+				tl(4, "r.l(\"			});\");");
+				tl(4, "r.l(\"		}\");");
+				tl(4, "r.l(\"	//]]></script>\");");
+				tl(4, "r.l(\"	<div class=\\\"\\\">\");");
+				tl(4, "r.l(\"		<label class=\\\"w3-tooltip \\\">\");");
+				tl(4, "r.l(\"			<span>\", StringEscapeUtils.escapeHtml4(displayName", entityVarCapitalized, "()), \"</span>\");");
+				tl(4, "r.s(\"			<input\");"); {
+					tl(7, "r.s(\" name=\\\"", entityVar, "\\\"\");");
+					tl(7, "r.s(\" value=\\\"\", htm", entityVarCapitalized, "(), \"\\\");\");");
+					tl(7, "r.s(\" onchange=\\\"\\\"\");");
+					tl(7, "r.l(\"/>\");");
 				}
 				if(entityHtmlTooltip != null)
-					tl(4, "r.write(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", StringEscapeUtils.escapeJava(entityHtmlTooltip), "</span>\");");
-				tl(4, "r.write(\"		</label>\\n\");");
-				tl(4, "r.write(\"	</div>\\n\");");
+					tl(4, "r.s(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", StringEscapeUtils.escapeJava(entityHtmlTooltip), "</span>\");");
+				tl(4, "r.l(\"		</label>\");");
+				tl(4, "r.l(\"	</div>\");");
 				tl(3, "} else {");
-				tl(4, "r.write(html", entityVarCapitalized, "());");
+				tl(4, "r.s(htm", entityVarCapitalized, "());");
 				tl(3, "}");
-				tl(3, "r.write(\"</div>\\n\");");
+				tl(3, "r.l(\"</div>\");");
 				tl(2, "}");
 				tl(1, "}");
 			}
@@ -1412,9 +1430,8 @@ public class WriteGenClass extends WriteClass {
 		////////////////////
 		// codeIninitLoin //
 		////////////////////
-		o = codeInitDeep;
 		if(entityInitialized) {
-			tl(3, entityVar, "Init();");
+			wInitDeep.tl(3, entityVar, "Init();");
 		}
 
 
@@ -1422,14 +1439,14 @@ public class WriteGenClass extends WriteClass {
 		// codeSiteRequest //
 		/////////////////////
 		if(classInitDeep && entityInitDeep) {
-			o = codeSiteRequest;
+			o = wSiteRequest;
 			tl(2, entityVar, ".setSiteRequest_(siteRequest);");
 		}
 
 		/////////////////
-		// codeIndex //
+		// codeIndexer //
 		/////////////////
-		o = codeIndex;
+		o = wIndex;
 		if(classIndexed && entityIndexedOrStored) {
 			tl(2, "if(", entityVar, " != null) {");
 			if(StringUtils.isNotEmpty(classVarPrimaryKey) && entityPrimaryKey) {
@@ -1520,18 +1537,18 @@ public class WriteGenClass extends WriteClass {
 		}
 
 		/////////////////
-		// codeObtain //
+		// codeObtenir //
 		/////////////////
-		o = codeObtain;
+		o = wObtain;
 		if(classExtendsBase || classIsBase) {
 			tl(3, "case \"", entityVar, "\":");
 			tl(4, "return o", classSimpleName, ".", entityVar, ";");
 		}	
 
 		///////////////////
-		// codeAttribute //
+		// codeAttribuer //
 		///////////////////
-		o = codeAttribute;
+		o = wAttribute;
 		if((classExtendsBase || classIsBase) && entityAttribute) {
 			tl(3, "case \"", entityVar, "\":");
 			if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName()))
@@ -1544,7 +1561,7 @@ public class WriteGenClass extends WriteClass {
 		/////////////
 		// codePut //
 		/////////////
-		o = codePut;
+		o = wPut;
 		if(classSaved && BooleanUtils.isTrue(entityDefined)) {
 //		if((classExtendsBase || classIsBase) && BooleanUtils.isTrue(entityDefined)) {
 //							if(field.contientSetterString) {
@@ -1561,9 +1578,9 @@ public class WriteGenClass extends WriteClass {
 		}	
 
 		/////////////////
-		// codePopulate //
+		// codePeupler //
 		/////////////////
-		o = codePopulate;
+		o = wPopulate;
 		if(classSaved) {
 //							String nomChamp = entityVar.toString();
 //							String varCrypte = entityVarEncrypted.toString();
@@ -1616,9 +1633,9 @@ public class WriteGenClass extends WriteClass {
 		}	
 
 		/////////////////////
-		// codeSave //
+		// codeSauvegarder //
 		/////////////////////
-		o = codeSave;
+		o = wSave;
 		if(classSaved) {
 				String nomChamp = entityVar.toString();
 				if(entitySaved) {
@@ -1626,7 +1643,7 @@ public class WriteGenClass extends WriteClass {
 
 					tl(2, "if(\"true\".equals(siteRequest.request.getParameter(\"", nomChamp, "Supprimer\"))) {");
 					tl(3, "coureur.update(sqlDeleteP /*delete from p where chemin=*/, \"", nomChamp, "\" /* and pk_objet=*/, pk);");
-					tl(2, "} else if(definirPourClasse(\"", nomChamp, "\"", "siteRequest.request.getParameterValues(\"", nomChamp, "\"))) {");
+					tl(2, "} else if(defineForClass(\"", nomChamp, "\"", "siteRequest.request.getParameterValues(\"", nomChamp, "\"))) {");
 					if(siteEncrypted) {
 						tl(3, "String valEncrypted = siteRequest.encryptStr(", nomChamp, ");");
 						tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, pk_objet) values(*/, \"", nomChamp, "\"", "valEncrypted, pk /*) on conflict(chemin, pk_objet) do update set valeur=*/, valEncrypted /* where p.chemin=*/, \"", nomChamp, "\" /* and p.pk_objet=*/, pk);");
@@ -1667,7 +1684,7 @@ public class WriteGenClass extends WriteClass {
 //									tl(4, "Long ", varSupprimer, " = Long.parseLong(valeursCles[valeursCles.length - 1]);");
 //									tl(4, "if(valeursSuppression != null && \"true\".equals(valeursSuppression[valeursSuppression.length - 1])) {");
 //									tl(5, "coureur.update(sqlDeleteA /*delete from a where field1=*/, \"", var1, "\" /* and pk1=*/, ", val1, " /* and field2=*/, \"", var2, "\" /* and pk2=*/, ", val2, ");");
-//									tl(4, "} else if(definirPourClasse(\"", nomChamp, "\"", "valeursCles[valeursCles.length - 1])) {");
+//									tl(4, "} else if(defineForClass(\"", nomChamp, "\"", "valeursCles[valeursCles.length - 1])) {");
 //	//								tl(5, varSupprimer, " = ", valSupprimer, ";");
 //									tl(5, "coureur.insert(sqlInsertA, gestionnaireListe /*insert into a(field1, pk1, field2, pk2) values(*/, \"", var1, "\"", val1, ", \"", var2, "\"", val2, " /*) on conflict do nothing */);");
 //									tl(5, "sauvegardes", classSimpleName, ".add(\"", nomChamp, "\");");
@@ -1687,7 +1704,7 @@ public class WriteGenClass extends WriteClass {
 		/////////////////
 		// codeApiChamps //
 		/////////////////
-		o = codeApiEntities;
+		o = wApiEntities;
 		l();
 		tl(1, "public static final String ENTITY_VAR_", entityVar, " = \"", entityVar, "\";");
 		if(classIndexed) {
@@ -1704,16 +1721,16 @@ public class WriteGenClass extends WriteClass {
 		/////////////////
 		// codeApiGet //
 		/////////////////
-		o = codeApiGet;
+		o = wApiGet;
 		if(classIndexed && entityIndexed) {
 			tl(3, "case ENTITY_VAR_", entityVar, ":");
 			tl(4, "return ENTITY_VAR_INDEXED_", entityVar, ";");
 		}
 
 		///////////////////////
-		// codeApiGenerateGet //
+		// codeApiGenererGet //
 		///////////////////////
-		o = codeApiGenerateGet;
+		o = wApiGenerateGet;
 		if(classIndexed && entityStored) {
 			tl(4, "if(ENTITY_VAR_STORED_", entityVar, ".equals(entityVarStored)) {");
 			if (VAL_canonicalNameBoolean.equals(entitySolrCanonicalName)) {
@@ -2012,9 +2029,9 @@ public class WriteGenClass extends WriteClass {
 		}
 
 		////////////////////////
-		// codeApiGeneratePost //
+		// codeApiGenererPost //
 		////////////////////////
-		o = codeApiGeneratePost;
+		o = wApiGeneratePost;
 
 		Integer tBase = 0;
 		if(classRolesFound) {
@@ -2031,9 +2048,9 @@ public class WriteGenClass extends WriteClass {
 		}	
 
 		///////////////////////
-		// codeApiGeneratePut //
+		// codeApiGenererPut //
 		///////////////////////
-		o = codeApiGeneratePut;
+		o = wApiGeneratePut;
 
 		tBase = 0;
 		if(classRolesFound) {
@@ -2050,9 +2067,9 @@ public class WriteGenClass extends WriteClass {
 		}	
 
 		////////////////////////
-		// codeApiGeneratePatch //
+		// codeApiGenererPatch //
 		////////////////////////
-		o = codeApiGeneratePatch;
+		o = wApiGeneratePatch;
 
 		tBase = 0;
 		if(classRolesFound) {
@@ -2199,23 +2216,63 @@ public class WriteGenClass extends WriteClass {
 				tl(tBase + 7, "break;");
 			}
 		}	
+
+		if(entityDefined) {
+	
+			//////////////
+			// hashCode //
+			//////////////
+	
+			if(entityIndex > 0) 
+				wHashCode.s(", ");
+			wHashCode.s(entityVar);
+	
+			////////////
+			// equals //
+			////////////
+	
+			if(entityIndex > 0) 
+				wEquals.l().t(4, "&& ");
+			wEquals.s("Objects.equals( " + entityVar + ", that." + entityVar + " )");
+	
+			//////////////
+			// toString //
+			//////////////
+	
+			wToString.tl(2, "sb.append( \"" + (entityIndex > 0 ? ", " : "") + entityVar + ": " + ("String".equals(entitySimpleNameComplete) ? "\\\"" : "") + "\" ).append(" + entityVar + "" + ("String".equals(entitySimpleNameComplete) ? ").append( \"\\\"\" " : "") + ");");
+	
+			entityIndex++;
+		}
 	}
 
 	public void  genCodeClassEnd(String languageName) throws Exception, Exception {
 		//////////////////
-		// codeInitDeep //
+		// codeInitLoin //
 		//////////////////
-		o = codeInitDeep;
 		if(classInitDeep) {
-//			tl(3, "alreadyInitialized", classSimpleName, " = true;");
-			tl(2, "}");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
+//			wInitDeep.tl(3, "alreadyInitialized", classSimpleName, " = true;");
+			wInitDeep.tl(2, "}");
+			wInitDeep.tl(2, "return (", classSimpleName, ")this;");
+			wInitDeep.tl(1, "}");
 			if(classInitDeep) {
-				l();
-				tl(1, "public void initDeepForClass(SiteRequest siteRequest) throws Exception {");
-				tl(2, "initDeep", classSimpleName, "(siteRequest);");
-				tl(1, "}");  
+				wInitDeep.l();
+				wInitDeep.t(1);
+				if(classExtendsBase)
+					wInitDeep.s("@Override ");
+				wInitDeep.s("public void initDeepForClass(SiteRequest siteRequest)");
+				if(classInitDeepExceptions.size() > 0) {
+					wInitDeep.s(" throws ");
+					for(int i = 0; i < classInitDeepExceptions.size(); i++) {
+						String classInitDeepException = classInitDeepExceptions.get(i);
+						String classInitDeepExceptionSimpleName = StringUtils.substringAfterLast(classInitDeepException, ".");
+						if(i > 0)
+							wInitDeep.s(", ");
+						wInitDeep.s(classInitDeepExceptionSimpleName);
+					}
+				}
+				wInitDeep.l(" {");
+				wInitDeep.tl(2, "initDeep", classSimpleName, "(siteRequest);");
+				wInitDeep.tl(1, "}");  
 			}
 		}
 
@@ -2223,18 +2280,18 @@ public class WriteGenClass extends WriteClass {
 		// codeSiteRequest //
 		/////////////////////
 		if(classInitDeep) {
-			o = codeSiteRequest;
+			o = wSiteRequest;
 			tl(1, "}");
 			l();
-			tl(1, "public void siteRequestForClass(SiteRequest siteRequest) throws Exception {");
+			tl(1, "public void siteRequestForClass(SiteRequest siteRequest) {");
 			tl(2, "siteRequest", classSimpleName, "(siteRequest);");
 			tl(1, "}");  
 		}
 
 		/////////////////
-		// codeIndex //
+		// codeIndexer //
 		/////////////////
-		o = codeIndex;
+		o = wIndex;
 		if(classIndexed) {
 			if(classExtendsBase && !classIsBase) {
 				tl(2, "super.indexer", classSuperSimpleNameGeneric, "(document);");
@@ -2261,9 +2318,9 @@ public class WriteGenClass extends WriteClass {
 		}
 
 		/////////////////
-		// codeObtain //
+		// codeObtenir //
 		/////////////////
-		o = codeObtain;
+		o = wObtain;
 		if(classInitDeep && (classExtendsBase || classIsBase)) {
 			tl(3, "default:");
 
@@ -2277,9 +2334,9 @@ public class WriteGenClass extends WriteClass {
 		}	
 
 		///////////////////
-		// codeAttribute //
+		// codeAttribuer //
 		///////////////////
-		o = codeAttribute;
+		o = wAttribute;
 		if(classInitDeep && (classExtendsBase || classIsBase)) {
 			tl(3, "default:");
 
@@ -2296,7 +2353,7 @@ public class WriteGenClass extends WriteClass {
 		/////////////
 		// codePut //
 		/////////////
-		o = codePut;
+		o = wPut;
 		if(classSaved) {
 //		if(classInitDeep && (classExtendsBase || classIsBase)) {
 			tl(3, "default:");
@@ -2311,9 +2368,9 @@ public class WriteGenClass extends WriteClass {
 		}	
 
 		/////////////////
-		// codePopulate //
+		// codePeupler //
 		/////////////////
-		o = codePopulate;
+		o = wPopulate;
 		if(classSaved) {
 //						t(2, "}");
 
@@ -2326,9 +2383,9 @@ public class WriteGenClass extends WriteClass {
 		}	
 
 		/////////////////////
-		// codeSave //
+		// codeSauvegarder //
 		/////////////////////
-		o = codeSave;
+		o = wSave;
 		if(classSaved) {
 			if(!classSimpleName.equals("Cluster")) {
 				tl(0);
@@ -2337,21 +2394,43 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "}");
 		}	
 
-		codeInitDeep.flush();
-		codeSiteRequest.flush();
-		codeIndex.flush();
-		codeObtain.flush();
-		codeAttribute.flush();
-		codePut.flush();
-		codePopulate.flush();
-		codeExists.flush();
-		codeSaves.flush();
-		codeSave.flush();
-		codeApiEntities.flush();
-		codeApiGet.flush();
-		codeApiGenerateGet.flush();
-		codePageEntities.flush();
-		codePageGet.flush();
+		//////////////
+		// hashCode //
+		//////////////
+		wHashCode.l(");");
+		wHashCode.tl(1, "}");
+
+		//////////////
+		// toString //
+		//////////////
+		wToString.tl(2, "sb.append(\" }\");");
+		wToString.tl(2, "return sb.toString();");
+		wToString.tl(1, "}");
+
+		////////////
+		// equals //
+		////////////
+		wEquals.l(";");
+		wEquals.tl(1, "}");
+
+		wInitDeep.flushClose();
+		wSiteRequest.flushClose();
+		wIndex.flushClose();
+		wObtain.flushClose();
+		wAttribute.flushClose();
+		wPut.flushClose();
+		wPopulate.flushClose();
+		wExists.flushClose();
+		wSaves.flushClose();
+		wSave.flushClose();
+		wApiEntities.flushClose();
+		wApiGet.flushClose();
+		wApiGenerateGet.flushClose();
+		wPageEntities.flushClose();
+		wPageGet.flushClose();
+		wHashCode.flushClose();
+		wToString.flushClose();
+		wEquals.flushClose();
 
 		o = writerGenClass;
 
@@ -2365,11 +2444,13 @@ public class WriteGenClass extends WriteClass {
 //		s(wExists.toString());
 //		s(wSaves.toString());
 //		s(wSave.toString());
+		s(wHashCode.toString());
+		s(wEquals.toString());
+		s(wToString.toString());
 
 		l("}"); 
 
 		System.out.println("Write:" + classPathGen); 
-		writerGenClass.flush();
-		writerGenClass.close();
+		writerGenClass.flushClose();
 	}
 }
