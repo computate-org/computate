@@ -5,17 +5,19 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -2107,8 +2109,11 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele);
 
 		ClasseParts classePartsSolrInputDocument = ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrInputDocument", langueNom);
+		ClasseParts classePartsSolrDocument = ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrDocument", langueNom);
 		ClasseParts classePartsSolrClient = ClasseParts.initClasseParts(this, "org.apache.solr.client.solrj.SolrClient", langueNom);
 		ClasseParts classePartsTest = ClasseParts.initClasseParts(this, "org.junit.Test", langueNom);
+		ClasseParts classePartsList = ClasseParts.initClasseParts(this, List.class.getCanonicalName(), langueNom);
+		ClasseParts classePartsArrayList = ClasseParts.initClasseParts(this, ArrayList.class.getCanonicalName(), langueNom);
 		ClasseParts classePartsSiteContexte = classePartsSiteContexte(nomEnsembleDomaine);
 		ClasseParts classePartsConfigSite = classePartsConfigSite(nomEnsembleDomaine);
 		ClasseParts classePartsUtilisateurSite = classePartsUtilisateurSite(nomEnsembleDomaine);
@@ -2201,6 +2206,9 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(classePartsSolrClient);
 //			classePartsGenAjouter(classePartsTest);
 			classePartsGenAjouter(classePartsSiteContexte);
+			classePartsGenAjouter(classePartsSolrDocument);
+			classePartsGenAjouter(classePartsList);
+			classePartsGenAjouter(classePartsArrayList);
 		}
 		if(classeEtendBase || classeEstBase) {
 			classePartsGenAjouter(classePartsCluster);
@@ -2319,6 +2327,45 @@ public class IndexerClasse extends RegarderClasseBase {
 			while(classeMapTrouveActuel) {
 				String classeMapCle = classeMapRecherche.group(1);
 				String classeMapValeur = classeMapRecherche.group(2);
+				String[] classeMapCleParts = StringUtils.split(classeMapCle, ".");
+				if(classeMapCleParts.length == 2) {
+					String classeMapCleType = classeMapCleParts[1];
+					if("Integer".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
+						try {
+							indexerStockerSolr(classeDoc, classeMapCleParts[0], Integer.parseInt(classeMapValeur));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
+					else if("Double".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
+						try {
+							indexerStockerSolr(classeDoc, classeMapCleParts[0], Double.parseDouble(classeMapValeur));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
+					else if("Long".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
+						try {
+							indexerStockerSolr(classeDoc, classeMapCleParts[0], Long.parseLong(classeMapValeur));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
+					else if("LocalDateTime".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
+						try {
+							indexerStockerSolr(classeDoc, classeMapCleParts[0], Date.from(LocalDateTime.parse(classeMapValeur, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant()));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
+					else if("LocalDate".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
+						try {
+							indexerStockerSolr(classeDoc, classeMapCleParts[0], Date.from(LocalDate.parse(classeMapValeur, DateTimeFormatter.ISO_OFFSET_DATE).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
+				}
 				classeMapTrouveActuel = classeMapRecherche.find();
 				indexerStockerSolr(classeDoc, classeMapCle, classeMapValeur);
 			}
@@ -3382,6 +3429,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						stockerSolr(entiteDoc, "entiteSolrNomCanonique", entiteSolrNomCanonique);
 						stockerSolr(entiteDoc, "entiteSolrNomSimple", entiteSolrNomSimple);
+						stockerSolr(entiteDoc, "entiteSuffixeType", entiteSuffixeType);
 
 						////////////////////
 						// entiteTypeJson //

@@ -5,16 +5,18 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -517,8 +519,11 @@ public class IndexClass extends WatchClassBase {
 		Boolean classIndexed = indexStoreSolr(classDoc, "classIndexed", regexFound("^indexed:\\s*(true)$", classComment) || classSaved || classModel);
 
 		ClassParts classPartsSolrInputDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrInputDocument", languageName);
+		ClassParts classePartsSolrDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocument", languageName);
 		ClassParts classPartsSolrClient = ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrClient", languageName);
 		ClassParts classPartsTest = ClassParts.initClassParts(this, "org.junit.Test", languageName);
+		ClassParts classePartsList = ClassParts.initClassParts(this, List.class.getCanonicalName(), languageName);
+		ClassParts classePartsArrayList = ClassParts.initClassParts(this, ArrayList.class.getCanonicalName(), languageName);
 		ClassParts classPartsSiteContext = classPartsSiteContext(domainPackageName);
 		ClassParts classPartsSiteConfig = classPartsSiteConfig(domainPackageName);
 		ClassParts classPartsSiteUser = classPartsSiteUser(domainPackageName);
@@ -611,6 +616,9 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenAdd(classPartsSolrClient);
 //			classPartsGenAdd(classPartsTest);
 			classPartsGenAdd(classPartsSiteContext);
+			classPartsGenAdd(classePartsSolrDocument);
+			classPartsGenAdd(classePartsList);
+			classPartsGenAdd(classePartsArrayList);
 		}
 		if(classExtendsBase || classIsBase) {
 			classPartsGenAdd(classPartsCluster);
@@ -729,6 +737,45 @@ public class IndexClass extends WatchClassBase {
 			while(classMapFoundActual) {
 				String classMapKey = classMapSearch.group(1);
 				String classMapValue = classMapSearch.group(2);
+				String[] classMapKeyParts = StringUtils.split(classMapKey, ".");
+				if(classMapKeyParts.length == 2) {
+					String classMapKeyType = classMapKeyParts[1];
+					if("Integer".equals(classMapKeyType) && NumberUtils.isCreatable(classMapValue)) {
+						try {
+							indexStoreSolr(classDoc, classMapKeyParts[0], Integer.parseInt(classMapValue));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
+					else if("Double".equals(classMapKeyType) && NumberUtils.isCreatable(classMapValue)) {
+						try {
+							indexStoreSolr(classDoc, classMapKeyParts[0], Double.parseDouble(classMapValue));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
+					else if("Long".equals(classMapKeyType) && NumberUtils.isCreatable(classMapValue)) {
+						try {
+							indexStoreSolr(classDoc, classMapKeyParts[0], Long.parseLong(classMapValue));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
+					else if("LocalDateTime".equals(classMapKeyType) && NumberUtils.isCreatable(classMapValue)) {
+						try {
+							indexStoreSolr(classDoc, classMapKeyParts[0], Date.from(LocalDateTime.parse(classMapValue, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant()));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
+					else if("LocalDate".equals(classMapKeyType) && NumberUtils.isCreatable(classMapValue)) {
+						try {
+							indexStoreSolr(classDoc, classMapKeyParts[0], Date.from(LocalDate.parse(classMapValue, DateTimeFormatter.ISO_OFFSET_DATE).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
+				}
 				classMapFoundActual = classMapSearch.find();
 				indexStoreSolr(classDoc, classMapKey, classMapValue);
 			}
@@ -1792,6 +1839,7 @@ public class IndexClass extends WatchClassBase {
 						}
 						storeSolr(entityDoc, "entitySolrCanonicalName", entitySolrCanonicalName);
 						storeSolr(entityDoc, "entitySolrSimpleName", entitySolrSimpleName);
+						storeSolr(entityDoc, "entityTypeSuffix", entityTypeSuffix);
 
 						////////////////////
 						// entityJsonType //

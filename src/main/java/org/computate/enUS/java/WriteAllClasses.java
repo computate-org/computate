@@ -133,9 +133,6 @@ public class WriteAllClasses extends WritePageClass {
 						apiCodeClassBegin(languageName);
 					if(classPage)
 						pageCodeClasseDebut(languageName);
-					genCodeHashCode(languageName);
-					genCodeToString(languageName);
-					genCodeEquals(languageName);
 				} 
 				else {
 					Boolean partIsConstructor = (Boolean)doc.get("partIsConstructor_stored_boolean");
