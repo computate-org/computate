@@ -892,6 +892,20 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * var.enUS: classPartsSearchList
+	 * param1.var.enUS: domainPackageName
+	 * r: classePartsPourNomSimple
+	 * r.enUS: classPartsForSimpleName
+	 * r: nomEnsembleDomaine
+	 * r.enUS: domainPackageName
+	 * r: ListeRecherche
+	 * r.enUS: SearchList
+	 */
+	protected ClasseParts classePartsListeRecherche(String nomEnsembleDomaine) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "ListeRecherche");
+	}
+
+	/**
 	 * var.enUS: storeRegexComments
 	 * param1.var.enUS: comment
 	 * param2.var.enUS: languageName
@@ -2127,6 +2141,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		ClasseParts classePartsCluster = classePartsCluster(nomEnsembleDomaine);
 		ClasseParts classePartsResultatRecherche = classePartsResultatRecherche(nomEnsembleDomaine);
 		ClasseParts classePartsToutEcrivain = classePartsToutEcrivain(nomEnsembleDomaine);
+		ClasseParts classePartsListeRecherche = classePartsListeRecherche(nomEnsembleDomaine);
 
 		if(classePage) {
 			classePartsGenPageAjouter(classePartsConfigSite);
@@ -2213,6 +2228,8 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Handler", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.buffer.Buffer", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.OperationResponse", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.CompositeFuture", langueNom));
+			classePartsGenApiAjouter(classePartsListeRecherche);
 		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);

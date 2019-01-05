@@ -355,6 +355,10 @@ public class IndexClass extends WatchClassBase {
 		return classPartsForSimpleName(domainPackageName, "AllWriter");
 	}
 
+	protected ClassParts classPartsSearchList(String domainPackageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "SearchList");
+	}
+
 	public String storeRegexComments(String comment, String languageName, SolrInputDocument doc, String entityVar) throws Exception, Exception {
 		if(!StringUtils.isEmpty(comment)) {
 			Matcher m = Pattern.compile("^(enUS|frFR): (.*)", Pattern.MULTILINE).matcher(comment);
@@ -531,6 +535,7 @@ public class IndexClass extends WatchClassBase {
 		ClassParts classPartsCluster = classPartsCluster(domainPackageName);
 		ClassParts classPartsSearchResult = classPartsSearchResult(domainPackageName);
 		ClassParts classePartsToutEcrivain = classePartsToutEcrivain(domainPackageName);
+		ClassParts classePartsListeRecherche = classePartsListeRecherche(domainPackageName);
 
 		if(classPage) {
 			classPartsGenPageAdd(classPartsSiteConfig);
@@ -617,6 +622,8 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Handler", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.buffer.Buffer", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationResponse", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.CompositeFuture", languageName));
+			classPartsGenApiAdd(classePartsListeRecherche);
 		}
 		if(classIndexed) {
 			classPartsGenAdd(classPartsSolrInputDocument);

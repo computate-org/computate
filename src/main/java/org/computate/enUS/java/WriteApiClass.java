@@ -1,6 +1,12 @@
 package org.computate.enUS.java;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.computate.frFR.cardiaque.cluster.Cluster;
+import org.computate.frFR.cardiaque.recherche.ListeRecherche;
+import io.vertx.core.CompositeFuture;
+import io.vertx.core.Future;
 
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
@@ -215,17 +221,17 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "}");
 		tl(1, "}");
 		l();
-		tl(1, "public Future<List<", classSimpleName, ">> recherche", classSimpleName, "(RequeteSite requeteSite) {");
+		tl(1, "public Future<ListeRecherche<", classSimpleName, ">> recherche", classSimpleName, "(RequeteSite requeteSite) {");
 		tl(2, "String entityVar = null;");
 		tl(2, "String valeurIndexe = null;");
 		tl(2, "String varIndexe = null;");
 		tl(2, "String valeurTri = null;");
 		tl(2, "Integer rechercheDebut = null;");
 		tl(2, "Integer rechercheNum = null;");
-		tl(2, "SolrQuery rechercheSolr = new SolrQuery();");
-		tl(2, "rechercheSolr.setQuery(\"*:*\");");
-		tl(2, "rechercheSolr.setRows(1000000);");
-		tl(2, "rechercheSolr.addSort(\"partNumero_indexed_int\", ORDER.asc);");
+		tl(2, "ListeRecherche<", classSimpleName, "> listeRecherche = new ListeRecherche<", classSimpleName, ">();");
+		tl(2, "listeRecherche.setQuery(\"*:*\");");
+		tl(2, "listeRecherche.setRows(1000000);");
+		tl(2, "listeRecherche.addSort(\"partNumero_indexed_int\", ORDER.asc);");
 		tl(2, "MultiMap paramMap = requeteSite.getRequeteServeur().params();");
 		tl(2, "for(String paramCle : paramMap.names()) {");
 		tl(3, "List<String> paramValeurs = paramMap.getAll(paramCle);");
@@ -237,37 +243,37 @@ public class WriteApiClass extends WriteGenClass {
 		tl(7, "entityVar = StringUtils.trim(StringUtils.substringBefore(paramValeur, \":\"));");
 		tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paramValeur, \":\"));");
 		tl(7, "varIndexe = varIndexe", classSimpleName, "(paramCle);");
-		tl(7, "rechercheSolr.setQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
+		tl(7, "listeRecherche.setQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
 		tl(7, "break;");
 
 		tl(6, "case \"fq\":");
 		tl(7, "entityVar = StringUtils.trim(StringUtils.substringBefore(paramValeur, \":\"));");
 		tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paramValeur, \":\"));");
 		tl(7, "varIndexe = varIndexe", classSimpleName, "(paramCle);");
-		tl(7, "rechercheSolr.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
+		tl(7, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
 		tl(7, "break;");
 
 		tl(6, "case \"sort\":");
 		tl(7, "entityVar = StringUtils.trim(StringUtils.substringBefore(paramValeur, \" \"));");
 		tl(7, "valeurTri = StringUtils.trim(StringUtils.substringAfter(paramValeur, \" \"));");
 		tl(7, "varIndexe = varIndexe", classSimpleName, "(paramCle);");
-		tl(7, "rechercheSolr.addSort(varIndexe, ORDER.valueOf(valeurTri));");
+		tl(7, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
 		tl(7, "break;");
 
 		tl(6, "case \"fl\":");
 		tl(7, "entityVar = StringUtils.trim(paramValeur);");
 		tl(7, "varIndexe = varIndexe", classSimpleName, "(paramCle);");
-		tl(7, "rechercheSolr.addField(varIndexe);");
+		tl(7, "listeRecherche.addField(varIndexe);");
 		tl(7, "break;");
 
 		tl(6, "case \"start\":");
 		tl(7, "rechercheDebut = Integer.parseInt(paramValeur);");
-		tl(7, "rechercheSolr.setStart(rechercheDebut);");
+		tl(7, "listeRecherche.setStart(rechercheDebut);");
 		tl(7, "break;");
 
 		tl(6, "case \"rows\":");
 		tl(7, "rechercheNum = Integer.parseInt(paramValeur);");
-		tl(7, "rechercheSolr.setRows(rechercheNum);");
+		tl(7, "listeRecherche.setRows(rechercheNum);");
 		tl(7, "break;");
 
 		tl(5, "}");
@@ -277,19 +283,8 @@ public class WriteApiClass extends WriteGenClass {
 
 		tl(3, "}");
 		tl(2, "}");
-//		tl(2, "requeteSite.setRechercheSolr(rechercheSolr);");
-		tl(2, "List<", classSimpleName, "> liste", classSimpleName, " = new ArrayList<", classSimpleName, ">();");
-		tl(2, "try {");
-		tl(3, "QueryResponse reponseRecherche = requeteSite.getSiteContexte_().getClientSolr().query(rechercheSolr);");
-		tl(3, "for(SolrDocument documentSolr : reponseRecherche.getResults()) {");
-		tl(4, classSimpleName, " o = new ", classSimpleName, "();");
-		tl(4, "o.peuplerPourClasse(documentSolr);");
-		tl(4, "liste", classSimpleName, ".add(o);");
-		tl(3, "}");
-		tl(2, "} catch(Exception e) {");
-		tl(3, "return Future.failedFuture(e);");
-		tl(2, "}");
-		tl(2, "return Future.succeededFuture(liste", classSimpleName, ");");
+		tl(2, "listeRecherche.initLoinPourClasse(requeteSite);");
+		tl(2, "return Future.succeededFuture(listeRecherche);");
 		tl(1, "}");
 		l();
 //		tl(1, "public RequeteSite genererRequeteSitePour", classSimpleName, "(SiteContexte siteContext, RoutingContext contexteItineraire) throws Exception {");
@@ -449,7 +444,12 @@ public class WriteApiClass extends WriteGenClass {
 		else {
 			tBase = 2;
 		}
-		tl(tBase + 0, "RequeteSite requeteSite = genererRequeteSitePour", classSimpleName, "(siteContext);");
+		tl(tBase + 0, "RequeteSite requeteSite;");
+		tl(tBase + 0, "try {");
+		tl(tBase + 1, "requeteSite = genererRequeteSitePour", classSimpleName, "(siteContext);");
+		tl(tBase + 0, "} catch(Exception e) {");
+		tl(tBase + 1, "resultHandler.handle(Future.failedFuture(e));");
+		tl(tBase + 0, "}");
 		tl(tBase + 0, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(requeteSite).compose(");
 		tl(tBase + 1, "a -> creer", classSimpleName, "(requeteSite).compose(");
 		tl(tBase + 2, "cluster -> definir", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(");
@@ -501,7 +501,12 @@ public class WriteApiClass extends WriteGenClass {
 		else {
 			tBase = 2;
 		}
-		tl(tBase + 0, "RequeteSite requeteSite = genererRequeteSitePour", classSimpleName, "(siteContext);");
+		tl(tBase + 0, "RequeteSite requeteSite;");
+		tl(tBase + 0, "try {");
+		tl(tBase + 1, "requeteSite = genererRequeteSitePour", classSimpleName, "(siteContext);");
+		tl(tBase + 0, "} catch(Exception e) {");
+		tl(tBase + 1, "resultHandler.handle(Future.failedFuture(e));");
+		tl(tBase + 0, "}");
 //		tl(tBase + 0, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
 //		tl(tBase + 0, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
 		tl(tBase + 0, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(requeteSite).compose(");
@@ -616,6 +621,18 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "return future;");
 		tl(1, "}");
 		l();
+		tl(1, "public Future<Void> patchListe", classSimpleName, "(RequeteSite requeteSite, List<", classSimpleName, "> liste", classSimpleName, ") {");
+		tl(2, "List<Future> futures = new ArrayList<>();");
+		tl(2, "liste", classSimpleName, ".forEach(o -> { futures.add(indexer", classSimpleName, "(o)); });");
+		tl(2, "CompositeFuture.all(futures).setHandler(ar -> {");
+		tl(3, "if(ar.succeeded()) {");
+		tl(4, "patchJsonCluster(listeCluster);");
+		tl(4, "future.complete();");
+		tl(3, "} else {");
+		tl(3, "}");
+		tl(2, "});");
+		tl(1, "}");
+		l();
 		tl(1, "public Future<Void> patch", classSimpleName, "(RequeteSite requeteSite) {");
 		tl(2, "Future<Void> future = Future.future();");
 		tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
@@ -642,8 +659,8 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "return future;");
 		tl(1, "}");
 		l();
-		tl(1, "public Future<", classSimpleName, "> definir", classSimpleName, "(", classSimpleName, " o) {");
-		tl(2, "Future<", classSimpleName, "> future = Future.future();");
+		tl(1, "public Future<Void> definir", classSimpleName, "(", classSimpleName, " o) {");
+		tl(2, "Future<Void> future = Future.future();");
 		tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 		tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
 		tl(2, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
@@ -660,8 +677,8 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "return future;");
 		tl(1, "}");
 		l();
-		tl(1, "public Future<", classSimpleName, "> attribuer", classSimpleName, "(", classSimpleName, " o) {");
-		tl(2, "Future<", classSimpleName, "> future = Future.future();");
+		tl(1, "public Future<Void> attribuer", classSimpleName, "(", classSimpleName, " o) {");
+		tl(2, "Future<Void> future = Future.future();");
 		tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 		tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
 		tl(2, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
@@ -678,8 +695,8 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "return future;");
 		tl(1, "}");
 		l();
-		tl(1, "public Future<", classSimpleName, "> indexer", classSimpleName, "(", classSimpleName, " o) {");
-		tl(2, "Future<", classSimpleName, "> future = Future.future();");
+		tl(1, "public Future<Void> indexer", classSimpleName, "(", classSimpleName, " o) {");
+		tl(2, "Future<Void> future = Future.future();");
 		tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 		tl(2, "try {");
 		tl(3, "o.initLoinPourClasse(requeteSite);");
@@ -698,7 +715,7 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
 		tl(1, "}");
 		l();
-		tl(1, "public Future<OperationResponse> patchJson", classSimpleName, "(RequeteSite requeteSite) {");
+		tl(1, "public Future<OperationResponse> patchJson", classSimpleName, "(List<", classSimpleName, "> liste", classSimpleName, ") {");
 		tl(2, "Buffer buffer = Buffer.buffer();");
 		tl(2, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
 		tl(1, "}");
