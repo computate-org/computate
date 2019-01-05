@@ -69,6 +69,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected String classVarPrimaryKey;
 
+	protected String classVarUniqueKey;
+
 	protected List<String> classImportsGen;
 
 	protected List<String> classInitDeepExceptions;
@@ -186,7 +188,7 @@ public class WriteGenClass extends WriteClass {
 		wPopulate = StringPrintWriter.create();
 		wSaves = StringPrintWriter.create();
 		wExists = StringPrintWriter.create();
-		wSave = StringPrintWriter.create();
+		wDefinir = StringPrintWriter.create();
 		wApiEntities = StringPrintWriter.create();
 		wPageEntities = StringPrintWriter.create();
 		wApiGet = StringPrintWriter.create();
@@ -285,25 +287,25 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "// index //");
 			tl(1, "/////////////");
 			tl(0);
-			tl(1, "public void index", classSimpleName, "() throws Exception {");
-			tl(2, "SiteRequest siteRequest = new SiteRequest();");
-			tl(2, "siteRequest.initDeepSiteRequest();");
-			tl(2, "SiteContext siteContext = new SiteContext();");
-			tl(2, "siteContext.initDeepSiteContext();");
-			tl(2, "siteContext.setSiteRequest_(siteRequest);");
-			tl(2, "siteRequest.setSiteContext_(siteContext);");
-			tl(2, "siteRequest", classSimpleName, "(siteRequest);");
-			tl(2, "initDeep", classSimpleName, "(siteRequest);");
-			tl(2, "index", classSimpleName, "(siteRequest);");
-			tl(1, "}");
+			tl(1, "//public void index", classSimpleName, "() throws Exception {");
+			tl(2, "//SiteRequest siteRequest = new SiteRequest();");
+			tl(2, "//siteRequest.initDeepSiteRequest();");
+			tl(2, "//SiteContext siteContext = new SiteContext();");
+			tl(2, "//siteContext.initDeepSiteContext();");
+			tl(2, "//siteContext.setSiteRequest_(siteRequest);");
+			tl(2, "//siteRequest.setSiteContext_(siteContext);");
+			tl(2, "//siteRequest", classSimpleName, "(siteRequest);");
+			tl(2, "//initDeep", classSimpleName, "(siteRequest);");
+			tl(2, "//index", classSimpleName, "();");
+			tl(1, "//}");
 			tl(0);
 			if(classExtendsBase || classIsBase) {
 				tl(0);
 				t(1);
 				if(!classIsBase)
 					s("@Override ");
-				l("public void indexForClass(SiteRequest siteRequest) throws Exception {");
-				tl(2, "index", classSimpleName, "(siteRequest_);");
+				l("public void indexForClass() throws Exception {");
+				tl(2, "index", classSimpleName, "();");
 				tl(1, "}");
 				tl(0);
 				t(1);
@@ -313,7 +315,7 @@ public class WriteGenClass extends WriteClass {
 				tl(2, "index", classSimpleName, "(document);");
 				tl(1, "}");
 			}
-			tl(1, "public void index", classSimpleName, "(SiteRequest siteRequest) throws Exception {");
+			tl(1, "public void index", classSimpleName, "() throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "index", classSimpleName, "(document);");
 //			if(classeSauvegarde)
@@ -369,7 +371,7 @@ public class WriteGenClass extends WriteClass {
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			l("public boolean attributeForClass(String var, Object val) throws Exception {");
+			l("public boolean attributeForClass(String var, Object val) {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
@@ -382,7 +384,7 @@ public class WriteGenClass extends WriteClass {
 			tl(2, "}");
 			tl(2, "return o != null;");
 			tl(1, "}");
-			tl(1, "public Object attribute", classSimpleName, "(String var, Object val) throws Exception {");
+			tl(1, "public Object attribute", classSimpleName, "(String var, Object val) {");
 			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
 			tl(2, "switch(var) {");
 
@@ -419,22 +421,6 @@ public class WriteGenClass extends WriteClass {
 	public void  genCodePopulate(String languageName) throws Exception, Exception {
 		o = wPopulate;
 		if(classSaved) {
-			l(); 
-			tl(1, "/////////////");
-			tl(1, "// populate //");
-			tl(1, "/////////////");
-			tl(0);
-			t(1);
-			if(!classSimpleName.equals("Cluster"))
-				s("@Override ");
-			l("public void populateForClass(SolrDocument solrDocument) {");
-			if(classSaved) {
-				tl(2, "saves", classSimpleName, " = (List<String>)solrDocument.get(\"saves", classSimpleName, "_stored_strings\");");
-			tl(2, "populate", classSimpleName, "(solrDocument);");
-			}
-			tl(1, "}");
-			tl(1, "public void populate", classSimpleName, "(SolrDocument solrDocument) {");
-			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
 		}
 	}
 
@@ -548,71 +534,6 @@ public class WriteGenClass extends WriteClass {
 		}
 	}
 
-	public void  genCodeSave(String languageName) throws Exception, Exception {
-		o = wSave;
-		if(classSaved) {
-//			l(); 
-//			tl(1, "/////////////////");
-//			tl(1, "// save //");
-//			tl(1, "/////////////////");
-//			tl(0);
-//			t(1);
-//			if(!classSimpleName.equals("Cluster"))
-//				s("@Override ");
-//			l("public void saveForClass(RequeteSite requeteSite) throws Exception {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
-//			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
-//			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
-//			tl(2, "pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
-//			tl(2, "utilisateurId = requeteSite.utilisateurId;");
-//			tl(2, "String nomCanonique = getClass().getCanonicalName();");
-//			tl(2, "modifie = ", LocalDateTime.class.getCanonicalName(), ".now();");
-//			tl(2, Timestamp.class.getCanonicalName(), " horodatage = java.sql.Timestamp.valueOf(modifie);");
-//
-//			tl(2);
-//			tl(2, "if(pk == null) {");
-//			tl(3, "String sql = \"insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(?, ?, ?, ?) returning pk\";");
-//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.insert(sql, gestionnaireListe /*insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(*/, nomCanonique, requeteSite.utilisateurId, horodatage, horodatage /*) returning pk, cree*/);");
-//			tl(3, "pk = (Long)resultats.get(0)[0];");
-//			tl(3, "cree = modifie;");
-//			tl(2, "}");
-//			tl(2, "else {");
-//			tl(3, "String sql = \"update objet set modifie=? where objet.pk=? and objet.id_utilisateur=? and objet.nom_canonique=? returning cree\";");
-//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*update objet set modifie=*/, horodatage /* where objet.pk=*/, pk /* and objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique /* returning cree*/);");
-//			tl(3, "if(resultats.size() == 0)");
-//			t(4, "throw new Exception(\"");
-//			s("L'objet avec le pk \" + pk + \" et nom canonique \" + pk + \" pour utilisateur \" + requeteSite.utilisateurId + \" \" + requeteSite.utilisateurNom + \" n'existe pas dejà. ");
-//			l("\");");
-//			tl(3, "horodatage = (java.sql.Timestamp)resultats.get(0)[0];");
-//			tl(3, "cree = ", LocalDateTime.class.getCanonicalName(), ".from(horodatage.toLocalDateTime());");
-//			tl(2, "}");
-////						tl(0);
-////						tl(2, "{");
-////						tl(3, "String sqlSelectP = \"select chemin, valeur from p where p.pk_objet=?\";");
-////						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sqlSelectP, gestionnaireListe /*select chemin, valeur from p where p.pk_objet=*/, pk);");
-////						tl(3, "for(Object[] objets : resultats) {");
-////						tl(4, "String chemin = (String)objets[0];");
-////						if(coursCrypte)
-////							tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
-////						else
-////							tl(4, "String valeur = (String)objets[1];");
-////						tl(4, "definir(chemin, valeur);");
-////						tl(4, "sauvegardes", classSimpleName, ".add(chemin);");
-////						tl(3, "}");
-////						tl(2, "}");
-//			tl(0);
-////						tl(2, "{");
-//			tl(2, "String sqlInsertP = \"insert into p(chemin, valeur, pk_objet) values(?, ?, ?) on conflict(chemin, pk_objet) do update set valeur=? where p.chemin=? and p.pk_objet=?\";");
-//			tl(2, "String sqlInsertA = \"insert into a(champ1, pk1, champ2, pk2) values(?, ?, ?, ?) on conflict  do nothing\";");
-//			tl(2, "String sqlDeleteP = \"delete from p where chemin=? and pk_objet=?\";");
-//			tl(2, "String sqlDeleteA = \"delete from a where champ1=? and pk1=? and champ2=? and pk2=?\";");
-//			tl(2, "save", classSimpleName, "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
-////						tl(2, "}");
-//			tl(1, "}");
-//			tl(1, "public void save", classSimpleName, "(RequeteSite requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
-		}
-	}
-
 	public void  genCodeClassBegin(String languageName) throws Exception, Exception {
 		o = writerGenClass;
 
@@ -709,6 +630,7 @@ public class WriteGenClass extends WriteClass {
 
 		Boolean entityExact = (Boolean)doc.get("entityExact_stored_boolean");
 		Boolean entityPrimaryKey = (Boolean)doc.get("entityPrimaryKey_stored_boolean");
+		Boolean entityUniqueKey = (Boolean)doc.get("entityUniqueKey_stored_boolean");
 		Boolean entityEncrypted = (Boolean)doc.get("entityEncrypted_stored_boolean");
 		Boolean entitySuggested = (Boolean)doc.get("entitySuggested_stored_boolean");
 		Boolean entitySaved = (Boolean)doc.get("entitySaved_stored_boolean");
@@ -1417,9 +1339,9 @@ public class WriteGenClass extends WriteClass {
 		o = wIndex;
 		if(classIndexed && entityIndexedOrStored) {
 			tl(2, "if(", entityVar, " != null) {");
-			if(StringUtils.isNotEmpty(classVarPrimaryKey) && entityPrimaryKey) {
-				// primaryKey
-				tl(3, "document.addField(\"", classVarPrimaryKey, "\", ", entityVar, ");");
+			if(StringUtils.isNotEmpty(classVarUniqueKey) && entityUniqueKey) {
+				// uniqueKey
+				tl(3, "document.addField(\"", classVarUniqueKey, "\", ", entityVar, ");");
 			}
 			if(entityEncrypted) {
 				// crypte
@@ -1522,6 +1444,25 @@ public class WriteGenClass extends WriteClass {
 		}	
 
 		/////////////
+		// definir //
+		/////////////
+		o = wDefinir;
+		
+		if(classSaved && BooleanUtils.isTrue(entityDefined)) {
+				tl(3, "case \"", entityVar, "\":");
+				if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
+					tl(4, "add", entityVarCapitalized, "(val);");
+					tl(4, "if(!sauvegardes", classSimpleName, ".contains(var))");
+					tl(5, "sauvegardes", classSimpleName, ".add(var);");
+				}
+				else {
+					tl(4, "set", entityVarCapitalized, "(val);");
+					tl(4, "sauvegardes", classSimpleName, ".add(var);");
+				}
+				tl(4, "return val;");
+		}	
+
+		/////////////
 		// codePut //
 		/////////////
 		o = wPut;
@@ -1551,7 +1492,7 @@ public class WriteGenClass extends WriteClass {
 //							String varSuggere = entityVarSuggested.toString();
 //							String varIncremente = entityVarIncremented.toString();
 //							String varCleUnique = entityVarCleUniqueActuel.toString();
-			if(entityEncrypted || entityStored || entityPrimaryKey || entitySuggested || entityIncremented) {
+			if(entityEncrypted || entityStored || entityUniqueKey || entitySuggested || entityIncremented) {
 				tl(0);
 
 				if(entitySuggested) {
@@ -1566,7 +1507,7 @@ public class WriteGenClass extends WriteClass {
 					tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 					tl(2, "}");
 				}
-				else if(entityPrimaryKey) {
+				else if(entityUniqueKey) {
 					tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
 					tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entitySuffixeType, "\");");
 					tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
@@ -1595,99 +1536,30 @@ public class WriteGenClass extends WriteClass {
 			}
 		}	
 
-		/////////////////////
-		// codeSauvegarder //
-		/////////////////////
-		o = wSave;
-		if(classSaved) {
-				String nomChamp = entityVar.toString();
-				if(entitySaved) {
-					tl(0);
-
-					tl(2, "if(\"true\".equals(siteRequest.request.getParameter(\"", nomChamp, "Supprimer\"))) {");
-					tl(3, "coureur.update(sqlDeleteP /*delete from p where chemin=*/, \"", nomChamp, "\" /* and pk_objet=*/, pk);");
-					tl(2, "} else if(defineForClass(\"", nomChamp, "\"", "siteRequest.request.getParameterValues(\"", nomChamp, "\"))) {");
-					if(siteEncrypted) {
-						tl(3, "String valEncrypted = siteRequest.encryptStr(", nomChamp, ");");
-						tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, pk_objet) values(*/, \"", nomChamp, "\"", "valEncrypted, pk /*) on conflict(chemin, pk_objet) do update set valeur=*/, valEncrypted /* where p.chemin=*/, \"", nomChamp, "\" /* and p.pk_objet=*/, pk);");
-					}
-					else {
-						tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, pk_objet) values(*/, \"", nomChamp, "\"", nomChamp, ", ", "pk /*) on conflict(chemin, pk_objet) do update set valeur=*/, ", nomChamp, " /* where p.chemin=*/, \"", nomChamp, "\" /* and p.pk_objet=*/, pk);");
-					}
-					tl(3, "sauvegardes", classSimpleName, ".add(\"", nomChamp, "\");");
-					tl(2, "}");
-				}
-
-//								if(field.cles && field.contexteParent != null) {
-//									tl(0);
-//									String parentContexteVar = entityVar.toString() + "VarInverse";
-//									String chaineVarInverse = field.contexteParent.obtenirPourClasse(parentContexteVar).toString();
-//									String var1, var2, val1, val2, val, valSupprimer, varSupprimer;
-//									if(nomChamp.compareTo(chaineVarInverse) < 0) {
-//										var1 = nomChamp;
-//										var2 = chaineVarInverse;
-//										varSupprimer = field.contexteEnfant.nomVarMinuscule + (siteRequest ? "Cle" : "Key");
-//										valSupprimer = nomChamp + (entityCanonicalName.equals(ArrayList.class.getCanonicalName()) ? ".get(0)" : "");
-//										val1 = varSupprimer;
-//										val2 = siteRequest ? "pk" : "key";
-//									}
-//									else {
-//										var1 = chaineVarInverse;
-//										var2 = nomChamp;
-//										varSupprimer = field.contexteEnfant.nomVarMinuscule + (siteRequest ? "Cle" : "Key");
-//										valSupprimer = nomChamp + (entityCanonicalName.equals(ArrayList.class.getCanonicalName()) ? ".get(0)" : "");
-//										val1 = siteRequest ? "pk" : "key";
-//										val2 = varSupprimer;
-//									}
-//	
-//									tl(2, "{");
-//									tl(3, "String[] valeursCles = siteRequest.request.getParameterValues(\"", nomChamp, "\");");
-//									tl(3, "if(valeursCles != null) {");
-//									tl(4, "String[] valeursSuppression = siteRequest.request.getParameterValues(\"", nomChamp, "Supprimer\");");
-//									tl(4, "Long ", varSupprimer, " = Long.parseLong(valeursCles[valeursCles.length - 1]);");
-//									tl(4, "if(valeursSuppression != null && \"true\".equals(valeursSuppression[valeursSuppression.length - 1])) {");
-//									tl(5, "coureur.update(sqlDeleteA /*delete from a where field1=*/, \"", var1, "\" /* and pk1=*/, ", val1, " /* and field2=*/, \"", var2, "\" /* and pk2=*/, ", val2, ");");
-//									tl(4, "} else if(defineForClass(\"", nomChamp, "\"", "valeursCles[valeursCles.length - 1])) {");
-//	//								tl(5, varSupprimer, " = ", valSupprimer, ";");
-//									tl(5, "coureur.insert(sqlInsertA, gestionnaireListe /*insert into a(field1, pk1, field2, pk2) values(*/, \"", var1, "\"", val1, ", \"", var2, "\"", val2, " /*) on conflict do nothing */);");
-//									tl(5, "sauvegardes", classSimpleName, ".add(\"", nomChamp, "\");");
-//									tl(4, "}");
-//									tl(4, "if(", varSupprimer, " != null) {");
-//									tl(5, field.contexteEnfant.classSimpleName, " ", field.contexteEnfant.nomVarMinuscule, " = new ", field.contexteEnfant.classSimpleName, "();");
-//									tl(5, field.contexteEnfant.nomVarMinuscule, ".pk(", varSupprimer, ");");
-//									tl(5, field.contexteEnfant.nomVarMinuscule, ".sauvegardesPourClasse(siteRequest);");
-//									tl(5, field.contexteEnfant.nomVarMinuscule, ".initDeepForClass(siteRequest_);");
-//									tl(5, field.contexteEnfant.nomVarMinuscule, ".indexerPourClasse(siteRequest);");
-//									tl(4, "}");
-//									tl(3, "}");
-//									tl(2, "}");
-//								}
-		}	
-
 		/////////////////
 		// codeApiChamps //
 		/////////////////
 		o = wApiEntities;
-		l();
-		tl(1, "public static final String ENTITY_VAR_", entityVar, " = \"", entityVar, "\";");
-		if(classIndexed) {
-			if(entityIndexed)
-				tl(1, "public static final String ENTITY_VAR_INDEXED_", entityVar, " = \"", entityVar, "_indexed", entitySuffixeType, "\";");
-			if(entityStored)
-				tl(1, "public static final String ENTITY_VAR_STORED_", entityVar, " = \"", entityVar, "_stored", entitySuffixeType, "\";");
-			if(entityEncrypted)
-				tl(1, "public static final String ENTITY_VAR_ENCRYPTED_", entityVar, " = \"", entityVar, "_encrypted", entitySuffixeType, "\";");
-		}
-		if(entityAttribute)
-			tl(1, "public static final String ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, " = \"", entityAttributeVar, "\";");
+//		l();
+//		tl(1, "public static final String ENTITY_VAR_", entityVar, " = \"", entityVar, "\";");
+//		if(classIndexed) {
+//			if(entityIndexed)
+//				tl(1, "public static final String ENTITY_VAR_INDEXED_", entityVar, " = \"", entityVar, "_indexed", entitySuffixeType, "\";");
+//			if(entityStored)
+//				tl(1, "public static final String ENTITY_VAR_STORED_", entityVar, " = \"", entityVar, "_stored", entitySuffixeType, "\";");
+//			if(entityEncrypted)
+//				tl(1, "public static final String ENTITY_VAR_ENCRYPTED_", entityVar, " = \"", entityVar, "_encrypted", entitySuffixeType, "\";");
+//		}
+//		if(entityAttribute)
+//			tl(1, "public static final String ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, " = \"", entityAttributeVar, "\";");
 
 		/////////////////
 		// codeApiGet //
 		/////////////////
 		o = wApiGet;
 		if(classIndexed && entityIndexed) {
-			tl(3, "case ENTITY_VAR_", entityVar, ":");
-			tl(4, "return ENTITY_VAR_INDEXED_", entityVar, ";");
+			tl(3, "case \"", entityVar, "\":");
+			tl(4, "return \"", entityVar, "_indexed", entitySuffixeType, "\";");
 		}
 
 		///////////////////////
@@ -1695,7 +1567,7 @@ public class WriteGenClass extends WriteClass {
 		///////////////////////
 		o = wApiGenerateGet;
 		if(classIndexed && entityStored) {
-			tl(4, "if(ENTITY_VAR_STORED_", entityVar, ".equals(entityVarStored)) {");
+			tl(4, "if(\"", entityVar, "\".equals(entityVarStored)) {");
 			if (VAL_canonicalNameBoolean.equals(entitySolrCanonicalName)) {
 				tl(5, "if(j > 0)");
 				tl(6, "serverResponse.write(\", \");");
@@ -1996,18 +1868,27 @@ public class WriteGenClass extends WriteClass {
 		////////////////////////
 		o = wApiGeneratePost;
 
-		Integer tBase = 0;
-		if(classRolesFound) {
-			tBase = 6;
-		}
-		else {
-			tBase = 4;
-		}
+		Integer tBase = 2;
+//		if(classRolesFound) {
+//			tBase = 6;
+//		}
+//		else {
+//			tBase = 4;
+//		}
 		if(classSaved && BooleanUtils.isTrue(entityDefined)) {
-			tl(tBase + 6, "case \"", entityVar, "\":");
-			tl(tBase + 7, "postSql.append(SiteContext.SQL_setP);");
-			tl(tBase + 7, "postSqlParams.addAll(Arrays.asList(ENTITY_VAR_", entityVar, ", requestJson.get", entitySimpleNameVertxJson, "(entityVar), postPk));");
-			tl(tBase + 7, "break;");
+			tl(tBase + 2, "case \"", entityVar, "\":");
+			tl(tBase + 3, "postSql.append(SiteContext.SQL_setP);");
+			tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.get", entitySimpleNameVertxJson, "(entityVar), ", classVarPrimaryKey, "));");
+			tl(tBase + 3, "break;");
+		}	
+		if(classSaved && BooleanUtils.isTrue(entityAttribute)) {
+			tl(tBase + 2, "case \"", entityVar, "\":");
+			tl(tBase + 3, "postSql.append(SiteContext.SQL_addA);");
+			if(StringUtils.compare(entityVar, entityAttributeVar) < 0)
+				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.getLong(entityVar), \"", entityAttributeVar, "\", ", classVarPrimaryKey, "));");
+			else
+				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityAttributeVar, "\", ", classVarPrimaryKey, ", \"", entityVar, "\", jsonObject.getLong(entityVar)));");
+			tl(tBase + 3, "break;");
 		}	
 
 		///////////////////////
@@ -2034,122 +1915,122 @@ public class WriteGenClass extends WriteClass {
 		////////////////////////
 		o = wApiGeneratePatch;
 
-		tBase = 0;
-		if(classRolesFound) {
-			tBase = 6;
-		}
-		else {
-			tBase = 4;
-		}
+		tBase = 2;
+//		if(classRolesFound) {
+//			tBase = 6;
+//		}
+//		else {
+//			tBase = 4;
+//		}
 		if(classSaved && BooleanUtils.isTrue(entityDefined)) {
 			if(BooleanUtils.isTrue(entityAttribute)) {
 				if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
 	
 					if(StringUtils.compare(entityVar, entityAttributeVar) <= 0) {
-						tl(tBase + 6, "case \"add", entityVarCapitalized, "\":");
-						tl(tBase + 7, "patchSql.append(SiteContext.SQL_addA);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITY_VAR_", entityVar);
-						tl(tBase + 9, ", patchPk");
-						tl(tBase + 9, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 9, ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)");
-						tl(tBase + 9, "));");
+						tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
+						tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITY_VAR_", entityVar);
+						tl(tBase + 5, ", ", classVarPrimaryKey);
+						tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+						tl(tBase + 5, ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)");
+						tl(tBase + 5, "));");
 
-						tl(tBase + 6, "case \"addAll", entityVarCapitalized, "\":");
-						tl(tBase + 7, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-						tl(tBase + 7, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "Valeurs.size(); i++) {");
-						tl(tBase + 8, "patchSql.append(SiteContext.SQL_addA);");
-						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 10, "ENTITY_VAR_", entityVar);
-						tl(tBase + 10, ", patchPk");
-						tl(tBase + 10, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 10, ", addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
-						tl(tBase + 10, "));");
-						tl(tBase + 7, "}");
+						tl(tBase + 2, "case \"addAll", entityVarCapitalized, "\":");
+						tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
+						tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "Valeurs.size(); i++) {");
+						tl(tBase + 4, "patchSql.append(SiteContext.SQL_addA);");
+						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITY_VAR_", entityVar);
+						tl(tBase + 5, ", ", classVarPrimaryKey);
+						tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+						tl(tBase + 5, ", addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
+						tl(tBase + 5, "));");
+						tl(tBase + 3, "}");
 	
-						tl(tBase + 6, "case \"set", entityVarCapitalized, "\":");
-						tl(tBase + 7, entitySimpleNameVertxJson, " set", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-						tl(tBase + 7, "patchSql.append(SiteContext.SQL_clearA1);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITY_VAR_", entityVar);
-						tl(tBase + 9, ", patchPk");
-						tl(tBase + 9, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 9, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
-						tl(tBase + 9, "));");
+						tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
+						tl(tBase + 3, entitySimpleNameVertxJson, " set", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
+						tl(tBase + 3, "patchSql.append(SiteContext.SQL_clearA1);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 6, "ENTITY_VAR_", entityVar);
+						tl(tBase + 6, ", ", classVarPrimaryKey);
+						tl(tBase + 6, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+						tl(tBase + 6, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
+						tl(tBase + 6, "));");
 
-						tl(tBase + 7, "for(Integer i = 0; i <  set", entityVarCapitalized, "Valeurs.size(); i++) {");
-						tl(tBase + 8, "patchSql.append(SiteContext.SQL_addA);");
-						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 10, "ENTITY_VAR_", entityVar);
-						tl(tBase + 10, ", patchPk");
-						tl(tBase + 10, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 10, ", set", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
-						tl(tBase + 10, "));");
-						tl(tBase + 7, "}");
+						tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalized, "Valeurs.size(); i++) {");
+						tl(tBase + 4, "patchSql.append(SiteContext.SQL_addA);");
+						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 6, "ENTITY_VAR_", entityVar);
+						tl(tBase + 6, ", ", classVarPrimaryKey);
+						tl(tBase + 6, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+						tl(tBase + 6, ", set", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
+						tl(tBase + 6, "));");
+						tl(tBase + 3, "}");
 					}
 					else {
-						tl(tBase + 6, "case \"add", entityVarCapitalized, "\":");
-						tl(tBase + 7, "patchSql.append(SiteContext.SQL_addA);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITY_VAR_", entityVar);
-						tl(tBase + 9, ", patchPk");
-						tl(tBase + 9, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 9, ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)");
-						tl(tBase + 9, "));");
+						tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
+						tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITY_VAR_", entityVar);
+						tl(tBase + 5, ", ", classVarPrimaryKey);
+						tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+						tl(tBase + 5, ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)");
+						tl(tBase + 5, "));");
 
-						tl(tBase + 6, "case \"addAll", entityVarCapitalized, "\":");
-						tl(tBase + 7, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-						tl(tBase + 7, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "Valeurs.size(); i++) {");
-						tl(tBase + 8, "patchSql.append(SiteContext.SQL_setA2);");
-						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 10, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 10, ", addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
-						tl(tBase + 10, ", ENTITY_VAR_", entityVar);
-						tl(tBase + 10, ", patchPk");
-						tl(tBase + 10, "));");
-						tl(tBase + 7, "}");
+						tl(tBase + 2, "case \"addAll", entityVarCapitalized, "\":");
+						tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
+						tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "Valeurs.size(); i++) {");
+						tl(tBase + 4, "patchSql.append(SiteContext.SQL_setA2);");
+						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 6, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+						tl(tBase + 6, ", addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
+						tl(tBase + 6, ", ENTITY_VAR_", entityVar);
+						tl(tBase + 6, ", ", classVarPrimaryKey);
+						tl(tBase + 6, "));");
+						tl(tBase + 3, "}");
 	
-						tl(tBase + 6, "case \"set", entityVarCapitalized, "\":");
-						tl(tBase + 7, entitySimpleNameVertxJson, " set", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-						tl(tBase + 7, "patchSql.append(SiteContext.SQL_clearA2);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 9, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
-						tl(tBase + 9, ", ENTITY_VAR_", entityVar);
-						tl(tBase + 9, ", patchPk");
-						tl(tBase + 9, "));");
+						tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
+						tl(tBase + 3, entitySimpleNameVertxJson, " set", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
+						tl(tBase + 3, "patchSql.append(SiteContext.SQL_clearA2);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+						tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
+						tl(tBase + 5, ", ENTITY_VAR_", entityVar);
+						tl(tBase + 5, ", ", classVarPrimaryKey);
+						tl(tBase + 5, "));");
 
-						tl(tBase + 7, "for(Integer i = 0; i <  set", entityVarCapitalized, "Valeurs.size(); i++) {");
-						tl(tBase + 8, "patchSql.append(SiteContext.SQL_setA2);");
-						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 10, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 10, ", set", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
-						tl(tBase + 10, ", ENTITY_VAR_", entityVar);
-						tl(tBase + 10, ", patchPk");
-						tl(tBase + 10, "));");
-						tl(tBase + 7, "}");
+						tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalized, "Valeurs.size(); i++) {");
+						tl(tBase + 4, "patchSql.append(SiteContext.SQL_setA2);");
+						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 6, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+						tl(tBase + 6, ", set", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
+						tl(tBase + 6, ", ENTITY_VAR_", entityVar);
+						tl(tBase + 6, ", ", classVarPrimaryKey);
+						tl(tBase + 6, "));");
+						tl(tBase + 3, "}");
 					}
 				}
 				else {
 	
 					tl(tBase + 6, "case \"set", entityVarCapitalized, "\":");
 					if(StringUtils.compare(entityVar, entityAttributeVar) <= 0) {
-						tl(tBase + 7, "patchSql.append(SiteContext.SQL_setA1);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITY_VAR_", entityVar);
-						tl(tBase + 9, ", patchPk");
-						tl(tBase + 9, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 9, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
+						tl(tBase + 3, "patchSql.append(SiteContext.SQL_setA1);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITY_VAR_", entityVar);
+						tl(tBase + 5, ", ", classVarPrimaryKey);
+						tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+						tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
 					}
 					else {
-						tl(tBase + 7, "patchSql.append(SiteContext.SQL_setA2);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 9, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
-						tl(tBase + 9, ", ENTITY_VAR_", entityVar);
-						tl(tBase + 9, ", patchPk");
+						tl(tBase + 3, "patchSql.append(SiteContext.SQL_setA2);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+						tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
+						tl(tBase + 5, ", ENTITY_VAR_", entityVar);
+						tl(tBase + 5, ", ", classVarPrimaryKey);
 					}
-					tl(tBase + 9, "));");
+					tl(tBase + 5, "));");
 				}
 	
 				tl(tBase + 7, "break;");
@@ -2158,25 +2039,25 @@ public class WriteGenClass extends WriteClass {
 				if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
 	
 					tl(tBase + 6, "case \"add", entityVarCapitalized, "\":");
-					tl(tBase + 7, "patchSql.append(SiteContext.SQL_addA);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-					tl(tBase + 9, "ENTITY_VAR_", entityVar);
-					tl(tBase + 9, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
-					tl(tBase + 9, ", patchPk");
-					tl(tBase + 9, "));");
+					tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
+					tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+					tl(tBase + 5, "ENTITY_VAR_", entityVar);
+					tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
+					tl(tBase + 5, ", ", classVarPrimaryKey);
+					tl(tBase + 5, "));");
 	
-					tl(tBase + 6, "case \"set", entityVarCapitalized, "\":");
-					tl(tBase + 7, "patchSql.append(SiteContext.SQL_setP);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITY_VAR_", entityVar, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom), patchPk));");
+					tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
+					tl(tBase + 3, "patchSql.append(SiteContext.SQL_setP);");
+					tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(ENTITY_VAR_", entityVar, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom), ", classVarPrimaryKey, "));");
 				}
 				else {
 	
-					tl(tBase + 6, "case \"set", entityVarCapitalized, "\":");
-					tl(tBase + 7, "patchSql.append(SiteContext.SQL_setP);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITY_VAR_", entityVar, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom), patchPk));");
+					tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
+					tl(tBase + 3, "patchSql.append(SiteContext.SQL_setP);");
+					tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(ENTITY_VAR_", entityVar, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom), ", classVarPrimaryKey, "));");
 				}
 	
-				tl(tBase + 7, "break;");
+				tl(tBase + 3, "break;");
 			}
 		}	
 
@@ -2260,7 +2141,7 @@ public class WriteGenClass extends WriteClass {
 			}
 			l("\t}");
 
-			if(StringUtils.isNotEmpty(classVarPrimaryKey)) {
+			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
 				tl(0);
 				tl(1, "public void unindex", classSimpleName, "() throws Exception {");
 				tl(2, "SiteRequest siteRequest = new SiteRequest();");
@@ -2272,7 +2153,7 @@ public class WriteGenClass extends WriteClass {
 				tl(2, "siteRequest.setSiteConfig_(siteContext.getSiteConfig());");
 				tl(2, "initDeep", classSimpleName, "(siteContext.getSiteRequest_());");
 				tl(2, "SolrClient solrClient = siteContext.getSolrClient();");
-				tl(2, "solrClient.deleteById(", classVarPrimaryKey, ".toString());");
+				tl(2, "solrClient.deleteById(", classeVarCleUnique, ".toString());");
 				tl(2, "solrClient.commit();");
 				tl(1, "}");
 			}
@@ -2328,33 +2209,6 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "}");
 		}	
 
-		/////////////////
-		// codePeupler //
-		/////////////////
-		o = wPopulate;
-		if(classSaved) {
-//						t(2, "}");
-
-			if(!classSimpleName.equals("Cluster")) {
-				tl(0);
-				tl(2, "super.populate", classSuperSimpleNameGeneric, "(solrDocument);");
-			}
-
-			tl(1, "}");
-		}	
-
-		/////////////////////
-		// codeSauvegarder //
-		/////////////////////
-		o = wSave;
-		if(classSaved) {
-			if(!classSimpleName.equals("Cluster")) {
-				tl(0);
-				tl(2, "super.save", classSuperSimpleNameGeneric + "(siteRequest, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
-			}
-			tl(1, "}");
-		}	
-
 		wInitDeep.flushClose();
 		wSiteRequest.flushClose();
 		wIndex.flushClose();
@@ -2364,7 +2218,7 @@ public class WriteGenClass extends WriteClass {
 		wPopulate.flushClose();
 		wExists.flushClose();
 		wSaves.flushClose();
-		wSave.flushClose();
+		wDefine.flushClose();
 		wApiEntities.flushClose();
 		wApiGet.flushClose();
 		wApiGenerateGet.flushClose();
@@ -2381,11 +2235,156 @@ public class WriteGenClass extends WriteClass {
 		s(wIndex.toString());
 		s(wObtain.toString());
 		s(wAttribute.toString());
-//		s(wDefine.toString());
-		s(wPopulate.toString());
+
+
+		if(classInitDeep && (classExtendsBase || classIsBase)) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// definir //");
+			tl(1, "/////////////");
+			tl(0);
+			t(1);
+			if(!classIsBase)
+				s("@Override ");
+			l("public boolean definirPourClasse(String var, String val) {");
+			tl(2, "String[] vars = StringUtils.split(var, \".\");");
+			tl(2, "Object o = null;");
+			tl(2, "if(val != null) {");
+			tl(3, "for(String v : vars) {");
+			tl(4, "if(o == null)");
+			tl(5, "o = definir", classSimpleName, "(v, val);");
+			tl(4, "else if(o instanceof Cluster) {");
+			tl(5, "Cluster cluster = (Cluster)o;");
+			tl(5, "o = cluster.definirPourClasse(v, val);");
+			tl(4, "}");
+			tl(3, "}");
+			tl(2, "}");
+			tl(2, "return o != null;");
+			tl(1, "}");
+			tl(1, "public Object definir", classSimpleName, "(String var, String val) {");
+			tl(2, "switch(var) {");
+			s(wDefine.toString());
+			tl(3, "default:");
+
+			if(classIsBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return super.definir", classSuperSimpleNameGeneric, "(var, val);");
+
+			tl(2, "}");
+			tl(1, "}");
+		}
+
+		if(classSaved) {
+			l(); 
+			tl(1, "/////////////////");
+			tl(1, "// sauvegardes //");
+			tl(1, "/////////////////");
+			tl(0);
+			tl(1, "protected List<String> sauvegardes", classSimpleName, " = new ArrayList<String>();");
+		}
+
+		/////////////////
+		// codePeupler //
+		/////////////////
+		if(classSaved) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// populate //");
+			tl(1, "/////////////");
+			tl(0);
+			t(1);
+			if(!classSimpleName.equals("Cluster"))
+				s("@Override ");
+			l("public void populatePourClasse(SolrDocument solrDocument) {");
+			if(classSaved) {
+			tl(2, "populate", classSimpleName, "(solrDocument);");
+			}
+			tl(1, "}");
+			tl(1, "public void populate", classSimpleName, "(SolrDocument solrDocument) {");
+			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
+			tl(2, "sauvegardes", classSimpleName, " = (List<String>)solrDocument.get(\"sauvegardes", classSimpleName, "_stored_strings\");");
+			s(wPopulate.toString());
+			if(!classSimpleName.equals("Cluster")) {
+				tl(0);
+				tl(2, "super.populate", classSuperSimpleNameGeneric, "(solrDocument);");
+			}
+
+			tl(1, "}");
+		}	
+
 //		s(wExists.toString());
-		s(wSaves.toString());
-//		s(wSave.toString());
+
+		/////////////////////
+		// codeSauvegarder //
+		/////////////////////
+//		if(classSaved) {
+//			l(); 
+//			tl(1, "/////////////////");
+//			tl(1, "// save //");
+//			tl(1, "/////////////////");
+//			tl(0);
+//			t(1);
+//			if(classExtendsBase)
+//				s("@Override ");
+//			l("public void savePourClasse(SiteRequest siteRequest) throws Exception {");
+//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(siteRequest.SiteContext.sourceDonnees);");
+//			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
+//			tl(2, "String pkStr = siteRequest_.getRequeteServeur().getParam(\"pk\");");
+//			tl(2, "pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
+//			tl(2, "utilisateurId = siteRequest.utilisateurId;");
+//			tl(2, "String nomCanonique = getClass().getCanonicalName();");
+//			tl(2, "modifie = ", LocalDateTime.class.getCanonicalName(), ".now();");
+//			tl(2, Timestamp.class.getCanonicalName(), " horodatage = java.sql.Timestamp.valueOf(modifie);");
+//
+//			tl(2);
+//			tl(2, "if(pk == null) {");
+//			tl(3, "String sql = \"insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(?, ?, ?, ?) returning pk\";");
+//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.insert(sql, gestionnaireListe /*insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(*/, nomCanonique, siteRequest.utilisateurId, horodatage, horodatage /*) returning pk, cree*/);");
+//			tl(3, "pk = (Long)resultats.get(0)[0];");
+//			tl(3, "cree = modifie;");
+//			tl(2, "}");
+//			tl(2, "else {");
+//			tl(3, "String sql = \"update objet set modifie=? where objet.pk=? and objet.id_utilisateur=? and objet.nom_canonique=? returning cree\";");
+//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*update objet set modifie=*/, horodatage /* where objet.pk=*/, pk /* and objet.id_utilisateur=*/, siteRequest.utilisateurId /* and objet.nom_canonique=*/, nomCanonique /* returning cree*/);");
+//			tl(3, "if(resultats.size() == 0)");
+//			t(4, "throw new Exception(\"");
+//			s("L'objet avec le pk \" + pk + \" et nom canonique \" + pk + \" pour utilisateur \" + siteRequest.utilisateurId + \" \" + siteRequest.utilisateurNom + \" n'existe pas dejà. ");
+//			l("\");");
+//			tl(3, "horodatage = (java.sql.Timestamp)resultats.get(0)[0];");
+//			tl(3, "cree = ", LocalDateTime.class.getCanonicalName(), ".from(horodatage.toLocalDateTime());");
+//			tl(2, "}");
+////						tl(0);
+////						tl(2, "{");
+////						tl(3, "String sqlSelectP = \"select chemin, valeur from p where p.pk_objet=?\";");
+////						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sqlSelectP, gestionnaireListe /*select chemin, valeur from p where p.pk_objet=*/, pk);");
+////						tl(3, "for(Object[] objets : resultats) {");
+////						tl(4, "String chemin = (String)objets[0];");
+////						if(coursCrypte)
+////							tl(4, "String valeur = siteRequest.decrypterStr((String)objets[1]);");
+////						else
+////							tl(4, "String valeur = (String)objets[1];");
+////						tl(4, "definir(chemin, valeur);");
+////						tl(4, "sauvegardes", classSimpleName, ".add(chemin);");
+////						tl(3, "}");
+////						tl(2, "}");
+//			tl(0);
+////						tl(2, "{");
+//			tl(2, "String sqlInsertP = \"insert into p(chemin, valeur, pk_objet) values(?, ?, ?) on conflict(chemin, pk_objet) do update set valeur=? where p.chemin=? and p.pk_objet=?\";");
+//			tl(2, "String sqlInsertA = \"insert into a(champ1, pk1, champ2, pk2) values(?, ?, ?, ?) on conflict  do nothing\";");
+//			tl(2, "String sqlDeleteP = \"delete from p where chemin=? and pk_objet=?\";");
+//			tl(2, "String sqlDeleteA = \"delete from a where champ1=? and pk1=? and champ2=? and pk2=?\";");
+//			tl(2, "save", classSimpleName, "(siteRequest, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
+////						tl(2, "}");
+//			tl(1, "}");
+//			tl(1, "public void save", classSimpleName, "(SiteRequest siteRequest, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
+//			s(wSave.toString());
+//			if(classExtendsBase) {
+//				tl(0);
+//				tl(2, "super.save", classSuperSimpleNameGeneric + "(siteRequest, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
+//			}
+//			tl(1, "}");
+//		}	
 
 		//////////////
 		// hashCode //

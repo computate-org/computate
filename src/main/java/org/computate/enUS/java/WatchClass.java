@@ -62,8 +62,8 @@ public class WatchClass extends WriteAllClasses {
 		String appPath = "/usr/local/src/" + appName;
 //		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/requete/RequeteSite.java";
 //		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/config/ConfigSite.java";
-		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
-//		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/cluster/Cluster.java";
+//		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
+		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/cluster/Cluster.java";
 //		String appName = "computate-scolaire";
 //		String appPath = "/usr/local/src/computate-scolaire";
 //		String classAbsolutePath = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/client/org/ClientOrg.java";

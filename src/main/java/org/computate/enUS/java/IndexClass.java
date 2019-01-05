@@ -412,6 +412,7 @@ public class IndexClass extends WatchClassBase {
 		List<String> classKeywords = new ArrayList<String>();
 		List<String> classInitDeepExceptions = new ArrayList<String>(); 
 		String classVarPrimaryKey = null;
+		String classVarUniqueKey = null;
 
 		String classSuperCanonicalName = Object.class.getCanonicalName();
 		Boolean superClassError = false;
@@ -610,6 +611,12 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.sql.Timestamp", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Future", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.AsyncResult", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Handler", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.buffer.Buffer", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationResponse", languageName));
 		}
 		if(classIndexed) {
 			classPartsGenAdd(classPartsSolrInputDocument);
@@ -1169,7 +1176,7 @@ public class IndexClass extends WatchClassBase {
 						} catch (Exception e) {
 						}
 
-						Boolean entityDefined = storeSolr(entityDoc, "entityDefined", 
+						Boolean entityDefined = 
 								entityCanonicalName.equals(VAL_canonicalNameString)
 								|| classPartsChain != null && entityCanonicalName.equals(classPartsChain.canonicalName)
 								|| entityCanonicalName.equals(VAL_canonicalNameBoolean)
@@ -1208,7 +1215,7 @@ public class IndexClass extends WatchClassBase {
 								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
 								|| entitySetter != null
-								);
+								;
 						
 						JavaClass entityClassQdoxBase = null;
 						JavaClass entitySuperClassQdox = entityClassQdox.getSuperJavaClass();
@@ -1412,13 +1419,14 @@ public class IndexClass extends WatchClassBase {
 
 						indexStoreSolr(entityDoc, "entityExact", regexFound("^exact:\\s*(true)$", methodComment));
 						Boolean entityPrimaryKey = indexStoreSolr(entityDoc, "entityPrimaryKey", regexFound("^primaryKey:\\s*(true)$", methodComment));
+						Boolean entityUniqueKey = indexStoreSolr(entityDoc, "entityUniqueKey", regexFound("^uniqueKey:\\s*(true)$", methodComment));
 						Boolean entityEncrypted = indexStoreSolr(entityDoc, "entityEncrypted", regexFound("^encrypted:\\s*(true)$", methodComment));
 						Boolean entitySuggested = indexStoreSolr(entityDoc, "entitySuggested", regexFound("^suggested:\\s*(true)$", methodComment));
 						Boolean entitySaved = indexStoreSolr(entityDoc, "entitySaved", regexFound("^saved:\\s*(true)$", methodComment));
 						Boolean entityIndexed = indexStoreSolr(entityDoc, "entityIndexed", regexFound("^indexed:\\s*(true)$", methodComment));
 						Boolean entityIncremented = indexStoreSolr(entityDoc, "entityIncremented", regexFound("^incremented:\\s*(true)$", methodComment));
 						Boolean entityStored = indexStoreSolr(entityDoc, "entityStored", regexFound("^stored:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityIndexedOrStored", entityPrimaryKey || entityEncrypted || entitySuggested || entityIndexed || entityStored || entityIncremented);
+						indexStoreSolr(entityDoc, "entityIndexedOrStored", entityUniqueKey || entityEncrypted || entitySuggested || entityIndexed || entityStored || entityIncremented);
 						indexStoreSolr(entityDoc, "entityText", regexFound("^text:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityIgnored", regexFound("^ignore:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityDeclared", regexFound("^declared:\\s*(true)$", methodComment));
@@ -1499,6 +1507,7 @@ public class IndexClass extends WatchClassBase {
 
 								if(searchListVar.size() > 0) {
 									SolrDocument docEntite = searchListClasse.get(0);
+									entityDefined = false;
 
 									indexStoreSolr(entityDoc, "entityAttribute", true);
 									indexStoreSolr(entityDoc, "entityAttributeSimpleName", languageName, entityAttributeSimpleName);
@@ -1517,6 +1526,7 @@ public class IndexClass extends WatchClassBase {
 								}
 							}
 						}
+						storeSolr(entityDoc, "entityDefined", entityDefined);
 
 //						boolean entityWrap = false;
 //	
@@ -1915,8 +1925,10 @@ public class IndexClass extends WatchClassBase {
 						if(entityJsonFormat != null)
 							storeSolr(entityDoc, "entityJsonFormat", entityJsonFormat);
 //						
-//						if(entityPrimaryKey)
+//						if(entityUniqueKey)
 //							storeSolr(entityDoc, "entityVarCleUnique", entityVar);
+//						if(entityPrimaryKey)
+//							storeSolr(entityDoc, "entityVarClePrimaire", entityVar);
 //						if(entitySuggested)
 //							storeSolr(entityDoc, "entityVarSuggere", entityVar + "_suggere");
 //						if(entityIncremented)
@@ -1931,12 +1943,18 @@ public class IndexClass extends WatchClassBase {
 						if(entityPrimaryKey) {
 							classVarPrimaryKey = storeSolr(classDoc, "classVarPrimaryKey", languageName, entityVar);
 						}
+						if(entityUniqueKey) {
+							classVarUniqueKey = storeSolr(classDoc, "classVarUniqueKey", languageName, entityVar);
+						}
 
 						for(String languageName : otherLanguages) {  
 							String entityVarLangue = regex("^var\\." + languageName + ": (.*)", methodComment);
 							entityVarLangue = indexStoreSolr(entityDoc, "entityVar", languageName, entityVarLangue == null ? entityVar : entityVarLangue);
 							if(entityPrimaryKey) {
 								storeSolr(classDoc, "classVarPrimaryKey", languageName, entityVarLangue);
+							}
+							if(entityUniqueKey) {
+								storeSolr(classDoc, "classVarUniqueKey", languageName, entityVarLangue);
 							}
 	
 							String entityCodeBlockLangue = entityCodeBlock;
@@ -2097,6 +2115,18 @@ public class IndexClass extends WatchClassBase {
 					String classVarPrimaryKeyLangue = (String)classeSuperDoc.get("classVarPrimaryKey_" + languageName + "_stored_string");
 					if(classVarPrimaryKeyLangue != null) {
 						storeSolr(classDoc, "classVarPrimaryKey", languageName, classVarPrimaryKeyLangue);
+					}
+				}
+			}
+		}
+		if(classVarUniqueKey == null && classeSuperDoc != null) {
+			classVarUniqueKey = (String)classeSuperDoc.get("classVarUniqueKey_" + languageName + "_stored_string");
+			if(classVarUniqueKey != null) {
+				storeSolr(classDoc, "classVarUniqueKey", languageName, classVarUniqueKey);
+				for(String languageName : otherLanguages) {  
+					String classVarUniqueKeyLangue = (String)classeSuperDoc.get("classVarUniqueKey_" + languageName + "_stored_string");
+					if(classVarUniqueKeyLangue != null) {
+						storeSolr(classDoc, "classVarUniqueKey", languageName, classVarUniqueKeyLangue);
 					}
 				}
 			}

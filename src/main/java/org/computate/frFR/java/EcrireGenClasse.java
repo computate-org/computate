@@ -133,6 +133,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeVarClePrimaire;
 
 	/**
+	 * var.enUS: classVarUniqueKey
+	 */
+	protected String classeVarCleUnique;
+
+	/**
 	 * var.enUS: classImportsGen
 	 */
 	protected List<String> classeImportationsGen;
@@ -270,7 +275,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: wSave
 	 */
-	protected StringPrintWriter wSauvegarder;
+	protected StringPrintWriter wDefinir;
 
 	protected StringPrintWriter wApiGet;
 
@@ -425,7 +430,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wPeupler = StringPrintWriter.create();
 		wSauvegardes = StringPrintWriter.create();
 		wExiste = StringPrintWriter.create();
-		wSauvegarder = StringPrintWriter.create();
+		wDefinir = StringPrintWriter.create();
 		wApiEntites = StringPrintWriter.create();
 		wPageEntites = StringPrintWriter.create();
 		wApiGet = StringPrintWriter.create();
@@ -605,25 +610,25 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "// indexer //");
 			tl(1, "/////////////");
 			tl(0);
-			tl(1, "public void indexer", classeNomSimple, "() throws Exception {");
-			tl(2, "RequeteSite requeteSite = new RequeteSite();");
-			tl(2, "requeteSite.initLoinRequeteSite();");
-			tl(2, "SiteContexte siteContexte = new SiteContexte();");
-			tl(2, "siteContexte.initLoinSiteContexte();");
-			tl(2, "siteContexte.setRequeteSite_(requeteSite);");
-			tl(2, "requeteSite.setSiteContexte_(siteContexte);");
-			tl(2, "requeteSite", classeNomSimple, "(requeteSite);");
-			tl(2, "initLoin", classeNomSimple, "(requeteSite);");
-			tl(2, "indexer", classeNomSimple, "(requeteSite);");
-			tl(1, "}");
+			tl(1, "//public void indexer", classeNomSimple, "() throws Exception {");
+			tl(2, "//RequeteSite requeteSite = new RequeteSite();");
+			tl(2, "//requeteSite.initLoinRequeteSite();");
+			tl(2, "//SiteContexte siteContexte = new SiteContexte();");
+			tl(2, "//siteContexte.initLoinSiteContexte();");
+			tl(2, "//siteContexte.setRequeteSite_(requeteSite);");
+			tl(2, "//requeteSite.setSiteContexte_(siteContexte);");
+			tl(2, "//requeteSite", classeNomSimple, "(requeteSite);");
+			tl(2, "//initLoin", classeNomSimple, "(requeteSite);");
+			tl(2, "//indexer", classeNomSimple, "();");
+			tl(1, "//}");
 			tl(0);
 			if(classeEtendBase || classeEstBase) {
 				tl(0);
 				t(1);
 				if(!classeEstBase)
 					s("@Override ");
-				l("public void indexerPourClasse(RequeteSite requeteSite) throws Exception {");
-				tl(2, "indexer", classeNomSimple, "(requeteSite_);");
+				l("public void indexerPourClasse() throws Exception {");
+				tl(2, "indexer", classeNomSimple, "();");
 				tl(1, "}");
 				tl(0);
 				t(1);
@@ -633,7 +638,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "indexer", classeNomSimple, "(document);");
 				tl(1, "}");
 			}
-			tl(1, "public void indexer", classeNomSimple, "(RequeteSite requeteSite) throws Exception {");
+			tl(1, "public void indexer", classeNomSimple, "() throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "indexer", classeNomSimple, "(document);");
 //			if(classeSauvegarde)
@@ -729,7 +734,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public boolean attribuerPourClasse(String var, Object val) throws Exception {");
+			l("public boolean attribuerPourClasse(String var, Object val) {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
@@ -742,7 +747,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "}");
 			tl(2, "return o != null;");
 			tl(1, "}");
-			tl(1, "public Object attribuer", classeNomSimple, "(String var, Object val) throws Exception {");
+			tl(1, "public Object attribuer", classeNomSimple, "(String var, Object val) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "switch(var) {");
 
@@ -815,22 +820,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	public void genCodePeupler(String langueNom) throws Exception {
 		o = wPeupler;
 		if(classeSauvegarde) {
-			l(); 
-			tl(1, "/////////////");
-			tl(1, "// peupler //");
-			tl(1, "/////////////");
-			tl(0);
-			t(1);
-			if(!classeNomSimple.equals("Cluster"))
-				s("@Override ");
-			l("public void peuplerPourClasse(SolrDocument solrDocument) {");
-			if(classeSauvegarde) {
-				tl(2, "sauvegardes", classeNomSimple, " = (List<String>)solrDocument.get(\"sauvegardes", classeNomSimple, "_stored_strings\");");
-			tl(2, "peupler", classeNomSimple, "(solrDocument);");
-			}
-			tl(1, "}");
-			tl(1, "public void peupler", classeNomSimple, "(SolrDocument solrDocument) {");
-			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 		}
 	}
 
@@ -979,86 +968,6 @@ public class EcrireGenClasse extends EcrireClasse {
 //			tl(3, "}");
 //			tl(2, "}");
 //			tl(1, "}");
-		}
-	}
-
-	/**
-	 * var.enUS: genCodeSave
-	 * param1.var.enUS: languageName
-	 * r: wSauvegarder
-	 * r.enUS: wSave
-	 * r: classeNomSimple
-	 * r.enUS: classSimpleName
-	 * r: classeSauvegarde
-	 * r.enUS: classSaved
-	 * 
-	 * r: sauvegarderPourClasse
-	 * r.enUS: saveForClass
-	 * r: sauvegarder
-	 * r.enUS: save
-	 */
-	public void genCodeSauvegarder(String langueNom) throws Exception {
-		o = wSauvegarder;
-		if(classeSauvegarde) {
-//			l(); 
-//			tl(1, "/////////////////");
-//			tl(1, "// sauvegarder //");
-//			tl(1, "/////////////////");
-//			tl(0);
-//			t(1);
-//			if(!classeNomSimple.equals("Cluster"))
-//				s("@Override ");
-//			l("public void sauvegarderPourClasse(RequeteSite requeteSite) throws Exception {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
-//			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
-//			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
-//			tl(2, "pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
-//			tl(2, "utilisateurId = requeteSite.utilisateurId;");
-//			tl(2, "String nomCanonique = getClass().getCanonicalName();");
-//			tl(2, "modifie = ", LocalDateTime.class.getCanonicalName(), ".now();");
-//			tl(2, Timestamp.class.getCanonicalName(), " horodatage = java.sql.Timestamp.valueOf(modifie);");
-//
-//			tl(2);
-//			tl(2, "if(pk == null) {");
-//			tl(3, "String sql = \"insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(?, ?, ?, ?) returning pk\";");
-//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.insert(sql, gestionnaireListe /*insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(*/, nomCanonique, requeteSite.utilisateurId, horodatage, horodatage /*) returning pk, cree*/);");
-//			tl(3, "pk = (Long)resultats.get(0)[0];");
-//			tl(3, "cree = modifie;");
-//			tl(2, "}");
-//			tl(2, "else {");
-//			tl(3, "String sql = \"update objet set modifie=? where objet.pk=? and objet.id_utilisateur=? and objet.nom_canonique=? returning cree\";");
-//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*update objet set modifie=*/, horodatage /* where objet.pk=*/, pk /* and objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique /* returning cree*/);");
-//			tl(3, "if(resultats.size() == 0)");
-//			t(4, "throw new Exception(\"");
-//			s("L'objet avec le pk \" + pk + \" et nom canonique \" + pk + \" pour utilisateur \" + requeteSite.utilisateurId + \" \" + requeteSite.utilisateurNom + \" n'existe pas dejà. ");
-//			l("\");");
-//			tl(3, "horodatage = (java.sql.Timestamp)resultats.get(0)[0];");
-//			tl(3, "cree = ", LocalDateTime.class.getCanonicalName(), ".from(horodatage.toLocalDateTime());");
-//			tl(2, "}");
-////						tl(0);
-////						tl(2, "{");
-////						tl(3, "String sqlSelectP = \"select chemin, valeur from p where p.pk_objet=?\";");
-////						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sqlSelectP, gestionnaireListe /*select chemin, valeur from p where p.pk_objet=*/, pk);");
-////						tl(3, "for(Object[] objets : resultats) {");
-////						tl(4, "String chemin = (String)objets[0];");
-////						if(coursCrypte)
-////							tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
-////						else
-////							tl(4, "String valeur = (String)objets[1];");
-////						tl(4, "definir(chemin, valeur);");
-////						tl(4, "sauvegardes", classeNomSimple, ".add(chemin);");
-////						tl(3, "}");
-////						tl(2, "}");
-//			tl(0);
-////						tl(2, "{");
-//			tl(2, "String sqlInsertP = \"insert into p(chemin, valeur, pk_objet) values(?, ?, ?) on conflict(chemin, pk_objet) do update set valeur=? where p.chemin=? and p.pk_objet=?\";");
-//			tl(2, "String sqlInsertA = \"insert into a(champ1, pk1, champ2, pk2) values(?, ?, ?, ?) on conflict  do nothing\";");
-//			tl(2, "String sqlDeleteP = \"delete from p where chemin=? and pk_objet=?\";");
-//			tl(2, "String sqlDeleteA = \"delete from a where champ1=? and pk1=? and champ2=? and pk2=?\";");
-//			tl(2, "sauvegarder", classeNomSimple, "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
-////						tl(2, "}");
-//			tl(1, "}");
-//			tl(1, "public void sauvegarder", classeNomSimple, "(RequeteSite requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
 		}
 	}
 
@@ -1334,6 +1243,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: entityExact
 	 * r: entiteClePrimaire
 	 * r.enUS: entityPrimaryKey
+	 * r: entiteCleUnique
+	 * r.enUS: entityUniqueKey
 	 * r: entiteCrypte
 	 * r.enUS: entityEncrypted
 	 * r: entiteSuggere
@@ -1402,6 +1313,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classSaved
 	 * r: classeVarClePrimaire
 	 * r.enUS: classVarPrimaryKey
+	 * r: classeVarCleUnique
+	 * r.enUS: classVarUniqueKey
 	 * r: classeApiUri
 	 * r.enUS: classApiUri
 	 * r: wInitLoin
@@ -1499,6 +1412,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: Chain
 	 * r: clePrimaire
 	 * r.enUS: primaryKey
+	 * r: cleUnique
+	 * r.enUS: uniqueKey
 	 * r: entiteVar
 	 * r.enUS: entityVar
 	 * r: lignes
@@ -1542,6 +1457,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		Boolean entiteExact = (Boolean)doc.get("entiteExact_stored_boolean");
 		Boolean entiteClePrimaire = (Boolean)doc.get("entiteClePrimaire_stored_boolean");
+		Boolean entiteCleUnique = (Boolean)doc.get("entiteCleUnique_stored_boolean");
 		Boolean entiteCrypte = (Boolean)doc.get("entiteCrypte_stored_boolean");
 		Boolean entiteSuggere = (Boolean)doc.get("entiteSuggere_stored_boolean");
 		Boolean entiteSauvegarde = (Boolean)doc.get("entiteSauvegarde_stored_boolean");
@@ -2250,9 +2166,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		o = wIndexer;
 		if(classeIndexe && entiteIndexeOuStocke) {
 			tl(2, "if(", entiteVar, " != null) {");
-			if(StringUtils.isNotEmpty(classeVarClePrimaire) && entiteClePrimaire) {
-				// clePrimaire
-				tl(3, "document.addField(\"", classeVarClePrimaire, "\", ", entiteVar, ");");
+			if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteCleUnique) {
+				// cleUnique
+				tl(3, "document.addField(\"", classeVarCleUnique, "\", ", entiteVar, ");");
 			}
 			if(entiteCrypte) {
 				// crypte
@@ -2355,6 +2271,25 @@ public class EcrireGenClasse extends EcrireClasse {
 		}	
 
 		/////////////
+		// definir //
+		/////////////
+		o = wDefinir;
+		
+		if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
+				tl(3, "case \"", entiteVar, "\":");
+				if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
+					tl(4, "add", entiteVarCapitalise, "(val);");
+					tl(4, "if(!sauvegardes", classeNomSimple, ".contains(var))");
+					tl(5, "sauvegardes", classeNomSimple, ".add(var);");
+				}
+				else {
+					tl(4, "set", entiteVarCapitalise, "(val);");
+					tl(4, "sauvegardes", classeNomSimple, ".add(var);");
+				}
+				tl(4, "return val;");
+		}	
+
+		/////////////
 		// codePut //
 		/////////////
 		o = wPut;
@@ -2384,7 +2319,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //							String varSuggere = entiteVarSuggere.toString();
 //							String varIncremente = entiteVarIncremente.toString();
 //							String varCleUnique = entiteVarCleUniqueActuel.toString();
-			if(entiteCrypte || entiteStocke || entiteClePrimaire || entiteSuggere || entiteIncremente) {
+			if(entiteCrypte || entiteStocke || entiteCleUnique || entiteSuggere || entiteIncremente) {
 				tl(0);
 
 				if(entiteSuggere) {
@@ -2399,7 +2334,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					tl(2, "}");
 				}
-				else if(entiteClePrimaire) {
+				else if(entiteCleUnique) {
 					tl(2, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
 					tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
 					tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
@@ -2428,99 +2363,30 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}	
 
-		/////////////////////
-		// codeSauvegarder //
-		/////////////////////
-		o = wSauvegarder;
-		if(classeSauvegarde) {
-				String nomChamp = entiteVar.toString();
-				if(entiteSauvegarde) {
-					tl(0);
-
-					tl(2, "if(\"true\".equals(requeteSite.requete.getParameter(\"", nomChamp, "Supprimer\"))) {");
-					tl(3, "coureur.update(sqlDeleteP /*delete from p where chemin=*/, \"", nomChamp, "\" /* and pk_objet=*/, pk);");
-					tl(2, "} else if(definirPourClasse(\"", nomChamp, "\"", "requeteSite.requete.getParameterValues(\"", nomChamp, "\"))) {");
-					if(siteCrypte) {
-						tl(3, "String valCrypte = requeteSite.crypterStr(", nomChamp, ");");
-						tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, pk_objet) values(*/, \"", nomChamp, "\"", "valCrypte, pk /*) on conflict(chemin, pk_objet) do update set valeur=*/, valCrypte /* where p.chemin=*/, \"", nomChamp, "\" /* and p.pk_objet=*/, pk);");
-					}
-					else {
-						tl(3, "coureur.insert(sqlInsertP, gestionnaireListe /*insert into p(chemin, valeur, pk_objet) values(*/, \"", nomChamp, "\"", nomChamp, ", ", "pk /*) on conflict(chemin, pk_objet) do update set valeur=*/, ", nomChamp, " /* where p.chemin=*/, \"", nomChamp, "\" /* and p.pk_objet=*/, pk);");
-					}
-					tl(3, "sauvegardes", classeNomSimple, ".add(\"", nomChamp, "\");");
-					tl(2, "}");
-				}
-
-//								if(champ.cles && champ.contexteParent != null) {
-//									tl(0);
-//									String parentContexteVar = entiteVar.toString() + "VarInverse";
-//									String chaineVarInverse = champ.contexteParent.obtenirPourClasse(parentContexteVar).toString();
-//									String var1, var2, val1, val2, val, valSupprimer, varSupprimer;
-//									if(nomChamp.compareTo(chaineVarInverse) < 0) {
-//										var1 = nomChamp;
-//										var2 = chaineVarInverse;
-//										varSupprimer = champ.contexteEnfant.nomVarMinuscule + (requeteSite ? "Cle" : "Key");
-//										valSupprimer = nomChamp + (entiteNomCanonique.equals(ArrayList.class.getCanonicalName()) ? ".get(0)" : "");
-//										val1 = varSupprimer;
-//										val2 = requeteSite ? "pk" : "key";
-//									}
-//									else {
-//										var1 = chaineVarInverse;
-//										var2 = nomChamp;
-//										varSupprimer = champ.contexteEnfant.nomVarMinuscule + (requeteSite ? "Cle" : "Key");
-//										valSupprimer = nomChamp + (entiteNomCanonique.equals(ArrayList.class.getCanonicalName()) ? ".get(0)" : "");
-//										val1 = requeteSite ? "pk" : "key";
-//										val2 = varSupprimer;
-//									}
-//	
-//									tl(2, "{");
-//									tl(3, "String[] valeursCles = requeteSite.requete.getParameterValues(\"", nomChamp, "\");");
-//									tl(3, "if(valeursCles != null) {");
-//									tl(4, "String[] valeursSuppression = requeteSite.requete.getParameterValues(\"", nomChamp, "Supprimer\");");
-//									tl(4, "Long ", varSupprimer, " = Long.parseLong(valeursCles[valeursCles.length - 1]);");
-//									tl(4, "if(valeursSuppression != null && \"true\".equals(valeursSuppression[valeursSuppression.length - 1])) {");
-//									tl(5, "coureur.update(sqlDeleteA /*delete from a where champ1=*/, \"", var1, "\" /* and pk1=*/, ", val1, " /* and champ2=*/, \"", var2, "\" /* and pk2=*/, ", val2, ");");
-//									tl(4, "} else if(definirPourClasse(\"", nomChamp, "\"", "valeursCles[valeursCles.length - 1])) {");
-//	//								tl(5, varSupprimer, " = ", valSupprimer, ";");
-//									tl(5, "coureur.insert(sqlInsertA, gestionnaireListe /*insert into a(champ1, pk1, champ2, pk2) values(*/, \"", var1, "\"", val1, ", \"", var2, "\"", val2, " /*) on conflict do nothing */);");
-//									tl(5, "sauvegardes", classeNomSimple, ".add(\"", nomChamp, "\");");
-//									tl(4, "}");
-//									tl(4, "if(", varSupprimer, " != null) {");
-//									tl(5, champ.contexteEnfant.classeNomSimple, " ", champ.contexteEnfant.nomVarMinuscule, " = new ", champ.contexteEnfant.classeNomSimple, "();");
-//									tl(5, champ.contexteEnfant.nomVarMinuscule, ".pk(", varSupprimer, ");");
-//									tl(5, champ.contexteEnfant.nomVarMinuscule, ".sauvegardesPourClasse(requeteSite);");
-//									tl(5, champ.contexteEnfant.nomVarMinuscule, ".initLoinPourClasse(requeteSite_);");
-//									tl(5, champ.contexteEnfant.nomVarMinuscule, ".indexerPourClasse(requeteSite);");
-//									tl(4, "}");
-//									tl(3, "}");
-//									tl(2, "}");
-//								}
-		}	
-
 		/////////////////
 		// codeApiChamps //
 		/////////////////
 		o = wApiEntites;
-		l();
-		tl(1, "public static final String ENTITE_VAR_", entiteVar, " = \"", entiteVar, "\";");
-		if(classeIndexe) {
-			if(entiteIndexe)
-				tl(1, "public static final String ENTITE_VAR_INDEXE_", entiteVar, " = \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
-			if(entiteStocke)
-				tl(1, "public static final String ENTITE_VAR_STOCKE_", entiteVar, " = \"", entiteVar, "_stored", entiteSuffixeType, "\";");
-			if(entiteCrypte)
-				tl(1, "public static final String ENTITE_VAR_CRYPTE_", entiteVar, " = \"", entiteVar, "_encrypted", entiteSuffixeType, "\";");
-		}
-		if(entiteAttribuer)
-			tl(1, "public static final String ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, " = \"", entiteAttribuerVar, "\";");
+//		l();
+//		tl(1, "public static final String ENTITE_VAR_", entiteVar, " = \"", entiteVar, "\";");
+//		if(classeIndexe) {
+//			if(entiteIndexe)
+//				tl(1, "public static final String ENTITE_VAR_INDEXE_", entiteVar, " = \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
+//			if(entiteStocke)
+//				tl(1, "public static final String ENTITE_VAR_STOCKE_", entiteVar, " = \"", entiteVar, "_stored", entiteSuffixeType, "\";");
+//			if(entiteCrypte)
+//				tl(1, "public static final String ENTITE_VAR_CRYPTE_", entiteVar, " = \"", entiteVar, "_encrypted", entiteSuffixeType, "\";");
+//		}
+//		if(entiteAttribuer)
+//			tl(1, "public static final String ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, " = \"", entiteAttribuerVar, "\";");
 
 		/////////////////
 		// codeApiGet //
 		/////////////////
 		o = wApiGet;
 		if(classeIndexe && entiteIndexe) {
-			tl(3, "case ENTITE_VAR_", entiteVar, ":");
-			tl(4, "return ENTITE_VAR_INDEXE_", entiteVar, ";");
+			tl(3, "case \"", entiteVar, "\":");
+			tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
 		}
 
 		///////////////////////
@@ -2528,7 +2394,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		///////////////////////
 		o = wApiGenererGet;
 		if(classeIndexe && entiteStocke) {
-			tl(4, "if(ENTITE_VAR_STOCKE_", entiteVar, ".equals(entiteVarStocke)) {");
+			tl(4, "if(\"", entiteVar, "\".equals(entiteVarStocke)) {");
 			if (VAL_nomCanoniqueBoolean.equals(entiteSolrNomCanonique)) {
 				tl(5, "if(j > 0)");
 				tl(6, "reponseServeur.write(\", \");");
@@ -2829,18 +2695,27 @@ public class EcrireGenClasse extends EcrireClasse {
 		////////////////////////
 		o = wApiGenererPost;
 
-		Integer tBase = 0;
-		if(classeRolesTrouve) {
-			tBase = 6;
-		}
-		else {
-			tBase = 4;
-		}
+		Integer tBase = 2;
+//		if(classeRolesTrouve) {
+//			tBase = 6;
+//		}
+//		else {
+//			tBase = 4;
+//		}
 		if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
-			tl(tBase + 6, "case \"", entiteVar, "\":");
-			tl(tBase + 7, "postSql.append(SiteContexte.SQL_setP);");
-			tl(tBase + 7, "postSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), postPk));");
-			tl(tBase + 7, "break;");
+			tl(tBase + 2, "case \"", entiteVar, "\":");
+			tl(tBase + 3, "postSql.append(SiteContexte.SQL_setP);");
+			tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(entiteVar), ", classeVarClePrimaire, "));");
+			tl(tBase + 3, "break;");
+		}	
+		if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
+			tl(tBase + 2, "case \"", entiteVar, "\":");
+			tl(tBase + 3, "postSql.append(SiteContexte.SQL_addA);");
+			if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0)
+				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.getLong(entiteVar), \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, "));");
+			else
+				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\", jsonObject.getLong(entiteVar)));");
+			tl(tBase + 3, "break;");
 		}	
 
 		///////////////////////
@@ -2867,122 +2742,122 @@ public class EcrireGenClasse extends EcrireClasse {
 		////////////////////////
 		o = wApiGenererPatch;
 
-		tBase = 0;
-		if(classeRolesTrouve) {
-			tBase = 6;
-		}
-		else {
-			tBase = 4;
-		}
+		tBase = 2;
+//		if(classeRolesTrouve) {
+//			tBase = 6;
+//		}
+//		else {
+//			tBase = 4;
+//		}
 		if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 			if(BooleanUtils.isTrue(entiteAttribuer)) {
 				if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 	
 					if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
-						tl(tBase + 6, "case \"add", entiteVarCapitalise, "\":");
-						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_addA);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITE_VAR_", entiteVar);
-						tl(tBase + 9, ", patchPk");
-						tl(tBase + 9, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-						tl(tBase + 9, ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)");
-						tl(tBase + 9, "));");
+						tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
+						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 5, ", ", classeVarClePrimaire);
+						tl(tBase + 5, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 5, ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 5, "));");
 
-						tl(tBase + 6, "case \"addAll", entiteVarCapitalise, "\":");
-						tl(tBase + 7, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
-						tl(tBase + 7, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
-						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_addA);");
-						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 10, "ENTITE_VAR_", entiteVar);
-						tl(tBase + 10, ", patchPk");
-						tl(tBase + 10, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-						tl(tBase + 10, ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
-						tl(tBase + 10, "));");
-						tl(tBase + 7, "}");
+						tl(tBase + 2, "case \"addAll", entiteVarCapitalise, "\":");
+						tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+						tl(tBase + 3, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
+						tl(tBase + 4, "patchSql.append(SiteContexte.SQL_addA);");
+						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 5, ", ", classeVarClePrimaire);
+						tl(tBase + 5, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 5, ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
+						tl(tBase + 5, "));");
+						tl(tBase + 3, "}");
 	
-						tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
-						tl(tBase + 7, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
-						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_clearA1);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITE_VAR_", entiteVar);
-						tl(tBase + 9, ", patchPk");
-						tl(tBase + 9, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-						tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
-						tl(tBase + 9, "));");
+						tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
+						tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_clearA1);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 6, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 6, ", ", classeVarClePrimaire);
+						tl(tBase + 6, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 6, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 6, "));");
 
-						tl(tBase + 7, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
-						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_addA);");
-						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 10, "ENTITE_VAR_", entiteVar);
-						tl(tBase + 10, ", patchPk");
-						tl(tBase + 10, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-						tl(tBase + 10, ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
-						tl(tBase + 10, "));");
-						tl(tBase + 7, "}");
+						tl(tBase + 3, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
+						tl(tBase + 4, "patchSql.append(SiteContexte.SQL_addA);");
+						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 6, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 6, ", ", classeVarClePrimaire);
+						tl(tBase + 6, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 6, ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
+						tl(tBase + 6, "));");
+						tl(tBase + 3, "}");
 					}
 					else {
-						tl(tBase + 6, "case \"add", entiteVarCapitalise, "\":");
-						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_addA);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITE_VAR_", entiteVar);
-						tl(tBase + 9, ", patchPk");
-						tl(tBase + 9, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-						tl(tBase + 9, ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)");
-						tl(tBase + 9, "));");
+						tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
+						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 5, ", ", classeVarClePrimaire);
+						tl(tBase + 5, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 5, ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 5, "));");
 
-						tl(tBase + 6, "case \"addAll", entiteVarCapitalise, "\":");
-						tl(tBase + 7, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
-						tl(tBase + 7, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
-						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_setA2);");
-						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 10, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-						tl(tBase + 10, ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
-						tl(tBase + 10, ", ENTITE_VAR_", entiteVar);
-						tl(tBase + 10, ", patchPk");
-						tl(tBase + 10, "));");
-						tl(tBase + 7, "}");
+						tl(tBase + 2, "case \"addAll", entiteVarCapitalise, "\":");
+						tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+						tl(tBase + 3, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
+						tl(tBase + 4, "patchSql.append(SiteContexte.SQL_setA2);");
+						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 6, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 6, ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
+						tl(tBase + 6, ", ENTITE_VAR_", entiteVar);
+						tl(tBase + 6, ", ", classeVarClePrimaire);
+						tl(tBase + 6, "));");
+						tl(tBase + 3, "}");
 	
-						tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
-						tl(tBase + 7, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
-						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_clearA2);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-						tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
-						tl(tBase + 9, ", ENTITE_VAR_", entiteVar);
-						tl(tBase + 9, ", patchPk");
-						tl(tBase + 9, "));");
+						tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
+						tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_clearA2);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 5, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 5, ", ENTITE_VAR_", entiteVar);
+						tl(tBase + 5, ", ", classeVarClePrimaire);
+						tl(tBase + 5, "));");
 
-						tl(tBase + 7, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
-						tl(tBase + 8, "patchSql.append(SiteContexte.SQL_setA2);");
-						tl(tBase + 8, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 10, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-						tl(tBase + 10, ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
-						tl(tBase + 10, ", ENTITE_VAR_", entiteVar);
-						tl(tBase + 10, ", patchPk");
-						tl(tBase + 10, "));");
-						tl(tBase + 7, "}");
+						tl(tBase + 3, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
+						tl(tBase + 4, "patchSql.append(SiteContexte.SQL_setA2);");
+						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 6, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 6, ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
+						tl(tBase + 6, ", ENTITE_VAR_", entiteVar);
+						tl(tBase + 6, ", ", classeVarClePrimaire);
+						tl(tBase + 6, "));");
+						tl(tBase + 3, "}");
 					}
 				}
 				else {
 	
 					tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
 					if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
-						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_setA1);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITE_VAR_", entiteVar);
-						tl(tBase + 9, ", patchPk");
-						tl(tBase + 9, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-						tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setA1);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITE_VAR_", entiteVar);
+						tl(tBase + 5, ", ", classeVarClePrimaire);
+						tl(tBase + 5, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 5, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
 					}
 					else {
-						tl(tBase + 7, "patchSql.append(SiteContexte.SQL_setA2);");
-						tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 9, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-						tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
-						tl(tBase + 9, ", ENTITE_VAR_", entiteVar);
-						tl(tBase + 9, ", patchPk");
+						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setA2);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
+						tl(tBase + 5, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+						tl(tBase + 5, ", ENTITE_VAR_", entiteVar);
+						tl(tBase + 5, ", ", classeVarClePrimaire);
 					}
-					tl(tBase + 9, "));");
+					tl(tBase + 5, "));");
 				}
 	
 				tl(tBase + 7, "break;");
@@ -2991,25 +2866,25 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 	
 					tl(tBase + 6, "case \"add", entiteVarCapitalise, "\":");
-					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_addA);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(");
-					tl(tBase + 9, "ENTITE_VAR_", entiteVar);
-					tl(tBase + 9, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
-					tl(tBase + 9, ", patchPk");
-					tl(tBase + 9, "));");
+					tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
+					tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+					tl(tBase + 5, "ENTITE_VAR_", entiteVar);
+					tl(tBase + 5, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+					tl(tBase + 5, ", ", classeVarClePrimaire);
+					tl(tBase + 5, "));");
 	
-					tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
-					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_setP);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom), patchPk));");
+					tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
+					tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setP);");
+					tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom), ", classeVarClePrimaire, "));");
 				}
 				else {
 	
-					tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
-					tl(tBase + 7, "patchSql.append(SiteContexte.SQL_setP);");
-					tl(tBase + 7, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom), patchPk));");
+					tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
+					tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setP);");
+					tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(ENTITE_VAR_", entiteVar, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom), ", classeVarClePrimaire, "));");
 				}
 	
-				tl(tBase + 7, "break;");
+				tl(tBase + 3, "break;");
 			}
 		}	
 
@@ -3203,7 +3078,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			l("\t}");
 
-			if(StringUtils.isNotEmpty(classeVarClePrimaire)) {
+			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
 				tl(0);
 				tl(1, "public void desindexer", classeNomSimple, "() throws Exception {");
 				tl(2, "RequeteSite requeteSite = new RequeteSite();");
@@ -3215,7 +3090,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
 				tl(2, "initLoin", classeNomSimple, "(siteContexte.getRequeteSite_());");
 				tl(2, "SolrClient clientSolr = siteContexte.getClientSolr();");
-				tl(2, "clientSolr.deleteById(", classeVarClePrimaire, ".toString());");
+				tl(2, "clientSolr.deleteById(", classeVarCleUnique, ".toString());");
 				tl(2, "clientSolr.commit();");
 				tl(1, "}");
 			}
@@ -3271,33 +3146,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 		}	
 
-		/////////////////
-		// codePeupler //
-		/////////////////
-		o = wPeupler;
-		if(classeSauvegarde) {
-//						t(2, "}");
-
-			if(!classeNomSimple.equals("Cluster")) {
-				tl(0);
-				tl(2, "super.peupler", classeNomSimpleSuperGenerique, "(solrDocument);");
-			}
-
-			tl(1, "}");
-		}	
-
-		/////////////////////
-		// codeSauvegarder //
-		/////////////////////
-		o = wSauvegarder;
-		if(classeSauvegarde) {
-			if(!classeNomSimple.equals("Cluster")) {
-				tl(0);
-				tl(2, "super.sauvegarder", classeNomSimpleSuperGenerique + "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
-			}
-			tl(1, "}");
-		}	
-
 		wInitLoin.flushClose();
 		wRequeteSite.flushClose();
 		wIndexer.flushClose();
@@ -3307,7 +3155,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wPeupler.flushClose();
 		wExiste.flushClose();
 		wSauvegardes.flushClose();
-		wSauvegarder.flushClose();
+		wDefinir.flushClose();
 		wApiEntites.flushClose();
 		wApiGet.flushClose();
 		wApiGenererGet.flushClose();
@@ -3324,11 +3172,156 @@ public class EcrireGenClasse extends EcrireClasse {
 		s(wIndexer.toString());
 		s(wObtenir.toString());
 		s(wAttribuer.toString());
-//		s(wDefinir.toString());
-		s(wPeupler.toString());
+
+
+		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// definir //");
+			tl(1, "/////////////");
+			tl(0);
+			t(1);
+			if(!classeEstBase)
+				s("@Override ");
+			l("public boolean definirPourClasse(String var, String val) {");
+			tl(2, "String[] vars = StringUtils.split(var, \".\");");
+			tl(2, "Object o = null;");
+			tl(2, "if(val != null) {");
+			tl(3, "for(String v : vars) {");
+			tl(4, "if(o == null)");
+			tl(5, "o = definir", classeNomSimple, "(v, val);");
+			tl(4, "else if(o instanceof Cluster) {");
+			tl(5, "Cluster cluster = (Cluster)o;");
+			tl(5, "o = cluster.definirPourClasse(v, val);");
+			tl(4, "}");
+			tl(3, "}");
+			tl(2, "}");
+			tl(2, "return o != null;");
+			tl(1, "}");
+			tl(1, "public Object definir", classeNomSimple, "(String var, String val) {");
+			tl(2, "switch(var) {");
+			s(wDefinir.toString());
+			tl(3, "default:");
+
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return super.definir", classeNomSimpleSuperGenerique, "(var, val);");
+
+			tl(2, "}");
+			tl(1, "}");
+		}
+
+		if(classeSauvegarde) {
+			l(); 
+			tl(1, "/////////////////");
+			tl(1, "// sauvegardes //");
+			tl(1, "/////////////////");
+			tl(0);
+			tl(1, "protected List<String> sauvegardes", classeNomSimple, " = new ArrayList<String>();");
+		}
+
+		/////////////////
+		// codePeupler //
+		/////////////////
+		if(classeSauvegarde) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// peupler //");
+			tl(1, "/////////////");
+			tl(0);
+			t(1);
+			if(!classeNomSimple.equals("Cluster"))
+				s("@Override ");
+			l("public void peuplerPourClasse(SolrDocument solrDocument) {");
+			if(classeSauvegarde) {
+			tl(2, "peupler", classeNomSimple, "(solrDocument);");
+			}
+			tl(1, "}");
+			tl(1, "public void peupler", classeNomSimple, "(SolrDocument solrDocument) {");
+			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
+			tl(2, "sauvegardes", classeNomSimple, " = (List<String>)solrDocument.get(\"sauvegardes", classeNomSimple, "_stored_strings\");");
+			s(wPeupler.toString());
+			if(!classeNomSimple.equals("Cluster")) {
+				tl(0);
+				tl(2, "super.peupler", classeNomSimpleSuperGenerique, "(solrDocument);");
+			}
+
+			tl(1, "}");
+		}	
+
 //		s(wExiste.toString());
-		s(wSauvegardes.toString());
-//		s(wSauvegarder.toString());
+
+		/////////////////////
+		// codeSauvegarder //
+		/////////////////////
+//		if(classeSauvegarde) {
+//			l(); 
+//			tl(1, "/////////////////");
+//			tl(1, "// sauvegarder //");
+//			tl(1, "/////////////////");
+//			tl(0);
+//			t(1);
+//			if(classeEtendBase)
+//				s("@Override ");
+//			l("public void sauvegarderPourClasse(RequeteSite requeteSite) throws Exception {");
+//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
+//			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
+//			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
+//			tl(2, "pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
+//			tl(2, "utilisateurId = requeteSite.utilisateurId;");
+//			tl(2, "String nomCanonique = getClass().getCanonicalName();");
+//			tl(2, "modifie = ", LocalDateTime.class.getCanonicalName(), ".now();");
+//			tl(2, Timestamp.class.getCanonicalName(), " horodatage = java.sql.Timestamp.valueOf(modifie);");
+//
+//			tl(2);
+//			tl(2, "if(pk == null) {");
+//			tl(3, "String sql = \"insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(?, ?, ?, ?) returning pk\";");
+//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.insert(sql, gestionnaireListe /*insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(*/, nomCanonique, requeteSite.utilisateurId, horodatage, horodatage /*) returning pk, cree*/);");
+//			tl(3, "pk = (Long)resultats.get(0)[0];");
+//			tl(3, "cree = modifie;");
+//			tl(2, "}");
+//			tl(2, "else {");
+//			tl(3, "String sql = \"update objet set modifie=? where objet.pk=? and objet.id_utilisateur=? and objet.nom_canonique=? returning cree\";");
+//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*update objet set modifie=*/, horodatage /* where objet.pk=*/, pk /* and objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique /* returning cree*/);");
+//			tl(3, "if(resultats.size() == 0)");
+//			t(4, "throw new Exception(\"");
+//			s("L'objet avec le pk \" + pk + \" et nom canonique \" + pk + \" pour utilisateur \" + requeteSite.utilisateurId + \" \" + requeteSite.utilisateurNom + \" n'existe pas dejà. ");
+//			l("\");");
+//			tl(3, "horodatage = (java.sql.Timestamp)resultats.get(0)[0];");
+//			tl(3, "cree = ", LocalDateTime.class.getCanonicalName(), ".from(horodatage.toLocalDateTime());");
+//			tl(2, "}");
+////						tl(0);
+////						tl(2, "{");
+////						tl(3, "String sqlSelectP = \"select chemin, valeur from p where p.pk_objet=?\";");
+////						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sqlSelectP, gestionnaireListe /*select chemin, valeur from p where p.pk_objet=*/, pk);");
+////						tl(3, "for(Object[] objets : resultats) {");
+////						tl(4, "String chemin = (String)objets[0];");
+////						if(coursCrypte)
+////							tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
+////						else
+////							tl(4, "String valeur = (String)objets[1];");
+////						tl(4, "definir(chemin, valeur);");
+////						tl(4, "sauvegardes", classeNomSimple, ".add(chemin);");
+////						tl(3, "}");
+////						tl(2, "}");
+//			tl(0);
+////						tl(2, "{");
+//			tl(2, "String sqlInsertP = \"insert into p(chemin, valeur, pk_objet) values(?, ?, ?) on conflict(chemin, pk_objet) do update set valeur=? where p.chemin=? and p.pk_objet=?\";");
+//			tl(2, "String sqlInsertA = \"insert into a(champ1, pk1, champ2, pk2) values(?, ?, ?, ?) on conflict  do nothing\";");
+//			tl(2, "String sqlDeleteP = \"delete from p where chemin=? and pk_objet=?\";");
+//			tl(2, "String sqlDeleteA = \"delete from a where champ1=? and pk1=? and champ2=? and pk2=?\";");
+//			tl(2, "sauvegarder", classeNomSimple, "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
+////						tl(2, "}");
+//			tl(1, "}");
+//			tl(1, "public void sauvegarder", classeNomSimple, "(RequeteSite requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
+//			s(wSauvegarder.toString());
+//			if(classeEtendBase) {
+//				tl(0);
+//				tl(2, "super.sauvegarder", classeNomSimpleSuperGenerique + "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
+//			}
+//			tl(1, "}");
+//		}	
 
 		//////////////
 		// hashCode //

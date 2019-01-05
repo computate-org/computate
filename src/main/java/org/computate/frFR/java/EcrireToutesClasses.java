@@ -326,7 +326,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					genCodePeupler(langueNom);
 					genCodeExiste(langueNom);
 					genCodeSauvegardes(langueNom);
-					genCodeSauvegarder(langueNom);
 					genCodeClasseDebut(langueNom);
 					if(classeApi)
 						apiCodeClasseDebut(langueNom);

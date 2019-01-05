@@ -1789,6 +1789,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityExact
 	 * r: entiteClePrimaire
 	 * r.enUS: entityPrimaryKey
+	 * r: entiteCleUnique
+	 * r.enUS: entityUniqueKey
 	 * r: entiteCrypte
 	 * r.enUS: entityEncrypted
 	 * r: entiteSuggere
@@ -1891,6 +1893,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classPageUri
 	 * r: classeVarClePrimaire
 	 * r.enUS: classVarPrimaryKey
+	 * r: classeVarCleUnique
+	 * r.enUS: classVarUniqueKey
 	 * 
 	 * r: ^modele
 	 * r.enUS: ^model
@@ -1898,6 +1902,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: ^exact
 	 * r: ^clePrimaire
 	 * r.enUS: ^primaryKey
+	 * r: ^cleUnique
+	 * r.enUS: ^uniqueKey
 	 * r: ^crypte
 	 * r.enUS: ^encrypted
 	 * r: ^suggere
@@ -2002,6 +2008,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		List<String> classeMotsCles = new ArrayList<String>();
 		List<String> classeInitLoinExceptions = new ArrayList<String>(); 
 		String classeVarClePrimaire = null;
+		String classeVarCleUnique = null;
 
 		String classeNomCanoniqueSuper = Object.class.getCanonicalName();
 		Boolean classeSuperErreur = false;
@@ -2200,6 +2207,12 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDateTime", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.sql.Timestamp", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Future", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.sql.SQLConnection", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.AsyncResult", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Handler", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.buffer.Buffer", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.OperationResponse", langueNom));
 		}
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);
@@ -2759,7 +2772,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						} catch (Exception e) {
 						}
 
-						Boolean entiteDefinir = stockerSolr(entiteDoc, "entiteDefinir", 
+						Boolean entiteDefinir = 
 								entiteNomCanonique.equals(VAL_nomCanoniqueString)
 								|| classePartsChaine != null && entiteNomCanonique.equals(classePartsChaine.nomCanonique)
 								|| entiteNomCanonique.equals(VAL_nomCanoniqueBoolean)
@@ -2798,7 +2811,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)
 								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
 								|| entiteSetter != null
-								);
+								;
 						
 						JavaClass entiteClasseQdoxBase = null;
 						JavaClass entiteClasseSuperQdox = entiteClasseQdox.getSuperJavaClass();
@@ -3002,13 +3015,14 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						indexerStockerSolr(entiteDoc, "entiteExact", regexTrouve("^exact:\\s*(true)$", methodeCommentaire));
 						Boolean entiteClePrimaire = indexerStockerSolr(entiteDoc, "entiteClePrimaire", regexTrouve("^clePrimaire:\\s*(true)$", methodeCommentaire));
+						Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^cleUnique:\\s*(true)$", methodeCommentaire));
 						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^crypte:\\s*(true)$", methodeCommentaire));
 						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^suggere:\\s*(true)$", methodeCommentaire));
 						Boolean entiteSauvegarde = indexerStockerSolr(entiteDoc, "entiteSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", methodeCommentaire));
 						Boolean entiteIndexe = indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^indexe:\\s*(true)$", methodeCommentaire));
 						Boolean entiteIncremente = indexerStockerSolr(entiteDoc, "entiteIncremente", regexTrouve("^incremente:\\s*(true)$", methodeCommentaire));
 						Boolean entiteStocke = indexerStockerSolr(entiteDoc, "entiteStocke", regexTrouve("^stocke:\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteIndexeOuStocke", entiteClePrimaire || entiteCrypte || entiteSuggere || entiteIndexe || entiteStocke || entiteIncremente);
+						indexerStockerSolr(entiteDoc, "entiteIndexeOuStocke", entiteCleUnique || entiteCrypte || entiteSuggere || entiteIndexe || entiteStocke || entiteIncremente);
 						indexerStockerSolr(entiteDoc, "entiteTexte", regexTrouve("^texte:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteIgnorer", regexTrouve("^ignorer:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteDeclarer", regexTrouve("^declarer:\\s*(true)$", methodeCommentaire));
@@ -3089,6 +3103,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 								if(listeRechercheVar.size() > 0) {
 									SolrDocument docEntite = listeRechercheClasse.get(0);
+									entiteDefinir = false;
 
 									indexerStockerSolr(entiteDoc, "entiteAttribuer", true);
 									indexerStockerSolr(entiteDoc, "entiteAttribuerNomSimple", langueNom, entiteAttribuerNomSimple);
@@ -3107,6 +3122,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								}
 							}
 						}
+						stockerSolr(entiteDoc, "entiteDefinir", entiteDefinir);
 
 //						boolean entiteCouverture = false;
 //	
@@ -3505,8 +3521,10 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteFormatJson != null)
 							stockerSolr(entiteDoc, "entiteFormatJson", entiteFormatJson);
 //						
-//						if(entiteClePrimaire)
+//						if(entiteCleUnique)
 //							stockerSolr(entiteDoc, "entiteVarCleUnique", entiteVar);
+//						if(entiteClePrimaire)
+//							stockerSolr(entiteDoc, "entiteVarClePrimaire", entiteVar);
 //						if(entiteSuggere)
 //							stockerSolr(entiteDoc, "entiteVarSuggere", entiteVar + "_suggere");
 //						if(entiteIncremente)
@@ -3521,12 +3539,18 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteClePrimaire) {
 							classeVarClePrimaire = stockerSolr(classeDoc, "classeVarClePrimaire", langueNom, entiteVar);
 						}
+						if(entiteCleUnique) {
+							classeVarCleUnique = stockerSolr(classeDoc, "classeVarCleUnique", langueNom, entiteVar);
+						}
 
 						for(String langueNom : autresLangues) {  
 							String entiteVarLangue = regex("^var\\." + langueNom + ": (.*)", methodeCommentaire);
 							entiteVarLangue = indexerStockerSolr(entiteDoc, "entiteVar", langueNom, entiteVarLangue == null ? entiteVar : entiteVarLangue);
 							if(entiteClePrimaire) {
 								stockerSolr(classeDoc, "classeVarClePrimaire", langueNom, entiteVarLangue);
+							}
+							if(entiteCleUnique) {
+								stockerSolr(classeDoc, "classeVarCleUnique", langueNom, entiteVarLangue);
 							}
 	
 							String entiteBlocCodeLangue = entiteBlocCode;
@@ -3687,6 +3711,18 @@ public class IndexerClasse extends RegarderClasseBase {
 					String classeVarClePrimaireLangue = (String)classeSuperDoc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
 					if(classeVarClePrimaireLangue != null) {
 						stockerSolr(classeDoc, "classeVarClePrimaire", langueNom, classeVarClePrimaireLangue);
+					}
+				}
+			}
+		}
+		if(classeVarCleUnique == null && classeSuperDoc != null) {
+			classeVarCleUnique = (String)classeSuperDoc.get("classeVarCleUnique_" + langueNom + "_stored_string");
+			if(classeVarCleUnique != null) {
+				stockerSolr(classeDoc, "classeVarCleUnique", langueNom, classeVarCleUnique);
+				for(String langueNom : autresLangues) {  
+					String classeVarCleUniqueLangue = (String)classeSuperDoc.get("classeVarCleUnique_" + langueNom + "_stored_string");
+					if(classeVarCleUniqueLangue != null) {
+						stockerSolr(classeDoc, "classeVarCleUnique", langueNom, classeVarCleUniqueLangue);
 					}
 				}
 			}
