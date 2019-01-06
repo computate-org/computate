@@ -618,1474 +618,1476 @@ public class WriteGenClass extends WriteClass {
 		Boolean entityInitDeep = (Boolean)doc.get("entityInitDeep_stored_boolean");
 		List<String> methodExceptionsSimpleNameComplete = (List<String>)doc.get("methodExceptionsSimpleNameComplete_stored_strings");
 
-//		String entityVarCleUniqueActuel = (String)doc.get("entityVarCleUnique_stored_string");
-//		if(StringUtils.isNotEmpty(entityVarCleUniqueActuel))
-//			entityVarCleUnique = entityVarCleUniqueActuel;
-		String entitySolrCanonicalName = (String)doc.get("entitySolrCanonicalName_stored_string");
-		String entitySolrSimpleName = (String)doc.get("entitySolrSimpleName_stored_string");
-		String entitySimpleNameVertxJson = (String)doc.get("entitySimpleNameVertxJson_stored_string");
-		String entityCanonicalNameVertxJson = (String)doc.get("entityCanonicalNameVertxJson_stored_string");
-		String entityListSimpleNameVertxJson = (String)doc.get("entityListSimpleNameVertxJson_stored_string");
-		String entityListCanonicalNameVertxJson = (String)doc.get("entityListCanonicalNameVertxJson_stored_string");
-
-		Boolean entityExact = (Boolean)doc.get("entityExact_stored_boolean");
-		Boolean entityPrimaryKey = (Boolean)doc.get("entityPrimaryKey_stored_boolean");
-		Boolean entityUniqueKey = (Boolean)doc.get("entityUniqueKey_stored_boolean");
-		Boolean entityEncrypted = (Boolean)doc.get("entityEncrypted_stored_boolean");
-		Boolean entitySuggested = (Boolean)doc.get("entitySuggested_stored_boolean");
-		Boolean entitySaved = (Boolean)doc.get("entitySaved_stored_boolean");
-		Boolean entityIndexed = (Boolean)doc.get("entityIndexed_stored_boolean");
-		Boolean entityStored = (Boolean)doc.get("entityStored_stored_boolean");
-		Boolean entitytexte = (Boolean)doc.get("entitytexte_stored_boolean");
-		Boolean entityIncremented = (Boolean)doc.get("entityIncremented_stored_boolean");
-		Boolean entityIgnored = (Boolean)doc.get("entityIgnored_stored_boolean");
-		Boolean entityDeclared = (Boolean)doc.get("entityDeclared_stored_boolean");
-		Boolean entitySearch = (Boolean)doc.get("entitySearch_stored_boolean");
-		Boolean entityAttribute = BooleanUtils.isTrue((Boolean)doc.get("entityAttribute_stored_boolean"));
-		String entityAttributeNomCanonique = (String)doc.get("entityAttributeNomCanonique_" + languageName + "_stored_string");
-		String entityAttributeNomSimple = (String)doc.get("entityAttributeNomSimple_" + languageName + "_stored_string");
-		String entityAttributeVar = (String)doc.get("entityAttributeVar_" + languageName + "_stored_string");
-		Boolean entityAdd = (Boolean)doc.get("entityAdd_stored_boolean");
-		Boolean entityDelete = (Boolean)doc.get("entityDelete_stored_boolean");
-		Boolean entityModify = (Boolean)doc.get("entityModify_stored_boolean");
-		Boolean entityRefresh = (Boolean)doc.get("entityRefresh_stored_boolean");
-		Boolean entityMultiLine = (Boolean)doc.get("entityMultiLine_stored_boolean");
-		Boolean entityKeys = (Boolean)doc.get("entityKeys_stored_boolean");
-		Boolean entityIndexedOrStored = (Boolean)doc.get("entityIndexedOrStored_stored_boolean");
-		Boolean entityDefined = (Boolean)doc.get("entityDefined_stored_boolean");
-
-		String entityDisplayName = (String)doc.get("entityDisplayName_" + languageName + "_stored_string");
-		String entityHtmlTooltip = (String)doc.get("entityHtmlTooltip_" + languageName + "_stored_string");
-
-		List<String> entityMethodsBeforeVisibility = (List<String>)doc.get("entityMethodsBeforeVisibility_stored_strings");
-		List<String> entityMethodsBeforeVar = (List<String>)doc.get("entityMethodsBeforeVar_stored_strings");
-		List<String> entityMethodsBeforeParamVar = (List<String>)doc.get("entityMethodsBeforeParamVar_stored_strings");
-		List<String> entityMethodsBeforeSimpleName = (List<String>)doc.get("entityMethodsBeforeSimpleName_stored_strings");
-		List<Boolean> entityMethodsBeforeParamName = (List<Boolean>)doc.get("entityMethodsBeforeParamName_stored_booleans");
-		List<Boolean> entityMethodsBeforeWrite = (List<Boolean>)doc.get("entityMethodsBeforeWrite_stored_booleans");
-
-		List<String> entityMethodsAfterVisibility = (List<String>)doc.get("entityMethodsAfterVisibility_stored_strings");
-		List<String> entityMethodsAfterVar = (List<String>)doc.get("entityMethodsAfterVar_stored_strings");
-		List<String> entityMethodsAfterParamVar = (List<String>)doc.get("entityMethodsAfterParamVar_stored_strings");
-		List<String> entityMethodsAfterSimpleName = (List<String>)doc.get("entityMethodsAfterSimpleName_stored_strings");
-		List<Boolean> entityMethodsAfterParamName = (List<Boolean>)doc.get("entityMethodsAfterParamName_stored_booleans");
-		List<Boolean> entityMethodsAfterWrite = (List<Boolean>)doc.get("entityMethodsAfterWrite_stored_booleans");
-
-		o = writerGenClass;
-
-		l();
-		String commentLine = "\t///" + String.join("", Collections.nCopies(entityVar.length(), "/")) + "///";
-		l(commentLine);
-		tl(1, "// ", entityVar, " //");
-		l(commentLine);
-		l();
-		t(1, "/**");
-		t(1);
-			s("The entity \" ", entityVar, " \"");
-		l();
-
-		if(entityComment != null) {
-			String[] lines = entityComment.toString().split("\n");
-			for(int j = 0; j < lines.length; j++) {
-				String line = lines[j];
-				if(!StringUtils.isEmpty(line)) {
-					Boolean first = j == 0;
-					Integer tabs = StringUtils.countMatches(line, "\t");
-					if(!first)
-						t(1 + tabs, " *\t");
-					l(line.substring(tabs));
+		if(entityCanonicalName != null) {
+	//		String entityVarCleUniqueActuel = (String)doc.get("entityVarCleUnique_stored_string");
+	//		if(StringUtils.isNotEmpty(entityVarCleUniqueActuel))
+	//			entityVarCleUnique = entityVarCleUniqueActuel;
+			String entitySolrCanonicalName = (String)doc.get("entitySolrCanonicalName_stored_string");
+			String entitySolrSimpleName = (String)doc.get("entitySolrSimpleName_stored_string");
+			String entitySimpleNameVertxJson = (String)doc.get("entitySimpleNameVertxJson_stored_string");
+			String entityCanonicalNameVertxJson = (String)doc.get("entityCanonicalNameVertxJson_stored_string");
+			String entityListSimpleNameVertxJson = (String)doc.get("entityListSimpleNameVertxJson_stored_string");
+			String entityListCanonicalNameVertxJson = (String)doc.get("entityListCanonicalNameVertxJson_stored_string");
+	
+			Boolean entityExact = (Boolean)doc.get("entityExact_stored_boolean");
+			Boolean entityPrimaryKey = (Boolean)doc.get("entityPrimaryKey_stored_boolean");
+			Boolean entityUniqueKey = (Boolean)doc.get("entityUniqueKey_stored_boolean");
+			Boolean entityEncrypted = (Boolean)doc.get("entityEncrypted_stored_boolean");
+			Boolean entitySuggested = (Boolean)doc.get("entitySuggested_stored_boolean");
+			Boolean entitySaved = (Boolean)doc.get("entitySaved_stored_boolean");
+			Boolean entityIndexed = (Boolean)doc.get("entityIndexed_stored_boolean");
+			Boolean entityStored = (Boolean)doc.get("entityStored_stored_boolean");
+			Boolean entitytexte = (Boolean)doc.get("entitytexte_stored_boolean");
+			Boolean entityIncremented = (Boolean)doc.get("entityIncremented_stored_boolean");
+			Boolean entityIgnored = (Boolean)doc.get("entityIgnored_stored_boolean");
+			Boolean entityDeclared = (Boolean)doc.get("entityDeclared_stored_boolean");
+			Boolean entitySearch = (Boolean)doc.get("entitySearch_stored_boolean");
+			Boolean entityAttribute = BooleanUtils.isTrue((Boolean)doc.get("entityAttribute_stored_boolean"));
+			String entityAttributeNomCanonique = (String)doc.get("entityAttributeNomCanonique_" + languageName + "_stored_string");
+			String entityAttributeNomSimple = (String)doc.get("entityAttributeNomSimple_" + languageName + "_stored_string");
+			String entityAttributeVar = (String)doc.get("entityAttributeVar_" + languageName + "_stored_string");
+			Boolean entityAdd = (Boolean)doc.get("entityAdd_stored_boolean");
+			Boolean entityDelete = (Boolean)doc.get("entityDelete_stored_boolean");
+			Boolean entityModify = (Boolean)doc.get("entityModify_stored_boolean");
+			Boolean entityRefresh = (Boolean)doc.get("entityRefresh_stored_boolean");
+			Boolean entityMultiLine = (Boolean)doc.get("entityMultiLine_stored_boolean");
+			Boolean entityKeys = (Boolean)doc.get("entityKeys_stored_boolean");
+			Boolean entityIndexedOrStored = (Boolean)doc.get("entityIndexedOrStored_stored_boolean");
+			Boolean entityDefined = (Boolean)doc.get("entityDefined_stored_boolean");
+	
+			String entityDisplayName = (String)doc.get("entityDisplayName_" + languageName + "_stored_string");
+			String entityHtmlTooltip = (String)doc.get("entityHtmlTooltip_" + languageName + "_stored_string");
+	
+			List<String> entityMethodsBeforeVisibility = (List<String>)doc.get("entityMethodsBeforeVisibility_stored_strings");
+			List<String> entityMethodsBeforeVar = (List<String>)doc.get("entityMethodsBeforeVar_stored_strings");
+			List<String> entityMethodsBeforeParamVar = (List<String>)doc.get("entityMethodsBeforeParamVar_stored_strings");
+			List<String> entityMethodsBeforeSimpleName = (List<String>)doc.get("entityMethodsBeforeSimpleName_stored_strings");
+			List<Boolean> entityMethodsBeforeParamName = (List<Boolean>)doc.get("entityMethodsBeforeParamName_stored_booleans");
+			List<Boolean> entityMethodsBeforeWrite = (List<Boolean>)doc.get("entityMethodsBeforeWrite_stored_booleans");
+	
+			List<String> entityMethodsAfterVisibility = (List<String>)doc.get("entityMethodsAfterVisibility_stored_strings");
+			List<String> entityMethodsAfterVar = (List<String>)doc.get("entityMethodsAfterVar_stored_strings");
+			List<String> entityMethodsAfterParamVar = (List<String>)doc.get("entityMethodsAfterParamVar_stored_strings");
+			List<String> entityMethodsAfterSimpleName = (List<String>)doc.get("entityMethodsAfterSimpleName_stored_strings");
+			List<Boolean> entityMethodsAfterParamName = (List<Boolean>)doc.get("entityMethodsAfterParamName_stored_booleans");
+			List<Boolean> entityMethodsAfterWrite = (List<Boolean>)doc.get("entityMethodsAfterWrite_stored_booleans");
+	
+			o = writerGenClass;
+	
+			l();
+			String commentLine = "\t///" + String.join("", Collections.nCopies(entityVar.length(), "/")) + "///";
+			l(commentLine);
+			tl(1, "// ", entityVar, " //");
+			l(commentLine);
+			l();
+			t(1, "/**");
+			t(1);
+				s("The entity \" ", entityVar, " \"");
+			l();
+	
+			if(entityComment != null) {
+				String[] lines = entityComment.toString().split("\n");
+				for(int j = 0; j < lines.length; j++) {
+					String line = lines[j];
+					if(!StringUtils.isEmpty(line)) {
+						Boolean first = j == 0;
+						Integer tabs = StringUtils.countMatches(line, "\t");
+						if(!first)
+							t(1 + tabs, " *\t");
+						l(line.substring(tabs));
+					}
 				}
 			}
-		}
-
-		if(entityWrap) {
-			tl(1, " *\t", " is defined as null before being initialized. ");
-		}
-		else {
-			tl(1, " *\t", "It is constructed before being initialized with the constructor by default ", entitySimpleNameComplete, "(). ");
-		}
-		tl(1, " */");
-
-		t(1, "protected ", entitySimpleNameComplete, " ", entityVar);
-		if(!entityWrap) {
-			if("java.util.List".equals(entityCanonicalName)) {
-				s(" = new java.util.ArrayList<");
-				s(entityCanonicalNameGeneric);
-				s(">()");
+	
+			if(entityWrap) {
+				tl(1, " *\t", " is defined as null before being initialized. ");
 			}
 			else {
-				s(" = new ", entitySimpleNameComplete, "()");
+				tl(1, " *\t", "It is constructed before being initialized with the constructor by default ", entitySimpleNameComplete, "(). ");
 			}
-		}
-		l(";");
-
-		t(1, "public Wrap<", entitySimpleNameComplete, "> ", entityVar, "Wrap");
-		l(" = new Wrap<", entitySimpleNameComplete, ">().p(this).c(", entitySimpleName, ".class).var(\"", entityVar, "\").o(", entityVar, ");");
-
-		// Methode underscore //
-		l();
-		t(1, "/**");
-		t(1);
-		s("<br/>", "The entity \" ", entityVar, " \"");
-		l();
-
-		if(entityComment != null) {
-			String[] lines = entityComment.toString().split("\n");
-			for(int j = 0; j < lines.length; j++) {
-				String line = lines[j];
-				if(!StringUtils.isEmpty(line)) {
-					Boolean first = j == 0;
-					Integer tabs = StringUtils.countMatches(line, "\t");
-					if(!first)
-						t(1 + tabs, " *\t");
-					l(line.substring(tabs));
+			tl(1, " */");
+	
+			t(1, "protected ", entitySimpleNameComplete, " ", entityVar);
+			if(!entityWrap) {
+				if("java.util.List".equals(entityCanonicalName)) {
+					s(" = new java.util.ArrayList<");
+					s(entityCanonicalNameGeneric);
+					s(">()");
+				}
+				else {
+					s(" = new ", entitySimpleNameComplete, "()");
 				}
 			}
-		}
-
-		if(entityWrap) {
-			tl(1, " * ", " is defined as null before being initialized. ");
-		}
-		else {
-			tl(1, " * ", "It is constructed before being initialized with the constructor by default ", entitySimpleNameComplete, "(). ");
-		}
-
-		// Lien vers Solr //
-		tl(1, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partIsEntity_indexed_boolean:true&fq=classCanonicalName_", languageName, "_indexed_string:", ClientUtils.escapeQueryChars(classCanonicalName), "&fq=classExtendsGen_indexed_boolean:true&fq=entityVar_", languageName, "_indexed_string:", ClientUtils.escapeQueryChars(entityVar), "\">Find the entity ", entityVar, " in Solr</a>");
-		tl(1, " * <br/>");
-
-		if(entityWrap) {
-			tl(1, " * @param ", entityVarParam, " is for wrapping a value to assign to this entity at initialization. ");
-		}
-		else {
-			tl(1, " * @param ", entityVar, " is the entity already constructed. ");
-		}
-//		if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
-//
-//			for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
-//				String methodeExceptionNomSimpleComplet = methodExceptionsSimpleNameComplete.get(i);
-//				tl(1, " * @throws ", methodeExceptionNomSimpleComplet);
-//			}
-//		}
-		tl(1, " **/");
-		t(1, "protected abstract void");
-		s(" _", entityVar);
-		s("(");
-		if(entityWrap) {
-			s("Wrap<", entitySimpleNameComplete, "> ", entityVarParam);
-		}
-		else {
-			s(entitySimpleNameComplete, " ", entityVarParam);
-		}
-		s(")");
-		if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
-
-			s(" throws ");
-			for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
-				String methodeExceptionNomSimpleComplet = methodExceptionsSimpleNameComplete.get(i);
-				if(i > 0) 
-					s(", ");
-				s(methodeExceptionNomSimpleComplet);
+			l(";");
+	
+			t(1, "public Wrap<", entitySimpleNameComplete, "> ", entityVar, "Wrap");
+			l(" = new Wrap<", entitySimpleNameComplete, ">().p(this).c(", entitySimpleName, ".class).var(\"", entityVar, "\").o(", entityVar, ");");
+	
+			// Methode underscore //
+			l();
+			t(1, "/**");
+			t(1);
+			s("<br/>", "The entity \" ", entityVar, " \"");
+			l();
+	
+			if(entityComment != null) {
+				String[] lines = entityComment.toString().split("\n");
+				for(int j = 0; j < lines.length; j++) {
+					String line = lines[j];
+					if(!StringUtils.isEmpty(line)) {
+						Boolean first = j == 0;
+						Integer tabs = StringUtils.countMatches(line, "\t");
+						if(!first)
+							t(1 + tabs, " *\t");
+						l(line.substring(tabs));
+					}
+				}
 			}
-		}
-		l(";");
-
-//						l();
-//						tl(1, "public ", classSimpleName, " ", entityVar, "(", entitySimpleNameComplete, " ", entityVarParam, ") throws Exception {");
-//						tl(2, "set", entityVarCapitalized, "(", entityVarParam, ");");
-//						tl(2, "return (", classSimpleName, ")this;");
-//						tl(1, "}");
-
-		l();
-		tl(1, "public ", entitySimpleNameComplete, " get", entityVarCapitalized, "() {");
-		tl(2, "return ", entityVar, ";");
-		tl(1, "}");
-
-		l();
-		tl(1, "public void set", entityVarCapitalized, "(", entitySimpleNameComplete, " ", entityVarParam, ") {");
-		tl(2, "this.", entityVar, " = ", entityVarParam, ";");
-		tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-		tl(1, "}");
-//
-//						l();
-//						tl(1, "public ", entitySimpleNameComplete, " ", entityVar, "() throws Exception {");
-//						tl(2, "return get", entityVarCapitalized, "();");
-//						tl(1, "}");
-
-		// Setter List //
-		if(StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName()) && StringUtils.equals(entityCanonicalNameGeneric, Long.class.getCanonicalName())) {
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
-			tl(3, "Long l = Long.parseLong(o);");
-			tl(3, "add", entityVarCapitalized, "(l);");
-			tl(2, "}");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter Boolean //
-		if(StringUtils.equals(entityCanonicalName, Boolean.class.getCanonicalName())) {
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
-			tl(3, "this.", entityVar, " = Boolean.parseBoolean(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter Integer //
-		if(StringUtils.equals(entityCanonicalName, Integer.class.getCanonicalName())) {
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
-			tl(3, "this.", entityVar, " = Integer.parseInt(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter BigDecimal //
-		if(StringUtils.equals(entityCanonicalName, BigDecimal.class.getCanonicalName())) {
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
-			tl(3, "this.", entityVar, " = new BigDecimal(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Double o) {");
-			tl(3, "this.", entityVar, " = new BigDecimal(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Integer o) {");
-			tl(3, "this.", entityVar, " = new BigDecimal(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter Float //
-		if(StringUtils.equals(entityCanonicalName, Float.class.getCanonicalName())) {
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
-			tl(3, "this.", entityVar, " = Float.parseFloat(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter Double //
-		if(StringUtils.equals(entityCanonicalName, Double.class.getCanonicalName())) {
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
-			tl(3, "this.", entityVar, " = Double.parseDouble(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter Long //
-		if(StringUtils.equals(entityCanonicalName, Long.class.getCanonicalName())) {
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
-			tl(3, "this.", entityVar, " = Long.parseLong(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter Long //
-		if(StringUtils.equals(entitySimpleName, "Chain")) {
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, entityVar, ".tout(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter Timestamp //
-		if(StringUtils.equals(entityCanonicalName, Timestamp.class.getCanonicalName())) {
-			tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "this.", entityVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter Date //
-		if(StringUtils.equals(entityCanonicalName, Date.class.getCanonicalName())) {
-			tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "this.", entityVar, " = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter LocalDate //
-		if(StringUtils.equals(entityCanonicalName, LocalDate.class.getCanonicalName())) {
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Instant o) {");
-			tl(2, "this.", entityVar, " = LocalDate.from(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-			tl(1, "/** Example: 2011-12-03+01:00 **/");
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "this.", entityVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
-			tl(2, "this.", entityVar, " = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Setter LocalDateTime //
-		if(StringUtils.equals(entityCanonicalName, LocalDateTime.class.getCanonicalName())) {
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Instant o) {");
-			tl(2, "this.", entityVar, " = LocalDateTime.from(o);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-			tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-			tl(2, "this.", entityVar, " = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-			tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
-			tl(2, "this.", entityVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-		}
-
-		// Ajouter //
-		if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
-			tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(", entitySimpleNameCompleteGeneric, "...objets) {");
-			tl(2, "for(", entitySimpleNameCompleteGeneric, " o : objets) {");
-			tl(3, "add", entityVarCapitalized, "(o);");
-			tl(2, "}");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-			tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(", entitySimpleNameCompleteGeneric, " o) {");
-			tl(2, "if(o != null && !", entityVar, ".contains(o))");
-			tl(3, "this.", entityVar, ".add(o);");
-			tl(2, "return (", classSimpleName, ")this;");
+	
+			if(entityWrap) {
+				tl(1, " * ", " is defined as null before being initialized. ");
+			}
+			else {
+				tl(1, " * ", "It is constructed before being initialized with the constructor by default ", entitySimpleNameComplete, "(). ");
+			}
+	
+			// Lien vers Solr //
+			tl(1, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partIsEntity_indexed_boolean:true&fq=classCanonicalName_", languageName, "_indexed_string:", ClientUtils.escapeQueryChars(classCanonicalName), "&fq=classExtendsGen_indexed_boolean:true&fq=entityVar_", languageName, "_indexed_string:", ClientUtils.escapeQueryChars(entityVar), "\">Find the entity ", entityVar, " in Solr</a>");
+			tl(1, " * <br/>");
+	
+			if(entityWrap) {
+				tl(1, " * @param ", entityVarParam, " is for wrapping a value to assign to this entity at initialization. ");
+			}
+			else {
+				tl(1, " * @param ", entityVar, " is the entity already constructed. ");
+			}
+	//		if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
+	//
+	//			for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
+	//				String methodeExceptionNomSimpleComplet = methodExceptionsSimpleNameComplete.get(i);
+	//				tl(1, " * @throws ", methodeExceptionNomSimpleComplet);
+	//			}
+	//		}
+			tl(1, " **/");
+			t(1, "protected abstract void");
+			s(" _", entityVar);
+			s("(");
+			if(entityWrap) {
+				s("Wrap<", entitySimpleNameComplete, "> ", entityVarParam);
+			}
+			else {
+				s(entitySimpleNameComplete, " ", entityVarParam);
+			}
+			s(")");
+			if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
+	
+				s(" throws ");
+				for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
+					String methodeExceptionNomSimpleComplet = methodExceptionsSimpleNameComplete.get(i);
+					if(i > 0) 
+						s(", ");
+					s(methodeExceptionNomSimpleComplet);
+				}
+			}
+			l(";");
+	
+	//						l();
+	//						tl(1, "public ", classSimpleName, " ", entityVar, "(", entitySimpleNameComplete, " ", entityVarParam, ") throws Exception {");
+	//						tl(2, "set", entityVarCapitalized, "(", entityVarParam, ");");
+	//						tl(2, "return (", classSimpleName, ")this;");
+	//						tl(1, "}");
+	
+			l();
+			tl(1, "public ", entitySimpleNameComplete, " get", entityVarCapitalized, "() {");
+			tl(2, "return ", entityVar, ";");
 			tl(1, "}");
 	
+			l();
+			tl(1, "public void set", entityVarCapitalized, "(", entitySimpleNameComplete, " ", entityVarParam, ") {");
+			tl(2, "this.", entityVar, " = ", entityVarParam, ";");
+			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+			tl(1, "}");
+	//
+	//						l();
+	//						tl(1, "public ", entitySimpleNameComplete, " ", entityVar, "() throws Exception {");
+	//						tl(2, "return get", entityVarCapitalized, "();");
+	//						tl(1, "}");
+	
+			// Setter List //
+			if(StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName()) && StringUtils.equals(entityCanonicalNameGeneric, Long.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+				tl(3, "Long l = Long.parseLong(o);");
+				tl(3, "add", entityVarCapitalized, "(l);");
+				tl(2, "}");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+			}
+	
 			// Setter Boolean //
-			if(StringUtils.equals(entityCanonicalNameGeneric, Boolean.class.getCanonicalName())) {
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+			if(StringUtils.equals(entityCanonicalName, Boolean.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
-				tl(3, entitySimpleNameCompleteGeneric, " p = Boolean.parseBoolean(o);");
-				tl(2, "add", entityVarCapitalized, "(p);");
+				tl(3, "this.", entityVar, " = Boolean.parseBoolean(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
 	
 			// Setter Integer //
-			if(StringUtils.equals(entityCanonicalNameGeneric, Integer.class.getCanonicalName())) {
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
-				tl(3, entitySimpleNameCompleteGeneric, " p = Integer.parseInt(o);");
-				tl(3, "add", entityVarCapitalized, "(p);");
-				tl(3, "}");
+			if(StringUtils.equals(entityCanonicalName, Integer.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+				tl(3, "this.", entityVar, " = Integer.parseInt(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
 	
 			// Setter BigDecimal //
-			if(StringUtils.equals(entityCanonicalNameGeneric, BigDecimal.class.getCanonicalName())) {
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
-				tl(3, entitySimpleNameCompleteGeneric, " p = new BigDecimal(o);");
-				tl(3, "add", entityVarCapitalized, "(p);");
-				tl(2, "}");
+			if(StringUtils.equals(entityCanonicalName, BigDecimal.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+				tl(3, "this.", entityVar, " = new BigDecimal(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Double o) {");
+				tl(3, "this.", entityVar, " = new BigDecimal(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Integer o) {");
+				tl(3, "this.", entityVar, " = new BigDecimal(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
 	
 			// Setter Float //
-			if(StringUtils.equals(entityCanonicalNameGeneric, Float.class.getCanonicalName())) {
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
-				tl(3, entitySimpleNameCompleteGeneric, " p = Float.parseFloat(o);");
-				tl(3, "add", entityVarCapitalized, "(p);");
-				tl(2, "}");
+			if(StringUtils.equals(entityCanonicalName, Float.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+				tl(3, "this.", entityVar, " = Float.parseFloat(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
 	
 			// Setter Double //
-			if(StringUtils.equals(entityCanonicalNameGeneric, Double.class.getCanonicalName())) {
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
-				tl(3, entitySimpleNameCompleteGeneric, " p = Double.parseDouble(o);");
-				tl(3, "add", entityVarCapitalized, "(p);");
-				tl(2, "}");
+			if(StringUtils.equals(entityCanonicalName, Double.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+				tl(3, "this.", entityVar, " = Double.parseDouble(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
 	
 			// Setter Long //
-			if(StringUtils.equals(entityCanonicalNameGeneric, Long.class.getCanonicalName())) {
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
-				tl(3, entitySimpleNameCompleteGeneric, " p = Long.parseLong(o);");
-				tl(3, "add", entityVarCapitalized, "(p);");
-				tl(2, "}");
+			if(StringUtils.equals(entityCanonicalName, Long.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+				tl(3, "this.", entityVar, " = Long.parseLong(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+			}
+	
+			// Setter Long //
+			if(StringUtils.equals(entitySimpleName, "Chain")) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, entityVar, ".tout(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
 	
 			// Setter Timestamp //
-			if(StringUtils.equals(entityCanonicalNameGeneric, Timestamp.class.getCanonicalName())) {
+			if(StringUtils.equals(entityCanonicalName, Timestamp.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-				tl(2, entitySimpleNameCompleteGeneric, " p = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
-				tl(2, "add", entityVarCapitalized, "(p);");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "this.", entityVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
 	
 			// Setter Date //
-			if(StringUtils.equals(entityCanonicalNameGeneric, Date.class.getCanonicalName())) {
+			if(StringUtils.equals(entityCanonicalName, Date.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-				tl(2, entitySimpleNameCompleteGeneric, " p = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
-				tl(2, "add", entityVarCapitalized, "(p);");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "this.", entityVar, " = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
 	
 			// Setter LocalDate //
-			if(StringUtils.equals(entityCanonicalNameGeneric, LocalDate.class.getCanonicalName())) {
-				tl(1, "/** Example: 2011-12-03+01:00 **/");
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-				tl(2, entitySimpleNameCompleteGeneric, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
-				tl(2, "add", entityVarCapitalized, "(p);");
+			if(StringUtils.equals(entityCanonicalName, LocalDate.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Instant o) {");
+				tl(2, "this.", entityVar, " = LocalDate.from(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(Date o) {");
-				tl(2, entitySimpleNameCompleteGeneric, " p = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
-				tl(2, "add", entityVarCapitalized, "(p);");
+				tl(1, "/** Example: 2011-12-03+01:00 **/");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "this.", entityVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
+				tl(2, "this.", entityVar, " = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
 	
 			// Setter LocalDateTime //
-			if(StringUtils.equals(entityCanonicalNameGeneric, LocalDateTime.class.getCanonicalName())) {
-				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-				tl(2, entitySimpleNameCompleteGeneric, " p = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
-				tl(2, "add", entityVarCapitalized, "(p);");
+			if(StringUtils.equals(entityCanonicalName, LocalDateTime.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Instant o) {");
+				tl(2, "this.", entityVar, " = LocalDateTime.from(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
-				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(Date o) {");
-				tl(2, entitySimpleNameCompleteGeneric, " p = LocalDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
-				tl(2, "add", entityVarCapitalized, "(p);");
+				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "this.", entityVar, " = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
+				tl(2, "this.", entityVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
-		}
-
-		// Initialise //
-		if(entityInitialized) {
-
-			if(entityMethodsBeforeVar != null && entityMethodsBeforeVar.size() > 0) {
-				for(int j = 0; j < entityMethodsBeforeVar.size(); j++) {
-					String entityMethodBeforeVisibility = entityMethodsBeforeVisibility.get(j);
-					String entityMethodBeforeVar = entityMethodsBeforeVar.get(j);
-					String entityMethodBeforeParamVar = entityMethodsBeforeParamVar.get(j);
-					String entityMethodBeforeSimpleName = entityMethodsBeforeSimpleName.get(j);
-					Boolean entityMethodBeforeParamName = entityMethodsBeforeParamName.get(j);
-					Boolean entityMethodBeforeWrite = entityMethodsBeforeWrite.get(j);
-
-					if(BooleanUtils.isTrue(entityMethodBeforeWrite)) {
-						t(1, "((", classSimpleName, ")this).", entityMethodBeforeVisibility, " abstract void ", entityMethodBeforeVar, "(", entityMethodBeforeSimpleName, " ", entityMethodBeforeParamVar);
+	
+			// Ajouter //
+			if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(", entitySimpleNameCompleteGeneric, "...objets) {");
+				tl(2, "for(", entitySimpleNameCompleteGeneric, " o : objets) {");
+				tl(3, "add", entityVarCapitalized, "(o);");
+				tl(2, "}");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(", entitySimpleNameCompleteGeneric, " o) {");
+				tl(2, "if(o != null && !", entityVar, ".contains(o))");
+				tl(3, "this.", entityVar, ".add(o);");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+		
+				// Setter Boolean //
+				if(StringUtils.equals(entityCanonicalNameGeneric, Boolean.class.getCanonicalName())) {
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
+					tl(3, entitySimpleNameCompleteGeneric, " p = Boolean.parseBoolean(o);");
+					tl(2, "add", entityVarCapitalized, "(p);");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+		
+				// Setter Integer //
+				if(StringUtils.equals(entityCanonicalNameGeneric, Integer.class.getCanonicalName())) {
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+					tl(3, entitySimpleNameCompleteGeneric, " p = Integer.parseInt(o);");
+					tl(3, "add", entityVarCapitalized, "(p);");
+					tl(3, "}");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+		
+				// Setter BigDecimal //
+				if(StringUtils.equals(entityCanonicalNameGeneric, BigDecimal.class.getCanonicalName())) {
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+					tl(3, entitySimpleNameCompleteGeneric, " p = new BigDecimal(o);");
+					tl(3, "add", entityVarCapitalized, "(p);");
+					tl(2, "}");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+		
+				// Setter Float //
+				if(StringUtils.equals(entityCanonicalNameGeneric, Float.class.getCanonicalName())) {
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+					tl(3, entitySimpleNameCompleteGeneric, " p = Float.parseFloat(o);");
+					tl(3, "add", entityVarCapitalized, "(p);");
+					tl(2, "}");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+		
+				// Setter Double //
+				if(StringUtils.equals(entityCanonicalNameGeneric, Double.class.getCanonicalName())) {
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+					tl(3, entitySimpleNameCompleteGeneric, " p = Double.parseDouble(o);");
+					tl(3, "add", entityVarCapitalized, "(p);");
+					tl(2, "}");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+		
+				// Setter Long //
+				if(StringUtils.equals(entityCanonicalNameGeneric, Long.class.getCanonicalName())) {
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+					tl(3, entitySimpleNameCompleteGeneric, " p = Long.parseLong(o);");
+					tl(3, "add", entityVarCapitalized, "(p);");
+					tl(2, "}");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+		
+				// Setter Timestamp //
+				if(StringUtils.equals(entityCanonicalNameGeneric, Timestamp.class.getCanonicalName())) {
+					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, entitySimpleNameCompleteGeneric, " p = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+					tl(2, "add", entityVarCapitalized, "(p);");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+		
+				// Setter Date //
+				if(StringUtils.equals(entityCanonicalNameGeneric, Date.class.getCanonicalName())) {
+					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, entitySimpleNameCompleteGeneric, " p = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
+					tl(2, "add", entityVarCapitalized, "(p);");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+		
+				// Setter LocalDate //
+				if(StringUtils.equals(entityCanonicalNameGeneric, LocalDate.class.getCanonicalName())) {
+					tl(1, "/** Example: 2011-12-03+01:00 **/");
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, entitySimpleNameCompleteGeneric, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+					tl(2, "add", entityVarCapitalized, "(p);");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(Date o) {");
+					tl(2, entitySimpleNameCompleteGeneric, " p = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
+					tl(2, "add", entityVarCapitalized, "(p);");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+		
+				// Setter LocalDateTime //
+				if(StringUtils.equals(entityCanonicalNameGeneric, LocalDateTime.class.getCanonicalName())) {
+					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, entitySimpleNameCompleteGeneric, " p = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
+					tl(2, "add", entityVarCapitalized, "(p);");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(Date o) {");
+					tl(2, entitySimpleNameCompleteGeneric, " p = LocalDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
+					tl(2, "add", entityVarCapitalized, "(p);");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+			}
+	
+			// Initialise //
+			if(entityInitialized) {
+	
+				if(entityMethodsBeforeVar != null && entityMethodsBeforeVar.size() > 0) {
+					for(int j = 0; j < entityMethodsBeforeVar.size(); j++) {
+						String entityMethodBeforeVisibility = entityMethodsBeforeVisibility.get(j);
+						String entityMethodBeforeVar = entityMethodsBeforeVar.get(j);
+						String entityMethodBeforeParamVar = entityMethodsBeforeParamVar.get(j);
+						String entityMethodBeforeSimpleName = entityMethodsBeforeSimpleName.get(j);
+						Boolean entityMethodBeforeParamName = entityMethodsBeforeParamName.get(j);
+						Boolean entityMethodBeforeWrite = entityMethodsBeforeWrite.get(j);
+	
+						if(BooleanUtils.isTrue(entityMethodBeforeWrite)) {
+							t(1, "((", classSimpleName, ")this).", entityMethodBeforeVisibility, " abstract void ", entityMethodBeforeVar, "(", entityMethodBeforeSimpleName, " ", entityMethodBeforeParamVar);
+							if(entityMethodBeforeParamName)
+								s(", String entityVar");
+							l(");");
+						}
+					}
+				}
+		
+				// Initialiser //
+				tl(1, "protected ", classSimpleName, " ", entityVar, "Init()");
+				if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
+					s(" throws ");
+					for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
+						String methodeExceptionNomSimpleComplet = methodExceptionsSimpleNameComplete.get(i);
+						if(i > 0)
+							s(", ");
+						s(methodeExceptionNomSimpleComplet);
+					}
+				}
+				l(" {");
+	
+				if(entityCanonicalNameGeneric == null && entityMethodsBeforeVar != null && entityMethodsBeforeVar.size() > 0) {
+					tl(2, "if(", entityVar, " != null) {");
+					for(int j = 0; j < entityMethodsBeforeVar.size(); j++) {
+						String entityMethodBeforeVar = entityMethodsBeforeVar.get(j);
+						Boolean entityMethodBeforeParamName = entityMethodsBeforeParamName.get(j);
+	
+						t(3, "((", classSimpleName, ")this).", entityMethodBeforeVar, "(", entityVar);
 						if(entityMethodBeforeParamName)
-							s(", String entityVar");
+							s(", \"", entityVar, "\"");
 						l(");");
+					}
+					tl(2, "}");
+				}
+	
+				tl(2, "if(!", entityVar, "Wrap.alreadyInitialized) {");
+				if(entityWrap) {
+					tl(3, "_", entityVar, "(", entityVar, "Wrap);");
+					tl(3, "if(", entityVar, " == null)");
+					tl(4, "set", entityVarCapitalized, "(", entityVar, "Wrap.o);");
+				}
+				else {
+					tl(3, "_", entityVar, "(", entityVar, ");");
+				}
+				tl(2, "}");
+	
+				// initLoin
+	
+	//						if(initLoin && canonicalName.enUS().startsWith(classe.nomEnsembleDomaine.enUS())) {
+				if(entityInitDeep) {
+					if(entityWrap) {
+						tl(2, "if(", entityVar, " != null)");
+						tl(3, entityVar, ".initDeepForClass(siteRequest_);");
+					}
+					else {
+						tl(2, entityVar, ".initDeepForClass(siteRequest_);");
+					}
+				}
+	
+				if(entityCanonicalNameGeneric == null && entityMethodsAfterVar != null && entityMethodsAfterVar.size() > 0) {
+					tl(2, "if(", entityVar, " != null) {");
+					for(int j = 0; j < entityMethodsAfterVar.size(); j++) {
+						String entityMethodAfterVisibility = entityMethodsAfterVisibility.get(j);
+						String entityMethodAfterVar = entityMethodsAfterVar.get(j);
+						Boolean entityMethodAfterParamName = entityMethodsAfterParamName.get(j);
+	
+						t(3, "((", classSimpleName, ")this).", entityMethodAfterVar, "(", entityVar);
+						if(entityMethodAfterParamName)
+							s(", \"", entityVar, "\"");
+						l(");");
+					}
+					tl(2, "}");
+				}
+	
+				tl(2, entityVar, "Wrap.alreadyInitialized(true);");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+	
+				if(entityMethodsAfterVar != null) {
+					for(int j = 0; j < entityMethodsAfterVar.size(); j++) {
+						String entityMethodAfterVisibility = entityMethodsAfterVisibility.get(j);
+						String entityMethodAfterVar = entityMethodsAfterVar.get(j);
+						String entityMethodAfterParamVar = entityMethodsAfterParamVar.get(j);
+						String entityMethodAfterSimpleName = entityMethodsAfterSimpleName.get(j);
+						Boolean entityMethodAfterParamName = entityMethodsAfterParamName.get(j);
+						Boolean entityMethodAfterWrite = entityMethodsBeforeWrite.get(j);
+	
+						if(BooleanUtils.isTrue(entityMethodAfterWrite)) {
+							t(1, entityMethodAfterVisibility, " abstract void ", entityMethodAfterVar, "(", entityMethodAfterSimpleName, " ", entityMethodAfterParamVar);
+							if(entityMethodAfterParamName)
+								s(", String entityVar");
+							l(");");
+						}
 					}
 				}
 			}
 	
-			// Initialiser //
-			tl(1, "protected ", classSimpleName, " ", entityVar, "Init()");
-			if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
-				s(" throws ");
-				for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
-					String methodeExceptionNomSimpleComplet = methodExceptionsSimpleNameComplete.get(i);
-					if(i > 0)
-						s(", ");
-					s(methodeExceptionNomSimpleComplet);
-				}
-			}
-			l(" {");
-
-			if(entityCanonicalNameGeneric == null && entityMethodsBeforeVar != null && entityMethodsBeforeVar.size() > 0) {
-				tl(2, "if(", entityVar, " != null) {");
-				for(int j = 0; j < entityMethodsBeforeVar.size(); j++) {
-					String entityMethodBeforeVar = entityMethodsBeforeVar.get(j);
-					Boolean entityMethodBeforeParamName = entityMethodsBeforeParamName.get(j);
-
-					t(3, "((", classSimpleName, ")this).", entityMethodBeforeVar, "(", entityVar);
-					if(entityMethodBeforeParamName)
-						s(", \"", entityVar, "\"");
-					l(");");
-				}
-				tl(2, "}");
-			}
-
-			tl(2, "if(!", entityVar, "Wrap.alreadyInitialized) {");
-			if(entityWrap) {
-				tl(3, "_", entityVar, "(", entityVar, "Wrap);");
-				tl(3, "if(", entityVar, " == null)");
-				tl(4, "set", entityVarCapitalized, "(", entityVar, "Wrap.o);");
-			}
-			else {
-				tl(3, "_", entityVar, "(", entityVar, ");");
-			}
-			tl(2, "}");
-
-			// initLoin
-
-//						if(initLoin && canonicalName.enUS().startsWith(classe.nomEnsembleDomaine.enUS())) {
-			if(entityInitDeep) {
-				if(entityWrap) {
-					tl(2, "if(", entityVar, " != null)");
-					tl(3, entityVar, ".initDeepForClass(siteRequest_);");
-				}
-				else {
-					tl(2, entityVar, ".initDeepForClass(siteRequest_);");
-				}
-			}
-
-			if(entityCanonicalNameGeneric == null && entityMethodsAfterVar != null && entityMethodsAfterVar.size() > 0) {
-				tl(2, "if(", entityVar, " != null) {");
-				for(int j = 0; j < entityMethodsAfterVar.size(); j++) {
-					String entityMethodAfterVisibility = entityMethodsAfterVisibility.get(j);
-					String entityMethodAfterVar = entityMethodsAfterVar.get(j);
-					Boolean entityMethodAfterParamName = entityMethodsAfterParamName.get(j);
-
-					t(3, "((", classSimpleName, ")this).", entityMethodAfterVar, "(", entityVar);
-					if(entityMethodAfterParamName)
-						s(", \"", entityVar, "\"");
-					l(");");
-				}
-				tl(2, "}");
-			}
-
-			tl(2, entityVar, "Wrap.alreadyInitialized(true);");
-			tl(2, "return (", classSimpleName, ")this;");
-			tl(1, "}");
-
-			if(entityMethodsAfterVar != null) {
-				for(int j = 0; j < entityMethodsAfterVar.size(); j++) {
-					String entityMethodAfterVisibility = entityMethodsAfterVisibility.get(j);
-					String entityMethodAfterVar = entityMethodsAfterVar.get(j);
-					String entityMethodAfterParamVar = entityMethodsAfterParamVar.get(j);
-					String entityMethodAfterSimpleName = entityMethodsAfterSimpleName.get(j);
-					Boolean entityMethodAfterParamName = entityMethodsAfterParamName.get(j);
-					Boolean entityMethodAfterWrite = entityMethodsBeforeWrite.get(j);
-
-					if(BooleanUtils.isTrue(entityMethodAfterWrite)) {
-						t(1, entityMethodAfterVisibility, " abstract void ", entityMethodAfterVar, "(", entityMethodAfterSimpleName, " ", entityMethodAfterParamVar);
-						if(entityMethodAfterParamName)
-							s(", String entityVar");
-						l(");");
-					}
-				}
-			}
-		}
-
-		//////////
-		// htm //
-		//////////
-		if(entitySimpleName != null && entitySolrCanonicalName != null) {
-
-			//////////
-			// solr //
-			//////////
-			l();
-			tl(1, "public ", entitySolrSimpleName, " solr", entityVarCapitalized, "() {");
-			if(entitySimpleName.equals("Chain")) {
-				tl(2, "return ", entityVar, " == null ? null : ", entityVar, ".toString();");
-			}
-			else if(entitySimpleName.equals("Timestamp")) {
-				tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".toInstant());");
-			}
-			else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-				tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".atZone(ZoneId.systemDefault()).toInstant());");
-			}
-			else if(entitySimpleName.toString().equals("LocalDate")) {
-				tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant());");
-			}
-			else if(entitySimpleName.toString().equals("BigDecimal")) {
-				tl(2, "return ", entityVar, " == null ? null : ", entityVar, ".doubleValue();");
-			}
-			else {
-				tl(2, "return ", entityVar, ";");
-			}
-			tl(1, "}");
-
-			/////////
-			// str //
-			/////////
-			l();
-			tl(1, "public String str", entityVarCapitalized, "() {");
-			if(VAL_canonicalNameString.equals(entityCanonicalName))
-				tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ";");
-			else
-				tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".toString();");
-			tl(1, "}");
-
-			//////////////////
-			// displayName //
-			//////////////////
-			l();
-			tl(1, "public String displayName", entityVarCapitalized, "() {");
-			tl(2, "return ", entityDisplayName == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entityDisplayName) + "\"", ";");
-			tl(1, "}");
-
-			/////////////////
-			// htmTooltip //
-			/////////////////
-			l();
-			tl(1, "public String htmTooltip", entityVarCapitalized, "() {");
-			tl(2, "return ", entityHtmlTooltip == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entityHtmlTooltip) + "\"", ";");
-			tl(1, "}");
-
 			//////////
 			// htm //
 			//////////
-
-			l();
-			tl(1, "public String htm", entityVarCapitalized, "() {");
-			tl(2, "return ", entityVar, " == null ? \"\" : StringEscapeUtils.escapeHtml4(str", entityVarCapitalized, "());");
-			tl(1, "}");
-
-			if(entityVarCapitalized != null && classSaved && entitySolrCanonicalName != null) {
+			if(entitySimpleName != null && entitySolrCanonicalName != null) {
+	
+				//////////
+				// solr //
+				//////////
 				l();
-				tl(1, "public void htm", entityVarCapitalized, "(ToutEcrivain r, Boolean patchDroits) {");
-				tl(2, "if(", classVarPrimaryKey, "!= null) {");
-				tl(3, "r.s(\"<div id=\\\"patch", classSimpleName, "\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"", entityVarCapitalized, "\\\">\");");
-				tl(3, "if(patchDroits) {");
-				tl(4, "r.l();");
-				tl(4, "r.l(\"	<script>//<![CDATA[\");");
-				tl(4, "r.l(\"		function patch", classSimpleName, "\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"", entityVarCapitalized, "() {\");");
-				tl(4, "r.l(\"			$.ajax({\");");
-				tl(4, "r.l(\"				url: '", classApiUri, "?fq=", classVarPrimaryKey, ":\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"',\");");
-				tl(4, "r.l(\"				dataType: 'json',\");");
-				tl(4, "r.l(\"				type: 'patch',\");");
-				tl(4, "r.l(\"				contentType: 'application/json',\");");
-				tl(4, "r.l(\"				processData: false,\");");
-				tl(4, "r.l(\"				success: function( data, textStatus, jQxhr ) {\");");
-				tl(4, "r.l(\"					\");");
-				tl(4, "r.l(\"				},\");");
-				tl(4, "r.l(\"				error: function( jqXhr, textStatus, errorThrown ) {\");");
-				tl(4, "r.l(\"					\");");
-				tl(4, "r.l(\"				},\");");
-				tl(4, "r.l(\"				data: {\\\"set", entityVarCapitalized, "\\\": this.value },\");");
-				tl(4, "r.l(\"				\");");
-				tl(4, "r.l(\"			});\");");
-				tl(4, "r.l(\"		}\");");
-				tl(4, "r.l(\"	//]]></script>\");");
-				tl(4, "r.l(\"	<div class=\\\"\\\">\");");
-				tl(4, "r.l(\"		<label class=\\\"w3-tooltip \\\">\");");
-				tl(4, "r.l(\"			<span>\", StringEscapeUtils.escapeHtml4(displayName", entityVarCapitalized, "()), \"</span>\");");
-				tl(4, "r.s(\"			<input\");"); {
-					tl(7, "r.s(\" name=\\\"", entityVar, "\\\"\");");
-					tl(7, "r.s(\" value=\\\"\", htm", entityVarCapitalized, "(), \"\\\");\");");
-					tl(7, "r.s(\" onchange=\\\"\\\"\");");
-					tl(7, "r.l(\"/>\");");
+				tl(1, "public ", entitySolrSimpleName, " solr", entityVarCapitalized, "() {");
+				if(entitySimpleName.equals("Chain")) {
+					tl(2, "return ", entityVar, " == null ? null : ", entityVar, ".toString();");
 				}
-				if(entityHtmlTooltip != null)
-					tl(4, "r.s(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", StringEscapeUtils.escapeJava(entityHtmlTooltip), "</span>\");");
-				tl(4, "r.l(\"		</label>\");");
-				tl(4, "r.l(\"	</div>\");");
-				tl(3, "} else {");
-				tl(4, "r.s(htm", entityVarCapitalized, "());");
-				tl(3, "}");
-				tl(3, "r.l(\"</div>\");");
-				tl(2, "}");
+				else if(entitySimpleName.equals("Timestamp")) {
+					tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".toInstant());");
+				}
+				else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
+					tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".atZone(ZoneId.systemDefault()).toInstant());");
+				}
+				else if(entitySimpleName.toString().equals("LocalDate")) {
+					tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant());");
+				}
+				else if(entitySimpleName.toString().equals("BigDecimal")) {
+					tl(2, "return ", entityVar, " == null ? null : ", entityVar, ".doubleValue();");
+				}
+				else {
+					tl(2, "return ", entityVar, ";");
+				}
 				tl(1, "}");
-			}
-		}
-
-		////////////////////
-		// codeIninitLoin //
-		////////////////////
-		if(entityInitialized) {
-			wInitDeep.tl(2, entityVar, "Init();");
-		}
-
-
-		/////////////////////
-		// codeSiteRequest //
-		/////////////////////
-		if(classInitDeep && entityInitDeep) {
-			o = wSiteRequest;
-			tl(2, entityVar, ".setSiteRequest_(siteRequest);");
-		}
-
-		/////////////////
-		// codeIndexer //
-		/////////////////
-		o = wIndex;
-		if(classIndexed && entityIndexedOrStored) {
-			tl(2, "if(", entityVar, " != null) {");
-			if(StringUtils.isNotEmpty(classVarUniqueKey) && entityUniqueKey) {
-				// uniqueKey
-				tl(3, "document.addField(\"", classVarUniqueKey, "\", ", entityVar, ");");
-			}
-			if(entityEncrypted) {
-				// crypte
-				tl(3, "String valEncrypted = siteRequest.encryptStr(", entityVar, ");");
-				tl(3, "document.addField(\"", entityVar, "_encrypted", entitySuffixeType, "\"", "valEncrypted);");
-			}
-			if(entityIncremented) {
-				// crypte
-				tl(3, "document.addField(\"", entityVar, "_incremented", entitySuffixeType, "\", new java.util.HashMap<String, ", entitySimpleName, ">() {{ put(\"inc\"", ("Long".equals(entitySimpleName.toString()) ? "1L" : "1"), "); }});");
-			}
-			if(entitySuggested) {
-				// suggere
-				if(entitySimpleName.equals("Chain")) {
-					tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", ", entityVar, ");");
-				}
-				else if(entitySimpleName.equals("Timestamp")) {
-					tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
-				}
-				else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-					tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
-				}
-				else if(entitySimpleName.toString().equals("LocalDate")) {
-					tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
-				}
-				else {
-					tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", ", entityVar, ");");
-				}
-			}
-
-			if(entityIndexed) {
-				// indexe
-				if(entitySimpleName.equals("Chain")) {
-					tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", ", entityVar, ");");
-				}
-				else if(entitySimpleName.equals("Timestamp")) {
-					tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
-				}
-				else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-					tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
-				}
-				else if(entitySimpleName.toString().equals("LocalDate")) {
-					tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
-				}
-				else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList")) {
-					tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
-					tl(4, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", o);");
+	
+				/////////
+				// str //
+				/////////
+				l();
+				tl(1, "public String str", entityVarCapitalized, "() {");
+				if(VAL_canonicalNameString.equals(entityCanonicalName))
+					tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ";");
+				else
+					tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".toString();");
+				tl(1, "}");
+	
+				//////////////////
+				// displayName //
+				//////////////////
+				l();
+				tl(1, "public String displayName", entityVarCapitalized, "() {");
+				tl(2, "return ", entityDisplayName == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entityDisplayName) + "\"", ";");
+				tl(1, "}");
+	
+				/////////////////
+				// htmTooltip //
+				/////////////////
+				l();
+				tl(1, "public String htmTooltip", entityVarCapitalized, "() {");
+				tl(2, "return ", entityHtmlTooltip == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entityHtmlTooltip) + "\"", ";");
+				tl(1, "}");
+	
+				//////////
+				// htm //
+				//////////
+	
+				l();
+				tl(1, "public String htm", entityVarCapitalized, "() {");
+				tl(2, "return ", entityVar, " == null ? \"\" : StringEscapeUtils.escapeHtml4(str", entityVarCapitalized, "());");
+				tl(1, "}");
+	
+				if(entityVarCapitalized != null && classSaved && entitySolrCanonicalName != null) {
+					l();
+					tl(1, "public void htm", entityVarCapitalized, "(ToutEcrivain r, Boolean patchDroits) {");
+					tl(2, "if(", classVarPrimaryKey, "!= null) {");
+					tl(3, "r.s(\"<div id=\\\"patch", classSimpleName, "\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"", entityVarCapitalized, "\\\">\");");
+					tl(3, "if(patchDroits) {");
+					tl(4, "r.l();");
+					tl(4, "r.l(\"	<script>//<![CDATA[\");");
+					tl(4, "r.l(\"		function patch", classSimpleName, "\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"", entityVarCapitalized, "() {\");");
+					tl(4, "r.l(\"			$.ajax({\");");
+					tl(4, "r.l(\"				url: '", classApiUri, "?fq=", classVarPrimaryKey, ":\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"',\");");
+					tl(4, "r.l(\"				dataType: 'json',\");");
+					tl(4, "r.l(\"				type: 'patch',\");");
+					tl(4, "r.l(\"				contentType: 'application/json',\");");
+					tl(4, "r.l(\"				processData: false,\");");
+					tl(4, "r.l(\"				success: function( data, textStatus, jQxhr ) {\");");
+					tl(4, "r.l(\"					\");");
+					tl(4, "r.l(\"				},\");");
+					tl(4, "r.l(\"				error: function( jqXhr, textStatus, errorThrown ) {\");");
+					tl(4, "r.l(\"					\");");
+					tl(4, "r.l(\"				},\");");
+					tl(4, "r.l(\"				data: {\\\"set", entityVarCapitalized, "\\\": this.value },\");");
+					tl(4, "r.l(\"				\");");
+					tl(4, "r.l(\"			});\");");
+					tl(4, "r.l(\"		}\");");
+					tl(4, "r.l(\"	//]]></script>\");");
+					tl(4, "r.l(\"	<div class=\\\"\\\">\");");
+					tl(4, "r.l(\"		<label class=\\\"w3-tooltip \\\">\");");
+					tl(4, "r.l(\"			<span>\", StringEscapeUtils.escapeHtml4(displayName", entityVarCapitalized, "()), \"</span>\");");
+					tl(4, "r.s(\"			<input\");"); {
+						tl(7, "r.s(\" name=\\\"", entityVar, "\\\"\");");
+						tl(7, "r.s(\" value=\\\"\", htm", entityVarCapitalized, "(), \"\\\");\");");
+						tl(7, "r.s(\" onchange=\\\"\\\"\");");
+						tl(7, "r.l(\"/>\");");
+					}
+					if(entityHtmlTooltip != null)
+						tl(4, "r.s(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", StringEscapeUtils.escapeJava(entityHtmlTooltip), "</span>\");");
+					tl(4, "r.l(\"		</label>\");");
+					tl(4, "r.l(\"	</div>\");");
+					tl(3, "} else {");
+					tl(4, "r.s(htm", entityVarCapitalized, "());");
 					tl(3, "}");
-				}
-				else {
-					tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", ", entityVar, ");");
-				}
-			}
-
-			if(entityStored) {
-				// stocke
-				if(entitySimpleName.equals("Chain")) {
-					tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", ", entityVar, ");");
-				}
-				else if(entitySimpleName.equals("Timestamp")) {
-					tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
-				}
-				else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-					tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
-				}
-				else if(entitySimpleName.toString().equals("LocalDate")) {
-					tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
-				}
-				else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList")) {
-					tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
-					tl(4, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", o);");
-					tl(3, "}");
-				}
-				else {
-					tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", ", entityVar, ");");
+					tl(3, "r.l(\"</div>\");");
+					tl(2, "}");
+					tl(1, "}");
 				}
 			}
-			tl(2, "}");
-		}
-
-		/////////////////
-		// codeObtenir //
-		/////////////////
-		o = wObtain;
-		if(classExtendsBase || classIsBase) {
-			tl(3, "case \"", entityVar, "\":");
-			tl(4, "return o", classSimpleName, ".", entityVar, ";");
-		}	
-
-		///////////////////
-		// codeAttribuer //
-		///////////////////
-		o = wAttribute;
-		if((classExtendsBase || classIsBase) && entityAttribute) {
-			tl(3, "case \"", entityVar, "\":");
-			if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName()))
-				tl(4, "o", classSimpleName, ".add", entityVarCapitalized, "((", entitySimpleNameCompleteGeneric, ")val);");
-			else
-				tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "((", entitySimpleNameComplete, ")val);");
-			tl(4, "return val;");
-		}	
-
-		/////////////
-		// definir //
-		/////////////
-		o = wDefinir;
-		
-		if(classSaved && BooleanUtils.isTrue(entityDefined)) {
-				tl(3, "case \"", entityVar, "\":");
-				if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
-					tl(4, "add", entityVarCapitalized, "(val);");
-					tl(4, "if(!sauvegardes", classSimpleName, ".contains(var))");
-					tl(5, "sauvegardes", classSimpleName, ".add(var);");
+	
+			////////////////////
+			// codeIninitLoin //
+			////////////////////
+			if(entityInitialized) {
+				wInitDeep.tl(2, entityVar, "Init();");
+			}
+	
+	
+			/////////////////////
+			// codeSiteRequest //
+			/////////////////////
+			if(classInitDeep && entityInitDeep) {
+				o = wSiteRequest;
+				tl(2, entityVar, ".setSiteRequest_(siteRequest);");
+			}
+	
+			/////////////////
+			// codeIndexer //
+			/////////////////
+			o = wIndex;
+			if(classIndexed && entityIndexedOrStored) {
+				tl(2, "if(", entityVar, " != null) {");
+				if(StringUtils.isNotEmpty(classVarUniqueKey) && entityUniqueKey) {
+					// uniqueKey
+					tl(3, "document.addField(\"", classVarUniqueKey, "\", ", entityVar, ");");
 				}
-				else {
-					tl(4, "set", entityVarCapitalized, "(val);");
-					tl(4, "sauvegardes", classSimpleName, ".add(var);");
+				if(entityEncrypted) {
+					// crypte
+					tl(3, "String valEncrypted = siteRequest.encryptStr(", entityVar, ");");
+					tl(3, "document.addField(\"", entityVar, "_encrypted", entitySuffixeType, "\"", "valEncrypted);");
 				}
-				tl(4, "return val;");
-		}	
-
-		/////////////
-		// codePut //
-		/////////////
-		o = wPut;
-		if(classSaved && BooleanUtils.isTrue(entityDefined)) {
-//		if((classExtendsBase || classIsBase) && BooleanUtils.isTrue(entityDefined)) {
-//							if(field.contientSetterString) {
-//							if(entityContientSetterString) {
-				tl(3, "case \"", entityVar, "\":");
-				if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
-					tl(4, "add", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(var));");
+				if(entityIncremented) {
+					// crypte
+					tl(3, "document.addField(\"", entityVar, "_incremented", entitySuffixeType, "\", new java.util.HashMap<String, ", entitySimpleName, ">() {{ put(\"inc\"", ("Long".equals(entitySimpleName.toString()) ? "1L" : "1"), "); }});");
 				}
-				else {
-					tl(4, "set", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(var));");
-				}
-				tl(4, "return true;");
-//							}
-		}	
-
-		/////////////////
-		// codePeupler //
-		/////////////////
-		o = wPopulate;
-		if(classSaved) {
-//							String nomChamp = entityVar.toString();
-//							String varCrypte = entityVarEncrypted.toString();
-//							String varStocke = entityVarStored.toString();
-//							String varSuggere = entityVarSuggested.toString();
-//							String varIncremente = entityVarIncremented.toString();
-//							String varCleUnique = entityVarCleUniqueActuel.toString();
-			if(entityEncrypted || entityStored || entityUniqueKey || entitySuggested || entityIncremented) {
-				tl(0);
-
 				if(entitySuggested) {
-					tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-					tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entitySuffixeType, "\");");
-					tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-					tl(2, "}");
+					// suggere
+					if(entitySimpleName.equals("Chain")) {
+						tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", ", entityVar, ");");
+					}
+					else if(entitySimpleName.equals("Timestamp")) {
+						tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+					}
+					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
+						tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+					}
+					else if(entitySimpleName.toString().equals("LocalDate")) {
+						tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
+					}
+					else {
+						tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", ", entityVar, ");");
+					}
 				}
-				else if(entityIncremented) {
-					tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-					tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entitySuffixeType, "\");");
-					tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-					tl(2, "}");
+	
+				if(entitySimpleName != null && entityIndexed) {
+					// indexe
+					if(entitySimpleName.equals("Chain")) {
+						tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", ", entityVar, ");");
+					}
+					else if(entitySimpleName.equals("Timestamp")) {
+						tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+					}
+					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
+						tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+					}
+					else if(entitySimpleName.toString().equals("LocalDate")) {
+						tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
+					}
+					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList")) {
+						tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
+						tl(4, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", o);");
+						tl(3, "}");
+					}
+					else {
+						tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", ", entityVar, ");");
+					}
 				}
-				else if(entityUniqueKey) {
-					tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-					tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entitySuffixeType, "\");");
-					tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-					tl(2, "}");
+	
+				if(entityStored) {
+					// stocke
+					if(entitySimpleName.equals("Chain")) {
+						tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", ", entityVar, ");");
+					}
+					else if(entitySimpleName.equals("Timestamp")) {
+						tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+					}
+					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
+						tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+					}
+					else if(entitySimpleName.toString().equals("LocalDate")) {
+						tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
+					}
+					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList")) {
+						tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
+						tl(4, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", o);");
+						tl(3, "}");
+					}
+					else {
+						tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", ", entityVar, ");");
+					}
 				}
-				else if(entityEncrypted) {
-					tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-					if(siteEncrypted)
-						tl(3, entitySolrSimpleName, " ", entityVar, " = siteRequest.deencryptStr((", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entitySuffixeType, "\"));");
-					else
-						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entitySuffixeType, "\");");
-					tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-					tl(2, "}");
-				}
-				else {
-					tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-					tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entitySuffixeType, "\");");
-					tl(3, "if(", entityVar, " != null)");
-					if(StringUtils.contains(entitySolrCanonicalName, "<"))
-						tl(4, "o", classSimpleName, ".", entityVar, ".addAll(", entityVar, ");");
-					else
-						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-					tl(2, "}");
-				}
-
+				tl(2, "}");
 			}
-		}	
-
-		/////////////////
-		// codeApiChamps //
-		/////////////////
-		o = wApiEntities;
-//		l();
-//		tl(1, "public static final String ENTITY_VAR_", entityVar, " = \"", entityVar, "\";");
-//		if(classIndexed) {
-//			if(entityIndexed)
-//				tl(1, "public static final String ENTITY_VAR_INDEXED_", entityVar, " = \"", entityVar, "_indexed", entitySuffixeType, "\";");
-//			if(entityStored)
-//				tl(1, "public static final String ENTITY_VAR_STORED_", entityVar, " = \"", entityVar, "_stored", entitySuffixeType, "\";");
-//			if(entityEncrypted)
-//				tl(1, "public static final String ENTITY_VAR_ENCRYPTED_", entityVar, " = \"", entityVar, "_encrypted", entitySuffixeType, "\";");
-//		}
-//		if(entityAttribute)
-//			tl(1, "public static final String ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, " = \"", entityAttributeVar, "\";");
-
-		/////////////////
-		// codeApiGet //
-		/////////////////
-		o = wApiGet;
-		if(classIndexed && entityIndexed) {
-			tl(3, "case \"", entityVar, "\":");
-			tl(4, "return \"", entityVar, "_indexed", entitySuffixeType, "\";");
-		}
-
-		///////////////////////
-		// codeApiGenererGet //
-		///////////////////////
-		o = wApiGenerateGet;
-		if(classIndexed && entityStored) {
-			tl(4, "if(\"", entityVar, "\".equals(entityVarStored)) {");
-			if (VAL_canonicalNameBoolean.equals(entitySolrCanonicalName)) {
-				tl(5, "if(j > 0)");
-				tl(6, "serverResponse.write(\", \");");
-				tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
-				tl(5, "serverResponse.write(((Boolean)fieldValue).toString());");
-				tl(5, "serverResponse.write(\"\\n\");");
-				tl(5, "j++;");
-				tl(5, "return j;");
-			} else if (VAL_canonicalNameDate.equals(entitySolrCanonicalName)) {
-				if (VAL_canonicalNameTimestamp.equals(entityCanonicalName)) {
+	
+			/////////////////
+			// codeObtenir //
+			/////////////////
+			o = wObtain;
+			if(classExtendsBase || classIsBase) {
+				tl(3, "case \"", entityVar, "\":");
+				tl(4, "return o", classSimpleName, ".", entityVar, ";");
+			}	
+	
+			///////////////////
+			// codeAttribuer //
+			///////////////////
+			o = wAttribute;
+			if((classExtendsBase || classIsBase) && entityAttribute) {
+				tl(3, "case \"", entityVar, "\":");
+				if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName()))
+					tl(4, "o", classSimpleName, ".add", entityVarCapitalized, "((", entitySimpleNameCompleteGeneric, ")val);");
+				else
+					tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "((", entitySimpleNameComplete, ")val);");
+				tl(4, "return val;");
+			}	
+	
+			/////////////
+			// definir //
+			/////////////
+			o = wDefinir;
+			
+			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
+					tl(3, "case \"", entityVar, "\":");
+					if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
+						tl(4, "add", entityVarCapitalized, "(val);");
+						tl(4, "if(!sauvegardes", classSimpleName, ".contains(var))");
+						tl(5, "sauvegardes", classSimpleName, ".add(var);");
+					}
+					else {
+						tl(4, "set", entityVarCapitalized, "(val);");
+						tl(4, "sauvegardes", classSimpleName, ".add(var);");
+					}
+					tl(4, "return val;");
+			}	
+	
+			/////////////
+			// codePut //
+			/////////////
+			o = wPut;
+			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
+	//		if((classExtendsBase || classIsBase) && BooleanUtils.isTrue(entityDefined)) {
+	//							if(field.contientSetterString) {
+	//							if(entityContientSetterString) {
+					tl(3, "case \"", entityVar, "\":");
+					if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
+						tl(4, "add", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(var));");
+					}
+					else {
+						tl(4, "set", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(var));");
+					}
+					tl(4, "return true;");
+	//							}
+			}	
+	
+			/////////////////
+			// codePeupler //
+			/////////////////
+			o = wPopulate;
+			if(classSaved) {
+	//							String nomChamp = entityVar.toString();
+	//							String varCrypte = entityVarEncrypted.toString();
+	//							String varStocke = entityVarStored.toString();
+	//							String varSuggere = entityVarSuggested.toString();
+	//							String varIncremente = entityVarIncremented.toString();
+	//							String varCleUnique = entityVarCleUniqueActuel.toString();
+				if(entityEncrypted || entityStored || entityUniqueKey || entitySuggested || entityIncremented) {
+					tl(0);
+	
+					if(entitySuggested) {
+						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entitySuffixeType, "\");");
+						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+						tl(2, "}");
+					}
+					else if(entityIncremented) {
+						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entitySuffixeType, "\");");
+						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+						tl(2, "}");
+					}
+					else if(entityUniqueKey) {
+						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entitySuffixeType, "\");");
+						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+						tl(2, "}");
+					}
+					else if(entityEncrypted) {
+						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						if(siteEncrypted)
+							tl(3, entitySolrSimpleName, " ", entityVar, " = siteRequest.deencryptStr((", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entitySuffixeType, "\"));");
+						else
+							tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entitySuffixeType, "\");");
+						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+						tl(2, "}");
+					}
+					else {
+						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entitySuffixeType, "\");");
+						tl(3, "if(", entityVar, " != null)");
+						if(StringUtils.contains(entitySolrCanonicalName, "<"))
+							tl(4, "o", classSimpleName, ".", entityVar, ".addAll(", entityVar, ");");
+						else
+							tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+						tl(2, "}");
+					}
+	
+				}
+			}	
+	
+			/////////////////
+			// codeApiChamps //
+			/////////////////
+			o = wApiEntities;
+	//		l();
+	//		tl(1, "public static final String ENTITY_VAR_", entityVar, " = \"", entityVar, "\";");
+	//		if(classIndexed) {
+	//			if(entityIndexed)
+	//				tl(1, "public static final String ENTITY_VAR_INDEXED_", entityVar, " = \"", entityVar, "_indexed", entitySuffixeType, "\";");
+	//			if(entityStored)
+	//				tl(1, "public static final String ENTITY_VAR_STORED_", entityVar, " = \"", entityVar, "_stored", entitySuffixeType, "\";");
+	//			if(entityEncrypted)
+	//				tl(1, "public static final String ENTITY_VAR_ENCRYPTED_", entityVar, " = \"", entityVar, "_encrypted", entitySuffixeType, "\";");
+	//		}
+	//		if(entityAttribute)
+	//			tl(1, "public static final String ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, " = \"", entityAttributeVar, "\";");
+	
+			/////////////////
+			// codeApiGet //
+			/////////////////
+			o = wApiGet;
+			if(classIndexed && entityIndexed) {
+				tl(3, "case \"", entityVar, "\":");
+				tl(4, "return \"", entityVar, "_indexed", entitySuffixeType, "\";");
+			}
+	
+			///////////////////////
+			// codeApiGenererGet //
+			///////////////////////
+			o = wApiGenerateGet;
+			if(classIndexed && entityStored) {
+				tl(4, "if(\"", entityVar, "\".equals(entityVarStored)) {");
+				if (VAL_canonicalNameBoolean.equals(entitySolrCanonicalName)) {
 					tl(5, "if(j > 0)");
 					tl(6, "serverResponse.write(\", \");");
-					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
-					tl(5, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "serverResponse.write(\"\\\"\\n\");");
+					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
+					tl(5, "serverResponse.write(((Boolean)fieldValue).toString());");
+					tl(5, "serverResponse.write(\"\\n\");");
 					tl(5, "j++;");
 					tl(5, "return j;");
-				} else if (VAL_canonicalNameLocalDateTime.equals(entityCanonicalName)) {
+				} else if (VAL_canonicalNameDate.equals(entitySolrCanonicalName)) {
+					if (VAL_canonicalNameTimestamp.equals(entityCanonicalName)) {
+						tl(5, "if(j > 0)");
+						tl(6, "serverResponse.write(\", \");");
+						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
+						tl(5, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(5, "serverResponse.write(\"\\\"\\n\");");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					} else if (VAL_canonicalNameLocalDateTime.equals(entityCanonicalName)) {
+						tl(5, "if(j > 0)");
+						tl(6, "serverResponse.write(\", \");");
+						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
+						tl(5, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(5, "serverResponse.write(\"\\\"\\n\");");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					} else if (VAL_canonicalNameLocalDate.equals(entityCanonicalName)) {
+						tl(5, "if(j > 0)");
+						tl(6, "serverResponse.write(\", \");");
+						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
+						tl(5, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+						tl(5, "serverResponse.write(\"\\\"\\n\");");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					} else {
+						tl(5, "if(j > 0)");
+						tl(6, "serverResponse.write(\", \");");
+						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
+						tl(5, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(5, "serverResponse.write(\"\\\"\\n\");");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+				} else if (VAL_canonicalNameLong.equals(entitySolrCanonicalName)) {
 					tl(5, "if(j > 0)");
 					tl(6, "serverResponse.write(\", \");");
-					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
-					tl(5, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "serverResponse.write(\"\\\"\\n\");");
+					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
+					tl(5, "serverResponse.write(((Long)fieldValue).toString());");
+					tl(5, "serverResponse.write(\"\\n\");");
 					tl(5, "j++;");
 					tl(5, "return j;");
-				} else if (VAL_canonicalNameLocalDate.equals(entityCanonicalName)) {
+				} else if (VAL_canonicalNameDouble.equals(entitySolrCanonicalName)) {
+					if (VAL_canonicalNameBigDecimal.equals(entityCanonicalName)) {
+						tl(5, "if(j > 0)");
+						tl(6, "serverResponse.write(\", \");");
+						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
+						tl(5, "serverResponse.write(BigDecimal.valueOf((Double)fieldValue).toString());");
+						tl(5, "serverResponse.write(\"\\n\");");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+					else {
+						tl(5, "if(j > 0)");
+						tl(6, "serverResponse.write(\", \");");
+						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
+						tl(5, "serverResponse.write(((Double)fieldValue).toString());");
+						tl(5, "serverResponse.write(\"\\n\");");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					}
+				} else if (VAL_canonicalNameFloat.equals(entitySolrCanonicalName)) {
 					tl(5, "if(j > 0)");
 					tl(6, "serverResponse.write(\", \");");
-					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
-					tl(5, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
-					tl(5, "serverResponse.write(\"\\\"\\n\");");
+					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
+					tl(5, "serverResponse.write(((Float)fieldValue).toString());");
+					tl(5, "serverResponse.write(\"\\n\");");
+					tl(5, "j++;");
+					tl(5, "return j;");
+				} else if (VAL_canonicalNameInteger.equals(entitySolrCanonicalName)) {
+					tl(5, "if(j > 0)");
+					tl(6, "serverResponse.write(\", \");");
+					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
+					tl(5, "serverResponse.write(((Integer)fieldValue).toString());");
+					tl(5, "serverResponse.write(\"\\n\");");
 					tl(5, "j++;");
 					tl(5, "return j;");
 				} else {
-					tl(5, "if(j > 0)");
-					tl(6, "serverResponse.write(\", \");");
-					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
-					tl(5, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-					tl(5, "serverResponse.write(\"\\\"\\n\");");
-					tl(5, "j++;");
-					tl(5, "return j;");
-				}
-			} else if (VAL_canonicalNameLong.equals(entitySolrCanonicalName)) {
-				tl(5, "if(j > 0)");
-				tl(6, "serverResponse.write(\", \");");
-				tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
-				tl(5, "serverResponse.write(((Long)fieldValue).toString());");
-				tl(5, "serverResponse.write(\"\\n\");");
-				tl(5, "j++;");
-				tl(5, "return j;");
-			} else if (VAL_canonicalNameDouble.equals(entitySolrCanonicalName)) {
-				if (VAL_canonicalNameBigDecimal.equals(entityCanonicalName)) {
-					tl(5, "if(j > 0)");
-					tl(6, "serverResponse.write(\", \");");
-					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
-					tl(5, "serverResponse.write(BigDecimal.valueOf((Double)fieldValue).toString());");
-					tl(5, "serverResponse.write(\"\\n\");");
-					tl(5, "j++;");
-					tl(5, "return j;");
-				}
-				else {
-					tl(5, "if(j > 0)");
-					tl(6, "serverResponse.write(\", \");");
-					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
-					tl(5, "serverResponse.write(((Double)fieldValue).toString());");
-					tl(5, "serverResponse.write(\"\\n\");");
-					tl(5, "j++;");
-					tl(5, "return j;");
-				}
-			} else if (VAL_canonicalNameFloat.equals(entitySolrCanonicalName)) {
-				tl(5, "if(j > 0)");
-				tl(6, "serverResponse.write(\", \");");
-				tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
-				tl(5, "serverResponse.write(((Float)fieldValue).toString());");
-				tl(5, "serverResponse.write(\"\\n\");");
-				tl(5, "j++;");
-				tl(5, "return j;");
-			} else if (VAL_canonicalNameInteger.equals(entitySolrCanonicalName)) {
-				tl(5, "if(j > 0)");
-				tl(6, "serverResponse.write(\", \");");
-				tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
-				tl(5, "serverResponse.write(((Integer)fieldValue).toString());");
-				tl(5, "serverResponse.write(\"\\n\");");
-				tl(5, "j++;");
-				tl(5, "return j;");
-			} else {
-				if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
-					if(VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(((Boolean)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
-						tl(5, "j++;");
-						tl(5, "return j;");
-					}
-					else if(VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(VAL_citation);");
-						tl(6, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "serverResponse.write(VAL_citation);");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
-						tl(5, "j++;");
-						tl(5, "return j;");
-					}
-					else if(VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(VAL_citation);");
-						tl(5, "serverResponse.write(ENTITY_VAR_", entityVar, ");");
-						tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(VAL_citation);");
-						tl(6, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "serverResponse.write(VAL_citation);");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
-						tl(5, "j++;");
-						tl(5, "return j;");
-					}
-					else if(VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(VAL_citation);");
-						tl(5, "serverResponse.write(ENTITY_VAR_", entityVar, ");");
-						tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(VAL_citation);");
-						tl(6, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "serverResponse.write(VAL_citation);");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
-						tl(5, "j++;");
-						tl(5, "return j;");
-					}
-					else if(VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(VAL_citation);");
-						tl(5, "serverResponse.write(ENTITY_VAR_", entityVar, ");");
-						tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(VAL_citation);");
-						tl(6, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
-						tl(6, "serverResponse.write(VAL_citation);");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
-						tl(5, "j++;");
-						tl(5, "return j;");
-					}
-					else if(VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(VAL_citation);");
-						tl(5, "serverResponse.write(ENTITY_VAR_", entityVar, ");");
-						tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(((Long)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
-						tl(5, "j++;");
-						tl(5, "return j;");
-					}
-					else if(VAL_canonicalNameBigDecimal.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(VAL_citation);");
-						tl(5, "serverResponse.write(ENTITY_VAR_", entityVar, ");");
-						tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(BigDecimal.valueOf((Double)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
-						tl(5, "j++;");
-						tl(5, "return j;");
-					}
-					else if(VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(VAL_citation);");
-						tl(5, "serverResponse.write(ENTITY_VAR_", entityVar, ");");
-						tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(((Double)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
-						tl(5, "j++;");
-						tl(5, "return j;");
-					}
-					else if(VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(VAL_citation);");
-						tl(5, "serverResponse.write(ENTITY_VAR_", entityVar, ");");
-						tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(((Float)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
-						tl(5, "j++;");
-						tl(5, "return j;");
-					}
-					else if(VAL_canonicalNameInteger.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(VAL_citation);");
-						tl(5, "serverResponse.write(ENTITY_VAR_", entityVar, ");");
-						tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(((Integer)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
-						tl(5, "j++;");
-						tl(5, "return j;");
+					if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
+						if(VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(((Boolean)fieldValue).toString());");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else if(VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \");");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else if(VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(VAL_citation);");
+							tl(5, "serverResponse.write(\"", entityVar, "\");");
+							tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else if(VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(VAL_citation);");
+							tl(5, "serverResponse.write(\"", entityVar, "\");");
+							tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else if(VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(VAL_citation);");
+							tl(5, "serverResponse.write(\"", entityVar, "\");");
+							tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else if(VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(VAL_citation);");
+							tl(5, "serverResponse.write(\"", entityVar, "\");");
+							tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(((Long)fieldValue).toString());");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else if(VAL_canonicalNameBigDecimal.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(VAL_citation);");
+							tl(5, "serverResponse.write(\"", entityVar, "\");");
+							tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(BigDecimal.valueOf((Double)fieldValue).toString());");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else if(VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(VAL_citation);");
+							tl(5, "serverResponse.write(\"", entityVar, "\");");
+							tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(((Double)fieldValue).toString());");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else if(VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(VAL_citation);");
+							tl(5, "serverResponse.write(\"", entityVar, "\");");
+							tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(((Float)fieldValue).toString());");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else if(VAL_canonicalNameInteger.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(VAL_citation);");
+							tl(5, "serverResponse.write(\"", entityVar, "\");");
+							tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(((Integer)fieldValue).toString());");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(VAL_citation);");
+							tl(5, "serverResponse.write(\"", entityVar, "\");");
+							tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "serverResponse.write(((String)fieldValue));");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
 					}
 					else {
 						tl(5, "if(j > 0)");
 						tl(6, "serverResponse.write(\", \");");
-						tl(5, "serverResponse.write(VAL_citation);");
-						tl(5, "serverResponse.write(ENTITY_VAR_", entityVar, ");");
-						tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(\", \");");
-						tl(6, "serverResponse.write(VAL_citation);");
-						tl(6, "serverResponse.write(((String)fieldValue));");
-						tl(6, "serverResponse.write(VAL_citation);");
-						tl(6, "fieldValue = fieldValues.iterator().next();");
-						tl(5, "}");
-						tl(5, "serverResponse.write(VAL_guillmetsFin);");
+						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
+						tl(5, "serverResponse.write(Json.encode((String)fieldValues.iterator().next()));");
+						tl(5, "serverResponse.write(\"\\\"\\n\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 				}
-				else {
-					tl(5, "if(j > 0)");
-					tl(6, "serverResponse.write(\", \");");
-					tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
-					tl(5, "serverResponse.write(Json.encode((String)fieldValues.iterator().next()));");
-					tl(5, "serverResponse.write(\"\\\"\\n\");");
-					tl(5, "j++;");
-					tl(5, "return j;");
-				}
+				tl(4, "}");
 			}
-			tl(4, "}");
-		}
-
-		////////////////////////
-		// codeApiGenererPost //
-		////////////////////////
-		o = wApiGeneratePost;
-
-		Integer tBase = 2;
-//		if(classRolesFound) {
-//			tBase = 6;
-//		}
-//		else {
-//			tBase = 4;
-//		}
-		if(classSaved && BooleanUtils.isTrue(entityDefined)) {
-			tl(tBase + 2, "case \"", entityVar, "\":");
-			tl(tBase + 3, "postSql.append(SiteContext.SQL_setP);");
-			tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.get", entitySimpleNameVertxJson, "(entityVar), ", classVarPrimaryKey, "));");
-			tl(tBase + 3, "break;");
-		}	
-		if(classSaved && BooleanUtils.isTrue(entityAttribute)) {
-			tl(tBase + 2, "case \"", entityVar, "\":");
-			tl(tBase + 3, "postSql.append(SiteContext.SQL_addA);");
-			if(StringUtils.compare(entityVar, entityAttributeVar) < 0)
-				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.getLong(entityVar), \"", entityAttributeVar, "\", ", classVarPrimaryKey, "));");
-			else
-				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityAttributeVar, "\", ", classVarPrimaryKey, ", \"", entityVar, "\", jsonObject.getLong(entityVar)));");
-			tl(tBase + 3, "break;");
-		}	
-
-		///////////////////////
-		// codeApiGenererPut //
-		///////////////////////
-		o = wApiGeneratePut;
-
-		tBase = 0;
-		if(classRolesFound) {
-			tBase = 6;
-		}
-		else {
-			tBase = 4;
-		}
-		if(classSaved && BooleanUtils.isTrue(entityDefined)) {
-			tl(tBase + 6, "case \"", entityVar, "\":");
-			tl(tBase + 7, "putSql.append(SiteContext.SQL_setP);");
-			tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(ENTITY_VAR_", entityVar, ", requestJson.get", entitySimpleNameVertxJson, "(entityVar), putPk));");
-			tl(tBase + 7, "break;");
-		}	
-
-		////////////////////////
-		// codeApiGenererPatch //
-		////////////////////////
-		o = wApiGeneratePatch;
-
-		tBase = 2;
-//		if(classRolesFound) {
-//			tBase = 6;
-//		}
-//		else {
-//			tBase = 4;
-//		}
-		if(classSaved && BooleanUtils.isTrue(entityDefined)) {
-			if(BooleanUtils.isTrue(entityAttribute)) {
-				if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
 	
-					if(StringUtils.compare(entityVar, entityAttributeVar) <= 0) {
-						tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
-						tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 5, "ENTITY_VAR_", entityVar);
-						tl(tBase + 5, ", ", classVarPrimaryKey);
-						tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 5, ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)");
-						tl(tBase + 5, "));");
-
-						tl(tBase + 2, "case \"addAll", entityVarCapitalized, "\":");
-						tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-						tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "Valeurs.size(); i++) {");
-						tl(tBase + 4, "patchSql.append(SiteContext.SQL_addA);");
-						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 5, "ENTITY_VAR_", entityVar);
-						tl(tBase + 5, ", ", classVarPrimaryKey);
-						tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 5, ", addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
-						tl(tBase + 5, "));");
-						tl(tBase + 3, "}");
+			////////////////////////
+			// codeApiGenererPost //
+			////////////////////////
+			o = wApiGeneratePost;
 	
-						tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
-						tl(tBase + 3, entitySimpleNameVertxJson, " set", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-						tl(tBase + 3, "patchSql.append(SiteContext.SQL_clearA1);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 6, "ENTITY_VAR_", entityVar);
-						tl(tBase + 6, ", ", classVarPrimaryKey);
-						tl(tBase + 6, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 6, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
-						tl(tBase + 6, "));");
-
-						tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalized, "Valeurs.size(); i++) {");
-						tl(tBase + 4, "patchSql.append(SiteContext.SQL_addA);");
-						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 6, "ENTITY_VAR_", entityVar);
-						tl(tBase + 6, ", ", classVarPrimaryKey);
-						tl(tBase + 6, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 6, ", set", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
-						tl(tBase + 6, "));");
-						tl(tBase + 3, "}");
-					}
-					else {
-						tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
-						tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 5, "ENTITY_VAR_", entityVar);
-						tl(tBase + 5, ", ", classVarPrimaryKey);
-						tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 5, ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)");
-						tl(tBase + 5, "));");
-
-						tl(tBase + 2, "case \"addAll", entityVarCapitalized, "\":");
-						tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-						tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "Valeurs.size(); i++) {");
-						tl(tBase + 4, "patchSql.append(SiteContext.SQL_setA2);");
-						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 6, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 6, ", addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
-						tl(tBase + 6, ", ENTITY_VAR_", entityVar);
-						tl(tBase + 6, ", ", classVarPrimaryKey);
-						tl(tBase + 6, "));");
-						tl(tBase + 3, "}");
-	
-						tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
-						tl(tBase + 3, entitySimpleNameVertxJson, " set", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-						tl(tBase + 3, "patchSql.append(SiteContext.SQL_clearA2);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 5, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
-						tl(tBase + 5, ", ENTITY_VAR_", entityVar);
-						tl(tBase + 5, ", ", classVarPrimaryKey);
-						tl(tBase + 5, "));");
-
-						tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalized, "Valeurs.size(); i++) {");
-						tl(tBase + 4, "patchSql.append(SiteContext.SQL_setA2);");
-						tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 6, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 6, ", set", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
-						tl(tBase + 6, ", ENTITY_VAR_", entityVar);
-						tl(tBase + 6, ", ", classVarPrimaryKey);
-						tl(tBase + 6, "));");
-						tl(tBase + 3, "}");
-					}
-				}
-				else {
-	
-					tl(tBase + 6, "case \"set", entityVarCapitalized, "\":");
-					if(StringUtils.compare(entityVar, entityAttributeVar) <= 0) {
-						tl(tBase + 3, "patchSql.append(SiteContext.SQL_setA1);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 5, "ENTITY_VAR_", entityVar);
-						tl(tBase + 5, ", ", classVarPrimaryKey);
-						tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
-					}
-					else {
-						tl(tBase + 3, "patchSql.append(SiteContext.SQL_setA2);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 5, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
-						tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
-						tl(tBase + 5, ", ENTITY_VAR_", entityVar);
-						tl(tBase + 5, ", ", classVarPrimaryKey);
-					}
-					tl(tBase + 5, "));");
-				}
-	
-				tl(tBase + 7, "break;");
-			}
-			else if(BooleanUtils.isTrue(entityDefined)) {
-				if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
-	
-					tl(tBase + 6, "case \"add", entityVarCapitalized, "\":");
-					tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
-					tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-					tl(tBase + 5, "ENTITY_VAR_", entityVar);
-					tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
-					tl(tBase + 5, ", ", classVarPrimaryKey);
-					tl(tBase + 5, "));");
-	
-					tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
-					tl(tBase + 3, "patchSql.append(SiteContext.SQL_setP);");
-					tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(ENTITY_VAR_", entityVar, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom), ", classVarPrimaryKey, "));");
-				}
-				else {
-	
-					tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
-					tl(tBase + 3, "patchSql.append(SiteContext.SQL_setP);");
-					tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(ENTITY_VAR_", entityVar, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom), ", classVarPrimaryKey, "));");
-				}
-	
+			Integer tBase = 2;
+	//		if(classRolesFound) {
+	//			tBase = 6;
+	//		}
+	//		else {
+	//			tBase = 4;
+	//		}
+			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
+				tl(tBase + 2, "case \"", entityVar, "\":");
+				tl(tBase + 3, "postSql.append(SiteContext.SQL_setP);");
+				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.get", entitySimpleNameVertxJson, "(entityVar), ", classVarPrimaryKey, "));");
 				tl(tBase + 3, "break;");
+			}	
+			if(classSaved && BooleanUtils.isTrue(entityAttribute)) {
+				tl(tBase + 2, "case \"", entityVar, "\":");
+				tl(tBase + 3, "postSql.append(SiteContext.SQL_addA);");
+				if(StringUtils.compare(entityVar, entityAttributeVar) < 0)
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.getLong(entityVar), \"", entityAttributeVar, "\", ", classVarPrimaryKey, "));");
+				else
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityAttributeVar, "\", ", classVarPrimaryKey, ", \"", entityVar, "\", jsonObject.getLong(entityVar)));");
+				tl(tBase + 3, "break;");
+			}	
+	
+			///////////////////////
+			// codeApiGenererPut //
+			///////////////////////
+			o = wApiGeneratePut;
+	
+			tBase = 0;
+			if(classRolesFound) {
+				tBase = 6;
 			}
-		}	
-
-		if(entityDefined) {
+			else {
+				tBase = 4;
+			}
+			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
+				tl(tBase + 6, "case \"", entityVar, "\":");
+				tl(tBase + 7, "putSql.append(SiteContext.SQL_setP);");
+				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entityVar, "\", requestJson.get", entitySimpleNameVertxJson, "(entityVar), putPk));");
+				tl(tBase + 7, "break;");
+			}	
 	
-			//////////////
-			// hashCode //
-			//////////////
+			////////////////////////
+			// codeApiGenererPatch //
+			////////////////////////
+			o = wApiGeneratePatch;
 	
-			if(entityIndex > 0) 
-				wHashCode.s(", ");
-			wHashCode.s(entityVar);
+			tBase = 2;
+	//		if(classRolesFound) {
+	//			tBase = 6;
+	//		}
+	//		else {
+	//			tBase = 4;
+	//		}
+			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
+				if(BooleanUtils.isTrue(entityAttribute)) {
+					if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
+		
+						if(StringUtils.compare(entityVar, entityAttributeVar) <= 0) {
+							tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
+							tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+							tl(tBase + 5, "ENTITY_VAR_", entityVar);
+							tl(tBase + 5, ", ", classVarPrimaryKey);
+							tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+							tl(tBase + 5, ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)");
+							tl(tBase + 5, "));");
 	
-			////////////
-			// equals //
-			////////////
+							tl(tBase + 2, "case \"addAll", entityVarCapitalized, "\":");
+							tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
+							tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "Valeurs.size(); i++) {");
+							tl(tBase + 4, "patchSql.append(SiteContext.SQL_addA);");
+							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+							tl(tBase + 5, "ENTITY_VAR_", entityVar);
+							tl(tBase + 5, ", ", classVarPrimaryKey);
+							tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+							tl(tBase + 5, ", addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
+							tl(tBase + 5, "));");
+							tl(tBase + 3, "}");
+		
+							tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
+							tl(tBase + 3, entitySimpleNameVertxJson, " set", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
+							tl(tBase + 3, "patchSql.append(SiteContext.SQL_clearA1);");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+							tl(tBase + 6, "ENTITY_VAR_", entityVar);
+							tl(tBase + 6, ", ", classVarPrimaryKey);
+							tl(tBase + 6, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+							tl(tBase + 6, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
+							tl(tBase + 6, "));");
 	
-			if(entityIndex > 0) 
-				wEquals.l().t(4, "&& ");
-			wEquals.s("Objects.equals( " + entityVar + ", that." + entityVar + " )");
+							tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalized, "Valeurs.size(); i++) {");
+							tl(tBase + 4, "patchSql.append(SiteContext.SQL_addA);");
+							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+							tl(tBase + 6, "ENTITY_VAR_", entityVar);
+							tl(tBase + 6, ", ", classVarPrimaryKey);
+							tl(tBase + 6, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+							tl(tBase + 6, ", set", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
+							tl(tBase + 6, "));");
+							tl(tBase + 3, "}");
+						}
+						else {
+							tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
+							tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+							tl(tBase + 5, "ENTITY_VAR_", entityVar);
+							tl(tBase + 5, ", ", classVarPrimaryKey);
+							tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+							tl(tBase + 5, ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)");
+							tl(tBase + 5, "));");
 	
-			//////////////
-			// toString //
-			//////////////
+							tl(tBase + 2, "case \"addAll", entityVarCapitalized, "\":");
+							tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
+							tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "Valeurs.size(); i++) {");
+							tl(tBase + 4, "patchSql.append(SiteContext.SQL_setA2);");
+							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+							tl(tBase + 6, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+							tl(tBase + 6, ", addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
+							tl(tBase + 6, ", ENTITY_VAR_", entityVar);
+							tl(tBase + 6, ", ", classVarPrimaryKey);
+							tl(tBase + 6, "));");
+							tl(tBase + 3, "}");
+		
+							tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
+							tl(tBase + 3, entitySimpleNameVertxJson, " set", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
+							tl(tBase + 3, "patchSql.append(SiteContext.SQL_clearA2);");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+							tl(tBase + 5, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+							tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
+							tl(tBase + 5, ", ENTITY_VAR_", entityVar);
+							tl(tBase + 5, ", ", classVarPrimaryKey);
+							tl(tBase + 5, "));");
 	
-			wToString.tl(2, "sb.append( \"" + (entityIndex > 0 ? ", " : "") + entityVar + ": " + ("String".equals(entitySimpleNameComplete) ? "\\\"" : "") + "\" ).append(" + entityVar + "" + ("String".equals(entitySimpleNameComplete) ? ").append( \"\\\"\" " : "") + ");");
+							tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalized, "Valeurs.size(); i++) {");
+							tl(tBase + 4, "patchSql.append(SiteContext.SQL_setA2);");
+							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
+							tl(tBase + 6, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+							tl(tBase + 6, ", set", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)");
+							tl(tBase + 6, ", ENTITY_VAR_", entityVar);
+							tl(tBase + 6, ", ", classVarPrimaryKey);
+							tl(tBase + 6, "));");
+							tl(tBase + 3, "}");
+						}
+					}
+					else {
+		
+						tl(tBase + 6, "case \"set", entityVarCapitalized, "\":");
+						if(StringUtils.compare(entityVar, entityAttributeVar) <= 0) {
+							tl(tBase + 3, "patchSql.append(SiteContext.SQL_setA1);");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+							tl(tBase + 5, "ENTITY_VAR_", entityVar);
+							tl(tBase + 5, ", ", classVarPrimaryKey);
+							tl(tBase + 5, ", ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+							tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
+						}
+						else {
+							tl(tBase + 3, "patchSql.append(SiteContext.SQL_setA2);");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+							tl(tBase + 5, "ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, "");
+							tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
+							tl(tBase + 5, ", ENTITY_VAR_", entityVar);
+							tl(tBase + 5, ", ", classVarPrimaryKey);
+						}
+						tl(tBase + 5, "));");
+					}
+		
+					tl(tBase + 7, "break;");
+				}
+				else if(BooleanUtils.isTrue(entityDefined)) {
+					if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
+		
+						tl(tBase + 6, "case \"add", entityVarCapitalized, "\":");
+						tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
+						tl(tBase + 5, "ENTITY_VAR_", entityVar);
+						tl(tBase + 5, ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)");
+						tl(tBase + 5, ", ", classVarPrimaryKey);
+						tl(tBase + 5, "));");
+		
+						tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
+						tl(tBase + 3, "patchSql.append(SiteContext.SQL_setP);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", requestJson.get", entitySimpleNameVertxJson, "(methodeNom), ", classVarPrimaryKey, "));");
+					}
+					else {
+		
+						tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
+						tl(tBase + 3, "patchSql.append(SiteContext.SQL_setP);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", requestJson.get", entitySimpleNameVertxJson, "(methodeNom), ", classVarPrimaryKey, "));");
+					}
+		
+					tl(tBase + 3, "break;");
+				}
+			}	
 	
-			entityIndex++;
+			if(entityDefined) {
+		
+				//////////////
+				// hashCode //
+				//////////////
+		
+				if(entityIndex > 0) 
+					wHashCode.s(", ");
+				wHashCode.s(entityVar);
+		
+				////////////
+				// equals //
+				////////////
+		
+				if(entityIndex > 0) 
+					wEquals.l().t(4, "&& ");
+				wEquals.s("Objects.equals( " + entityVar + ", that." + entityVar + " )");
+		
+				//////////////
+				// toString //
+				//////////////
+		
+				wToString.tl(2, "sb.append( \"" + (entityIndex > 0 ? ", " : "") + entityVar + ": " + ("String".equals(entitySimpleNameComplete) ? "\\\"" : "") + "\" ).append(" + entityVar + "" + ("String".equals(entitySimpleNameComplete) ? ").append( \"\\\"\" " : "") + ");");
+		
+				entityIndex++;
+			}
 		}
 	}
 

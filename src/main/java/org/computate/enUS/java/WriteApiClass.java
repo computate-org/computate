@@ -1,12 +1,6 @@
 package org.computate.enUS.java;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-import org.computate.frFR.cardiaque.cluster.Cluster;
-import org.computate.frFR.cardiaque.recherche.ListeRecherche;
-import io.vertx.core.CompositeFuture;
-import io.vertx.core.Future;
 
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
@@ -84,7 +78,7 @@ public class WriteApiClass extends WriteGenClass {
 //		tl(4, ".handler(rc -> {");
 		tl(2, "usineRouteur.addHandlerByOperationId(\"get", classSimpleName, "\", contexteItineraire -> {");
 		Integer tBase = 0;
-		if(classRolesFound) {
+		if(classRolesFound && classRoles != null) {
 			String requeteRole = classRoles.get(0);
 			tBase = 6;
 			tl(3, "contexteItineraire.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
@@ -116,7 +110,7 @@ public class WriteApiClass extends WriteGenClass {
 		tl(tBase, "}");
 		tl(tBase, "genererGetFin", classSimpleName, "(requeteSite);");
 		tl(tBase, "requeteSite.getReponseServeur().end();");
-		if(classRolesFound) {
+		if(classRolesFound && classRoles != null) {
 			tl(5, "}");
 			tl(5, "else {");
 			tl(6, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
@@ -330,7 +324,7 @@ public class WriteApiClass extends WriteGenClass {
 ////		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
 //		tl(2, "usineRouteur.addHandlerByOperationId(\"post", classSimpleName, "\", contexteItineraire -> {");
 //		tBase = 0;
-//		if(classRolesFound) {
+//		if(classRolesFound && classRoles != null) {
 //			String requeteRole = classRoles.get(0);
 //			tBase = 6;
 //			tl(3, "contexteItineraire.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
@@ -408,7 +402,7 @@ public class WriteApiClass extends WriteGenClass {
 //		l();
 //		tl(tBase + 0, "reponseServeur.write(\"\\t]\\n\");");
 //		tl(tBase + 0, "reponseServeur.write(\"}\\n\");");
-//		if(classRolesFound) {
+//		if(classRolesFound && classRoles != null) {
 //			tl(5, "}");
 //			tl(5, "else {");
 //			tl(6, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
@@ -435,7 +429,7 @@ public class WriteApiClass extends WriteGenClass {
 		tl(1, "@Override");
 		tl(1, "public void post", classSimpleName, "(JsonObject document, Handler<AsyncResult<OperationResponse>> resultHandler) {");
 		tBase = 0;
-		if(classRolesFound) {
+		if(classRolesFound && classRoles != null) {
 			String requeteRole = classRoles.get(0);
 			tBase = 4;
 			tl(2, "contexteItineraire.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
@@ -444,25 +438,24 @@ public class WriteApiClass extends WriteGenClass {
 		else {
 			tBase = 2;
 		}
-		tl(tBase + 0, "RequeteSite requeteSite;");
 		tl(tBase + 0, "try {");
-		tl(tBase + 1, "requeteSite = genererRequeteSitePour", classSimpleName, "(siteContext);");
-		tl(tBase + 0, "} catch(Exception e) {");
-		tl(tBase + 1, "resultHandler.handle(Future.failedFuture(e));");
-		tl(tBase + 0, "}");
-		tl(tBase + 0, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(requeteSite).compose(");
-		tl(tBase + 1, "a -> creer", classSimpleName, "(requeteSite).compose(");
-		tl(tBase + 2, "cluster -> definir", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(");
-		tl(tBase + 3, "c -> attribuer", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(");
-		tl(tBase + 4, "d -> indexer", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(");
-		tl(tBase + 5, "operationResponse -> postJson", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ")");
+		tl(tBase + 1, "RequeteSite requeteSite = genererRequeteSitePour", classSimpleName, "(siteContext);");
+		tl(tBase + 1, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(requeteSite).compose(");
+		tl(tBase + 2, "a -> creer", classSimpleName, "(requeteSite).compose(");
+		tl(tBase + 3, "cluster -> definir", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(");
+		tl(tBase + 4, "c -> attribuer", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(");
+		tl(tBase + 5, "d -> indexer", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(");
+		tl(tBase + 6, "operationResponse -> postJson", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ")");
+		tl(tBase + 5, ")");
 		tl(tBase + 4, ")");
 		tl(tBase + 3, ")");
 		tl(tBase + 2, ")");
-		tl(tBase + 1, ")");
-		tl(tBase + 0, ");");
-		tl(tBase + 0, "etapesFutures.setHandler(resultHandler);");
-		if(classRolesFound) {
+		tl(tBase + 1, ");");
+		tl(tBase + 1, "etapesFutures.setHandler(resultHandler);");
+		tl(tBase + 0, "} catch(Exception e) {");
+		tl(tBase + 1, "resultHandler.handle(Future.failedFuture(e));");
+		tl(tBase + 0, "}");
+		if(classRolesFound && classRoles != null) {
 			tl(3, "}");
 			tl(3, "else {");
 			tl(4, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
@@ -492,7 +485,7 @@ public class WriteApiClass extends WriteGenClass {
 
 //		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
 		tBase = 0;
-		if(classRolesFound) {
+		if(classRolesFound && classRoles != null) {
 			String requeteRole = classRoles.get(0);
 			tBase = 4;
 			tl(2, "contexteItineraire.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
@@ -501,33 +494,24 @@ public class WriteApiClass extends WriteGenClass {
 		else {
 			tBase = 2;
 		}
-		tl(tBase + 0, "RequeteSite requeteSite;");
 		tl(tBase + 0, "try {");
-		tl(tBase + 1, "requeteSite = genererRequeteSitePour", classSimpleName, "(siteContext);");
+		tl(tBase + 1, "RequeteSite requeteSite = genererRequeteSitePour", classSimpleName, "(siteContext);");
+//		tl(tBase + 1, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
+//		tl(tBase + 1, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
+		tl(tBase + 1, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(requeteSite).compose(");
+		tl(tBase + 2, "a -> recherche", classSimpleName, "(requeteSite).compose(");
+		tl(tBase + 3, "liste", classSimpleName, " -> patchListe", classSimpleName, "(liste", classSimpleName, ")");
+		tl(tBase + 2, ")");
+		tl(tBase + 1, ");");
+		tl(tBase + 1, "etapesFutures.setHandler(resultHandler);");
+//		tl(tBase + 1, "requeteSite.getReponseServeur().end();");
+//		l();
+//		tl(tBase + 1, "reponseServeur.write(\"\\t]\\n\");");
+//		tl(tBase + 1, "reponseServeur.write(\"}\\n\");");
 		tl(tBase + 0, "} catch(Exception e) {");
 		tl(tBase + 1, "resultHandler.handle(Future.failedFuture(e));");
 		tl(tBase + 0, "}");
-//		tl(tBase + 0, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-//		tl(tBase + 0, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
-		tl(tBase + 0, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(requeteSite).compose(");
-		tl(tBase + 1, "a -> recherche", classSimpleName, "(requeteSite).compose(");
-		tl(tBase + 2, "liste", classSimpleName, " -> patch", classSimpleName, "(requeteSite).compose(");
-		tl(tBase + 3, "c -> definir", classSimpleName, "(requeteSite).compose(");
-		tl(tBase + 4, "d -> attribuer", classSimpleName, "(requeteSite).compose(");
-		tl(tBase + 5, "e -> indexer", classSimpleName, "(requeteSite).compose(");
-		tl(tBase + 6, "operationResponse -> patchJson", classSimpleName, "(requeteSite)");
-		tl(tBase + 5, ")");
-		tl(tBase + 4, ")");
-		tl(tBase + 3, ")");
-		tl(tBase + 2, ")");
-		tl(tBase + 1, ")");
-		tl(tBase + 0, ");");
-		tl(tBase + 0, "etapesFutures.setHandler(resultHandler);");
-//		tl(tBase + 0, "requeteSite.getReponseServeur().end();");
-//		l();
-//		tl(tBase + 0, "reponseServeur.write(\"\\t]\\n\");");
-//		tl(tBase + 0, "reponseServeur.write(\"}\\n\");");
-		if(classRolesFound) {
+		if(classRolesFound && classRoles != null) {
 			tl(3, "}");
 			tl(3, "else {");
 			tl(4, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
@@ -621,19 +605,31 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "return future;");
 		tl(1, "}");
 		l();
-		tl(1, "public Future<Void> patchListe", classSimpleName, "(RequeteSite requeteSite, List<", classSimpleName, "> liste", classSimpleName, ") {");
+		tl(1, "public Future<OperationResponse> patchListe", classSimpleName, "(ListeRecherche<", classSimpleName, "> liste", classSimpleName, ") {");
 		tl(2, "List<Future> futures = new ArrayList<>();");
-		tl(2, "liste", classSimpleName, ".forEach(o -> { futures.add(indexer", classSimpleName, "(o)); });");
-		tl(2, "CompositeFuture.all(futures).setHandler(ar -> {");
+		tl(2, "liste", classSimpleName, ".getList().forEach(o -> {");
+		tl(3, "futures.add(");
+		tl(4, "patch", classSimpleName, "(o).compose(");
+		tl(5, "b -> indexer", classSimpleName, "(o)");
+		tl(4, ")");
+		tl(3, ");");
+		tl(2, "});");
+		tl(2, "CompositeFuture compositeFuture = CompositeFuture.all(futures).setHandler(ar -> {");
 		tl(3, "if(ar.succeeded()) {");
 		tl(4, "patchJsonCluster(listeCluster);");
-		tl(4, "future.complete();");
+//		tl(4, "future.complete();");
 		tl(3, "} else {");
 		tl(3, "}");
 		tl(2, "});");
+		tl(2, "Future<OperationResponse> future = Future.future().compose(");
+		tl(3, "a -> compositeFuture.compose(");
+		tl(4, "b -> patchJsonCluster(listeCluster)");
+		tl(3, ")");
+		tl(2, ");");
+		tl(2, "return future;");
 		tl(1, "}");
 		l();
-		tl(1, "public Future<Void> patch", classSimpleName, "(RequeteSite requeteSite) {");
+		tl(1, "public Future<Void> patch", classSimpleName, "(", classSimpleName, " o) {");
 		tl(2, "Future<Void> future = Future.future();");
 		tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 		tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
@@ -715,7 +711,7 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
 		tl(1, "}");
 		l();
-		tl(1, "public Future<OperationResponse> patchJson", classSimpleName, "(List<", classSimpleName, "> liste", classSimpleName, ") {");
+		tl(1, "public Future<OperationResponse> patchJson", classSimpleName, "(ListeRecherche<", classSimpleName, "> liste", classSimpleName, ") {");
 		tl(2, "Buffer buffer = Buffer.buffer();");
 		tl(2, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
 		tl(1, "}");
