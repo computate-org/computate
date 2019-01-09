@@ -125,12 +125,11 @@ public class WriteAllClasses extends WritePageClass {
 					genCodeAttribute(languageName);
 					genCodePut(languageName);
 					genCodePopulate(languageName);
-					genCodeExists(languageName);
+					genCodeExists(languageName); 
 					genCodeSaves(languageName);
-					genCodeSave(languageName);
 					genCodeClassBegin(languageName);
 					if(classApi)
-						apiCodeClassBegin(languageName);
+						genCodeClassEnd(languageName);
 					if(classPage)
 						pageCodeClasseDebut(languageName);
 				} 

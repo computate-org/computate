@@ -1,6 +1,10 @@
 package org.computate.enUS.java;
 
+import java.nio.charset.Charset;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
@@ -81,7 +85,7 @@ public class WriteApiClass extends WriteGenClass {
 		if(classRolesFound && classRoles != null) {
 			String requeteRole = classRoles.get(0);
 			tBase = 6;
-			tl(3, "contexteItineraire.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
+			tl(3, "eventHandler.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
 			tl(4, "try {");
 			tl(5, "if (authRes.result() == Boolean.TRUE) {");
 		}
@@ -226,56 +230,55 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "listeRecherche.setQuery(\"*:*\");");
 		tl(2, "listeRecherche.setRows(1000000);");
 		tl(2, "listeRecherche.addSort(\"partNumero_indexed_int\", ORDER.asc);");
-		tl(2, "MultiMap paramMap = requeteSite.getRequeteServeur().params();");
-		tl(2, "for(String paramCle : paramMap.names()) {");
-		tl(3, "List<String> paramValeurs = paramMap.getAll(paramCle);");
-		tl(3, "for(String paramValeur : paramValeurs) {");
-		tl(4, "try {");
-		tl(5, "switch(paramCle) {");
+		tl(2, "List<NameValuePair> pairesNomValeur = URLEncodedUtils.parse(requeteSite.getRequeteServeur().query(), Charset.forName(\"UTF-8\"));");
+		tl(2, "for(NameValuePair paireNomValeur : pairesNomValeur) {");
+		tl(3, "String paireNom = paireNomValeur.getName();");
+		tl(3, "String paireValeur = paireNomValeur.getValue();");
+		tl(3, "try {");
+		tl(4, "switch(paireNom) {");
 
-		tl(6, "case \"q\":");
-		tl(7, "entityVar = StringUtils.trim(StringUtils.substringBefore(paramValeur, \":\"));");
-		tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paramValeur, \":\"));");
-		tl(7, "varIndexe = varIndexe", classSimpleName, "(paramCle);");
-		tl(7, "listeRecherche.setQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
-		tl(7, "break;");
+		tl(5, "case \"q\":");
+		tl(6, "entityVar = StringUtils.trim(StringUtils.substringBefore(paireValeur, \":\"));");
+		tl(6, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paireValeur, \":\"));");
+		tl(6, "varIndexe = varIndexe", classSimpleName, "(entityVar);");
+		tl(6, "listeRecherche.setQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
+		tl(6, "break;");
 
-		tl(6, "case \"fq\":");
-		tl(7, "entityVar = StringUtils.trim(StringUtils.substringBefore(paramValeur, \":\"));");
-		tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paramValeur, \":\"));");
-		tl(7, "varIndexe = varIndexe", classSimpleName, "(paramCle);");
-		tl(7, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
-		tl(7, "break;");
+		tl(5, "case \"fq\":");
+		tl(6, "entityVar = StringUtils.trim(StringUtils.substringBefore(paireValeur, \":\"));");
+		tl(6, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paireValeur, \":\"));");
+		tl(6, "varIndexe = varIndexe", classSimpleName, "(entityVar);");
+		tl(6, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
+		tl(6, "break;");
 
-		tl(6, "case \"sort\":");
-		tl(7, "entityVar = StringUtils.trim(StringUtils.substringBefore(paramValeur, \" \"));");
-		tl(7, "valeurTri = StringUtils.trim(StringUtils.substringAfter(paramValeur, \" \"));");
-		tl(7, "varIndexe = varIndexe", classSimpleName, "(paramCle);");
-		tl(7, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
-		tl(7, "break;");
+		tl(5, "case \"sort\":");
+		tl(6, "entityVar = StringUtils.trim(StringUtils.substringBefore(paireValeur, \" \"));");
+		tl(6, "valeurTri = StringUtils.trim(StringUtils.substringAfter(paireValeur, \" \"));");
+		tl(6, "varIndexe = varIndexe", classSimpleName, "(entityVar);");
+		tl(6, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
+		tl(6, "break;");
 
-		tl(6, "case \"fl\":");
-		tl(7, "entityVar = StringUtils.trim(paramValeur);");
-		tl(7, "varIndexe = varIndexe", classSimpleName, "(paramCle);");
-		tl(7, "listeRecherche.addField(varIndexe);");
-		tl(7, "break;");
+		tl(5, "case \"fl\":");
+		tl(6, "entityVar = StringUtils.trim(paireValeur);");
+		tl(6, "varIndexe = varIndexe", classSimpleName, "(entityVar);");
+		tl(6, "listeRecherche.addField(varIndexe);");
+		tl(6, "break;");
 
-		tl(6, "case \"start\":");
-		tl(7, "rechercheDebut = Integer.parseInt(paramValeur);");
-		tl(7, "listeRecherche.setStart(rechercheDebut);");
-		tl(7, "break;");
+		tl(5, "case \"start\":");
+		tl(6, "rechercheDebut = Integer.parseInt(paireValeur);");
+		tl(6, "listeRecherche.setStart(rechercheDebut);");
+		tl(6, "break;");
 
-		tl(6, "case \"rows\":");
-		tl(7, "rechercheNum = Integer.parseInt(paramValeur);");
-		tl(7, "listeRecherche.setRows(rechercheNum);");
-		tl(7, "break;");
+		tl(5, "case \"rows\":");
+		tl(6, "rechercheNum = Integer.parseInt(paireValeur);");
+		tl(6, "listeRecherche.setRows(rechercheNum);");
+		tl(6, "break;");
 
-		tl(5, "}");
-		tl(4, "} catch(Exception e) {");
-		tl(5, "return Future.failedFuture(e);");
 		tl(4, "}");
-
+		tl(3, "} catch(Exception e) {");
+		tl(4, "return Future.failedFuture(e);");
 		tl(3, "}");
+
 		tl(2, "}");
 		tl(2, "listeRecherche.initLoinPourClasse(requeteSite);");
 		tl(2, "return Future.succeededFuture(listeRecherche);");
@@ -327,7 +330,7 @@ public class WriteApiClass extends WriteGenClass {
 //		if(classRolesFound && classRoles != null) {
 //			String requeteRole = classRoles.get(0);
 //			tBase = 6;
-//			tl(3, "contexteItineraire.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
+//			tl(3, "eventHandler.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
 //			tl(4, "try {");
 //			tl(5, "if (authRes.result() == Boolean.TRUE) {");
 //		}
@@ -362,7 +365,7 @@ public class WriteApiClass extends WriteGenClass {
 //		tl(tBase + 4, "Set<String> entityVars = requeteJson.fieldNames();");
 //		tl(tBase + 4, "for(String entityVar : entityVars) {");
 //		tl(tBase + 5, "switch(entityVar) {");
-//		s(wApiGenererPost.toString());
+//		s(wApiGeneratePost.toString());
 //		tl(tBase + 5, "}");
 //		tl(tBase + 4, "}");
 //		tl(tBase + 4, "connexionSql.queryWithParams(postSql.toString(), new JsonArray(postSqlParams), asyncParams -> {");
@@ -427,12 +430,12 @@ public class WriteApiClass extends WriteGenClass {
 		//////////
 		l();
 		tl(1, "@Override");
-		tl(1, "public void post", classSimpleName, "(JsonObject document, Handler<AsyncResult<OperationResponse>> resultHandler) {");
+		tl(1, "public void post", classSimpleName, "(JsonObject document, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> eventHandler) {");
 		tBase = 0;
 		if(classRolesFound && classRoles != null) {
 			String requeteRole = classRoles.get(0);
 			tBase = 4;
-			tl(2, "contexteItineraire.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
+			tl(2, "operationRequete.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
 			tl(3, "if (authRes.result() == Boolean.TRUE) {");
 		}
 		else {
@@ -451,9 +454,9 @@ public class WriteApiClass extends WriteGenClass {
 		tl(tBase + 3, ")");
 		tl(tBase + 2, ")");
 		tl(tBase + 1, ");");
-		tl(tBase + 1, "etapesFutures.setHandler(resultHandler);");
+		tl(tBase + 1, "etapesFutures.setHandler(eventHandler);");
 		tl(tBase + 0, "} catch(Exception e) {");
-		tl(tBase + 1, "resultHandler.handle(Future.failedFuture(e));");
+		tl(tBase + 1, "eventHandler.handle(Future.failedFuture(e));");
 		tl(tBase + 0, "}");
 		if(classRolesFound && classRoles != null) {
 			tl(3, "}");
@@ -480,7 +483,7 @@ public class WriteApiClass extends WriteGenClass {
 //		tl(1, "}");
 		l();
 		tl(1, "@Override");
-		tl(1, "public void patch", classSimpleName, "(JsonObject document, Handler<AsyncResult<OperationResponse>> resultHandler) {");
+		tl(1, "public void patch", classSimpleName, "(JsonObject document, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> eventHandler) {");
 //		tl(2, "Router siteRouteur = siteContext.getSiteRouteur();");
 
 //		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
@@ -488,7 +491,7 @@ public class WriteApiClass extends WriteGenClass {
 		if(classRolesFound && classRoles != null) {
 			String requeteRole = classRoles.get(0);
 			tBase = 4;
-			tl(2, "contexteItineraire.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
+			tl(2, "operationRequete.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
 			tl(3, "if (authRes.result() == Boolean.TRUE) {");
 		}
 		else {
@@ -503,13 +506,13 @@ public class WriteApiClass extends WriteGenClass {
 		tl(tBase + 3, "liste", classSimpleName, " -> patchListe", classSimpleName, "(liste", classSimpleName, ")");
 		tl(tBase + 2, ")");
 		tl(tBase + 1, ");");
-		tl(tBase + 1, "etapesFutures.setHandler(resultHandler);");
+		tl(tBase + 1, "etapesFutures.setHandler(eventHandler);");
 //		tl(tBase + 1, "requeteSite.getReponseServeur().end();");
 //		l();
 //		tl(tBase + 1, "reponseServeur.write(\"\\t]\\n\");");
 //		tl(tBase + 1, "reponseServeur.write(\"}\\n\");");
 		tl(tBase + 0, "} catch(Exception e) {");
-		tl(tBase + 1, "resultHandler.handle(Future.failedFuture(e));");
+		tl(tBase + 1, "eventHandler.handle(Future.failedFuture(e));");
 		tl(tBase + 0, "}");
 		if(classRolesFound && classRoles != null) {
 			tl(3, "}");
@@ -571,9 +574,9 @@ public class WriteApiClass extends WriteGenClass {
 		tl(4, ", creerAsync");
 		tl(2, "-> {");
 		tl(3, "JsonArray patchLigne = creerAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
-		tl(3, "Long ", classeVarClePrimaire, " = patchLigne.getLong(0);");
+		tl(3, "Long ", classVarPrimaryKey, " = patchLigne.getLong(0);");
 		tl(3, classSimpleName, " o = new ", classSimpleName, "();");
-		tl(3, "o.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+		tl(3, "o.set", StringUtils.capitalize(classVarPrimaryKey), "(", classVarPrimaryKey, ");");
 		tl(3, "future.complete(o);");
 		tl(2, "});");
 		tl(2, "return future;");
@@ -583,7 +586,7 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "Future<Void> future = Future.future();");
 		tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 		tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-		tl(2, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
+		tl(2, "Long ", classVarPrimaryKey, " = o.get", StringUtils.capitalize(classVarPrimaryKey), "();");
 		tl(2, "RoutingContext contexteItineraire = requeteSite.getContexteItineraire();");
 		tl(2, "JsonObject jsonObject = contexteItineraire.getBodyAsJson();");
 		tl(2, "StringBuilder postSql = new StringBuilder();");
@@ -592,7 +595,7 @@ public class WriteApiClass extends WriteGenClass {
 		l();
 		tl(2, "for(String entityVar : entityVars) {");
 		tl(3, "switch(entityVar) {");
-		s(wApiGenererPost.toString());
+		s(wApiGeneratePost.toString());
 		tl(3, "}");
 		tl(2, "}");
 		tl(2, "connexionSql.queryWithParams(");
@@ -633,7 +636,7 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "Future<Void> future = Future.future();");
 		tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 		tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-		tl(2, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
+		tl(2, "Long ", classVarPrimaryKey, " = o.get", StringUtils.capitalize(classVarPrimaryKey), "();");
 		tl(2, "RoutingContext contexteItineraire = requeteSite.getContexteItineraire();");
 		tl(2, "JsonObject requeteJson = contexteItineraire.getBodyAsJson();");
 		tl(2, "StringBuilder patchSql = new StringBuilder();");
@@ -659,10 +662,10 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "Future<Void> future = Future.future();");
 		tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 		tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-		tl(2, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
+		tl(2, "Long ", classVarPrimaryKey, " = o.get", StringUtils.capitalize(classVarPrimaryKey), "();");
 		tl(2, "connexionSql.queryWithParams(");
 		tl(4, "SiteContexte.SQL_definir");
-		tl(4, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "))");
+		tl(4, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "))");
 		tl(4, ", definirAsync");
 		tl(2, "-> {");
 		tl(3, "for(JsonArray definition : definirAsync.result().getResults()) {");
@@ -677,10 +680,10 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "Future<Void> future = Future.future();");
 		tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 		tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-		tl(2, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
+		tl(2, "Long ", classVarPrimaryKey, " = o.get", StringUtils.capitalize(classVarPrimaryKey), "();");
 		tl(2, "connexionSql.queryWithParams(");
 		tl(4, "SiteContexte.SQL_attribuer");
-		tl(4, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "))");
+		tl(4, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "))");
 		tl(4, ", attribuerAsync");
 		tl(2, "-> {");
 		tl(3, "for(JsonArray definition : attribuerAsync.result().getResults()) {");

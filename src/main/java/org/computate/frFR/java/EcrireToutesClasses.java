@@ -233,6 +233,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r: genCodeClasseFin
 	 * r.enUS: genCodeClassEnd
 	 * r: apiCodeClasseDebut
+	 * r.enUS: genCodeClassEnd
+	 * r: apiCodeClasseDebut
 	 * r.enUS: apiCodeClassBegin
 	 * r: apiCodeClasseFin
 	 * r.enUS: apiCodeClassEnd
@@ -324,7 +326,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					genCodeAttribuer(langueNom);
 					genCodePut(langueNom);
 					genCodePeupler(langueNom);
-					genCodeExiste(langueNom);
+					genCodeExiste(langueNom); 
 					genCodeSauvegardes(langueNom);
 					genCodeClasseDebut(langueNom);
 					if(classeApi)

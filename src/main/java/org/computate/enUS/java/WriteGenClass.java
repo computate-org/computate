@@ -125,7 +125,7 @@ public class WriteGenClass extends WriteClass {
 
 	protected StringPrintWriter wSaves;
 
-	protected StringPrintWriter wSave;
+	protected StringPrintWriter wDefine;
 
 	protected StringPrintWriter wApiGet;
 
@@ -188,7 +188,7 @@ public class WriteGenClass extends WriteClass {
 		wPopulate = StringPrintWriter.create();
 		wSaves = StringPrintWriter.create();
 		wExists = StringPrintWriter.create();
-		wDefinir = StringPrintWriter.create();
+		wDefine = StringPrintWriter.create();
 		wApiEntities = StringPrintWriter.create();
 		wPageEntities = StringPrintWriter.create();
 		wApiGet = StringPrintWriter.create();
@@ -371,7 +371,18 @@ public class WriteGenClass extends WriteClass {
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			l("public boolean attributeForClass(String var, Object val) {");
+			s("public boolean attributeForClass(String var, Object val)");
+			if(classInitDeepExceptions.size() > 0) {
+				s(" throws ");
+				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
+					String classInitDeepException = classInitDeepExceptions.get(i);
+					String classInitDeepExceptionNomSimple = StringUtils.substringAfterLast(classInitDeepException, ".");
+					if(i > 0)
+						s(", ");
+					s(classInitDeepExceptionNomSimple);
+				}
+			}
+			l(" {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
@@ -1116,14 +1127,15 @@ public class WriteGenClass extends WriteClass {
 				}
 		
 				// Initialiser //
-				tl(1, "protected ", classSimpleName, " ", entityVar, "Init()");
-				if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
+				t(1, "protected ", classSimpleName, " ", entityVar, "Init()");
+				if(classInitDeepExceptions.size() > 0) {
 					s(" throws ");
-					for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
-						String methodeExceptionNomSimpleComplet = methodExceptionsSimpleNameComplete.get(i);
+					for(int i = 0; i < classInitDeepExceptions.size(); i++) {
+						String classInitDeepException = classInitDeepExceptions.get(i);
+						String classInitDeepExceptionNomSimple = StringUtils.substringAfterLast(classInitDeepException, ".");
 						if(i > 0)
 							s(", ");
-						s(methodeExceptionNomSimpleComplet);
+						s(classInitDeepExceptionNomSimple);
 					}
 				}
 				l(" {");
@@ -1447,7 +1459,7 @@ public class WriteGenClass extends WriteClass {
 			/////////////
 			// definir //
 			/////////////
-			o = wDefinir;
+			o = wDefine;
 			
 			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
 					tl(3, "case \"", entityVar, "\":");
@@ -2143,7 +2155,7 @@ public class WriteGenClass extends WriteClass {
 			}
 			l("\t}");
 
-			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
+			if(StringUtils.isNotEmpty(classVarUniqueKey)) {
 				tl(0);
 				tl(1, "public void unindex", classSimpleName, "() throws Exception {");
 				tl(2, "SiteRequest siteRequest = new SiteRequest();");
@@ -2155,7 +2167,7 @@ public class WriteGenClass extends WriteClass {
 				tl(2, "siteRequest.setSiteConfig_(siteContext.getSiteConfig());");
 				tl(2, "initDeep", classSimpleName, "(siteContext.getSiteRequest_());");
 				tl(2, "SolrClient solrClient = siteContext.getSolrClient();");
-				tl(2, "solrClient.deleteById(", classeVarCleUnique, ".toString());");
+				tl(2, "solrClient.deleteById(", classVarUniqueKey, ".toString());");
 				tl(2, "solrClient.commit();");
 				tl(1, "}");
 			}
@@ -2248,7 +2260,18 @@ public class WriteGenClass extends WriteClass {
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			l("public boolean definirPourClasse(String var, String val) {");
+			s("public boolean defineForClass(String var, String val)");
+			if(classInitDeepExceptions.size() > 0) {
+				s(" throws ");
+				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
+					String classInitDeepException = classInitDeepExceptions.get(i);
+					String classInitDeepExceptionSimpleName = StringUtils.substringAfterLast(classInitDeepException, ".");
+					if(i > 0)
+						s(", ");
+					s(classInitDeepExceptionSimpleName);
+				}
+			}
+			l(" {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "if(val != null) {");
@@ -2257,7 +2280,7 @@ public class WriteGenClass extends WriteClass {
 			tl(5, "o = definir", classSimpleName, "(v, val);");
 			tl(4, "else if(o instanceof Cluster) {");
 			tl(5, "Cluster cluster = (Cluster)o;");
-			tl(5, "o = cluster.definirPourClasse(v, val);");
+			tl(5, "o = cluster.defineForClass(v, val);");
 			tl(4, "}");
 			tl(3, "}");
 			tl(2, "}");
@@ -2400,7 +2423,7 @@ public class WriteGenClass extends WriteClass {
 		t(2, "return Objects.hash(");
 		if(BooleanUtils.isTrue(classExtendsBase)) {
 			s("super.hashCode()");
-			if(entiteIndice > 0)
+			if(entityIndex > 0)
 				s(", ");
 		}
 		s(wHashCode.toString());
@@ -2424,13 +2447,13 @@ public class WriteGenClass extends WriteClass {
 		t(2, "return ");
 		if(BooleanUtils.isTrue(classExtendsBase)) {
 			s("super.equals(o)");
-			if(entiteIndice > 0) {
+			if(entityIndex > 0) {
 				l();
 				t(4, "&& ");
 			}
 		}
 		s(wEquals.toString());
-		if(!BooleanUtils.isTrue(classExtendsBase) && entiteIndice == 0)
+		if(!BooleanUtils.isTrue(classExtendsBase) && entityIndex == 0)
 			s("true");
 		l(";");
 		tl(1, "}");

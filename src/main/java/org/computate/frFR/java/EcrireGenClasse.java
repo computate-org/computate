@@ -273,7 +273,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected StringPrintWriter wSauvegardes;
 
 	/**
-	 * var.enUS: wSave
+	 * var.enUS: wDefine
 	 */
 	protected StringPrintWriter wDefinir;
 
@@ -402,6 +402,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: wPopulate
 	 * r: wExiste
 	 * r.enUS: wExists
+	 * r: wDefinir
+	 * r.enUS: wDefine
 	 * r: wSauvegardes
 	 * r.enUS: wSaves
 	 * r: wSauvegarder
@@ -734,7 +736,18 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public boolean attribuerPourClasse(String var, Object val) {");
+			s("public boolean attribuerPourClasse(String var, Object val)");
+			if(classeInitLoinExceptions.size() > 0) {
+				s(" throws ");
+				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+					String classeInitLoinException = classeInitLoinExceptions.get(i);
+					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+					if(i > 0)
+						s(", ");
+					s(classeInitLoinExceptionNomSimple);
+				}
+			}
+			l(" {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
@@ -1347,6 +1360,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: entityIndex
 	 * r: wObtenir
 	 * r.enUS: wObtain
+	 * r: wDefinir
+	 * r.enUS: wDefine
 	 * r: classeEtendBase
 	 * r.enUS: classExtendsBase
 	 * r: classeEstBase
@@ -1428,7 +1443,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: canonicalName
 	 * r: Couverture
 	 * r.enUS: Wrap
-	 */
+	 */   
 	public void genCodeEntite(String langueNom) throws Exception {
 		String entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
 		String entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
@@ -1943,14 +1958,15 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Initialiser //
-				tl(1, "protected ", classeNomSimple, " ", entiteVar, "Init()");
-				if(methodeExceptionsNomSimpleComplet != null && methodeExceptionsNomSimpleComplet.size() > 0) {
+				t(1, "protected ", classeNomSimple, " ", entiteVar, "Init()");
+				if(classeInitLoinExceptions.size() > 0) {
 					s(" throws ");
-					for(int i = 0; i < methodeExceptionsNomSimpleComplet.size(); i++) {
-						String methodeExceptionNomSimpleComplet = methodeExceptionsNomSimpleComplet.get(i);
+					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+						String classeInitLoinException = classeInitLoinExceptions.get(i);
+						String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
 						if(i > 0)
 							s(", ");
-						s(methodeExceptionNomSimpleComplet);
+						s(classeInitLoinExceptionNomSimple);
 					}
 				}
 				l(" {");
@@ -2995,6 +3011,12 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: wSave
 	 * r: classeCheminGen
 	 * r.enUS: classPathGen
+	 * r: classeVarCleUnique
+	 * r.enUS: classVarUniqueKey
+	 * r: entiteIndice
+	 * r.enUS: entityIndex
+	 * r: definirPourClasse
+	 * r.enUS: defineForClass
 	 * 
 	 * r: sauvegarder
 	 * r.enUS: save
@@ -3185,7 +3207,18 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public boolean definirPourClasse(String var, String val) {");
+			s("public boolean definirPourClasse(String var, String val)");
+			if(classeInitLoinExceptions.size() > 0) {
+				s(" throws ");
+				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+					String classeInitLoinException = classeInitLoinExceptions.get(i);
+					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+					if(i > 0)
+						s(", ");
+					s(classeInitLoinExceptionNomSimple);
+				}
+			}
+			l(" {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "if(val != null) {");
