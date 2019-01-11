@@ -381,14 +381,22 @@ public class SiteConfig {
 	public String regexReplaceAll(String comment, String sourceCode, String languageName) throws Exception, Exception {
 		String sourceCodeLanguage = sourceCode;
 		if(!StringUtils.isEmpty(comment)) {
-			Matcher m = Pattern.compile("^r:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + languageName + ":\\s*(.*)", Pattern.MULTILINE).matcher(comment);
+			Matcher m = Pattern.compile("^r(egex)?:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + languageName + ":\\s*(.*)", Pattern.MULTILINE).matcher(comment);
 			boolean found = m.find();
 			
 			while(found) {
-				String searchText = m.group(1);
-				String replacementText = m.group(3);
+				String textRegex = m.group(1);
+				String searchText = m.group(2);
+				String replacementText = m.group(4);
 				if(searchText != null && replacementText != null) {
-					Matcher m2 = Pattern.compile(Pattern.quote(searchText), Pattern.MULTILINE).matcher(sourceCodeLanguage);
+					String patternRegex = null;
+
+//					if("egex".equals(textRegex))
+						patternRegex = Pattern.quote(searchText);
+//					else
+//						patternRegex = searchText;
+
+					Matcher m2 = Pattern.compile(patternRegex, Pattern.MULTILINE).matcher(sourceCodeLanguage);
 					boolean found2 = m2.find();
 					StringBuffer end2 = new StringBuffer();
 					

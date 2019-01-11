@@ -20,7 +20,7 @@ import com.thoughtworks.qdox.model.JavaType;
  */   
 public class RegarderClasseBase extends ConfigSite {
 
-	protected String[] args;
+	public String[] args;
 
 	/**
 	 * var.enUS: _appPath
@@ -34,7 +34,7 @@ public class RegarderClasseBase extends ConfigSite {
 	/**
 	 * var.enUS: classAbsolutePath
 	 */ 
-	protected String classeCheminAbsolu;
+	public String classeCheminAbsolu;
 	/** 
 	 * var.enUS: _classAbsolutePath
 	 * r: classeCheminAbsolu
@@ -47,7 +47,7 @@ public class RegarderClasseBase extends ConfigSite {
 	/** 
 	 * var.enUS: appPaths
 	 */
-	protected HashMap<String, String> appliChemins = new HashMap<String, String>(); 
+	public HashMap<String, String> appliChemins = new HashMap<String, String>(); 
 	/** 
 	 * var.enUS: _appPaths
 	 * r: autresLangues
@@ -78,7 +78,7 @@ public class RegarderClasseBase extends ConfigSite {
 	/**  
 	 * var.enUS: classDocs
 	 */
-	protected HashMap<String, SolrDocument> classeDocs = new HashMap<String, SolrDocument>();
+	public HashMap<String, SolrDocument> classeDocs = new HashMap<String, SolrDocument>();
 	/**
 	 * var.enUS: _classDocs
 	 */
@@ -90,7 +90,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 */
-	protected HashMap<String, ClasseParts> classePartsGen = new HashMap<String, ClasseParts>();
+	public HashMap<String, ClasseParts> classePartsGen = new HashMap<String, ClasseParts>();
 	/**
 	 * var.enUS: _classPartsGen
 	 */
@@ -100,7 +100,7 @@ public class RegarderClasseBase extends ConfigSite {
 	/**
 	 * var.enUS: builder
 	 */ 
-	protected JavaProjectBuilder bricoleur;
+	public JavaProjectBuilder bricoleur;
 	/**
 	 * var.enUS: _builder
 	 * r: bricoleur

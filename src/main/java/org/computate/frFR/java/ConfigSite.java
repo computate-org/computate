@@ -758,18 +758,30 @@ public class ConfigSite {
 	 * r.enUS: searchText
 	 * r: texteRemplacement
 	 * r.enUS: replacementText
+	 * r: motifRegex
+	 * r.enUS: patternRegex
+	 * r: texteRegex
+	 * r.enUS: textRegex
 	 */  
 	public String regexRemplacerTout(String commentaire, String codeSource, String langueNom) throws Exception {
 		String codeSourceLangue = codeSource;
 		if(!StringUtils.isEmpty(commentaire)) {
-			Matcher m = Pattern.compile("^r:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + langueNom + ":\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
+			Matcher m = Pattern.compile("^r(egex)?:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + langueNom + ":\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
 			boolean trouve = m.find();
 			
 			while(trouve) {
-				String texteRecherche = m.group(1);
-				String texteRemplacement = m.group(3);
+				String texteRegex = m.group(1);
+				String texteRecherche = m.group(2);
+				String texteRemplacement = m.group(4);
 				if(texteRecherche != null && texteRemplacement != null) {
-					Matcher m2 = Pattern.compile(Pattern.quote(texteRecherche), Pattern.MULTILINE).matcher(codeSourceLangue);
+					String motifRegex = null;
+
+//					if("egex".equals(texteRegex))
+						motifRegex = Pattern.quote(texteRecherche);
+//					else
+//						motifRegex = texteRecherche;
+
+					Matcher m2 = Pattern.compile(motifRegex, Pattern.MULTILINE).matcher(codeSourceLangue);
 					boolean trouve2 = m2.find();
 					StringBuffer sortie2 = new StringBuffer();
 					

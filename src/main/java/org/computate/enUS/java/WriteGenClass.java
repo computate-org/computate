@@ -1284,10 +1284,10 @@ public class WriteGenClass extends WriteClass {
 	
 				if(entityVarCapitalized != null && classSaved && entitySolrCanonicalName != null) {
 					l();
-					tl(1, "public void htm", entityVarCapitalized, "(ToutEcrivain r, Boolean patchDroits) {");
+					tl(1, "public void htm", entityVarCapitalized, "(AllWriter r, Boolean patchRights) {");
 					tl(2, "if(", classVarPrimaryKey, "!= null) {");
 					tl(3, "r.s(\"<div id=\\\"patch", classSimpleName, "\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"", entityVarCapitalized, "\\\">\");");
-					tl(3, "if(patchDroits) {");
+					tl(3, "if(patchRights) {");
 					tl(4, "r.l();");
 					tl(4, "r.l(\"	<script>//<![CDATA[\");");
 					tl(4, "r.l(\"		function patch", classSimpleName, "\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"", entityVarCapitalized, "() {\");");

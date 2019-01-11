@@ -1410,6 +1410,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classExtendsGen
 	 * r: initLoinPourClasse
 	 * r.enUS: initDeepForClass
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 * r: Droits
+	 * r.enUS: Rights
 	 * 
 	 * r: nomAffichage
 	 * r.enUS: displayName

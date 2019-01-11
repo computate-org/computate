@@ -40,7 +40,7 @@ import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
 
 /**
  * nomCanonique.enUS: org.computate.enUS.java.IndexClass
- */
+ */ 
 public class IndexerClasse extends RegarderClasseBase { 
 	/**
 	 * var.enUS: VAL_canonicalNameString
@@ -1010,6 +1010,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * var.enUS: indexClass
 	 * param1.var.enUS: classAbsolutePath
+	 * param2.var.enUS: classDoc
 	 * r: classeCheminAbsolu
 	 * r.enUS: classAbsolutePath
 	 * r: classeDoc
@@ -1812,6 +1813,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityMinLength
 	 * r: entiteLongeurMax
 	 * r.enUS: entityMaxLength
+	 * r: entiteVarApi
+	 * r.enUS: entityVarApi
 	 * r: entiteMin
 	 * r.enUS: entityMin
 	 * r: entiteMax
@@ -1894,7 +1897,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classVarPrimaryKey
 	 * r: classeVarCleUnique
 	 * r.enUS: classVarUniqueKey
-	 * 
+	 *   
 	 * r: ^modele
 	 * r.enUS: ^model
 	 * r: ^exact
@@ -1997,10 +2000,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: after
 	 * r: classe
 	 * r.enUS: class
-	 */  
-	protected SolrInputDocument indexerClasse(String classeCheminAbsolu) throws Exception { 
+	 */        
+	public SolrInputDocument indexerClasse(String classeCheminAbsolu, SolrInputDocument classeDoc) throws Exception { 
 
-		SolrInputDocument classeDoc = new SolrInputDocument();
 		String classeNomCanonique = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classeCheminAbsolu, "."), cheminSrcMainJava + "/"), "/", ".");
 		String classeNomSimple = StringUtils.substringAfterLast(classeNomCanonique, ".");
 		String classeNomCanoniqueGen = classeNomCanonique + "Gen";
@@ -2550,7 +2552,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		SolrInputDocument classeDocClone = classeDoc.deepCopy();
 		Integer partNumero = 1;
 
-		classeDoc.addField("id", classeCle);  
+		if(classeDoc.getField("id") == null)
+			classeDoc.addField("id", classeCle);  
 
 		indexerStockerSolr(classeDoc, "partEstClasse", true);
 		indexerStockerSolr(classeDoc, "partNumero", partNumero);
@@ -2579,8 +2582,10 @@ public class IndexerClasse extends RegarderClasseBase {
 				String champCle = classeCheminAbsolu + "." + champVar;
 				String champCodeSource = StringUtils.substringBeforeLast(StringUtils.trim(regex("\\s+" + champVar + "\\s*=([\\s\\S]*)", champQdox.getCodeBlock(), 1)), ";");
 				String champStr = regex("^str\\." + langueNom + ":(.*)", champCommentaire);
-				if(StringUtils.isNotBlank(champStr))
+				if(StringUtils.isNotBlank(champStr)) {
 					champCodeSource = "\"" + StringUtils.replace(StringUtils.replace(champStr, "\\", "\\\\"), "\"", "\\\"") + "\"";
+					indexerStockerSolr(champDoc, "champStr", langueNom, champStr); 
+				}
 
 				// Champs Solr du champ. 
 
@@ -2630,8 +2635,10 @@ public class IndexerClasse extends RegarderClasseBase {
 					champVarLangue = champVarLangue == null ? champVar : champVarLangue;
 					String champCodeSourceLangue = regexRemplacerTout(champCommentaire, champCodeSource, langueNom);
 					String champStrLangue = regex("^str\\." + langueNom + ":(.*)", champCommentaire);
-					if(StringUtils.isNotBlank(champStrLangue))
+					if(StringUtils.isNotBlank(champStrLangue)) {
 						champCodeSourceLangue = "\"" + StringUtils.replace(StringUtils.replace(champStrLangue, "\\", "\\\\"), "\"", "\\\"") + "\"";
+						indexerStockerSolr(champDoc, "champStr", langueNom, champStr); 
+					}
 
 					indexerStockerSolr(champDoc, "champVar", langueNom, champVarLangue); 
 					stockerSolr(champDoc, "champNomSimpleComplet", langueNom, champClassePartsLangue.nomSimpleComplet);
@@ -3017,6 +3024,8 @@ public class IndexerClasse extends RegarderClasseBase {
 								String entiteOptionLangue = entiteOptionsRecherche.group(1);
 								String entiteOptionVar = entiteOptionsRecherche.group(2);
 								String entiteOptionValeur = entiteOptionsRecherche.group(3);
+								if(StringUtils.isBlank(entiteOptionValeur))
+									entiteOptionValeur = entiteOptionVar;
 								stockerListeSolr(entiteDoc, "entiteOptionsVar", entiteOptionVar);
 								stockerListeSolr(entiteDoc, "entiteOptionsLangue", entiteOptionLangue);
 								stockerListeSolr(entiteDoc, "entiteOptionsValeur", entiteOptionValeur);
@@ -3076,6 +3085,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteDescription", langueNom, regex("^description." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
 						indexerStockerSolr(entiteDoc, "entiteOptionnel", regexTrouve("^optionnel:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", langueNom, regex("^htmlTooltip." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
+						indexerStockerSolr(entiteDoc, "entiteVarApi", langueNom, regex("^entiteVarApi." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
 
 						{
 							String str = regex("^longeurMin:\\s*(.*)$", methodeCommentaire, 1);
@@ -3108,6 +3118,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						for(String langueNom : autresLangues) {  
 							indexerStockerSolr(entiteDoc, "entiteNomAffichage", langueNom, regex("^nomAffichage." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
 							indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", langueNom, regex("^htmlTooltip." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
+							indexerStockerSolr(entiteDoc, "entiteVarApi", langueNom, regex("^entiteVarApi." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
 						}
 
 						Matcher entiteAttribuerRecherche = methodeCommentaire == null ? null : Pattern.compile("^attribuer:\\s*([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
@@ -3580,8 +3591,22 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteCleUnique) {
 							classeVarCleUnique = stockerSolr(classeDoc, "classeVarCleUnique", langueNom, entiteVar);
 						}
-
+				
 						for(String langueNom : autresLangues) {  
+							ClasseParts entiteClassePartsLangue = ClasseParts.initClasseParts(this, entiteClasseParts, langueNom);
+//							String entiteNomCanoniqueLangue = regex("^nomCanonique\\." + langueNom + ":\\s*(.*)", entiteCommentaire, entiteNomCanonique);
+//							String entiteNomSimpleLangue = StringUtils.substringAfterLast(entiteNomCanoniqueLangue, ".");
+//							String entiteNomEnsembleLangue = StringUtils.substringBeforeLast(entiteNomCanoniqueLangue, ".");
+				
+							indexerStockerSolr(entiteDoc, "entiteNomCanonique", langueNom, entiteClassePartsLangue.nomCanonique); 
+							indexerStockerSolr(entiteDoc, "entiteNomSimple", langueNom, entiteClassePartsLangue.nomSimple); 
+							indexerStockerSolr(entiteDoc, "entiteNomCanoniqueComplet", langueNom, entiteClassePartsLangue.nomCanoniqueComplet); 
+							indexerStockerSolr(entiteDoc, "entiteNomSimpleComplet", langueNom, entiteClassePartsLangue.nomSimpleComplet); 
+							indexerStockerSolr(entiteDoc, "entiteNomCanoniqueGenerique", langueNom, entiteClassePartsLangue.nomCanoniqueGenerique); 
+							indexerStockerSolr(entiteDoc, "entiteNomSimpleGenerique", langueNom, entiteClassePartsLangue.nomSimpleGenerique); 
+
+							indexerStockerSolr(entiteDoc, "entiteVarParam", langueNom, entiteVarParam); 
+
 							String entiteVarLangue = regex("^var\\." + langueNom + ": (.*)", methodeCommentaire);
 							entiteVarLangue = indexerStockerSolr(entiteDoc, "entiteVar", langueNom, entiteVarLangue == null ? entiteVar : entiteVarLangue);
 							if(entiteClePrimaire) {

@@ -15,17 +15,17 @@ import com.thoughtworks.qdox.model.JavaType;
 
 public class WatchClassBase extends SiteConfig {
 
-	protected String[] args;
+	public String[] args;
 
-	protected String classAbsolutePath;
+	public String classAbsolutePath;
 
-	protected HashMap<String, String> appPaths = new HashMap<String, String>();
+	public HashMap<String, String> appPaths = new HashMap<String, String>();
 
-	protected HashMap<String, SolrDocument> classDocs = new HashMap<String, SolrDocument>();
+	public HashMap<String, SolrDocument> classDocs = new HashMap<String, SolrDocument>();
 
-	protected HashMap<String, ClassParts> classPartsGen = new HashMap<String, ClassParts>();
+	public HashMap<String, ClassParts> classPartsGen = new HashMap<String, ClassParts>();
 
-	protected JavaProjectBuilder builder;
+	public JavaProjectBuilder builder;
 
 	@Override()
 	protected void  _appPath() throws Exception, Exception {

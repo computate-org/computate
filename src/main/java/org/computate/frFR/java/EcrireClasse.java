@@ -45,8 +45,8 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: languageName
 	 * r: ecrireClasse
 	 * r.enUS: writeClass
-	 */  
-	protected void ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
+	 */   
+	public void ecrireClasse(String classeCheminAbsolu, String langueNom) throws Exception { 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
 		rechercheSolr.setRows(1000000);
@@ -357,7 +357,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */   
-	protected void ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
+	public void ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults(); 
 
 		if(listeRecherche.size() > 0) {
@@ -576,7 +576,47 @@ public class EcrireClasse extends IndexerClasse {
 						l("}");
 					} 
 					else if(BooleanUtils.isTrue(partEstEntite)) {
-						
+						String entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
+						String entiteVarParam = (String)doc.get("entiteVarParam_" + langueNom + "_stored_string");
+						String entiteCodeSource = (String)doc.get("entiteCodeSource_" + langueNom + "_stored_string");
+						String entiteCommentaire = (String)doc.get("entiteCommentaire_" + langueNom + "_stored_string");
+						String entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
+						Boolean entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
+						List<String> entiteExceptionsNomSimpleComplet = (List<String>)doc.get("entiteExceptionsNomSimpleComplet_stored_strings");
+						List<String> entiteParamsTypeNom = (List<String>)doc.get("entiteParamsTypeNom_stored_strings");
+						List<String> entiteAnnotationsNomSimpleCompletListe = (List<String>)doc.get("entiteAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings");
+						List<String> entiteAnnotationsBlocCodeListe = (List<String>)doc.get("entiteAnnotationsBlocCode_" + langueNom + "_stored_strings");
+
+						l(""); 
+						ecrireCommentaire(entiteCommentaire, 1);
+						if(entiteAnnotationsNomSimpleCompletListe != null && entiteAnnotationsBlocCodeListe != null) {
+							for(int j = 0; j < entiteAnnotationsNomSimpleCompletListe.size(); j++) {
+								String entiteAnnotationNomSimpleComplet = entiteAnnotationsNomSimpleCompletListe.get(j);
+								String entiteAnnotationBlocCode = entiteAnnotationsBlocCodeListe.get(j);
+								l("\t@", entiteAnnotationNomSimpleComplet, entiteAnnotationBlocCode, "");
+							}
+						}
+						s("\t");
+						s("protected void _");
+						s(entiteVar);
+
+						if(BooleanUtils.isTrue(entiteCouverture))
+							s("(Couverture<", entiteNomSimpleComplet, "> ", entiteVarParam);
+						else
+							s("(", entiteNomSimpleComplet, " ", entiteVarParam);
+						s(")");
+						if(entiteExceptionsNomSimpleComplet != null && entiteExceptionsNomSimpleComplet.size() > 0) {
+							s(" throws ");
+							for(int j = 0; j < entiteExceptionsNomSimpleComplet.size(); j++) {
+								String entiteExceptionNomSimpleComplet = entiteExceptionsNomSimpleComplet.get(j);
+								if(j > 0)
+									s(", ");
+								s(entiteExceptionNomSimpleComplet);
+							}
+						}
+						s(" {");
+						s(entiteCodeSource);
+						l("}");
 					}
 				}
 			}

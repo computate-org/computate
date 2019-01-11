@@ -23,14 +23,14 @@ import org.apache.solr.common.SolrDocumentList;
 
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
- **/
+ **/ 
 public class WriteAllClasses extends WritePageClass {
 
 	/**	
 	 *	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language.
 	 **/
-	protected void  writeGenClasses(String classAbsolutePath, String languageName) throws Exception, Exception { 
+	public void  writeGenClasses(String classAbsolutePath, String languageName) throws Exception, Exception { 
 
 		SolrQuery solrSearch = new SolrQuery();   
 		solrSearch.setQuery("*:*");
@@ -47,7 +47,7 @@ public class WriteAllClasses extends WritePageClass {
 	 *	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language.
 	 **/
-	protected void  writeGenClasses(QueryResponse searchResponse, String languageName) throws Exception, Exception { 
+	public void  writeGenClasses(QueryResponse searchResponse, String languageName) throws Exception, Exception { 
 		SolrDocumentList searchList = searchResponse.getResults();
 
 		if(searchList.size() > 0 && (languageIndexed || !StringUtils.equals(languageName, this.languageName))) {    
@@ -129,7 +129,7 @@ public class WriteAllClasses extends WritePageClass {
 					genCodeSaves(languageName);
 					genCodeClassBegin(languageName);
 					if(classApi)
-						genCodeClassEnd(languageName);
+						apiCodeClassBegin(languageName);
 					if(classPage)
 						pageCodeClasseDebut(languageName);
 				} 

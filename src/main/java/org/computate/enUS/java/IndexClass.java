@@ -394,9 +394,8 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenPage.put(classParts.canonicalName, classParts);
 	}
 
-	protected SolrInputDocument indexClass(String classAbsolutePath) throws Exception, Exception { 
+	public SolrInputDocument indexClass(String classAbsolutePath, SolrInputDocument classDoc) throws Exception, Exception { 
 
-		SolrInputDocument classDoc = new SolrInputDocument();
 		String classCanonicalName = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classAbsolutePath, "."), srcMainJavaPath + "/"), "/", ".");
 		String classSimpleName = StringUtils.substringAfterLast(classCanonicalName, ".");
 		String classCanonicalNameGen = classCanonicalName + "Gen";
@@ -946,7 +945,8 @@ public class IndexClass extends WatchClassBase {
 		SolrInputDocument classDocClone = classDoc.deepCopy();
 		Integer partNumber = 1;
 
-		classDoc.addField("id", classKey);  
+		if(classDoc.getField("id") == null)
+			classDoc.addField("id", classKey);  
 
 		indexStoreSolr(classDoc, "partIsClass", true);
 		indexStoreSolr(classDoc, "partNumber", partNumber);
@@ -975,8 +975,10 @@ public class IndexClass extends WatchClassBase {
 				String fieldKey = classAbsolutePath + "." + fieldVar;
 				String fieldSourceCode = StringUtils.substringBeforeLast(StringUtils.trim(regex("\\s+" + fieldVar + "\\s*=([\\s\\S]*)", fieldQdox.getCodeBlock(), 1)), ";");
 				String fieldStr = regex("^str\\." + languageName + ":(.*)", fieldComment);
-				if(StringUtils.isNotBlank(fieldStr))
+				if(StringUtils.isNotBlank(fieldStr)) {
 					fieldSourceCode = "\"" + StringUtils.replace(StringUtils.replace(fieldStr, "\\", "\\\\"), "\"", "\\\"") + "\"";
+					indexStoreSolr(fieldDoc, "fieldStr", languageName, fieldStr); 
+				}
 
 				// Champs Solr du champ. 
 
@@ -1026,8 +1028,10 @@ public class IndexClass extends WatchClassBase {
 					fieldVarLanguage = fieldVarLanguage == null ? fieldVar : fieldVarLanguage;
 					String fieldSourceCodeLanguage = regexReplaceAll(fieldComment, fieldSourceCode, languageName);
 					String fieldStrLanguage = regex("^str\\." + languageName + ":(.*)", fieldComment);
-					if(StringUtils.isNotBlank(fieldStrLanguage))
+					if(StringUtils.isNotBlank(fieldStrLanguage)) {
 						fieldSourceCodeLanguage = "\"" + StringUtils.replace(StringUtils.replace(fieldStrLanguage, "\\", "\\\\"), "\"", "\\\"") + "\"";
+						indexStoreSolr(fieldDoc, "fieldStr", languageName, fieldStrLanguage); 
+					}
 
 					indexStoreSolr(fieldDoc, "fieldVar", languageName, fieldVarLanguage); 
 					storeSolr(fieldDoc, "fieldSimpleNameComplete", languageName, fieldClassPartsLanguage.simpleNameComplete);
@@ -1413,6 +1417,8 @@ public class IndexClass extends WatchClassBase {
 								String entityOptionLanguage = entityOptionsSearch.group(1);
 								String entityOptionVar = entityOptionsSearch.group(2);
 								String entityOptionValue = entityOptionsSearch.group(3);
+								if(StringUtils.isBlank(entityOptionValue))
+									entityOptionValue = entityOptionVar;
 								storeListSolr(entityDoc, "entityOptionsVar", entityOptionVar);
 								storeListSolr(entityDoc, "entityOptionsLanguage", entityOptionLanguage);
 								storeListSolr(entityDoc, "entityOptionsValue", entityOptionValue);
@@ -1472,6 +1478,7 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "entityDescription", languageName, regex("^description." + languageName + ":\\s*(.*)$", methodComment, 1));
 						indexStoreSolr(entityDoc, "entityOptional", regexFound("^optional:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityHtmlTooltip", languageName, regex("^htmlTooltip." + languageName + ":\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "entityVarApi", languageName, regex("^entityVarApi." + languageName + ":\\s*(.*)$", methodComment, 1));
 
 						{
 							String str = regex("^minLength:\\s*(.*)$", methodComment, 1);
@@ -1504,6 +1511,7 @@ public class IndexClass extends WatchClassBase {
 						for(String languageName : otherLanguages) {  
 							indexStoreSolr(entityDoc, "entityDisplayName", languageName, regex("^displayName." + languageName + ":\\s*(.*)$", methodComment, 1));
 							indexStoreSolr(entityDoc, "entityHtmlTooltip", languageName, regex("^htmlTooltip." + languageName + ":\\s*(.*)$", methodComment, 1));
+							indexStoreSolr(entityDoc, "entityVarApi", languageName, regex("^entityVarApi." + languageName + ":\\s*(.*)$", methodComment, 1));
 						}
 
 						Matcher entityAttributeSearch = methodComment == null ? null : Pattern.compile("^attribuer:\\s*([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
@@ -1976,8 +1984,22 @@ public class IndexClass extends WatchClassBase {
 						if(entityUniqueKey) {
 							classVarUniqueKey = storeSolr(classDoc, "classVarUniqueKey", languageName, entityVar);
 						}
-
+				
 						for(String languageName : otherLanguages) {  
+							ClassParts entityClassPartsLangue = ClassParts.initClassParts(this, entityClassParts, languageName);
+//							String entityCanonicalNameLangue = regex("^canonicalName\\." + languageName + ":\\s*(.*)", entityComment, entityCanonicalName);
+//							String entitySimpleNameLangue = StringUtils.substringAfterLast(entityCanonicalNameLangue, ".");
+//							String entiteNomEnsembleLangue = StringUtils.substringBeforeLast(entityCanonicalNameLangue, ".");
+				
+							indexStoreSolr(entityDoc, "entityCanonicalName", languageName, entityClassPartsLangue.canonicalName); 
+							indexStoreSolr(entityDoc, "entitySimpleName", languageName, entityClassPartsLangue.simpleName); 
+							indexStoreSolr(entityDoc, "entityCanonicalNameComplete", languageName, entityClassPartsLangue.canonicalNameComplete); 
+							indexStoreSolr(entityDoc, "entitySimpleNameComplete", languageName, entityClassPartsLangue.simpleNameComplete); 
+							indexStoreSolr(entityDoc, "entityCanonicalNameGeneric", languageName, entityClassPartsLangue.canonicalNameGeneric); 
+							indexStoreSolr(entityDoc, "entitySimpleNameGeneric", languageName, entityClassPartsLangue.simpleNameGeneric); 
+
+							indexStoreSolr(entityDoc, "entityVarParam", languageName, entityVarParam); 
+
 							String entityVarLangue = regex("^var\\." + languageName + ": (.*)", methodComment);
 							entityVarLangue = indexStoreSolr(entityDoc, "entityVar", languageName, entityVarLangue == null ? entityVar : entityVarLangue);
 							if(entityPrimaryKey) {

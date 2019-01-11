@@ -57,8 +57,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
-	 */    
-	protected void ecrireGenClasses(String classeCheminAbsolu, String langueNom) throws Exception { 
+	 */   
+	public void ecrireGenClasses(String classeCheminAbsolu, String langueNom) throws Exception { 
 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
@@ -233,7 +233,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r: genCodeClasseFin
 	 * r.enUS: genCodeClassEnd
 	 * r: apiCodeClasseDebut
-	 * r.enUS: genCodeClassEnd
+	 * r.enUS: apiCodeClassBegin
 	 * r: apiCodeClasseDebut
 	 * r.enUS: apiCodeClassBegin
 	 * r: apiCodeClasseFin
@@ -248,7 +248,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */ 
-	protected void ecrireGenClasses(QueryResponse reponseRecherche, String langueNom) throws Exception { 
+	public void ecrireGenClasses(QueryResponse reponseRecherche, String langueNom) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
 		if(listeRecherche.size() > 0 && (langueIndexe || !StringUtils.equals(langueNom, this.langueNom))) {    
