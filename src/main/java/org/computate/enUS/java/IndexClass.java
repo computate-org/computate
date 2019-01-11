@@ -974,10 +974,10 @@ public class IndexClass extends WatchClassBase {
 				String fieldVar = fieldQdox.getName();
 				String fieldKey = classAbsolutePath + "." + fieldVar;
 				String fieldSourceCode = StringUtils.substringBeforeLast(StringUtils.trim(regex("\\s+" + fieldVar + "\\s*=([\\s\\S]*)", fieldQdox.getCodeBlock(), 1)), ";");
-				String fieldStr = regex("^str\\." + languageName + ":(.*)", fieldComment);
-				if(StringUtils.isNotBlank(fieldStr)) {
-					fieldSourceCode = "\"" + StringUtils.replace(StringUtils.replace(fieldStr, "\\", "\\\\"), "\"", "\\\"") + "\"";
-					indexStoreSolr(fieldDoc, "fieldStr", languageName, fieldStr); 
+				String fieldString = regex("^String\\." + languageName + ":(.*)", fieldComment);
+				if(StringUtils.isNotBlank(fieldString)) {
+					fieldSourceCode = "\"" + StringUtils.replace(StringUtils.replace(fieldString, "\\", "\\\\"), "\"", "\\\"") + "\"";
+					indexStoreSolr(fieldDoc, "fieldString", languageName, fieldString); 
 				}
 
 				// Champs Solr du champ. 
@@ -1027,10 +1027,10 @@ public class IndexClass extends WatchClassBase {
 					String fieldVarLanguage = regex("^var\\." + languageName + ": (.*)", fieldComment);
 					fieldVarLanguage = fieldVarLanguage == null ? fieldVar : fieldVarLanguage;
 					String fieldSourceCodeLanguage = regexReplaceAll(fieldComment, fieldSourceCode, languageName);
-					String fieldStrLanguage = regex("^str\\." + languageName + ":(.*)", fieldComment);
-					if(StringUtils.isNotBlank(fieldStrLanguage)) {
-						fieldSourceCodeLanguage = "\"" + StringUtils.replace(StringUtils.replace(fieldStrLanguage, "\\", "\\\\"), "\"", "\\\"") + "\"";
-						indexStoreSolr(fieldDoc, "fieldStr", languageName, fieldStrLanguage); 
+					String fieldStringLanguage = regex("^String\\." + languageName + ":(.*)", fieldComment);
+					if(StringUtils.isNotBlank(fieldStringLanguage)) {
+						fieldSourceCodeLanguage = "\"" + StringUtils.replace(StringUtils.replace(fieldStringLanguage, "\\", "\\\\"), "\"", "\\\"") + "\"";
+						indexStoreSolr(fieldDoc, "fieldString", languageName, fieldString); 
 					}
 
 					indexStoreSolr(fieldDoc, "fieldVar", languageName, fieldVarLanguage); 
@@ -1274,11 +1274,11 @@ public class IndexClass extends WatchClassBase {
 						}
 						indexStoreSolr(entityDoc, "entitySimpleNameBase", languageName, entitySimpleNameBase);
 						
-						String entityVarParam;
-						if(entityClassParts.canonicalName.equals(ArrayList.class.getCanonicalName()) || entityClassParts.canonicalName.equals(List.class.getCanonicalName()))
-							entityVarParam = "l";
-						else
-							entityVarParam = "o";
+						String entityVarParam = methodParamsQdox.get(0).getName();
+//						if(entityClassParts.canonicalName.equals(ArrayList.class.getCanonicalName()) || entityClassParts.canonicalName.equals(List.class.getCanonicalName()))
+//							entityVarParam = "l";
+//						else
+//							entityVarParam = "o";
 						indexStoreSolr(entityDoc, "entityVarParam", languageName, entityVarParam);
 						
 						String entityVarWrap = indexStoreSolr(entityDoc, "entityVarWrap", languageName, entityVar + "Wrap");
@@ -1685,7 +1685,13 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "partIsEntity", true);
 						indexStoreSolr(entityDoc, "partNumber", partNumber);
 
-						String entityCodeBlock = methodQdox.getCodeBlock();
+						String entitySourceCode = methodQdox.getSourceCode();
+						String entityString = regex("^String\\." + languageName + ":(.*)", methodComment);
+						if(StringUtils.isNotBlank(entityString)) {
+							entitySourceCode = "\n\t\tc.o(\"" + StringUtils.replace(StringUtils.replace(entityString, "\\", "\\\\"), "\"", "\\\"") + "\");\n\t";
+							indexStoreSolr(entityDoc, "entityString", languageName, entityString); 
+						}
+						storeSolr(entityDoc, "entitySourceCode", languageName, entitySourceCode); 
 
 						/////////////////////////
 						// entiteTypeVertxJson //
@@ -2009,15 +2015,20 @@ public class IndexClass extends WatchClassBase {
 								storeSolr(classDoc, "classVarUniqueKey", languageName, entityVarLangue);
 							}
 	
-							String entityCodeBlockLangue = entityCodeBlock;
+							String entitySourceCodeLangue = entitySourceCode;
 							ArrayList<String> replaceKeysLanguage = regexList("^r." + languageName + "\\s*=\\s*(.*)\\n.*", methodComment);
 							ArrayList<String> replaceValuesLanguage = regexList("^r." + languageName + "\\s*=\\s*.*\\n(.*)", methodComment);
 							for(int i = 0; i < replaceKeysLanguage.size(); i++) {
 								String cle = replaceKeysLanguage.get(i);
 								String valeur = replaceValuesLanguage.get(i);
-								StringUtils.replace(entityCodeBlockLangue, cle, valeur);
+								StringUtils.replace(entitySourceCodeLangue, cle, valeur);
 							}
-							storeSolr(entityDoc, "entityCodeBlock", languageName, entityCodeBlockLangue); 
+							String entityStringLangue = regex("^String\\." + languageName + ":(.*)", methodComment);
+							if(StringUtils.isNotBlank(entityStringLangue)) {
+								entitySourceCodeLangue = "\n\t\tc.o(\"" + StringUtils.replace(StringUtils.replace(entityStringLangue, "\\", "\\\\"), "\"", "\\\"") + "\");\n\t";
+								indexStoreSolr(entityDoc, "entityString", languageName, entityStringLangue); 
+							}
+							storeSolr(entityDoc, "entitySourceCode", languageName, entitySourceCodeLangue); 
 	
 							storeRegexComments(methodComment, languageName, entityDoc, "entityComment");
 						}
@@ -2049,7 +2060,7 @@ public class IndexClass extends WatchClassBase {
 							ClassParts methodeParamsClassePart = ClassParts.initClassParts(this, methodParamQdox.getJavaClass(), languageName);
 							storeListSolr(methodDoc, "methodParamCanonicalNames", languageName, methodeParamsClassePart.canonicalName);
 							storeListSolr(methodDoc, "methodParamsSimpleNameComplete", languageName, methodeParamsClassePart.simpleNameComplete);
-							storeListSolr(methodDoc, "methodeParamsArgsVariables", methodParamQdox.isVarArgs());
+							storeListSolr(methodDoc, "methodParamsVariableArgs", methodParamQdox.isVarArgs());
 							for(String languageName : otherLanguages) { 
 								String methodParamVarLanguage = regex("param" + methodParamNum + "\\.var\\." + languageName + ": (.*)", methodComment);
 								if(methodParamVarLanguage == null)
@@ -2135,20 +2146,30 @@ public class IndexClass extends WatchClassBase {
 
 						String methodSourceCode = methodQdox.getSourceCode();
 						String methodSourceCodeLanguage = methodSourceCode;
-						ArrayList<String> replaceKeysLanguage = regexList("^r." + languageName + "\\s*=\\s*(.*)\\n.*", methodComment);
-						ArrayList<String> replaceValuesLanguage = regexList("^r." + languageName + "\\s*=\\s*.*\\n(.*)", methodComment);
-						for(int i = 0; i < replaceKeysLanguage.size(); i++) {
-							String regexKey = replaceKeysLanguage.get(i);
-							String regexValue = replaceValuesLanguage.get(i);
-							StringUtils.replace(methodSourceCodeLanguage, regexKey, regexValue);
+//						ArrayList<String> replaceKeysLanguage = regexList("^r." + languageName + "\\s*=\\s*(.*)\\n.*", methodComment);
+//						ArrayList<String> replaceValuesLanguage = regexList("^r." + languageName + "\\s*=\\s*.*\\n(.*)", methodComment);
+//						for(int i = 0; i < replaceKeysLanguage.size(); i++) {
+//							String regexKey = replaceKeysLanguage.get(i);
+//							String regexValue = replaceValuesLanguage.get(i);
+//							StringUtils.replace(methodSourceCodeLanguage, regexKey, regexValue);
+//						}
+						String methodString = regex("^String\\." + languageName + ":(.*)", methodComment);
+						if(StringUtils.isNotBlank(methodString)) {
+							methodSourceCode = "\n\t\treturn \"" + StringUtils.replace(StringUtils.replace(methodString, "\\", "\\\\"), "\"", "\\\"") + "\";\n\t";
+							indexStoreSolr(methodDoc, "methodString", languageName, methodString); 
 						}
-						storeSolr(methodDoc, "methodSourceCode", languageName, methodSourceCodeLanguage);
+						storeSolr(methodDoc, "methodSourceCode", languageName, methodSourceCode);
 
 						for(String languageName : otherLanguages) {  
 							methodVarLanguage = regex("^var\\." + languageName + ":\\s*([^\n]+)", methodComment);
 							methodVarLanguage = indexStoreSolr(methodDoc, "methodVar", languageName, methodVarLanguage == null ? methodVar : methodVarLanguage);
 							regexList("^" + languageName + ":\\s*([^\n]+)", methodComment);
 							methodSourceCodeLanguage = regexReplaceAll(methodComment, methodSourceCode, languageName);
+							String methodStringLangue = regex("^String\\." + languageName + ":(.*)", methodComment);
+							if(StringUtils.isNotBlank(methodStringLangue)) {
+								methodSourceCodeLanguage = "\n\t\treturn \"" + StringUtils.replace(StringUtils.replace(methodStringLangue, "\\", "\\\\"), "\"", "\\\"") + "\";\n\t";
+								indexStoreSolr(methodDoc, "methodString", languageName, methodStringLangue); 
+							}
 							storeSolr(methodDoc, "methodSourceCode", languageName, methodSourceCodeLanguage);
 							storeRegexComments(methodComment, languageName, methodDoc, "methodComment");
 						} 

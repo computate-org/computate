@@ -909,7 +909,7 @@ public class WriteGenClass extends WriteClass {
 			// Setter Long //
 			if(StringUtils.equals(entitySimpleName, "Chain")) {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-				tl(2, entityVar, ".tout(o);");
+				tl(2, entityVar, ".s(o);");
 				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
@@ -2319,7 +2319,7 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
-			if(!classSimpleName.equals("Cluster"))
+			if(BooleanUtils.isTrue(classExtendsBase))
 				s("@Override ");
 			l("public void populatePourClasse(SolrDocument solrDocument) {");
 			if(classSaved) {
@@ -2330,7 +2330,7 @@ public class WriteGenClass extends WriteClass {
 			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
 			tl(2, "sauvegardes", classSimpleName, " = (List<String>)solrDocument.get(\"sauvegardes", classSimpleName, "_stored_strings\");");
 			s(wPopulate.toString());
-			if(!classSimpleName.equals("Cluster")) {
+			if(BooleanUtils.isTrue(classExtendsBase)) {
 				tl(0);
 				tl(2, "super.populate", classSuperSimpleNameGeneric, "(solrDocument);");
 			}

@@ -391,10 +391,10 @@ public class SiteConfig {
 				if(searchText != null && replacementText != null) {
 					String patternRegex = null;
 
-//					if("egex".equals(textRegex))
+					if("egex".equals(textRegex))
+						patternRegex = searchText;
+					else
 						patternRegex = Pattern.quote(searchText);
-//					else
-//						patternRegex = searchText;
 
 					Matcher m2 = Pattern.compile(patternRegex, Pattern.MULTILINE).matcher(sourceCodeLanguage);
 					boolean found2 = m2.find();

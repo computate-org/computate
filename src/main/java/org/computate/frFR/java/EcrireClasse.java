@@ -350,6 +350,30 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: methodParamVar
 	 * r: partEstEntite
 	 * r.enUS: partIsEntity
+	 * r: entiteVar
+	 * r.enUS: entityVar
+	 * r: entiteCommentaire
+	 * r.enUS entityComment
+	 * r: entiteBlocCode
+	 * r.enUS: entityCodeBlock
+	 * r: entiteCodeSource
+	 * r.enUS: entitySourceCode
+	 * r: entiteCouverture
+	 * r.enUS: entityWrap
+	 * r: entiteNomSimpleComplet
+	 * r.enUS: entitySimpleNameComplete
+	 * r: entiteExceptionsNomSimpleComplet
+	 * r.enUS: entityExceptionsSimpleNameComplete
+	 * r: entiteParamsTypeNom
+	 * r.enUS: entityParamsTypeName
+	 * r: entiteAnnotationsNomSimpleCompletListe
+	 * r.enUS: entityAnnotationsSimpleNameCompleteList
+	 * r: entiteAnnotationsBlocCodeListe
+	 * r.enUS: entityAnnotationsCodeBlockList
+	 * r: entiteExceptionNomSimpleComplet
+	 * r.enUS: entityExceptionSimpleNameComplete
+	 * r: Couverture
+	 * r.enUS: Wrap
 	 * r: Ecrire:
 	 * r.enUS: Write:
 	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 

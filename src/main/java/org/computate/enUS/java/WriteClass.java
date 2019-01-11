@@ -287,46 +287,46 @@ public class WriteClass extends IndexClass {
 						l("}");
 					} 
 					else if(BooleanUtils.isTrue(partIsEntity)) {
-						String entiteVar = (String)doc.get("entiteVar_" + languageName + "_stored_string");
-						String entiteVarParam = (String)doc.get("entiteVarParam_" + languageName + "_stored_string");
-						String entiteCodeSource = (String)doc.get("entiteCodeSource_" + languageName + "_stored_string");
+						String entityVar = (String)doc.get("entityVar_" + languageName + "_stored_string");
+						String entityVarParam = (String)doc.get("entityVarParam_" + languageName + "_stored_string");
+						String entitySourceCode = (String)doc.get("entitySourceCode_" + languageName + "_stored_string");
 						String entiteCommentaire = (String)doc.get("entiteCommentaire_" + languageName + "_stored_string");
-						String entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + languageName + "_stored_string");
-						Boolean entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
-						List<String> entiteExceptionsNomSimpleComplet = (List<String>)doc.get("entiteExceptionsNomSimpleComplet_stored_strings");
-						List<String> entiteParamsTypeNom = (List<String>)doc.get("entiteParamsTypeNom_stored_strings");
-						List<String> entiteAnnotationsNomSimpleCompletListe = (List<String>)doc.get("entiteAnnotationsNomSimpleComplet_" + languageName + "_stored_strings");
-						List<String> entiteAnnotationsBlocCodeListe = (List<String>)doc.get("entiteAnnotationsBlocCode_" + languageName + "_stored_strings");
+						String entitySimpleNameComplete = (String)doc.get("entitySimpleNameComplete_" + languageName + "_stored_string");
+						Boolean entityWrap = (Boolean)doc.get("entityWrap_stored_boolean");
+						List<String> entityExceptionsSimpleNameComplete = (List<String>)doc.get("entityExceptionsSimpleNameComplete_stored_strings");
+						List<String> entityParamsTypeName = (List<String>)doc.get("entityParamsTypeName_stored_strings");
+						List<String> entityAnnotationsSimpleNameCompleteList = (List<String>)doc.get("entiteAnnotationsNomSimpleComplet_" + languageName + "_stored_strings");
+						List<String> entityAnnotationsCodeBlockList = (List<String>)doc.get("entiteAnnotationsBlocCode_" + languageName + "_stored_strings");
 
 						l(""); 
 						writeComment(entiteCommentaire, 1);
-						if(entiteAnnotationsNomSimpleCompletListe != null && entiteAnnotationsBlocCodeListe != null) {
-							for(int j = 0; j < entiteAnnotationsNomSimpleCompletListe.size(); j++) {
-								String entiteAnnotationNomSimpleComplet = entiteAnnotationsNomSimpleCompletListe.get(j);
-								String entiteAnnotationBlocCode = entiteAnnotationsBlocCodeListe.get(j);
+						if(entityAnnotationsSimpleNameCompleteList != null && entityAnnotationsCodeBlockList != null) {
+							for(int j = 0; j < entityAnnotationsSimpleNameCompleteList.size(); j++) {
+								String entiteAnnotationNomSimpleComplet = entityAnnotationsSimpleNameCompleteList.get(j);
+								String entiteAnnotationBlocCode = entityAnnotationsCodeBlockList.get(j);
 								l("\t@", entiteAnnotationNomSimpleComplet, entiteAnnotationBlocCode, "");
 							}
 						}
 						s("\t");
 						s("protected void _");
-						s(entiteVar);
+						s(entityVar);
 
-						if(BooleanUtils.isTrue(entiteCouverture))
-							s("(Couverture<", entiteNomSimpleComplet, "> ", entiteVarParam);
+						if(BooleanUtils.isTrue(entityWrap))
+							s("(Wrap<", entitySimpleNameComplete, "> ", entityVarParam);
 						else
-							s("(", entiteNomSimpleComplet, " ", entiteVarParam);
+							s("(", entitySimpleNameComplete, " ", entityVarParam);
 						s(")");
-						if(entiteExceptionsNomSimpleComplet != null && entiteExceptionsNomSimpleComplet.size() > 0) {
+						if(entityExceptionsSimpleNameComplete != null && entityExceptionsSimpleNameComplete.size() > 0) {
 							s(" throws ");
-							for(int j = 0; j < entiteExceptionsNomSimpleComplet.size(); j++) {
-								String entiteExceptionNomSimpleComplet = entiteExceptionsNomSimpleComplet.get(j);
+							for(int j = 0; j < entityExceptionsSimpleNameComplete.size(); j++) {
+								String entityExceptionSimpleNameComplete = entityExceptionsSimpleNameComplete.get(j);
 								if(j > 0)
 									s(", ");
-								s(entiteExceptionNomSimpleComplet);
+								s(entityExceptionSimpleNameComplete);
 							}
 						}
 						s(" {");
-						s(entiteCodeSource);
+						s(entitySourceCode);
 						l("}");
 					}
 				}

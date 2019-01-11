@@ -1744,7 +1744,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Setter Long //
 			if(StringUtils.equals(entiteNomSimple, "Chaine")) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, entiteVar, ".tout(o);");
+				tl(2, entiteVar, ".s(o);");
 				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3270,7 +3270,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
-			if(!classeNomSimple.equals("Cluster"))
+			if(BooleanUtils.isTrue(classeEtendBase))
 				s("@Override ");
 			l("public void peuplerPourClasse(SolrDocument solrDocument) {");
 			if(classeSauvegarde) {
@@ -3281,7 +3281,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "sauvegardes", classeNomSimple, " = (List<String>)solrDocument.get(\"sauvegardes", classeNomSimple, "_stored_strings\");");
 			s(wPeupler.toString());
-			if(!classeNomSimple.equals("Cluster")) {
+			if(BooleanUtils.isTrue(classeEtendBase)) {
 				tl(0);
 				tl(2, "super.peupler", classeNomSimpleSuperGenerique, "(solrDocument);");
 			}

@@ -776,10 +776,10 @@ public class ConfigSite {
 				if(texteRecherche != null && texteRemplacement != null) {
 					String motifRegex = null;
 
-//					if("egex".equals(texteRegex))
+					if("egex".equals(texteRegex))
+						motifRegex = texteRecherche;
+					else
 						motifRegex = Pattern.quote(texteRecherche);
-//					else
-//						motifRegex = texteRecherche;
 
 					Matcher m2 = Pattern.compile(motifRegex, Pattern.MULTILINE).matcher(codeSourceLangue);
 					boolean trouve2 = m2.find();
