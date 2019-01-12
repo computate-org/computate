@@ -1030,7 +1030,7 @@ public class IndexClass extends WatchClassBase {
 					String fieldStringLanguage = regex("^String\\." + languageName + ":(.*)", fieldComment);
 					if(StringUtils.isNotBlank(fieldStringLanguage)) {
 						fieldSourceCodeLanguage = "\"" + StringUtils.replace(StringUtils.replace(fieldStringLanguage, "\\", "\\\\"), "\"", "\\\"") + "\"";
-						indexStoreSolr(fieldDoc, "fieldString", languageName, fieldString); 
+						indexStoreSolr(fieldDoc, "fieldString", languageName, fieldStringLanguage); 
 					}
 
 					indexStoreSolr(fieldDoc, "fieldVar", languageName, fieldVarLanguage); 
