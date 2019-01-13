@@ -44,18 +44,18 @@ public class WriteApiClass extends WriteGenClass {
 
 		tl(0, "");
 		writeComment(classComment, 0); 
-		s("public class ", classSimpleNameApiGen);
+		s("public class ", classSimpleNameGenApiServiceImpl);
 //		l(" extends HttpServlet {");
 		s(" implements ", classSimpleName, "ApiService");
 		l(" {");
 		l();
-		tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classSimpleNameApiGen, ".class);");
+		tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classSimpleNameGenApiServiceImpl, ".class);");
 		l();
 		tl(1, "private static final String SERVICE_ADDRESS = \"", classSimpleNameApiServiceImpl, "\";");
 		l();
 		tl(1, "protected SiteContexte siteContexte;");
 		l();
-		tl(1, "public ", classSimpleNameApiGen, "(SiteContexte siteContexte) {");
+		tl(1, "public ", classSimpleNameGenApiServiceImpl, "(SiteContexte siteContexte) {");
 		tl(2, "this.siteContexte = siteContexte;");
 		tl(2, classSimpleNameApiServiceImpl, "Service service = ", classSimpleNameApiServiceImpl, "Service.createProxy(siteContexte.getVertx(), SERVICE_ADDRESS);");
 		tl(1, "}");
@@ -75,22 +75,22 @@ public class WriteApiClass extends WriteGenClass {
 	public void  apiCodeClassEnd(String languageName) throws Exception, Exception {
 
 		///////////////////////////
-		// auteurApiEnsembleInfo //
+		// writerApiPackageInfo //
 		///////////////////////////
 
-		auteurApiEnsembleInfo.l("@ModuleGen(name=\"", classSimpleName, "Api", "\", groupPackage=\"", classeNomEnsemble, "\")");
-		auteurApiEnsembleInfo.l("package ", classeNomEnsemble, ";");
-		auteurApiEnsembleInfo.l();
-		auteurApiEnsembleInfo.l("import io.vertx.codegen.annotations.ModuleGen;");
+		writerApiPackageInfo.l("@ModuleGen(name=\"", classSimpleName, "Api", "\", groupPackage=\"", classPackageName, "\")");
+		writerApiPackageInfo.l("package ", classPackageName, ";");
+		writerApiPackageInfo.l();
+		writerApiPackageInfo.l("import io.vertx.codegen.annotations.ModuleGen;");
 
 		/////////////////////////
 		// writerGenApiService //
 		/////////////////////////
 
-		writerGenApiService.l("package ", classeNomEnsemble, ";");
+		writerGenApiService.l("package ", classPackageName, ";");
 		writerGenApiService.l();
-		writerGenApiService.l("import ", classePartsSiteContext(langueNom).nomCanonique);
-		writerGenApiService.l("import ", classeNomEnsemble, ".", classSimpleName, "ApiServiceVertxEBProxy;");
+		writerGenApiService.l("import ", classPartsSiteContext(languageName).canonicalName);
+		writerGenApiService.l("import ", classPackageName, ".", classSimpleName, "ApiServiceVertxEBProxy;");
 		writerGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
 		writerGenApiService.l("import io.vertx.core.AsyncResult;");
 		writerGenApiService.l("import io.vertx.core.Handler;");
@@ -418,7 +418,7 @@ public class WriteApiClass extends WriteGenClass {
 //		l();
 //		tl(tBase + 2, "connexionSql.queryWithParams(");
 //		tl(tBase + 4, "SiteContext.SQL_create");
-//		tl(tBase + 4, ", new JsonArray(Arrays.asList(VAL_nomCanonique", classSimpleName, ", utilisateurId))");
+//		tl(tBase + 4, ", new JsonArray(Arrays.asList(VAL_canonicalName", classSimpleName, ", utilisateurId))");
 //		tl(tBase + 4, ", asyncCreer");
 //		tl(tBase + 4, "-> {");
 //		tl(tBase + 3, "if(asyncCreer.succeeded()) {");

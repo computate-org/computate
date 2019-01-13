@@ -99,12 +99,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: classComment
 	 * r: ecrireCommentaire
 	 * r.enUS: writeComment
-	 * r: classeNomSimpleGenApiServiceImpl
-	 * r.enUS: classSimpleNameApiGen
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
 	 * r: classeNomCanonique
 	 * r.enUS: classCanonicalName
+	 * r: EnsembleInfo
+	 * r.enUS: PackageInfo
 	 */
 	public void apiCodeClasseDebut(String langueNom) throws Exception {
 		o = auteurGenApiServiceImpl;
@@ -206,6 +206,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: Write: 
 	 * r: recherche
 	 * r.enUS: search
+	 * r: auteurApi
+	 * r.enUS: writerApi
+	 * r: classeNomEnsemble
+	 * r.enUS: classPackageName
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: classeParts
+	 * r.enUS: classParts
+	 * r: nomCanonique
+	 * r.enUS: canonicalName
+	 * r: EnsembleInfo
+	 * r.enUS: PackageInfo
 	 */
 	public void apiCodeClasseFin(String langueNom) throws Exception {
 
