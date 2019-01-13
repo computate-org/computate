@@ -7,7 +7,7 @@ import java.io.PrintWriter;
  **/
 public class WritePageClass extends WriteApiClass {
 
-	protected StringPrintWriter writerPageGenClass;
+	protected AllWriter writerPageGenClass;
 
 	protected String classSimpleNamePage;
 

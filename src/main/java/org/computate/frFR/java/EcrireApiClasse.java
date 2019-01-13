@@ -1,40 +1,94 @@
 package org.computate.frFR.java; 
 
-import java.nio.charset.Charset;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 
 /**   
  * nomCanonique.enUS: org.computate.enUS.java.WriteApiClass
  * 
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
- */  
-public class EcrireApiClasse extends EcrireGenClasse {  
+ */       
+public class EcrireApiClasse extends EcrireGenClasse {   
 
 	/**
-	 * var.enUS: writerApiGenClass
+	 * var.enUS: writerApiPackageInfo
 	 */
-	protected StringPrintWriter auteurApiGenClasse;
+	protected ToutEcrivain auteurApiEnsembleInfo;
 
 	/**
-	 * var.enUS: classSimpleNameApi
+	 * var.enUS: writerApiServiceImpl
 	 */
-	protected String classeNomSimpleApi;
+	protected ToutEcrivain auteurApiServiceImpl;
 
 	/**
-	 * var.enUS: classSimpleNameApiGen
+	 * var.enUS: writerGenApiServiceImpl
 	 */
-	protected String classeNomSimpleApiGen;
+	protected ToutEcrivain auteurGenApiServiceImpl;
+
+	/**
+	 * var.enUS: writerGenApiService
+	 */  
+	protected ToutEcrivain auteurGenApiService;
+
+	/////////////////////
+	// classeNomSimple //
+	/////////////////////
+
+	/**
+	 * var.enUS: classSimpleNameApiPackageInfo
+	 */
+	protected String classeNomSimpleApiEnsembleInfo;
+
+	/**
+	 * var.enUS: classSimpleNameGenApiServiceImpl
+	 */
+	protected String classeNomSimpleGenApiServiceImpl;
+
+	/**
+	 * var.enUS: classSimpleNameApiServiceImpl
+	 */
+	protected String classeNomSimpleApiServiceImpl;
+
+	/**
+	 * var.enUS: classSimpleNameGenApiService
+	 */
+	protected String classeNomSimpleGenApiService;
+
+	////////////////////////
+	// classeNomCanonique //
+	////////////////////////
+
+	/**
+	 * var.enUS: classCanonicalNameApiPackageInfo
+	 */
+	protected String classeNomCanoniqueApiEnsembleInfo;
+
+	/**
+	 * var.enUS: classCanonicalNameGenApiServiceImpl
+	 */
+	protected String classeNomCanoniqueGenApiServiceImpl;
+
+	/**
+	 * var.enUS: classCanonicalNameApiServiceImpl
+	 */
+	protected String classeNomCanoniqueApiServiceImpl;
+
+	/**
+	 * var.enUS: classCanonicalNameGenApiService
+	 */
+	protected String classeNomCanoniqueGenApiService;
 
 	/**
 	 * var.enUS: apiCodeClassBegin
 	 * param1.var.enUS: languageName
-	 * r: auteurApiGenClasse
-	 * r.enUS: writerApiGenClass
+	 * r: auteurGenApiServiceImpl
+	 * r.enUS: writerGenApiServiceImpl
+	 * r: auteurApiServiceImpl
+	 * r.enUS: writerApiServiceImpl
+	 * r: auteurGenApiService
+	 * r.enUS: writerGenApiService
+	 * r: auteurApiServiceGenClasse
+	 * r.enUS: writerApiServiceGenClass
 	 * r: classeNomEnsemble
 	 * r.enUS: classPackageName
 	 * r: classeImporationsGenApi
@@ -45,7 +99,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: classComment
 	 * r: ecrireCommentaire
 	 * r.enUS: writeComment
-	 * r: classeNomSimpleApiGen
+	 * r: classeNomSimpleGenApiServiceImpl
 	 * r.enUS: classSimpleNameApiGen
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
@@ -53,7 +107,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: classCanonicalName
 	 */
 	public void apiCodeClasseDebut(String langueNom) throws Exception {
-		o = auteurApiGenClasse;
+		o = auteurGenApiServiceImpl;
 		l("package ", classeNomEnsemble, ";");
 		l();
 		if(classeImportationsGenApi.size() > 0) { 
@@ -65,20 +119,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 		tl(0, "");
 		ecrireCommentaire(classeCommentaire, 0); 
-		s("public class ", classeNomSimpleApiGen);
+		s("public class ", classeNomSimpleGenApiServiceImpl);
 //		l(" extends HttpServlet {");
 		s(" implements ", classeNomSimple, "ApiService");
 		l(" {");
 		l();
-		tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimpleApiGen, ".class);");
+		tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
 		l();
-		tl(1, "private static final String SERVICE_ADDRESS = \"", classeNomSimpleApi, "\";");
+		tl(1, "private static final String SERVICE_ADDRESS = \"", classeNomSimpleApiServiceImpl, "\";");
 		l();
 		tl(1, "protected SiteContexte siteContexte;");
 		l();
-		tl(1, "public ", classeNomSimpleApiGen, "(SiteContexte siteContexte) {");
+		tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(SiteContexte siteContexte) {");
 		tl(2, "this.siteContexte = siteContexte;");
-		tl(2, classeNomSimpleApi, "Service service = ", classeNomSimpleApi, "Service.createProxy(siteContexte.getVertx(), SERVICE_ADDRESS);");
+		tl(2, classeNomSimpleApiServiceImpl, "Service service = ", classeNomSimpleApiServiceImpl, "Service.createProxy(siteContexte.getVertx(), SERVICE_ADDRESS);");
 		tl(1, "}");
 //		l();
 //		tl(1, "public static final String VAL_nomCanonique", classeNomSimple, " = \"", classeNomCanonique, "\";");
@@ -97,8 +151,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * var.enUS: apiCodeClassEnd
 	 * param1.var.enUS: languageName
 	 * 
-	 * r: auteurApiGenClasse
-	 * r.enUS: writerApiGenClass
+	 * r: classeCheminGenApiServiceImpl
+	 * r.enUS: classPathGenApiServiceImpl
+	 * r: classeCheminApiServiceImpl
+	 * r.enUS: classPathApiServiceImpl
+	 * r: classeCheminGenApiService
+	 * r.enUS: classPathGenApiService
+	 * 
+	 * r: auteurGenApiServiceImpl
+	 * r.enUS: writerGenApiServiceImpl
+	 * r: auteurApiServiceImpl
+	 * r.enUS: writerApiServiceImpl
+	 * r: auteurGenApiService
+	 * r.enUS: writerGenApiService
+	 * 
 	 * r: wApiEntites
 	 * r.enUS: wApiEntities
 	 * r: classeNomSimple
@@ -121,14 +187,79 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: classVarPrimaryKey
 	 * r: wApiGenererPost
 	 * r.enUS: wApiGeneratePost
+	 * r: // Une méthode d'usine pour créer une instance et un proxy. 
+	 * r.enUS: // A factory method to create an instance and a proxy. 
+	 * r: creer
+	 * r.enUS: create
+	 * r: addresse
+	 * r.enUS: address
+	 * r: operationRequete
+	 * r.enUS: operationRequest
+	 * r: gestionnaireResultat
+	 * r.enUS: resultHandler
 	 * 
+	 * r: SiteContexte
+	 * r.enUS: SiteContext
 	 * r: siteContexte
 	 * r.enUS: siteContext
 	 * r: Ecrire: 
 	 * r.enUS: Write: 
+	 * r: recherche
+	 * r.enUS: search
 	 */
 	public void apiCodeClasseFin(String langueNom) throws Exception {
-		o = auteurApiGenClasse;
+
+		///////////////////////////
+		// auteurApiEnsembleInfo //
+		///////////////////////////
+
+		auteurApiEnsembleInfo.l("@ModuleGen(name=\"", classeNomSimple, "Api", "\", groupPackage=\"", classeNomEnsemble, "\")");
+		auteurApiEnsembleInfo.l("package ", classeNomEnsemble, ";");
+		auteurApiEnsembleInfo.l();
+		auteurApiEnsembleInfo.l("import io.vertx.codegen.annotations.ModuleGen;");
+
+		/////////////////////////
+		// auteurGenApiService //
+		/////////////////////////
+
+		auteurGenApiService.l("package ", classeNomEnsemble, ";");
+		auteurGenApiService.l();
+		auteurGenApiService.l("import ", classePartsSiteContexte(langueNom).nomCanonique);
+		auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
+		auteurGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
+		auteurGenApiService.l("import io.vertx.core.AsyncResult;");
+		auteurGenApiService.l("import io.vertx.core.Handler;");
+		auteurGenApiService.l("import io.vertx.core.Vertx;");
+		auteurGenApiService.l("import io.vertx.core.json.JsonObject;");
+		auteurGenApiService.l("import io.vertx.ext.web.api.OperationRequest;");
+		auteurGenApiService.l("import io.vertx.ext.web.api.OperationResponse;");
+		auteurGenApiService.l();
+		auteurGenApiService.l("@ProxyGen");
+		auteurGenApiService.s("public interface ", classeNomSimpleGenApiServiceImpl);
+		auteurGenApiService.l();
+		auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
+		auteurGenApiService.tl(1, "static ", classeNomSimpleGenApiService, " creer(SiteContexte siteContexte, Vertx vertx) {");
+		auteurGenApiService.tl(2, "return new ", classeNomSimpleApiServiceImpl, "(siteContexte);");
+		auteurGenApiService.tl(1, "}");
+		auteurGenApiService.l();
+		auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
+		auteurGenApiService.tl(1, "static ", classeNomSimpleGenApiService, " creerProxy(Vertx vertx, String addresse) {");
+		auteurGenApiService.tl(2, "return new ", classeNomSimpleGenApiService, "(vertx, addresse);");
+		auteurGenApiService.tl(1, "}");
+		auteurGenApiService.l();
+		auteurGenApiService.tl(1, "public void recherche", classeNomSimple, "(OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
+		auteurGenApiService.tl(1, "public void post", classeNomSimple, "(JsonObject json, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
+		auteurGenApiService.tl(1, "public void patch", classeNomSimple, "(JsonObject json, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
+		auteurGenApiService.tl(1, "public void get", classeNomSimple, "(OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
+		auteurGenApiService.tl(1, "public void put", classeNomSimple, "(JsonObject json, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
+		auteurGenApiService.tl(1, "public void delete", classeNomSimple, "(JsonObject json, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
+		auteurGenApiService.tl(0, "}");
+
+		/////////////////////////////
+		// auteurGenApiServiceImpl //
+		/////////////////////////////
+
+		o = auteurGenApiServiceImpl;
 
 		s(wApiEntites.toString());
 		l();
@@ -790,7 +921,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 		tl(0, "}");
 
-		System.out.println("Ecrire: " + classeCheminApiGen); 
-		auteurApiGenClasse.flushClose();
+		System.out.println("Ecrire: " + classeCheminGenApiServiceImpl); 
+		auteurGenApiServiceImpl.flushClose();
 	}
 }

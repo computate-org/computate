@@ -240,6 +240,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: apiCodeClassEnd
 	 * r: entiteIndice
 	 * r.enUS: entityIndex
+	 * r: EnsembleInfo
+	 * r.enUS: PackageInfo
 	 * 
 	 * r: Ecrire:
 	 * r.enUS: Write:
@@ -258,14 +260,20 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 				if(partNumero.equals(1)) {
 					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stored_string");
 					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stored_string"); 
-					classeCheminApiGen = (String)doc.get("classeCheminApiGen_" + langueNom + "_stored_string"); 
+					classeCheminApiEnsembleInfo = (String)doc.get("classeCheminApiEnsembleInfo_" + langueNom + "_stored_string"); 
+					classeCheminGenApiServiceImpl = (String)doc.get("classeCheminGenApiServiceImpl_" + langueNom + "_stored_string"); 
+					classeCheminApiServiceImpl = (String)doc.get("classeCheminApiServiceImpl_" + langueNom + "_stored_string"); 
+					classeCheminGenApiService = (String)doc.get("classeCheminGenApiService_" + langueNom + "_stored_string"); 
 					classeCheminPageGen = (String)doc.get("classeCheminPageGen_" + langueNom + "_stored_string"); 
 					classeRepertoireGen = new File(classeCheminRepertoireGen);
 					classeRepertoireGen.mkdirs();
 					classeFichierGen = new File(classeCheminGen);
-					classeFichierApi = new File(classeCheminApiGen);
+					classeFichierApiEnsembleInfo = new File(classeCheminApiEnsembleInfo);
+					classeFichierGenApiServiceImpl = new File(classeCheminGenApiServiceImpl);
+					classeFichierApiServiceImpl = new File(classeCheminApiServiceImpl);
+					classeFichierGenApiService = new File(classeCheminGenApiService);
 					classeFichierPage = new File(classeCheminPageGen);
-					o = StringPrintWriter.create(classeFichierGen);
+					o = ToutEcrivain.create(classeFichierGen);
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
 					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
 					classeNomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
@@ -275,8 +283,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeNomSimpleSuperGenerique = (String)doc.get("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
 					classeNomCanoniqueSuperGenerique = (String)doc.get("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
-					classeNomSimpleApi = (String)doc.get("classeNomSimpleApi_" + langueNom + "_stored_string");
-					classeNomSimpleApiGen = (String)doc.get("classeNomSimpleApiGen_" + langueNom + "_stored_string");
+					classeNomSimpleApiServiceImpl = (String)doc.get("classeNomSimpleApi_" + langueNom + "_stored_string");
+					classeNomSimpleGenApiServiceImpl = (String)doc.get("classeNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
 					classeVarClePrimaire = (String)doc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
 					classePageUri = (String)doc.get("classePageUri_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
@@ -309,12 +317,18 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeRoles = (List<String>)doc.get("classeRoles_" + langueNom + "_stored_strings");
 					entiteIndice = 0;
 
-					auteurGenClasse = StringPrintWriter.create(classeFichierGen);
-					if(classeApi)
-						auteurApiGenClasse = StringPrintWriter.create(classeFichierApi);
+					auteurGenClasse = ToutEcrivain.create(classeFichierGen);
+					if(classeApi) {
+						if(!classeFichierApiEnsembleInfo.exists())
+							auteurApiEnsembleInfo = ToutEcrivain.create(classeFichierApiEnsembleInfo);
+						auteurGenApiServiceImpl = ToutEcrivain.create(classeFichierGenApiServiceImpl);
+						if(!classeFichierApiServiceImpl.exists())
+							auteurApiServiceImpl = ToutEcrivain.create(classeFichierApiServiceImpl);
+						auteurGenApiService = ToutEcrivain.create(classeFichierGenApiService);
+					}
 //					auteurPageClasse = new PrintWriter(classeFichierPage);
 					if(classePage)
-						auteurPageGenClasse = StringPrintWriter.create(classeFichierPage);
+						auteurPageGenClasse = ToutEcrivain.create(classeFichierPage);
 
 					genCodeInit();
 					o = auteurGenClasse;

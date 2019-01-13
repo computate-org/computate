@@ -39,9 +39,24 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeCheminGen;
 
 	/**
-	 * var.enUS: classPathApiGen
+	 * var.enUS: classPathApiPackageInfo
 	 */
-	protected String classeCheminApiGen;
+	protected String classeCheminApiEnsembleInfo;
+
+	/**
+	 * var.enUS: classPathGenApiServiceImpl
+	 */
+	protected String classeCheminGenApiServiceImpl;
+
+	/**
+	 * var.enUS: classPathApiServiceImpl
+	 */
+	protected String classeCheminApiServiceImpl;
+
+	/**
+	 * var.enUS: classPathGenApiService
+	 */
+	protected String classeCheminGenApiService;
 
 	/**
 	 * var.enUS: classPathPageGen
@@ -59,9 +74,24 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected File classeFichierGen;
 
 	/**
-	 * var.enUS: classFileApi
+	 * var.enUS: classFileApiEnsembleInfo
 	 */
-	protected File classeFichierApi;
+	protected File classeFichierApiEnsembleInfo;
+
+	/**
+	 * var.enUS: classFileGenApiServiceImpl
+	 */
+	protected File classeFichierGenApiServiceImpl;
+
+	/**
+	 * var.enUS: classFileApiServiceImpl
+	 */
+	protected File classeFichierApiServiceImpl;
+
+	/**
+	 * var.enUS: classFileGenApiService
+	 */
+	protected File classeFichierGenApiService;
 
 	/**
 	 * var.enUS: classFilePage
@@ -230,92 +260,92 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: wInitDeep
 	 */
-	protected StringPrintWriter wInitLoin;
+	protected ToutEcrivain wInitLoin;
 
 	/**
 	 * var.enUS: wSiteRequest
 	 */
-	protected StringPrintWriter wRequeteSite;
+	protected ToutEcrivain wRequeteSite;
 
 	/**
 	 * var.enUS: wIndex
 	 */
-	protected StringPrintWriter wIndexer;
+	protected ToutEcrivain wIndexer;
 
 	/**
 	 * var.enUS: wObtain
 	 */
-	protected StringPrintWriter wObtenir;
+	protected ToutEcrivain wObtenir;
 
 	/**
 	 * var.enUS: wAttribute
 	 */
-	protected StringPrintWriter wAttribuer;
+	protected ToutEcrivain wAttribuer;
 
 	/**
 	 * var.enUS: wPut
 	 */ 
-	protected StringPrintWriter wPut;
+	protected ToutEcrivain wPut;
 
 	/**
 	 * var.enUS: wPopulate
 	 */
-	protected StringPrintWriter wPeupler;
+	protected ToutEcrivain wPeupler;
 
 	/**
 	 * var.enUS: wExists
 	 */
-	protected StringPrintWriter wExiste;
+	protected ToutEcrivain wExiste;
 
 	/**
 	 * var.enUS: wSaves
 	 */
-	protected StringPrintWriter wSauvegardes;
+	protected ToutEcrivain wSauvegardes;
 
 	/**
 	 * var.enUS: wDefine
 	 */
-	protected StringPrintWriter wDefinir;
+	protected ToutEcrivain wDefinir;
 
-	protected StringPrintWriter wApiGet;
+	protected ToutEcrivain wApiGet;
 
 	/**
 	 * var.enUS: wApiGenerateGet
 	 */
-	protected StringPrintWriter wApiGenererGet;
+	protected ToutEcrivain wApiGenererGet;
 
 	/**
 	 * var.enUS: wApiGeneratePost
 	 */
-	protected StringPrintWriter wApiGenererPost;
+	protected ToutEcrivain wApiGenererPost;
 
 	/**
 	 * var.enUS: wApiGeneratePut
 	 */
-	protected StringPrintWriter wApiGenererPut;
+	protected ToutEcrivain wApiGenererPut;
 
 	/**
 	 * var.enUS: wApiGeneratePatch
 	 */
-	protected StringPrintWriter wApiGenererPatch;
+	protected ToutEcrivain wApiGenererPatch;
 
 	/**
 	 * var.enUS: wApiEntities
 	 */
-	protected StringPrintWriter wApiEntites;
+	protected ToutEcrivain wApiEntites;
 
 	/**
 	 * var.enUS: wPageEntities
 	 */
-	protected StringPrintWriter wPageEntites;
+	protected ToutEcrivain wPageEntites;
 
-	protected StringPrintWriter wPageGet;
+	protected ToutEcrivain wPageGet;
 
-	protected StringPrintWriter wHashCode;
+	protected ToutEcrivain wHashCode;
 
-	protected StringPrintWriter wToString;
+	protected ToutEcrivain wToString;
 
-	protected StringPrintWriter wEquals;
+	protected ToutEcrivain wEquals;
 
 	/**
 	 * var.enUS: entityVar
@@ -380,7 +410,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: writerGenClass
 	 */
-	protected StringPrintWriter auteurGenClasse;
+	protected ToutEcrivain auteurGenClasse;
 
 	/**
 	 * var.enUS: entityIndex
@@ -423,27 +453,27 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */ 
 	public void genCodeInit() throws Exception {
 
-		wInitLoin = StringPrintWriter.create();
-		wRequeteSite = StringPrintWriter.create();
-		wIndexer = StringPrintWriter.create();
-		wObtenir = StringPrintWriter.create();
-		wAttribuer = StringPrintWriter.create();
-		wPut = StringPrintWriter.create();
-		wPeupler = StringPrintWriter.create();
-		wSauvegardes = StringPrintWriter.create();
-		wExiste = StringPrintWriter.create();
-		wDefinir = StringPrintWriter.create();
-		wApiEntites = StringPrintWriter.create();
-		wPageEntites = StringPrintWriter.create();
-		wApiGet = StringPrintWriter.create();
-		wApiGenererGet = StringPrintWriter.create();
-		wApiGenererPost = StringPrintWriter.create();
-		wApiGenererPut = StringPrintWriter.create();
-		wApiGenererPatch = StringPrintWriter.create();
-		wPageGet = StringPrintWriter.create();
-		wHashCode = StringPrintWriter.create();
-		wToString = StringPrintWriter.create();
-		wEquals = StringPrintWriter.create();
+		wInitLoin = ToutEcrivain.create();
+		wRequeteSite = ToutEcrivain.create();
+		wIndexer = ToutEcrivain.create();
+		wObtenir = ToutEcrivain.create();
+		wAttribuer = ToutEcrivain.create();
+		wPut = ToutEcrivain.create();
+		wPeupler = ToutEcrivain.create();
+		wSauvegardes = ToutEcrivain.create();
+		wExiste = ToutEcrivain.create();
+		wDefinir = ToutEcrivain.create();
+		wApiEntites = ToutEcrivain.create();
+		wPageEntites = ToutEcrivain.create();
+		wApiGet = ToutEcrivain.create();
+		wApiGenererGet = ToutEcrivain.create();
+		wApiGenererPost = ToutEcrivain.create();
+		wApiGenererPut = ToutEcrivain.create();
+		wApiGenererPatch = ToutEcrivain.create();
+		wPageGet = ToutEcrivain.create();
+		wHashCode = ToutEcrivain.create();
+		wToString = ToutEcrivain.create();
+		wEquals = ToutEcrivain.create();
 	}
 
 	/**

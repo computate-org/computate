@@ -9,45 +9,45 @@ import java.util.List;
  **/
 public class StringPrintWriters {    
 
-	public static StringPrintWriters create(StringPrintWriter...writers) {
+	public static StringPrintWriters create(ToutEcrivain...writers) {
 		StringPrintWriters o = new StringPrintWriters();
 		o.initDeepForClass();
 		o.addStringPrintWriters(writers);
 		return o;
 	}
 
-	protected void _stringPrintWriters(List<StringPrintWriter> c) {
+	protected void _stringPrintWriters(List<ToutEcrivain> c) {
 	}
 
 	public StringPrintWriters t(int nombreTabulations, Object...objets) {
-		for(StringPrintWriter stringPrintWriter : stringPrintWriters) {
+		for(ToutEcrivain stringPrintWriter : stringPrintWriters) {
 			stringPrintWriter.t(nombreTabulations, objets);
 		}
 		return this;
 	}
 	public StringPrintWriters tl(int nombreTabulations, Object...objets) {
-		for(StringPrintWriter stringPrintWriter : stringPrintWriters) {
+		for(ToutEcrivain stringPrintWriter : stringPrintWriters) {
 			stringPrintWriter.tl(nombreTabulations, objets);
 		}
 		return this;
 	}
 
 	public StringPrintWriters l(Object...objets) {
-		for(StringPrintWriter stringPrintWriter : stringPrintWriters) {
+		for(ToutEcrivain stringPrintWriter : stringPrintWriters) {
 			stringPrintWriter.l(objets);
 		}
 		return this;
 	}
 
 	public StringPrintWriters s(Object...objets) { 
-		for(StringPrintWriter stringPrintWriter : stringPrintWriters) {
+		for(ToutEcrivain stringPrintWriter : stringPrintWriters) {
 			stringPrintWriter.s(objets);
 		}
 		return this;
 	}
 
 	public void flushClose() throws IOException {
-		for(StringPrintWriter stringPrintWriter : stringPrintWriters) {
+		for(ToutEcrivain stringPrintWriter : stringPrintWriters) {
 			stringPrintWriter.flushClose();
 		}
 	}
@@ -63,22 +63,22 @@ public class StringPrintWriters {
 	/**	The entity " stringPrintWriters "
 	 *	It is constructed before being initialized with the constructor by default List<StringPrintWriter>(). 
 	 */
-	protected List<StringPrintWriter> stringPrintWriters = new java.util.ArrayList<StringPrintWriter>();
+	protected List<ToutEcrivain> stringPrintWriters = new java.util.ArrayList<ToutEcrivain>();
 
-	public List<StringPrintWriter> getStringPrintWriters() {
+	public List<ToutEcrivain> getStringPrintWriters() {
 		return stringPrintWriters;
 	}
 
-	public void setStringPrintWriters(List<StringPrintWriter> l) {
+	public void setStringPrintWriters(List<ToutEcrivain> l) {
 		this.stringPrintWriters = l;
 	}
-	public StringPrintWriters addStringPrintWriters(StringPrintWriter...objets) {
-		for(StringPrintWriter o : objets) {
+	public StringPrintWriters addStringPrintWriters(ToutEcrivain...objets) {
+		for(ToutEcrivain o : objets) {
 			addStringPrintWriters(o);
 		}
 		return (StringPrintWriters)this;
 	}
-	public StringPrintWriters addStringPrintWriters(StringPrintWriter o) {
+	public StringPrintWriters addStringPrintWriters(ToutEcrivain o) {
 		if(o != null && !stringPrintWriters.contains(o))
 			this.stringPrintWriters.add(o);
 		return (StringPrintWriters)this;

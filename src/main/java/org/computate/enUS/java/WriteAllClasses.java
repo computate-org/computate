@@ -23,7 +23,7 @@ import org.apache.solr.common.SolrDocumentList;
 
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
- **/ 
+ **/
 public class WriteAllClasses extends WritePageClass {
 
 	/**	
@@ -57,14 +57,20 @@ public class WriteAllClasses extends WritePageClass {
 				if(partNumber.equals(1)) {
 					classDirPathGen = (String)doc.get("classDirPathGen_" + languageName + "_stored_string");
 					classPathGen = (String)doc.get("classPathGen_" + languageName + "_stored_string"); 
-					classPathApiGen = (String)doc.get("classPathApiGen_" + languageName + "_stored_string"); 
+					classPathApiPackageInfo = (String)doc.get("classPathApiPackageInfo_" + languageName + "_stored_string"); 
+					classPathGenApiServiceImpl = (String)doc.get("classPathGenApiServiceImpl_" + languageName + "_stored_string"); 
+					classPathApiServiceImpl = (String)doc.get("classPathApiServiceImpl_" + languageName + "_stored_string"); 
+					classPathGenApiService = (String)doc.get("classPathGenApiService_" + languageName + "_stored_string"); 
 					classPathPageGen = (String)doc.get("classPathPageGen_" + languageName + "_stored_string"); 
 					classDirGen = new File(classDirPathGen);
 					classDirGen.mkdirs();
 					classFileGen = new File(classPathGen);
-					classFileApi = new File(classPathApiGen);
+					classFileApiPackageInfo = new File(classPathApiPackageInfo);
+					classFileGenApiServiceImpl = new File(classPathGenApiServiceImpl);
+					classFileApiServiceImpl = new File(classPathApiServiceImpl);
+					classFileGenApiService = new File(classPathGenApiService);
 					classFilePage = new File(classPathPageGen);
-					o = StringPrintWriter.create(classFileGen);
+					o = ToutEcrivain.create(classFileGen);
 					classSimpleName = (String)doc.get("classSimpleName_" + languageName + "_stored_string");
 					classSimpleNameGen = (String)doc.get("classSimpleNameGen_" + languageName + "_stored_string");
 					classCanonicalName = (String)doc.get("classCanonicalName_" + languageName + "_stored_string");
@@ -74,8 +80,8 @@ public class WriteAllClasses extends WritePageClass {
 					classSuperSimpleNameGeneric = (String)doc.get("classSuperSimpleNameGeneric_" + languageName + "_stored_string");
 					classSuperCanonicalNameGeneric = (String)doc.get("classSuperCanonicalNameGeneric_" + languageName + "_stored_string");
 					classPackageName = (String)doc.get("classPackageName_" + languageName + "_stored_string");
-					classSimpleNameApi = (String)doc.get("classSimpleNameApi_" + languageName + "_stored_string");
-					classSimpleNameApiGen = (String)doc.get("classSimpleNameApiGen_" + languageName + "_stored_string");
+					classSimpleNameApiServiceImpl = (String)doc.get("classSimpleNameApi_" + languageName + "_stored_string");
+					classSimpleNameGenApiServiceImpl = (String)doc.get("classSimpleNameGenApiServiceImpl_" + languageName + "_stored_string");
 					classVarPrimaryKey = (String)doc.get("classVarPrimaryKey_" + languageName + "_stored_string");
 					classPageUri = (String)doc.get("classPageUri_" + languageName + "_stored_string");
 					classApiUri = (String)doc.get("classApiUri_" + languageName + "_stored_string");
@@ -108,12 +114,18 @@ public class WriteAllClasses extends WritePageClass {
 					classRoles = (List<String>)doc.get("classRoles_" + languageName + "_stored_strings");
 					entityIndex = 0;
 
-					writerGenClass = StringPrintWriter.create(classFileGen);
-					if(classApi)
-						writerApiGenClass = StringPrintWriter.create(classFileApi);
+					writerGenClass = ToutEcrivain.create(classFileGen);
+					if(classApi) {
+						if(!classFileApiPackageInfo.exists())
+							auteurApiPackageInfo = ToutEcrivain.create(classFileApiPackageInfo);
+						auteurGenApiServiceImpl = ToutEcrivain.create(classFileGenApiServiceImpl);
+						if(!classFileApiServiceImpl.exists())
+							auteurApiServiceImpl = ToutEcrivain.create(classFileApiServiceImpl);
+						auteurGenApiService = ToutEcrivain.create(classFileGenApiService);
+					}
 //					auteurPageClasse = new PrintWriter(classFilePage);
 					if(classPage)
-						writerPageGenClass = StringPrintWriter.create(classFilePage);
+						writerPageGenClass = ToutEcrivain.create(classFilePage);
 
 					genCodeInit();
 					o = writerGenClass;

@@ -1,24 +1,38 @@
 package org.computate.enUS.java;
 
-import java.nio.charset.Charset;
-import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  **/
 public class WriteApiClass extends WriteGenClass {
 
-	protected StringPrintWriter writerApiGenClass;
+	protected AllWriter writerApiPackageInfo;
 
-	protected String classSimpleNameApi;
+	protected AllWriter writerApiServiceImpl;
 
-	protected String classSimpleNameApiGen;
+	protected AllWriter writerGenApiServiceImpl;
+
+	protected AllWriter writerGenApiService;
+
+	protected String classSimpleNameApiPackageInfo;
+
+	protected String classSimpleNameGenApiServiceImpl;
+
+	protected String classSimpleNameApiServiceImpl;
+
+	protected String classSimpleNameGenApiService;
+
+	protected String classCanonicalNameApiPackageInfo;
+
+	protected String classCanonicalNameGenApiServiceImpl;
+
+	protected String classCanonicalNameApiServiceImpl;
+
+	protected String classCanonicalNameGenApiService;
 
 	public void  apiCodeClassBegin(String languageName) throws Exception, Exception {
-		o = writerApiGenClass;
+		o = writerGenApiServiceImpl;
 		l("package ", classPackageName, ";");
 		l();
 		if(classImportsGenApi.size() > 0) { 
@@ -37,13 +51,13 @@ public class WriteApiClass extends WriteGenClass {
 		l();
 		tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classSimpleNameApiGen, ".class);");
 		l();
-		tl(1, "private static final String SERVICE_ADDRESS = \"", classSimpleNameApi, "\";");
+		tl(1, "private static final String SERVICE_ADDRESS = \"", classSimpleNameApiServiceImpl, "\";");
 		l();
 		tl(1, "protected SiteContexte siteContexte;");
 		l();
 		tl(1, "public ", classSimpleNameApiGen, "(SiteContexte siteContexte) {");
 		tl(2, "this.siteContexte = siteContexte;");
-		tl(2, classSimpleNameApi, "Service service = ", classSimpleNameApi, "Service.createProxy(siteContexte.getVertx(), SERVICE_ADDRESS);");
+		tl(2, classSimpleNameApiServiceImpl, "Service service = ", classSimpleNameApiServiceImpl, "Service.createProxy(siteContexte.getVertx(), SERVICE_ADDRESS);");
 		tl(1, "}");
 //		l();
 //		tl(1, "public static final String VAL_nomCanonique", classSimpleName, " = \"", classCanonicalName, "\";");
@@ -59,11 +73,62 @@ public class WriteApiClass extends WriteGenClass {
 	}
 
 	public void  apiCodeClassEnd(String languageName) throws Exception, Exception {
-		o = writerApiGenClass;
+
+		///////////////////////////
+		// auteurApiEnsembleInfo //
+		///////////////////////////
+
+		auteurApiEnsembleInfo.l("@ModuleGen(name=\"", classSimpleName, "Api", "\", groupPackage=\"", classeNomEnsemble, "\")");
+		auteurApiEnsembleInfo.l("package ", classeNomEnsemble, ";");
+		auteurApiEnsembleInfo.l();
+		auteurApiEnsembleInfo.l("import io.vertx.codegen.annotations.ModuleGen;");
+
+		/////////////////////////
+		// writerGenApiService //
+		/////////////////////////
+
+		writerGenApiService.l("package ", classeNomEnsemble, ";");
+		writerGenApiService.l();
+		writerGenApiService.l("import ", classePartsSiteContext(langueNom).nomCanonique);
+		writerGenApiService.l("import ", classeNomEnsemble, ".", classSimpleName, "ApiServiceVertxEBProxy;");
+		writerGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
+		writerGenApiService.l("import io.vertx.core.AsyncResult;");
+		writerGenApiService.l("import io.vertx.core.Handler;");
+		writerGenApiService.l("import io.vertx.core.Vertx;");
+		writerGenApiService.l("import io.vertx.core.json.JsonObject;");
+		writerGenApiService.l("import io.vertx.ext.web.api.OperationRequest;");
+		writerGenApiService.l("import io.vertx.ext.web.api.OperationResponse;");
+		writerGenApiService.l();
+		writerGenApiService.l("@ProxyGen");
+		writerGenApiService.s("public interface ", classSimpleNameGenApiServiceImpl);
+		writerGenApiService.l();
+		writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
+		writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " create(SiteContext siteContext, Vertx vertx) {");
+		writerGenApiService.tl(2, "return new ", classSimpleNameApiServiceImpl, "(siteContext);");
+		writerGenApiService.tl(1, "}");
+		writerGenApiService.l();
+		writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
+		writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " createProxy(Vertx vertx, String address) {");
+		writerGenApiService.tl(2, "return new ", classSimpleNameGenApiService, "(vertx, address);");
+		writerGenApiService.tl(1, "}");
+		writerGenApiService.l();
+		writerGenApiService.tl(1, "public void search", classSimpleName, "(OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> resultHandler);");
+		writerGenApiService.tl(1, "public void post", classSimpleName, "(JsonObject json, OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> resultHandler);");
+		writerGenApiService.tl(1, "public void patch", classSimpleName, "(JsonObject json, OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> resultHandler);");
+		writerGenApiService.tl(1, "public void get", classSimpleName, "(OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> resultHandler);");
+		writerGenApiService.tl(1, "public void put", classSimpleName, "(JsonObject json, OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> resultHandler);");
+		writerGenApiService.tl(1, "public void delete", classSimpleName, "(JsonObject json, OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> resultHandler);");
+		writerGenApiService.tl(0, "}");
+
+		/////////////////////////////
+		// writerGenApiServiceImpl //
+		/////////////////////////////
+
+		o = writerGenApiServiceImpl;
 
 		s(wApiEntities.toString());
 		l();
-		tl(1, "public void handleGet", classSimpleName, "(SiteContexte siteContext) {");
+		tl(1, "public void handleGet", classSimpleName, "(SiteContext siteContext) {");
 //		tl(2, "Router siteRouteur = siteContext.getSiteRouteur();");
 		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContext.getUsineRouteur();");
 
@@ -96,12 +161,12 @@ public class WriteApiClass extends WriteGenClass {
 		l();
 		tl(tBase, "contexteItineraire.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
 		tl(tBase, "RequeteSite requeteSite = genererRequeteSitePour", classSimpleName, "(siteContext);");
-		tl(tBase, "SolrQuery rechercheSolr = requeteSite.getRechercheSolr();");
+		tl(tBase, "SolrQuery searchSolr = requeteSite.getRechercheSolr();");
 		tl(tBase, "SolrDocumentList resultatsRecherche = requeteSite.getReponseRecherche().getResults();");
-		tl(tBase, "Integer rechercheLignes = rechercheSolr.getRows();");
+		tl(tBase, "Integer searchLignes = searchSolr.getRows();");
 		l();
 		tl(tBase, "genererGetDebut", classSimpleName, "(requeteSite);");
-		tl(tBase, "for(long i = resultatsRecherche.getStart(); i < resultatsRecherche.getNumFound(); i+=rechercheLignes) {");
+		tl(tBase, "for(long i = resultatsRecherche.getStart(); i < resultatsRecherche.getNumFound(); i+=searchLignes) {");
 		tl(tBase + 1, "for(int j = 0; j < resultatsRecherche.size(); j++) {");
 		tl(tBase + 2, "long resultatIndice = i + j;");
 		tl(tBase + 2, "SolrDocument documentSolr = resultatsRecherche.get(j);");
@@ -219,13 +284,13 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "}");
 		tl(1, "}");
 		l();
-		tl(1, "public Future<ListeRecherche<", classSimpleName, ">> recherche", classSimpleName, "(RequeteSite requeteSite) {");
+		tl(1, "public Future<ListeRecherche<", classSimpleName, ">> search", classSimpleName, "(RequeteSite requeteSite) {");
 		tl(2, "String entityVar = null;");
 		tl(2, "String valeurIndexe = null;");
 		tl(2, "String varIndexe = null;");
 		tl(2, "String valeurTri = null;");
-		tl(2, "Integer rechercheDebut = null;");
-		tl(2, "Integer rechercheNum = null;");
+		tl(2, "Integer searchDebut = null;");
+		tl(2, "Integer searchNum = null;");
 		tl(2, "ListeRecherche<", classSimpleName, "> listeRecherche = new ListeRecherche<", classSimpleName, ">();");
 		tl(2, "listeRecherche.setQuery(\"*:*\");");
 		tl(2, "listeRecherche.setRows(1000000);");
@@ -265,13 +330,13 @@ public class WriteApiClass extends WriteGenClass {
 		tl(6, "break;");
 
 		tl(5, "case \"start\":");
-		tl(6, "rechercheDebut = Integer.parseInt(paireValeur);");
-		tl(6, "listeRecherche.setStart(rechercheDebut);");
+		tl(6, "searchDebut = Integer.parseInt(paireValeur);");
+		tl(6, "listeRecherche.setStart(searchDebut);");
 		tl(6, "break;");
 
 		tl(5, "case \"rows\":");
-		tl(6, "rechercheNum = Integer.parseInt(paireValeur);");
-		tl(6, "listeRecherche.setRows(rechercheNum);");
+		tl(6, "searchNum = Integer.parseInt(paireValeur);");
+		tl(6, "listeRecherche.setRows(searchNum);");
 		tl(6, "break;");
 
 		tl(4, "}");
@@ -284,13 +349,13 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "return Future.succeededFuture(listeRecherche);");
 		tl(1, "}");
 		l();
-//		tl(1, "public RequeteSite genererRequeteSitePour", classSimpleName, "(SiteContexte siteContext, RoutingContext contexteItineraire) throws Exception {");
-		tl(1, "public RequeteSite genererRequeteSitePour", classSimpleName, "(SiteContexte siteContext) throws Exception {");
+//		tl(1, "public RequeteSite genererRequeteSitePour", classSimpleName, "(SiteContext siteContext, RoutingContext contexteItineraire) throws Exception {");
+		tl(1, "public RequeteSite genererRequeteSitePour", classSimpleName, "(SiteContext siteContext) throws Exception {");
 		tl(2, "Vertx vertx = siteContext.getVertx();");
 		tl(2, "RequeteSite requeteSite = new RequeteSite();");
 		tl(2, "requeteSite.setVertx(vertx);");
 //		tl(2, "requeteSite.setContexteItineraire(contexteItineraire);");
-		tl(2, "requeteSite.setSiteContexte_(siteContext);");
+		tl(2, "requeteSite.setSiteContext_(siteContext);");
 		tl(2, "requeteSite.initLoinRequeteSite(requeteSite);");
 		l();
 
@@ -319,8 +384,8 @@ public class WriteApiClass extends WriteGenClass {
 //		// POST //
 //		//////////
 //		l();
-////		tl(1, "protected void handlePost", classSimpleName, "(SiteContexte siteContext) {");
-//		tl(1, "protected void post", classSimpleName, "(SiteContexte siteContext) {");
+////		tl(1, "protected void handlePost", classSimpleName, "(SiteContext siteContext) {");
+//		tl(1, "protected void post", classSimpleName, "(SiteContext siteContext) {");
 ////		tl(2, "Router siteRouteur = siteContext.getSiteRouteur();");
 //		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContext.getUsineRouteur();");
 //
@@ -342,7 +407,7 @@ public class WriteApiClass extends WriteGenClass {
 //		tl(tBase + 0, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
 //		tl(tBase + 0, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
 //		tl(tBase + 0, "JsonObject requeteJson = contexteItineraire.getBodyAsJson();");
-//		tl(tBase + 0, "SQLClient clientSql = requeteSite.getSiteContexte_().getClientSql();");
+//		tl(tBase + 0, "SQLClient clientSql = requeteSite.getSiteContext_().getClientSql();");
 //		l();
 //		tl(tBase + 0, "clientSql.getConnection(resultatAsync -> {");
 //		tl(tBase + 1, "if(resultatAsync.succeeded()) {");
@@ -352,7 +417,7 @@ public class WriteApiClass extends WriteGenClass {
 //		tl(tBase + 2, "SQLConnection connexionSql = resultatAsync.result();");
 //		l();
 //		tl(tBase + 2, "connexionSql.queryWithParams(");
-//		tl(tBase + 4, "SiteContexte.SQL_creer");
+//		tl(tBase + 4, "SiteContext.SQL_create");
 //		tl(tBase + 4, ", new JsonArray(Arrays.asList(VAL_nomCanonique", classSimpleName, ", utilisateurId))");
 //		tl(tBase + 4, ", asyncCreer");
 //		tl(tBase + 4, "-> {");
@@ -430,12 +495,12 @@ public class WriteApiClass extends WriteGenClass {
 		//////////
 		l();
 		tl(1, "@Override");
-		tl(1, "public void post", classSimpleName, "(JsonObject document, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> eventHandler) {");
+		tl(1, "public void post", classSimpleName, "(JsonObject document, OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> eventHandler) {");
 		tBase = 0;
 		if(classRolesFound && classRoles != null) {
 			String requeteRole = classRoles.get(0);
 			tBase = 4;
-			tl(2, "operationRequete.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
+			tl(2, "operationRequest.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
 			tl(3, "if (authRes.result() == Boolean.TRUE) {");
 		}
 		else {
@@ -444,7 +509,7 @@ public class WriteApiClass extends WriteGenClass {
 		tl(tBase + 0, "try {");
 		tl(tBase + 1, "RequeteSite requeteSite = genererRequeteSitePour", classSimpleName, "(siteContext);");
 		tl(tBase + 1, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(requeteSite).compose(");
-		tl(tBase + 2, "a -> creer", classSimpleName, "(requeteSite).compose(");
+		tl(tBase + 2, "a -> create", classSimpleName, "(requeteSite).compose(");
 		tl(tBase + 3, "cluster -> definir", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(");
 		tl(tBase + 4, "c -> attribuer", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(");
 		tl(tBase + 5, "d -> indexer", classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(");
@@ -473,7 +538,7 @@ public class WriteApiClass extends WriteGenClass {
 		// PATCH //
 		///////////
 //		l();
-//		tl(1, "protected void patch", classSimpleName, "Old(SiteContexte siteContext) {");
+//		tl(1, "protected void patch", classSimpleName, "Old(SiteContext siteContext) {");
 ////		tl(2, "Router siteRouteur = siteContext.getSiteRouteur();");
 //		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContext.getUsineRouteur();");
 
@@ -483,7 +548,7 @@ public class WriteApiClass extends WriteGenClass {
 //		tl(1, "}");
 		l();
 		tl(1, "@Override");
-		tl(1, "public void patch", classSimpleName, "(JsonObject document, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> eventHandler) {");
+		tl(1, "public void patch", classSimpleName, "(JsonObject document, OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> eventHandler) {");
 //		tl(2, "Router siteRouteur = siteContext.getSiteRouteur();");
 
 //		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
@@ -491,7 +556,7 @@ public class WriteApiClass extends WriteGenClass {
 		if(classRolesFound && classRoles != null) {
 			String requeteRole = classRoles.get(0);
 			tBase = 4;
-			tl(2, "operationRequete.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
+			tl(2, "operationRequest.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
 			tl(3, "if (authRes.result() == Boolean.TRUE) {");
 		}
 		else {
@@ -502,7 +567,7 @@ public class WriteApiClass extends WriteGenClass {
 //		tl(tBase + 1, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
 //		tl(tBase + 1, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
 		tl(tBase + 1, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(requeteSite).compose(");
-		tl(tBase + 2, "a -> recherche", classSimpleName, "(requeteSite).compose(");
+		tl(tBase + 2, "a -> search", classSimpleName, "(requeteSite).compose(");
 		tl(tBase + 3, "liste", classSimpleName, " -> patchListe", classSimpleName, "(liste", classSimpleName, ")");
 		tl(tBase + 2, ")");
 		tl(tBase + 1, ");");
@@ -532,7 +597,7 @@ public class WriteApiClass extends WriteGenClass {
 //		tl(1, "public void genererErreur(RequeteSite requeteSite, Exception e) {");
 //		tl(2, "e.printStackTrace();");
 //		tl(2, "try {");
-//		tl(3, "MimeMessage message = new MimeMessage(requeteSite.SiteContexte_.sessionCourriel);");
+//		tl(3, "MimeMessage message = new MimeMessage(requeteSite.SiteContext_.sessionCourriel);");
 //		tl(3, "message.setFrom(new InternetAddress(requeteSite.configSite_.mailAdmin));");
 //		tl(3, "InternetAddress destinaires[] = new InternetAddress[1];");
 //		tl(3, "destinaires[0] = new InternetAddress(requeteSite.configSite_.mailAdmin);");
@@ -552,7 +617,7 @@ public class WriteApiClass extends WriteGenClass {
 		l();
 		tl(1, "public Future<Void> sql", classSimpleName, "(RequeteSite requeteSite) {");
 		tl(2, "Future<Void> future = Future.future();");
-		tl(2, "SQLClient clientSql = requeteSite.getSiteContexte_().getClientSql();");
+		tl(2, "SQLClient clientSql = requeteSite.getSiteContext_().getClientSql();");
 		l();
 		tl(2, "clientSql.getConnection(sqlAsync -> {");
 		tl(3, "if(sqlAsync.succeeded()) {");
@@ -563,17 +628,17 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "return future;");
 		tl(1, "}");
 		l();
-		tl(1, "public Future<", classSimpleName, "> creer", classSimpleName, "(RequeteSite requeteSite) {");
+		tl(1, "public Future<", classSimpleName, "> create", classSimpleName, "(RequeteSite requeteSite) {");
 		tl(2, "Future<", classSimpleName, "> future = Future.future();");
 		tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
 		tl(2, "String utilisateurId = requeteSite.getUtilisateurId();");
 		l();
 		tl(2, "connexionSql.queryWithParams(");
-		tl(4, "SiteContexte.SQL_creer");
+		tl(4, "SiteContext.SQL_create");
 		tl(4, ", new JsonArray(Arrays.asList(", classSimpleName, ".class.getCanonicalName(), utilisateurId))");
-		tl(4, ", creerAsync");
+		tl(4, ", createAsync");
 		tl(2, "-> {");
-		tl(3, "JsonArray patchLigne = creerAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
+		tl(3, "JsonArray patchLigne = createAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
 		tl(3, "Long ", classVarPrimaryKey, " = patchLigne.getLong(0);");
 		tl(3, classSimpleName, " o = new ", classSimpleName, "();");
 		tl(3, "o.set", StringUtils.capitalize(classVarPrimaryKey), "(", classVarPrimaryKey, ");");
@@ -664,7 +729,7 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
 		tl(2, "Long ", classVarPrimaryKey, " = o.get", StringUtils.capitalize(classVarPrimaryKey), "();");
 		tl(2, "connexionSql.queryWithParams(");
-		tl(4, "SiteContexte.SQL_definir");
+		tl(4, "SiteContext.SQL_definir");
 		tl(4, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "))");
 		tl(4, ", definirAsync");
 		tl(2, "-> {");
@@ -682,7 +747,7 @@ public class WriteApiClass extends WriteGenClass {
 		tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
 		tl(2, "Long ", classVarPrimaryKey, " = o.get", StringUtils.capitalize(classVarPrimaryKey), "();");
 		tl(2, "connexionSql.queryWithParams(");
-		tl(4, "SiteContexte.SQL_attribuer");
+		tl(4, "SiteContext.SQL_attribuer");
 		tl(4, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "))");
 		tl(4, ", attribuerAsync");
 		tl(2, "-> {");
@@ -721,7 +786,7 @@ public class WriteApiClass extends WriteGenClass {
 
 		tl(0, "}");
 
-		System.out.println("Write:" + classPathApiGen); 
-		writerApiGenClass.flushClose();
+		System.out.println("Write: " + classPathGenApiServiceImpl); 
+		writerGenApiServiceImpl.flushClose();
 	}
 }

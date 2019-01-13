@@ -13,7 +13,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	/**
 	 * var.enUS: writerPageGenClass
 	 */
-	protected StringPrintWriter auteurPageGenClasse;
+	protected ToutEcrivain auteurPageGenClasse;
 
 	/**
 	 * var.enUS: classSimpleNamePage

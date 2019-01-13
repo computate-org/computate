@@ -29,7 +29,13 @@ public class WriteGenClass extends WriteClass {
 
 	protected String classPathGen;
 
-	protected String classPathApiGen;
+	protected String classPathApiPackageInfo;
+
+	protected String classPathGenApiServiceImpl;
+
+	protected String classPathApiServiceImpl;
+
+	protected String classPathGenApiService;
 
 	protected String classPathPageGen;
 
@@ -37,7 +43,13 @@ public class WriteGenClass extends WriteClass {
 
 	protected File classFileGen;
 
-	protected File classFileApi;
+	protected File classFileApiEnsembleInfo;
+
+	protected File classFileGenApiServiceImpl;
+
+	protected File classFileApiServiceImpl;
+
+	protected File classFileGenApiService;
 
 	protected File classFilePage;
 
@@ -107,47 +119,47 @@ public class WriteGenClass extends WriteClass {
 
 	protected List<String> classRoles;
 
-	protected StringPrintWriter wInitDeep;
+	protected AllWriter wInitDeep;
 
-	protected StringPrintWriter wSiteRequest;
+	protected AllWriter wSiteRequest;
 
-	protected StringPrintWriter wIndex;
+	protected AllWriter wIndex;
 
-	protected StringPrintWriter wObtain;
+	protected AllWriter wObtain;
 
-	protected StringPrintWriter wAttribute;
+	protected AllWriter wAttribute;
 
-	protected StringPrintWriter wPut;
+	protected AllWriter wPut;
 
-	protected StringPrintWriter wPopulate;
+	protected AllWriter wPopulate;
 
-	protected StringPrintWriter wExists;
+	protected AllWriter wExists;
 
-	protected StringPrintWriter wSaves;
+	protected AllWriter wSaves;
 
-	protected StringPrintWriter wDefine;
+	protected AllWriter wDefine;
 
-	protected StringPrintWriter wApiGet;
+	protected AllWriter wApiGet;
 
-	protected StringPrintWriter wApiGenerateGet;
+	protected AllWriter wApiGenerateGet;
 
-	protected StringPrintWriter wApiGeneratePost;
+	protected AllWriter wApiGeneratePost;
 
-	protected StringPrintWriter wApiGeneratePut;
+	protected AllWriter wApiGeneratePut;
 
-	protected StringPrintWriter wApiGeneratePatch;
+	protected AllWriter wApiGeneratePatch;
 
-	protected StringPrintWriter wApiEntities;
+	protected AllWriter wApiEntities;
 
-	protected StringPrintWriter wPageEntities;
+	protected AllWriter wPageEntities;
 
-	protected StringPrintWriter wPageGet;
+	protected AllWriter wPageGet;
 
-	protected StringPrintWriter wHashCode;
+	protected AllWriter wHashCode;
 
-	protected StringPrintWriter wToString;
+	protected AllWriter wToString;
 
-	protected StringPrintWriter wEquals;
+	protected AllWriter wEquals;
 
 	protected String entityVar;
 
@@ -173,33 +185,33 @@ public class WriteGenClass extends WriteClass {
 
 	protected Boolean entityInitDeep;
 
-	protected StringPrintWriter writerGenClass;
+	protected AllWriter writerGenClass;
 
 	protected Integer entityIndex;
 
 	public void  genCodeInit() throws Exception, Exception {
 
-		wInitDeep = StringPrintWriter.create();
-		wSiteRequest = StringPrintWriter.create();
-		wIndex = StringPrintWriter.create();
-		wObtain = StringPrintWriter.create();
-		wAttribute = StringPrintWriter.create();
-		wPut = StringPrintWriter.create();
-		wPopulate = StringPrintWriter.create();
-		wSaves = StringPrintWriter.create();
-		wExists = StringPrintWriter.create();
-		wDefine = StringPrintWriter.create();
-		wApiEntities = StringPrintWriter.create();
-		wPageEntities = StringPrintWriter.create();
-		wApiGet = StringPrintWriter.create();
-		wApiGenerateGet = StringPrintWriter.create();
-		wApiGeneratePost = StringPrintWriter.create();
-		wApiGeneratePut = StringPrintWriter.create();
-		wApiGeneratePatch = StringPrintWriter.create();
-		wPageGet = StringPrintWriter.create();
-		wHashCode = StringPrintWriter.create();
-		wToString = StringPrintWriter.create();
-		wEquals = StringPrintWriter.create();
+		wInitDeep = ToutEcrivain.create();
+		wSiteRequest = ToutEcrivain.create();
+		wIndex = ToutEcrivain.create();
+		wObtain = ToutEcrivain.create();
+		wAttribute = ToutEcrivain.create();
+		wPut = ToutEcrivain.create();
+		wPopulate = ToutEcrivain.create();
+		wSaves = ToutEcrivain.create();
+		wExists = ToutEcrivain.create();
+		wDefine = ToutEcrivain.create();
+		wApiEntities = ToutEcrivain.create();
+		wPageEntities = ToutEcrivain.create();
+		wApiGet = ToutEcrivain.create();
+		wApiGenerateGet = ToutEcrivain.create();
+		wApiGeneratePost = ToutEcrivain.create();
+		wApiGeneratePut = ToutEcrivain.create();
+		wApiGeneratePatch = ToutEcrivain.create();
+		wPageGet = ToutEcrivain.create();
+		wHashCode = ToutEcrivain.create();
+		wToString = ToutEcrivain.create();
+		wEquals = ToutEcrivain.create();
 	}
 
 	public void  genCodeInitDeep(String languageName) throws Exception, Exception {

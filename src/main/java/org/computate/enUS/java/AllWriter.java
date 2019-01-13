@@ -1,4 +1,4 @@
-package org.computate.frFR.java;    
+package org.computate.enUS.java;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,63 +6,61 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
+public class AllWriter {
 
-/**   
- * nomCanonique.enUS: org.computate.enUS.java.StringPrintWriter
- **/
-public class StringPrintWriter {     
+	protected StringWriter stringWriter;
 
-	public static StringPrintWriter create() throws FileNotFoundException {
-		StringPrintWriter o = new StringPrintWriter();
+	protected File file;
+
+	protected PrintWriter printWriter;
+
+	protected Boolean empty = false;
+
+	protected boolean alreadyInitializedStringPrintWriter = false;
+
+	public static AllWriter create() throws FileNotFoundException, FileNotFoundException {
+		ToutEcrivain o = new ToutEcrivain();
 		o.initDeepForClass();
 		return o;
 	}
 
-	public static StringPrintWriter create(File file) throws FileNotFoundException {
-		StringPrintWriter o = new StringPrintWriter();
+	public static AllWriter create(File file) throws FileNotFoundException, FileNotFoundException {
+		ToutEcrivain o = new ToutEcrivain();
 		o.setFile(file);
 		o.initDeepForClass();
 		return o;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 **/
-	protected void _file(File o) {
+	protected void  _file(File o) {
 	}
 
-	protected void _stringWriter(StringWriter o) {
+	protected void  _stringWriter(StringWriter o) {
 		if(file == null)
 			this.stringWriter = new StringWriter();
 	}
 
-	protected void _printWriter(PrintWriter o) throws FileNotFoundException {
+	protected void  _printWriter(PrintWriter o) throws FileNotFoundException, FileNotFoundException {
 		if(file == null)
 			this.printWriter = new PrintWriter(stringWriter);
 		else
 			this.printWriter = new PrintWriter(file);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 **/
-	protected void _empty(Boolean c) {
+	protected void  _empty(Boolean c) {
 		this.empty = true;
 	}
 
-	public StringPrintWriter t(int nombreTabulations, Object...objets) {
+	public AllWriter t(int nombreTabulations, Object...objets) {
 		for(int i = 0; i < nombreTabulations; i++)
 			s("\t");
 		s(objets);
 		return this;
 	}
-	public StringPrintWriter tl(int nombreTabulations, Object...objets) {
+
+	public AllWriter tl(int nombreTabulations, Object...objets) {
 		for(int i = 0; i < nombreTabulations; i++)
 			s("\t");
 		s(objets);
@@ -70,13 +68,13 @@ public class StringPrintWriter {
 		return this;
 	}
 
-	public StringPrintWriter l(Object...objets) {
+	public AllWriter l(Object...objets) {
 		s(objets);
 		s("\n");
 		return this;
 	}
 
-	public StringPrintWriter s(Object...objets) { 
+	public AllWriter s(Object...objets) { 
 		for(Object objet : objets) {
 			if(objet != null) {
 				if(objet instanceof List) {
@@ -96,7 +94,7 @@ public class StringPrintWriter {
 		return this;
 	}
 
-	public void flushClose() throws IOException {
+	public void  flushClose() throws IOException, IOException {
 		printWriter.flush();
 		if(stringWriter != null)
 			stringWriter.flush();
@@ -105,94 +103,67 @@ public class StringPrintWriter {
 			stringWriter.close();
 	}
 
-	@Override public String toString() {
+	@Override()
+	public String toString() {
 		return stringWriter.toString();
 	}
-
-	//////////////////
-	// stringWriter //
-	//////////////////
-
-	/**	The entity " stringWriter "
-	 *	It is constructed before being initialized with the constructor by default StringWriter(). 
-	 */
-	protected StringWriter stringWriter; 
 
 	public StringWriter getStringWriter() {
 		return stringWriter;
 	}
 
-	public void setStringWriter(StringWriter o) {
+	public void  setStringWriter(StringWriter o) {
 		this.stringWriter = o;
 	}
-	protected StringPrintWriter stringWriterInit() {
+
+	protected AllWriter stringWriterInit() {
 		_stringWriter(stringWriter);
-		return (StringPrintWriter)this;
+		return (ToutEcrivain)this;
 	}
 
-	//////////
-	// file //
-	//////////
-	protected File file;
-	
 	public File getFile() {
 		return file;
 	}
 
-	public void setFile(File o) {
+	public void  setFile(File o) {
 		this.file = o;
 	}
 
-	protected StringPrintWriter fileInit() {
+	protected AllWriter fileInit() {
 		_file(file);
-		return (StringPrintWriter)this;
+		return (ToutEcrivain)this;
 	}
-
-	/////////////////
-	// printWriter //
-	/////////////////
-
-	/**	The entity " printWriter "
-	 *	 is defined as null before being initialized. 
-	 */
-	protected PrintWriter printWriter;
 
 	public PrintWriter getPrintWriter() {
 		return printWriter;
 	}
 
-	public void setPrintWriter(PrintWriter o) {
+	public void  setPrintWriter(PrintWriter o) {
 		this.printWriter = o;
 	}
-	protected StringPrintWriter printWriterInit() throws FileNotFoundException {
+
+	protected AllWriter printWriterInit() throws FileNotFoundException, FileNotFoundException {
 		_printWriter(printWriter);
-		return (StringPrintWriter)this;
+		return (ToutEcrivain)this;
 	}
-
-	///////////
-	// empty //
-	///////////
-
-	/**	The entity " empty "
-	 *	 is defined as null before being initialized. 
-	 */
-	protected Boolean empty = false;
 
 	public Boolean getEmpty() {
 		return empty;
 	}
 
-	public void setEmpty(Boolean o) {
+	public void  setEmpty(Boolean o) {
 		this.empty = o;
 	}
-	public StringPrintWriter setEmpty(String o) {
+
+	public AllWriter setEmpty(String o) {
 		if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))
 			this.empty = Boolean.parseBoolean(o);
-		return (StringPrintWriter)this;
+		return (ToutEcrivain)this;
 	}
-	protected StringPrintWriter emptyInit() {
+
+	protected AllWriter emptyInit() {
 		_empty(empty);
-		return (StringPrintWriter)this;
+		return (ToutEcrivain)this;
 	}
 
 	public Boolean solrEmpty() {
@@ -215,23 +186,17 @@ public class StringPrintWriter {
 		return empty == null ? "" : StringEscapeUtils.escapeHtml4(strEmpty());
 	}
 
-	//////////////
-	// initDeep //
-	//////////////
-
-	protected boolean alreadyInitializedStringPrintWriter = false;
-
-	public StringPrintWriter initDeepStringPrintWriter() throws FileNotFoundException {
+	public AllWriter initDeepStringPrintWriter() throws FileNotFoundException, FileNotFoundException {
 		if(!alreadyInitializedStringPrintWriter) {
 			alreadyInitializedStringPrintWriter = true;
 			stringWriterInit();
 			printWriterInit();
 			emptyInit();
 		}
-		return (StringPrintWriter)this;
+		return (ToutEcrivain)this;
 	}
 
-	public void initDeepForClass() throws FileNotFoundException {
+	public void  initDeepForClass() throws FileNotFoundException, FileNotFoundException {
 		initDeepStringPrintWriter();
 	}
 }

@@ -41,20 +41,28 @@ public class RegarderClasse extends EcrireToutesClasses {
 		try {
 			regarderClasse.args = args;
 			regarderClasse.initRegarderClasseBase(); 
-			if(ArrayUtils.contains(regarderClasse.autresLangues, "enUS")) {
-				regarderClasse.enUSWatchClass = new WatchClass();
-				regarderClasse.enUSWatchClass.args = args;
-				regarderClasse.enUSWatchClass.appName = regarderClasse.appliNom;
-				regarderClasse.enUSWatchClass.appPath = regarderClasse.appliChemin;
-				regarderClasse.enUSWatchClass.initWatchClassBase();
-			}
-			if(ArrayUtils.contains(regarderClasse.autresLangues, "frFR")) {
-				regarderClasse.frFRRegarderClasse = new RegarderClasse();
-				regarderClasse.frFRRegarderClasse.args = args;
-				regarderClasse.frFRRegarderClasse.appliNom = regarderClasse.appliNom;
-				regarderClasse.frFRRegarderClasse.appliChemin = regarderClasse.appliChemin;
-				regarderClasse.frFRRegarderClasse.initRegarderClasseBase();
-			}
+//			try {
+//				if(ArrayUtils.contains(regarderClasse.autresLangues, "enUS")) {
+//					regarderClasse.enUSWatchClass = new WatchClass();
+//					regarderClasse.enUSWatchClass.args = args;
+//					regarderClasse.enUSWatchClass.appName = regarderClasse.appliNom;
+//					regarderClasse.enUSWatchClass.appPath = regarderClasse.appliChemin;
+//					regarderClasse.enUSWatchClass.initWatchClassBase();
+//				}
+//			} catch (Exception e) {
+//				System.err.println(e.getMessage());
+//			}
+//			try {
+//				if(ArrayUtils.contains(regarderClasse.autresLangues, "frFR")) {
+//					regarderClasse.frFRRegarderClasse = new RegarderClasse();
+//					regarderClasse.frFRRegarderClasse.args = args;
+//					regarderClasse.frFRRegarderClasse.appliNom = regarderClasse.appliNom;
+//					regarderClasse.frFRRegarderClasse.appliChemin = regarderClasse.appliChemin;
+//					regarderClasse.frFRRegarderClasse.initRegarderClasseBase();
+//				}
+//			} catch (Exception e) {
+//				System.err.println(e.getMessage());
+//			}
 		}
 		catch(Exception e) {
 			System.err.println("Erreur pendant traiterEvenements. ");

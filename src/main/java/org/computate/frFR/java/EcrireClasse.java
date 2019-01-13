@@ -25,7 +25,7 @@ import org.apache.solr.common.SolrDocumentList;
  */  
 public class EcrireClasse extends IndexerClasse { 
 
-	protected StringPrintWriter auteurClasse;
+	protected ToutEcrivain auteurClasse;
 
 	/**
 	 * var.enUS: writeClass
@@ -426,7 +426,7 @@ public class EcrireClasse extends IndexerClasse {
 					classeSuperParamsTypeNom = (List<String>)doc.get("classeSuperParamsTypeNom_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
 
-					auteurClasse = StringPrintWriter.create(classeFichier);
+					auteurClasse = ToutEcrivain.create(classeFichier);
 					o = auteurClasse;
 		
 					l("package ", classeNomEnsemble, ";"); 
@@ -658,8 +658,8 @@ public class EcrireClasse extends IndexerClasse {
 		}
 	}  
 
-	StringPrintWriter o;
-	public EcrireClasse o(StringPrintWriter o) {
+	ToutEcrivain o;
+	public EcrireClasse o(ToutEcrivain o) {
 		this.o = o;
 		return this;
 	}

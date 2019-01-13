@@ -20,9 +20,9 @@ import org.apache.solr.common.SolrDocumentList;
  **/
 public class WriteClass extends IndexClass {
 
-	protected StringPrintWriter auteurClasse;
+	protected AllWriter auteurClasse;
 
-	StringPrintWriter o;
+	AllWriter o;
 
 	String languageName;
 
@@ -113,7 +113,7 @@ public class WriteClass extends IndexClass {
 					classSuperTypeParameterNames = (List<String>)doc.get("classSuperTypeParameterNames_stored_strings");
 					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
 
-					auteurClasse = StringPrintWriter.create(classFile);
+					auteurClasse = AllWriter.create(classFile);
 					o = auteurClasse;
 		
 					l("package ", classPackageName, ";"); 
@@ -345,7 +345,7 @@ public class WriteClass extends IndexClass {
 		}
 	}
 
-	public WriteClass o(StringPrintWriter o) {
+	public WriteClass o(AllWriter o) {
 		this.o = o;
 		return this;
 	}
