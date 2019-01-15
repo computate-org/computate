@@ -22,13 +22,13 @@ public class AllWriter {
 	protected boolean alreadyInitializedStringPrintWriter = false;
 
 	public static AllWriter create() throws FileNotFoundException, FileNotFoundException {
-		ToutEcrivain o = new ToutEcrivain();
+		AllWriter o = new AllWriter();
 		o.initDeepForClass();
 		return o;
 	}
 
 	public static AllWriter create(File file) throws FileNotFoundException, FileNotFoundException {
-		ToutEcrivain o = new ToutEcrivain();
+		AllWriter o = new AllWriter();
 		o.setFile(file);
 		o.initDeepForClass();
 		return o;
@@ -118,7 +118,7 @@ public class AllWriter {
 
 	protected AllWriter stringWriterInit() {
 		_stringWriter(stringWriter);
-		return (ToutEcrivain)this;
+		return (AllWriter)this;
 	}
 
 	public File getFile() {
@@ -131,7 +131,7 @@ public class AllWriter {
 
 	protected AllWriter fileInit() {
 		_file(file);
-		return (ToutEcrivain)this;
+		return (AllWriter)this;
 	}
 
 	public PrintWriter getPrintWriter() {
@@ -144,7 +144,7 @@ public class AllWriter {
 
 	protected AllWriter printWriterInit() throws FileNotFoundException, FileNotFoundException {
 		_printWriter(printWriter);
-		return (ToutEcrivain)this;
+		return (AllWriter)this;
 	}
 
 	public Boolean getEmpty() {
@@ -158,12 +158,12 @@ public class AllWriter {
 	public AllWriter setEmpty(String o) {
 		if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))
 			this.empty = Boolean.parseBoolean(o);
-		return (ToutEcrivain)this;
+		return (AllWriter)this;
 	}
 
 	protected AllWriter emptyInit() {
 		_empty(empty);
-		return (ToutEcrivain)this;
+		return (AllWriter)this;
 	}
 
 	public Boolean solrEmpty() {
@@ -193,7 +193,7 @@ public class AllWriter {
 			printWriterInit();
 			emptyInit();
 		}
-		return (ToutEcrivain)this;
+		return (AllWriter)this;
 	}
 
 	public void  initDeepForClass() throws FileNotFoundException, FileNotFoundException {

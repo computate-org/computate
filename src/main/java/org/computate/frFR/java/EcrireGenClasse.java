@@ -74,7 +74,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected File classeFichierGen;
 
 	/**
-	 * var.enUS: classFileApiEnsembleInfo
+	 * var.enUS: classFileApiPackageInfo
 	 */
 	protected File classeFichierApiEnsembleInfo;
 
@@ -450,6 +450,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: wApiEntities
 	 * r: wPageEntites
 	 * r.enUS: wPageEntities
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
 	 */ 
 	public void genCodeInit() throws Exception {
 

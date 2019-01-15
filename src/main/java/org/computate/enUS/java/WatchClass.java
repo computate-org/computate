@@ -20,20 +20,28 @@ public class WatchClass extends WriteAllClasses {
 		try {
 			watchClass.args = args;
 			watchClass.initWatchClassBase(); 
-			if(ArrayUtils.contains(watchClass.otherLanguages, "enUS")) {
-				watchClass.enUSWatchClass = new WatchClass();
-				watchClass.enUSWatchClass.args = args;
-				watchClass.enUSWatchClass.appName = watchClass.appName;
-				watchClass.enUSWatchClass.appPath = watchClass.appPath;
-				watchClass.enUSWatchClass.initWatchClassBase();
-			}
-			if(ArrayUtils.contains(watchClass.otherLanguages, "frFR")) {
-				watchClass.frFRRegarderClasse = new WatchClass();
-				watchClass.frFRRegarderClasse.args = args;
-				watchClass.frFRRegarderClasse.appName = watchClass.appName;
-				watchClass.frFRRegarderClasse.appPath = watchClass.appPath;
-				watchClass.frFRRegarderClasse.initWatchClassBase();
-			}
+//			try {
+//				if(ArrayUtils.contains(watchClass.otherLanguages, "enUS")) {
+//					watchClass.enUSWatchClass = new WatchClass();
+//					watchClass.enUSWatchClass.args = args;
+//					watchClass.enUSWatchClass.appName = watchClass.appName;
+//					watchClass.enUSWatchClass.appPath = watchClass.appPath;
+//					watchClass.enUSWatchClass.initWatchClassBase();
+//				}
+//			} catch (Exception e) {
+//				System.err.println(e.getMessage());
+//			}
+//			try {
+//				if(ArrayUtils.contains(watchClass.otherLanguages, "frFR")) {
+//					watchClass.frFRRegarderClasse = new WatchClass();
+//					watchClass.frFRRegarderClasse.args = args;
+//					watchClass.frFRRegarderClasse.appName = watchClass.appName;
+//					watchClass.frFRRegarderClasse.appPath = watchClass.appPath;
+//					watchClass.frFRRegarderClasse.initWatchClassBase();
+//				}
+//			} catch (Exception e) {
+//				System.err.println(e.getMessage());
+//			}
 		}
 		catch(Exception e) {
 			System.err.println("Error during initWatchClassBase. ");
@@ -87,11 +95,11 @@ public class WatchClass extends WriteAllClasses {
 //		String appPath = "/usr/local/src/computate.org";
 //		String classAbsolutePath = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/config/ConfigSite.java";
 //		String classAbsolutePath = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/SiteContexte.java";
-//		String appName = "computate-cardiac";
-//		String appPath = "/usr/local/src/" + appName;
+		String appName = "computate-cardiac";
+		String appPath = "/usr/local/src/" + appName;
 //		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/requete/RequeteSite.java";
 //		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/config/ConfigSite.java";
-//		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
+		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
 //		String classAbsolutePath = appPath + "/src/main/java/org/computate/frFR/cardiaque/cluster/Cluster.java";
 //		String appName = "computate-scolaire";
 //		String appPath = "/usr/local/src/computate-scolaire";
@@ -100,15 +108,17 @@ public class WatchClass extends WriteAllClasses {
 //		String appName = "vertx-art";
 //		String appPath = "/usr/local/src/vertx-art";
 //		String classAbsolutePath = "/usr/local/src/vertx-art/src/main/java/org/computate/frFR/vertx/art/moisson/MoissoneurOai.java";
-		String appName = "citi-architect";
-		String appPath = "/home/ctate/workspace-citi/" + appName;
+//		String appName = "citi-architect";
+//		String appPath = "/home/ctate/workspace-citi/" + appName;
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/team/promotions/RepoCommon.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/repo/TeamRepo.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/team/promotions/TeamPromotions.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/product/automation/AutomationBase.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/promotions/model/Adjustment.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/payments/integration/rplid/service/AutpayI18n.java";
-		String classAbsolutePath = appPath + "/src/main/java/com/citi/enUS/commonwealth/payments/integration/rplid/service/AutopayI18n.java";
+//		String classAbsolutePath = appPath + "/src/main/java/com/citi/enUS/commonwealth/payments/integration/rplid/service/AutopayI18n.java";
+//		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/promotions/model/AdjustmentReasonCodes.java";
+//		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/promotions/model/EligibleAdjustmentType.java";
 		String[] args = ArrayUtils.toArray(appPath, classAbsolutePath);
 		WatchClass watchClass = new WatchClass();
 		watchClass.args = args;

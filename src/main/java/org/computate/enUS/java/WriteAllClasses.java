@@ -65,12 +65,17 @@ public class WriteAllClasses extends WritePageClass {
 					classDirGen = new File(classDirPathGen);
 					classDirGen.mkdirs();
 					classFileGen = new File(classPathGen);
-					classFileApiPackageInfo = new File(classPathApiPackageInfo);
-					classFileGenApiServiceImpl = new File(classPathGenApiServiceImpl);
-					classFileApiServiceImpl = new File(classPathApiServiceImpl);
-					classFileGenApiService = new File(classPathGenApiService);
-					classFilePage = new File(classPathPageGen);
-					o = ToutEcrivain.create(classFileGen);
+					if(classPathApiPackageInfo != null)
+						classFileApiPackageInfo = new File(classPathApiPackageInfo);
+					if(classPathGenApiServiceImpl != null)
+						classFileGenApiServiceImpl = new File(classPathGenApiServiceImpl);
+					if(classPathApiServiceImpl != null)
+						classFileApiServiceImpl = new File(classPathApiServiceImpl);
+					if(classPathGenApiService != null)
+						classFileGenApiService = new File(classPathGenApiService);
+					if(classPathPageGen != null)
+						classFilePage = new File(classPathPageGen);
+					o = AllWriter.create(classFileGen);
 					classSimpleName = (String)doc.get("classSimpleName_" + languageName + "_stored_string");
 					classSimpleNameGen = (String)doc.get("classSimpleNameGen_" + languageName + "_stored_string");
 					classCanonicalName = (String)doc.get("classCanonicalName_" + languageName + "_stored_string");
@@ -114,18 +119,20 @@ public class WriteAllClasses extends WritePageClass {
 					classRoles = (List<String>)doc.get("classRoles_" + languageName + "_stored_strings");
 					entityIndex = 0;
 
-					writerGenClass = ToutEcrivain.create(classFileGen);
+					writerGenClass = AllWriter.create(classFileGen);
 					if(classApi) {
-						if(!classFileApiPackageInfo.exists())
-							auteurApiPackageInfo = ToutEcrivain.create(classFileApiPackageInfo);
-						auteurGenApiServiceImpl = ToutEcrivain.create(classFileGenApiServiceImpl);
-						if(!classFileApiServiceImpl.exists())
-							auteurApiServiceImpl = ToutEcrivain.create(classFileApiServiceImpl);
-						auteurGenApiService = ToutEcrivain.create(classFileGenApiService);
+						if(classFileApiPackageInfo != null && !classFileApiPackageInfo.exists())
+							writerApiPackageInfo = AllWriter.create(classFileApiPackageInfo);
+						if(classFileGenApiServiceImpl != null)
+							writerGenApiServiceImpl = AllWriter.create(classFileGenApiServiceImpl);
+						if(classFileApiServiceImpl != null && !classFileApiServiceImpl.exists())
+							writerApiServiceImpl = AllWriter.create(classFileApiServiceImpl);
+						if(classFileGenApiService != null)
+							writerGenApiService = AllWriter.create(classFileGenApiService);
 					}
 //					auteurPageClasse = new PrintWriter(classFilePage);
 					if(classPage)
-						writerPageGenClass = ToutEcrivain.create(classFilePage);
+						writerPageGenClass = AllWriter.create(classFilePage);
 
 					genCodeInit();
 					o = writerGenClass;
@@ -157,8 +164,11 @@ public class WriteAllClasses extends WritePageClass {
 			if(o != null) {
 				if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPathGen)) {
 					genCodeClassEnd(languageName);
-					if(classApi)
-						apiCodeClassEnd(languageName);
+					if(classApi) {
+						ecrireApiPackageInfo(languageName);
+						ecrireGenApiService(languageName);
+						writeGenApiServiceImpl(languageName);
+					}
 				}
 			}
 		} 

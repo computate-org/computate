@@ -16,12 +16,20 @@ import org.apache.commons.text.StringEscapeUtils;
  **/
 public class ToutEcrivain {     
 
+	/**
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 */
 	public static ToutEcrivain create() throws FileNotFoundException {
 		ToutEcrivain o = new ToutEcrivain();
 		o.initDeepForClass();
 		return o;
 	}
 
+	/**
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 */
 	public static ToutEcrivain create(File file) throws FileNotFoundException {
 		ToutEcrivain o = new ToutEcrivain();
 		o.setFile(file);
@@ -125,6 +133,10 @@ public class ToutEcrivain {
 	public void setStringWriter(StringWriter o) {
 		this.stringWriter = o;
 	}
+	/**
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 */
 	protected ToutEcrivain stringWriterInit() {
 		_stringWriter(stringWriter);
 		return (ToutEcrivain)this;
@@ -143,6 +155,10 @@ public class ToutEcrivain {
 		this.file = o;
 	}
 
+	/**
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 */
 	protected ToutEcrivain fileInit() {
 		_file(file);
 		return (ToutEcrivain)this;
@@ -164,6 +180,10 @@ public class ToutEcrivain {
 	public void setPrintWriter(PrintWriter o) {
 		this.printWriter = o;
 	}
+	/**
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 */
 	protected ToutEcrivain printWriterInit() throws FileNotFoundException {
 		_printWriter(printWriter);
 		return (ToutEcrivain)this;
@@ -185,11 +205,19 @@ public class ToutEcrivain {
 	public void setEmpty(Boolean o) {
 		this.empty = o;
 	}
+	/**
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 */
 	public ToutEcrivain setEmpty(String o) {
 		if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))
 			this.empty = Boolean.parseBoolean(o);
 		return (ToutEcrivain)this;
 	}
+	/**
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 */
 	protected ToutEcrivain emptyInit() {
 		_empty(empty);
 		return (ToutEcrivain)this;
@@ -221,6 +249,10 @@ public class ToutEcrivain {
 
 	protected boolean alreadyInitializedStringPrintWriter = false;
 
+	/**
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 */
 	public ToutEcrivain initDeepStringPrintWriter() throws FileNotFoundException {
 		if(!alreadyInitializedStringPrintWriter) {
 			alreadyInitializedStringPrintWriter = true;

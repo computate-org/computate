@@ -202,6 +202,14 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classRoles
 	 * r: auteurGenClasse
 	 * r.enUS: writerGenClass
+	 * r: auteurApiEnsembleInfo
+	 * r.enUS: writerApiPackageInfo
+	 * r: auteurGenApiServiceImpl
+	 * r.enUS: writerGenApiServiceImpl
+	 * r: auteurGenApiService
+	 * r.enUS: writerGenApiService
+	 * r: auteurApiServiceImpl
+	 * r.enUS: writerApiServiceImpl
 	 * r: auteurApiGenClasse
 	 * r.enUS: writerApiGenClass
 	 * r: auteurPageGenClasse
@@ -242,6 +250,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: entityIndex
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 * r: ecrireGenApiServiceImpl
+	 * r.enUS: writeGenApiServiceImpl
 	 * 
 	 * r: Ecrire:
 	 * r.enUS: Write:
@@ -268,11 +280,16 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeRepertoireGen = new File(classeCheminRepertoireGen);
 					classeRepertoireGen.mkdirs();
 					classeFichierGen = new File(classeCheminGen);
-					classeFichierApiEnsembleInfo = new File(classeCheminApiEnsembleInfo);
-					classeFichierGenApiServiceImpl = new File(classeCheminGenApiServiceImpl);
-					classeFichierApiServiceImpl = new File(classeCheminApiServiceImpl);
-					classeFichierGenApiService = new File(classeCheminGenApiService);
-					classeFichierPage = new File(classeCheminPageGen);
+					if(classeCheminApiEnsembleInfo != null)
+						classeFichierApiEnsembleInfo = new File(classeCheminApiEnsembleInfo);
+					if(classeCheminGenApiServiceImpl != null)
+						classeFichierGenApiServiceImpl = new File(classeCheminGenApiServiceImpl);
+					if(classeCheminApiServiceImpl != null)
+						classeFichierApiServiceImpl = new File(classeCheminApiServiceImpl);
+					if(classeCheminGenApiService != null)
+						classeFichierGenApiService = new File(classeCheminGenApiService);
+					if(classeCheminPageGen != null)
+						classeFichierPage = new File(classeCheminPageGen);
 					o = ToutEcrivain.create(classeFichierGen);
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
 					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
@@ -319,12 +336,14 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 
 					auteurGenClasse = ToutEcrivain.create(classeFichierGen);
 					if(classeApi) {
-						if(!classeFichierApiEnsembleInfo.exists())
+						if(classeFichierApiEnsembleInfo != null && !classeFichierApiEnsembleInfo.exists())
 							auteurApiEnsembleInfo = ToutEcrivain.create(classeFichierApiEnsembleInfo);
-						auteurGenApiServiceImpl = ToutEcrivain.create(classeFichierGenApiServiceImpl);
-						if(!classeFichierApiServiceImpl.exists())
+						if(classeFichierGenApiServiceImpl != null)
+							auteurGenApiServiceImpl = ToutEcrivain.create(classeFichierGenApiServiceImpl);
+						if(classeFichierApiServiceImpl != null && !classeFichierApiServiceImpl.exists())
 							auteurApiServiceImpl = ToutEcrivain.create(classeFichierApiServiceImpl);
-						auteurGenApiService = ToutEcrivain.create(classeFichierGenApiService);
+						if(classeFichierGenApiService != null)
+							auteurGenApiService = ToutEcrivain.create(classeFichierGenApiService);
 					}
 //					auteurPageClasse = new PrintWriter(classeFichierPage);
 					if(classePage)
@@ -360,8 +379,11 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 			if(o != null) {
 				if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeCheminGen)) {
 					genCodeClasseFin(langueNom);
-					if(classeApi)
-						apiCodeClasseFin(langueNom);
+					if(classeApi) {
+						ecrireApiEnsembleInfo(langueNom);
+						ecrireGenApiService(langueNom);
+						ecrireGenApiServiceImpl(langueNom);
+					}
 				}
 			}
 		} 

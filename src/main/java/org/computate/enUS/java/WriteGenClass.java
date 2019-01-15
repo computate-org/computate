@@ -43,7 +43,7 @@ public class WriteGenClass extends WriteClass {
 
 	protected File classFileGen;
 
-	protected File classFileApiEnsembleInfo;
+	protected File classFileApiPackageInfo;
 
 	protected File classFileGenApiServiceImpl;
 
@@ -191,27 +191,27 @@ public class WriteGenClass extends WriteClass {
 
 	public void  genCodeInit() throws Exception, Exception {
 
-		wInitDeep = ToutEcrivain.create();
-		wSiteRequest = ToutEcrivain.create();
-		wIndex = ToutEcrivain.create();
-		wObtain = ToutEcrivain.create();
-		wAttribute = ToutEcrivain.create();
-		wPut = ToutEcrivain.create();
-		wPopulate = ToutEcrivain.create();
-		wSaves = ToutEcrivain.create();
-		wExists = ToutEcrivain.create();
-		wDefine = ToutEcrivain.create();
-		wApiEntities = ToutEcrivain.create();
-		wPageEntities = ToutEcrivain.create();
-		wApiGet = ToutEcrivain.create();
-		wApiGenerateGet = ToutEcrivain.create();
-		wApiGeneratePost = ToutEcrivain.create();
-		wApiGeneratePut = ToutEcrivain.create();
-		wApiGeneratePatch = ToutEcrivain.create();
-		wPageGet = ToutEcrivain.create();
-		wHashCode = ToutEcrivain.create();
-		wToString = ToutEcrivain.create();
-		wEquals = ToutEcrivain.create();
+		wInitDeep = AllWriter.create();
+		wSiteRequest = AllWriter.create();
+		wIndex = AllWriter.create();
+		wObtain = AllWriter.create();
+		wAttribute = AllWriter.create();
+		wPut = AllWriter.create();
+		wPopulate = AllWriter.create();
+		wSaves = AllWriter.create();
+		wExists = AllWriter.create();
+		wDefine = AllWriter.create();
+		wApiEntities = AllWriter.create();
+		wPageEntities = AllWriter.create();
+		wApiGet = AllWriter.create();
+		wApiGenerateGet = AllWriter.create();
+		wApiGeneratePost = AllWriter.create();
+		wApiGeneratePut = AllWriter.create();
+		wApiGeneratePatch = AllWriter.create();
+		wPageGet = AllWriter.create();
+		wHashCode = AllWriter.create();
+		wToString = AllWriter.create();
+		wEquals = AllWriter.create();
 	}
 
 	public void  genCodeInitDeep(String languageName) throws Exception, Exception {
