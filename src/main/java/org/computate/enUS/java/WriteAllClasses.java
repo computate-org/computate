@@ -85,8 +85,9 @@ public class WriteAllClasses extends WritePageClass {
 					classSuperSimpleNameGeneric = (String)doc.get("classSuperSimpleNameGeneric_" + languageName + "_stored_string");
 					classSuperCanonicalNameGeneric = (String)doc.get("classSuperCanonicalNameGeneric_" + languageName + "_stored_string");
 					classPackageName = (String)doc.get("classPackageName_" + languageName + "_stored_string");
-					classSimpleNameApiServiceImpl = (String)doc.get("classSimpleNameApi_" + languageName + "_stored_string");
+					classSimpleNameApiServiceImpl = (String)doc.get("classSimpleNameApiServiceImpl_" + languageName + "_stored_string");
 					classSimpleNameGenApiServiceImpl = (String)doc.get("classSimpleNameGenApiServiceImpl_" + languageName + "_stored_string");
+					classSimpleNameGenApiService = (String)doc.get("classSimpleNameGenApiService_" + languageName + "_stored_string");
 					classVarPrimaryKey = (String)doc.get("classVarPrimaryKey_" + languageName + "_stored_string");
 					classPageUri = (String)doc.get("classPageUri_" + languageName + "_stored_string");
 					classApiUri = (String)doc.get("classApiUri_" + languageName + "_stored_string");
@@ -117,6 +118,9 @@ public class WriteAllClasses extends WritePageClass {
 					classPage = BooleanUtils.isTrue((Boolean)doc.get("classPage_stored_boolean"));
 					classRolesFound = BooleanUtils.isTrue((Boolean)doc.get("classRolesFound_stored_boolean"));
 					classRoles = (List<String>)doc.get("classRoles_" + languageName + "_stored_strings");
+					classApiMethodes = (List<String>)doc.get("classApiMethodes_stored_strings");
+					if(classApiMethodes == null)
+						classApiMethodes = new ArrayList<>();
 					entityIndex = 0;
 
 					writerGenClass = AllWriter.create(classFileGen);
@@ -125,7 +129,8 @@ public class WriteAllClasses extends WritePageClass {
 							writerApiPackageInfo = AllWriter.create(classFileApiPackageInfo);
 						if(classFileGenApiServiceImpl != null)
 							writerGenApiServiceImpl = AllWriter.create(classFileGenApiServiceImpl);
-						if(classFileApiServiceImpl != null && !classFileApiServiceImpl.exists())
+//						if(classFileApiServiceImpl != null && !classFileApiServiceImpl.exists())
+						if(classFileApiServiceImpl != null)
 							writerApiServiceImpl = AllWriter.create(classFileApiServiceImpl);
 						if(classFileGenApiService != null)
 							writerGenApiService = AllWriter.create(classFileGenApiService);
@@ -165,9 +170,10 @@ public class WriteAllClasses extends WritePageClass {
 				if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPathGen)) {
 					genCodeClassEnd(languageName);
 					if(classApi) {
-						ecrireApiPackageInfo(languageName);
-						ecrireGenApiService(languageName);
+						writeApiPackageInfo(languageName);
+						writeGenApiService(languageName);
 						writeGenApiServiceImpl(languageName);
+						writeApiServiceImpl(languageName);
 					}
 				}
 			}

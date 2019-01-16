@@ -1,5 +1,7 @@
 package org.computate.frFR.java; 
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**   
@@ -79,6 +81,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	protected String classeNomCanoniqueGenApiService;
 
 	/**
+	 * var.enUS: classApiMethods
+	 */
+	protected List<String> classeApiMethodes;
+
+	/**
 	 * var.enUS: apiCodeClassBegin
 	 * param1.var.enUS: languageName
 	 * r: auteurGenApiServiceImpl
@@ -121,7 +128,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	}
 
 	/**
-	 * var.enUS: writeGenApiServiceImpl
+	 * var.enUS: writeApiPackageInfo
 	 * param1.var.enUS: languageName
 	 * 
 	 * r: auteurApiEnsembleInfo
@@ -143,7 +150,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	}
 
 	/**
-	 * var.enUS: writeGenApiServiceImpl
+	 * var.enUS: writeGenApiService
 	 * param1.var.enUS: languageName
 	 * 
 	 * r: auteurGenApiService
@@ -162,16 +169,24 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: SiteContext
 	 * r: siteContexte
 	 * r.enUS: siteContext
+	 * r: nomEnsembleDomaine
+	 * r.enUS: domainPackageName
+	 * r: classeParts
+	 * r.enUS: classParts
+	 * r: nomCanonique
+	 * r.enUS: canonicalName
 	 * 
 	 * r: recherche
 	 * r.enUS: search
+	 * r: gerer
+	 * r.enUS: handle
 	 **/
 	public void ecrireGenApiService(String langueNom) throws Exception {
 		if(auteurGenApiService != null) {
 			auteurGenApiService.l("package ", classeNomEnsemble, ";");
 			auteurGenApiService.l();
-			auteurGenApiService.l("import ", classePartsSiteContexte(nomEnsembleDomaine).nomCanonique, ";");
-			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
+			auteurGenApiService.l("import ", classePartsSiteContexte.nomCanonique, ";");
+//			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
 			auteurGenApiService.l("import io.vertx.core.AsyncResult;");
 			auteurGenApiService.l("import io.vertx.core.Handler;");
@@ -181,7 +196,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("import io.vertx.ext.web.api.OperationResponse;");
 			auteurGenApiService.l();
 			auteurGenApiService.l("@ProxyGen");
-			auteurGenApiService.s("public interface ", classeNomSimpleGenApiServiceImpl);
+			auteurGenApiService.s("public interface ", classeNomSimpleGenApiService, " {");
 			auteurGenApiService.l();
 			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
 			auteurGenApiService.tl(1, "static ", classeNomSimpleGenApiService, " creer(SiteContexte siteContexte, Vertx vertx) {");
@@ -190,18 +205,51 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l();
 			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
 			auteurGenApiService.tl(1, "static ", classeNomSimpleGenApiService, " creerProxy(Vertx vertx, String addresse) {");
-			auteurGenApiService.tl(2, "return new ", classeNomSimpleGenApiService, "(vertx, addresse);");
+			auteurGenApiService.tl(2, "return new ", classeNomSimpleGenApiService, "VertxEBProxy(vertx, addresse);");
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
-			auteurGenApiService.tl(1, "public void recherche", classeNomSimple, "(OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
-			auteurGenApiService.tl(1, "public void post", classeNomSimple, "(JsonObject json, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
-			auteurGenApiService.tl(1, "public void patch", classeNomSimple, "(JsonObject json, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
-			auteurGenApiService.tl(1, "public void get", classeNomSimple, "(OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
-			auteurGenApiService.tl(1, "public void put", classeNomSimple, "(JsonObject json, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
-			auteurGenApiService.tl(1, "public void delete", classeNomSimple, "(JsonObject json, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireResultat);");
+			for(String classeApiMethode : classeApiMethodes) {
+				auteurGenApiService.t(1, "public void gerer", classeApiMethode, classeNomSimple, "(");
+				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
+					auteurGenApiService.s("JsonObject document, ");
+				auteurGenApiService.l("OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements);");
+			}
 			auteurGenApiService.tl(0, "}");
 
 			auteurGenApiService.flushClose();
+		}
+	}
+
+	/**
+	 * var.enUS: writeApiServiceImpl
+	 * param1.var.enUS: languageName
+	 * 
+	 * r: auteurApiServiceImpl
+	 * r.enUS: writerApiServiceImpl
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 * r: classeNomEnsemble
+	 * r.enUS: classPackageName
+	 * r: SiteContexte
+	 * r.enUS: SiteContext
+	 * r: siteContexte
+	 * r.enUS: siteContext
+	 **/
+	public void ecrireApiServiceImpl(String langueNom) throws Exception {
+		if(auteurApiServiceImpl != null) {
+			auteurApiServiceImpl.l("package ", classeNomEnsemble, ";");
+			auteurApiServiceImpl.l();
+			auteurApiServiceImpl.l("import ", classePartsSiteContexte.nomCanonique, ";");
+//			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
+			auteurApiServiceImpl.l();
+			auteurApiServiceImpl.l("public class ", classeNomSimpleApiServiceImpl, " extends ", classeNomSimpleGenApiServiceImpl, " {");
+			auteurApiServiceImpl.l();
+			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(SiteContexte siteContexte) {");
+			auteurApiServiceImpl.tl(2, "super(siteContexte);");
+			auteurApiServiceImpl.tl(1, "}");
+			auteurApiServiceImpl.l("}");
+
+			auteurApiServiceImpl.flushClose();
 		}
 	}
 
@@ -257,6 +305,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: resultHandler
 	 * r: nomEnsembleDomaine
 	 * r.enUS: domainPackageName
+	 * r: classeImportationsGenApi
+	 * r.enUS: classImportsGenApi
+	 * r: classeCommentaire
+	 * r.enUS: classComment
+	 * r: ecrireCommentaire
+	 * r.enUS: writeComment
+	 * r: classeApiMethode
+	 * r.enUS: classApiMethod
 	 * 
 	 * r: SiteContexte
 	 * r.enUS: SiteContext
@@ -278,12 +334,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: canonicalName
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
+	 * 
+	 * r: gerer
+	 * r.enUS: handle
 	 */ 
 	public void ecrireGenApiServiceImpl(String langueNom) throws Exception {
-
-		/////////////////////////////
-		// auteurGenApiServiceImpl //
-		/////////////////////////////
 
 		if(auteurGenApiServiceImpl != null) {
 			o = auteurGenApiServiceImpl;
@@ -300,8 +355,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(0, "");
 			ecrireCommentaire(classeCommentaire, 0); 
 			s("public class ", classeNomSimpleGenApiServiceImpl);
-	//		l(" extends HttpServlet {");
-			s(" implements ", classeNomSimple, "ApiService");
+			s(" implements ", classeNomSimpleGenApiService);
 			l(" {");
 			l();
 			tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
@@ -312,8 +366,72 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(SiteContexte siteContexte) {");
 			tl(2, "this.siteContexte = siteContexte;");
-			tl(2, classeNomSimpleApiServiceImpl, "Service service = ", classeNomSimpleApiServiceImpl, "Service.createProxy(siteContexte.getVertx(), SERVICE_ADDRESS);");
+			tl(2, classeNomSimpleGenApiService, " service = ", classeNomSimpleGenApiService, ".creerProxy(siteContexte.getVertx(), SERVICE_ADDRESS);");
 			tl(1, "}");
+
+			for(String classeApiMethode : classeApiMethodes) {
+				l();
+				tl(1, "@Override");
+				t(1, "public void gerer", classeApiMethode, classeNomSimple, "(");
+				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
+					s("JsonObject document, ");
+				l("OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
+				tl(2, "try {");
+				tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte);");
+
+				if(StringUtils.contains(classeApiMethode, "POST")) {
+					tl(3, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
+					tl(4, "creer", classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
+					tl(5, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(c -> ");
+					tl(6, "definir", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(d -> ");
+					tl(7, "attribuer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(e -> ");
+					tl(8, "indexer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(f -> ");
+					tl(9, "json", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ")");
+					tl(8, ")");
+					tl(7, ")");
+					tl(6, ")");
+					tl(5, ")");
+					tl(4, ")");
+					tl(3, ");");
+				}
+				else if(StringUtils.contains(classeApiMethode, "PATCH")) {
+					tl(3, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
+					tl(4, "recherche", classeNomSimple, "(requeteSite).compose(liste", classeNomSimple, "-> ");
+					tl(5, "liste", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
+					tl(4, ")");
+					tl(3, ");");
+				}
+				else if(StringUtils.contains(classeApiMethode, "Recherche")) {
+					tl(3, "Future<OperationResponse> etapesFutures = recherche", classeNomSimple, "(requeteSite).compose(liste", classeNomSimple, " -> ");
+					tl(4, "methode", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
+					tl(3, ");");
+				}
+				else if(StringUtils.contains(classeApiMethode, "GET")) {
+					tl(3, "Future<OperationResponse> etapesFutures = recherche", classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
+					tl(4, "methode", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ")");
+					tl(3, ");");
+				}
+				else if(StringUtils.contains(classeApiMethode, "PUT")) {
+					tl(3, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
+					tl(4, "recherche", classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
+					tl(5, "methode", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ")");
+					tl(4, ")");
+					tl(3, ");");
+				}
+				else if(StringUtils.contains(classeApiMethode, "DELETE")) {
+					tl(3, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
+					tl(4, "recherche", classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
+					tl(5, "methode", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ")");
+					tl(4, ")");
+					tl(3, ");");
+				}
+
+				tl(3, "etapesFutures.setHandler(gestionnaireEvenements);");
+				tl(2, "} catch(Exception e) {");
+				tl(3, "gestionnaireEvenements.handle(Future.failedFuture(e));");
+				tl(2, "}");
+				tl(1, "}");
+			}
 	
 			s(wApiEntites.toString());
 			l();
@@ -679,106 +797,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	//		tl(2, "});");
 	//		tl(1, "}");
 	
-			//////////
-			// POST //
-			//////////
-			l();
-			tl(1, "@Override");
-			tl(1, "public void post", classeNomSimple, "(JsonObject document, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
-			tBase = 0;
-			if(classeRolesTrouve && classeRoles != null) {
-				String requeteRole = classeRoles.get(0);
-				tBase = 4;
-				tl(2, "operationRequete.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
-				tl(3, "if (authRes.result() == Boolean.TRUE) {");
-			}
-			else {
-				tBase = 2;
-			}
-			tl(tBase + 0, "try {");
-			tl(tBase + 1, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte);");
-			tl(tBase + 1, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(");
-			tl(tBase + 2, "a -> creer", classeNomSimple, "(requeteSite).compose(");
-			tl(tBase + 3, "cluster -> definir", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(");
-			tl(tBase + 4, "c -> attribuer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(");
-			tl(tBase + 5, "d -> indexer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(");
-			tl(tBase + 6, "operationResponse -> postJson", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ")");
-			tl(tBase + 5, ")");
-			tl(tBase + 4, ")");
-			tl(tBase + 3, ")");
-			tl(tBase + 2, ")");
-			tl(tBase + 1, ");");
-			tl(tBase + 1, "etapesFutures.setHandler(gestionnaireEvenements);");
-			tl(tBase + 0, "} catch(Exception e) {");
-			tl(tBase + 1, "gestionnaireEvenements.handle(Future.failedFuture(e));");
-			tl(tBase + 0, "}");
-			if(classeRolesTrouve && classeRoles != null) {
-				tl(3, "}");
-				tl(3, "else {");
-				tl(4, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
-				tl(3, "}");
-				tl(2, "});");
-			}
-			else {
-			}
-			tl(1, "}");
-	
-			///////////
-			// PATCH //
-			///////////
-	//		l();
-	//		tl(1, "protected void patch", classeNomSimple, "Old(SiteContexte siteContexte) {");
-	////		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur();");
-	//		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur();");
-	
-	//		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
-	//		tl(2, "usineRouteur.addHandlerByOperationId(\"patch", classeNomSimple, "\", contexteItineraire -> {");
-	//		tl(2, "});");
-	//		tl(1, "}");
-			l();
-			tl(1, "@Override");
-			tl(1, "public void patch", classeNomSimple, "(JsonObject document, OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
-	//		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur();");
-	
-	//		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
-			tBase = 0;
-			if(classeRolesTrouve && classeRoles != null) {
-				String requeteRole = classeRoles.get(0);
-				tBase = 4;
-				tl(2, "operationRequete.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
-				tl(3, "if (authRes.result() == Boolean.TRUE) {");
-			}
-			else {
-				tBase = 2;
-			}
-			tl(tBase + 0, "try {");
-			tl(tBase + 1, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte);");
-	//		tl(tBase + 1, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-	//		tl(tBase + 1, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
-			tl(tBase + 1, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(");
-			tl(tBase + 2, "a -> recherche", classeNomSimple, "(requeteSite).compose(");
-			tl(tBase + 3, "liste", classeNomSimple, " -> patchListe", classeNomSimple, "(liste", classeNomSimple, ")");
-			tl(tBase + 2, ")");
-			tl(tBase + 1, ");");
-			tl(tBase + 1, "etapesFutures.setHandler(gestionnaireEvenements);");
-	//		tl(tBase + 1, "requeteSite.getReponseServeur().end();");
-	//		l();
-	//		tl(tBase + 1, "reponseServeur.write(\"\\t]\\n\");");
-	//		tl(tBase + 1, "reponseServeur.write(\"}\\n\");");
-			tl(tBase + 0, "} catch(Exception e) {");
-			tl(tBase + 1, "gestionnaireEvenements.handle(Future.failedFuture(e));");
-			tl(tBase + 0, "}");
-			if(classeRolesTrouve && classeRoles != null) {
-				tl(3, "}");
-				tl(3, "else {");
-				tl(4, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
-				tl(3, "}");
-				tl(2, "});");
-			}
-			else {
-			}
-			tl(1, "}");
-	
 			////////////
 			// Erreur //
 			////////////
@@ -836,7 +854,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "return future;");
 			tl(1, "}");
 			l();
-			tl(1, "public Future<Void> post", classeNomSimple, "(", classeNomSimple, " o) {");
+			tl(1, "public Future<Void> sqlPOST", classeNomSimple, "(", classeNomSimple, " o) {");
 			tl(2, "Future<Void> future = Future.future();");
 			tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 			tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
@@ -862,31 +880,31 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "return future;");
 			tl(1, "}");
 			l();
-			tl(1, "public Future<OperationResponse> patchListe", classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ") {");
+			tl(1, "public Future<OperationResponse> listePATCH", classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ") {");
 			tl(2, "List<Future> futures = new ArrayList<>();");
 			tl(2, "liste", classeNomSimple, ".getList().forEach(o -> {");
 			tl(3, "futures.add(");
-			tl(4, "patch", classeNomSimple, "(o).compose(");
+			tl(4, "sqlPATCH", classeNomSimple, "(o).compose(");
 			tl(5, "b -> indexer", classeNomSimple, "(o)");
 			tl(4, ")");
 			tl(3, ");");
 			tl(2, "});");
 			tl(2, "CompositeFuture compositeFuture = CompositeFuture.all(futures).setHandler(ar -> {");
 			tl(3, "if(ar.succeeded()) {");
-			tl(4, "patchJsonCluster(listeCluster);");
+			tl(4, "jsonPATCH", classeNomSimple, "(liste", classeNomSimple, ");");
 	//		tl(4, "future.complete();");
 			tl(3, "} else {");
 			tl(3, "}");
 			tl(2, "});");
 			tl(2, "Future<OperationResponse> future = Future.future().compose(");
 			tl(3, "a -> compositeFuture.compose(");
-			tl(4, "b -> patchJsonCluster(listeCluster)");
+			tl(4, "b -> jsonPATCH", classeNomSimple, "(liste", classeNomSimple, ")");
 			tl(3, ")");
 			tl(2, ");");
 			tl(2, "return future;");
 			tl(1, "}");
 			l();
-			tl(1, "public Future<Void> patch", classeNomSimple, "(", classeNomSimple, " o) {");
+			tl(1, "public Future<Void> sqlPATCH", classeNomSimple, "(", classeNomSimple, " o) {");
 			tl(2, "Future<Void> future = Future.future();");
 			tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 			tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
@@ -962,13 +980,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "return future;");
 			tl(1, "}");
 			l();
-			tl(1, "public Future<OperationResponse> postJson", classeNomSimple, "(", classeNomSimple, " o) {");
+			tl(1, "public Future<OperationResponse> jsonPOST", classeNomSimple, "(", classeNomSimple, " o) {");
 			tl(2, "Buffer buffer = Buffer.buffer();");
 			tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
 			tl(2, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
 			tl(1, "}");
 			l();
-			tl(1, "public Future<OperationResponse> patchJson", classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ") {");
+			tl(1, "public Future<OperationResponse> jsonPATCH", classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ") {");
 			tl(2, "Buffer buffer = Buffer.buffer();");
 			tl(2, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
 			tl(1, "}");

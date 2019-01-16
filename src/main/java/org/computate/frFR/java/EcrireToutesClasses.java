@@ -248,12 +248,21 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: apiCodeClassEnd
 	 * r: entiteIndice
 	 * r.enUS: entityIndex
-	 * r: EnsembleInfo
-	 * r.enUS: PackageInfo
 	 * r: ToutEcrivain
 	 * r.enUS: AllWriter
 	 * r: ecrireGenApiServiceImpl
 	 * r.enUS: writeGenApiServiceImpl
+	 * r: ecrireGenApiService
+	 * r.enUS: writeGenApiService
+	 * r: ecrireApiEnsembleInfo
+	 * r.enUS: writeApiPackageInfo
+	 * r: ecrireApiServiceImpl
+	 * r.enUS: writeApiServiceImpl
+	 * r: classeApiMethodes
+	 * r.enUS: classApiMethods
+	 * 
+	 * r: EnsembleInfo
+	 * r.enUS: PackageInfo
 	 * 
 	 * r: Ecrire:
 	 * r.enUS: Write:
@@ -300,8 +309,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeNomSimpleSuperGenerique = (String)doc.get("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
 					classeNomCanoniqueSuperGenerique = (String)doc.get("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
-					classeNomSimpleApiServiceImpl = (String)doc.get("classeNomSimpleApi_" + langueNom + "_stored_string");
+					classeNomSimpleApiServiceImpl = (String)doc.get("classeNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
 					classeNomSimpleGenApiServiceImpl = (String)doc.get("classeNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
+					classeNomSimpleGenApiService = (String)doc.get("classeNomSimpleGenApiService_" + langueNom + "_stored_string");
 					classeVarClePrimaire = (String)doc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
 					classePageUri = (String)doc.get("classePageUri_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
@@ -332,6 +342,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
 					classeRolesTrouve = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouve_stored_boolean"));
 					classeRoles = (List<String>)doc.get("classeRoles_" + langueNom + "_stored_strings");
+					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_stored_strings");
+					if(classeApiMethodes == null)
+						classeApiMethodes = new ArrayList<>();
 					entiteIndice = 0;
 
 					auteurGenClasse = ToutEcrivain.create(classeFichierGen);
@@ -340,7 +353,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 							auteurApiEnsembleInfo = ToutEcrivain.create(classeFichierApiEnsembleInfo);
 						if(classeFichierGenApiServiceImpl != null)
 							auteurGenApiServiceImpl = ToutEcrivain.create(classeFichierGenApiServiceImpl);
-						if(classeFichierApiServiceImpl != null && !classeFichierApiServiceImpl.exists())
+//						if(classeFichierApiServiceImpl != null && !classeFichierApiServiceImpl.exists())
+						if(classeFichierApiServiceImpl != null)
 							auteurApiServiceImpl = ToutEcrivain.create(classeFichierApiServiceImpl);
 						if(classeFichierGenApiService != null)
 							auteurGenApiService = ToutEcrivain.create(classeFichierGenApiService);
@@ -383,6 +397,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 						ecrireApiEnsembleInfo(langueNom);
 						ecrireGenApiService(langueNom);
 						ecrireGenApiServiceImpl(langueNom);
+						ecrireApiServiceImpl(langueNom);
 					}
 				}
 			}
