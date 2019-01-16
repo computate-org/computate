@@ -1,4 +1,4 @@
-package org.computate.frFR.java;      
+package org.computate.frFR.java;       
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -192,6 +192,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classIndexed
 	 * r: classeModele
 	 * r.enUS: classModel
+	 * r: classeApiMethodes
+	 * r.enUS: classApiMethods
 	 * r: classeApi
 	 * r.enUS: classApi
 	 * r: classePage
@@ -270,7 +272,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
-	 */ 
+	 */  
 	public void ecrireGenClasses(QueryResponse reponseRecherche, String langueNom) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 

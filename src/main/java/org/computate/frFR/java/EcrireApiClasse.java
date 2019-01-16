@@ -175,6 +175,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: classParts
 	 * r: nomCanonique
 	 * r.enUS: canonicalName
+	 * r: classeApiMethodes
+	 * r.enUS: classApiMethods
 	 * 
 	 * r: recherche
 	 * r.enUS: search
@@ -234,6 +236,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: SiteContext
 	 * r: siteContexte
 	 * r.enUS: siteContext
+	 * r: classeParts
+	 * r.enUS: classParts
+	 * r: nomCanonique
+	 * r.enUS: canonicalName
+	 * 
 	 **/
 	public void ecrireApiServiceImpl(String langueNom) throws Exception {
 		if(auteurApiServiceImpl != null) {

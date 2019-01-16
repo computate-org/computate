@@ -1681,8 +1681,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 	
 			l();
-			tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVarParam, ") {");
-			tl(2, "this.", entiteVar, " = ", entiteVarParam, ";");
+			tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVar, ") {");
+			tl(2, "this.", entiteVar, " = ", entiteVar, ";");
 			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 			tl(1, "}");
 	//

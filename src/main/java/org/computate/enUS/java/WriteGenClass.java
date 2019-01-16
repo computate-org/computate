@@ -826,8 +826,8 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "}");
 	
 			l();
-			tl(1, "public void set", entityVarCapitalized, "(", entitySimpleNameComplete, " ", entityVarParam, ") {");
-			tl(2, "this.", entityVar, " = ", entityVarParam, ";");
+			tl(1, "public void set", entityVarCapitalized, "(", entitySimpleNameComplete, " ", entityVar, ") {");
+			tl(2, "this.", entityVar, " = ", entityVar, ";");
 			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 			tl(1, "}");
 	//

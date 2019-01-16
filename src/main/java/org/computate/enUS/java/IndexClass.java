@@ -611,19 +611,6 @@ public class IndexClass extends WatchClassBase {
 		Boolean classIndexed = indexStoreSolr(classDoc, "classIndexed", regexFound("^indexed:\\s*(true)$", classComment) || classSaved || classModel);
 		ArrayList<String> classApiMethods = regexList("^apiIdentifier." + languageName + "\\s*=\\s*(.*)", classComment);
 
-		if(!classApiMethods.contains("Search"))
-			classApiMethods.add("Search");
-		if(!classApiMethods.contains("POST"))
-			classApiMethods.add("POST");
-		if(!classApiMethods.contains("PATCH"))
-			classApiMethods.add("PATCH");
-		if(!classApiMethods.contains("GET"))
-			classApiMethods.add("GET");
-		if(!classApiMethods.contains("PUT"))
-			classApiMethods.add("PUT");
-		if(!classApiMethods.contains("DELETE"))
-			classApiMethods.add("DELETE");
-
 		String classSimpleNameApiPackageInfo;
 		String classSimpleNameGenApiServiceImpl;
 		String classSimpleNameApiServiceImpl;
@@ -2253,6 +2240,19 @@ public class IndexClass extends WatchClassBase {
 				indexStoreListSolr(classDoc, "classImportsGenPage", languageName, classImportClassPartsLanguage.canonicalName);
 			}
 		}
+
+		if(!classApiMethods.contains("Search") && classKeywordsFound && (classKeywords.contains("Search.request") || classKeywords.contains("Search.response")))
+			classApiMethods.add("Search");
+		if(!classApiMethods.contains("POST") && classKeywordsFound && (classKeywords.contains("POST.request") || classKeywords.contains("POST.response")))
+			classApiMethods.add("POST");
+		if(!classApiMethods.contains("PATCH") && classKeywordsFound && (classKeywords.contains("PATCH.request") || classKeywords.contains("PATCH.response")))
+			classApiMethods.add("PATCH");
+		if(!classApiMethods.contains("GET") && classKeywordsFound && (classKeywords.contains("GET.request") || classKeywords.contains("GET.response")))
+			classApiMethods.add("GET");
+		if(!classApiMethods.contains("PUT") && classKeywordsFound && (classKeywords.contains("PUT.request") || classKeywords.contains("PUT.response")))
+			classApiMethods.add("PUT");
+		if(!classApiMethods.contains("DELETE") && classKeywordsFound && (classKeywords.contains("DELETE.request") || classKeywords.contains("DELETE.response")))
+			classApiMethods.add("DELETE");
 
 		if(classModel) {
 			String classApiUri = indexStoreSolr(classDoc, "classApiUri", languageName, regex("^apiUri\\." + languageName + ":\\s*(.*)", classComment));

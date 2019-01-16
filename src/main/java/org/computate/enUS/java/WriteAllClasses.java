@@ -118,9 +118,9 @@ public class WriteAllClasses extends WritePageClass {
 					classPage = BooleanUtils.isTrue((Boolean)doc.get("classPage_stored_boolean"));
 					classRolesFound = BooleanUtils.isTrue((Boolean)doc.get("classRolesFound_stored_boolean"));
 					classRoles = (List<String>)doc.get("classRoles_" + languageName + "_stored_strings");
-					classApiMethodes = (List<String>)doc.get("classApiMethodes_stored_strings");
-					if(classApiMethodes == null)
-						classApiMethodes = new ArrayList<>();
+					classApiMethods = (List<String>)doc.get("classApiMethods_stored_strings");
+					if(classApiMethods == null)
+						classApiMethods = new ArrayList<>();
 					entityIndex = 0;
 
 					writerGenClass = AllWriter.create(classFileGen);

@@ -86,7 +86,7 @@ public class WriteApiClass extends WriteGenClass {
 			writerGenApiService.tl(2, "return new ", classSimpleNameGenApiService, "VertxEBProxy(vertx, addresse);");
 			writerGenApiService.tl(1, "}");
 			writerGenApiService.l();
-			for(String classeApiMethode : classeApiMethodes) {
+			for(String classeApiMethode : classApiMethods) {
 				writerGenApiService.t(1, "public void handle", classeApiMethode, classSimpleName, "(");
 				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
 					writerGenApiService.s("JsonObject document, ");
@@ -102,7 +102,7 @@ public class WriteApiClass extends WriteGenClass {
 		if(writerApiServiceImpl != null) {
 			writerApiServiceImpl.l("package ", classPackageName, ";");
 			writerApiServiceImpl.l();
-			writerApiServiceImpl.l("import ", classePartsSiteContext.nomCanonique, ";");
+			writerApiServiceImpl.l("import ", classPartsSiteContext.canonicalName, ";");
 //			auteurGenApiService.l("import ", classPackageName, ".", classSimpleName, "ApiServiceVertxEBProxy;");
 			writerApiServiceImpl.l();
 			writerApiServiceImpl.l("public class ", classSimpleNameApiServiceImpl, " extends ", classSimpleNameGenApiServiceImpl, " {");

@@ -2055,6 +2055,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: class
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
+	 * r: requete
+	 * r.enUS: request
+	 * r: reponse
+	 * r.enUS: response
 	 */        
 	public SolrInputDocument indexerClasse(String classeCheminAbsolu, SolrInputDocument classeDoc) throws Exception { 
 
@@ -2246,19 +2250,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", classeCommentaire) || classeModele);
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele);
 		ArrayList<String> classeApiMethodes = regexListe("^apiIdentifiant." + langueNom + "\\s*=\\s*(.*)", classeCommentaire);
-
-		if(!classeApiMethodes.contains("Recherche"))
-			classeApiMethodes.add("Recherche");
-		if(!classeApiMethodes.contains("POST"))
-			classeApiMethodes.add("POST");
-		if(!classeApiMethodes.contains("PATCH"))
-			classeApiMethodes.add("PATCH");
-		if(!classeApiMethodes.contains("GET"))
-			classeApiMethodes.add("GET");
-		if(!classeApiMethodes.contains("PUT"))
-			classeApiMethodes.add("PUT");
-		if(!classeApiMethodes.contains("DELETE"))
-			classeApiMethodes.add("DELETE");
 
 		String classeNomSimpleApiEnsembleInfo;
 		String classeNomSimpleGenApiServiceImpl;
@@ -3889,6 +3880,19 @@ public class IndexerClasse extends RegarderClasseBase {
 				indexerStockerListeSolr(classeDoc, "classeImportationsGenPage", langueNom, classeImportationClassePartsLangue.nomCanonique);
 			}
 		}
+
+		if(!classeApiMethodes.contains("Recherche") && classeMotsClesTrouve && (classeMotsCles.contains("Recherche.requete") || classeMotsCles.contains("Recherche.reponse")))
+			classeApiMethodes.add("Recherche");
+		if(!classeApiMethodes.contains("POST") && classeMotsClesTrouve && (classeMotsCles.contains("POST.requete") || classeMotsCles.contains("POST.reponse")))
+			classeApiMethodes.add("POST");
+		if(!classeApiMethodes.contains("PATCH") && classeMotsClesTrouve && (classeMotsCles.contains("PATCH.requete") || classeMotsCles.contains("PATCH.reponse")))
+			classeApiMethodes.add("PATCH");
+		if(!classeApiMethodes.contains("GET") && classeMotsClesTrouve && (classeMotsCles.contains("GET.requete") || classeMotsCles.contains("GET.reponse")))
+			classeApiMethodes.add("GET");
+		if(!classeApiMethodes.contains("PUT") && classeMotsClesTrouve && (classeMotsCles.contains("PUT.requete") || classeMotsCles.contains("PUT.reponse")))
+			classeApiMethodes.add("PUT");
+		if(!classeApiMethodes.contains("DELETE") && classeMotsClesTrouve && (classeMotsCles.contains("DELETE.requete") || classeMotsCles.contains("DELETE.reponse")))
+			classeApiMethodes.add("DELETE");
 
 		if(classeModele) {
 			String classeApiUri = indexerStockerSolr(classeDoc, "classeApiUri", langueNom, regex("^apiUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
