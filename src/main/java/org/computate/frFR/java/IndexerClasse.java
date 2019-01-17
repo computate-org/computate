@@ -1685,6 +1685,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * 
 	 * r: apiIdentifiant
 	 * r.enUS: apiIdentifier
+	 * r: classeApiMotCleMethode
+	 * r.enUS: classApiKeywordMethod
+	 * r: classeApiMotCle
+	 * r.enUS: classApiKeyword
 	 * r: classeApiMethode
 	 * r.enUS: classApiMethod
 	 * r: apiUriRecherche
@@ -3900,10 +3904,22 @@ public class IndexerClasse extends RegarderClasseBase {
 			for(String classeApiMethode : classeApiMethodes) {
 				indexerStockerListeSolr(classeDoc, "classeApiMethodes", classeApiMethode);
 				if(classeMotsClesTrouve && (classeMotsCles.contains(classeApiMethode + ".request") || classeMotsCles.contains(classeApiMethode + ".response"))) {
-					indexerStockerSolr(classeDoc, "classeApiUri" + classeApiMethode, regex("^apiUri" + classeApiMethode + ":\\s*(.*)", classeCommentaire, classeApiUri));
+					String classeApiUriMethode = indexerStockerSolr(classeDoc, "classeApiUri" + classeApiMethode, regex("^apiUri" + classeApiMethode + ":\\s*(.*)", classeCommentaire, classeApiUri));
 					indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^apiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "GET"));
+					indexerStockerSolr(classeDoc, "classeApiOperationId" + classeApiMethode, regex("^apiOperationId" + classeApiMethode + ":\\s*(.*)", classeCommentaire, StringUtils.substringAfterLast(classeApiUriMethode, "/")));
 					indexerStockerSolr(classeDoc, "classeApiOperationId" + classeApiMethode + "Requete", regex("^apiOperationId" + classeApiMethode + "Requete:\\s*(.*)", classeCommentaire, "rechercheRequete-" + classeNomSimple));
 					indexerStockerSolr(classeDoc, "classeApiOperationId" + classeApiMethode + "Reponse", regex("^apiOperationId" + classeApiMethode + "Reponse:\\s*(.*)", classeCommentaire, "rechercheReponse-" + classeNomSimple));
+					String classeApiMotCleMethode = regex("^classeApiMotCle" + classeApiMethode + ":\\s*(.*)", classeCommentaire);
+					if(StringUtils.isBlank(classeApiMotCleMethode)) {
+						if(StringUtils.contains(classeApiMethode, "POST")
+								|| StringUtils.contains(classeApiMethode, "Search")
+								|| StringUtils.contains(classeApiMethode, "PATCH")
+								)
+							classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
+						else
+							classeApiMotCleMethode = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/");
+					}
+					indexerStockerSolr(classeDoc, "classeApiMotCle" + classeApiMethode, classeApiMotCleMethode);
 				}
 			}
 		}

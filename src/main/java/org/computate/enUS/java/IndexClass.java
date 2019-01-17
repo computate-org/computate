@@ -2260,10 +2260,22 @@ public class IndexClass extends WatchClassBase {
 			for(String classApiMethod : classApiMethods) {
 				indexStoreListSolr(classDoc, "classApiMethods", classApiMethod);
 				if(classKeywordsFound && (classKeywords.contains(classApiMethod + ".request") || classKeywords.contains(classApiMethod + ".response"))) {
-					indexStoreSolr(classDoc, "classApiUri" + classApiMethod, regex("^apiUri" + classApiMethod + ":\\s*(.*)", classComment, classApiUri));
+					String classApiUriMethode = indexStoreSolr(classDoc, "classApiUri" + classApiMethod, regex("^apiUri" + classApiMethod + ":\\s*(.*)", classComment, classApiUri));
 					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
+					indexStoreSolr(classDoc, "classApiOperationId" + classApiMethod, regex("^apiOperationId" + classApiMethod + ":\\s*(.*)", classComment, StringUtils.substringAfterLast(classApiUriMethode, "/")));
 					indexStoreSolr(classDoc, "classApiOperationId" + classApiMethod + "Request", regex("^apiOperationId" + classApiMethod + "Request:\\s*(.*)", classComment, "searchRequest-" + classSimpleName));
 					indexStoreSolr(classDoc, "classApiOperationId" + classApiMethod + "Response", regex("^apiOperationId" + classApiMethod + "Response:\\s*(.*)", classComment, "searchResponse-" + classSimpleName));
+					String classApiKeywordMethod = regex("^classApiKeyword" + classApiMethod + ":\\s*(.*)", classComment);
+					if(StringUtils.isBlank(classApiKeywordMethod)) {
+						if(StringUtils.contains(classApiMethod, "POST")
+								|| StringUtils.contains(classApiMethod, "Search")
+								|| StringUtils.contains(classApiMethod, "PATCH")
+								)
+							classApiKeywordMethod = StringUtils.substringAfterLast(classApiUriMethode, "/");
+						else
+							classApiKeywordMethod = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classApiUriMethode, "/"), "/");
+					}
+					indexStoreSolr(classDoc, "classApiKeyword" + classApiMethod, classApiKeywordMethod);
 				}
 			}
 		}

@@ -519,7 +519,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			wInitLoin.l(); 
 			wInitLoin.tl(1, "protected boolean dejaInitialise", classeNomSimple, " = false;");
 			wInitLoin.l();
-			wInitLoin.t(1, "public ", classeNomSimple, " initLoin", classeNomSimple, "(RequeteSite requeteSite)");
+			wInitLoin.t(1, "public ", classeNomSimple, " initLoin", classeNomSimple, "(RequeteSite requeteSite_)");
 			if(classeInitLoinExceptions.size() > 0) {
 				wInitLoin.s(" throws ");
 				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -533,7 +533,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			wInitLoin.l(" {");
 //						if(contientRequeteSite && !StringUtils.equals(classeNomSimple, "RequeteSite"))
 //							tl(2, "((", classeNomSimple, ")this).setRequeteSite_(requeteSite);");
-			wInitLoin.tl(2, "setRequeteSite_(requeteSite);");
+			wInitLoin.tl(2, "setRequeteSite_(requeteSite_);");
 			wInitLoin.tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
 			wInitLoin.tl(3, "dejaInitialise", classeNomSimple, " = true;");
 			wInitLoin.tl(3, "initLoin", classeNomSimple, "();");
@@ -599,9 +599,9 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "// requeteSite //");
 			tl(1, "/////////////////");
 			l(); 
-			tl(1, "public void requeteSite", classeNomSimple, "(RequeteSite requeteSite) {");
+			tl(1, "public void requeteSite", classeNomSimple, "(RequeteSite requeteSite_) {");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
-				tl(3, "super.requeteSite", classeNomSimpleSuperGenerique, "(requeteSite);");
+				tl(3, "super.requeteSite", classeNomSimpleSuperGenerique, "(requeteSite_);");
 		}
 	}
 
@@ -3098,7 +3098,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wInitLoin.t(1);
 				if(classeEtendBase)
 					wInitLoin.s("@Override ");
-				wInitLoin.s("public void initLoinPourClasse(RequeteSite requeteSite)");
+				wInitLoin.s("public void initLoinPourClasse(RequeteSite requeteSite_)");
 				if(classeInitLoinExceptions.size() > 0) {
 					wInitLoin.s(" throws ");
 					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -3110,7 +3110,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				}
 				wInitLoin.l(" {");
-				wInitLoin.tl(2, "initLoin", classeNomSimple, "(requeteSite);");
+				wInitLoin.tl(2, "initLoin", classeNomSimple, "(requeteSite_);");
 				wInitLoin.tl(1, "}");  
 			}
 		}
@@ -3122,8 +3122,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			o = wRequeteSite;
 			tl(1, "}");
 			l();
-			tl(1, "public void requeteSitePourClasse(RequeteSite requeteSite) {");
-			tl(2, "requeteSite", classeNomSimple, "(requeteSite);");
+			tl(1, "public void requeteSitePourClasse(RequeteSite requeteSite_) {");
+			tl(2, "requeteSite", classeNomSimple, "(requeteSite_);");
 			tl(1, "}");  
 		}
 
@@ -3335,7 +3335,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //			t(1);
 //			if(classeEtendBase)
 //				s("@Override ");
-//			l("public void sauvegarderPourClasse(RequeteSite requeteSite) throws Exception {");
+//			l("public void sauvegarderPourClasse(RequeteSite requeteSite_) throws Exception {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");

@@ -223,7 +223,7 @@ public class WriteGenClass extends WriteClass {
 			wInitDeep.l(); 
 			wInitDeep.tl(1, "protected boolean alreadyInitialized", classSimpleName, " = false;");
 			wInitDeep.l();
-			wInitDeep.t(1, "public ", classSimpleName, " initDeep", classSimpleName, "(SiteRequest siteRequest)");
+			wInitDeep.t(1, "public ", classSimpleName, " initDeep", classSimpleName, "(SiteRequest siteRequest_)");
 			if(classInitDeepExceptions.size() > 0) {
 				wInitDeep.s(" throws ");
 				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
@@ -237,7 +237,7 @@ public class WriteGenClass extends WriteClass {
 			wInitDeep.l(" {");
 //						if(contientSiteRequest && !StringUtils.equals(classSimpleName, "SiteRequest"))
 //							tl(2, "((", classSimpleName, ")this).setSiteRequest_(siteRequest);");
-			wInitDeep.tl(2, "setSiteRequest_(siteRequest);");
+			wInitDeep.tl(2, "setSiteRequest_(siteRequest_);");
 			wInitDeep.tl(2, "if(!alreadyInitialized", classSimpleName, ") {");
 			wInitDeep.tl(3, "alreadyInitialized", classSimpleName, " = true;");
 			wInitDeep.tl(3, "initDeep", classSimpleName, "();");
@@ -285,9 +285,9 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "// siteRequest //");
 			tl(1, "/////////////////");
 			l(); 
-			tl(1, "public void siteRequest", classSimpleName, "(SiteRequest siteRequest) {");
+			tl(1, "public void siteRequest", classSimpleName, "(SiteRequest siteRequest_) {");
 			if(BooleanUtils.isTrue(classExtendsBase)) 
-				tl(3, "super.siteRequest", classSuperSimpleNameGeneric, "(siteRequest);");
+				tl(3, "super.siteRequest", classSuperSimpleNameGeneric, "(siteRequest_);");
 		}
 	}
 
@@ -2127,7 +2127,7 @@ public class WriteGenClass extends WriteClass {
 				wInitDeep.t(1);
 				if(classExtendsBase)
 					wInitDeep.s("@Override ");
-				wInitDeep.s("public void initDeepForClass(SiteRequest siteRequest)");
+				wInitDeep.s("public void initDeepForClass(SiteRequest siteRequest_)");
 				if(classInitDeepExceptions.size() > 0) {
 					wInitDeep.s(" throws ");
 					for(int i = 0; i < classInitDeepExceptions.size(); i++) {
@@ -2139,7 +2139,7 @@ public class WriteGenClass extends WriteClass {
 					}
 				}
 				wInitDeep.l(" {");
-				wInitDeep.tl(2, "initDeep", classSimpleName, "(siteRequest);");
+				wInitDeep.tl(2, "initDeep", classSimpleName, "(siteRequest_);");
 				wInitDeep.tl(1, "}");  
 			}
 		}
@@ -2151,8 +2151,8 @@ public class WriteGenClass extends WriteClass {
 			o = wSiteRequest;
 			tl(1, "}");
 			l();
-			tl(1, "public void siteRequestForClass(SiteRequest siteRequest) {");
-			tl(2, "siteRequest", classSimpleName, "(siteRequest);");
+			tl(1, "public void siteRequestForClass(SiteRequest siteRequest_) {");
+			tl(2, "siteRequest", classSimpleName, "(siteRequest_);");
 			tl(1, "}");  
 		}
 
@@ -2364,7 +2364,7 @@ public class WriteGenClass extends WriteClass {
 //			t(1);
 //			if(classExtendsBase)
 //				s("@Override ");
-//			l("public void savePourClasse(SiteRequest siteRequest) throws Exception {");
+//			l("public void savePourClasse(SiteRequest siteRequest_) throws Exception {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(siteRequest.SiteContext.sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "String pkStr = siteRequest_.getRequeteServeur().getParam(\"pk\");");
