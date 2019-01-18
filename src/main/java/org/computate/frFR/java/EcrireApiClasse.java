@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  * 
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
- */       
+ */     
 public class EcrireApiClasse extends EcrireGenClasse {   
 
 	/**
@@ -378,6 +378,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 			for(String classeApiMethode : classeApiMethodes) {
 				l();
+				tl(1, "// ", classeApiMethode, " //");
+				l();
 				tl(1, "@Override");
 				t(1, "public void gerer", classeApiMethode, classeNomSimple, "(");
 				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
@@ -386,9 +388,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(2, "try {");
 				tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte);");
 
-				if(StringUtils.contains(classeApiMethode, "POST")) {
+				if(classeApiMethode.contains("POST")) {
 					tl(3, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
-					tl(4, "creer", classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
+					tl(4, "creer", classeApiMethode, classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
 					tl(5, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(c -> ");
 					tl(6, "definir", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(d -> ");
 					tl(7, "attribuer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(e -> ");
@@ -401,31 +403,39 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(4, ")");
 					tl(3, ");");
 				}
-				else if(StringUtils.contains(classeApiMethode, "PATCH")) {
+				else if(classeApiMethode.contains("PATCH")) {
 					tl(3, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
 					tl(4, "recherche", classeNomSimple, "(requeteSite).compose(liste", classeNomSimple, "-> ");
 					tl(5, "liste", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
 					tl(4, ")");
 					tl(3, ");");
 				}
-				else if(StringUtils.contains(classeApiMethode, "Recherche")) {
+				else if(classeApiMethode.contains("Recherche")) {
 					tl(3, "Future<OperationResponse> etapesFutures = recherche", classeNomSimple, "(requeteSite).compose(liste", classeNomSimple, " -> ");
-					tl(4, "methode", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
+					tl(4, "liste", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
 					tl(3, ");");
 				}
-				else if(StringUtils.contains(classeApiMethode, "GET")) {
-					tl(3, "Future<OperationResponse> etapesFutures = recherche", classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
-					tl(4, "methode", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ")");
+				else if(classeApiMethode.contains("GET")) {
+					tl(3, "Future<OperationResponse> etapesFutures = recherche", classeNomSimple, "(requeteSite).compose(liste", classeNomSimple, " -> ");
+					tl(4, "json", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
 					tl(3, ");");
 				}
-				else if(StringUtils.contains(classeApiMethode, "PUT")) {
+				else if(classeApiMethode.contains("PUT")) {
 					tl(3, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
-					tl(4, "recherche", classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
-					tl(5, "methode", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ")");
+					tl(4, "remplacer", classeApiMethode, classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
+					tl(5, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(c -> ");
+					tl(6, "definir", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(d -> ");
+					tl(7, "attribuer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(e -> ");
+					tl(8, "indexer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(f -> ");
+					tl(9, "json", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ")");
+					tl(8, ")");
+					tl(7, ")");
+					tl(6, ")");
+					tl(5, ")");
 					tl(4, ")");
 					tl(3, ");");
 				}
-				else if(StringUtils.contains(classeApiMethode, "DELETE")) {
+				else if(classeApiMethode.contains("DELETE")) {
 					tl(3, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
 					tl(4, "recherche", classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
 					tl(5, "methode", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ")");
@@ -438,88 +448,316 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, "gestionnaireEvenements.handle(Future.failedFuture(e));");
 				tl(2, "}");
 				tl(1, "}");
+
+				if(classeApiMethode.contains("Recherche")) {
+					l();
+					tl(1, "public Future<ListeRecherche<", classeNomSimple, ">> recherche", classeNomSimple, "(RequeteSite requeteSite) {");
+					tl(2, "String entiteVar = null;");
+					tl(2, "String valeurIndexe = null;");
+					tl(2, "String varIndexe = null;");
+					tl(2, "String valeurTri = null;");
+					tl(2, "Integer rechercheDebut = null;");
+					tl(2, "Integer rechercheNum = null;");
+					tl(2, "ListeRecherche<", classeNomSimple, "> listeRecherche = new ListeRecherche<", classeNomSimple, ">();");
+					tl(2, "listeRecherche.setQuery(\"*:*\");");
+					tl(2, "listeRecherche.setRows(1000000);");
+					tl(2, "listeRecherche.addSort(\"partNumero_indexed_int\", ORDER.asc);");
+					tl(2, "List<NameValuePair> pairesNomValeur = URLEncodedUtils.parse(requeteSite.getRequeteServeur().query(), Charset.forName(\"UTF-8\"));");
+					tl(2, "for(NameValuePair paireNomValeur : pairesNomValeur) {");
+					tl(3, "String paireNom = paireNomValeur.getName();");
+					tl(3, "String paireValeur = paireNomValeur.getValue();");
+					tl(3, "try {");
+					tl(4, "switch(paireNom) {");
+			
+					tl(5, "case \"q\":");
+					tl(6, "entiteVar = StringUtils.trim(StringUtils.substringBefore(paireValeur, \":\"));");
+					tl(6, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paireValeur, \":\"));");
+					tl(6, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
+					tl(6, "listeRecherche.setQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
+					tl(6, "break;");
+			
+					tl(5, "case \"fq\":");
+					tl(6, "entiteVar = StringUtils.trim(StringUtils.substringBefore(paireValeur, \":\"));");
+					tl(6, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paireValeur, \":\"));");
+					tl(6, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
+					tl(6, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
+					tl(6, "break;");
+			
+					tl(5, "case \"sort\":");
+					tl(6, "entiteVar = StringUtils.trim(StringUtils.substringBefore(paireValeur, \" \"));");
+					tl(6, "valeurTri = StringUtils.trim(StringUtils.substringAfter(paireValeur, \" \"));");
+					tl(6, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
+					tl(6, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
+					tl(6, "break;");
+			
+					tl(5, "case \"fl\":");
+					tl(6, "entiteVar = StringUtils.trim(paireValeur);");
+					tl(6, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
+					tl(6, "listeRecherche.addField(varIndexe);");
+					tl(6, "break;");
+			
+					tl(5, "case \"start\":");
+					tl(6, "rechercheDebut = Integer.parseInt(paireValeur);");
+					tl(6, "listeRecherche.setStart(rechercheDebut);");
+					tl(6, "break;");
+			
+					tl(5, "case \"rows\":");
+					tl(6, "rechercheNum = Integer.parseInt(paireValeur);");
+					tl(6, "listeRecherche.setRows(rechercheNum);");
+					tl(6, "break;");
+			
+					tl(4, "}");
+					tl(3, "} catch(Exception e) {");
+					tl(4, "return Future.failedFuture(e);");
+					tl(3, "}");
+			
+					tl(2, "}");
+					tl(2, "listeRecherche.initLoinPourClasse(requeteSite);");
+					tl(2, "return Future.succeededFuture(listeRecherche);");
+					tl(1, "}");
+				}
+				if(classeApiMethode.contains("POST")) {
+					l();
+					tl(1, "public Future<", classeNomSimple, "> creer", classeApiMethode, classeNomSimple, "(RequeteSite requeteSite) {");
+					tl(2, "Future<", classeNomSimple, "> future = Future.future();");
+					tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(2, "String utilisateurId = requeteSite.getUtilisateurId();");
+					l();
+					tl(2, "connexionSql.queryWithParams(");
+					tl(4, "SiteContexte.SQL_creer");
+					tl(4, ", new JsonArray(Arrays.asList(", classeNomSimple, ".class.getCanonicalName(), utilisateurId))");
+					tl(4, ", creerAsync");
+					tl(2, "-> {");
+					tl(3, "JsonArray patchLigne = creerAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
+					tl(3, "Long ", classeVarClePrimaire, " = patchLigne.getLong(0);");
+					tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
+					tl(3, "o.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+					tl(3, "future.complete(o);");
+					tl(2, "});");
+					tl(2, "return future;");
+					tl(1, "}");
+				}
+				if(classeApiMethode.contains("PATCH")) {
+					l();
+					tl(1, "public Future<OperationResponse> liste", classeApiMethode, classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ") {");
+					tl(2, "List<Future> futures = new ArrayList<>();");
+					tl(2, "liste", classeNomSimple, ".getList().forEach(o -> {");
+					tl(3, "futures.add(");
+					tl(4, "sql", classeApiMethode, classeNomSimple, "(o).compose(");
+					tl(5, "b -> indexer", classeNomSimple, "(o)");
+					tl(4, ")");
+					tl(3, ");");
+					tl(2, "});");
+					tl(2, "Future<OperationResponse> future = CompositeFuture.all(futures).compose( a -> ");
+					tl(3, "json", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
+					tl(2, ");");
+					tl(2, "return future;");
+					tl(1, "}");
+					l();
+					tl(1, "public Future<Void> sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o) {");
+					tl(2, "Future<Void> future = Future.future();");
+					tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
+					tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(2, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
+					tl(2, "RoutingContext contexteItineraire = requeteSite.getContexteItineraire();");
+					tl(2, "JsonObject requeteJson = contexteItineraire.getBodyAsJson();");
+					tl(2, "StringBuilder patchSql = new StringBuilder();");
+					tl(2, "List<Object> patchSqlParams = new ArrayList<Object>();");
+					tl(2, "Set<String> methodeNoms = requeteJson.fieldNames();");
+					l();
+					tl(2, "for(String methodeNom : methodeNoms) {");
+					tl(3, "switch(methodeNom) {");
+					s(wApiGenererPatch.toString());
+					tl(3, "}");
+					tl(2, "}");
+					tl(2, "connexionSql.queryWithParams(");
+					tl(4, "patchSql.toString()");
+					tl(4, ", new JsonArray(patchSqlParams)");
+					tl(4, ", patchAsync");
+					tl(2, "-> {");
+					tl(3, "future.complete();");
+					tl(2, "});");
+					tl(2, "return future;");
+					tl(1, "}");
+				}
+				if(classeApiMethode.contains("PUT")) {
+					l();
+					tl(1, "public Future<", classeNomSimple, "> remplacer", classeApiMethode, classeNomSimple, "(RequeteSite requeteSite) {");
+					tl(2, "Future<", classeNomSimple, "> future = Future.future();");
+					tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(2, "String utilisateurId = requeteSite.getUtilisateurId();");
+					l();
+					tl(2, "connexionSql.queryWithParams(");
+					tl(4, "SiteContexte.SQL_vider");
+					tl(4, ", new JsonArray(Arrays.asList(pk, ", classeNomSimple, ".class.getCanonicalName(), pk, pk, pk))");
+					tl(4, ", creerAsync");
+					tl(2, "-> {");
+					tl(3, "JsonArray ligne = creerAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
+					tl(3, "Long ", classeVarClePrimaire, " = ligne.getLong(0);");
+					tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
+					tl(3, "o.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+					tl(3, "future.complete(o);");
+					tl(2, "});");
+					tl(2, "return future;");
+					tl(1, "}");
+				}
+				if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT")) {
+					l();
+					tl(1, "public Future<Void> sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o) {");
+					tl(2, "Future<Void> future = Future.future();");
+					tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
+					tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(2, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
+					tl(2, "RoutingContext contexteItineraire = requeteSite.getContexteItineraire();");
+					tl(2, "JsonObject jsonObject = contexteItineraire.getBodyAsJson();");
+					tl(2, "StringBuilder postSql = new StringBuilder();");
+					tl(2, "List<Object> postSqlParams = new ArrayList<Object>();");
+					tl(2, "Set<String> entiteVars = jsonObject.fieldNames();");
+					l();
+					tl(2, "for(String entiteVar : entiteVars) {");
+					tl(3, "switch(entiteVar) {");
+					s(wApiGenererPost.toString());
+					tl(3, "}");
+					tl(2, "}");
+					tl(2, "connexionSql.queryWithParams(");
+					tl(4, "postSql.toString()");
+					tl(4, ", new JsonArray(postSqlParams)");
+					tl(4, ", postAsync");
+					tl(2, "-> {");
+					tl(3, "future.complete();");
+					tl(2, "});");
+					tl(2, "return future;");
+					tl(1, "}");
+				}
+				if(classeApiMethode.contains("GET")) {
+					l();
+			//		tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {");
+					tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, ResultatRecherche resultatRecherche, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {");
+					tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
+					tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
+					tl(2, "if(!champValeurs.isEmpty()) {");
+					tl(3, "Object champValeur = champValeurs.iterator().next();");
+					tl(3, "if(champValeur != null) {");
+					s(wApiGenererGet.toString());
+					tl(3, "}");
+					tl(2, "}");
+					tl(2, "return j;");
+					tl(1, "}");
+				}
+				l();
+				t(1, "public Future<OperationResponse> json", classeApiMethode, classeNomSimple, "(");
+
+				if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT"))
+					s(classeNomSimple, " o");
+				else
+					s("ListeRecherche<", classeNomSimple, "> liste", classeNomSimple);
+
+				l(") {");
+
+				tl(2, "Buffer buffer = Buffer.buffer();");
+
+				if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT"))
+					tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
+
+				tl(2, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
+				tl(1, "}");
 			}
 	
 			s(wApiEntites.toString());
 			l();
-			tl(1, "public void handleGet", classeNomSimple, "(SiteContexte siteContexte) {");
-	//		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur();");
-			tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur();");
-	
-	//		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
-			l();
-	//		tl(2, "HTTPRequestValidationHandler gestionnaireValidation = HTTPRequestValidationHandler.create();");
-	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"q\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", \"*:*\"), false, false);");
-	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fq\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
-	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"sort\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
-	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fl\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
-	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"start\", ParameterTypeValidator.createIntegerTypeValidator(null, 0D, null, 0), false, false);");
-	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"rows\", ParameterTypeValidator.createIntegerTypeValidator(null, 1D, null, 10), false, false);");
-	//		l();
-	//		tl(2, "siteRouteur.get(\"", classeApiUri, "\")");
-	//		tl(4, ".handler(gestionnaireValidation)");
-	//		tl(4, ".handler(rc -> {");
-			tl(2, "usineRouteur.addHandlerByOperationId(\"get", classeNomSimple, "\", contexteItineraire -> {");
-			Integer tBase = 0;
-			if(classeRolesTrouve && classeRoles != null) {
-				String requeteRole = classeRoles.get(0);
-				tBase = 6;
-				tl(3, "gestionnaireEvenements.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
-				tl(4, "try {");
-				tl(5, "if (authRes.result() == Boolean.TRUE) {");
-			}
-			else {
-				tBase = 4;
-				tl(3, "try {");
-			}
-			l();
-			tl(tBase, "contexteItineraire.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
-			tl(tBase, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte);");
-			tl(tBase, "SolrQuery rechercheSolr = requeteSite.getRechercheSolr();");
-			tl(tBase, "SolrDocumentList resultatsRecherche = requeteSite.getReponseRecherche().getResults();");
-			tl(tBase, "Integer rechercheLignes = rechercheSolr.getRows();");
-			l();
-			tl(tBase, "genererGetDebut", classeNomSimple, "(requeteSite);");
-			tl(tBase, "for(long i = resultatsRecherche.getStart(); i < resultatsRecherche.getNumFound(); i+=rechercheLignes) {");
-			tl(tBase + 1, "for(int j = 0; j < resultatsRecherche.size(); j++) {");
-			tl(tBase + 2, "long resultatIndice = i + j;");
-			tl(tBase + 2, "SolrDocument documentSolr = resultatsRecherche.get(j);");
-			tl(tBase + 2, "ResultatRecherche resultatRecherche = new ResultatRecherche();");
-			tl(tBase + 2, "resultatRecherche.setRequeteSite_(requeteSite);");
-			tl(tBase + 2, "resultatRecherche.setDocumentSolr(documentSolr);");
-			tl(tBase + 2, "resultatRecherche.setResultatIndice(resultatIndice);");
-			tl(tBase + 2, "genererGetIndividuel", classeNomSimple, "(resultatRecherche);");
-			tl(tBase + 1, "}");
-			tl(tBase, "}");
-			tl(tBase, "genererGetFin", classeNomSimple, "(requeteSite);");
-			tl(tBase, "requeteSite.getReponseServeur().end();");
-			if(classeRolesTrouve && classeRoles != null) {
-				tl(5, "}");
-				tl(5, "else {");
-				tl(6, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
-				tl(5, "}");
-				tl(4, "} catch(Exception e) {");
-				tl(5, "LOGGER.error(\"Error: \", e.getMessage());");
-				tl(5, "contexteItineraire.fail(e);");
-				tl(4, "}");
-				tl(3, "});");
-			}
-			else {
-				tl(3, "} catch(Exception e) {");
-				tl(4, "LOGGER.error(\"Error: \", e.getMessage());");
-				tl(4, "contexteItineraire.fail(e);");
-				tl(3, "}");
-			}
+			tl(1, "public Future<OperationResponse> listeRecherche", classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ") {");
+			tl(2, "List<Future> futures = new ArrayList<>();");
+			tl(2, "liste", classeNomSimple, ".getList().forEach(o -> {");
+			tl(3, "futures.add(");
+			tl(4, "sqlPATCH", classeNomSimple, "(o).compose(");
+			tl(5, "b -> indexer", classeNomSimple, "(o)");
+			tl(4, ")");
+			tl(3, ");");
 			tl(2, "});");
-			tl(2, "usineRouteur.addFailureHandlerByOperationId(\"get", classeNomSimple, "\", contexteItineraire -> {");
-			tl(3, "Throwable failure = contexteItineraire.failure();");
-			tl(3, "if (failure instanceof ValidationException) {");
-			tl(4, "String validationErrorMessage = failure.getMessage();");
-			tl(4, "LOGGER.error(\"Error: \", validationErrorMessage);");
-			tl(4, "contexteItineraire.fail(failure);");
-			tl(3, "}");
-			tl(2, "});");
+			tl(2, "Future<OperationResponse> future = CompositeFuture.all(futures).compose( a -> ");
+			tl(3, "jsonRecherche", classeNomSimple, "(liste", classeNomSimple, ")");
+			tl(2, ");");
+			tl(2, "return future;");
 			tl(1, "}");
+//			l();
+//			tl(1, "public void handleGet", classeNomSimple, "(SiteContexte siteContexte) {");
+//	//		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur();");
+//			tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur();");
+//	
+//	//		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
+//			l();
+//	//		tl(2, "HTTPRequestValidationHandler gestionnaireValidation = HTTPRequestValidationHandler.create();");
+//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"q\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", \"*:*\"), false, false);");
+//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fq\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
+//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"sort\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
+//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fl\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
+//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"start\", ParameterTypeValidator.createIntegerTypeValidator(null, 0D, null, 0), false, false);");
+//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"rows\", ParameterTypeValidator.createIntegerTypeValidator(null, 1D, null, 10), false, false);");
+//	//		l();
+//	//		tl(2, "siteRouteur.get(\"", classeApiUri, "\")");
+//	//		tl(4, ".handler(gestionnaireValidation)");
+//	//		tl(4, ".handler(rc -> {");
+//			tl(2, "usineRouteur.addHandlerByOperationId(\"get", classeNomSimple, "\", contexteItineraire -> {");
+//			Integer tBase = 0;
+//			if(classeRolesTrouve && classeRoles != null) {
+//				String requeteRole = classeRoles.get(0);
+//				tBase = 6;
+//				tl(3, "gestionnaireEvenements.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
+//				tl(4, "try {");
+//				tl(5, "if (authRes.result() == Boolean.TRUE) {");
+//			}
+//			else {
+//				tBase = 4;
+//				tl(3, "try {");
+//			}
+//			l();
+//			tl(tBase, "contexteItineraire.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
+//			tl(tBase, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte);");
+//			tl(tBase, "SolrQuery rechercheSolr = requeteSite.getRechercheSolr();");
+//			tl(tBase, "SolrDocumentList resultatsRecherche = requeteSite.getReponseRecherche().getResults();");
+//			tl(tBase, "Integer rechercheLignes = rechercheSolr.getRows();");
+//			l();
+//			tl(tBase, "genererGetDebut", classeNomSimple, "(requeteSite);");
+//			tl(tBase, "for(long i = resultatsRecherche.getStart(); i < resultatsRecherche.getNumFound(); i+=rechercheLignes) {");
+//			tl(tBase + 1, "for(int j = 0; j < resultatsRecherche.size(); j++) {");
+//			tl(tBase + 2, "long resultatIndice = i + j;");
+//			tl(tBase + 2, "SolrDocument documentSolr = resultatsRecherche.get(j);");
+//			tl(tBase + 2, "ResultatRecherche resultatRecherche = new ResultatRecherche();");
+//			tl(tBase + 2, "resultatRecherche.setRequeteSite_(requeteSite);");
+//			tl(tBase + 2, "resultatRecherche.setDocumentSolr(documentSolr);");
+//			tl(tBase + 2, "resultatRecherche.setResultatIndice(resultatIndice);");
+//			tl(tBase + 2, "genererGetIndividuel", classeNomSimple, "(resultatRecherche);");
+//			tl(tBase + 1, "}");
+//			tl(tBase, "}");
+//			tl(tBase, "genererGetFin", classeNomSimple, "(requeteSite);");
+//			tl(tBase, "requeteSite.getReponseServeur().end();");
+//			if(classeRolesTrouve && classeRoles != null) {
+//				tl(5, "}");
+//				tl(5, "else {");
+//				tl(6, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
+//				tl(5, "}");
+//				tl(4, "} catch(Exception e) {");
+//				tl(5, "LOGGER.error(\"Error: \", e.getMessage());");
+//				tl(5, "contexteItineraire.fail(e);");
+//				tl(4, "}");
+//				tl(3, "});");
+//			}
+//			else {
+//				tl(3, "} catch(Exception e) {");
+//				tl(4, "LOGGER.error(\"Error: \", e.getMessage());");
+//				tl(4, "contexteItineraire.fail(e);");
+//				tl(3, "}");
+//			}
+//			tl(2, "});");
+//			tl(2, "usineRouteur.addFailureHandlerByOperationId(\"get", classeNomSimple, "\", contexteItineraire -> {");
+//			tl(3, "Throwable failure = contexteItineraire.failure();");
+//			tl(3, "if (failure instanceof ValidationException) {");
+//			tl(4, "String validationErrorMessage = failure.getMessage();");
+//			tl(4, "LOGGER.error(\"Error: \", validationErrorMessage);");
+//			tl(4, "contexteItineraire.fail(failure);");
+//			tl(3, "}");
+//			tl(2, "});");
+//			tl(1, "}");
 			l();
 			tl(1, "public void genererGetDebut", classeNomSimple, "(RequeteSite requeteSite) {");
 			tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
@@ -596,102 +834,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "default:");
 			tl(4, "throw new Exception(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entiteVar));");
 			tl(2, "}");
-			tl(1, "}");
-			l();
-			tl(1, "public Future<ListeRecherche<", classeNomSimple, ">> recherche", classeNomSimple, "(RequeteSite requeteSite) {");
-			tl(2, "String entiteVar = null;");
-			tl(2, "String valeurIndexe = null;");
-			tl(2, "String varIndexe = null;");
-			tl(2, "String valeurTri = null;");
-			tl(2, "Integer rechercheDebut = null;");
-			tl(2, "Integer rechercheNum = null;");
-			tl(2, "ListeRecherche<", classeNomSimple, "> listeRecherche = new ListeRecherche<", classeNomSimple, ">();");
-			tl(2, "listeRecherche.setQuery(\"*:*\");");
-			tl(2, "listeRecherche.setRows(1000000);");
-			tl(2, "listeRecherche.addSort(\"partNumero_indexed_int\", ORDER.asc);");
-			tl(2, "List<NameValuePair> pairesNomValeur = URLEncodedUtils.parse(requeteSite.getRequeteServeur().query(), Charset.forName(\"UTF-8\"));");
-			tl(2, "for(NameValuePair paireNomValeur : pairesNomValeur) {");
-			tl(3, "String paireNom = paireNomValeur.getName();");
-			tl(3, "String paireValeur = paireNomValeur.getValue();");
-			tl(3, "try {");
-			tl(4, "switch(paireNom) {");
-	
-			tl(5, "case \"q\":");
-			tl(6, "entiteVar = StringUtils.trim(StringUtils.substringBefore(paireValeur, \":\"));");
-			tl(6, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paireValeur, \":\"));");
-			tl(6, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
-			tl(6, "listeRecherche.setQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
-			tl(6, "break;");
-	
-			tl(5, "case \"fq\":");
-			tl(6, "entiteVar = StringUtils.trim(StringUtils.substringBefore(paireValeur, \":\"));");
-			tl(6, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paireValeur, \":\"));");
-			tl(6, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
-			tl(6, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
-			tl(6, "break;");
-	
-			tl(5, "case \"sort\":");
-			tl(6, "entiteVar = StringUtils.trim(StringUtils.substringBefore(paireValeur, \" \"));");
-			tl(6, "valeurTri = StringUtils.trim(StringUtils.substringAfter(paireValeur, \" \"));");
-			tl(6, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
-			tl(6, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
-			tl(6, "break;");
-	
-			tl(5, "case \"fl\":");
-			tl(6, "entiteVar = StringUtils.trim(paireValeur);");
-			tl(6, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
-			tl(6, "listeRecherche.addField(varIndexe);");
-			tl(6, "break;");
-	
-			tl(5, "case \"start\":");
-			tl(6, "rechercheDebut = Integer.parseInt(paireValeur);");
-			tl(6, "listeRecherche.setStart(rechercheDebut);");
-			tl(6, "break;");
-	
-			tl(5, "case \"rows\":");
-			tl(6, "rechercheNum = Integer.parseInt(paireValeur);");
-			tl(6, "listeRecherche.setRows(rechercheNum);");
-			tl(6, "break;");
-	
-			tl(4, "}");
-			tl(3, "} catch(Exception e) {");
-			tl(4, "return Future.failedFuture(e);");
-			tl(3, "}");
-	
-			tl(2, "}");
-			tl(2, "listeRecherche.initLoinPourClasse(requeteSite);");
-			tl(2, "return Future.succeededFuture(listeRecherche);");
-			tl(1, "}");
-			l();
-	//		tl(1, "public RequeteSite genererRequeteSitePour", classeNomSimple, "(SiteContexte siteContexte, RoutingContext contexteItineraire) throws Exception {");
-			tl(1, "public RequeteSite genererRequeteSitePour", classeNomSimple, "(SiteContexte siteContexte) throws Exception {");
-			tl(2, "Vertx vertx = siteContexte.getVertx();");
-			tl(2, "RequeteSite requeteSite = new RequeteSite();");
-			tl(2, "requeteSite.setVertx(vertx);");
-	//		tl(2, "requeteSite.setContexteItineraire(contexteItineraire);");
-			tl(2, "requeteSite.setSiteContexte_(siteContexte);");
-			tl(2, "requeteSite.initLoinRequeteSite(requeteSite);");
-			l();
-	
-			tl(2, "UtilisateurSite utilisateurSite = new UtilisateurSite();");
-			tl(2, "utilisateurSite.initLoinUtilisateurSite(requeteSite);");
-			tl(2, "requeteSite.setUtilisateurSite(utilisateurSite);");
-			tl(2, "utilisateurSite.setRequeteSite_(requeteSite);");
-	
-			tl(2, "return requeteSite;");
-			tl(1, "}");
-			l();
-	//		tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {");
-			tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, ResultatRecherche resultatRecherche, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {");
-			tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
-			tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-			tl(2, "if(!champValeurs.isEmpty()) {");
-			tl(3, "Object champValeur = champValeurs.iterator().next();");
-			tl(3, "if(champValeur != null) {");
-			s(wApiGenererGet.toString());
-			tl(3, "}");
-			tl(2, "}");
-			tl(2, "return j;");
 			tl(1, "}");
 	//
 	//		//////////
@@ -842,99 +984,24 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "return future;");
 			tl(1, "}");
 			l();
-			tl(1, "public Future<", classeNomSimple, "> creer", classeNomSimple, "(RequeteSite requeteSite) {");
-			tl(2, "Future<", classeNomSimple, "> future = Future.future();");
-			tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-			tl(2, "String utilisateurId = requeteSite.getUtilisateurId();");
+			tl(1, "// Partagé //");
 			l();
-			tl(2, "connexionSql.queryWithParams(");
-			tl(4, "SiteContexte.SQL_creer");
-			tl(4, ", new JsonArray(Arrays.asList(", classeNomSimple, ".class.getCanonicalName(), utilisateurId))");
-			tl(4, ", creerAsync");
-			tl(2, "-> {");
-			tl(3, "JsonArray patchLigne = creerAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
-			tl(3, "Long ", classeVarClePrimaire, " = patchLigne.getLong(0);");
-			tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
-			tl(3, "o.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
-			tl(3, "future.complete(o);");
-			tl(2, "});");
-			tl(2, "return future;");
-			tl(1, "}");
+	//		tl(1, "public RequeteSite genererRequeteSitePour", classeNomSimple, "(SiteContexte siteContexte, RoutingContext contexteItineraire) throws Exception {");
+			tl(1, "public RequeteSite genererRequeteSitePour", classeNomSimple, "(SiteContexte siteContexte) throws Exception {");
+			tl(2, "Vertx vertx = siteContexte.getVertx();");
+			tl(2, "RequeteSite requeteSite = new RequeteSite();");
+			tl(2, "requeteSite.setVertx(vertx);");
+	//		tl(2, "requeteSite.setContexteItineraire(contexteItineraire);");
+			tl(2, "requeteSite.setSiteContexte_(siteContexte);");
+			tl(2, "requeteSite.initLoinRequeteSite(requeteSite);");
 			l();
-			tl(1, "public Future<Void> sqlPOST", classeNomSimple, "(", classeNomSimple, " o) {");
-			tl(2, "Future<Void> future = Future.future();");
-			tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
-			tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-			tl(2, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
-			tl(2, "RoutingContext contexteItineraire = requeteSite.getContexteItineraire();");
-			tl(2, "JsonObject jsonObject = contexteItineraire.getBodyAsJson();");
-			tl(2, "StringBuilder postSql = new StringBuilder();");
-			tl(2, "List<Object> postSqlParams = new ArrayList<Object>();");
-			tl(2, "Set<String> entiteVars = jsonObject.fieldNames();");
-			l();
-			tl(2, "for(String entiteVar : entiteVars) {");
-			tl(3, "switch(entiteVar) {");
-			s(wApiGenererPost.toString());
-			tl(3, "}");
-			tl(2, "}");
-			tl(2, "connexionSql.queryWithParams(");
-			tl(4, "postSql.toString()");
-			tl(4, ", new JsonArray(postSqlParams)");
-			tl(4, ", postAsync");
-			tl(2, "-> {");
-			tl(3, "future.complete();");
-			tl(2, "});");
-			tl(2, "return future;");
-			tl(1, "}");
-			l();
-			tl(1, "public Future<OperationResponse> listePATCH", classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ") {");
-			tl(2, "List<Future> futures = new ArrayList<>();");
-			tl(2, "liste", classeNomSimple, ".getList().forEach(o -> {");
-			tl(3, "futures.add(");
-			tl(4, "sqlPATCH", classeNomSimple, "(o).compose(");
-			tl(5, "b -> indexer", classeNomSimple, "(o)");
-			tl(4, ")");
-			tl(3, ");");
-			tl(2, "});");
-			tl(2, "CompositeFuture compositeFuture = CompositeFuture.all(futures).setHandler(ar -> {");
-			tl(3, "if(ar.succeeded()) {");
-			tl(4, "jsonPATCH", classeNomSimple, "(liste", classeNomSimple, ");");
-	//		tl(4, "future.complete();");
-			tl(3, "} else {");
-			tl(3, "}");
-			tl(2, "});");
-			tl(2, "Future<OperationResponse> future = Future.future().compose(");
-			tl(3, "a -> compositeFuture.compose(");
-			tl(4, "b -> jsonPATCH", classeNomSimple, "(liste", classeNomSimple, ")");
-			tl(3, ")");
-			tl(2, ");");
-			tl(2, "return future;");
-			tl(1, "}");
-			l();
-			tl(1, "public Future<Void> sqlPATCH", classeNomSimple, "(", classeNomSimple, " o) {");
-			tl(2, "Future<Void> future = Future.future();");
-			tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
-			tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-			tl(2, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
-			tl(2, "RoutingContext contexteItineraire = requeteSite.getContexteItineraire();");
-			tl(2, "JsonObject requeteJson = contexteItineraire.getBodyAsJson();");
-			tl(2, "StringBuilder patchSql = new StringBuilder();");
-			tl(2, "List<Object> patchSqlParams = new ArrayList<Object>();");
-			tl(2, "Set<String> methodeNoms = requeteJson.fieldNames();");
-			l();
-			tl(2, "for(String methodeNom : methodeNoms) {");
-			tl(3, "switch(methodeNom) {");
-			s(wApiGenererPatch.toString());
-			tl(3, "}");
-			tl(2, "}");
-			tl(2, "connexionSql.queryWithParams(");
-			tl(4, "patchSql.toString()");
-			tl(4, ", new JsonArray(patchSqlParams)");
-			tl(4, ", patchAsync");
-			tl(2, "-> {");
-			tl(3, "future.complete();");
-			tl(2, "});");
-			tl(2, "return future;");
+	
+			tl(2, "UtilisateurSite utilisateurSite = new UtilisateurSite();");
+			tl(2, "utilisateurSite.initLoinUtilisateurSite(requeteSite);");
+			tl(2, "requeteSite.setUtilisateurSite(utilisateurSite);");
+			tl(2, "utilisateurSite.setRequeteSite_(requeteSite);");
+	
+			tl(2, "return requeteSite;");
 			tl(1, "}");
 			l();
 			tl(1, "public Future<Void> definir", classeNomSimple, "(", classeNomSimple, " o) {");
@@ -985,17 +1052,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "future.fail(e.getCause());");
 			tl(2, "}");
 			tl(2, "return future;");
-			tl(1, "}");
-			l();
-			tl(1, "public Future<OperationResponse> jsonPOST", classeNomSimple, "(", classeNomSimple, " o) {");
-			tl(2, "Buffer buffer = Buffer.buffer();");
-			tl(2, "RequeteSite requeteSite = o.getRequeteSite_();");
-			tl(2, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
-			tl(1, "}");
-			l();
-			tl(1, "public Future<OperationResponse> jsonPATCH", classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ") {");
-			tl(2, "Buffer buffer = Buffer.buffer();");
-			tl(2, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
 			tl(1, "}");
 	
 			tl(0, "}");

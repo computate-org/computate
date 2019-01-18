@@ -609,7 +609,22 @@ public class IndexClass extends WatchClassBase {
 		Boolean classPage = indexStoreSolr(classDoc, "classPage", regexFound("^page: \\s*(true)$", classComment) || classModel);
 		Boolean classSaved = indexStoreSolr(classDoc, "classSaved", regexFound("^saved:\\s*(true)$", classComment) || classModel);
 		Boolean classIndexed = indexStoreSolr(classDoc, "classIndexed", regexFound("^indexed:\\s*(true)$", classComment) || classSaved || classModel);
-		ArrayList<String> classApiMethods = regexList("^apiIdentifier." + languageName + "\\s*=\\s*(.*)", classComment);
+		ArrayList<String> classApiMethods = regexList("^apiMethod:\\s*(.*)", classComment);
+
+		if(classModel) {
+			if(!classApiMethods.contains("Search"))
+				classApiMethods.add("Search");
+			if(!classApiMethods.contains("POST"))
+				classApiMethods.add("POST");
+			if(!classApiMethods.contains("PATCH"))
+				classApiMethods.add("PATCH");
+			if(!classApiMethods.contains("GET"))
+				classApiMethods.add("GET");
+			if(!classApiMethods.contains("PUT"))
+				classApiMethods.add("PUT");
+			if(!classApiMethods.contains("DELETE"))
+				classApiMethods.add("DELETE");
+		}
 
 		String classSimpleNameApiPackageInfo;
 		String classSimpleNameGenApiServiceImpl;
@@ -1473,6 +1488,7 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "entityOptional", regexFound("^optional:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityHtmlTooltip", regex("^htmlTooltip:\\s*(.*)$", methodComment, 1));
 						indexStoreSolr(entityDoc, "entityVarApi", regex("^entityVarApi:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "enumSimpleName", regex("^enumSimpleName:\\s*(.*)$", methodComment, 1));
 						indexStoreSolr(entityDoc, "enumVar", regex("^enumVar:\\s*(.*)$", methodComment, 1));
 						indexStoreSolr(entityDoc, "enumVarDescription", regex("^enumVarDescription:\\s*(.*)$", methodComment, 1));
 
@@ -2255,17 +2271,17 @@ public class IndexClass extends WatchClassBase {
 			classApiMethods.add("DELETE");
 
 		if(classModel) {
-			String classApiUri = indexStoreSolr(classDoc, "classApiUri", languageName, regex("^apiUri\\." + languageName + ":\\s*(.*)", classComment));
+			String classApiUri = indexStoreSolr(classDoc, "classApiUri", regex("^apiUri:\\s*(.*)", classComment));
 
 			for(String classApiMethod : classApiMethods) {
 				indexStoreListSolr(classDoc, "classApiMethods", classApiMethod);
 				if(classKeywordsFound && (classKeywords.contains(classApiMethod + ".request") || classKeywords.contains(classApiMethod + ".response"))) {
 					String classApiUriMethode = indexStoreSolr(classDoc, "classApiUri" + classApiMethod, regex("^apiUri" + classApiMethod + ":\\s*(.*)", classComment, classApiUri));
-					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
+					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethod" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
 					indexStoreSolr(classDoc, "classApiOperationId" + classApiMethod, regex("^apiOperationId" + classApiMethod + ":\\s*(.*)", classComment, StringUtils.substringAfterLast(classApiUriMethode, "/")));
 					indexStoreSolr(classDoc, "classApiOperationId" + classApiMethod + "Request", regex("^apiOperationId" + classApiMethod + "Request:\\s*(.*)", classComment, "searchRequest-" + classSimpleName));
 					indexStoreSolr(classDoc, "classApiOperationId" + classApiMethod + "Response", regex("^apiOperationId" + classApiMethod + "Response:\\s*(.*)", classComment, "searchResponse-" + classSimpleName));
-					String classApiKeywordMethod = regex("^classApiKeyword" + classApiMethod + ":\\s*(.*)", classComment);
+					String classApiKeywordMethod = regex("^apiKeyword" + classApiMethod + ":\\s*(.*)", classComment);
 					if(StringUtils.isBlank(classApiKeywordMethod)) {
 						if(StringUtils.contains(classApiMethod, "POST")
 								|| StringUtils.contains(classApiMethod, "Search")

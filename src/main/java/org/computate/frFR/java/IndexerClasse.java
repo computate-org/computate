@@ -1683,12 +1683,14 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: classePageUriLangue
 	 * r.enUS: classPageUriLanguage
 	 * 
-	 * r: apiIdentifiant
-	 * r.enUS: apiIdentifier
+	 * r: apiMethode
+	 * r.enUS: apiMethod
 	 * r: classeApiMotCleMethode
 	 * r.enUS: classApiKeywordMethod
 	 * r: classeApiMotCle
 	 * r.enUS: classApiKeyword
+	 * r: apiMotCle
+	 * r.enUS: apiKeyword
 	 * r: classeApiMethode
 	 * r.enUS: classApiMethod
 	 * r: apiUriRecherche
@@ -1872,6 +1874,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityMaxLength
 	 * r: entiteVarApi
 	 * r.enUS: entityVarApi
+	 * r: enumNomSimple
+	 * r.enUS: enumSimpleName
 	 * r: entiteMin
 	 * r.enUS: entityMin
 	 * r: entiteMax
@@ -2253,7 +2257,22 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classePage = indexerStockerSolr(classeDoc, "classePage", regexTrouve("^page: \\s*(true)$", classeCommentaire) || classeModele);
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", classeCommentaire) || classeModele);
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele);
-		ArrayList<String> classeApiMethodes = regexListe("^apiIdentifiant." + langueNom + "\\s*=\\s*(.*)", classeCommentaire);
+		ArrayList<String> classeApiMethodes = regexListe("^apiMethode:\\s*(.*)", classeCommentaire);
+
+		if(classeModele) {
+			if(!classeApiMethodes.contains("Recherche"))
+				classeApiMethodes.add("Recherche");
+			if(!classeApiMethodes.contains("POST"))
+				classeApiMethodes.add("POST");
+			if(!classeApiMethodes.contains("PATCH"))
+				classeApiMethodes.add("PATCH");
+			if(!classeApiMethodes.contains("GET"))
+				classeApiMethodes.add("GET");
+			if(!classeApiMethodes.contains("PUT"))
+				classeApiMethodes.add("PUT");
+			if(!classeApiMethodes.contains("DELETE"))
+				classeApiMethodes.add("DELETE");
+		}
 
 		String classeNomSimpleApiEnsembleInfo;
 		String classeNomSimpleGenApiServiceImpl;
@@ -3117,6 +3136,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteOptionnel", regexTrouve("^optionnel:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", regex("^htmlTooltip:\\s*(.*)$", methodeCommentaire, 1));
 						indexerStockerSolr(entiteDoc, "entiteVarApi", regex("^entiteVarApi:\\s*(.*)$", methodeCommentaire, 1));
+						indexerStockerSolr(entiteDoc, "enumNomSimple", regex("^enumNomSimple:\\s*(.*)$", methodeCommentaire, 1));
 						indexerStockerSolr(entiteDoc, "enumVar", regex("^enumVar:\\s*(.*)$", methodeCommentaire, 1));
 						indexerStockerSolr(entiteDoc, "enumVarDescription", regex("^enumVarDescription:\\s*(.*)$", methodeCommentaire, 1));
 
@@ -3899,7 +3919,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classeApiMethodes.add("DELETE");
 
 		if(classeModele) {
-			String classeApiUri = indexerStockerSolr(classeDoc, "classeApiUri", langueNom, regex("^apiUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
+			String classeApiUri = indexerStockerSolr(classeDoc, "classeApiUri", regex("^apiUri:\\s*(.*)", classeCommentaire));
 
 			for(String classeApiMethode : classeApiMethodes) {
 				indexerStockerListeSolr(classeDoc, "classeApiMethodes", classeApiMethode);
@@ -3909,7 +3929,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					indexerStockerSolr(classeDoc, "classeApiOperationId" + classeApiMethode, regex("^apiOperationId" + classeApiMethode + ":\\s*(.*)", classeCommentaire, StringUtils.substringAfterLast(classeApiUriMethode, "/")));
 					indexerStockerSolr(classeDoc, "classeApiOperationId" + classeApiMethode + "Requete", regex("^apiOperationId" + classeApiMethode + "Requete:\\s*(.*)", classeCommentaire, "rechercheRequete-" + classeNomSimple));
 					indexerStockerSolr(classeDoc, "classeApiOperationId" + classeApiMethode + "Reponse", regex("^apiOperationId" + classeApiMethode + "Reponse:\\s*(.*)", classeCommentaire, "rechercheReponse-" + classeNomSimple));
-					String classeApiMotCleMethode = regex("^classeApiMotCle" + classeApiMethode + ":\\s*(.*)", classeCommentaire);
+					String classeApiMotCleMethode = regex("^apiMotCle" + classeApiMethode + ":\\s*(.*)", classeCommentaire);
 					if(StringUtils.isBlank(classeApiMotCleMethode)) {
 						if(StringUtils.contains(classeApiMethode, "POST")
 								|| StringUtils.contains(classeApiMethode, "Search")
