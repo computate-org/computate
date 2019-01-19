@@ -1355,7 +1355,7 @@ public class WriteGenClass extends WriteClass {
 			/////////////////////
 			if(classInitDeep && entityInitDeep) {
 				o = wSiteRequest;
-				tl(2, entityVar, ".setSiteRequest_(siteRequest);");
+				tl(2, entityVar, ".setSiteRequest_(siteRequest_);");
 			}
 	
 			/////////////////

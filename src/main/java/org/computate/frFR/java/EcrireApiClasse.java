@@ -386,7 +386,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					s("JsonObject document, ");
 				l("OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
 				tl(2, "try {");
-				tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte);");
+				tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
 
 				if(classeApiMethode.contains("POST")) {
 					tl(3, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
@@ -412,7 +412,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 				else if(classeApiMethode.contains("Recherche")) {
 					tl(3, "Future<OperationResponse> etapesFutures = recherche", classeNomSimple, "(requeteSite).compose(liste", classeNomSimple, " -> ");
-					tl(4, "liste", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
+					tl(4, "json", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
 					tl(3, ");");
 				}
 				else if(classeApiMethode.contains("GET")) {
@@ -438,7 +438,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				else if(classeApiMethode.contains("DELETE")) {
 					tl(3, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
 					tl(4, "recherche", classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
-					tl(5, "methode", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ")");
+					tl(5, "supprimer", classeApiMethode, classeNomSimple, "(requeteSite).compose(c -> ");
+					tl(6, "json", classeApiMethode, classeNomSimple, "()");
+					tl(5, ")");
 					tl(4, ")");
 					tl(3, ");");
 				}
@@ -450,6 +452,21 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(1, "}");
 
 				if(classeApiMethode.contains("Recherche")) {
+//					l();
+//					tl(1, "public Future<OperationResponse> listeRecherche", classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ") {");
+//					tl(2, "List<Future> futures = new ArrayList<>();");
+//					tl(2, "liste", classeNomSimple, ".getList().forEach(o -> {");
+//					tl(3, "futures.add(");
+//					tl(4, "sqlPATCH", classeNomSimple, "(o).compose(");
+//					tl(5, "b -> indexer", classeNomSimple, "(o)");
+//					tl(4, ")");
+//					tl(3, ");");
+//					tl(2, "});");
+//					tl(2, "Future<OperationResponse> future = CompositeFuture.all(futures).compose( a -> ");
+//					tl(3, "jsonRecherche", classeNomSimple, "(liste", classeNomSimple, ")");
+//					tl(2, ");");
+//					tl(2, "return future;");
+//					tl(1, "}");
 					l();
 					tl(1, "public Future<ListeRecherche<", classeNomSimple, ">> recherche", classeNomSimple, "(RequeteSite requeteSite) {");
 					tl(2, "String entiteVar = null;");
@@ -586,14 +603,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(2, "Future<", classeNomSimple, "> future = Future.future();");
 					tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
 					tl(2, "String utilisateurId = requeteSite.getUtilisateurId();");
+					tl(2, "Long pk = requeteSite.getRequetePk();");
 					l();
 					tl(2, "connexionSql.queryWithParams(");
 					tl(4, "SiteContexte.SQL_vider");
 					tl(4, ", new JsonArray(Arrays.asList(pk, ", classeNomSimple, ".class.getCanonicalName(), pk, pk, pk))");
-					tl(4, ", creerAsync");
+					tl(4, ", remplacerAsync");
 					tl(2, "-> {");
-					tl(3, "JsonArray ligne = creerAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
-					tl(3, "Long ", classeVarClePrimaire, " = ligne.getLong(0);");
 					tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
 					tl(3, "o.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
 					tl(3, "future.complete(o);");
@@ -631,6 +647,63 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 				if(classeApiMethode.contains("GET")) {
 					l();
+					tl(1, "public void genererGetDebut", classeNomSimple, "(RequeteSite requeteSite) {");
+					tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
+					tl(2, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
+					tl(2, "reponseServeur.write(\"{\\n\");");
+					tl(2, "Long millisRecherche = Long.valueOf(reponseRecherche.getQTime());");
+					tl(2, "Long millisTransmission = reponseRecherche.getElapsedTime();");
+					tl(2, "Long numCommence = reponseRecherche.getResults().getStart();");
+					tl(2, "Long numTrouve = reponseRecherche.getResults().getNumFound();");
+					tl(2, "Integer numRetourne = reponseRecherche.getResults().size();");
+					tl(2, "String tempsRecherche = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisRecherche), TimeUnit.MILLISECONDS.toMillis(millisRecherche) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(millisRecherche)));");
+					tl(2, "String tempsTransmission = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisTransmission), TimeUnit.MILLISECONDS.toMillis(millisTransmission) - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(millisTransmission)));");
+					tl(2, "Exception exceptionRecherche = reponseRecherche.getException();");
+					l();
+					tl(2, "reponseServeur.write(\"\\t\\\"numCommence\\\": \");");
+					tl(2, "reponseServeur.write(numCommence.toString());");
+					l();
+					tl(2, "reponseServeur.write(\",\\n\\t\\\"numTrouve\\\": \");");
+					tl(2, "reponseServeur.write(numTrouve.toString());");
+					l();
+					tl(2, "reponseServeur.write(\",\\n\\t\\\"numRetourne\\\": \");");
+					tl(2, "reponseServeur.write(numRetourne.toString());");
+					l();
+					tl(2, "reponseServeur.write(\",\\n\\t\\\"tempsRecherche\\\": \\\"\");");
+					tl(2, "reponseServeur.write(tempsRecherche);");
+					tl(2, "reponseServeur.write(\"\\\"\");");
+					l();
+					tl(2, "reponseServeur.write(\",\\n\\t\\\"tempsTransmission\\\": \\\"\");");
+					tl(2, "reponseServeur.write(tempsTransmission);");
+					tl(2, "reponseServeur.write(\"\\\"\");");
+					l();
+					tl(2, "if(exceptionRecherche != null) {");
+					tl(3, "reponseServeur.write(\",\\n\\t\\\"exceptionRecherche\\\": \\\"\");");
+					tl(3, "reponseServeur.write(exceptionRecherche.getMessage());");
+					tl(3, "reponseServeur.write(\"\\\"\");");
+					tl(2, "}");
+					l();
+					tl(2, "reponseServeur.write(\",\\n\\t\\\"resultats\\\": [\\n\");");
+					tl(1, "}");
+					l();
+					tl(1, "public void genererGetIndividuel", classeNomSimple, "(ResultatRecherche resultatRecherche) throws Exception {");
+					tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
+					tl(2, "SolrDocument documentSolr = resultatRecherche.getDocumentSolr();");
+					tl(2, "Long resultatIndice = resultatRecherche.getResultatIndice();");
+					tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
+					tl(2, "reponseServeur.write(\"\\t\\t\");");
+					tl(2, "if(resultatIndice > 0)");
+					tl(3, "reponseServeur.write(\", \");");
+					tl(2, "reponseServeur.write(\"{\\n\");");
+					tl(2, "Collection<String> champNoms = documentSolr.getFieldNames();");
+					tl(2, "Integer j = 0;");
+					tl(2, "for(String champNomStocke : champNoms) {");
+					tl(3, "Collection<Object> champValeurs = documentSolr.getFieldValues(champNomStocke);");
+					tl(3, "j = genererGet", classeNomSimple, "(j, resultatRecherche, champNomStocke, champValeurs);");
+					tl(2, "}");
+					tl(2, "reponseServeur.write(\"\\t\\t}\\n\");");
+					tl(1, "}");
+					l();
 			//		tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {");
 					tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, ResultatRecherche resultatRecherche, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {");
 					tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
@@ -643,12 +716,52 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(2, "}");
 					tl(2, "return j;");
 					tl(1, "}");
+					l();
+					tl(1, "public void genererGetFin", classeNomSimple, "(RequeteSite requeteSite) {");
+					tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
+			//		tl(2, "if(exceptionRecherche != null) {");
+			//		l();
+			//		tl(4, "reponseServeur.write(\"\\t\\t}\\n\");");
+			//		tl(3, "}");
+			//		tl(2, "}");
+					tl(2, "reponseServeur.write(\"\\t]\\n\");");
+					tl(2, "reponseServeur.write(\"}\\n\");");
+					tl(1, "}");
+			//		tl(1, "@Override protected void doGet(HttpServerRequest requeteServeur, HttpServerResponse reponseServeur) throws ServletException, IOException {");
+					l();
+					tl(1, "public String varIndexe", classeNomSimple, "(String entiteVar) throws Exception {");
+					tl(2, "switch(entiteVar) {");
+					s(wApiGet.toString());
+					tl(3, "default:");
+					tl(4, "throw new Exception(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entiteVar));");
+					tl(2, "}");
+					tl(1, "}");
+				}
+				if(classeApiMethode.contains("DELETE")) {
+					l();
+					tl(1, "public Future<Void> supprimer", classeApiMethode, classeNomSimple, "(RequeteSite requeteSite) {");
+					tl(2, "Future<Void> future = Future.future();");
+					tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(2, "String utilisateurId = requeteSite.getUtilisateurId();");
+					tl(2, "Long pk = requeteSite.getRequetePk();");
+					l();
+					tl(2, "connexionSql.queryWithParams(");
+					tl(4, "SiteContexte.SQL_supprimer");
+					tl(4, ", new JsonArray(Arrays.asList(pk, ", classeNomSimple, ".class.getCanonicalName(), pk, pk, pk, pk))");
+					tl(4, ", supprimerAsync");
+					tl(2, "-> {");
+					tl(3, "future.complete();");
+					tl(2, "});");
+					tl(2, "return future;");
+					tl(1, "}");
 				}
 				l();
 				t(1, "public Future<OperationResponse> json", classeApiMethode, classeNomSimple, "(");
 
 				if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT"))
 					s(classeNomSimple, " o");
+				else if(classeApiMethode.contains("DELETE"))
+					s("");
 				else
 					s("ListeRecherche<", classeNomSimple, "> liste", classeNomSimple);
 
@@ -664,21 +777,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 	
 			s(wApiEntites.toString());
-			l();
-			tl(1, "public Future<OperationResponse> listeRecherche", classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ") {");
-			tl(2, "List<Future> futures = new ArrayList<>();");
-			tl(2, "liste", classeNomSimple, ".getList().forEach(o -> {");
-			tl(3, "futures.add(");
-			tl(4, "sqlPATCH", classeNomSimple, "(o).compose(");
-			tl(5, "b -> indexer", classeNomSimple, "(o)");
-			tl(4, ")");
-			tl(3, ");");
-			tl(2, "});");
-			tl(2, "Future<OperationResponse> future = CompositeFuture.all(futures).compose( a -> ");
-			tl(3, "jsonRecherche", classeNomSimple, "(liste", classeNomSimple, ")");
-			tl(2, ");");
-			tl(2, "return future;");
-			tl(1, "}");
 //			l();
 //			tl(1, "public void handleGet", classeNomSimple, "(SiteContexte siteContexte) {");
 //	//		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur();");
@@ -758,83 +856,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			tl(3, "}");
 //			tl(2, "});");
 //			tl(1, "}");
-			l();
-			tl(1, "public void genererGetDebut", classeNomSimple, "(RequeteSite requeteSite) {");
-			tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-			tl(2, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
-			tl(2, "reponseServeur.write(\"{\\n\");");
-			tl(2, "Long millisRecherche = Long.valueOf(reponseRecherche.getQTime());");
-			tl(2, "Long millisTransmission = reponseRecherche.getElapsedTime();");
-			tl(2, "Long numCommence = reponseRecherche.getResults().getStart();");
-			tl(2, "Long numTrouve = reponseRecherche.getResults().getNumFound();");
-			tl(2, "Integer numRetourne = reponseRecherche.getResults().size();");
-			tl(2, "String tempsRecherche = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisRecherche), TimeUnit.MILLISECONDS.toMillis(millisRecherche) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(millisRecherche)));");
-			tl(2, "String tempsTransmission = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisTransmission), TimeUnit.MILLISECONDS.toMillis(millisTransmission) - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(millisTransmission)));");
-			tl(2, "Exception exceptionRecherche = reponseRecherche.getException();");
-			l();
-			tl(2, "reponseServeur.write(\"\\t\\\"numCommence\\\": \");");
-			tl(2, "reponseServeur.write(numCommence.toString());");
-			l();
-			tl(2, "reponseServeur.write(\",\\n\\t\\\"numTrouve\\\": \");");
-			tl(2, "reponseServeur.write(numTrouve.toString());");
-			l();
-			tl(2, "reponseServeur.write(\",\\n\\t\\\"numRetourne\\\": \");");
-			tl(2, "reponseServeur.write(numRetourne.toString());");
-			l();
-			tl(2, "reponseServeur.write(\",\\n\\t\\\"tempsRecherche\\\": \\\"\");");
-			tl(2, "reponseServeur.write(tempsRecherche);");
-			tl(2, "reponseServeur.write(\"\\\"\");");
-			l();
-			tl(2, "reponseServeur.write(\",\\n\\t\\\"tempsTransmission\\\": \\\"\");");
-			tl(2, "reponseServeur.write(tempsTransmission);");
-			tl(2, "reponseServeur.write(\"\\\"\");");
-			l();
-			tl(2, "if(exceptionRecherche != null) {");
-			tl(3, "reponseServeur.write(\",\\n\\t\\\"exceptionRecherche\\\": \\\"\");");
-			tl(3, "reponseServeur.write(exceptionRecherche.getMessage());");
-			tl(3, "reponseServeur.write(\"\\\"\");");
-			tl(2, "}");
-			l();
-			tl(2, "reponseServeur.write(\",\\n\\t\\\"resultats\\\": [\\n\");");
-			tl(1, "}");
-			l();
-			tl(1, "public void genererGetIndividuel", classeNomSimple, "(ResultatRecherche resultatRecherche) throws Exception {");
-			tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
-			tl(2, "SolrDocument documentSolr = resultatRecherche.getDocumentSolr();");
-			tl(2, "Long resultatIndice = resultatRecherche.getResultatIndice();");
-			tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-			tl(2, "reponseServeur.write(\"\\t\\t\");");
-			tl(2, "if(resultatIndice > 0)");
-			tl(3, "reponseServeur.write(\", \");");
-			tl(2, "reponseServeur.write(\"{\\n\");");
-			tl(2, "Collection<String> champNoms = documentSolr.getFieldNames();");
-			tl(2, "Integer j = 0;");
-			tl(2, "for(String champNomStocke : champNoms) {");
-			tl(3, "Collection<Object> champValeurs = documentSolr.getFieldValues(champNomStocke);");
-			tl(3, "j = genererGet", classeNomSimple, "(j, resultatRecherche, champNomStocke, champValeurs);");
-			tl(2, "}");
-			tl(2, "reponseServeur.write(\"\\t\\t}\\n\");");
-			tl(1, "}");
-			l();
-			tl(1, "public void genererGetFin", classeNomSimple, "(RequeteSite requeteSite) {");
-			tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-	//		tl(2, "if(exceptionRecherche != null) {");
-	//		l();
-	//		tl(4, "reponseServeur.write(\"\\t\\t}\\n\");");
-	//		tl(3, "}");
-	//		tl(2, "}");
-			tl(2, "reponseServeur.write(\"\\t]\\n\");");
-			tl(2, "reponseServeur.write(\"}\\n\");");
-			tl(1, "}");
-	//		tl(1, "@Override protected void doGet(HttpServerRequest requeteServeur, HttpServerResponse reponseServeur) throws ServletException, IOException {");
-			l();
-			tl(1, "public String varIndexe", classeNomSimple, "(String entiteVar) throws Exception {");
-			tl(2, "switch(entiteVar) {");
-			s(wApiGet.toString());
-			tl(3, "default:");
-			tl(4, "throw new Exception(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entiteVar));");
-			tl(2, "}");
-			tl(1, "}");
 	//
 	//		//////////
 	//		// POST //
@@ -987,12 +1008,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(1, "// Partagé //");
 			l();
 	//		tl(1, "public RequeteSite genererRequeteSitePour", classeNomSimple, "(SiteContexte siteContexte, RoutingContext contexteItineraire) throws Exception {");
-			tl(1, "public RequeteSite genererRequeteSitePour", classeNomSimple, "(SiteContexte siteContexte) throws Exception {");
+			tl(1, "public RequeteSite genererRequeteSitePour", classeNomSimple, "(SiteContexte siteContexte, OperationRequest operationRequete) throws Exception {");
 			tl(2, "Vertx vertx = siteContexte.getVertx();");
 			tl(2, "RequeteSite requeteSite = new RequeteSite();");
 			tl(2, "requeteSite.setVertx(vertx);");
 	//		tl(2, "requeteSite.setContexteItineraire(contexteItineraire);");
 			tl(2, "requeteSite.setSiteContexte_(siteContexte);");
+			tl(2, "requeteSite.setOperationRequete(operationRequete);");
 			tl(2, "requeteSite.initLoinRequeteSite(requeteSite);");
 			l();
 	

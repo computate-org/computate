@@ -611,20 +611,20 @@ public class IndexClass extends WatchClassBase {
 		Boolean classIndexed = indexStoreSolr(classDoc, "classIndexed", regexFound("^indexed:\\s*(true)$", classComment) || classSaved || classModel);
 		ArrayList<String> classApiMethods = regexList("^apiMethod:\\s*(.*)", classComment);
 
-		if(classModel) {
-			if(!classApiMethods.contains("Search"))
-				classApiMethods.add("Search");
-			if(!classApiMethods.contains("POST"))
-				classApiMethods.add("POST");
-			if(!classApiMethods.contains("PATCH"))
-				classApiMethods.add("PATCH");
-			if(!classApiMethods.contains("GET"))
-				classApiMethods.add("GET");
-			if(!classApiMethods.contains("PUT"))
-				classApiMethods.add("PUT");
-			if(!classApiMethods.contains("DELETE"))
-				classApiMethods.add("DELETE");
-		}
+//		if(classModel) {
+//			if(!classApiMethods.contains("Search"))
+//				classApiMethods.add("Search");
+//			if(!classApiMethods.contains("POST"))
+//				classApiMethods.add("POST");
+//			if(!classApiMethods.contains("PATCH"))
+//				classApiMethods.add("PATCH");
+//			if(!classApiMethods.contains("GET"))
+//				classApiMethods.add("GET");
+//			if(!classApiMethods.contains("PUT"))
+//				classApiMethods.add("PUT");
+//			if(!classApiMethods.contains("DELETE"))
+//				classApiMethods.add("DELETE");
+//		}
 
 		String classSimpleNameApiPackageInfo;
 		String classSimpleNameGenApiServiceImpl;
@@ -878,6 +878,19 @@ public class IndexClass extends WatchClassBase {
 				if(!classKeywords.contains(classKeywordValue))
 					classKeywords.add(classKeywordValue);
 				classKeywordsFound = true;
+			}
+
+			String sqlString = regex("^sql:\\s*(.*)$", classComment, 1);
+			if(NumberUtils.isCreatable(sqlString)) {
+				Integer sqlInteger = Integer.parseInt(sqlString);
+				Integer sqlMigration = Math.abs(sqlInteger);
+				Boolean sqlCreate = sqlInteger > 0;
+				Boolean sqlDrop = sqlInteger < 0;
+				indexStoreSolr(classDoc, "sqlMigration", sqlMigration);
+				if(sqlCreate)
+					indexStoreSolr(classDoc, "sqlCreate", sqlCreate);
+				if(sqlDrop)
+					indexStoreSolr(classDoc, "sqlDrop", sqlDrop);
 			}
 
 			Matcher classMapSearch = Pattern.compile("^map\\.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
@@ -1450,14 +1463,70 @@ public class IndexClass extends WatchClassBase {
 							}
 							indexStoreSolr(entityDoc, "entityKeywordsFound", entityKeywordsFound); 
 
+							String sqlString = regex("^sql:\\s*(.*)$", methodComment, 1);
+							if(NumberUtils.isCreatable(sqlString)) {
+								Integer sqlInteger = Integer.parseInt(sqlString);
+								Integer sqlMigration = Math.abs(sqlInteger);
+								Boolean sqlCreate = sqlInteger > 0;
+								Boolean sqlDrop = sqlInteger < 0;
+								indexStoreSolr(entityDoc, "sqlMigration", sqlMigration);
+								if(sqlCreate)
+									indexStoreSolr(entityDoc, "sqlCreate", sqlCreate);
+								if(sqlDrop)
+									indexStoreSolr(entityDoc, "sqlDrop", sqlDrop);
+							}
+
 							Matcher entityMapSearch = Pattern.compile("^map.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityMapFound = entityMapSearch.find();
 							boolean entityMapFoundCurrent = entityMapFound;
 							while(entityMapFoundCurrent) {
 								String entityMapKey = entityMapSearch.group(1);
 								String entityMapValue = entityMapSearch.group(2);
-								indexStoreSolr(entityDoc, entityMapKey, entityMapValue);
-								entityMapFound = true;
+								String[] entityMapKeyParts = StringUtils.split(entityMapKey, ".");
+								if(entityMapKeyParts.length == 2) {
+									String entityMapKeyType = entityMapKeyParts[0];
+									if("Integer".equals(entityMapKeyType) && NumberUtils.isCreatable(entityMapValue)) {
+										try {
+											indexStoreSolr(entityDoc, entityMapKeyParts[1], Integer.parseInt(entityMapValue));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else if("Double".equals(entityMapKeyType) && NumberUtils.isCreatable(entityMapValue)) {
+										try {
+											indexStoreSolr(entityDoc, entityMapKeyParts[1], Double.parseDouble(entityMapValue));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else if("Long".equals(entityMapKeyType) && NumberUtils.isCreatable(entityMapValue)) {
+										try {
+											indexStoreSolr(entityDoc, entityMapKeyParts[1], Long.parseLong(entityMapValue));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else if("LocalDateTime".equals(entityMapKeyType) && NumberUtils.isCreatable(entityMapValue)) {
+										try {
+											indexStoreSolr(entityDoc, entityMapKeyParts[1], Date.from(LocalDateTime.parse(entityMapValue, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant()));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else if("LocalDate".equals(entityMapKeyType) && NumberUtils.isCreatable(entityMapValue)) {
+										try {
+											indexStoreSolr(entityDoc, entityMapKeyParts[1], Date.from(LocalDate.parse(entityMapValue, DateTimeFormatter.ISO_OFFSET_DATE).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else {
+										indexStoreSolr(entityDoc, entityMapKey, entityMapValue);
+									}
+								}
+								else {
+									indexStoreSolr(entityDoc, entityMapKey, entityMapValue);
+								}
 								entityMapFoundCurrent = entityMapSearch.find();
 							}
 						}

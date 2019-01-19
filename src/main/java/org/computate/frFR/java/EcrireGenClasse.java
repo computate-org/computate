@@ -2210,7 +2210,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			/////////////////////
 			if(classeInitLoin && entiteInitLoin) {
 				o = wRequeteSite;
-				tl(2, entiteVar, ".setRequeteSite_(requeteSite);");
+				tl(2, entiteVar, ".setRequeteSite_(requeteSite_);");
 			}
 	
 			/////////////////

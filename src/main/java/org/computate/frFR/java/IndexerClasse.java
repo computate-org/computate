@@ -2259,20 +2259,20 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele);
 		ArrayList<String> classeApiMethodes = regexListe("^apiMethode:\\s*(.*)", classeCommentaire);
 
-		if(classeModele) {
-			if(!classeApiMethodes.contains("Recherche"))
-				classeApiMethodes.add("Recherche");
-			if(!classeApiMethodes.contains("POST"))
-				classeApiMethodes.add("POST");
-			if(!classeApiMethodes.contains("PATCH"))
-				classeApiMethodes.add("PATCH");
-			if(!classeApiMethodes.contains("GET"))
-				classeApiMethodes.add("GET");
-			if(!classeApiMethodes.contains("PUT"))
-				classeApiMethodes.add("PUT");
-			if(!classeApiMethodes.contains("DELETE"))
-				classeApiMethodes.add("DELETE");
-		}
+//		if(classeModele) {
+//			if(!classeApiMethodes.contains("Recherche"))
+//				classeApiMethodes.add("Recherche");
+//			if(!classeApiMethodes.contains("POST"))
+//				classeApiMethodes.add("POST");
+//			if(!classeApiMethodes.contains("PATCH"))
+//				classeApiMethodes.add("PATCH");
+//			if(!classeApiMethodes.contains("GET"))
+//				classeApiMethodes.add("GET");
+//			if(!classeApiMethodes.contains("PUT"))
+//				classeApiMethodes.add("PUT");
+//			if(!classeApiMethodes.contains("DELETE"))
+//				classeApiMethodes.add("DELETE");
+//		}
 
 		String classeNomSimpleApiEnsembleInfo;
 		String classeNomSimpleGenApiServiceImpl;
@@ -2526,6 +2526,19 @@ public class IndexerClasse extends RegarderClasseBase {
 				if(!classeMotsCles.contains(classeMotCleValeur))
 					classeMotsCles.add(classeMotCleValeur);
 				classeMotsClesTrouve = true;
+			}
+
+			String sqlString = regex("^sql:\\s*(.*)$", classeCommentaire, 1);
+			if(NumberUtils.isCreatable(sqlString)) {
+				Integer sqlInteger = Integer.parseInt(sqlString);
+				Integer sqlMigration = Math.abs(sqlInteger);
+				Boolean sqlCreate = sqlInteger > 0;
+				Boolean sqlDrop = sqlInteger < 0;
+				indexerStockerSolr(classeDoc, "sqlMigration", sqlMigration);
+				if(sqlCreate)
+					indexerStockerSolr(classeDoc, "sqlCreate", sqlCreate);
+				if(sqlDrop)
+					indexerStockerSolr(classeDoc, "sqlDrop", sqlDrop);
 			}
 
 			Matcher classeMapRecherche = Pattern.compile("^map\\.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
@@ -3098,14 +3111,70 @@ public class IndexerClasse extends RegarderClasseBase {
 							}
 							indexerStockerSolr(entiteDoc, "entiteMotsClesTrouve", entiteMotsClesTrouve); 
 
+							String sqlString = regex("^sql:\\s*(.*)$", methodeCommentaire, 1);
+							if(NumberUtils.isCreatable(sqlString)) {
+								Integer sqlInteger = Integer.parseInt(sqlString);
+								Integer sqlMigration = Math.abs(sqlInteger);
+								Boolean sqlCreate = sqlInteger > 0;
+								Boolean sqlDrop = sqlInteger < 0;
+								indexerStockerSolr(entiteDoc, "sqlMigration", sqlMigration);
+								if(sqlCreate)
+									indexerStockerSolr(entiteDoc, "sqlCreate", sqlCreate);
+								if(sqlDrop)
+									indexerStockerSolr(entiteDoc, "sqlDrop", sqlDrop);
+							}
+
 							Matcher entiteMapRecherche = Pattern.compile("^map.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteMapTrouve = entiteMapRecherche.find();
 							boolean entiteMapTrouveActuel = entiteMapTrouve;
 							while(entiteMapTrouveActuel) {
 								String entiteMapCle = entiteMapRecherche.group(1);
 								String entiteMapValeur = entiteMapRecherche.group(2);
-								indexerStockerSolr(entiteDoc, entiteMapCle, entiteMapValeur);
-								entiteMapTrouve = true;
+								String[] entiteMapCleParts = StringUtils.split(entiteMapCle, ".");
+								if(entiteMapCleParts.length == 2) {
+									String entiteMapCleType = entiteMapCleParts[0];
+									if("Integer".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
+										try {
+											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Integer.parseInt(entiteMapValeur));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else if("Double".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
+										try {
+											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Double.parseDouble(entiteMapValeur));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else if("Long".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
+										try {
+											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Long.parseLong(entiteMapValeur));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else if("LocalDateTime".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
+										try {
+											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Date.from(LocalDateTime.parse(entiteMapValeur, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant()));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else if("LocalDate".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
+										try {
+											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Date.from(LocalDate.parse(entiteMapValeur, DateTimeFormatter.ISO_OFFSET_DATE).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else {
+										indexerStockerSolr(entiteDoc, entiteMapCle, entiteMapValeur);
+									}
+								}
+								else {
+									indexerStockerSolr(entiteDoc, entiteMapCle, entiteMapValeur);
+								}
 								entiteMapTrouveActuel = entiteMapRecherche.find();
 							}
 						}
