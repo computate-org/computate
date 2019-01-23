@@ -198,7 +198,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classApi
 	 * r: classePage
 	 * r.enUS: classPage
-	 * r: classeRolesTrouve
+	 * r: classeRolesTrouves
 	 * r.enUS: classRolesFound
 	 * r: classeRoles
 	 * r.enUS: classRoles
@@ -342,7 +342,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeModele = BooleanUtils.isTrue((Boolean)doc.get("classeModele_stored_boolean"));
 					classeApi = BooleanUtils.isTrue((Boolean)doc.get("classeApi_stored_boolean"));
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
-					classeRolesTrouve = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouve_stored_boolean"));
+					classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouves_stored_boolean"));
 					classeRoles = (List<String>)doc.get("classeRoles_" + langueNom + "_stored_strings");
 					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_stored_strings");
 					if(classeApiMethodes == null)

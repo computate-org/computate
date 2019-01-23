@@ -638,6 +638,31 @@ public class ConfigSite {
 		String o = regex(motif, texte, 1);
 		return o;
 	}
+	
+	/**
+	 * var.enUS: regexLanguage
+	 * param1.var.enUS: languageName
+	 * param2.var.enUS: fieldNameRegex
+	 * param3.var.enUS: comment
+	 * r: nomChamp
+	 * r.enUS: fieldName
+	 * r: valeurChamp
+	 * r.enUS: fieldValue
+	 * r: commentaire
+	 * r.enUS: comment
+	 * r: langueNom
+	 * r.enUS: languageName
+	 */
+	protected String regexLangue(String langueNom, String nomChampRegex, String commentaire) throws Exception {
+		String valeurChamp = null;
+		if(nomChampRegex != null && commentaire != null) {
+			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
+			if(m.find()) {
+				valeurChamp = m.group(2);
+			}
+		}
+		return valeurChamp;
+	}
 
 	/**
 	 * param1.var.enUS: pattern

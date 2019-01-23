@@ -42,7 +42,7 @@ public class WritePageClass extends WriteApiClass {
 //		l();
 //		tl(2, "usineRouteur.addHandlerByOperationId(\"getPage", classeNomSimple, "\", contexteRoutage -> {");
 //		Integer tBase = 0;
-//		if(classeRolesTrouve) {
+//		if(classeRolesTrouves) {
 //			String requeteRole = classeRoles.get(0);
 //			tBase = 6;
 //			tl(3, "contexteRoutage.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
@@ -74,7 +74,7 @@ public class WritePageClass extends WriteApiClass {
 //		tl(tBase, "}");
 //		tl(tBase, "genererGetFin", classeNomSimple, "(requeteSite);");
 //		tl(tBase, "requeteSite.getReponseServeur().end();");
-//		if(classeRolesTrouve) {
+//		if(classeRolesTrouves) {
 //			tl(5, "}");
 //			tl(5, "else {");
 //			tl(6, "contexteRoutage.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");

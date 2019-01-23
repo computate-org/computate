@@ -607,7 +607,67 @@ public class IndexerClasse extends RegarderClasseBase {
 		doc.addField(concat(nomChamp, "_stored_string"), valeurChamp);
 		doc.addField(concat(nomChamp, "_indexed_string"), valeurChamp);
 		return valeurChamp;
+	} 
+	
+	/**
+	 * var.enUS: indexStoreSolrRegex
+	 * param2.var.enUS: languageName
+	 * param3.var.enUS: fieldName
+	 * param4.var.enUS: fieldNameRegex
+	 * param5.var.enUS: comment
+	 * r: nomChamp
+	 * r.enUS: fieldName
+	 * r: valeurChamp
+	 * r.enUS: fieldValue
+	 * r: valeurDefaut
+	 * r.enUS: defaultValue
+	 * r: commentaire
+	 * r.enUS: comment
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: indexerStocker
+	 * r.enUS: indexStore
+	 */
+	protected String indexerStockerSolrRegex(SolrInputDocument doc, String langueNom, String nomChamp, String nomChampRegex, String commentaire) throws Exception {
+		return indexerStockerSolrRegex(doc, langueNom, nomChamp, nomChampRegex, commentaire, null);
 	}
+	
+	/**
+	 * var.enUS: indexStoreSolrRegex
+	 * param2.var.enUS: languageName
+	 * param3.var.enUS: fieldName
+	 * param4.var.enUS: fieldNameRegex
+	 * param5.var.enUS: comment
+	 * param6.var.enUS: defaultValue
+	 * r: nomChamp
+	 * r.enUS: fieldName
+	 * r: valeurChamp
+	 * r.enUS: fieldValue
+	 * r: valeurDefaut
+	 * r.enUS: defaultValue
+	 * r: commentaire
+	 * r.enUS: comment
+	 * r: langueNom
+	 * r.enUS: languageName
+	 */
+	protected String indexerStockerSolrRegex(SolrInputDocument doc, String langueNom, String nomChamp, String nomChampRegex, String commentaire, String valeurDefaut) throws Exception {
+		String valeurChamp = null;
+		if(nomChampRegex != null && commentaire != null) {
+			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
+			if(m.find()) {
+				valeurChamp = m.group(2);
+			}
+		}
+		if(StringUtils.isBlank(valeurChamp)) {
+			valeurChamp = valeurDefaut;
+		}
+		if(StringUtils.isNotBlank(valeurChamp)) {
+			doc.addField(concat(nomChamp, "_", langueNom, "_stored_string"), valeurChamp);
+			doc.addField(concat(nomChamp, "_", langueNom, "_indexed_string"), valeurChamp);
+		}
+		return valeurChamp;
+	}
+
 	
 	/**
 	 * var.enUS: indexStoreListSolr
@@ -1565,7 +1625,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * 
 	 * r: classeValsRecherche
 	 * r.enUS: classValsSearch
-	 * r: classeValsTrouve
+	 * r: classeValsTrouves
 	 * r.enUS: classValsFound
 	 * r: classeValsVar
 	 * r.enUS: classValsVar
@@ -1582,7 +1642,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * 
 	 * r: entiteValsRecherche
 	 * r.enUS: entityValsSearch
-	 * r: entiteValsTrouve
+	 * r: entiteValsTrouves
 	 * r.enUS: entityValsFound
 	 * r: entiteValsVar
 	 * r.enUS: entityValsVar
@@ -1599,9 +1659,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * 
 	 * r: classeRolesRecherche
 	 * r.enUS: classRolesSearch
-	 * r: classeRolesTrouveActuel
+	 * r: classeRolesTrouvesActuel
 	 * r.enUS: classRolesFoundCurrent
-	 * r: classeRolesTrouve
+	 * r: classeRolesTrouves
 	 * r.enUS: classRolesFound
 	 * r: classeRolesVar
 	 * r.enUS: classRolesVar
@@ -1618,9 +1678,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * 
 	 * r: classeMotsClesRecherche
 	 * r.enUS: classKeywordsSearch
-	 * r: classeMotsClesTrouveActuel
+	 * r: classeMotsClesTrouvesActuel
 	 * r.enUS: classKeywordsFoundActual
-	 * r: classeMotsClesTrouve
+	 * r: classeMotsClesTrouves
 	 * r.enUS: classKeywordsFound
 	 * r: classeMotsCles
 	 * r.enUS: classKeywords
@@ -1628,9 +1688,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classKeywordValue
 	 * r: entiteMotsClesRecherche
 	 * r.enUS: entityKeywordsSearch
-	 * r: entiteMotsClesTrouveActuel
+	 * r: entiteMotsClesTrouvesActuel
 	 * r.enUS: entityKeywordsFoundCurrent
-	 * r: entiteMotsClesTrouve
+	 * r: entiteMotsClesTrouves
 	 * r.enUS: entityKeywordsFound
 	 * r: entiteMotsClesVar
 	 * r.enUS: entityKeywordsVar
@@ -1826,7 +1886,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityMethodsAfter
 	 * r: entiteOptionsRecherche
 	 * r.enUS: entityOptionsSearch
-	 * r: entiteOptionsTrouve
+	 * r: entiteOptionsTrouves
 	 * r.enUS: entityOptionsFound
 	 * r: entiteOptionsVar
 	 * r.enUS: entityOptionsVar
@@ -2031,6 +2091,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: classeApiOperationIdReponse
 	 * r.enUS: classApiOperationIdResponse
 	 * 
+	 * r: regexLangue
+	 * r.enUS: regexLanguage
+	 * 
 	 * r: motCle
 	 * r.enUS: keyword
 	 * r: ClasseParts
@@ -2080,7 +2143,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		JavaClass classeQdox = bricoleur.getClassByName(classeNomCanonique.toString());
 		JavaClass classeQdoxSuper = classeQdox.getSuperJavaClass();
 		JavaClass classeQdoxString = bricoleur.getClassByName(String.class.getCanonicalName());
-		Boolean classeMotsClesTrouve = false;
+		Boolean classeMotsClesTrouves = false;
 		List<String> classeMotsCles = new ArrayList<String>();
 		List<String> classeInitLoinExceptions = new ArrayList<String>(); 
 		String classeVarClePrimaire = null;
@@ -2249,6 +2312,18 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "classeCheminRepertoireGen", langueNom, classeCheminRepertoireGen); 
 		indexerStockerSolr(classeDoc, "nomEnsembleDomaine", nomEnsembleDomaine); 
 
+		ArrayList<JavaClass> classesSuperQdox = new ArrayList<JavaClass>();
+		ArrayList<JavaClass> classesSuperQdoxEtMoi = new ArrayList<JavaClass>();
+		ArrayList<JavaClass> classesSuperQdoxEtMoiSansGen = new ArrayList<JavaClass>();
+		ArrayList<JavaClass> classesSuperQdoxEtInterfaces = new ArrayList<JavaClass>();
+		ArrayList<JavaClass> classesSuperQdoxInterfacesEtMoi = new ArrayList<JavaClass>();
+		peuplerClassesSuperQdoxInterfacesEtMoi(classeQdox, classesSuperQdox, classesSuperQdoxEtMoi, classesSuperQdoxEtMoiSansGen, classesSuperQdoxEtInterfaces, classesSuperQdoxInterfacesEtMoi);
+
+		for(JavaClass c : classesSuperQdoxEtMoiSansGen) {
+			indexerStockerListeSolr(classeDoc, "entiteClassesSuperEtMoiSansGen", c.getCanonicalName()); 
+
+		}
+
 		SolrInputDocument classeDocClone = classeDoc.deepCopy();
 		Integer partNumero = 1;
 
@@ -2258,21 +2333,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^sauvegarde:\\s*(true)$", classeCommentaire) || classeModele);
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele);
 		ArrayList<String> classeApiMethodes = regexListe("^apiMethode:\\s*(.*)", classeCommentaire);
-
-//		if(classeModele) {
-//			if(!classeApiMethodes.contains("Recherche"))
-//				classeApiMethodes.add("Recherche");
-//			if(!classeApiMethodes.contains("POST"))
-//				classeApiMethodes.add("POST");
-//			if(!classeApiMethodes.contains("PATCH"))
-//				classeApiMethodes.add("PATCH");
-//			if(!classeApiMethodes.contains("GET"))
-//				classeApiMethodes.add("GET");
-//			if(!classeApiMethodes.contains("PUT"))
-//				classeApiMethodes.add("PUT");
-//			if(!classeApiMethodes.contains("DELETE"))
-//				classeApiMethodes.add("DELETE");
-//		}
 
 		String classeNomSimpleApiEnsembleInfo;
 		String classeNomSimpleGenApiServiceImpl;
@@ -2477,55 +2537,42 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", langueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", langueNom));
 
-		
-		ArrayList<JavaClass> classesSuperQdox = new ArrayList<JavaClass>();
-		ArrayList<JavaClass> classesSuperQdoxEtMoi = new ArrayList<JavaClass>();
-		ArrayList<JavaClass> classesSuperQdoxEtMoiSansGen = new ArrayList<JavaClass>();
-		ArrayList<JavaClass> classesSuperQdoxEtInterfaces = new ArrayList<JavaClass>();
-		ArrayList<JavaClass> classesSuperQdoxInterfacesEtMoi = new ArrayList<JavaClass>();
-		peuplerClassesSuperQdoxInterfacesEtMoi(classeQdox, classesSuperQdox, classesSuperQdoxEtMoi, classesSuperQdoxEtMoiSansGen, classesSuperQdoxEtInterfaces, classesSuperQdoxInterfacesEtMoi);
-
-		for(JavaClass c : classesSuperQdoxEtMoiSansGen) {
-			indexerStockerListeSolr(classeDoc, "entiteClassesSuperEtMoiSansGen", c.getCanonicalName()); 
-
-		}
-
 		indexerStockerSolr(classeDoc, "classePageUri", langueNom, regex("^pageUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
 
 		if(classeCommentaire != null) {
 
 			Matcher classeValsRecherche = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classeCommentaire);
-			boolean classeValsTrouve = classeValsRecherche.find();
-			while(classeValsTrouve) {
+			boolean classeValsTrouves = classeValsRecherche.find();
+			while(classeValsTrouves) {
 				String classeValVar = classeValsRecherche.group(1);
 				String classeValLangue = classeValsRecherche.group(2);
 				String classeValValeur = classeValsRecherche.group(3);
 				stockerListeSolr(classeDoc, "classeValsVar", classeValVar);
 				stockerListeSolr(classeDoc, "classeValsLangue", classeValLangue);
 				stockerListeSolr(classeDoc, "classeValsValeur", classeValValeur);
-				classeValsTrouve = classeValsRecherche.find();
+				classeValsTrouves = classeValsRecherche.find();
 			}
 
 			Matcher classeRolesRecherche = Pattern.compile("^role\\.(\\w+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
-			boolean classeRolesTrouve = classeRolesRecherche.find();
-			boolean classeRolesTrouveActuel = classeRolesTrouve;
-			while(classeRolesTrouveActuel) {
+			boolean classeRolesTrouves = classeRolesRecherche.find();
+			boolean classeRolesTrouvesActuel = classeRolesTrouves;
+			while(classeRolesTrouvesActuel) {
 				String classeRoleLangue = classeRolesRecherche.group(1);
 				String classeRoleValeur = classeRolesRecherche.group(2);
 				stockerListeSolr(classeDoc, "classeRoles", classeRoleLangue, classeRoleValeur);
-				classeRolesTrouve = true;
-				classeRolesTrouveActuel = classeRolesRecherche.find();
+				classeRolesTrouves = true;
+				classeRolesTrouvesActuel = classeRolesRecherche.find();
 			}
-			indexerStockerSolr(classeDoc, "classeRolesTrouve", classeRolesTrouve); 
+			indexerStockerSolr(classeDoc, "classeRolesTrouves", classeRolesTrouves); 
 
 			Matcher classeMotsClesRecherche = Pattern.compile("^motCle:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
-			boolean classeMotsClesTrouveActuel = classeMotsClesRecherche.find();
-			while(classeMotsClesTrouveActuel) {
+			boolean classeMotsClesTrouvesActuel = classeMotsClesRecherche.find();
+			while(classeMotsClesTrouvesActuel) {
 				String classeMotCleValeur = classeMotsClesRecherche.group(1);
-				classeMotsClesTrouveActuel = classeMotsClesRecherche.find();
+				classeMotsClesTrouvesActuel = classeMotsClesRecherche.find();
 				if(!classeMotsCles.contains(classeMotCleValeur))
 					classeMotsCles.add(classeMotCleValeur);
-				classeMotsClesTrouve = true;
+				classeMotsClesTrouves = true;
 			}
 
 			String sqlString = regex("^sql:\\s*(.*)$", classeCommentaire, 1);
@@ -3070,20 +3117,20 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(methodeCommentaire != null) {
 
 							Matcher entiteValsRecherche = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
-							boolean entiteValsTrouve = entiteValsRecherche.find();
-							while(entiteValsTrouve) {
+							boolean entiteValsTrouves = entiteValsRecherche.find();
+							while(entiteValsTrouves) {
 								String entiteValLangue = entiteValsRecherche.group(1);
 								String entiteValVar = entiteValsRecherche.group(2);
 								String entiteValValeur = entiteValsRecherche.group(3);
 								stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
 								stockerListeSolr(entiteDoc, "entiteValsLangue", entiteValLangue);
 								stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
-								entiteValsTrouve = entiteValsRecherche.find();
+								entiteValsTrouves = entiteValsRecherche.find();
 							}
 
 							Matcher entiteOptionsRecherche = Pattern.compile("^option\\.(\\w+)\\.([^:]+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
-							boolean entiteOptionsTrouve = entiteOptionsRecherche.find();
-							while(entiteOptionsTrouve) {
+							boolean entiteOptionsTrouves = entiteOptionsRecherche.find();
+							while(entiteOptionsTrouves) {
 								String entiteOptionLangue = entiteOptionsRecherche.group(1);
 								String entiteOptionVar = entiteOptionsRecherche.group(2);
 								String entiteOptionValeur = entiteOptionsRecherche.group(3);
@@ -3092,24 +3139,24 @@ public class IndexerClasse extends RegarderClasseBase {
 								stockerListeSolr(entiteDoc, "entiteOptionsVar", entiteOptionVar);
 								stockerListeSolr(entiteDoc, "entiteOptionsLangue", entiteOptionLangue);
 								stockerListeSolr(entiteDoc, "entiteOptionsValeur", entiteOptionValeur);
-								entiteOptionsTrouve = entiteOptionsRecherche.find();
+								entiteOptionsTrouves = entiteOptionsRecherche.find();
 							}
-							if(entiteOptionsTrouve)
+							if(entiteOptionsTrouves)
 								stockerSolr(entiteDoc, "entiteOptions", true);
 
 							Matcher entiteMotsClesRecherche = Pattern.compile("^motCle:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
-							boolean entiteMotsClesTrouve = entiteMotsClesRecherche.find();
-							boolean entiteMotsClesTrouveActuel = entiteMotsClesTrouve;
-							while(entiteMotsClesTrouveActuel) {
+							boolean entiteMotsClesTrouves = entiteMotsClesRecherche.find();
+							boolean entiteMotsClesTrouvesActuel = entiteMotsClesTrouves;
+							while(entiteMotsClesTrouvesActuel) {
 								String entiteMotCleValeur = entiteMotsClesRecherche.group(1);
 								indexerStockerListeSolr(entiteDoc, "entiteMotsCles", entiteMotCleValeur);
-								entiteMotsClesTrouve = true;
-								entiteMotsClesTrouveActuel = entiteMotsClesRecherche.find();
+								entiteMotsClesTrouves = true;
+								entiteMotsClesTrouvesActuel = entiteMotsClesRecherche.find();
 								if(!classeMotsCles.contains(entiteMotCleValeur))
 									classeMotsCles.add(entiteMotCleValeur);
-								classeMotsClesTrouve = true;
+								classeMotsClesTrouves = true;
 							}
-							indexerStockerSolr(entiteDoc, "entiteMotsClesTrouve", entiteMotsClesTrouve); 
+							indexerStockerSolr(entiteDoc, "entiteMotsClesTrouves", entiteMotsClesTrouves); 
 
 							String sqlString = regex("^sql:\\s*(.*)$", methodeCommentaire, 1);
 							if(NumberUtils.isCreatable(sqlString)) {
@@ -3204,7 +3251,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteDescription", regex("^description:\\s*(.*)$", methodeCommentaire, 1));
 						indexerStockerSolr(entiteDoc, "entiteOptionnel", regexTrouve("^optionnel:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", regex("^htmlTooltip:\\s*(.*)$", methodeCommentaire, 1));
-						indexerStockerSolr(entiteDoc, "entiteVarApi", regex("^entiteVarApi:\\s*(.*)$", methodeCommentaire, 1));
+//						indexerStockerSolr(entiteDoc, "entiteVarApi", regex("^entiteVarApi:\\s*(.*)$", methodeCommentaire, 1));
+						indexerStockerSolrRegex(entiteDoc, langueNom, "entiteVarApi", "entiteVarApi", methodeCommentaire);
 						indexerStockerSolr(entiteDoc, "enumNomSimple", regex("^enumNomSimple:\\s*(.*)$", methodeCommentaire, 1));
 						indexerStockerSolr(entiteDoc, "enumVar", regex("^enumVar:\\s*(.*)$", methodeCommentaire, 1));
 						indexerStockerSolr(entiteDoc, "enumVarDescription", regex("^enumVarDescription:\\s*(.*)$", methodeCommentaire, 1));
@@ -3240,7 +3288,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						for(String langueNom : autresLangues) {  
 							indexerStockerSolr(entiteDoc, "entiteNomAffichage", langueNom, regex("^nomAffichage." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
 							indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", langueNom, regex("^htmlTooltip." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
-							indexerStockerSolr(entiteDoc, "entiteVarApi", langueNom, regex("^entiteVarApi." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
+//							indexerStockerSolr(entiteDoc, "entiteVarApi", langueNom, regex("^entiteVarApi." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
+							indexerStockerSolrRegex(entiteDoc, langueNom, "entiteVarApi", "entiteVarApi", methodeCommentaire);
 							indexerStockerSolr(entiteDoc, "enumVar", langueNom, regex("^enumVar." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
 							indexerStockerSolr(entiteDoc, "enumVarDescription", langueNom, regex("^enumVarDescription." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
 						}
@@ -3941,7 +3990,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			stockerListeSolr(classeDoc, "classeInitLoinExceptions", classeInitLoinException); 
 		}
 
-		indexerStockerSolr(classeDoc, "classeMotsClesTrouve", classeMotsClesTrouve); 
+		indexerStockerSolr(classeDoc, "classeMotsClesTrouves", classeMotsClesTrouves); 
 		for(String classeMotCleValeur : classeMotsCles) {
 			indexerListeSolr(classeDoc, "classeMotsCles", classeMotCleValeur); 
 			stockerListeSolr(classeDoc, "classeMotsCles", classeMotCleValeur); 
@@ -3974,41 +4023,80 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
-		if(!classeApiMethodes.contains("Recherche") && classeMotsClesTrouve && (classeMotsCles.contains("Recherche.requete") || classeMotsCles.contains("Recherche.reponse")))
+		if(!classeApiMethodes.contains("Recherche") && classeMotsClesTrouves && (classeMotsCles.contains("Recherche.requete") || classeMotsCles.contains("Recherche.reponse")))
 			classeApiMethodes.add("Recherche");
-		if(!classeApiMethodes.contains("POST") && classeMotsClesTrouve && (classeMotsCles.contains("POST.requete") || classeMotsCles.contains("POST.reponse")))
+		if(!classeApiMethodes.contains("POST") && classeMotsClesTrouves && (classeMotsCles.contains("POST.requete") || classeMotsCles.contains("POST.reponse")))
 			classeApiMethodes.add("POST");
-		if(!classeApiMethodes.contains("PATCH") && classeMotsClesTrouve && (classeMotsCles.contains("PATCH.requete") || classeMotsCles.contains("PATCH.reponse")))
+		if(!classeApiMethodes.contains("PATCH") && classeMotsClesTrouves && (classeMotsCles.contains("PATCH.requete") || classeMotsCles.contains("PATCH.reponse")))
 			classeApiMethodes.add("PATCH");
-		if(!classeApiMethodes.contains("GET") && classeMotsClesTrouve && (classeMotsCles.contains("GET.requete") || classeMotsCles.contains("GET.reponse")))
+		if(!classeApiMethodes.contains("GET") && classeMotsClesTrouves && (classeMotsCles.contains("GET.requete") || classeMotsCles.contains("GET.reponse")))
 			classeApiMethodes.add("GET");
-		if(!classeApiMethodes.contains("PUT") && classeMotsClesTrouve && (classeMotsCles.contains("PUT.requete") || classeMotsCles.contains("PUT.reponse")))
+		if(!classeApiMethodes.contains("PUT") && classeMotsClesTrouves && (classeMotsCles.contains("PUT.requete") || classeMotsCles.contains("PUT.reponse")))
 			classeApiMethodes.add("PUT");
-		if(!classeApiMethodes.contains("DELETE") && classeMotsClesTrouve && (classeMotsCles.contains("DELETE.requete") || classeMotsCles.contains("DELETE.reponse")))
+		if(!classeApiMethodes.contains("DELETE") && classeMotsClesTrouves && (classeMotsCles.contains("DELETE.requete") || classeMotsCles.contains("DELETE.reponse")))
 			classeApiMethodes.add("DELETE");
 
 		if(classeModele) {
-			String classeApiUri = indexerStockerSolr(classeDoc, "classeApiUri", regex("^apiUri:\\s*(.*)", classeCommentaire));
+			String classeApiUri = indexerStockerSolrRegex(classeDoc, langueNom, "classeApiUri", "apiUri", classeCommentaire);
+			String classeApiTag = indexerStockerSolrRegex(classeDoc, langueNom, "classeApiTag", "apiTag", classeCommentaire);
 
 			for(String classeApiMethode : classeApiMethodes) {
 				indexerStockerListeSolr(classeDoc, "classeApiMethodes", classeApiMethode);
-				if(classeMotsClesTrouve && (classeMotsCles.contains(classeApiMethode + ".request") || classeMotsCles.contains(classeApiMethode + ".response"))) {
-					String classeApiUriMethode = indexerStockerSolr(classeDoc, "classeApiUri" + classeApiMethode, regex("^apiUri" + classeApiMethode + ":\\s*(.*)", classeCommentaire, classeApiUri));
-					indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^apiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "GET"));
-					indexerStockerSolr(classeDoc, "classeApiOperationId" + classeApiMethode, regex("^apiOperationId" + classeApiMethode + ":\\s*(.*)", classeCommentaire, StringUtils.substringAfterLast(classeApiUriMethode, "/")));
-					indexerStockerSolr(classeDoc, "classeApiOperationId" + classeApiMethode + "Requete", regex("^apiOperationId" + classeApiMethode + "Requete:\\s*(.*)", classeCommentaire, "rechercheRequete-" + classeNomSimple));
-					indexerStockerSolr(classeDoc, "classeApiOperationId" + classeApiMethode + "Reponse", regex("^apiOperationId" + classeApiMethode + "Reponse:\\s*(.*)", classeCommentaire, "rechercheReponse-" + classeNomSimple));
-					String classeApiMotCleMethode = regex("^apiMotCle" + classeApiMethode + ":\\s*(.*)", classeCommentaire);
-					if(StringUtils.isBlank(classeApiMotCleMethode)) {
-						if(StringUtils.contains(classeApiMethode, "POST")
-								|| StringUtils.contains(classeApiMethode, "Search")
-								|| StringUtils.contains(classeApiMethode, "PATCH")
-								)
+//				if(classeMotsClesTrouves && (classeMotsCles.contains(classeApiMethode + ".request") || classeMotsCles.contains(classeApiMethode + ".response"))) {
+					String classeApiUriMethode = regexLangue(langueNom, "apiUri" + classeApiMethode, classeCommentaire);
+					indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^apiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, classeApiMethode));
+					indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode, "apiOperationId" + classeApiMethode, classeCommentaire, classeApiMethode);
+					indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Requete", "apiOperationId" + classeApiMethode + "Requete", classeCommentaire, classeApiMethode + "Requete");
+					indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Reponse", "apiOperationId" + classeApiMethode + "Reponse", classeCommentaire, classeApiMethode + "Reponse");
+					String classeApiMotCleMethode = regexLangue(langueNom, "apiMotCle" + classeApiMethode, classeCommentaire);
+					if(StringUtils.contains(classeApiMethode, "POST")
+							|| StringUtils.contains(classeApiMethode, "Recherche")
+							|| StringUtils.contains(classeApiMethode, "PATCH")
+							) {
+						if(StringUtils.isBlank(classeApiMotCleMethode))
 							classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
-						else
-							classeApiMotCleMethode = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/");
+						if(StringUtils.isBlank(classeApiUriMethode))
+							classeApiUriMethode = classeApiUri;
 					}
-					indexerStockerSolr(classeDoc, "classeApiMotCle" + classeApiMethode, classeApiMotCleMethode);
+					else {
+						if(StringUtils.isBlank(classeApiMotCleMethode))
+							classeApiMotCleMethode = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/");
+						if(StringUtils.isBlank(classeApiUriMethode))
+							classeApiUriMethode = classeApiUri + "/{pk}";
+					}
+					indexerStockerSolr(classeDoc, "classeApiMotCle" + classeApiMethode, langueNom, classeApiMotCleMethode);
+					indexerStockerSolr(classeDoc, "classeApiUri" + classeApiMethode, langueNom, classeApiUriMethode);
+//				}
+			}
+			for(String langueNom : autresLangues) {  
+				String classeApiUriLangue = indexerStockerSolrRegex(classeDoc, langueNom, "classeApiUri", "apiUri", classeCommentaire);
+
+				for(String classeApiMethode : classeApiMethodes) {
+	//				if(classeMotsClesTrouves && (classeMotsCles.contains(classeApiMethode + ".request") || classeMotsCles.contains(classeApiMethode + ".response"))) {
+						String classeApiUriMethodeLangue = regexLangue(langueNom, "apiUri" + classeApiMethode, classeCommentaire);
+						indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^apiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, classeApiMethode));
+						indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode, "apiOperationId" + classeApiMethode, classeCommentaire, classeApiMethode);
+						indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Requete", "apiOperationId" + classeApiMethode + "Requete", classeCommentaire, classeApiMethode + "Requete");
+						indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Reponse", "apiOperationId" + classeApiMethode + "Reponse", classeCommentaire, classeApiMethode + "Reponse");
+						String classeApiMotCleMethodeLangue = regexLangue(langueNom, "apiMotCle" + classeApiMethode, classeCommentaire);
+						if(StringUtils.contains(classeApiMethode, "POST")
+								|| StringUtils.contains(classeApiMethode, "Recherche")
+								|| StringUtils.contains(classeApiMethode, "PATCH")
+								) {
+							if(StringUtils.isBlank(classeApiMotCleMethodeLangue))
+								classeApiMotCleMethodeLangue = StringUtils.substringAfterLast(classeApiUriMethodeLangue, "/");
+							if(StringUtils.isBlank(classeApiUriMethodeLangue))
+								classeApiUriMethodeLangue = classeApiUriLangue;
+						}
+						else {
+							if(StringUtils.isBlank(classeApiMotCleMethodeLangue))
+								classeApiMotCleMethodeLangue = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classeApiUriMethodeLangue, "/"), "/");
+							if(StringUtils.isBlank(classeApiUriMethodeLangue))
+								classeApiUriMethodeLangue = classeApiUriLangue + "/{pk}";
+						}
+						indexerStockerSolr(classeDoc, "classeApiMotCle" + classeApiMethode, langueNom, classeApiMotCleMethodeLangue);
+						indexerStockerSolr(classeDoc, "classeApiUri" + classeApiMethode, langueNom, classeApiUriMethodeLangue);
+	//				}
 				}
 			}
 		}

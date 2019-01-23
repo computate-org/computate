@@ -282,7 +282,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: wApiEntities
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
-	 * r: classeRolesTrouve
+	 * r: classeRolesTrouves
 	 * r.enUS: classRolesFound
 	 * r: classeRoles
 	 * r.enUS: classRoles
@@ -797,7 +797,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //	//		tl(4, ".handler(rc -> {");
 //			tl(2, "usineRouteur.addHandlerByOperationId(\"get", classeNomSimple, "\", contexteItineraire -> {");
 //			Integer tBase = 0;
-//			if(classeRolesTrouve && classeRoles != null) {
+//			if(classeRolesTrouves && classeRoles != null) {
 //				String requeteRole = classeRoles.get(0);
 //				tBase = 6;
 //				tl(3, "gestionnaireEvenements.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
@@ -829,7 +829,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			tl(tBase, "}");
 //			tl(tBase, "genererGetFin", classeNomSimple, "(requeteSite);");
 //			tl(tBase, "requeteSite.getReponseServeur().end();");
-//			if(classeRolesTrouve && classeRoles != null) {
+//			if(classeRolesTrouves && classeRoles != null) {
 //				tl(5, "}");
 //				tl(5, "else {");
 //				tl(6, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
@@ -869,7 +869,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	////		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
 	//		tl(2, "usineRouteur.addHandlerByOperationId(\"post", classeNomSimple, "\", contexteItineraire -> {");
 	//		tBase = 0;
-	//		if(classeRolesTrouve && classeRoles != null) {
+	//		if(classeRolesTrouves && classeRoles != null) {
 	//			String requeteRole = classeRoles.get(0);
 	//			tBase = 6;
 	//			tl(3, "gestionnaireEvenements.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
@@ -947,7 +947,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	//		l();
 	//		tl(tBase + 0, "reponseServeur.write(\"\\t]\\n\");");
 	//		tl(tBase + 0, "reponseServeur.write(\"}\\n\");");
-	//		if(classeRolesTrouve && classeRoles != null) {
+	//		if(classeRolesTrouves && classeRoles != null) {
 	//			tl(5, "}");
 	//			tl(5, "else {");
 	//			tl(6, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");

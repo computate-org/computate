@@ -335,6 +335,17 @@ public class SiteConfig {
 		return o;
 	}
 
+	protected String regexLanguage(String languageName, String fieldNameRegex, String comment) throws Exception, Exception {
+		String fieldValue = null;
+		if(fieldNameRegex != null && comment != null) {
+			Matcher m = Pattern.compile("^" + fieldNameRegex + "(." + languageName + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(comment);
+			if(m.find()) {
+				fieldValue = m.group(2);
+			}
+		}
+		return fieldValue;
+	}
+
 	public String regex(String pattern, String text, String defaultValue) {
 		String o = regex(pattern, text, 1);
 		if(StringUtils.isEmpty(o))

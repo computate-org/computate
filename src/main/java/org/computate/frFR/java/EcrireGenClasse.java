@@ -250,7 +250,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * var.enUS: classRolesFound
 	 */
-	protected Boolean classeRolesTrouve;
+	protected Boolean classeRolesTrouves;
 
 	/**
 	 * var.enUS: classRoles
@@ -1266,7 +1266,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: entityMethodsAfter
 	 * r: entiteOptionsRecherche
 	 * r.enUS: entityOptionsSearch
-	 * r: entiteOptionsTrouve
+	 * r: entiteOptionsTrouves
 	 * r.enUS: entityOptionsFound
 	 * r: entiteOptionsVar
 	 * r.enUS: entityOptionsVar
@@ -1430,7 +1430,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: fieldValue
 	 * r: wApiGenererPost
 	 * r.enUS: wApiGeneratePost
-	 * r: classeRolesTrouve
+	 * r: classeRolesTrouves
 	 * r.enUS: classRolesFound
 	 * r: wApiGenererPut
 	 * r.enUS: wApiGeneratePut
@@ -2749,7 +2749,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			o = wApiGenererPost;
 	
 			Integer tBase = 2;
-	//		if(classeRolesTrouve) {
+	//		if(classeRolesTrouves) {
 	//			tBase = 6;
 	//		}
 	//		else {
@@ -2777,7 +2777,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			o = wApiGenererPut;
 	
 			tBase = 0;
-			if(classeRolesTrouve) {
+			if(classeRolesTrouves) {
 				tBase = 6;
 			}
 			else {
@@ -2796,7 +2796,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			o = wApiGenererPatch;
 	
 			tBase = 2;
-	//		if(classeRolesTrouve) {
+	//		if(classeRolesTrouves) {
 	//			tBase = 6;
 	//		}
 	//		else {
