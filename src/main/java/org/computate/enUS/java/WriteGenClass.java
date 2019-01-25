@@ -1,19 +1,17 @@
 package org.computate.enUS.java;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.ArrayListHandler;
+import java.util.Set;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -133,6 +131,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected AllWriter wPopulate;
 
+	protected AllWriter wStore;
+
 	protected AllWriter wExists;
 
 	protected AllWriter wSaves;
@@ -198,6 +198,7 @@ public class WriteGenClass extends WriteClass {
 		wAttribute = AllWriter.create();
 		wPut = AllWriter.create();
 		wPopulate = AllWriter.create();
+		wStore = AllWriter.create();
 		wSaves = AllWriter.create();
 		wExists = AllWriter.create();
 		wDefine = AllWriter.create();
@@ -627,7 +628,7 @@ public class WriteGenClass extends WriteClass {
 
 	public void  genCodeEntity(String languageName) throws Exception, Exception {
 		String entityVar = (String)doc.get("entityVar_" + languageName + "_stored_string");
-		String entitySuffixeType = (String)doc.get("entitySuffixeType_stored_string");
+		String entityTypeSuffix = (String)doc.get("entityTypeSuffix_stored_string");
 		String entityVarCapitalized = (String)doc.get("entityVarCapitalized_" + languageName + "_stored_string");
 		String entityCanonicalName = (String)doc.get("entityCanonicalName_" + languageName + "_stored_string");
 		String entityCanonicalNameGeneric = (String)doc.get("entityCanonicalNameGeneric_" + languageName + "_stored_string");
@@ -734,6 +735,16 @@ public class WriteGenClass extends WriteClass {
 			if(!entityWrap) {
 				if("java.util.List".equals(entityCanonicalName)) {
 					s(" = new java.util.ArrayList<");
+					s(entityCanonicalNameGeneric);
+					s(">()");
+				}
+				else if("java.util.Map".equals(entityCanonicalName)) {
+					s(" = new java.util.HashMap<");
+					s(entityCanonicalNameGeneric);
+					s(">()");
+				}
+				else if("java.util.Set".equals(entityCanonicalName)) {
+					s(" = new java.util.HashSet<");
 					s(entityCanonicalNameGeneric);
 					s(">()");
 				}
@@ -967,6 +978,26 @@ public class WriteGenClass extends WriteClass {
 				tl(1, "}");
 			}
 	
+			// Setter ZonedDateTime //
+			if(StringUtils.equals(entityCanonicalName, ZonedDateTime.class.getCanonicalName())) {
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Instant o) {");
+				tl(2, "this.", entityVar, " = ZonedDateTime.from(o);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				tl(2, "this.", entityVar, " = ZonedDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
+				tl(2, "this.", entityVar, " = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
+				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+			}
+	
 			// Setter LocalDateTime //
 			if(StringUtils.equals(entityCanonicalName, LocalDateTime.class.getCanonicalName())) {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Instant o) {");
@@ -988,7 +1019,7 @@ public class WriteGenClass extends WriteClass {
 			}
 	
 			// Ajouter //
-			if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
+			if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, Set.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, HashSet.class.getCanonicalName())) {
 				tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(", entitySimpleNameCompleteGeneric, "...objets) {");
 				tl(2, "for(", entitySimpleNameCompleteGeneric, " o : objets) {");
 				tl(3, "add", entityVarCapitalized, "(o);");
@@ -1096,6 +1127,21 @@ public class WriteGenClass extends WriteClass {
 					tl(1, "}");
 					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(Date o) {");
 					tl(2, entitySimpleNameCompleteGeneric, " p = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
+					tl(2, "add", entityVarCapitalized, "(p);");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+				}
+		
+				// Setter ZonedDateTime //
+				if(StringUtils.equals(entityCanonicalNameGeneric, ZonedDateTime.class.getCanonicalName())) {
+					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
+					tl(2, entitySimpleNameCompleteGeneric, " p = ZonedDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
+					tl(2, "add", entityVarCapitalized, "(p);");
+					tl(2, "return (", classSimpleName, ")this;");
+					tl(1, "}");
+					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(Date o) {");
+					tl(2, entitySimpleNameCompleteGeneric, " p = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
 					tl(2, "add", entityVarCapitalized, "(p);");
 					tl(2, "return (", classSimpleName, ")this;");
 					tl(1, "}");
@@ -1244,6 +1290,9 @@ public class WriteGenClass extends WriteClass {
 				else if(entitySimpleName.equals("Timestamp")) {
 					tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".toInstant());");
 				}
+				else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
+					tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".toInstant());");
+				}
 				else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
 					tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".atZone(ZoneId.systemDefault()).toInstant());");
 				}
@@ -1252,6 +1301,12 @@ public class WriteGenClass extends WriteClass {
 				}
 				else if(entitySimpleName.toString().equals("BigDecimal")) {
 					tl(2, "return ", entityVar, " == null ? null : ", entityVar, ".doubleValue();");
+				}
+				else if("java.util.List".equals(entityCanonicalName)) {
+					tl(2, "return ", entityVar, ";");
+				}
+				else if("java.util.Set".equals(entityCanonicalName) || "java.util.HashSet".equals(entityCanonicalName)) {
+					tl(2, "return new ArrayList<>(", entityVar, ");");
 				}
 				else {
 					tl(2, "return ", entityVar, ";");
@@ -1371,76 +1426,85 @@ public class WriteGenClass extends WriteClass {
 				if(entityEncrypted) {
 					// crypte
 					tl(3, "String valEncrypted = siteRequest.encryptStr(", entityVar, ");");
-					tl(3, "document.addField(\"", entityVar, "_encrypted", entitySuffixeType, "\"", "valEncrypted);");
+					tl(3, "document.addField(\"", entityVar, "_encrypted", entityTypeSuffix, "\"", "valEncrypted);");
 				}
 				if(entityIncremented) {
 					// crypte
-					tl(3, "document.addField(\"", entityVar, "_incremented", entitySuffixeType, "\", new java.util.HashMap<String, ", entitySimpleName, ">() {{ put(\"inc\"", ("Long".equals(entitySimpleName.toString()) ? "1L" : "1"), "); }});");
+					tl(3, "document.addField(\"", entityVar, "_incremented", entityTypeSuffix, "\", new java.util.HashMap<String, ", entitySimpleName, ">() {{ put(\"inc\"", ("Long".equals(entitySimpleName.toString()) ? "1L" : "1"), "); }});");
 				}
 				if(entitySuggested) {
 					// suggere
 					if(entitySimpleName.equals("Chain")) {
-						tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", ", entityVar, ");");
+						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 					else if(entitySimpleName.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+					}
+					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
+						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
 					}
 					else {
-						tl(3, "document.addField(\"", entityVar, "_suggested", entitySuffixeType, "\", ", entityVar, ");");
+						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 				}
 	
 				if(entitySimpleName != null && entityIndexed) {
 					// indexe
 					if(entitySimpleName.equals("Chain")) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", ", entityVar, ");");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 					else if(entitySimpleName.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+					}
+					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
 					}
-					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList")) {
+					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList") || entitySimpleName.equals("Set") || entitySimpleName.equals("HashSet")) {
 						tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
-						tl(4, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", o);");
+						tl(4, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", o);");
 						tl(3, "}");
 					}
 					else {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entitySuffixeType, "\", ", entityVar, ");");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 				}
 	
 				if(entityStored) {
 					// stocke
 					if(entitySimpleName.equals("Chain")) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", ", entityVar, ");");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 					else if(entitySimpleName.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+					}
+					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ", java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
 					}
-					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList")) {
+					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList") || entitySimpleName.equals("Set") || entitySimpleName.equals("HashSet")) {
 						tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
-						tl(4, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", o);");
+						tl(4, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", o);");
 						tl(3, "}");
 					}
 					else {
-						tl(3, "document.addField(\"", entityVar, "_stored", entitySuffixeType, "\", ", entityVar, ");");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 				}
 				tl(2, "}");
@@ -1522,34 +1586,34 @@ public class WriteGenClass extends WriteClass {
 	
 					if(entitySuggested) {
 						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entitySuffixeType, "\");");
+						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entityTypeSuffix, "\");");
 						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 						tl(2, "}");
 					}
 					else if(entityIncremented) {
 						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entitySuffixeType, "\");");
+						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entityTypeSuffix, "\");");
 						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 						tl(2, "}");
 					}
 					else if(entityUniqueKey) {
 						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entitySuffixeType, "\");");
+						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entityTypeSuffix, "\");");
 						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 						tl(2, "}");
 					}
 					else if(entityEncrypted) {
 						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
 						if(siteEncrypted)
-							tl(3, entitySolrSimpleName, " ", entityVar, " = siteRequest.deencryptStr((", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entitySuffixeType, "\"));");
+							tl(3, entitySolrSimpleName, " ", entityVar, " = siteRequest.deencryptStr((", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entityTypeSuffix, "\"));");
 						else
-							tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entitySuffixeType, "\");");
+							tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entityTypeSuffix, "\");");
 						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 						tl(2, "}");
 					}
 					else {
 						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entitySuffixeType, "\");");
+						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entityTypeSuffix, "\");");
 						tl(3, "if(", entityVar, " != null)");
 						if(StringUtils.contains(entitySolrCanonicalName, "<"))
 							tl(4, "o", classSimpleName, ".", entityVar, ".addAll(", entityVar, ");");
@@ -1562,6 +1626,43 @@ public class WriteGenClass extends WriteClass {
 			}	
 	
 			/////////////////
+			// codeStocker //
+			/////////////////
+			o = wStore;
+			if(entityEncrypted || entityStored || entityUniqueKey || entitySuggested || entityIncremented) {
+				tl(0);
+
+				if(entitySuggested) {
+					tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entityTypeSuffix, "\");");
+					tl(2, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+				}
+				else if(entityIncremented) {
+					tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entityTypeSuffix, "\");");
+					tl(2, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+				}
+				else if(entityUniqueKey) {
+					tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entityTypeSuffix, "\");");
+					tl(2, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+				}
+				else if(entityEncrypted) {
+					if(siteEncrypted)
+						tl(2, entitySolrSimpleName, " ", entityVar, " = siteRequest.deencryptStr((", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entityTypeSuffix, "\"));");
+					else
+						tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entityTypeSuffix, "\");");
+					tl(2, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+				}
+				else {
+					tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entityTypeSuffix, "\");");
+					tl(2, "if(", entityVar, " != null)");
+					if(StringUtils.contains(entitySolrCanonicalName, "<"))
+						tl(3, "o", classSimpleName, ".", entityVar, ".addAll(", entityVar, ");");
+					else
+						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+				}
+
+			}
+	
+			/////////////////
 			// codeApiChamps //
 			/////////////////
 			o = wApiEntities;
@@ -1569,11 +1670,11 @@ public class WriteGenClass extends WriteClass {
 	//		tl(1, "public static final String ENTITY_VAR_", entityVar, " = \"", entityVar, "\";");
 	//		if(classIndexed) {
 	//			if(entityIndexed)
-	//				tl(1, "public static final String ENTITY_VAR_INDEXED_", entityVar, " = \"", entityVar, "_indexed", entitySuffixeType, "\";");
+	//				tl(1, "public static final String ENTITY_VAR_INDEXED_", entityVar, " = \"", entityVar, "_indexed", entityTypeSuffix, "\";");
 	//			if(entityStored)
-	//				tl(1, "public static final String ENTITY_VAR_STORED_", entityVar, " = \"", entityVar, "_stored", entitySuffixeType, "\";");
+	//				tl(1, "public static final String ENTITY_VAR_STORED_", entityVar, " = \"", entityVar, "_stored", entityTypeSuffix, "\";");
 	//			if(entityEncrypted)
-	//				tl(1, "public static final String ENTITY_VAR_ENCRYPTED_", entityVar, " = \"", entityVar, "_encrypted", entitySuffixeType, "\";");
+	//				tl(1, "public static final String ENTITY_VAR_ENCRYPTED_", entityVar, " = \"", entityVar, "_encrypted", entityTypeSuffix, "\";");
 	//		}
 	//		if(entityAttribute)
 	//			tl(1, "public static final String ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, " = \"", entityAttributeVar, "\";");
@@ -1584,7 +1685,7 @@ public class WriteGenClass extends WriteClass {
 			o = wApiGet;
 			if(classIndexed && entityIndexed) {
 				tl(3, "case \"", entityVar, "\":");
-				tl(4, "return \"", entityVar, "_indexed", entitySuffixeType, "\";");
+				tl(4, "return \"", entityVar, "_indexed", entityTypeSuffix, "\";");
 			}
 	
 			///////////////////////
@@ -1607,6 +1708,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "serverResponse.write(\", \");");
 						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
 						tl(5, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(5, "serverResponse.write(\"\\\"\\n\");");
+						tl(5, "j++;");
+						tl(5, "return j;");
+					} else if (VAL_canonicalNameZonedDateTime.equals(entityCanonicalName)) {
+						tl(5, "if(j > 0)");
+						tl(6, "serverResponse.write(\", \");");
+						tl(5, "serverResponse.write(\"\\\"", entityVar, "\\\": \\\"\");");
+						tl(5, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime()));");
 						tl(5, "serverResponse.write(\"\\\"\\n\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
@@ -1724,6 +1833,25 @@ public class WriteGenClass extends WriteClass {
 							tl(7, "serverResponse.write(\", \");");
 							tl(6, "serverResponse.write(VAL_citation);");
 							tl(6, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "fieldValue = fieldValues.iterator().next();");
+							tl(5, "}");
+							tl(5, "serverResponse.write(VAL_guillmetsFin);");
+							tl(5, "j++;");
+							tl(5, "return j;");
+						}
+						else if(VAL_canonicalNameZonedDateTime.equals(entityCanonicalNameGeneric)) {
+							tl(5, "if(j > 0)");
+							tl(6, "serverResponse.write(\", \");");
+							tl(5, "serverResponse.write(VAL_citation);");
+							tl(5, "serverResponse.write(\"", entityVar, "\");");
+							tl(5, "serverResponse.write(VAL_citationDeuxPointsEspaceGuillmets);");
+							tl(5, "int k = 0;");
+							tl(5, "while(fieldValue != null) {");
+							tl(6, "if(k > 0)");
+							tl(7, "serverResponse.write(\", \");");
+							tl(6, "serverResponse.write(VAL_citation);");
+							tl(6, "serverResponse.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime()));");
 							tl(6, "serverResponse.write(VAL_citation);");
 							tl(6, "fieldValue = fieldValues.iterator().next();");
 							tl(5, "}");
@@ -2242,6 +2370,7 @@ public class WriteGenClass extends WriteClass {
 		wAttribute.flushClose();
 		wPut.flushClose();
 		wPopulate.flushClose();
+		wStore.flushClose();
 		wExists.flushClose();
 		wSaves.flushClose();
 		wDefine.flushClose();
@@ -2345,6 +2474,34 @@ public class WriteGenClass extends WriteClass {
 			if(BooleanUtils.isTrue(classExtendsBase)) {
 				tl(0);
 				tl(2, "super.populate", classSuperSimpleNameGeneric, "(solrDocument);");
+			}
+
+			tl(1, "}");
+		}	
+
+		/////////////////
+		// codeStore //
+		/////////////////
+		if(classSaved) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// store //");
+			tl(1, "/////////////");
+			tl(0);
+			t(1);
+			if(BooleanUtils.isTrue(classExtendsBase))
+				s("@Override ");
+			l("public void storePourClasse(SolrDocument solrDocument) {");
+			if(classSaved) {
+			tl(2, "store", classSimpleName, "(solrDocument);");
+			}
+			tl(1, "}");
+			tl(1, "public void store", classSimpleName, "(SolrDocument solrDocument) {");
+			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
+			s(wStore.toString());
+			if(BooleanUtils.isTrue(classExtendsBase)) {
+				tl(0);
+				tl(2, "super.store", classSuperSimpleNameGeneric, "(solrDocument);");
 			}
 
 			tl(1, "}");

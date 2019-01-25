@@ -6,11 +6,14 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -58,11 +61,17 @@ public class IndexClass extends WatchClassBase {
 
 	public static final String VAL_canonicalNameLocalDateTime = LocalDateTime.class.getCanonicalName();
 
+	public static final String VAL_canonicalNameZonedDateTime = ZonedDateTime.class.getCanonicalName();
+
 	public static final String VAL_canonicalNameLocalDate = LocalDate.class.getCanonicalName();
 
 	public static final String VAL_canonicalNameList = List.class.getCanonicalName();
 
 	public static final String VAL_canonicalNameArrayList = ArrayList.class.getCanonicalName();
+
+	public static final String VAL_canonicalNameSet = Set.class.getCanonicalName();
+
+	public static final String VAL_canonicalNameHashSet = HashSet.class.getCanonicalName();
 
 	public static final String VAL_canonicalNameInstant = Instant.class.getCanonicalName();
 
@@ -81,6 +90,8 @@ public class IndexClass extends WatchClassBase {
 	ClassParts classPartsList;
 
 	ClassParts classPartsArrayList;
+
+	ClassParts classPartsHashSet;
 
 	ClassParts classPartsSiteContext;
 
@@ -928,6 +939,13 @@ public class IndexClass extends WatchClassBase {
 							System.err.println(ExceptionUtils.getStackTrace(e));
 						}
 					}
+					else if("ZonedDateTime".equals(classMapKeyType) && NumberUtils.isCreatable(classMapValue)) {
+						try {
+							indexStoreSolr(classDoc, classMapKeyParts[1], Date.from(ZonedDateTime.parse(classMapValue, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toInstant()));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
 					else if("LocalDateTime".equals(classMapKeyType) && NumberUtils.isCreatable(classMapValue)) {
 						try {
 							indexStoreSolr(classDoc, classMapKeyParts[1], Date.from(LocalDateTime.parse(classMapValue, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant()));
@@ -1196,6 +1214,7 @@ public class IndexClass extends WatchClassBase {
 						if(StringUtils.isNotEmpty(entityClassParts.canonicalNameGeneric)) {
 							ClassParts classPartsGeneric = ClassParts.initClassParts(this, entityClassParts.canonicalNameGeneric, languageName);
 							classPartsGenAdd(classPartsGeneric);
+							classPartsGenAdd(entityClassParts);
 
 							if(classPartsGeneric.solrDocument != null) {
 								List<String> entitySuperClassesAndMeWithoutGen = (List<String>)classPartsGeneric.solrDocument.get("entitySuperClassesAndMeWithoutGen_stored_strings");
@@ -1247,6 +1266,7 @@ public class IndexClass extends WatchClassBase {
 								|| entityCanonicalName.equals(VAL_canonicalNameDouble)
 								|| entityCanonicalName.equals(VAL_canonicalNameFloat)
 								|| entityCanonicalName.equals(VAL_canonicalNameLong)
+								|| entityCanonicalName.equals(VAL_canonicalNameZonedDateTime)
 								|| entityCanonicalName.equals(VAL_canonicalNameLocalDateTime)
 								|| entityCanonicalName.equals(VAL_canonicalNameLocalDate)
 								|| entityCanonicalName.equals(VAL_canonicalNameTimestamp)
@@ -1259,10 +1279,25 @@ public class IndexClass extends WatchClassBase {
 								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameZonedDateTime.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)
+								|| classPartsChain != null && entityCanonicalName.equals(VAL_canonicalNameHashSet) && classPartsChain.canonicalName.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameString.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameInteger.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameBigDecimal.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameZonedDateTime.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
 								|| classPartsChain != null && entityCanonicalName.equals(VAL_canonicalNameArrayList) && classPartsChain.canonicalName.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameString.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)
@@ -1271,6 +1306,7 @@ public class IndexClass extends WatchClassBase {
 								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
+								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameZonedDateTime.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)
 								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)
@@ -1508,6 +1544,13 @@ public class IndexClass extends WatchClassBase {
 									else if("Long".equals(entityMapKeyType) && NumberUtils.isCreatable(entityMapValue)) {
 										try {
 											indexStoreSolr(entityDoc, entityMapKeyParts[1], Long.parseLong(entityMapValue));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
+									else if("ZonedDateTime".equals(entityMapKeyType) && NumberUtils.isCreatable(entityMapValue)) {
+										try {
+											indexStoreSolr(entityDoc, entityMapKeyParts[1], Date.from(ZonedDateTime.parse(entityMapValue, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toInstant()));
 										} catch (Exception e) {
 											System.err.println(ExceptionUtils.getStackTrace(e));
 										}
@@ -1795,11 +1838,12 @@ public class IndexClass extends WatchClassBase {
 							entitySimpleNameVertxJson = "Boolean";
 							entityCanonicalNameVertxJson = VAL_canonicalNameBoolean;
 						}
-						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 							entitySimpleNameVertxJson = "Instant";
 							entityCanonicalNameVertxJson = VAL_canonicalNameInstant;
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", languageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZonedDateTime", languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
 						}
@@ -1831,14 +1875,14 @@ public class IndexClass extends WatchClassBase {
 							entitySimpleNameVertxJson = "Integer";
 							entityCanonicalNameVertxJson = VAL_canonicalNameInteger;
 						}
-						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList, VAL_canonicalNameSet, VAL_canonicalNameHashSet)) {
 							if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameBoolean)) {
 								entitySimpleNameVertxJson = "JsonArray";
 								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entityListSimpleNameVertxJson = "Boolean";
 								entityListCanonicalNameVertxJson = VAL_canonicalNameBoolean;
 							}
-							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 								entitySimpleNameVertxJson = "JsonArray";
 								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entityListSimpleNameVertxJson = "Instant";
@@ -1903,7 +1947,7 @@ public class IndexClass extends WatchClassBase {
 							entitySolrSimpleName = StringUtils.substringAfterLast(entitySolrCanonicalName, ".");
 							entityTypeSuffix = "_boolean";
 						}
-						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameDate)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 							entitySolrCanonicalName = VAL_canonicalNameDate;
 							entitySolrSimpleName = StringUtils.substringAfterLast(entitySolrCanonicalName, ".");
 							entityTypeSuffix = "_date";
@@ -1933,13 +1977,13 @@ public class IndexClass extends WatchClassBase {
 							entitySolrSimpleName = StringUtils.substringAfterLast(entitySolrCanonicalName, ".");
 							entityTypeSuffix = "_int";
 						}
-						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList, VAL_canonicalNameSet, VAL_canonicalNameHashSet)) {
 							if(entityCanonicalNameGeneric.equals(VAL_canonicalNameBoolean)) {
 								entitySolrCanonicalName = VAL_canonicalNameList + "<" + VAL_canonicalNameBoolean + ">";
 								entitySolrSimpleName = "List<" + StringUtils.substringAfterLast(VAL_canonicalNameBoolean, ".") + ">";
 								entityTypeSuffix = "_booleans";
 							}
-							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameZonedDateTime)) {
 								entitySolrCanonicalName = VAL_canonicalNameList + "<" + VAL_canonicalNameDate + ">";
 								entitySolrSimpleName = "List<" + StringUtils.substringAfterLast(VAL_canonicalNameDate, ".") + ">";
 								entityTypeSuffix = "_dates";
@@ -1995,7 +2039,7 @@ public class IndexClass extends WatchClassBase {
 						if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBoolean)) {
 							entityJsonType = "boolean";
 						}
-						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 							entityJsonType = "string";
 							entityJsonFormat = "date-time";
 						}
@@ -2018,12 +2062,12 @@ public class IndexClass extends WatchClassBase {
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameInteger)) {
 							entityJsonType = "number";
 						}
-						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList)) {
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList, VAL_canonicalNameSet, VAL_canonicalNameHashSet)) {
 							if(entityCanonicalNameGeneric.equals(VAL_canonicalNameBoolean)) {
 								entityJsonType = "array";
 								entityListJsonType = "boolean";
 							}
-							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate)) {
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameZonedDateTime)) {
 								entityJsonType = "array";
 								entityListJsonType = "string";
 							}
@@ -2355,10 +2399,22 @@ public class IndexClass extends WatchClassBase {
 				indexStoreListSolr(classDoc, "classApiMethods", classApiMethod);
 //				if(classKeywordsFound && (classKeywords.contains(classApiMethod + ".request") || classKeywords.contains(classApiMethod + ".response"))) {
 					String classApiUriMethode = regexLanguage(languageName, "apiUri" + classApiMethod, classComment);
-					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethod" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
-					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "apiOperationId" + classApiMethod, classComment, classApiMethod);
-					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "apiOperationId" + classApiMethod + "Request", classComment, classApiMethod + "Request");
-					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "apiOperationId" + classApiMethod + "Response", classComment, classApiMethod + "Response");
+
+					if("Search".equals(classApiMethod))
+						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethod" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
+					else
+						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethod" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
+
+					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "apiOperationId" + classApiMethod, classComment, classApiMethod + classSimpleName);
+					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "apiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
+					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "apiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
+
+					if(classExtendsBase) {
+						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string"));
+						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Request", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Request" + "_" + languageName + "_stored_string"));
+						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + languageName + "_stored_string"));
+					}
+
 					String classApiKeywordMethod = regexLanguage(languageName, "apiKeyword" + classApiMethod, classComment);
 					if(StringUtils.contains(classApiMethod, "POST")
 							|| StringUtils.contains(classApiMethod, "Search")
@@ -2381,14 +2437,22 @@ public class IndexClass extends WatchClassBase {
 			}
 			for(String languageName : otherLanguages) {  
 				String classApiUriLangue = indexStoreSolrRegex(classDoc, languageName, "classApiUri", "apiUri", classComment);
+				String classApiTagLangue = indexStoreSolrRegex(classDoc, languageName, "classApiTag", "apiTag", classComment);
 
 				for(String classApiMethod : classApiMethods) {
 	//				if(classKeywordsFound && (classKeywords.contains(classApiMethod + ".request") || classKeywords.contains(classApiMethod + ".response"))) {
 						String classApiUriMethodeLangue = regexLanguage(languageName, "apiUri" + classApiMethod, classComment);
 						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethod" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
-						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "apiOperationId" + classApiMethod, classComment, classApiMethod);
-						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "apiOperationId" + classApiMethod + "Request", classComment, classApiMethod + "Request");
-						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "apiOperationId" + classApiMethod + "Response", classComment, classApiMethod + "Response");
+						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "apiOperationId" + classApiMethod, classComment, classApiMethod + classSimpleName);
+						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "apiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
+						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "apiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
+
+						if(classExtendsBase) {
+							indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string"));
+							indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Request", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Request" + "_" + languageName + "_stored_string"));
+							indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + languageName + "_stored_string"));
+						}
+
 						String classApiKeywordMethodLangue = regexLanguage(languageName, "apiKeyword" + classApiMethod, classComment);
 						if(StringUtils.contains(classApiMethod, "POST")
 								|| StringUtils.contains(classApiMethod, "Search")

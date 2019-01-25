@@ -114,11 +114,11 @@ public class WatchClass extends WriteAllClasses {
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/repo/TeamRepo.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/team/promotions/TeamPromotions.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/architect/product/automation/AutomationBase.java";
-		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/promotions/model/Adjustment.java";
+//		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/promotions/model/Adjustment.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/payments/integration/rplid/service/AutpayI18n.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/enUS/commonwealth/payments/integration/rplid/service/AutopayI18n.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/promotions/model/AdjustmentReasonCodes.java";
-//		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/promotions/model/EligibleAdjustmentType.java";
+		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/promotions/model/EligibleAdjustmentType.java";
 //		String classAbsolutePath = appPath + "/src/main/java/com/citi/commonwealth/promotions/model/Adjustment.java";
 		String[] args = ArrayUtils.toArray(appPath, classAbsolutePath);
 		WatchClass watchClass = new WatchClass();
