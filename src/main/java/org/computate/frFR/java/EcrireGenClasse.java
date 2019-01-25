@@ -635,8 +635,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: indexerPourClasse
 	 * r.enUS: indexForClass
 	 * 
-	 * r: ClientSolr
-	 * r.enUS: SolrClient
+	 * r: getClientSolr
+	 * r.enUS: getSolrClient
+	 * r: clientSolr
+	 * r.enUS: solrClient
 	 * r: indexer
 	 * r.enUS: index
 	 * r: initLoin
@@ -678,6 +680,16 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "indexer", classeNomSimple, "(document);");
 				tl(1, "}");
 			}
+			l();
+			tl(1, "public void indexer", classeNomSimple, "(SolrClient clientSolr) throws Exception {");
+			tl(2, "SolrInputDocument document = new SolrInputDocument();");
+			tl(2, "indexer", classeNomSimple, "(document);");
+//			if(classeSauvegarde)
+//				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
+			tl(2, "clientSolr.add(document);");
+			tl(2, "clientSolr.commit();");
+			l("\t}");
+			l();
 			tl(1, "public void indexer", classeNomSimple, "() throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "indexer", classeNomSimple, "(document);");

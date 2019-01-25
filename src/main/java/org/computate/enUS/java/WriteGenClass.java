@@ -328,14 +328,24 @@ public class WriteGenClass extends WriteClass {
 				tl(2, "index", classSimpleName, "(document);");
 				tl(1, "}");
 			}
+			l();
+			tl(1, "public void index", classSimpleName, "(SolrClient solrClient) throws Exception {");
+			tl(2, "SolrInputDocument document = new SolrInputDocument();");
+			tl(2, "index", classSimpleName, "(document);");
+//			if(classeSauvegarde)
+//				tl(2, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
+			tl(2, "solrClient.add(document);");
+			tl(2, "solrClient.commit();");
+			l("\t}");
+			l();
 			tl(1, "public void index", classSimpleName, "() throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "index", classSimpleName, "(document);");
 //			if(classeSauvegarde)
 //				tl(2, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
-			tl(2, "SolrClient clientSolr = siteRequest_.getSiteContext_().getSolrClient();");
-			tl(2, "clientSolr.add(document);");
-			tl(2, "clientSolr.commit();");
+			tl(2, "SolrClient solrClient = siteRequest_.getSiteContext_().getSolrClient();");
+			tl(2, "solrClient.add(document);");
+			tl(2, "solrClient.commit();");
 			l("\t}");
 
 			tl(0);
