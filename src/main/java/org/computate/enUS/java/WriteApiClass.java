@@ -8,8 +8,6 @@ import org.apache.commons.lang3.StringUtils;
  **/
 public class WriteApiClass extends WriteGenClass {
 
-	protected AllWriter writerApiPackageInfo;
-
 	protected AllWriter writerApiServiceImpl;
 
 	protected AllWriter writerGenApiServiceImpl;
@@ -48,17 +46,6 @@ public class WriteApiClass extends WriteGenClass {
 //		tl(1, "public static final String VAL_guillmetsFin = \"]\";");
 	}
 
-	public void  writeApiPackageInfo(String languageName) throws Exception, Exception {
-		if(writerApiPackageInfo != null) {
-			writerApiPackageInfo.l("@ModuleGen(name=\"", classSimpleName, "Api", "\", groupPackage=\"", classPackageName, "\")");
-			writerApiPackageInfo.l("package ", classPackageName, ";");
-			writerApiPackageInfo.l();
-			writerApiPackageInfo.l("import io.vertx.codegen.annotations.ModuleGen;");
-
-			writerApiPackageInfo.flushClose();
-		}
-	}
-
 	public void  writeGenApiService(String languageName) throws Exception, Exception {
 		if(writerGenApiService != null) {
 			writerGenApiService.l("package ", classPackageName, ";");
@@ -66,6 +53,7 @@ public class WriteApiClass extends WriteGenClass {
 			writerGenApiService.l("import ", classPartsSiteContext.canonicalName, ";");
 //			writerGenApiService.l("import ", classPackageName, ".", classSimpleName, "ApiServiceVertxEBProxy;");
 			writerGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
+			writerGenApiService.l("import io.vertx.ext.web.api.generator.WebApiServiceGen;");
 			writerGenApiService.l("import io.vertx.core.AsyncResult;");
 			writerGenApiService.l("import io.vertx.core.Handler;");
 			writerGenApiService.l("import io.vertx.core.Vertx;");
@@ -73,6 +61,7 @@ public class WriteApiClass extends WriteGenClass {
 			writerGenApiService.l("import io.vertx.ext.web.api.OperationRequest;");
 			writerGenApiService.l("import io.vertx.ext.web.api.OperationResponse;");
 			writerGenApiService.l();
+			writerGenApiService.l("@WebApiServiceGen");
 			writerGenApiService.l("@ProxyGen");
 			writerGenApiService.s("public interface ", classSimpleNameGenApiService, " {");
 			writerGenApiService.l();
@@ -87,7 +76,9 @@ public class WriteApiClass extends WriteGenClass {
 			writerGenApiService.tl(1, "}");
 			writerGenApiService.l();
 			for(String classeApiMethode : classApiMethods) {
-				writerGenApiService.t(1, "public void handle", classeApiMethode, classSimpleName, "(");
+				String classApiOperationIdMethod = (String)classDoc.get("classApiOperationId" + classeApiMethode + "_frFR_stored_string");
+
+				writerGenApiService.t(1, "public void ", classApiOperationIdMethod, "(");
 				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
 					writerGenApiService.s("JsonObject document, ");
 				writerGenApiService.l("OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements);");
@@ -148,11 +139,12 @@ public class WriteApiClass extends WriteGenClass {
 			tl(1, "}");
 
 			for(String classApiMethod : classApiMethods) {
+				String classApiOperationIdMethod = (String)classDoc.get("classApiOperationId" + classApiMethod + "_frFR_stored_string");
 				l();
 				tl(1, "// ", classApiMethod, " //");
 				l();
 				tl(1, "@Override");
-				t(1, "public void handle", classApiMethod, classSimpleName, "(");
+				t(1, "public void ", classApiOperationIdMethod, "(");
 				if(StringUtils.containsAny(classApiMethod, "POST", "PUT", "PATCH"))
 					s("JsonObject document, ");
 				l("OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> eventHandler) {");

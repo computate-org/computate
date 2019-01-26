@@ -4102,7 +4102,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					else
 						indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^apiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, classeApiMethode));
 
-					indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode, "apiOperationId" + classeApiMethode, classeCommentaire, classeApiMethode + classeNomSimple);
+					indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode, "apiOperationId" + classeApiMethode, classeCommentaire, StringUtils.lowerCase(classeApiMethode) + classeNomSimple);
 					indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Requete", "apiOperationId" + classeApiMethode + "Requete", classeCommentaire, classeApiMethode + classeNomSimple + "Requete");
 					indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Reponse", "apiOperationId" + classeApiMethode + "Reponse", classeCommentaire, classeApiMethode + classeNomSimple + "Reponse");
 
@@ -4140,7 +4140,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	//				if(classeMotsClesTrouves && (classeMotsCles.contains(classeApiMethode + ".request") || classeMotsCles.contains(classeApiMethode + ".response"))) {
 						String classeApiUriMethodeLangue = regexLangue(langueNom, "apiUri" + classeApiMethode, classeCommentaire);
 						indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^apiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, classeApiMethode));
-						indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode, "apiOperationId" + classeApiMethode, classeCommentaire, classeApiMethode + classeNomSimple);
+						indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode, "apiOperationId" + classeApiMethode, classeCommentaire, StringUtils.lowerCase(classeApiMethode) + classeNomSimple);
 						indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Requete", "apiOperationId" + classeApiMethode + "Requete", classeCommentaire, classeApiMethode + classeNomSimple + "Requete");
 						indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Reponse", "apiOperationId" + classeApiMethode + "Reponse", classeCommentaire, classeApiMethode + classeNomSimple + "Reponse");
 

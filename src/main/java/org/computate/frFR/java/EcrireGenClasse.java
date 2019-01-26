@@ -98,6 +98,11 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected StringBuilder s = new StringBuilder();
 			
+	/**
+	 * var.enUS: classDoc
+	 */
+	protected SolrDocument classeDoc;
+			
 	protected SolrDocument doc;
 
 	/**

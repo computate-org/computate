@@ -11,11 +11,11 @@ import org.apache.commons.lang3.StringUtils;
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  */     
 public class EcrireApiClasse extends EcrireGenClasse {   
-
-	/**
-	 * var.enUS: writerApiPackageInfo
-	 */
-	protected ToutEcrivain auteurApiEnsembleInfo;
+//
+//	/**
+//	 * var.enUS: writerApiPackageInfo
+//	 */
+//	protected ToutEcrivain auteurApiEnsembleInfo;
 
 	/**
 	 * var.enUS: writerApiServiceImpl
@@ -126,28 +126,28 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //		tl(1, "public static final String VAL_citationDeuxPointsEspaceGuillmets = \"\\\": [\";");
 //		tl(1, "public static final String VAL_guillmetsFin = \"]\";");
 	}
-
-	/**
-	 * var.enUS: writeApiPackageInfo
-	 * param1.var.enUS: languageName
-	 * 
-	 * r: auteurApiEnsembleInfo
-	 * r.enUS: writerApiPackageInfo
-	 * r: classeNomSimple
-	 * r.enUS: classSimpleName
-	 * r: classeNomEnsemble
-	 * r.enUS: classPackageName
-	 **/
-	public void ecrireApiEnsembleInfo(String langueNom) throws Exception {
-		if(auteurApiEnsembleInfo != null) {
-			auteurApiEnsembleInfo.l("@ModuleGen(name=\"", classeNomSimple, "Api", "\", groupPackage=\"", classeNomEnsemble, "\")");
-			auteurApiEnsembleInfo.l("package ", classeNomEnsemble, ";");
-			auteurApiEnsembleInfo.l();
-			auteurApiEnsembleInfo.l("import io.vertx.codegen.annotations.ModuleGen;");
-
-			auteurApiEnsembleInfo.flushClose();
-		}
-	}
+//
+//	/**
+//	 * var.enUS: writeApiPackageInfo
+//	 * param1.var.enUS: languageName
+//	 * 
+//	 * r: auteurApiEnsembleInfo
+//	 * r.enUS: writerApiPackageInfo
+//	 * r: classeNomSimple
+//	 * r.enUS: classSimpleName
+//	 * r: classeNomEnsemble
+//	 * r.enUS: classPackageName
+//	 **/
+//	public void ecrireApiEnsembleInfo(String langueNom) throws Exception {
+//		if(auteurApiEnsembleInfo != null) {
+//			auteurApiEnsembleInfo.l("@ModuleGen(name=\"", classeNomSimple, "Api", "\", groupPackage=\"", classeNomEnsemble, "\")");
+//			auteurApiEnsembleInfo.l("package ", classeNomEnsemble, ";");
+//			auteurApiEnsembleInfo.l();
+//			auteurApiEnsembleInfo.l("import io.vertx.codegen.annotations.ModuleGen;");
+//
+//			auteurApiEnsembleInfo.flushClose();
+//		}
+//	}
 
 	/**
 	 * var.enUS: writeGenApiService
@@ -177,11 +177,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: canonicalName
 	 * r: classeApiMethodes
 	 * r.enUS: classApiMethods
+	 * r: classeDoc
+	 * r.enUS: classDoc
+	 * r: classeApiOperationIdMethode
+	 * r.enUS: classApiOperationIdMethod
+	 * r: classeApiOperationId
+	 * r.enUS: classApiOperationId
 	 * 
 	 * r: recherche
 	 * r.enUS: search
-	 * r: gerer
-	 * r.enUS: handle
 	 **/
 	public void ecrireGenApiService(String langueNom) throws Exception {
 		if(auteurGenApiService != null) {
@@ -190,6 +194,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("import ", classePartsSiteContexte.nomCanonique, ";");
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
+			auteurGenApiService.l("import io.vertx.ext.web.api.generator.WebApiServiceGen;");
 			auteurGenApiService.l("import io.vertx.core.AsyncResult;");
 			auteurGenApiService.l("import io.vertx.core.Handler;");
 			auteurGenApiService.l("import io.vertx.core.Vertx;");
@@ -197,6 +202,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("import io.vertx.ext.web.api.OperationRequest;");
 			auteurGenApiService.l("import io.vertx.ext.web.api.OperationResponse;");
 			auteurGenApiService.l();
+			auteurGenApiService.l("@WebApiServiceGen");
 			auteurGenApiService.l("@ProxyGen");
 			auteurGenApiService.s("public interface ", classeNomSimpleGenApiService, " {");
 			auteurGenApiService.l();
@@ -211,7 +217,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
-				auteurGenApiService.t(1, "public void gerer", classeApiMethode, classeNomSimple, "(");
+				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
+
+				auteurGenApiService.t(1, "public void ", classeApiOperationIdMethode, "(");
 				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
 					auteurGenApiService.s("JsonObject document, ");
 				auteurGenApiService.l("OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements);");
@@ -320,6 +328,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: writeComment
 	 * r: classeApiMethode
 	 * r.enUS: classApiMethod
+	 * r: classeApiOperationIdMethode
+	 * r.enUS: classApiOperationIdMethod
+	 * r: classeApiOperationId
+	 * r.enUS: classApiOperationId
+	 * r: classeDoc
+	 * r.enUS: classDoc
 	 * 
 	 * r: SiteContexte
 	 * r.enUS: SiteContext
@@ -342,8 +356,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
 	 * 
-	 * r: gerer
-	 * r.enUS: handle
 	 */ 
 	public void ecrireGenApiServiceImpl(String langueNom) throws Exception {
 
@@ -377,11 +389,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
+				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
 				l();
 				tl(1, "// ", classeApiMethode, " //");
 				l();
 				tl(1, "@Override");
-				t(1, "public void gerer", classeApiMethode, classeNomSimple, "(");
+				t(1, "public void ", classeApiOperationIdMethode, "(");
 				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
 					s("JsonObject document, ");
 				l("OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");

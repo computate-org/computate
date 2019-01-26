@@ -2405,7 +2405,7 @@ public class IndexClass extends WatchClassBase {
 					else
 						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethod" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
 
-					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "apiOperationId" + classApiMethod, classComment, classApiMethod + classSimpleName);
+					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "apiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
 					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "apiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
 					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "apiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
 
@@ -2443,7 +2443,7 @@ public class IndexClass extends WatchClassBase {
 	//				if(classKeywordsFound && (classKeywords.contains(classApiMethod + ".request") || classKeywords.contains(classApiMethod + ".response"))) {
 						String classApiUriMethodeLangue = regexLanguage(languageName, "apiUri" + classApiMethod, classComment);
 						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethod" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
-						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "apiOperationId" + classApiMethod, classComment, classApiMethod + classSimpleName);
+						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "apiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
 						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "apiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
 						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "apiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
 

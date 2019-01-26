@@ -55,6 +55,7 @@ public class WriteAllClasses extends WritePageClass {
 				doc = searchList.get(i); 
 				Integer partNumber = (Integer)doc.get("partNumber_stored_int");
 				if(partNumber.equals(1)) {
+					classDoc = doc;
 					classDirPathGen = (String)doc.get("classDirPathGen_" + languageName + "_stored_string");
 					classPathGen = (String)doc.get("classPathGen_" + languageName + "_stored_string"); 
 					classPathApiPackageInfo = (String)doc.get("classPathApiPackageInfo_" + languageName + "_stored_string"); 
@@ -126,8 +127,8 @@ public class WriteAllClasses extends WritePageClass {
 
 					writerGenClass = AllWriter.create(classFileGen);
 					if(classApi) {
-						if(classFileApiPackageInfo != null && !classFileApiPackageInfo.exists())
-							writerApiPackageInfo = AllWriter.create(classFileApiPackageInfo);
+//						if(classFileApiPackageInfo != null && !classFileApiPackageInfo.exists())
+//							writerApiPackageInfo = AllWriter.create(classFileApiPackageInfo);
 						if(classFileGenApiServiceImpl != null)
 							writerGenApiServiceImpl = AllWriter.create(classFileGenApiServiceImpl);
 //						if(classFileApiServiceImpl != null && !classFileApiServiceImpl.exists())
@@ -171,7 +172,7 @@ public class WriteAllClasses extends WritePageClass {
 				if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPathGen)) {
 					genCodeClassEnd(languageName);
 					if(classApi) {
-						writeApiPackageInfo(languageName);
+//						writeApiPackageInfo(languageName);
 						writeGenApiService(languageName);
 						writeGenApiServiceImpl(languageName);
 						writeApiServiceImpl(languageName);

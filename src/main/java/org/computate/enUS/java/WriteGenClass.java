@@ -53,6 +53,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected StringBuilder s = new StringBuilder();
 
+	protected SolrDocument classDoc;
+
 	protected SolrDocument doc;
 
 	protected String classCanonicalName;

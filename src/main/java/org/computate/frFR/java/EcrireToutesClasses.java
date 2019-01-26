@@ -267,6 +267,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * 
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
+	 * r: classeDoc
+	 * r.enUS: classDoc
 	 * 
 	 * r: Ecrire:
 	 * r.enUS: Write:
@@ -283,6 +285,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 				doc = listeRecherche.get(i); 
 				Integer partNumero = (Integer)doc.get("partNumero_stored_int");
 				if(partNumero.equals(1)) {
+					classeDoc = doc;
 					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stored_string");
 					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stored_string"); 
 					classeCheminApiEnsembleInfo = (String)doc.get("classeCheminApiEnsembleInfo_" + langueNom + "_stored_string"); 
@@ -354,8 +357,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 
 					auteurGenClasse = ToutEcrivain.create(classeFichierGen);
 					if(classeApi) {
-						if(classeFichierApiEnsembleInfo != null && !classeFichierApiEnsembleInfo.exists())
-							auteurApiEnsembleInfo = ToutEcrivain.create(classeFichierApiEnsembleInfo);
+//						if(classeFichierApiEnsembleInfo != null && !classeFichierApiEnsembleInfo.exists())
+//							auteurApiEnsembleInfo = ToutEcrivain.create(classeFichierApiEnsembleInfo);
 						if(classeFichierGenApiServiceImpl != null)
 							auteurGenApiServiceImpl = ToutEcrivain.create(classeFichierGenApiServiceImpl);
 //						if(classeFichierApiServiceImpl != null && !classeFichierApiServiceImpl.exists())
@@ -399,7 +402,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 				if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeCheminGen)) {
 					genCodeClasseFin(langueNom);
 					if(classeApi) {
-						ecrireApiEnsembleInfo(langueNom);
+//						ecrireApiEnsembleInfo(langueNom);
 						ecrireGenApiService(langueNom);
 						ecrireGenApiServiceImpl(langueNom);
 						ecrireApiServiceImpl(langueNom);
