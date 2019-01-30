@@ -1101,6 +1101,7 @@ public class IndexClass extends WatchClassBase {
 					String constructorParamVar = constructorParamQdox.getName();
 					storeListSolr(constructorDoc, "constructorParamsVar", languageName, constructorParamVar);
 					ClassParts constructorParamClassParts = ClassParts.initClassParts(this, constructorParamQdox.getJavaClass(), languageName);
+					classPartsGenAdd(constructorParamClassParts);
 					storeListSolr(constructorDoc, "constructorParamsSimpleNameComplete", languageName, constructorParamClassParts.simpleNameComplete);
 					storeListSolr(constructorDoc, "constructorParamsVariableArgs", constructorParamQdox.isVarArgs());
 					for(String languageName : otherLanguages) { 
@@ -1109,6 +1110,7 @@ public class IndexClass extends WatchClassBase {
 							constructorParamVarLanguage = constructorParamVar;
 						ClassParts constructorParamClassPartsLanguage = ClassParts.initClassParts(this, constructorParamClassParts, languageName);
 
+						classPartsGenAdd(constructorParamClassPartsLanguage);
 						storeListSolr(constructorDoc, "constructorParamsSimpleNameComplete", languageName, constructorParamClassPartsLanguage.simpleNameComplete);
 						storeListSolr(constructorDoc, "constructorParamsVar", languageName, constructorParamVarLanguage);
 					}  
@@ -1862,6 +1864,7 @@ public class IndexClass extends WatchClassBase {
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBigDecimal)) {
 							entitySimpleNameVertxJson = "Double";
 							entityCanonicalNameVertxJson = VAL_canonicalNameLong;
+							classPartsGenAdd(ClassParts.initClassParts(this, NumberUtils.class.getCanonicalName(), languageName));
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameDouble)) {
 							entitySimpleNameVertxJson = "Double";
@@ -1905,6 +1908,7 @@ public class IndexClass extends WatchClassBase {
 								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entityListSimpleNameVertxJson = "Long";
 								entityListCanonicalNameVertxJson = VAL_canonicalNameLong;
+								classPartsGenAdd(ClassParts.initClassParts(this, NumberUtils.class.getCanonicalName(), languageName));
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameDouble)) {
 								entitySimpleNameVertxJson = "JsonArray";
@@ -2415,6 +2419,8 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + languageName + "_stored_string"));
 					}
 
+					String classApiMediaType200Methode = regex("^apiMediaType200" + classApiMethod + ":\\s*(.*)", classComment, "application/json");
+					String classPageNomSimpleMethode = regex("^page" + classApiMethod + ":\\s*(.*)", classComment);
 					String classApiKeywordMethod = regexLanguage(languageName, "apiKeyword" + classApiMethod, classComment);
 					if(StringUtils.contains(classApiMethod, "POST")
 							|| StringUtils.contains(classApiMethod, "Search")
@@ -2431,8 +2437,28 @@ public class IndexClass extends WatchClassBase {
 						if(StringUtils.isBlank(classApiUriMethode))
 							classApiUriMethode = classApiUri + "/{pk}";
 					}
+					indexStoreSolr(classDoc, "classApiMediaType200" + classApiMethod, classApiMediaType200Methode);
 					indexStoreSolr(classDoc, "classApiKeyword" + classApiMethod, languageName, classApiKeywordMethod);
 					indexStoreSolr(classDoc, "classApiUri" + classApiMethod, languageName, classApiUriMethode);
+					if(classPageNomSimpleMethode != null) {
+						SolrQuery searchPage = new SolrQuery();   
+						searchPage.setQuery("*:*");
+						searchPage.setRows(1);
+						searchPage.addFilterQuery("classSimpleName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(classPageNomSimpleMethode));
+						searchPage.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+						searchPage.addFilterQuery("partIsClass_indexed_boolean:true");
+						QueryResponse searchResponsePage = solrClientComputate.query(searchPage);
+						SolrDocumentList searchListPage = searchResponsePage.getResults();
+
+						if(searchListPage.size() > 0) {
+							SolrDocument docEntite = searchListPage.get(0);
+							String classPageNomCanoniqueMethode = (String)docEntite.get("classCanonicalName_frFR_stored_string");
+//							String classPageNomSimpleMethode = (String)docEntite.get("classSimpleName_frFR_stored_string");
+							indexStoreSolr(classDoc, "classPageNomCanonique" + classApiMethod, languageName, classPageNomCanoniqueMethode);
+							indexStoreSolr(classDoc, "classPageNomSimple" + classApiMethod, languageName, classPageNomSimpleMethode);
+							classPartsGenApiAdd(ClassParts.initClassParts(this, classPageNomCanoniqueMethode, languageName));
+						}
+					}
 //				}
 			}
 			for(String languageName : otherLanguages) {  

@@ -1768,8 +1768,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classApiKeywordMethod
 	 * r: classeApiMotCle
 	 * r.enUS: classApiKeyword
+	 * r: classeApiTypeMedia
+	 * r.enUS: classApiMediaType
 	 * r: apiMotCle
 	 * r.enUS: apiKeyword
+	 * r: apiTypeMedia
+	 * r.enUS: apiMediaType
 	 * r: classeApiMethode
 	 * r.enUS: classApiMethod
 	 * r: apiUriRecherche
@@ -2798,6 +2802,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					String constructeurParamVar = constructeurParamQdox.getName();
 					stockerListeSolr(constructeurDoc, "constructeurParamsVar", langueNom, constructeurParamVar);
 					ClasseParts constructeurParamClasseParts = ClasseParts.initClasseParts(this, constructeurParamQdox.getJavaClass(), langueNom);
+					classePartsGenAjouter(constructeurParamClasseParts);
 					stockerListeSolr(constructeurDoc, "constructeurParamsNomSimpleComplet", langueNom, constructeurParamClasseParts.nomSimpleComplet);
 					stockerListeSolr(constructeurDoc, "constructeurParamsArgsVariables", constructeurParamQdox.isVarArgs());
 					for(String langueNom : autresLangues) { 
@@ -2806,6 +2811,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							constructeurParamVarLangue = constructeurParamVar;
 						ClasseParts constructeurParamClassePartsLangue = ClasseParts.initClasseParts(this, constructeurParamClasseParts, langueNom);
 
+						classePartsGenAjouter(constructeurParamClassePartsLangue);
 						stockerListeSolr(constructeurDoc, "constructeurParamsNomSimpleComplet", langueNom, constructeurParamClassePartsLangue.nomSimpleComplet);
 						stockerListeSolr(constructeurDoc, "constructeurParamsVar", langueNom, constructeurParamVarLangue);
 					}  
@@ -3559,6 +3565,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 							entiteNomSimpleVertxJson = "Double";
 							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueLong;
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), langueNom));
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
 							entiteNomSimpleVertxJson = "Double";
@@ -3602,6 +3609,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Long";
 								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueLong;
+								classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), langueNom));
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueDouble)) {
 								entiteNomSimpleVertxJson = "JsonArray";
@@ -4112,6 +4120,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Reponse", langueNom, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Reponse" + "_" + langueNom + "_stored_string"));
 					}
 
+					String classeApiTypeMedia200Methode = regex("^apiTypeMedia200" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "application/json");
+					String classePageNomSimpleMethode = regex("^page" + classeApiMethode + ":\\s*(.*)", classeCommentaire);
 					String classeApiMotCleMethode = regexLangue(langueNom, "apiMotCle" + classeApiMethode, classeCommentaire);
 					if(StringUtils.contains(classeApiMethode, "POST")
 							|| StringUtils.contains(classeApiMethode, "Recherche")
@@ -4128,8 +4138,28 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(StringUtils.isBlank(classeApiUriMethode))
 							classeApiUriMethode = classeApiUri + "/{pk}";
 					}
+					indexerStockerSolr(classeDoc, "classeApiTypeMedia200" + classeApiMethode, classeApiTypeMedia200Methode);
 					indexerStockerSolr(classeDoc, "classeApiMotCle" + classeApiMethode, langueNom, classeApiMotCleMethode);
 					indexerStockerSolr(classeDoc, "classeApiUri" + classeApiMethode, langueNom, classeApiUriMethode);
+					if(classePageNomSimpleMethode != null) {
+						SolrQuery recherchePage = new SolrQuery();   
+						recherchePage.setQuery("*:*");
+						recherchePage.setRows(1);
+						recherchePage.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePageNomSimpleMethode));
+						recherchePage.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+						recherchePage.addFilterQuery("partEstClasse_indexed_boolean:true");
+						QueryResponse reponseRecherchePage = clientSolrComputate.query(recherchePage);
+						SolrDocumentList listeRecherchePage = reponseRecherchePage.getResults();
+
+						if(listeRecherchePage.size() > 0) {
+							SolrDocument docEntite = listeRecherchePage.get(0);
+							String classePageNomCanoniqueMethode = (String)docEntite.get("classeNomCanonique_frFR_stored_string");
+//							String classePageNomSimpleMethode = (String)docEntite.get("classeNomSimple_frFR_stored_string");
+							indexerStockerSolr(classeDoc, "classePageNomCanonique" + classeApiMethode, langueNom, classePageNomCanoniqueMethode);
+							indexerStockerSolr(classeDoc, "classePageNomSimple" + classeApiMethode, langueNom, classePageNomSimpleMethode);
+							classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePageNomCanoniqueMethode, langueNom));
+						}
+					}
 //				}
 			}
 			for(String langueNom : autresLangues) {  

@@ -138,6 +138,9 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r.enUS: classAbsolutePath
 	 */
 	@Test public void testStuff() throws Exception {
+		Integer entiteNumero = 0;
+		String result = StringUtils.join(++entiteNumero > 0 ? ", " : "", "-stuff");
+		result.toString();
 //		String appliNom = "computate";
 //		String appliChemin = "/usr/local/src/" + appliNom;
 //		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderClasseBase.java";

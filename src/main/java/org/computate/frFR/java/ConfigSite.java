@@ -654,6 +654,27 @@ public class ConfigSite {
 	 * r.enUS: languageName
 	 */
 	protected String regexLangue(String langueNom, String nomChampRegex, String commentaire) throws Exception {
+		return regexLangue(langueNom, nomChampRegex, commentaire, null);
+	}
+	
+	/**
+	 * var.enUS: regexLanguage
+	 * param1.var.enUS: languageName
+	 * param2.var.enUS: fieldNameRegex
+	 * param3.var.enUS: comment
+	 * param4.var.enUS: defaultValue
+	 * r: nomChamp
+	 * r.enUS: fieldName
+	 * r: valeurChamp
+	 * r.enUS: fieldValue
+	 * r: commentaire
+	 * r.enUS: comment
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: valeurDefaut
+	 * r.enUS: defaultValue
+	 */
+	protected String regexLangue(String langueNom, String nomChampRegex, String commentaire, String valeurDefaut) throws Exception {
 		String valeurChamp = null;
 		if(nomChampRegex != null && commentaire != null) {
 			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
@@ -661,6 +682,8 @@ public class ConfigSite {
 				valeurChamp = m.group(2);
 			}
 		}
+		if(valeurChamp == null)
+			valeurChamp = valeurDefaut;
 		return valeurChamp;
 	}
 

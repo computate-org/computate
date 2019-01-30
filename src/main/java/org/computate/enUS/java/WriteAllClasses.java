@@ -131,14 +131,14 @@ public class WriteAllClasses extends WritePageClass {
 //							writerApiPackageInfo = AllWriter.create(classFileApiPackageInfo);
 						if(classFileGenApiServiceImpl != null)
 							writerGenApiServiceImpl = AllWriter.create(classFileGenApiServiceImpl);
-//						if(classFileApiServiceImpl != null && !classFileApiServiceImpl.exists())
-						if(classFileApiServiceImpl != null)
+						if(classFileApiServiceImpl != null && !classFileApiServiceImpl.exists())
+//						if(classFileApiServiceImpl != null)
 							writerApiServiceImpl = AllWriter.create(classFileApiServiceImpl);
 						if(classFileGenApiService != null)
 							writerGenApiService = AllWriter.create(classFileGenApiService);
 					}
 //					auteurPageClasse = new PrintWriter(classFilePage);
-					if(classPage)
+					if(classPage && !classFilePage.exists())
 						writerPageGenClass = AllWriter.create(classFilePage);
 
 					genCodeInit();
@@ -163,7 +163,10 @@ public class WriteAllClasses extends WritePageClass {
 					Boolean partIsConstructor = (Boolean)doc.get("partIsConstructor_stored_boolean");
 					Boolean partIsEntity = (Boolean)doc.get("partIsEntity_stored_boolean");
 	
-					if(BooleanUtils.isTrue(partIsEntity)) {
+					if(BooleanUtils.isTrue(partIsConstructor)) {
+						genCodeConstructeur(languageName);
+					}
+					else if(BooleanUtils.isTrue(partIsEntity)) {
 						genCodeEntity(languageName);
 					}
 				}

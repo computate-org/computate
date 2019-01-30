@@ -361,14 +361,14 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 //							auteurApiEnsembleInfo = ToutEcrivain.create(classeFichierApiEnsembleInfo);
 						if(classeFichierGenApiServiceImpl != null)
 							auteurGenApiServiceImpl = ToutEcrivain.create(classeFichierGenApiServiceImpl);
-//						if(classeFichierApiServiceImpl != null && !classeFichierApiServiceImpl.exists())
-						if(classeFichierApiServiceImpl != null)
+						if(classeFichierApiServiceImpl != null && !classeFichierApiServiceImpl.exists())
+//						if(classeFichierApiServiceImpl != null)
 							auteurApiServiceImpl = ToutEcrivain.create(classeFichierApiServiceImpl);
 						if(classeFichierGenApiService != null)
 							auteurGenApiService = ToutEcrivain.create(classeFichierGenApiService);
 					}
 //					auteurPageClasse = new PrintWriter(classeFichierPage);
-					if(classePage)
+					if(classePage && !classeFichierPage.exists())
 						auteurPageGenClasse = ToutEcrivain.create(classeFichierPage);
 
 					genCodeInit();
@@ -393,7 +393,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
 					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
 	
-					if(BooleanUtils.isTrue(partEstEntite)) {
+					if(BooleanUtils.isTrue(partEstConstructeur)) {
+						genCodeConstructeur(langueNom);
+					}
+					else if(BooleanUtils.isTrue(partEstEntite)) {
 						genCodeEntite(langueNom);
 					}
 				}

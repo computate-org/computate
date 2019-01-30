@@ -82,6 +82,9 @@ public class WatchClass extends WriteAllClasses {
 
 	@Test()
 	public void  testStuff() throws Exception, Exception {
+		Integer entiteNumero = 0;
+		String result = StringUtils.join(++entiteNumero > 0 ? ", " : "", "-stuff");
+		result.toString();
 //		String appName = "computate";
 //		String appPath = "/usr/local/src/" + appName;
 //		String classAbsolutePath = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/WatchClassBase.java";

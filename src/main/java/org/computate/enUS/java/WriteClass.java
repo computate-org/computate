@@ -113,7 +113,7 @@ public class WriteClass extends IndexClass {
 					classSuperTypeParameterNames = (List<String>)doc.get("classSuperTypeParameterNames_stored_strings");
 					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
 
-					auteurClasse = AllWriter.create(classFile);
+					auteurClasse = ToutEcrivain.create(classFile);
 					o = auteurClasse;
 		
 					l("package ", classPackageName, ";"); 
@@ -198,8 +198,92 @@ public class WriteClass extends IndexClass {
 							s(" = ", fieldSourceCode);
 						l(";");
 					}     
-	
-					if(BooleanUtils.isTrue(partIsMethod)) {
+					else if(BooleanUtils.isTrue(partIsConstructor)) {
+						String constructeurCodeSource = (String)doc.get("constructeurCodeSource_" + languageName + "_stored_string");
+						String constructeurCommentaire = (String)doc.get("constructeurCommentaire_" + languageName + "_stored_string");
+						List<String> constructeurExceptionsNomSimpleComplet = (List<String>)doc.get("constructeurExceptionsNomSimpleComplet_stored_strings");
+						List<String> constructeurAnnotationsNomSimpleCompletListe = (List<String>)doc.get("constructeurAnnotationsNomSimpleComplet_" + languageName + "_stored_strings");
+						List<String> constructeurAnnotationsBlocCodeListe = (List<String>)doc.get("constructeurAnnotationsBlocCode_" + languageName + "_stored_strings");
+
+						l(""); 
+						writeComment(constructeurCommentaire, 1);
+						if(constructeurAnnotationsNomSimpleCompletListe != null && constructeurAnnotationsBlocCodeListe != null) {
+							for(int j = 0; j < constructeurAnnotationsNomSimpleCompletListe.size(); j++) {
+								String constructeurAnnotationNomSimpleComplet = constructeurAnnotationsNomSimpleCompletListe.get(j);
+								String constructeurAnnotationBlocCode = constructeurAnnotationsBlocCodeListe.get(j);
+								l("\t@", constructeurAnnotationNomSimpleComplet, constructeurAnnotationBlocCode, "");
+							}
+						}
+						s("\t");
+						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstPublic_stored_boolean")))
+							s("public ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstProtege_stored_boolean")))
+							s("protected ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstPrive_stored_boolean")))
+							s("private ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstStatique_stored_boolean")))
+							s("static ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstFinale_stored_boolean")))
+							s("final ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstAbstrait_stored_boolean")))
+							s("abstract ");
+						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstNatif_stored_boolean")))
+							s("native ");
+
+
+						if(constructeurParamsTypeNom != null && constructeurParamsTypeNom.size() > 0) {
+							s("<");
+							for(int j = 0; j < constructeurParamsTypeNom.size(); j++) {
+								String constructeurParamTypeNom = constructeurParamsTypeNom.get(j);
+								if(j > 0)
+									s(", ");
+								s(constructeurParamTypeNom);
+							}
+							s("> ");
+						}
+
+						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstVide_stored_boolean")))
+							s("void ");
+						else
+							s((String)doc.get("constructeurRetourNomSimpleComplet_" + languageName + "_stored_string"));
+						s(" ");
+						s(constructeurVar);
+						s("(");
+						List<String> constructeurParamsNomSimpleComplet = (List<String>)doc.get("constructeurParamsNomSimpleComplet_" + languageName + "_stored_strings"); 
+						List<String> constructeurParamsVar = (List<String>)doc.get("constructeurParamsVar_" + languageName + "_stored_strings");
+						List<Boolean> constructeurParamsArgsVariables = (List<Boolean>)doc.get("constructeurParamsArgsVariables_stored_booleans");
+						if(constructeurParamsNomSimpleComplet != null && constructeurParamsVar != null && constructeurParamsNomSimpleComplet.size() == constructeurParamsVar.size()) {
+							for(int j = 0; j < constructeurParamsVar.size(); j++) {
+								String constructeurParamNomSimpleComplet = constructeurParamsNomSimpleComplet.get(j);
+								String constructeurParamVar = constructeurParamsVar.get(j);
+								Boolean constructeurParamArgsVariables = constructeurParamsArgsVariables.get(j);
+								if(j > 0)
+									s(", ");
+								s(constructeurParamNomSimpleComplet);
+
+								if(constructeurParamArgsVariables)
+									s("...");
+								else
+									s(" ");
+
+								s(constructeurParamVar);
+							}
+						}    
+						s(")");
+						if(constructeurExceptionsNomSimpleComplet != null && constructeurExceptionsNomSimpleComplet.size() > 0) {
+							s(" throws ");
+							for(int j = 0; j < constructeurExceptionsNomSimpleComplet.size(); j++) {
+								String constructeurExceptionNomSimpleComplet = constructeurExceptionsNomSimpleComplet.get(j);
+								if(j > 0)
+									s(", ");
+								s(constructeurExceptionNomSimpleComplet);
+							}
+						}
+						s(" {");
+						s(constructeurCodeSource);
+						l("}");
+					} 
+					else if(BooleanUtils.isTrue(partIsMethod)) {
 						String methodVar = (String)doc.get("methodVar_" + languageName + "_stored_string");
 						String methodSourceCode = (String)doc.get("methodSourceCode_" + languageName + "_stored_string");
 						String methodComment = (String)doc.get("methodComment_" + languageName + "_stored_string");
@@ -355,33 +439,47 @@ public class WriteClass extends IndexClass {
 		return this;
 	}
 
-	public void  s(Object...objects) {
+	public WriteClass s(Object...objects) {
 		for(Object object : objects)
 			if(object != null)
 				o.s(object.toString());
+		return this;
 	}
 
-	public void  t(int numberTabs, Object...objects) {
+	public WriteClass t(int numberTabs, Object...objects) {
 		for(int i = 0; i < numberTabs; i++)
 			o.s("\t");
 		for(Object object : objects)
 			if(object != null)
 				o.s(object.toString());
+		return this;
 	}
 
-	public void  l(Object...objects) {
+	public WriteClass l(Object...objects) {
 		for(Object object : objects)
 			if(object != null)
 				o.s(object.toString());
 		o.s("\n");
+		return this;
 	}
 
-	public void  tl(int numberTabs, Object...objects) {
+	public WriteClass tl(int numberTabs, Object...objects) {
 		for(int i = 0; i < numberTabs; i++)
 			o.s("\t");
 		for(Object object : objects)
 			if(object != null)
 				o.s(object.toString());
 		o.s("\n");
+		return this;
+	}
+
+	public String q(Object...objets) {
+		StringBuilder o = new StringBuilder();
+		o.append("\"");
+		for(Object objet : objets)
+			if(objet != null)
+				o.append(StringUtils.replace(StringUtils.replace(objet.toString(), "\\", "\\\\"), "\"", "\\\""));
+		o.append("\"");
+		return o.toString();
 	}
 }
