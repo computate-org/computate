@@ -11,7 +11,7 @@ import org.computate.enUS.java.WatchClass;
 import org.junit.Test;
 
 /**
- * nomCanonique.enUS: org.computate.enUS.java.WatchClass
+ * NomCanonique.enUS: org.computate.enUS.java.WatchClass
  */     
 public class RegarderClasse extends EcrireToutesClasses {
 
@@ -72,8 +72,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 	}
 	
 	/**
-	 * var.enUS: watchClass
-	 * param1.var.enUS: watchClass
+	 * Var.enUS: watchClass
+	 * Param1.var.enUS: watchClass
 	 * r: regarderClasse
 	 * r.enUS: watchClass
 	 * r: cheminAbsolu

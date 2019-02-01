@@ -560,7 +560,7 @@ public class IndexClass extends WatchClassBase {
 		ClassParts classPartsChain = classPartsChain(domainPackageName);
 		Boolean classExtendsGen = StringUtils.endsWith(classSuperSimpleName, "Gen");
 		ClassParts classPartsSiteRequest = classPartsSiteRequest(domainPackageName);
-		if(superClassError || !classExtendsGen && regexFound("^gen:\\s*(true)$", classComment)) {
+		if(superClassError || !classExtendsGen && regexFound("^(class)?Gen:\\s*(true)$", classComment)) {
 			classExtendsGen = true;
 		}
 
@@ -569,7 +569,7 @@ public class IndexClass extends WatchClassBase {
 			storeRegexComments(classComment, languageName, classDoc, "classComment");
 			String srcMainJavaPathLanguage = appPathLanguage + "/src/main/java";
 			String srcGenJavaPathLanguage = appPathLanguage + "/src/gen/java";
-			String classCanonicalNameLanguage = regex("^canonicalName\\." + languageName + ":\\s*(.*)", classComment, classCanonicalName);
+			String classCanonicalNameLanguage = regex("^(class)?NomCanonique\\." + languageName + ":\\s*(.*)", classComment, classCanonicalName);
 
 			String classSimpleNameLanguage = StringUtils.substringAfterLast(classCanonicalNameLanguage, ".");
 			String classPackageNameLanguage = StringUtils.substringBeforeLast(classCanonicalNameLanguage, ".");
@@ -610,7 +610,7 @@ public class IndexClass extends WatchClassBase {
 			}
 		}
 
-		Boolean classInitDeep = !regexFound("^initDeep:\\s*(false)$", classComment);
+		Boolean classInitDeep = !regexFound("^(class)?InitLoin:\\s*(false)$", classComment);
 		if(classInitDeep)
 			classInitDeep = classExtendsBase || classIsBase;
 		classInitDeep = storeSolr(classDoc, "classInitDeep", classInitDeep);
@@ -649,12 +649,17 @@ public class IndexClass extends WatchClassBase {
 		SolrInputDocument classDocClone = classDoc.deepCopy();
 		Integer partNumber = 1;
 
-		Boolean classModel = indexStoreSolr(classDoc, "classModel", regexFound("^model: \\s*(true)$", classComment));
-		Boolean classApi = indexStoreSolr(classDoc, "classApi", regexFound("^api: \\s*(true)$", classComment) || classModel);
-		Boolean classPage = indexStoreSolr(classDoc, "classPage", regexFound("^page: \\s*(true)$", classComment) || classModel);
-		Boolean classSaved = indexStoreSolr(classDoc, "classSaved", regexFound("^saved:\\s*(true)$", classComment) || classModel);
-		Boolean classIndexed = indexStoreSolr(classDoc, "classIndexed", regexFound("^indexed:\\s*(true)$", classComment) || classSaved || classModel);
-		ArrayList<String> classApiMethods = regexList("^apiMethod:\\s*(.*)", classComment);
+		Boolean classModel = indexStoreSolr(classDoc, "classModel", regexFound("^(class)?Modele: \\s*(true)$", classComment));
+		Boolean classApi = indexStoreSolr(classDoc, "classApi", regexFound("^(class)?Api: \\s*(true)$", classComment) || classModel);
+		Boolean classPage = indexStoreSolr(classDoc, "classPage", regexFound("^(class)?Page: \\s*(true)$", classComment) || classModel);
+		Boolean classSaved = indexStoreSolr(classDoc, "classSaved", regexFound("^(class)?Sauvegarde:\\s*(true)$", classComment) || classModel);
+		Boolean classIndexed = indexStoreSolr(classDoc, "classIndexed", regexFound("^(class)?Indexe:\\s*(true)$", classComment) || classSaved || classModel);
+		ArrayList<String> classApiMethods = regexList("^(class)?ApiMethode:\\s*(.*)", classComment);
+
+		for(String siteEcrireMethode : siteEcrireMethodes) {
+			String siteEcrireMethodeCapitalise = StringUtils.capitalize(siteEcrireMethode);
+			indexStoreSolr(classDoc, "class" + siteEcrireMethodeCapitalise, regexFound("^(class)?" + siteEcrireMethodeCapitalise + ":\\s*(true)$", classComment));
+		}
 
 		String classSimpleNameApiPackageInfo;
 		String classSimpleNameGenApiServiceImpl;
@@ -702,7 +707,7 @@ public class IndexClass extends WatchClassBase {
 			String appPathLanguage = appPaths.get(languageName);
 			String srcMainJavaPathLanguage = appPathLanguage + "/src/main/java";
 			String srcGenJavaPathLanguage = appPathLanguage + "/src/gen/java";
-			String classCanonicalNameLanguage = regex("^canonicalName\\." + languageName + ":\\s*(.*)", classComment, classCanonicalName);
+			String classCanonicalNameLanguage = regex("^(class)?NomCanonique\\." + languageName + ":\\s*(.*)", classComment, classCanonicalName);
 			String classSimpleNameLanguage = StringUtils.substringAfterLast(classCanonicalNameLanguage, ".");
 //			String classPackageNameLanguage = StringUtils.substringBeforeLast(classCanonicalNameLanguage, ".");
 //			String classCanonicalNameGenLanguage = classCanonicalNameLanguage + "Gen";
@@ -716,7 +721,7 @@ public class IndexClass extends WatchClassBase {
 			String classCanonicalNameApiGenLanguage = classCanonicalNameLanguage + "ApiGen";
 			String classCanonicalNamePageLanguage = classCanonicalNameLanguage + "Page";
 			String classCanonicalNamePageGenLanguage = classCanonicalNameLanguage + "PageGen";
-			String classPageUriLanguage = indexStoreSolr(classDoc, "classPageUri", languageName, regex("^pageUri\\." + languageName + ":\\s*(.*)", classComment));
+			String classPageUriLanguage = indexStoreSolr(classDoc, "classPageUri", languageName, regex("^(class)?PageUri\\." + languageName + ":\\s*(.*)", classComment));
 			String classPathApiGenLangue = indexStoreSolr(classDoc, "classPathApiGen", languageName, concat(srcGenJavaPathLanguage, "/", StringUtils.replace(classCanonicalNameApiGenLanguage, ".", "/"), ".java"));
 			String classPathPageGenLangue = indexStoreSolr(classDoc, "classPathPageGen", languageName, concat(srcGenJavaPathLanguage, "/", StringUtils.replace(classCanonicalNamePageGenLanguage, ".", "/"), ".java"));
 			indexStoreSolr(classDoc, "classSimpleNameApi", languageName, classSimpleNameApiLangue); 
@@ -859,11 +864,11 @@ public class IndexClass extends WatchClassBase {
 		classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.StringUtils", languageName));
 		classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Objects", languageName));
 
-		indexStoreSolr(classDoc, "classPageUri", languageName, regex("^pageUri\\." + languageName + ":\\s*(.*)", classComment));
+		indexStoreSolr(classDoc, "classPageUri", languageName, regex("^(class)?PageUri\\." + languageName + ":\\s*(.*)", classComment));
 
 		if(classComment != null) {
 
-			Matcher classValsSearch = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classComment);
+			Matcher classValsSearch = Pattern.compile("^(class)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classComment);
 			boolean classValsFound = classValsSearch.find();
 			while(classValsFound) {
 				String classValVar = classValsSearch.group(1);
@@ -875,7 +880,7 @@ public class IndexClass extends WatchClassBase {
 				classValsFound = classValsSearch.find();
 			}
 
-			Matcher classRolesSearch = Pattern.compile("^role\\.(\\w+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
+			Matcher classRolesSearch = Pattern.compile("^(class)?Role\\.(\\w+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
 			boolean classRolesFound = classRolesSearch.find();
 			boolean classRolesFoundCurrent = classRolesFound;
 			while(classRolesFoundCurrent) {
@@ -887,7 +892,7 @@ public class IndexClass extends WatchClassBase {
 			}
 			indexStoreSolr(classDoc, "classRolesFound", classRolesFound); 
 
-			Matcher classKeywordsSearch = Pattern.compile("^keyword:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
+			Matcher classKeywordsSearch = Pattern.compile("^(class)?MotCle:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
 			boolean classKeywordsFoundActual = classKeywordsSearch.find();
 			while(classKeywordsFoundActual) {
 				String classKeywordValue = classKeywordsSearch.group(1);
@@ -897,7 +902,7 @@ public class IndexClass extends WatchClassBase {
 				classKeywordsFound = true;
 			}
 
-			String sqlString = regex("^sql:\\s*(.*)$", classComment, 1);
+			String sqlString = regex("^(class)?Sql:\\s*(.*)$", classComment, 1);
 			if(NumberUtils.isCreatable(sqlString)) {
 				Integer sqlInteger = Integer.parseInt(sqlString);
 				Integer sqlMigration = Math.abs(sqlInteger);
@@ -910,11 +915,11 @@ public class IndexClass extends WatchClassBase {
 					indexStoreSolr(classDoc, "sqlDrop", sqlDrop);
 			}
 
-			Matcher classMapSearch = Pattern.compile("^map\\.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
+			Matcher classMapSearch = Pattern.compile("^(class)?Map\\.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
 			boolean classMapFoundActual = classMapSearch.find();
 			while(classMapFoundActual) {
-				String classMapKey = classMapSearch.group(1);
-				String classMapValue = classMapSearch.group(2);
+				String classMapKey = classMapSearch.group(2);
+				String classMapValue = classMapSearch.group(3);
 				String[] classMapKeyParts = StringUtils.split(classMapKey, ".");
 				if(classMapKeyParts.length == 2) {
 					String classMapKeyType = classMapKeyParts[0];
@@ -1020,7 +1025,7 @@ public class IndexClass extends WatchClassBase {
 				String fieldVar = fieldQdox.getName();
 				String fieldKey = classAbsolutePath + "." + fieldVar;
 				String fieldSourceCode = StringUtils.substringBeforeLast(StringUtils.trim(regex("\\s+" + fieldVar + "\\s*=([\\s\\S]*)", fieldQdox.getCodeBlock(), 1)), ";");
-				String fieldString = regex("^String\\." + languageName + ":(.*)", fieldComment);
+				String fieldString = regex("^(champ)?String\\." + languageName + ":(.*)", fieldComment);
 				if(StringUtils.isNotBlank(fieldString)) {
 					fieldSourceCode = "\"" + StringUtils.replace(StringUtils.replace(fieldString, "\\", "\\\\"), "\"", "\\\"") + "\"";
 					indexStoreSolr(fieldDoc, "fieldString", languageName, fieldString); 
@@ -1070,10 +1075,10 @@ public class IndexClass extends WatchClassBase {
 
 				for(String languageName : otherLanguages) { 
 					ClassParts fieldClassPartsLanguage = ClassParts.initClassParts(this, fieldClassParts, languageName);
-					String fieldVarLanguage = regex("^var\\." + languageName + ": (.*)", fieldComment);
+					String fieldVarLanguage = regex("^(champ)?Var\\." + languageName + ": (.*)", fieldComment);
 					fieldVarLanguage = fieldVarLanguage == null ? fieldVar : fieldVarLanguage;
 					String fieldSourceCodeLanguage = regexReplaceAll(fieldComment, fieldSourceCode, languageName);
-					String fieldStringLanguage = regex("^String\\." + languageName + ":(.*)", fieldComment);
+					String fieldStringLanguage = regex("^(champ)?String\\." + languageName + ":(.*)", fieldComment);
 					if(StringUtils.isNotBlank(fieldStringLanguage)) {
 						fieldSourceCodeLanguage = "\"" + StringUtils.replace(StringUtils.replace(fieldStringLanguage, "\\", "\\\\"), "\"", "\\\"") + "\"";
 						indexStoreSolr(fieldDoc, "fieldString", languageName, fieldString); 
@@ -1105,7 +1110,7 @@ public class IndexClass extends WatchClassBase {
 					storeListSolr(constructorDoc, "constructorParamsSimpleNameComplete", languageName, constructorParamClassParts.simpleNameComplete);
 					storeListSolr(constructorDoc, "constructorParamsVariableArgs", constructorParamQdox.isVarArgs());
 					for(String languageName : otherLanguages) { 
-						String constructorParamVarLanguage = regex("param" + constructorParamNum + "\\.var\\." + languageName + ": (.*)", constructorComment);
+						String constructorParamVarLanguage = regex("^(constructeur)?Param" + constructorParamNum + "\\.var\\." + languageName + ": (.*)", constructorComment);
 						if(constructorParamVarLanguage == null)
 							constructorParamVarLanguage = constructorParamVar;
 						ClassParts constructorParamClassPartsLanguage = ClassParts.initClassParts(this, constructorParamClassParts, languageName);
@@ -1352,7 +1357,7 @@ public class IndexClass extends WatchClassBase {
 						Boolean entityInitDeep = indexStoreSolr(entityDoc, "entityInitDeep", !entityVar.endsWith("_") && BooleanUtils.isTrue(entityClassParts.extendsGen));
 						
 //						String entityParamVar = StringUtils.equalsAny(entityClassQdox, "");
-//						indexStoreSolr(entityDoc, "entityParamVar", regexFound("^exact:\\s*(true)$", methodComment));
+//						indexStoreSolr(entityDoc, "entityParamVar", regexFound("^(entite)?exact:\\s*(true)$", methodComment));
 //							if(canonicalName.equals(class_.canonicalNameArrayList) || canonicalName.equals(class_.canonicalNameList))
 //								o.tout("l");
 //							else if(o.estVide())
@@ -1465,7 +1470,7 @@ public class IndexClass extends WatchClassBase {
 
 						if(methodComment != null) {
 
-							Matcher entityValsSearch = Pattern.compile("^val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
+							Matcher entityValsSearch = Pattern.compile("^(entite)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityValsFound = entityValsSearch.find();
 							while(entityValsFound) {
 								String entityValLanguage = entityValsSearch.group(1);
@@ -1477,7 +1482,7 @@ public class IndexClass extends WatchClassBase {
 								entityValsFound = entityValsSearch.find();
 							}
 
-							Matcher entityOptionsSearch = Pattern.compile("^option\\.(\\w+)\\.([^:]+):(.*)", Pattern.MULTILINE).matcher(methodComment);
+							Matcher entityOptionsSearch = Pattern.compile("^(entite)?Option\\.(\\w+)\\.([^:]+):(.*)", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityOptionsFound = entityOptionsSearch.find();
 							while(entityOptionsFound) {
 								String entityOptionLanguage = entityOptionsSearch.group(1);
@@ -1493,7 +1498,7 @@ public class IndexClass extends WatchClassBase {
 							if(entityOptionsFound)
 								storeSolr(entityDoc, "entityOptions", true);
 
-							Matcher entityKeywordsSearch = Pattern.compile("^keyword:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
+							Matcher entityKeywordsSearch = Pattern.compile("^(entite)?MotCle:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityKeywordsFound = entityKeywordsSearch.find();
 							boolean entityKeywordsFoundCurrent = entityKeywordsFound;
 							while(entityKeywordsFoundCurrent) {
@@ -1507,7 +1512,7 @@ public class IndexClass extends WatchClassBase {
 							}
 							indexStoreSolr(entityDoc, "entityKeywordsFound", entityKeywordsFound); 
 
-							String sqlString = regex("^sql:\\s*(.*)$", methodComment, 1);
+							String sqlString = regex("^(entite)?Sql:\\s*(.*)$", methodComment, 1);
 							if(NumberUtils.isCreatable(sqlString)) {
 								Integer sqlInteger = Integer.parseInt(sqlString);
 								Integer sqlMigration = Math.abs(sqlInteger);
@@ -1520,7 +1525,7 @@ public class IndexClass extends WatchClassBase {
 									indexStoreSolr(entityDoc, "sqlDrop", sqlDrop);
 							}
 
-							Matcher entityMapSearch = Pattern.compile("^map.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
+							Matcher entityMapSearch = Pattern.compile("^(entite)?Map.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityMapFound = entityMapSearch.find();
 							boolean entityMapFoundCurrent = entityMapFound;
 							while(entityMapFoundCurrent) {
@@ -1582,75 +1587,75 @@ public class IndexClass extends WatchClassBase {
 							}
 						}
 
-						indexStoreSolr(entityDoc, "entityExact", regexFound("^exact:\\s*(true)$", methodComment));
-						Boolean entityPrimaryKey = indexStoreSolr(entityDoc, "entityPrimaryKey", regexFound("^primaryKey:\\s*(true)$", methodComment));
-						Boolean entityUniqueKey = indexStoreSolr(entityDoc, "entityUniqueKey", regexFound("^uniqueKey:\\s*(true)$", methodComment));
-						Boolean entityEncrypted = indexStoreSolr(entityDoc, "entityEncrypted", regexFound("^encrypted:\\s*(true)$", methodComment));
-						Boolean entitySuggested = indexStoreSolr(entityDoc, "entitySuggested", regexFound("^suggested:\\s*(true)$", methodComment));
-						Boolean entitySaved = indexStoreSolr(entityDoc, "entitySaved", regexFound("^saved:\\s*(true)$", methodComment));
-						Boolean entityIndexed = indexStoreSolr(entityDoc, "entityIndexed", regexFound("^indexed:\\s*(true)$", methodComment));
-						Boolean entityIncremented = indexStoreSolr(entityDoc, "entityIncremented", regexFound("^incremented:\\s*(true)$", methodComment));
-						Boolean entityStored = indexStoreSolr(entityDoc, "entityStored", regexFound("^stored:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityExact", regexFound("^(entite)?Exact:\\s*(true)$", methodComment));
+						Boolean entityPrimaryKey = indexStoreSolr(entityDoc, "entityPrimaryKey", regexFound("^(entite)?ClePrimaire:\\s*(true)$", methodComment));
+						Boolean entityUniqueKey = indexStoreSolr(entityDoc, "entityUniqueKey", regexFound("^(entite)?CleUnique:\\s*(true)$", methodComment));
+						Boolean entityEncrypted = indexStoreSolr(entityDoc, "entityEncrypted", regexFound("^(entite)?Crypte:\\s*(true)$", methodComment));
+						Boolean entitySuggested = indexStoreSolr(entityDoc, "entitySuggested", regexFound("^(entite)?Suggere:\\s*(true)$", methodComment));
+						Boolean entitySaved = indexStoreSolr(entityDoc, "entitySaved", regexFound("^(entite)?Sauvegarde:\\s*(true)$", methodComment));
+						Boolean entityIndexed = indexStoreSolr(entityDoc, "entityIndexed", regexFound("^(entite)?Indexe:\\s*(true)$", methodComment));
+						Boolean entityIncremented = indexStoreSolr(entityDoc, "entityIncremented", regexFound("^(entite)?Incremente:\\s*(true)$", methodComment));
+						Boolean entityStored = indexStoreSolr(entityDoc, "entityStored", regexFound("^(entite)?Stocke:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityIndexedOrStored", entityUniqueKey || entityEncrypted || entitySuggested || entityIndexed || entityStored || entityIncremented);
-						indexStoreSolr(entityDoc, "entityText", regexFound("^text:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityIgnored", regexFound("^ignore:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityDeclared", regexFound("^declared:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entitySearch", regexFound("^search:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityAdd", regexFound("^add:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityDelete", regexFound("^delete:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityModify", regexFound("^modify:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityRefresh", regexFound("^refresh:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityMultiLine", regexFound("^multiline:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityKeys", regexFound("^keys:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityText", regexFound("^(entite)?Texte:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityIgnored", regexFound("^(entite)?Ignorer:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityDeclared", regexFound("^(entite)?Declarer:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entitySearch", regexFound("^(entite)?Searchr:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityAdd", regexFound("^(entite)?Ajouter:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityDelete", regexFound("^(entite)?Supprimer:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityModify", regexFound("^(entite)?Modifier:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityRefresh", regexFound("^(entite)?Recharger:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityMultiLine", regexFound("^(entite)?Multiligne:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityKeys", regexFound("^(entite)?Cles:\\s*(true)$", methodComment));
 
-						indexStoreSolr(entityDoc, "entityDisplayName", regex("^displayName:\\s*(.*)$", methodComment, 1));
-						indexStoreSolr(entityDoc, "entityDescription", regex("^description:\\s*(.*)$", methodComment, 1));
-						indexStoreSolr(entityDoc, "entityOptional", regexFound("^optional:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityHtmlTooltip", regex("^htmlTooltip:\\s*(.*)$", methodComment, 1));
-//						indexStoreSolr(entityDoc, "entityVarApi", regex("^entityVarApi:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "entityDisplayName", regex("^(entite)?NomAffichage:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "entityDescription", regex("^(entite)?Description:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "entityOptional", regexFound("^(entite)?Optionnel:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityHtmlTooltip", regex("^(entite)?HtmlTooltip:\\s*(.*)$", methodComment, 1));
+//						indexStoreSolr(entityDoc, "entityVarApi", regex("^(entite)?EntiteVarApi:\\s*(.*)$", methodComment, 1));
 						indexStoreSolrRegex(entityDoc, languageName, "entityVarApi", "entityVarApi", methodComment);
-						indexStoreSolr(entityDoc, "enumSimpleName", regex("^enumSimpleName:\\s*(.*)$", methodComment, 1));
-						indexStoreSolr(entityDoc, "enumVar", regex("^enumVar:\\s*(.*)$", methodComment, 1));
-						indexStoreSolr(entityDoc, "enumVarDescription", regex("^enumVarDescription:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "enumSimpleName", regex("^(entite)?EnumNomSimple:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "enumVar", regex("^(entite)?EnumVar:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "enumVarDescription", regex("^(entite)?EnumVarDescription:\\s*(.*)$", methodComment, 1));
 
 						{
-							String str = regex("^minLength:\\s*(.*)$", methodComment, 1);
+							String str = regex("^(entite)?LongeurMin:\\s*(.*)$", methodComment, 1);
 							Integer num = NumberUtils.isCreatable(str) ? Integer.parseInt(str) : null;
 							if(num != null)
 								indexStoreSolr(entityDoc, "entityMinLength", num);
 						}
 
 						{
-							String str = regex("^maxLength:\\s*(.*)$", methodComment, 1);
+							String str = regex("^(entite)?LongeurMax:\\s*(.*)$", methodComment, 1);
 							Integer num = NumberUtils.isCreatable(str) ? Integer.parseInt(str) : null;
 							if(num != null)
 								indexStoreSolr(entityDoc, "entityMaxLength", num);
 						}
 
 						{
-							String str = regex("^min:\\s*(.*)$", methodComment, 1);
+							String str = regex("^(entite)?Min:\\s*(.*)$", methodComment, 1);
 							Double num = NumberUtils.isCreatable(str) ? Double.parseDouble(str) : null;
 							if(num != null)
 								indexStoreSolr(entityDoc, "entityMin", num);
 						}
 
 						{
-							String str = regex("^max:\\s*(.*)$", methodComment, 1);
+							String str = regex("^(entite)?Max:\\s*(.*)$", methodComment, 1);
 							Double num = NumberUtils.isCreatable(str) ? Double.parseDouble(str) : null;
 							if(num != null)
 								indexStoreSolr(entityDoc, "entityMax", num);
 						}
 
 						for(String languageName : otherLanguages) {  
-							indexStoreSolr(entityDoc, "entityDisplayName", languageName, regex("^displayName." + languageName + ":\\s*(.*)$", methodComment, 1));
-							indexStoreSolr(entityDoc, "entityHtmlTooltip", languageName, regex("^htmlTooltip." + languageName + ":\\s*(.*)$", methodComment, 1));
-//							indexStoreSolr(entityDoc, "entityVarApi", languageName, regex("^entityVarApi." + languageName + ":\\s*(.*)$", methodComment, 1));
+							indexStoreSolr(entityDoc, "entityDisplayName", languageName, regex("^(entite)?NomAffichage." + languageName + ":\\s*(.*)$", methodComment, 1));
+							indexStoreSolr(entityDoc, "entityHtmlTooltip", languageName, regex("^(entite)?HtmlTooltip." + languageName + ":\\s*(.*)$", methodComment, 1));
+//							indexStoreSolr(entityDoc, "entityVarApi", languageName, regex("^(entite)?EntiteVarApi." + languageName + ":\\s*(.*)$", methodComment, 1));
 							indexStoreSolrRegex(entityDoc, languageName, "entityVarApi", "entityVarApi", methodComment);
-							indexStoreSolr(entityDoc, "enumVar", languageName, regex("^enumVar." + languageName + ":\\s*(.*)$", methodComment, 1));
-							indexStoreSolr(entityDoc, "enumVarDescription", languageName, regex("^enumVarDescription." + languageName + ":\\s*(.*)$", methodComment, 1));
+							indexStoreSolr(entityDoc, "enumVar", languageName, regex("^(entite)?EnumVar." + languageName + ":\\s*(.*)$", methodComment, 1));
+							indexStoreSolr(entityDoc, "enumVarDescription", languageName, regex("^(entite)?EnumVarDescription." + languageName + ":\\s*(.*)$", methodComment, 1));
 						}
 
-						Matcher entityAttributeSearch = methodComment == null ? null : Pattern.compile("^attribuer:\\s*([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
+						Matcher entityAttributeSearch = methodComment == null ? null : Pattern.compile("^(entite)?Attribuer:\\s*([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);
 						boolean entityAttributeTrouve = entityAttributeSearch == null ? false : entityAttributeSearch.find();
 						if(entityAttributeTrouve) {
 							String entityAttributeSimpleName = entityAttributeSearch.group(1);
@@ -1704,7 +1709,7 @@ public class IndexClass extends WatchClassBase {
 
 //						boolean entityWrap = false;
 //	
-//						String varEntiteEnUS = regex("^var.enUS: (.*)", methodQdox.getComment());
+//						String varEntiteEnUS = regex("^(entite)?Var.enUS: (.*)", methodQdox.getComment());
 //						entite.var.frFR(entityVar);
 //						entite.var.enUS(StringUtils.isEmpty(varEntiteEnUS) ? entityVar : StringUtils.substringAfter(varEntiteEnUS, "_"));
 //	
@@ -1822,7 +1827,7 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "partNumber", partNumber);
 
 						String entitySourceCode = methodQdox.getSourceCode();
-						String entityString = regex("^String\\." + languageName + ":(.*)", methodComment);
+						String entityString = regex("^(entite)?String\\." + languageName + ":(.*)", methodComment);
 						if(StringUtils.isNotBlank(entityString)) {
 							entitySourceCode = "\n\t\tc.o(\"" + StringUtils.replace(StringUtils.replace(entityString, "\\", "\\\\"), "\"", "\\\"") + "\");\n\t";
 							indexStoreSolr(entityDoc, "entityString", languageName, entityString); 
@@ -2132,7 +2137,7 @@ public class IndexClass extends WatchClassBase {
 				
 						for(String languageName : otherLanguages) {  
 							ClassParts entityClassPartsLangue = ClassParts.initClassParts(this, entityClassParts, languageName);
-//							String entityCanonicalNameLangue = regex("^canonicalName\\." + languageName + ":\\s*(.*)", entityComment, entityCanonicalName);
+//							String entityCanonicalNameLangue = regex("^(entite)?NomCanonique\\." + languageName + ":\\s*(.*)", entityComment, entityCanonicalName);
 //							String entitySimpleNameLangue = StringUtils.substringAfterLast(entityCanonicalNameLangue, ".");
 //							String entiteNomEnsembleLangue = StringUtils.substringBeforeLast(entityCanonicalNameLangue, ".");
 				
@@ -2145,7 +2150,7 @@ public class IndexClass extends WatchClassBase {
 
 							indexStoreSolr(entityDoc, "entityVarParam", languageName, entityVarParam); 
 
-							String entityVarLangue = regex("^var\\." + languageName + ": (.*)", methodComment);
+							String entityVarLangue = regex("^(entite)?Var\\." + languageName + ": (.*)", methodComment);
 							entityVarLangue = indexStoreSolr(entityDoc, "entityVar", languageName, entityVarLangue == null ? entityVar : entityVarLangue);
 							if(entityPrimaryKey) {
 								storeSolr(classDoc, "classVarPrimaryKey", languageName, entityVarLangue);
@@ -2162,7 +2167,7 @@ public class IndexClass extends WatchClassBase {
 								String valeur = replaceValuesLanguage.get(i);
 								StringUtils.replace(entitySourceCodeLangue, cle, valeur);
 							}
-							String entityStringLangue = regex("^String\\." + languageName + ":(.*)", methodComment);
+							String entityStringLangue = regex("^(entite)?String\\." + languageName + ":(.*)", methodComment);
 							if(StringUtils.isNotBlank(entityStringLangue)) {
 								entitySourceCodeLangue = "\n\t\tc.o(\"" + StringUtils.replace(StringUtils.replace(entityStringLangue, "\\", "\\\\"), "\"", "\\\"") + "\");\n\t";
 								indexStoreSolr(entityDoc, "entityString", languageName, entityStringLangue); 
@@ -2187,7 +2192,7 @@ public class IndexClass extends WatchClassBase {
 
 						solrClientComputate.add(entityDoc); 
 					}
-					else { 
+					else {  
 						// est Methode. 
 						
 						SolrInputDocument methodDoc = classDocClone.deepCopy();
@@ -2201,7 +2206,7 @@ public class IndexClass extends WatchClassBase {
 							storeListSolr(methodDoc, "methodParamsSimpleNameComplete", languageName, methodeParamsClassePart.simpleNameComplete);
 							storeListSolr(methodDoc, "methodParamsVariableArgs", methodParamQdox.isVarArgs());
 							for(String languageName : otherLanguages) { 
-								String methodParamVarLanguage = regex("param" + methodParamNum + "\\.var\\." + languageName + ": (.*)", methodComment);
+								String methodParamVarLanguage = regex("^(methode)?Param" + methodParamNum + "\\.var\\." + languageName + ": (.*)", methodComment);
 								if(methodParamVarLanguage == null)
 									methodParamVarLanguage = methodeParamVar;
 								ClassParts methodParamClassPartsLanguage = ClassParts.initClassParts(this, methodeParamsClassePart, languageName);
@@ -2278,7 +2283,7 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(methodDoc, "methodIsOverride", methodIsOverride);
 						storeRegexComments(methodComment, languageName, methodDoc, "methodComment");
 	
-						String methodVarLanguage = regex("^var\\." + languageName + ": (.*)", methodComment);
+						String methodVarLanguage = regex("^(methode)?Var\\." + languageName + ": (.*)", methodComment);
 						methodVarLanguage =  methodVarLanguage == null ? methodVar : methodVarLanguage;
 	
 						regexList("^" + languageName + ":\\s*([^\n]+)", methodComment);
@@ -2292,7 +2297,7 @@ public class IndexClass extends WatchClassBase {
 //							String regexValue = replaceValuesLanguage.get(i);
 //							StringUtils.replace(methodSourceCodeLanguage, regexKey, regexValue);
 //						}
-						String methodString = regex("^String\\." + languageName + ":(.*)", methodComment);
+						String methodString = regex("^(methode)?String\\." + languageName + ":(.*)", methodComment);
 						if(StringUtils.isNotBlank(methodString)) {
 							methodSourceCode = "\n\t\treturn \"" + StringUtils.replace(StringUtils.replace(methodString, "\\", "\\\\"), "\"", "\\\"") + "\";\n\t";
 							indexStoreSolr(methodDoc, "methodString", languageName, methodString); 
@@ -2300,11 +2305,11 @@ public class IndexClass extends WatchClassBase {
 						storeSolr(methodDoc, "methodSourceCode", languageName, methodSourceCode);
 
 						for(String languageName : otherLanguages) {  
-							methodVarLanguage = regex("^var\\." + languageName + ":\\s*([^\n]+)", methodComment);
+							methodVarLanguage = regex("^(methode)?Var\\." + languageName + ":\\s*([^\n]+)", methodComment);
 							methodVarLanguage = indexStoreSolr(methodDoc, "methodVar", languageName, methodVarLanguage == null ? methodVar : methodVarLanguage);
 							regexList("^" + languageName + ":\\s*([^\n]+)", methodComment);
 							methodSourceCodeLanguage = regexReplaceAll(methodComment, methodSourceCode, languageName);
-							String methodStringLangue = regex("^String\\." + languageName + ":(.*)", methodComment);
+							String methodStringLangue = regex("^(methode)?String\\." + languageName + ":(.*)", methodComment);
 							if(StringUtils.isNotBlank(methodStringLangue)) {
 								methodSourceCodeLanguage = "\n\t\treturn \"" + StringUtils.replace(StringUtils.replace(methodStringLangue, "\\", "\\\\"), "\"", "\\\"") + "\";\n\t";
 								indexStoreSolr(methodDoc, "methodString", languageName, methodStringLangue); 
@@ -2396,22 +2401,22 @@ public class IndexClass extends WatchClassBase {
 			classApiMethods.add("DELETE");
 
 		if(classModel) {
-			String classApiUri = indexStoreSolrRegex(classDoc, languageName, "classApiUri", "apiUri", classComment);
-			String classApiTag = indexStoreSolrRegex(classDoc, languageName, "classApiTag", "apiTag", classComment);
+			String classApiUri = indexStoreSolrRegex(classDoc, languageName, "classApiUri", "ApiUri", classComment);
+			String classApiTag = indexStoreSolrRegex(classDoc, languageName, "classApiTag", "ApiTag", classComment);
 
 			for(String classApiMethod : classApiMethods) {
-				indexStoreListSolr(classDoc, "classApiMethods", classApiMethod);
+				indexStoreListSolr(classDoc, "classApiMethods", classApiMethod); 
 //				if(classKeywordsFound && (classKeywords.contains(classApiMethod + ".request") || classKeywords.contains(classApiMethod + ".response"))) {
 					String classApiUriMethode = regexLanguage(languageName, "apiUri" + classApiMethod, classComment);
 
 					if("Search".equals(classApiMethod))
-						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethod" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
+						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
 					else
-						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethod" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
+						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
 
-					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "apiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
-					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "apiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
-					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "apiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
+					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "ApiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
+					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "ApiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
+					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "ApiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
 
 					if(classExtendsBase) {
 						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string"));
@@ -2419,8 +2424,8 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + languageName + "_stored_string"));
 					}
 
-					String classApiMediaType200Methode = regex("^apiMediaType200" + classApiMethod + ":\\s*(.*)", classComment, "application/json");
-					String classPageNomSimpleMethode = regex("^page" + classApiMethod + ":\\s*(.*)", classComment);
+					String classApiMediaType200Methode = regex("^(class)?ApiTypeMedia200" + classApiMethod + ":\\s*(.*)", classComment, "application/json");
+					String classPageNomSimpleMethode = regex("^(class)?Page" + classApiMethod + ":\\s*(.*)", classComment);
 					String classApiKeywordMethod = regexLanguage(languageName, "apiKeyword" + classApiMethod, classComment);
 					if(StringUtils.contains(classApiMethod, "POST")
 							|| StringUtils.contains(classApiMethod, "Search")
@@ -2462,16 +2467,16 @@ public class IndexClass extends WatchClassBase {
 //				}
 			}
 			for(String languageName : otherLanguages) {  
-				String classApiUriLangue = indexStoreSolrRegex(classDoc, languageName, "classApiUri", "apiUri", classComment);
-				String classApiTagLangue = indexStoreSolrRegex(classDoc, languageName, "classApiTag", "apiTag", classComment);
+				String classApiUriLangue = indexStoreSolrRegex(classDoc, languageName, "classApiUri", "ApiUri", classComment);
+				String classApiTagLangue = indexStoreSolrRegex(classDoc, languageName, "classApiTag", "ApiTag", classComment);
 
 				for(String classApiMethod : classApiMethods) {
 	//				if(classKeywordsFound && (classKeywords.contains(classApiMethod + ".request") || classKeywords.contains(classApiMethod + ".response"))) {
 						String classApiUriMethodeLangue = regexLanguage(languageName, "apiUri" + classApiMethod, classComment);
-						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^apiMethod" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
-						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "apiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
-						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "apiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
-						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "apiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
+						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
+						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "ApiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
+						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "ApiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
+						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "ApiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
 
 						if(classExtendsBase) {
 							indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string"));

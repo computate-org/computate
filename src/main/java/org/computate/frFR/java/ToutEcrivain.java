@@ -12,7 +12,7 @@ import org.apache.commons.text.StringEscapeUtils;
 
 
 /**   
- * nomCanonique.enUS: org.computate.enUS.java.AllWriter
+ * NomCanonique.enUS: org.computate.enUS.java.AllWriter
  **/
 public class ToutEcrivain {     
 

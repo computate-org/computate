@@ -123,7 +123,7 @@ public class WriteAllClasses extends WritePageClass {
 					classApiMethods = (List<String>)doc.get("classApiMethods_stored_strings");
 					if(classApiMethods == null)
 						classApiMethods = new ArrayList<>();
-					entityIndex = 0;
+					entityIndex = 0; 
 
 					writerGenClass = AllWriter.create(classFileGen);
 					if(classApi) {
@@ -164,7 +164,7 @@ public class WriteAllClasses extends WritePageClass {
 					Boolean partIsEntity = (Boolean)doc.get("partIsEntity_stored_boolean");
 	
 					if(BooleanUtils.isTrue(partIsConstructor)) {
-						genCodeConstructeur(languageName);
+						genCodeConstructor(languageName);
 					}
 					else if(BooleanUtils.isTrue(partIsEntity)) {
 						genCodeEntity(languageName);

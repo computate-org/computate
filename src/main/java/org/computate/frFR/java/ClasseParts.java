@@ -13,54 +13,54 @@ import org.apache.solr.common.SolrDocumentList;
 import com.thoughtworks.qdox.model.JavaClass;
 
 /**
- * nomCanonique.enUS: org.computate.enUS.java.ClassParts
+ * NomCanonique.enUS: org.computate.enUS.java.ClassParts
  */  
 public class ClasseParts {
 
 	/**
-	 * var.enUS: canonicalNameComplete
+	 * Var.enUS: canonicalNameComplete
 	 */  
 	public String nomCanoniqueComplet;
 
 	/**
-	 * var.enUS: canonicalName
+	 * Var.enUS: canonicalName
 	 */
 	public String nomCanonique;
 
 	/**
-	 * var.enUS: simpleName
+	 * Var.enUS: simpleName
 	 */
 	public String nomSimple;
 
 	/**
-	 * var.enUS: canonicalNameGeneric
+	 * Var.enUS: canonicalNameGeneric
 	 */
 	public String nomCanoniqueGenerique;
 
 	/**
-	 * var.enUS: simpleNameComplete
+	 * Var.enUS: simpleNameComplete
 	 */
 	public String nomSimpleComplet;
 
 	/**
-	 * var.enUS: simpleNameGeneric
+	 * Var.enUS: simpleNameGeneric
 	 */
 	public String nomSimpleGenerique;
 
 	/**
-	 * var.enUS: extendsGen
+	 * Var.enUS: extendsGen
 	 */
 	public Boolean etendGen;
 
 	/**
-	 * var.enUS: solrDocument
+	 * Var.enUS: solrDocument
 	 */
 	public SolrDocument documentSolr;
 
 	/**
-	 * var.enUS: solrDocument
-	 * param1.var.enUS: siteConfig
-	 * param2.var.enUS: canonicalName
+	 * Var.enUS: solrDocument
+	 * Param1.var.enUS: siteConfig
+	 * Param2.var.enUS: canonicalName
 	 * r: nomCanonique
 	 * r.enUS: canonicalName
 	 * r: nomEnsembleDomaine
@@ -101,10 +101,10 @@ public class ClasseParts {
 	}
 
 	/**
-	 * var.enUS: initClassParts
-	 * param1.var.enUS: siteConfig
-	 * param2.var.enUS: classParts
-	 * param3.var.enUS: languageName
+	 * Var.enUS: initClassParts
+	 * Param1.var.enUS: siteConfig
+	 * Param2.var.enUS: classParts
+	 * Param3.var.enUS: languageName
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 * r: initClasseParts
@@ -124,10 +124,10 @@ public class ClasseParts {
 	} 
 
 	/**
-	 * var.enUS: initClassParts
-	 * param1.var.enUS: siteConfig
-	 * param2.var.enUS: classQdox
-	 * param3.var.enUS: languageName
+	 * Var.enUS: initClassParts
+	 * Param1.var.enUS: siteConfig
+	 * Param2.var.enUS: classQdox
+	 * Param3.var.enUS: languageName
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 * r: initClasseParts
@@ -251,10 +251,10 @@ public class ClasseParts {
 	} 
 
 	/**
-	 * var.enUS: initClassParts
-	 * param1.var.enUS: siteConfig
-	 * param2.var.enUS: canonicalNameComplete
-	 * param3.var.enUS: languageName
+	 * Var.enUS: initClassParts
+	 * Param1.var.enUS: siteConfig
+	 * Param2.var.enUS: canonicalNameComplete
+	 * Param3.var.enUS: languageName
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 * r: initClasseParts
@@ -349,7 +349,7 @@ public class ClasseParts {
 	}
 
 	/**
-	 * param1.var.enUS: values
+	 * Param1.var.enUS: values
 	 * r: valeurs
 	 * r.enUS: values
 	 */

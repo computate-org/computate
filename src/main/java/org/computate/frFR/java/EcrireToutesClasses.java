@@ -23,18 +23,18 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
 /**   
- * nomCanonique.enUS: org.computate.enUS.java.WriteAllClasses
+ * NomCanonique.enUS: org.computate.enUS.java.WriteAllClasses
  * 
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
- * initLoin: false
+ * InitLoin: false
  */   
 public class EcrireToutesClasses extends EcrirePageClasse {        
 
 	/**
-	 * var.enUS: writeGenClasses
-	 * param1.var.enUS: classAbsolutePath
-	 * param2.var.enUS: languageName
+	 * Var.enUS: writeGenClasses
+	 * Param1.var.enUS: classAbsolutePath
+	 * Param2.var.enUS: languageName
 	 * r: clientSolrComputate
 	 * r.enUS: solrClientComputate
 	 * r: rechercheSolr
@@ -72,9 +72,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	}
 
 	/** 
-	 * var.enUS: writeGenClasses
-	 * param1.var.enUS: searchResponse
-	 * param2.var.enUS: languageName
+	 * Var.enUS: writeGenClasses
+	 * Param1.var.enUS: searchResponse
+	 * Param2.var.enUS: languageName
 	 * r: VAL_entiteCommentaireLigne1Part1
 	 * r.enUS: VAL_entityCommentLine1Part1
 	 * r: VAL_entiteCommentaireLigne1Part2
@@ -264,11 +264,15 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: writeApiServiceImpl
 	 * r: classeApiMethodes
 	 * r.enUS: classApiMethods
+	 * r: genCodeConstructeur
+	 * r.enUS: genCodeConstructor
 	 * 
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
 	 * r: classeDoc
 	 * r.enUS: classDoc
+	 * r: classe
+	 * r.enUS: class
 	 * 
 	 * r: Ecrire:
 	 * r.enUS: Write:
@@ -353,7 +357,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_stored_strings");
 					if(classeApiMethodes == null)
 						classeApiMethodes = new ArrayList<>();
-					entiteIndice = 0;
+					entiteIndice = 0; 
 
 					auteurGenClasse = ToutEcrivain.create(classeFichierGen);
 					if(classeApi) {

@@ -167,6 +167,11 @@ public class SiteConfig {
 	 **/
 	public Boolean siteEncrypted;
 
+	public ArrayList<String> siteWriteMethods = new ArrayList<String>();
+
+	public SiteConfig() {
+	}
+
 	protected void  _appName() throws Exception, Exception {
 		if(appName == null)
 			appName = System.getenv("appName"); 
@@ -298,6 +303,10 @@ public class SiteConfig {
 		siteEncrypted = config.getBoolean(StringUtils.replace(appName, ".", "..") + ".siteEncrypted", false);
 	}
 
+	protected void  _siteWriteMethods() throws Exception, Exception {
+		siteWriteMethods.addAll(config.getList(String.class, StringUtils.replace(appliNom, ".", "..") + ".siteWriteMethods"));
+	}
+
 	public void  initSiteConfig() throws Exception, Exception {
 		_appName();
 		_appPath();
@@ -331,12 +340,18 @@ public class SiteConfig {
 	}
 
 	public String regex(String pattern, String text) {
-		String o = regex(pattern, text, 1);
+		String o = null;
+		if(pattern != null && text != null) {
+			Matcher m = Pattern.compile(pattern, Pattern.MULTILINE).matcher(text);
+			boolean trouve = m.find();
+			if(trouve)
+				o = m.group(m.groupCount());
+		}
 		return o;
 	}
 
 	protected String regexLanguage(String languageName, String fieldNameRegex, String comment) throws Exception, Exception {
-		return regexLangue(languageName, fieldNameRegex, comment, null);
+		return regexLanguage(languageName, fieldNameRegex, comment, null);
 	}
 
 	protected String regexLanguage(String languageName, String fieldNameRegex, String comment, String defaultValue) throws Exception, Exception {
@@ -353,7 +368,13 @@ public class SiteConfig {
 	}
 
 	public String regex(String pattern, String text, String defaultValue) {
-		String o = regex(pattern, text, 1);
+		String o = null;
+		if(pattern != null && text != null) {
+			Matcher m = Pattern.compile(pattern, Pattern.MULTILINE).matcher(text);
+			boolean trouve = m.find();
+			if(trouve)
+				o = m.group(m.groupCount());
+		}
 		if(StringUtils.isEmpty(o))
 			return defaultValue;
 		else
@@ -387,7 +408,7 @@ public class SiteConfig {
 			Matcher m = Pattern.compile(pattern, Pattern.MULTILINE).matcher(text);
 			boolean found = m.find();
 			while(found) {
-				o = m.group(1);
+				o = m.group(m.groupCount());
 				results.add(o); 
 				found = m.find();
 			}

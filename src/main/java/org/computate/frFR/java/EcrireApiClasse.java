@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 /**   
- * nomCanonique.enUS: org.computate.enUS.java.WriteApiClass
+ * NomCanonique.enUS: org.computate.enUS.java.WriteApiClass
  * 
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
@@ -14,22 +14,22 @@ import org.apache.commons.lang3.StringUtils;
 public class EcrireApiClasse extends EcrireGenClasse {   
 //
 //	/**
-//	 * var.enUS: writerApiPackageInfo
+//	 * Var.enUS: writerApiPackageInfo
 //	 */
 //	protected ToutEcrivain auteurApiEnsembleInfo;
 
 	/**
-	 * var.enUS: writerApiServiceImpl
+	 * Var.enUS: writerApiServiceImpl
 	 */
 	protected ToutEcrivain auteurApiServiceImpl;
 
 	/**
-	 * var.enUS: writerGenApiServiceImpl
+	 * Var.enUS: writerGenApiServiceImpl
 	 */
 	protected ToutEcrivain auteurGenApiServiceImpl;
 
 	/**
-	 * var.enUS: writerGenApiService
+	 * Var.enUS: writerGenApiService
 	 */  
 	protected ToutEcrivain auteurGenApiService;
 
@@ -38,22 +38,22 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	/////////////////////
 
 	/**
-	 * var.enUS: classSimpleNameApiPackageInfo
+	 * Var.enUS: classSimpleNameApiPackageInfo
 	 */
 	protected String classeNomSimpleApiEnsembleInfo;
 
 	/**
-	 * var.enUS: classSimpleNameGenApiServiceImpl
+	 * Var.enUS: classSimpleNameGenApiServiceImpl
 	 */
 	protected String classeNomSimpleGenApiServiceImpl;
 
 	/**
-	 * var.enUS: classSimpleNameApiServiceImpl
+	 * Var.enUS: classSimpleNameApiServiceImpl
 	 */
 	protected String classeNomSimpleApiServiceImpl;
 
 	/**
-	 * var.enUS: classSimpleNameGenApiService
+	 * Var.enUS: classSimpleNameGenApiService
 	 */
 	protected String classeNomSimpleGenApiService;
 
@@ -62,33 +62,33 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	////////////////////////
 
 	/**
-	 * var.enUS: classCanonicalNameApiPackageInfo
+	 * Var.enUS: classCanonicalNameApiPackageInfo
 	 */
 	protected String classeNomCanoniqueApiEnsembleInfo;
 
 	/**
-	 * var.enUS: classCanonicalNameGenApiServiceImpl
+	 * Var.enUS: classCanonicalNameGenApiServiceImpl
 	 */
 	protected String classeNomCanoniqueGenApiServiceImpl;
 
 	/**
-	 * var.enUS: classCanonicalNameApiServiceImpl
+	 * Var.enUS: classCanonicalNameApiServiceImpl
 	 */
 	protected String classeNomCanoniqueApiServiceImpl;
 
 	/**
-	 * var.enUS: classCanonicalNameGenApiService
+	 * Var.enUS: classCanonicalNameGenApiService
 	 */
 	protected String classeNomCanoniqueGenApiService;
 
 	/**
-	 * var.enUS: classApiMethods
+	 * Var.enUS: classApiMethods
 	 */
 	protected List<String> classeApiMethodes;
 
 	/**
-	 * var.enUS: apiCodeClassBegin
-	 * param1.var.enUS: languageName
+	 * Var.enUS: apiCodeClassBegin
+	 * Param1.var.enUS: languageName
 	 * r: auteurGenApiServiceImpl
 	 * r.enUS: writerGenApiServiceImpl
 	 * r: auteurApiServiceImpl
@@ -129,8 +129,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	}
 //
 //	/**
-//	 * var.enUS: writeApiPackageInfo
-//	 * param1.var.enUS: languageName
+//	 * Var.enUS: writeApiPackageInfo
+//	 * Param1.var.enUS: languageName
 //	 * 
 //	 * r: auteurApiEnsembleInfo
 //	 * r.enUS: writerApiPackageInfo
@@ -151,8 +151,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //	}
 
 	/**
-	 * var.enUS: writeGenApiService
-	 * param1.var.enUS: languageName
+	 * Var.enUS: writeGenApiService
+	 * Param1.var.enUS: languageName
 	 * 
 	 * r: auteurGenApiService
 	 * r.enUS: writerGenApiService
@@ -235,8 +235,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	}
 
 	/**
-	 * var.enUS: writeApiServiceImpl
-	 * param1.var.enUS: languageName
+	 * Var.enUS: writeApiServiceImpl
+	 * Param1.var.enUS: languageName
 	 * 
 	 * r: auteurApiServiceImpl
 	 * r.enUS: writerApiServiceImpl
@@ -273,8 +273,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	}
 
 	/**
-	 * var.enUS: writeGenApiServiceImpl
-	 * param1.var.enUS: languageName
+	 * Var.enUS: writeGenApiServiceImpl
+	 * Param1.var.enUS: languageName
 	 * 
 	 * r: classeCheminGenApiServiceImpl
 	 * r.enUS: classPathGenApiServiceImpl

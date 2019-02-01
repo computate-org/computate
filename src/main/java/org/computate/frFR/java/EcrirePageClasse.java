@@ -3,7 +3,7 @@ package org.computate.frFR.java;
 import java.io.PrintWriter;
 
 /**   
- * nomCanonique.enUS: org.computate.enUS.java.WritePageClass
+ * NomCanonique.enUS: org.computate.enUS.java.WritePageClass
  * 
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
@@ -11,17 +11,17 @@ import java.io.PrintWriter;
 public class EcrirePageClasse extends EcrireApiClasse {
 
 	/**
-	 * var.enUS: writerPageGenClass
+	 * Var.enUS: writerPageGenClass
 	 */
 	protected ToutEcrivain auteurPageGenClasse;
 
 	/**
-	 * var.enUS: classSimpleNamePage
+	 * Var.enUS: classSimpleNamePage
 	 */
 	protected String classeNomSimplePage;
 
 	/**
-	 * var.enUS: classSimpleNamePageGen
+	 * Var.enUS: classSimpleNamePageGen
 	 */
 	protected String classeNomSimplePageGen;
 

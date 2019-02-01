@@ -33,110 +33,110 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 
 /**
- * nomCanonique.enUS: org.computate.enUS.java.WatchDirectory
+ * NomCanonique.enUS: org.computate.enUS.java.WatchDirectory
  */    
 public class RegarderRepertoire {  
 	/** 
-	 * var.enUS: log
+	 * Var.enUS: log
 	 */
 	protected final Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
 	
 	/** 
-	 * var.enUS: observer
+	 * Var.enUS: observer
 	 */
 	protected WatchService observateur;
 	/**
-	 * var.enUS: keys
+	 * Var.enUS: keys
 	 */
 	protected Map<WatchKey, Path> cles = new LinkedHashMap<WatchKey, Path>();
 	/**
-	 * var.enUS: trace
+	 * Var.enUS: trace
 	 */
 	protected Boolean trace = false;
 	/**
-	 * var.enUS: paths
+	 * Var.enUS: paths
 	 */
 	protected ArrayList<Path> chemins = new ArrayList<Path>();
 //	protected Class<?> coureurTest = SeulCoureurTestJUnit.class;
 	/**
-	 * var.enUS: outputStream
+	 * Var.enUS: outputStream
 	 */
 	protected ByteArrayOutputStream fluxSortie = new ByteArrayOutputStream();
 //	protected PumpStreamHandler gestionnaireFluxPompe = new PumpStreamHandler(new ExecLogHandler(log, Level.INFO), new ExecLogHandler(log, Level.ERROR));
 	/**
-	 * var.enUS: executor
+	 * Var.enUS: executor
 	 */
 	protected DefaultExecutor executeur = new DefaultExecutor();
 	/**
-	 * var.enUS: pathsBin
+	 * Var.enUS: pathsBin
 	 */
 	protected ArrayList<String> cheminsBin = new ArrayList<String>();
 	/**
-	 * var.enUS: classPathPaths
+	 * Var.enUS: classPathPaths
 	 */
 	protected ArrayList<String> cheminsCheminClasse = new ArrayList<String>();
 	/**
-	 * var.enUS: pathsToWatch
+	 * Var.enUS: pathsToWatch
 	 */
 	protected ArrayList<String> cheminsARegarder = new ArrayList<String>();
 	/**
-	 * var.enUS: testMethodNames
+	 * Var.enUS: testMethodNames
 	 */
 	protected ArrayList<String> nomsMethodeTest = new ArrayList<String>();
 	/**
-	 * var.enUS: sourcePaths
+	 * Var.enUS: sourcePaths
 	 */
 	protected ArrayList<String> cheminsSource = new ArrayList<String>();
 	/**
-	 * var.enUS: relativePathsToWatch
+	 * Var.enUS: relativePathsToWatch
 	 */
 	protected ArrayList<String> cheminsRelatifsARegarder = new ArrayList<String>();
 	/**
-	 * var.enUS: allSourcePaths
+	 * Var.enUS: allSourcePaths
 	 */
 	protected ArrayList<String> toutCheminsSource = new ArrayList<String>();
 	/**
-	 * var.enUS: libraryPaths
+	 * Var.enUS: libraryPaths
 	 */
 	protected ArrayList<String> cheminsBibliotheque = new ArrayList<String>();
 	/**
-	 * var.enUS: classAppDirPath
+	 * Var.enUS: classAppDirPath
 	 */
 	protected String classeCheminRepertoireAppli;
 	/**
-	 * var.enUS: classPath
+	 * Var.enUS: classPath
 	 */
 	protected String classeChemin;
 	/**
-	 * var.enUS: srcMainJavaPath
+	 * Var.enUS: srcMainJavaPath
 	 */
 	protected String cheminSrcMainJava;
 	/**
-	 * var.enUS: srcGenJavaPath
+	 * Var.enUS: srcGenJavaPath
 	 */
 	protected String cheminSrcGenJava;
 	/**
-	 * var.enUS: configPath
+	 * Var.enUS: configPath
 	 */
 	protected String configChemin;
 	/**
-	 * var.enUS: configFile
+	 * Var.enUS: configFile
 	 */
 	protected File fichierConfig;
 	/**
-	 * var.enUS: configuration
+	 * Var.enUS: configuration
 	 */
 	protected INIConfiguration configuration;
 	/**
-	 * var.enUS: appName
+	 * Var.enUS: appName
 	 */
 	protected String appliNom;
 	/**
-	 * var.enUS: appPath
+	 * Var.enUS: appPath
 	 */
 	protected String appliChemin;
 	/**
-	 * var.enUS: appComputatePath
+	 * Var.enUS: appComputatePath
 	 */
 	protected String appliComputateChemin;
 
@@ -223,7 +223,7 @@ public class RegarderRepertoire {
 	 */
 
 	/**
-	 * var.enUS: initializeWatchDirectory
+	 * Var.enUS: initializeWatchDirectory
 	 * r: observateur
 	 * r.enUS: observer
 	 * r: cheminsARegarder
@@ -278,7 +278,7 @@ public class RegarderRepertoire {
 	}
 
 	/** 
-	 * var.enUS: addPathsToWatch
+	 * Var.enUS: addPathsToWatch
 	 * r: cheminsARegarder
 	 * r.enUS: pathsToWatch
 	 * r: cheminARegarder
@@ -304,7 +304,7 @@ public class RegarderRepertoire {
 	}      
 
 	/**
-	 * param1.var.enUS: event
+	 * Param1.var.enUS: event
 	 * r: evenement
 	 * r.enUS: event
 	 */
@@ -313,8 +313,8 @@ public class RegarderRepertoire {
 	}
 
 	/**
-	 * var.enUS: save
-	 * param1.var.enUS: dirPath
+	 * Var.enUS: save
+	 * Param1.var.enUS: dirPath
 	 * r: regarderCle
 	 * r.enUS: watchKey
 	 * r: cheminRepertoire
@@ -333,8 +333,8 @@ public class RegarderRepertoire {
 	}
 
 	/**
-	 * var.enUS: saveAll
-	 * param1.var.enUS: start
+	 * Var.enUS: saveAll
+	 * Param1.var.enUS: start
 	 * r: repertoire
 	 * r.enUS: dir
 	 * r: champs
@@ -355,7 +355,7 @@ public class RegarderRepertoire {
 	} 
 
 	/*
-	 * var.enUS: handleEvents
+	 * Var.enUS: handleEvents
 	 * r: fluxSortie
 	 * r.enUS: outputStream
 	 * r: cheminsBin
@@ -391,7 +391,7 @@ public class RegarderRepertoire {
 	 */
 
 	/** 
-	 * var.enUS: handleEvents
+	 * Var.enUS: handleEvents
 	 * r: classeCheminAbsolue
 	 * r.enUS: classAbsolutePath
 	 * r: executeur

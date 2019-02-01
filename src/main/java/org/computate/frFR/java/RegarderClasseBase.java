@@ -16,14 +16,14 @@ import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaType;
 
 /**   
- * nomCanonique.enUS: org.computate.enUS.java.WatchClassBase
+ * NomCanonique.enUS: org.computate.enUS.java.WatchClassBase
  */   
 public class RegarderClasseBase extends ConfigSite {
 
 	public String[] args;
 
 	/**
-	 * var.enUS: _appPath
+	 * Var.enUS: _appPath
 	 * r: appliChemin
 	 * r.enUS: appPath
 	 */ 
@@ -32,11 +32,11 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 
 	/**
-	 * var.enUS: classAbsolutePath
+	 * Var.enUS: classAbsolutePath
 	 */ 
 	public String classeCheminAbsolu;
 	/** 
-	 * var.enUS: _classAbsolutePath
+	 * Var.enUS: _classAbsolutePath
 	 * r: classeCheminAbsolu
 	 * r.enUS: classAbsolutePath
 	 */  
@@ -45,11 +45,11 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 	
 	/** 
-	 * var.enUS: appPaths
+	 * Var.enUS: appPaths
 	 */
 	public HashMap<String, String> appliChemins = new HashMap<String, String>(); 
 	/** 
-	 * var.enUS: _appPaths
+	 * Var.enUS: _appPaths
 	 * r: autresLangues
 	 * r.enUS: otherLanguages
 	 * r: langueNom
@@ -76,33 +76,33 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 
 	/**  
-	 * var.enUS: classDocs
+	 * Var.enUS: classDocs
 	 */
 	public HashMap<String, SolrDocument> classeDocs = new HashMap<String, SolrDocument>();
 	/**
-	 * var.enUS: _classDocs
+	 * Var.enUS: _classDocs
 	 */
 	protected void _classeDocs() throws Exception {
 	}
 
 	/** 
-	 * var.enUS: classPartsGen
+	 * Var.enUS: classPartsGen
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 */
 	public HashMap<String, ClasseParts> classePartsGen = new HashMap<String, ClasseParts>();
 	/**
-	 * var.enUS: _classPartsGen
+	 * Var.enUS: _classPartsGen
 	 */
 	protected void _classePartsGen() throws Exception {
 	}
 
 	/**
-	 * var.enUS: builder
+	 * Var.enUS: builder
 	 */ 
 	public JavaProjectBuilder bricoleur;
 	/**
-	 * var.enUS: _builder
+	 * Var.enUS: _builder
 	 * r: bricoleur
 	 * r.enUS: builder
 	 * r: cheminSource
@@ -122,7 +122,7 @@ public class RegarderClasseBase extends ConfigSite {
 
 
 	/**
-	 * var.enUS: initWatchClassBase
+	 * Var.enUS: initWatchClassBase
 	 * r: ConfigSite
 	 * r.enUS: SiteConfig
 	 * r: classeCheminAbsolu
@@ -150,9 +150,9 @@ public class RegarderClasseBase extends ConfigSite {
 	////////////
 	
 	/**
-	 * var.enUS: extendClass
-	 * param1.var.enUS: classQdox
-	 * param2.var.enUS: canonicalName
+	 * Var.enUS: extendClass
+	 * Param1.var.enUS: classQdox
+	 * Param2.var.enUS: canonicalName
 	 * r: resultat
 	 * r.enUS: result
 	 * r:etendClasse
@@ -168,9 +168,9 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 	
 	/**
-	 * var.enUS: extendClass
-	 * param1.var.enUS: canonicalNameSearch
-	 * param2.var.enUS: canonicalNameActual
+	 * Var.enUS: extendClass
+	 * Param1.var.enUS: canonicalNameSearch
+	 * Param2.var.enUS: canonicalNameActual
 	 * r: bricoleur
 	 * r.enUS: builder
 	 * r:etendClasse
@@ -188,9 +188,9 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 
 	/**
-	 * var.enUS: extendClass
-	 * param1.var.enUS: canonicalName
-	 * param2.var.enUS: classQdox
+	 * Var.enUS: extendClass
+	 * Param1.var.enUS: canonicalName
+	 * Param2.var.enUS: classQdox
 	 * r: bricoleur
 	 * r.enUS: builder
 	 * r:etendClasse
@@ -217,9 +217,9 @@ public class RegarderClasseBase extends ConfigSite {
 	//////////////
 	
 	/**
-	 * var.enUS: containsField
-	 * param1.var.enUS: qdoxSuperClassesAndMe
-	 * param2.var.enUS: fieldName
+	 * Var.enUS: containsField
+	 * Param1.var.enUS: qdoxSuperClassesAndMe
+	 * Param2.var.enUS: fieldName
 	 * r: classeQdox
 	 * r.enUS: classQdox
 	 * r: bricoleur
@@ -238,10 +238,10 @@ public class RegarderClasseBase extends ConfigSite {
 	} 
 	
 	/**
-	 * var.enUS: containsField
-	 * param1.var.enUS: qdoxSuperClassesAndMe
-	 * param2.var.enUS: fieldName
-	 * param3.var.enUS: paramsArray
+	 * Var.enUS: containsField
+	 * Param1.var.enUS: qdoxSuperClassesAndMe
+	 * Param2.var.enUS: fieldName
+	 * Param3.var.enUS: paramsArray
 	 * r: tableauParams
 	 * r.enUS: paramsArray
 	 * r: listeParams
@@ -271,10 +271,10 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 
 	/**
-	 * var.enUS: containsMethodAlone
-	 * param1.var.enUS: classQdox
-	 * param2.var.enUS: methodName
-	 * param3.var.enUS: paramsArray
+	 * Var.enUS: containsMethodAlone
+	 * Param1.var.enUS: classQdox
+	 * Param2.var.enUS: methodName
+	 * Param3.var.enUS: paramsArray
 	 * r: obtenirMethodeSeul
 	 * r.enUS: obtainMethodAlone
 	 * r: classeQdox
@@ -290,10 +290,10 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 
 	/**
-	 * var.enUS: containsMethod
-	 * param1.var.enUS: classQdox
-	 * param2.var.enUS: methodName
-	 * param3.var.enUS: paramsArray
+	 * Var.enUS: containsMethod
+	 * Param1.var.enUS: classQdox
+	 * Param2.var.enUS: methodName
+	 * Param3.var.enUS: paramsArray
 	 * r: obtenirMethode
 	 * r.enUS: obtainMethod
 	 * r: classeQdox
@@ -309,10 +309,10 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 
 	/**
-	 * var.enUS: containsAttribute
-	 * param1.var.enUS: domainPackageName
-	 * param2.var.enUS: attributeName
-	 * param3.var.enUS: attributeClassQdox
+	 * Var.enUS: containsAttribute
+	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: attributeName
+	 * Param3.var.enUS: attributeClassQdox
 	 * r: classeAttributQdox
 	 * r.enUS: attributeClassQdox
 	 * r: nomEnsembleDomaine
@@ -346,10 +346,10 @@ public class RegarderClasseBase extends ConfigSite {
 	/////////////
 	
 	/**
-	 * var.enUS: obtainMethod
-	 * param1.var.enUS: classQdox
-	 * param2.var.enUS: methodName
-	 * param3.var.enUS: paramsArray
+	 * Var.enUS: obtainMethod
+	 * Param1.var.enUS: classQdox
+	 * Param2.var.enUS: methodName
+	 * Param3.var.enUS: paramsArray
 	 * r: listeParams
 	 * r.enUS: paramsList
 	 * r: tableauParams
@@ -369,10 +369,10 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 	
 	/**
-	 * var.enUS: obtainMethod
-	 * param1.var.enUS: superClassAndMeQdox
-	 * param2.var.enUS: methodName
-	 * param3.var.enUS: paramsArray
+	 * Var.enUS: obtainMethod
+	 * Param1.var.enUS: superClassAndMeQdox
+	 * Param2.var.enUS: methodName
+	 * Param3.var.enUS: paramsArray
 	 * r: listeParams
 	 * r.enUS: paramsList
 	 * r: tableauParams
@@ -400,10 +400,10 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 	
 	/**
-	 * var.enUS: obtainMethodAlone
-	 * param1.var.enUS: classQdox
-	 * param2.var.enUS: methodName
-	 * param3.var.enUS: paramsArray
+	 * Var.enUS: obtainMethodAlone
+	 * Param1.var.enUS: classQdox
+	 * Param2.var.enUS: methodName
+	 * Param3.var.enUS: paramsArray
 	 * r: listeParams
 	 * r.enUS: paramsList
 	 * r: tableauParams

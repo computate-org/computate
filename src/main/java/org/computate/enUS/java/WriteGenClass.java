@@ -638,15 +638,15 @@ public class WriteGenClass extends WriteClass {
 		}
 	}
 
-	public void  genCodeEntity(String languageName) throws Exception, Exception {
-		String constructorSourceCode = (String)doc.get("constructorSourceCode_" + langueNom + "_stored_string");
-		String constructorComment = (String)doc.get("constructorComment_" + langueNom + "_stored_string");
+	public void  genCodeConstructor(String languageName) throws Exception, Exception {
+		String constructorSourceCode = (String)doc.get("constructorSourceCode_" + languageName + "_stored_string");
+		String constructorComment = (String)doc.get("constructorComment_" + languageName + "_stored_string");
 		List<String> constructeurExceptionsNomSimpleComplet = (List<String>)doc.get("constructeurExceptionsNomSimpleComplet_stored_strings");
-		List<String> constructorAnnotationsNomSimpleCompletListe = (List<String>)doc.get("constructorAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings");
-		List<String> constructorAnnotationsBlocCodeListe = (List<String>)doc.get("constructorAnnotationsBlocCode_" + langueNom + "_stored_strings");
+		List<String> constructorAnnotationsNomSimpleCompletListe = (List<String>)doc.get("constructorAnnotationsNomSimpleComplet_" + languageName + "_stored_strings");
+		List<String> constructorAnnotationsBlocCodeListe = (List<String>)doc.get("constructorAnnotationsBlocCode_" + languageName + "_stored_strings");
 
 		l(""); 
-		ecrireCommentaire(constructorComment, 1);
+		writeComment(constructorComment, 1);
 		if(constructorAnnotationsNomSimpleCompletListe != null && constructorAnnotationsBlocCodeListe != null) {
 			for(int j = 0; j < constructorAnnotationsNomSimpleCompletListe.size(); j++) {
 				String constructorAnnotationNomSimpleComplet = constructorAnnotationsNomSimpleCompletListe.get(j);
@@ -670,10 +670,10 @@ public class WriteGenClass extends WriteClass {
 		if(BooleanUtils.isTrue((Boolean)doc.get("constructorIsNative_stored_boolean")))
 			s("native ");
 
-		s(classeNomSimpleGen);
+		s(classSimpleNameGen);
 		s("(");
-		List<String> constructorParamsSimpleNameComplete = (List<String>)doc.get("constructorParamsSimpleNameComplete_" + langueNom + "_stored_strings"); 
-		List<String> constructorParamsVar = (List<String>)doc.get("constructorParamsVar_" + langueNom + "_stored_strings");
+		List<String> constructorParamsSimpleNameComplete = (List<String>)doc.get("constructorParamsSimpleNameComplete_" + languageName + "_stored_strings"); 
+		List<String> constructorParamsVar = (List<String>)doc.get("constructorParamsVar_" + languageName + "_stored_strings");
 		List<Boolean> constructorParamsVariableArgs = (List<Boolean>)doc.get("constructorParamsVariableArgs_stored_booleans");
 		if(constructorParamsSimpleNameComplete != null && constructorParamsVar != null && constructorParamsSimpleNameComplete.size() == constructorParamsVar.size()) {
 			for(int j = 0; j < constructorParamsVar.size(); j++) {
@@ -2535,6 +2535,39 @@ public class WriteGenClass extends WriteClass {
 
 			tl(1, "}");
 		}	
+
+		for(String siteEcrireMethode : siteEcrireMethodes) {
+			Boolean classeEcrireMethode = BooleanUtils.isTrue((Boolean)doc.get("classe" + StringUtils.capitalize(siteEcrireMethode) + "_stored_boolean"));
+			if(classeEcrireMethode) {
+				l();
+				String strCommentaire = "///" + String.join("", Collections.nCopies(siteEcrireMethode.length(), "/")) + "///";
+				tl(1, strCommentaire);
+				tl(1, "// ", siteEcrireMethode, " //");
+				tl(1, strCommentaire);
+				tl(0);
+				t(1);
+				if(BooleanUtils.isTrue(classExtendsBase))
+					s("@Override ");
+				l("public void ", siteEcrireMethode, "() {");
+				tl(2, siteEcrireMethode, classSimpleName, "Avant();");
+				tl(2, siteEcrireMethode, classSimpleName, "Apres();");
+				tl(1, "}");
+				tl(1, "public void ", siteEcrireMethode, classSimpleName, "Avant() {");
+				s(wStore.toString());
+				if(BooleanUtils.isTrue(classExtendsBase)) {
+					tl(0);
+					tl(2, "super.", siteEcrireMethode, classSuperSimpleNameGeneric, "();");
+				}
+				tl(1, "}");
+				tl(1, "public void ", siteEcrireMethode, classSimpleName, "Apres() {");
+				s(wStore.toString());
+				if(BooleanUtils.isTrue(classExtendsBase)) {
+					tl(0);
+					tl(2, "super.", siteEcrireMethode, classSuperSimpleNameGeneric, "();");
+				}
+				tl(1, "}");
+			}
+		}
 
 //		s(wExists.toString());
 

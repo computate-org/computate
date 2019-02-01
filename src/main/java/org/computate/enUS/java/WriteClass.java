@@ -113,7 +113,7 @@ public class WriteClass extends IndexClass {
 					classSuperTypeParameterNames = (List<String>)doc.get("classSuperTypeParameterNames_stored_strings");
 					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
 
-					auteurClasse = ToutEcrivain.create(classFile);
+					auteurClasse = AllWriter.create(classFile);
 					o = auteurClasse;
 		
 					l("package ", classPackageName, ";"); 
@@ -230,24 +230,7 @@ public class WriteClass extends IndexClass {
 						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstNatif_stored_boolean")))
 							s("native ");
 
-
-						if(constructeurParamsTypeNom != null && constructeurParamsTypeNom.size() > 0) {
-							s("<");
-							for(int j = 0; j < constructeurParamsTypeNom.size(); j++) {
-								String constructeurParamTypeNom = constructeurParamsTypeNom.get(j);
-								if(j > 0)
-									s(", ");
-								s(constructeurParamTypeNom);
-							}
-							s("> ");
-						}
-
-						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstVide_stored_boolean")))
-							s("void ");
-						else
-							s((String)doc.get("constructeurRetourNomSimpleComplet_" + languageName + "_stored_string"));
-						s(" ");
-						s(constructeurVar);
+						s(classSimpleName);
 						s("(");
 						List<String> constructeurParamsNomSimpleComplet = (List<String>)doc.get("constructeurParamsNomSimpleComplet_" + languageName + "_stored_strings"); 
 						List<String> constructeurParamsVar = (List<String>)doc.get("constructeurParamsVar_" + languageName + "_stored_strings");

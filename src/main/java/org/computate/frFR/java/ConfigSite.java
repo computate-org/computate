@@ -15,7 +15,7 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 
 /**
- * nomCanonique.enUS: org.computate.enUS.java.SiteConfig
+ * NomCanonique.enUS: org.computate.enUS.java.SiteConfig
  * enUS: Loads the properties in the application config file into specific fields. 
  * frFR: Charge les propriétés dans le fichier de config de l'application dans des champs spécifiques. 
  */ 
@@ -25,13 +25,13 @@ public class ConfigSite {
 	}
 
 	/**	
-	 * var.enUS: appName
+	 * Var.enUS: appName
 	 * frFR: Le nom de l'lappli. 
 	 * enUS: The name of the application. 
 	 **/ 
 	public String appliNom;
 	/**	
-	 * var.enUS: _appName
+	 * Var.enUS: _appName
 	 * r: appliNom
 	 * r.enUS: appName
 	 **/ 
@@ -41,13 +41,13 @@ public class ConfigSite {
 	}
 
 	/**	
-	 * var.enUS: appPath
+	 * Var.enUS: appPath
 	 * frFR: Le chemin vers l'lappli. 
 	 * enUS: The path to the application. 
 	 * **/
 	public String appliChemin;
 	/**	
-	 * var.enUS: _appPath
+	 * Var.enUS: _appPath
 	 * r: appliChemin
 	 * r.enUS: appPath
 	 **/ 
@@ -57,12 +57,12 @@ public class ConfigSite {
 	} 
 
 	/**
-	 * var.enUS: srcMainJavaPath
+	 * Var.enUS: srcMainJavaPath
 	 * enUS: The absolute path to the /src/main/java directory. 
 	 */
 	public String cheminSrcMainJava;
 	/**	
-	 * var.enUS: _srcMainJavaPath
+	 * Var.enUS: _srcMainJavaPath
 	 * r: cheminSrcMainJava
 	 * r.enUS: srcMainJavaPath
 	 * r: appliChemin
@@ -73,12 +73,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: srcGenJavaPath
+	 * Var.enUS: srcGenJavaPath
 	 * enUS: The absolute path to the /src/gen/java directory. 
 	 */
 	public String cheminSrcGenJava;
 	/**	
-	 * var.enUS: _srcGenJavaPath
+	 * Var.enUS: _srcGenJavaPath
 	 * r: cheminSrcGenJava
 	 * r.enUS: srcGenJavaPath
 	 * r: appliChemin
@@ -89,12 +89,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: configPath
+	 * Var.enUS: configPath
 	 * enUS: The absolute path to the app config file. 
 	 */
 	public String configChemin;
 	/**	
-	 * var.enUS: _configPath
+	 * Var.enUS: _configPath
 	 * r: configChemin
 	 * r.enUS: configPath
 	 * r: appliChemin
@@ -107,12 +107,12 @@ public class ConfigSite {
 	}
 //
 //	/**
-//	 * var.enUS: configPath
+//	 * Var.enUS: configPath
 //	 * enUS: The absolute path to the config file. 
 //	 */
 //	public String configChemin;
 //	/**	
-//	 * var.enUS: _configPath
+//	 * Var.enUS: _configPath
 //	 * r.enUS: configChemin
 //	 * configPath
 //	 * r.enUS: configChemin
@@ -129,12 +129,12 @@ public class ConfigSite {
 //	}
 
 	/**
-	 * var.enUS: configFile
+	 * Var.enUS: configFile
 	 * enUS: The File Object for the app config file. 
 	 */
 	public File fichierConfig;
 	/**	
-	 * var.enUS: _configFile
+	 * Var.enUS: _configFile
 	 * r: fichierConfig
 	 * r.enUS: configFile
 	 * r: configChemin
@@ -165,12 +165,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: languageName
+	 * Var.enUS: languageName
 	 * enUS: The configured language name for this app. 
 	 */
 	public String langueNom;
 	/**	
-	 * var.enUS: _languageName
+	 * Var.enUS: _languageName
 	 * r: langueNom
 	 * r.enUS: languageName
 	 * r: appliNom
@@ -181,13 +181,13 @@ public class ConfigSite {
 	} 
 
 	/**
-	 * var.enUS: languageActualName
+	 * Var.enUS: languageActualName
 	 * enUS: The actual language of the code. 
 	 * enUS: If the languageName is configured as "tout", then the languageActualName would be "frFR". 
 	 */
 	public String langueNomActuel;
 	/**	
-	 * var.enUS: _languageActualName
+	 * Var.enUS: _languageActualName
 	 * r: langueNomActuel
 	 * r.enUS: languageActualName
 	 * r: langueNom
@@ -201,12 +201,12 @@ public class ConfigSite {
 	} 
 
 	/**
-	 * var.enUS: otherLanguages
+	 * Var.enUS: otherLanguages
 	 * enUS: Other languages supported by this app besides the actual language name. 
 	 */
 	public String[] autresLangues;
 	/**	
-	 * var.enUS: _otherLanguages
+	 * Var.enUS: _otherLanguages
 	 * r: autresLangues
 	 * r.enUS: otherLanguages
 	 * r: toutesLangues
@@ -221,12 +221,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: allLanguages
+	 * Var.enUS: allLanguages
 	 * enUS: All language names supported in this application. 
 	 */
 	public String[] toutesLangues;
 	/**	
-	 * var.enUS: _allLanguages
+	 * Var.enUS: _allLanguages
 	 * r: toutesLangues
 	 * r.enUS: allLanguages
 	 * r: appliNom
@@ -241,13 +241,13 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: languageIndexed
+	 * Var.enUS: languageIndexed
 	 * enUS: True if the languageName is an actual locale that can be indexed. 
 	 * enUS: If the languageName is configured as "tout", then that language would not be indexed. 
 	 */
 	public Boolean langueIndexe;
 	/**	
-	 * var.enUS: _languageIndexed
+	 * Var.enUS: _languageIndexed
 	 * r: langueIndexe
 	 * r.enUS: languageIndexed
 	 * r: toutesLangues
@@ -260,12 +260,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: domainName
+	 * Var.enUS: domainName
 	 * enUS: The domain name of the website where this will be deployed (like "example.com"). 
 	 */
 	public String nomDomaine;
 	/**	
-	 * var.enUS: _domainName
+	 * Var.enUS: _domainName
 	 * r: nomDomaine
 	 * r.enUS: domainName
 	 * r: appliNom
@@ -276,12 +276,12 @@ public class ConfigSite {
 	}
 	
 	/**
-	 * var.enUS: domainPackageName
+	 * Var.enUS: domainPackageName
 	 * enUS: The Java package name for the domain (example.com would have a package name of "com.example"). 
 	 */
 	public String nomEnsembleDomaine;
 	/**	
-	 * var.enUS: _domainPackageName
+	 * Var.enUS: _domainPackageName
 	 * r: nomEnsembleDomaine
 	 * r.enUS: domainPackageName
 	 * r: nomDomaine
@@ -301,12 +301,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: configFileName
+	 * Var.enUS: configFileName
 	 * enUS: The name of the config file which defaults to the appName followed by ".config". 
 	 */
 	public String nomFichierConfig;
 	/**	
-	 * var.enUS: _configFileName
+	 * Var.enUS: _configFileName
 	 * r: nomFichierConfig
 	 * r.enUS: configFileName
 	 * r: appliNom
@@ -317,12 +317,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: mavenVersion
+	 * Var.enUS: mavenVersion
 	 * enUS: The version of maven being used. 
 	 */
 	public String versionMaven;
 	/**	
-	 * var.enUS: _mavenVersion
+	 * Var.enUS: _mavenVersion
 	 * r: versionMaven
 	 * r.enUS: mavenVersion
 	 **/ 
@@ -331,12 +331,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: zookeeperVersion
+	 * Var.enUS: zookeeperVersion
 	 * enUS: The version of Zookeeper being used. 
 	 */
 	public String versionZookeeper;
 	/**	
-	 * var.enUS: _zookeeperVersion
+	 * Var.enUS: _zookeeperVersion
 	 * r: versionZookeeper
 	 * r.enUS: zookeeperVersion
 	 **/ 
@@ -345,12 +345,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: zookeeperPortPrefix
+	 * Var.enUS: zookeeperPortPrefix
 	 * enUS: The port prefix for zookeeper (default is "102"). 
 	 */
 	public String prefixePortZookeeper;
 	/**	
-	 * var.enUS: _zookeeperPortPrefix
+	 * Var.enUS: _zookeeperPortPrefix
 	 * r: prefixePortZookeeper
 	 * r.enUS: zookeeperPortPrefix
 	 **/ 
@@ -359,12 +359,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: zookeeperClientPort
+	 * Var.enUS: zookeeperClientPort
 	 * enUS: The Zookeeper client port (default is "10281"). 
 	 */
 	public String portClientZookeeper;
 	/**	
-	 * var.enUS: _zookeeperClientPort
+	 * Var.enUS: _zookeeperClientPort
 	 * r: portClientZookeeper
 	 * r.enUS: zookeeperClientPort
 	 * r: prefixePortZookeeper
@@ -375,12 +375,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: zookeeperAdminPort
+	 * Var.enUS: zookeeperAdminPort
 	 * enUS: The Zookeeper admin port (default is "10280"). 
 	 */
 	public String portAdminZookeeper;
 	/**	
-	 * var.enUS: _zookeeperAdminPort
+	 * Var.enUS: _zookeeperAdminPort
 	 * r: portAdminZookeeper
 	 * r.enUS: zookeeperAdminPort
 	 * r: prefixePortZookeeper
@@ -391,12 +391,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: solrVersion
+	 * Var.enUS: solrVersion
 	 * enUS: The version of Solr being used. 
 	 */
 	public String versionSolr;
 	/**	
-	 * var.enUS: _solrVersion
+	 * Var.enUS: _solrVersion
 	 * r: versionSolr
 	 * r.enUS: solrVersion
 	 **/ 
@@ -405,12 +405,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: solrPortPrefix
+	 * Var.enUS: solrPortPrefix
 	 * enUS: The port prefix for Solr (default is "103"). 
 	 */
 	public String prefixePortSolr;
 	/**	
-	 * var.enUS: _solrPortPrefix
+	 * Var.enUS: _solrPortPrefix
 	 * r: prefixePortSolr
 	 * r.enUS: solrPortPrefix
 	 **/ 
@@ -419,12 +419,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: solrPort
+	 * Var.enUS: solrPort
 	 * enUS: The Solr web port (default is "10383"). 
 	 */ 
 	public String portSolr;
 	/**	
-	 * var.enUS: _solrPort
+	 * Var.enUS: _solrPort
 	 * r: portSolr
 	 * r.enUS: solrPort
 	 * r: prefixePortSolr
@@ -435,12 +435,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: solrUrlComputate
+	 * Var.enUS: solrUrlComputate
 	 * enUS: The Solr web URL for the "computate" index. 
 	 */ 
 	public String urlSolrComputate;
 	/**	
-	 * var.enUS: _solrUrlComputate
+	 * Var.enUS: _solrUrlComputate
 	 * r: urlSolrComputate
 	 * r.enUS: solrUrlComputate
 	 * r: urlSolr
@@ -453,12 +453,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: solrClientComputate
+	 * Var.enUS: solrClientComputate
 	 * enUS: The Solrj client for the "computate" index. 
 	 */ 
 	public SolrClient clientSolrComputate;
 	/**	
-	 * var.enUS: _solrClientComputate
+	 * Var.enUS: _solrClientComputate
 	 * r: clientSolrComputate
 	 * r.enUS: solrClientComputate
 	 * r: urlSolrComputate
@@ -469,12 +469,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: sourcePaths
+	 * Var.enUS: sourcePaths
 	 * enUS: The absolute paths to source code directories in the app to watch for changes. 
 	 */ 
 	public ArrayList<String> cheminsSource = new ArrayList<String>();
 	/**	
-	 * var.enUS: _sourcePaths
+	 * Var.enUS: _sourcePaths
 	 * r: cheminsSource
 	 * r.enUS: sourcePaths
 	 * r: cheminSrcMainJava
@@ -488,12 +488,12 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: allSourcePaths
+	 * Var.enUS: allSourcePaths
 	 * enUS: The absolute paths to source code directories in all apps to watch for changes. 
 	 */ 
 	public ArrayList<String> toutCheminsSource = new ArrayList<String>();
 	/**	
-	 * var.enUS: _allSourcePaths
+	 * Var.enUS: _allSourcePaths
 	 * r: toutCheminsSource
 	 * r.enUS: allSourcePaths
 	 * r: cheminSrcMainJava
@@ -507,23 +507,23 @@ public class ConfigSite {
 	}
 
 	/**
-	 * var.enUS: testMethodNames
+	 * Var.enUS: testMethodNames
 	 * enUS: The names of methods that will be tested when a source file is updated. 
 	 */ 
 	public ArrayList<String> nomsMethodeTest = new ArrayList<String>();
 	/**	
-	 * var.enUS: _testMethodNames
+	 * Var.enUS: _testMethodNames
 	 **/ 
 	protected void _nomsMethodeTest() throws Exception {
 	}
 
 	/**
-	 * var.enUS: siteEncrypted
+	 * Var.enUS: siteEncrypted
 	 * enUS: True if the data for the site should be encrypted. 
 	 */
 	public Boolean siteCrypte;
 	/**	
-	 * var.enUS: _siteEncrypted
+	 * Var.enUS: _siteEncrypted
 	 * r: siteCrypte
 	 * r.enUS: siteEncrypted
 	 * r: appliNom
@@ -533,8 +533,21 @@ public class ConfigSite {
 		siteCrypte = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + ".siteCrypte", false);
 	}
 
+	/**
+	 * Var.enUS: siteWriteMethods
+	 */ 
+	public ArrayList<String> siteEcrireMethodes = new ArrayList<String>();
 	/**	
-	 * var.enUS: initSiteConfig
+	 * Var.enUS: _siteWriteMethods
+	 * r: siteEcrireMethodes
+	 * r.enUS: siteWriteMethods
+	 **/ 
+	protected void _siteEcrireMethodes() throws Exception {
+		siteEcrireMethodes.addAll(config.getList(String.class, StringUtils.replace(appliNom, ".", "..") + ".siteEcrireMethodes"));
+	}
+
+	/**	
+	 * Var.enUS: initSiteConfig
 	 * r: fichierConfig
 	 * r.enUS: configFile
 	 * r: langueNomActuel
@@ -593,6 +606,10 @@ public class ConfigSite {
 	 * r.enUS: srcGenJavaPath
 	 * r: nomsMethodeTest
 	 * r.enUS: testMethodNames
+	 * r: siteCrypte
+	 * r.enUS: siteEncrypted
+	 * r: siteEcrireMethodes
+	 * r.enUS: siteWriteMethods
 	 **/ 
 	public void initConfigSite() throws Exception {
 		_appliNom();
@@ -624,26 +641,34 @@ public class ConfigSite {
 		_cheminsSource();
 		_toutCheminsSource();
 		_nomsMethodeTest();
+		_siteCrypte();
+		_siteEcrireMethodes();
 	}
 
 	/**
-	 * param1.var.enUS: pattern
-	 * param2.var.enUS: text
+	 * Param1.var.enUS: pattern
+	 * Param2.var.enUS: text
 	 * r: motif
 	 * r.enUS: pattern
 	 * r: texte
 	 * r.enUS: text
 	 */
 	public String regex(String motif, String texte) {
-		String o = regex(motif, texte, 1);
+		String o = null;
+		if(motif != null && texte != null) {
+			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
+			boolean trouve = m.find();
+			if(trouve)
+				o = m.group(m.groupCount());
+		}
 		return o;
 	}
 	
 	/**
-	 * var.enUS: regexLanguage
-	 * param1.var.enUS: languageName
-	 * param2.var.enUS: fieldNameRegex
-	 * param3.var.enUS: comment
+	 * Var.enUS: regexLanguage
+	 * Param1.var.enUS: languageName
+	 * Param2.var.enUS: fieldNameRegex
+	 * Param3.var.enUS: comment
 	 * r: nomChamp
 	 * r.enUS: fieldName
 	 * r: valeurChamp
@@ -652,17 +677,19 @@ public class ConfigSite {
 	 * r.enUS: comment
 	 * r: langueNom
 	 * r.enUS: languageName
+	 * r: regexLangue
+	 * r.enUS: regexLanguage
 	 */
 	protected String regexLangue(String langueNom, String nomChampRegex, String commentaire) throws Exception {
 		return regexLangue(langueNom, nomChampRegex, commentaire, null);
 	}
 	
 	/**
-	 * var.enUS: regexLanguage
-	 * param1.var.enUS: languageName
-	 * param2.var.enUS: fieldNameRegex
-	 * param3.var.enUS: comment
-	 * param4.var.enUS: defaultValue
+	 * Var.enUS: regexLanguage
+	 * Param1.var.enUS: languageName
+	 * Param2.var.enUS: fieldNameRegex
+	 * Param3.var.enUS: comment
+	 * Param4.var.enUS: defaultValue
 	 * r: nomChamp
 	 * r.enUS: fieldName
 	 * r: valeurChamp
@@ -688,9 +715,9 @@ public class ConfigSite {
 	}
 
 	/**
-	 * param1.var.enUS: pattern
-	 * param2.var.enUS: text
-	 * param3.var.enUS: defaultValue
+	 * Param1.var.enUS: pattern
+	 * Param2.var.enUS: text
+	 * Param3.var.enUS: defaultValue
 	 * r: motif
 	 * r.enUS: pattern
 	 * r: texte
@@ -699,7 +726,13 @@ public class ConfigSite {
 	 * r.enUS: defaultValue
 	 */
 	public String regex(String motif, String texte, String valeurDefaut) {
-		String o = regex(motif, texte, 1);
+		String o = null;
+		if(motif != null && texte != null) {
+			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
+			boolean trouve = m.find();
+			if(trouve)
+				o = m.group(m.groupCount());
+		}
 		if(StringUtils.isEmpty(o))
 			return valeurDefaut;
 		else
@@ -707,9 +740,9 @@ public class ConfigSite {
 	}
 
 	/** 
-	 * param1.var.enUS: pattern
-	 * param2.var.enUS: text
-	 * param3.var.enUS: group
+	 * Param1.var.enUS: pattern
+	 * Param2.var.enUS: text
+	 * Param3.var.enUS: group
 	 * r: motif
 	 * r.enUS: pattern
 	 * r: texte
@@ -731,9 +764,9 @@ public class ConfigSite {
 	}  
 
 	/** 
-	 * var.enUS: regexFound
-	 * param1.var.enUS: pattern
-	 * param2.var.enUS: text
+	 * Var.enUS: regexFound
+	 * Param1.var.enUS: pattern
+	 * Param2.var.enUS: text
 	 * r: motif
 	 * r.enUS: pattern
 	 * r: texte
@@ -751,10 +784,10 @@ public class ConfigSite {
 	}  
 
 	/**
-	 * var.enUS: regexList
-	 * param1.var.enUS: pattern
-	 * param2.var.enUS: text
-	 * param3.var.enUS: group
+	 * Var.enUS: regexList
+	 * Param1.var.enUS: pattern
+	 * Param2.var.enUS: text
+	 * Param3.var.enUS: group
 	 * r: motif
 	 * r.enUS: pattern
 	 * r: texte
@@ -771,7 +804,7 @@ public class ConfigSite {
 			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
 			boolean trouve = m.find();
 			while(trouve) {
-				o = m.group(1);
+				o = m.group(m.groupCount());
 				resultats.add(o); 
 				trouve = m.find();
 			}
@@ -780,10 +813,10 @@ public class ConfigSite {
 	}    
 
 	/**
-	 * var.enUS: regexReplaceAll
-	 * param1.var.enUS: comment
-	 * param2.var.enUS: sourceCode
-	 * param3.var.enUS: languageName
+	 * Var.enUS: regexReplaceAll
+	 * Param1.var.enUS: comment
+	 * Param2.var.enUS: sourceCode
+	 * Param3.var.enUS: languageName
 	 * r: commentaire
 	 * r.enUS: comment
 	 * r: codeSourceLangue
@@ -848,7 +881,7 @@ public class ConfigSite {
 	}
 
 	/**
-	 * param1.var.enUS: values
+	 * Param1.var.enUS: values
 	 * r: valeurs
 	 * r.enUS: values
 	 * r: resultat

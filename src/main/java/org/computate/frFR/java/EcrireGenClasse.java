@@ -20,330 +20,330 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 
 /**  
- * nomCanonique.enUS: org.computate.enUS.java.WriteGenClass
+ * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  */  
 public class EcrireGenClasse extends EcrireClasse { 
 
 	/**
-	 * var.enUS: classDirPathGen
+	 * Var.enUS: classDirPathGen
 	 */
 	protected String classeCheminRepertoireGen;
 
 	/**
-	 * var.enUS: classPathGen
+	 * Var.enUS: classPathGen
 	 */
 	protected String classeCheminGen;
 
 	/**
-	 * var.enUS: classPathApiPackageInfo
+	 * Var.enUS: classPathApiPackageInfo
 	 */
 	protected String classeCheminApiEnsembleInfo;
 
 	/**
-	 * var.enUS: classPathGenApiServiceImpl
+	 * Var.enUS: classPathGenApiServiceImpl
 	 */
 	protected String classeCheminGenApiServiceImpl;
 
 	/**
-	 * var.enUS: classPathApiServiceImpl
+	 * Var.enUS: classPathApiServiceImpl
 	 */
 	protected String classeCheminApiServiceImpl;
 
 	/**
-	 * var.enUS: classPathGenApiService
+	 * Var.enUS: classPathGenApiService
 	 */
 	protected String classeCheminGenApiService;
 
 	/**
-	 * var.enUS: classPathPageGen
+	 * Var.enUS: classPathPageGen
 	 */
 	protected String classeCheminPageGen;
 
 	/**
-	 * var.enUS: classDirGen
+	 * Var.enUS: classDirGen
 	 */
 	protected File classeRepertoireGen;
 
 	/**
-	 * var.enUS: classFileGen
+	 * Var.enUS: classFileGen
 	 */
 	protected File classeFichierGen;
 
 	/**
-	 * var.enUS: classFileApiPackageInfo
+	 * Var.enUS: classFileApiPackageInfo
 	 */
 	protected File classeFichierApiEnsembleInfo;
 
 	/**
-	 * var.enUS: classFileGenApiServiceImpl
+	 * Var.enUS: classFileGenApiServiceImpl
 	 */
 	protected File classeFichierGenApiServiceImpl;
 
 	/**
-	 * var.enUS: classFileApiServiceImpl
+	 * Var.enUS: classFileApiServiceImpl
 	 */
 	protected File classeFichierApiServiceImpl;
 
 	/**
-	 * var.enUS: classFileGenApiService
+	 * Var.enUS: classFileGenApiService
 	 */
 	protected File classeFichierGenApiService;
 
 	/**
-	 * var.enUS: classFilePage
+	 * Var.enUS: classFilePage
 	 */
 	protected File classeFichierPage;
 
 	protected StringBuilder s = new StringBuilder();
 			
 	/**
-	 * var.enUS: classDoc
+	 * Var.enUS: classDoc
 	 */
 	protected SolrDocument classeDoc;
 			
 	protected SolrDocument doc;
 
 	/**
-	 * var.enUS: classCanonicalName
+	 * Var.enUS: classCanonicalName
 	 */
 	protected String classeNomCanonique;
 
 	/**
-	 * var.enUS: classSimpleNameGen
+	 * Var.enUS: classSimpleNameGen
 	 */
 	protected String classeNomSimpleGen;
 
 	/**
-	 * var.enUS: classSuperSimpleName
+	 * Var.enUS: classSuperSimpleName
 	 */
 	protected String classeNomSimpleSuper;
 
 	/**
-	 * var.enUS: classSuperSimpleNameGeneric
+	 * Var.enUS: classSuperSimpleNameGeneric
 	 */ 
 	protected String classeNomSimpleSuperGenerique;
 
 	/**
-	 * var.enUS: classSuperCanonicalNameGeneric
+	 * Var.enUS: classSuperCanonicalNameGeneric
 	 */
 	protected String classeNomCanoniqueSuperGenerique;
 
 	/**
-	 * var.enUS: classPackageName
+	 * Var.enUS: classPackageName
 	 */
 	protected String classeNomEnsemble;
 
 	/**
-	 * var.enUS: classSimpleName
+	 * Var.enUS: classSimpleName
 	 */
 	protected String classeNomSimple;
 
 	/**
-	 * var.enUS: classSuperCanonicalName
+	 * Var.enUS: classSuperCanonicalName
 	 */
 	protected String classeNomCanoniqueSuper;
 
 	/**
-	 * var.enUS: classPageUri
+	 * Var.enUS: classPageUri
 	 */
 	protected String classePageUri;
 
 	/**
-	 * var.enUS: classApiUri
+	 * Var.enUS: classApiUri
 	 */
 	protected String classeApiUri;
 
 	/**
-	 * var.enUS: classComment
+	 * Var.enUS: classComment
 	 */
 	protected String classeCommentaire;
 
 	/**
-	 * var.enUS: classVarPrimaryKey
+	 * Var.enUS: classVarPrimaryKey
 	 */
 	protected String classeVarClePrimaire;
 
 	/**
-	 * var.enUS: classVarUniqueKey
+	 * Var.enUS: classVarUniqueKey
 	 */
 	protected String classeVarCleUnique;
 
 	/**
-	 * var.enUS: classImportsGen
+	 * Var.enUS: classImportsGen
 	 */
 	protected List<String> classeImportationsGen;
 
 	/**
-	 * var.enUS: classInitDeepExceptions
+	 * Var.enUS: classInitDeepExceptions
 	 */
 	protected List<String> classeInitLoinExceptions;
 
 	/**
-	 * var.enUS: classImportsGenApi
+	 * Var.enUS: classImportsGenApi
 	 */
 	protected List<String> classeImportationsGenApi;
 
 	/**
-	 * var.enUS: classImportsGenPage
+	 * Var.enUS: classImportsGenPage
 	 */ 
 	protected List<String> classeImportationsGenPage;
 
 	/**
-	 * var.enUS: classParameterTypeNames
+	 * Var.enUS: classParameterTypeNames
 	 */
 	protected List<String> classeParametreTypeNoms;
 
 	/**
-	 * var.enUS: classSuperParameterTypeNames
+	 * Var.enUS: classSuperParameterTypeNames
 	 */
 	protected List<String> classeSuperParametreTypeNoms;
 
 	/**
-	 * var.enUS: classExtendsGen
+	 * Var.enUS: classExtendsGen
 	 */
 	protected Boolean classeEtendGen;
 
 	/**
-	 * var.enUS: classBaseExtendsGen
+	 * Var.enUS: classBaseExtendsGen
 	 */
 	protected Boolean classeBaseEtendGen;
 
 	/**
-	 * var.enUS: classInitDeep
+	 * Var.enUS: classInitDeep
 	 */
 	protected Boolean classeInitLoin;
 
 	/**
-	 * var.enUS: classIndexed
+	 * Var.enUS: classIndexed
 	 */
 	protected Boolean classeIndexe;
 
 	/**
-	 * var.enUS: classExtendsBase
+	 * Var.enUS: classExtendsBase
 	 */
 	protected Boolean classeEtendBase;
 
 	/**
-	 * var.enUS: classIsBase
+	 * Var.enUS: classIsBase
 	 */
 	protected Boolean classeEstBase;
 
 	/**
-	 * var.enUS: classSaved
+	 * Var.enUS: classSaved
 	 */
 	protected Boolean classeSauvegarde;
 
 	/**
-	 * var.enUS: classModel
+	 * Var.enUS: classModel
 	 */
 	protected Boolean classeModele;
 
 	/**
-	 * var.enUS: classApi
+	 * Var.enUS: classApi
 	 */
 	protected Boolean classeApi;
 
 	/**
-	 * var.enUS: classPage
+	 * Var.enUS: classPage
 	 */
 	protected Boolean classePage;
 
 	/**
-	 * var.enUS: classRolesFound
+	 * Var.enUS: classRolesFound
 	 */
 	protected Boolean classeRolesTrouves;
 
 	/**
-	 * var.enUS: classRoles
+	 * Var.enUS: classRoles
 	 */
 	protected List<String> classeRoles;
 
 	/**
-	 * var.enUS: wInitDeep
+	 * Var.enUS: wInitDeep
 	 */
 	protected ToutEcrivain wInitLoin;
 
 	/**
-	 * var.enUS: wSiteRequest
+	 * Var.enUS: wSiteRequest
 	 */
 	protected ToutEcrivain wRequeteSite;
 
 	/**
-	 * var.enUS: wIndex
+	 * Var.enUS: wIndex
 	 */
 	protected ToutEcrivain wIndexer;
 
 	/**
-	 * var.enUS: wObtain
+	 * Var.enUS: wObtain
 	 */
 	protected ToutEcrivain wObtenir;
 
 	/**
-	 * var.enUS: wAttribute
+	 * Var.enUS: wAttribute
 	 */
 	protected ToutEcrivain wAttribuer;
 
 	/**
-	 * var.enUS: wPut
+	 * Var.enUS: wPut
 	 */ 
 	protected ToutEcrivain wPut;
 
 	/**
-	 * var.enUS: wPopulate
+	 * Var.enUS: wPopulate
 	 */
 	protected ToutEcrivain wPeupler;
 
 	/**
-	 * var.enUS: wStore
+	 * Var.enUS: wStore
 	 */
 	protected ToutEcrivain wStocker;
 
 	/**
-	 * var.enUS: wExists
+	 * Var.enUS: wExists
 	 */
 	protected ToutEcrivain wExiste;
 
 	/**
-	 * var.enUS: wSaves
+	 * Var.enUS: wSaves
 	 */
 	protected ToutEcrivain wSauvegardes;
 
 	/**
-	 * var.enUS: wDefine
+	 * Var.enUS: wDefine
 	 */
 	protected ToutEcrivain wDefinir;
 
 	protected ToutEcrivain wApiGet;
 
 	/**
-	 * var.enUS: wApiGenerateGet
+	 * Var.enUS: wApiGenerateGet
 	 */
 	protected ToutEcrivain wApiGenererGet;
 
 	/**
-	 * var.enUS: wApiGeneratePost
+	 * Var.enUS: wApiGeneratePost
 	 */
 	protected ToutEcrivain wApiGenererPost;
 
 	/**
-	 * var.enUS: wApiGeneratePut
+	 * Var.enUS: wApiGeneratePut
 	 */
 	protected ToutEcrivain wApiGenererPut;
 
 	/**
-	 * var.enUS: wApiGeneratePatch
+	 * Var.enUS: wApiGeneratePatch
 	 */
 	protected ToutEcrivain wApiGenererPatch;
 
 	/**
-	 * var.enUS: wApiEntities
+	 * Var.enUS: wApiEntities
 	 */
 	protected ToutEcrivain wApiEntites;
 
 	/**
-	 * var.enUS: wPageEntities
+	 * Var.enUS: wPageEntities
 	 */
 	protected ToutEcrivain wPageEntites;
 
@@ -356,72 +356,72 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wEquals;
 
 	/**
-	 * var.enUS: entityVar
+	 * Var.enUS: entityVar
 	 */
 	protected String entiteVar;
 
 	/**
-	 * var.enUS: entityVarCapitalized
+	 * Var.enUS: entityVarCapitalized
 	 */
 	protected String entiteVarCapitalise;
 
 	/**
-	 * var.enUS: entityCanonicalName
+	 * Var.enUS: entityCanonicalName
 	 */
 	protected String entiteNomCanonique;
 
 	/**
-	 * var.enUS: entityCanonicalNameGeneric
+	 * Var.enUS: entityCanonicalNameGeneric
 	 */
 	protected String entiteNomCanoniqueGenerique;
 
 	/**
-	 * var.enUS: entitySimpleNameComplete
+	 * Var.enUS: entitySimpleNameComplete
 	 */
 	protected String entiteNomSimpleComplet;
 
 	/**
-	 * var.enUS: entitySimpleNameCompleteGeneric
+	 * Var.enUS: entitySimpleNameCompleteGeneric
 	 */
 	protected String entiteNomSimpleCompletGenerique;
 
 	/**
-	 * var.enUS: entitySimpleName
+	 * Var.enUS: entitySimpleName
 	 */
 	protected String entiteNomSimple;
 
 	/**
-	 * var.enUS: entityComment
+	 * Var.enUS: entityComment
 	 */
 	protected String entiteCommentaire;
 
 	/**
-	 * var.enUS: entityVarParam
+	 * Var.enUS: entityVarParam
 	 */
 	protected String entiteVarParam;
 
 	/**
-	 * var.enUS: entityWrap
+	 * Var.enUS: entityWrap
 	 */
 	protected Boolean entiteCouverture;
 
 	/**
-	 * var.enUS: entityInitialized
+	 * Var.enUS: entityInitialized
 	 */
 	protected Boolean entiteInitialise;
 
 	/**
-	 * var.enUS: entityInitDeep
+	 * Var.enUS: entityInitDeep
 	 */
 	protected Boolean entiteInitLoin;
 	
 	/**
-	 * var.enUS: writerGenClass
+	 * Var.enUS: writerGenClass
 	 */
 	protected ToutEcrivain auteurGenClasse;
 
 	/**
-	 * var.enUS: entityIndex
+	 * Var.enUS: entityIndex
 	 */
 	protected Integer entiteIndice;
 
@@ -490,8 +490,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeInitDeep
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeInitDeep
+	 * Param1.var.enUS: languageName
 	 * r: classeInitLoinExceptionNomSimple
 	 * r.enUS: classInitDeepExceptionSimpleName
 	 * r: classeInitLoinExceptions
@@ -585,8 +585,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeSiteRequest
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeSiteRequest
+	 * Param1.var.enUS: languageName
 	 * r: classeInitLoin
 	 * r.enUS: classInitDeep
 	 * r: RequeteSite
@@ -617,8 +617,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeIndex
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeIndex
+	 * Param1.var.enUS: languageName
 	 * r: wIndexer
 	 * r.enUS: wIndex
 	 * r: classeIndexe
@@ -711,8 +711,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeObtain
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeObtain
+	 * Param1.var.enUS: languageName
 	 * r: wObtenir
 	 * r.enUS: wObtain
 	 * r: classeInitLoin
@@ -760,8 +760,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeAttribute
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeAttribute
+	 * Param1.var.enUS: languageName
 	 * r: wAttribuer
 	 * r.enUS: wAttribute
 	 * r: classeNomSimple
@@ -823,8 +823,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodePut
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodePut
+	 * Param1.var.enUS: languageName
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
 	 * r: classeSauvegarde
@@ -867,8 +867,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodePopulate
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodePopulate
+	 * Param1.var.enUS: languageName
 	 * r: wPeupler
 	 * r.enUS: wPopulate
 	 * r: classeNomSimple
@@ -892,8 +892,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeExists
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeExists
+	 * Param1.var.enUS: languageName
 	 * r: wExiste
 	 * r.enUS: wExists
 	 * r: classeNomSimple
@@ -982,8 +982,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeSaves
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeSaves
+	 * Param1.var.enUS: languageName
 	 * r: wSauvegardes
 	 * r.enUS: wSaves
 	 * r: classeNomSimple
@@ -1040,8 +1040,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeClassBegin
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeClassBegin
+	 * Param1.var.enUS: languageName
 	 * r: auteurGenClasse
 	 * r.enUS: writerGenClass
 	 * r: classeNomEnsemble
@@ -1168,8 +1168,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeEntity
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeConstructor
+	 * Param1.var.enUS: languageName
 	 * r: constructeurDoc
 	 * r.enUS: constructorDoc
 	 * r: constructeurQdox
@@ -1242,7 +1242,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: constructorAnnotation
 	 * r: partEstConstructeur
 	 * r.enUS: partIsConstructor
-	 */
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: ecrireCommentaire
+	 * r.enUS: writeComment
+	 * r: classeNomSimpleGen
+	 * r.enUS: classSimpleNameGen
+	 */ 
 	public void genCodeConstructeur(String langueNom) throws Exception {
 		String constructeurCodeSource = (String)doc.get("constructeurCodeSource_" + langueNom + "_stored_string");
 		String constructeurCommentaire = (String)doc.get("constructeurCommentaire_" + langueNom + "_stored_string");
@@ -1313,8 +1319,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeEntity
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeEntity
+	 * Param1.var.enUS: languageName
 	 * r: entiteVarCapitalise
 	 * r.enUS: entityVarCapitalized
 	 * r: entiteInitialise
@@ -3218,8 +3224,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * var.enUS: genCodeClassEnd
-	 * param1.var.enUS: languageName
+	 * Var.enUS: genCodeClassEnd
+	 * Param1.var.enUS: languageName
 	 * r: classeInitLoinExceptionNomSimple
 	 * r.enUS: classInitDeepExceptionSimpleName
 	 * r: classeInitLoinExceptions
@@ -3600,6 +3606,53 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			tl(1, "}");
 		}	
+
+		for(String siteEcrireMethode : siteEcrireMethodes) {
+			Boolean classeEcrireMethode = BooleanUtils.isTrue((Boolean)classeDoc.get("classe" + StringUtils.capitalize(siteEcrireMethode) + "_stored_boolean"));
+			if(classeEcrireMethode) {
+				l();
+				String strCommentaire = "///" + String.join("", Collections.nCopies(siteEcrireMethode.length(), "/")) + "///";
+				tl(1, strCommentaire);
+				tl(1, "// ", siteEcrireMethode, " //");
+				tl(1, strCommentaire);
+				tl(0);
+				t(1);
+				if(BooleanUtils.isTrue(classeEtendBase))
+					s("@Override ");
+				l("public void ", siteEcrireMethode, "() {");
+				tl(2, siteEcrireMethode, "Avant();");
+				tl(2, siteEcrireMethode, "Milieu();");
+				tl(2, siteEcrireMethode, "Apres();");
+				tl(1, "}");
+				tl(1, "public void ", siteEcrireMethode, "Avant() {");
+				tl(2, siteEcrireMethode, classeNomSimple, "Avant();");
+				if(BooleanUtils.isTrue(classeEtendBase)) {
+					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Avant();");
+				}
+				tl(1, "}");
+				tl(1, "public void ", siteEcrireMethode, "Milieu() {");
+				tl(2, siteEcrireMethode, classeNomSimple, "Milieu();");
+				if(BooleanUtils.isTrue(classeEtendBase)) {
+					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Milieu();");
+				}
+				tl(1, "}");
+				tl(1, "public void ", siteEcrireMethode, "Apres() {");
+				tl(2, siteEcrireMethode, classeNomSimple, "Apres();");
+				if(BooleanUtils.isTrue(classeEtendBase)) {
+					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Apres();");
+				}
+				tl(1, "}");
+				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Avant() {");
+//				s(wStocker.toString());
+				tl(1, "}");
+				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Milieu() {");
+//				s(wStocker.toString());
+				tl(1, "}");
+				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Apres() {");
+//				s(wStocker.toString());
+				tl(1, "}");
+			}
+		}
 
 //		s(wExiste.toString());
 

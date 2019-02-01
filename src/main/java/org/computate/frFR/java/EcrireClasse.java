@@ -1,4 +1,4 @@
-package org.computate.frFR.java;    
+package org.computate.frFR.java;     
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -17,20 +17,20 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
 /**
- * nomCanonique.enUS: org.computate.enUS.java.WriteClass
+ * NomCanonique.enUS: org.computate.enUS.java.WriteClass
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
- * val.VAL_entiteCommentaireLigne1Part1.enUS:The "
- * val.VAL_entiteCommentaireLigne1Part1.frFR:Le champ « 
+ * Val.VAL_entiteCommentaireLigne1Part1.enUS:The "
+ * Val.VAL_entiteCommentaireLigne1Part1.frFR:Le champ « 
  */  
 public class EcrireClasse extends IndexerClasse { 
 
 	protected ToutEcrivain auteurClasse;
 
 	/**
-	 * var.enUS: writeClass
-	 * param1.var.enUS: classAbsolutePath
-	 * param2.var.enUS: languageName
+	 * Var.enUS: writeClass
+	 * Param1.var.enUS: classAbsolutePath
+	 * Param2.var.enUS: languageName
 	 * r: clientSolrComputate
 	 * r.enUS: solrClientComputate
 	 * r: rechercheSolr
@@ -58,9 +58,9 @@ public class EcrireClasse extends IndexerClasse {
 	}  
 
 	/**
-	 * var.enUS: writeComment
-	 * param1.var.enUS: comment
-	 * param2.var.enUS: tabs
+	 * Var.enUS: writeComment
+	 * Param1.var.enUS: comment
+	 * Param2.var.enUS: tabs
 	 * r: commentaire
 	 * r.enUS: comment
 	 * r: tabulations
@@ -85,9 +85,9 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * var.enUS: writeCommentPart
-	 * param1.var.enUS: comment
-	 * param2.var.enUS: tabs
+	 * Var.enUS: writeCommentPart
+	 * Param1.var.enUS: comment
+	 * Param2.var.enUS: tabs
 	 * r: commentaire
 	 * r.enUS: comment
 	 * r: tabulations
@@ -106,10 +106,10 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * var.enUS: writeClass
-	 * param1.var.enUS: classAbsolutePath
-	 * param2.var.enUS: languageName
-	 * param3.var.enUS: searchResponse
+	 * Var.enUS: writeClass
+	 * Param1.var.enUS: classAbsolutePath
+	 * Param2.var.enUS: languageName
+	 * Param3.var.enUS: searchResponse
 	 * r: listeRecherche
 	 * r.enUS: searchList
 	 * r: rechercheSolr
@@ -372,6 +372,8 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: entityAnnotationsCodeBlockList
 	 * r: entiteExceptionNomSimpleComplet
 	 * r.enUS: entityExceptionSimpleNameComplete
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
 	 * r: Couverture
 	 * r.enUS: Wrap
 	 * r: Ecrire:
@@ -732,12 +734,12 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * var.enUS: languageName
+	 * Var.enUS: languageName
 	 */
 	String langueNom;
 	/**
-	 * var.enUS: languageName
-	 * param1.var.enUS: languageName
+	 * Var.enUS: languageName
+	 * Param1.var.enUS: languageName
 	 * r: langueNom
 	 * r.enUS: languageName
 	 */
@@ -747,7 +749,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objets
 	 * r.enUS: objects
 	 * r: objet
@@ -761,8 +763,8 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: numberTabs
-	 * param2.var.enUS: objects
+	 * Param1.var.enUS: numberTabs
+	 * Param2.var.enUS: objects
 	 * r: nombreTabulations
 	 * r.enUS: numberTabs
 	 * r: objets
@@ -780,7 +782,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objets
 	 * r.enUS: objects
 	 * r: objet
@@ -795,8 +797,8 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: numberTabs
-	 * param2.var.enUS: objects
+	 * Param1.var.enUS: numberTabs
+	 * Param2.var.enUS: objects
 	 * r: nombreTabulations
 	 * r.enUS: numberTabs
 	 * r: objets

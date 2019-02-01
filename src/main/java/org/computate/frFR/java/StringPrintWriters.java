@@ -5,7 +5,7 @@ import java.util.List;
 
 
 /**   
- * nomCanonique.enUS: org.computate.enUS.java.StringPrintWriters
+ * NomCanonique.enUS: org.computate.enUS.java.StringPrintWriters
  **/
 public class StringPrintWriters {    
 
