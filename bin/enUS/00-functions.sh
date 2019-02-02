@@ -40,8 +40,8 @@ export versionMaven="${versionMaven:-3.5.3}"
 
 computate_config_var zookeeper versionZookeeper
 export versionZookeeper="${versionZookeeper:-3.5.4}"
-computate_config_var zookeeper prefixePortZookeeper
-export prefixePortZookeeper="${prefixePortZookeeper:-102}"
+computate_config_var zookeeper prefixPortZookeeper
+export prefixPortZookeeper="${prefixPortZookeeper:-102}"
 computate_config_var zookeeper portClientZookeeper
 export portClientZookeeper="${portClientZookeeper:-${prefixPortZookeeper}81}"
 computate_config_var zookeeper portAdminZookeeper
@@ -49,8 +49,8 @@ export portAdminZookeeper="${portAdminZookeeper:-${prefixPortZookeeper}80}"
 
 computate_config_var solr versionSolr
 export versionSolr="${versionSolr:-7.3.1}"
-computate_config_var solr prefixePortSolr
-export prefixePortSolr="${prefixePortSolr:-103}"
+computate_config_var solr prefixPortSolr
+export prefixPortSolr="${prefixPortSolr:-103}"
 computate_config_var solr portSolr
-export portSolr="${portSolr:-${prefixePortSolr}83}"
+export portSolr="${portSolr:-${prefixPortSolr}83}"
 export URL_SOLR="http://localhost:${portSolr}/solr"
