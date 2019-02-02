@@ -3,7 +3,7 @@
 export languageName="${languageName:-enUS}"
 export appName="${appName:-computate}"
 export appPath="${appPath:-$(readlink -f $( dirname $( dirname $( dirname ${BASH_SOURCE[0]} ) ) ) )}"
-export appComputatePath="${appComputatePath:-$appPath}"
+export appComputatePath="${appComputatePath:-/usr/local/src/computate}"
 export configFileName="${appName}.config"
 export configPath="$appPath/config/$configFileName"
 
@@ -21,8 +21,8 @@ function computate() {
 	esac
 }
 
-if [ ! -f $configPath ]; then
-	computate "cp $appPath/config/$languageName/$configFileName $configPath"
+if [ ! -f $appComputatePath/config/computate.config ]; then
+	computate "cp $appComputatePath/config/$languageName/computate.config $appComputatePath/config/computate.config"
 fi
 
 function config_var {
@@ -30,22 +30,27 @@ function config_var {
 	export "$2"="${config_var}"
 }
 
-config_var maven versionMaven
+function computate_config_var {
+	config_var=$(cat "$appComputatePath/config/computate.config" | perl -0777ne 'print "$1" if /\[\s*'"$1"'\s*\][\s\S]*?\s+'"$2"'\s*=\s*(.*)\s*/')
+	export "$2"="${config_var}"
+}
+
+computate_config_var maven versionMaven
 export versionMaven="${versionMaven:-3.5.3}"
 
-config_var zookeeper versionZookeeper
+computate_config_var zookeeper versionZookeeper
 export versionZookeeper="${versionZookeeper:-3.5.4}"
-config_var zookeeper prefixePortZookeeper
+computate_config_var zookeeper prefixePortZookeeper
 export prefixePortZookeeper="${prefixePortZookeeper:-102}"
-config_var zookeeper portClientZookeeper
+computate_config_var zookeeper portClientZookeeper
 export portClientZookeeper="${portClientZookeeper:-${prefixPortZookeeper}81}"
-config_var zookeeper portAdminZookeeper
+computate_config_var zookeeper portAdminZookeeper
 export portAdminZookeeper="${portAdminZookeeper:-${prefixPortZookeeper}80}"
 
-config_var solr versionSolr
+computate_config_var solr versionSolr
 export versionSolr="${versionSolr:-7.3.1}"
-config_var solr prefixePortSolr
+computate_config_var solr prefixePortSolr
 export prefixePortSolr="${prefixePortSolr:-103}"
-config_var solr portSolr
+computate_config_var solr portSolr
 export portSolr="${portSolr:-${prefixePortSolr}83}"
 export URL_SOLR="http://localhost:${portSolr}/solr"

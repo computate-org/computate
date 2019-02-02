@@ -1,5 +1,6 @@
 #!/bin/bash
-source "$(dirname $0)/00-functions.sh"
+export appComputatePath="${appComputatePath:-/usr/local/src/computate}"
+source "$appComputatePath/bin/enUS/00-functions.sh"
 
 #############
 # zookeeper #

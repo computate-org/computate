@@ -1,11 +1,12 @@
 #!/bin/bash
-source "$(dirname $0)/00-functions.sh"
+export appComputatePath="${appComputatePath:-/usr/local/src/computate}"
+source "$appComputatePath/bin/enUS/00-functions.sh"
 
 #############
 # computate #
 #############
 
-computate "cd $appPath && mvn install"
+computate "cd $appComputatePath && mvn install"
 
 computate "echo '
 [Unit]
@@ -17,15 +18,15 @@ Type=simple
 User=$USER
 Group=$USER
 WorkingDirectory=$appPath
-Environment=appName=$appName
-Environment=appPath=$appliChemin
+Environment=appName=computate
+Environment=appPath=$appComputatePath
 Environment=appComputatePath=$appComputatePath
 ExecStart=$appComputatePath/bin/$languageName/watch.sh
 
 [Install]
 WantedBy=multi-user.target
-' | sudo tee /usr/lib/systemd/system/watch-$appName.service"
+' | sudo tee /usr/lib/systemd/system/watch-computate.service"
 computate "sudo systemctl daemon-reload"
-computate "sudo systemctl restart watch-$appName.service"
-computate "systemctl status watch-$appName.service --no-pager"
-computate "sudo systemctl enable watch-$appName.service"
+computate "sudo systemctl restart watch-computate.service"
+computate "systemctl status watch-computate.service --no-pager"
+computate "sudo systemctl enable watch-computate.service"

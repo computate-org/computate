@@ -1,5 +1,6 @@
 #!/bin/bash
-source "$(dirname $0)/00-functions.sh"
+export appComputatePath="${appComputatePath:-/usr/local/src/computate}"
+source "$appComputatePath/bin/enUS/00-functions.sh"
 
 ########
 # solr #
@@ -47,7 +48,7 @@ computate "sudo systemctl restart solr-$versionSolr.service"
 computate "systemctl status solr-$versionSolr.service --no-pager"
 computate "sudo systemctl enable solr-$versionSolr.service"
 
-computate "ln -s $appPath/config/solr/server/solr/configsets/computate /srv/solr-$versionSolr/server/solr/configsets/computate"
+computate "ln -s $appComputatePath/config/solr/server/solr/configsets/computate /srv/solr-$versionSolr/server/solr/configsets/computate"
 computate "/srv/solr-$versionSolr/bin/solr zk upconfig -n computate -d /srv/solr-$versionSolr/server/solr/configsets/computate -z localhost:$portClientZookeeper"
 computate "/srv/solr-$versionSolr/bin/solr create_collection -c computate -n computate"
 
