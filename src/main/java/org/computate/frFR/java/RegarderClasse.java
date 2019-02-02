@@ -2,13 +2,10 @@ package org.computate.frFR.java;
 
 import java.io.File;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.common.SolrInputDocument;
-import org.computate.enUS.java.IndexClass;
 import org.computate.enUS.java.WatchClass;
-import org.junit.Test;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchClass
@@ -137,54 +134,54 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r: classeCheminAbsolu
 	 * r.enUS: classAbsolutePath
 	 */
-	@Test public void testStuff() throws Exception {
-		Integer entiteNumero = 0;
-		String result = StringUtils.join(++entiteNumero > 0 ? ", " : "", "-stuff");
-		result.toString();
-//		String appliNom = "computate";
-//		String appliChemin = "/usr/local/src/" + appliNom;
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderClasseBase.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/couverture/Couverture.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/org/computate/frFR/java/RegarderRepertoire.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireGenClasse.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireToutesClasses.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireClasse.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/StringPrintWriter.java";
-//		String appliNom = "computate.org";
-//		String appliChemin = "/usr/local/src/computate.org";
-//		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/config/ConfigSite.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/SiteContexte.java";
-//		String appliNom = "computate-cardiac";
-//		String appliChemin = "/usr/local/src/" + appliNom;
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/org/computate/frFR/cardiaque/requete/RequeteSite.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/org/computate/frFR/cardiaque/config/ConfigSite.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/org/computate/frFR/cardiaque/cluster/Cluster.java";
-//		String appliNom = "computate-scolaire";
-//		String appliChemin = "/usr/local/src/computate-scolaire";
-//		String classeCheminAbsolu = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/client/org/ClientOrg.java";
-//		String classeCheminAbsolu = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/ecole/EcoleScolaire.java";
-//		String appliNom = "vertx-art";
-//		String appliChemin = "/usr/local/src/vertx-art";
-//		String classeCheminAbsolu = "/usr/local/src/vertx-art/src/main/java/org/computate/frFR/vertx/art/moisson/MoissoneurOai.java";
-		String appliNom = "citi-architect";
-		String appliChemin = "/home/ctate/workspace-citi/" + appliNom;
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/RepoCommon.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/repo/TeamRepo.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/TeamPromotions.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/product/automation/AutomationBase.java";
-		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/promotions/model/Adjustment.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/payments/integration/rplid/service/AutpayI18n.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/enUS/commonwealth/payments/integration/rplid/service/AutopayI18n.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/promotions/model/AdjustmentReasonCodes.java";
-//		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/promotions/model/EligibleAdjustmentType.java";
+//	@Test public void testStuff() throws Exception {
+//		Integer entiteNumero = 0;
+//		String result = StringUtils.join(++entiteNumero > 0 ? ", " : "", "-stuff");
+//		result.toString();
+////		String appliNom = "computate";
+////		String appliChemin = "/usr/local/src/" + appliNom;
+////		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/RegarderClasseBase.java";
+////		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/couverture/Couverture.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/org/computate/frFR/java/RegarderRepertoire.java";
+////		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireGenClasse.java";
+////		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireToutesClasses.java";
+////		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/EcrireClasse.java";
+////		String classeCheminAbsolu = "/usr/local/src/computate/src/main/java/org/computate/frFR/java/StringPrintWriter.java";
+////		String appliNom = "computate.org";
+////		String appliChemin = "/usr/local/src/computate.org";
+////		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/config/ConfigSite.java";
+////		String classeCheminAbsolu = "/usr/local/src/computate.org/src/main/java/org/computate/frFR/site/cours/c000/contexte/SiteContexte.java";
+////		String appliNom = "computate-cardiac";
+////		String appliChemin = "/usr/local/src/" + appliNom;
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/org/computate/frFR/cardiaque/requete/RequeteSite.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/org/computate/frFR/cardiaque/config/ConfigSite.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/org/computate/frFR/cardiaque/warfarin/CalculInr.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/org/computate/frFR/cardiaque/cluster/Cluster.java";
+////		String appliNom = "computate-scolaire";
+////		String appliChemin = "/usr/local/src/computate-scolaire";
+////		String classeCheminAbsolu = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/client/org/ClientOrg.java";
+////		String classeCheminAbsolu = "/usr/local/src/computate-scolaire/src/main/java/org/computate/frFR/scolaire/ecole/EcoleScolaire.java";
+////		String appliNom = "vertx-art";
+////		String appliChemin = "/usr/local/src/vertx-art";
+////		String classeCheminAbsolu = "/usr/local/src/vertx-art/src/main/java/org/computate/frFR/vertx/art/moisson/MoissoneurOai.java";
+//		String appliNom = "citi-architect";
+//		String appliChemin = "/home/ctate/workspace-citi/" + appliNom;
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/RepoCommon.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/repo/TeamRepo.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/team/promotions/TeamPromotions.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/architect/product/automation/AutomationBase.java";
 //		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/promotions/model/Adjustment.java";
-		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
-		RegarderClasse regarderClasse = new RegarderClasse();
-		regarderClasse.args = args;
-		regarderClasse.appliNom = appliNom;
-		regarderClasse.appliChemin = appliChemin;
-		regarderClasse.initRegarderClasseBase(); 
-		regarderClasse(regarderClasse);
-	}
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/payments/integration/rplid/service/AutpayI18n.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/enUS/commonwealth/payments/integration/rplid/service/AutopayI18n.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/promotions/model/AdjustmentReasonCodes.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/promotions/model/EligibleAdjustmentType.java";
+////		String classeCheminAbsolu = appliChemin + "/src/main/java/com/citi/commonwealth/promotions/model/Adjustment.java";
+//		String[] args = ArrayUtils.toArray(appliChemin, classeCheminAbsolu);
+//		RegarderClasse regarderClasse = new RegarderClasse();
+//		regarderClasse.args = args;
+//		regarderClasse.appliNom = appliNom;
+//		regarderClasse.appliChemin = appliChemin;
+//		regarderClasse.initRegarderClasseBase(); 
+//		regarderClasse(regarderClasse);
+//	}
 }

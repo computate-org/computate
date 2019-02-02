@@ -48,7 +48,7 @@ computate_config_var zookeeper portAdminZookeeper
 export portAdminZookeeper="${portAdminZookeeper:-${prefixPortZookeeper}80}"
 
 computate_config_var solr versionSolr
-export versionSolr="${versionSolr:-7.3.1}"
+export versionSolr="${versionSolr:-7.1.0}"
 computate_config_var solr prefixPortSolr
 export prefixPortSolr="${prefixPortSolr:-103}"
 computate_config_var solr portSolr

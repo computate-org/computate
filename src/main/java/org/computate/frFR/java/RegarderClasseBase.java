@@ -28,7 +28,9 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r.enUS: appPath
 	 */ 
 	@Override protected void _appliChemin() throws Exception {
-		appliChemin = args[0]; 
+		appliChemin = System.getenv("appliChemin"); 
+		if(appliChemin == null)
+			appliChemin = args[0]; 
 	}
 
 	/**
@@ -41,7 +43,9 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r.enUS: classAbsolutePath
 	 */  
 	protected void _classeCheminAbsolu() throws Exception {
-		classeCheminAbsolu = args[1];
+		classeCheminAbsolu = System.getenv("classeCheminAbsolu"); 
+		if(classeCheminAbsolu == null)
+			classeCheminAbsolu = args[1];
 	}
 	
 	/** 

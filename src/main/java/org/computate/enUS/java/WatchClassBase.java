@@ -29,11 +29,15 @@ public class WatchClassBase extends SiteConfig {
 
 	@Override()
 	protected void  _appPath() throws Exception, Exception {
-		appPath = args[0]; 
+		appPath = System.getenv("appPath"); 
+		if(appPath == null)
+			appPath = args[0]; 
 	}
 
 	protected void  _classAbsolutePath() throws Exception, Exception {
-		classAbsolutePath = args[1];
+		classAbsolutePath = System.getenv("classAbsolutePath"); 
+		if(classAbsolutePath == null)
+			classAbsolutePath = args[1];
 	}
 
 	protected void  _appPaths() throws Exception, Exception {
