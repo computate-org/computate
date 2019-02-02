@@ -2,6 +2,7 @@ package org.computate.frFR.java;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -10,6 +11,7 @@ import java.util.stream.Stream;
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
@@ -541,9 +543,28 @@ public class ConfigSite {
 	 * Var.enUS: _siteWriteMethods
 	 * r: siteEcrireMethodes
 	 * r.enUS: siteWriteMethods
+	 * r: appliNom
+	 * r.enUS: appName
 	 **/ 
 	protected void _siteEcrireMethodes() throws Exception {
-		siteEcrireMethodes.addAll(config.getList(String.class, StringUtils.replace(appliNom, ".", "..") + ".siteEcrireMethodes"));
+		List<String> o = config.getList(String.class, StringUtils.replace(appliNom, ".", "..") + ".siteEcrireMethodes");
+		if(o != null)
+			siteEcrireMethodes.addAll(o);
+	}
+
+	/**
+	 * Var.enUS: writeApi
+	 */
+	public Boolean ecrireApi;
+	/**	
+	 * Var.enUS: _writeApi
+	 * r: ecrireApi
+	 * r.enUS: writeApi
+	 * r: appliNom
+	 * r.enUS: appName
+	 **/  
+	protected void _ecrireApi() throws Exception {
+		ecrireApi = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + ".ecrireApi", false);
 	}
 
 	/**	
@@ -610,6 +631,8 @@ public class ConfigSite {
 	 * r.enUS: siteEncrypted
 	 * r: siteEcrireMethodes
 	 * r.enUS: siteWriteMethods
+	 * r: ecrireApi
+	 * r.enUS: writeApi
 	 **/ 
 	public void initConfigSite() throws Exception {
 		_appliNom();
@@ -643,6 +666,7 @@ public class ConfigSite {
 		_nomsMethodeTest();
 		_siteCrypte();
 		_siteEcrireMethodes();
+		_ecrireApi();
 	}
 
 	/**
@@ -706,7 +730,7 @@ public class ConfigSite {
 		if(nomChampRegex != null && commentaire != null) {
 			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
 			if(m.find()) {
-				valeurChamp = m.group(2);
+				valeurChamp = m.group(m.groupCount());
 			}
 		}
 		if(valeurChamp == null)

@@ -2196,7 +2196,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 	
 			// Initialise //
-			if(entiteInitialise) {
+			if(entiteInitLoin) {
 	
 				if(entiteMethodesAvantVar != null && entiteMethodesAvantVar.size() > 0) {
 					for(int j = 0; j < entiteMethodesAvantVar.size(); j++) {
@@ -2258,7 +2258,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				// initLoin
 	
 	//						if(initLoin && nomCanonique.enUS().startsWith(classe.nomEnsembleDomaine.enUS())) {
-				if(entiteInitLoin) {
+				if(entiteInitialise) {
 					if(entiteCouverture) {
 						tl(2, "if(", entiteVar, " != null)");
 						tl(3, entiteVar, ".initLoinPourClasse(requeteSite_);");
@@ -2432,7 +2432,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			////////////////////
 			// codeIninitLoin //
 			////////////////////
-			if(entiteInitialise) {
+			if(entiteInitLoin) {
 				wInitLoin.tl(2, entiteVar, "Init();");
 			}
 	
@@ -2440,7 +2440,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			/////////////////////
 			// codeRequeteSite //
 			/////////////////////
-			if(classeInitLoin && entiteInitLoin) {
+			if(classeInitLoin && entiteInitialise) {
 				o = wRequeteSite;
 				tl(2, entiteVar, ".setRequeteSite_(requeteSite_);");
 			}
@@ -3308,6 +3308,14 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: defineForClass
 	 * r: codeStocker
 	 * r.enUS: codeStore
+	 * r: siteEcrireMethode
+	 * r.enUS: siteWriteMethod
+	 * r: classeDoc
+	 * r.enUS: classDoc
+	 * r: strCommentaire
+	 * r.enUS: strComment
+	 * r: classeEcrireMethode
+	 * r.enUS: classWriteMethod
 	 * 
 	 * r: sauvegarder
 	 * r.enUS: save
@@ -3342,6 +3350,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: initDeep
 	 * r: Ecrire: 
 	 * r.enUS: Write: 
+	 * r: classe
+	 * r.enUS: class
 	 */
 	public void genCodeClasseFin(String langueNom) throws Exception {
 		//////////////////

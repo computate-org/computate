@@ -266,6 +266,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classApiMethods
 	 * r: genCodeConstructeur
 	 * r.enUS: genCodeConstructor
+	 * r: ecrireApi
+	 * r.enUS: writeApi
 	 * 
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
@@ -357,10 +359,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_stored_strings");
 					if(classeApiMethodes == null)
 						classeApiMethodes = new ArrayList<>();
-					entiteIndice = 0; 
+					entiteIndice = 0;   
 
 					auteurGenClasse = ToutEcrivain.create(classeFichierGen);
-					if(classeApi) {
+					if(classeApi && ecrireApi) {
 //						if(classeFichierApiEnsembleInfo != null && !classeFichierApiEnsembleInfo.exists())
 //							auteurApiEnsembleInfo = ToutEcrivain.create(classeFichierApiEnsembleInfo);
 						if(classeFichierGenApiServiceImpl != null)

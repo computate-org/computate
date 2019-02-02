@@ -2,6 +2,7 @@ package org.computate.enUS.java;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import java.util.stream.Stream;
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
@@ -169,6 +171,8 @@ public class SiteConfig {
 
 	public ArrayList<String> siteWriteMethods = new ArrayList<String>();
 
+	public Boolean writeApi;
+
 	public SiteConfig() {
 	}
 
@@ -304,7 +308,13 @@ public class SiteConfig {
 	}
 
 	protected void  _siteWriteMethods() throws Exception, Exception {
-		siteWriteMethods.addAll(config.getList(String.class, StringUtils.replace(appliNom, ".", "..") + ".siteWriteMethods"));
+		List<String> o = config.getList(String.class, StringUtils.replace(appName, ".", "..") + ".siteWriteMethods");
+		if(o != null)
+			siteWriteMethods.addAll(o);
+	}
+
+	protected void  _writeApi() throws Exception, Exception {
+		writeApi = config.getBoolean(StringUtils.replace(appName, ".", "..") + ".writeApi", false);
 	}
 
 	public void  initSiteConfig() throws Exception, Exception {
@@ -337,6 +347,9 @@ public class SiteConfig {
 		_sourcePaths();
 		_allSourcePaths();
 		_testMethodNames();
+		_siteEncrypted();
+		_siteWriteMethods();
+		_writeApi();
 	}
 
 	public String regex(String pattern, String text) {
@@ -359,7 +372,7 @@ public class SiteConfig {
 		if(fieldNameRegex != null && comment != null) {
 			Matcher m = Pattern.compile("^" + fieldNameRegex + "(." + languageName + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(comment);
 			if(m.find()) {
-				fieldValue = m.group(2);
+				fieldValue = m.group(m.groupCount());
 			}
 		}
 		if(fieldValue == null)
