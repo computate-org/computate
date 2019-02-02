@@ -564,7 +564,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/  
 	protected void _ecrireApi() throws Exception {
-		ecrireApi = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + ".ecrireApi", false);
+		ecrireApi = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + ".ecrireApi", true);
 	}
 
 	/**	

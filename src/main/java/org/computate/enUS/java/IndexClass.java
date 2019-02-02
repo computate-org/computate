@@ -824,7 +824,7 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.sql.Timestamp", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Future", languageName));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.http.CaseInsensitiveHeaders", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.AsyncResult", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Handler", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.buffer.Buffer", languageName));
@@ -2407,7 +2407,7 @@ public class IndexClass extends WatchClassBase {
 			for(String classApiMethod : classApiMethods) {
 				indexStoreListSolr(classDoc, "classApiMethods", classApiMethod); 
 //				if(classKeywordsFound && (classKeywords.contains(classApiMethod + ".request") || classKeywords.contains(classApiMethod + ".response"))) {
-					String classApiUriMethode = regexLanguage(languageName, "apiUri" + classApiMethod, classComment);
+					String classApiUriMethode = regexLanguage(languageName, "(class)?ApiUri" + classApiMethod, classComment);
 
 					if("Search".equals(classApiMethod))
 						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));

@@ -314,7 +314,7 @@ public class SiteConfig {
 	}
 
 	protected void  _writeApi() throws Exception, Exception {
-		writeApi = config.getBoolean(StringUtils.replace(appName, ".", "..") + ".writeApi", false);
+		writeApi = config.getBoolean(StringUtils.replace(appName, ".", "..") + ".writeApi", true);
 	}
 
 	public void  initSiteConfig() throws Exception, Exception {

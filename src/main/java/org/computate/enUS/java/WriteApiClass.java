@@ -1,6 +1,5 @@
 package org.computate.enUS.java;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
@@ -534,18 +533,19 @@ public class WriteApiClass extends WriteGenClass {
 
 				l(") {");
 
-				tl(2, "Buffer buffer = Buffer.buffer();");
+				tl(2, "try {");
+				tl(3, "Buffer buffer = Buffer.buffer();");
 
 				if(classApiMethod.contains("POST") || classApiMethod.contains("PUT")) {
-					tl(2, "SiteRequest siteRequest = o.getSiteRequest_();");
+					tl(3, "SiteRequest siteRequest = o.getSiteRequest_();");
 				}
 				else if(classApiMethod.contains("Recherche")) {
-					tl(2, "SiteRequest siteRequest = liste", classSimpleName, ".getSiteRequest_();");
+					tl(3, "SiteRequest siteRequest = liste", classSimpleName, ".getSiteRequest_();");
 				}
 				else {
 				}
 
-				t(2, "AllWriter w = AllWriter.create(");
+				t(3, "AllWriter w = AllWriter.create(");
 				if(classApiMethod.contains("POST") || classApiMethod.contains("PUT"))
 					s("o.getSiteRequest_()");
 				else if(classApiMethod.contains("DELETE"))
@@ -556,7 +556,7 @@ public class WriteApiClass extends WriteGenClass {
 
 
 				if(classApiMethod.contains("GET")) {
-					tl(2, "SolrDocumentList documentsSolr = liste", classSimpleName, ".getSolrDocumentList();");
+					tl(3, "SolrDocumentList documentsSolr = liste", classSimpleName, ".getSolrDocumentList();");
 					l();
 				}
 				if(classApiMethod.contains("Recherche")) {
@@ -568,78 +568,80 @@ public class WriteApiClass extends WriteGenClass {
 				}
 
 				if(classApiMethod.contains("Recherche")) {
-					tl(2, "QueryResponse responseRecherche = liste", classSimpleName, ".getQueryResponse();");
-					tl(2, "SolrDocumentList documentsSolr = liste", classSimpleName, ".getSolrDocumentList();");
-					tl(2, "Long millisRecherche = Long.valueOf(responseRecherche.getQTime());");
-					tl(2, "Long millisTransmission = responseRecherche.getElapsedTime();");
-					tl(2, "Long numCommence = responseRecherche.getResults().getStart();");
-					tl(2, "Long numTrouve = responseRecherche.getResults().getNumFound();");
-					tl(2, "Integer numRetourne = responseRecherche.getResults().size();");
-					tl(2, "String tempsRecherche = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisRecherche), TimeUnit.MILLISECONDS.toMillis(millisRecherche) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(millisRecherche)));");
-					tl(2, "String tempsTransmission = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisTransmission), TimeUnit.MILLISECONDS.toMillis(millisTransmission) - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(millisTransmission)));");
-					tl(2, "Exception exceptionRecherche = responseRecherche.getException();");
+					tl(3, "QueryResponse responseRecherche = liste", classSimpleName, ".getQueryResponse();");
+					tl(3, "SolrDocumentList documentsSolr = liste", classSimpleName, ".getSolrDocumentList();");
+					tl(3, "Long millisRecherche = Long.valueOf(responseRecherche.getQTime());");
+					tl(3, "Long millisTransmission = responseRecherche.getElapsedTime();");
+					tl(3, "Long numCommence = responseRecherche.getResults().getStart();");
+					tl(3, "Long numTrouve = responseRecherche.getResults().getNumFound();");
+					tl(3, "Integer numRetourne = responseRecherche.getResults().size();");
+					tl(3, "String tempsRecherche = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisRecherche), TimeUnit.MILLISECONDS.toMillis(millisRecherche) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(millisRecherche)));");
+					tl(3, "String tempsTransmission = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisTransmission), TimeUnit.MILLISECONDS.toMillis(millisTransmission) - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(millisTransmission)));");
+					tl(3, "Exception exceptionRecherche = responseRecherche.getException();");
 					l();
-					tl(2, "w.l(\"{\");");
-					tl(2, "w.tl(1, ", q(q("numCommence"), ": "), ", numCommence);");
-					tl(2, "w.tl(1, ", q(", ", q("numTrouve"), ": "), ", numTrouve);");
-					tl(2, "w.tl(1, ", q(", ", q("numRetourne"), ": "), ", numRetourne);");
-					tl(2, "w.tl(1, ", q(", ", q("tempsRecherche"), ": "), ", w.q(tempsRecherche));");
-					tl(2, "w.tl(1, ", q(", ", q("tempsTransmission"), ": "), ", w.q(tempsTransmission));");
-					tl(2, "w.tl(1, ", q(", ", q("liste"), ": ["), ");");
-					tl(2, "for(int i = 0; i < documentsSolr.size(); i++) {");
-					tl(3, "SolrDocument documentSolr = documentsSolr.get(i);");
-					tl(3, "Object entiteValeur;");
-					tl(3, "Integer entiteNumero = 0;");
-//					tl(3, "List<String> champNoms = new ArrayList<>(documentSolr.getFieldNames());");
+					tl(3, "w.l(\"{\");");
+					tl(3, "w.tl(1, ", q(q("numCommence"), ": "), ", numCommence);");
+					tl(3, "w.tl(1, ", q(", ", q("numTrouve"), ": "), ", numTrouve);");
+					tl(3, "w.tl(1, ", q(", ", q("numRetourne"), ": "), ", numRetourne);");
+					tl(3, "w.tl(1, ", q(", ", q("tempsRecherche"), ": "), ", w.q(tempsRecherche));");
+					tl(3, "w.tl(1, ", q(", ", q("tempsTransmission"), ": "), ", w.q(tempsTransmission));");
+					tl(3, "w.tl(1, ", q(", ", q("liste"), ": ["), ");");
+					tl(3, "for(int i = 0; i < documentsSolr.size(); i++) {");
+					tl(4, "SolrDocument documentSolr = documentsSolr.get(i);");
+					tl(4, "Object entiteValeur;");
+					tl(4, "Integer entiteNumero = 0;");
+//					tl(4, "List<String> champNoms = new ArrayList<>(documentSolr.getFieldNames());");
 					l();
-					tl(3, "w.t(2);");
-					tl(3, "if(i > 0)");
-					tl(4, "w.s(", q(", "), ");");
-					tl(3, "w.s(", q("{"), ");");
-//					tl(3, "for(int j = 0; j < champNoms.size(); j++) {");
-//					tl(4, "String entityVarStocke = champNoms.get(j);");
-//					tl(4, "List<Object> entiteValeurs = new ArrayList<>(documentSolr.getFieldValues(entityVarStocke));");
+					tl(4, "w.t(2);");
+					tl(4, "if(i > 0)");
+					tl(5, "w.s(", q(", "), ");");
+					tl(4, "w.s(", q("{"), ");");
+//					tl(4, "for(int j = 0; j < champNoms.size(); j++) {");
+//					tl(5, "String entityVarStocke = champNoms.get(j);");
+//					tl(5, "List<Object> entiteValeurs = new ArrayList<>(documentSolr.getFieldValues(entityVarStocke));");
 					s(wApiGenerateGet.toString());
-//					tl(3, "}");
+//					tl(4, "}");
 					l();
-					tl(3, "w.tl(2, ", q("}"), ");");
-					tl(2, "}");
-					tl(2, "w.tl(1, ", q("]"), ");");
-					tl(2, "if(exceptionRecherche != null) {");
-					tl(3, "w.tl(1, ", q(", ", q("exceptionRecherche"), ": "), ", w.q(exceptionRecherche.getMessage()));");
-					tl(2, "}");
+					tl(4, "w.tl(2, ", q("}"), ");");
+					tl(3, "}");
+					tl(3, "w.tl(1, ", q("]"), ");");
+					tl(3, "if(exceptionRecherche != null) {");
+					tl(4, "w.tl(1, ", q(", ", q("exceptionRecherche"), ": "), ", w.q(exceptionRecherche.getMessage()));");
+					tl(3, "}");
 				}
 				if(classApiMethod.contains("GET")) {
 
 //					if("text/html".equals(classeApiTypeMediaMethode)) {
 					if(classePageNomCanoniqueMethode != null) {
-						tl(2, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
-//						tl(2, "page.setPageUri(", q(classeApiUriMethode), ");");
-						tl(2, "SiteRequest siteRequest = liste", classSimpleName, ".getSiteRequest_();");
-						tl(2, "SolrDocument documentSolr = new SolrDocument();");
-						tl(2, "documentSolr.setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
-						tl(2, "page.setDocumentSolr(documentSolr);");
-						tl(2, "page.initLoin", classePageNomSimpleMethode, "(siteRequest);");
+						tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
+						tl(3, "SolrDocument pageDocumentSolr = new SolrDocument();");
+						tl(3, "SiteRequest siteRequest = liste", classSimpleName, ".getSiteRequest_();");
+						l();
+						tl(3, "pageDocumentSolr.setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
+						tl(3, "page.setPageDocumentSolr(pageDocumentSolr);");
+						tl(3, "page.setW(w);");
+						tl(3, "page.initLoin", classePageNomSimpleMethode, "(siteRequest);");
+						tl(3, "page.html();");
 					}
 					else {
-						tl(2, "if(documentsSolr.size() > 0) {");
-						tl(3, "SolrDocument documentSolr = documentsSolr.get(0);");
-						tl(3, "Object entiteValeur;");
-						tl(3, "Integer entiteNumero = 0;");
+						tl(3, "if(documentsSolr.size() > 0) {");
+						tl(4, "SolrDocument documentSolr = documentsSolr.get(0);");
+						tl(4, "Object entiteValeur;");
+						tl(4, "Integer entiteNumero = 0;");
 						l();
-						tl(3, "w.l(", q("{"), ");");
-	//					tl(3, "for(int j = 0; j < champNoms.size(); j++) {");
-	//					tl(4, "String entityVarStocke = champNoms.get(j);");
-	//					tl(4, "List<Object> entiteValeurs = new ArrayList<>(documentSolr.getFieldValues(entityVarStocke));");
+						tl(4, "w.l(", q("{"), ");");
+	//					tl(4, "for(int j = 0; j < champNoms.size(); j++) {");
+	//					tl(5, "String entityVarStocke = champNoms.get(j);");
+	//					tl(5, "List<Object> entiteValeurs = new ArrayList<>(documentSolr.getFieldValues(entityVarStocke));");
 						s(wApiGenerateGet.toString());
-	//					tl(3, "}");
+	//					tl(4, "}");
 						l();
-						tl(3, "w.l(", q("}"), ");");
-						tl(2, "}");
+						tl(4, "w.l(", q("}"), ");");
+						tl(3, "}");
 					}
 				}
 				if(classApiMethod.contains("Recherche")) {
-					tl(2, "w.l(\"}\");");
+					tl(3, "w.l(\"}\");");
 				}
 //					l();
 //					tl(2, "w.l(\",\\n\\t\\\"resultats\\\": [\\n\");");
@@ -676,9 +678,19 @@ public class WriteApiClass extends WriteGenClass {
 //					tl(2, "return j;");
 
 //				if(classApiMethod.contains("POST") || classApiMethod.contains("PUT"))
-//					tl(2, "SiteRequest siteRequest = o.getSiteRequest_();");
+//					tl(3, "SiteRequest siteRequest = o.getSiteRequest_();");
 
-				tl(2, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
+				if(classApiMethod.contains("GET") && classePageNomCanoniqueMethode != null) {
+					tl(3, "return Future.succeededFuture(new OperationResponse(200, \"OK\", buffer, new CaseInsensitiveHeaders()));");
+				}
+				else {
+					tl(3, "return Future.succeededFuture(OperationResponse.completedWithJson(buffer));");
+				}
+
+				tl(2, "} catch(Exception e) {");
+				tl(3, "ExceptionUtils.printRootCauseStackTrace(e);");
+				tl(3, "return Future.failedFuture(e);");
+				tl(2, "}");
 				tl(1, "}");
 			}
 	
