@@ -488,6 +488,7 @@ public class WriteApiClass extends WriteGenClass {
 						tl(3, "pageDocumentSolr.setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
 						tl(3, "page.setPageDocumentSolr(pageDocumentSolr);");
 						tl(3, "page.setW(w);");
+						tl(3, "page.setListe", classSimpleName, "(liste", classSimpleName, ");");
 						tl(3, "page.initLoin", classPageSimpleNameMethod, "(siteRequest);");
 						tl(3, "page.html();");
 					}

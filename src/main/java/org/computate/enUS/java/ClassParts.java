@@ -93,6 +93,25 @@ public class ClassParts {
 					else {
 						canonicalNameGeneric += canonicalNameCompletePart;
 					}
+					if(simpleNameCompletePart.contains("<")) {
+						String simpleNamePart2 = StringUtils.substringAfter(StringUtils.substringBeforeLast(simpleNameCompletePart, ">"), "<");
+						SolrQuery solrSearch2 = new SolrQuery();   
+						solrSearch2.setQuery("*:*");
+						solrSearch2.setRows(1);
+						solrSearch2.addFilterQuery("classSimpleName_" + siteConfig.languageActualName + "_indexed_string:" + ClientUtils.escapeQueryChars(simpleNamePart2));
+						solrSearch2.addFilterQuery("partIsClass_indexed_boolean:true");
+						solrSearch2.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(siteConfig.domainPackageName));
+						QueryResponse searchResponse2 = siteConfig.solrClientComputate.query(solrSearch2);
+						SolrDocumentList searchList2 = searchResponse2.getResults();
+						if(searchList2.size() > 0) { 
+							SolrDocument doc2 = searchList2.get(0);
+							String simpleNameGenericPart2 = (String)doc2.get("classSimpleName_" + languageName + "_stored_string");
+							String canonicalNameGenericPart2 = (String)doc2.get("classCanonicalName_" + languageName + "_stored_string");
+							if(simpleNameGenericPart2 != null && canonicalNameGenericPart2 != null) {
+								canonicalNameGeneric += "<" + canonicalNameGenericPart2 + ">";
+							}
+						}
+					}
 				}
 				else if(StringUtils.equals(simpleNamePart, "List")) {
 					canonicalNameGeneric = "java.util.List<" + StringUtils.substringAfter(canonicalNameCompletePart, "<");

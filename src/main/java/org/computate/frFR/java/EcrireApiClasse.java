@@ -764,6 +764,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "pageDocumentSolr.setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
 						tl(3, "page.setPageDocumentSolr(pageDocumentSolr);");
 						tl(3, "page.setW(w);");
+						tl(3, "page.setListe", classeNomSimple, "(liste", classeNomSimple, ");");
 						tl(3, "page.initLoin", classePageNomSimpleMethode, "(requeteSite);");
 						tl(3, "page.html();");
 					}
