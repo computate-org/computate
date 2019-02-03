@@ -353,6 +353,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: siteRequest
 	 * r: RequeteSite
 	 * r.enUS: SiteRequest
+	 * r: classePageNomCanoniqueMethode
+	 * r.enUS: classPageCanonicalNameMethod
+	 * r: classePageNomSimpleMethode
+	 * r.enUS: classPageSimpleNameMethod
 	 * 
 	 * r: SiteContexte
 	 * r.enUS: SiteContext
@@ -451,7 +455,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(2, ");");
 				}
 				else if(classeApiMethode.contains("Recherche")) {
-					tl(2, "Future<OperationResponse> etapesFutures = recherche", classeNomSimple, "(requeteSite).compose(liste", classeNomSimple, " -> ");
+					tl(2, "Future<OperationResponse> etapesFutures = ", classeApiOperationIdMethode, "(requeteSite).compose(liste", classeNomSimple, " -> ");
 					tl(3, "reponse200", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
 					tl(2, ");");
 				}
@@ -505,7 +509,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //					tl(2, "return future;");
 //					tl(1, "}");
 					l();
-					tl(1, "public Future<ListeRecherche<", classeNomSimple, ">> recherche", classeNomSimple, "(RequeteSite requeteSite) {");
+					tl(1, "public Future<ListeRecherche<", classeNomSimple, ">> ", classeApiOperationIdMethode, "(RequeteSite requeteSite) {");
 					tl(2, "OperationRequest operationRequete = requeteSite.getOperationRequete();");
 					tl(2, "String entiteListeStr = requeteSite.getOperationRequete().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
 					tl(2, "String[] entiteListe = entiteListeStr == null ? null : entiteListeStr.split(", q(",\\s*"), ");");
@@ -687,93 +691,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(1, "}");
 				}
 				if(classeApiMethode.contains("GET")) {
-//					l();
-//					tl(1, "public void genererGetDebut", classeNomSimple, "(RequeteSite requeteSite) {");
-//					tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-//					tl(2, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
-//					tl(2, "reponseServeur.write(\"{\\n\");");
-//					tl(2, "Long millisRecherche = Long.valueOf(reponseRecherche.getQTime());");
-//					tl(2, "Long millisTransmission = reponseRecherche.getElapsedTime();");
-//					tl(2, "Long numCommence = reponseRecherche.getResults().getStart();");
-//					tl(2, "Long numTrouve = reponseRecherche.getResults().getNumFound();");
-//					tl(2, "Integer numRetourne = reponseRecherche.getResults().size();");
-//					tl(2, "String tempsRecherche = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisRecherche), TimeUnit.MILLISECONDS.toMillis(millisRecherche) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(millisRecherche)));");
-//					tl(2, "String tempsTransmission = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisTransmission), TimeUnit.MILLISECONDS.toMillis(millisTransmission) - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(millisTransmission)));");
-//					tl(2, "Exception exceptionRecherche = reponseRecherche.getException();");
-//					l();
-//					tl(2, "reponseServeur.write(\"\\t\\\"numCommence\\\": \");");
-//					tl(2, "reponseServeur.write(numCommence.toString());");
-//					l();
-//					tl(2, "reponseServeur.write(\",\\n\\t\\\"numTrouve\\\": \");");
-//					tl(2, "reponseServeur.write(numTrouve.toString());");
-//					l();
-//					tl(2, "reponseServeur.write(\",\\n\\t\\\"numRetourne\\\": \");");
-//					tl(2, "reponseServeur.write(numRetourne.toString());");
-//					l();
-//					tl(2, "reponseServeur.write(\",\\n\\t\\\"tempsRecherche\\\": \\\"\");");
-//					tl(2, "reponseServeur.write(tempsRecherche);");
-//					tl(2, "reponseServeur.write(\"\\\"\");");
-//					l();
-//					tl(2, "reponseServeur.write(\",\\n\\t\\\"tempsTransmission\\\": \\\"\");");
-//					tl(2, "reponseServeur.write(tempsTransmission);");
-//					tl(2, "reponseServeur.write(\"\\\"\");");
-//					l();
-//					tl(2, "if(exceptionRecherche != null) {");
-//					tl(3, "reponseServeur.write(\",\\n\\t\\\"exceptionRecherche\\\": \\\"\");");
-//					tl(3, "reponseServeur.write(exceptionRecherche.getMessage());");
-//					tl(3, "reponseServeur.write(\"\\\"\");");
-//					tl(2, "}");
-//					l();
-//					tl(2, "reponseServeur.write(\",\\n\\t\\\"resultats\\\": [\\n\");");
-//					tl(1, "}");
-//					l();
-//					tl(1, "public void genererGetIndividuel", classeNomSimple, "(ResultatRecherche resultatRecherche) {");
-//					tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
-//					tl(2, "SolrDocument documentSolr = resultatRecherche.getDocumentSolr();");
-//					tl(2, "Long resultatIndice = resultatRecherche.getResultatIndice();");
-//					tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-//					tl(2, "reponseServeur.write(\"\\t\\t\");");
-//					tl(2, "if(resultatIndice > 0)");
-//					tl(3, "reponseServeur.write(\", \");");
-//					tl(2, "reponseServeur.write(\"{\\n\");");
-//					tl(2, "Collection<String> champNoms = documentSolr.getFieldNames();");
-//					tl(2, "Integer j = 0;");
-//					tl(2, "for(String champNomStocke : champNoms) {");
-//					tl(3, "Collection<Object> entiteValeurs = documentSolr.getFieldValues(champNomStocke);");
-//					tl(3, "j = genererGet", classeNomSimple, "(j, resultatRecherche, champNomStocke, entiteValeurs);");
-//					tl(2, "}");
-//					tl(2, "reponseServeur.write(\"\\t\\t}\\n\");");
-//					tl(1, "}");
-//					l();
-//			//		tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> entiteValeurs) {");
-//					tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, ResultatRecherche resultatRecherche, String entiteVarStocke, Collection<Object> entiteValeurs) {");
-//					tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
-//					tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-//					tl(2, "SolrDocument documentSolr = resultatRecherche.getDocumentSolr();;");
-//					l();
-//					tl(2, "if(documentSolr != null && !entiteValeurs.isEmpty()) {");
-//					tl(3, "Object champValeur = entiteValeurs.iterator().next();");
-//					tl(3, "Object entiteValeur;");
-//					tl(3, "Integer entiteNumero = 0;");
-//					l();
-////					tl(3, "if(champValeur != null) {");
-//					s(wApiGenererGet.toString());
-////					tl(3, "}");
-//					tl(2, "}");
-//					tl(2, "return j;");
-//					tl(1, "}");
-//					l();
-//					tl(1, "public void genererGetFin", classeNomSimple, "(RequeteSite requeteSite) {");
-//					tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-//			//		tl(2, "if(exceptionRecherche != null) {");
-//			//		l();
-//			//		tl(4, "reponseServeur.write(\"\\t\\t}\\n\");");
-//			//		tl(3, "}");
-//			//		tl(2, "}");
-//					tl(2, "reponseServeur.write(\"\\t]\\n\");");
-//					tl(2, "reponseServeur.write(\"}\\n\");");
-//					tl(1, "}");
-//			//		tl(1, "@Override protected void doGet(HttpServerRequest requeteServeur, HttpServerResponse reponseServeur) throws ServletException, IOException {");
 				}
 				if(classeApiMethode.contains("DELETE")) {
 					l();
@@ -840,50 +757,61 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 
 				if(classeApiMethode.contains("Recherche")) {
-					tl(3, "QueryResponse reponseRecherche = liste", classeNomSimple, ".getQueryResponse();");
-					tl(3, "SolrDocumentList documentsSolr = liste", classeNomSimple, ".getSolrDocumentList();");
-					tl(3, "Long millisRecherche = Long.valueOf(reponseRecherche.getQTime());");
-					tl(3, "Long millisTransmission = reponseRecherche.getElapsedTime();");
-					tl(3, "Long numCommence = reponseRecherche.getResults().getStart();");
-					tl(3, "Long numTrouve = reponseRecherche.getResults().getNumFound();");
-					tl(3, "Integer numRetourne = reponseRecherche.getResults().size();");
-					tl(3, "String tempsRecherche = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisRecherche), TimeUnit.MILLISECONDS.toMillis(millisRecherche) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(millisRecherche)));");
-					tl(3, "String tempsTransmission = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisTransmission), TimeUnit.MILLISECONDS.toMillis(millisTransmission) - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(millisTransmission)));");
-					tl(3, "Exception exceptionRecherche = reponseRecherche.getException();");
-					l();
-					tl(3, "w.l(\"{\");");
-					tl(3, "w.tl(1, ", q(q("numCommence"), ": "), ", numCommence);");
-					tl(3, "w.tl(1, ", q(", ", q("numTrouve"), ": "), ", numTrouve);");
-					tl(3, "w.tl(1, ", q(", ", q("numRetourne"), ": "), ", numRetourne);");
-					tl(3, "w.tl(1, ", q(", ", q("tempsRecherche"), ": "), ", w.q(tempsRecherche));");
-					tl(3, "w.tl(1, ", q(", ", q("tempsTransmission"), ": "), ", w.q(tempsTransmission));");
-					tl(3, "w.tl(1, ", q(", ", q("liste"), ": ["), ");");
-					tl(3, "for(int i = 0; i < documentsSolr.size(); i++) {");
-					tl(4, "SolrDocument documentSolr = documentsSolr.get(i);");
-					tl(4, "Object entiteValeur;");
-					tl(4, "Integer entiteNumero = 0;");
-//					tl(4, "List<String> champNoms = new ArrayList<>(documentSolr.getFieldNames());");
-					l();
-					tl(4, "w.t(2);");
-					tl(4, "if(i > 0)");
-					tl(5, "w.s(", q(", "), ");");
-					tl(4, "w.s(", q("{"), ");");
-//					tl(4, "for(int j = 0; j < champNoms.size(); j++) {");
-//					tl(5, "String entiteVarStocke = champNoms.get(j);");
-//					tl(5, "List<Object> entiteValeurs = new ArrayList<>(documentSolr.getFieldValues(entiteVarStocke));");
-					s(wApiGenererGet.toString());
-//					tl(4, "}");
-					l();
-					tl(4, "w.tl(2, ", q("}"), ");");
-					tl(3, "}");
-					tl(3, "w.tl(1, ", q("]"), ");");
-					tl(3, "if(exceptionRecherche != null) {");
-					tl(4, "w.tl(1, ", q(", ", q("exceptionRecherche"), ": "), ", w.q(exceptionRecherche.getMessage()));");
-					tl(3, "}");
+					if(classePageNomCanoniqueMethode != null) {
+						tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
+						tl(3, "SolrDocument pageDocumentSolr = new SolrDocument();");
+						l();
+						tl(3, "pageDocumentSolr.setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
+						tl(3, "page.setPageDocumentSolr(pageDocumentSolr);");
+						tl(3, "page.setW(w);");
+						tl(3, "page.initLoin", classePageNomSimpleMethode, "(requeteSite);");
+						tl(3, "page.html();");
+					}
+					else {
+						tl(3, "QueryResponse reponseRecherche = liste", classeNomSimple, ".getQueryResponse();");
+						tl(3, "SolrDocumentList documentsSolr = liste", classeNomSimple, ".getSolrDocumentList();");
+						tl(3, "Long millisRecherche = Long.valueOf(reponseRecherche.getQTime());");
+						tl(3, "Long millisTransmission = reponseRecherche.getElapsedTime();");
+						tl(3, "Long numCommence = reponseRecherche.getResults().getStart();");
+						tl(3, "Long numTrouve = reponseRecherche.getResults().getNumFound();");
+						tl(3, "Integer numRetourne = reponseRecherche.getResults().size();");
+						tl(3, "String tempsRecherche = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisRecherche), TimeUnit.MILLISECONDS.toMillis(millisRecherche) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(millisRecherche)));");
+						tl(3, "String tempsTransmission = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisTransmission), TimeUnit.MILLISECONDS.toMillis(millisTransmission) - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(millisTransmission)));");
+						tl(3, "Exception exceptionRecherche = reponseRecherche.getException();");
+						l();
+						tl(3, "w.l(\"{\");");
+						tl(3, "w.tl(1, ", q(q("numCommence"), ": "), ", numCommence);");
+						tl(3, "w.tl(1, ", q(", ", q("numTrouve"), ": "), ", numTrouve);");
+						tl(3, "w.tl(1, ", q(", ", q("numRetourne"), ": "), ", numRetourne);");
+						tl(3, "w.tl(1, ", q(", ", q("tempsRecherche"), ": "), ", w.q(tempsRecherche));");
+						tl(3, "w.tl(1, ", q(", ", q("tempsTransmission"), ": "), ", w.q(tempsTransmission));");
+						tl(3, "w.tl(1, ", q(", ", q("liste"), ": ["), ");");
+						tl(3, "for(int i = 0; i < documentsSolr.size(); i++) {");
+						tl(4, "SolrDocument documentSolr = documentsSolr.get(i);");
+						tl(4, "Object entiteValeur;");
+						tl(4, "Integer entiteNumero = 0;");
+	//					tl(4, "List<String> champNoms = new ArrayList<>(documentSolr.getFieldNames());");
+						l();
+						tl(4, "w.t(2);");
+						tl(4, "if(i > 0)");
+						tl(5, "w.s(", q(", "), ");");
+						tl(4, "w.s(", q("{"), ");");
+	//					tl(4, "for(int j = 0; j < champNoms.size(); j++) {");
+	//					tl(5, "String entiteVarStocke = champNoms.get(j);");
+	//					tl(5, "List<Object> entiteValeurs = new ArrayList<>(documentSolr.getFieldValues(entiteVarStocke));");
+						s(wApiGenererGet.toString());
+	//					tl(4, "}");
+						l();
+						tl(4, "w.tl(2, ", q("}"), ");");
+						tl(3, "}");
+						tl(3, "w.tl(1, ", q("]"), ");");
+						tl(3, "if(exceptionRecherche != null) {");
+						tl(4, "w.tl(1, ", q(", ", q("exceptionRecherche"), ": "), ", w.q(exceptionRecherche.getMessage()));");
+						tl(3, "}");
+						tl(3, "w.l(\"}\");");
+					}
 				}
 				if(classeApiMethode.contains("GET")) {
-
-//					if("text/html".equals(classeApiTypeMediaMethode)) {
 					if(classePageNomCanoniqueMethode != null) {
 						tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
 						tl(3, "SolrDocument pageDocumentSolr = new SolrDocument();");
@@ -912,47 +840,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "}");
 					}
 				}
-				if(classeApiMethode.contains("Recherche")) {
-					tl(3, "w.l(\"}\");");
-				}
-//					l();
-//					tl(2, "w.l(\",\\n\\t\\\"resultats\\\": [\\n\");");
-//					tl(1, "}");
-//					l();
-//					tl(1, "public void genererGetIndividuel", classeNomSimple, "(ResultatRecherche resultatRecherche) {");
-//					tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
-//					tl(2, "SolrDocument documentSolr = resultatRecherche.getDocumentSolr();");
-//					tl(2, "Long resultatIndice = resultatRecherche.getResultatIndice();");
-//					tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-//					tl(2, "w.l(\"\\t\\t\");");
-//					tl(2, "if(resultatIndice > 0)");
-//					tl(3, "w.l(\", \");");
-//					tl(2, "w.l(\"{\\n\");");
-//					tl(2, "Collection<String> champNoms = documentSolr.getFieldNames();");
-//					tl(2, "Integer j = 0;");
-//					tl(2, "for(String champNomStocke : champNoms) {");
-//					tl(3, "Collection<Object> entiteValeurs = documentSolr.getFieldValues(champNomStocke);");
-//					tl(3, "j = genererGet", classeNomSimple, "(j, resultatRecherche, champNomStocke, entiteValeurs);");
-//					tl(2, "}");
-//					tl(2, "reponseServeur.write(\"\\t\\t}\\n\");");
-//					tl(1, "}");
-//					l();
-//			//		tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> entiteValeurs) {");
-//					tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, ResultatRecherche resultatRecherche, String entiteVarStocke, Collection<Object> entiteValeurs) {");
-//					tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
-//					tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-//					tl(2, "if(!entiteValeurs.isEmpty()) {");
-//					tl(3, "Object champValeur = entiteValeurs.iterator().next();");
-//					tl(3, "if(champValeur != null) {");
-//					s(wApiGenererGet.toString());
-//					tl(3, "}");
-//					tl(2, "}");
-//					tl(2, "return j;");
 
-//				if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT"))
-//					tl(3, "RequeteSite requeteSite = o.getRequeteSite_();");
-
-				if(classeApiMethode.contains("GET") && classePageNomCanoniqueMethode != null) {
+				if((classeApiMethode.contains("GET") || classeApiMethode.contains("Recherche")) && classePageNomCanoniqueMethode != null) {
 					tl(3, "return Future.succeededFuture(new OperationResponse(200, \"OK\", buffer, new CaseInsensitiveHeaders()));");
 				}
 				else {
@@ -967,220 +856,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 	
 			s(wApiEntites.toString());
-//			l();
-//			tl(1, "public void handleGet", classeNomSimple, "(SiteContexte siteContexte) {");
-//	//		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur();");
-//			tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur();");
-//	
-//	//		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
-//			l();
-//	//		tl(2, "HTTPRequestValidationHandler gestionnaireValidation = HTTPRequestValidationHandler.create();");
-//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"q\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", \"*:*\"), false, false);");
-//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fq\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
-//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"sort\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
-//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"fl\", ParameterTypeValidator.createStringTypeValidator(\"[^:]+:.*\", null), false, false);");
-//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"start\", ParameterTypeValidator.createIntegerTypeValidator(null, 0D, null, 0), false, false);");
-//	//		tl(2, "gestionnaireValidation.addQueryParamWithCustomTypeValidator(\"rows\", ParameterTypeValidator.createIntegerTypeValidator(null, 1D, null, 10), false, false);");
-//	//		l();
-//	//		tl(2, "siteRouteur.get(\"", classeApiUri, "\")");
-//	//		tl(4, ".handler(gestionnaireValidation)");
-//	//		tl(4, ".handler(rc -> {");
-//			tl(2, "usineRouteur.addHandlerByOperationId(\"get", classeNomSimple, "\", contexteItineraire -> {");
-//			Integer tBase = 0;
-//			if(classeRolesTrouves && classeRoles != null) {
-//				String requeteRole = classeRoles.get(0);
-//				tBase = 6;
-//				tl(3, "gestionnaireEvenements.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
-//				tl(4, "try {");
-//				tl(5, "if (authRes.result() == Boolean.TRUE) {");
-//			}
-//			else {
-//				tBase = 4;
-//				tl(3, "try {");
-//			}
-//			l();
-//			tl(tBase, "contexteItineraire.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
-//			tl(tBase, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte);");
-//			tl(tBase, "SolrQuery rechercheSolr = requeteSite.getRechercheSolr();");
-//			tl(tBase, "SolrDocumentList resultatsRecherche = requeteSite.getReponseRecherche().getResults();");
-//			tl(tBase, "Integer rechercheLignes = rechercheSolr.getRows();");
-//			l();
-//			tl(tBase, "genererGetDebut", classeNomSimple, "(requeteSite);");
-//			tl(tBase, "for(long i = resultatsRecherche.getStart(); i < resultatsRecherche.getNumFound(); i+=rechercheLignes) {");
-//			tl(tBase + 1, "for(int j = 0; j < resultatsRecherche.size(); j++) {");
-//			tl(tBase + 2, "long resultatIndice = i + j;");
-//			tl(tBase + 2, "SolrDocument documentSolr = resultatsRecherche.get(j);");
-//			tl(tBase + 2, "ResultatRecherche resultatRecherche = new ResultatRecherche();");
-//			tl(tBase + 2, "resultatRecherche.setRequeteSite_(requeteSite);");
-//			tl(tBase + 2, "resultatRecherche.setDocumentSolr(documentSolr);");
-//			tl(tBase + 2, "resultatRecherche.setResultatIndice(resultatIndice);");
-//			tl(tBase + 2, "genererGetIndividuel", classeNomSimple, "(resultatRecherche);");
-//			tl(tBase + 1, "}");
-//			tl(tBase, "}");
-//			tl(tBase, "genererGetFin", classeNomSimple, "(requeteSite);");
-//			tl(tBase, "requeteSite.getReponseServeur().end();");
-//			if(classeRolesTrouves && classeRoles != null) {
-//				tl(5, "}");
-//				tl(5, "else {");
-//				tl(6, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
-//				tl(5, "}");
-//				tl(4, "} catch(Exception e) {");
-//				tl(5, "LOGGER.error(\"Error: \", e.getMessage());");
-//				tl(5, "contexteItineraire.fail(e);");
-//				tl(4, "}");
-//				tl(3, "});");
-//			}
-//			else {
-//				tl(3, "} catch(Exception e) {");
-//				tl(4, "LOGGER.error(\"Error: \", e.getMessage());");
-//				tl(4, "contexteItineraire.fail(e);");
-//				tl(3, "}");
-//			}
-//			tl(2, "});");
-//			tl(2, "usineRouteur.addFailureHandlerByOperationId(\"get", classeNomSimple, "\", contexteItineraire -> {");
-//			tl(3, "Throwable failure = contexteItineraire.failure();");
-//			tl(3, "if (failure instanceof ValidationException) {");
-//			tl(4, "String validationErrorMessage = failure.getMessage();");
-//			tl(4, "LOGGER.error(\"Error: \", validationErrorMessage);");
-//			tl(4, "contexteItineraire.fail(failure);");
-//			tl(3, "}");
-//			tl(2, "});");
-//			tl(1, "}");
-	//
-	//		//////////
-	//		// POST //
-	//		//////////
-	//		l();
-	////		tl(1, "protected void handlePost", classeNomSimple, "(SiteContexte siteContexte) {");
-	//		tl(1, "protected void post", classeNomSimple, "(SiteContexte siteContexte) {");
-	////		tl(2, "Router siteRouteur = siteContexte.getSiteRouteur();");
-	//		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur();");
-	//
-	////		tl(2, "siteRouteur.get(\"", classeApiUri, "\").handler(rc -> {");
-	//		tl(2, "usineRouteur.addHandlerByOperationId(\"post", classeNomSimple, "\", contexteItineraire -> {");
-	//		tBase = 0;
-	//		if(classeRolesTrouves && classeRoles != null) {
-	//			String requeteRole = classeRoles.get(0);
-	//			tBase = 6;
-	//			tl(3, "gestionnaireEvenements.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
-	//			tl(4, "try {");
-	//			tl(5, "if (authRes.result() == Boolean.TRUE) {");
-	//		}
-	//		else {
-	//			tBase = 4;
-	//			tl(3, "try {");
-	//		}
-	//		tl(tBase + 0, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte);");
-	//		tl(tBase + 0, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-	//		tl(tBase + 0, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
-	//		tl(tBase + 0, "JsonObject requeteJson = contexteItineraire.getBodyAsJson();");
-	//		tl(tBase + 0, "SQLClient clientSql = requeteSite.getSiteContexte_().getClientSql();");
-	//		l();
-	//		tl(tBase + 0, "clientSql.getConnection(resultatAsync -> {");
-	//		tl(tBase + 1, "if(resultatAsync.succeeded()) {");
-	//		tl(tBase + 2, "LocalDateTime modifie = java.time.LocalDateTime.now();");
-	//		tl(tBase + 2, "String horodatageStr = Timestamp.valueOf(modifie).toString();");
-	//		tl(tBase + 2, "String utilisateurId = requeteSite.getUtilisateurId();");
-	//		tl(tBase + 2, "SQLConnection connexionSql = resultatAsync.result();");
-	//		l();
-	//		tl(tBase + 2, "connexionSql.queryWithParams(");
-	//		tl(tBase + 4, "SiteContexte.SQL_creer");
-	//		tl(tBase + 4, ", new JsonArray(Arrays.asList(VAL_nomCanonique", classeNomSimple, ", utilisateurId))");
-	//		tl(tBase + 4, ", asyncCreer");
-	//		tl(tBase + 4, "-> {");
-	//		tl(tBase + 3, "if(asyncCreer.succeeded()) {");
-	//		tl(tBase + 4, "List<Object> postSqlParams = Arrays.asList();");
-	//		tl(tBase + 4, "JsonArray postLigne = asyncCreer.result().getResults().stream().findFirst().orElseGet(() -> null);");
-	//		tl(tBase + 4, "Long postPk = postLigne.getLong(0);");
-	//		tl(tBase + 4, "StringBuilder postSql = new StringBuilder();");
-	//		tl(tBase + 4, "postSqlParams = new ArrayList<Object>();");
-	//		tl(tBase + 4, "Set<String> entiteVars = requeteJson.fieldNames();");
-	//		tl(tBase + 4, "for(String entiteVar : entiteVars) {");
-	//		tl(tBase + 5, "switch(entiteVar) {");
-	//		s(wApiGenererPost.toString());
-	//		tl(tBase + 5, "}");
-	//		tl(tBase + 4, "}");
-	//		tl(tBase + 4, "connexionSql.queryWithParams(postSql.toString(), new JsonArray(postSqlParams), asyncParams -> {");
-	//		tl(tBase + 5, "connexionSql.close();");
-	//		tl(tBase + 5, "if(asyncParams.succeeded()) {");
-	//		tl(tBase + 6, classeNomSimple, " o = new ", classeNomSimple, "();");
-	////		tl(tBase + 6, "o.putPourClasse(requeteJson);");
-	////		tl(tBase + 6, "o.sauvegarderPourClasse();");
-	////		tl(tBase + 6, "o.sauvegardesPourClasse();");
-	////		tl(tBase + 6, "o.initialiserLoinPourClasse();");
-	////		tl(tBase + 6, "o.indexerPourClasse();");
-	//		tl(tBase + 6, "requeteSite.setRequetePk(o.getPk());");
-	//		l();
-	//		tl(tBase + 5, "}");
-	//		tl(tBase + 4, "});");
-	//		tl(tBase + 3, "} else {");
-	//		tl(tBase + 4, "connexionSql.close();");
-	//		tl(tBase + 4, "contexteItineraire.fail(resultatAsync.cause());");
-	//		tl(tBase + 3, "}");
-	//		tl(tBase + 2, "});");
-	//		tl(tBase + 1, "} else {");
-	//		tl(tBase + 2, "LOGGER.error(\"Impossible d'ouvrir une connexion à la base de données. \", resultatAsync.cause());");
-	//		tl(tBase + 2, "contexteItineraire.fail(resultatAsync.cause());");
-	//		tl(tBase + 1, "}");
-	//		tl(tBase + 0, "});");
-	//		l();
-	//		tl(tBase, "contexteItineraire.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
-	//		l();
-	////		tl(tBase, "genererPostDebut", classeNomSimple, "(requeteSite);");
-	////		tl(tBase, classeNomSimple, " nouveau", classeNomSimple, " = new ", classeNomSimple, "();");
-	////		tl(tBase, "nouveau", classeNomSimple, ".initLoin", classeNomSimple, "(requeteSite);");
-	////		tl(tBase, "nouveau", classeNomSimple, ".peupler", classeNomSimple, "();");
-	////		tl(tBase, "post", classeNomSimple, "();");
-	////		tl(tBase, "genererPostFin", classeNomSimple, "(requeteSite);");
-	//		tl(tBase, "requeteSite.getReponseServeur().end();");
-	//		l();
-	//		l();
-	//		tl(tBase + 0, "reponseServeur.write(\"\\t]\\n\");");
-	//		tl(tBase + 0, "reponseServeur.write(\"}\\n\");");
-	//		if(classeRolesTrouves && classeRoles != null) {
-	//			tl(5, "}");
-	//			tl(5, "else {");
-	//			tl(6, "contexteItineraire.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
-	//			tl(5, "}");
-	//			tl(4, "} catch(Exception e) {");
-	//			tl(5, "LOGGER.error(\"Error: \", e.getMessage());");
-	//			tl(5, "contexteItineraire.fail(e);");
-	//			tl(4, "}");
-	//			tl(3, "});");
-	//		}
-	//		else {
-	//			tl(3, "} catch(Exception e) {");
-	//			tl(4, "LOGGER.error(\"Error: \", e.getMessage());");
-	//			tl(4, "contexteItineraire.fail(e);");
-	//			tl(3, "}");
-	//		}
-	//		tl(2, "});");
-	//		tl(1, "}");
-	
-			////////////
-			// Erreur //
-			////////////
-	//		l();
-	//		tl(1, "public void genererErreur(RequeteSite requeteSite, Exception e) {");
-	//		tl(2, "e.printStackTrace();");
-	//		tl(2, "try {");
-	//		tl(3, "MimeMessage message = new MimeMessage(requeteSite.SiteContexte_.sessionCourriel);");
-	//		tl(3, "message.setFrom(new InternetAddress(requeteSite.configSite_.mailAdmin));");
-	//		tl(3, "InternetAddress destinaires[] = new InternetAddress[1];");
-	//		tl(3, "destinaires[0] = new InternetAddress(requeteSite.configSite_.mailAdmin);");
-	//		tl(3, "message.setRecipients(Message.RecipientType.TO, destinaires);");
-	//		tl(3, "String nomDomaine = requeteSite.configSite_.nomDomaine;");
-	//		tl(3, "String sujet = nomDomaine + \" erreur \" + \" \" + requeteSite.utilisateurNom + \" \" + requeteSite.requeteServeur.getRequestURI();");
-	//		tl(3, "String corps = ExceptionUtils.getStackTrace(e);");
-	//		tl(3, "message.setSubject(sujet);");
-	//		tl(3, "message.setContent(corps, \"text/plain\");");
-	//		tl(3, "Transport.send(message);");
-	//		tl(3, "String s = e.getMessage();");
-	//		tl(3, "requeteSite.getReponseServeur().sendError(500, s);");
-	//		tl(2, "} catch(Exception e2) {");
-	//		tl(3, "e.printStackTrace();");
-	//		tl(2, "}");
-	//		tl(1, "}");
 			l();
 			tl(1, "public String varIndexe", classeNomSimple, "(String entiteVar) {");
 			tl(2, "switch(entiteVar) {");

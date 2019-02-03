@@ -4114,63 +4114,73 @@ public class IndexerClasse extends RegarderClasseBase {
 			for(String classeApiMethode : classeApiMethodes) {
 				indexerStockerListeSolr(classeDoc, "classeApiMethodes", classeApiMethode); 
 //				if(classeMotsClesTrouves && (classeMotsCles.contains(classeApiMethode + ".request") || classeMotsCles.contains(classeApiMethode + ".response"))) {
-					String classeApiUriMethode = regexLangue(langueNom, "(classe)?ApiUri" + classeApiMethode, classeCommentaire);
+				String classeApiUriMethode = regexLangue(langueNom, "(classe)?ApiUri" + classeApiMethode, classeCommentaire);
 
-					if("Recherche".equals(classeApiMethode))
-						indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^(classe)?ApiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "GET"));
-					else
-						indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^(classe)?ApiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, classeApiMethode));
+				if(classeApiMethode.contains("Recherche"))
+					indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^(classe)?ApiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "GET"));
+				else if(classeApiMethode.contains("GET"))
+					indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^(classe)?ApiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "GET"));
+				else if(classeApiMethode.contains("POST"))
+					indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^(classe)?ApiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "POST"));
+				else if(classeApiMethode.contains("PUT"))
+					indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^(classe)?ApiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "PUT"));
+				else if(classeApiMethode.contains("PATCH"))
+					indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^(classe)?ApiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "PATCH"));
+				else if(classeApiMethode.contains("DELETE"))
+					indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^(classe)?ApiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "DELETE"));
+				else
+					indexerStockerSolr(classeDoc, "classeApiMethode" + classeApiMethode, regex("^(classe)?ApiMethode" + classeApiMethode + ":\\s*(.*)", classeCommentaire, classeApiMethode));
 
-					indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode, "ApiOperationId" + classeApiMethode, classeCommentaire, StringUtils.lowerCase(classeApiMethode) + classeNomSimple);
-					indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Requete", "ApiOperationId" + classeApiMethode + "Requete", classeCommentaire, classeApiMethode + classeNomSimple + "Requete");
-					indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Reponse", "ApiOperationId" + classeApiMethode + "Reponse", classeCommentaire, classeApiMethode + classeNomSimple + "Reponse");
+				indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode, "ApiOperationId" + classeApiMethode, classeCommentaire, StringUtils.lowerCase(classeApiMethode) + classeNomSimple);
+				indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Requete", "ApiOperationId" + classeApiMethode + "Requete", classeCommentaire, classeApiMethode + classeNomSimple + "Requete");
+				indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Reponse", "ApiOperationId" + classeApiMethode + "Reponse", classeCommentaire, classeApiMethode + classeNomSimple + "Reponse");
 
-					if(classeEtendBase) {
-						indexerStockerSolr(classeDoc, "classeSuperApiOperationId" + classeApiMethode, langueNom, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string"));
-						indexerStockerSolr(classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Requete", langueNom, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Requete" + "_" + langueNom + "_stored_string"));
-						indexerStockerSolr(classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Reponse", langueNom, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Reponse" + "_" + langueNom + "_stored_string"));
-					}
+				if(classeEtendBase) {
+					indexerStockerSolr(classeDoc, "classeSuperApiOperationId" + classeApiMethode, langueNom, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string"));
+					indexerStockerSolr(classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Requete", langueNom, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Requete" + "_" + langueNom + "_stored_string"));
+					indexerStockerSolr(classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Reponse", langueNom, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Reponse" + "_" + langueNom + "_stored_string"));
+				}
 
-					String classeApiTypeMedia200Methode = regex("^(classe)?ApiTypeMedia200" + classeApiMethode + ":\\s*(.*)", classeCommentaire, "application/json");
-					String classePageNomSimpleMethode = regex("^(classe)?Page" + classeApiMethode + ":\\s*(.*)", classeCommentaire);
-					String classeApiMotCleMethode = regexLangue(langueNom, "(classe)?ApiMotCle" + classeApiMethode, classeCommentaire);
-					if(StringUtils.contains(classeApiMethode, "POST")
-							|| StringUtils.contains(classeApiMethode, "Recherche")
-							|| StringUtils.contains(classeApiMethode, "PATCH")
-							) {
-						if(StringUtils.isBlank(classeApiMotCleMethode))
-							classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
-						if(StringUtils.isBlank(classeApiUriMethode))
-							classeApiUriMethode = classeApiUri;
-					}
-					else {
-						if(StringUtils.isBlank(classeApiMotCleMethode))
-							classeApiMotCleMethode = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/");
-						if(StringUtils.isBlank(classeApiUriMethode))
-							classeApiUriMethode = classeApiUri + "/{pk}";
-					}
-					indexerStockerSolr(classeDoc, "classeApiTypeMedia200" + classeApiMethode, classeApiTypeMedia200Methode);
-					indexerStockerSolr(classeDoc, "classeApiMotCle" + classeApiMethode, langueNom, classeApiMotCleMethode);
-					indexerStockerSolr(classeDoc, "classeApiUri" + classeApiMethode, langueNom, classeApiUriMethode);
-					if(classePageNomSimpleMethode != null) {
-						SolrQuery recherchePage = new SolrQuery();   
-						recherchePage.setQuery("*:*");
-						recherchePage.setRows(1);
-						recherchePage.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePageNomSimpleMethode));
-						recherchePage.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
-						recherchePage.addFilterQuery("partEstClasse_indexed_boolean:true");
-						QueryResponse reponseRecherchePage = clientSolrComputate.query(recherchePage);
-						SolrDocumentList listeRecherchePage = reponseRecherchePage.getResults();
+				String classePageNomSimpleMethode = regex("^(classe)?Page" + classeApiMethode + ":\\s*(.*)", classeCommentaire);
+				String classeApiTypeMedia200Methode = regex("^(classe)?ApiTypeMedia200" + classeApiMethode + ":\\s*(.*)", classeCommentaire, classePageNomSimpleMethode == null ? "application/json" : "text/html");
+				String classeApiMotCleMethode = regexLangue(langueNom, "(classe)?ApiMotCle" + classeApiMethode, classeCommentaire);
+				if(StringUtils.contains(classeApiMethode, "POST")
+						|| StringUtils.contains(classeApiMethode, "Recherche")
+						|| StringUtils.contains(classeApiMethode, "PATCH")
+						) {
+					if(StringUtils.isBlank(classeApiMotCleMethode))
+						classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
+					if(StringUtils.isBlank(classeApiUriMethode))
+						classeApiUriMethode = classeApiUri;
+				}
+				else {
+					if(StringUtils.isBlank(classeApiMotCleMethode))
+						classeApiMotCleMethode = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/");
+					if(StringUtils.isBlank(classeApiUriMethode))
+						classeApiUriMethode = classeApiUri + "/{pk}";
+				}
+				indexerStockerSolr(classeDoc, "classeApiTypeMedia200" + classeApiMethode, classeApiTypeMedia200Methode);
+				indexerStockerSolr(classeDoc, "classeApiMotCle" + classeApiMethode, langueNom, classeApiMotCleMethode);
+				indexerStockerSolr(classeDoc, "classeApiUri" + classeApiMethode, langueNom, classeApiUriMethode);
+				if(classePageNomSimpleMethode != null) {
+					SolrQuery recherchePage = new SolrQuery();   
+					recherchePage.setQuery("*:*");
+					recherchePage.setRows(1);
+					recherchePage.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePageNomSimpleMethode));
+					recherchePage.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+					recherchePage.addFilterQuery("partEstClasse_indexed_boolean:true");
+					QueryResponse reponseRecherchePage = clientSolrComputate.query(recherchePage);
+					SolrDocumentList listeRecherchePage = reponseRecherchePage.getResults();
 
-						if(listeRecherchePage.size() > 0) {
-							SolrDocument docEntite = listeRecherchePage.get(0);
-							String classePageNomCanoniqueMethode = (String)docEntite.get("classeNomCanonique_frFR_stored_string");
+					if(listeRecherchePage.size() > 0) {
+						SolrDocument docEntite = listeRecherchePage.get(0);
+						String classePageNomCanoniqueMethode = (String)docEntite.get("classeNomCanonique_frFR_stored_string");
 //							String classePageNomSimpleMethode = (String)docEntite.get("classeNomSimple_frFR_stored_string");
-							indexerStockerSolr(classeDoc, "classePageNomCanonique" + classeApiMethode, langueNom, classePageNomCanoniqueMethode);
-							indexerStockerSolr(classeDoc, "classePageNomSimple" + classeApiMethode, langueNom, classePageNomSimpleMethode);
-							classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePageNomCanoniqueMethode, langueNom));
-						}
+						indexerStockerSolr(classeDoc, "classePageNomCanonique" + classeApiMethode, langueNom, classePageNomCanoniqueMethode);
+						indexerStockerSolr(classeDoc, "classePageNomSimple" + classeApiMethode, langueNom, classePageNomSimpleMethode);
+						classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePageNomCanoniqueMethode, langueNom));
 					}
+				}
 //				}
 			}
 			for(String langueNom : autresLangues) {  

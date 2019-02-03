@@ -2407,63 +2407,73 @@ public class IndexClass extends WatchClassBase {
 			for(String classApiMethod : classApiMethods) {
 				indexStoreListSolr(classDoc, "classApiMethods", classApiMethod); 
 //				if(classKeywordsFound && (classKeywords.contains(classApiMethod + ".request") || classKeywords.contains(classApiMethod + ".response"))) {
-					String classApiUriMethode = regexLanguage(languageName, "(class)?ApiUri" + classApiMethod, classComment);
+				String classApiUriMethode = regexLanguage(languageName, "(class)?ApiUri" + classApiMethod, classComment);
 
-					if("Search".equals(classApiMethod))
-						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
-					else
-						indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
+				if(classApiMethod.contains("Search"))
+					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
+				else if(classApiMethod.contains("GET"))
+					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
+				else if(classApiMethod.contains("POST"))
+					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "POST"));
+				else if(classApiMethod.contains("PUT"))
+					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "PUT"));
+				else if(classApiMethod.contains("PATCH"))
+					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "PATCH"));
+				else if(classApiMethod.contains("DELETE"))
+					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "DELETE"));
+				else
+					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
 
-					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "ApiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
-					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "ApiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
-					indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "ApiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
+				indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "ApiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
+				indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "ApiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
+				indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "ApiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
 
-					if(classExtendsBase) {
-						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string"));
-						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Request", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Request" + "_" + languageName + "_stored_string"));
-						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + languageName + "_stored_string"));
-					}
+				if(classExtendsBase) {
+					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string"));
+					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Request", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Request" + "_" + languageName + "_stored_string"));
+					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + languageName + "_stored_string"));
+				}
 
-					String classApiMediaType200Methode = regex("^(class)?ApiTypeMedia200" + classApiMethod + ":\\s*(.*)", classComment, "application/json");
-					String classPageNomSimpleMethode = regex("^(class)?Page" + classApiMethod + ":\\s*(.*)", classComment);
-					String classApiKeywordMethod = regexLanguage(languageName, "(class)?ApiKeyword" + classApiMethod, classComment);
-					if(StringUtils.contains(classApiMethod, "POST")
-							|| StringUtils.contains(classApiMethod, "Search")
-							|| StringUtils.contains(classApiMethod, "PATCH")
-							) {
-						if(StringUtils.isBlank(classApiKeywordMethod))
-							classApiKeywordMethod = StringUtils.substringAfterLast(classApiUriMethode, "/");
-						if(StringUtils.isBlank(classApiUriMethode))
-							classApiUriMethode = classApiUri;
-					}
-					else {
-						if(StringUtils.isBlank(classApiKeywordMethod))
-							classApiKeywordMethod = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classApiUriMethode, "/"), "/");
-						if(StringUtils.isBlank(classApiUriMethode))
-							classApiUriMethode = classApiUri + "/{pk}";
-					}
-					indexStoreSolr(classDoc, "classApiMediaType200" + classApiMethod, classApiMediaType200Methode);
-					indexStoreSolr(classDoc, "classApiKeyword" + classApiMethod, languageName, classApiKeywordMethod);
-					indexStoreSolr(classDoc, "classApiUri" + classApiMethod, languageName, classApiUriMethode);
-					if(classPageNomSimpleMethode != null) {
-						SolrQuery searchPage = new SolrQuery();   
-						searchPage.setQuery("*:*");
-						searchPage.setRows(1);
-						searchPage.addFilterQuery("classSimpleName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(classPageNomSimpleMethode));
-						searchPage.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
-						searchPage.addFilterQuery("partIsClass_indexed_boolean:true");
-						QueryResponse searchResponsePage = solrClientComputate.query(searchPage);
-						SolrDocumentList searchListPage = searchResponsePage.getResults();
+				String classPageNomSimpleMethode = regex("^(class)?Page" + classApiMethod + ":\\s*(.*)", classComment);
+				String classApiMediaType200Methode = regex("^(class)?ApiTypeMedia200" + classApiMethod + ":\\s*(.*)", classComment, classPageNomSimpleMethode == null ? "application/json" : "text/html");
+				String classApiKeywordMethod = regexLanguage(languageName, "(class)?ApiKeyword" + classApiMethod, classComment);
+				if(StringUtils.contains(classApiMethod, "POST")
+						|| StringUtils.contains(classApiMethod, "Search")
+						|| StringUtils.contains(classApiMethod, "PATCH")
+						) {
+					if(StringUtils.isBlank(classApiKeywordMethod))
+						classApiKeywordMethod = StringUtils.substringAfterLast(classApiUriMethode, "/");
+					if(StringUtils.isBlank(classApiUriMethode))
+						classApiUriMethode = classApiUri;
+				}
+				else {
+					if(StringUtils.isBlank(classApiKeywordMethod))
+						classApiKeywordMethod = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classApiUriMethode, "/"), "/");
+					if(StringUtils.isBlank(classApiUriMethode))
+						classApiUriMethode = classApiUri + "/{pk}";
+				}
+				indexStoreSolr(classDoc, "classApiMediaType200" + classApiMethod, classApiMediaType200Methode);
+				indexStoreSolr(classDoc, "classApiKeyword" + classApiMethod, languageName, classApiKeywordMethod);
+				indexStoreSolr(classDoc, "classApiUri" + classApiMethod, languageName, classApiUriMethode);
+				if(classPageNomSimpleMethode != null) {
+					SolrQuery searchPage = new SolrQuery();   
+					searchPage.setQuery("*:*");
+					searchPage.setRows(1);
+					searchPage.addFilterQuery("classSimpleName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(classPageNomSimpleMethode));
+					searchPage.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+					searchPage.addFilterQuery("partIsClass_indexed_boolean:true");
+					QueryResponse searchResponsePage = solrClientComputate.query(searchPage);
+					SolrDocumentList searchListPage = searchResponsePage.getResults();
 
-						if(searchListPage.size() > 0) {
-							SolrDocument docEntite = searchListPage.get(0);
-							String classPageNomCanoniqueMethode = (String)docEntite.get("classCanonicalName_frFR_stored_string");
+					if(searchListPage.size() > 0) {
+						SolrDocument docEntite = searchListPage.get(0);
+						String classPageNomCanoniqueMethode = (String)docEntite.get("classCanonicalName_frFR_stored_string");
 //							String classPageNomSimpleMethode = (String)docEntite.get("classSimpleName_frFR_stored_string");
-							indexStoreSolr(classDoc, "classPageNomCanonique" + classApiMethod, languageName, classPageNomCanoniqueMethode);
-							indexStoreSolr(classDoc, "classPageNomSimple" + classApiMethod, languageName, classPageNomSimpleMethode);
-							classPartsGenApiAdd(ClassParts.initClassParts(this, classPageNomCanoniqueMethode, languageName));
-						}
+						indexStoreSolr(classDoc, "classPageNomCanonique" + classApiMethod, languageName, classPageNomCanoniqueMethode);
+						indexStoreSolr(classDoc, "classPageNomSimple" + classApiMethod, languageName, classPageNomSimpleMethode);
+						classPartsGenApiAdd(ClassParts.initClassParts(this, classPageNomCanoniqueMethode, languageName));
 					}
+				}
 //				}
 			}
 			for(String languageName : otherLanguages) {  
