@@ -1482,17 +1482,19 @@ public class IndexClass extends WatchClassBase {
 								entityValsFound = entityValsSearch.find();
 							}
 
-							Matcher entityOptionsSearch = Pattern.compile("^(entity)?Option\\.(\\w+)\\.([^:]+):(.*)", Pattern.MULTILINE).matcher(methodComment);
+							Matcher entityOptionsSearch = Pattern.compile("^(entity)?Option\\.(\\w+)\\.([^:]+):([^:\\n]+)(:([^\\n]+))?", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityOptionsFound = entityOptionsSearch.find();
 							while(entityOptionsFound) {
 								String entityOptionLanguage = entityOptionsSearch.group(2);
 								String entityOptionVar = entityOptionsSearch.group(3);
-								String entityOptionValue = entityOptionsSearch.group(4);
-								if(StringUtils.isBlank(entityOptionValue))
-									entityOptionValue = entityOptionVar;
+								String entityOptionDescription = entityOptionsSearch.group(4);
+								String entityOptionValues = entityOptionsSearch.group(6);
+								if(StringUtils.isBlank(entityOptionDescription))
+									entityOptionDescription = entityOptionVar;
 								storeListSolr(entityDoc, "entityOptionsVar", entityOptionVar);
 								storeListSolr(entityDoc, "entityOptionsLanguage", entityOptionLanguage);
-								storeListSolr(entityDoc, "entityOptionsValue", entityOptionValue);
+								storeListSolr(entityDoc, "entityOptionsDescription", entityOptionDescription);
+								storeListSolr(entityDoc, "entityOptionsValues", StringUtils.isNotBlank(entityOptionValues) ? entityOptionValues : "");
 								entityOptionsFound = entityOptionsSearch.find();
 							}
 							if(entityOptionsFound)
@@ -1608,17 +1610,17 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "entityMultiLine", regexFound("^(entity)?Multiline:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityKeys", regexFound("^(entity)?Keys:\\s*(true)$", methodComment));
 
-						indexStoreSolr(entityDoc, "entityDisplayName", regex("^(entity)?DisplayName:\\s*(.*)$", methodComment, 1));
-						indexStoreSolr(entityDoc, "entityDescription", regex("^(entity)?Description:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "entityDisplayName", languageName, regexLanguage(languageName, "(entity)?DisplayName", methodComment));
+						indexStoreSolr(entityDoc, "entityDescription", languageName, regexLanguage(languageName, "(entity)?Description", methodComment));
 						indexStoreSolr(entityDoc, "entityOptional", regexFound("^(entity)?Optional:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityHtmlTooltip", regex("^(entity)?HtmlTooltip:\\s*(.*)$", methodComment, 1));
-//						indexStoreSolr(entityDoc, "entityVarApi", regex("^(entity)?EntiteVarApi:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "entityHtmlTooltip", languageName, regexLanguage(languageName, "(entity)?HtmlTooltip", methodComment));
+//						indexStoreSolr(entityDoc, "entityVarApi", regex("^(entity)?EntiteVarApi:\\s*(.*)$", methodComment));
 						indexStoreSolrRegex(entityDoc, languageName, "entityVarApi", "VarApi", methodComment);
-						indexStoreSolr(entityDoc, "enumSimpleName", regex("^(entity)?EnumNomSimple:\\s*(.*)$", methodComment, 1));
-						indexStoreSolr(entityDoc, "enumVar", regex("^(entity)?EnumVar:\\s*(.*)$", methodComment, 1));
-						indexStoreSolr(entityDoc, "enumVarDescription", regex("^(entity)?EnumVarDescription:\\s*(.*)$", methodComment, 1));
+						indexStoreSolr(entityDoc, "entityEnumSimpleName", languageName, regexLanguage(languageName, "(entity)?EnumSimpleName", methodComment));
+						indexStoreSolr(entityDoc, "entityEnumVar", languageName, regexLanguage(languageName, "(entity)?EnumVar", methodComment));
+						indexStoreSolr(entityDoc, "entityEnumVarDescription", languageName, regexLanguage(languageName, "(entity)?EnumVarDescription", methodComment));
 
-						{
+						{ 
 							String str = regex("^(entity)?MinLength:\\s*(.*)$", methodComment, 1);
 							Integer num = NumberUtils.isCreatable(str) ? Integer.parseInt(str) : null;
 							if(num != null)
@@ -1647,12 +1649,12 @@ public class IndexClass extends WatchClassBase {
 						}
 
 						for(String languageName : otherLanguages) {  
-							indexStoreSolr(entityDoc, "entityDisplayName", languageName, regex("^(entity)?DisplayName." + languageName + ":\\s*(.*)$", methodComment, 1));
-							indexStoreSolr(entityDoc, "entityHtmlTooltip", languageName, regex("^(entity)?HtmlTooltip." + languageName + ":\\s*(.*)$", methodComment, 1));
+							indexStoreSolr(entityDoc, "entityDisplayName", languageName, regexLanguage(languageName, "(entity)?DisplayName", methodComment));
+							indexStoreSolr(entityDoc, "entityEnumVarDescription", languageName, regexLanguage(languageName, "(entity)?EnumVarDescription", methodComment));
+							indexStoreSolr(entityDoc, "entityHtmlTooltip", languageName, regexLanguage(languageName, "(entity)?HtmlTooltip", methodComment));
 //							indexStoreSolr(entityDoc, "entityVarApi", languageName, regex("^(entity)?EntiteVarApi." + languageName + ":\\s*(.*)$", methodComment, 1));
 							indexStoreSolrRegex(entityDoc, languageName, "entityVarApi", "VarApi", methodComment);
-							indexStoreSolr(entityDoc, "enumVar", languageName, regex("^(entity)?EnumVar." + languageName + ":\\s*(.*)$", methodComment, 1));
-							indexStoreSolr(entityDoc, "enumVarDescription", languageName, regex("^(entity)?EnumVarDescription." + languageName + ":\\s*(.*)$", methodComment, 1));
+							indexStoreSolr(entityDoc, "entityEnumVar", languageName, regexLanguage(languageName, "(entity)?EnumVar", methodComment));
 						}
 
 						Matcher entityAttributeSearch = methodComment == null ? null : Pattern.compile("^(entity)?Attribuer:\\s*([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodComment);

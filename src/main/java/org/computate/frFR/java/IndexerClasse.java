@@ -1917,14 +1917,18 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityOptionsVar
 	 * r: entiteOptionsLangue
 	 * r.enUS: entityOptionsLanguage
-	 * r: entiteOptionsValeur
-	 * r.enUS: entityOptionsValue
+	 * r: entiteOptionsDescription
+	 * r.enUS: entityOptionsDescription
+	 * r: entiteOptionsValeurs
+	 * r.enUS: entityOptionsValues
 	 * r: entiteOptionVar
 	 * r.enUS: entityOptionVar
 	 * r: entiteOptionLangue
 	 * r.enUS: entityOptionLanguage
-	 * r: entiteOptionValeur
-	 * r.enUS: entityOptionValue
+	 * r: entiteOptionDescription
+	 * r.enUS: entityOptionDescription
+	 * r: entiteOptionValeurs
+	 * r.enUS: entityOptionValues
 	 * r: entiteOptions
 	 * r.enUS: entityOptions
 	 * r: entiteIndexeOuStocke
@@ -1959,8 +1963,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityMaxLength
 	 * r: entiteVarApi
 	 * r.enUS: entityVarApi
-	 * r: enumNomSimple
-	 * r.enUS: enumSimpleName
+	 * r: EnumNomSimple
+	 * r.enUS: EnumSimpleName
 	 * r: entiteMin
 	 * r.enUS: entityMin
 	 * r: entiteMax
@@ -3189,17 +3193,19 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteValsTrouves = entiteValsRecherche.find();
 							}
 
-							Matcher entiteOptionsRecherche = Pattern.compile("^(entite)?Option\\.(\\w+)\\.([^:]+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+							Matcher entiteOptionsRecherche = Pattern.compile("^(entite)?Option\\.(\\w+)\\.([^:]+):([^:\\n]+)(:([^\\n]+))?", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteOptionsTrouves = entiteOptionsRecherche.find();
 							while(entiteOptionsTrouves) {
 								String entiteOptionLangue = entiteOptionsRecherche.group(2);
 								String entiteOptionVar = entiteOptionsRecherche.group(3);
-								String entiteOptionValeur = entiteOptionsRecherche.group(4);
-								if(StringUtils.isBlank(entiteOptionValeur))
-									entiteOptionValeur = entiteOptionVar;
+								String entiteOptionDescription = entiteOptionsRecherche.group(4);
+								String entiteOptionValeurs = entiteOptionsRecherche.group(6);
+								if(StringUtils.isBlank(entiteOptionDescription))
+									entiteOptionDescription = entiteOptionVar;
 								stockerListeSolr(entiteDoc, "entiteOptionsVar", entiteOptionVar);
 								stockerListeSolr(entiteDoc, "entiteOptionsLangue", entiteOptionLangue);
-								stockerListeSolr(entiteDoc, "entiteOptionsValeur", entiteOptionValeur);
+								stockerListeSolr(entiteDoc, "entiteOptionsDescription", entiteOptionDescription);
+								stockerListeSolr(entiteDoc, "entiteOptionsValeurs", StringUtils.isNotBlank(entiteOptionValeurs) ? entiteOptionValeurs : "");
 								entiteOptionsTrouves = entiteOptionsRecherche.find();
 							}
 							if(entiteOptionsTrouves)
@@ -3315,17 +3321,17 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^(entite)?Multiligne:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^(entite)?Cles:\\s*(true)$", methodeCommentaire));
 
-						indexerStockerSolr(entiteDoc, "entiteNomAffichage", regex("^(entite)?NomAffichage:\\s*(.*)$", methodeCommentaire, 1));
-						indexerStockerSolr(entiteDoc, "entiteDescription", regex("^(entite)?Description:\\s*(.*)$", methodeCommentaire, 1));
+						indexerStockerSolr(entiteDoc, "entiteNomAffichage", langueNom, regexLangue(langueNom, "(entite)?NomAffichage", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteDescription", langueNom, regexLangue(langueNom, "(entite)?Description", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteOptionnel", regexTrouve("^(entite)?Optionnel:\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", regex("^(entite)?HtmlTooltip:\\s*(.*)$", methodeCommentaire, 1));
-//						indexerStockerSolr(entiteDoc, "entiteVarApi", regex("^(entite)?EntiteVarApi:\\s*(.*)$", methodeCommentaire, 1));
+						indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", langueNom, regexLangue(langueNom, "(entite)?HtmlTooltip", methodeCommentaire));
+//						indexerStockerSolr(entiteDoc, "entiteVarApi", regex("^(entite)?EntiteVarApi:\\s*(.*)$", methodeCommentaire));
 						indexerStockerSolrRegex(entiteDoc, langueNom, "entiteVarApi", "VarApi", methodeCommentaire);
-						indexerStockerSolr(entiteDoc, "enumNomSimple", regex("^(entite)?EnumNomSimple:\\s*(.*)$", methodeCommentaire, 1));
-						indexerStockerSolr(entiteDoc, "enumVar", regex("^(entite)?EnumVar:\\s*(.*)$", methodeCommentaire, 1));
-						indexerStockerSolr(entiteDoc, "enumVarDescription", regex("^(entite)?EnumVarDescription:\\s*(.*)$", methodeCommentaire, 1));
+						indexerStockerSolr(entiteDoc, "entiteEnumNomSimple", langueNom, regexLangue(langueNom, "(entite)?EnumNomSimple", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteEnumVar", langueNom, regexLangue(langueNom, "(entite)?EnumVar", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteEnumVarDescription", langueNom, regexLangue(langueNom, "(entite)?EnumVarDescription", methodeCommentaire));
 
-						{
+						{ 
 							String str = regex("^(entite)?LongeurMin:\\s*(.*)$", methodeCommentaire, 1);
 							Integer num = NumberUtils.isCreatable(str) ? Integer.parseInt(str) : null;
 							if(num != null)
@@ -3354,12 +3360,12 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						for(String langueNom : autresLangues) {  
-							indexerStockerSolr(entiteDoc, "entiteNomAffichage", langueNom, regex("^(entite)?NomAffichage." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
-							indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", langueNom, regex("^(entite)?HtmlTooltip." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
+							indexerStockerSolr(entiteDoc, "entiteNomAffichage", langueNom, regexLangue(langueNom, "(entite)?NomAffichage", methodeCommentaire));
+							indexerStockerSolr(entiteDoc, "entiteEnumVarDescription", langueNom, regexLangue(langueNom, "(entite)?EnumVarDescription", methodeCommentaire));
+							indexerStockerSolr(entiteDoc, "entiteHtmlTooltip", langueNom, regexLangue(langueNom, "(entite)?HtmlTooltip", methodeCommentaire));
 //							indexerStockerSolr(entiteDoc, "entiteVarApi", langueNom, regex("^(entite)?EntiteVarApi." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
 							indexerStockerSolrRegex(entiteDoc, langueNom, "entiteVarApi", "VarApi", methodeCommentaire);
-							indexerStockerSolr(entiteDoc, "enumVar", langueNom, regex("^(entite)?EnumVar." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
-							indexerStockerSolr(entiteDoc, "enumVarDescription", langueNom, regex("^(entite)?EnumVarDescription." + langueNom + ":\\s*(.*)$", methodeCommentaire, 1));
+							indexerStockerSolr(entiteDoc, "entiteEnumVar", langueNom, regexLangue(langueNom, "(entite)?EnumVar", methodeCommentaire));
 						}
 
 						Matcher entiteAttribuerRecherche = methodeCommentaire == null ? null : Pattern.compile("^(entite)?Attribuer:\\s*([^\\.]+)\\.(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);

@@ -1446,14 +1446,14 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: entityOptionsVar
 	 * r: entiteOptionsLangue
 	 * r.enUS: entityOptionsLanguage
-	 * r: entiteOptionsValeur
-	 * r.enUS: entityOptionsValue
+	 * r: entiteOptionsDescription
+	 * r.enUS: entityOptionsDescription
 	 * r: entiteOptionVar
 	 * r.enUS: entityOptionVar
 	 * r: entiteOptionLangue
 	 * r.enUS: entityOptionLanguage
-	 * r: entiteOptionValeur
-	 * r.enUS: entityOptionValue
+	 * r: entiteOptionDescription
+	 * r.enUS: entityOptionDescription
 	 * r: entiteOptions
 	 * r.enUS: entityOptions
 	 * r: entiteIndexeOuStocke
