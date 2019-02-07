@@ -218,6 +218,12 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: writerApiGenClass
 	 * r: auteurPageGenClasse
 	 * r.enUS: writerPageGenClass
+	 * r: auteurPageClasse
+	 * r.enUS: writerPageClass
+	 * r: auteurPageCss
+	 * r.enUS: writerPageCss
+	 * r: auteurPageJs
+	 * r.enUS: writerPageJs
 	 * r: genCodeInitLoin
 	 * r.enUS: genCodeInitDeep
 	 * r: genCodeRequeteSite
@@ -292,6 +298,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 				Integer partNumero = (Integer)doc.get("partNumero_stored_int");
 				if(partNumero.equals(1)) {
 					classeDoc = doc;
+
 					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stored_string");
 					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stored_string"); 
 					classeCheminApiEnsembleInfo = (String)doc.get("classeCheminApiEnsembleInfo_" + langueNom + "_stored_string"); 
@@ -299,8 +306,13 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeCheminApiServiceImpl = (String)doc.get("classeCheminApiServiceImpl_" + langueNom + "_stored_string"); 
 					classeCheminGenApiService = (String)doc.get("classeCheminGenApiService_" + langueNom + "_stored_string"); 
 					classeCheminPageGen = (String)doc.get("classeCheminPageGen_" + langueNom + "_stored_string"); 
+					classeCheminPage = (String)doc.get("classeCheminPage_" + langueNom + "_stored_string"); 
+					classeCheminPageCss = (String)doc.get("classeCheminPageCss_" + langueNom + "_stored_string"); 
+					classeCheminPageJs = (String)doc.get("classeCheminPageJs_" + langueNom + "_stored_string"); 
+
 					classeRepertoireGen = new File(classeCheminRepertoireGen);
 					classeRepertoireGen.mkdirs();
+
 					classeFichierGen = new File(classeCheminGen);
 					if(classeCheminApiEnsembleInfo != null)
 						classeFichierApiEnsembleInfo = new File(classeCheminApiEnsembleInfo);
@@ -311,7 +323,14 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					if(classeCheminGenApiService != null)
 						classeFichierGenApiService = new File(classeCheminGenApiService);
 					if(classeCheminPageGen != null)
-						classeFichierPage = new File(classeCheminPageGen);
+						classeFichierPageGen = new File(classeCheminPageGen);
+					if(classeCheminPage != null)
+						classeFichierPage = new File(classeCheminPage);
+					if(classeCheminPageCss != null)
+						classeFichierPageCss = new File(classeCheminPageCss);
+					if(classeCheminPageJs != null)
+						classeFichierPageJs = new File(classeCheminPageJs);
+
 					o = ToutEcrivain.create(classeFichierGen);
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
 					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
@@ -374,8 +393,16 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 							auteurGenApiService = ToutEcrivain.create(classeFichierGenApiService);
 					}
 //					auteurPageClasse = new PrintWriter(classeFichierPage);
-					if(classePage && !classeFichierPage.exists())
-						auteurPageGenClasse = ToutEcrivain.create(classeFichierPage);
+					if(classePage) {
+						if(classeFichierPage != null && !classeFichierPage.exists())
+							auteurPageClasse = ToutEcrivain.create(classeFichierPage);
+						if(classeFichierPageGen != null)
+							auteurPageGenClasse = ToutEcrivain.create(classeFichierPageGen);
+						if(classeFichierPageCss != null)
+							auteurPageCss = ToutEcrivain.create(classeFichierPageCss);
+						if(classeFichierPageJs != null)
+							auteurPageJs = ToutEcrivain.create(classeFichierPageJs);
+					}
 
 					genCodeInit();
 					o = auteurGenClasse;

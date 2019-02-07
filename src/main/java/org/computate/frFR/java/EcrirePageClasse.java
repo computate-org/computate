@@ -1,6 +1,6 @@
 package org.computate.frFR.java;
 
-import java.io.PrintWriter;
+import java.io.File;
 
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WritePageClass
@@ -11,9 +11,64 @@ import java.io.PrintWriter;
 public class EcrirePageClasse extends EcrireApiClasse {
 
 	/**
+	 * Var.enUS: classPathPageGen
+	 */
+	protected String classeCheminPageGen;
+
+	/**
+	 * Var.enUS: classPathPage
+	 */
+	protected String classeCheminPage;
+
+	/**
+	 * Var.enUS: classPathPageCss
+	 */
+	protected String classeCheminPageCss;
+
+	/**
+	 * Var.enUS: classPathPageJs
+	 */
+	protected String classeCheminPageJs;
+
+	/**
+	 * Var.enUS: classFilePageGen
+	 */
+	protected File classeFichierPageGen;
+
+	/**
+	 * Var.enUS: classFilePage
+	 */
+	protected File classeFichierPage;
+
+	/**
+	 * Var.enUS: classFilePageCss
+	 */
+	protected File classeFichierPageCss;
+
+	/**
+	 * Var.enUS: classFilePageJs
+	 */
+	protected File classeFichierPageJs;
+
+	/**
 	 * Var.enUS: writerPageGenClass
 	 */
 	protected ToutEcrivain auteurPageGenClasse;
+
+	/**
+	 * Var.enUS: writerPageClass
+	 */
+	protected ToutEcrivain auteurPageClasse;
+
+	/**
+	 * Var.enUS: writerPageCss
+	 */
+	protected ToutEcrivain auteurPageCss;
+
+	/**
+	 * Var.enUS: writerPageJs
+	 */
+	protected ToutEcrivain auteurPageJs;
 
 	/**
 	 * Var.enUS: classSimpleNamePage
@@ -47,6 +102,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	/**
 	 * r: Ecrire: 
 	 * r.enUS: Write: 
+	 * r: auteurPageGenClasse
+	 * r.enUS: writerPageGenClass
+	 * r: auteurPageClasse
+	 * r.enUS: writerPageClass
+	 * r: auteurPageCss
+	 * r.enUS: writerPageCss
+	 * r: auteurPageJs
+	 * r.enUS: writerPageJs
 	 */
 	public void pageCodeClasseFin(String langueNom) throws Exception {
 //		o = auteurPageGenClasse;
@@ -315,7 +378,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		tl(0, "}");
 //
 //		System.out.println("Ecrire: " + classeCheminPageGen); 
-//		auteurPageGenClasse.flush();
+		if(auteurPageClasse != null)
+			auteurPageClasse.flushClose();
+		auteurPageGenClasse.flushClose();
+		auteurPageCss.flushClose();
+		auteurPageJs.flushClose();
 //		auteurPageGenClasse.close();
 	}
 }

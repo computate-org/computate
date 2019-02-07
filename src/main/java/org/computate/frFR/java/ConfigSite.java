@@ -75,6 +75,22 @@ public class ConfigSite {
 	}
 
 	/**
+	 * Var.enUS: srcMainResourcesPath
+	 * enUS: The absolute path to the /src/main/resources directory. 
+	 */
+	public String cheminSrcMainResources;
+	/**	
+	 * Var.enUS: _srcMainResourcesPath
+	 * r: cheminSrcMainResources
+	 * r.enUS: srcMainResourcesPath
+	 * r: appliChemin
+	 * r.enUS: appPath
+	 **/ 
+	protected void _cheminSrcMainResources() throws Exception {
+		cheminSrcMainResources = appliChemin + "/src/main/resources";
+	}
+
+	/**
 	 * Var.enUS: srcGenJavaPath
 	 * enUS: The absolute path to the /src/gen/java directory. 
 	 */
@@ -623,6 +639,8 @@ public class ConfigSite {
 	 * r.enUS: allSourcePaths
 	 * r: cheminSrcMainJava
 	 * r.enUS: srcMainJavaPath
+	 * r: cheminSrcMainResources
+	 * r.enUS: srcMainResourcesPath
 	 * r: cheminSrcGenJava
 	 * r.enUS: srcGenJavaPath
 	 * r: nomsMethodeTest
@@ -638,6 +656,7 @@ public class ConfigSite {
 		_appliNom();
 		_appliChemin();
 		_cheminSrcMainJava();
+		_cheminSrcMainResources();
 		_cheminSrcGenJava();
 		_configChemin();
 		_fichierConfig();

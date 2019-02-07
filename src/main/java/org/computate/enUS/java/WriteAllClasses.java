@@ -56,6 +56,7 @@ public class WriteAllClasses extends WritePageClass {
 				Integer partNumber = (Integer)doc.get("partNumber_stored_int");
 				if(partNumber.equals(1)) {
 					classDoc = doc;
+
 					classDirPathGen = (String)doc.get("classDirPathGen_" + languageName + "_stored_string");
 					classPathGen = (String)doc.get("classPathGen_" + languageName + "_stored_string"); 
 					classPathApiPackageInfo = (String)doc.get("classPathApiPackageInfo_" + languageName + "_stored_string"); 
@@ -63,8 +64,13 @@ public class WriteAllClasses extends WritePageClass {
 					classPathApiServiceImpl = (String)doc.get("classPathApiServiceImpl_" + languageName + "_stored_string"); 
 					classPathGenApiService = (String)doc.get("classPathGenApiService_" + languageName + "_stored_string"); 
 					classPathPageGen = (String)doc.get("classPathPageGen_" + languageName + "_stored_string"); 
+					classPathPage = (String)doc.get("classPathPage_" + languageName + "_stored_string"); 
+					classPathPageCss = (String)doc.get("classPathPageCss_" + languageName + "_stored_string"); 
+					classPathPageJs = (String)doc.get("classPathPageJs_" + languageName + "_stored_string"); 
+
 					classDirGen = new File(classDirPathGen);
 					classDirGen.mkdirs();
+
 					classFileGen = new File(classPathGen);
 					if(classPathApiPackageInfo != null)
 						classFileApiPackageInfo = new File(classPathApiPackageInfo);
@@ -75,7 +81,14 @@ public class WriteAllClasses extends WritePageClass {
 					if(classPathGenApiService != null)
 						classFileGenApiService = new File(classPathGenApiService);
 					if(classPathPageGen != null)
-						classFilePage = new File(classPathPageGen);
+						classFilePageGen = new File(classPathPageGen);
+					if(classPathPage != null)
+						classFilePage = new File(classPathPage);
+					if(classPathPageCss != null)
+						classFilePageCss = new File(classPathPageCss);
+					if(classPathPageJs != null)
+						classFilePageJs = new File(classPathPageJs);
+
 					o = AllWriter.create(classFileGen);
 					classSimpleName = (String)doc.get("classSimpleName_" + languageName + "_stored_string");
 					classSimpleNameGen = (String)doc.get("classSimpleNameGen_" + languageName + "_stored_string");
@@ -137,9 +150,17 @@ public class WriteAllClasses extends WritePageClass {
 						if(classFileGenApiService != null)
 							writerGenApiService = AllWriter.create(classFileGenApiService);
 					}
-//					auteurPageClasse = new PrintWriter(classFilePage);
-					if(classPage && !classFilePage.exists())
-						writerPageGenClass = AllWriter.create(classFilePage);
+//					writerPageClass = new PrintWriter(classFilePage);
+					if(classPage) {
+						if(classFilePage != null && !classFilePage.exists())
+							writerPageClass = AllWriter.create(classFilePage);
+						if(classFilePageGen != null)
+							writerPageGenClass = AllWriter.create(classFilePageGen);
+						if(classFilePageCss != null)
+							writerPageCss = AllWriter.create(classFilePageCss);
+						if(classFilePageJs != null)
+							writerPageJs = AllWriter.create(classFilePageJs);
+					}
 
 					genCodeInit();
 					o = writerGenClass;

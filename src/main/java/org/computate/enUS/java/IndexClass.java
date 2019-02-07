@@ -551,6 +551,9 @@ public class IndexClass extends WatchClassBase {
 		String classPathGen = concat(srcGenJavaPath, "/", StringUtils.replace(classCanonicalName, ".", "/"), "Gen.java");
 
 		String classPathPageGen = concat(srcGenJavaPath, "/", StringUtils.replace(classCanonicalName, ".", "/"), "PageGen.java");
+		String classPathPage = concat(srcMainJavaPath, "/", StringUtils.replace(classCanonicalName, ".", "/"), "Page.java");
+		String classPathPageCss = concat(srcMainResourcesPath, "/webroot/css/", classSimpleName, "Page.css");
+		String classPathPageJs = concat(srcMainResourcesPath, "/webroot/js/", classSimpleName, "Page.js");
 		String classDirPathGen = StringUtils.substringBeforeLast(classPathGen, "/");
 		String classKey = classAbsolutePath;
 		Instant modified = Instant.now();
@@ -701,6 +704,9 @@ public class IndexClass extends WatchClassBase {
 			indexStoreSolr(classDoc, "classPathApiServiceImpl", languageName, classPathApiServiceImpl); 
 			indexStoreSolr(classDoc, "classPathGenApiService", languageName, classPathGenApiService); 
 			indexStoreSolr(classDoc, "classPathPageGen", languageName, classPathPageGen); 
+			indexStoreSolr(classDoc, "classPathPage", languageName, classPathPage); 
+			indexStoreSolr(classDoc, "classPathPageCss", languageName, classPathPageCss); 
+			indexStoreSolr(classDoc, "classPathPageJs", languageName, classPathPageJs); 
 		}
 
 		for(String languageName : otherLanguages) {

@@ -1227,6 +1227,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: srcGenJavaPathLanguage
 	 * r: cheminSrcMainJava
 	 * r.enUS: srcMainJavaPath
+	 * r: cheminSrcMainResources
+	 * r.enUS: srcMainResourcesPath
 	 * r: cheminSrcGenJava
 	 * r.enUS: srcGenJavaPath
 	 * r: commentaire
@@ -2262,6 +2264,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeCheminGen = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "Gen.java");
 
 		String classeCheminPageGen = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "PageGen.java");
+		String classeCheminPage = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "Page.java");
+		String classeCheminPageCss = concat(cheminSrcMainResources, "/webroot/css/", classeNomSimple, "Page.css");
+		String classeCheminPageJs = concat(cheminSrcMainResources, "/webroot/js/", classeNomSimple, "Page.js");
 		String classeCheminRepertoireGen = StringUtils.substringBeforeLast(classeCheminGen, "/");
 		String classeCle = classeCheminAbsolu;
 		Instant modifiee = Instant.now();
@@ -2412,6 +2417,9 @@ public class IndexerClasse extends RegarderClasseBase {
 			indexerStockerSolr(classeDoc, "classeCheminApiServiceImpl", langueNom, classeCheminApiServiceImpl); 
 			indexerStockerSolr(classeDoc, "classeCheminGenApiService", langueNom, classeCheminGenApiService); 
 			indexerStockerSolr(classeDoc, "classeCheminPageGen", langueNom, classeCheminPageGen); 
+			indexerStockerSolr(classeDoc, "classeCheminPage", langueNom, classeCheminPage); 
+			indexerStockerSolr(classeDoc, "classeCheminPageCss", langueNom, classeCheminPageCss); 
+			indexerStockerSolr(classeDoc, "classeCheminPageJs", langueNom, classeCheminPageJs); 
 		}
 
 		for(String langueNom : autresLangues) {

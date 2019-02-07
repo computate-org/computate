@@ -57,11 +57,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeCheminGenApiService;
 
 	/**
-	 * Var.enUS: classPathPageGen
-	 */
-	protected String classeCheminPageGen;
-
-	/**
 	 * Var.enUS: classDirGen
 	 */
 	protected File classeRepertoireGen;
@@ -90,11 +85,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classFileGenApiService
 	 */
 	protected File classeFichierGenApiService;
-
-	/**
-	 * Var.enUS: classFilePage
-	 */
-	protected File classeFichierPage;
 
 	protected StringBuilder s = new StringBuilder();
 			

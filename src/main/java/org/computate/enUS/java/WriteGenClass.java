@@ -35,8 +35,6 @@ public class WriteGenClass extends WriteClass {
 
 	protected String classPathGenApiService;
 
-	protected String classPathPageGen;
-
 	protected File classDirGen;
 
 	protected File classFileGen;
@@ -48,8 +46,6 @@ public class WriteGenClass extends WriteClass {
 	protected File classFileApiServiceImpl;
 
 	protected File classFileGenApiService;
-
-	protected File classFilePage;
 
 	protected StringBuilder s = new StringBuilder();
 

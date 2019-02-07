@@ -1,13 +1,35 @@
 package org.computate.enUS.java;
 
-import java.io.PrintWriter;
+import java.io.File;
 
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  **/
 public class WritePageClass extends WriteApiClass {
 
+	protected String classPathPageGen;
+
+	protected String classPathPage;
+
+	protected String classPathPageCss;
+
+	protected String classPathPageJs;
+
+	protected File classFilePageGen;
+
+	protected File classFilePage;
+
+	protected File classFilePageCss;
+
+	protected File classFilePageJs;
+
 	protected AllWriter writerPageGenClass;
+
+	protected AllWriter writerPageClass;
+
+	protected AllWriter writerPageCss;
+
+	protected AllWriter writerPageJs;
 
 	protected String classSimpleNamePage;
 
@@ -33,7 +55,7 @@ public class WritePageClass extends WriteApiClass {
 	}
 
 	public void  pageCodeClasseFin(String langueNom) throws Exception, Exception {
-//		o = auteurPageGenClasse;
+//		o = writerPageGenClass;
 //
 //		s(wPageEntites.toString());
 //		l();
@@ -298,8 +320,12 @@ public class WritePageClass extends WriteApiClass {
 ////		tl(1, "}");
 //		tl(0, "}");
 //
-//		System.out.println("Write:" + classeCheminPageGen); 
-//		auteurPageGenClasse.flush();
-//		auteurPageGenClasse.close();
+//		System.out.println("Write: " + classeCheminPageGen); 
+		if(writerPageClass != null)
+			writerPageClass.flushClose();
+		writerPageGenClass.flushClose();
+		writerPageCss.flushClose();
+		writerPageJs.flushClose();
+//		writerPageGenClass.close();
 	}
 }

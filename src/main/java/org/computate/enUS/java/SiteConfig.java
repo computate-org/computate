@@ -36,6 +36,11 @@ public class SiteConfig {
 	public String srcMainJavaPath;
 
 	/**	
+	 *	The absolute path to the /src/main/resources directory.
+	 **/
+	public String srcMainResourcesPath;
+
+	/**	
 	 *	The absolute path to the /src/gen/java directory.
 	 **/
 	public String srcGenJavaPath;
@@ -190,6 +195,10 @@ public class SiteConfig {
 		srcMainJavaPath = appPath + "/src/main/java";
 	}
 
+	protected void  _srcMainResourcesPath() throws Exception, Exception {
+		srcMainResourcesPath = appPath + "/src/main/resources";
+	}
+
 	protected void  _srcGenJavaPath() throws Exception, Exception {
 		srcGenJavaPath = appPath + "/src/gen/java";
 	}
@@ -321,6 +330,7 @@ public class SiteConfig {
 		_appName();
 		_appPath();
 		_srcMainJavaPath();
+		_srcMainResourcesPath();
 		_srcGenJavaPath();
 		_configPath();
 		_configFile();
