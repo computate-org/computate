@@ -1045,11 +1045,11 @@ public class IndexClass extends WatchClassBase {
 			}
 		}
 
-		List<JavaMember> membersQdox = classQdox.getMembers();
-//		List<JavaMember> membersQdox = new ArrayList<JavaMember>();
-//		membersQdox.addAll(classQdox.getFields());
-//		membersQdox.addAll(classQdox.getConstructors());
-//		membersQdox.addAll(classQdox.getMethods());
+//		List<JavaMember> membersQdox = classQdox.getMembers();
+		List<JavaMember> membersQdox = new ArrayList<JavaMember>();
+		membersQdox.addAll(classQdox.getFields());
+		membersQdox.addAll(classQdox.getConstructors());
+		membersQdox.addAll(classQdox.getMethods());
 		for(JavaMember memberQdox : membersQdox) {  
 			partNumber++;
 

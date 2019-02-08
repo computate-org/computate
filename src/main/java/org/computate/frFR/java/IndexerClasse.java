@@ -2843,11 +2843,11 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
-		List<JavaMember> membresQdox = classeQdox.getMembers();
-//		List<JavaMember> membresQdox = new ArrayList<JavaMember>();
-//		membresQdox.addAll(classeQdox.getFields());
-//		membresQdox.addAll(classeQdox.getConstructors());
-//		membresQdox.addAll(classeQdox.getMethods());
+//		List<JavaMember> membresQdox = classeQdox.getMembers();
+		List<JavaMember> membresQdox = new ArrayList<JavaMember>();
+		membresQdox.addAll(classeQdox.getFields());
+		membresQdox.addAll(classeQdox.getConstructors());
+		membresQdox.addAll(classeQdox.getMethods());
 		for(JavaMember membreQdox : membresQdox) {  
 			partNumero++;
 
