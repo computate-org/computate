@@ -105,7 +105,19 @@ public class IndexClass extends WatchClassBase {
 
 	ClassParts classPartsAllWriter;
 
+	ClassParts classPartsWrap;
+
 	ClassParts classPartsSearchList;
+
+	ClassParts classPartsPageLayout;
+
+	String CONTEXT_AMaleVowel = "an";
+
+	String CONTEXT_AFemaleVowel = "an";
+
+	String CONTEXT_AMaleConsonant = "a";
+
+	String CONTEXT_AFemaleConsonant = "a";
 
 	protected HashMap<String, ClassParts> classPartsGenApi = new HashMap<String, ClassParts>();
 
@@ -418,6 +430,10 @@ public class IndexClass extends WatchClassBase {
 		return classPartsForSimpleName(domainPackageName, "SearchList");
 	}
 
+	protected ClassParts classPartsPageLayout(String domainPackageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "PageLayout");
+	}
+
 	public String storeRegexComments(String comment, String languageName, SolrInputDocument doc, String entityVar) throws Exception, Exception {
 		if(!StringUtils.isEmpty(comment)) {
 			Matcher m = Pattern.compile("^(enUS|frFR): (.*)", Pattern.MULTILINE).matcher(comment);
@@ -550,7 +566,7 @@ public class IndexClass extends WatchClassBase {
 		String classDirPath = StringUtils.substringBeforeLast(classPath, "/");
 		String classPathGen = concat(srcGenJavaPath, "/", StringUtils.replace(classCanonicalName, ".", "/"), "Gen.java");
 
-		String classPathPageGen = concat(srcGenJavaPath, "/", StringUtils.replace(classCanonicalName, ".", "/"), "PageGen.java");
+		String classPathGenPage = concat(srcMainJavaPath, "/", StringUtils.replace(classCanonicalName, ".", "/"), "GenPage.java");
 		String classPathPage = concat(srcMainJavaPath, "/", StringUtils.replace(classCanonicalName, ".", "/"), "Page.java");
 		String classPathPageCss = concat(srcMainResourcesPath, "/webroot/css/", classSimpleName, "Page.css");
 		String classPathPageJs = concat(srcMainResourcesPath, "/webroot/js/", classSimpleName, "Page.js");
@@ -676,7 +692,7 @@ public class IndexClass extends WatchClassBase {
 
 		String classCanonicalNamePageGen = classCanonicalName + "PageGen";
 		String classSimpleNamePage = indexStoreSolr(classDoc, "classSimpleNamePage", languageName, classSimpleName + "Page");
-		String classSimpleNamePageGen = indexStoreSolr(classDoc, "classSimpleNamePageGen", languageName, classSimpleName + "PageGen");
+		String classSimpleNameGenPage = indexStoreSolr(classDoc, "classSimpleNameGenPage", languageName, classSimpleName + "PageGen");
 
 		String classPathApiPackageInfo;
 		String classPathGenApiServiceImpl;
@@ -703,10 +719,17 @@ public class IndexClass extends WatchClassBase {
 			indexStoreSolr(classDoc, "classPathGenApiServiceImpl", languageName, classPathGenApiServiceImpl); 
 			indexStoreSolr(classDoc, "classPathApiServiceImpl", languageName, classPathApiServiceImpl); 
 			indexStoreSolr(classDoc, "classPathGenApiService", languageName, classPathGenApiService); 
-			indexStoreSolr(classDoc, "classPathPageGen", languageName, classPathPageGen); 
+		}
+
+		if(classPage) {
+			indexStoreSolr(classDoc, "classPathGenPage", languageName, classPathGenPage); 
 			indexStoreSolr(classDoc, "classPathPage", languageName, classPathPage); 
 			indexStoreSolr(classDoc, "classPathPageCss", languageName, classPathPageCss); 
 			indexStoreSolr(classDoc, "classPathPageJs", languageName, classPathPageJs); 
+
+			//chris
+//			contextANameLowercase = regexLanguage(languageName, "(context)?ANameLowercase", classComment);
+			indexStoreSolr(classDoc, "classContexteANameLowercase", languageName, classPathPageJs); 
 		}
 
 		for(String languageName : otherLanguages) {
@@ -722,18 +745,18 @@ public class IndexClass extends WatchClassBase {
 			String classSimpleNameApiLangue = classSimpleNameLanguage + "Api";
 			String classSimpleNamePageLanguage = classSimpleNameLanguage + "Page";
 			String classSimpleNameGenApiServiceImplLangue = classSimpleNameLanguage + "ApiGen";
-			String classSimpleNamePageGenLanguage = classSimpleNameLanguage + "PageGen";
+			String classSimpleNameGenPageLangue = classSimpleNameLanguage + "PageGen";
 			String classCanonicalNameApiLanguage = classCanonicalNameLanguage + "Api";
 			String classCanonicalNameApiGenLanguage = classCanonicalNameLanguage + "ApiGen";
 			String classCanonicalNamePageLanguage = classCanonicalNameLanguage + "Page";
 			String classCanonicalNamePageGenLanguage = classCanonicalNameLanguage + "PageGen";
 			String classPageUriLanguage = indexStoreSolr(classDoc, "classPageUri", languageName, regex("^(class)?PageUri\\." + languageName + ":\\s*(.*)", classComment));
 			String classPathApiGenLangue = indexStoreSolr(classDoc, "classPathApiGen", languageName, concat(srcGenJavaPathLanguage, "/", StringUtils.replace(classCanonicalNameApiGenLanguage, ".", "/"), ".java"));
-			String classPathPageGenLangue = indexStoreSolr(classDoc, "classPathPageGen", languageName, concat(srcGenJavaPathLanguage, "/", StringUtils.replace(classCanonicalNamePageGenLanguage, ".", "/"), ".java"));
+			String classPathGenPageLangue = indexStoreSolr(classDoc, "classPathGenPage", languageName, concat(srcGenJavaPathLanguage, "/", StringUtils.replace(classCanonicalNamePageGenLanguage, ".", "/"), ".java"));
 			indexStoreSolr(classDoc, "classSimpleNameApi", languageName, classSimpleNameApiLangue); 
 			indexStoreSolr(classDoc, "classSimpleNamePage", languageName, classSimpleNamePageLanguage); 
 			indexStoreSolr(classDoc, "classSimpleNameGenApiServiceImpl", languageName, classSimpleNameGenApiServiceImplLangue); 
-			indexStoreSolr(classDoc, "classSimpleNamePageGen", languageName, classSimpleNamePageGenLanguage); 
+			indexStoreSolr(classDoc, "classSimpleNameGenPage", languageName, classSimpleNameGenPageLangue); 
 		}
 
 		classPartsSolrInputDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrInputDocument", languageName);
@@ -749,6 +772,8 @@ public class IndexClass extends WatchClassBase {
 		classPartsSearchResult = classPartsSearchResult(domainPackageName);
 		classPartsAllWriter = classPartsAllWriter(domainPackageName);
 		classPartsSearchList = classPartsSearchList(domainPackageName);
+		classPartsWrap = classPartsWrap(domainPackageName);
+		classPartsPageLayout = classPartsPageLayout(domainPackageName);
 
 		if(classPage) {
 			classPartsGenPageAdd(classPartsSiteConfig);
@@ -759,6 +784,9 @@ public class IndexClass extends WatchClassBase {
 //			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.servlet.http.HttpServlet", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerRequest", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerResponse", languageName));
+			classPartsGenApiAdd(classPartsSearchList);
+			classPartsGenApiAdd(classPartsWrap);
+			classPartsGenApiAdd(classPartsPageLayout);
 		}
 
 		if(classApi) {

@@ -63,7 +63,7 @@ public class WriteAllClasses extends WritePageClass {
 					classPathGenApiServiceImpl = (String)doc.get("classPathGenApiServiceImpl_" + languageName + "_stored_string"); 
 					classPathApiServiceImpl = (String)doc.get("classPathApiServiceImpl_" + languageName + "_stored_string"); 
 					classPathGenApiService = (String)doc.get("classPathGenApiService_" + languageName + "_stored_string"); 
-					classPathPageGen = (String)doc.get("classPathPageGen_" + languageName + "_stored_string"); 
+					classPathGenPage = (String)doc.get("classPathGenPage_" + languageName + "_stored_string"); 
 					classPathPage = (String)doc.get("classPathPage_" + languageName + "_stored_string"); 
 					classPathPageCss = (String)doc.get("classPathPageCss_" + languageName + "_stored_string"); 
 					classPathPageJs = (String)doc.get("classPathPageJs_" + languageName + "_stored_string"); 
@@ -80,8 +80,8 @@ public class WriteAllClasses extends WritePageClass {
 						classFileApiServiceImpl = new File(classPathApiServiceImpl);
 					if(classPathGenApiService != null)
 						classFileGenApiService = new File(classPathGenApiService);
-					if(classPathPageGen != null)
-						classFilePageGen = new File(classPathPageGen);
+					if(classPathGenPage != null)
+						classFilePageGen = new File(classPathGenPage);
 					if(classPathPage != null)
 						classFilePage = new File(classPathPage);
 					if(classPathPageCss != null)
@@ -151,11 +151,11 @@ public class WriteAllClasses extends WritePageClass {
 							writerGenApiService = AllWriter.create(classFileGenApiService);
 					}
 //					writerPageClass = new PrintWriter(classFilePage);
-					if(classPage) {
+					if(classPage && writeApi) {
 						if(classFilePage != null && !classFilePage.exists())
 							writerPageClass = AllWriter.create(classFilePage);
 						if(classFilePageGen != null)
-							writerPageGenClass = AllWriter.create(classFilePageGen);
+							writerGenPageClass = AllWriter.create(classFilePageGen);
 						if(classFilePageCss != null)
 							writerPageCss = AllWriter.create(classFilePageCss);
 						if(classFilePageJs != null)
@@ -178,7 +178,8 @@ public class WriteAllClasses extends WritePageClass {
 					if(classApi)
 						apiCodeClassBegin(languageName);
 					if(classPage)
-						pageCodeClasseDebut(languageName);
+//						pageCodeClasseDebut(languageName);
+						pageCodeClasse(languageName);
 				} 
 				else {
 					Boolean partIsConstructor = (Boolean)doc.get("partIsConstructor_stored_boolean");

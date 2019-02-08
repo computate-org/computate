@@ -175,9 +175,38 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	ClasseParts classePartsToutEcrivain;
 	/**
+	 * Var.enUS: classPartsWrap
+	 */
+	ClasseParts classePartsCouverture;
+	/**
 	 * Var.enUS: classPartsSearchList
 	 */
 	ClasseParts classePartsListeRecherche;
+	/**
+	 * Var.enUS: classPartsPageLayout
+	 */
+	ClasseParts classePartsMiseEnPage;
+
+	/**
+	 * Var.enUS: CONTEXT_AMaleVowel
+	 * String.enUS:an 
+	 */ 
+	String CONTEXTE_UnMasculinVoyelle = "un ";
+	/**
+	 * Var.enUS: CONTEXT_AFemaleVowel
+	 * String.enUS:an 
+	 */
+	String CONTEXTE_UnFemininVoyelle = "une ";
+	/**
+	 * Var.enUS: CONTEXT_AMaleConsonant
+	 * String.enUS:a
+	 */ 
+	String CONTEXTE_UnMasculinConsonne = "un ";
+	/**
+	 * Var.enUS: CONTEXT_AFemaleConsonant
+	 * String.enUS:a
+	 */
+	String CONTEXTE_UnFemininConsonne = "une ";
 
 	/**
 	 * Var.enUS: classPartsGenApi
@@ -1038,6 +1067,20 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: classPartsPageLayout
+	 * Param1.var.enUS: domainPackageName
+	 * r: classePartsPourNomSimple
+	 * r.enUS: classPartsForSimpleName
+	 * r: nomEnsembleDomaine
+	 * r.enUS: domainPackageName
+	 * r: MiseEnPage
+	 * r.enUS: PageLayout
+	 */
+	protected ClasseParts classePartsMiseEnPage(String nomEnsembleDomaine) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "MiseEnPage");
+	}
+
+	/**
 	 * Var.enUS: storeRegexComments
 	 * Param1.var.enUS: comment
 	 * Param2.var.enUS: languageName
@@ -1189,8 +1232,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classSimpleNameLanguage
 	 * r: classeNomSimplePageLangue
 	 * r.enUS: classSimpleNamePageLanguage
-	 * r: classeNomSimplePageGenLangue
-	 * r.enUS: classSimpleNamePageGenLanguage
+	 * r: classeNomSimpleGenPageLangue
+	 * r.enUS: classSimpleNameGenPageLanguage
 	 * r: classeNomSimpleGenApiServiceImplLangue
 	 * r.enUS: classSimpleNameGenApiServiceImplLanguage
 	 * r: classeNomSimple
@@ -1643,6 +1686,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classPartsAllWriter
 	 * r: classePartsListeRecherche
 	 * r.enUS: classPartsSearchList
+	 * r: classePartsMiseEnPage
+	 * r.enUS: classPartsPageLayout
 	 * 
 	 * r: classeValsRecherche
 	 * r.enUS: classValsSearch
@@ -2127,6 +2172,60 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: regexLangue
 	 * r.enUS: regexLanguage
 	 * 
+	 * r: UnNomMinuscule
+	 * r.enUS: ANameLowercase
+	 * r: CeMinuscule
+	 * r.enUS: ThisLowercase
+	 * r: CeNomMinuscule
+	 * r.enUS: ThisNameLowercase
+	 * r: UnMinuscule
+	 * r.enUS: ALowercase
+	 * r: LeNomMinuscule
+	 * r.enUS: TheNameLowercase
+	 * r: SingulierNomMinuscule
+	 * r.enUS: SingularNameLowercase
+	 * r: ActuelNomMinuscule
+	 * r.enUS: ActualNameLowercase
+	 * r: ToutMinuscule
+	 * r.enUS: AllLowercase
+	 * r: ToutNomMinuscule
+	 * r.enUS: AllNameLowercase
+	 * r: AucunTrouveNomMinuscule
+	 * r.enUS: NoneFoundNameLowercase
+	 * r: DeNomMinuscule
+	 * r.enUS: OfNameLowercase
+	 * r: NomVarMinuscule
+	 * r.enUS: NameVarLowercase
+	 * r: AdjectifMinuscule
+	 * r.enUS: AdjectiveLowercase
+	 * r: AdjectifVarMinuscule
+	 * r.enUS: AdjectiveVarLowercase
+	 * r: UnNomAdjectifMinuscule
+	 * r.enUS: ANameAdjectiveLowercase
+	 * r: LeNomAdjectifMinuscule
+	 * r.enUS: TheNameAdjectiveLowercase
+	 * r: SingulierNomAdjectifMinuscule
+	 * r.enUS: SingularNameAdjectiveLowercase
+	 * r: PlurielNomAdjectifMinuscule
+	 * r.enUS: PluralNameAdjectiveLowercase
+	 * r: Couleur
+	 * r.enUS: Color
+	 * r: IconeGroupe
+	 * r.enUS: IconGroup
+	 * r: IconeNom
+	 * r.enUS: IconName
+	 * 
+	 * r: "cette"
+	 * r.enUS: "this"
+	 * r: "ce"
+	 * r.enUS: "this"
+	 * r: "cet "
+	 * r.enUS: "this "
+	 * r: "cette "
+	 * r.enUS: "this "
+	 * r: "ce "
+	 * r.enUS: "this "
+	 * 
 	 * r: motCle
 	 * r.enUS: keyword
 	 * r: ClasseParts
@@ -2165,6 +2264,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: response
 	 * r: entite
 	 * r.enUS: entity
+	 * r: contexte
+	 * r.enUS: context
 	 */        
 	public SolrInputDocument indexerClasse(String classeCheminAbsolu, SolrInputDocument classeDoc) throws Exception { 
 
@@ -2263,7 +2364,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeCheminRepertoire = StringUtils.substringBeforeLast(classeChemin, "/");
 		String classeCheminGen = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "Gen.java");
 
-		String classeCheminPageGen = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "PageGen.java");
+		String classeCheminGenPage = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "GenPage.java");
 		String classeCheminPage = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "Page.java");
 		String classeCheminPageCss = concat(cheminSrcMainResources, "/webroot/css/", classeNomSimple, "Page.css");
 		String classeCheminPageJs = concat(cheminSrcMainResources, "/webroot/js/", classeNomSimple, "Page.js");
@@ -2389,7 +2490,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		String classeNomCanoniquePageGen = classeNomCanonique + "PageGen";
 		String classeNomSimplePage = indexerStockerSolr(classeDoc, "classeNomSimplePage", langueNom, classeNomSimple + "Page");
-		String classeNomSimplePageGen = indexerStockerSolr(classeDoc, "classeNomSimplePageGen", langueNom, classeNomSimple + "PageGen");
+		String classeNomSimpleGenPage = indexerStockerSolr(classeDoc, "classeNomSimpleGenPage", langueNom, classeNomSimple + "PageGen");
 
 		String classeCheminApiEnsembleInfo;
 		String classeCheminGenApiServiceImpl;
@@ -2416,10 +2517,17 @@ public class IndexerClasse extends RegarderClasseBase {
 			indexerStockerSolr(classeDoc, "classeCheminGenApiServiceImpl", langueNom, classeCheminGenApiServiceImpl); 
 			indexerStockerSolr(classeDoc, "classeCheminApiServiceImpl", langueNom, classeCheminApiServiceImpl); 
 			indexerStockerSolr(classeDoc, "classeCheminGenApiService", langueNom, classeCheminGenApiService); 
-			indexerStockerSolr(classeDoc, "classeCheminPageGen", langueNom, classeCheminPageGen); 
+		}
+
+		if(classePage) {
+			indexerStockerSolr(classeDoc, "classeCheminGenPage", langueNom, classeCheminGenPage); 
 			indexerStockerSolr(classeDoc, "classeCheminPage", langueNom, classeCheminPage); 
 			indexerStockerSolr(classeDoc, "classeCheminPageCss", langueNom, classeCheminPageCss); 
 			indexerStockerSolr(classeDoc, "classeCheminPageJs", langueNom, classeCheminPageJs); 
+
+			//chris
+//			contexteUnNomMinuscule = regexLangue(langueNom, "(contexte)?UnNomMinuscule", classeCommentaire);
+			indexerStockerSolr(classeDoc, "classeContexteUnNomMinuscule", langueNom, classeCheminPageJs); 
 		}
 
 		for(String langueNom : autresLangues) {
@@ -2435,18 +2543,18 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classeNomSimpleApiLangue = classeNomSimpleLangue + "Api";
 			String classeNomSimplePageLangue = classeNomSimpleLangue + "Page";
 			String classeNomSimpleGenApiServiceImplLangue = classeNomSimpleLangue + "ApiGen";
-			String classeNomSimplePageGenLangue = classeNomSimpleLangue + "PageGen";
+			String classeNomSimpleGenPageLangue = classeNomSimpleLangue + "PageGen";
 			String classeNomCanoniqueApiLangue = classeNomCanoniqueLangue + "Api";
 			String classeNomCanoniqueApiGenLangue = classeNomCanoniqueLangue + "ApiGen";
 			String classeNomCanoniquePageLangue = classeNomCanoniqueLangue + "Page";
 			String classeNomCanoniquePageGenLangue = classeNomCanoniqueLangue + "PageGen";
 			String classePageUriLangue = indexerStockerSolr(classeDoc, "classePageUri", langueNom, regex("^(classe)?PageUri\\." + langueNom + ":\\s*(.*)", classeCommentaire));
 			String classeCheminApiGenLangue = indexerStockerSolr(classeDoc, "classeCheminApiGen", langueNom, concat(cheminSrcGenJavaLangue, "/", StringUtils.replace(classeNomCanoniqueApiGenLangue, ".", "/"), ".java"));
-			String classeCheminPageGenLangue = indexerStockerSolr(classeDoc, "classeCheminPageGen", langueNom, concat(cheminSrcGenJavaLangue, "/", StringUtils.replace(classeNomCanoniquePageGenLangue, ".", "/"), ".java"));
+			String classeCheminGenPageLangue = indexerStockerSolr(classeDoc, "classeCheminGenPage", langueNom, concat(cheminSrcGenJavaLangue, "/", StringUtils.replace(classeNomCanoniquePageGenLangue, ".", "/"), ".java"));
 			indexerStockerSolr(classeDoc, "classeNomSimpleApi", langueNom, classeNomSimpleApiLangue); 
 			indexerStockerSolr(classeDoc, "classeNomSimplePage", langueNom, classeNomSimplePageLangue); 
 			indexerStockerSolr(classeDoc, "classeNomSimpleGenApiServiceImpl", langueNom, classeNomSimpleGenApiServiceImplLangue); 
-			indexerStockerSolr(classeDoc, "classeNomSimplePageGen", langueNom, classeNomSimplePageGenLangue); 
+			indexerStockerSolr(classeDoc, "classeNomSimpleGenPage", langueNom, classeNomSimpleGenPageLangue); 
 		}
 
 		classePartsSolrInputDocument = ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrInputDocument", langueNom);
@@ -2462,6 +2570,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsResultatRecherche = classePartsResultatRecherche(nomEnsembleDomaine);
 		classePartsToutEcrivain = classePartsToutEcrivain(nomEnsembleDomaine);
 		classePartsListeRecherche = classePartsListeRecherche(nomEnsembleDomaine);
+		classePartsCouverture = classePartsCouverture(nomEnsembleDomaine);
+		classePartsMiseEnPage = classePartsMiseEnPage(nomEnsembleDomaine);
 
 		if(classePage) {
 			classePartsGenPageAjouter(classePartsConfigSite);
@@ -2472,6 +2582,9 @@ public class IndexerClasse extends RegarderClasseBase {
 //			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "javax.servlet.http.HttpServlet", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpServerRequest", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpServerResponse", langueNom));
+			classePartsGenApiAjouter(classePartsListeRecherche);
+			classePartsGenApiAjouter(classePartsCouverture);
+			classePartsGenApiAjouter(classePartsMiseEnPage);
 		}
 
 		if(classeApi) {

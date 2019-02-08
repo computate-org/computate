@@ -816,6 +816,11 @@ public class EcrireClasse extends IndexerClasse {
 		return this;
 	}
 
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
 	public String q(Object...objets) {
 		StringBuilder o = new StringBuilder();
 		o.append("\"");
@@ -824,5 +829,145 @@ public class EcrireClasse extends IndexerClasse {
 				o.append(StringUtils.replace(StringUtils.replace(objet.toString(), "\\", "\\\\"), "\"", "\\\""));
 		o.append("\"");
 		return o.toString();
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse be(Object...objets) {
+		s("{ e(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse e(Object...objets) {
+		s("e(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse da(String var, Object...objets) {
+		s(".a(", q(var), ", ", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsx(Object...objets) {
+		s(".sx(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse df() {
+		s(".f()");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dfl() {
+		l(".f();");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dfg() {
+		s(".fg()");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dfgl() {
+		l(".fg();");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dfglb() {
+		l(".fg(); }");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dg(Object...objets) {
+		s(".g(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse gl(Object...objets) {
+		l("g(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse bgl(Object...objets) {
+		l("} g(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dgl(Object...objets) {
+		l(".g(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dglb(Object...objets) {
+		l(".g(", q(objets), "); }");
+		return this;
 	}
 }

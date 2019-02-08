@@ -456,13 +456,83 @@ public class WriteClass extends IndexClass {
 		return this;
 	}
 
-	public String q(Object...objets) {
+	public String q(Object...objects) {
 		StringBuilder o = new StringBuilder();
 		o.append("\"");
-		for(Object objet : objets)
-			if(objet != null)
-				o.append(StringUtils.replace(StringUtils.replace(objet.toString(), "\\", "\\\\"), "\"", "\\\""));
+		for(Object object : objects)
+			if(object != null)
+				o.append(StringUtils.replace(StringUtils.replace(object.toString(), "\\", "\\\\"), "\"", "\\\""));
 		o.append("\"");
 		return o.toString();
+	}
+
+	public WriteClass be(Object...objects) {
+		s("{ e(", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass e(Object...objects) {
+		s("e(", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass da(String var, Object...objects) {
+		s(".a(", q(var), ", ", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass dsx(Object...objects) {
+		s(".sx(", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass df() {
+		s(".f()");
+		return this;
+	}
+
+	public WriteClass dfl() {
+		l(".f();");
+		return this;
+	}
+
+	public WriteClass dfg() {
+		s(".fg()");
+		return this;
+	}
+
+	public WriteClass dfgl() {
+		l(".fg();");
+		return this;
+	}
+
+	public WriteClass dfglb() {
+		l(".fg(); }");
+		return this;
+	}
+
+	public WriteClass dg(Object...objects) {
+		s(".g(", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass gl(Object...objects) {
+		l("g(", q(objects), ");");
+		return this;
+	}
+
+	public WriteClass bgl(Object...objects) {
+		l("} g(", q(objects), ");");
+		return this;
+	}
+
+	public WriteClass dgl(Object...objects) {
+		l(".g(", q(objects), ");");
+		return this;
+	}
+
+	public WriteClass dglb(Object...objects) {
+		l(".g(", q(objects), "); }");
+		return this;
 	}
 }

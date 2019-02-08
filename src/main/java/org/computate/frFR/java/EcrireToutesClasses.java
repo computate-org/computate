@@ -216,8 +216,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: writerApiServiceImpl
 	 * r: auteurApiGenClasse
 	 * r.enUS: writerApiGenClass
-	 * r: auteurPageGenClasse
-	 * r.enUS: writerPageGenClass
+	 * r: auteurGenPageClasse
+	 * r.enUS: writerGenPageClass
 	 * r: auteurPageClasse
 	 * r.enUS: writerPageClass
 	 * r: auteurPageCss
@@ -305,7 +305,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeCheminGenApiServiceImpl = (String)doc.get("classeCheminGenApiServiceImpl_" + langueNom + "_stored_string"); 
 					classeCheminApiServiceImpl = (String)doc.get("classeCheminApiServiceImpl_" + langueNom + "_stored_string"); 
 					classeCheminGenApiService = (String)doc.get("classeCheminGenApiService_" + langueNom + "_stored_string"); 
-					classeCheminPageGen = (String)doc.get("classeCheminPageGen_" + langueNom + "_stored_string"); 
+					classeCheminGenPage = (String)doc.get("classeCheminGenPage_" + langueNom + "_stored_string"); 
 					classeCheminPage = (String)doc.get("classeCheminPage_" + langueNom + "_stored_string"); 
 					classeCheminPageCss = (String)doc.get("classeCheminPageCss_" + langueNom + "_stored_string"); 
 					classeCheminPageJs = (String)doc.get("classeCheminPageJs_" + langueNom + "_stored_string"); 
@@ -322,8 +322,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 						classeFichierApiServiceImpl = new File(classeCheminApiServiceImpl);
 					if(classeCheminGenApiService != null)
 						classeFichierGenApiService = new File(classeCheminGenApiService);
-					if(classeCheminPageGen != null)
-						classeFichierPageGen = new File(classeCheminPageGen);
+					if(classeCheminGenPage != null)
+						classeFichierPageGen = new File(classeCheminGenPage);
 					if(classeCheminPage != null)
 						classeFichierPage = new File(classeCheminPage);
 					if(classeCheminPageCss != null)
@@ -393,11 +393,11 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 							auteurGenApiService = ToutEcrivain.create(classeFichierGenApiService);
 					}
 //					auteurPageClasse = new PrintWriter(classeFichierPage);
-					if(classePage) {
+					if(classePage && ecrireApi) {
 						if(classeFichierPage != null && !classeFichierPage.exists())
 							auteurPageClasse = ToutEcrivain.create(classeFichierPage);
 						if(classeFichierPageGen != null)
-							auteurPageGenClasse = ToutEcrivain.create(classeFichierPageGen);
+							auteurGenPageClasse = ToutEcrivain.create(classeFichierPageGen);
 						if(classeFichierPageCss != null)
 							auteurPageCss = ToutEcrivain.create(classeFichierPageCss);
 						if(classeFichierPageJs != null)
@@ -420,7 +420,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					if(classeApi)
 						apiCodeClasseDebut(langueNom);
 					if(classePage)
-						pageCodeClasseDebut(langueNom);
+//						pageCodeClasseDebut(langueNom);
+						pageCodeClasse(langueNom);
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");

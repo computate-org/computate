@@ -7,7 +7,7 @@ import java.io.File;
  **/
 public class WritePageClass extends WriteApiClass {
 
-	protected String classPathPageGen;
+	protected String classPathGenPage;
 
 	protected String classPathPage;
 
@@ -23,7 +23,7 @@ public class WritePageClass extends WriteApiClass {
 
 	protected File classFilePageJs;
 
-	protected AllWriter writerPageGenClass;
+	protected AllWriter writerGenPageClass;
 
 	protected AllWriter writerPageClass;
 
@@ -33,10 +33,10 @@ public class WritePageClass extends WriteApiClass {
 
 	protected String classSimpleNamePage;
 
-	protected String classSimpleNamePageGen;
+	protected String classSimpleNameGenPage;
 
 	public void  pageCodeClasseDebut(String langueNom) throws Exception, Exception {
-//		o = auteurPageGenClasse;
+//		o = auteurGenPageClasse;
 //		l("package ", classeNomEnsemble, ";");
 //		l();
 //		if(classeImportationsGenPage.size() > 0) { 
@@ -48,14 +48,14 @@ public class WritePageClass extends WriteApiClass {
 //
 //		tl(0, "");
 //		ecrireCommentaire(classeCommentaire, 0); 
-//		s("public class ", classeNomSimplePageGen);
+//		s("public class ", classeNomSimpleGenPage);
 //		l(" {");
 //		l();
-//		tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimplePageGen, ".class);");
+//		tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimpleGenPage, ".class);");
 	}
 
 	public void  pageCodeClasseFin(String langueNom) throws Exception, Exception {
-//		o = writerPageGenClass;
+//		o = writerGenPageClass;
 //
 //		s(wPageEntites.toString());
 //		l();
@@ -320,12 +320,61 @@ public class WritePageClass extends WriteApiClass {
 ////		tl(1, "}");
 //		tl(0, "}");
 //
-//		System.out.println("Write: " + classeCheminPageGen); 
-		if(writerPageClass != null)
-			writerPageClass.flushClose();
-		writerPageGenClass.flushClose();
-		writerPageCss.flushClose();
-		writerPageJs.flushClose();
-//		writerPageGenClass.close();
+//		System.out.println("Write: " + classeCheminGenPage); 
+	}
+
+	public void  pageCodeClasse(String langueNom) throws Exception, Exception {
+//
+//		if(writerGenPageClass != null) {
+//			o = writerGenPageClass;
+//	
+//			l("package ", classPackageName, ";");
+//			l();
+//			if(classeImportationsGenPage.size() > 0) { 
+//				for(String classeImportation : classeImportationsGenApi) {
+//					l("import ", classeImportation, ";");
+//				}
+//				l();
+//			}
+//	
+//			tl(0, "");
+//			ecrireCommentaire(classeCommentaire, 0); 
+//			s("public class ", classeNomSimple, "GenPage");
+//			s(" extends ", classeNomSimple, "GenPageGen<PageLayout>");
+//			l(" {");
+//			l();
+//			tl(1, "/**");
+//			tl(1, " * {@inheritDoc}");
+//			tl(1, " * ");
+//			tl(1, " **/");
+//			tl(1, "protected void _liste", classeNomSimple, "(Wrap<SearchList<", classeNomSimple, ">> c) {");
+//			tl(1, "}");
+//			l();
+//			tl(1, "@Override public void initDeep", classeNomSimple, "GenPage() {");
+//			tl(2, "init", classeNomSimple, "GenPage();");
+//			tl(2, "super.initDeepPageLayout();");
+//			tl(1, "}");
+//			l();
+//			tl(1, "public void html", classeNomSimple, "GenPageMilieu() {");
+//			tl(2, "if(liste", classeNomSimple, ".size() == 1) {");
+//			t(3).be("h1").dfl();
+//			t(4).e("i").da("class", "fas fa-", "clinic-medical", " w3-margin-right-4 ").df().dgl("i");
+//			t(4).e("span").da("class", " ").df().dsx().dgl("i");
+//			t(3).bgl("h1");
+//			t(3).be("div").da("class", "w3-content ").dfl();
+//			t(4).bgl("div");
+//			t(3).bgl("div");
+//			tl(2, "} else {");
+//			tl(2, "}");
+//			tl(1, "}");
+//			tl(0, "}");
+//		}
+//
+//		if(writerPageClass != null)
+//			writerPageClass.flushClose();
+//		writerGenPageClass.flushClose();
+//		writerPageCss.flushClose();
+//		writerPageJs.flushClose();
+////		writerGenPageClass.close();
 	}
 }
