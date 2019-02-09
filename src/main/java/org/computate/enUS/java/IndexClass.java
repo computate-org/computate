@@ -2,6 +2,7 @@ package org.computate.enUS.java;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.Normalizer;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -111,17 +112,75 @@ public class IndexClass extends WatchClassBase {
 
 	ClassParts classPartsPageLayout;
 
-	String CONTEXT_AMaleVowel = "an";
+	String CONTEXT_AMale = "an ";
 
-	String CONTEXT_AFemaleVowel = "an";
+	String CONTEXT_AFemale = "an ";
 
-	String CONTEXT_AMaleConsonant = "a";
+	String CONTEXT_ThisMaleVowel = "this ";
 
-	String CONTEXT_AFemaleConsonant = "a";
+	String CONTEXT_ThisFemaleVowel = "this ";
+
+	String CONTEXT_ThisMaleConsonant = "this ";
+
+	String CONTEXT_ThisFemaleConsonant = "this ";
+
+	String CONTEXT_ThesePlural = "this ";
+
+	String CONTEXT_TheMaleVowel = "the ";
+
+	String CONTEXT_TheFemaleVowel = "the ";
+
+	String CONTEXT_TheMaleConsonant = "the ";
+
+	String CONTEXT_TheFemaleConsonant = "the ";
+
+	String CONTEXT_ThePlural = "the ";
+
+	String CONTEXT_CurrentMaleBefore = "current ";
+
+	String CONTEXT_CurrentFemaleBefore = "current ";
+
+	String CONTEXT_CurrentMaleAfter = "";
+
+	String CONTEXT_CurrentFemaleAfter = "";
+
+	String CONTEXT_AllMalePlural = "all ";
+
+	String CONTEXT_AllFemalePlural = "all ";
+
+	String CONTEXT_NoneFoundMaleBefore = "no ";
+
+	String CONTEXT_NoneFemaleBefore = "no ";
+
+	String CONTEXT_NoneFoundMaleAfter = " found";
+
+	String CONTEXT_NoneFemaleAfter = " found";
+
+	String CONTEXT_OfVowel = "of ";
+
+	String CONTEXT_OfConsonant = "of ";
+
+	String CONTEXT_AdjectivePlural = "";
 
 	protected HashMap<String, ClassParts> classPartsGenApi = new HashMap<String, ClassParts>();
 
 	protected HashMap<String, ClassParts> classPartsGenPage = new HashMap<String, ClassParts>();
+
+	private String contexteUnNom;
+
+	private String contexteCe;
+
+	private String contexteCeNom;
+
+	private String contexteUn;
+
+	private String contexteLeNom;
+
+	private String contexteNomSingulier;
+
+	private String contexteNomPluriel;
+
+	private String contexteNomActuel;
 
 	public void  populateQdoxSuperClassesInterfacesAndMe(JavaClass c, ArrayList<JavaClass> qdoxSuperClasses, ArrayList<JavaClass> qdoxSuperClassesAndMe, ArrayList<JavaClass> qdoxSuperClassesAndMeWithoutGen, ArrayList<JavaClass> qdoxSuperClassesAndInterfaces, ArrayList<JavaClass> qdoxSuperClassesInterfacesAndMe) throws Exception, Exception { 
 		if(c != null) {
@@ -727,9 +786,44 @@ public class IndexClass extends WatchClassBase {
 			indexStoreSolr(classDoc, "classPathPageCss", languageName, classPathPageCss); 
 			indexStoreSolr(classDoc, "classPathPageJs", languageName, classPathPageJs); 
 
-			//chris
-//			contextANameLowercase = regexLanguage(languageName, "(context)?ANameLowercase", classComment);
-			indexStoreSolr(classDoc, "classContexteANameLowercase", languageName, classPathPageJs); 
+			contextUnNom = regexLanguage(languageName, "(context)?ANameLowercase", classComment);
+			if(contextUnNom != null) {
+				indexStoreSolr(classDoc, "contextUnNom", languageName, contextUnNom); 
+				contextNomSingulier = indexStoreSolr(classDoc, "contextNomSingulier", languageName, regexLanguage(languageName, "(context)?NomSingulier", classComment, StringUtils.substringAfter(contextUnNom, " ")));
+				contextNomPluriel = indexStoreSolr(classDoc, "contextNomPluriel", languageName, regexLanguage(languageName, "(context)?NomPluriel", classComment, contextNomSingulier + "s"));
+
+				if(contextUnNom.startsWith(CONTEXT_AFemale)) {
+					contextCe = indexStoreSolr(classDoc, "contextCe", languageName, regexLanguage(languageName, "(context)?Ce", classComment, CONTEXT_ThisFemaleConsonant));
+					contextUn = indexStoreSolr(classDoc, "contextUn", languageName, regexLanguage(languageName, "(context)?Un", classComment, CONTEXT_AFemale));
+					contextNomActuel = indexStoreSolr(classDoc, "contextNomActuel", languageName, regexLanguage(languageName, "(context)?NomActuel", classComment, CONTEXT_CurrentFemaleBefore + contextNomSingulier + CONTEXT_CurrentFemaleAfter));
+					String suffixe = StringUtils.substringAfter(contextUnNom, " ");
+					String c = Normalizer.normalize(StringUtils.substring(suffixe.toLowerCase(), 0, 1), Normalizer.Form.NFD);
+					if(StringUtils.containsAny(c, 'a', 'e', 'i', 'o', 'u', 'h', 'y')) {
+						contextCeNom = indexStoreSolr(classDoc, "contextCeNom", languageName, regexLanguage(languageName, "(context)?CeNom", classComment, CONTEXT_ThisFemaleVowel + suffixe));
+						contextLeNom = indexStoreSolr(classDoc, "contextLeNom", languageName, regexLanguage(languageName, "(context)?LeNom", classComment, CONTEXT_TheFemaleVowel + suffixe));
+					}
+					else {
+						contextCeNom = indexStoreSolr(classDoc, "contextCeNom", languageName, regexLanguage(languageName, "(context)?CeNom", classComment, CONTEXT_ThisFemaleConsonant + suffixe));
+						contextLeNom = indexStoreSolr(classDoc, "contextLeNom", languageName, regexLanguage(languageName, "(context)?LeNom", classComment, CONTEXT_TheFemaleConsonant + suffixe));
+					}
+				}
+				else if(contextUnNom.startsWith(CONTEXT_AMale)) {
+					contextCe = indexStoreSolr(classDoc, "contextCe", languageName, regexLanguage(languageName, "(context)?Ce", classComment, CONTEXT_ThisMaleConsonant));
+					contextUn = indexStoreSolr(classDoc, "contextUn", languageName, regexLanguage(languageName, "(context)?Un", classComment, CONTEXT_AMale));
+					contextNomActuel = indexStoreSolr(classDoc, "contextNomActuel", languageName, regexLanguage(languageName, "(context)?NomActuel", classComment, CONTEXT_CurrentMaleBefore + contextNomSingulier + CONTEXT_CurrentMaleAfter));
+					String suffixe = StringUtils.substringAfter(contextUnNom, " ");
+					String c = Normalizer.normalize(StringUtils.substring(suffixe.toLowerCase(), 0, 1), Normalizer.Form.NFD);
+					if(StringUtils.containsAny(c, 'a', 'e', 'i', 'o', 'u', 'h', 'y')) {
+						contextCeNom = indexStoreSolr(classDoc, "contextCeNom", languageName, regexLanguage(languageName, "(context)?CeNom", classComment, CONTEXT_ThisMaleVowel + suffixe));
+						contextLeNom = indexStoreSolr(classDoc, "contextLeNom", languageName, regexLanguage(languageName, "(context)?LeNom", classComment, CONTEXT_TheMaleVowel + suffixe));
+					}
+					else {
+						contextCeNom = indexStoreSolr(classDoc, "contextCeNom", languageName, regexLanguage(languageName, "(context)?CeNom", classComment, CONTEXT_ThisMaleConsonant + suffixe));
+						contextLeNom = indexStoreSolr(classDoc, "contextLeNom", languageName, regexLanguage(languageName, "(context)?LeNom", classComment, CONTEXT_TheMaleConsonant + suffixe));
+					}
+				}
+				indexStoreSolr(classDoc, "contextThisLowercase", languageName, contextCe); 
+			}
 		}
 
 		for(String languageName : otherLanguages) {
@@ -1045,11 +1139,11 @@ public class IndexClass extends WatchClassBase {
 			}
 		}
 
-//		List<JavaMember> membersQdox = classQdox.getMembers();
-		List<JavaMember> membersQdox = new ArrayList<JavaMember>();
-		membersQdox.addAll(classQdox.getFields());
-		membersQdox.addAll(classQdox.getConstructors());
-		membersQdox.addAll(classQdox.getMethods());
+		List<JavaMember> membersQdox = classQdox.getMembers();
+//		List<JavaMember> membersQdox = new ArrayList<JavaMember>();
+//		membersQdox.addAll(classQdox.getFields());
+//		membersQdox.addAll(classQdox.getConstructors());
+//		membersQdox.addAll(classQdox.getMethods());
 		for(JavaMember memberQdox : membersQdox) {  
 			partNumber++;
 
@@ -1061,7 +1155,7 @@ public class IndexClass extends WatchClassBase {
 				String fieldKey = classAbsolutePath + "." + fieldVar;
 				String fieldSourceCode = StringUtils.substringBeforeLast(StringUtils.trim(regex("\\s+" + fieldVar + "\\s*=([\\s\\S]*)", fieldQdox.getCodeBlock(), 1)), ";");
 				String fieldString = regex("^(champ)?String\\." + languageName + ":(.*)", fieldComment);
-				if(StringUtils.isNotBlank(fieldString)) {
+				if(fieldString != null) {
 					fieldSourceCode = "\"" + StringUtils.replace(StringUtils.replace(fieldString, "\\", "\\\\"), "\"", "\\\"") + "\"";
 					indexStoreSolr(fieldDoc, "fieldString", languageName, fieldString); 
 				}
@@ -1114,7 +1208,7 @@ public class IndexClass extends WatchClassBase {
 					fieldVarLanguage = fieldVarLanguage == null ? fieldVar : fieldVarLanguage;
 					String fieldSourceCodeLanguage = regexReplaceAll(fieldComment, fieldSourceCode, languageName);
 					String fieldStringLanguage = regex("^(champ)?String\\." + languageName + ":(.*)", fieldComment);
-					if(StringUtils.isNotBlank(fieldStringLanguage)) {
+					if(fieldStringLanguage != null) {
 						fieldSourceCodeLanguage = "\"" + StringUtils.replace(StringUtils.replace(fieldStringLanguage, "\\", "\\\\"), "\"", "\\\"") + "\"";
 						indexStoreSolr(fieldDoc, "fieldString", languageName, fieldString); 
 					}
@@ -1517,13 +1611,13 @@ public class IndexClass extends WatchClassBase {
 								entityValsFound = entityValsSearch.find();
 							}
 
-							Matcher entityOptionsSearch = Pattern.compile("^(entity)?Option\\.(\\w+)\\.([^:]+):([^:\\n]+)(:([^\\n]+))?", Pattern.MULTILINE).matcher(methodComment);
+							Matcher entityOptionsSearch = Pattern.compile("^(entity)?Option\\.(\\w+)\\.([^:\\n]+)(:([^:\\n]+))?(:([^\\n]+))?", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityOptionsFound = entityOptionsSearch.find();
 							while(entityOptionsFound) {
 								String entityOptionLanguage = entityOptionsSearch.group(2);
 								String entityOptionVar = entityOptionsSearch.group(3);
-								String entityOptionDescription = entityOptionsSearch.group(4);
-								String entityOptionValues = entityOptionsSearch.group(6);
+								String entityOptionDescription = entityOptionsSearch.group(5);
+								String entityOptionValues = entityOptionsSearch.group(7);
 								if(StringUtils.isBlank(entityOptionDescription))
 									entityOptionDescription = entityOptionVar;
 								storeListSolr(entityDoc, "entityOptionsVar", entityOptionVar);
@@ -1865,7 +1959,7 @@ public class IndexClass extends WatchClassBase {
 
 						String entitySourceCode = methodQdox.getSourceCode();
 						String entityString = regex("^(entity)?String\\." + languageName + ":(.*)", methodComment);
-						if(StringUtils.isNotBlank(entityString)) {
+						if(entityString != null) {
 							entitySourceCode = "\n\t\tc.o(\"" + StringUtils.replace(StringUtils.replace(entityString, "\\", "\\\\"), "\"", "\\\"") + "\");\n\t";
 							indexStoreSolr(entityDoc, "entityString", languageName, entityString); 
 						}
@@ -2205,7 +2299,7 @@ public class IndexClass extends WatchClassBase {
 								StringUtils.replace(entitySourceCodeLangue, cle, valeur);
 							}
 							String entityStringLangue = regex("^(entity)?String\\." + languageName + ":(.*)", methodComment);
-							if(StringUtils.isNotBlank(entityStringLangue)) {
+							if(entityStringLangue != null) {
 								entitySourceCodeLangue = "\n\t\tc.o(\"" + StringUtils.replace(StringUtils.replace(entityStringLangue, "\\", "\\\\"), "\"", "\\\"") + "\");\n\t";
 								indexStoreSolr(entityDoc, "entityString", languageName, entityStringLangue); 
 							}
@@ -2335,7 +2429,7 @@ public class IndexClass extends WatchClassBase {
 //							StringUtils.replace(methodSourceCodeLanguage, regexKey, regexValue);
 //						}
 						String methodString = regex("^(methode)?String\\." + languageName + ":(.*)", methodComment);
-						if(StringUtils.isNotBlank(methodString)) {
+						if(methodString != null) {
 							methodSourceCode = "\n\t\treturn \"" + StringUtils.replace(StringUtils.replace(methodString, "\\", "\\\\"), "\"", "\\\"") + "\";\n\t";
 							indexStoreSolr(methodDoc, "methodString", languageName, methodString); 
 						}
@@ -2347,7 +2441,7 @@ public class IndexClass extends WatchClassBase {
 							regexList("^" + languageName + ":\\s*([^\n]+)", methodComment);
 							methodSourceCodeLanguage = regexReplaceAll(methodComment, methodSourceCode, languageName);
 							String methodStringLangue = regex("^(methode)?String\\." + languageName + ":(.*)", methodComment);
-							if(StringUtils.isNotBlank(methodStringLangue)) {
+							if(methodStringLangue != null) {
 								methodSourceCodeLanguage = "\n\t\treturn \"" + StringUtils.replace(StringUtils.replace(methodStringLangue, "\\", "\\\\"), "\"", "\\\"") + "\";\n\t";
 								indexStoreSolr(methodDoc, "methodString", languageName, methodStringLangue); 
 							}
@@ -2464,6 +2558,7 @@ public class IndexClass extends WatchClassBase {
 				indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "ApiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
 				indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "ApiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
 				indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "ApiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
+				indexStoreSolrRegex(classDoc, languageName, "classApiDescription" + classApiMethod, "ApiDescription" + classApiMethod, classComment, regexLanguage(languageName, "(class)?Description" + classApiMethod + "", classComment));
 
 				if(classExtendsBase) {
 					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string"));
@@ -2524,6 +2619,7 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "ApiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
 						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "ApiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
 						indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "ApiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
+						indexStoreSolrRegex(classDoc, languageName, "classApiDescription" + classApiMethod, "ApiDescription" + classApiMethod, classComment, regexLanguage(languageName, "(class)?Description" + classApiMethod + "", classComment));
 
 						if(classExtendsBase) {
 							indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string"));
