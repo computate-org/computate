@@ -2,6 +2,16 @@ package org.computate.frFR.java;
 
 import java.io.File;
 
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.util.ClientUtils;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WritePageClass
  * 
@@ -79,6 +89,121 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * Var.enUS: classSimpleNameGenPage
 	 */
 	protected String classeNomSimpleGenPage;
+
+	/**
+	 * Var.enUS: contextAName
+	 */
+	protected String contexteUnNom;
+
+	/**
+	 * Var.enUS: contextThis
+	 */
+	protected String contexteCe;
+
+	/**
+	 * Var.enUS: contextThisName
+	 */
+	protected String contexteCeNom;
+
+	/**
+	 * Var.enUS: contextA
+	 */
+	protected String contexteUn;
+
+	/**
+	 * Var.enUS: contextTheName
+	 */
+	protected String contexteLeNom;
+
+	/**
+	 * Var.enUS: contextNameSingular
+	 */
+	protected String contexteNomSingulier;
+
+	/**
+	 * Var.enUS: contextNamePlural
+	 */
+	protected String contexteNomPluriel;
+
+	/**
+	 * Var.enUS: contextActualName
+	 */
+	protected String contexteNomActuel;
+
+	/**
+	 * Var.enUS: contextAll
+	 */
+	protected String contexteTous;
+
+	/**
+	 * Var.enUS: contextAllName
+	 */
+	protected String contexteTousNom;
+
+	/**
+	 * Var.enUS: contextNoneNameFound
+	 */
+	protected String contexteAucunNomTrouve;
+
+	/**
+	 * Var.enUS: contextNameVar
+	 */
+	protected String contexteNomVar;
+
+	/**
+	 * Var.enUS: contextOfName
+	 */
+	protected String contexteDeNom;
+
+	/**
+	 * Var.enUS: contextAdjective
+	 */
+	protected String contexteAdjectif;
+
+	/**
+	 * Var.enUS: contextAdjectivePlural
+	 */
+	protected String contexteAdjectifPluriel;
+
+	/**
+	 * Var.enUS: contextAdjectiveVar
+	 */
+	protected String contexteAdjectifVar;
+
+	/**
+	 * Var.enUS: contextANameAdjective
+	 */
+	protected String contexteUnNomAdjectif;
+
+	/**
+	 * Var.enUS: contextNameAdjectiveSingular
+	 */
+	protected String contexteNomAdjectifSingulier;
+
+	/**
+	 * Var.enUS: contextNameAdjectivePlural
+	 */
+	protected String contexteNomAdjectifPluriel;
+
+	/**
+	 * Var.enUS: contextColor
+	 */
+	protected String contexteCouleur;
+
+	/**
+	 * Var.enUS: contextIconGroup
+	 */
+	protected String contexteIconeGroupe;
+
+	/**
+	 * Var.enUS: contextIconName
+	 */
+	protected String contexteIconeNom;
+
+	/**
+	 * Var.enUS: classContext
+	 */
+	protected Boolean classeContexte;
 
 	public void pageCodeClasseDebut(String langueNom) throws Exception {
 //		o = auteurGenPageClasse;
@@ -381,6 +506,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	}
 
 	/**
+	 * Var.enUS: pageCodeClass
+	 * Param1.var.enUS: languageName
 	 * r: Ecrire: 
 	 * r.enUS: Write: 
 	 * r: auteurGenPageClasse
@@ -399,7 +526,155 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: SearchList
 	 * r: initLoin
 	 * r.enUS: initDeep
-	 */
+	 * r: classeNomEnsemble
+	 * r.enUS: classPackageName
+	 * r: classeImportationsGenPage
+	 * r.enUS: classImportsGenPage
+	 * r: classeImportation
+	 * r.enUS: classImport
+	 * r: classeCommentaire
+	 * r.enUS: classComment
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 * r: ecrireCommentaire
+	 * r.enUS: writeComment
+	 * r: clientSolrComputate
+	 * r.enUS: solrClientComputate
+	 * r: classeCheminAbsolu
+	 * r.enUS: classAbsolutePath
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: entiteVar
+	 * r.enUS: entityVar
+	 * r: entiteHtmlLigne
+	 * r.enUS: entityHtmlLine
+	 * r: entiteHtml
+	 * r.enUS: entityHtml
+	 * 
+	 * r: contexteUnNom
+	 * r.enUS: contextAName
+	 * r: classeEntiteVars
+	 * r.enUS: classEntityVars
+	 * r: contexteIconeGroupe
+	 * r.enUS: contextIconGroup
+	 * r: contexteIconeNom
+	 * r.enUS: contextIconName
+	 * r: contexteCe
+	 * r.enUS: contextThis
+	 * r: contexteCeNom
+	 * r.enUS: contextThisName
+	 * r: contexteUn
+	 * r.enUS: contextA
+	 * r: contexteUnNom
+	 * r.enUS: contextAName
+	 * r: contexteLeNom
+	 * r.enUS: contextTheName
+	 * r: contexteNomSingulier
+	 * r.enUS: contextNameSingular
+	 * r: contexteNomPluriel
+	 * r.enUS: contextNamePlural
+	 * r: contexteNomActuel
+	 * r.enUS: contextActualName
+	 * r: contexteTous
+	 * r.enUS: contextAll
+	 * r: contexteTousNom
+	 * r.enUS: contextAllName
+	 * r: contexteAucunNomTrouve
+	 * r.enUS: contextNoneNameFound
+	 * r: contexteNomVar
+	 * r.enUS: contextNameVar
+	 * r: contexteDeNom
+	 * r.enUS: contextOfName
+	 * r: contexteNom
+	 * r.enUS: contextName
+	 * r: UnNomAdjectif
+	 * r.enUS: ANameAdjective
+	 * r: LeNomAdjectif
+	 * r.enUS: TheNameAdjective
+	 * r: AdjectifAvant
+	 * r.enUS: AdjectiveBefore
+	 * r: NomAdjectifSingulier
+	 * r.enUS: NameAdjectiveSingular
+	 * r: NomAdjectifPluriel
+	 * r.enUS: NameAdjectivePlural
+	 * r: PlurielNomAdjectif
+	 * r.enUS: PluralNameAdjective
+	 * r: SingulierNomAdjectif
+	 * r.enUS: SingularNameAdjective
+	 * r: LeNomAdjectif
+	 * r.enUS: TheAdjectiveName
+	 * r: UnNomAdjectif
+	 * r.enUS: AnAdjectiveName
+	 * r: AdjectifVar
+	 * r.enUS: AdjectiveVar
+	 * r: Adjectif
+	 * r.enUS: Adjective
+	 * r: CONTEXTE_UnMasculinVoyelle
+	 * r.enUS: CONTEXT_AMaleVowel
+	 * r: CONTEXTE_UnFemininVoyelle
+	 * r.enUS: CONTEXT_AFemaleVowel
+	 * r: CONTEXTE_UnMasculinConsonne
+	 * r.enUS: CONTEXT_AMaleConsonant
+	 * r: CONTEXTE_UnFemininConsonne
+	 * r.enUS: CONTEXT_AFemaleConsonant
+	 * r: CONTEXTE_CetMasculinVoyelle
+	 * r.enUS: CONTEXT_ThisMaleVowel
+	 * r: CONTEXTE_CetteFemininVoyelle
+	 * r.enUS: CONTEXT_ThisFemaleVowel
+	 * r: CONTEXTE_CeMasculinConsonne
+	 * r.enUS: CONTEXT_ThisMaleConsonant
+	 * r: CONTEXTE_CetteFemininConsonne
+	 * r.enUS: CONTEXT_ThisFemaleConsonant
+	 * r: CONTEXTE_CesPluriel
+	 * r.enUS: CONTEXT_ThesePlural
+	 * r: CONTEXTE_LMasculinVoyelle
+	 * r.enUS: CONTEXT_TheMaleVowel
+	 * r: CONTEXTE_LFemininVoyelle
+	 * r.enUS: CONTEXT_TheFemaleVowel
+	 * r: CONTEXTE_LeMasculinConsonne
+	 * r.enUS: CONTEXT_TheMaleConsonant
+	 * r: CONTEXTE_LaFemininConsonne
+	 * r.enUS: CONTEXT_TheFemaleConsonant
+	 * r: CONTEXTE_LesPluriel
+	 * r.enUS: CONTEXT_ThePlural
+	 * r: CONTEXTE_ActuelMasculinAvant
+	 * r.enUS: CONTEXT_CurrentMaleBefore
+	 * r: CONTEXTE_ActuelleFemininAvant
+	 * r.enUS: CONTEXT_CurrentFemaleBefore
+	 * r: CONTEXTE_ActuelMasculinApres
+	 * r.enUS: CONTEXT_CurrentMaleAfter
+	 * r: CONTEXTE_ActuelleFemininApres
+	 * r.enUS: CONTEXT_CurrentFemaleAfter
+	 * r: CONTEXTE_TousMasculinPluriel
+	 * r.enUS: CONTEXT_AllMalePlural
+	 * r: CONTEXTE_ToutesFemininPluriel
+	 * r.enUS: CONTEXT_AllFemalePlural
+	 * r: CONTEXTE_AucunTrouveMasculinAvant
+	 * r.enUS: CONTEXT_NoneFoundMaleBefore
+	 * r: CONTEXTE_AucuneTrouveFemininAvant
+	 * r.enUS: CONTEXT_NoneFemaleBefore
+	 * r: CONTEXTE_AucunTrouveMasculinApres
+	 * r.enUS: CONTEXT_NoneFoundMaleAfter
+	 * r: CONTEXTE_AucuneTrouveFemininApres
+	 * r.enUS: CONTEXT_NoneFemaleAfter
+	 * r: CONTEXTE_DVoyelle
+	 * r.enUS: CONTEXT_OfVowel
+	 * r: CONTEXTE_DeConsonne
+	 * r.enUS: CONTEXT_OfConsonant
+	 * r: CONTEXTE_AdjectifPluriel
+	 * r.enUS: CONTEXT_AdjectivePlural
+	 * r: rechercheLigneActuel
+	 * r.enUS: searchLineActual
+	 * r: rechercheLigne
+	 * r.enUS: searchLine
+	 * 
+	 * r: Milieu
+	 * r.enUS: Middle
+	 * r: liste
+	 * r.enUS: list
+	 * r: plusiers
+	 * r.enUS: multiple
+	 */ 
 	public void pageCodeClasse(String langueNom) throws Exception {
 
 		if(auteurGenPageClasse != null) {
@@ -408,7 +683,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l("package ", classeNomEnsemble, ";");
 			l();
 			if(classeImportationsGenPage.size() > 0) { 
-				for(String classeImportation : classeImportationsGenApi) {
+				for(String classeImportation : classeImportationsGenPage) {
 					l("import ", classeImportation, ";");
 				}
 				l();
@@ -434,13 +709,65 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l();
 			tl(1, "public void html", classeNomSimple, "GenPageMilieu() {");
 			tl(2, "if(liste", classeNomSimple, ".size() == 1) {");
+			t(3).l("// ", contexteUnNom);
+			t(3).l(classeNomSimple, " o = liste", classeNomSimple, ".first();");
+			l();
 			t(3).be("h1").dfl();
-			t(4).e("i").da("class", "fas fa-", "clinic-medical", " w3-margin-right-4 ").df().dgl("i");
-			t(4).e("span").da("class", " ").df().dsx().dgl("i");
+			if(StringUtils.isNotBlank(contexteIconeGroupe) && StringUtils.isNotBlank(contexteIconeNom)) {
+				t(4).e("i").da("class", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " w3-margin-right-4 ").df().dgl("i");
+				t(4).e("span").da("class", " ").df().dsx(contexteNomPluriel).dgl("i");
+			}
 			t(3).bgl("h1");
-			t(3).be("div").da("class", "w3-content ").dfl();
-			t(4).bgl("div");
+			t(3).be("h2").dfl();
+			if(classeEntiteVars != null && classeEntiteVars.contains("pageH2"))
+				t(4).e("span").da("class", " ").df().s(".sx(o.getPageH2())").dgl("i");
+			t(3).bgl("h2");
+			t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show ").dfl();
+
+			SolrQuery rechercheSolr = new SolrQuery();   
+			rechercheSolr.setQuery("*:*");
+			rechercheSolr.setRows(1000000);
+			rechercheSolr.addFilterQuery("classeCheminAbsolu_indexed_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
+			rechercheSolr.addFilterQuery("classeEtendGen_indexed_boolean:true");
+			rechercheSolr.addSort("entiteHtmlLigne_indexed_int", ORDER.asc);
+			rechercheSolr.addSort("entiteHtmlCellule_indexed_int", ORDER.asc);
+			QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
+			SolrDocumentList rechercheListe = rechercheReponse.getResults();
+			Integer rechercheLignes = rechercheSolr.getRows();
+			Integer rechercheLigne = -1;
+			Integer rechercheLigneActuel;
+
+			if(rechercheListe.size() > 0) {
+				for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
+					for(Integer j = 0; j < rechercheListe.size(); j++) {
+						SolrDocument entiteDocumentSolr = rechercheListe.get(j);
+						String entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
+						Boolean entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
+						if(entiteHtml) {
+							rechercheLigneActuel = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+							if(rechercheLigne != rechercheLigneActuel) {
+								if(rechercheLigne != -1)
+									t(4).bgl("div");
+								t(4).be("div").da("class", "w3-cell-row ").dfl();
+								rechercheLigne = rechercheLigneActuel;
+							}
+							t(5).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
+							t(6).e("input").da("name", entiteVar).dfgl();
+				//			if().da("class", objets).da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
+							t(5).bgl("div");
+						}
+					}
+					rechercheSolr.setStart(i.intValue() + rechercheLignes);
+					rechercheReponse = clientSolrComputate.query(rechercheSolr);
+					rechercheListe = rechercheReponse.getResults();
+				}
+				t(4).bgl("div");
+			}
+
 			t(3).bgl("div");
+			tl(2, "} else if(liste", classeNomSimple, ".size() == 1) {");
+			t(3).l("// plusiers ", contexteNomPluriel);
+			l();
 			tl(2, "} else {");
 			tl(2, "}");
 			tl(1, "}");

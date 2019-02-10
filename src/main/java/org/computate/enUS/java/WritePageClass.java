@@ -1,6 +1,15 @@
 package org.computate.enUS.java;
 
 import java.io.File;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.util.ClientUtils;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
@@ -34,6 +43,52 @@ public class WritePageClass extends WriteApiClass {
 	protected String classSimpleNamePage;
 
 	protected String classSimpleNameGenPage;
+
+	protected String contextAName;
+
+	protected String contextThis;
+
+	protected String contextThisName;
+
+	protected String contextA;
+
+	protected String contextTheName;
+
+	protected String contextNameSingular;
+
+	protected String contextNamePlural;
+
+	protected String contextActualName;
+
+	protected String contextAll;
+
+	protected String contextAllName;
+
+	protected String contextNoneNameFound;
+
+	protected String contextNameVar;
+
+	protected String contextOfName;
+
+	protected String contextAdjective;
+
+	protected String contextAdjectivePlural;
+
+	protected String contextAdjectiveVar;
+
+	protected String contextANameAdjective;
+
+	protected String contextNameAdjectiveSingular;
+
+	protected String contextNameAdjectivePlural;
+
+	protected String contextColor;
+
+	protected String contextIconGroup;
+
+	protected String contextIconName;
+
+	protected Boolean classContext;
 
 	public void  pageCodeClasseDebut(String langueNom) throws Exception, Exception {
 //		o = auteurGenPageClasse;
@@ -323,58 +378,110 @@ public class WritePageClass extends WriteApiClass {
 //		System.out.println("Write: " + classeCheminGenPage); 
 	}
 
-	public void  pageCodeClasse(String langueNom) throws Exception, Exception {
-//
-//		if(writerGenPageClass != null) {
-//			o = writerGenPageClass;
-//	
-//			l("package ", classPackageName, ";");
-//			l();
-//			if(classeImportationsGenPage.size() > 0) { 
-//				for(String classeImportation : classeImportationsGenApi) {
-//					l("import ", classeImportation, ";");
-//				}
-//				l();
-//			}
-//	
-//			tl(0, "");
-//			ecrireCommentaire(classeCommentaire, 0); 
-//			s("public class ", classeNomSimple, "GenPage");
-//			s(" extends ", classeNomSimple, "GenPageGen<PageLayout>");
-//			l(" {");
-//			l();
-//			tl(1, "/**");
-//			tl(1, " * {@inheritDoc}");
-//			tl(1, " * ");
-//			tl(1, " **/");
-//			tl(1, "protected void _liste", classeNomSimple, "(Wrap<SearchList<", classeNomSimple, ">> c) {");
-//			tl(1, "}");
-//			l();
-//			tl(1, "@Override public void initDeep", classeNomSimple, "GenPage() {");
-//			tl(2, "init", classeNomSimple, "GenPage();");
-//			tl(2, "super.initDeepPageLayout();");
-//			tl(1, "}");
-//			l();
-//			tl(1, "public void html", classeNomSimple, "GenPageMilieu() {");
-//			tl(2, "if(liste", classeNomSimple, ".size() == 1) {");
-//			t(3).be("h1").dfl();
-//			t(4).e("i").da("class", "fas fa-", "clinic-medical", " w3-margin-right-4 ").df().dgl("i");
-//			t(4).e("span").da("class", " ").df().dsx().dgl("i");
-//			t(3).bgl("h1");
-//			t(3).be("div").da("class", "w3-content ").dfl();
-//			t(4).bgl("div");
-//			t(3).bgl("div");
-//			tl(2, "} else {");
-//			tl(2, "}");
-//			tl(1, "}");
-//			tl(0, "}");
-//		}
-//
-//		if(writerPageClass != null)
-//			writerPageClass.flushClose();
-//		writerGenPageClass.flushClose();
-//		writerPageCss.flushClose();
-//		writerPageJs.flushClose();
-////		writerGenPageClass.close();
+	public void  pageCodeClass(String languageName) throws Exception, Exception {
+
+		if(writerGenPageClass != null) {
+			o = writerGenPageClass;
+	
+			l("package ", classPackageName, ";");
+			l();
+			if(classImportsGenPage.size() > 0) { 
+				for(String classImport : classImportsGenPage) {
+					l("import ", classImport, ";");
+				}
+				l();
+			}
+	
+			tl(0, "");
+			writeComment(classComment, 0); 
+			s("public class ", classSimpleName, "GenPage");
+			s(" extends ", classSimpleName, "GenPageGen<PageLayout>");
+			l(" {");
+			l();
+			tl(1, "/**");
+			tl(1, " * {@inheritDoc}");
+			tl(1, " * ");
+			tl(1, " **/");
+			tl(1, "protected void _list", classSimpleName, "(Wrap<SearchList<", classSimpleName, ">> c) {");
+			tl(1, "}");
+			l();
+			tl(1, "@Override public void initDeep", classSimpleName, "GenPage() {");
+			tl(2, "init", classSimpleName, "GenPage();");
+			tl(2, "super.initDeepPageLayout();");
+			tl(1, "}");
+			l();
+			tl(1, "public void html", classSimpleName, "GenPageMiddle() {");
+			tl(2, "if(list", classSimpleName, ".size() == 1) {");
+			t(3).l("// ", contextAName);
+			t(3).l(classSimpleName, " o = list", classSimpleName, ".first();");
+			l();
+			t(3).be("h1").dfl();
+			if(StringUtils.isNotBlank(contextIconGroup) && StringUtils.isNotBlank(contextIconName)) {
+				t(4).e("i").da("class", StringUtils.substring(contextIconGroup, 0, 1), " fa-", contextIconName, " w3-margin-right-4 ").df().dgl("i");
+				t(4).e("span").da("class", " ").df().dsx(contextNamePlural).dgl("i");
+			}
+			t(3).bgl("h1");
+			t(3).be("h2").dfl();
+			if(classEntityVars != null && classEntityVars.contains("pageH2"))
+				t(4).e("span").da("class", " ").df().s(".sx(o.getPageH2())").dgl("i");
+			t(3).bgl("h2");
+			t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show ").dfl();
+
+			SolrQuery rechercheSolr = new SolrQuery();   
+			rechercheSolr.setQuery("*:*");
+			rechercheSolr.setRows(1000000);
+			rechercheSolr.addFilterQuery("classAbsolutePath_indexed_string:" + ClientUtils.escapeQueryChars(classAbsolutePath));
+			rechercheSolr.addFilterQuery("classeEtendGen_indexed_boolean:true");
+			rechercheSolr.addSort("entityHtmlLine_indexed_int", ORDER.asc);
+			rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
+			QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
+			SolrDocumentList rechercheListe = rechercheReponse.getResults();
+			Integer searchLines = rechercheSolr.getRows();
+			Integer searchLine = -1;
+			Integer searchLineActual;
+
+			if(rechercheListe.size() > 0) {
+				for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
+					for(Integer j = 0; j < rechercheListe.size(); j++) {
+						SolrDocument entiteDocumentSolr = rechercheListe.get(j);
+						String entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
+						Boolean entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
+						if(entityHtml) {
+							searchLineActual = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entityHtmlLine_stored_int"), 0);
+							if(searchLine != searchLineActual) {
+								if(searchLine != -1)
+									t(4).bgl("div");
+								t(4).be("div").da("class", "w3-cell-row ").dfl();
+								searchLine = searchLineActual;
+							}
+							t(5).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
+							t(6).e("input").da("name", entityVar).dfgl();
+				//			if().da("class", objets).da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
+							t(5).bgl("div");
+						}
+					}
+					rechercheSolr.setStart(i.intValue() + searchLines);
+					rechercheReponse = solrClientComputate.query(rechercheSolr);
+					rechercheListe = rechercheReponse.getResults();
+				}
+				t(4).bgl("div");
+			}
+
+			t(3).bgl("div");
+			tl(2, "} else if(list", classSimpleName, ".size() == 1) {");
+			t(3).l("// multiple ", contextNamePlural);
+			l();
+			tl(2, "} else {");
+			tl(2, "}");
+			tl(1, "}");
+			tl(0, "}");
+		}
+
+		if(writerPageClass != null)
+			writerPageClass.flushClose();
+		writerGenPageClass.flushClose();
+		writerPageCss.flushClose();
+		writerPageJs.flushClose();
+//		writerGenPageClass.close();
 	}
 }

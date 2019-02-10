@@ -147,6 +147,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected AllWriter wApiGeneratePatch;
 
+	protected AllWriter wPageHtmlSingular;
+
 	protected AllWriter wApiEntities;
 
 	protected AllWriter wPageEntities;
@@ -207,6 +209,7 @@ public class WriteGenClass extends WriteClass {
 		wApiGeneratePost = AllWriter.create();
 		wApiGeneratePut = AllWriter.create();
 		wApiGeneratePatch = AllWriter.create();
+		wPageHtmlSingular = AllWriter.create();
 		wPageGet = AllWriter.create();
 		wHashCode = AllWriter.create();
 		wToString = AllWriter.create();
@@ -758,6 +761,7 @@ public class WriteGenClass extends WriteClass {
 	
 			String entityDisplayName = (String)doc.get("entityDisplayName_" + languageName + "_stored_string");
 			String entityHtmlTooltip = (String)doc.get("entityHtmlTooltip_" + languageName + "_stored_string");
+			Boolean entityHtml = (Boolean)doc.get("entityHtml_" + languageName + "_stored_boolean");
 	
 			List<String> entityMethodsBeforeVisibility = (List<String>)doc.get("entityMethodsBeforeVisibility_stored_strings");
 			List<String> entityMethodsBeforeVar = (List<String>)doc.get("entityMethodsBeforeVar_stored_strings");

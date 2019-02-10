@@ -28,7 +28,7 @@ public class WriteAllClasses extends WritePageClass {
 
 	/**	
 	 *	Retrieve the records for the class from the search engine, 
-	 *	process them and write them into class files for each supported language.
+	 *	process them and write them into class files for each supported language. 
 	 **/
 	public void  writeGenClasses(String classAbsolutePath, String languageName) throws Exception, Exception { 
 
@@ -45,7 +45,7 @@ public class WriteAllClasses extends WritePageClass {
 
 	/**	
 	 *	Retrieve the records for the class from the search engine, 
-	 *	process them and write them into class files for each supported language.
+	 *	process them and write them into class files for each supported language. 
 	 **/
 	public void  writeGenClasses(QueryResponse searchResponse, String languageName) throws Exception, Exception { 
 		SolrDocumentList searchList = searchResponse.getResults();
@@ -134,9 +134,34 @@ public class WriteAllClasses extends WritePageClass {
 					classRolesFound = BooleanUtils.isTrue((Boolean)doc.get("classRolesFound_stored_boolean"));
 					classRoles = (List<String>)doc.get("classRoles_" + languageName + "_stored_strings");
 					classApiMethods = (List<String>)doc.get("classApiMethods_stored_strings");
+					classEntityVars = (List<String>)doc.get("classEntityVars_" + languageName + "_stored_strings");
 					if(classApiMethods == null)
 						classApiMethods = new ArrayList<>();
 					entityIndex = 0;   
+
+					classContext = (Boolean)doc.get("classContext_stored_boolean");
+					contextColor = (String)doc.get("contextColor_stored_string");
+					contextIconGroup = (String)doc.get("contextIconGroup_stored_string");
+					contextIconName = (String)doc.get("contextIconName_stored_string");
+
+					contextAName = (String)doc.get("contextAName" + "_" + languageName + "_stored_string");
+					contextNameSingular = (String)doc.get("contextNameSingular" + "_" + languageName + "_stored_string");
+					contextNamePlural = (String)doc.get("contextNamePlural" + "_" + languageName + "_stored_string");
+					contextNameVar = (String)doc.get("contextNameVar" + "_" + languageName + "_stored_string");
+					contextAdjective = (String)doc.get("contextAdjective" + "_" + languageName + "_stored_string");
+					contextAdjectivePlural = (String)doc.get("contextAdjectivePlural" + "_" + languageName + "_stored_string");
+					contextAdjectiveVar = (String)doc.get("contextAdjectiveVar" + "_" + languageName + "_stored_string");
+					contextNameAdjectiveSingular = (String)doc.get("contextNameAdjectiveSingular" + "_" + languageName + "_stored_string");
+					contextNameAdjectivePlural = (String)doc.get("contextNameAdjectivePlural" + "_" + languageName + "_stored_string");
+					contextThis = (String)doc.get("contextThis" + "_" + languageName + "_stored_string");
+					contextA = (String)doc.get("contextA" + "_" + languageName + "_stored_string");
+					contextActualName = (String)doc.get("contextActualName" + "_" + languageName + "_stored_string");
+					contextAllName = (String)doc.get("contextAllName" + "_" + languageName + "_stored_string");
+					contextNoneNameFound = (String)doc.get("contextNoneNameFound" + "_" + languageName + "_stored_string");
+					contextANameAdjective = (String)doc.get("contextANameAdjective" + "_" + languageName + "_stored_string");
+					contextThisName = (String)doc.get("contextThisName" + "_" + languageName + "_stored_string");
+					contextTheName = (String)doc.get("contextTheName" + "_" + languageName + "_stored_string");
+					contextOfName = (String)doc.get("contextOfName" + "_" + languageName + "_stored_string");
 
 					writerGenClass = AllWriter.create(classFileGen);
 					if(classApi && writeApi) {
@@ -151,7 +176,7 @@ public class WriteAllClasses extends WritePageClass {
 							writerGenApiService = AllWriter.create(classFileGenApiService);
 					}
 //					writerPageClass = new PrintWriter(classFilePage);
-					if(classPage && writeApi) {
+					if(classPage) {
 						if(classFilePage != null && !classFilePage.exists())
 							writerPageClass = AllWriter.create(classFilePage);
 						if(classFilePageGen != null)
@@ -178,8 +203,8 @@ public class WriteAllClasses extends WritePageClass {
 					if(classApi)
 						apiCodeClassBegin(languageName);
 					if(classPage)
-//						pageCodeClasseDebut(languageName);
-						pageCodeClasse(languageName);
+//						pageCodeClassDebut(languageName);
+						pageCodeClass(languageName);
 				} 
 				else {
 					Boolean partIsConstructor = (Boolean)doc.get("partIsConstructor_stored_boolean");

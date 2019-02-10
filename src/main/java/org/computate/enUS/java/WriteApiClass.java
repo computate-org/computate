@@ -32,6 +32,8 @@ public class WriteApiClass extends WriteGenClass {
 
 	protected List<String> classApiMethods;
 
+	protected List<String> classEntityVars;
+
 	public void  apiCodeClassBegin(String languageName) throws Exception, Exception {
 //		l();
 //		tl(1, "public static final String VAL_nomCanonique", classSimpleName, " = \"", classCanonicalName, "\";");

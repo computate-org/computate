@@ -86,6 +86,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	protected List<String> classeApiMethodes;
 
 	/**
+	 * Var.enUS: classEntityVars
+	 */ 
+	protected List<String> classeEntiteVars;
+
+	/**
 	 * Var.enUS: apiCodeClassBegin
 	 * Param1.var.enUS: languageName
 	 * r: auteurGenApiServiceImpl

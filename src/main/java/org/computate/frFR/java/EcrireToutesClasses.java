@@ -274,6 +274,67 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: genCodeConstructor
 	 * r: ecrireApi
 	 * r.enUS: writeApi
+	 * r: pageCodeClasse
+	 * r.enUS: pageCodeClass
+	 * 
+	 * r: contexteNomAdjectifSingulier
+	 * r.enUS: contextNameAdjectiveSingular
+	 * r: contexteCeNom
+	 * r.enUS: contextThisName
+	 * r: contexteCe
+	 * r.enUS: contextThis
+	 * r: contexteUnNom
+	 * r.enUS: contextAName
+	 * r: contexteUn
+	 * r.enUS: contextA
+	 * r: contexteLeNom
+	 * r.enUS: contextTheName
+	 * r: contexteNomSingulier
+	 * r.enUS: contextNameSingular
+	 * r: contexteNomPluriel
+	 * r.enUS: contextNamePlural
+	 * r: contexteNomActuel
+	 * r.enUS: contextActualName
+	 * r: contexteTousNom
+	 * r.enUS: contextAllName
+	 * r: contexteTous
+	 * r.enUS: contextAll
+	 * r: contexteAucunNomTrouve
+	 * r.enUS: contextNoneNameFound
+	 * r: contexteNomVar
+	 * r.enUS: contextNameVar
+	 * r: contexteDeNom
+	 * r.enUS: contextOfName
+	 * r: contexteNom
+	 * r.enUS: contextName
+	 * r: UnNomAdjectif
+	 * r.enUS: ANameAdjective
+	 * r: LeNomAdjectif
+	 * r.enUS: TheNameAdjective
+	 * r: AdjectifAvant
+	 * r.enUS: AdjectiveBefore
+	 * r: NomAdjectifSingulier
+	 * r.enUS: NameAdjectiveSingular
+	 * r: NomAdjectifPluriel
+	 * r.enUS: NameAdjectivePlural
+	 * r: PlurielNomAdjectif
+	 * r.enUS: PluralNameAdjective
+	 * r: SingulierNomAdjectif
+	 * r.enUS: SingularNameAdjective
+	 * r: LeNomAdjectif
+	 * r.enUS: TheAdjectiveName
+	 * r: UnNomAdjectif
+	 * r.enUS: AnAdjectiveName
+	 * r: AdjectifVar
+	 * r.enUS: AdjectiveVar
+	 * r: Adjectif
+	 * r.enUS: Adjective
+	 * r: Couleur
+	 * r.enUS: Color
+	 * r: IconeGroupe
+	 * r.enUS: IconGroup
+	 * r: IconeNom
+	 * r.enUS: IconName
 	 * 
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
@@ -281,6 +342,16 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classDoc
 	 * r: classe
 	 * r.enUS: class
+	 * r: contexte
+	 * r.enUS: context
+	 * r: Contexte
+	 * r.enUS: Context
+	 * r: Entite
+	 * r.enUS: Entity
+	 * r: Pluriel
+	 * r.enUS: Plural
+	 * r: Singulier
+	 * r.enUS: Singular
 	 * 
 	 * r: Ecrire:
 	 * r.enUS: Write:
@@ -376,9 +447,34 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouves_stored_boolean"));
 					classeRoles = (List<String>)doc.get("classeRoles_" + langueNom + "_stored_strings");
 					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_stored_strings");
+					classeEntiteVars = (List<String>)doc.get("classeEntiteVars_" + langueNom + "_stored_strings");
 					if(classeApiMethodes == null)
 						classeApiMethodes = new ArrayList<>();
 					entiteIndice = 0;   
+
+					classeContexte = (Boolean)doc.get("classeContexte_stored_boolean");
+					contexteCouleur = (String)doc.get("contexteCouleur_stored_string");
+					contexteIconeGroupe = (String)doc.get("contexteIconeGroupe_stored_string");
+					contexteIconeNom = (String)doc.get("contexteIconeNom_stored_string");
+
+					contexteUnNom = (String)doc.get("contexteUnNom" + "_" + langueNom + "_stored_string");
+					contexteNomSingulier = (String)doc.get("contexteNomSingulier" + "_" + langueNom + "_stored_string");
+					contexteNomPluriel = (String)doc.get("contexteNomPluriel" + "_" + langueNom + "_stored_string");
+					contexteNomVar = (String)doc.get("contexteNomVar" + "_" + langueNom + "_stored_string");
+					contexteAdjectif = (String)doc.get("contexteAdjectif" + "_" + langueNom + "_stored_string");
+					contexteAdjectifPluriel = (String)doc.get("contexteAdjectifPluriel" + "_" + langueNom + "_stored_string");
+					contexteAdjectifVar = (String)doc.get("contexteAdjectifVar" + "_" + langueNom + "_stored_string");
+					contexteNomAdjectifSingulier = (String)doc.get("contexteNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
+					contexteNomAdjectifPluriel = (String)doc.get("contexteNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
+					contexteCe = (String)doc.get("contexteCe" + "_" + langueNom + "_stored_string");
+					contexteUn = (String)doc.get("contexteUn" + "_" + langueNom + "_stored_string");
+					contexteNomActuel = (String)doc.get("contexteNomActuel" + "_" + langueNom + "_stored_string");
+					contexteTousNom = (String)doc.get("contexteTousNom" + "_" + langueNom + "_stored_string");
+					contexteAucunNomTrouve = (String)doc.get("contexteAucunNomTrouve" + "_" + langueNom + "_stored_string");
+					contexteUnNomAdjectif = (String)doc.get("contexteUnNomAdjectif" + "_" + langueNom + "_stored_string");
+					contexteCeNom = (String)doc.get("contexteCeNom" + "_" + langueNom + "_stored_string");
+					contexteLeNom = (String)doc.get("contexteLeNom" + "_" + langueNom + "_stored_string");
+					contexteDeNom = (String)doc.get("contexteDeNom" + "_" + langueNom + "_stored_string");
 
 					auteurGenClasse = ToutEcrivain.create(classeFichierGen);
 					if(classeApi && ecrireApi) {
@@ -393,7 +489,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 							auteurGenApiService = ToutEcrivain.create(classeFichierGenApiService);
 					}
 //					auteurPageClasse = new PrintWriter(classeFichierPage);
-					if(classePage && ecrireApi) {
+					if(classePage) {
 						if(classeFichierPage != null && !classeFichierPage.exists())
 							auteurPageClasse = ToutEcrivain.create(classeFichierPage);
 						if(classeFichierPageGen != null)

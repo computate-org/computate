@@ -328,6 +328,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wApiGenererPatch;
 
 	/**
+	 * Var.enUS: wPageHtmlSingular
+	 */
+	protected ToutEcrivain wPageHtmlSingulier;
+
+	/**
 	 * Var.enUS: wApiEntities
 	 */
 	protected ToutEcrivain wApiEntites;
@@ -446,13 +451,15 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: wApiGeneratePut
 	 * r: wApiGenererPatch
 	 * r.enUS: wApiGeneratePatch
+	 * r: wPageHtmlSingulier
+	 * r.enUS: wPageHtmlSingular
 	 * r: wApiEntites
 	 * r.enUS: wApiEntities
 	 * r: wPageEntites
 	 * r.enUS: wPageEntities
 	 * r: ToutEcrivain
 	 * r.enUS: AllWriter
-	 */ 
+	 */  
 	public void genCodeInit() throws Exception {
 
 		wInitLoin = ToutEcrivain.create();
@@ -473,6 +480,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wApiGenererPost = ToutEcrivain.create();
 		wApiGenererPut = ToutEcrivain.create();
 		wApiGenererPatch = ToutEcrivain.create();
+		wPageHtmlSingulier = ToutEcrivain.create();
 		wPageGet = ToutEcrivain.create();
 		wHashCode = ToutEcrivain.create();
 		wToString = ToutEcrivain.create();
@@ -1703,6 +1711,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			String entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
 			String entiteHtmlTooltip = (String)doc.get("entiteHtmlTooltip_" + langueNom + "_stored_string");
+			Boolean entiteHtml = (Boolean)doc.get("entiteHtml_" + langueNom + "_stored_boolean");
 	
 			List<String> entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
 			List<String> entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_stored_strings");
