@@ -22,10 +22,6 @@ public class WriteClass extends IndexClass {
 
 	protected AllWriter auteurClasse;
 
-	AllWriter o;
-
-	String languageName;
-
 	public void  writeClass(String classAbsolutePath, String languageName) throws Exception, Exception { 
 		SolrQuery solrSearch = new SolrQuery();   
 		solrSearch.setQuery("*:*");
@@ -66,7 +62,7 @@ public class WriteClass extends IndexClass {
 
 	/**	
 	 *	Retrieve the records for the class from the search engine, 
-	 *	process them and write them into class files for each supported language.
+	 *	process them and write them into class files for each supported language. 
 	 **/
 	public void  writeClass(String classAbsolutePath, String languageName, QueryResponse searchResponse) throws Exception, Exception { 
 		SolrDocumentList searchList = searchResponse.getResults(); 
@@ -412,10 +408,14 @@ public class WriteClass extends IndexClass {
 		}
 	}
 
+	AllWriter o;
+
 	public WriteClass o(AllWriter o) {
 		this.o = o;
 		return this;
 	}
+
+	String languageName;
 
 	public WriteClass languageName(String languageName) {
 		this.languageName = languageName;
@@ -456,7 +456,7 @@ public class WriteClass extends IndexClass {
 		return this;
 	}
 
-	public String q(Object...objects) {
+	public String q(Object...objets) {
 		StringBuilder o = new StringBuilder();
 		o.append("\"");
 		for(Object object : objects)
@@ -466,22 +466,37 @@ public class WriteClass extends IndexClass {
 		return o.toString();
 	}
 
-	public WriteClass be(Object...objects) {
+	public WriteClass be(Object...objets) {
 		s("{ e(", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass e(Object...objects) {
+	public WriteClass e(Object...objets) {
 		s("e(", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass da(String var, Object...objects) {
+	public WriteClass da(String var, Object...objets) {
 		s(".a(", q(var), ", ", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass dsx(Object...objects) {
+	public WriteClass a(String var, Object...objets) {
+		s("a(", q(var), ", ", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass dal(String var, Object...objets) {
+		l(".a(", q(var), ", ", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass al(String var, Object...objets) {
+		l("a(", q(var), ", ", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass dsx(Object...objets) {
 		s(".sx(", q(objects), ")");
 		return this;
 	}
@@ -506,32 +521,37 @@ public class WriteClass extends IndexClass {
 		return this;
 	}
 
+	public WriteClass fgl() {
+		l("fg();");
+		return this;
+	}
+
 	public WriteClass dfglb() {
 		l(".fg(); }");
 		return this;
 	}
 
-	public WriteClass dg(Object...objects) {
+	public WriteClass dg(Object...objets) {
 		s(".g(", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass gl(Object...objects) {
+	public WriteClass gl(Object...objets) {
 		l("g(", q(objects), ");");
 		return this;
 	}
 
-	public WriteClass bgl(Object...objects) {
+	public WriteClass bgl(Object...objets) {
 		l("} g(", q(objects), ");");
 		return this;
 	}
 
-	public WriteClass dgl(Object...objects) {
+	public WriteClass dgl(Object...objets) {
 		l(".g(", q(objects), ");");
 		return this;
 	}
 
-	public WriteClass dglb(Object...objects) {
+	public WriteClass dglb(Object...objets) {
 		l(".g(", q(objects), "); }");
 		return this;
 	}

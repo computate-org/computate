@@ -760,15 +760,16 @@ public class IndexClass extends WatchClassBase {
 
 		Boolean classModel = indexStoreSolr(classDoc, "classModel", regexFound("^(class)?Model: \\s*(true)$", classComment));
 		Boolean classApi = indexStoreSolr(classDoc, "classApi", regexFound("^(class)?Api: \\s*(true)$", classComment) || classModel);
-		Boolean classPage = indexStoreSolr(classDoc, "classPage", regexFound("^(class)?Page: \\s*(true)$", classComment) || classModel);
+		Boolean classPage = indexStoreSolr(classDoc, "classPage", regexFound("^(class)?Page: \\s*(true)$", classComment));
 		Boolean classContexte = indexStoreSolr(classDoc, "classContexte", regexFound("^(class)?Contexte: \\s*(true)$", classComment) || classPage);
 		Boolean classSaved = indexStoreSolr(classDoc, "classSaved", regexFound("^(class)?Saved:\\s*(true)$", classComment) || classModel);
 		Boolean classIndexed = indexStoreSolr(classDoc, "classIndexed", regexFound("^(class)?Indexed:\\s*(true)$", classComment) || classSaved || classModel);
 		ArrayList<String> classApiMethods = regexList("^(class)?ApiMethode:\\s*(.*)", classComment);
 
 		for(String siteEcrireMethode : siteWriteMethods) {
-			String siteEcrireMethodeCapitalise = StringUtils.capitalize(siteEcrireMethode);
-			indexStoreSolr(classDoc, "class" + siteEcrireMethodeCapitalise, regexFound("^(class)?" + siteEcrireMethodeCapitalise + ":\\s*(true)$", classComment));
+			if(classQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
+					|| classQdox.getMethodBySignature(siteEcrireMethode + classSimpleName, new ArrayList<JavaType>()) != null)
+				indexStoreListSolr(classDoc, "classWriteMethods",  siteEcrireMethode);
 		}
 
 		String classSimpleNameApiPackageInfo;
@@ -1138,7 +1139,7 @@ public class IndexClass extends WatchClassBase {
 				classKeywordsFound = true;
 			}
 
-			String sqlString = regex("^(class)?Sql:\\s*(.*)$", classComment, 1);
+			String sqlString = regex("^(class)?Sql:\\s*(.*)$", classComment, 2);
 			if(NumberUtils.isCreatable(sqlString)) {
 				Integer sqlInteger = Integer.parseInt(sqlString);
 				Integer sqlMigration = Math.abs(sqlInteger);
@@ -1752,7 +1753,7 @@ public class IndexClass extends WatchClassBase {
 							}
 							indexStoreSolr(entityDoc, "entityKeywordsFound", entityKeywordsFound); 
 
-							String sqlString = regex("^(entity)?Sql:\\s*(.*)$", methodComment, 1);
+							String sqlString = regex("^(entity)?Sql:\\s*(.*)$", methodComment, 2);
 							if(NumberUtils.isCreatable(sqlString)) {
 								Integer sqlInteger = Integer.parseInt(sqlString);
 								Integer sqlMigration = Math.abs(sqlInteger);
@@ -1845,7 +1846,7 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "entityDelete", regexFound("^(entity)?Delete:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityModify", regexFound("^(entity)?Modify:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityRefresh", regexFound("^(entity)?Refresh:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityMultiLine", regexFound("^(entity)?Multiline:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityMultiline", regexFound("^(entity)?Multiline:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityKeys", regexFound("^(entity)?Keys:\\s*(true)$", methodComment));
 
 						indexStoreSolr(entityDoc, "entityDisplayName", languageName, regexLanguage(languageName, "(entity)?DisplayName", methodComment));
@@ -2112,6 +2113,8 @@ public class IndexClass extends WatchClassBase {
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZonedDateTime", languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
+							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
+							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.util.Locale", languageName));
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLocalDate)) {
 							entitySimpleNameVertxJson = "Instant";
@@ -2120,6 +2123,8 @@ public class IndexClass extends WatchClassBase {
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDate", languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
+							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));
+							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.util.Locale", languageName));
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLong)) {
 							entitySimpleNameVertxJson = "Long";

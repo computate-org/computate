@@ -204,6 +204,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classRolesFound
 	 * r: classeRoles
 	 * r.enUS: classRoles
+	 * r: classeEcrireMethode
+	 * r.enUS: classWriteMethod
 	 * r: auteurGenClasse
 	 * r.enUS: writerGenClass
 	 * r: auteurApiEnsembleInfo
@@ -421,6 +423,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
+					classeEcrireMethodes = (List<String>)doc.get("classeEcrireMethodes_stored_strings");
 					if(classeImportationsGen == null)
 						classeImportationsGen = new ArrayList<String>();
 					classeImportationsGenApi = (List<String>)doc.get("classeImportationsGenApi_" + langueNom + "_stored_strings");

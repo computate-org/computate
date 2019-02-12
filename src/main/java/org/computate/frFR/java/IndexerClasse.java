@@ -2264,7 +2264,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: entiteRecharger
 	 * r.enUS: entityRefresh
 	 * r: entiteMultiligne
-	 * r.enUS: entityMultiLine
+	 * r.enUS: entityMultiline
 	 * r: entiteCles
 	 * r.enUS: entityKeys
 	 * r: entiteAttribuerNomCanonique
@@ -2396,6 +2396,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classInitDeepException
 	 * r: siteEcrireMethodes
 	 * r.enUS: siteWriteMethods
+	 * r: classeEcrireMethode
+	 * r.enUS: classWriteMethod
 	 * r: classeEntiteVars
 	 * r.enUS: classEntityVars
 	 * r: classeSuperEntiteVar
@@ -2858,15 +2860,16 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		Boolean classeModele = indexerStockerSolr(classeDoc, "classeModele", regexTrouve("^(classe)?Modele: \\s*(true)$", classeCommentaire));
 		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire) || classeModele);
-		Boolean classePage = indexerStockerSolr(classeDoc, "classePage", regexTrouve("^(classe)?Page: \\s*(true)$", classeCommentaire) || classeModele);
+		Boolean classePage = indexerStockerSolr(classeDoc, "classePage", regexTrouve("^(classe)?Page: \\s*(true)$", classeCommentaire));
 		Boolean classeContexte = indexerStockerSolr(classeDoc, "classeContexte", regexTrouve("^(classe)?Contexte: \\s*(true)$", classeCommentaire) || classePage);
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^(classe)?Sauvegarde:\\s*(true)$", classeCommentaire) || classeModele);
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^(classe)?Indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele);
 		ArrayList<String> classeApiMethodes = regexListe("^(classe)?ApiMethode:\\s*(.*)", classeCommentaire);
 
 		for(String siteEcrireMethode : siteEcrireMethodes) {
-			String siteEcrireMethodeCapitalise = StringUtils.capitalize(siteEcrireMethode);
-			indexerStockerSolr(classeDoc, "classe" + siteEcrireMethodeCapitalise, regexTrouve("^(classe)?" + siteEcrireMethodeCapitalise + ":\\s*(true)$", classeCommentaire));
+			if(classeQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
+					|| classeQdox.getMethodBySignature(siteEcrireMethode + classeNomSimple, new ArrayList<JavaType>()) != null)
+				indexerStockerListeSolr(classeDoc, "classeEcrireMethodes",  siteEcrireMethode);
 		}
 
 		String classeNomSimpleApiEnsembleInfo;
@@ -3236,7 +3239,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeMotsClesTrouves = true;
 			}
 
-			String sqlString = regex("^(classe)?Sql:\\s*(.*)$", classeCommentaire, 1);
+			String sqlString = regex("^(classe)?Sql:\\s*(.*)$", classeCommentaire, 2);
 			if(NumberUtils.isCreatable(sqlString)) {
 				Integer sqlInteger = Integer.parseInt(sqlString);
 				Integer sqlMigration = Math.abs(sqlInteger);
@@ -3850,7 +3853,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							}
 							indexerStockerSolr(entiteDoc, "entiteMotsClesTrouves", entiteMotsClesTrouves); 
 
-							String sqlString = regex("^(entite)?Sql:\\s*(.*)$", methodeCommentaire, 1);
+							String sqlString = regex("^(entite)?Sql:\\s*(.*)$", methodeCommentaire, 2);
 							if(NumberUtils.isCreatable(sqlString)) {
 								Integer sqlInteger = Integer.parseInt(sqlString);
 								Integer sqlMigration = Math.abs(sqlInteger);
@@ -4210,6 +4213,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZonedDateTime", langueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, langueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", langueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", langueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", langueNom));
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalDate)) {
 							entiteNomSimpleVertxJson = "Instant";
@@ -4218,6 +4223,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDate", langueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, langueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", langueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", langueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", langueNom));
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLong)) {
 							entiteNomSimpleVertxJson = "Long";

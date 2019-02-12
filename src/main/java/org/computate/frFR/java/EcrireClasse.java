@@ -866,6 +866,36 @@ public class EcrireClasse extends IndexerClasse {
 	 * r: objet
 	 * r.enUS: object
 	 */
+	public EcrireClasse a(String var, Object...objets) {
+		s("a(", q(var), ", ", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dal(String var, Object...objets) {
+		l(".a(", q(var), ", ", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse al(String var, Object...objets) {
+		l("a(", q(var), ", ", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
 	public EcrireClasse dsx(Object...objets) {
 		s(".sx(", q(objets), ")");
 		return this;
@@ -908,6 +938,16 @@ public class EcrireClasse extends IndexerClasse {
 	 */
 	public EcrireClasse dfgl() {
 		l(".fg();");
+		return this;
+	}
+
+	/**
+	 * param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse fgl() {
+		l("fg();");
 		return this;
 	}
 

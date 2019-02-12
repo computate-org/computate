@@ -191,6 +191,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected List<String> classeSuperParametreTypeNoms;
 
 	/**
+	 * Var.enUS: classWriteMethods
+	 */
+	protected List<String> classeEcrireMethodes;
+
+	/**
 	 * Var.enUS: classExtendsGen
 	 */
 	protected Boolean classeEtendGen;
@@ -1622,6 +1627,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: Rights
 	 * r: entiteSuffixeType
 	 * r.enUS: entityTypeSuffix
+	 * r: classeEcrireMethode
+	 * r.enUS: classWriteMethod
 	 * 
 	 * r: nomAffichage
 	 * r.enUS: displayName
@@ -3309,6 +3316,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: codeStore
 	 * r: siteEcrireMethode
 	 * r.enUS: siteWriteMethod
+	 * r: classeEcrireMethode
+	 * r.enUS: classWriteMethod
 	 * r: classeDoc
 	 * r.enUS: classDoc
 	 * r: strCommentaire
@@ -3616,50 +3625,53 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 		}	
 
-		for(String siteEcrireMethode : siteEcrireMethodes) {
-			Boolean classeEcrireMethode = BooleanUtils.isTrue((Boolean)classeDoc.get("classe" + StringUtils.capitalize(siteEcrireMethode) + "_stored_boolean"));
-			if(classeEcrireMethode) {
+		if(classeEcrireMethodes != null) {
+			for(String classeEcrireMethode : classeEcrireMethodes) {
 				l();
-				String strCommentaire = "///" + String.join("", Collections.nCopies(siteEcrireMethode.length(), "/")) + "///";
+				String strCommentaire = "///" + String.join("", Collections.nCopies(classeEcrireMethode.length(), "/")) + "///";
 				tl(1, strCommentaire);
-				tl(1, "// ", siteEcrireMethode, " //");
+				tl(1, "// ", classeEcrireMethode, " //");
 				tl(1, strCommentaire);
 				tl(0);
 				t(1);
 				if(BooleanUtils.isTrue(classeEtendBase))
 					s("@Override ");
-				l("public void ", siteEcrireMethode, "() {");
-				tl(2, siteEcrireMethode, "Avant();");
-				tl(2, siteEcrireMethode, "Milieu();");
-				tl(2, siteEcrireMethode, "Apres();");
-				tl(1, "}");
-				tl(1, "public void ", siteEcrireMethode, "Avant() {");
-				tl(2, siteEcrireMethode, classeNomSimple, "Avant();");
+				l("public void ", classeEcrireMethode, "() {");
+				tl(2, classeEcrireMethode, classeNomSimple, "();");
 				if(BooleanUtils.isTrue(classeEtendBase)) {
-					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Avant();");
+					tl(2, "super.", classeEcrireMethode, classeNomSimpleSuperGenerique, "();");
 				}
 				tl(1, "}");
-				tl(1, "public void ", siteEcrireMethode, "Milieu() {");
-				tl(2, siteEcrireMethode, classeNomSimple, "Milieu();");
-				if(BooleanUtils.isTrue(classeEtendBase)) {
-					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Milieu();");
-				}
+				l();
+				tl(1, "public void ", classeEcrireMethode, classeNomSimple, "() {");
 				tl(1, "}");
-				tl(1, "public void ", siteEcrireMethode, "Apres() {");
-				tl(2, siteEcrireMethode, classeNomSimple, "Apres();");
-				if(BooleanUtils.isTrue(classeEtendBase)) {
-					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Apres();");
-				}
-				tl(1, "}");
-				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Avant() {");
-//				s(wStocker.toString());
-				tl(1, "}");
-				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Milieu() {");
-//				s(wStocker.toString());
-				tl(1, "}");
-				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Apres() {");
-//				s(wStocker.toString());
-				tl(1, "}");
+	//				tl(1, "public void ", siteEcrireMethode, "Avant() {");
+	//				tl(2, siteEcrireMethode, classeNomSimple, "Avant();");
+	//				if(BooleanUtils.isTrue(classeEtendBase)) {
+	//					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Avant();");
+	//				}
+	//				tl(1, "}");
+	//				tl(1, "public void ", siteEcrireMethode, "Milieu() {");
+	//				tl(2, siteEcrireMethode, classeNomSimple, "Milieu();");
+	//				if(BooleanUtils.isTrue(classeEtendBase)) {
+	//					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Milieu();");
+	//				}
+	//				tl(1, "}");
+	//				tl(1, "public void ", siteEcrireMethode, "Apres() {");
+	//				tl(2, siteEcrireMethode, classeNomSimple, "Apres();");
+	//				if(BooleanUtils.isTrue(classeEtendBase)) {
+	//					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Apres();");
+	//				}
+	//				tl(1, "}");
+	//				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Avant() {");
+	////				s(wStocker.toString());
+	//				tl(1, "}");
+	//				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Milieu() {");
+	////				s(wStocker.toString());
+	//				tl(1, "}");
+	//				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Apres() {");
+	////				s(wStocker.toString());
+	//				tl(1, "}");
 			}
 		}
 

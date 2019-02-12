@@ -91,6 +91,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected List<String> classSuperParameterTypeNames;
 
+	protected List<String> classWriteMethods;
+
 	protected Boolean classExtendsGen;
 
 	protected Boolean classBaseExtendsGen;
@@ -2536,50 +2538,53 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "}");
 		}	
 
-		for(String siteWriteMethod : siteWriteMethods) {
-			Boolean classWriteMethod = BooleanUtils.isTrue((Boolean)classDoc.get("class" + StringUtils.capitalize(siteWriteMethod) + "_stored_boolean"));
-			if(classWriteMethod) {
+		if(classWriteMethods != null) {
+			for(String classWriteMethod : classWriteMethods) {
 				l();
-				String strComment = "///" + String.join("", Collections.nCopies(siteWriteMethod.length(), "/")) + "///";
+				String strComment = "///" + String.join("", Collections.nCopies(classWriteMethod.length(), "/")) + "///";
 				tl(1, strComment);
-				tl(1, "// ", siteWriteMethod, " //");
+				tl(1, "// ", classWriteMethod, " //");
 				tl(1, strComment);
 				tl(0);
 				t(1);
 				if(BooleanUtils.isTrue(classExtendsBase))
 					s("@Override ");
-				l("public void ", siteWriteMethod, "() {");
-				tl(2, siteWriteMethod, "Avant();");
-				tl(2, siteWriteMethod, "Milieu();");
-				tl(2, siteWriteMethod, "Apres();");
-				tl(1, "}");
-				tl(1, "public void ", siteWriteMethod, "Avant() {");
-				tl(2, siteWriteMethod, classSimpleName, "Avant();");
+				l("public void ", classWriteMethod, "() {");
+				tl(2, classWriteMethod, classSimpleName, "();");
 				if(BooleanUtils.isTrue(classExtendsBase)) {
-					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Avant();");
+					tl(2, "super.", classWriteMethod, classSuperSimpleNameGeneric, "();");
 				}
 				tl(1, "}");
-				tl(1, "public void ", siteWriteMethod, "Milieu() {");
-				tl(2, siteWriteMethod, classSimpleName, "Milieu();");
-				if(BooleanUtils.isTrue(classExtendsBase)) {
-					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Milieu();");
-				}
+				l();
+				tl(1, "public void ", classWriteMethod, classSimpleName, "() {");
 				tl(1, "}");
-				tl(1, "public void ", siteWriteMethod, "Apres() {");
-				tl(2, siteWriteMethod, classSimpleName, "Apres();");
-				if(BooleanUtils.isTrue(classExtendsBase)) {
-					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Apres();");
-				}
-				tl(1, "}");
-				tl(1, "public void ", siteWriteMethod, classSimpleName, "Avant() {");
-//				s(wStore.toString());
-				tl(1, "}");
-				tl(1, "public void ", siteWriteMethod, classSimpleName, "Milieu() {");
-//				s(wStore.toString());
-				tl(1, "}");
-				tl(1, "public void ", siteWriteMethod, classSimpleName, "Apres() {");
-//				s(wStore.toString());
-				tl(1, "}");
+	//				tl(1, "public void ", siteWriteMethod, "Avant() {");
+	//				tl(2, siteWriteMethod, classSimpleName, "Avant();");
+	//				if(BooleanUtils.isTrue(classExtendsBase)) {
+	//					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Avant();");
+	//				}
+	//				tl(1, "}");
+	//				tl(1, "public void ", siteWriteMethod, "Milieu() {");
+	//				tl(2, siteWriteMethod, classSimpleName, "Milieu();");
+	//				if(BooleanUtils.isTrue(classExtendsBase)) {
+	//					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Milieu();");
+	//				}
+	//				tl(1, "}");
+	//				tl(1, "public void ", siteWriteMethod, "Apres() {");
+	//				tl(2, siteWriteMethod, classSimpleName, "Apres();");
+	//				if(BooleanUtils.isTrue(classExtendsBase)) {
+	//					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Apres();");
+	//				}
+	//				tl(1, "}");
+	//				tl(1, "public void ", siteWriteMethod, classSimpleName, "Avant() {");
+	////				s(wStore.toString());
+	//				tl(1, "}");
+	//				tl(1, "public void ", siteWriteMethod, classSimpleName, "Milieu() {");
+	////				s(wStore.toString());
+	//				tl(1, "}");
+	//				tl(1, "public void ", siteWriteMethod, classSimpleName, "Apres() {");
+	////				s(wStore.toString());
+	//				tl(1, "}");
 			}
 		}
 
