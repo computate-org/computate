@@ -7,11 +7,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -692,8 +695,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "public void indexer", classeNomSimple, "(SolrClient clientSolr) throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "indexer", classeNomSimple, "(document);");
-//			if(classeSauvegarde)
-//				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
+			if(classeSauvegarde)
+				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
 			tl(2, "clientSolr.add(document);");
 			tl(2, "clientSolr.commit();");
 			l("\t}");
@@ -701,8 +704,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "public void indexer", classeNomSimple, "() throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "indexer", classeNomSimple, "(document);");
-//			if(classeSauvegarde)
-//				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
+			if(classeSauvegarde)
+				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
 			tl(2, "SolrClient clientSolr = requeteSite_.getSiteContexte_().getClientSolr();");
 			tl(2, "clientSolr.add(document);");
 			tl(2, "clientSolr.commit();");
@@ -2476,7 +2479,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", ", entiteVar, ");");
 					}
 					else if(entiteNomSimple.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
@@ -2485,7 +2488,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", ", entiteVar, ");");
@@ -2498,7 +2501,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", ", entiteVar, ");");
 					}
 					else if(entiteNomSimple.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
@@ -2507,7 +2510,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
 						tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");
@@ -2525,7 +2528,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", ", entiteVar, ");");
 					}
 					else if(entiteNomSimple.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
@@ -2534,7 +2537,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
 						tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");
@@ -2623,41 +2626,41 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(0);
 	
 					if(entiteSuggere) {
-						tl(2, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-						tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", entiteSuffixeType, "\");");
-						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-						tl(2, "}");
+						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", entiteSuffixeType, "\");");
+						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+						tl(3, "}");
 					}
 					else if(entiteIncremente) {
-						tl(2, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-						tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", entiteSuffixeType, "\");");
-						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-						tl(2, "}");
+						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", entiteSuffixeType, "\");");
+						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+						tl(3, "}");
 					}
 					else if(entiteCleUnique) {
-						tl(2, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-						tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
-						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-						tl(2, "}");
+						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
+						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+						tl(3, "}");
 					}
 					else if(entiteCrypte) {
-						tl(2, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
 						if(siteCrypte)
-							tl(3, entiteSolrNomSimple, " ", entiteVar, " = requeteSite.decrypterStr((", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_encrypted", entiteSuffixeType, "\"));");
+							tl(4, entiteSolrNomSimple, " ", entiteVar, " = requeteSite.decrypterStr((", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_encrypted", entiteSuffixeType, "\"));");
 						else
-							tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_encrypted", entiteSuffixeType, "\");");
-						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-						tl(2, "}");
+							tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_encrypted", entiteSuffixeType, "\");");
+						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+						tl(3, "}");
 					}
 					else {
-						tl(2, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-						tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
-						tl(3, "if(", entiteVar, " != null)");
+						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
+						tl(4, "if(", entiteVar, " != null)");
 						if(StringUtils.contains(entiteSolrNomCanonique, "<"))
-							tl(4, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
+							tl(5, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
 						else
-							tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-						tl(2, "}");
+							tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+						tl(3, "}");
 					}
 	
 				}
@@ -2949,7 +2952,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				else {
 					l();
-					tl(3, "entiteValeur = documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ").stream().findFirst().orElse(null);");
+					tl(3, "entiteValeur = Optional.ofNullable(documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ")).map(Collection<Object>::stream).orElseGet(Stream::empty).findFirst().orElse(null);");
+//					tl(3, "entiteValeur = documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ").stream().findFirst().orElse(null);");
 //					tl(4, "entiteValeur = documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ").stream().findFirst().orElse(null);");
 					tl(3, "if(entiteValeur != null)");
 					if (VAL_nomCanoniqueBoolean.equals(entiteSolrNomCanonique)) {
@@ -3007,7 +3011,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			////////////////////////
 			o = wApiGenererPost;
 	
-			Integer tBase = 2;
+			Integer tBase = 3;
 	//		if(classeRolesTrouves) {
 	//			tBase = 6;
 	//		}
@@ -3054,7 +3058,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			////////////////////////
 			o = wApiGenererPatch;
 	
-			tBase = 2;
+			tBase = 3;
 	//		if(classeRolesTrouves) {
 	//			tBase = 6;
 	//		}
@@ -3588,7 +3592,9 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "public void peupler", classeNomSimple, "(SolrDocument solrDocument) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "sauvegardes", classeNomSimple, " = (List<String>)solrDocument.get(\"sauvegardes", classeNomSimple, "_stored_strings\");");
+			tl(2, "if(sauvegardes", classeNomSimple, " != null) {");
 			s(wPeupler.toString());
+			tl(2, "}");
 			if(BooleanUtils.isTrue(classeEtendBase)) {
 				tl(0);
 				tl(2, "super.peupler", classeNomSimpleSuperGenerique, "(solrDocument);");

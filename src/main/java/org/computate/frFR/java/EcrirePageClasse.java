@@ -692,6 +692,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: list
 	 * r: plusiers
 	 * r.enUS: multiple
+	 * r: Créer 
+	 * r.enUS: Create 
+	 * r: Modifier 
+	 * r.enUS: Modify 
+	 * r: Remplacer 
+	 * r.enUS: Replace 
+	 * r: Supprimer 
+	 * r.enUS: Delete 
 	 */ 
 	public void pageCodeClasse(String langueNom) throws Exception {
 
@@ -723,6 +731,40 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "@Override public void initLoin", classeNomSimple, "GenPage() {");
 			tl(2, "init", classeNomSimple, "GenPage();");
 			tl(2, "super.initLoinMiseEnPage();");
+			tl(1, "}");
+			l();
+			tl(1, "@Override public void htmlScripts", classeNomSimple, "GenPage() {");
+			t(2).e("script").da("src", "/static/js/", classeNomSimple, "Page.js").df().dgl("script");
+			tl(1, "}");
+			l();
+			tl(1, "@Override public void htmlScript", classeNomSimple, "GenPage() {");
+			for(String classeApiMethode : classeApiMethodes) {
+				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
+				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
+				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
+				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+
+				if("application/json".equals(classeApiTypeMediaMethode)) {
+					auteurPageJs.l();
+					auteurPageJs.tl(1, "// ", classeApiMethode, " //");
+					auteurPageJs.l();
+					auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "() {");
+					auteurPageJs.tl(1, "$.ajax({");
+					auteurPageJs.tl(2, "url: '", classeApiUriMethode, "'");
+					auteurPageJs.tl(2, ", dataType: 'json'");
+					auteurPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
+					auteurPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
+					if(!"GET".equals(classeApiMethodeMethode) || "DELETE".equals(classeApiMethodeMethode))
+						auteurPageJs.tl(2, ", data: JSON.stringify({})");
+					auteurPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
+					auteurPageJs.tl(2, "}");
+					auteurPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
+					auteurPageJs.tl(2, "}");
+					auteurPageJs.tl(1, "});");
+					auteurPageJs.l("}");
+				}
+				
+			}
 			tl(1, "}");
 			l();
 			tl(1, "@Override public void htmlBody", classeNomSimple, "GenPage() {");
@@ -942,6 +984,30 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			t(3).bgl("h1");
 			tl(2, "}");
+
+			for(String classeApiMethode : classeApiMethodes) {
+				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
+				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
+				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
+				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+
+				if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
+					l();
+					t(2).e("button").l();
+					t(3).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contexteCouleur, " ");
+					t(3).dal("onclick", classeApiOperationIdMethode, "(); ");
+					if("POST".equals(classeApiMethodeMethode))
+						t(3).df().dsx("Créer ", contexteUnNom).l();
+					else if("PUT".equals(classeApiMethodeMethode))
+						t(3).df().dsx("Remplacer ", contexteUnNom).l();
+					else if("PATCH".equals(classeApiMethodeMethode))
+						t(3).df().dsx("Modifier ", contexteUnNom).l();
+					else if("DELETE".equals(classeApiMethodeMethode))
+						t(3).df().dsx("Supprimer ", contexteUnNom).l();
+					t(2).dgl("button");
+				}
+			}
+
 			tl(1, "}");
 			tl(0, "}");
 		}

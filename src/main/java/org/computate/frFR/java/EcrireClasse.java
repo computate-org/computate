@@ -817,7 +817,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -832,7 +832,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -842,7 +842,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -852,7 +852,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param2.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -862,7 +862,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param2.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -872,7 +872,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param2.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -882,7 +882,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param2.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -892,7 +892,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -902,7 +902,6 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -912,7 +911,6 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -922,7 +920,6 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -932,7 +929,6 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -942,7 +938,6 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -952,7 +947,6 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -962,7 +956,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -972,7 +966,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -982,7 +976,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -992,7 +986,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */
@@ -1002,7 +996,7 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
-	 * param1.var.enUS: objects
+	 * Param1.var.enUS: objects
 	 * r: objet
 	 * r.enUS: object
 	 */

@@ -410,6 +410,40 @@ public class WritePageClass extends WriteApiClass {
 			tl(2, "super.initDeepPageLayout();");
 			tl(1, "}");
 			l();
+			tl(1, "@Override public void htmlScripts", classSimpleName, "GenPage() {");
+			t(2).e("script").da("src", "/static/js/", classSimpleName, "Page.js").df().dgl("script");
+			tl(1, "}");
+			l();
+			tl(1, "@Override public void htmlScript", classSimpleName, "GenPage() {");
+			for(String classeApiMethode : classeApiMethodes) {
+				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
+				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
+				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
+				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+
+				if("application/json".equals(classeApiTypeMediaMethode)) {
+					writerPageJs.l();
+					writerPageJs.tl(1, "// ", classeApiMethode, " //");
+					writerPageJs.l();
+					writerPageJs.tl(0, "function ", classeApiOperationIdMethode, "() {");
+					writerPageJs.tl(1, "$.ajax({");
+					writerPageJs.tl(2, "url: '", classeApiUriMethode, "'");
+					writerPageJs.tl(2, ", dataType: 'json'");
+					writerPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
+					writerPageJs.tl(2, ", contentType: 'application/json'");
+					if(!"GET".equals(classeApiMethodeMethode) || "DELETE".equals(classeApiMethodeMethode))
+						writerPageJs.tl(2, ", data: JSON.stringify({})");
+					writerPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
+					writerPageJs.tl(2, "}");
+					writerPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
+					writerPageJs.tl(2, "}");
+					writerPageJs.tl(1, "});");
+					writerPageJs.l("}");
+				}
+				
+			}
+			tl(1, "}");
+			l();
 			tl(1, "@Override public void htmlBody", classSimpleName, "GenPage() {");
 			tl(2, "if(list", classSimpleName, ".size() == 0) {");
 			t(3).l("//", contextNoneNameFound);
@@ -627,6 +661,30 @@ public class WritePageClass extends WriteApiClass {
 			}
 			t(3).bgl("h1");
 			tl(2, "}");
+
+			for(String classeApiMethode : classeApiMethodes) {
+				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
+				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
+				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
+				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+
+				if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
+					l();
+					t(2).e("button").l();
+					t(3).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contexteCouleur, " ");
+					t(3).dal("onclick", classeApiOperationIdMethode, "(); ");
+					if("POST".equals(classeApiMethodeMethode))
+						t(3).df().dsx("Create ", contextAName).l();
+					else if("PUT".equals(classeApiMethodeMethode))
+						t(3).df().dsx("Replace ", contextAName).l();
+					else if("PATCH".equals(classeApiMethodeMethode))
+						t(3).df().dsx("Modify ", contextAName).l();
+					else if("DELETE".equals(classeApiMethodeMethode))
+						t(3).df().dsx("Delete ", contextAName).l();
+					t(2).dgl("button");
+				}
+			}
+
 			tl(1, "}");
 			tl(0, "}");
 		}

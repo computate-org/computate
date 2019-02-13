@@ -2052,7 +2052,7 @@ public class WriteGenClass extends WriteClass {
 			////////////////////////
 			o = wApiGeneratePost;
 	
-			Integer tBase = 2;
+			Integer tBase = 3;
 	//		if(classRolesFound) {
 	//			tBase = 6;
 	//		}
@@ -2099,7 +2099,7 @@ public class WriteGenClass extends WriteClass {
 			////////////////////////
 			o = wApiGeneratePatch;
 	
-			tBase = 2;
+			tBase = 3;
 	//		if(classRolesFound) {
 	//			tBase = 6;
 	//		}

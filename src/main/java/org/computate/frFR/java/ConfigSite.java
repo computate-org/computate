@@ -292,6 +292,22 @@ public class ConfigSite {
 	protected void _nomDomaine() throws Exception {
 		nomDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomDomaine");
 	}
+
+	/**
+	 * Var.enUS: siteBaseUrl
+	 * enUS: The base URL to the site when deployed. 
+	 */
+	public String siteUrlBase;
+	/**	
+	 * Var.enUS: _siteBaseUrl
+	 * r: siteBaseUrl
+	 * r.enUS: siteUrlBase
+	 * r: appliNom
+	 * r.enUS: appName
+	 **/ 
+	protected void _siteUrlBase() throws Exception {
+		nomDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".siteUrlBase");
+	}
 	
 	/**
 	 * Var.enUS: domainPackageName
@@ -668,6 +684,7 @@ public class ConfigSite {
 		_toutesLangues();
 		_langueIndexe();
 		_nomDomaine();
+		_siteUrlBase();
 		_nomEnsembleDomaine();
 		_nomFichierConfig();
 		_versionMaven();

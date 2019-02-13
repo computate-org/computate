@@ -456,7 +456,7 @@ public class WriteClass extends IndexClass {
 		return this;
 	}
 
-	public String q(Object...objets) {
+	public String q(Object...objects) {
 		StringBuilder o = new StringBuilder();
 		o.append("\"");
 		for(Object object : objects)
@@ -466,37 +466,37 @@ public class WriteClass extends IndexClass {
 		return o.toString();
 	}
 
-	public WriteClass be(Object...objets) {
+	public WriteClass be(Object...objects) {
 		s("{ e(", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass e(Object...objets) {
+	public WriteClass e(Object...objects) {
 		s("e(", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass da(String var, Object...objets) {
+	public WriteClass da(String var, Object...objects) {
 		s(".a(", q(var), ", ", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass a(String var, Object...objets) {
+	public WriteClass a(String var, Object...objects) {
 		s("a(", q(var), ", ", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass dal(String var, Object...objets) {
+	public WriteClass dal(String var, Object...objects) {
 		l(".a(", q(var), ", ", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass al(String var, Object...objets) {
+	public WriteClass al(String var, Object...objects) {
 		l("a(", q(var), ", ", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass dsx(Object...objets) {
+	public WriteClass dsx(Object...objects) {
 		s(".sx(", q(objects), ")");
 		return this;
 	}
@@ -531,27 +531,27 @@ public class WriteClass extends IndexClass {
 		return this;
 	}
 
-	public WriteClass dg(Object...objets) {
+	public WriteClass dg(Object...objects) {
 		s(".g(", q(objects), ")");
 		return this;
 	}
 
-	public WriteClass gl(Object...objets) {
+	public WriteClass gl(Object...objects) {
 		l("g(", q(objects), ");");
 		return this;
 	}
 
-	public WriteClass bgl(Object...objets) {
+	public WriteClass bgl(Object...objects) {
 		l("} g(", q(objects), ");");
 		return this;
 	}
 
-	public WriteClass dgl(Object...objets) {
+	public WriteClass dgl(Object...objects) {
 		l(".g(", q(objects), ");");
 		return this;
 	}
 
-	public WriteClass dglb(Object...objets) {
+	public WriteClass dglb(Object...objects) {
 		l(".g(", q(objects), "); }");
 		return this;
 	}
