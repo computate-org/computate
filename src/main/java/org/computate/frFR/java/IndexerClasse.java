@@ -3558,10 +3558,12 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						classePartsGenAjouter(entiteClasseParts);
+						classePartsGenPageAjouter(entiteClasseParts);
 						List<String> entiteNomsCanoniquesSuperEtMoiSansGen = new ArrayList<String>();
 						if(StringUtils.isNotEmpty(entiteClasseParts.nomCanoniqueGenerique)) {
 							ClasseParts classePartsGenerique = ClasseParts.initClasseParts(this, entiteClasseParts.nomCanoniqueGenerique, langueNom);
 							classePartsGenAjouter(classePartsGenerique);
+							classePartsGenPageAjouter(classePartsGenerique);
 							classePartsGenAjouter(entiteClasseParts);
 
 							if(classePartsGenerique.documentSolr != null) {

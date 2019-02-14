@@ -368,6 +368,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: jsonObject
 	 * r: ObjetJson
 	 * r.enUS: JsonObject
+	 * r: siteUrlBase
+	 * r.enUS: siteBaseUrl
+	 * r: classeApiUri
+	 * r.enUS: classApiUri
 	 * 
 	 * r: SiteContexte
 	 * r.enUS: SiteContext

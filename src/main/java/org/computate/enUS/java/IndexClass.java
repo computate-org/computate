@@ -1071,6 +1071,8 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.nio.charset.Charset", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.http.NameValuePair", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationRequest", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Optional", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.stream.Stream", languageName));
 			classPartsGenApiAdd(classPartsSearchList);
 		}
 		if(classIndexed) {
@@ -1456,10 +1458,12 @@ public class IndexClass extends WatchClassBase {
 						}
 
 						classPartsGenAdd(entityClassParts);
+						classPartsGenPageAdd(entityClassParts);
 						List<String> entityCanonicalNamesSuperAndMeWithoutGen = new ArrayList<String>();
 						if(StringUtils.isNotEmpty(entityClassParts.canonicalNameGeneric)) {
 							ClassParts classPartsGeneric = ClassParts.initClassParts(this, entityClassParts.canonicalNameGeneric, languageName);
 							classPartsGenAdd(classPartsGeneric);
+							classPartsGenPageAdd(classPartsGeneric);
 							classPartsGenAdd(entityClassParts);
 
 							if(classPartsGeneric.solrDocument != null) {

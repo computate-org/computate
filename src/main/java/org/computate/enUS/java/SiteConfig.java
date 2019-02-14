@@ -168,7 +168,7 @@ public class SiteConfig {
 	public String siteBaseUrl;
 
 	protected void  _siteBaseUrl() throws Exception, Exception {
-		nomDomaine = config.getString(StringUtils.replace(appName, ".", "..") + ".siteUrlBase");
+		domainName = config.getString(StringUtils.replace(appName, ".", "..") + ".siteUrlBase");
 	}
 
 	/**	
@@ -351,7 +351,8 @@ public class SiteConfig {
 		_allLanguages();
 		_languageIndexed();
 		_domainName();
-		_siteUrlBase();
+		_siteBaseUrl();
+		_domainName();
 		_domainPackageName();
 		_configFileName();
 		_mavenVersion();

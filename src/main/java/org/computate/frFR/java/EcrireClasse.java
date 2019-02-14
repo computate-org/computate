@@ -950,7 +950,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * r: objet
 	 * r.enUS: object
 	 */
-	public EcrireClasse dfglb() {
+	public EcrireClasse dfgbl() {
 		l(".fg(); }");
 		return this;
 	}
@@ -1000,8 +1000,18 @@ public class EcrireClasse extends IndexerClasse {
 	 * r: objet
 	 * r.enUS: object
 	 */
-	public EcrireClasse dglb(Object...objets) {
+	public EcrireClasse dgbl(Object...objets) {
 		l(".g(", q(objets), "); }");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse gbl(Object...objets) {
+		l("g(", q(objets), "); }");
 		return this;
 	}
 }

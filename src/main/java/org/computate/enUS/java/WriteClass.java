@@ -526,7 +526,7 @@ public class WriteClass extends IndexClass {
 		return this;
 	}
 
-	public WriteClass dfglb() {
+	public WriteClass dfgbl() {
 		l(".fg(); }");
 		return this;
 	}
@@ -551,8 +551,13 @@ public class WriteClass extends IndexClass {
 		return this;
 	}
 
-	public WriteClass dglb(Object...objects) {
+	public WriteClass dgbl(Object...objects) {
 		l(".g(", q(objects), "); }");
+		return this;
+	}
+
+	public WriteClass gbl(Object...objects) {
+		l("g(", q(objects), "); }");
 		return this;
 	}
 }

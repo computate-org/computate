@@ -304,7 +304,9 @@ public class ConfigSite {
 	 * r.enUS: siteUrlBase
 	 * r: appliNom
 	 * r.enUS: appName
-	 **/ 
+	 * r: nomDomaine
+	 * r.enUS: domainName
+	 **/  
 	protected void _siteUrlBase() throws Exception {
 		nomDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".siteUrlBase");
 	}
@@ -324,7 +326,7 @@ public class ConfigSite {
 	 * r.enUS: parts
 	 * r: appliNom
 	 * r.enUS: appName
-	 **/ 
+	 **/  
 	protected void _nomEnsembleDomaine() throws Exception {
 		nomEnsembleDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomEnsembleDomaine");
 		if(StringUtils.isEmpty(nomEnsembleDomaine)) {
@@ -667,6 +669,8 @@ public class ConfigSite {
 	 * r.enUS: siteWriteMethods
 	 * r: ecrireApi
 	 * r.enUS: writeApi
+	 * r: siteUrlBase
+	 * r.enUS: siteBaseUrl
 	 **/ 
 	public void initConfigSite() throws Exception {
 		_appliNom();
@@ -685,6 +689,7 @@ public class ConfigSite {
 		_langueIndexe();
 		_nomDomaine();
 		_siteUrlBase();
+		_nomDomaine();
 		_nomEnsembleDomaine();
 		_nomFichierConfig();
 		_versionMaven();
