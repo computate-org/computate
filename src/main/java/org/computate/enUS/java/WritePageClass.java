@@ -1,6 +1,7 @@
 package org.computate.enUS.java;
 
 import java.io.File;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -386,8 +387,8 @@ public class WritePageClass extends WriteApiClass {
 			SolrQuery rechercheSolr = new SolrQuery();   
 			rechercheSolr.setQuery("*:*");
 			rechercheSolr.setRows(1000000);
-			rechercheSolr.addFilterQuery("classAbsolutePath_indexed_string:" + ClientUtils.escapeQueryChars(classAbsolutePath));
-			rechercheSolr.addFilterQuery("classeEtendGen_indexed_boolean:true");
+			String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+			rechercheSolr.addFilterQuery("entiteClassesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
 			rechercheSolr.addSort("entityHtmlLine_indexed_int", ORDER.asc);
 			rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
 			QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
@@ -447,7 +448,7 @@ public class WritePageClass extends WriteApiClass {
 					writerPageJs.l();
 					writerPageJs.l("/**");
 					if(methodePATCH) {
-					writerPageJs.l(" * Refresh un ou multiple ", contextNamePlural, " sans valuers qui change, ");
+					writerPageJs.l(" * Modify un ou multiple ", contextNamePlural, " sans valuers qui change, ");
 					writerPageJs.l(" * ou changer des valeurs pour un ou multiple ", contextTheName, ". ");
 					writerPageJs.l(" * @param params: [ \"q=*:*\", \"fq=pk:1\", \"sort=pk asc\", \"rows=1\", \"fl=pk\" ]");
 					writerPageJs.l(" *        Une list des opérations de recherche sur des ", contextNamePlural, " ");
@@ -548,10 +549,11 @@ public class WritePageClass extends WriteApiClass {
 								t(4).dfgl();
 							}
 							else if("LocalDateTime".equals(entitySimpleName)) {
+								tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
+								l();
 								if(entityDisplayName != null) {
 									t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
 								}
-								l();
 								t(4).e("input").l();
 								t(5).dal("type", "text");
 								t(5).dal("class", "w3-input w3-border datepicker ");
@@ -579,10 +581,11 @@ public class WritePageClass extends WriteApiClass {
 								t(4).dfgl();
 							}
 							else if("LocalTime".equals(entitySimpleName)) {
+								tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
+								l();
 								if(entityDisplayName != null) {
 									t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
 								}
-								l();
 								t(4).e("input").l();
 								t(5).dal("type", "text");
 								t(5).dal("class", "w3-input w3-border timepicker ");
@@ -713,7 +716,7 @@ public class WritePageClass extends WriteApiClass {
 				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
 
 				if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
-					Integer tab = classeApiMethodeMethode.contains("POST") ? 0 : 1;
+					Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("DELETE") || classeApiMethodeMethode.contains("POST") ? 0 : 1;
 					String methodTitle = null;
 
 					if("POST".equals(classeApiMethodeMethode))
@@ -721,9 +724,9 @@ public class WritePageClass extends WriteApiClass {
 					else if("PUT".equals(classeApiMethodeMethode))
 						methodTitle = "Replace " + contextTheName;
 					else if("PATCH".equals(classeApiMethodeMethode))
-						methodTitle = "Refresh " + contextTheName;
+						methodTitle = "Modify des " + contextNamePlural;
 					else if("DELETE".equals(classeApiMethodeMethode))
-						methodTitle = "Delete " + contextTheName;
+						methodTitle = "Delete des " + contextNamePlural;
 
 
 					l();
@@ -732,14 +735,7 @@ public class WritePageClass extends WriteApiClass {
 					t(2 + tab).e("button").l();
 					t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contexteCouleur, " ");
 					t(3 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, "Modale').show(); ");
-					if("POST".equals(classeApiMethodeMethode))
-						t(3 + tab).df().dsx("Create ", contextAName).l();
-					else if("PUT".equals(classeApiMethodeMethode))
-						t(3 + tab).df().dsx("Replace ", contextTheName).l();
-					else if("PATCH".equals(classeApiMethodeMethode))
-						t(3 + tab).df().dsx("Refresh ", contextTheName).l();
-					else if("DELETE".equals(classeApiMethodeMethode))
-						t(3 + tab).df().dsx("Delete ", contextTheName).l();
+					t(3 + tab).df().dsx(methodTitle).l();
 					t(2 + tab).dgl("button");
 					{ t(2 + tab).be("div").da("id", classeApiOperationIdMethode, "Modale").da("class", "w3-modal ").dfl();
 						{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();

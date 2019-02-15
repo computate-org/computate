@@ -7,11 +7,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -90,6 +93,8 @@ public class WriteGenClass extends WriteClass {
 	protected List<String> classParameterTypeNames;
 
 	protected List<String> classSuperParameterTypeNames;
+
+	protected List<String> entitySuperClassesAndMeWithoutGen;
 
 	protected List<String> classWriteMethods;
 
@@ -335,8 +340,8 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "public void index", classSimpleName, "(SolrClient solrClient) throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "index", classSimpleName, "(document);");
-//			if(classeSauvegarde)
-//				tl(2, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
+			if(classeSauvegarde)
+				tl(2, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
 			tl(2, "solrClient.add(document);");
 			tl(2, "solrClient.commit();");
 			l("\t}");
@@ -344,8 +349,8 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "public void index", classSimpleName, "() throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "index", classSimpleName, "(document);");
-//			if(classeSauvegarde)
-//				tl(2, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
+			if(classeSauvegarde)
+				tl(2, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
 			tl(2, "SolrClient solrClient = siteRequest_.getSiteContext_().getSolrClient();");
 			tl(2, "solrClient.add(document);");
 			tl(2, "solrClient.commit();");
@@ -1521,7 +1526,7 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 					else if(entitySimpleName.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
@@ -1530,7 +1535,7 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else {
 						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", ", entityVar, ");");
@@ -1543,7 +1548,7 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 					else if(entitySimpleName.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
@@ -1552,7 +1557,7 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList") || entitySimpleName.equals("Set") || entitySimpleName.equals("HashSet")) {
 						tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
@@ -1570,7 +1575,7 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 					else if(entitySimpleName.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
@@ -1579,7 +1584,7 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault())));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList") || entitySimpleName.equals("Set") || entitySimpleName.equals("HashSet")) {
 						tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
@@ -1668,41 +1673,41 @@ public class WriteGenClass extends WriteClass {
 					tl(0);
 	
 					if(entitySuggested) {
-						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entityTypeSuffix, "\");");
-						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-						tl(2, "}");
+						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entityTypeSuffix, "\");");
+						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+						tl(3, "}");
 					}
 					else if(entityIncremented) {
-						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entityTypeSuffix, "\");");
-						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-						tl(2, "}");
+						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entityTypeSuffix, "\");");
+						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+						tl(3, "}");
 					}
 					else if(entityUniqueKey) {
-						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entityTypeSuffix, "\");");
-						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-						tl(2, "}");
+						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entityTypeSuffix, "\");");
+						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+						tl(3, "}");
 					}
 					else if(entityEncrypted) {
-						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
 						if(siteEncrypted)
-							tl(3, entitySolrSimpleName, " ", entityVar, " = siteRequest.deencryptStr((", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entityTypeSuffix, "\"));");
+							tl(4, entitySolrSimpleName, " ", entityVar, " = siteRequest.deencryptStr((", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entityTypeSuffix, "\"));");
 						else
-							tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entityTypeSuffix, "\");");
-						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-						tl(2, "}");
+							tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entityTypeSuffix, "\");");
+						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+						tl(3, "}");
 					}
 					else {
-						tl(2, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entityTypeSuffix, "\");");
-						tl(3, "if(", entityVar, " != null)");
+						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entityTypeSuffix, "\");");
+						tl(4, "if(", entityVar, " != null)");
 						if(StringUtils.contains(entitySolrCanonicalName, "<"))
-							tl(4, "o", classSimpleName, ".", entityVar, ".addAll(", entityVar, ");");
+							tl(5, "o", classSimpleName, ".", entityVar, ".addAll(", entityVar, ");");
 						else
-							tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-						tl(2, "}");
+							tl(5, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+						tl(3, "}");
 					}
 	
 				}
@@ -1994,7 +1999,8 @@ public class WriteGenClass extends WriteClass {
 				}
 				else {
 					l();
-					tl(3, "fieldValue = documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ").stream().findFirst().orElse(null);");
+					tl(3, "fieldValue = Optional.ofNullable(documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ")).map(Collection<Object>::stream).orElseGet(Stream::empty).findFirst().orElse(null);");
+//					tl(3, "fieldValue = documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ").stream().findFirst().orElse(null);");
 //					tl(4, "fieldValue = documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ").stream().findFirst().orElse(null);");
 					tl(3, "if(fieldValue != null)");
 					if (VAL_canonicalNameBoolean.equals(entitySolrCanonicalName)) {
@@ -2501,7 +2507,9 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "public void populate", classSimpleName, "(SolrDocument solrDocument) {");
 			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
 			tl(2, "sauvegardes", classSimpleName, " = (List<String>)solrDocument.get(\"sauvegardes", classSimpleName, "_stored_strings\");");
+			tl(2, "if(sauvegardes", classSimpleName, " != null) {");
 			s(wPopulate.toString());
+			tl(2, "}");
 			if(BooleanUtils.isTrue(classExtendsBase)) {
 				tl(0);
 				tl(2, "super.populate", classSuperSimpleNameGeneric, "(solrDocument);");

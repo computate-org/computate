@@ -3090,6 +3090,9 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenPageAjouter(classePartsListeRecherche);
 			classePartsGenPageAjouter(classePartsCouverture);
 			classePartsGenPageAjouter(classePartsMiseEnPage);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalDateTime.class.getCanonicalName(), langueNom));
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalDate.class.getCanonicalName(), langueNom));
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, ZonedDateTime.class.getCanonicalName(), langueNom));
 		}
 
 		if(classeApi) {

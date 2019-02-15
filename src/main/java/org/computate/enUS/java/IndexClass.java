@@ -990,6 +990,9 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenPageAdd(classPartsSearchList);
 			classPartsGenPageAdd(classPartsWrap);
 			classPartsGenPageAdd(classPartsPageLayout);
+			classPartsGenPageAdd(ClassParts.initClassParts(this, LocalDateTime.class.getCanonicalName(), languageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, LocalDate.class.getCanonicalName(), languageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, ZonedDateTime.class.getCanonicalName(), languageName));
 		}
 
 		if(classApi) {

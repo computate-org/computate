@@ -108,6 +108,7 @@ public class WriteAllClasses extends WritePageClass {
 					classApiUri = (String)doc.get("classApiUri_" + languageName + "_stored_string");
 					classComment = (String)doc.get("classComment_" + languageName + "_stored_string");
 					classImportsGen = (List<String>)doc.get("classImportsGen_" + languageName + "_stored_strings");
+					classWriteMethods = (List<String>)doc.get("classWriteMethods_stored_strings");
 					if(classImportsGen == null)
 						classImportsGen = new ArrayList<String>();
 					classImportsGenApi = (List<String>)doc.get("classImportsGenApi_" + languageName + "_stored_strings");
@@ -121,6 +122,7 @@ public class WriteAllClasses extends WritePageClass {
 						classInitDeepExceptions = new ArrayList<String>();
 					classParameterTypeNames = (List<String>)doc.get("classParameterTypeNames_stored_strings");
 					classSuperParameterTypeNames = (List<String>)doc.get("classSuperParameterTypeNames_stored_strings");
+					entitySuperClassesAndMeWithoutGen = (List<String>)doc.get("entitySuperClassesAndMeWithoutGen_stored_strings");
 					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
 					classBaseExtendsGen = (Boolean)doc.get("classBaseExtendsGen_stored_boolean");
 					classExtendsBase = (Boolean)doc.get("classExtendsBase_stored_boolean");

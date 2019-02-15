@@ -194,6 +194,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected List<String> classeSuperParametreTypeNoms;
 
 	/**
+	 * Var.enUS: entitySuperClassesAndMeWithoutGen
+	 */
+	protected List<String> entiteClassesSuperEtMoiSansGen;
+
+	/**
 	 * Var.enUS: classWriteMethods
 	 */
 	protected List<String> classeEcrireMethodes;

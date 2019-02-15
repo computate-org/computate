@@ -1,6 +1,7 @@
 package org.computate.frFR.java;
 
 import java.io.File;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -698,8 +699,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: multiple
 	 * r: Créer 
 	 * r.enUS: Create 
-	 * r: Actualiser 
-	 * r.enUS: Refresh 
+	 * r: Modifier 
+	 * r.enUS: Modify 
 	 * r: Remplacer 
 	 * r.enUS: Replace 
 	 * r: Supprimer 
@@ -713,8 +714,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			SolrQuery rechercheSolr = new SolrQuery();   
 			rechercheSolr.setQuery("*:*");
 			rechercheSolr.setRows(1000000);
-			rechercheSolr.addFilterQuery("classeCheminAbsolu_indexed_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
-			rechercheSolr.addFilterQuery("classeEtendGen_indexed_boolean:true");
+			String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+			rechercheSolr.addFilterQuery("entiteClassesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
 			rechercheSolr.addSort("entiteHtmlLigne_indexed_int", ORDER.asc);
 			rechercheSolr.addSort("entiteHtmlCellule_indexed_int", ORDER.asc);
 			QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -774,7 +775,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.l();
 					auteurPageJs.l("/**");
 					if(methodePATCH) {
-					auteurPageJs.l(" * Actualiser un ou plusiers ", contexteNomPluriel, " sans valuers qui change, ");
+					auteurPageJs.l(" * Modifier un ou plusiers ", contexteNomPluriel, " sans valuers qui change, ");
 					auteurPageJs.l(" * ou changer des valeurs pour un ou plusiers ", contexteLeNom, ". ");
 					auteurPageJs.l(" * @param params: [ \"q=*:*\", \"fq=pk:1\", \"sort=pk asc\", \"rows=1\", \"fl=pk\" ]");
 					auteurPageJs.l(" *        Une liste des opérations de recherche sur des ", contexteNomPluriel, " ");
@@ -875,10 +876,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								t(4).dfgl();
 							}
 							else if("LocalDateTime".equals(entiteNomSimple)) {
+								tl(4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
+								l();
 								if(entiteNomAffichage != null) {
 									t(4).e("label").da("class", "").df().dsx(entiteNomAffichage).dgl("label");
 								}
-								l();
 								t(4).e("input").l();
 								t(5).dal("type", "text");
 								t(5).dal("class", "w3-input w3-border datepicker ");
@@ -906,10 +908,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								t(4).dfgl();
 							}
 							else if("LocalTime".equals(entiteNomSimple)) {
+								tl(4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
+								l();
 								if(entiteNomAffichage != null) {
 									t(4).e("label").da("class", "").df().dsx(entiteNomAffichage).dgl("label");
 								}
-								l();
 								t(4).e("input").l();
 								t(5).dal("type", "text");
 								t(5).dal("class", "w3-input w3-border timepicker ");
@@ -1040,7 +1043,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
 
 				if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
-					Integer tab = classeApiMethodeMethode.contains("POST") ? 0 : 1;
+					Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("DELETE") || classeApiMethodeMethode.contains("POST") ? 0 : 1;
 					String methodeTitre = null;
 
 					if("POST".equals(classeApiMethodeMethode))
@@ -1048,9 +1051,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					else if("PUT".equals(classeApiMethodeMethode))
 						methodeTitre = "Remplacer " + contexteLeNom;
 					else if("PATCH".equals(classeApiMethodeMethode))
-						methodeTitre = "Actualiser " + contexteLeNom;
+						methodeTitre = "Modifier des " + contexteNomPluriel;
 					else if("DELETE".equals(classeApiMethodeMethode))
-						methodeTitre = "Supprimer " + contexteLeNom;
+						methodeTitre = "Supprimer des " + contexteNomPluriel;
 
 
 					l();
@@ -1059,14 +1062,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(2 + tab).e("button").l();
 					t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contexteCouleur, " ");
 					t(3 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, "Modale').show(); ");
-					if("POST".equals(classeApiMethodeMethode))
-						t(3 + tab).df().dsx("Créer ", contexteUnNom).l();
-					else if("PUT".equals(classeApiMethodeMethode))
-						t(3 + tab).df().dsx("Remplacer ", contexteLeNom).l();
-					else if("PATCH".equals(classeApiMethodeMethode))
-						t(3 + tab).df().dsx("Actualiser ", contexteLeNom).l();
-					else if("DELETE".equals(classeApiMethodeMethode))
-						t(3 + tab).df().dsx("Supprimer ", contexteLeNom).l();
+					t(3 + tab).df().dsx(methodeTitre).l();
 					t(2 + tab).dgl("button");
 					{ t(2 + tab).be("div").da("id", classeApiOperationIdMethode, "Modale").da("class", "w3-modal ").dfl();
 						{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();
