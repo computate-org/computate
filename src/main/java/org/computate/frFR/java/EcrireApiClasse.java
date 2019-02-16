@@ -229,7 +229,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 				auteurGenApiService.t(1, "public void ", classeApiOperationIdMethode, "(");
 				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
-					auteurGenApiService.s("JsonObject objetJson, ");
+					auteurGenApiService.s("JsonObject body, ");
 				auteurGenApiService.l("OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements);");
 			}
 			auteurGenApiService.tl(0, "}");
@@ -443,11 +443,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(1, "@Override");
 				t(1, "public void ", classeApiOperationIdMethode, "(");
 				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
-					s("JsonObject objetJson, ");
+					s("JsonObject body, ");
 				l("OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
 
 				if(classeApiMethode.contains("POST")) {
-					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, objetJson);");
+					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
 					tl(2, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
 					tl(3, "creer", classeApiMethode, classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
 					tl(4, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(c -> ");
@@ -463,7 +463,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(2, ");");
 				}
 				else if(classeApiMethode.contains("PATCH")) {
-					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, objetJson);");
+					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
 					tl(2, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
 					tl(3, "recherche", classeNomSimple, "(requeteSite).compose(liste", classeNomSimple, "-> ");
 					tl(4, "liste", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
@@ -483,7 +483,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(2, ");");
 				}
 				else if(classeApiMethode.contains("PUT")) {
-					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, objetJson);");
+					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
 					tl(2, "Future<OperationResponse> etapesFutures = sql", classeNomSimple, "(requeteSite).compose(a -> ");
 					tl(3, "remplacer", classeApiMethode, classeNomSimple, "(requeteSite).compose(", StringUtils.uncapitalize(classeNomSimple), " -> ");
 					tl(4, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ").compose(c -> ");
@@ -945,10 +945,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "return genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, null);");
 			tl(1, "}");
 			l();
-			tl(1, "public RequeteSite genererRequeteSitePour", classeNomSimple, "(SiteContexte siteContexte, OperationRequest operationRequete, JsonObject objetJson) {");
+			tl(1, "public RequeteSite genererRequeteSitePour", classeNomSimple, "(SiteContexte siteContexte, OperationRequest operationRequete, JsonObject body) {");
 			tl(2, "Vertx vertx = siteContexte.getVertx();");
 			tl(2, "RequeteSite requeteSite = new RequeteSite();");
-			tl(2, "requeteSite.setObjetJson(objetJson);");
+			tl(2, "requeteSite.setObjetJson(body);");
 			tl(2, "requeteSite.setVertx(vertx);");
 	//		tl(2, "requeteSite.setContexteItineraire(contexteItineraire);");
 			tl(2, "requeteSite.setSiteContexte_(siteContexte);");

@@ -705,6 +705,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: Replace 
 	 * r: Supprimer 
 	 * r.enUS: Delete 
+	 * r: valeur
+	 * r.enUS: value
+	 * r: filtre
+	 * r.enUS: filter
+	 * r: Recherche
+	 * r.enUS: Search
 	 */ 
 	public void pageCodeClasse(String langueNom) throws Exception {
 
@@ -754,6 +760,50 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "@Override public void htmlScripts", classeNomSimple, "GenPage() {");
 			t(2).e("script").da("src", "/static/js/", classeNomSimple, "Page.js").df().dgl("script");
 			tl(1, "}");
+			ToutEcrivain wRecherche = ToutEcrivain.create();
+			ToutEcrivain wPOST = ToutEcrivain.create();
+			ToutEcrivain wPATCH = ToutEcrivain.create();
+
+			if(rechercheListe.size() > 0) {
+				for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
+					for(Integer j = 0; j < rechercheListe.size(); j++) {
+						SolrDocument entiteDocumentSolr = rechercheListe.get(j);
+						String entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
+						String entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + langueNom + "_stored_string");
+						String entiteNomSimple = (String)entiteDocumentSolr.get("entiteNomSimple_" + langueNom + "_stored_string");
+						String entiteNomSimpleGenerique = (String)entiteDocumentSolr.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
+						String entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
+						String entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
+						String entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
+						Boolean entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
+						Boolean entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
+						if(entiteHtml) {
+
+							wRecherche.l();
+							wRecherche.tl(1, "var filtre", entiteVarCapitalise, " = $formulaireFiltres.find('.valeur", entiteVarCapitalise, "').val();");
+							wRecherche.tl(1, "if(filtre", entiteVarCapitalise, ")");
+							wRecherche.tl(2, "filtres['", entiteVar, "'] = valeur", entiteVarCapitalise, ";");
+
+							wPOST.l();
+							wPOST.tl(1, "var valeur", entiteVarCapitalise, " = $formulaireValeurs.find('.valeur", entiteVarCapitalise, "').val();");
+							wPOST.tl(1, "if(valeur", entiteVarCapitalise, ")");
+							wPOST.tl(2, "valeurs['", entiteVar, "'] = valeur", entiteVarCapitalise, ";");
+
+							wPATCH.l();
+							wPATCH.tl(1, "var set", entiteVarCapitalise, " = $formulaireValeurs.find('.set", entiteVarCapitalise, "').val();");
+							wPATCH.tl(1, "if(set", entiteVarCapitalise, ")");
+							wPATCH.tl(2, "patchs['set", entiteVarCapitalise, "'] = set", entiteVarCapitalise, ";");
+							wPATCH.tl(1, "var add", entiteVarCapitalise, " = $formulaireValeurs.find('.add", entiteVarCapitalise, "').val();");
+							wPATCH.tl(1, "if(add", entiteVarCapitalise, ")");
+							wPATCH.tl(2, "patchs['add", entiteVarCapitalise, "'] = add", entiteVarCapitalise, ";");
+							wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $formulaireValeurs.find('.remove", entiteVarCapitalise, "').val();");
+							wPATCH.tl(1, "if(remove", entiteVarCapitalise, ")");
+							wPATCH.tl(2, "patchs['remove", entiteVarCapitalise, "'] = remove", entiteVarCapitalise, ";");
+						}
+					}
+				}
+			}
+
 			l();
 			tl(1, "@Override public void htmlScript", classeNomSimple, "GenPage() {");
 			for(String classeApiMethode : classeApiMethodes) {
@@ -787,14 +837,34 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.l(" */");
 					auteurPageJs.t(0, "function ", classeApiOperationIdMethode, "(");
 					if(methodePOST)
-						auteurPageJs.s("valeurs");
+						auteurPageJs.s("$formulaireValeurs");
 					else if(methodePUT)
-						auteurPageJs.s("pk, valeurs");
+						auteurPageJs.s("pk, $formulaireValeurs");
 					if(methodePATCH)
-						auteurPageJs.s("params=[], valeurs={}");
+						auteurPageJs.s("$formulaireFiltres, $formulaireValeurs");
 					if(methodeGET || methodeDELETE)
 						auteurPageJs.s("pk");
+
 					auteurPageJs.l(") {");
+					if(methodePOST) {
+						auteurPageJs.tl(1, "var valeurs = {};");
+						auteurPageJs.s(wPOST);
+						auteurPageJs.l();
+					}
+					else if(methodePUT) {
+						auteurPageJs.tl(1, "var valeurs = {};");
+						auteurPageJs.s(wPOST);
+						auteurPageJs.l();
+					}
+					if(methodePATCH) {
+						auteurPageJs.tl(1, "var filtres = {};");
+						auteurPageJs.s(wRecherche);
+						auteurPageJs.l();
+						auteurPageJs.tl(1, "var patchs = {};");
+						auteurPageJs.s(wPATCH);
+						auteurPageJs.l();
+					}
+
 					auteurPageJs.tl(1, "$.ajax({");
 
 					if(methodeGET || methodeDELETE || methodePUT)
@@ -869,6 +939,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								tl(5, ".fg();");
 
 								t(4).e("input").l();
+								t(5).dal("class", "valeur", entiteVarCapitalise);
 								t(5).dal("name", entiteVar);
 								t(5).dal("type", "hidden");
 								t(5).dal("onchange", "envoyer(); ");
@@ -902,6 +973,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 								t(4).e("input").l();
 								t(5).dal("type", "hidden");
+								t(5).dal("class", "valeur", entiteVarCapitalise);
 								t(5).dal("name", entiteVar);
 								t(5).dal("onchange", "envoyer(); ");
 								tl(5, ".a(\"value\", o.str", entiteVarCapitalise, "())");
@@ -933,6 +1005,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 								t(4).e("input").l();
 								t(5).dal("type", "hidden");
+								t(5).dal("class", "valeur", entiteVarCapitalise);
 								t(5).dal("name", entiteVar);
 								t(5).dal("onchange", "envoyer(); ");
 								tl(5, ".a(\"value\", val == null ? \"\" : o.str", entiteVarCapitalise, "())");
@@ -947,6 +1020,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								l();
 								t(4).e("input").l();
 								t(5).dal("type", "checkbox");
+								t(5).dal("class", "valeur", entiteVarCapitalise);
 								t(5).dal("name", entiteVar);
 								t(5).dal("value", "true");
 								t(5).da("onchange", "envoyer(); ").l(";");
@@ -968,6 +1042,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								else
 									t(4).e("input").l().t(7).dal("type", "text");
 
+								t(5).dal("class", "valeur", entiteVarCapitalise);
 								t(5).dal("name", entiteVar);
 								t(5).dal("class", "w3-input w3-border ");
 								if(entiteNomAffichage != null) {
@@ -1084,9 +1159,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Formulaire').serializeObject())); \")");
 
 								if("POST".equals(classeApiMethodeMethode))
-									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Formulaire').serializeObject()); \")");
+									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Formulaire')); \")");
 								else if("PUT".equals(classeApiMethodeMethode))
-									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Formulaire').serializeObject()); \")");
+									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Formulaire')); \")");
 								else if(tab > 0)
 									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \"); \")");
 								else

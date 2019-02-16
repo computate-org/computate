@@ -83,7 +83,7 @@ public class WriteApiClass extends WriteGenClass {
 
 				writerGenApiService.t(1, "public void ", classApiOperationIdMethod, "(");
 				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
-					writerGenApiService.s("JsonObject objetJson, ");
+					writerGenApiService.s("JsonObject body, ");
 				writerGenApiService.l("OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements);");
 			}
 			writerGenApiService.tl(0, "}");
@@ -154,11 +154,11 @@ public class WriteApiClass extends WriteGenClass {
 				tl(1, "@Override");
 				t(1, "public void ", classApiOperationIdMethod, "(");
 				if(StringUtils.containsAny(classApiMethod, "POST", "PUT", "PATCH"))
-					s("JsonObject jsonObject, ");
+					s("JsonObject body, ");
 				l("OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> eventHandler) {");
 
 				if(classApiMethod.contains("POST")) {
-					tl(2, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest, jsonObject);");
+					tl(2, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest, body);");
 					tl(2, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(siteRequest).compose(a -> ");
 					tl(3, "create", classApiMethod, classSimpleName, "(siteRequest).compose(", StringUtils.uncapitalize(classSimpleName), " -> ");
 					tl(4, "sql", classApiMethod, classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(c -> ");
@@ -174,7 +174,7 @@ public class WriteApiClass extends WriteGenClass {
 					tl(2, ");");
 				}
 				else if(classApiMethod.contains("PATCH")) {
-					tl(2, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest, jsonObject);");
+					tl(2, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest, body);");
 					tl(2, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(siteRequest).compose(a -> ");
 					tl(3, "search", classSimpleName, "(siteRequest).compose(liste", classSimpleName, "-> ");
 					tl(4, "liste", classApiMethod, classSimpleName, "(liste", classSimpleName, ")");
@@ -194,7 +194,7 @@ public class WriteApiClass extends WriteGenClass {
 					tl(2, ");");
 				}
 				else if(classApiMethod.contains("PUT")) {
-					tl(2, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest, jsonObject);");
+					tl(2, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest, body);");
 					tl(2, "Future<OperationResponse> etapesFutures = sql", classSimpleName, "(siteRequest).compose(a -> ");
 					tl(3, "remplacer", classApiMethod, classSimpleName, "(siteRequest).compose(", StringUtils.uncapitalize(classSimpleName), " -> ");
 					tl(4, "sql", classApiMethod, classSimpleName, "(", StringUtils.uncapitalize(classSimpleName), ").compose(c -> ");
@@ -656,10 +656,10 @@ public class WriteApiClass extends WriteGenClass {
 			tl(2, "return genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest, null);");
 			tl(1, "}");
 			l();
-			tl(1, "public SiteRequest genererSiteRequestPour", classSimpleName, "(SiteContext siteContext, OperationRequest operationRequest, JsonObject jsonObject) {");
+			tl(1, "public SiteRequest genererSiteRequestPour", classSimpleName, "(SiteContext siteContext, OperationRequest operationRequest, JsonObject body) {");
 			tl(2, "Vertx vertx = siteContext.getVertx();");
 			tl(2, "SiteRequest siteRequest = new SiteRequest();");
-			tl(2, "siteRequest.setJsonObject(jsonObject);");
+			tl(2, "siteRequest.setJsonObject(body);");
 			tl(2, "siteRequest.setVertx(vertx);");
 	//		tl(2, "siteRequest.setContexteItineraire(contexteItineraire);");
 			tl(2, "siteRequest.setSiteContext_(siteContext);");

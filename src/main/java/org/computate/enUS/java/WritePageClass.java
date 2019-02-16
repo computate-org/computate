@@ -427,6 +427,50 @@ public class WritePageClass extends WriteApiClass {
 			tl(1, "@Override public void htmlScripts", classSimpleName, "GenPage() {");
 			t(2).e("script").da("src", "/static/js/", classSimpleName, "Page.js").df().dgl("script");
 			tl(1, "}");
+			ToutEcrivain wSearch = ToutEcrivain.create();
+			ToutEcrivain wPOST = ToutEcrivain.create();
+			ToutEcrivain wPATCH = ToutEcrivain.create();
+
+			if(rechercheListe.size() > 0) {
+				for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
+					for(Integer j = 0; j < rechercheListe.size(); j++) {
+						SolrDocument entiteDocumentSolr = rechercheListe.get(j);
+						String entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
+						String entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
+						String entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
+						String entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
+						String entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
+						String entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
+						String entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
+						Boolean entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
+						Boolean entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
+						if(entityHtml) {
+
+							wSearch.l();
+							wSearch.tl(1, "var filter", entityVarCapitalized, " = $formulaireFiltres.find('.value", entityVarCapitalized, "').val();");
+							wSearch.tl(1, "if(filter", entityVarCapitalized, ")");
+							wSearch.tl(2, "filters['", entityVar, "'] = value", entityVarCapitalized, ";");
+
+							wPOST.l();
+							wPOST.tl(1, "var value", entityVarCapitalized, " = $formulaireValeurs.find('.value", entityVarCapitalized, "').val();");
+							wPOST.tl(1, "if(value", entityVarCapitalized, ")");
+							wPOST.tl(2, "values['", entityVar, "'] = value", entityVarCapitalized, ";");
+
+							wPATCH.l();
+							wPATCH.tl(1, "var set", entityVarCapitalized, " = $formulaireValeurs.find('.set", entityVarCapitalized, "').val();");
+							wPATCH.tl(1, "if(set", entityVarCapitalized, ")");
+							wPATCH.tl(2, "patchs['set", entityVarCapitalized, "'] = set", entityVarCapitalized, ";");
+							wPATCH.tl(1, "var add", entityVarCapitalized, " = $formulaireValeurs.find('.add", entityVarCapitalized, "').val();");
+							wPATCH.tl(1, "if(add", entityVarCapitalized, ")");
+							wPATCH.tl(2, "patchs['add", entityVarCapitalized, "'] = add", entityVarCapitalized, ";");
+							wPATCH.tl(1, "var remove", entityVarCapitalized, " = $formulaireValeurs.find('.remove", entityVarCapitalized, "').val();");
+							wPATCH.tl(1, "if(remove", entityVarCapitalized, ")");
+							wPATCH.tl(2, "patchs['remove", entityVarCapitalized, "'] = remove", entityVarCapitalized, ";");
+						}
+					}
+				}
+			}
+
 			l();
 			tl(1, "@Override public void htmlScript", classSimpleName, "GenPage() {");
 			for(String classeApiMethode : classeApiMethodes) {
@@ -441,7 +485,7 @@ public class WritePageClass extends WriteApiClass {
 					Boolean methodePUT = classeApiMethodeMethode.equals("PUT");
 					Boolean methodePATCH = classeApiMethodeMethode.equals("PATCH");
 					Boolean methodeDELETE = classeApiMethodeMethode.equals("DELETE");
-					Boolean methodeRecherche = classeApiMethode.contains("Recherche");
+					Boolean methodeSearch = classeApiMethode.contains("Search");
 
 					writerPageJs.l();
 					writerPageJs.tl(0, "// ", classeApiMethode, " //");
@@ -449,30 +493,50 @@ public class WritePageClass extends WriteApiClass {
 					writerPageJs.l("/**");
 					if(methodePATCH) {
 					writerPageJs.l(" * Modify un ou multiple ", contextNamePlural, " sans valuers qui change, ");
-					writerPageJs.l(" * ou changer des valeurs pour un ou multiple ", contextTheName, ". ");
+					writerPageJs.l(" * ou changer des values pour un ou multiple ", contextTheName, ". ");
 					writerPageJs.l(" * @param params: [ \"q=*:*\", \"fq=pk:1\", \"sort=pk asc\", \"rows=1\", \"fl=pk\" ]");
 					writerPageJs.l(" *        Une list des opérations de recherche sur des ", contextNamePlural, " ");
-					writerPageJs.l(" *        pour rechercher \"q=*:*\", filtrer \"fq=pk:1\", trier \"sort=pk desc\", ");
-					writerPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les valeurs \"fl=pk\". ");
-					writerPageJs.l(" * @param valeurs Noms des champs et valeurs à changer selon les filtres fq. ");
+					writerPageJs.l(" *        pour rechercher \"q=*:*\", filterr \"fq=pk:1\", trier \"sort=pk desc\", ");
+					writerPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les values \"fl=pk\". ");
+					writerPageJs.l(" * @param values Noms des champs et values à changer selon les filters fq. ");
 					writerPageJs.l(" *           Example: { pk: 1 }");
 					}
 					writerPageJs.l(" */");
 					writerPageJs.t(0, "function ", classeApiOperationIdMethode, "(");
 					if(methodePOST)
-						writerPageJs.s("valeurs");
+						writerPageJs.s("$formulaireValeurs");
 					else if(methodePUT)
-						writerPageJs.s("pk, valeurs");
+						writerPageJs.s("pk, $formulaireValeurs");
 					if(methodePATCH)
-						writerPageJs.s("params=[], valeurs={}");
+						writerPageJs.s("$formulaireFiltres, $formulaireValeurs");
 					if(methodeGET || methodeDELETE)
 						writerPageJs.s("pk");
+
 					writerPageJs.l(") {");
+					if(methodePOST) {
+						writerPageJs.tl(1, "var values = {};");
+						writerPageJs.s(wPOST);
+						writerPageJs.l();
+					}
+					else if(methodePUT) {
+						writerPageJs.tl(1, "var values = {};");
+						writerPageJs.s(wPOST);
+						writerPageJs.l();
+					}
+					if(methodePATCH) {
+						writerPageJs.tl(1, "var filters = {};");
+						writerPageJs.s(wSearch);
+						writerPageJs.l();
+						writerPageJs.tl(1, "var patchs = {};");
+						writerPageJs.s(wPATCH);
+						writerPageJs.l();
+					}
+
 					writerPageJs.tl(1, "$.ajax({");
 
 					if(methodeGET || methodeDELETE || methodePUT)
 						writerPageJs.tl(2, "url: '", StringUtils.replace(classeApiUriMethode, "{pk}", "' + pk"));
-					else if(methodePATCH || methodeRecherche)
+					else if(methodePATCH || methodeSearch)
 						writerPageJs.tl(2, "url: '", classeApiUriMethode, "' + (!params || params.length == 0 ? '' : '?' + params.join('&'))");
 					else
 						writerPageJs.tl(2, "url: '", classeApiUriMethode, "'");
@@ -481,7 +545,7 @@ public class WritePageClass extends WriteApiClass {
 					writerPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
 					writerPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
 					if(!"GET".equals(classeApiMethodeMethode) || "DELETE".equals(classeApiMethodeMethode))
-						writerPageJs.tl(2, ", data: JSON.stringify(valeurs)");
+						writerPageJs.tl(2, ", data: JSON.stringify(values)");
 					writerPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
 					writerPageJs.tl(2, "}");
 					writerPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
@@ -542,6 +606,7 @@ public class WritePageClass extends WriteApiClass {
 								tl(5, ".fg();");
 
 								t(4).e("input").l();
+								t(5).dal("class", "value", entityVarCapitalized);
 								t(5).dal("name", entityVar);
 								t(5).dal("type", "hidden");
 								t(5).dal("onchange", "envoyer(); ");
@@ -575,6 +640,7 @@ public class WritePageClass extends WriteApiClass {
 
 								t(4).e("input").l();
 								t(5).dal("type", "hidden");
+								t(5).dal("class", "value", entityVarCapitalized);
 								t(5).dal("name", entityVar);
 								t(5).dal("onchange", "envoyer(); ");
 								tl(5, ".a(\"value\", o.str", entityVarCapitalized, "())");
@@ -606,6 +672,7 @@ public class WritePageClass extends WriteApiClass {
 
 								t(4).e("input").l();
 								t(5).dal("type", "hidden");
+								t(5).dal("class", "value", entityVarCapitalized);
 								t(5).dal("name", entityVar);
 								t(5).dal("onchange", "envoyer(); ");
 								tl(5, ".a(\"value\", val == null ? \"\" : o.str", entityVarCapitalized, "())");
@@ -620,6 +687,7 @@ public class WritePageClass extends WriteApiClass {
 								l();
 								t(4).e("input").l();
 								t(5).dal("type", "checkbox");
+								t(5).dal("class", "value", entityVarCapitalized);
 								t(5).dal("name", entityVar);
 								t(5).dal("value", "true");
 								t(5).da("onchange", "envoyer(); ").l(";");
@@ -641,6 +709,7 @@ public class WritePageClass extends WriteApiClass {
 								else
 									t(4).e("input").l().t(7).dal("type", "text");
 
+								t(5).dal("class", "value", entityVarCapitalized);
 								t(5).dal("name", entityVar);
 								t(5).dal("class", "w3-input w3-border ");
 								if(entityDisplayName != null) {
@@ -757,9 +826,9 @@ public class WritePageClass extends WriteApiClass {
 //								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Formulaire').serializeObject())); \")");
 
 								if("POST".equals(classeApiMethodeMethode))
-									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Formulaire').serializeObject()); \")");
+									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Formulaire')); \")");
 								else if("PUT".equals(classeApiMethodeMethode))
-									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Formulaire').serializeObject()); \")");
+									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Formulaire')); \")");
 								else if(tab > 0)
 									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \"); \")");
 								else
