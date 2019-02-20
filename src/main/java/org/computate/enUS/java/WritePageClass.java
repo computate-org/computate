@@ -387,8 +387,8 @@ public class WritePageClass extends WriteApiClass {
 			SolrQuery rechercheSolr = new SolrQuery();   
 			rechercheSolr.setQuery("*:*");
 			rechercheSolr.setRows(1000000);
-			String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-			rechercheSolr.addFilterQuery("entiteClassesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
+			String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+			rechercheSolr.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqClassesSuperEtMoi);
 			rechercheSolr.addSort("entityHtmlLine_indexed_int", ORDER.asc);
 			rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
 			QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
@@ -427,9 +427,9 @@ public class WritePageClass extends WriteApiClass {
 			tl(1, "@Override public void htmlScripts", classSimpleName, "GenPage() {");
 			t(2).e("script").da("src", "/static/js/", classSimpleName, "Page.js").df().dgl("script");
 			tl(1, "}");
-			ToutEcrivain wSearch = ToutEcrivain.create();
-			ToutEcrivain wPOST = ToutEcrivain.create();
-			ToutEcrivain wPATCH = ToutEcrivain.create();
+			AllWriter wSearch = AllWriter.create();
+			AllWriter wPOST = AllWriter.create();
+			AllWriter wPATCH = AllWriter.create();
 
 			if(rechercheListe.size() > 0) {
 				for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
@@ -445,25 +445,29 @@ public class WritePageClass extends WriteApiClass {
 						Boolean entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
 						Boolean entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
 						if(entityHtml) {
+							String jsVal = ".val()";
+							if("Boolean".equals(entitySimpleName)) {
+								jsVal = ".prop('checked')";
+							}
 
 							wSearch.l();
-							wSearch.tl(1, "var filter", entityVarCapitalized, " = $formulaireFiltres.find('.value", entityVarCapitalized, "').val();");
+							wSearch.tl(1, "var filter", entityVarCapitalized, " = $formulaireFiltres.find('.value", entityVarCapitalized, "')", jsVal, ";");
 							wSearch.tl(1, "if(filter", entityVarCapitalized, ")");
 							wSearch.tl(2, "filters['", entityVar, "'] = value", entityVarCapitalized, ";");
 
 							wPOST.l();
-							wPOST.tl(1, "var value", entityVarCapitalized, " = $formulaireValeurs.find('.value", entityVarCapitalized, "').val();");
+							wPOST.tl(1, "var value", entityVarCapitalized, " = $formulaireValeurs.find('.value", entityVarCapitalized, "')", jsVal, ";");
 							wPOST.tl(1, "if(value", entityVarCapitalized, ")");
 							wPOST.tl(2, "values['", entityVar, "'] = value", entityVarCapitalized, ";");
 
 							wPATCH.l();
-							wPATCH.tl(1, "var set", entityVarCapitalized, " = $formulaireValeurs.find('.set", entityVarCapitalized, "').val();");
+							wPATCH.tl(1, "var set", entityVarCapitalized, " = $formulaireValeurs.find('.set", entityVarCapitalized, "')", jsVal, ";");
 							wPATCH.tl(1, "if(set", entityVarCapitalized, ")");
 							wPATCH.tl(2, "patchs['set", entityVarCapitalized, "'] = set", entityVarCapitalized, ";");
-							wPATCH.tl(1, "var add", entityVarCapitalized, " = $formulaireValeurs.find('.add", entityVarCapitalized, "').val();");
+							wPATCH.tl(1, "var add", entityVarCapitalized, " = $formulaireValeurs.find('.add", entityVarCapitalized, "')", jsVal, ";");
 							wPATCH.tl(1, "if(add", entityVarCapitalized, ")");
 							wPATCH.tl(2, "patchs['add", entityVarCapitalized, "'] = add", entityVarCapitalized, ";");
-							wPATCH.tl(1, "var remove", entityVarCapitalized, " = $formulaireValeurs.find('.remove", entityVarCapitalized, "').val();");
+							wPATCH.tl(1, "var remove", entityVarCapitalized, " = $formulaireValeurs.find('.remove", entityVarCapitalized, "')", jsVal, ";");
 							wPATCH.tl(1, "if(remove", entityVarCapitalized, ")");
 							wPATCH.tl(2, "patchs['remove", entityVarCapitalized, "'] = remove", entityVarCapitalized, ";");
 						}
@@ -473,11 +477,11 @@ public class WritePageClass extends WriteApiClass {
 
 			l();
 			tl(1, "@Override public void htmlScript", classSimpleName, "GenPage() {");
-			for(String classeApiMethode : classeApiMethodes) {
-				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
-				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
-				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
-				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+			for(String classeApiMethode : classApiMethods) {
+				String classeApiOperationIdMethode = (String)classDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
+				String classeApiUriMethode = (String)classDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
+				String classeApiTypeMediaMethode = (String)classDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
+				String classeApiMethodeMethode = (String)classDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
 
 				if("application/json".equals(classeApiTypeMediaMethode)) {
 					Boolean methodePOST = classeApiMethodeMethode.equals("POST");
@@ -778,11 +782,11 @@ public class WritePageClass extends WriteApiClass {
 
 			t(2).e("div").dfl();
 			l();
-			for(String classeApiMethode : classeApiMethodes) {
-				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
-				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
-				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
-				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+			for(String classeApiMethode : classApiMethods) {
+				String classeApiOperationIdMethode = (String)classDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
+				String classeApiUriMethode = (String)classDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
+				String classeApiTypeMediaMethode = (String)classDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
+				String classeApiMethodeMethode = (String)classDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
 
 				if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
 					Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("DELETE") || classeApiMethodeMethode.contains("POST") ? 0 : 1;
@@ -802,13 +806,13 @@ public class WritePageClass extends WriteApiClass {
 					if(tab > 0)
 						tl(2, "if(list", classSimpleName, ".size() == 1) {");
 					t(2 + tab).e("button").l();
-					t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contexteCouleur, " ");
+					t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contextColor, " ");
 					t(3 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, "Modale').show(); ");
 					t(3 + tab).df().dsx(methodTitle).l();
 					t(2 + tab).dgl("button");
 					{ t(2 + tab).be("div").da("id", classeApiOperationIdMethode, "Modale").da("class", "w3-modal ").dfl();
 						{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();
-							{ t(4 + tab).be("header").da("class", "w3-container w3-", contexteCouleur, " ").dfl();
+							{ t(4 + tab).be("header").da("class", "w3-container w3-", contextColor, " ").dfl();
 								t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classeApiOperationIdMethode, "Modale').hide(); ").df().dsx("×").dgl("span");
 								t(5 + tab).e("h2").da("class", "").df().dsx(methodTitle).dgl("h2");
 							} t(4 + tab).bgl("header");
@@ -820,7 +824,7 @@ public class WritePageClass extends WriteApiClass {
 									tl(6 + tab, "htmlForm", classSimpleName, "(o);");
 								} t(5 + tab).bgl("form");
 								t(5 + tab).e("button").l();
-								t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contexteCouleur, " ");
+								t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contextColor, " ");
 
 //								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Formulaire').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {}))); \")");
 //								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Formulaire').serializeObject())); \")");

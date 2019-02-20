@@ -1074,6 +1074,7 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.nio.charset.Charset", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.http.NameValuePair", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationRequest", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Optional", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.stream.Stream", languageName));
 			classPartsGenApiAdd(classPartsSearchList);

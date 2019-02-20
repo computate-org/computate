@@ -340,7 +340,7 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "public void index", classSimpleName, "(SolrClient solrClient) throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "index", classSimpleName, "(document);");
-			if(classeSauvegarde)
+			if(classSaved)
 				tl(2, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
 			tl(2, "solrClient.add(document);");
 			tl(2, "solrClient.commit();");
@@ -349,7 +349,7 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "public void index", classSimpleName, "() throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "index", classSimpleName, "(document);");
-			if(classeSauvegarde)
+			if(classSaved)
 				tl(2, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
 			tl(2, "SolrClient solrClient = siteRequest_.getSiteContext_().getSolrClient();");
 			tl(2, "solrClient.add(document);");

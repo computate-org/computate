@@ -559,6 +559,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: entityDisplayName
 	 * r: entiteMultiligne
 	 * r.enUS: entityMultiline
+	 * r: entiteClassesSuperEtMoiSansGen
+	 * r.enUS: entitySuperClassesAndMeWithoutGen
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 * r: classeApiMethodes
+	 * r.enUS: classApiMethods
+	 * r: classeDoc
+	 * r.enUS: classDoc
+	 * r: contexteCouleur
+	 * r.enUS: contextColor
 	 * 
 	 * r: contexteUnNom
 	 * r.enUS: contextAName
@@ -778,25 +788,29 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						Boolean entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
 						Boolean entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
 						if(entiteHtml) {
+							String jsVal = ".val()";
+							if("Boolean".equals(entiteNomSimple)) {
+								jsVal = ".prop('checked')";
+							}
 
 							wRecherche.l();
-							wRecherche.tl(1, "var filtre", entiteVarCapitalise, " = $formulaireFiltres.find('.valeur", entiteVarCapitalise, "').val();");
+							wRecherche.tl(1, "var filtre", entiteVarCapitalise, " = $formulaireFiltres.find('.valeur", entiteVarCapitalise, "')", jsVal, ";");
 							wRecherche.tl(1, "if(filtre", entiteVarCapitalise, ")");
 							wRecherche.tl(2, "filtres['", entiteVar, "'] = valeur", entiteVarCapitalise, ";");
 
 							wPOST.l();
-							wPOST.tl(1, "var valeur", entiteVarCapitalise, " = $formulaireValeurs.find('.valeur", entiteVarCapitalise, "').val();");
+							wPOST.tl(1, "var valeur", entiteVarCapitalise, " = $formulaireValeurs.find('.valeur", entiteVarCapitalise, "')", jsVal, ";");
 							wPOST.tl(1, "if(valeur", entiteVarCapitalise, ")");
 							wPOST.tl(2, "valeurs['", entiteVar, "'] = valeur", entiteVarCapitalise, ";");
 
 							wPATCH.l();
-							wPATCH.tl(1, "var set", entiteVarCapitalise, " = $formulaireValeurs.find('.set", entiteVarCapitalise, "').val();");
+							wPATCH.tl(1, "var set", entiteVarCapitalise, " = $formulaireValeurs.find('.set", entiteVarCapitalise, "')", jsVal, ";");
 							wPATCH.tl(1, "if(set", entiteVarCapitalise, ")");
 							wPATCH.tl(2, "patchs['set", entiteVarCapitalise, "'] = set", entiteVarCapitalise, ";");
-							wPATCH.tl(1, "var add", entiteVarCapitalise, " = $formulaireValeurs.find('.add", entiteVarCapitalise, "').val();");
+							wPATCH.tl(1, "var add", entiteVarCapitalise, " = $formulaireValeurs.find('.add", entiteVarCapitalise, "')", jsVal, ";");
 							wPATCH.tl(1, "if(add", entiteVarCapitalise, ")");
 							wPATCH.tl(2, "patchs['add", entiteVarCapitalise, "'] = add", entiteVarCapitalise, ";");
-							wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $formulaireValeurs.find('.remove", entiteVarCapitalise, "').val();");
+							wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $formulaireValeurs.find('.remove", entiteVarCapitalise, "')", jsVal, ";");
 							wPATCH.tl(1, "if(remove", entiteVarCapitalise, ")");
 							wPATCH.tl(2, "patchs['remove", entiteVarCapitalise, "'] = remove", entiteVarCapitalise, ";");
 						}

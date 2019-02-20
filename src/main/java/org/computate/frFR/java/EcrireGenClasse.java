@@ -650,6 +650,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classIsBase
 	 * r: indexerPourClasse
 	 * r.enUS: indexForClass
+	 * r: classeSauvegarde
+	 * r.enUS: classSaved
 	 * 
 	 * r: getClientSolr
 	 * r.enUS: getSolrClient
