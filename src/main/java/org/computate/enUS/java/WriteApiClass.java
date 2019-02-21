@@ -898,7 +898,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(3, "Long ", classVarPrimaryKey, " = o.get", StringUtils.capitalize(classVarPrimaryKey), "();");
 			tl(3, "sqlConnection.queryWithParams(");
 			tl(5, "SiteContext.SQL_attribuer");
-			tl(5, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "))");
+			tl(5, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, ", ", classVarPrimaryKey, "))");
 			tl(5, ", attribuerAsync");
 			tl(3, "-> {");
 			tl(4, "if(attribuerAsync.succeeded()) {");

@@ -430,6 +430,8 @@ public class WritePageClass extends WriteApiClass {
 			AllWriter wSearch = AllWriter.create();
 			AllWriter wPOST = AllWriter.create();
 			AllWriter wPATCH = AllWriter.create();
+			AllWriter wTh = AllWriter.create();
+			AllWriter wTd = AllWriter.create();
 
 			if(rechercheListe.size() > 0) {
 				for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
@@ -470,6 +472,12 @@ public class WritePageClass extends WriteApiClass {
 							wPATCH.tl(1, "var remove", entityVarCapitalized, " = $formulaireValeurs.find('.remove", entityVarCapitalized, "')", jsVal, ";");
 							wPATCH.tl(1, "if(remove", entityVarCapitalized, ")");
 							wPATCH.tl(2, "patchs['remove", entityVarCapitalized, "'] = remove", entityVarCapitalized, ";");
+
+							wTh.tl(5, "e(\"th\").f().sx(", q(entityDisplayName), ").g(\"th\");");
+
+							wTd.tl(6, "{ e(\"td\").f();");
+							wTd.tl(7, "sx(o.get", entityVarCapitalized, "());");
+							wTd.tl(6, "} g(\"td\");");
 						}
 					}
 				}
@@ -778,6 +786,17 @@ public class WritePageClass extends WriteApiClass {
 				t(4).e("span").da("class", " ").df().dsx(contextNamePlural).dgl("i");
 			}
 			t(3).bgl("h1");
+			t(3).be("table").da("class", "w3-table w3-bordered w3-striped w3-border w3-hoverable ").dfl();
+			t(4).be("tr").dfl();
+			s(wTh);
+			t(4).bgl("tr");
+			tl(4, "for(int i = 0; i < list", classSimpleName, ".size(); i++) {");
+			tl(5, classSimpleName, " o = list", classSimpleName, ".getList().get(i);");
+			tl(5, "{ e(\"tr\").f();");
+			s(wTd);
+			tl(5, "} g(\"tr\");");
+			tl(4, "}");
+			t(3).bgl("table");
 			tl(2, "}");
 
 			t(2).e("div").dfl();
@@ -854,6 +873,8 @@ public class WritePageClass extends WriteApiClass {
 
 			tl(1, "}");
 			tl(0, "}");
+
+			wTh.flushClose();
 		}
 
 		if(writerPageClass != null)

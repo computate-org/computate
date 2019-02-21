@@ -1191,7 +1191,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
 			tl(3, "connexionSql.queryWithParams(");
 			tl(5, "SiteContexte.SQL_attribuer");
-			tl(5, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "))");
+			tl(5, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, ", ", classeVarClePrimaire, "))");
 			tl(5, ", attribuerAsync");
 			tl(3, "-> {");
 			tl(4, "if(attribuerAsync.succeeded()) {");

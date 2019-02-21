@@ -773,6 +773,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			ToutEcrivain wRecherche = ToutEcrivain.create();
 			ToutEcrivain wPOST = ToutEcrivain.create();
 			ToutEcrivain wPATCH = ToutEcrivain.create();
+			ToutEcrivain wTh = ToutEcrivain.create();
+			ToutEcrivain wTd = ToutEcrivain.create();
 
 			if(rechercheListe.size() > 0) {
 				for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
@@ -813,6 +815,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $formulaireValeurs.find('.remove", entiteVarCapitalise, "')", jsVal, ";");
 							wPATCH.tl(1, "if(remove", entiteVarCapitalise, ")");
 							wPATCH.tl(2, "patchs['remove", entiteVarCapitalise, "'] = remove", entiteVarCapitalise, ";");
+
+							wTh.tl(5, "e(\"th\").f().sx(", q(entiteNomAffichage), ").g(\"th\");");
+
+							wTd.tl(6, "{ e(\"td\").f();");
+							wTd.tl(7, "sx(o.get", entiteVarCapitalise, "());");
+							wTd.tl(6, "} g(\"td\");");
 						}
 					}
 				}
@@ -1121,6 +1129,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				t(4).e("span").da("class", " ").df().dsx(contexteNomPluriel).dgl("i");
 			}
 			t(3).bgl("h1");
+			t(3).be("table").da("class", "w3-table w3-bordered w3-striped w3-border w3-hoverable ").dfl();
+			t(4).be("tr").dfl();
+			s(wTh);
+			t(4).bgl("tr");
+			tl(4, "for(int i = 0; i < liste", classeNomSimple, ".size(); i++) {");
+			tl(5, classeNomSimple, " o = liste", classeNomSimple, ".getList().get(i);");
+			tl(5, "{ e(\"tr\").f();");
+			s(wTd);
+			tl(5, "} g(\"tr\");");
+			tl(4, "}");
+			t(3).bgl("table");
 			tl(2, "}");
 
 			t(2).e("div").dfl();
@@ -1197,6 +1216,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			tl(1, "}");
 			tl(0, "}");
+
+			wTh.flushClose();
 		}
 
 		if(auteurPageClasse != null)
