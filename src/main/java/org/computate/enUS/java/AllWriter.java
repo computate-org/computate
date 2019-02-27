@@ -11,16 +11,6 @@ import org.apache.commons.text.StringEscapeUtils;
 
 public class AllWriter {
 
-	protected StringWriter stringWriter;
-
-	protected File file;
-
-	protected PrintWriter printWriter;
-
-	protected Boolean empty = false;
-
-	protected boolean alreadyInitializedStringPrintWriter = false;
-
 	public static AllWriter create() throws FileNotFoundException, FileNotFoundException {
 		AllWriter o = new AllWriter();
 		o.initDeepForClass();
@@ -94,6 +84,111 @@ public class AllWriter {
 		return this;
 	}
 
+	public String q(Object...objects) {
+		StringBuilder o = new StringBuilder();
+		o.append("\"");
+		for(Object object : objects)
+			if(object != null)
+				o.append(StringUtils.replace(StringUtils.replace(object.toString(), "\\", "\\\\"), "\"", "\\\""));
+		o.append("\"");
+		return o.toString();
+	}
+
+	public AllWriter be(Object...objects) {
+		s("{ e(", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter e(Object...objects) {
+		s("e(", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter da(String var, Object...objects) {
+		s(".a(", q(var), ", ", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter a(String var, Object...objects) {
+		s("a(", q(var), ", ", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter dal(String var, Object...objects) {
+		l(".a(", q(var), ", ", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter al(String var, Object...objects) {
+		l("a(", q(var), ", ", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter dsx(Object...objects) {
+		s(".sx(", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter df() {
+		s(".f()");
+		return this;
+	}
+
+	public AllWriter dfl() {
+		l(".f();");
+		return this;
+	}
+
+	public AllWriter dfg() {
+		s(".fg()");
+		return this;
+	}
+
+	public AllWriter dfgl() {
+		l(".fg();");
+		return this;
+	}
+
+	public AllWriter fgl() {
+		l("fg();");
+		return this;
+	}
+
+	public AllWriter dfgbl() {
+		l(".fg(); }");
+		return this;
+	}
+
+	public AllWriter dg(Object...objects) {
+		s(".g(", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter gl(Object...objects) {
+		l("g(", q(objects), ");");
+		return this;
+	}
+
+	public AllWriter bgl(Object...objects) {
+		l("} g(", q(objects), ");");
+		return this;
+	}
+
+	public AllWriter dgl(Object...objects) {
+		l(".g(", q(objects), ");");
+		return this;
+	}
+
+	public AllWriter dgbl(Object...objects) {
+		l(".g(", q(objects), "); }");
+		return this;
+	}
+
+	public AllWriter gbl(Object...objects) {
+		l("g(", q(objects), "); }");
+		return this;
+	}
+
 	public void  flushClose() throws IOException, IOException {
 		printWriter.flush();
 		if(stringWriter != null)
@@ -108,6 +203,8 @@ public class AllWriter {
 		return stringWriter.toString();
 	}
 
+	protected StringWriter stringWriter;
+
 	public StringWriter getStringWriter() {
 		return stringWriter;
 	}
@@ -120,6 +217,8 @@ public class AllWriter {
 		_stringWriter(stringWriter);
 		return (AllWriter)this;
 	}
+
+	protected File file;
 
 	public File getFile() {
 		return file;
@@ -134,6 +233,8 @@ public class AllWriter {
 		return (AllWriter)this;
 	}
 
+	protected PrintWriter printWriter;
+
 	public PrintWriter getPrintWriter() {
 		return printWriter;
 	}
@@ -146,6 +247,8 @@ public class AllWriter {
 		_printWriter(printWriter);
 		return (AllWriter)this;
 	}
+
+	protected Boolean empty = false;
 
 	public Boolean getEmpty() {
 		return empty;
@@ -185,6 +288,8 @@ public class AllWriter {
 	public String htmlEmpty() {
 		return empty == null ? "" : StringEscapeUtils.escapeHtml4(strEmpty());
 	}
+
+	protected boolean alreadyInitializedStringPrintWriter = false;
 
 	public AllWriter initDeepStringPrintWriter() throws FileNotFoundException, FileNotFoundException {
 		if(!alreadyInitializedStringPrintWriter) {

@@ -301,6 +301,16 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: contextActualName
 	 * r: contexteTousNom
 	 * r.enUS: contextAllName
+	 * r: contexteLesNoms
+	 * r.enUS: contextTheName
+	 * r: contexteTitre
+	 * r.enUS: contextTitle
+	 * r: contexteH1
+	 * r.enUS: contextH1
+	 * r: contexteH2
+	 * r.enUS: contextH2
+	 * r: contexteH3
+	 * r.enUS: contextH3
 	 * r: contexteTous
 	 * r.enUS: contextAll
 	 * r: contexteAucunNomTrouve
@@ -380,10 +390,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeCheminGenApiServiceImpl = (String)doc.get("classeCheminGenApiServiceImpl_" + langueNom + "_stored_string"); 
 					classeCheminApiServiceImpl = (String)doc.get("classeCheminApiServiceImpl_" + langueNom + "_stored_string"); 
 					classeCheminGenApiService = (String)doc.get("classeCheminGenApiService_" + langueNom + "_stored_string"); 
-					classeCheminGenPage = (String)doc.get("classeCheminGenPage_" + langueNom + "_stored_string"); 
-					classeCheminPage = (String)doc.get("classeCheminPage_" + langueNom + "_stored_string"); 
-					classeCheminPageCss = (String)doc.get("classeCheminPageCss_" + langueNom + "_stored_string"); 
-					classeCheminPageJs = (String)doc.get("classeCheminPageJs_" + langueNom + "_stored_string"); 
 
 					classeRepertoireGen = new File(classeCheminRepertoireGen);
 					classeRepertoireGen.mkdirs();
@@ -397,14 +403,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 						classeFichierApiServiceImpl = new File(classeCheminApiServiceImpl);
 					if(classeCheminGenApiService != null)
 						classeFichierGenApiService = new File(classeCheminGenApiService);
-					if(classeCheminGenPage != null)
-						classeFichierPageGen = new File(classeCheminGenPage);
-					if(classeCheminPage != null)
-						classeFichierPage = new File(classeCheminPage);
-					if(classeCheminPageCss != null)
-						classeFichierPageCss = new File(classeCheminPageCss);
-					if(classeCheminPageJs != null)
-						classeFichierPageJs = new File(classeCheminPageJs);
 
 					o = ToutEcrivain.create(classeFichierGen);
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
@@ -421,7 +419,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeNomSimpleGenApiService = (String)doc.get("classeNomSimpleGenApiService_" + langueNom + "_stored_string");
 					classeVarClePrimaire = (String)doc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
 					classeVarCleUnique = (String)doc.get("classeVarCleUnique_" + langueNom + "_stored_string");
-					classePageUri = (String)doc.get("classePageUri_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
@@ -476,6 +473,11 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					contexteUn = (String)doc.get("contexteUn" + "_" + langueNom + "_stored_string");
 					contexteNomActuel = (String)doc.get("contexteNomActuel" + "_" + langueNom + "_stored_string");
 					contexteTousNom = (String)doc.get("contexteTousNom" + "_" + langueNom + "_stored_string");
+					contexteLesNoms = (String)doc.get("contexteLesNoms" + "_" + langueNom + "_stored_string");
+					contexteTitre = (String)doc.get("contexteTitre" + "_" + langueNom + "_stored_string");
+					contexteH1 = (String)doc.get("contexteH1" + "_" + langueNom + "_stored_string");
+					contexteH2 = (String)doc.get("contexteH2" + "_" + langueNom + "_stored_string");
+					contexteH3 = (String)doc.get("contexteH3" + "_" + langueNom + "_stored_string");
 					contexteAucunNomTrouve = (String)doc.get("contexteAucunNomTrouve" + "_" + langueNom + "_stored_string");
 					contexteUnNomAdjectif = (String)doc.get("contexteUnNomAdjectif" + "_" + langueNom + "_stored_string");
 					contexteCeNom = (String)doc.get("contexteCeNom" + "_" + langueNom + "_stored_string");
@@ -493,17 +495,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 							auteurApiServiceImpl = ToutEcrivain.create(classeFichierApiServiceImpl);
 						if(classeFichierGenApiService != null)
 							auteurGenApiService = ToutEcrivain.create(classeFichierGenApiService);
-					}
-//					auteurPageClasse = new PrintWriter(classeFichierPage);
-					if(classePage) {
-						if(classeFichierPage != null && !classeFichierPage.exists())
-							auteurPageClasse = ToutEcrivain.create(classeFichierPage);
-						if(classeFichierPageGen != null)
-							auteurGenPageClasse = ToutEcrivain.create(classeFichierPageGen);
-						if(classeFichierPageCss != null)
-							auteurPageCss = ToutEcrivain.create(classeFichierPageCss);
-						if(classeFichierPageJs != null)
-							auteurPageJs = ToutEcrivain.create(classeFichierPageJs);
 					}
 
 					genCodeInit();

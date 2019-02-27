@@ -104,6 +104,205 @@ public class ToutEcrivain {
 		return this;
 	}
 
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public String q(Object...objets) {
+		StringBuilder o = new StringBuilder();
+		o.append("\"");
+		for(Object objet : objets)
+			if(objet != null)
+				o.append(StringUtils.replace(StringUtils.replace(objet.toString(), "\\", "\\\\"), "\"", "\\\""));
+		o.append("\"");
+		return o.toString();
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain be(Object...objets) {
+		s("{ e(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain e(Object...objets) {
+		s("e(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param2.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain da(String var, Object...objets) {
+		s(".a(", q(var), ", ", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param2.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain a(String var, Object...objets) {
+		s("a(", q(var), ", ", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param2.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dal(String var, Object...objets) {
+		l(".a(", q(var), ", ", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param2.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain al(String var, Object...objets) {
+		l("a(", q(var), ", ", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsx(Object...objets) {
+		s(".sx(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain df() {
+		s(".f()");
+		return this;
+	}
+
+	/**
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dfl() {
+		l(".f();");
+		return this;
+	}
+
+	/**
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dfg() {
+		s(".fg()");
+		return this;
+	}
+
+	/**
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dfgl() {
+		l(".fg();");
+		return this;
+	}
+
+	/**
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain fgl() {
+		l("fg();");
+		return this;
+	}
+
+	/**
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dfgbl() {
+		l(".fg(); }");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dg(Object...objets) {
+		s(".g(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain gl(Object...objets) {
+		l("g(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain bgl(Object...objets) {
+		l("} g(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dgl(Object...objets) {
+		l(".g(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dgbl(Object...objets) {
+		l(".g(", q(objets), "); }");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain gbl(Object...objets) {
+		l("g(", q(objets), "); }");
+		return this;
+	}
+
 	public void flushClose() throws IOException {
 		printWriter.flush();
 		if(stringWriter != null)

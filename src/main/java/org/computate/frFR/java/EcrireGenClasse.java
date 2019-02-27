@@ -139,11 +139,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeNomCanoniqueSuper;
 
 	/**
-	 * Var.enUS: classPageUri
-	 */
-	protected String classePageUri;
-
-	/**
 	 * Var.enUS: classApiUri
 	 */
 	protected String classeApiUri;
@@ -2745,214 +2740,214 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList, VAL_nomCanoniqueSet, VAL_nomCanoniqueHashSet)) {
 					if(VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \");");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": \");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(((Boolean)entiteValeur).toString());");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(((Boolean)entiteValeur).toString());");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(\"\\\"", entiteVar, "\\\": \");");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": \");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(VAL_citation);");
-						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(\"\\\"\");");
+						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "w.s(\"\\\"\");");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(\"", entiteVar, "\");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"\");");
+						tl(5, "w.s(\"", entiteVar, "\");");
+						tl(5, "w.s(\"\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(VAL_citation);");
-						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(\"\\\"\");");
+						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "w.s(\"\\\"\");");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(\"", entiteVar, "\");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"\");");
+						tl(5, "w.s(\"", entiteVar, "\");");
+						tl(5, "w.s(\"\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(VAL_citation);");
-						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime()));");
-						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(\"\\\"\");");
+						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime()));");
+						tl(6, "w.s(\"\\\"\");");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(\"", entiteVar, "\");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"\");");
+						tl(5, "w.s(\"", entiteVar, "\");");
+						tl(5, "w.s(\"\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(VAL_citation);");
-						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(\"\\\"\");");
+						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+						tl(6, "w.s(\"\\\"\");");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(\"", entiteVar, "\");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"\");");
+						tl(5, "w.s(\"", entiteVar, "\");");
+						tl(5, "w.s(\"\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(VAL_citation);");
-						tl(6, "reponseServeur.write(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
-						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(\"\\\"\");");
+						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+						tl(6, "w.s(\"\\\"\");");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(\"", entiteVar, "\");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"\");");
+						tl(5, "w.s(\"", entiteVar, "\");");
+						tl(5, "w.s(\"\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(((Long)entiteValeur).toString());");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(((Long)entiteValeur).toString());");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(\"", entiteVar, "\");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"\");");
+						tl(5, "w.s(\"", entiteVar, "\");");
+						tl(5, "w.s(\"\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(BigDecimal.valueOf((Double)entiteValeur).toString());");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(BigDecimal.valueOf((Double)entiteValeur).toString());");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(\"", entiteVar, "\");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"\");");
+						tl(5, "w.s(\"", entiteVar, "\");");
+						tl(5, "w.s(\"\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(((Double)entiteValeur).toString());");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(((Double)entiteValeur).toString());");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(\"", entiteVar, "\");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"\");");
+						tl(5, "w.s(\"", entiteVar, "\");");
+						tl(5, "w.s(\"\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(((Float)entiteValeur).toString());");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(((Float)entiteValeur).toString());");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else if(VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)) {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(\"", entiteVar, "\");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"\");");
+						tl(5, "w.s(\"", entiteVar, "\");");
+						tl(5, "w.s(\"\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(((Integer)entiteValeur).toString());");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(((Integer)entiteValeur).toString());");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
 					else {
 						tl(5, "if(j > 0)");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(5, "reponseServeur.write(VAL_citation);");
-						tl(5, "reponseServeur.write(\"", entiteVar, "\");");
-						tl(5, "reponseServeur.write(VAL_citationDeuxPointsEspaceGuillmets);");
+						tl(6, "w.s(\", \");");
+						tl(5, "w.s(\"\\\"\");");
+						tl(5, "w.s(\"", entiteVar, "\");");
+						tl(5, "w.s(\"\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
-						tl(7, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(\", \");");
-						tl(6, "reponseServeur.write(VAL_citation);");
-						tl(6, "reponseServeur.write(((String)entiteValeur));");
-						tl(6, "reponseServeur.write(VAL_citation);");
+						tl(7, "w.s(\", \");");
+						tl(6, "w.s(\", \");");
+						tl(6, "w.s(\"\\\"\");");
+						tl(6, "w.s(((String)entiteValeur));");
+						tl(6, "w.s(\"\\\"\");");
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
-						tl(5, "reponseServeur.write(VAL_guillmetsFin);");
+						tl(5, "w.s(\"]\");");
 						tl(5, "j++;");
 						tl(5, "return j;");
 					}
@@ -3079,108 +3074,59 @@ public class EcrireGenClasse extends EcrireClasse {
 						if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
 							tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
 							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-							tl(tBase + 5, "ENTITE_VAR_", entiteVar);
-							tl(tBase + 5, ", ", classeVarClePrimaire);
-							tl(tBase + 5, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-							tl(tBase + 5, ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)");
-							tl(tBase + 5, "));");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", "));");
 	
 							tl(tBase + 2, "case \"addAll", entiteVarCapitalise, "\":");
 							tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
 							tl(tBase + 3, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
 							tl(tBase + 4, "patchSql.append(SiteContexte.SQL_addA);");
-							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
-							tl(tBase + 5, "ENTITE_VAR_", entiteVar);
-							tl(tBase + 5, ", ", classeVarClePrimaire);
-							tl(tBase + 5, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-							tl(tBase + 5, ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
-							tl(tBase + 5, "));");
+							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", "));");
 							tl(tBase + 3, "}");
 		
 							tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
 							tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
 							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_clearA1);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-							tl(tBase + 6, "ENTITE_VAR_", entiteVar);
-							tl(tBase + 6, ", ", classeVarClePrimaire);
-							tl(tBase + 6, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-							tl(tBase + 6, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
-							tl(tBase + 6, "));");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)", "));");
 	
 							tl(tBase + 3, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
 							tl(tBase + 4, "patchSql.append(SiteContexte.SQL_addA);");
-							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
-							tl(tBase + 6, "ENTITE_VAR_", entiteVar);
-							tl(tBase + 6, ", ", classeVarClePrimaire);
-							tl(tBase + 6, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-							tl(tBase + 6, ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
-							tl(tBase + 6, "));");
+							tl(tBase + 4, "patchSqlParams.set(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", "));");
 							tl(tBase + 3, "}");
 						}
 						else {
 							tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
 							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-							tl(tBase + 5, "ENTITE_VAR_", entiteVar);
-							tl(tBase + 5, ", ", classeVarClePrimaire);
-							tl(tBase + 5, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-							tl(tBase + 5, ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)");
-							tl(tBase + 5, "));");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", "));");
 	
 							tl(tBase + 2, "case \"addAll", entiteVarCapitalise, "\":");
 							tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
 							tl(tBase + 3, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
 							tl(tBase + 4, "patchSql.append(SiteContexte.SQL_setA2);");
-							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
-							tl(tBase + 6, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-							tl(tBase + 6, ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
-							tl(tBase + 6, ", ENTITE_VAR_", entiteVar);
-							tl(tBase + 6, ", ", classeVarClePrimaire);
-							tl(tBase + 6, "));");
+							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", ", "addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", q(entiteVar), ", ", classeVarClePrimaire, "));");
 							tl(tBase + 3, "}");
 		
 							tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
 							tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
 							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_clearA2);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-							tl(tBase + 5, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-							tl(tBase + 5, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
-							tl(tBase + 5, ", ENTITE_VAR_", entiteVar);
-							tl(tBase + 5, ", ", classeVarClePrimaire);
-							tl(tBase + 5, "));");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", ", ", q(entiteVar), ", ", classeVarClePrimaire, "));");
 	
 							tl(tBase + 3, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
 							tl(tBase + 4, "patchSql.append(SiteContexte.SQL_setA2);");
-							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(");
-							tl(tBase + 6, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-							tl(tBase + 6, ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)");
-							tl(tBase + 6, ", ENTITE_VAR_", entiteVar);
-							tl(tBase + 6, ", ", classeVarClePrimaire);
-							tl(tBase + 6, "));");
+							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", q(entiteVar), ", ", classeVarClePrimaire, "));");
 							tl(tBase + 3, "}");
 						}
 					}
 					else {
 		
-						tl(tBase + 6, "case \"set", entiteVarCapitalise, "\":");
+						tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
 						if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
 							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setA1);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-							tl(tBase + 5, "ENTITE_VAR_", entiteVar);
-							tl(tBase + 5, ", ", classeVarClePrimaire);
-							tl(tBase + 5, ", ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-							tl(tBase + 5, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)", "));");
 						}
 						else {
 							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setA2);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-							tl(tBase + 5, "ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, "");
-							tl(tBase + 5, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
-							tl(tBase + 5, ", ENTITE_VAR_", entiteVar);
-							tl(tBase + 5, ", ", classeVarClePrimaire);
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)", ", ", q(entiteVar), ", ", classeVarClePrimaire, "));");
 						}
-						tl(tBase + 5, "));");
 					}
 		
 					tl(tBase + 7, "break;");
@@ -3188,13 +3134,9 @@ public class EcrireGenClasse extends EcrireClasse {
 				else if(BooleanUtils.isTrue(entiteDefinir)) {
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 		
-						tl(tBase + 6, "case \"add", entiteVarCapitalise, "\":");
+						tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
 						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(");
-						tl(tBase + 5, "ENTITE_VAR_", entiteVar);
-						tl(tBase + 5, ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)");
-						tl(tBase + 5, ", ", classeVarClePrimaire);
-						tl(tBase + 5, "));");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)", ", ", classeVarClePrimaire, "));");
 		
 						tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
 						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setP);");

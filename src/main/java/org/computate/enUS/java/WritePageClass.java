@@ -1,6 +1,8 @@
 package org.computate.enUS.java;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -16,30 +18,6 @@ import org.apache.solr.common.SolrDocumentList;
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  **/
 public class WritePageClass extends WriteApiClass {
-
-	protected String classPathGenPage;
-
-	protected String classPathPage;
-
-	protected String classPathPageCss;
-
-	protected String classPathPageJs;
-
-	protected File classFilePageGen;
-
-	protected File classFilePage;
-
-	protected File classFilePageCss;
-
-	protected File classFilePageJs;
-
-	protected AllWriter writerGenPageClass;
-
-	protected AllWriter writerPageClass;
-
-	protected AllWriter writerPageCss;
-
-	protected AllWriter writerPageJs;
 
 	protected String classSimpleNamePage;
 
@@ -64,6 +42,16 @@ public class WritePageClass extends WriteApiClass {
 	protected String contextAll;
 
 	protected String contextAllName;
+
+	protected String contextH1;
+
+	protected String contextH2;
+
+	protected String contextH3;
+
+	protected String contextTitle;
+
+	protected String contextTheNames;
 
 	protected String contextNoneNameFound;
 
@@ -380,508 +368,774 @@ public class WritePageClass extends WriteApiClass {
 	}
 
 	public void  pageCodeClass(String languageName) throws Exception, Exception {
+		for(String classePageMethode : classApiMethods) {
 
-		if(writerGenPageClass != null) {
-			o = writerGenPageClass;
-
-			SolrQuery rechercheSolr = new SolrQuery();   
-			rechercheSolr.setQuery("*:*");
-			rechercheSolr.setRows(1000000);
-			String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-			rechercheSolr.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqClassesSuperEtMoi);
-			rechercheSolr.addSort("entityHtmlLine_indexed_int", ORDER.asc);
-			rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
-			QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
-			SolrDocumentList rechercheListe = rechercheReponse.getResults();
-			Integer searchLines = rechercheSolr.getRows();
-			Integer searchLine = -1;
-			Integer searchLineActual;
+			String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode + "_" + languageName + "_stored_string");
+			String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode + "_" + languageName + "_stored_string");
+			String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode + "_" + languageName + "_stored_string");
+			String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode + "_" + languageName + "_stored_string");
+			String classePageUriMethode = (String)classDoc.get("classApiUri" + classePageMethode + "_frFR_stored_string");
 	
-			l("package ", classPackageName, ";");
-			l();
-			if(classImportsGenPage.size() > 0) { 
-				for(String classImport : classImportsGenPage) {
-					l("import ", classImport, ";");
+			if(classePageCheminGen != null) {
+			
+				File classePageFichierGen = null;
+				File classePageFichier = null;
+				File classePageFichierCss = null;
+				File classePageFichierJs = null;
+
+				if(classePageCheminGen != null)
+					classePageFichierGen = new File(classePageCheminGen);
+				if(classePageChemin != null)
+					classePageFichier = new File(classePageChemin);
+				if(classePageCheminCss != null)
+					classePageFichierCss = new File(classePageCheminCss);
+				if(classePageCheminJs != null)
+					classePageFichierJs = new File(classePageCheminJs);
+			
+				AllWriter auteurPageGenClasse = null;
+				AllWriter writerPageClass = null;
+				AllWriter writerPageCss = null;
+				AllWriter writerPageJs = null;
+
+				if(classePageFichierGen != null)
+					auteurPageGenClasse = AllWriter.create(classePageFichierGen);
+				if(classePageFichier != null && !classePageFichier.exists())
+					writerPageClass = AllWriter.create(classePageFichier);
+				if(classePageFichierCss != null)
+					writerPageCss = AllWriter.create(classePageFichierCss);
+				if(classePageFichierJs != null)
+					writerPageJs = AllWriter.create(classePageFichierJs);
+
+				Boolean pageH1 = false;
+				Boolean pageH2 = false;
+				Boolean pageH3 = false;
+				Boolean pageTitle = false;
+	
+				AllWriter wSearch = AllWriter.create();
+				AllWriter wPOST = AllWriter.create();
+				AllWriter wPATCH = AllWriter.create();
+				AllWriter wTh = AllWriter.create();
+				AllWriter wTd = AllWriter.create();
+				AllWriter wForm = AllWriter.create();
+				AllWriter wEntitys = AllWriter.create();
+	
+				o = auteurPageGenClasse;
+				{
+					SolrQuery rechercheSolr = new SolrQuery();   
+					rechercheSolr.setQuery("*:*");
+					rechercheSolr.setRows(1000000);
+					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
+					rechercheSolr.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqClassesSuperEtMoi);
+					rechercheSolr.addSort("entityHtmlRow_indexed_int", ORDER.asc);
+					rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
+					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
+					SolrDocumentList rechercheListe = rechercheReponse.getResults();
+					Integer searchLines = rechercheSolr.getRows();
+					Integer searchLine = -1;
+					Integer searchLineActual;
+					List<String> pageVars = Arrays.asList("pageH1", "pageH2", "pageH3", "pageTitle");
+	
+					if(rechercheListe.size() > 0) {
+						for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
+							for(Integer j = 0; j < rechercheListe.size(); j++) {
+								SolrDocument entiteDocumentSolr = rechercheListe.get(j);
+								String entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
+								String entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
+								String entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
+								String entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
+								String entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
+								String entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
+								String entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
+								Boolean entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
+								Boolean entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
+								Boolean entiteWrap = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteWrap_stored_boolean"));
+	
+								if(pageVars.contains(entityVar)) {
+									if(entiteWrap) {
+										if("pageH1".equals(entityVar)) {
+											pageH1 = true;
+										}
+										else if("pageH2".equals(entityVar)) {
+											pageH2 = true;
+										}
+										else if("pageH3".equals(entityVar)) {
+											pageH3 = true;
+										}
+										else if("pageTitle".equals(entityVar)) {
+											pageTitle = true;
+										}
+										else {
+											wEntitys.l();
+											wEntitys.t(1, "@Override protected void _", entityVar, "(");
+											if(entiteWrap)
+												wEntitys.s("Wrap<", entitySimpleNameComplet, "> c");
+											else
+												wEntitys.s(entitySimpleNameComplet, " o");
+											wEntitys.l(") {");
+											wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+											wEntitys.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".get", entityVarCapitalized, "()", ");");
+											wEntitys.tl(1, "}");
+										}
+									}
+								}
+	
+								if(entityHtml) {
+									searchLineActual = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entityHtmlRow_stored_int"), 0);
+									if(searchLine != searchLineActual) {
+										if(searchLine != -1)
+											wForm.t(2).bgl("div");
+										wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
+										searchLine = searchLineActual;
+									}
+									wForm.t(3).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
+									if("LocalDate".equals(entitySimpleName)) {
+										wForm.tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
+										l();
+										if(entityDisplayName != null) {
+											wForm.t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
+										}
+										wForm.t(4).e("input").l();
+										wForm.t(5).dal("type", "text");
+										wForm.t(5).dal("class", "w3-input w3-border datepicker ");
+										wForm.t(5).dal("placeholder", "MM/DD/YYYY");
+										wForm.t(5).dal("data-timeformat", "MM/DD/YYYY");
+										wForm.t(5).dal("onclick", "enleverLueur($(this)); ");
+										if(entityDescription != null)
+											wForm.t(5).dal("title", entityDescription + " (MM/DD/YYYY)");
+										wForm.tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.forLanguageTag(\"en-US\")).format(val))");
+										wForm.t(5).s(".a(\"onchange\", \"");
+											wForm.s("var t = moment(this.value, 'MM/DD/YYYY'); ");
+											wForm.s("if(t) { ");
+												wForm.s("var s = t.format('YYYY-MM-DD'); ");
+												wForm.s("$(this).next().val(s); ");
+												wForm.s("$(this).next().trigger('change'); ");
+											wForm.s("} ");
+										wForm.l("\")");
+										wForm.tl(5, ".fg();");
+		
+										wForm.t(4).e("input").l();
+										wForm.t(5).dal("class", "value", entityVarCapitalized);
+										wForm.t(5).dal("name", entityVar);
+										wForm.t(5).dal("type", "hidden");
+										wForm.t(5).dal("onchange", "envoyer(); ");
+										wForm.tl(5, ".a(\"value\", o.str", entityVarCapitalized, "())");
+										wForm.t(4).dfgl();
+									}
+									else if("LocalDateTime".equals(entitySimpleName)) {
+										wForm.tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
+										wForm.l();
+										if(entityDisplayName != null) {
+											wForm.t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
+										}
+										wForm.t(4).e("input").l();
+										wForm.t(5).dal("type", "text");
+										wForm.t(5).dal("class", "w3-input w3-border datepicker ");
+										wForm.t(5).dal("placeholder", "MM/DD/YYYY");
+										wForm.t(5).dal("data-timeformat", "MM/DD/YYYY");
+										wForm.t(5).dal("onclick", "enleverLueur($(this)); ");
+										if(entityDescription != null)
+											wForm.t(5).dal("title", entityDescription + " (MM/DD/YYYY)");
+										wForm.tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.forLanguageTag(\"en-US\")).format(val))");
+										wForm.t(5).s(".a(\"onchange\", \"");
+											wForm.s("var t = moment(this.value, 'MM/DD/YYYY'); ");
+											wForm.s("if(t) { ");
+												wForm.s("var s = t.format('YYYY-MM-DD'); ");
+												wForm.s("$(this).next().val(s); ");
+												wForm.s("$(this).next().trigger('change'); ");
+											wForm.s("} ");
+										wForm.l("\")");
+										wForm.tl(5, ".fg();");
+		
+										wForm.t(4).e("input").l();
+										wForm.t(5).dal("type", "hidden");
+										wForm.t(5).dal("class", "value", entityVarCapitalized);
+										wForm.t(5).dal("name", entityVar);
+										wForm.t(5).dal("onchange", "envoyer(); ");
+										wForm.tl(5, ".a(\"value\", o.str", entityVarCapitalized, "())");
+										wForm.t(4).dfgl();
+									}
+									else if("LocalTime".equals(entitySimpleName)) {
+										wForm.tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
+										wForm.l();
+										if(entityDisplayName != null) {
+											wForm.t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
+										}
+										wForm.t(4).e("input").l();
+										wForm.t(5).dal("type", "text");
+										wForm.t(5).dal("class", "w3-input w3-border timepicker ");
+										wForm.t(5).dal("placeholder", "HH:MM AM");
+										wForm.t(5).dal("onclick", "enleverLueur($(this)); ");
+										if(entityDescription != null)
+											wForm.t(5).da("title", entityDescription + " (h:mm a)");
+										wForm.tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.forLanguageTag(\"en-US\")).format(val))");
+										wForm.t(5).s(".a(\"onchange\", \"");
+											wForm.s("var t = parseTime(this.value); ");
+											wForm.s("if(t) { ");
+												wForm.s("var s = dateFormat(t, \"'h'MM\"); ");
+												wForm.s("$(this).next().val(s); ");
+												wForm.s("$(this).next().trigger('change'); ");
+											wForm.s("} ");
+										wForm.l("\")");
+										wForm.tl(5, ".fg();");
+		
+										wForm.t(4).e("input").l();
+										wForm.t(5).dal("type", "hidden");
+										wForm.t(5).dal("class", "value", entityVarCapitalized);
+										wForm.t(5).dal("name", entityVar);
+										wForm.t(5).dal("onchange", "envoyer(); ");
+										wForm.tl(5, ".a(\"value\", val == null ? \"\" : o.str", entityVarCapitalized, "())");
+										wForm.t(4).dfgl();
+									}
+									else if("Boolean".equals(entitySimpleName)) {
+										wForm.t(4).e("input").l();
+										wForm.t(5).dal("type", "hidden");
+										wForm.t(5).dal("name", entityVar);
+										wForm.t(5).dal("value", "false");
+										wForm.t(4).dfgl();
+										wForm.l();
+										wForm.t(4).e("input").l();
+										wForm.t(5).dal("type", "checkbox");
+										wForm.t(5).dal("class", "value", entityVarCapitalized);
+										wForm.t(5).dal("name", entityVar);
+										wForm.t(5).dal("value", "true");
+										wForm.t(5).da("onchange", "envoyer(); ").l(";");
+										wForm.tl(5, "if(o.get", entityVarCapitalized, "() != null && o.get", entityVarCapitalized, "())");
+										wForm.t(6).a("checked", "checked").l(";");
+										wForm.t(4).fgl();
+										wForm.l();
+										if(entityDisplayName != null) {
+											wForm.t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
+										}
+									}
+									else {
+										if(entityDisplayName != null) {
+											wForm.t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
+										}
+										wForm.l();
+										if(entityMultiline)
+											wForm.t(4).e("textarea").l();
+										else
+											wForm.t(4).e("input").l().t(7).dal("type", "text");
+		
+										wForm.t(5).dal("class", "value", entityVarCapitalized);
+										wForm.t(5).dal("name", entityVar);
+										wForm.t(5).dal("class", "w3-input w3-border ");
+										if(entityDisplayName != null) {
+											wForm.t(5).dal("placeholder", entityDisplayName);
+										}
+										if(entityDescription != null) {
+											wForm.t(5).dal("title", entityDescription);
+										}
+										wForm.t(5).dal("onchange", "envoyer(); ");
+										wForm.t(4).dfgl();
+										wForm.l();
+									}
+		
+						//			if().da("class", objets).da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
+									wForm.t(3).bgl("div");
+								}
+							}
+							rechercheSolr.setStart(i.intValue() + searchLines);
+							rechercheReponse = solrClientComputate.query(rechercheSolr);
+							rechercheListe = rechercheReponse.getResults();
+						}
+						wForm.t(2).bgl("div");
+					}
 				}
+	
+				wEntitys.l();
+				wEntitys.tl(1, "@Override protected void _pageH1(Wrap<String> c) {");
+				if(pageH1) {
+					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH1() != null)");
+					wEntitys.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH1()", ");");
+					wEntitys.tl(2, "else if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+				} else {
+					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+				}
+				wEntitys.tl(3, "c.o(", q(contextAName), ");");
+				wEntitys.tl(2, "else if(list", classSimpleName, ".size() == 0)");
+				wEntitys.tl(3, "c.o(", q(contextNoneNameFound), ");");
+				if(contextH1 != null) {
+					wEntitys.tl(2, "else");
+					wEntitys.tl(3, "c.o(", q(contextH1), ");");
+				}
+				wEntitys.tl(1, "}");
+	
+				wEntitys.l();
+				wEntitys.tl(1, "@Override protected void _pageH2(Wrap<String> c) {");
+				if(pageH2) {
+					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH2() != null)");
+					wEntitys.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH2()", ");");
+					if(contextH2 != null) {
+						wEntitys.tl(2, "else");
+						wEntitys.tl(3, "c.o(", q(contextH2), ");");
+					}
+				} else {
+					wEntitys.tl(2, "c.o(", q(contextH3), ");");
+				}
+				wEntitys.tl(1, "}");
+	
+				wEntitys.l();
+				wEntitys.tl(1, "@Override protected void _pageH3(Wrap<String> c) {");
+				if(pageH3) {
+					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH3() != null)");
+					wEntitys.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH3()", ");");
+					if(contextH3 != null) {
+						wEntitys.tl(2, "else");
+						wEntitys.tl(3, "c.o(", q(contextH3), ");");
+					}
+				} else {
+					wEntitys.tl(2, "c.o(", q(contextH3), ");");
+				}
+				wEntitys.tl(1, "}");
+	
+				wEntitys.l();
+				wEntitys.tl(1, "@Override protected void _pageTitle(Wrap<String> c) {");
+				if(pageTitle) {
+					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageTitle() != null)");
+					wEntitys.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageTitle()", ");");
+					wEntitys.tl(2, "else if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+				} else {
+					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+				}
+				wEntitys.tl(3, "c.o(", q(contextAName), ");");
+				wEntitys.tl(2, "else if(list", classSimpleName, ".size() == 0)");
+				wEntitys.tl(3, "c.o(", q(contextNoneNameFound), ");");
+				if(contextTitle != null) {
+					wEntitys.tl(2, "else");
+					wEntitys.tl(3, "c.o(", q(contextTitle), ");");
+				}
+				wEntitys.tl(1, "}");
+		
+				if(writerPageClass != null) {
+					writerPageClass.l("package ", classPackageName, ";");
+					writerPageClass.l();
+					writerPageClass.tl(0, "");
+					writerPageClass.s("public class ", classSimpleName, "Page");
+					writerPageClass.s(" extends ", classSimpleName, "PageGen<", classSimpleName, "GenPage>");
+					writerPageClass.l(" {");
+					writerPageClass.tl(0, "}");
+				}
+
+				l("package ", classPackageName, ";");
 				l();
+				if(classImportsGenPage.size() > 0) { 
+					for(String classImport : classImportsGenPage) {
+						l("import ", classImport, ";");
+					}
+					l();
+				}
+		
+				tl(0, "");
+				writeComment(classComment, 0); 
+				s("public class ", classSimpleName, "GenPage");
+				s(" extends ", classSimpleName, "GenPageGen<PageLayout>");
+				l(" {");
+				l();
+				tl(1, "/**");
+				tl(1, " * {@inheritDoc}");
+				tl(1, " * ");
+				tl(1, " **/");
+				tl(1, "protected void _list", classSimpleName, "(Wrap<SearchList<", classSimpleName, ">> c) {");
+				tl(1, "}");
+				l();
+				tl(1, "protected void _", StringUtils.uncapitalize(classSimpleName), "(", "Wrap<", classSimpleName, "> c", ") {");
+				tl(2, "if(list", classSimpleName, ".size() == 1)");
+				tl(3, "c.o(list", classSimpleName, ".get(0)", ");");
+				tl(1, "}");
+				s(wEntitys);
+	
+				if(StringUtils.isNotBlank(contextIconGroup)) {
+					l();
+					tl(1, "@Override protected void _contextIconGroup(Wrap<String> c) {");
+					tl(3, "c.o(", q(contextIconGroup), ");");
+					tl(1, "}");
+				}
+	
+				if(StringUtils.isNotBlank(contextIconName)) {
+					l();
+					tl(1, "@Override protected void _contextIconName(Wrap<String> c) {");
+					tl(3, "c.o(", q(contextIconName), ");");
+					tl(1, "}");
+				}
+	
+				l();
+				tl(1, "@Override public void initDeep", classSimpleName, "GenPage() {");
+				tl(2, "init", classSimpleName, "GenPage();");
+				tl(2, "super.initDeepPageLayout();");
+				tl(1, "}");
+				l();
+				tl(1, "@Override public void htmlScripts", classSimpleName, "GenPage() {");
+				t(2).e("script").da("src", "/static/js/", classSimpleName, "Page.js").df().dgl("script");
+				tl(1, "}");
+	
+				if(StringUtils.isNotBlank(classApiUri)) {
+					l();
+					tl(1, "protected void _pageUri", classSimpleName, "(Wrap<String> c) {");
+					tl(3, "c.o(", q(classePageUriMethode), ");");
+					tl(1, "}");
+				}
+	
+				{
+					SolrQuery rechercheSolr = new SolrQuery();   
+					rechercheSolr.setQuery("*:*");
+					rechercheSolr.setRows(1000000);
+					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
+					rechercheSolr.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("entityHtmlColumn_indexed_double:[* TO *]");
+					rechercheSolr.addSort("entityHtmlColumn_indexed_double", ORDER.asc);
+					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
+					SolrDocumentList rechercheListe = rechercheReponse.getResults();
+					Integer searchLines = rechercheSolr.getRows();
+					Integer searchLine = -1;
+					Integer searchLineActual;
+		
+					if(rechercheListe.size() > 0) {
+						for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
+							for(Integer j = 0; j < rechercheListe.size(); j++) {
+								SolrDocument entiteDocumentSolr = rechercheListe.get(j);
+								String entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
+								String entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
+								String entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
+								String entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
+								String entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
+								String entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
+								String entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
+								Boolean entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
+								Boolean entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
+								if(entityHtml) {
+									String jsVal = ".val()";
+									if("Boolean".equals(entitySimpleName)) {
+										jsVal = ".prop('checked')";
+									}
+		
+									wTh.tl(6, "e(\"th\").f().sx(", q(entityDisplayName), ").g(\"th\");");
+		
+									wTd.tl(7, "{ e(\"td\").f();");
+									wTd.tl(8, "sx(o.get", entityVarCapitalized, "());");
+									wTd.tl(7, "} g(\"td\");");
+								}
+							}
+							rechercheSolr.setStart(i.intValue() + searchLines);
+							rechercheReponse = solrClientComputate.query(rechercheSolr);
+							rechercheListe = rechercheReponse.getResults();
+						}
+					}
+				}
+	
+				{
+					SolrQuery rechercheSolr = new SolrQuery();   
+					rechercheSolr.setQuery("*:*");
+					rechercheSolr.setRows(1000000);
+					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
+					rechercheSolr.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqClassesSuperEtMoi);
+					rechercheSolr.addSort("entityHtmlRow_indexed_int", ORDER.asc);
+					rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
+					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
+					SolrDocumentList rechercheListe = rechercheReponse.getResults();
+					Integer searchLines = rechercheSolr.getRows();
+					Integer searchLine = -1;
+					Integer searchLineActual;
+		
+					if(rechercheListe.size() > 0) {
+						for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
+							for(Integer j = 0; j < rechercheListe.size(); j++) {
+								SolrDocument entiteDocumentSolr = rechercheListe.get(j);
+								String entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
+								String entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
+								String entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
+								String entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
+								String entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
+								String entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
+								String entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
+								Boolean entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
+								Boolean entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
+								if(entityHtml) {
+									String jsVal = ".val()";
+									if("Boolean".equals(entitySimpleName)) {
+										jsVal = ".prop('checked')";
+									}
+		
+									wSearch.l();
+									wSearch.tl(1, "var filter", entityVarCapitalized, " = $formulaireFiltres.find('.value", entityVarCapitalized, "')", jsVal, ";");
+									wSearch.tl(1, "if(filter", entityVarCapitalized, ")");
+									wSearch.tl(2, "filters['", entityVar, "'] = value", entityVarCapitalized, ";");
+		
+									wPOST.l();
+									wPOST.tl(1, "var value", entityVarCapitalized, " = $formulaireValeurs.find('.value", entityVarCapitalized, "')", jsVal, ";");
+									wPOST.tl(1, "if(value", entityVarCapitalized, ")");
+									wPOST.tl(2, "values['", entityVar, "'] = value", entityVarCapitalized, ";");
+		
+									wPATCH.l();
+									wPATCH.tl(1, "var set", entityVarCapitalized, " = $formulaireValeurs.find('.set", entityVarCapitalized, "')", jsVal, ";");
+									wPATCH.tl(1, "if(set", entityVarCapitalized, ")");
+									wPATCH.tl(2, "patchs['set", entityVarCapitalized, "'] = set", entityVarCapitalized, ";");
+									wPATCH.tl(1, "var add", entityVarCapitalized, " = $formulaireValeurs.find('.add", entityVarCapitalized, "')", jsVal, ";");
+									wPATCH.tl(1, "if(add", entityVarCapitalized, ")");
+									wPATCH.tl(2, "patchs['add", entityVarCapitalized, "'] = add", entityVarCapitalized, ";");
+									wPATCH.tl(1, "var remove", entityVarCapitalized, " = $formulaireValeurs.find('.remove", entityVarCapitalized, "')", jsVal, ";");
+									wPATCH.tl(1, "if(remove", entityVarCapitalized, ")");
+									wPATCH.tl(2, "patchs['remove", entityVarCapitalized, "'] = remove", entityVarCapitalized, ";");
+								}
+							}
+							rechercheSolr.setStart(i.intValue() + searchLines);
+							rechercheReponse = solrClientComputate.query(rechercheSolr);
+							rechercheListe = rechercheReponse.getResults();
+						}
+					}
+				}
+	
+				l();
+				tl(1, "@Override public void htmlScript", classSimpleName, "GenPage() {");
+				for(String classeApiMethode : classApiMethods) {
+					String classeApiOperationIdMethode = (String)classDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
+					String classApiUriMethode = (String)classDoc.get("classApiUri" + classeApiMethode + "_frFR_stored_string");
+					String classeApiTypeMediaMethode = (String)classDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
+					String classeApiMethodeMethode = (String)classDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+	
+					if("application/json".equals(classeApiTypeMediaMethode)) {
+						Boolean methodePOST = classeApiMethodeMethode.equals("POST");
+						Boolean methodeGET = classeApiMethode.contains("GET");
+						Boolean methodePUT = classeApiMethodeMethode.equals("PUT");
+						Boolean methodePATCH = classeApiMethodeMethode.equals("PATCH");
+						Boolean methodeDELETE = classeApiMethodeMethode.equals("DELETE");
+						Boolean methodeSearch = classeApiMethode.contains("Search");
+	
+						writerPageJs.l();
+						writerPageJs.tl(0, "// ", classeApiMethode, " //");
+						writerPageJs.l();
+						writerPageJs.l("/**");
+						if(methodePATCH) {
+						writerPageJs.l(" * Modify un ou multiple ", contextNamePlural, " sans valuers qui change, ");
+						writerPageJs.l(" * ou changer des values pour un ou multiple ", contextTheName, ". ");
+						writerPageJs.l(" * @param params: [ \"q=*:*\", \"fq=pk:1\", \"sort=pk asc\", \"rows=1\", \"fl=pk\" ]");
+						writerPageJs.l(" *        Une list des opérations de recherche sur des ", contextNamePlural, " ");
+						writerPageJs.l(" *        pour rechercher \"q=*:*\", filterr \"fq=pk:1\", trier \"sort=pk desc\", ");
+						writerPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les values \"fl=pk\". ");
+						writerPageJs.l(" * @param values Noms des champs et values à changer selon les filters fq. ");
+						writerPageJs.l(" *           Example: { pk: 1 }");
+						}
+						writerPageJs.l(" */");
+						writerPageJs.t(0, "function ", classeApiOperationIdMethode, "(");
+						if(methodePOST)
+							writerPageJs.s("$formulaireValeurs");
+						else if(methodePUT)
+							writerPageJs.s("pk, $formulaireValeurs");
+						if(methodePATCH)
+							writerPageJs.s("$formulaireFiltres, $formulaireValeurs");
+						if(methodeGET || methodeDELETE)
+							writerPageJs.s("pk");
+	
+						writerPageJs.l(") {");
+						if(methodePOST) {
+							writerPageJs.tl(1, "var values = {};");
+							writerPageJs.s(wPOST);
+							writerPageJs.l();
+						}
+						else if(methodePUT) {
+							writerPageJs.tl(1, "var values = {};");
+							writerPageJs.s(wPOST);
+							writerPageJs.l();
+						}
+						if(methodePATCH) {
+							writerPageJs.tl(1, "var filters = {};");
+							writerPageJs.s(wSearch);
+							writerPageJs.l();
+							writerPageJs.tl(1, "var patchs = {};");
+							writerPageJs.s(wPATCH);
+							writerPageJs.l();
+						}
+	
+						writerPageJs.tl(1, "$.ajax({");
+	
+						if(methodeGET || methodeDELETE || methodePUT)
+							writerPageJs.tl(2, "url: '", StringUtils.replace(classApiUriMethode, "{pk}", "' + pk"));
+						else if(methodePATCH || methodeSearch)
+							writerPageJs.tl(2, "url: '", classApiUriMethode, "' + (!params || params.length == 0 ? '' : '?' + params.join('&'))");
+						else
+							writerPageJs.tl(2, "url: '", classApiUriMethode, "'");
+	
+						writerPageJs.tl(2, ", dataType: 'json'");
+						writerPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
+						writerPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
+						if(!"GET".equals(classeApiMethodeMethode) || "DELETE".equals(classeApiMethodeMethode))
+							writerPageJs.tl(2, ", data: JSON.stringify(values)");
+						writerPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
+						writerPageJs.tl(2, "}");
+						writerPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
+						writerPageJs.tl(2, "}");
+						writerPageJs.tl(1, "});");
+						writerPageJs.l("}");
+					}
+					
+				}
+				tl(1, "}");
+				l();
+				tl(1, "public void htmlForm", classSimpleName, "(", classSimpleName, " o) {");
+				s(wForm);
+				tl(1, "}");
+				l();
+				tl(1, "@Override public void htmlBody", classSimpleName, "GenPage() {");
+				l();
+				tl(2, "if(list", classSimpleName, ".size() == 0) {");
+				t(3).l("//", contextNoneNameFound);
+				l();
+				t(3).be("h1").dfl();
+				tl(4, "if(contextIconCssClasses != null)");
+				tl(5, "e(\"i\").a(\"class\", contextIconCssClasses + \" w3-margin-right-4 \").f().g(\"i\");");
+				t(4).e("span").da("class", " ").df().dsx(contextNoneNameFound).dgl("span");
+				t(3).bgl("h1");
+				tl(2, "} else if(list", classSimpleName, ".size() == 1) {");
+				t(3).l("// ", contextAName);
+				t(3).l(classSimpleName, " o = list", classSimpleName, ".first();");
+				l();
+				tl(3, "if(pageH1 != null) {");
+				t(4).be("h1").dfl();
+				tl(5, "if(contextIconCssClasses != null)");
+				tl(6, "e(\"i\").a(\"class\", contextIconCssClasses + \" w3-margin-right-4 \").f().g(\"i\");");
+	
+				if(classEntityVars != null && classEntityVars.contains("pageH1"))
+					t(5).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
+				else
+					t(5).e("span").da("class", " ").df().dsx(contextAName).dgl("span");
+	
+				t(4).bgl("h1");
+				tl(3, "}");
+	
+				if(classEntityVars != null && classEntityVars.contains("pageH2")) {
+					tl(3, "if(pageH2 != null) {");
+					t(4).be("h2").dfl();
+					t(5).e("span").da("class", " ").df().s(".sx(pageH2)").dgl("span");
+					t(4).bgl("h2");
+					tl(3, "}");
+				}
+	
+				if(classEntityVars != null && classEntityVars.contains("pageH3")) {
+					tl(3, "if(pageH3 != null) {");
+					t(4).be("h3").dfl();
+					t(5).e("span").da("class", " ").df().s(".sx(pageH3)").dgl("span");
+					t(4).bgl("h3");
+					tl(3, "}");
+				}
+	
+				t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show ").dfl();
+				l();
+				tl(4, "htmlForm", classSimpleName, "(o);");
+				l();
+				t(3).bgl("div");
+				tl(2, "} else {");
+				t(3).l("// multiple ", contextNamePlural);
+				l();
+				t(3).be("h1").dfl();
+				tl(4, "if(contextIconCssClasses != null)");
+				tl(5, "e(\"i\").a(\"class\", contextIconCssClasses + \" w3-margin-right-4 \").f().g(\"i\");");
+				t(4).e("span").da("class", " ").df().dsx(contextNamePlural).dgl("i");
+				t(3).bgl("h1");
+				t(3).be("table").da("class", "w3-table w3-bordered w3-striped w3-border w3-hoverable ").dfl();
+				t(4).be("thead").dfl();
+				t(5).be("tr").dfl();
+				s(wTh);
+				t(5).bgl("tr");
+				t(4).bgl("thead");
+				t(4).be("tbody").dfl();
+				tl(5, "for(int i = 0; i < list", classSimpleName, ".size(); i++) {");
+				tl(6, classSimpleName, " o = list", classSimpleName, ".getList().get(i);");
+				tl(6, "{ e(\"tr\").f();");
+				s(wTd);
+				tl(6, "} g(\"tr\");");
+				tl(5, "}");
+				t(4).bgl("tbody");
+				t(3).bgl("table");
+				tl(2, "}");
+	
+				t(2).e("div").dfl();
+				l();
+				for(String classeApiMethode : classApiMethods) {
+					String classeApiOperationIdMethode = (String)classDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
+					String classApiUriMethode = (String)classDoc.get("classApiUri" + classeApiMethode + "_frFR_stored_string");
+					String classeApiTypeMediaMethode = (String)classDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
+					String classeApiMethodeMethode = (String)classDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+	
+					if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
+						Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("DELETE") || classeApiMethodeMethode.contains("POST") ? 0 : 1;
+						String methodTitle = null;
+	
+						if("POST".equals(classeApiMethodeMethode))
+							methodTitle = "Create " + contextAName;
+						else if("PUT".equals(classeApiMethodeMethode))
+							methodTitle = "Replace " + contextTheName;
+						else if("PATCH".equals(classeApiMethodeMethode))
+							methodTitle = "Modify des " + contextNamePlural;
+						else if("DELETE".equals(classeApiMethodeMethode))
+							methodTitle = "Delete des " + contextNamePlural;
+	
+	
+						l();
+						if(tab > 0)
+							tl(2, "if(list", classSimpleName, ".size() == 1) {");
+						t(2 + tab).e("button").l();
+						t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contextColor, " ");
+						t(3 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, "Modale').show(); ");
+						t(3 + tab).df().dsx(methodTitle).l();
+						t(2 + tab).dgl("button");
+						{ t(2 + tab).be("div").da("id", classeApiOperationIdMethode, "Modale").da("class", "w3-modal ").dfl();
+							{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();
+								{ t(4 + tab).be("header").da("class", "w3-container w3-", contextColor, " ").dfl();
+									t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classeApiOperationIdMethode, "Modale').hide(); ").df().dsx("×").dgl("span");
+									t(5 + tab).e("h2").da("class", "").df().dsx(methodTitle).dgl("h2");
+								} t(4 + tab).bgl("header");
+	
+								{ t(4 + tab).be("div").da("class", "w3-container ").dfl();
+									tl(5+ tab, classSimpleName, " o = new ", classSimpleName, "();");
+									l();
+									{ t(5 + tab).be("form").da("id", classeApiOperationIdMethode, "Formulaire").dfl();
+										tl(6 + tab, "htmlForm", classSimpleName, "(o);");
+									} t(5 + tab).bgl("form");
+									t(5 + tab).e("button").l();
+									t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contextColor, " ");
+	
+	//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Formulaire').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {}))); \")");
+	//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Formulaire').serializeObject())); \")");
+	
+									if("POST".equals(classeApiMethodeMethode))
+										tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Formulaire')); \")");
+									else if("PUT".equals(classeApiMethodeMethode))
+										tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Formulaire')); \")");
+									else if(tab > 0)
+										tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \"); \")");
+									else
+										t(6 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
+	
+									t(6 + tab).df().dsx(methodTitle).l();
+									t(5 + tab).dgl("button");
+									l();
+								} t(4 + tab).bgl("div");
+							} t(3 + tab).bgl("div");
+						} t(2 + tab).bgl("div");
+	
+						l();
+						if(tab > 0)
+							tl(2, "}");
+					}
+				}
+				t(2).gl("div");
+	
+				tl(1, "}");
+				tl(0, "}");
+	
+				wTh.flushClose();
+
+				auteurPageGenClasse.flushClose();
+				if(writerPageClass != null)
+					writerPageClass.flushClose();
+				writerPageCss.flushClose();
+				writerPageJs.flushClose();
 			}
 	
-			tl(0, "");
-			writeComment(classComment, 0); 
-			s("public class ", classSimpleName, "GenPage");
-			s(" extends ", classSimpleName, "GenPageGen<PageLayout>");
-			l(" {");
-			l();
-			tl(1, "/**");
-			tl(1, " * {@inheritDoc}");
-			tl(1, " * ");
-			tl(1, " **/");
-			tl(1, "protected void _list", classSimpleName, "(Wrap<SearchList<", classSimpleName, ">> c) {");
-			tl(1, "}");
-			l();
-			tl(1, "@Override public void initDeep", classSimpleName, "GenPage() {");
-			tl(2, "init", classSimpleName, "GenPage();");
-			tl(2, "super.initDeepPageLayout();");
-			tl(1, "}");
-			l();
-			tl(1, "@Override public void htmlScripts", classSimpleName, "GenPage() {");
-			t(2).e("script").da("src", "/static/js/", classSimpleName, "Page.js").df().dgl("script");
-			tl(1, "}");
-			AllWriter wSearch = AllWriter.create();
-			AllWriter wPOST = AllWriter.create();
-			AllWriter wPATCH = AllWriter.create();
-			AllWriter wTh = AllWriter.create();
-			AllWriter wTd = AllWriter.create();
-
-			if(rechercheListe.size() > 0) {
-				for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
-					for(Integer j = 0; j < rechercheListe.size(); j++) {
-						SolrDocument entiteDocumentSolr = rechercheListe.get(j);
-						String entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
-						String entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
-						String entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
-						String entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
-						String entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
-						String entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
-						String entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
-						Boolean entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
-						Boolean entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
-						if(entityHtml) {
-							String jsVal = ".val()";
-							if("Boolean".equals(entitySimpleName)) {
-								jsVal = ".prop('checked')";
-							}
-
-							wSearch.l();
-							wSearch.tl(1, "var filter", entityVarCapitalized, " = $formulaireFiltres.find('.value", entityVarCapitalized, "')", jsVal, ";");
-							wSearch.tl(1, "if(filter", entityVarCapitalized, ")");
-							wSearch.tl(2, "filters['", entityVar, "'] = value", entityVarCapitalized, ";");
-
-							wPOST.l();
-							wPOST.tl(1, "var value", entityVarCapitalized, " = $formulaireValeurs.find('.value", entityVarCapitalized, "')", jsVal, ";");
-							wPOST.tl(1, "if(value", entityVarCapitalized, ")");
-							wPOST.tl(2, "values['", entityVar, "'] = value", entityVarCapitalized, ";");
-
-							wPATCH.l();
-							wPATCH.tl(1, "var set", entityVarCapitalized, " = $formulaireValeurs.find('.set", entityVarCapitalized, "')", jsVal, ";");
-							wPATCH.tl(1, "if(set", entityVarCapitalized, ")");
-							wPATCH.tl(2, "patchs['set", entityVarCapitalized, "'] = set", entityVarCapitalized, ";");
-							wPATCH.tl(1, "var add", entityVarCapitalized, " = $formulaireValeurs.find('.add", entityVarCapitalized, "')", jsVal, ";");
-							wPATCH.tl(1, "if(add", entityVarCapitalized, ")");
-							wPATCH.tl(2, "patchs['add", entityVarCapitalized, "'] = add", entityVarCapitalized, ";");
-							wPATCH.tl(1, "var remove", entityVarCapitalized, " = $formulaireValeurs.find('.remove", entityVarCapitalized, "')", jsVal, ";");
-							wPATCH.tl(1, "if(remove", entityVarCapitalized, ")");
-							wPATCH.tl(2, "patchs['remove", entityVarCapitalized, "'] = remove", entityVarCapitalized, ";");
-
-							wTh.tl(5, "e(\"th\").f().sx(", q(entityDisplayName), ").g(\"th\");");
-
-							wTd.tl(6, "{ e(\"td\").f();");
-							wTd.tl(7, "sx(o.get", entityVarCapitalized, "());");
-							wTd.tl(6, "} g(\"td\");");
-						}
-					}
-				}
-			}
-
-			l();
-			tl(1, "@Override public void htmlScript", classSimpleName, "GenPage() {");
-			for(String classeApiMethode : classApiMethods) {
-				String classeApiOperationIdMethode = (String)classDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
-				String classeApiUriMethode = (String)classDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
-				String classeApiTypeMediaMethode = (String)classDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
-				String classeApiMethodeMethode = (String)classDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
-
-				if("application/json".equals(classeApiTypeMediaMethode)) {
-					Boolean methodePOST = classeApiMethodeMethode.equals("POST");
-					Boolean methodeGET = classeApiMethode.contains("GET");
-					Boolean methodePUT = classeApiMethodeMethode.equals("PUT");
-					Boolean methodePATCH = classeApiMethodeMethode.equals("PATCH");
-					Boolean methodeDELETE = classeApiMethodeMethode.equals("DELETE");
-					Boolean methodeSearch = classeApiMethode.contains("Search");
-
-					writerPageJs.l();
-					writerPageJs.tl(0, "// ", classeApiMethode, " //");
-					writerPageJs.l();
-					writerPageJs.l("/**");
-					if(methodePATCH) {
-					writerPageJs.l(" * Modify un ou multiple ", contextNamePlural, " sans valuers qui change, ");
-					writerPageJs.l(" * ou changer des values pour un ou multiple ", contextTheName, ". ");
-					writerPageJs.l(" * @param params: [ \"q=*:*\", \"fq=pk:1\", \"sort=pk asc\", \"rows=1\", \"fl=pk\" ]");
-					writerPageJs.l(" *        Une list des opérations de recherche sur des ", contextNamePlural, " ");
-					writerPageJs.l(" *        pour rechercher \"q=*:*\", filterr \"fq=pk:1\", trier \"sort=pk desc\", ");
-					writerPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les values \"fl=pk\". ");
-					writerPageJs.l(" * @param values Noms des champs et values à changer selon les filters fq. ");
-					writerPageJs.l(" *           Example: { pk: 1 }");
-					}
-					writerPageJs.l(" */");
-					writerPageJs.t(0, "function ", classeApiOperationIdMethode, "(");
-					if(methodePOST)
-						writerPageJs.s("$formulaireValeurs");
-					else if(methodePUT)
-						writerPageJs.s("pk, $formulaireValeurs");
-					if(methodePATCH)
-						writerPageJs.s("$formulaireFiltres, $formulaireValeurs");
-					if(methodeGET || methodeDELETE)
-						writerPageJs.s("pk");
-
-					writerPageJs.l(") {");
-					if(methodePOST) {
-						writerPageJs.tl(1, "var values = {};");
-						writerPageJs.s(wPOST);
-						writerPageJs.l();
-					}
-					else if(methodePUT) {
-						writerPageJs.tl(1, "var values = {};");
-						writerPageJs.s(wPOST);
-						writerPageJs.l();
-					}
-					if(methodePATCH) {
-						writerPageJs.tl(1, "var filters = {};");
-						writerPageJs.s(wSearch);
-						writerPageJs.l();
-						writerPageJs.tl(1, "var patchs = {};");
-						writerPageJs.s(wPATCH);
-						writerPageJs.l();
-					}
-
-					writerPageJs.tl(1, "$.ajax({");
-
-					if(methodeGET || methodeDELETE || methodePUT)
-						writerPageJs.tl(2, "url: '", StringUtils.replace(classeApiUriMethode, "{pk}", "' + pk"));
-					else if(methodePATCH || methodeSearch)
-						writerPageJs.tl(2, "url: '", classeApiUriMethode, "' + (!params || params.length == 0 ? '' : '?' + params.join('&'))");
-					else
-						writerPageJs.tl(2, "url: '", classeApiUriMethode, "'");
-
-					writerPageJs.tl(2, ", dataType: 'json'");
-					writerPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
-					writerPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
-					if(!"GET".equals(classeApiMethodeMethode) || "DELETE".equals(classeApiMethodeMethode))
-						writerPageJs.tl(2, ", data: JSON.stringify(values)");
-					writerPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
-					writerPageJs.tl(2, "}");
-					writerPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
-					writerPageJs.tl(2, "}");
-					writerPageJs.tl(1, "});");
-					writerPageJs.l("}");
-				}
-				
-			}
-			tl(1, "}");
-			l();
-			tl(1, "public void htmlForm", classSimpleName, "(", classSimpleName, " o) {");
-			if(rechercheListe.size() > 0) {
-				for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
-					for(Integer j = 0; j < rechercheListe.size(); j++) {
-						SolrDocument entiteDocumentSolr = rechercheListe.get(j);
-						String entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
-						String entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
-						String entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
-						String entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
-						String entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
-						String entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
-						String entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
-						Boolean entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
-						Boolean entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
-						if(entityHtml) {
-							searchLineActual = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entityHtmlLine_stored_int"), 0);
-							if(searchLine != searchLineActual) {
-								if(searchLine != -1)
-									t(2).bgl("div");
-								t(2).be("div").da("class", "w3-cell-row ").dfl();
-								searchLine = searchLineActual;
-							}
-							t(3).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-							if("LocalDate".equals(entitySimpleName)) {
-								tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
-								l();
-								if(entityDisplayName != null) {
-									t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
-								}
-								t(4).e("input").l();
-								t(5).dal("type", "text");
-								t(5).dal("class", "w3-input w3-border datepicker ");
-								t(5).dal("placeholder", "MM/DD/YYYY");
-								t(5).dal("data-timeformat", "MM/DD/YYYY");
-								t(5).dal("onclick", "enleverLueur($(this)); ");
-								if(entityDescription != null)
-									t(5).dal("title", entityDescription + " (MM/DD/YYYY)");
-								tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.forLanguageTag(\"en-US\")).format(val))");
-								t(5).s(".a(\"onchange\", \"");
-									s("var t = moment(this.value, 'MM/DD/YYYY'); ");
-									s("if(t) { ");
-										s("var s = t.format('YYYY-MM-DD'); ");
-										s("$(this).next().val(s); ");
-										s("$(this).next().trigger('change'); ");
-									s("} ");
-								l("\")");
-								tl(5, ".fg();");
-
-								t(4).e("input").l();
-								t(5).dal("class", "value", entityVarCapitalized);
-								t(5).dal("name", entityVar);
-								t(5).dal("type", "hidden");
-								t(5).dal("onchange", "envoyer(); ");
-								tl(5, ".a(\"value\", o.str", entityVarCapitalized, "())");
-								t(4).dfgl();
-							}
-							else if("LocalDateTime".equals(entitySimpleName)) {
-								tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
-								l();
-								if(entityDisplayName != null) {
-									t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
-								}
-								t(4).e("input").l();
-								t(5).dal("type", "text");
-								t(5).dal("class", "w3-input w3-border datepicker ");
-								t(5).dal("placeholder", "MM/DD/YYYY");
-								t(5).dal("data-timeformat", "MM/DD/YYYY");
-								t(5).dal("onclick", "enleverLueur($(this)); ");
-								if(entityDescription != null)
-									t(5).dal("title", entityDescription + " (MM/DD/YYYY)");
-								tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.forLanguageTag(\"en-US\")).format(val))");
-								t(5).s(".a(\"onchange\", \"");
-									s("var t = moment(this.value, 'MM/DD/YYYY'); ");
-									s("if(t) { ");
-										s("var s = t.format('YYYY-MM-DD'); ");
-										s("$(this).next().val(s); ");
-										s("$(this).next().trigger('change'); ");
-									s("} ");
-								l("\")");
-								tl(5, ".fg();");
-
-								t(4).e("input").l();
-								t(5).dal("type", "hidden");
-								t(5).dal("class", "value", entityVarCapitalized);
-								t(5).dal("name", entityVar);
-								t(5).dal("onchange", "envoyer(); ");
-								tl(5, ".a(\"value\", o.str", entityVarCapitalized, "())");
-								t(4).dfgl();
-							}
-							else if("LocalTime".equals(entitySimpleName)) {
-								tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
-								l();
-								if(entityDisplayName != null) {
-									t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
-								}
-								t(4).e("input").l();
-								t(5).dal("type", "text");
-								t(5).dal("class", "w3-input w3-border timepicker ");
-								t(5).dal("placeholder", "HH:MM AM");
-								t(5).dal("onclick", "enleverLueur($(this)); ");
-								if(entityDescription != null)
-									t(5).da("title", entityDescription + " (h:mm a)");
-								tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.forLanguageTag(\"en-US\")).format(val))");
-								t(5).s(".a(\"onchange\", \"");
-									s("var t = parseTime(this.value); ");
-									s("if(t) { ");
-										s("var s = dateFormat(t, \"'h'MM\"); ");
-										s("$(this).next().val(s); ");
-										s("$(this).next().trigger('change'); ");
-									s("} ");
-								l("\")");
-								tl(5, ".fg();");
-
-								t(4).e("input").l();
-								t(5).dal("type", "hidden");
-								t(5).dal("class", "value", entityVarCapitalized);
-								t(5).dal("name", entityVar);
-								t(5).dal("onchange", "envoyer(); ");
-								tl(5, ".a(\"value\", val == null ? \"\" : o.str", entityVarCapitalized, "())");
-								t(4).dfgl();
-							}
-							else if("Boolean".equals(entitySimpleName)) {
-								t(4).e("input").l();
-								t(5).dal("type", "hidden");
-								t(5).dal("name", entityVar);
-								t(5).dal("value", "false");
-								t(4).dfgl();
-								l();
-								t(4).e("input").l();
-								t(5).dal("type", "checkbox");
-								t(5).dal("class", "value", entityVarCapitalized);
-								t(5).dal("name", entityVar);
-								t(5).dal("value", "true");
-								t(5).da("onchange", "envoyer(); ").l(";");
-								tl(5, "if(o.get", entityVarCapitalized, "() != null && o.get", entityVarCapitalized, "())");
-								t(6).a("checked", "checked").l(";");
-								t(4).fgl();
-								l();
-								if(entityDisplayName != null) {
-									t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
-								}
-							}
-							else {
-								if(entityDisplayName != null) {
-									t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
-								}
-								l();
-								if(entityMultiline)
-									t(4).e("textarea").l();
-								else
-									t(4).e("input").l().t(7).dal("type", "text");
-
-								t(5).dal("class", "value", entityVarCapitalized);
-								t(5).dal("name", entityVar);
-								t(5).dal("class", "w3-input w3-border ");
-								if(entityDisplayName != null) {
-									t(5).dal("placeholder", entityDisplayName);
-								}
-								if(entityDescription != null) {
-									t(5).dal("title", entityDescription);
-								}
-								t(5).dal("onchange", "envoyer(); ");
-								t(4).dfgl();
-								l();
-							}
-
-				//			if().da("class", objets).da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-							t(3).bgl("div");
-						}
-					}
-					rechercheSolr.setStart(i.intValue() + searchLines);
-					rechercheReponse = solrClientComputate.query(rechercheSolr);
-					rechercheListe = rechercheReponse.getResults();
-				}
-				t(2).bgl("div");
-			}
-			tl(1, "}");
-			l();
-			tl(1, "@Override public void htmlBody", classSimpleName, "GenPage() {");
-			l();
-			tl(2, "if(list", classSimpleName, ".size() == 0) {");
-			t(3).l("//", contextNoneNameFound);
-			l();
-			t(3).be("h1").dfl();
-			if(StringUtils.isNotBlank(contextIconGroup) && StringUtils.isNotBlank(contextIconName)) {
-				t(4).e("i").da("class", "fa", StringUtils.substring(contextIconGroup, 0, 1), " fa-", contextIconName, " w3-margin-right-4 ").df().dgl("i");
-				t(4).e("span").da("class", " ").df().dsx(contextNoneNameFound).dgl("i");
-			}
-			t(3).bgl("h1");
-			tl(2, "} else if(list", classSimpleName, ".size() == 1) {");
-			t(3).l("// ", contextAName);
-			t(3).l(classSimpleName, " o = list", classSimpleName, ".first();");
-			l();
-			t(3).be("h1").dfl();
-			if(StringUtils.isNotBlank(contextIconGroup) && StringUtils.isNotBlank(contextIconName)) {
-				t(4).e("i").da("class", "fa", StringUtils.substring(contextIconGroup, 0, 1), " fa-", contextIconName, " w3-margin-right-4 ").df().dgl("i");
-				t(4).e("span").da("class", " ").df().dsx(contextAName).dgl("i");
-			}
-			t(3).bgl("h1");
-			t(3).be("h2").dfl();
-			if(classEntityVars != null && classEntityVars.contains("pageH2"))
-				t(4).e("span").da("class", " ").df().s(".sx(o.getPageH2())").dgl("i");
-			t(3).bgl("h2");
-			t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show ").dfl();
-			l();
-			tl(4, "htmlForm", classSimpleName, "(o);");
-			l();
-			t(3).bgl("div");
-			tl(2, "} else {");
-			t(3).l("// ", contextNamePlural);
-			l();
-			t(3).be("h1").dfl();
-			if(StringUtils.isNotBlank(contextIconGroup) && StringUtils.isNotBlank(contextIconName)) {
-				t(4).e("i").da("class", "fa", StringUtils.substring(contextIconGroup, 0, 1), " fa-", contextIconName, " w3-margin-right-4 ").df().dgl("i");
-				t(4).e("span").da("class", " ").df().dsx(contextNamePlural).dgl("i");
-			}
-			t(3).bgl("h1");
-			t(3).be("table").da("class", "w3-table w3-bordered w3-striped w3-border w3-hoverable ").dfl();
-			t(4).be("tr").dfl();
-			s(wTh);
-			t(4).bgl("tr");
-			tl(4, "for(int i = 0; i < list", classSimpleName, ".size(); i++) {");
-			tl(5, classSimpleName, " o = list", classSimpleName, ".getList().get(i);");
-			tl(5, "{ e(\"tr\").f();");
-			s(wTd);
-			tl(5, "} g(\"tr\");");
-			tl(4, "}");
-			t(3).bgl("table");
-			tl(2, "}");
-
-			t(2).e("div").dfl();
-			l();
-			for(String classeApiMethode : classApiMethods) {
-				String classeApiOperationIdMethode = (String)classDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
-				String classeApiUriMethode = (String)classDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
-				String classeApiTypeMediaMethode = (String)classDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
-				String classeApiMethodeMethode = (String)classDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
-
-				if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
-					Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("DELETE") || classeApiMethodeMethode.contains("POST") ? 0 : 1;
-					String methodTitle = null;
-
-					if("POST".equals(classeApiMethodeMethode))
-						methodTitle = "Create " + contextAName;
-					else if("PUT".equals(classeApiMethodeMethode))
-						methodTitle = "Replace " + contextTheName;
-					else if("PATCH".equals(classeApiMethodeMethode))
-						methodTitle = "Modify des " + contextNamePlural;
-					else if("DELETE".equals(classeApiMethodeMethode))
-						methodTitle = "Delete des " + contextNamePlural;
-
-
-					l();
-					if(tab > 0)
-						tl(2, "if(list", classSimpleName, ".size() == 1) {");
-					t(2 + tab).e("button").l();
-					t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contextColor, " ");
-					t(3 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, "Modale').show(); ");
-					t(3 + tab).df().dsx(methodTitle).l();
-					t(2 + tab).dgl("button");
-					{ t(2 + tab).be("div").da("id", classeApiOperationIdMethode, "Modale").da("class", "w3-modal ").dfl();
-						{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();
-							{ t(4 + tab).be("header").da("class", "w3-container w3-", contextColor, " ").dfl();
-								t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classeApiOperationIdMethode, "Modale').hide(); ").df().dsx("×").dgl("span");
-								t(5 + tab).e("h2").da("class", "").df().dsx(methodTitle).dgl("h2");
-							} t(4 + tab).bgl("header");
-
-							{ t(4 + tab).be("div").da("class", "w3-container ").dfl();
-								tl(5+ tab, classSimpleName, " o = new ", classSimpleName, "();");
-								l();
-								{ t(5 + tab).be("form").da("id", classeApiOperationIdMethode, "Formulaire").dfl();
-									tl(6 + tab, "htmlForm", classSimpleName, "(o);");
-								} t(5 + tab).bgl("form");
-								t(5 + tab).e("button").l();
-								t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contextColor, " ");
-
-//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Formulaire').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {}))); \")");
-//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Formulaire').serializeObject())); \")");
-
-								if("POST".equals(classeApiMethodeMethode))
-									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Formulaire')); \")");
-								else if("PUT".equals(classeApiMethodeMethode))
-									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Formulaire')); \")");
-								else if(tab > 0)
-									tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \"); \")");
-								else
-									t(6 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
-
-								t(6 + tab).df().dsx(methodTitle).l();
-								t(5 + tab).dgl("button");
-								l();
-							} t(4 + tab).bgl("div");
-						} t(3 + tab).bgl("div");
-					} t(2 + tab).bgl("div");
-
-					l();
-					if(tab > 0)
-						tl(2, "}");
-				}
-			}
-			t(2).gl("div");
-
-			tl(1, "}");
-			tl(0, "}");
-
-			wTh.flushClose();
+	//		writerGenPageClass.close();
 		}
-
-		if(writerPageClass != null)
-			writerPageClass.flushClose();
-		writerGenPageClass.flushClose();
-		writerPageCss.flushClose();
-		writerPageJs.flushClose();
-//		writerGenPageClass.close();
 	}
 }

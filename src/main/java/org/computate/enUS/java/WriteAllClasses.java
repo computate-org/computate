@@ -63,10 +63,6 @@ public class WriteAllClasses extends WritePageClass {
 					classPathGenApiServiceImpl = (String)doc.get("classPathGenApiServiceImpl_" + languageName + "_stored_string"); 
 					classPathApiServiceImpl = (String)doc.get("classPathApiServiceImpl_" + languageName + "_stored_string"); 
 					classPathGenApiService = (String)doc.get("classPathGenApiService_" + languageName + "_stored_string"); 
-					classPathGenPage = (String)doc.get("classPathGenPage_" + languageName + "_stored_string"); 
-					classPathPage = (String)doc.get("classPathPage_" + languageName + "_stored_string"); 
-					classPathPageCss = (String)doc.get("classPathPageCss_" + languageName + "_stored_string"); 
-					classPathPageJs = (String)doc.get("classPathPageJs_" + languageName + "_stored_string"); 
 
 					classDirGen = new File(classDirPathGen);
 					classDirGen.mkdirs();
@@ -80,14 +76,6 @@ public class WriteAllClasses extends WritePageClass {
 						classFileApiServiceImpl = new File(classPathApiServiceImpl);
 					if(classPathGenApiService != null)
 						classFileGenApiService = new File(classPathGenApiService);
-					if(classPathGenPage != null)
-						classFilePageGen = new File(classPathGenPage);
-					if(classPathPage != null)
-						classFilePage = new File(classPathPage);
-					if(classPathPageCss != null)
-						classFilePageCss = new File(classPathPageCss);
-					if(classPathPageJs != null)
-						classFilePageJs = new File(classPathPageJs);
 
 					o = AllWriter.create(classFileGen);
 					classSimpleName = (String)doc.get("classSimpleName_" + languageName + "_stored_string");
@@ -104,7 +92,6 @@ public class WriteAllClasses extends WritePageClass {
 					classSimpleNameGenApiService = (String)doc.get("classSimpleNameGenApiService_" + languageName + "_stored_string");
 					classVarPrimaryKey = (String)doc.get("classVarPrimaryKey_" + languageName + "_stored_string");
 					classVarUniqueKey = (String)doc.get("classVarUniqueKey_" + languageName + "_stored_string");
-					classPageUri = (String)doc.get("classPageUri_" + languageName + "_stored_string");
 					classApiUri = (String)doc.get("classApiUri_" + languageName + "_stored_string");
 					classComment = (String)doc.get("classComment_" + languageName + "_stored_string");
 					classImportsGen = (List<String>)doc.get("classImportsGen_" + languageName + "_stored_strings");
@@ -159,6 +146,11 @@ public class WriteAllClasses extends WritePageClass {
 					contextA = (String)doc.get("contextA" + "_" + languageName + "_stored_string");
 					contextActualName = (String)doc.get("contextActualName" + "_" + languageName + "_stored_string");
 					contextAllName = (String)doc.get("contextAllName" + "_" + languageName + "_stored_string");
+					contextTheName = (String)doc.get("contextTheName" + "_" + languageName + "_stored_string");
+					contextTitle = (String)doc.get("contextTitle" + "_" + languageName + "_stored_string");
+					contextH1 = (String)doc.get("contextH1" + "_" + languageName + "_stored_string");
+					contextH2 = (String)doc.get("contextH2" + "_" + languageName + "_stored_string");
+					contextH3 = (String)doc.get("contextH3" + "_" + languageName + "_stored_string");
 					contextNoneNameFound = (String)doc.get("contextNoneNameFound" + "_" + languageName + "_stored_string");
 					contextANameAdjective = (String)doc.get("contextANameAdjective" + "_" + languageName + "_stored_string");
 					contextThisName = (String)doc.get("contextThisName" + "_" + languageName + "_stored_string");
@@ -176,17 +168,6 @@ public class WriteAllClasses extends WritePageClass {
 							writerApiServiceImpl = AllWriter.create(classFileApiServiceImpl);
 						if(classFileGenApiService != null)
 							writerGenApiService = AllWriter.create(classFileGenApiService);
-					}
-//					writerPageClass = new PrintWriter(classFilePage);
-					if(classPage) {
-						if(classFilePage != null && !classFilePage.exists())
-							writerPageClass = AllWriter.create(classFilePage);
-						if(classFilePageGen != null)
-							writerGenPageClass = AllWriter.create(classFilePageGen);
-						if(classFilePageCss != null)
-							writerPageCss = AllWriter.create(classFilePageCss);
-						if(classFilePageJs != null)
-							writerPageJs = AllWriter.create(classFilePageJs);
 					}
 
 					genCodeInit();
