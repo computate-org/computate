@@ -349,6 +349,12 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: IconGroup
 	 * r: IconeNom
 	 * r.enUS: IconName
+	 * r: classeSuperEcrireMethodes
+	 * r.enUS: classSuperWriteMethods
+	 * r: classeEcrireMethodes
+	 * r.enUS: classWriteMethods
+	 * r: classeEcrireEcrivains
+	 * r.enUS: classWriteWriters
 	 * 
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
@@ -422,7 +428,14 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
+					classeSuperEcrireMethodes = (List<String>)doc.get("classeSuperEcrireMethodes_stored_strings");
 					classeEcrireMethodes = (List<String>)doc.get("classeEcrireMethodes_stored_strings");
+					classeEcrireEcrivains = new ArrayList<>();
+					if(classeEcrireMethodes == null)
+						classeEcrireMethodes = new ArrayList<>();
+					for(String classeEcrireMethode : classeEcrireMethodes) {
+						classeEcrireEcrivains.add(new ToutEcrivain().initDeepStringPrintWriter());
+					}
 					if(classeImportationsGen == null)
 						classeImportationsGen = new ArrayList<String>();
 					classeImportationsGenApi = (List<String>)doc.get("classeImportationsGenApi_" + langueNom + "_stored_strings");

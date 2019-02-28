@@ -95,7 +95,14 @@ public class WriteAllClasses extends WritePageClass {
 					classApiUri = (String)doc.get("classApiUri_" + languageName + "_stored_string");
 					classComment = (String)doc.get("classComment_" + languageName + "_stored_string");
 					classImportsGen = (List<String>)doc.get("classImportsGen_" + languageName + "_stored_strings");
+					classSuperWriteMethods = (List<String>)doc.get("classSuperWriteMethods_stored_strings");
 					classWriteMethods = (List<String>)doc.get("classWriteMethods_stored_strings");
+					classWriteWriters = new ArrayList<>();
+					if(classWriteMethods == null)
+						classWriteMethods = new ArrayList<>();
+					for(String classWriteMethod : classWriteMethods) {
+						classWriteWriters.add(new AllWriter().initDeepStringPrintWriter());
+					}
 					if(classImportsGen == null)
 						classImportsGen = new ArrayList<String>();
 					classImportsGenApi = (List<String>)doc.get("classImportsGenApi_" + languageName + "_stored_strings");

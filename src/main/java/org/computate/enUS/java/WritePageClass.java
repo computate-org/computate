@@ -426,7 +426,7 @@ public class WritePageClass extends WriteApiClass {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("entiteNomCanonique_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addSort("entityHtmlRow_indexed_int", ORDER.asc);
 					rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
@@ -783,7 +783,7 @@ public class WritePageClass extends WriteApiClass {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("entiteNomCanonique_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addFilterQuery("entityHtmlColumn_indexed_double:[* TO *]");
 					rechercheSolr.addSort("entityHtmlColumn_indexed_double", ORDER.asc);
 					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
@@ -831,7 +831,7 @@ public class WritePageClass extends WriteApiClass {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("entiteNomCanonique_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addSort("entityHtmlRow_indexed_int", ORDER.asc);
 					rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);

@@ -997,7 +997,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "w.tl(1, ", q(", ", q("tempsRecherche"), ": "), ", w.q(tempsRecherche));");
 						tl(3, "w.tl(1, ", q(", ", q("tempsTransmission"), ": "), ", w.q(tempsTransmission));");
 						tl(3, "w.tl(1, ", q(", ", q("liste"), ": ["), ");");
-						tl(3, "for(int i = 0; i < documentsSolr.size(); i++) {");
+						tl(3, "for(int i = 0; i < liste", classeNomSimple, ".size(); i++) {");
 						tl(4, classeNomSimple, " o = liste", classeNomSimple, ".getList().get(i);");
 						tl(4, "Object entiteValeur;");
 						tl(4, "Integer entiteNumero = 0;");
@@ -1036,8 +1036,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "page.html();");
 					}
 					else {
-						tl(3, "if(documentsSolr.size() > 0) {");
+						tl(3, "if(liste", classeNomSimple, ".size() > 0) {");
 						tl(4, "SolrDocument documentSolr = documentsSolr.get(0);");
+						tl(4, classeNomSimple, " o = liste", classeNomSimple, ".get(0);");
 						tl(4, "Object entiteValeur;");
 						tl(4, "Integer entiteNumero = 0;");
 						l();

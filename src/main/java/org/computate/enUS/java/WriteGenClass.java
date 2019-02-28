@@ -94,7 +94,11 @@ public class WriteGenClass extends WriteClass {
 
 	protected List<String> entitySuperClassesAndMeWithoutGen;
 
+	protected List<String> classSuperWriteMethods;
+
 	protected List<String> classWriteMethods;
+
+	protected List<AllWriter> classWriteWriters;
 
 	protected Boolean classExtendsGen;
 
@@ -306,17 +310,23 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "// index //");
 			tl(1, "/////////////");
 			tl(0);
-			tl(1, "//public void index", classSimpleName, "() throws Exception {");
-			tl(2, "//SiteRequest siteRequest = new SiteRequest();");
-			tl(2, "//siteRequest.initDeepSiteRequest();");
-			tl(2, "//SiteContext siteContext = new SiteContext();");
-			tl(2, "//siteContext.initDeepSiteContext();");
-			tl(2, "//siteContext.setSiteRequest_(siteRequest);");
-			tl(2, "//siteRequest.setSiteContext_(siteContext);");
-			tl(2, "//siteRequest", classSimpleName, "(siteRequest);");
-			tl(2, "//initDeep", classSimpleName, "(siteRequest);");
-			tl(2, "//index", classSimpleName, "();");
-			tl(1, "//}");
+			tl(1, "public static void index() {");
+			tl(2, "try {");
+			tl(3, "SiteRequest siteRequest = new SiteRequest();");
+			tl(3, "siteRequest.initDeepSiteRequest();");
+			tl(3, "SiteContext siteContext = new SiteContext();");
+			tl(3, "siteContext.getSiteConfig().setConfigChemin(", q(configPath), ");");
+			tl(3, "siteContext.initDeepSiteContext();");
+			tl(3, "siteContext.setSiteRequest_(siteRequest);");
+			tl(3, "siteRequest.setSiteContext_(siteContext);");
+			tl(3, classSimpleName, " o = new ", classSimpleName, "();");
+			tl(3, "o.siteRequest", classSimpleName, "(siteRequest);");
+			tl(3, "o.initDeep", classSimpleName, "(siteRequest);");
+			tl(3, "o.index", classSimpleName, "();");
+			tl(2, "} catch(Exception e) {");
+			tl(3, "ExceptionUtils.rethrow(e);");
+			tl(2, "}");
+			tl(1, "}");
 			tl(0);
 			if(classExtendsBase || classIsBase) {
 				tl(0);
@@ -781,6 +791,17 @@ public class WriteGenClass extends WriteClass {
 			List<String> entityMethodsAfterSimpleName = (List<String>)doc.get("entityMethodsAfterSimpleName_stored_strings");
 			List<Boolean> entityMethodsAfterParamName = (List<Boolean>)doc.get("entityMethodsAfterParamName_stored_booleans");
 			List<Boolean> entityMethodsAfterWrite = (List<Boolean>)doc.get("entityMethodsAfterWrite_stored_booleans");
+
+			List<String> entityWriteMethods = (List<String>)doc.get("entityWriteMethods_stored_strings");
+			if(entityWriteMethods == null)
+				entityWriteMethods = new ArrayList<>();
+			for(int i = 0; i < classWriteMethods.size(); i++) {
+				String classWriteMethod = classWriteMethods.get(i);
+				if(entityWriteMethods.contains(classWriteMethod)) {
+					AllWriter w = classWriteWriters.get(i);
+					w.tl(2, entityVar, ".", classWriteMethod, "();");
+				}
+			}
 	
 			o = writerGenClass;
 	
@@ -1997,54 +2018,55 @@ public class WriteGenClass extends WriteClass {
 				}
 				else {
 					l();
-					tl(3, "fieldValue = Optional.ofNullable(documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ")).map(Collection<Object>::stream).orElseGet(Stream::empty).findFirst().orElse(null);");
-//					tl(3, "fieldValue = documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ").stream().findFirst().orElse(null);");
+					tl(4, "fieldValue = o.get", entityVarCapitalized, "();");
+//					tl(4, "fieldValue = Optional.ofNullable(documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ")).map(Collection<Object>::stream).orElseGet(Stream::empty).findFirst().orElse(null);");
 //					tl(4, "fieldValue = documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ").stream().findFirst().orElse(null);");
-					tl(3, "if(fieldValue != null)");
+//					tl(5, "fieldValue = documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ").stream().findFirst().orElse(null);");
+					tl(4, "if(fieldValue != null)");
 					if (VAL_canonicalNameBoolean.equals(entitySolrCanonicalName)) {
-//						tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
+//						tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
 
 						// tomorrow put this line everywhere. 
-						tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
+						tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
 					} else if (VAL_canonicalNameDate.equals(entitySolrCanonicalName)) {
 						if (VAL_canonicalNameTimestamp.equals(entityCanonicalName)) {
-//							tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
-							tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
+//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
+							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
 						} else if (VAL_canonicalNameZonedDateTime.equals(entityCanonicalName)) {
-//							tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime());");
-							tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
+//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime());");
+							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
 						} else if (VAL_canonicalNameLocalDateTime.equals(entityCanonicalName)) {
-//							tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
-							tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
+//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
+							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
 						} else if (VAL_canonicalNameLocalDate.equals(entityCanonicalName)) {
-//							tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());");
-							tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
+//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());");
+							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
 						} else {
-//							tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
-							tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
+//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
+							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
 						}
 					} else if (VAL_canonicalNameLong.equals(entitySolrCanonicalName)) {
-//						tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-						tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
+//						tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
+						tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
 					} else if (VAL_canonicalNameDouble.equals(entitySolrCanonicalName)) {
 						if (VAL_canonicalNameBigDecimal.equals(entityCanonicalName)) {
-//							tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-							tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
+//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
+							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
 						}
 						else {
-//							tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-							tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
+//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
+							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
 						}
 					} else if (VAL_canonicalNameFloat.equals(entitySolrCanonicalName)) {
-//						tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-						tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
+//						tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
+						tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
 					} else if (VAL_canonicalNameInteger.equals(entitySolrCanonicalName)) {
-//						tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-						tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
+//						tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
+						tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
 					}
 					else {
-//						tl(4, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-						tl(4, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
+//						tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
+						tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
 					}
 				}
 //				tl(3, ");");
@@ -2492,7 +2514,8 @@ public class WriteGenClass extends WriteClass {
 		}	
 
 		if(classWriteMethods != null) {
-			for(String classWriteMethod : classWriteMethods) {
+			for(int i = 0; i < classWriteMethods.size(); i++) {
+				String classWriteMethod = classWriteMethods.get(i);
 				l();
 				String strComment = "///" + String.join("", Collections.nCopies(classWriteMethod.length(), "/")) + "///";
 				tl(1, strComment);
@@ -2500,16 +2523,22 @@ public class WriteGenClass extends WriteClass {
 				tl(1, strComment);
 				tl(0);
 				t(1);
-				if(BooleanUtils.isTrue(classExtendsBase))
+
+				if(classSuperWriteMethods != null && classSuperWriteMethods.contains(classWriteMethod)) {
 					s("@Override ");
-				l("public void ", classWriteMethod, "() {");
-				tl(2, classWriteMethod, classSimpleName, "();");
-				if(BooleanUtils.isTrue(classExtendsBase)) {
+					l("public void ", classWriteMethod, "() {");
+					tl(2, classWriteMethod, classSimpleName, "();");
 					tl(2, "super.", classWriteMethod, classSuperSimpleNameGeneric, "();");
 				}
+				else {
+					l("public void ", classWriteMethod, "() {");
+					tl(2, classWriteMethod, classSimpleName, "();");
+				}
+
 				tl(1, "}");
 				l();
 				tl(1, "public void ", classWriteMethod, classSimpleName, "() {");
+				s(classWriteWriters.get(i));
 				tl(1, "}");
 	//				tl(1, "public void ", siteWriteMethod, "Avant() {");
 	//				tl(2, siteWriteMethod, classSimpleName, "Avant();");

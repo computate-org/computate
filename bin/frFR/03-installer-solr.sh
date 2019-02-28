@@ -49,6 +49,6 @@ computate "sudo systemctl enable solr-$versionSolr.service"
 
 computate "ln -s $appliChemin/config/solr/server/solr/configsets/computate /srv/solr-$versionSolr/server/solr/configsets/computate"
 computate "/srv/solr-$versionSolr/bin/solr zk upconfig -n computate -d /srv/solr-$versionSolr/server/solr/configsets/computate -z localhost:$portClientZookeeper"
-computate "/srv/solr-$versionSolr/bin/solr create_collection -c computate -n computate"
+computate "/srv/solr-$versionSolr/bin/solr create_collection -n computate -c computate"
 
 computate "xdg-open http://localhost:$portSolr"
