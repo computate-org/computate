@@ -2582,7 +2582,7 @@ public class IndexClass extends WatchClassBase {
 				indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Response", "ApiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
 				indexStoreSolrRegex(classDoc, languageName, "classApiDescription" + classApiMethod, "ApiDescription" + classApiMethod, classComment, regexLanguage(languageName, "(class)?Description" + classApiMethod + "", classComment));
 
-				if(classExtendsBase) {
+				if(classExtendsBase && classSuperDoc != null) {
 					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string"));
 					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Request", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Request" + "_" + languageName + "_stored_string"));
 					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", languageName, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + languageName + "_stored_string"));
@@ -2861,19 +2861,19 @@ public class IndexClass extends WatchClassBase {
 				indexStoreSolr(classDoc, "contextThisLowercase", languageName, contextThis); 
 			}
 
-			contextTitle = regex("^(context)?Title:\\s*(.*)", classComment, contextTheNames);
+			contextTitle = regexLanguage(languageName, "(context)?Title", classComment);
 			if(contextTitle != null)
 				indexStoreSolr(classDoc, "contextTitle", languageName, contextTitle); 
 
-			contextH1 = regex("^(context)?H1:\\s*(.*)", classComment, contextTheNames);
+			contextH1 = regexLanguage(languageName, "(context)?H1", classComment);
 			if(contextH1 != null)
 				indexStoreSolr(classDoc, "contextH1", languageName, contextH1); 
 
-			contextH2 = regex("^(context)?H2:\\s*(.*)", classComment);
+			contextH2 = regexLanguage(languageName, "(context)?H2", classComment);
 			if(contextH2 != null)
 				indexStoreSolr(classDoc, "contextH2", languageName, contextH2); 
 
-			contextH3 = regex("^(context)?H3:\\s*(.*)", classComment);
+			contextH3 = regexLanguage(languageName, "(context)?H3", classComment);
 			if(contextH3 != null)
 				indexStoreSolr(classDoc, "contextH3", languageName, contextH3); 
 		}

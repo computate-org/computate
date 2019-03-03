@@ -23,62 +23,6 @@ public class WritePageClass extends WriteApiClass {
 
 	protected String classSimpleNameGenPage;
 
-	protected String contextAName;
-
-	protected String contextThis;
-
-	protected String contextThisName;
-
-	protected String contextA;
-
-	protected String contextTheName;
-
-	protected String contextNameSingular;
-
-	protected String contextNamePlural;
-
-	protected String contextActualName;
-
-	protected String contextAll;
-
-	protected String contextAllName;
-
-	protected String contextH1;
-
-	protected String contextH2;
-
-	protected String contextH3;
-
-	protected String contextTitle;
-
-	protected String contextTheNames;
-
-	protected String contextNoneNameFound;
-
-	protected String contextNameVar;
-
-	protected String contextOfName;
-
-	protected String contextAdjective;
-
-	protected String contextAdjectivePlural;
-
-	protected String contextAdjectiveVar;
-
-	protected String contextANameAdjective;
-
-	protected String contextNameAdjectiveSingular;
-
-	protected String contextNameAdjectivePlural;
-
-	protected String contextColor;
-
-	protected String contextIconGroup;
-
-	protected String contextIconName;
-
-	protected Boolean classContext;
-
 	public void  pageCodeClasseDebut(String langueNom) throws Exception, Exception {
 //		o = auteurGenPageClasse;
 //		l("package ", classeNomEnsemble, ";");
@@ -426,7 +370,7 @@ public class WritePageClass extends WriteApiClass {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("entiteNomCanonique_indexed_string:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("classeNomCanonique_" + languageName + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addSort("entityHtmlRow_indexed_int", ORDER.asc);
 					rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
@@ -653,7 +597,10 @@ public class WritePageClass extends WriteApiClass {
 				} else {
 					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
 				}
-				wEntitys.tl(3, "c.o(", q(contextAName), ");");
+				if(contextH1 != null)
+					wEntitys.tl(3, "c.o(", q(contextH1), ");");
+				else
+					wEntitys.tl(3, "c.o(", q(contextAName), ");");
 				wEntitys.tl(2, "else if(list", classSimpleName, ".size() == 0)");
 				wEntitys.tl(3, "c.o(", q(contextNoneNameFound), ");");
 				if(contextH1 != null) {
@@ -672,7 +619,7 @@ public class WritePageClass extends WriteApiClass {
 						wEntitys.tl(3, "c.o(", q(contextH2), ");");
 					}
 				} else {
-					wEntitys.tl(2, "c.o(", q(contextH3), ");");
+					wEntitys.tl(2, "c.o(", q(contextH2), ");");
 				}
 				wEntitys.tl(1, "}");
 	
@@ -783,7 +730,7 @@ public class WritePageClass extends WriteApiClass {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("entiteNomCanonique_indexed_string:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("classeNomCanonique_" + languageName + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addFilterQuery("entityHtmlColumn_indexed_double:[* TO *]");
 					rechercheSolr.addSort("entityHtmlColumn_indexed_double", ORDER.asc);
 					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
@@ -831,7 +778,7 @@ public class WritePageClass extends WriteApiClass {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("entiteNomCanonique_indexed_string:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("classeNomCanonique_" + languageName + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addSort("entityHtmlRow_indexed_int", ORDER.asc);
 					rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
@@ -1022,8 +969,13 @@ public class WritePageClass extends WriteApiClass {
 				}
 	
 				t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show ").dfl();
+				if(classVarPrimaryKey != null) {
+					l();
+					tl(4, "if(o.get", StringUtils.capitalize(classVarPrimaryKey), "() != null)");
+					tl(5, "htmlForm", classSimpleName, "(o);");
+				}
 				l();
-				tl(4, "htmlForm", classSimpleName, "(o);");
+				tl(4, "o.htmlBody();");
 				l();
 				t(3).bgl("div");
 				tl(2, "} else {");

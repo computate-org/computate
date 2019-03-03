@@ -33,146 +33,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 */
 	protected String classeNomSimpleGenPage;
 
-	/**
-	 * Var.enUS: contextAName
-	 */
-	protected String contexteUnNom;
-
-	/**
-	 * Var.enUS: contextThis
-	 */
-	protected String contexteCe;
-
-	/**
-	 * Var.enUS: contextThisName
-	 */
-	protected String contexteCeNom;
-
-	/**
-	 * Var.enUS: contextA
-	 */
-	protected String contexteUn;
-
-	/**
-	 * Var.enUS: contextTheName
-	 */
-	protected String contexteLeNom;
-
-	/**
-	 * Var.enUS: contextNameSingular
-	 */
-	protected String contexteNomSingulier;
-
-	/**
-	 * Var.enUS: contextNamePlural
-	 */
-	protected String contexteNomPluriel;
-
-	/**
-	 * Var.enUS: contextActualName
-	 */
-	protected String contexteNomActuel;
-
-	/**
-	 * Var.enUS: contextAll
-	 */
-	protected String contexteTous;
-
-	/**
-	 * Var.enUS: contextAllName
-	 */
-	protected String contexteTousNom;
-
-	/**
-	 * Var.enUS: contextH1
-	 */
-	protected String contexteH1;
-
-	/**
-	 * Var.enUS: contextH2
-	 */
-	protected String contexteH2;
-
-	/**
-	 * Var.enUS: contextH3
-	 */
-	protected String contexteH3;
-
-	/**
-	 * Var.enUS: contextTitle
-	 */
-	protected String contexteTitre;
-
-	/**
-	 * Var.enUS: contextTheNames
-	 */
-	protected String contexteLesNoms;
-
-	/**
-	 * Var.enUS: contextNoneNameFound
-	 */
-	protected String contexteAucunNomTrouve;
-
-	/**
-	 * Var.enUS: contextNameVar
-	 */
-	protected String contexteNomVar;
-
-	/**
-	 * Var.enUS: contextOfName
-	 */
-	protected String contexteDeNom;
-
-	/**
-	 * Var.enUS: contextAdjective
-	 */
-	protected String contexteAdjectif;
-
-	/**
-	 * Var.enUS: contextAdjectivePlural
-	 */
-	protected String contexteAdjectifPluriel;
-
-	/**
-	 * Var.enUS: contextAdjectiveVar
-	 */
-	protected String contexteAdjectifVar;
-
-	/**
-	 * Var.enUS: contextANameAdjective
-	 */
-	protected String contexteUnNomAdjectif;
-
-	/**
-	 * Var.enUS: contextNameAdjectiveSingular
-	 */
-	protected String contexteNomAdjectifSingulier;
-
-	/**
-	 * Var.enUS: contextNameAdjectivePlural
-	 */
-	protected String contexteNomAdjectifPluriel;
-
-	/**
-	 * Var.enUS: contextColor
-	 */
-	protected String contexteCouleur;
-
-	/**
-	 * Var.enUS: contextIconGroup
-	 */
-	protected String contexteIconeGroupe;
-
-	/**
-	 * Var.enUS: contextIconName
-	 */
-	protected String contexteIconeNom;
-
-	/**
-	 * Var.enUS: classContext
-	 */
-	protected Boolean classeContexte;
-
 	public void pageCodeClasseDebut(String langueNom) throws Exception {
 //		o = auteurGenPageClasse;
 //		l("package ", classeNomEnsemble, ";");
@@ -689,6 +549,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: contextTitle
 	 * r: classeApiUri
 	 * r.enUS: classApiUri
+	 * r: classeVarClePrimaire
+	 * r.enUS: classVarPrimaryKey
 	 * 
 	 * r: liste
 	 * r.enUS: list
@@ -772,7 +634,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("entiteNomCanonique_indexed_string:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addSort("entiteHtmlLigne_indexed_int", ORDER.asc);
 					rechercheSolr.addSort("entiteHtmlCellule_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -999,7 +861,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				} else {
 					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null)");
 				}
-				wEntites.tl(3, "c.o(", q(contexteUnNom), ");");
+				if(contexteH1 != null)
+					wEntites.tl(3, "c.o(", q(contexteH1), ");");
+				else
+					wEntites.tl(3, "c.o(", q(contexteUnNom), ");");
 				wEntites.tl(2, "else if(liste", classeNomSimple, ".size() == 0)");
 				wEntites.tl(3, "c.o(", q(contexteAucunNomTrouve), ");");
 				if(contexteH1 != null) {
@@ -1018,7 +883,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						wEntites.tl(3, "c.o(", q(contexteH2), ");");
 					}
 				} else {
-					wEntites.tl(2, "c.o(", q(contexteH3), ");");
+					wEntites.tl(2, "c.o(", q(contexteH2), ");");
 				}
 				wEntites.tl(1, "}");
 	
@@ -1129,7 +994,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("entiteNomCanonique_indexed_string:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addFilterQuery("entiteHtmlColonne_indexed_double:[* TO *]");
 					rechercheSolr.addSort("entiteHtmlColonne_indexed_double", ORDER.asc);
 					QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -1177,7 +1042,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("entiteNomCanonique_indexed_string:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addSort("entiteHtmlLigne_indexed_int", ORDER.asc);
 					rechercheSolr.addSort("entiteHtmlCellule_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -1368,8 +1233,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 	
 				t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show ").dfl();
+				if(classeVarClePrimaire != null) {
+					l();
+					tl(4, "if(o.get", StringUtils.capitalize(classeVarClePrimaire), "() != null)");
+					tl(5, "htmlForm", classeNomSimple, "(o);");
+				}
 				l();
-				tl(4, "htmlForm", classeNomSimple, "(o);");
+				tl(4, "o.htmlBody();");
 				l();
 				t(3).bgl("div");
 				tl(2, "} else {");

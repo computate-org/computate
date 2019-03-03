@@ -7,14 +7,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -197,6 +195,62 @@ public class WriteGenClass extends WriteClass {
 	protected AllWriter writerGenClass;
 
 	protected Integer entityIndex;
+
+	protected String contextAName;
+
+	protected String contextThis;
+
+	protected String contextThisName;
+
+	protected String contextA;
+
+	protected String contextTheName;
+
+	protected String contextNameSingular;
+
+	protected String contextNamePlural;
+
+	protected String contextActualName;
+
+	protected String contextAll;
+
+	protected String contextAllName;
+
+	protected String contextH1;
+
+	protected String contextH2;
+
+	protected String contextH3;
+
+	protected String contextTitle;
+
+	protected String contextTheNames;
+
+	protected String contextNoneNameFound;
+
+	protected String contextNameVar;
+
+	protected String contextOfName;
+
+	protected String contextAdjective;
+
+	protected String contextAdjectivePlural;
+
+	protected String contextAdjectiveVar;
+
+	protected String contextANameAdjective;
+
+	protected String contextNameAdjectiveSingular;
+
+	protected String contextNameAdjectivePlural;
+
+	protected String contextColor;
+
+	protected String contextIconGroup;
+
+	protected String contextIconName;
+
+	protected Boolean classContext;
 
 	public void  genCodeInit() throws Exception, Exception {
 
@@ -650,6 +704,96 @@ public class WriteGenClass extends WriteClass {
 				}
 			}
 		}
+		
+		//////////////
+		// Contexte //
+		//////////////
+		
+		if(classContext) {
+			
+			l();
+			if(contextAName != null)
+				tl(1, "public static final String ", classSimpleName, "_UnNom = ", q(contextAName), ";");
+			
+			if(contextThis != null)
+				tl(1, "public static final String ", classSimpleName, "_Ce = ", q(contextThis), ";");
+			
+			if(contextThisName != null)
+				tl(1, "public static final String ", classSimpleName, "_CeNom = ", q(contextThisName), ";");
+			
+			if(contextA != null)
+				tl(1, "public static final String ", classSimpleName, "_Un = ", q(contextA), ";");
+			
+			if(contextTheName != null)
+				tl(1, "public static final String ", classSimpleName, "_LeNom = ", q(contextTheName), ";");
+			
+			if(contextNameSingular != null)
+				tl(1, "public static final String ", classSimpleName, "_NomSingulier = ", q(contextNameSingular), ";");
+			
+			if(contextNamePlural != null)
+				tl(1, "public static final String ", classSimpleName, "_NomPluriel = ", q(contextNamePlural), ";");
+			
+			if(contextActualName != null)
+				tl(1, "public static final String ", classSimpleName, "_NomActuel = ", q(contextActualName), ";");
+			
+			if(contextAll != null)
+				tl(1, "public static final String ", classSimpleName, "_Tous = ", q(contextAll), ";");
+			
+			if(contextAllName != null)
+				tl(1, "public static final String ", classSimpleName, "_TousNom = ", q(contextAllName), ";");
+			
+			if(contextH1 != null)
+				tl(1, "public static final String ", classSimpleName, "_H1 = ", q(contextH1), ";");
+			
+			if(contextH2 != null)
+				tl(1, "public static final String ", classSimpleName, "_H2 = ", q(contextH2), ";");
+			
+			if(contextH3 != null)
+				tl(1, "public static final String ", classSimpleName, "_H3 = ", q(contextH3), ";");
+			
+			if(contextTitle != null)
+				tl(1, "public static final String ", classSimpleName, "_Titre = ", q(contextTitle), ";");
+			
+			if(contextTheNames != null)
+				tl(1, "public static final String ", classSimpleName, "_TheNames = ", q(contextTheNames), ";");
+			
+			if(contextNoneNameFound != null)
+				tl(1, "public static final String ", classSimpleName, "_AucunNomTrouve = ", q(contextNoneNameFound), ";");
+			
+			if(contextNameVar != null)
+				tl(1, "public static final String ", classSimpleName, "_NomVar = ", q(contextNameVar), ";");
+			
+			if(contextOfName != null)
+				tl(1, "public static final String ", classSimpleName, "_DeNom = ", q(contextOfName), ";");
+			
+			if(contextAdjective != null)
+				tl(1, "public static final String ", classSimpleName, "_Adjective = ", q(contextAdjective), ";");
+			
+			if(contextAdjectivePlural != null)
+				tl(1, "public static final String ", classSimpleName, "_AdjectivePluriel = ", q(contextAdjectivePlural), ";");
+			
+			if(contextAdjectiveVar != null)
+				tl(1, "public static final String ", classSimpleName, "_AdjectiveVar = ", q(contextAdjectiveVar), ";");
+			
+			if(contextANameAdjective != null)
+				tl(1, "public static final String ", classSimpleName, "_ANameAdjective = ", q(contextANameAdjective), ";");
+			
+			if(contextNameAdjectiveSingular != null)
+				tl(1, "public static final String ", classSimpleName, "_NameAdjectiveSingular = ", q(contextNameAdjectiveSingular), ";");
+			
+			if(contextNameAdjectivePlural != null)
+				tl(1, "public static final String ", classSimpleName, "_NameAdjectivePlural = ", q(contextNameAdjectivePlural), ";");
+			
+			if(contextColor != null)
+				tl(1, "public static final String ", classSimpleName, "_Couleur = ", q(contextColor), ";");
+			
+			if(contextIconGroup != null)
+				tl(1, "public static final String ", classSimpleName, "_IconeGroupe = ", q(contextIconGroup), ";");
+			
+			if(contextIconName != null)
+				tl(1, "public static final String ", classSimpleName, "_IconeNom = ", q(contextIconName), ";");
+		}
+
 	}
 
 	public void  genCodeConstructor(String languageName) throws Exception, Exception {
@@ -1283,7 +1427,7 @@ public class WriteGenClass extends WriteClass {
 						Boolean entityMethodBeforeWrite = entityMethodsBeforeWrite.get(j);
 	
 						if(BooleanUtils.isTrue(entityMethodBeforeWrite)) {
-							t(1, "((", classSimpleName, ")this).", entityMethodBeforeVisibility, " abstract void ", entityMethodBeforeVar, "(", entityMethodBeforeSimpleName, " ", entityMethodBeforeParamVar);
+							t(1, entityMethodBeforeVisibility, " abstract void ", entityMethodBeforeVar, "(", entityMethodBeforeSimpleName, " ", entityMethodBeforeParamVar);
 							if(entityMethodBeforeParamName)
 								s(", String entityVar");
 							l(");");
@@ -1803,9 +1947,11 @@ public class WriteGenClass extends WriteClass {
 //				tl(4, "if(", q(entityVar, "_stored", entityTypeSuffix), ".equals(entityVarStored)) {");
 				if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList, VAL_canonicalNameSet, VAL_canonicalNameHashSet)) {
 					if(VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": \");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1814,13 +1960,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": \");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1831,15 +1978,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entityVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1850,15 +1996,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_canonicalNameZonedDateTime.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entityVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1869,15 +2014,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entityVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1888,15 +2032,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entityVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1907,15 +2050,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entityVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1924,15 +2066,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_canonicalNameBigDecimal.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entityVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1941,15 +2082,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entityVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1958,15 +2098,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entityVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1975,15 +2114,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_canonicalNameInteger.equals(entityCanonicalNameGeneric)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entityVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -1992,15 +2130,14 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entityVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
+						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(fieldValue != null) {");
 						tl(6, "if(k > 0)");
@@ -2012,8 +2149,7 @@ public class WriteGenClass extends WriteClass {
 						tl(6, "fieldValue = fieldValues.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 				}
 				else {

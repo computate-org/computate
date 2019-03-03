@@ -202,6 +202,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
 			auteurGenApiService.l("import io.vertx.ext.web.api.generator.WebApiServiceGen;");
+			auteurGenApiService.l("import io.vertx.serviceproxy.ServiceBinder;");
 			auteurGenApiService.l("import io.vertx.core.AsyncResult;");
 			auteurGenApiService.l("import io.vertx.core.Handler;");
 			auteurGenApiService.l("import io.vertx.core.Vertx;");
@@ -213,6 +214,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("@WebApiServiceGen");
 			auteurGenApiService.l("@ProxyGen");
 			auteurGenApiService.s("public interface ", classeNomSimpleGenApiService, " {");
+			auteurGenApiService.l();
+			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
+			auteurGenApiService.tl(1, "static void enregistrerService(SiteContexte siteContexte, Vertx vertx) {");
+			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(siteContexte));");
+			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
 			auteurGenApiService.tl(1, "static ", classeNomSimpleGenApiService, " creer(SiteContexte siteContexte, Vertx vertx) {");
@@ -937,7 +943,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT")) {
 					tl(3, "RequeteSite requeteSite = o.getRequeteSite_();");
 				}
-				else if(classeApiMethode.contains("Recherche")) {
+				else if(classeApiMethode.contains("Recherche") || classeApiMethode.contains("PATCH") || classeApiMethode.contains("GET")) {
 					tl(3, "RequeteSite requeteSite = liste", classeNomSimple, ".getRequeteSite_();");
 				}
 				else {
@@ -951,6 +957,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				else
 					s("liste", classeNomSimple, ".getRequeteSite_()");
 				l(", buffer);");
+				tl(3, "requeteSite.setW(w);");
 
 
 				if(classeApiMethode.contains("GET")) {

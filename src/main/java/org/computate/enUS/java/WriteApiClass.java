@@ -56,6 +56,7 @@ public class WriteApiClass extends WriteGenClass {
 //			writerGenApiService.l("import ", classPackageName, ".", classSimpleName, "ApiServiceVertxEBProxy;");
 			writerGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
 			writerGenApiService.l("import io.vertx.ext.web.api.generator.WebApiServiceGen;");
+			writerGenApiService.l("import io.vertx.serviceproxy.ServiceBinder;");
 			writerGenApiService.l("import io.vertx.core.AsyncResult;");
 			writerGenApiService.l("import io.vertx.core.Handler;");
 			writerGenApiService.l("import io.vertx.core.Vertx;");
@@ -67,6 +68,11 @@ public class WriteApiClass extends WriteGenClass {
 			writerGenApiService.l("@WebApiServiceGen");
 			writerGenApiService.l("@ProxyGen");
 			writerGenApiService.s("public interface ", classSimpleNameGenApiService, " {");
+			writerGenApiService.l();
+			writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
+			writerGenApiService.tl(1, "static void enregistrerService(SiteContext siteContext, Vertx vertx) {");
+			writerGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(classSimpleName), ").register(", classSimpleNameGenApiService, ".class, new ", classSimpleNameApiServiceImpl, "(siteContext));");
+			writerGenApiService.tl(1, "}");
 			writerGenApiService.l();
 			writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
 			writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " creer(SiteContext siteContext, Vertx vertx) {");
@@ -644,7 +650,7 @@ public class WriteApiClass extends WriteGenClass {
 				if(classApiMethod.contains("POST") || classApiMethod.contains("PUT")) {
 					tl(3, "SiteRequest siteRequest = o.getSiteRequest_();");
 				}
-				else if(classApiMethod.contains("Recherche")) {
+				else if(classApiMethod.contains("Recherche") || classApiMethod.contains("PATCH") || classApiMethod.contains("GET")) {
 					tl(3, "SiteRequest siteRequest = liste", classSimpleName, ".getSiteRequest_();");
 				}
 				else {
@@ -658,6 +664,7 @@ public class WriteApiClass extends WriteGenClass {
 				else
 					s("liste", classSimpleName, ".getSiteRequest_()");
 				l(", buffer);");
+				tl(3, "siteRequest.setW(w);");
 
 
 				if(classApiMethod.contains("GET")) {

@@ -438,6 +438,146 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected Integer entiteIndice;
 
+	/**
+	 * Var.enUS: contextAName
+	 */
+	protected String contexteUnNom;
+
+	/**
+	 * Var.enUS: contextThis
+	 */
+	protected String contexteCe;
+
+	/**
+	 * Var.enUS: contextThisName
+	 */
+	protected String contexteCeNom;
+
+	/**
+	 * Var.enUS: contextA
+	 */
+	protected String contexteUn;
+
+	/**
+	 * Var.enUS: contextTheName
+	 */
+	protected String contexteLeNom;
+
+	/**
+	 * Var.enUS: contextNameSingular
+	 */
+	protected String contexteNomSingulier;
+
+	/**
+	 * Var.enUS: contextNamePlural
+	 */
+	protected String contexteNomPluriel;
+
+	/**
+	 * Var.enUS: contextActualName
+	 */
+	protected String contexteNomActuel;
+
+	/**
+	 * Var.enUS: contextAll
+	 */
+	protected String contexteTous;
+
+	/**
+	 * Var.enUS: contextAllName
+	 */
+	protected String contexteTousNom;
+
+	/**
+	 * Var.enUS: contextH1
+	 */
+	protected String contexteH1;
+
+	/**
+	 * Var.enUS: contextH2
+	 */
+	protected String contexteH2;
+
+	/**
+	 * Var.enUS: contextH3
+	 */
+	protected String contexteH3;
+
+	/**
+	 * Var.enUS: contextTitle
+	 */
+	protected String contexteTitre;
+
+	/**
+	 * Var.enUS: contextTheNames
+	 */
+	protected String contexteLesNoms;
+
+	/**
+	 * Var.enUS: contextNoneNameFound
+	 */
+	protected String contexteAucunNomTrouve;
+
+	/**
+	 * Var.enUS: contextNameVar
+	 */
+	protected String contexteNomVar;
+
+	/**
+	 * Var.enUS: contextOfName
+	 */
+	protected String contexteDeNom;
+
+	/**
+	 * Var.enUS: contextAdjective
+	 */
+	protected String contexteAdjectif;
+
+	/**
+	 * Var.enUS: contextAdjectivePlural
+	 */
+	protected String contexteAdjectifPluriel;
+
+	/**
+	 * Var.enUS: contextAdjectiveVar
+	 */
+	protected String contexteAdjectifVar;
+
+	/**
+	 * Var.enUS: contextANameAdjective
+	 */
+	protected String contexteUnNomAdjectif;
+
+	/**
+	 * Var.enUS: contextNameAdjectiveSingular
+	 */
+	protected String contexteNomAdjectifSingulier;
+
+	/**
+	 * Var.enUS: contextNameAdjectivePlural
+	 */
+	protected String contexteNomAdjectifPluriel;
+
+	/**
+	 * Var.enUS: contextColor
+	 */
+	protected String contexteCouleur;
+
+	/**
+	 * Var.enUS: contextIconGroup
+	 */
+	protected String contexteIconeGroupe;
+
+	/**
+	 * Var.enUS: contextIconName
+	 */
+	protected String contexteIconeNom;
+
+	/**
+	 * Var.enUS: classContext
+	 */
+	protected Boolean classeContexte;
+
 	/** 
 	 * r: wInitLoin
 	 * r.enUS: wInitDeep
@@ -1126,6 +1266,83 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classValLanguage
 	 * r: classeValValeur
 	 * r.enUS: classValValue
+	 * 
+	 * r: classeContexte
+	 * r.enUS: classContext
+	 * r: contexteNomAdjectifSingulier
+	 * r.enUS: contextNameAdjectiveSingular
+	 * r: contexteAdjectifPluriel
+	 * r.enUS: contextAdjectivePlural
+	 * r: contexteNomAdjectifPluriel
+	 * r.enUS: contextNameAdjectivePlural
+	 * r: contexteTitre
+	 * r.enUS: contextTitle
+	 * r: contexteCeNom
+	 * r.enUS: contextThisName
+	 * r: contexteCe
+	 * r.enUS: contextThis
+	 * r: contexteUnNom
+	 * r.enUS: contextAName
+	 * r: contexteUn
+	 * r.enUS: contextA
+	 * r: contexteLeNom
+	 * r.enUS: contextTheName
+	 * r: contexteLesNoms
+	 * r.enUS: contextTheNames
+	 * r: contexteCree
+	 * r.enUS: contextCreated
+	 * r: contexteModifie
+	 * r.enUS: contextModified
+	 * r: contexteNomSingulier
+	 * r.enUS: contextNameSingular
+	 * r: contexteNomPluriel
+	 * r.enUS: contextNamePlural
+	 * r: contexteNomActuel
+	 * r.enUS: contextActualName
+	 * r: contexteTousNom
+	 * r.enUS: contextAllName
+	 * r: LesNom
+	 * r.enUS: TheName
+	 * r: contexteTous
+	 * r.enUS: contextAll
+	 * r: contexteAucunNomTrouve
+	 * r.enUS: contextNoneNameFound
+	 * r: contexteNomVar
+	 * r.enUS: contextNameVar
+	 * r: contexteDeNom
+	 * r.enUS: contextOfName
+	 * r: contexteNom
+	 * r.enUS: contextName
+	 * r: contexteCouleur
+	 * r.enUS: contextColor
+	 * r: contexteIconeGroupe
+	 * r.enUS: contextIconGroup
+	 * r: contexteIconeNom
+	 * r.enUS: contextIconName
+	 * r: UnNomAdjectif
+	 * r.enUS: ANameAdjective
+	 * r: LeNomAdjectif
+	 * r.enUS: TheNameAdjective
+	 * r: AdjectifAvant
+	 * r.enUS: AdjectiveBefore
+	 * r: NomAdjectifSingulier
+	 * r.enUS: NameAdjectiveSingular
+	 * r: NomAdjectifPluriel
+	 * r.enUS: NameAdjectivePlural
+	 * r: PlurielNomAdjectif
+	 * r.enUS: PluralNameAdjective
+	 * r: SingulierNomAdjectif
+	 * r.enUS: SingularNameAdjective
+	 * r: LeNomAdjectif
+	 * r.enUS: TheAdjectiveName
+	 * r: UnNomAdjectif
+	 * r.enUS: AnAdjectiveName
+	 * r: AdjectifVar
+	 * r.enUS: AdjectiveVar
+	 * r: Adjectif
+	 * r.enUS: Adjective
+	 * r: contexte
+	 * r.enUS: context
 	 */
 	public void genCodeClasseDebut(String langueNom) throws Exception {
 		o = auteurGenClasse;
@@ -1193,6 +1410,96 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 			}
 		}
+		
+		//////////////
+		// Contexte //
+		//////////////
+		
+		if(classeContexte) {
+			
+			l();
+			if(contexteUnNom != null)
+				tl(1, "public static final String ", classeNomSimple, "_UnNom = ", q(contexteUnNom), ";");
+			
+			if(contexteCe != null)
+				tl(1, "public static final String ", classeNomSimple, "_Ce = ", q(contexteCe), ";");
+			
+			if(contexteCeNom != null)
+				tl(1, "public static final String ", classeNomSimple, "_CeNom = ", q(contexteCeNom), ";");
+			
+			if(contexteUn != null)
+				tl(1, "public static final String ", classeNomSimple, "_Un = ", q(contexteUn), ";");
+			
+			if(contexteLeNom != null)
+				tl(1, "public static final String ", classeNomSimple, "_LeNom = ", q(contexteLeNom), ";");
+			
+			if(contexteNomSingulier != null)
+				tl(1, "public static final String ", classeNomSimple, "_NomSingulier = ", q(contexteNomSingulier), ";");
+			
+			if(contexteNomPluriel != null)
+				tl(1, "public static final String ", classeNomSimple, "_NomPluriel = ", q(contexteNomPluriel), ";");
+			
+			if(contexteNomActuel != null)
+				tl(1, "public static final String ", classeNomSimple, "_NomActuel = ", q(contexteNomActuel), ";");
+			
+			if(contexteTous != null)
+				tl(1, "public static final String ", classeNomSimple, "_Tous = ", q(contexteTous), ";");
+			
+			if(contexteTousNom != null)
+				tl(1, "public static final String ", classeNomSimple, "_TousNom = ", q(contexteTousNom), ";");
+			
+			if(contexteH1 != null)
+				tl(1, "public static final String ", classeNomSimple, "_H1 = ", q(contexteH1), ";");
+			
+			if(contexteH2 != null)
+				tl(1, "public static final String ", classeNomSimple, "_H2 = ", q(contexteH2), ";");
+			
+			if(contexteH3 != null)
+				tl(1, "public static final String ", classeNomSimple, "_H3 = ", q(contexteH3), ";");
+			
+			if(contexteTitre != null)
+				tl(1, "public static final String ", classeNomSimple, "_Titre = ", q(contexteTitre), ";");
+			
+			if(contexteLesNoms != null)
+				tl(1, "public static final String ", classeNomSimple, "_LesNoms = ", q(contexteLesNoms), ";");
+			
+			if(contexteAucunNomTrouve != null)
+				tl(1, "public static final String ", classeNomSimple, "_AucunNomTrouve = ", q(contexteAucunNomTrouve), ";");
+			
+			if(contexteNomVar != null)
+				tl(1, "public static final String ", classeNomSimple, "_NomVar = ", q(contexteNomVar), ";");
+			
+			if(contexteDeNom != null)
+				tl(1, "public static final String ", classeNomSimple, "_DeNom = ", q(contexteDeNom), ";");
+			
+			if(contexteAdjectif != null)
+				tl(1, "public static final String ", classeNomSimple, "_Adjectif = ", q(contexteAdjectif), ";");
+			
+			if(contexteAdjectifPluriel != null)
+				tl(1, "public static final String ", classeNomSimple, "_AdjectifPluriel = ", q(contexteAdjectifPluriel), ";");
+			
+			if(contexteAdjectifVar != null)
+				tl(1, "public static final String ", classeNomSimple, "_AdjectifVar = ", q(contexteAdjectifVar), ";");
+			
+			if(contexteUnNomAdjectif != null)
+				tl(1, "public static final String ", classeNomSimple, "_UnNomAdjectif = ", q(contexteUnNomAdjectif), ";");
+			
+			if(contexteNomAdjectifSingulier != null)
+				tl(1, "public static final String ", classeNomSimple, "_NomAdjectifSingulier = ", q(contexteNomAdjectifSingulier), ";");
+			
+			if(contexteNomAdjectifPluriel != null)
+				tl(1, "public static final String ", classeNomSimple, "_NomAdjectifPluriel = ", q(contexteNomAdjectifPluriel), ";");
+			
+			if(contexteCouleur != null)
+				tl(1, "public static final String ", classeNomSimple, "_Couleur = ", q(contexteCouleur), ";");
+			
+			if(contexteIconeGroupe != null)
+				tl(1, "public static final String ", classeNomSimple, "_IconeGroupe = ", q(contexteIconeGroupe), ";");
+			
+			if(contexteIconeNom != null)
+				tl(1, "public static final String ", classeNomSimple, "_IconeNom = ", q(contexteIconeNom), ";");
+		}
+
 	}
 
 	/**
@@ -2256,7 +2563,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						Boolean entiteMethodeAvantEcrire = entiteMethodesAvantEcrire.get(j);
 	
 						if(BooleanUtils.isTrue(entiteMethodeAvantEcrire)) {
-							t(1, "((", classeNomSimple, ")this).", entiteMethodeAvantVisibilite, " abstract void ", entiteMethodeAvantVar, "(", entiteMethodeAvantParamNomSimple, " ", entiteMethodeAvantParamVar);
+							t(1, entiteMethodeAvantVisibilite, " abstract void ", entiteMethodeAvantVar, "(", entiteMethodeAvantParamNomSimple, " ", entiteMethodeAvantParamVar);
 							if(entiteMethodeAvantNomParam)
 								s(", String entiteVar");
 							l(");");
@@ -2776,9 +3083,11 @@ public class EcrireGenClasse extends EcrireClasse {
 //				tl(4, "if(", q(entiteVar, "_stored", entiteSuffixeType), ".equals(entiteVarStocke)) {");
 				if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList, VAL_nomCanoniqueSet, VAL_nomCanoniqueHashSet)) {
 					if(VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": \");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2787,13 +3096,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": \");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2804,15 +3114,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entiteVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2823,15 +3132,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entiteVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2842,15 +3150,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entiteVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2861,15 +3168,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entiteVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2880,15 +3186,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entiteVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2897,15 +3202,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entiteVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2914,15 +3218,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entiteVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2931,15 +3234,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entiteVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2948,15 +3250,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else if(VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)) {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entiteVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2965,15 +3266,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 					else {
-						tl(5, "if(j > 0)");
-						tl(6, "w.s(\", \");");
-						tl(5, "w.s(\"\\\"\");");
-						tl(5, "w.s(\"", entiteVar, "\");");
-						tl(5, "w.s(\"\\\": [\");");
+						l();
+						tl(4, "{");
+						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
+						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
 						tl(5, "int k = 0;");
 						tl(5, "while(entiteValeur != null) {");
 						tl(6, "if(k > 0)");
@@ -2985,8 +3285,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
-						tl(5, "j++;");
-						tl(5, "return j;");
+						tl(4, "}");
 					}
 				}
 				else {

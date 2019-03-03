@@ -4735,7 +4735,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				indexerStockerSolrRegex(classeDoc, langueNom, "classeApiOperationId" + classeApiMethode + "Reponse", "ApiOperationId" + classeApiMethode + "Reponse", classeCommentaire, classeApiMethode + classeNomSimple + "Reponse");
 				indexerStockerSolrRegex(classeDoc, langueNom, "classeApiDescription" + classeApiMethode, "ApiDescription" + classeApiMethode, classeCommentaire, regexLangue(langueNom, "(classe)?Description" + classeApiMethode + "", classeCommentaire));
 
-				if(classeEtendBase) {
+				if(classeEtendBase && classeSuperDoc != null) {
 					indexerStockerSolr(classeDoc, "classeSuperApiOperationId" + classeApiMethode, langueNom, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string"));
 					indexerStockerSolr(classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Requete", langueNom, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Requete" + "_" + langueNom + "_stored_string"));
 					indexerStockerSolr(classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Reponse", langueNom, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Reponse" + "_" + langueNom + "_stored_string"));
@@ -5014,19 +5014,19 @@ public class IndexerClasse extends RegarderClasseBase {
 				indexerStockerSolr(classeDoc, "contexteCeMinuscule", langueNom, contexteCe); 
 			}
 
-			contexteTitre = regex("^(contexte)?Titre:\\s*(.*)", classeCommentaire, contexteLesNoms);
+			contexteTitre = regexLangue(langueNom, "(contexte)?Titre", classeCommentaire);
 			if(contexteTitre != null)
 				indexerStockerSolr(classeDoc, "contexteTitre", langueNom, contexteTitre); 
 
-			contexteH1 = regex("^(contexte)?H1:\\s*(.*)", classeCommentaire, contexteLesNoms);
+			contexteH1 = regexLangue(langueNom, "(contexte)?H1", classeCommentaire);
 			if(contexteH1 != null)
 				indexerStockerSolr(classeDoc, "contexteH1", langueNom, contexteH1); 
 
-			contexteH2 = regex("^(contexte)?H2:\\s*(.*)", classeCommentaire);
+			contexteH2 = regexLangue(langueNom, "(contexte)?H2", classeCommentaire);
 			if(contexteH2 != null)
 				indexerStockerSolr(classeDoc, "contexteH2", langueNom, contexteH2); 
 
-			contexteH3 = regex("^(contexte)?H3:\\s*(.*)", classeCommentaire);
+			contexteH3 = regexLangue(langueNom, "(contexte)?H3", classeCommentaire);
 			if(contexteH3 != null)
 				indexerStockerSolr(classeDoc, "contexteH3", langueNom, contexteH3); 
 		}
