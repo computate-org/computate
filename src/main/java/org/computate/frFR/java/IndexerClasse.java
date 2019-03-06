@@ -4758,7 +4758,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					if(StringUtils.isBlank(classeApiMotCleMethode))
 						classeApiMotCleMethode = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classeApiUriMethode, "/"), "/");
 					if(StringUtils.isBlank(classeApiUriMethode))
-						classeApiUriMethode = classeApiUri + "/{pk}";
+						classeApiUriMethode = classeApiUri + "/{id}";
 				}
 				indexerStockerSolr(classeDoc, "classeApiTypeMedia200" + classeApiMethode, classeApiTypeMedia200Methode);
 				indexerStockerSolr(classeDoc, "classeApiMotCle" + classeApiMethode, langueNom, classeApiMotCleMethode);
@@ -4854,7 +4854,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							if(StringUtils.isBlank(classeApiMotCleMethodeLangue))
 								classeApiMotCleMethodeLangue = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classeApiUriMethodeLangue, "/"), "/");
 							if(StringUtils.isBlank(classeApiUriMethodeLangue))
-								classeApiUriMethodeLangue = classeApiUriLangue + "/{pk}";
+								classeApiUriMethodeLangue = classeApiUriLangue + "/{id}";
 						}
 						indexerStockerSolr(classeDoc, "classeApiMotCle" + classeApiMethode, langueNom, classeApiMotCleMethodeLangue);
 						indexerStockerSolr(classeDoc, "classeApiUri" + classeApiMethode, langueNom, classeApiUriMethodeLangue);

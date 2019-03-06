@@ -520,7 +520,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
 					tl(2, "sql", classeNomSimple, "(requeteSite, a -> {");
 					tl(3, "if(a.succeeded()) {");
-					tl(4, "recherche", classeNomSimple, "(requeteSite, b -> {");
+					tl(4, "recherche", classeNomSimple, "(requeteSite, false, true, b -> {");
 					tl(5, "if(b.succeeded()) {");
 					tl(6, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = b.result();");
 					tl(6, "liste", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", c -> {");
@@ -554,7 +554,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 				else if(classeApiMethode.contains("Recherche")) {
 					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
-					tl(2, classeApiOperationIdMethode, "(requeteSite, a -> {");
+					tl(2, classeApiOperationIdMethode, "(requeteSite, false, true, a -> {");
 					tl(3, "if(a.succeeded()) {");
 					tl(4, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = a.result();");
 					tl(4, "reponse200", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", b -> {");
@@ -571,7 +571,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 				else if(classeApiMethode.contains("GET")) {
 					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
-					tl(2, "recherche", classeNomSimple, "(requeteSite, a -> {");
+					tl(2, "recherche", classeNomSimple, "(requeteSite, false, true, a -> {");
 					tl(3, "if(a.succeeded()) {");
 					tl(4, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = a.result();");
 					tl(4, "reponse200", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", b -> {");
@@ -650,7 +650,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
 					tl(2, "sql", classeNomSimple, "(requeteSite, a -> {");
 					tl(3, "if(a.succeeded()) {");
-					tl(4, "recherche", classeNomSimple, "(requeteSite, b -> {");
+					tl(4, "recherche", classeNomSimple, "(requeteSite, false, true, b -> {");
 					tl(5, "if(b.succeeded()) {");
 					tl(6, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = b.result();");
 					tl(6, "supprimer", classeApiMethode, classeNomSimple, "(requeteSite, c -> {");
@@ -707,12 +707,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //					tl(2, "return future;");
 //					tl(1, "}");
 					l();
-					tl(1, "public void ", classeApiOperationIdMethode, "(RequeteSite requeteSite, Handler<AsyncResult<ListeRecherche<", classeNomSimple, ">>> gestionnaireEvenements) {");
+					tl(1, "public void ", classeApiOperationIdMethode, "(RequeteSite requeteSite, Boolean peupler, Boolean stocker, Handler<AsyncResult<ListeRecherche<", classeNomSimple, ">>> gestionnaireEvenements) {");
 					tl(2, "try {");
 					tl(3, "OperationRequest operationRequete = requeteSite.getOperationRequete();");
 					tl(3, "String entiteListeStr = requeteSite.getOperationRequete().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
 					tl(3, "String[] entiteListe = entiteListeStr == null ? null : entiteListeStr.split(", q(",\\s*"), ");");
 					tl(3, "ListeRecherche<", classeNomSimple, "> listeRecherche = new ListeRecherche<", classeNomSimple, ">();");
+					tl(3, "listeRecherche.setPeupler(peupler);");
+					tl(3, "listeRecherche.setStocker(stocker);");
 					tl(3, "listeRecherche.setQuery(\"*:*\");");
 					tl(3, "listeRecherche.setC(", classeNomSimple, ".class);");
 					tl(3, "listeRecherche.setRows(1000000);");
@@ -807,23 +809,28 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 				if(classeApiMethode.contains("PATCH")) {
 					l();
-					tl(1, "public Future<OperationResponse> liste", classeApiMethode, classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ", Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
-//					tl(2, "List<Future> futures = new ArrayList<>();");
-//					tl(2, "liste", classeNomSimple, ".getList().forEach(o -> {");
-//					tl(3, "futures.add(");
-//					tl(4, "sql", classeApiMethode, classeNomSimple, "(o).compose(");
-//					tl(5, "b -> indexer", classeNomSimple, "(o)");
-//					tl(4, ")");
-//					tl(3, ");");
-//					tl(2, "});");
-//					tl(2, "Future<OperationResponse> future = CompositeFuture.all(futures).compose( a -> ");
-//					tl(3, "reponse200", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ")");
-//					tl(2, ");");
-//					tl(2, "return future;");
-					tl(2, "return null;");
+					tl(1, "public void liste", classeApiMethode, classeNomSimple, "(ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, ", Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
+					tl(2, "List<Future> futures = new ArrayList<>();");
+					tl(2, "liste", classeNomSimple, ".getList().forEach(o -> {");
+					tl(3, "futures.add(");
+					tl(4, "sql", classeApiMethode, classeNomSimple, "(o).compose(");
+					tl(5, "a -> definir", classeApiMethode, classeNomSimple, "(a).compose(");
+					tl(6, "b -> indexer", classeApiMethode, classeNomSimple, "(b)");
+					tl(5, ")");
+					tl(4, ")");
+					tl(3, ");");
+					tl(2, "});");
+					tl(2, "CompositeFuture.all(futures).setHandler( a -> {");
+					tl(3, "if(a.succeeded()) {");
+					tl(4, "reponse200", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", gestionnaireEvenements);");
+					tl(3, "} else {");
+					tl(4, "erreur", classeNomSimple, "(liste", classeNomSimple, ".getRequeteSite_(), gestionnaireEvenements, a);");
+					tl(3, "}");
+					tl(2, "});");
 					tl(1, "}");
 					l();
-					tl(1, "public void sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
+					tl(1, "public Future<", classeNomSimple, "> sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o) {");
+					tl(2, "Future<", classeNomSimple, "> future = Future.future();");
 					tl(2, "try {");
 					tl(3, "RequeteSite requeteSite = o.getRequeteSite_();");
 					tl(3, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
@@ -832,6 +839,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(3, "StringBuilder patchSql = new StringBuilder();");
 					tl(3, "List<Object> patchSqlParams = new ArrayList<Object>();");
 					tl(3, "Set<String> methodeNoms = requeteJson.fieldNames();");
+					tl(3, classeNomSimple, " o2 = new ", classeNomSimple, "();");
 					l();
 					tl(3, "for(String methodeNom : methodeNoms) {");
 					tl(4, "switch(methodeNom) {");
@@ -843,10 +851,51 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(5, ", new JsonArray(patchSqlParams)");
 					tl(5, ", patchAsync");
 					tl(3, "-> {");
-					tl(4, "gestionnaireEvenements.handle(Future.succeededFuture());");
+					tl(4, "o2.setRequeteSite_(o.getRequeteSite_());");
+					tl(4, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+					tl(4, "future.complete(o2);");
 					tl(3, "});");
+					tl(3, "return future;");
 					tl(2, "} catch(Exception e) {");
-					tl(3, "gestionnaireEvenements.handle(Future.failedFuture(e));");
+					tl(3, "return Future.failedFuture(e);");
+					tl(2, "}");
+					tl(1, "}");
+					l();
+					tl(1, "public Future<", classeNomSimple, "> definir", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o) {");
+					tl(2, "Future<", classeNomSimple, "> future = Future.future();");
+					tl(2, "try {");
+					tl(3, "RequeteSite requeteSite = o.getRequeteSite_();");
+					tl(3, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
+					tl(3, "connexionSql.queryWithParams(");
+					tl(5, "SiteContexte.SQL_definir");
+					tl(5, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "))");
+					tl(5, ", definirAsync");
+					tl(3, "-> {");
+					tl(4, "if(definirAsync.succeeded()) {");
+					tl(5, "for(JsonArray definition : definirAsync.result().getResults()) {");
+					tl(6, "o.definirPourClasse(definition.getString(0), definition.getString(1));");
+					tl(5, "}");
+					tl(5, "future.complete(o);");
+					tl(4, "} else {");
+					tl(3, "future.fail(definirAsync.cause());");
+					tl(4, "}");
+					tl(3, "});");
+					tl(3, "return future;");
+					tl(2, "} catch(Exception e) {");
+					tl(3, "return Future.failedFuture(e);");
+					tl(2, "}");
+					tl(1, "}");
+					l();
+					tl(1, "public Future<Void> indexer", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o) {");
+					tl(2, "Future<Void> future = Future.future();");
+					tl(2, "try {");
+					tl(3, "o.initLoinPourClasse(o.getRequeteSite_());");
+					tl(3, "o.indexerPourClasse();");
+					tl(4, "future.complete();");
+					tl(3, "return future;");
+					tl(2, "} catch(Exception e) {");
+					tl(3, "return Future.failedFuture(e);");
 					tl(2, "}");
 					tl(1, "}");
 				}

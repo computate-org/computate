@@ -311,6 +311,200 @@ public class WritePageClass extends WriteApiClass {
 //		System.out.println("Write: " + classeCheminGenPage); 
 	}
 
+	public void  ecrireFormEntite(AllWriter wForm, String classeApiMethodeMethode) {
+
+		if(entiteHtml) {
+			if("Recherche".equals(classeApiMethodeMethode)) {
+				rechercheLigneActuelRecherche = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				if(rechercheLigneRecherche != rechercheLigneActuelRecherche) {
+					if(rechercheLigneRecherche != -1)
+						wForm.t(2).bgl("div");
+					wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
+					rechercheLigneRecherche = rechercheLigneActuelRecherche;
+				}
+			}
+			else if("POST".equals(classeApiMethodeMethode)) {
+				rechercheLigneActuelPOST = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				if(rechercheLignePOST != rechercheLigneActuelPOST) {
+					if(rechercheLignePOST != -1)
+						wForm.t(2).bgl("div");
+					wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
+					rechercheLignePOST = rechercheLigneActuelPOST;
+				}
+			}
+			else if("PATCH".equals(classeApiMethodeMethode)) {
+				rechercheLigneActuelPATCH = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				if(rechercheLignePATCH != rechercheLigneActuelPATCH) {
+					if(rechercheLignePATCH != -1)
+						wForm.t(2).bgl("div");
+					wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
+					rechercheLignePATCH = rechercheLigneActuelPATCH;
+				}
+			}
+
+			wForm.t(3).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
+			if("LocalDate".equals(entiteNomSimple)) {
+				wForm.tl(4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
+				l();
+				if(entiteNomAffichage != null) {
+					wForm.t(4).e("label").da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+				}
+				wForm.t(4).e("input").l();
+				wForm.t(5).dal("type", "text");
+				wForm.t(5).dal("class", "w3-input w3-border datepicker ");
+				wForm.t(5).dal("placeholder", "DD/MM/YYYY");
+				wForm.t(5).dal("data-timeformat", "DD/MM/YYYY");
+				wForm.t(5).dal("onclick", "enleverLueur($(this)); ");
+				if(entiteDescription != null)
+					wForm.t(5).dal("title", entiteDescription + " (DD/MM/YYYY)");
+				wForm.tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
+				wForm.t(5).s(".a(\"onchange\", \"");
+					wForm.s("var t = moment(this.value, 'DD/MM/YYYY'); ");
+					wForm.s("if(t) { ");
+						wForm.s("var s = t.format('YYYY-MM-DD'); ");
+						wForm.s("$(this).next().val(s); ");
+						wForm.s("$(this).next().trigger('change'); ");
+					wForm.s("} ");
+				wForm.l("\")");
+				wForm.tl(5, ".fg();");
+
+				wForm.t(4).e("input").l();
+				wForm.t(5).dal("class", "valeur", entiteVarCapitalise);
+				wForm.t(5).dal("name", entiteVar);
+				wForm.t(5).dal("type", "hidden");
+				wForm.t(5).dal("onchange", "envoyer(); ");
+				wForm.tl(5, ".a(\"value\", o.str", entiteVarCapitalise, "())");
+				wForm.t(4).dfgl();
+			}
+			else if("LocalDateTime".equals(entiteNomSimple)) {
+				wForm.tl(4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
+				wForm.l();
+				if(entiteNomAffichage != null) {
+					wForm.t(4).e("label").da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+				}
+				wForm.t(4).e("input").l();
+				wForm.t(5).dal("type", "text");
+				wForm.t(5).dal("class", "w3-input w3-border datepicker ");
+				wForm.t(5).dal("placeholder", "DD/MM/YYYY");
+				wForm.t(5).dal("data-timeformat", "DD/MM/YYYY");
+				wForm.t(5).dal("onclick", "enleverLueur($(this)); ");
+				if(entiteDescription != null)
+					wForm.t(5).dal("title", entiteDescription + " (DD/MM/YYYY)");
+				wForm.tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
+				wForm.t(5).s(".a(\"onchange\", \"");
+					wForm.s("var t = moment(this.value, 'DD/MM/YYYY'); ");
+					wForm.s("if(t) { ");
+						wForm.s("var s = t.format('YYYY-MM-DD'); ");
+						wForm.s("$(this).next().val(s); ");
+						wForm.s("$(this).next().trigger('change'); ");
+					wForm.s("} ");
+				wForm.l("\")");
+				wForm.tl(5, ".fg();");
+
+				wForm.t(4).e("input").l();
+				wForm.t(5).dal("type", "hidden");
+				wForm.t(5).dal("class", "valeur", entiteVarCapitalise);
+				wForm.t(5).dal("name", entiteVar);
+				wForm.t(5).dal("onchange", "envoyer(); ");
+				wForm.tl(5, ".a(\"value\", o.str", entiteVarCapitalise, "())");
+				wForm.t(4).dfgl();
+			}
+			else if("LocalTime".equals(entiteNomSimple)) {
+				wForm.tl(4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
+				wForm.l();
+				if(entiteNomAffichage != null) {
+					wForm.t(4).e("label").da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+				}
+				wForm.t(4).e("input").l();
+				wForm.t(5).dal("type", "text");
+				wForm.t(5).dal("class", "w3-input w3-border timepicker ");
+				wForm.t(5).dal("placeholder", "HH:MM AM");
+				wForm.t(5).dal("onclick", "enleverLueur($(this)); ");
+				if(entiteDescription != null)
+					wForm.t(5).da("title", entiteDescription + " (h'h'mm)");
+				wForm.tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
+				wForm.t(5).s(".a(\"onchange\", \"");
+					wForm.s("var t = parseTime(this.value); ");
+					wForm.s("if(t) { ");
+						wForm.s("var s = dateFormat(t, \"'h'MM\"); ");
+						wForm.s("$(this).next().val(s); ");
+						wForm.s("$(this).next().trigger('change'); ");
+					wForm.s("} ");
+				wForm.l("\")");
+				wForm.tl(5, ".fg();");
+
+				wForm.t(4).e("input").l();
+				wForm.t(5).dal("type", "hidden");
+				wForm.t(5).dal("class", "valeur", entiteVarCapitalise);
+				wForm.t(5).dal("name", entiteVar);
+				wForm.t(5).dal("onchange", "envoyer(); ");
+				wForm.tl(5, ".a(\"value\", val == null ? \"\" : o.str", entiteVarCapitalise, "())");
+				wForm.t(4).dfgl();
+			}
+			else if("Boolean".equals(entiteNomSimple)) {
+				wForm.t(4).e("input").l();
+				wForm.t(5).dal("type", "hidden");
+				wForm.t(5).dal("name", entiteVar);
+				wForm.t(5).dal("value", "false");
+				wForm.t(4).dfgl();
+				wForm.l();
+				wForm.t(4).e("input").l();
+				wForm.t(5).dal("type", "checkbox");
+				wForm.t(5).dal("class", "valeur", entiteVarCapitalise);
+				wForm.t(5).dal("name", entiteVar);
+				wForm.t(5).dal("value", "true");
+				wForm.t(5).da("onchange", "envoyer(); ").l(";");
+				wForm.tl(5, "if(o.get", entiteVarCapitalise, "() != null && o.get", entiteVarCapitalise, "())");
+				wForm.t(6).a("checked", "checked").l(";");
+				wForm.t(4).fgl();
+				wForm.l();
+				if(entiteNomAffichage != null) {
+					wForm.t(4).e("label").da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+				}
+			}
+			else {
+				if(entiteNomAffichage != null) {
+					wForm.t(4).e("label").da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+				}
+				wForm.l();
+
+				if(entiteMultiligne)
+					wForm.t(4).e("textarea").l();
+				else
+					wForm.t(4).e("input").l().t(5).dal("type", "text");
+
+				wForm.t(5).dal("class", "valeur", entiteVarCapitalise);
+				wForm.t(5).dal("name", entiteVar);
+				wForm.t(5).dal("class", "w3-input w3-border ");
+				if(entiteNomAffichage != null) {
+					wForm.t(5).dal("placeholder", entiteNomAffichage);
+				}
+				if(entiteDescription != null) {
+					wForm.t(5).dal("title", entiteDescription);
+				}
+				wForm.t(5).dal("onchange", "envoyer(); ");
+
+				if(entiteMultiligne) {
+					wForm.t(4).df();
+					wForm.s(".sx(o.str", entiteVarCapitalise, "())");
+				}
+				else {
+					wForm.tl(5, ".a(\"value\", o.str", entiteVarCapitalise, "())");
+				}
+
+				if(entiteMultiligne)
+					wForm.dgl("textarea");
+				else
+					wForm.t(4).dfgl();
+
+				wForm.l();
+			}
+
+//			if().da("class", objets).da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
+			wForm.t(3).bgl("div");
+		}
+	}
+
 	public void  pageCodeClass(String languageName) throws Exception, Exception {
 		for(String classePageMethode : classApiMethods) {
 
@@ -360,7 +554,9 @@ public class WritePageClass extends WriteApiClass {
 				AllWriter wPATCH = AllWriter.create();
 				AllWriter wTh = AllWriter.create();
 				AllWriter wTd = AllWriter.create();
-				AllWriter wForm = AllWriter.create();
+				AllWriter wFormSearch = AllWriter.create();
+				AllWriter wFormPOST = AllWriter.create();
+				AllWriter wFormPATCH = AllWriter.create();
 				AllWriter wEntitys = AllWriter.create();
 	
 				o = auteurPageGenClasse;
@@ -371,31 +567,38 @@ public class WritePageClass extends WriteApiClass {
 					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
 					rechercheSolr.addFilterQuery("classeNomCanonique_" + languageName + "_indexed_string:" + fqClassesSuperEtMoi);
+//					rechercheSolr.addFilterQuery("entityHtmlRow_indexed_int:[* TO *]");
 					rechercheSolr.addSort("entityHtmlRow_indexed_int", ORDER.asc);
 					rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
 					SolrDocumentList rechercheListe = rechercheReponse.getResults();
-					Integer searchLines = rechercheSolr.getRows();
-					Integer searchLine = -1;
-					Integer searchLineActual;
+
+					searchLines = rechercheSolr.getRows();
+
+					searchLineSearch = -1;
+					searchLinePOST = -1;
+					searchLinePATCH = -1;
+
 					List<String> pageVars = Arrays.asList("pageH1", "pageH2", "pageH3", "pageTitle");
 	
 					if(rechercheListe.size() > 0) {
 						for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
 							for(Integer j = 0; j < rechercheListe.size(); j++) {
-								SolrDocument entiteDocumentSolr = rechercheListe.get(j);
-								String entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
-								String entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
-								String entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
-								String entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
-								String entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
-								String entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
-								String entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
-								Boolean entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
-								Boolean entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
-								Boolean entiteWrap = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteWrap_stored_boolean"));
+								entiteDocumentSolr = rechercheListe.get(j);
+								entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
+								entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
+								entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
+								entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
+								entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
+								entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
+								entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
+								entityHtmlRow = (Integer)entiteDocumentSolr.get("entityHtmlRow_stored_int");
+								entityHtml = (Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean");
+								entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
+								entiteStocke = (Boolean)entiteDocumentSolr.get("entiteStocke_stored_boolean");
+								entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
 	
-								if(pageVars.contains(entityVar)) {
+								if(entityHtmlRow != null && pageVars.contains(entityVar)) {
 									if(entiteWrap) {
 										if("pageH1".equals(entityVar)) {
 											pageH1 = true;
@@ -425,166 +628,21 @@ public class WritePageClass extends WriteApiClass {
 								}
 	
 								if(entityHtml) {
-									searchLineActual = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entityHtmlRow_stored_int"), 0);
-									if(searchLine != searchLineActual) {
-										if(searchLine != -1)
-											wForm.t(2).bgl("div");
-										wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
-										searchLine = searchLineActual;
-									}
-									wForm.t(3).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-									if("LocalDate".equals(entitySimpleName)) {
-										wForm.tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
-										l();
-										if(entityDisplayName != null) {
-											wForm.t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
-										}
-										wForm.t(4).e("input").l();
-										wForm.t(5).dal("type", "text");
-										wForm.t(5).dal("class", "w3-input w3-border datepicker ");
-										wForm.t(5).dal("placeholder", "MM/DD/YYYY");
-										wForm.t(5).dal("data-timeformat", "MM/DD/YYYY");
-										wForm.t(5).dal("onclick", "enleverLueur($(this)); ");
-										if(entityDescription != null)
-											wForm.t(5).dal("title", entityDescription + " (MM/DD/YYYY)");
-										wForm.tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.forLanguageTag(\"en-US\")).format(val))");
-										wForm.t(5).s(".a(\"onchange\", \"");
-											wForm.s("var t = moment(this.value, 'MM/DD/YYYY'); ");
-											wForm.s("if(t) { ");
-												wForm.s("var s = t.format('YYYY-MM-DD'); ");
-												wForm.s("$(this).next().val(s); ");
-												wForm.s("$(this).next().trigger('change'); ");
-											wForm.s("} ");
-										wForm.l("\")");
-										wForm.tl(5, ".fg();");
-		
-										wForm.t(4).e("input").l();
-										wForm.t(5).dal("class", "value", entityVarCapitalized);
-										wForm.t(5).dal("name", entityVar);
-										wForm.t(5).dal("type", "hidden");
-										wForm.t(5).dal("onchange", "envoyer(); ");
-										wForm.tl(5, ".a(\"value\", o.str", entityVarCapitalized, "())");
-										wForm.t(4).dfgl();
-									}
-									else if("LocalDateTime".equals(entitySimpleName)) {
-										wForm.tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
-										wForm.l();
-										if(entityDisplayName != null) {
-											wForm.t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
-										}
-										wForm.t(4).e("input").l();
-										wForm.t(5).dal("type", "text");
-										wForm.t(5).dal("class", "w3-input w3-border datepicker ");
-										wForm.t(5).dal("placeholder", "MM/DD/YYYY");
-										wForm.t(5).dal("data-timeformat", "MM/DD/YYYY");
-										wForm.t(5).dal("onclick", "enleverLueur($(this)); ");
-										if(entityDescription != null)
-											wForm.t(5).dal("title", entityDescription + " (MM/DD/YYYY)");
-										wForm.tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.forLanguageTag(\"en-US\")).format(val))");
-										wForm.t(5).s(".a(\"onchange\", \"");
-											wForm.s("var t = moment(this.value, 'MM/DD/YYYY'); ");
-											wForm.s("if(t) { ");
-												wForm.s("var s = t.format('YYYY-MM-DD'); ");
-												wForm.s("$(this).next().val(s); ");
-												wForm.s("$(this).next().trigger('change'); ");
-											wForm.s("} ");
-										wForm.l("\")");
-										wForm.tl(5, ".fg();");
-		
-										wForm.t(4).e("input").l();
-										wForm.t(5).dal("type", "hidden");
-										wForm.t(5).dal("class", "value", entityVarCapitalized);
-										wForm.t(5).dal("name", entityVar);
-										wForm.t(5).dal("onchange", "envoyer(); ");
-										wForm.tl(5, ".a(\"value\", o.str", entityVarCapitalized, "())");
-										wForm.t(4).dfgl();
-									}
-									else if("LocalTime".equals(entitySimpleName)) {
-										wForm.tl(4, entitySimpleNameComplet, " val = o.get", entityVarCapitalized, "();");
-										wForm.l();
-										if(entityDisplayName != null) {
-											wForm.t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
-										}
-										wForm.t(4).e("input").l();
-										wForm.t(5).dal("type", "text");
-										wForm.t(5).dal("class", "w3-input w3-border timepicker ");
-										wForm.t(5).dal("placeholder", "HH:MM AM");
-										wForm.t(5).dal("onclick", "enleverLueur($(this)); ");
-										if(entityDescription != null)
-											wForm.t(5).da("title", entityDescription + " (h:mm a)");
-										wForm.tl(5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.forLanguageTag(\"en-US\")).format(val))");
-										wForm.t(5).s(".a(\"onchange\", \"");
-											wForm.s("var t = parseTime(this.value); ");
-											wForm.s("if(t) { ");
-												wForm.s("var s = dateFormat(t, \"'h'MM\"); ");
-												wForm.s("$(this).next().val(s); ");
-												wForm.s("$(this).next().trigger('change'); ");
-											wForm.s("} ");
-										wForm.l("\")");
-										wForm.tl(5, ".fg();");
-		
-										wForm.t(4).e("input").l();
-										wForm.t(5).dal("type", "hidden");
-										wForm.t(5).dal("class", "value", entityVarCapitalized);
-										wForm.t(5).dal("name", entityVar);
-										wForm.t(5).dal("onchange", "envoyer(); ");
-										wForm.tl(5, ".a(\"value\", val == null ? \"\" : o.str", entityVarCapitalized, "())");
-										wForm.t(4).dfgl();
-									}
-									else if("Boolean".equals(entitySimpleName)) {
-										wForm.t(4).e("input").l();
-										wForm.t(5).dal("type", "hidden");
-										wForm.t(5).dal("name", entityVar);
-										wForm.t(5).dal("value", "false");
-										wForm.t(4).dfgl();
-										wForm.l();
-										wForm.t(4).e("input").l();
-										wForm.t(5).dal("type", "checkbox");
-										wForm.t(5).dal("class", "value", entityVarCapitalized);
-										wForm.t(5).dal("name", entityVar);
-										wForm.t(5).dal("value", "true");
-										wForm.t(5).da("onchange", "envoyer(); ").l(";");
-										wForm.tl(5, "if(o.get", entityVarCapitalized, "() != null && o.get", entityVarCapitalized, "())");
-										wForm.t(6).a("checked", "checked").l(";");
-										wForm.t(4).fgl();
-										wForm.l();
-										if(entityDisplayName != null) {
-											wForm.t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
-										}
-									}
-									else {
-										if(entityDisplayName != null) {
-											wForm.t(4).e("label").da("class", "").df().dsx(entityDisplayName).dgl("label");
-										}
-										wForm.l();
-										if(entityMultiline)
-											wForm.t(4).e("textarea").l();
-										else
-											wForm.t(4).e("input").l().t(7).dal("type", "text");
-		
-										wForm.t(5).dal("class", "value", entityVarCapitalized);
-										wForm.t(5).dal("name", entityVar);
-										wForm.t(5).dal("class", "w3-input w3-border ");
-										if(entityDisplayName != null) {
-											wForm.t(5).dal("placeholder", entityDisplayName);
-										}
-										if(entityDescription != null) {
-											wForm.t(5).dal("title", entityDescription);
-										}
-										wForm.t(5).dal("onchange", "envoyer(); ");
-										wForm.t(4).dfgl();
-										wForm.l();
-									}
-		
-						//			if().da("class", objets).da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-									wForm.t(3).bgl("div");
+									if(entityHtmlRow != null)
+										ecrireFormEntity(wFormPOST, "POST");
+									if(entiteStocke)
+										ecrireFormEntity(wFormPATCH, "PATCH");
+									if(entiteIndexe)
+										ecrireFormEntity(wFormSearch, "Search");
 								}
 							}
 							rechercheSolr.setStart(i.intValue() + searchLines);
 							rechercheReponse = solrClientComputate.query(rechercheSolr);
 							rechercheListe = rechercheReponse.getResults();
 						}
-						wForm.t(2).bgl("div");
+						wFormPOST.t(2).bgl("div");
+						wFormPATCH.t(2).bgl("div");
+						wFormSearch.t(2).bgl("div");
 					}
 				}
 	
@@ -807,25 +865,25 @@ public class WritePageClass extends WriteApiClass {
 									}
 		
 									wSearch.l();
-									wSearch.tl(1, "var filter", entityVarCapitalized, " = $formulaireFiltres.find('.value", entityVarCapitalized, "')", jsVal, ";");
+									wSearch.tl(1, "var filter", entityVarCapitalized, " = $formFilters.find('.value", entityVarCapitalized, "')", jsVal, ";");
 									wSearch.tl(1, "if(filter", entityVarCapitalized, ")");
-									wSearch.tl(2, "filters['", entityVar, "'] = value", entityVarCapitalized, ";");
+									wSearch.tl(2, "filters['", entityVar, "'] = filter", entityVarCapitalized, ";");
 		
 									wPOST.l();
-									wPOST.tl(1, "var value", entityVarCapitalized, " = $formulaireValeurs.find('.value", entityVarCapitalized, "')", jsVal, ";");
+									wPOST.tl(1, "var value", entityVarCapitalized, " = $formValues.find('.value", entityVarCapitalized, "')", jsVal, ";");
 									wPOST.tl(1, "if(value", entityVarCapitalized, ")");
 									wPOST.tl(2, "values['", entityVar, "'] = value", entityVarCapitalized, ";");
 		
 									wPATCH.l();
-									wPATCH.tl(1, "var set", entityVarCapitalized, " = $formulaireValeurs.find('.set", entityVarCapitalized, "')", jsVal, ";");
+									wPATCH.tl(1, "var set", entityVarCapitalized, " = $formValues.find('.set", entityVarCapitalized, "')", jsVal, ";");
 									wPATCH.tl(1, "if(set", entityVarCapitalized, ")");
-									wPATCH.tl(2, "patchs['set", entityVarCapitalized, "'] = set", entityVarCapitalized, ";");
-									wPATCH.tl(1, "var add", entityVarCapitalized, " = $formulaireValeurs.find('.add", entityVarCapitalized, "')", jsVal, ";");
+									wPATCH.tl(2, "values['set", entityVarCapitalized, "'] = set", entityVarCapitalized, ";");
+									wPATCH.tl(1, "var add", entityVarCapitalized, " = $formValues.find('.add", entityVarCapitalized, "')", jsVal, ";");
 									wPATCH.tl(1, "if(add", entityVarCapitalized, ")");
-									wPATCH.tl(2, "patchs['add", entityVarCapitalized, "'] = add", entityVarCapitalized, ";");
-									wPATCH.tl(1, "var remove", entityVarCapitalized, " = $formulaireValeurs.find('.remove", entityVarCapitalized, "')", jsVal, ";");
+									wPATCH.tl(2, "values['add", entityVarCapitalized, "'] = add", entityVarCapitalized, ";");
+									wPATCH.tl(1, "var remove", entityVarCapitalized, " = $formValues.find('.remove", entityVarCapitalized, "')", jsVal, ";");
 									wPATCH.tl(1, "if(remove", entityVarCapitalized, ")");
-									wPATCH.tl(2, "patchs['remove", entityVarCapitalized, "'] = remove", entityVarCapitalized, ";");
+									wPATCH.tl(2, "values['remove", entityVarCapitalized, "'] = remove", entityVarCapitalized, ";");
 								}
 							}
 							rechercheSolr.setStart(i.intValue() + searchLines);
@@ -868,12 +926,14 @@ public class WritePageClass extends WriteApiClass {
 						writerPageJs.l(" */");
 						writerPageJs.t(0, "function ", classeApiOperationIdMethode, "(");
 						if(methodePOST)
-							writerPageJs.s("$formulaireValeurs");
+							writerPageJs.s("$formValues");
 						else if(methodePUT)
-							writerPageJs.s("pk, $formulaireValeurs");
-						if(methodePATCH)
-							writerPageJs.s("$formulaireFiltres, $formulaireValeurs");
-						if(methodeGET || methodeDELETE)
+							writerPageJs.s("pk, $formValues");
+						else if(methodePATCH)
+							writerPageJs.s("$formFilters, $formValues");
+						else if(methodeSearch)
+							writerPageJs.s("$formFilters");
+						else if(methodeGET || methodeDELETE)
 							writerPageJs.s("pk");
 	
 						writerPageJs.l(") {");
@@ -887,13 +947,17 @@ public class WritePageClass extends WriteApiClass {
 							writerPageJs.s(wPOST);
 							writerPageJs.l();
 						}
-						if(methodePATCH) {
+						else if(methodePATCH) {
 							writerPageJs.tl(1, "var filters = {};");
 							writerPageJs.s(wSearch);
 							writerPageJs.l();
-							writerPageJs.tl(1, "var patchs = {};");
+							writerPageJs.tl(1, "var values = {};");
 							writerPageJs.s(wPATCH);
 							writerPageJs.l();
+						}
+						else if(methodeSearch) {
+							writerPageJs.tl(1, "var filters = {};");
+							writerPageJs.s(wSearch);
 						}
 	
 						writerPageJs.tl(1, "$.ajax({");
@@ -901,7 +965,7 @@ public class WritePageClass extends WriteApiClass {
 						if(methodeGET || methodeDELETE || methodePUT)
 							writerPageJs.tl(2, "url: '", StringUtils.replace(classApiUriMethode, "{pk}", "' + pk"));
 						else if(methodePATCH || methodeSearch)
-							writerPageJs.tl(2, "url: '", classApiUriMethode, "' + (!params || params.length == 0 ? '' : '?' + params.join('&'))");
+							writerPageJs.tl(2, "url: '", classApiUriMethode, "?' + $.param(filters)");
 						else
 							writerPageJs.tl(2, "url: '", classApiUriMethode, "'");
 	
@@ -921,8 +985,16 @@ public class WritePageClass extends WriteApiClass {
 				}
 				tl(1, "}");
 				l();
-				tl(1, "public void htmlForm", classSimpleName, "(", classSimpleName, " o) {");
-				s(wForm);
+				tl(1, "public void htmlFormPOST", classSimpleName, "(", classSimpleName, " o) {");
+				s(wFormPOST);
+				tl(1, "}");
+				l();
+				tl(1, "public void htmlFormPATCH", classSimpleName, "(", classSimpleName, " o) {");
+				s(wFormPATCH);
+				tl(1, "}");
+				l();
+				tl(1, "public void htmlFormSearch", classSimpleName, "(", classSimpleName, " o) {");
+				s(wFormSearch);
 				tl(1, "}");
 				l();
 				tl(1, "@Override public void htmlBody", classSimpleName, "GenPage() {");
@@ -972,7 +1044,7 @@ public class WritePageClass extends WriteApiClass {
 				if(classVarPrimaryKey != null) {
 					l();
 					tl(4, "if(o.get", StringUtils.capitalize(classVarPrimaryKey), "() != null)");
-					tl(5, "htmlForm", classSimpleName, "(o);");
+					tl(5, "htmlFormPATCH", classSimpleName, "(o);");
 				}
 				l();
 				tl(4, "o.htmlBody();");
@@ -1042,28 +1114,83 @@ public class WritePageClass extends WriteApiClass {
 	
 								{ t(4 + tab).be("div").da("class", "w3-container ").dfl();
 									tl(5+ tab, classSimpleName, " o = new ", classSimpleName, "();");
-									l();
-									{ t(5 + tab).be("form").da("id", classeApiOperationIdMethode, "Formulaire").dfl();
-										tl(6 + tab, "htmlForm", classSimpleName, "(o);");
-									} t(5 + tab).bgl("form");
-									t(5 + tab).e("button").l();
-									t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contextColor, " ");
+									if("PATCH".equals(classeApiMethodeMethode)) {
+
+										l();
+										{ t(5 + tab).be("form").da("id", classeApiOperationIdMethode, "FormFilters").dfl();
+										tl(6 + tab, "htmlFormSearch", classSimpleName, "(o);");
+										} t(5 + tab).bgl("form");
+										t(5 + tab).e("button").l();
+										t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contextColor, " ");
+		
+										tl(6 + tab, ".a(\"onclick\", \"recherche", classSimpleName, "($('#", classeApiOperationIdMethode, "FormFilters')); \")");
+		
+										t(6 + tab).df().dsx(methodTitle).l();
+										t(5 + tab).dgl("button");
+										l();
+										
+										l();
+										{ t(5 + tab).be("form").da("id", classeApiOperationIdMethode, "FormValues").dfl();
 	
-	//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Formulaire').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {}))); \")");
-	//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Formulaire').serializeObject())); \")");
+										if("DELETE".equals(classeApiMethodeMethode))
+											tl(6 + tab, "htmlFormPATCH", classSimpleName, "(o);");
+										else if("PUT".equals(classeApiMethodeMethode))
+											tl(6 + tab, "htmlFormPOST", classSimpleName, "(o);");
+										else
+											tl(6 + tab, "htmlForm", classeApiMethodeMethode, classSimpleName, "(o);");
 	
-									if("POST".equals(classeApiMethodeMethode))
-										tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Formulaire')); \")");
-									else if("PUT".equals(classeApiMethodeMethode))
-										tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Formulaire')); \")");
-									else if(tab > 0)
-										tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \"); \")");
-									else
-										t(6 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
+										} t(5 + tab).bgl("form");
+										t(5 + tab).e("button").l();
+										t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contextColor, " ");
+		
+										if("POST".equals(classeApiMethodeMethode))
+											tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
+										else if("PATCH".equals(classeApiMethodeMethode))
+											tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "FormFilters'), $('#", classeApiOperationIdMethode, "FormValues')); \")");
+										else if("PUT".equals(classeApiMethodeMethode))
+											tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Form')); \")");
+										else if(tab > 0)
+											tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \"); \")");
+										else
+											t(6 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
+		
+										t(6 + tab).df().dsx(methodTitle).l();
+										t(5 + tab).dgl("button");
+										l();
+									}
+									else {
+										l();
+										{ t(5 + tab).be("form").da("id", classeApiOperationIdMethode, "Form").dfl();
 	
-									t(6 + tab).df().dsx(methodTitle).l();
-									t(5 + tab).dgl("button");
-									l();
+										if("DELETE".equals(classeApiMethodeMethode))
+											tl(6 + tab, "htmlFormPATCH", classSimpleName, "(o);");
+										else if("PUT".equals(classeApiMethodeMethode))
+											tl(6 + tab, "htmlFormPOST", classSimpleName, "(o);");
+										else
+											tl(6 + tab, "htmlForm", classeApiMethodeMethode, classSimpleName, "(o);");
+	
+										} t(5 + tab).bgl("form");
+										t(5 + tab).e("button").l();
+										t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-", contextColor, " ");
+		
+		//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Form').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {}))); \")");
+		//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Form').serializeObject())); \")");
+		
+										if("POST".equals(classeApiMethodeMethode))
+											tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
+										else if("PATCH".equals(classeApiMethodeMethode))
+											tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "FormFilters'), $('#", classeApiOperationIdMethode, "FormValues')); \")");
+										else if("PUT".equals(classeApiMethodeMethode))
+											tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Form')); \")");
+										else if(tab > 0)
+											tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \"); \")");
+										else
+											t(6 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
+		
+										t(6 + tab).df().dsx(methodTitle).l();
+										t(5 + tab).dgl("button");
+										l();
+									}
 								} t(4 + tab).bgl("div");
 							} t(3 + tab).bgl("div");
 						} t(2 + tab).bgl("div");

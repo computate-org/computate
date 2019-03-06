@@ -2605,7 +2605,7 @@ public class IndexClass extends WatchClassBase {
 					if(StringUtils.isBlank(classApiKeywordMethod))
 						classApiKeywordMethod = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classApiUriMethode, "/"), "/");
 					if(StringUtils.isBlank(classApiUriMethode))
-						classApiUriMethode = classApiUri + "/{pk}";
+						classApiUriMethode = classApiUri + "/{id}";
 				}
 				indexStoreSolr(classDoc, "classApiMediaType200" + classApiMethod, classApiMediaType200Methode);
 				indexStoreSolr(classDoc, "classApiKeyword" + classApiMethod, languageName, classApiKeywordMethod);
@@ -2701,7 +2701,7 @@ public class IndexClass extends WatchClassBase {
 							if(StringUtils.isBlank(classApiKeywordMethodLangue))
 								classApiKeywordMethodLangue = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classApiUriMethodeLangue, "/"), "/");
 							if(StringUtils.isBlank(classApiUriMethodeLangue))
-								classApiUriMethodeLangue = classApiUriLangue + "/{pk}";
+								classApiUriMethodeLangue = classApiUriLangue + "/{id}";
 						}
 						indexStoreSolr(classDoc, "classApiKeyword" + classApiMethod, languageName, classApiKeywordMethodLangue);
 						indexStoreSolr(classDoc, "classApiUri" + classApiMethod, languageName, classApiUriMethodeLangue);

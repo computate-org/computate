@@ -227,7 +227,7 @@ public class WriteApiClass extends WriteGenClass {
 					tl(2, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest, body);");
 					tl(2, "sql", classSimpleName, "(siteRequest, a -> {");
 					tl(3, "if(a.succeeded()) {");
-					tl(4, "search", classSimpleName, "(siteRequest, b -> {");
+					tl(4, "search", classSimpleName, "(siteRequest, false, true, b -> {");
 					tl(5, "if(b.succeeded()) {");
 					tl(6, "ListeRecherche<", classSimpleName, "> liste", classSimpleName, " = b.result();");
 					tl(6, "liste", classApiMethod, classSimpleName, "(liste", classSimpleName, ", c -> {");
@@ -261,7 +261,7 @@ public class WriteApiClass extends WriteGenClass {
 				}
 				else if(classApiMethod.contains("Recherche")) {
 					tl(2, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest);");
-					tl(2, classApiOperationIdMethod, "(siteRequest, a -> {");
+					tl(2, classApiOperationIdMethod, "(siteRequest, false, true, a -> {");
 					tl(3, "if(a.succeeded()) {");
 					tl(4, "ListeRecherche<", classSimpleName, "> liste", classSimpleName, " = a.result();");
 					tl(4, "response200", classApiMethod, classSimpleName, "(liste", classSimpleName, ", b -> {");
@@ -278,7 +278,7 @@ public class WriteApiClass extends WriteGenClass {
 				}
 				else if(classApiMethod.contains("GET")) {
 					tl(2, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest);");
-					tl(2, "search", classSimpleName, "(siteRequest, a -> {");
+					tl(2, "search", classSimpleName, "(siteRequest, false, true, a -> {");
 					tl(3, "if(a.succeeded()) {");
 					tl(4, "ListeRecherche<", classSimpleName, "> liste", classSimpleName, " = a.result();");
 					tl(4, "response200", classApiMethod, classSimpleName, "(liste", classSimpleName, ", b -> {");
@@ -357,7 +357,7 @@ public class WriteApiClass extends WriteGenClass {
 					tl(2, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest);");
 					tl(2, "sql", classSimpleName, "(siteRequest, a -> {");
 					tl(3, "if(a.succeeded()) {");
-					tl(4, "search", classSimpleName, "(siteRequest, b -> {");
+					tl(4, "search", classSimpleName, "(siteRequest, false, true, b -> {");
 					tl(5, "if(b.succeeded()) {");
 					tl(6, "ListeRecherche<", classSimpleName, "> liste", classSimpleName, " = b.result();");
 					tl(6, "supprimer", classApiMethod, classSimpleName, "(siteRequest, c -> {");
@@ -414,12 +414,14 @@ public class WriteApiClass extends WriteGenClass {
 //					tl(2, "return future;");
 //					tl(1, "}");
 					l();
-					tl(1, "public void ", classApiOperationIdMethod, "(SiteRequest siteRequest, Handler<AsyncResult<ListeRecherche<", classSimpleName, ">>> eventHandler) {");
+					tl(1, "public void ", classApiOperationIdMethod, "(SiteRequest siteRequest, Boolean peupler, Boolean stocker, Handler<AsyncResult<ListeRecherche<", classSimpleName, ">>> eventHandler) {");
 					tl(2, "try {");
 					tl(3, "OperationRequest operationRequest = siteRequest.getOperationRequete();");
 					tl(3, "String entiteListeStr = siteRequest.getOperationRequete().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
 					tl(3, "String[] entiteListe = entiteListeStr == null ? null : entiteListeStr.split(", q(",\\s*"), ");");
 					tl(3, "ListeRecherche<", classSimpleName, "> listeRecherche = new ListeRecherche<", classSimpleName, ">();");
+					tl(3, "listeRecherche.setPeupler(peupler);");
+					tl(3, "listeRecherche.setStocker(stocker);");
 					tl(3, "listeRecherche.setQuery(\"*:*\");");
 					tl(3, "listeRecherche.setC(", classSimpleName, ".class);");
 					tl(3, "listeRecherche.setRows(1000000);");
@@ -514,23 +516,28 @@ public class WriteApiClass extends WriteGenClass {
 				}
 				if(classApiMethod.contains("PATCH")) {
 					l();
-					tl(1, "public Future<OperationResponse> liste", classApiMethod, classSimpleName, "(ListeRecherche<", classSimpleName, "> liste", classSimpleName, ", Handler<AsyncResult<OperationResponse>> eventHandler) {");
-//					tl(2, "List<Future> futures = new ArrayList<>();");
-//					tl(2, "liste", classSimpleName, ".getList().forEach(o -> {");
-//					tl(3, "futures.add(");
-//					tl(4, "sql", classApiMethod, classSimpleName, "(o).compose(");
-//					tl(5, "b -> indexer", classSimpleName, "(o)");
-//					tl(4, ")");
-//					tl(3, ");");
-//					tl(2, "});");
-//					tl(2, "Future<OperationResponse> future = CompositeFuture.all(futures).compose( a -> ");
-//					tl(3, "response200", classApiMethod, classSimpleName, "(liste", classSimpleName, ")");
-//					tl(2, ");");
-//					tl(2, "return future;");
-					tl(2, "return null;");
+					tl(1, "public void liste", classApiMethod, classSimpleName, "(ListeRecherche<", classSimpleName, "> liste", classSimpleName, ", Handler<AsyncResult<OperationResponse>> eventHandler) {");
+					tl(2, "List<Future> futures = new ArrayList<>();");
+					tl(2, "liste", classSimpleName, ".getList().forEach(o -> {");
+					tl(3, "futures.add(");
+					tl(4, "sql", classApiMethod, classSimpleName, "(o).compose(");
+					tl(5, "a -> definir", classApiMethod, classSimpleName, "(a).compose(");
+					tl(6, "b -> indexer", classApiMethod, classSimpleName, "(b)");
+					tl(5, ")");
+					tl(4, ")");
+					tl(3, ");");
+					tl(2, "});");
+					tl(2, "CompositeFuture.all(futures).setHandler( a -> {");
+					tl(3, "if(a.succeeded()) {");
+					tl(4, "response200", classApiMethod, classSimpleName, "(liste", classSimpleName, ", eventHandler);");
+					tl(3, "} else {");
+					tl(4, "erreur", classSimpleName, "(liste", classSimpleName, ".getSiteRequest_(), eventHandler, a);");
+					tl(3, "}");
+					tl(2, "});");
 					tl(1, "}");
 					l();
-					tl(1, "public void sql", classApiMethod, classSimpleName, "(", classSimpleName, " o, Handler<AsyncResult<OperationResponse>> eventHandler) {");
+					tl(1, "public Future<", classSimpleName, "> sql", classApiMethod, classSimpleName, "(", classSimpleName, " o) {");
+					tl(2, "Future<", classSimpleName, "> future = Future.future();");
 					tl(2, "try {");
 					tl(3, "SiteRequest siteRequest = o.getSiteRequest_();");
 					tl(3, "SQLConnection sqlConnection = siteRequest.getConnexionSql();");
@@ -539,6 +546,7 @@ public class WriteApiClass extends WriteGenClass {
 					tl(3, "StringBuilder patchSql = new StringBuilder();");
 					tl(3, "List<Object> patchSqlParams = new ArrayList<Object>();");
 					tl(3, "Set<String> methodeNoms = requeteJson.fieldNames();");
+					tl(3, classSimpleName, " o2 = new ", classSimpleName, "();");
 					l();
 					tl(3, "for(String methodeNom : methodeNoms) {");
 					tl(4, "switch(methodeNom) {");
@@ -550,10 +558,51 @@ public class WriteApiClass extends WriteGenClass {
 					tl(5, ", new JsonArray(patchSqlParams)");
 					tl(5, ", patchAsync");
 					tl(3, "-> {");
-					tl(4, "eventHandler.handle(Future.succeededFuture());");
+					tl(4, "o2.setSiteRequest_(o.getSiteRequest_());");
+					tl(4, "o2.set", StringUtils.capitalize(classVarPrimaryKey), "(", classVarPrimaryKey, ");");
+					tl(4, "future.complete(o2);");
 					tl(3, "});");
+					tl(3, "return future;");
 					tl(2, "} catch(Exception e) {");
-					tl(3, "eventHandler.handle(Future.failedFuture(e));");
+					tl(3, "return Future.failedFuture(e);");
+					tl(2, "}");
+					tl(1, "}");
+					l();
+					tl(1, "public Future<", classSimpleName, "> definir", classApiMethod, classSimpleName, "(", classSimpleName, " o) {");
+					tl(2, "Future<", classSimpleName, "> future = Future.future();");
+					tl(2, "try {");
+					tl(3, "SiteRequest siteRequest = o.getSiteRequest_();");
+					tl(3, "SQLConnection sqlConnection = siteRequest.getConnexionSql();");
+					tl(3, "Long ", classVarPrimaryKey, " = o.get", StringUtils.capitalize(classVarPrimaryKey), "();");
+					tl(3, "sqlConnection.queryWithParams(");
+					tl(5, "SiteContext.SQL_definir");
+					tl(5, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "))");
+					tl(5, ", definirAsync");
+					tl(3, "-> {");
+					tl(4, "if(definirAsync.succeeded()) {");
+					tl(5, "for(JsonArray definition : definirAsync.result().getResults()) {");
+					tl(6, "o.definirPourClasse(definition.getString(0), definition.getString(1));");
+					tl(5, "}");
+					tl(5, "future.complete(o);");
+					tl(4, "} else {");
+					tl(3, "future.fail(definirAsync.cause());");
+					tl(4, "}");
+					tl(3, "});");
+					tl(3, "return future;");
+					tl(2, "} catch(Exception e) {");
+					tl(3, "return Future.failedFuture(e);");
+					tl(2, "}");
+					tl(1, "}");
+					l();
+					tl(1, "public Future<Void> indexer", classApiMethod, classSimpleName, "(", classSimpleName, " o) {");
+					tl(2, "Future<Void> future = Future.future();");
+					tl(2, "try {");
+					tl(3, "o.initLoinPourClasse(o.getSiteRequest_());");
+					tl(3, "o.indexerPourClasse();");
+					tl(4, "future.complete();");
+					tl(3, "return future;");
+					tl(2, "} catch(Exception e) {");
+					tl(3, "return Future.failedFuture(e);");
 					tl(2, "}");
 					tl(1, "}");
 				}

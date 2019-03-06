@@ -404,6 +404,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String entiteNomSimple;
 
 	/**
+	 * Var.enUS: entitySimpleNameGeneric
+	 */
+	protected String entiteNomSimpleGenerique;
+
+	/**
 	 * Var.enUS: entityComment
 	 */
 	protected String entiteCommentaire;
@@ -578,6 +583,81 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected Boolean classeContexte;
 
+	/**
+	 * Var.enUS: entityHtml
+	 */
+	Boolean entiteHtml;
+
+	/**
+	 * Var.enUS: entityMultiline
+	 */
+	Boolean entiteMultiligne;
+
+	/**
+	 * Var.enUS: entityDisplayName
+	 */
+	String entiteNomAffichage;
+
+	/**
+	 * Var.enUS: entityDescription
+	 */
+	String entiteDescription;
+
+	/**
+	 * Var.enUS: entityHtmlLine
+	 */
+	Integer entiteHtmlLigne;
+
+	/**
+	 * Var.enUS: entityIndexed
+	 */
+	Boolean entiteIndexe;
+
+	/**
+	 * Var.enUS: entityStored
+	 */
+	Boolean entiteStocke;
+
+	/**
+	 * Var.enUS: entitySolrDocument
+	 */
+	SolrDocument entiteDocumentSolr;
+
+	/**
+	 * Var.enUS: searchLines
+	 */
+	Integer rechercheLignes;
+
+	/**
+	 * Var.enUS: searchLineSearch
+	 */
+	Integer rechercheLigneRecherche;
+
+	/**
+	 * Var.enUS: searchLineActualSearch
+	 */
+	Integer rechercheLigneActuelRecherche;
+
+	/**
+	 * Var.enUS: searchLinePOST
+	 */
+	Integer rechercheLignePOST;
+
+	/**
+	 * Var.enUS: searchLineActualPOST
+	 */
+	Integer rechercheLigneActuelPOST;
+
+	/**
+	 * Var.enUS: searchLinePATCH
+	 */
+	Integer rechercheLignePATCH;
+
+	/**
+	 * Var.enUS: searchLineActualPATCH
+	 */
+	Integer rechercheLigneActuelPATCH;
+	
 	/** 
 	 * r: wInitLoin
 	 * r.enUS: wInitDeep
@@ -857,8 +937,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "public void indexer", classeNomSimple, "(SolrClient clientSolr) throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "indexer", classeNomSimple, "(document);");
-			if(classeSauvegarde)
-				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
 			tl(2, "clientSolr.add(document);");
 			tl(2, "clientSolr.commit();");
 			l("\t}");
@@ -866,8 +944,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "public void indexer", classeNomSimple, "() throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "indexer", classeNomSimple, "(document);");
-			if(classeSauvegarde)
-				tl(2, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
 			tl(2, "SolrClient clientSolr = requeteSite_.getSiteContexte_().getClientSolr();");
 			tl(2, "clientSolr.add(document);");
 			tl(2, "clientSolr.commit();");
@@ -875,6 +951,11 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			tl(0);
 			tl(1, "public void indexer", classeNomSimple, "(SolrInputDocument document) throws Exception {");
+			if(classeSauvegarde) {
+				tl(2, "if(sauvegardes", classeNomSimple, " != null)");
+				tl(3, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
+				l();
+			}
 		}
 	}
 
@@ -2419,8 +2500,28 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 		
+				// Setter String //
+				if(StringUtils.equals(entiteNomCanoniqueGenerique, String.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
+				}
+		
 				// Setter Boolean //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Boolean.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
 					tl(3, entiteNomSimpleCompletGenerique, " p = Boolean.parseBoolean(o);");
@@ -2431,6 +2532,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Integer //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Integer.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 					tl(3, entiteNomSimpleCompletGenerique, " p = Integer.parseInt(o);");
@@ -2442,6 +2551,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter BigDecimal //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, "Double o = objets.getDouble(i);");
+					tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o));");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 					tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o);");
@@ -2453,6 +2570,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Float //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Float.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 					tl(3, entiteNomSimpleCompletGenerique, " p = Float.parseFloat(o);");
@@ -2464,6 +2589,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Double //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Double.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 					tl(3, entiteNomSimpleCompletGenerique, " p = Double.parseDouble(o);");
@@ -2475,6 +2608,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Long //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
 					tl(3, entiteNomSimpleCompletGenerique, " p = Long.parseLong(o);");
@@ -2486,6 +2627,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Timestamp //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Timestamp.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, "Instant o = objets.getInstant(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteNomSimpleCompletGenerique, " p = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
@@ -2496,6 +2645,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Date //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Date.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, "Instant o = objets.getInstant(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
@@ -2506,6 +2663,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter LocalDate //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDate.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, "Instant o = objets.getInstant(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
@@ -2521,6 +2686,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter ZonedDateTime //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, "Instant o = objets.getInstant(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteNomSimpleCompletGenerique, " p = ZonedDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
@@ -2536,6 +2709,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter LocalDateTime //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDateTime.class.getCanonicalName())) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(2, entiteVar, ".clear();");
+					tl(2, "for(int i = 0; i < objets.size(); i++) {");
+					tl(3, "Instant o = objets.getInstant(i);");
+					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(2, "}");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
@@ -2984,10 +3165,12 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "}");
 					}
 					else if(entiteCleUnique) {
-						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
-						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-						tl(3, "}");
+						tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "\");");
+						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+					}
+					else if(entiteClePrimaire) {
+						tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
+						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					}
 					else if(entiteCrypte) {
 						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
@@ -2997,6 +3180,14 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_encrypted", entiteSuffixeType, "\");");
 						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 						tl(3, "}");
+					}
+					else if(entiteAttribuer) {
+						tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
+						tl(3, "if(", entiteVar, " != null)");
+						if(StringUtils.contains(entiteSolrNomCanonique, "<"))
+							tl(4, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
+						else
+							tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					}
 					else {
 						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
@@ -3028,7 +3219,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 				}
 				else if(entiteCleUnique) {
-					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
+					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "\");");
 					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 				}
 				else if(entiteCrypte) {
@@ -3093,7 +3284,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "if(k > 0)");
 						tl(7, "w.s(\", \");");
 						tl(6, "w.s(((Boolean)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3111,7 +3302,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "w.s(\"\\\"\");");
 						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3129,7 +3320,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "w.s(\"\\\"\");");
 						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3147,7 +3338,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "w.s(\"\\\"\");");
 						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime()));");
 						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3165,7 +3356,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "w.s(\"\\\"\");");
 						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3183,7 +3374,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "w.s(\"\\\"\");");
 						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
 						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3199,7 +3390,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "if(k > 0)");
 						tl(7, "w.s(\", \");");
 						tl(6, "w.s(((Long)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3215,7 +3406,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "if(k > 0)");
 						tl(7, "w.s(\", \");");
 						tl(6, "w.s(BigDecimal.valueOf((Double)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3231,7 +3422,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "if(k > 0)");
 						tl(7, "w.s(\", \");");
 						tl(6, "w.s(((Double)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3247,7 +3438,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "if(k > 0)");
 						tl(7, "w.s(\", \");");
 						tl(6, "w.s(((Float)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3263,7 +3454,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "if(k > 0)");
 						tl(7, "w.s(\", \");");
 						tl(6, "w.s(((Integer)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3282,7 +3473,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(6, "w.s(\"\\\"\");");
 						tl(6, "w.s(((String)entiteValeur));");
 						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().next();");
+						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 						tl(5, "}");
 						tl(5, "w.s(\"]\");");
 						tl(4, "}");
@@ -3359,7 +3550,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	//		}
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 				tl(tBase + 2, "case \"", entiteVar, "\":");
-				tl(tBase + 3, "postSql.append(SiteContexte.SQL_setP);");
+				tl(tBase + 3, "postSql.append(SiteContexte.SQL_setD);");
 				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(entiteVar), ", classeVarClePrimaire, "));");
 				tl(tBase + 3, "break;");
 			}	
@@ -3387,7 +3578,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 				tl(tBase + 6, "case \"", entiteVar, "\":");
-				tl(tBase + 7, "putSql.append(SiteContexte.SQL_setP);");
+				tl(tBase + 7, "putSql.append(SiteContexte.SQL_setD);");
 				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), putPk));");
 				tl(tBase + 7, "break;");
 			}	
@@ -3457,12 +3648,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 						tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
 						if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
+							tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
 							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setA1);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)", "));");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", o2.get", entiteVarCapitalise, "()));");
 						}
 						else {
+							tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
 							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setA2);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)", ", ", q(entiteVar), ", ", classeVarClePrimaire, "));");
+							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", o2.get", entiteVarCapitalise, "()", ", ", q(entiteVar), ", ", classeVarClePrimaire, "));");
 						}
 					}
 		
@@ -3472,18 +3665,21 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 		
 						tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
+						tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
 						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)", ", ", classeVarClePrimaire, "));");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", o2.get", entiteVarCapitalise, "()", ", ", classeVarClePrimaire, "));");
 		
 						tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
-						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setP);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom), ", classeVarClePrimaire, "));");
+						tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setD);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", o2.get", entiteVarCapitalise, "(), ", classeVarClePrimaire, "));");
 					}
 					else {
 		
 						tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
-						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setP);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom), ", classeVarClePrimaire, "));");
+						tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setD);");
+						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", o2.get", entiteVarCapitalise, "(), ", classeVarClePrimaire, "));");
 					}
 		
 					tl(tBase + 3, "break;");
