@@ -968,11 +968,11 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.LoggerFactory", languageName));
 			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLClient", languageName));
 			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", languageName));
-			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", languageName));
 			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", languageName));
 			classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
 			classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Set", languageName));
 		}
+		classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", languageName));
 		classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.text.StringEscapeUtils", languageName));
 		classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.StringUtils", languageName));
 		classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Objects", languageName));

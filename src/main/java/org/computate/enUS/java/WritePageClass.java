@@ -819,7 +819,9 @@ public class WritePageClass extends WriteApiClass {
 									wTh.tl(6, "e(\"th\").f().sx(", q(entityDisplayName), ").g(\"th\");");
 		
 									wTd.tl(7, "{ e(\"td\").f();");
-									wTd.tl(8, "sx(o.get", entityVarCapitalized, "());");
+									wTd.tl(8, "{ e(\"a\").a(\"href\", uri).f();");
+									wTd.tl(9, "sx(o.get", entityVarCapitalized, "());");
+									wTd.tl(8, "} g(\"a\");");
 									wTd.tl(7, "} g(\"td\");");
 								}
 							}
@@ -1067,6 +1069,7 @@ public class WritePageClass extends WriteApiClass {
 				t(4).be("tbody").dfl();
 				tl(5, "for(int i = 0; i < list", classSimpleName, ".size(); i++) {");
 				tl(6, classSimpleName, " o = list", classSimpleName, ".getList().get(i);");
+				tl(6, "String uri = ", classEntityVars.contains("pageUri") ? "o.getPageUri()" : q(classePageUriMethode, "/") + " + o.getPk()", ";");
 				tl(6, "{ e(\"tr\").f();");
 				s(wTd);
 				tl(6, "} g(\"tr\");");

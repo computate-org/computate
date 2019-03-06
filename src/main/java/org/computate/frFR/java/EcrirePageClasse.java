@@ -1094,7 +1094,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wTh.tl(6, "e(\"th\").f().sx(", q(entiteNomAffichage), ").g(\"th\");");
 		
 									wTd.tl(7, "{ e(\"td\").f();");
-									wTd.tl(8, "sx(o.get", entiteVarCapitalise, "());");
+									wTd.tl(8, "{ e(\"a\").a(\"href\", uri).f();");
+									wTd.tl(9, "sx(o.get", entiteVarCapitalise, "());");
+									wTd.tl(8, "} g(\"a\");");
 									wTd.tl(7, "} g(\"td\");");
 								}
 							}
@@ -1342,6 +1344,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				t(4).be("tbody").dfl();
 				tl(5, "for(int i = 0; i < liste", classeNomSimple, ".size(); i++) {");
 				tl(6, classeNomSimple, " o = liste", classeNomSimple, ".getList().get(i);");
+				tl(6, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : q(classePageUriMethode, "/") + " + o.getPk()", ";");
 				tl(6, "{ e(\"tr\").f();");
 				s(wTd);
 				tl(6, "} g(\"tr\");");

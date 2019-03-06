@@ -190,6 +190,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: classApiOperationId
 	 * r: ToutEcrivain
 	 * r.enUS: AllWriter
+	 * r: classePageNomCanoniqueMethode
+	 * r.enUS: classPageCanonicalNameMethod
 	 * 
 	 * r: recherche
 	 * r.enUS: search
@@ -232,6 +234,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
 				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
+				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_frFR_stored_string");
+
+				if(classePageNomCanoniqueMethode != null) {
+					auteurGenApiService.t(1, "public void ", classeApiOperationIdMethode, "Id(");
+					if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
+						auteurGenApiService.s("JsonObject body, ");
+					auteurGenApiService.l("OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements);");
+				}
 
 				auteurGenApiService.t(1, "public void ", classeApiOperationIdMethode, "(");
 				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
@@ -449,6 +459,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia" + classeApiMethode + "_stored_string");
 				l();
 				tl(1, "// ", classeApiMethode, " //");
+				if(classePageNomCanoniqueMethode != null) {
+					l();
+					tl(1, "@Override");
+					t(1, "public void ", classeApiOperationIdMethode, "Id(");
+					if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
+						s("JsonObject body, ");
+					l("OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
+					tl(2, classeApiOperationIdMethode, "(operationRequete, gestionnaireEvenements);");
+					tl(1, "}");
+				}
 				l();
 				tl(1, "@Override");
 				t(1, "public void ", classeApiOperationIdMethode, "(");
@@ -721,6 +741,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(3, "if(entiteListe != null)");
 					tl(3, "listeRecherche.setFields(entiteListe);");
 					tl(3, "listeRecherche.addSort(\"partNumero_indexed_int\", ORDER.asc);");
+					l();
+					tl(3, "String pageUri = null;");
+					tl(3, "String id = operationRequete.getParams().getJsonObject(\"path\").getString(\"id\");");
+					tl(3, "if(", classeVarCleUnique, " != null) {");
+					tl(4, "pageUri = ", q(classeApiUriMethode, "/"), " + id;");
+					tl(4, "listeRecherche.addFilterQuery(\"pageUri_indexed_string:\" + ClientUtils.escapeQueryChars(pageUri));");
+					tl(3, "}");
+					l();
 					tl(3, "operationRequete.getParams().getJsonObject(\"query\").forEach(paramRequete -> {");
 					tl(4, "String entiteVar = null;");
 					tl(4, "String valeurIndexe = null;");

@@ -86,6 +86,14 @@ public class WriteApiClass extends WriteGenClass {
 			writerGenApiService.l();
 			for(String classeApiMethode : classApiMethods) {
 				String classApiOperationIdMethod = (String)classDoc.get("classApiOperationId" + classeApiMethode + "_frFR_stored_string");
+				String classPageCanonicalNameMethod = (String)classDoc.get("classePageNomCanonique" + classeApiMethode + "_frFR_stored_string");
+
+				if(classPageCanonicalNameMethod != null) {
+					writerGenApiService.t(1, "public void ", classApiOperationIdMethod, "Id(");
+					if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
+						writerGenApiService.s("JsonObject body, ");
+					writerGenApiService.l("OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements);");
+				}
 
 				writerGenApiService.t(1, "public void ", classApiOperationIdMethod, "(");
 				if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
@@ -156,6 +164,16 @@ public class WriteApiClass extends WriteGenClass {
 				String classeApiTypeMediaMethode = (String)classDoc.get("classeApiTypeMedia" + classApiMethod + "_stored_string");
 				l();
 				tl(1, "// ", classApiMethod, " //");
+				if(classPageCanonicalNameMethod != null) {
+					l();
+					tl(1, "@Override");
+					t(1, "public void ", classApiOperationIdMethod, "Id(");
+					if(StringUtils.containsAny(classApiMethod, "POST", "PUT", "PATCH"))
+						s("JsonObject body, ");
+					l("OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> eventHandler) {");
+					tl(2, classApiOperationIdMethod, "(operationRequest, eventHandler);");
+					tl(1, "}");
+				}
 				l();
 				tl(1, "@Override");
 				t(1, "public void ", classApiOperationIdMethod, "(");
@@ -428,6 +446,14 @@ public class WriteApiClass extends WriteGenClass {
 					tl(3, "if(entiteListe != null)");
 					tl(3, "listeRecherche.setFields(entiteListe);");
 					tl(3, "listeRecherche.addSort(\"partNumero_indexed_int\", ORDER.asc);");
+					l();
+					tl(3, "String pageUri = null;");
+					tl(3, "String id = operationRequest.getParams().getJsonObject(\"path\").getString(\"id\");");
+					tl(3, "if(", classeVarCleUnique, " != null) {");
+					tl(4, "pageUri = ", q(classApiUriMethode, "/"), " + id;");
+					tl(4, "listeRecherche.addFilterQuery(\"pageUri_indexed_string:\" + ClientUtils.escapeQueryChars(pageUri));");
+					tl(3, "}");
+					l();
 					tl(3, "operationRequest.getParams().getJsonObject(\"query\").forEach(queryParam -> {");
 					tl(4, "String entityVar = null;");
 					tl(4, "String valeurIndexe = null;");

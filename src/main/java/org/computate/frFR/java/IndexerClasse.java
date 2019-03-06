@@ -3121,11 +3121,11 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.LoggerFactory", langueNom));
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.sql.SQLClient", langueNom));
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.sql.SQLConnection", langueNom));
-			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonArray", langueNom));
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", langueNom));
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, langueNom));
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Set", langueNom));
 		}
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonArray", langueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.text.StringEscapeUtils", langueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", langueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", langueNom));
