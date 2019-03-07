@@ -172,6 +172,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected String entityVar;
 
+	protected String entityTypeSuffix;
+
 	protected String entityVarCapitalized;
 
 	protected String entityCanonicalName;
@@ -285,6 +287,10 @@ public class WriteGenClass extends WriteClass {
 	Integer searchLinePATCH;
 
 	Integer searchLineActualPATCH;
+
+	Integer searchLinePage;
+
+	Integer searchLineActualPage;
 
 	public void  genCodeInit() throws Exception, Exception {
 
@@ -2078,11 +2084,11 @@ public class WriteGenClass extends WriteClass {
 			/////////////////
 			// codeApiGet //
 			/////////////////
-			o = wApiGet;
-			if(classIndexed && entityIndexed) {
-				tl(3, "case \"", entityVar, "\":");
-				tl(4, "return \"", entityVar, "_indexed", entityTypeSuffix, "\";");
-			}
+//			o = wApiGet;
+//			if(classIndexed && entityIndexed) {
+//				tl(3, "case \"", entityVar, "\":");
+//				tl(4, "return \"", entityVar, "_indexed", entityTypeSuffix, "\";");
+//			}
 	
 			///////////////////////
 			// codeApiGenererGet //

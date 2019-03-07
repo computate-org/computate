@@ -374,6 +374,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String entiteVar;
 
 	/**
+	 * Var.enUS: entityTypeSuffix
+	 */
+	protected String entiteSuffixeType;
+
+	/**
 	 * Var.enUS: entityVarCapitalized
 	 */
 	protected String entiteVarCapitalise;
@@ -657,6 +662,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: searchLineActualPATCH
 	 */
 	Integer rechercheLigneActuelPATCH;
+
+	/**
+	 * Var.enUS: searchLinePage
+	 */
+	Integer rechercheLignePage;
+
+	/**
+	 * Var.enUS: searchLineActualPage
+	 */
+	Integer rechercheLigneActuelPage;
 	
 	/** 
 	 * r: wInitLoin
@@ -3260,11 +3275,11 @@ public class EcrireGenClasse extends EcrireClasse {
 			/////////////////
 			// codeApiGet //
 			/////////////////
-			o = wApiGet;
-			if(classeIndexe && entiteIndexe) {
-				tl(3, "case \"", entiteVar, "\":");
-				tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
-			}
+//			o = wApiGet;
+//			if(classeIndexe && entiteIndexe) {
+//				tl(3, "case \"", entiteVar, "\":");
+//				tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
+//			}
 	
 			///////////////////////
 			// codeApiGenererGet //

@@ -1,8 +1,15 @@
 package org.computate.frFR.java; 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.util.ClientUtils;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WriteApiClass
@@ -1152,10 +1159,40 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 	
 			s(wApiEntites.toString());
+
 			l();
 			tl(1, "public String varIndexe", classeNomSimple, "(String entiteVar) {");
 			tl(2, "switch(entiteVar) {");
-			s(wApiGet.toString());
+			{
+				SolrQuery rechercheSolr = new SolrQuery();   
+				rechercheSolr.setQuery("*:*");
+				rechercheSolr.setRows(1000000);
+				String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
+				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
+				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
+				SolrDocumentList rechercheListe = rechercheReponse.getResults();
+	
+				if(rechercheListe.size() > 0) {
+					for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
+						for(Integer j = 0; j < rechercheListe.size(); j++) {
+							SolrDocument entiteDocumentSolr = rechercheListe.get(j);
+							entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
+							entiteSuffixeType = (String)entiteDocumentSolr.get("entiteSuffixeType_stored_string");
+							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
+
+							if(classeIndexe && entiteIndexe) {
+								tl(3, "case \"", entiteVar, "\":");
+								tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
+							}
+						}
+						rechercheSolr.setStart(i.intValue() + rechercheLignes);
+						rechercheReponse = clientSolrComputate.query(rechercheSolr);
+						rechercheListe = rechercheReponse.getResults();
+					}
+				}
+			}
+
 			tl(3, "default:");
 			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entiteVar));");
 			tl(2, "}");
