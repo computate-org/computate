@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -622,6 +623,36 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityStored
 	 */
 	Boolean entiteStocke;
+
+	/**
+	 * Var.enUS: entitySolrCanonicalName
+	 */
+	String entiteSolrNomCanonique;
+
+	/**
+	 * Var.enUS: entitySolrSimpleName
+	 */
+	String entiteSolrNomSimple;
+
+	/**
+	 * Var.enUS: entitySimpleNameVertxJson
+	 */
+	String entiteNomSimpleVertxJson;
+
+	/**
+	 * Var.enUS: entityCanonicalNameVertxJson
+	 */
+	String entiteNomCanoniqueVertxJson;
+
+	/**
+	 * Var.enUS: entityListSimpleNameVertxJson
+	 */
+	String entiteListeNomSimpleVertxJson;
+
+	/**
+	 * Var.enUS: entityListCanonicalNameVertxJson
+	 */
+	String entiteListeNomCanoniqueVertxJson;
 
 	/**
 	 * Var.enUS: entitySolrDocument
@@ -3043,16 +3074,16 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", ", entiteVar, ");");
 					}
 					else if(entiteNomSimple.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, "));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
 						tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");
@@ -3070,16 +3101,16 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", ", entiteVar, ");");
 					}
 					else if(entiteNomSimple.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, "));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
 						tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");
@@ -3271,285 +3302,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	//		}
 	//		if(entiteAttribuer)
 	//			tl(1, "public static final String ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, " = \"", entiteAttribuerVar, "\";");
-	
-			/////////////////
-			// codeApiGet //
-			/////////////////
-//			o = wApiGet;
-//			if(classeIndexe && entiteIndexe) {
-//				tl(3, "case \"", entiteVar, "\":");
-//				tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
-//			}
-	
-			///////////////////////
-			// codeApiGenererGet //
-			///////////////////////
-			o = wApiGenererGet;
-			if(classeIndexe && entiteStocke) {
-//				tl(4, "if(", q(entiteVar, "_stored", entiteSuffixeType), ".equals(entiteVarStocke)) {");
-				if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList, VAL_nomCanoniqueSet, VAL_nomCanoniqueHashSet)) {
-					if(VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(((Boolean)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime()));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(((Long)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(BigDecimal.valueOf((Double)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(((Double)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(((Float)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)) {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(((Integer)entiteValeur).toString());");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else {
-						l();
-						tl(4, "{");
-						tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
-						tl(5, "w.s(entiteNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(entiteValeur != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(((String)entiteValeur));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-				}
-				else {
-					l();
-					tl(4, "entiteValeur = o.get", entiteVarCapitalise, "();");
-//					tl(4, "entiteValeur = Optional.ofNullable(documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ")).map(Collection<Object>::stream).orElseGet(Stream::empty).findFirst().orElse(null);");
-//					tl(4, "entiteValeur = documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ").stream().findFirst().orElse(null);");
-//					tl(5, "entiteValeur = documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ").stream().findFirst().orElse(null);");
-					tl(4, "if(entiteValeur != null)");
-					if (VAL_nomCanoniqueBoolean.equals(entiteSolrNomCanonique)) {
-//						tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
-
-						// tomorrow put this line everywhere. 
-						tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
-					} else if (VAL_nomCanoniqueDate.equals(entiteSolrNomCanonique)) {
-						if (VAL_nomCanoniqueTimestamp.equals(entiteNomCanonique)) {
-//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
-							tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.q(entiteValeur));");
-						} else if (VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
-//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime());");
-							tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.q(entiteValeur));");
-						} else if (VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
-//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
-							tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.q(entiteValeur));");
-						} else if (VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
-//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());");
-							tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.q(entiteValeur));");
-						} else {
-//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
-							tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.q(entiteValeur));");
-						}
-					} else if (VAL_nomCanoniqueLong.equals(entiteSolrNomCanonique)) {
-//						tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
-						tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
-					} else if (VAL_nomCanoniqueDouble.equals(entiteSolrNomCanonique)) {
-						if (VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
-//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
-							tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
-						}
-						else {
-//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
-							tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
-						}
-					} else if (VAL_nomCanoniqueFloat.equals(entiteSolrNomCanonique)) {
-//						tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
-						tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
-					} else if (VAL_nomCanoniqueInteger.equals(entiteSolrNomCanonique)) {
-//						tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
-						tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
-					}
-					else {
-//						tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
-						tl(5, "w.l(entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.q(entiteValeur));");
-					}
-				}
-//				tl(3, ");");
-//				tl(3, "}");
-			}
 	
 			////////////////////////
 			// codeApiGenererPost //
@@ -4002,8 +3754,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		wSauvegardes.flushClose();
 		wDefinir.flushClose();
 		wApiEntites.flushClose();
-		wApiGet.flushClose();
-		wApiGenererGet.flushClose();
 		wPageEntites.flushClose();
 		wPageGet.flushClose();
 		wHashCode.flushClose();

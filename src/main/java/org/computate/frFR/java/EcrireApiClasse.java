@@ -3,7 +3,6 @@ package org.computate.frFR.java;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -96,6 +95,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * Var.enUS: classEntityVars
 	 */ 
 	protected List<String> classeEntiteVars;
+
+	/**
+	 * Var.enUS: classMethodeVars
+	 */  
+	protected List<String> classeMethodeVars;
 
 	/**
 	 * Var.enUS: apiCodeClassBegin
@@ -399,6 +403,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: sqlConnection
 	 * r: reponseOperation
 	 * r.enUS: operationResponse
+	 * r: utilisateurValeur
+	 * r.enUS: userValue
+	 * r: utilisateurPk
+	 * r.enUS: userPk
 	 * 
 	 * r: SiteContexte
 	 * r.enUS: SiteContext
@@ -440,7 +448,328 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 				l();
 			}
+
+			{
+				SolrQuery rechercheSolr = new SolrQuery();   
+				rechercheSolr.setQuery("*:*");
+				rechercheSolr.setRows(1000000);
+				String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
+				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
+				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
+				SolrDocumentList rechercheListe = rechercheReponse.getResults();
+				Integer rechercheLignes = rechercheSolr.getRows();
 	
+				if(rechercheListe.size() > 0) {
+					for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
+						for(Integer j = 0; j < rechercheListe.size(); j++) {
+							SolrDocument doc = rechercheListe.get(j);
+							entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
+							entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + langueNom + "_stored_string");
+							entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
+							entiteIndexe = (Boolean)doc.get("entiteIndexe_stored_boolean");
+							entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
+							entiteSolrNomCanonique = (String)doc.get("entiteSolrNomCanonique_stored_string");
+							entiteSolrNomSimple = (String)doc.get("entiteSolrNomSimple_stored_string");
+							entiteNomSimpleVertxJson = (String)doc.get("entiteNomSimpleVertxJson_stored_string");
+							entiteNomCanoniqueVertxJson = (String)doc.get("entiteNomCanoniqueVertxJson_stored_string");
+							entiteListeNomSimpleVertxJson = (String)doc.get("entiteListeNomSimpleVertxJson_stored_string");
+							entiteListeNomCanoniqueVertxJson = (String)doc.get("entiteListeNomCanoniqueVertxJson_stored_string");
+							entiteNomCanonique = (String)doc.get("entiteNomCanonique_" + langueNom + "_stored_string");
+							entiteNomCanoniqueGenerique = (String)doc.get("entiteNomCanoniqueGenerique_" + langueNom + "_stored_string");
+							entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
+							entiteNomSimpleCompletGenerique = (String)doc.get("entiteNomSimpleCompletGenerique_" + langueNom + "_stored_string");
+							entiteNomSimple = (String)doc.get("entiteNomSimple_" + langueNom + "_stored_string");
+	
+							/////////////////
+							// codeApiGet //
+							/////////////////
+
+							if(classeIndexe && entiteIndexe) {
+								wApiGet.tl(3, "case \"", entiteVar, "\":");
+								wApiGet.tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
+							}
+							
+							///////////////////////
+							// codeApiGenererGet //
+							///////////////////////
+							o = wApiGenererGet;
+							if(classeIndexe && entiteStocke) {
+				//				tl(4, "if(", q(entiteVar, "_stored", entiteSuffixeType), ".equals(entiteVarStocke)) {");
+								if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList, VAL_nomCanoniqueSet, VAL_nomCanoniqueHashSet)) {
+									if(VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(((Boolean)entiteValeur).toString());");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else if(VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else if(VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime()));");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(((Long)entiteValeur).toString());");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(BigDecimal.valueOf((Double)entiteValeur).toString());");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else if(VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(((Double)entiteValeur).toString());");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else if(VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(((Float)entiteValeur).toString());");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else if(VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(((Integer)entiteValeur).toString());");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+									else {
+										l();
+										tl(4, "{");
+										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
+										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
+										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(5, "int k = 0;");
+										tl(5, "while(entiteValeur != null) {");
+										tl(6, "if(k > 0)");
+										tl(7, "w.s(\", \");");
+										tl(6, "w.s(\", \");");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "w.s(((String)entiteValeur));");
+										tl(6, "w.s(\"\\\"\");");
+										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
+										tl(5, "}");
+										tl(5, "w.l(\"]\");");
+										tl(4, "}");
+									}
+								}
+								else {
+									l();
+									tl(4, "entiteValeur = o.get", entiteVarCapitalise, "();");
+				//					tl(4, "entiteValeur = Optional.ofNullable(documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ")).map(Collection<Object>::stream).orElseGet(Stream::empty).findFirst().orElse(null);");
+				//					tl(4, "entiteValeur = documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ").stream().findFirst().orElse(null);");
+				//					tl(5, "entiteValeur = documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ").stream().findFirst().orElse(null);");
+									tl(4, "if(entiteValeur != null)");
+									if (VAL_nomCanoniqueBoolean.equals(entiteSolrNomCanonique)) {
+				//						tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
+				
+										// tomorrow put this line everywhere. 
+										tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
+									} else if (VAL_nomCanoniqueDate.equals(entiteSolrNomCanonique)) {
+										if (VAL_nomCanoniqueTimestamp.equals(entiteNomCanonique)) {
+				//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
+											tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.qjs(entiteValeur));");
+										} else if (VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
+				//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime());");
+											tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.qjs(entiteValeur));");
+										} else if (VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
+				//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
+											tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.qjs(entiteValeur));");
+										} else if (VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
+				//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());");
+											tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.qjs(entiteValeur));");
+										} else {
+				//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
+											tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.qjs(entiteValeur));");
+										}
+									} else if (VAL_nomCanoniqueLong.equals(entiteSolrNomCanonique)) {
+				//						tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
+										tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
+									} else if (VAL_nomCanoniqueDouble.equals(entiteSolrNomCanonique)) {
+										if (VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
+				//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
+											tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
+										}
+										else {
+				//							tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
+											tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
+										}
+									} else if (VAL_nomCanoniqueFloat.equals(entiteSolrNomCanonique)) {
+				//						tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
+										tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
+									} else if (VAL_nomCanoniqueInteger.equals(entiteSolrNomCanonique)) {
+				//						tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
+										tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", entiteValeur);");
+									}
+									else {
+				//						tl(5, "Object entiteStr = entiteValeur == null ? ", q("null"), " : entiteValeur;");
+										tl(5, "w.tl(3, entiteNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.qjs(entiteValeur));");
+									}
+								}
+				//				tl(3, ");");
+				//				tl(3, "}");
+							}
+						}
+						rechercheSolr.setStart(i.intValue() + rechercheLignes);
+						rechercheReponse = clientSolrComputate.query(rechercheSolr);
+						rechercheListe = rechercheReponse.getResults();
+					}
+				}
+			}
+			wApiGet.flushClose();
+			wApiGenererGet.flushClose();
+	
+			o = auteurGenApiServiceImpl;
 			tl(0, "");
 			ecrireCommentaire(classeCommentaire, 0); 
 			s("public class ", classeNomSimpleGenApiServiceImpl);
@@ -484,236 +813,308 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				l("OperationRequest operationRequete, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
 
 				if(classeApiMethode.contains("POST")) {
-					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
-					tl(2, "sql", classeNomSimple, "(requeteSite, a -> {");
-					tl(3, "if(a.succeeded()) {");
-					tl(4, "creer", classeApiMethode, classeNomSimple, "(requeteSite, b -> {");
-					tl(5, "if(b.succeeded()) {");
-					tl(6, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = b.result();");
-					tl(6, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", c -> {");
-					tl(7, "if(c.succeeded()) {");
-					tl(8, "definir", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", d -> {");
-					tl(9, "if(d.succeeded()) {");
-					tl(10, "attribuer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", e -> {");
-					tl(11, "if(e.succeeded()) {");
-					tl(12, "indexer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", f -> {");
-					tl(13, "if(f.succeeded()) {");
-					tl(14, "reponse200", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", g -> {");
-					tl(15, "if(f.succeeded()) {");
-					tl(16, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-					tl(16, "connexionSql.commit(h -> {");
-					tl(17, "if(a.succeeded()) {");
-					tl(18, "connexionSql.close(i -> {");
-					tl(19, "if(a.succeeded()) {");
-					tl(20, "gestionnaireEvenements.handle(Future.succeededFuture(g.result()));");
-					tl(19, "} else {");
-					tl(20, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, i);");
-					tl(19, "}");
-					tl(18, "});");
-					tl(17, "} else {");
-					tl(18, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, h);");
-					tl(17, "}");
-					tl(16, "});");
-					tl(15, "} else {");
-					tl(16, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, g);");
-					tl(15, "}");
-					tl(14, "});");
-					tl(13, "} else {");
-					tl(14, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, f);");
-					tl(13, "}");
-					tl(12, "});");
-					tl(11, "} else {");
-					tl(12, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, e);");
-					tl(11, "}");
-					tl(10, "});");
-					tl(9, "} else {");
-					tl(10, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, d);");
-					tl(9, "}");
-					tl(8, "});");
-					tl(7, "} else {");
-					tl(8, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, c);");
-					tl(7, "}");
-					tl(6, "});");
-					tl(5, "} else {");
-					tl(6, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
-					tl(5, "}");
-					tl(4, "});");
-					tl(3, "} else {");
-					tl(4, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
-					tl(3, "}");
-					tl(2, "});");
+					tl(2, "try {");
+					tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
+					tl(3, "sql", classeNomSimple, "(requeteSite, a -> {");
+					tl(4, "if(a.succeeded()) {");
+					tl(5, "creer", classeApiMethode, classeNomSimple, "(requeteSite, b -> {");
+					tl(6, "if(b.succeeded()) {");
+					tl(7, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = b.result();");
+					tl(7, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", c -> {");
+					tl(8, "if(c.succeeded()) {");
+					tl(9, "definir", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", d -> {");
+					tl(10, "if(d.succeeded()) {");
+					tl(11, "attribuer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", e -> {");
+					tl(12, "if(e.succeeded()) {");
+					tl(13, "indexer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", f -> {");
+					tl(14, "if(f.succeeded()) {");
+					tl(15, "reponse200", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", g -> {");
+					tl(16, "if(f.succeeded()) {");
+					tl(17, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(17, "connexionSql.commit(h -> {");
+					tl(18, "if(a.succeeded()) {");
+					tl(19, "connexionSql.close(i -> {");
+					tl(20, "if(a.succeeded()) {");
+					tl(21, "gestionnaireEvenements.handle(Future.succeededFuture(g.result()));");
+					tl(20, "} else {");
+					tl(21, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, i);");
+					tl(20, "}");
+					tl(19, "});");
+					tl(18, "} else {");
+					tl(19, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, h);");
+					tl(18, "}");
+					tl(17, "});");
+					tl(16, "} else {");
+					tl(17, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, g);");
+					tl(16, "}");
+					tl(15, "});");
+					tl(14, "} else {");
+					tl(15, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, f);");
+					tl(14, "}");
+					tl(13, "});");
+					tl(12, "} else {");
+					tl(13, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, e);");
+					tl(12, "}");
+					tl(11, "});");
+					tl(10, "} else {");
+					tl(11, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, d);");
+					tl(10, "}");
+					tl(9, "});");
+					tl(8, "} else {");
+					tl(9, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, c);");
+					tl(8, "}");
+					tl(7, "});");
+					tl(6, "} else {");
+					tl(7, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
+					tl(6, "}");
+					tl(5, "});");
+					tl(4, "} else {");
+					tl(5, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
+					tl(4, "}");
+					tl(3, "});");
+					tl(2, "} catch(Exception e) {");
+					tl(3, "erreur", classeNomSimple, "(null, gestionnaireEvenements, Future.failedFuture(e));");
+					tl(2, "}");
 				}
 				else if(classeApiMethode.contains("PATCH")) {
-					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
-					tl(2, "sql", classeNomSimple, "(requeteSite, a -> {");
-					tl(3, "if(a.succeeded()) {");
-					tl(4, "recherche", classeNomSimple, "(requeteSite, false, true, b -> {");
-					tl(5, "if(b.succeeded()) {");
-					tl(6, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = b.result();");
-					tl(6, "liste", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", c -> {");
-					tl(7, "if(c.succeeded()) {");
-					tl(8, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-					tl(8, "connexionSql.commit(d -> {");
-					tl(9, "if(a.succeeded()) {");
-					tl(10, "connexionSql.close(e -> {");
-					tl(11, "if(a.succeeded()) {");
-					tl(12, "gestionnaireEvenements.handle(Future.succeededFuture(c.result()));");
-					tl(11, "} else {");
-					tl(12, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, e);");
-					tl(11, "}");
-					tl(10, "});");
-					tl(9, "} else {");
-					tl(10, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, d);");
-					tl(9, "}");
-					tl(8, "});");
-					tl(7, "} else {");
-					tl(8, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, c);");
-					tl(7, "}");
-					tl(6, "});");
-					tl(5, "} else {");
-					tl(6, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
-					tl(5, "}");
-					tl(4, "});");
-					tl(3, "} else {");
-					tl(4, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
-					tl(3, "}");
-					tl(2, "});");
+					tl(2, "try {");
+					tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
+					tl(3, "sql", classeNomSimple, "(requeteSite, a -> {");
+					tl(4, "if(a.succeeded()) {");
+					tl(5, "recherche", classeNomSimple, "(requeteSite, false, true, ", "null", ", b -> {");
+					tl(6, "if(b.succeeded()) {");
+					tl(7, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = b.result();");
+					tl(7, "liste", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", c -> {");
+					tl(8, "if(c.succeeded()) {");
+					tl(9, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(9, "connexionSql.commit(d -> {");
+					tl(10, "if(a.succeeded()) {");
+					tl(11, "connexionSql.close(e -> {");
+					tl(12, "if(a.succeeded()) {");
+					tl(13, "gestionnaireEvenements.handle(Future.succeededFuture(c.result()));");
+					tl(12, "} else {");
+					tl(13, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, e);");
+					tl(12, "}");
+					tl(11, "});");
+					tl(10, "} else {");
+					tl(11, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, d);");
+					tl(10, "}");
+					tl(9, "});");
+					tl(8, "} else {");
+					tl(9, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, c);");
+					tl(8, "}");
+					tl(7, "});");
+					tl(6, "} else {");
+					tl(7, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
+					tl(6, "}");
+					tl(5, "});");
+					tl(4, "} else {");
+					tl(5, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
+					tl(4, "}");
+					tl(3, "});");
+					tl(2, "} catch(Exception e) {");
+					tl(3, "erreur", classeNomSimple, "(null, gestionnaireEvenements, Future.failedFuture(e));");
+					tl(2, "}");
 				}
 				else if(classeApiMethode.contains("Recherche")) {
-					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
-					tl(2, classeApiOperationIdMethode, "(requeteSite, false, true, a -> {");
-					tl(3, "if(a.succeeded()) {");
-					tl(4, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = a.result();");
-					tl(4, "reponse200", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", b -> {");
-					tl(5, "if(b.succeeded()) {");
-					tl(6, "gestionnaireEvenements.handle(Future.succeededFuture(b.result()));");
-					tl(5, "} else {");
-					tl(6, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
-					tl(5, "}");
-					tl(4, "});");
-					tl(3, "} else {");
-					tl(4, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
-					tl(3, "}");
-					tl(2, "});");
+					if(classePageNomSimpleMethode == null) {
+						tl(2, "try {");
+						tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
+						tl(3, "recherche", classeNomSimple, "(requeteSite, false, true, ", "null", ", a -> {");
+						tl(4, "if(a.succeeded()) {");
+						tl(5, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = a.result();");
+						tl(5, "reponse200", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", b -> {");
+						tl(6, "if(b.succeeded()) {");
+						tl(7, "gestionnaireEvenements.handle(Future.succeededFuture(b.result()));");
+						tl(6, "} else {");
+						tl(7, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
+						tl(6, "}");
+						tl(5, "});");
+						tl(4, "} else {");
+						tl(5, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
+						tl(4, "}");
+						tl(3, "});");
+						tl(2, "} catch(Exception e) {");
+						tl(3, "erreur", classeNomSimple, "(null, gestionnaireEvenements, Future.failedFuture(e));");
+						tl(2, "}");
+					}
+					else {
+						tl(2, "try {");
+						tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
+						tl(3, "sql", classeNomSimple, "(requeteSite, a -> {");
+						tl(4, "if(a.succeeded()) {");
+						tl(5, "utilisateur", classeNomSimple, "(requeteSite, b -> {");
+						tl(6, "if(b.succeeded()) {");
+						tl(7, "recherche", classeNomSimple, "(requeteSite, false, true, ", q(classeApiUriMethode), ", c -> {");
+						tl(8, "if(c.succeeded()) {");
+						tl(9, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = c.result();");
+						tl(9, "reponse200", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", d -> {");
+						tl(10, "if(d.succeeded()) {");
+						tl(11, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+						tl(11, "connexionSql.commit(e -> {");
+						tl(12, "if(e.succeeded()) {");
+						tl(13, "connexionSql.close(f -> {");
+						tl(14, "if(f.succeeded()) {");
+						tl(15, "gestionnaireEvenements.handle(Future.succeededFuture(d.result()));");
+						tl(14, "} else {");
+						tl(15, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, f);");
+						tl(14, "}");
+						tl(13, "});");
+						tl(12, "} else {");
+						tl(13, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, e);");
+						tl(12, "}");
+						tl(11, "});");
+						tl(10, "} else {");
+						tl(11, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, d);");
+						tl(10, "}");
+						tl(9, "});");
+						tl(8, "} else {");
+						tl(9, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, c);");
+						tl(8, "}");
+						tl(7, "});");
+						tl(6, "} else {");
+						tl(7, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
+						tl(6, "}");
+						tl(5, "});");
+						tl(4, "} else {");
+						tl(5, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
+						tl(4, "}");
+						tl(3, "});");
+						tl(2, "} catch(Exception e) {");
+						tl(3, "erreur", classeNomSimple, "(null, gestionnaireEvenements, Future.failedFuture(e));");
+						tl(2, "}");
+					}
 				}
 				else if(classeApiMethode.contains("GET")) {
-					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
-					tl(2, "recherche", classeNomSimple, "(requeteSite, false, true, a -> {");
-					tl(3, "if(a.succeeded()) {");
-					tl(4, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = a.result();");
-					tl(4, "reponse200", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", b -> {");
-					tl(5, "if(b.succeeded()) {");
-					tl(6, "gestionnaireEvenements.handle(Future.succeededFuture(b.result()));");
-					tl(5, "} else {");
-					tl(6, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
-					tl(5, "}");
-					tl(4, "});");
-					tl(3, "} else {");
-					tl(4, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
-					tl(3, "}");
-					tl(2, "});");
+					tl(2, "try {");
+					tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
+					tl(3, "recherche", classeNomSimple, "(requeteSite, false, true, ", "null", ", a -> {");
+					tl(4, "if(a.succeeded()) {");
+					tl(5, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = a.result();");
+					tl(5, "reponse200", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", b -> {");
+					tl(6, "if(b.succeeded()) {");
+					tl(7, "gestionnaireEvenements.handle(Future.succeededFuture(b.result()));");
+					tl(6, "} else {");
+					tl(7, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
+					tl(6, "}");
+					tl(5, "});");
+					tl(4, "} else {");
+					tl(5, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
+					tl(4, "}");
+					tl(3, "});");
+					tl(2, "} catch(Exception e) {");
+					tl(3, "erreur", classeNomSimple, "(null, gestionnaireEvenements, Future.failedFuture(e));");
+					tl(2, "}");
 				}
 				else if(classeApiMethode.contains("PUT")) {
-					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
-					tl(2, "sql", classeNomSimple, "(requeteSite, a -> {");
-					tl(3, "if(a.succeeded()) {");
-					tl(4, "remplacer", classeApiMethode, classeNomSimple, "(requeteSite, b -> {");
-					tl(5, "if(b.succeeded()) {");
-					tl(6, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = b.result();");
-					tl(6, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", c -> {");
-					tl(7, "if(c.succeeded()) {");
-					tl(8, "definir", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", d -> {");
-					tl(9, "if(d.succeeded()) {");
-					tl(10, "attribuer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", e -> {");
-					tl(11, "if(e.succeeded()) {");
-					tl(12, "indexer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", f -> {");
-					tl(13, "if(f.succeeded()) {");
-					tl(14, "reponse200", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", g -> {");
-					tl(15, "if(g.succeeded()) {");
-					tl(16, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-					tl(16, "connexionSql.commit(h -> {");
-					tl(17, "if(a.succeeded()) {");
-					tl(18, "connexionSql.close(i -> {");
-					tl(19, "if(a.succeeded()) {");
-					tl(20, "gestionnaireEvenements.handle(Future.succeededFuture(g.result()));");
-					tl(19, "} else {");
-					tl(20, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, i);");
-					tl(19, "}");
-					tl(18, "});");
-					tl(17, "} else {");
-					tl(18, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, h);");
-					tl(17, "}");
-					tl(16, "});");
-					tl(15, "} else {");
-					tl(16, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, g);");
-					tl(15, "}");
-					tl(14, "});");
-					tl(13, "} else {");
-					tl(14, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, f);");
-					tl(13, "}");
-					tl(12, "});");
-					tl(11, "} else {");
-					tl(12, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, e);");
-					tl(11, "}");
-					tl(10, "});");
-					tl(9, "} else {");
-					tl(10, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, d);");
-					tl(9, "}");
-					tl(8, "});");
-					tl(7, "} else {");
-					tl(8, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, c);");
-					tl(7, "}");
-					tl(6, "});");
-					tl(5, "} else {");
-					tl(6, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
-					tl(5, "}");
-					tl(4, "});");
-					tl(3, "} else {");
-					tl(4, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
-					tl(3, "}");
-					tl(2, "});");
+					tl(2, "try {");
+					tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
+					tl(3, "sql", classeNomSimple, "(requeteSite, a -> {");
+					tl(4, "if(a.succeeded()) {");
+					tl(5, "remplacer", classeApiMethode, classeNomSimple, "(requeteSite, b -> {");
+					tl(6, "if(b.succeeded()) {");
+					tl(7, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = b.result();");
+					tl(7, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", c -> {");
+					tl(8, "if(c.succeeded()) {");
+					tl(9, "definir", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", d -> {");
+					tl(10, "if(d.succeeded()) {");
+					tl(11, "attribuer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", e -> {");
+					tl(12, "if(e.succeeded()) {");
+					tl(13, "indexer", classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", f -> {");
+					tl(14, "if(f.succeeded()) {");
+					tl(15, "reponse200", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", g -> {");
+					tl(16, "if(g.succeeded()) {");
+					tl(17, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(17, "connexionSql.commit(h -> {");
+					tl(18, "if(a.succeeded()) {");
+					tl(19, "connexionSql.close(i -> {");
+					tl(20, "if(a.succeeded()) {");
+					tl(21, "gestionnaireEvenements.handle(Future.succeededFuture(g.result()));");
+					tl(20, "} else {");
+					tl(21, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, i);");
+					tl(20, "}");
+					tl(19, "});");
+					tl(18, "} else {");
+					tl(19, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, h);");
+					tl(18, "}");
+					tl(17, "});");
+					tl(16, "} else {");
+					tl(17, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, g);");
+					tl(16, "}");
+					tl(15, "});");
+					tl(14, "} else {");
+					tl(15, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, f);");
+					tl(14, "}");
+					tl(13, "});");
+					tl(12, "} else {");
+					tl(13, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, e);");
+					tl(12, "}");
+					tl(11, "});");
+					tl(10, "} else {");
+					tl(11, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, d);");
+					tl(10, "}");
+					tl(9, "});");
+					tl(8, "} else {");
+					tl(9, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, c);");
+					tl(8, "}");
+					tl(7, "});");
+					tl(6, "} else {");
+					tl(7, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
+					tl(6, "}");
+					tl(5, "});");
+					tl(4, "} else {");
+					tl(5, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
+					tl(4, "}");
+					tl(3, "});");
+					tl(2, "} catch(Exception e) {");
+					tl(3, "erreur", classeNomSimple, "(null, gestionnaireEvenements, Future.failedFuture(e));");
+					tl(2, "}");
 				}
 				else if(classeApiMethode.contains("DELETE")) {
-					tl(2, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
-					tl(2, "sql", classeNomSimple, "(requeteSite, a -> {");
-					tl(3, "if(a.succeeded()) {");
-					tl(4, "recherche", classeNomSimple, "(requeteSite, false, true, b -> {");
-					tl(5, "if(b.succeeded()) {");
-					tl(6, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = b.result();");
-					tl(6, "supprimer", classeApiMethode, classeNomSimple, "(requeteSite, c -> {");
-					tl(7, "if(c.succeeded()) {");
-					tl(8, "reponse200", classeApiMethode, classeNomSimple, "(requeteSite, d -> {");
-					tl(9, "if(d.succeeded()) {");
-					tl(10, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-					tl(10, "connexionSql.commit(e -> {");
-					tl(11, "if(a.succeeded()) {");
-					tl(12, "connexionSql.close(f -> {");
-					tl(13, "if(a.succeeded()) {");
-					tl(14, "gestionnaireEvenements.handle(Future.succeededFuture(d.result()));");
-					tl(13, "} else {");
-					tl(14, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, f);");
-					tl(13, "}");
-					tl(12, "});");
-					tl(11, "} else {");
-					tl(12, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, e);");
-					tl(11, "}");
-					tl(10, "});");
-					tl(9, "} else {");
-					tl(10, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, d);");
-					tl(9, "}");
-					tl(8, "});");
-					tl(7, "} else {");
-					tl(8, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, c);");
-					tl(7, "}");
-					tl(6, "});");
-					tl(5, "} else {");
-					tl(6, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
-					tl(5, "}");
-					tl(4, "});");
-					tl(3, "} else {");
-					tl(4, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
-					tl(3, "}");
-					tl(2, "});");
+					tl(2, "try {");
+					tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete);");
+					tl(3, "sql", classeNomSimple, "(requeteSite, a -> {");
+					tl(4, "if(a.succeeded()) {");
+					tl(5, "recherche", classeNomSimple, "(requeteSite, false, true, ", "null", ", b -> {");
+					tl(6, "if(b.succeeded()) {");
+					tl(7, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = b.result();");
+					tl(7, "supprimer", classeApiMethode, classeNomSimple, "(requeteSite, c -> {");
+					tl(8, "if(c.succeeded()) {");
+					tl(9, "reponse200", classeApiMethode, classeNomSimple, "(requeteSite, d -> {");
+					tl(10, "if(d.succeeded()) {");
+					tl(11, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(11, "connexionSql.commit(e -> {");
+					tl(12, "if(e.succeeded()) {");
+					tl(13, "connexionSql.close(f -> {");
+					tl(14, "if(f.succeeded()) {");
+					tl(15, "gestionnaireEvenements.handle(Future.succeededFuture(d.result()));");
+					tl(14, "} else {");
+					tl(15, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, f);");
+					tl(14, "}");
+					tl(13, "});");
+					tl(12, "} else {");
+					tl(13, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, e);");
+					tl(12, "}");
+					tl(11, "});");
+					tl(10, "} else {");
+					tl(11, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, d);");
+					tl(10, "}");
+					tl(9, "});");
+					tl(8, "} else {");
+					tl(9, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, c);");
+					tl(8, "}");
+					tl(7, "});");
+					tl(6, "} else {");
+					tl(7, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, b);");
+					tl(6, "}");
+					tl(5, "});");
+					tl(4, "} else {");
+					tl(5, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, a);");
+					tl(4, "}");
+					tl(3, "});");
+					tl(2, "} catch(Exception e) {");
+					tl(3, "erreur", classeNomSimple, "(null, gestionnaireEvenements, Future.failedFuture(e));");
+					tl(2, "}");
 				}
 				tl(1, "}");
 
@@ -733,90 +1134,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //					tl(2, ");");
 //					tl(2, "return future;");
 //					tl(1, "}");
-					l();
-					tl(1, "public void ", classeApiOperationIdMethode, "(RequeteSite requeteSite, Boolean peupler, Boolean stocker, Handler<AsyncResult<ListeRecherche<", classeNomSimple, ">>> gestionnaireEvenements) {");
-					tl(2, "try {");
-					tl(3, "OperationRequest operationRequete = requeteSite.getOperationRequete();");
-					tl(3, "String entiteListeStr = requeteSite.getOperationRequete().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
-					tl(3, "String[] entiteListe = entiteListeStr == null ? null : entiteListeStr.split(", q(",\\s*"), ");");
-					tl(3, "ListeRecherche<", classeNomSimple, "> listeRecherche = new ListeRecherche<", classeNomSimple, ">();");
-					tl(3, "listeRecherche.setPeupler(peupler);");
-					tl(3, "listeRecherche.setStocker(stocker);");
-					tl(3, "listeRecherche.setQuery(\"*:*\");");
-					tl(3, "listeRecherche.setC(", classeNomSimple, ".class);");
-					tl(3, "listeRecherche.setRows(1000000);");
-					tl(3, "if(entiteListe != null)");
-					tl(3, "listeRecherche.setFields(entiteListe);");
-					tl(3, "listeRecherche.addSort(\"partNumero_indexed_int\", ORDER.asc);");
-					l();
-					tl(3, "String pageUri = null;");
-					tl(3, "String id = operationRequete.getParams().getJsonObject(\"path\").getString(\"id\");");
-					tl(3, "if(", classeVarCleUnique, " != null) {");
-					tl(4, "pageUri = ", q(classeApiUriMethode, "/"), " + id;");
-					tl(4, "listeRecherche.addFilterQuery(\"pageUri_indexed_string:\" + ClientUtils.escapeQueryChars(pageUri));");
-					tl(3, "}");
-					l();
-					tl(3, "operationRequete.getParams().getJsonObject(\"query\").forEach(paramRequete -> {");
-					tl(4, "String entiteVar = null;");
-					tl(4, "String valeurIndexe = null;");
-					tl(4, "String varIndexe = null;");
-					tl(4, "String valeurTri = null;");
-					tl(4, "Integer rechercheDebut = null;");
-					tl(4, "Integer rechercheNum = null;");
-					tl(4, "String paramNom = paramRequete.getKey();");
-					tl(4, "Object paramValeursObjet = paramRequete.getValue();");
-					tl(4, "JsonArray paramObjets = paramValeursObjet instanceof JsonArray ? (JsonArray)paramValeursObjet : new JsonArray().add(paramValeursObjet);");
-					l();
-					tl(4, "for(Object paramObjet : paramObjets) {");
-					tl(5, "switch(paramNom) {");
-			
-					tl(6, "case \"q\":");
-					tl(7, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
-					tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\"));");
-					tl(7, "varIndexe = \"*\".equals(entiteVar) ? entiteVar : varIndexe", classeNomSimple, "(entiteVar);");
-					tl(7, "listeRecherche.setQuery(varIndexe + \":\" + (\"*\".equals(valeurIndexe) ? valeurIndexe : ClientUtils.escapeQueryChars(valeurIndexe)));");
-					tl(7, "break;");
-			
-					tl(6, "case \"fq\":");
-					tl(7, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
-					tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\"));");
-					tl(7, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
-					tl(7, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
-					tl(7, "break;");
-			
-					tl(6, "case \"sort\":");
-					tl(7, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \" \"));");
-					tl(7, "valeurTri = StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \" \"));");
-					tl(7, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
-					tl(7, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
-					tl(7, "break;");
-			
-					tl(6, "case \"fl\":");
-					tl(7, "entiteVar = StringUtils.trim((String)paramObjet);");
-					tl(7, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
-					tl(7, "listeRecherche.addField(varIndexe);");
-					tl(7, "break;");
-			
-					tl(6, "case \"start\":");
-					tl(7, "rechercheDebut = (Integer)paramObjet;");
-					tl(7, "listeRecherche.setStart(rechercheDebut);");
-					tl(7, "break;");
-			
-					tl(6, "case \"rows\":");
-					tl(7, "rechercheNum = (Integer)paramObjet;");
-					tl(7, "listeRecherche.setRows(rechercheNum);");
-					tl(7, "break;");
-			
-					tl(5, "}");
-			
-					tl(4, "}");
-					tl(3, "});");
-					tl(3, "listeRecherche.initLoinPourClasse(requeteSite);");
-					tl(3, "gestionnaireEvenements.handle(Future.succeededFuture(listeRecherche));");
-					tl(2, "} catch(Exception e) {");
-					tl(3, "gestionnaireEvenements.handle(Future.failedFuture(e));");
-					tl(2, "}");
-					tl(1, "}");
 				}
 				if(classeApiMethode.contains("POST")) {
 					l();
@@ -830,8 +1147,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(5, ", new JsonArray(Arrays.asList(", classeNomSimple, ".class.getCanonicalName(), utilisateurId))");
 					tl(5, ", creerAsync");
 					tl(3, "-> {");
-					tl(4, "JsonArray patchLigne = creerAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
-					tl(4, "Long ", classeVarClePrimaire, " = patchLigne.getLong(0);");
+					tl(4, "JsonArray creerLigne = creerAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
+					tl(4, "Long ", classeVarClePrimaire, " = creerLigne.getLong(0);");
 					tl(4, classeNomSimple, " o = new ", classeNomSimple, "();");
 					tl(4, "o.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
 					tl(4, "o.initLoin", classeNomSimple, "(requeteSite);");
@@ -1097,7 +1414,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(4, "w.t(2);");
 						tl(4, "if(i > 0)");
 						tl(5, "w.s(", q(", "), ");");
-						tl(4, "w.s(", q("{"), ");");
+						tl(4, "w.l(", q("{"), ");");
 	//					tl(4, "for(int j = 0; j < champNoms.size(); j++) {");
 	//					tl(5, "String entiteVarStocke = champNoms.get(j);");
 	//					tl(5, "List<Object> entiteValeurs = new ArrayList<>(documentSolr.getFieldValues(entiteVarStocke));");
@@ -1172,6 +1489,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();
+				Integer rechercheLignes = rechercheSolr.getRows();
 	
 				if(rechercheListe.size() > 0) {
 					for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
@@ -1213,21 +1531,25 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, ")");
 			tl(3, ", new CaseInsensitiveHeaders()");
 			tl(2, ");");
-			tl(2, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-			tl(2, "if(connexionSql != null) {");
-			tl(3, "connexionSql.rollback(a -> {");
-			tl(4, "if(a.succeeded()) {");
-			tl(5, "connexionSql.close(b -> {");
-			tl(6, "if(a.succeeded()) {");
-			tl(7, "gestionnaireEvenements.handle(Future.succeededFuture(reponseOperation));");
-			tl(6, "} else {");
-			tl(7, "gestionnaireEvenements.handle(Future.succeededFuture(reponseOperation));");
-			tl(6, "}");
-			tl(5, "});");
-			tl(4, "} else {");
-			tl(5, "gestionnaireEvenements.handle(Future.succeededFuture(reponseOperation));");
-			tl(4, "}");
-			tl(3, "});");
+			tl(2, "if(requeteSite != null) {");
+			tl(3, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+			tl(3, "if(connexionSql != null) {");
+			tl(4, "connexionSql.rollback(a -> {");
+			tl(5, "if(a.succeeded()) {");
+			tl(6, "connexionSql.close(b -> {");
+			tl(7, "if(a.succeeded()) {");
+			tl(8, "gestionnaireEvenements.handle(Future.succeededFuture(reponseOperation));");
+			tl(7, "} else {");
+			tl(8, "gestionnaireEvenements.handle(Future.succeededFuture(reponseOperation));");
+			tl(7, "}");
+			tl(6, "});");
+			tl(5, "} else {");
+			tl(6, "gestionnaireEvenements.handle(Future.succeededFuture(reponseOperation));");
+			tl(5, "}");
+			tl(4, "});");
+			tl(3, "} else {");
+			tl(4, "gestionnaireEvenements.handle(Future.succeededFuture(reponseOperation));");
+			tl(3, "}");
 			tl(2, "} else {");
 			tl(3, "gestionnaireEvenements.handle(Future.succeededFuture(reponseOperation));");
 			tl(2, "}");
@@ -1273,13 +1595,186 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "requeteSite.setOperationRequete(operationRequete);");
 			tl(2, "requeteSite.initLoinRequeteSite(requeteSite);");
 			l();
-	
-			tl(2, "UtilisateurSite utilisateurSite = new UtilisateurSite();");
-			tl(2, "utilisateurSite.initLoinUtilisateurSite(requeteSite);");
-			tl(2, "requeteSite.setUtilisateurSite(utilisateurSite);");
-			tl(2, "utilisateurSite.setRequeteSite_(requeteSite);");
-	
 			tl(2, "return requeteSite;");
+			tl(1, "}");
+			l();
+			tl(1, "public void utilisateur", classeNomSimple, "(RequeteSite requeteSite, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");
+			tl(2, "try {");
+			tl(3, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+			tl(3, "String utilisateurId = requeteSite.getUtilisateurId();");
+			tl(3, "if(utilisateurId == null) {");
+			tl(4, "gestionnaireEvenements.handle(Future.succeededFuture());");
+			tl(3, "} else {");
+			tl(4, "connexionSql.queryWithParams(");
+			tl(6, "SiteContexte.SQL_selectC");
+			tl(6, ", new JsonArray(Arrays.asList(", q(classePartsUtilisateurSite.nomCanonique), ", utilisateurId))");
+			tl(6, ", selectCAsync");
+			tl(4, "-> {");
+			tl(5, "if(selectCAsync.succeeded()) {");
+//					tl(4, "entiteValeur = Optional.ofNullable(documentSolr.getFieldValues(", q(entiteVar, "_stored", entiteSuffixeType), ")).map(Collection<Object>::stream).orElseGet(Stream::empty).findFirst().orElse(null);");
+			tl(6, "JsonArray utilisateurValeurs = selectCAsync.result().getResults().stream().findFirst().orElse(null);");
+			tl(6, "if(utilisateurValeurs == null) {");
+			tl(7, "connexionSql.queryWithParams(");
+			tl(9, "SiteContexte.SQL_creer");
+			tl(9, ", new JsonArray(Arrays.asList(UtilisateurSite.class.getCanonicalName(), utilisateurId))");
+			tl(9, ", creerAsync");
+			tl(7, "-> {");
+			tl(8, "JsonArray creerLigne = creerAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
+			tl(8, "Long ", classeVarClePrimaire, "Utilisateur = creerLigne.getLong(0);");
+			tl(8, "UtilisateurSite utilisateurSite = new UtilisateurSite();");
+			tl(8, "utilisateurSite.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, "Utilisateur);");
+			l();
+			tl(8, "connexionSql.queryWithParams(");
+			tl(10, "SiteContexte.SQL_definir");
+			tl(10, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "Utilisateur))");
+			tl(10, ", definirAsync");
+			tl(8, "-> {");
+			tl(9, "if(definirAsync.succeeded()) {");
+			tl(10, "try {");
+			tl(11, "for(JsonArray definition : definirAsync.result().getResults()) {");
+			tl(12, "utilisateurSite.definirPourClasse(definition.getString(0), definition.getString(1));");
+			tl(11, "}");
+			tl(11, "JsonObject utilisateurVertx = requeteSite.getOperationRequete().getUser();");
+			tl(11, "JsonObject principalJson = KeycloakHelper.parseToken(utilisateurVertx.getString(\"access_token\"));");
+			tl(11, "utilisateurSite.setUtilisateurNom(principalJson.getString(\"preferred_username\"));");
+			tl(11, "utilisateurSite.setUtilisateurPrenom(principalJson.getString(\"given_name\"));");
+			tl(11, "utilisateurSite.setUtilisateurNomFamille(principalJson.getString(\"family_name\"));");
+			tl(11, "utilisateurSite.setUtilisateurId(principalJson.getString(\"sub\"));");
+			tl(11, "utilisateurSite.initLoinPourClasse(requeteSite);");
+			tl(11, "utilisateurSite.indexerPourClasse();");
+			tl(11, "requeteSite.setUtilisateurSite(utilisateurSite);");
+			tl(11, "gestionnaireEvenements.handle(Future.succeededFuture());");
+			tl(10, "} catch(Exception e) {");
+			tl(11, "gestionnaireEvenements.handle(Future.failedFuture(e));");
+			tl(10, "}");
+			tl(9, "} else {");
+			tl(10, "gestionnaireEvenements.handle(Future.failedFuture(definirAsync.cause()));");
+			tl(9, "}");
+			tl(8, "});");
+
+			tl(7, "});");
+			tl(6, "} else {");
+			tl(7, "Long ", classeVarClePrimaire, "Utilisateur = utilisateurValeurs.getLong(0);");
+			tl(7, "UtilisateurSite utilisateurSite = new UtilisateurSite();");
+			tl(7, "utilisateurSite.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, "Utilisateur);");
+			l();
+			tl(7, "connexionSql.queryWithParams(");
+			tl(9, "SiteContexte.SQL_definir");
+			tl(9, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "Utilisateur))");
+			tl(9, ", definirAsync");
+			tl(7, "-> {");
+			tl(8, "if(definirAsync.succeeded()) {");
+			tl(9, "for(JsonArray definition : definirAsync.result().getResults()) {");
+			tl(10, "utilisateurSite.definirPourClasse(definition.getString(0), definition.getString(1));");
+			tl(9, "}");
+			tl(9, "JsonObject utilisateurVertx = requeteSite.getOperationRequete().getUser();");
+			tl(9, "JsonObject principalJson = KeycloakHelper.parseToken(utilisateurVertx.getString(\"access_token\"));");
+			tl(9, "utilisateurSite.setUtilisateurNom(principalJson.getString(\"preferred_username\"));");
+			tl(9, "utilisateurSite.setUtilisateurPrenom(principalJson.getString(\"given_name\"));");
+			tl(9, "utilisateurSite.setUtilisateurNomFamille(principalJson.getString(\"family_name\"));");
+			tl(9, "utilisateurSite.setUtilisateurId(principalJson.getString(\"sub\"));");
+			tl(9, "utilisateurSite.initLoinPourClasse(requeteSite);");
+			tl(9, "requeteSite.setUtilisateurSite(utilisateurSite);");
+			tl(9, "gestionnaireEvenements.handle(Future.succeededFuture());");
+			tl(8, "} else {");
+			tl(9, "gestionnaireEvenements.handle(Future.failedFuture(definirAsync.cause()));");
+			tl(8, "}");
+			tl(7, "});");
+
+			tl(6, "}");
+			tl(5, "} else {");
+			tl(6, "gestionnaireEvenements.handle(Future.failedFuture(selectCAsync.cause()));");
+			tl(5, "}");
+			tl(4, "});");
+			tl(3, "}");
+			tl(2, "} catch(Exception e) {");
+			tl(3, "gestionnaireEvenements.handle(Future.failedFuture(e));");
+			tl(2, "}");
+			tl(1, "}");
+			l();
+			tl(1, "public void recherche", classeNomSimple, "(RequeteSite requeteSite, Boolean peupler, Boolean stocker, String classeApiUriMethode, Handler<AsyncResult<ListeRecherche<", classeNomSimple, ">>> gestionnaireEvenements) {");
+			tl(2, "try {");
+			tl(3, "OperationRequest operationRequete = requeteSite.getOperationRequete();");
+			tl(3, "String entiteListeStr = requeteSite.getOperationRequete().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
+			tl(3, "String[] entiteListe = entiteListeStr == null ? null : entiteListeStr.split(", q(",\\s*"), ");");
+			tl(3, "ListeRecherche<", classeNomSimple, "> listeRecherche = new ListeRecherche<", classeNomSimple, ">();");
+			tl(3, "listeRecherche.setPeupler(peupler);");
+			tl(3, "listeRecherche.setStocker(stocker);");
+			tl(3, "listeRecherche.setQuery(\"*:*\");");
+			tl(3, "listeRecherche.setC(", classeNomSimple, ".class);");
+			tl(3, "listeRecherche.setRows(1000000);");
+			tl(3, "if(entiteListe != null)");
+			tl(3, "listeRecherche.setFields(entiteListe);");
+			tl(3, "listeRecherche.addSort(\"archive_indexed_boolean\", ORDER.asc);");
+			tl(3, "listeRecherche.addSort(\"supprime_indexed_boolean\", ORDER.asc);");
+			l();
+			tl(3, "String pageUri = null;");
+			tl(3, "String id = operationRequete.getParams().getJsonObject(\"path\").getString(\"id\");");
+			tl(3, "if(", classeVarCleUnique, " != null) {");
+			tl(4, "pageUri = classeApiUriMethode + ", q("/"), " + id;");
+			tl(4, "listeRecherche.addFilterQuery(\"pageUri_indexed_string:\" + ClientUtils.escapeQueryChars(pageUri));");
+			tl(3, "}");
+			l();
+			tl(3, "operationRequete.getParams().getJsonObject(\"query\").forEach(paramRequete -> {");
+			tl(4, "String entiteVar = null;");
+			tl(4, "String valeurIndexe = null;");
+			tl(4, "String varIndexe = null;");
+			tl(4, "String valeurTri = null;");
+			tl(4, "Integer rechercheDebut = null;");
+			tl(4, "Integer rechercheNum = null;");
+			tl(4, "String paramNom = paramRequete.getKey();");
+			tl(4, "Object paramValeursObjet = paramRequete.getValue();");
+			tl(4, "JsonArray paramObjets = paramValeursObjet instanceof JsonArray ? (JsonArray)paramValeursObjet : new JsonArray().add(paramValeursObjet);");
+			l();
+			tl(4, "for(Object paramObjet : paramObjets) {");
+			tl(5, "switch(paramNom) {");
+	
+			tl(6, "case \"q\":");
+			tl(7, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
+			tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\"));");
+			tl(7, "varIndexe = \"*\".equals(entiteVar) ? entiteVar : varIndexe", classeNomSimple, "(entiteVar);");
+			tl(7, "listeRecherche.setQuery(varIndexe + \":\" + (\"*\".equals(valeurIndexe) ? valeurIndexe : ClientUtils.escapeQueryChars(valeurIndexe)));");
+			tl(7, "break;");
+	
+			tl(6, "case \"fq\":");
+			tl(7, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
+			tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\"));");
+			tl(7, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
+			tl(7, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
+			tl(7, "break;");
+	
+			tl(6, "case \"sort\":");
+			tl(7, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \" \"));");
+			tl(7, "valeurTri = StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \" \"));");
+			tl(7, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
+			tl(7, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
+			tl(7, "break;");
+	
+			tl(6, "case \"fl\":");
+			tl(7, "entiteVar = StringUtils.trim((String)paramObjet);");
+			tl(7, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
+			tl(7, "listeRecherche.addField(varIndexe);");
+			tl(7, "break;");
+	
+			tl(6, "case \"start\":");
+			tl(7, "rechercheDebut = (Integer)paramObjet;");
+			tl(7, "listeRecherche.setStart(rechercheDebut);");
+			tl(7, "break;");
+	
+			tl(6, "case \"rows\":");
+			tl(7, "rechercheNum = (Integer)paramObjet;");
+			tl(7, "listeRecherche.setRows(rechercheNum);");
+			tl(7, "break;");
+	
+			tl(5, "}");
+	
+			tl(4, "}");
+			tl(3, "});");
+			tl(3, "listeRecherche.initLoinPourClasse(requeteSite);");
+			tl(3, "gestionnaireEvenements.handle(Future.succeededFuture(listeRecherche));");
+			tl(2, "} catch(Exception e) {");
+			tl(3, "gestionnaireEvenements.handle(Future.failedFuture(e));");
+			tl(2, "}");
 			tl(1, "}");
 			l();
 			tl(1, "public void definir", classeNomSimple, "(", classeNomSimple, " o, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements) {");

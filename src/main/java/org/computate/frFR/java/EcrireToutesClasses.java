@@ -355,6 +355,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classWriteMethods
 	 * r: classeEcrireEcrivains
 	 * r.enUS: classWriteWriters
+	 * r: classeEntiteVars
+	 * r.enUS: classEntityVars
+	 * r: classeMethodeVars
+	 * r.enUS: classMethodVars
 	 * 
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
@@ -463,9 +467,14 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouves_stored_boolean"));
 					classeRoles = (List<String>)doc.get("classeRoles_" + langueNom + "_stored_strings");
 					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_stored_strings");
-					classeEntiteVars = (List<String>)doc.get("classeEntiteVars_" + langueNom + "_stored_strings");
 					if(classeApiMethodes == null)
 						classeApiMethodes = new ArrayList<>();
+					classeEntiteVars = (List<String>)doc.get("classeEntiteVars_" + langueNom + "_stored_strings");
+					if(classeEntiteVars == null)
+						classeEntiteVars = new ArrayList<>();
+					classeMethodeVars = (List<String>)doc.get("classeMethodeVars_" + langueNom + "_stored_strings");
+					if(classeMethodeVars == null)
+						classeMethodeVars = new ArrayList<>();
 					entiteIndice = 0;   
 
 					classeContexte = (Boolean)doc.get("classeContexte_stored_boolean");

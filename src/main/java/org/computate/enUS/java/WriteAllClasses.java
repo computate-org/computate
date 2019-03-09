@@ -130,9 +130,14 @@ public class WriteAllClasses extends WritePageClass {
 					classRolesFound = BooleanUtils.isTrue((Boolean)doc.get("classRolesFound_stored_boolean"));
 					classRoles = (List<String>)doc.get("classRoles_" + languageName + "_stored_strings");
 					classApiMethods = (List<String>)doc.get("classApiMethods_stored_strings");
-					classEntityVars = (List<String>)doc.get("classEntityVars_" + languageName + "_stored_strings");
 					if(classApiMethods == null)
 						classApiMethods = new ArrayList<>();
+					classEntityVars = (List<String>)doc.get("classEntityVars_" + languageName + "_stored_strings");
+					if(classEntityVars == null)
+						classEntityVars = new ArrayList<>();
+					classMethodVars = (List<String>)doc.get("classMethodVars_" + languageName + "_stored_strings");
+					if(classMethodVars == null)
+						classMethodVars = new ArrayList<>();
 					entityIndex = 0;   
 
 					classContext = (Boolean)doc.get("classContext_stored_boolean");

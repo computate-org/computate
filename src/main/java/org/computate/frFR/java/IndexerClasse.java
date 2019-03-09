@@ -1929,8 +1929,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: appName
 	 * r: classeMethodesEcrites
 	 * r.enUS: classMethodsWritten
-	 * r: classeSuperGeneriqueQdox
-	 * r.enUS: superClassGenericQdox
 	 * r: classeBaseEtendGen
 	 * r.enUS: baseClassExtendsGen
 	 * r: etendGen
@@ -2458,6 +2456,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityWriteMethod
 	 * r: classeEntiteVars
 	 * r.enUS: classEntityVars
+	 * r: classeSuperEntiteVars
+	 * r.enUS: classSuperEntityVars
+	 * r: classeMethodeVars
+	 * r.enUS: classMethodVars
+	 * r: classeSuperMethodeVars
+	 * r.enUS: classSuperMethodVars
 	 * r: classeSuperEntiteVar
 	 * r.enUS: classSuperEntityVar
 	 * 
@@ -2795,7 +2799,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomCompletSuperGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(classeNomCompletSuper, "<"), ">");
 		String classeNomCanoniqueSuperGenerique = null;
 		String classeNomSimpleSuperGenerique = null;
-		JavaClass classeSuperGeneriqueQdox = null;
 		Boolean classeBaseEtendGen = false;
 		if(StringUtils.isNotEmpty(classeNomCompletSuper)) {
 			indexerStockerSolr(classeDoc, "classeNomCompletSuperGenerique", langueNom, classeNomCompletSuperGenerique);
@@ -2803,7 +2806,6 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeNomCanoniqueSuperGenerique = StringUtils.substringAfter(StringUtils.substringBeforeLast(classeNomCompletSuper, ">"), "<");
 				classeNomCanoniqueSuperGenerique = classeNomCanoniqueSuperGenerique.contains(",") ? StringUtils.substringBefore(classeNomCanoniqueSuperGenerique, ",") : classeNomCanoniqueSuperGenerique;
 				indexerStockerSolr(classeDoc, "classeNomCanoniqueSuperGenerique", langueNom, classeNomCanoniqueSuperGenerique);
-				classeSuperGeneriqueQdox = bricoleur.getClassByName(classeNomCanoniqueSuperGenerique);
 				classeNomCompletSuperGenerique = classeNomCanoniqueSuperGenerique;
 
 				if(classeNomCanoniqueSuperGenerique.contains("."))
@@ -3106,6 +3108,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.nio.charset.Charset", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.http.NameValuePair", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.OperationRequest", langueNom));
+			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.oauth2.KeycloakHelper", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.sql.SQLConnection", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Optional", langueNom));
 			classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Stream", langueNom));
@@ -4527,6 +4530,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						
 						SolrInputDocument methodeDoc = classeDocClone.deepCopy();
 						indexerStockerSolr(methodeDoc, "methodeVar", langueNom, methodeVar);
+						indexerStockerListeSolr(classeDoc, "classeMethodeVars", langueNom, methodeVar);
 						for(Integer methodeParamNum = 1; methodeParamNum <= methodeParamsQdox.size(); methodeParamNum++) {
 							JavaParameter methodeParamQdox = methodeParamsQdox.get(methodeParamNum - 1);
 							String methodeParamVar = methodeParamQdox.getName();
@@ -5065,6 +5069,14 @@ public class IndexerClasse extends RegarderClasseBase {
 			if(classeSuperEntiteVars != null) {
 				for(String classeSuperEntiteVar : classeSuperEntiteVars)
 					indexerStockerListeSolr(classeDoc, "classeEntiteVars", langueNom, classeSuperEntiteVar);
+			}
+		}
+
+		if(classeSuperDoc != null) {
+			List<String> classeSuperMethodeVars = (List<String>)classeSuperDoc.get("classeMethodeVars_" + langueNom + "_stored_strings");
+			if(classeSuperMethodeVars != null) {
+				for(String classeSuperMethodeVar : classeSuperMethodeVars)
+					indexerStockerListeSolr(classeDoc, "classeMethodeVars", langueNom, classeSuperMethodeVar);
 			}
 		}
 

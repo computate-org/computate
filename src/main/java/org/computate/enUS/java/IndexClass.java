@@ -642,7 +642,6 @@ public class IndexClass extends WatchClassBase {
 		String classSuperCompleteNameGeneric = StringUtils.substringBeforeLast(StringUtils.substringAfter(classSuperCompleteName, "<"), ">");
 		String classSuperCanonicalNameGeneric = null;
 		String classSuperSimpleNameGeneric = null;
-		JavaClass superClassGenericQdox = null;
 		Boolean baseClassExtendsGen = false;
 		if(StringUtils.isNotEmpty(classSuperCompleteName)) {
 			indexStoreSolr(classDoc, "classSuperCompleteNameGeneric", languageName, classSuperCompleteNameGeneric);
@@ -650,7 +649,6 @@ public class IndexClass extends WatchClassBase {
 				classSuperCanonicalNameGeneric = StringUtils.substringAfter(StringUtils.substringBeforeLast(classSuperCompleteName, ">"), "<");
 				classSuperCanonicalNameGeneric = classSuperCanonicalNameGeneric.contains(",") ? StringUtils.substringBefore(classSuperCanonicalNameGeneric, ",") : classSuperCanonicalNameGeneric;
 				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classSuperCanonicalNameGeneric);
-				superClassGenericQdox = builder.getClassByName(classSuperCanonicalNameGeneric);
 				classSuperCompleteNameGeneric = classSuperCanonicalNameGeneric;
 
 				if(classSuperCanonicalNameGeneric.contains("."))
@@ -953,6 +951,7 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.nio.charset.Charset", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.http.NameValuePair", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationRequest", languageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.auth.oauth2.KeycloakHelper", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Optional", languageName));
 			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.stream.Stream", languageName));
@@ -2374,6 +2373,7 @@ public class IndexClass extends WatchClassBase {
 						
 						SolrInputDocument methodDoc = classDocClone.deepCopy();
 						indexStoreSolr(methodDoc, "methodVar", languageName, methodVar);
+						indexStoreListSolr(classDoc, "classMethodVars", languageName, methodVar);
 						for(Integer methodParamNum = 1; methodParamNum <= methodParamsQdox.size(); methodParamNum++) {
 							JavaParameter methodParamQdox = methodParamsQdox.get(methodParamNum - 1);
 							String methodeParamVar = methodParamQdox.getName();
@@ -2912,6 +2912,14 @@ public class IndexClass extends WatchClassBase {
 			if(classSuperEntityVars != null) {
 				for(String classSuperEntityVar : classSuperEntityVars)
 					indexStoreListSolr(classDoc, "classEntityVars", languageName, classSuperEntityVar);
+			}
+		}
+
+		if(classSuperDoc != null) {
+			List<String> classSuperMethodVars = (List<String>)classSuperDoc.get("classMethodVars_" + languageName + "_stored_strings");
+			if(classSuperMethodVars != null) {
+				for(String classSuperMethodeVar : classSuperMethodVars)
+					indexStoreListSolr(classDoc, "classMethodVars", languageName, classSuperMethodeVar);
 			}
 		}
 

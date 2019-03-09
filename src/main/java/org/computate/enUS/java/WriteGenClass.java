@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -271,6 +272,18 @@ public class WriteGenClass extends WriteClass {
 	Boolean entityIndexed;
 
 	Boolean entityStored;
+
+	String entitySolrCanonicalName;
+
+	String entitySolrSimpleName;
+
+	String entitySimpleNameVertxJson;
+
+	String entityCanonicalNameVertxJson;
+
+	String entityListSimpleNameVertxJson;
+
+	String entityListCanonicalNameVertxJson;
 
 	SolrDocument entitySolrDocument;
 
@@ -1852,16 +1865,16 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 					else if(entitySimpleName.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entityVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, "));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList") || entitySimpleName.equals("Set") || entitySimpleName.equals("HashSet")) {
 						tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
@@ -1879,16 +1892,16 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 					else if(entitySimpleName.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(java.time.ZonedDateTime.ofInstant(", entityVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entityVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, "));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList") || entitySimpleName.equals("Set") || entitySimpleName.equals("HashSet")) {
 						tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
@@ -2080,285 +2093,6 @@ public class WriteGenClass extends WriteClass {
 	//		}
 	//		if(entityAttribute)
 	//			tl(1, "public static final String ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, " = \"", entityAttributeVar, "\";");
-	
-			/////////////////
-			// codeApiGet //
-			/////////////////
-//			o = wApiGet;
-//			if(classIndexed && entityIndexed) {
-//				tl(3, "case \"", entityVar, "\":");
-//				tl(4, "return \"", entityVar, "_indexed", entityTypeSuffix, "\";");
-//			}
-	
-			///////////////////////
-			// codeApiGenererGet //
-			///////////////////////
-			o = wApiGenerateGet;
-			if(classIndexed && entityStored) {
-//				tl(4, "if(", q(entityVar, "_stored", entityTypeSuffix), ".equals(entityVarStored)) {");
-				if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameList, VAL_canonicalNameArrayList, VAL_canonicalNameSet, VAL_canonicalNameHashSet)) {
-					if(VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(((Boolean)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_canonicalNameZonedDateTime.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime()));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(((Long)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_canonicalNameBigDecimal.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(BigDecimal.valueOf((Double)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(((Double)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(((Float)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else if(VAL_canonicalNameInteger.equals(entityCanonicalNameGeneric)) {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(((Integer)fieldValue).toString());");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-					else {
-						l();
-						tl(4, "{");
-						tl(5, entitySimpleNameComplete, " fieldValues = o.get", entityVarCapitalized, "();");
-						tl(5, "w.s(entityNumero++ == 0 ? \"\" : \", \");");
-						tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-						tl(5, "int k = 0;");
-						tl(5, "while(fieldValue != null) {");
-						tl(6, "if(k > 0)");
-						tl(7, "w.s(\", \");");
-						tl(6, "w.s(\", \");");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "w.s(((String)fieldValue));");
-						tl(6, "w.s(\"\\\"\");");
-						tl(6, "fieldValue = fieldValues.iterator().hasNext() ? fieldValues.iterator().next() : null;");
-						tl(5, "}");
-						tl(5, "w.s(\"]\");");
-						tl(4, "}");
-					}
-				}
-				else {
-					l();
-					tl(4, "fieldValue = o.get", entityVarCapitalized, "();");
-//					tl(4, "fieldValue = Optional.ofNullable(documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ")).map(Collection<Object>::stream).orElseGet(Stream::empty).findFirst().orElse(null);");
-//					tl(4, "fieldValue = documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ").stream().findFirst().orElse(null);");
-//					tl(5, "fieldValue = documentSolr.getFieldValues(", q(entityVar, "_stored", entityTypeSuffix), ").stream().findFirst().orElse(null);");
-					tl(4, "if(fieldValue != null)");
-					if (VAL_canonicalNameBoolean.equals(entitySolrCanonicalName)) {
-//						tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-
-						// tomorrow put this line everywhere. 
-						tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
-					} else if (VAL_canonicalNameDate.equals(entitySolrCanonicalName)) {
-						if (VAL_canonicalNameTimestamp.equals(entityCanonicalName)) {
-//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
-							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
-						} else if (VAL_canonicalNameZonedDateTime.equals(entityCanonicalName)) {
-//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime());");
-							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
-						} else if (VAL_canonicalNameLocalDateTime.equals(entityCanonicalName)) {
-//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
-							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
-						} else if (VAL_canonicalNameLocalDate.equals(entityCanonicalName)) {
-//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());");
-							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
-						} else {
-//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)fieldValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());");
-							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
-						}
-					} else if (VAL_canonicalNameLong.equals(entitySolrCanonicalName)) {
-//						tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-						tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
-					} else if (VAL_canonicalNameDouble.equals(entitySolrCanonicalName)) {
-						if (VAL_canonicalNameBigDecimal.equals(entityCanonicalName)) {
-//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
-						}
-						else {
-//							tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-							tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
-						}
-					} else if (VAL_canonicalNameFloat.equals(entitySolrCanonicalName)) {
-//						tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-						tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
-					} else if (VAL_canonicalNameInteger.equals(entitySolrCanonicalName)) {
-//						tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-						tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", fieldValue);");
-					}
-					else {
-//						tl(5, "Object entityStr = fieldValue == null ? ", q("null"), " : fieldValue;");
-						tl(5, "w.l(entityNumero++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entityVar), ": "), ", w.q(fieldValue));");
-					}
-				}
-//				tl(3, ");");
-//				tl(3, "}");
-			}
 	
 			////////////////////////
 			// codeApiGenererPost //
@@ -2671,8 +2405,6 @@ public class WriteGenClass extends WriteClass {
 		wSaves.flushClose();
 		wDefine.flushClose();
 		wApiEntities.flushClose();
-		wApiGet.flushClose();
-		wApiGenerateGet.flushClose();
 		wPageEntities.flushClose();
 		wPageGet.flushClose();
 		wHashCode.flushClose();
