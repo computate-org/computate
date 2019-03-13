@@ -1,7 +1,9 @@
 package org.computate.enUS.java;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -164,6 +166,9 @@ public class WriteApiClass extends WriteGenClass {
 							SolrDocument doc = searchListe.get(j);
 							entityVar = (String)doc.get("entityVar_" + languageName + "_stored_string");
 							entityVarCapitalise = (String)doc.get("entityVarCapitalise_" + languageName + "_stored_string");
+							entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
+							entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + languageName + "_stored_string");
+							entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
 							entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
 							entiteIndexe = (Boolean)doc.get("entiteIndexe_stored_boolean");
 							entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
@@ -457,6 +462,103 @@ public class WriteApiClass extends WriteGenClass {
 				//				tl(3, ");");
 				//				tl(3, "}");
 							}
+					
+							////////////////////////
+							// codeApiGenererPatch //
+							////////////////////////
+							o = wApiGeneratePatch;
+
+							if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
+								Integer tBase = 3;
+								if(BooleanUtils.isTrue(entiteAttribuer)) {
+									if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
+						
+										if(StringUtils.compare(entityVar, entiteAttribuerVar) <= 0) {
+											tl(tBase + 2, "case \"add", entityVarCapitalise, "\":");
+											tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", "));");
+					
+											tl(tBase + 2, "case \"addAll", entityVarCapitalise, "\":");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entityVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+											tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalise, "Valeurs.size(); i++) {");
+											tl(tBase + 4, "patchSql.append(SiteContext.SQL_addA);");
+											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entiteAttribuerVar), ", addAll", entityVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", "));");
+											tl(tBase + 3, "}");
+						
+											tl(tBase + 2, "case \"set", entityVarCapitalise, "\":");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " set", entityVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+											tl(tBase + 3, "patchSql.append(SiteContext.SQL_clearA1);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)", "));");
+					
+											tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalise, "Valeurs.size(); i++) {");
+											tl(tBase + 4, "patchSql.append(SiteContext.SQL_addA);");
+											tl(tBase + 4, "patchSqlParams.set(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entiteAttribuerVar), ", addAll", entityVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", "));");
+											tl(tBase + 3, "}");
+										}
+										else {
+											tl(tBase + 2, "case \"add", entityVarCapitalise, "\":");
+											tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", "));");
+					
+											tl(tBase + 2, "case \"addAll", entityVarCapitalise, "\":");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entityVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+											tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalise, "Valeurs.size(); i++) {");
+											tl(tBase + 4, "patchSql.append(SiteContext.SQL_setA2);");
+											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", ", "addAll", entityVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", q(entityVar), ", ", classVarPrimaryKey, "));");
+											tl(tBase + 3, "}");
+						
+											tl(tBase + 2, "case \"set", entityVarCapitalise, "\":");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " set", entityVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+											tl(tBase + 3, "patchSql.append(SiteContext.SQL_clearA2);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", ", ", q(entityVar), ", ", classVarPrimaryKey, "));");
+					
+											tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalise, "Valeurs.size(); i++) {");
+											tl(tBase + 4, "patchSql.append(SiteContext.SQL_setA2);");
+											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", set", entityVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", q(entityVar), ", ", classVarPrimaryKey, "));");
+											tl(tBase + 3, "}");
+										}
+									}
+									else {
+						
+										tl(tBase + 2, "case \"set", entityVarCapitalise, "\":");
+										if(StringUtils.compare(entityVar, entiteAttribuerVar) <= 0) {
+											tl(tBase + 3, "o2.set", entityVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+											tl(tBase + 3, "patchSql.append(SiteContext.SQL_setA1);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entiteAttribuerVar), ", o2.get", entityVarCapitalise, "()));");
+										}
+										else {
+											tl(tBase + 3, "o2.set", entityVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+											tl(tBase + 3, "patchSql.append(SiteContext.SQL_setA2);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", o2.get", entityVarCapitalise, "()", ", ", q(entityVar), ", ", classVarPrimaryKey, "));");
+										}
+									}
+						
+									tl(tBase + 7, "break;");
+								}
+								else if(BooleanUtils.isTrue(entiteDefinir)) {
+									if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
+						
+										tl(tBase + 2, "case \"add", entityVarCapitalise, "\":");
+										tl(tBase + 3, "o2.set", entityVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+										tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
+										tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", o2.get", entityVarCapitalise, "()", ", ", classVarPrimaryKey, "));");
+						
+										tl(tBase + 2, "case \"set", entityVarCapitalise, "\":");
+										tl(tBase + 3, "o2.set", entityVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+										tl(tBase + 3, "patchSql.append(SiteContext.SQL_setD);");
+										tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.get", entityVarCapitalise, "(), ", classVarPrimaryKey, "));");
+									}
+									else {
+						
+										tl(tBase + 2, "case \"set", entityVarCapitalise, "\":");
+										tl(tBase + 3, "o2.set", entityVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+										tl(tBase + 3, "patchSql.append(SiteContext.SQL_setD);");
+										tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.get", entityVarCapitalise, "(), ", classVarPrimaryKey, "));");
+									}
+						
+									tl(tBase + 3, "break;");
+								}
+							}	
 						}
 						searchSolr.setStart(i.intValue() + searchLignes);
 						searchReponse = clientSolrComputate.query(searchSolr);
@@ -579,17 +681,23 @@ public class WriteApiClass extends WriteGenClass {
 					tl(3, "SiteRequest siteRequest = genererSiteRequestPour", classSimpleName, "(siteContext, operationRequest, body);");
 					tl(3, "sql", classSimpleName, "(siteRequest, a -> {");
 					tl(4, "if(a.succeeded()) {");
-					tl(5, "search", classSimpleName, "(siteRequest, false, true, ", "null", ", b -> {");
+					tl(5, "utilisateur", classSimpleName, "(siteRequest, b -> {");
 					tl(6, "if(b.succeeded()) {");
-					tl(7, "ListeRecherche<", classSimpleName, "> liste", classSimpleName, " = b.result();");
-					tl(7, "liste", classApiMethod, classSimpleName, "(liste", classSimpleName, ", c -> {");
+					tl(7, "search", classSimpleName, "(siteRequest, false, true, ", "null", ", c -> {");
 					tl(8, "if(c.succeeded()) {");
-					tl(9, "SQLConnection sqlConnection = siteRequest.getConnexionSql();");
-					tl(9, "sqlConnection.commit(d -> {");
-					tl(10, "if(a.succeeded()) {");
-					tl(11, "sqlConnection.close(e -> {");
-					tl(12, "if(a.succeeded()) {");
-					tl(13, "eventHandler.handle(Future.succeededFuture(c.result()));");
+					tl(9, "ListeRecherche<", classSimpleName, "> liste", classSimpleName, " = c.result();");
+					tl(9, "liste", classApiMethod, classSimpleName, "(liste", classSimpleName, ", d -> {");
+					tl(10, "if(d.succeeded()) {");
+					tl(11, "SQLConnection sqlConnection = siteRequest.getConnexionSql();");
+					tl(11, "sqlConnection.commit(e -> {");
+					tl(12, "if(e.succeeded()) {");
+					tl(13, "sqlConnection.close(f -> {");
+					tl(14, "if(f.succeeded()) {");
+					tl(15, "eventHandler.handle(Future.succeededFuture(d.result()));");
+					tl(14, "} else {");
+					tl(15, "erreur", classSimpleName, "(siteRequest, eventHandler, f);");
+					tl(14, "}");
+					tl(13, "});");
 					tl(12, "} else {");
 					tl(13, "erreur", classSimpleName, "(siteRequest, eventHandler, e);");
 					tl(12, "}");
@@ -838,11 +946,11 @@ public class WriteApiClass extends WriteGenClass {
 					tl(1, "public void create", classApiMethod, classSimpleName, "(SiteRequest siteRequest, Handler<AsyncResult<", classSimpleName, ">> eventHandler) {");
 					tl(2, "try {");
 					tl(3, "SQLConnection sqlConnection = siteRequest.getConnexionSql();");
-					tl(3, "String utilisateurId = siteRequest.getUtilisateurId();");
+					tl(3, "String userId = siteRequest.getUserId();");
 					l();
 					tl(3, "sqlConnection.queryWithParams(");
 					tl(5, "SiteContext.SQL_create");
-					tl(5, ", new JsonArray(Arrays.asList(", classSimpleName, ".class.getCanonicalName(), utilisateurId))");
+					tl(5, ", new JsonArray(Arrays.asList(", classSimpleName, ".class.getCanonicalName(), userId))");
 					tl(5, ", createAsync");
 					tl(3, "-> {");
 					tl(4, "JsonArray createLigne = createAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
@@ -891,6 +999,8 @@ public class WriteApiClass extends WriteGenClass {
 					tl(3, "Set<String> methodeNoms = requeteJson.fieldNames();");
 					tl(3, classSimpleName, " o2 = new ", classSimpleName, "();");
 					l();
+					tl(3, "patchSql.append(SiteContext.SQL_modifier);");
+					tl(3, "patchSqlParams.addAll(Arrays.asList(pk, ", q(classeNomCanonique), "));");
 					tl(3, "for(String methodeNom : methodeNoms) {");
 					tl(4, "switch(methodeNom) {");
 					s(wApiGeneratePatch.toString());
@@ -919,7 +1029,7 @@ public class WriteApiClass extends WriteGenClass {
 					tl(3, "Long ", classVarPrimaryKey, " = o.get", StringUtils.capitalize(classVarPrimaryKey), "();");
 					tl(3, "sqlConnection.queryWithParams(");
 					tl(5, "SiteContext.SQL_definir");
-					tl(5, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "))");
+					tl(5, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, ", ", classVarPrimaryKey, ", ", classVarPrimaryKey, "))");
 					tl(5, ", definirAsync");
 					tl(3, "-> {");
 					tl(4, "if(definirAsync.succeeded()) {");
@@ -954,7 +1064,7 @@ public class WriteApiClass extends WriteGenClass {
 					tl(1, "public void remplacer", classApiMethod, classSimpleName, "(SiteRequest siteRequest, Handler<AsyncResult<", classSimpleName, ">> eventHandler) {");
 					tl(2, "try {");
 					tl(3, "SQLConnection sqlConnection = siteRequest.getConnexionSql();");
-					tl(3, "String utilisateurId = siteRequest.getUtilisateurId();");
+					tl(3, "String userId = siteRequest.getUserId();");
 					tl(3, "Long pk = siteRequest.getRequetePk();");
 					l();
 					tl(3, "sqlConnection.queryWithParams(");
@@ -1009,7 +1119,7 @@ public class WriteApiClass extends WriteGenClass {
 					tl(1, "public void supprimer", classApiMethod, classSimpleName, "(SiteRequest siteRequest, Handler<AsyncResult<OperationResponse>> eventHandler) {");
 					tl(2, "try {");
 					tl(3, "SQLConnection sqlConnection = siteRequest.getConnexionSql();");
-					tl(3, "String utilisateurId = siteRequest.getUtilisateurId();");
+					tl(3, "String userId = siteRequest.getUserId();");
 					tl(3, "Long pk = siteRequest.getRequetePk();");
 					l();
 					tl(3, "sqlConnection.queryWithParams(");
@@ -1299,13 +1409,13 @@ public class WriteApiClass extends WriteGenClass {
 			tl(1, "public void utilisateur", classSimpleName, "(SiteRequest siteRequest, Handler<AsyncResult<OperationResponse>> eventHandler) {");
 			tl(2, "try {");
 			tl(3, "SQLConnection sqlConnection = siteRequest.getConnexionSql();");
-			tl(3, "String utilisateurId = siteRequest.getUtilisateurId();");
-			tl(3, "if(utilisateurId == null) {");
+			tl(3, "String userId = siteRequest.getUserId();");
+			tl(3, "if(userId == null) {");
 			tl(4, "eventHandler.handle(Future.succeededFuture());");
 			tl(3, "} else {");
 			tl(4, "sqlConnection.queryWithParams(");
 			tl(6, "SiteContext.SQL_selectC");
-			tl(6, ", new JsonArray(Arrays.asList(", q(classPartsUtilisateurSite.canonicalName), ", utilisateurId))");
+			tl(6, ", new JsonArray(Arrays.asList(", q(classPartsUtilisateurSite.canonicalName), ", userId))");
 			tl(6, ", selectCAsync");
 			tl(4, "-> {");
 			tl(5, "if(selectCAsync.succeeded()) {");
@@ -1314,7 +1424,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(6, "if(userValues == null) {");
 			tl(7, "sqlConnection.queryWithParams(");
 			tl(9, "SiteContext.SQL_create");
-			tl(9, ", new JsonArray(Arrays.asList(UtilisateurSite.class.getCanonicalName(), utilisateurId))");
+			tl(9, ", new JsonArray(Arrays.asList(UtilisateurSite.class.getCanonicalName(), userId))");
 			tl(9, ", createAsync");
 			tl(7, "-> {");
 			tl(8, "JsonArray createLigne = createAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");
@@ -1324,7 +1434,7 @@ public class WriteApiClass extends WriteGenClass {
 			l();
 			tl(8, "sqlConnection.queryWithParams(");
 			tl(10, "SiteContext.SQL_definir");
-			tl(10, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "Utilisateur))");
+			tl(10, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "Utilisateur, ", classVarPrimaryKey, "Utilisateur, ", classVarPrimaryKey, "Utilisateur))");
 			tl(10, ", definirAsync");
 			tl(8, "-> {");
 			tl(9, "if(definirAsync.succeeded()) {");
@@ -1337,7 +1447,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(11, "utilisateurSite.setUtilisateurNom(principalJson.getString(\"preferred_username\"));");
 			tl(11, "utilisateurSite.setUtilisateurPrenom(principalJson.getString(\"given_name\"));");
 			tl(11, "utilisateurSite.setUtilisateurNomFamille(principalJson.getString(\"family_name\"));");
-			tl(11, "utilisateurSite.setUtilisateurId(principalJson.getString(\"sub\"));");
+			tl(11, "utilisateurSite.setUserId(principalJson.getString(\"sub\"));");
 			tl(11, "utilisateurSite.initLoinPourClasse(siteRequest);");
 			tl(11, "utilisateurSite.indexerPourClasse();");
 			tl(11, "siteRequest.setUtilisateurSite(utilisateurSite);");
@@ -1358,7 +1468,7 @@ public class WriteApiClass extends WriteGenClass {
 			l();
 			tl(7, "sqlConnection.queryWithParams(");
 			tl(9, "SiteContext.SQL_definir");
-			tl(9, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "Utilisateur))");
+			tl(9, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "Utilisateur, ", classVarPrimaryKey, "Utilisateur, ", classVarPrimaryKey, "Utilisateur))");
 			tl(9, ", definirAsync");
 			tl(7, "-> {");
 			tl(8, "if(definirAsync.succeeded()) {");
@@ -1370,7 +1480,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(9, "utilisateurSite.setUtilisateurNom(principalJson.getString(\"preferred_username\"));");
 			tl(9, "utilisateurSite.setUtilisateurPrenom(principalJson.getString(\"given_name\"));");
 			tl(9, "utilisateurSite.setUtilisateurNomFamille(principalJson.getString(\"family_name\"));");
-			tl(9, "utilisateurSite.setUtilisateurId(principalJson.getString(\"sub\"));");
+			tl(9, "utilisateurSite.setUserId(principalJson.getString(\"sub\"));");
 			tl(9, "utilisateurSite.initLoinPourClasse(siteRequest);");
 			tl(9, "siteRequest.setUtilisateurSite(utilisateurSite);");
 			tl(9, "eventHandler.handle(Future.succeededFuture());");
@@ -1400,11 +1510,18 @@ public class WriteApiClass extends WriteGenClass {
 			tl(3, "listeRecherche.setStocker(stocker);");
 			tl(3, "listeRecherche.setQuery(\"*:*\");");
 			tl(3, "listeRecherche.setC(", classSimpleName, ".class);");
-			tl(3, "listeRecherche.setRows(1000000);");
 			tl(3, "if(entiteListe != null)");
 			tl(3, "listeRecherche.setFields(entiteListe);");
 			tl(3, "listeRecherche.addSort(\"archive_indexed_boolean\", ORDER.asc);");
 			tl(3, "listeRecherche.addSort(\"supprime_indexed_boolean\", ORDER.asc);");
+			tl(3, "listeRecherche.addFilterQuery(\"classeNomCanonique_indexed_string:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
+			if(classFiltersFound && classFilters.contains("userId"))
+				tl(3, "listeRecherche.addFilterQuery(\"userId_indexed_string:\" + ClientUtils.escapeQueryChars(siteRequest.getUserId()));");
+			tl(3, "UtilisateurSite utilisateurSite = siteRequest.getUtilisateurSite();");
+			tl(3, "if(utilisateurSite != null && !utilisateurSite.getVoirSupprime())");
+			tl(4, "listeRecherche.addFilterQuery(\"supprime_indexed_boolean:false\");");
+			tl(3, "if(utilisateurSite != null && !utilisateurSite.getVoirArchive())");
+			tl(4, "listeRecherche.addFilterQuery(\"archive_indexed_boolean:false\");");
 			l();
 			tl(3, "String pageUri = null;");
 			tl(3, "String id = operationRequest.getParams().getJsonObject(\"path\").getString(\"id\");");
@@ -1482,7 +1599,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(3, "Long ", classVarPrimaryKey, " = o.get", StringUtils.capitalize(classVarPrimaryKey), "();");
 			tl(3, "sqlConnection.queryWithParams(");
 			tl(5, "SiteContext.SQL_definir");
-			tl(5, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, "))");
+			tl(5, ", new JsonArray(Arrays.asList(", classVarPrimaryKey, ", ", classVarPrimaryKey, ", ", classVarPrimaryKey, "))");
 			tl(5, ", definirAsync");
 			tl(3, "-> {");
 			tl(4, "if(definirAsync.succeeded()) {");

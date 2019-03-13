@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -270,6 +271,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected List<String> classeRoles;
 
 	/**
+	 * Var.enUS: classFiltersFound
+	 */
+	protected Boolean classeFiltresTrouves;
+
+	/**
+	 * Var.enUS: classFilters
+	 */
+	protected List<String> classeFiltres;
+
+	/**
 	 * Var.enUS: wInitDeep
 	 */
 	protected ToutEcrivain wInitLoin;
@@ -383,6 +394,21 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityVarCapitalized
 	 */
 	protected String entiteVarCapitalise;
+
+	/**
+	 * Var.enUS: entityAttribute
+	 */
+	Boolean entiteAttribuer;
+
+	/**
+	 * Var.enUS: entityAttributeVar
+	 */
+	String entiteAttribuerVar;
+
+	/**
+	 * Var.enUS: entityDefine
+	 */
+	Boolean entiteDefinir;
 
 	/**
 	 * Var.enUS: entityCanonicalName
@@ -593,6 +619,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityHtml
 	 */
 	Boolean entiteHtml;
+
+	/**
+	 * Var.enUS: entityModify
+	 */
+	Boolean entiteModifier;
 
 	/**
 	 * Var.enUS: entityMultiline
@@ -2376,8 +2407,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Setter Boolean //
 			if(StringUtils.equals(entiteNomCanonique, Boolean.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
-				tl(3, "this.", entiteVar, " = Boolean.parseBoolean(o);");
+				tl(2, "this.", entiteVar, " = Boolean.parseBoolean(o);");
 				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -2569,8 +2599,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
-					tl(3, entiteNomSimpleCompletGenerique, " p = Boolean.parseBoolean(o);");
+					tl(2, entiteNomSimpleCompletGenerique, " p = Boolean.parseBoolean(o);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -3058,7 +3087,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
@@ -3080,7 +3109,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, "));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
@@ -3107,7 +3136,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, "));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
@@ -3348,109 +3377,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(tBase + 7, "putSql.append(SiteContexte.SQL_setD);");
 				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), putPk));");
 				tl(tBase + 7, "break;");
-			}	
-	
-			////////////////////////
-			// codeApiGenererPatch //
-			////////////////////////
-			o = wApiGenererPatch;
-	
-			tBase = 3;
-	//		if(classeRolesTrouves) {
-	//			tBase = 6;
-	//		}
-	//		else {
-	//			tBase = 4;
-	//		}
-			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
-				if(BooleanUtils.isTrue(entiteAttribuer)) {
-					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
-		
-						if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
-							tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
-							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", "));");
-	
-							tl(tBase + 2, "case \"addAll", entiteVarCapitalise, "\":");
-							tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
-							tl(tBase + 3, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
-							tl(tBase + 4, "patchSql.append(SiteContexte.SQL_addA);");
-							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", "));");
-							tl(tBase + 3, "}");
-		
-							tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
-							tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
-							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_clearA1);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)", "));");
-	
-							tl(tBase + 3, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
-							tl(tBase + 4, "patchSql.append(SiteContexte.SQL_addA);");
-							tl(tBase + 4, "patchSqlParams.set(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", "));");
-							tl(tBase + 3, "}");
-						}
-						else {
-							tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
-							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", "));");
-	
-							tl(tBase + 2, "case \"addAll", entiteVarCapitalise, "\":");
-							tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
-							tl(tBase + 3, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
-							tl(tBase + 4, "patchSql.append(SiteContexte.SQL_setA2);");
-							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", ", "addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", q(entiteVar), ", ", classeVarClePrimaire, "));");
-							tl(tBase + 3, "}");
-		
-							tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
-							tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
-							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_clearA2);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", ", ", q(entiteVar), ", ", classeVarClePrimaire, "));");
-	
-							tl(tBase + 3, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
-							tl(tBase + 4, "patchSql.append(SiteContexte.SQL_setA2);");
-							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", q(entiteVar), ", ", classeVarClePrimaire, "));");
-							tl(tBase + 3, "}");
-						}
-					}
-					else {
-		
-						tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
-						if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
-							tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
-							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setA1);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", o2.get", entiteVarCapitalise, "()));");
-						}
-						else {
-							tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
-							tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setA2);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", o2.get", entiteVarCapitalise, "()", ", ", q(entiteVar), ", ", classeVarClePrimaire, "));");
-						}
-					}
-		
-					tl(tBase + 7, "break;");
-				}
-				else if(BooleanUtils.isTrue(entiteDefinir)) {
-					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
-		
-						tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
-						tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
-						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", o2.get", entiteVarCapitalise, "()", ", ", classeVarClePrimaire, "));");
-		
-						tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
-						tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
-						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setD);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", o2.get", entiteVarCapitalise, "(), ", classeVarClePrimaire, "));");
-					}
-					else {
-		
-						tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
-						tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
-						tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setD);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", o2.get", entiteVarCapitalise, "(), ", classeVarClePrimaire, "));");
-					}
-		
-					tl(tBase + 3, "break;");
-				}
 			}	
 	
 			if(entiteDefinir) {

@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -125,6 +126,10 @@ public class WriteGenClass extends WriteClass {
 
 	protected List<String> classRoles;
 
+	protected Boolean classFiltersFound;
+
+	protected List<String> classFilters;
+
 	protected AllWriter wInitDeep;
 
 	protected AllWriter wSiteRequest;
@@ -176,6 +181,12 @@ public class WriteGenClass extends WriteClass {
 	protected String entityTypeSuffix;
 
 	protected String entityVarCapitalized;
+
+	Boolean entityAttribute;
+
+	String entityAttributeVar;
+
+	Boolean entityDefine;
 
 	protected String entityCanonicalName;
 
@@ -260,6 +271,8 @@ public class WriteGenClass extends WriteClass {
 	protected Boolean classContext;
 
 	Boolean entityHtml;
+
+	Boolean entityModify;
 
 	Boolean entityMultiline;
 
@@ -1167,8 +1180,7 @@ public class WriteGenClass extends WriteClass {
 			// Setter Boolean //
 			if(StringUtils.equals(entityCanonicalName, Boolean.class.getCanonicalName())) {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
-				tl(3, "this.", entityVar, " = Boolean.parseBoolean(o);");
+				tl(2, "this.", entityVar, " = Boolean.parseBoolean(o);");
 				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
@@ -1360,8 +1372,7 @@ public class WriteGenClass extends WriteClass {
 					tl(2, "return (", classSimpleName, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-					tl(2, "if(org.apache.commons.lang3.BooleanUtils.isTrue(org.apache.commons.lang3.BooleanUtils.toBoolean(o)))");
-					tl(3, entitySimpleNameCompleteGeneric, " p = Boolean.parseBoolean(o);");
+					tl(2, entitySimpleNameCompleteGeneric, " p = Boolean.parseBoolean(o);");
 					tl(2, "add", entityVarCapitalized, "(p);");
 					tl(2, "return (", classSimpleName, ")this;");
 					tl(1, "}");
@@ -1849,7 +1860,7 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
+						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
 						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
@@ -1871,7 +1882,7 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entityVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, "));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
 						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
@@ -1898,7 +1909,7 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entityVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, "));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
 						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
@@ -2139,109 +2150,6 @@ public class WriteGenClass extends WriteClass {
 				tl(tBase + 7, "putSql.append(SiteContext.SQL_setD);");
 				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entityVar, "\", requestJson.get", entitySimpleNameVertxJson, "(entityVar), putPk));");
 				tl(tBase + 7, "break;");
-			}	
-	
-			////////////////////////
-			// codeApiGenererPatch //
-			////////////////////////
-			o = wApiGeneratePatch;
-	
-			tBase = 3;
-	//		if(classRolesFound) {
-	//			tBase = 6;
-	//		}
-	//		else {
-	//			tBase = 4;
-	//		}
-			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
-				if(BooleanUtils.isTrue(entityAttribute)) {
-					if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
-		
-						if(StringUtils.compare(entityVar, entityAttributeVar) <= 0) {
-							tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
-							tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)", "));");
-	
-							tl(tBase + 2, "case \"addAll", entityVarCapitalized, "\":");
-							tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-							tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "Valeurs.size(); i++) {");
-							tl(tBase + 4, "patchSql.append(SiteContext.SQL_addA);");
-							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)", "));");
-							tl(tBase + 3, "}");
-		
-							tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
-							tl(tBase + 3, entitySimpleNameVertxJson, " set", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-							tl(tBase + 3, "patchSql.append(SiteContext.SQL_clearA1);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", requestJson.get", entitySimpleNameVertxJson, "(methodeNom)", "));");
-	
-							tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalized, "Valeurs.size(); i++) {");
-							tl(tBase + 4, "patchSql.append(SiteContext.SQL_addA);");
-							tl(tBase + 4, "patchSqlParams.set(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)", "));");
-							tl(tBase + 3, "}");
-						}
-						else {
-							tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
-							tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)", "));");
-	
-							tl(tBase + 2, "case \"addAll", entityVarCapitalized, "\":");
-							tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-							tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "Valeurs.size(); i++) {");
-							tl(tBase + 4, "patchSql.append(SiteContext.SQL_setA2);");
-							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", ", "addAll", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)", q(entityVar), ", ", classVarPrimaryKey, "));");
-							tl(tBase + 3, "}");
-		
-							tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
-							tl(tBase + 3, entitySimpleNameVertxJson, " set", entityVarCapitalized, "Valeurs = requestJson.get", entitySimpleNameVertxJson, "(methodeNom);");
-							tl(tBase + 3, "patchSql.append(SiteContext.SQL_clearA2);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", requestJson.get", entityListSimpleNameVertxJson, "(methodeNom)", ", ", q(entityVar), ", ", classVarPrimaryKey, "));");
-	
-							tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalized, "Valeurs.size(); i++) {");
-							tl(tBase + 4, "patchSql.append(SiteContext.SQL_setA2);");
-							tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", set", entityVarCapitalized, "Valeurs.get", entityListSimpleNameVertxJson, "(i)", q(entityVar), ", ", classVarPrimaryKey, "));");
-							tl(tBase + 3, "}");
-						}
-					}
-					else {
-		
-						tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
-						if(StringUtils.compare(entityVar, entityAttributeVar) <= 0) {
-							tl(tBase + 3, "o2.set", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(methodeNom));");
-							tl(tBase + 3, "patchSql.append(SiteContext.SQL_setA1);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", o2.get", entityVarCapitalized, "()));");
-						}
-						else {
-							tl(tBase + 3, "o2.set", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(methodeNom));");
-							tl(tBase + 3, "patchSql.append(SiteContext.SQL_setA2);");
-							tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", o2.get", entityVarCapitalized, "()", ", ", q(entityVar), ", ", classVarPrimaryKey, "));");
-						}
-					}
-		
-					tl(tBase + 7, "break;");
-				}
-				else if(BooleanUtils.isTrue(entityDefined)) {
-					if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
-		
-						tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
-						tl(tBase + 3, "o2.set", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(methodeNom));");
-						tl(tBase + 3, "patchSql.append(SiteContext.SQL_addA);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", o2.get", entityVarCapitalized, "()", ", ", classVarPrimaryKey, "));");
-		
-						tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
-						tl(tBase + 3, "o2.set", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(methodeNom));");
-						tl(tBase + 3, "patchSql.append(SiteContext.SQL_setD);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.get", entityVarCapitalized, "(), ", classVarPrimaryKey, "));");
-					}
-					else {
-		
-						tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
-						tl(tBase + 3, "o2.set", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(methodeNom));");
-						tl(tBase + 3, "patchSql.append(SiteContext.SQL_setD);");
-						tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.get", entityVarCapitalized, "(), ", classVarPrimaryKey, "));");
-					}
-		
-					tl(tBase + 3, "break;");
-				}
 			}	
 	
 			if(entityDefined) {

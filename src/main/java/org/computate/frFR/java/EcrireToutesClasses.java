@@ -202,10 +202,17 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classApi
 	 * r: classePage
 	 * r.enUS: classPage
+	 * 
 	 * r: classeRolesTrouves
 	 * r.enUS: classRolesFound
 	 * r: classeRoles
 	 * r.enUS: classRoles
+	 * 
+	 * r: classeFiltresTrouves
+	 * r.enUS: classFiltersFound
+	 * r: classeFiltres
+	 * r.enUS: classFilters
+	 * 
 	 * r: classeEcrireMethode
 	 * r.enUS: classWriteMethod
 	 * r: auteurGenClasse
@@ -466,6 +473,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
 					classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouves_stored_boolean"));
 					classeRoles = (List<String>)doc.get("classeRoles_" + langueNom + "_stored_strings");
+					classeFiltresTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeFiltresTrouves_stored_boolean"));
+					classeFiltres = (List<String>)doc.get("classeFiltres_stored_strings");
 					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_stored_strings");
 					if(classeApiMethodes == null)
 						classeApiMethodes = new ArrayList<>();

@@ -1,8 +1,10 @@
 package org.computate.frFR.java; 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -325,10 +327,17 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: wApiEntities
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
+	 * 
 	 * r: classeRolesTrouves
 	 * r.enUS: classRolesFound
 	 * r: classeRoles
 	 * r.enUS: classRoles
+	 * 
+	 * r: classeFiltresTrouves
+	 * r.enUS: classFiltersFound
+	 * r: classeFiltre
+	 * r.enUS: classFilter
+	 * 
 	 * r: wApiGenererGet
 	 * r.enUS: wApiGenerateGet
 	 * r: wApiGenererPatch
@@ -407,6 +416,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: userValue
 	 * r: utilisateurPk
 	 * r.enUS: userPk
+	 * r: UtilisateurId
+	 * r.enUS: UserId
+	 * r: utilisateurId
+	 * r.enUS: userId
 	 * 
 	 * r: SiteContexte
 	 * r.enUS: SiteContext
@@ -466,6 +479,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							SolrDocument doc = rechercheListe.get(j);
 							entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
 							entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + langueNom + "_stored_string");
+							entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
+							entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
+							entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
 							entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
 							entiteIndexe = (Boolean)doc.get("entiteIndexe_stored_boolean");
 							entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
@@ -759,6 +775,103 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				//				tl(3, ");");
 				//				tl(3, "}");
 							}
+					
+							////////////////////////
+							// codeApiGenererPatch //
+							////////////////////////
+							o = wApiGenererPatch;
+
+							if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
+								Integer tBase = 3;
+								if(BooleanUtils.isTrue(entiteAttribuer)) {
+									if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
+						
+										if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
+											tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
+											tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", "));");
+					
+											tl(tBase + 2, "case \"addAll", entiteVarCapitalise, "\":");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+											tl(tBase + 3, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
+											tl(tBase + 4, "patchSql.append(SiteContexte.SQL_addA);");
+											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", "));");
+											tl(tBase + 3, "}");
+						
+											tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+											tl(tBase + 3, "patchSql.append(SiteContexte.SQL_clearA1);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom)", "));");
+					
+											tl(tBase + 3, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
+											tl(tBase + 4, "patchSql.append(SiteContexte.SQL_addA);");
+											tl(tBase + 4, "patchSqlParams.set(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", "));");
+											tl(tBase + 3, "}");
+										}
+										else {
+											tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
+											tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", "));");
+					
+											tl(tBase + 2, "case \"addAll", entiteVarCapitalise, "\":");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+											tl(tBase + 3, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "Valeurs.size(); i++) {");
+											tl(tBase + 4, "patchSql.append(SiteContexte.SQL_setA2);");
+											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", ", "addAll", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", q(entiteVar), ", ", classeVarClePrimaire, "));");
+											tl(tBase + 3, "}");
+						
+											tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "Valeurs = requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom);");
+											tl(tBase + 3, "patchSql.append(SiteContexte.SQL_clearA2);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", requeteJson.get", entiteListeNomSimpleVertxJson, "(methodeNom)", ", ", q(entiteVar), ", ", classeVarClePrimaire, "));");
+					
+											tl(tBase + 3, "for(Integer i = 0; i <  set", entiteVarCapitalise, "Valeurs.size(); i++) {");
+											tl(tBase + 4, "patchSql.append(SiteContexte.SQL_setA2);");
+											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", set", entiteVarCapitalise, "Valeurs.get", entiteListeNomSimpleVertxJson, "(i)", q(entiteVar), ", ", classeVarClePrimaire, "));");
+											tl(tBase + 3, "}");
+										}
+									}
+									else {
+						
+										tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
+										if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
+											tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+											tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setA1);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", o2.get", entiteVarCapitalise, "()));");
+										}
+										else {
+											tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+											tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setA2);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteAttribuerVar), ", o2.get", entiteVarCapitalise, "()", ", ", q(entiteVar), ", ", classeVarClePrimaire, "));");
+										}
+									}
+						
+									tl(tBase + 7, "break;");
+								}
+								else if(BooleanUtils.isTrue(entiteDefinir)) {
+									if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
+						
+										tl(tBase + 2, "case \"add", entiteVarCapitalise, "\":");
+										tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+										tl(tBase + 3, "patchSql.append(SiteContexte.SQL_addA);");
+										tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", o2.get", entiteVarCapitalise, "()", ", ", classeVarClePrimaire, "));");
+						
+										tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
+										tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+										tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setD);");
+										tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", o2.get", entiteVarCapitalise, "(), ", classeVarClePrimaire, "));");
+									}
+									else {
+						
+										tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
+										tl(tBase + 3, "o2.set", entiteVarCapitalise, "(requeteJson.get", entiteNomSimpleVertxJson, "(methodeNom));");
+										tl(tBase + 3, "patchSql.append(SiteContexte.SQL_setD);");
+										tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", o2.get", entiteVarCapitalise, "(), ", classeVarClePrimaire, "));");
+									}
+						
+									tl(tBase + 3, "break;");
+								}
+							}	
 						}
 						rechercheSolr.setStart(i.intValue() + rechercheLignes);
 						rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -881,17 +994,23 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(3, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, operationRequete, body);");
 					tl(3, "sql", classeNomSimple, "(requeteSite, a -> {");
 					tl(4, "if(a.succeeded()) {");
-					tl(5, "recherche", classeNomSimple, "(requeteSite, false, true, ", "null", ", b -> {");
+					tl(5, "utilisateur", classeNomSimple, "(requeteSite, b -> {");
 					tl(6, "if(b.succeeded()) {");
-					tl(7, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = b.result();");
-					tl(7, "liste", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", c -> {");
+					tl(7, "recherche", classeNomSimple, "(requeteSite, false, true, ", "null", ", c -> {");
 					tl(8, "if(c.succeeded()) {");
-					tl(9, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
-					tl(9, "connexionSql.commit(d -> {");
-					tl(10, "if(a.succeeded()) {");
-					tl(11, "connexionSql.close(e -> {");
-					tl(12, "if(a.succeeded()) {");
-					tl(13, "gestionnaireEvenements.handle(Future.succeededFuture(c.result()));");
+					tl(9, "ListeRecherche<", classeNomSimple, "> liste", classeNomSimple, " = c.result();");
+					tl(9, "liste", classeApiMethode, classeNomSimple, "(liste", classeNomSimple, ", d -> {");
+					tl(10, "if(d.succeeded()) {");
+					tl(11, "SQLConnection connexionSql = requeteSite.getConnexionSql();");
+					tl(11, "connexionSql.commit(e -> {");
+					tl(12, "if(e.succeeded()) {");
+					tl(13, "connexionSql.close(f -> {");
+					tl(14, "if(f.succeeded()) {");
+					tl(15, "gestionnaireEvenements.handle(Future.succeededFuture(d.result()));");
+					tl(14, "} else {");
+					tl(15, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, f);");
+					tl(14, "}");
+					tl(13, "});");
 					tl(12, "} else {");
 					tl(13, "erreur", classeNomSimple, "(requeteSite, gestionnaireEvenements, e);");
 					tl(12, "}");
@@ -1193,6 +1312,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(3, "Set<String> methodeNoms = requeteJson.fieldNames();");
 					tl(3, classeNomSimple, " o2 = new ", classeNomSimple, "();");
 					l();
+					tl(3, "patchSql.append(SiteContexte.SQL_modifier);");
+					tl(3, "patchSqlParams.addAll(Arrays.asList(pk, ", q(classeNomCanonique), "));");
 					tl(3, "for(String methodeNom : methodeNoms) {");
 					tl(4, "switch(methodeNom) {");
 					s(wApiGenererPatch.toString());
@@ -1221,7 +1342,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
 					tl(3, "connexionSql.queryWithParams(");
 					tl(5, "SiteContexte.SQL_definir");
-					tl(5, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "))");
+					tl(5, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, ", ", classeVarClePrimaire, ", ", classeVarClePrimaire, "))");
 					tl(5, ", definirAsync");
 					tl(3, "-> {");
 					tl(4, "if(definirAsync.succeeded()) {");
@@ -1626,7 +1747,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(8, "connexionSql.queryWithParams(");
 			tl(10, "SiteContexte.SQL_definir");
-			tl(10, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "Utilisateur))");
+			tl(10, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "Utilisateur, ", classeVarClePrimaire, "Utilisateur, ", classeVarClePrimaire, "Utilisateur))");
 			tl(10, ", definirAsync");
 			tl(8, "-> {");
 			tl(9, "if(definirAsync.succeeded()) {");
@@ -1660,7 +1781,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(7, "connexionSql.queryWithParams(");
 			tl(9, "SiteContexte.SQL_definir");
-			tl(9, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "Utilisateur))");
+			tl(9, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "Utilisateur, ", classeVarClePrimaire, "Utilisateur, ", classeVarClePrimaire, "Utilisateur))");
 			tl(9, ", definirAsync");
 			tl(7, "-> {");
 			tl(8, "if(definirAsync.succeeded()) {");
@@ -1702,11 +1823,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "listeRecherche.setStocker(stocker);");
 			tl(3, "listeRecherche.setQuery(\"*:*\");");
 			tl(3, "listeRecherche.setC(", classeNomSimple, ".class);");
-			tl(3, "listeRecherche.setRows(1000000);");
 			tl(3, "if(entiteListe != null)");
 			tl(3, "listeRecherche.setFields(entiteListe);");
 			tl(3, "listeRecherche.addSort(\"archive_indexed_boolean\", ORDER.asc);");
 			tl(3, "listeRecherche.addSort(\"supprime_indexed_boolean\", ORDER.asc);");
+			tl(3, "listeRecherche.addFilterQuery(\"classeNomCanonique_indexed_string:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
+			if(classeFiltresTrouves && classeFiltres.contains("utilisateurId"))
+				tl(3, "listeRecherche.addFilterQuery(\"utilisateurId_indexed_string:\" + ClientUtils.escapeQueryChars(requeteSite.getUtilisateurId()));");
+			tl(3, "UtilisateurSite utilisateurSite = requeteSite.getUtilisateurSite();");
+			tl(3, "if(utilisateurSite != null && !utilisateurSite.getVoirSupprime())");
+			tl(4, "listeRecherche.addFilterQuery(\"supprime_indexed_boolean:false\");");
+			tl(3, "if(utilisateurSite != null && !utilisateurSite.getVoirArchive())");
+			tl(4, "listeRecherche.addFilterQuery(\"archive_indexed_boolean:false\");");
 			l();
 			tl(3, "String pageUri = null;");
 			tl(3, "String id = operationRequete.getParams().getJsonObject(\"path\").getString(\"id\");");
@@ -1784,7 +1912,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
 			tl(3, "connexionSql.queryWithParams(");
 			tl(5, "SiteContexte.SQL_definir");
-			tl(5, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, "))");
+			tl(5, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, ", ", classeVarClePrimaire, ", ", classeVarClePrimaire, "))");
 			tl(5, ", definirAsync");
 			tl(3, "-> {");
 			tl(4, "if(definirAsync.succeeded()) {");

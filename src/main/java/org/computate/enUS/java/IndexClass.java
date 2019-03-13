@@ -1002,6 +1002,18 @@ public class IndexClass extends WatchClassBase {
 			}
 			indexStoreSolr(classDoc, "classRolesFound", classRolesFound); 
 
+			Matcher classFiltersSearch = Pattern.compile("^(class)?Filtre:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
+			boolean classFiltersFound = classFiltersSearch.find();
+			boolean classFiltersFoundCurrent = classFiltersFound;
+			while(classFiltersFoundCurrent) {
+				String classFilterLanguage = classFiltersSearch.group(2);
+				String classFilterValue = classFiltersSearch.group(3);
+				storeListSolr(classDoc, "classFilters", classFilterLanguage, classFilterValue);
+				classFiltersFound = true;
+				classFiltersFoundCurrent = classFiltersSearch.find();
+			}
+			indexStoreSolr(classDoc, "classFiltersFound", classFiltersFound); 
+
 			Matcher classKeywordsSearch = Pattern.compile("^(class)?Keyword:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classComment);
 			boolean classKeywordsFoundActual = classKeywordsSearch.find();
 			while(classKeywordsFoundActual) {
@@ -1748,7 +1760,7 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "entitySearch", regexFound("^(entity)?Search:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityAdd", regexFound("^(entity)?Add:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityDelete", regexFound("^(entity)?Delete:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityModify", regexFound("^(entity)?Modify:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityModify", !regexFound("^(entity)?Modify:\\s*(false)$", methodComment));
 						indexStoreSolr(entityDoc, "entityRefresh", regexFound("^(entity)?Refresh:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityMultiline", regexFound("^(entity)?Multiline:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityKeys", regexFound("^(entity)?Keys:\\s*(true)$", methodComment));
@@ -2020,6 +2032,7 @@ public class IndexClass extends WatchClassBase {
 							entitySimpleNameVertxJson = "Instant";
 							entityCanonicalNameVertxJson = VAL_canonicalNameInstant;
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneOffset", languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZonedDateTime", languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
@@ -2031,6 +2044,7 @@ public class IndexClass extends WatchClassBase {
 							entitySimpleNameVertxJson = "Instant";
 							entityCanonicalNameVertxJson = VAL_canonicalNameInstant;
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", languageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneOffset", languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDate", languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, languageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", languageName));

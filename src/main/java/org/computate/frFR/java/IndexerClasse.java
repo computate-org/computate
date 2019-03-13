@@ -2029,6 +2029,23 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: classeRoles
 	 * r.enUS: classRoles
 	 * 
+	 * r: classeFiltresRecherche
+	 * r.enUS: classFiltersSearch
+	 * r: classeFiltresTrouvesActuel
+	 * r.enUS: classFiltersFoundCurrent
+	 * r: classeFiltresTrouves
+	 * r.enUS: classFiltersFound
+	 * r: classeFiltresVar
+	 * r.enUS: classFiltersVar
+	 * r: classeFiltresLangue
+	 * r.enUS: classFiltersLanguage
+	 * r: classeFiltresFiltreValeur
+	 * r.enUS: classFiltersValue
+	 * r: classeFiltreValeur
+	 * r.enUS: classFilterValue
+	 * r: classeFiltres
+	 * r.enUS: classFilters
+	 * 
 	 * r: classeMotsClesRecherche
 	 * r.enUS: classKeywordsSearch
 	 * r: classeMotsClesTrouvesActuel
@@ -3159,6 +3176,17 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 			indexerStockerSolr(classeDoc, "classeRolesTrouves", classeRolesTrouves); 
 
+			Matcher classeFiltresRecherche = Pattern.compile("^(classe)?Filtre:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			boolean classeFiltresTrouves = classeFiltresRecherche.find();
+			boolean classeFiltresTrouvesActuel = classeFiltresTrouves;
+			while(classeFiltresTrouvesActuel) {
+				String classeFiltreValeur = classeFiltresRecherche.group(2);
+				stockerListeSolr(classeDoc, "classeFiltres", classeFiltreValeur);
+				classeFiltresTrouves = true;
+				classeFiltresTrouvesActuel = classeFiltresRecherche.find();
+			}
+			indexerStockerSolr(classeDoc, "classeFiltresTrouves", classeFiltresTrouves); 
+
 			Matcher classeMotsClesRecherche = Pattern.compile("^(classe)?MotCle:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeMotsClesTrouvesActuel = classeMotsClesRecherche.find();
 			while(classeMotsClesTrouvesActuel) {
@@ -3905,7 +3933,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteRechercher", regexTrouve("^(entite)?Rechercher:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteAjouter", regexTrouve("^(entite)?Ajouter:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteSupprimer", regexTrouve("^(entite)?Supprimer:\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteModifier", regexTrouve("^(entite)?Modifier:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteModifier", !regexTrouve("^(entite)?Modifier:\\s*(false)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteRecharger", regexTrouve("^(entite)?Recharger:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^(entite)?Multiligne:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^(entite)?Cles:\\s*(true)$", methodeCommentaire));
@@ -4177,6 +4205,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteNomSimpleVertxJson = "Instant";
 							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueInstant;
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneId", langueNom));
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneOffset", langueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDateTime", langueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZonedDateTime", langueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, langueNom));
@@ -4188,6 +4217,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteNomSimpleVertxJson = "Instant";
 							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueInstant;
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneId", langueNom));
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneOffset", langueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDate", langueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, langueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", langueNom));
