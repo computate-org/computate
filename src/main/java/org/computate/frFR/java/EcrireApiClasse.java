@@ -89,21 +89,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	protected String classeNomCanoniqueGenApiService;
 
 	/**
-	 * Var.enUS: classApiMethods
-	 */
-	protected List<String> classeApiMethodes;
-
-	/**
-	 * Var.enUS: classEntityVars
-	 */ 
-	protected List<String> classeEntiteVars;
-
-	/**
-	 * Var.enUS: classMethodeVars
-	 */  
-	protected List<String> classeMethodeVars;
-
-	/**
 	 * Var.enUS: apiCodeClassBegin
 	 * Param1.var.enUS: languageName
 	 * r: auteurGenApiServiceImpl

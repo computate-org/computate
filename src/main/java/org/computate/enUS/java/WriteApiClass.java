@@ -38,12 +38,6 @@ public class WriteApiClass extends WriteGenClass {
 
 	protected String classCanonicalNameGenApiService;
 
-	protected List<String> classApiMethods;
-
-	protected List<String> classEntityVars;
-
-	protected List<String> classMethodeVars;
-
 	public void  apiCodeClassBegin(String languageName) throws Exception, Exception {
 //		l();
 //		tl(1, "public static final String VAL_nomCanonique", classSimpleName, " = \"", classCanonicalName, "\";");

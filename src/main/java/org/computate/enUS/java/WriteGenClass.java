@@ -5,21 +5,23 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.text.translate.AggregateTranslator;
+import org.apache.commons.text.translate.CharSequenceTranslator;
+import org.apache.commons.text.translate.EntityArrays;
+import org.apache.commons.text.translate.JavaUnicodeEscaper;
+import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 
@@ -129,6 +131,12 @@ public class WriteGenClass extends WriteClass {
 	protected Boolean classFiltersFound;
 
 	protected List<String> classFilters;
+
+	protected List<String> classApiMethods;
+
+	protected List<String> classEntityVars;
+
+	protected List<String> classMethodeVars;
 
 	protected AllWriter wInitDeep;
 
@@ -664,6 +672,12 @@ public class WriteGenClass extends WriteClass {
 		}
 	}
 
+	public static final CharSequenceTranslator ESCAPE_JAVA;
+
+	public static final String escapeJava(String input) {
+        return ESCAPE_JAVA.translate(input);
+    }
+
 	public void  genCodeSaves(String languageName) throws Exception, Exception {
 		o = wSaves;
 		if(classSaved) {
@@ -761,13 +775,53 @@ public class WriteGenClass extends WriteClass {
 		List<String> classValsLanguage = (List<String>)doc.get("classValsLanguage_stored_strings");
 		List<String> classValsValue = (List<String>)doc.get("classValsValue_stored_strings");
 		if(classValsVar != null && classValsLanguage != null && classValsValue != null) {
+			String classValVarOld = null;
+			Integer classValVarNumero = 0;
+			String classValVar = null;
+			String classValLanguage = null;
+			String classValVarLanguage = null;
+			String classValVarLanguageOld = null;
+			String classValValue = null;
+
 			for(int j = 0; j < classValsVar.size(); j++) {
-				String classValVar = classValsVar.get(j);
-				String classValLanguage = classValsLanguage.get(j);
-				String classValValue = classValsValue.get(j);
+				classValVar = classValsVar.get(j);
+				classValLanguage = classValsLanguage.get(j);
+				classValVarLanguage = classValVar + classValLanguage;
+				classValValue = classValsValue.get(j);
+
+				if(!StringUtils.equals(classValVarLanguage, classValVarLanguageOld) && (StringUtils.equals(classValVarLanguageOld, classValVarOld + languageName))) {
+					t(1, "public static final String ", classValVarOld, " = ");
+					for(int k = 1; k <= classValVarNumero; k++) {
+						if(k > 1)
+							s(" + ");
+						s(classValVarOld, k);
+					}
+					l(";");
+					classValVarNumero = 0;
+				}
 
 				if(StringUtils.equals(languageName, classValLanguage)) {
-					tl(1, "public static final String ", classValVar, " = \"", StringEscapeUtils.escapeJava(classValValue), "\";");
+					classValVarNumero++;
+					tl(1, "public static final String ", classValVar, classValVarNumero, " = \"", escapeJava(classValValue), "\";");
+				}
+
+				classValVarOld = classValVar;
+				classValVarLanguageOld = classValVarLanguage;
+			}
+			if(StringUtils.equals(languageName, classValLanguage)) {
+				classValVarOld = classValVar;
+				classValVarLanguageOld = classValVarLanguage;
+				classValVar = null;
+	
+				if(classValVarOld != null && !StringUtils.equals(classValVar, classValVarLanguageOld)) {
+					t(1, "public static final String ", classValVarOld, " = ");
+					for(int k = 1; k <= classValVarNumero; k++) {
+						if(k > 1)
+							s(" + ");
+						s(classValVarOld, k);
+					}
+					l(";");
+					classValVarNumero = 0;
 				}
 			}
 		}
@@ -1010,7 +1064,11 @@ public class WriteGenClass extends WriteClass {
 				String classWriteMethod = classWriteMethods.get(i);
 				if(entityWriteMethods.contains(classWriteMethod)) {
 					AllWriter w = classWriteWriters.get(i);
-					w.tl(2, entityVar, ".", classWriteMethod, "();");
+					String var = classWriteMethod + entityVarCapitalized;
+					if(classeMethodeVars.contains(var))
+						w.tl(2, "((", classSimpleName, ")this).", var, "();");
+					else
+						w.tl(2, entityVar, ".", classWriteMethod, "();");
 				}
 			}
 	
@@ -1745,7 +1803,7 @@ public class WriteGenClass extends WriteClass {
 				//////////////////
 				l();
 				tl(1, "public String displayName", entityVarCapitalized, "() {");
-				tl(2, "return ", entityDisplayName == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entityDisplayName) + "\"", ";");
+				tl(2, "return ", entityDisplayName == null ? "null" : "\"" + escapeJava(entityDisplayName) + "\"", ";");
 				tl(1, "}");
 	
 				/////////////////
@@ -1753,7 +1811,7 @@ public class WriteGenClass extends WriteClass {
 				/////////////////
 				l();
 				tl(1, "public String htmTooltip", entityVarCapitalized, "() {");
-				tl(2, "return ", entityHtmlTooltip == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entityHtmlTooltip) + "\"", ";");
+				tl(2, "return ", entityHtmlTooltip == null ? "null" : "\"" + escapeJava(entityHtmlTooltip) + "\"", ";");
 				tl(1, "}");
 	
 				//////////
@@ -1801,7 +1859,7 @@ public class WriteGenClass extends WriteClass {
 						tl(7, "r.l(\"/>\");");
 					}
 					if(entityHtmlTooltip != null)
-						tl(4, "r.s(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", StringEscapeUtils.escapeJava(entityHtmlTooltip), "</span>\");");
+						tl(4, "r.s(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", escapeJava(entityHtmlTooltip), "</span>\");");
 					tl(4, "r.l(\"		</label>\");");
 					tl(4, "r.l(\"	</div>\");");
 					tl(3, "} else {");

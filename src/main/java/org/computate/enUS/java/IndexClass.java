@@ -697,8 +697,10 @@ public class IndexClass extends WatchClassBase {
 			storeRegexComments(classComment, languageName, classDoc, "classComment");
 			String srcMainJavaPathLanguage = appPathLanguage + "/src/main/java";
 			String srcGenJavaPathLanguage = appPathLanguage + "/src/gen/java";
-			String classCanonicalNameLanguage = regex("^(class)?NomCanonique\\." + languageName + ":\\s*(.*)", classComment, classCanonicalName);
+			String classCanonicalNameLanguage = regex("^(class)?NomCanonique\\." + languageName + ":\\s*(.*)", classComment);
 
+			if(classCanonicalNameLanguage == null)
+				classCanonicalNameLanguage = classCanonicalName.replace(this.languageName, languageName);
 			String classSimpleNameLanguage = StringUtils.substringAfterLast(classCanonicalNameLanguage, ".");
 			String classPackageNameLanguage = StringUtils.substringBeforeLast(classCanonicalNameLanguage, ".");
 			String classCanonicalNameGenLanguage = classCanonicalNameLanguage + "Gen";
@@ -1006,9 +1008,8 @@ public class IndexClass extends WatchClassBase {
 			boolean classFiltersFound = classFiltersSearch.find();
 			boolean classFiltersFoundCurrent = classFiltersFound;
 			while(classFiltersFoundCurrent) {
-				String classFilterLanguage = classFiltersSearch.group(2);
-				String classFilterValue = classFiltersSearch.group(3);
-				storeListSolr(classDoc, "classFilters", classFilterLanguage, classFilterValue);
+				String classFilterValue = classFiltersSearch.group(2);
+				storeListSolr(classDoc, "classFilters", classFilterValue);
 				classFiltersFound = true;
 				classFiltersFoundCurrent = classFiltersSearch.find();
 			}
@@ -2575,21 +2576,21 @@ public class IndexClass extends WatchClassBase {
 				indexStoreListSolr(classDoc, "classApiMethods", classApiMethod); 
 //				if(classKeywordsFound && (classKeywords.contains(classApiMethod + ".request") || classKeywords.contains(classApiMethod + ".response"))) {
 				String classApiUriMethode = regexLanguage(languageName, "(class)?ApiUri" + classApiMethod, classComment);
-
-				if(classApiMethod.contains("Search"))
-					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
-				else if(classApiMethod.contains("GET"))
-					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
-				else if(classApiMethod.contains("POST"))
-					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "POST"));
-				else if(classApiMethod.contains("PUT"))
-					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "PUT"));
-				else if(classApiMethod.contains("PATCH"))
-					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "PATCH"));
-				else if(classApiMethod.contains("DELETE"))
-					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "DELETE"));
-				else
-					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
+//
+//				if(classApiMethod.contains("Search"))
+//					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
+//				else if(classApiMethod.contains("GET"))
+//					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "GET"));
+//				else if(classApiMethod.contains("POST"))
+//					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "POST"));
+//				else if(classApiMethod.contains("PUT"))
+//					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "PUT"));
+//				else if(classApiMethod.contains("PATCH"))
+//					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "PATCH"));
+//				else if(classApiMethod.contains("DELETE"))
+//					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, "DELETE"));
+//				else
+//					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
 
 				indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod, "ApiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
 				indexStoreSolrRegex(classDoc, languageName, "classApiOperationId" + classApiMethod + "Request", "ApiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");

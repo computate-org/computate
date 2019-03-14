@@ -5,22 +5,24 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.text.translate.AggregateTranslator;
+import org.apache.commons.text.translate.CharSequenceTranslator;
+import org.apache.commons.text.translate.EntityArrays;
+import org.apache.commons.text.translate.JavaUnicodeEscaper;
+import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 
@@ -279,6 +281,21 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classFilters
 	 */
 	protected List<String> classeFiltres;
+
+	/**
+	 * Var.enUS: classApiMethods
+	 */
+	protected List<String> classeApiMethodes;
+
+	/**
+	 * Var.enUS: classEntityVars
+	 */ 
+	protected List<String> classeEntiteVars;
+
+	/**
+	 * Var.enUS: classMethodeVars
+	 */  
+	protected List<String> classeMethodeVars;
 
 	/**
 	 * Var.enUS: wInitDeep
@@ -1307,6 +1324,50 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 	}
 
+    /**
+     * Translator object for escaping Java.
+     *
+     * While {@link #escapeJava(String)} is the expected method of use, this
+     * object allows the Java escaping functionality to be used
+     * as the foundation for a custom translator.
+     */
+    public static final CharSequenceTranslator ESCAPE_JAVA;
+    static {
+        final Map<CharSequence, CharSequence> escapeJavaMap = new HashMap<>();
+        escapeJavaMap.put("\"", "\\\"");
+        escapeJavaMap.put("\\", "\\\\");
+        ESCAPE_JAVA = new AggregateTranslator(
+                new LookupTranslator(Collections.unmodifiableMap(escapeJavaMap)),
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE)
+        );
+    }
+
+    // Java and JavaScript
+    //--------------------------------------------------------------------------
+    /**
+     * <p>Escapes the characters in a {@code String} using Java String rules.</p>
+     *
+     * <p>Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
+     *
+     * <p>So a tab becomes the characters {@code '\\'} and
+     * {@code 't'}.</p>
+     *
+     * <p>The only difference between Java strings and JavaScript strings
+     * is that in JavaScript, a single quote and forward-slash (/) are escaped.</p>
+     *
+     * <p>Example:</p>
+     * <pre>
+     * input string: He didn't say, "Stop!"
+     * output string: He didn't say, \"Stop!\"
+     * </pre>
+     *
+     * @param input  String to escape values in, may be null
+     * @return String with escaped values, {@code null} if null string input
+     */
+    public static final String escapeJava(final String input) {
+        return ESCAPE_JAVA.translate(input);
+    }
+
 	/**
 	 * Var.enUS: genCodeSaves
 	 * Param1.var.enUS: languageName
@@ -1418,6 +1479,12 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classValsLanguage
 	 * r: classeValsValeur
 	 * r.enUS: classValsValue
+	 * r: classeValVarLangueAncien
+	 * r.enUS: classValVarLanguageOld
+	 * r: classeValVarLangue
+	 * r.enUS: classValVarLanguage
+	 * r: classeValVarAncien
+	 * r.enUS: classValVarOld
 	 * r: classeValVar
 	 * r.enUS: classValVar
 	 * r: classeValLangue
@@ -1558,13 +1625,53 @@ public class EcrireGenClasse extends EcrireClasse {
 		List<String> classeValsLangue = (List<String>)doc.get("classeValsLangue_stored_strings");
 		List<String> classeValsValeur = (List<String>)doc.get("classeValsValeur_stored_strings");
 		if(classeValsVar != null && classeValsLangue != null && classeValsValeur != null) {
+			String classeValVarAncien = null;
+			Integer classeValVarNumero = 0;
+			String classeValVar = null;
+			String classeValLangue = null;
+			String classeValVarLangue = null;
+			String classeValVarLangueAncien = null;
+			String classeValValeur = null;
+
 			for(int j = 0; j < classeValsVar.size(); j++) {
-				String classeValVar = classeValsVar.get(j);
-				String classeValLangue = classeValsLangue.get(j);
-				String classeValValeur = classeValsValeur.get(j);
+				classeValVar = classeValsVar.get(j);
+				classeValLangue = classeValsLangue.get(j);
+				classeValVarLangue = classeValVar + classeValLangue;
+				classeValValeur = classeValsValeur.get(j);
+
+				if(!StringUtils.equals(classeValVarLangue, classeValVarLangueAncien) && (StringUtils.equals(classeValVarLangueAncien, classeValVarAncien + langueNom))) {
+					t(1, "public static final String ", classeValVarAncien, " = ");
+					for(int k = 1; k <= classeValVarNumero; k++) {
+						if(k > 1)
+							s(" + ");
+						s(classeValVarAncien, k);
+					}
+					l(";");
+					classeValVarNumero = 0;
+				}
 
 				if(StringUtils.equals(langueNom, classeValLangue)) {
-					tl(1, "public static final String ", classeValVar, " = \"", StringEscapeUtils.escapeJava(classeValValeur), "\";");
+					classeValVarNumero++;
+					tl(1, "public static final String ", classeValVar, classeValVarNumero, " = \"", escapeJava(classeValValeur), "\";");
+				}
+
+				classeValVarAncien = classeValVar;
+				classeValVarLangueAncien = classeValVarLangue;
+			}
+			if(StringUtils.equals(langueNom, classeValLangue)) {
+				classeValVarAncien = classeValVar;
+				classeValVarLangueAncien = classeValVarLangue;
+				classeValVar = null;
+	
+				if(classeValVarAncien != null && !StringUtils.equals(classeValVar, classeValVarLangueAncien)) {
+					t(1, "public static final String ", classeValVarAncien, " = ");
+					for(int k = 1; k <= classeValVarNumero; k++) {
+						if(k > 1)
+							s(" + ");
+						s(classeValVarAncien, k);
+					}
+					l(";");
+					classeValVarNumero = 0;
 				}
 			}
 		}
@@ -2237,7 +2344,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				String classeEcrireMethode = classeEcrireMethodes.get(i);
 				if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
 					ToutEcrivain w = classeEcrireEcrivains.get(i);
-					w.tl(2, entiteVar, ".", classeEcrireMethode, "();");
+					String var = classeEcrireMethode + entiteVarCapitalise;
+					if(classeMethodeVars.contains(var))
+						w.tl(2, "((", classeNomSimple, ")this).", var, "();");
+					else
+						w.tl(2, entiteVar, ".", classeEcrireMethode, "();");
 				}
 			}
 	
@@ -2972,7 +3083,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				//////////////////
 				l();
 				tl(1, "public String nomAffichage", entiteVarCapitalise, "() {");
-				tl(2, "return ", entiteNomAffichage == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entiteNomAffichage) + "\"", ";");
+				tl(2, "return ", entiteNomAffichage == null ? "null" : "\"" + escapeJava(entiteNomAffichage) + "\"", ";");
 				tl(1, "}");
 	
 				/////////////////
@@ -2980,7 +3091,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				/////////////////
 				l();
 				tl(1, "public String htmTooltip", entiteVarCapitalise, "() {");
-				tl(2, "return ", entiteHtmlTooltip == null ? "null" : "\"" + StringEscapeUtils.escapeJava(entiteHtmlTooltip) + "\"", ";");
+				tl(2, "return ", entiteHtmlTooltip == null ? "null" : "\"" + escapeJava(entiteHtmlTooltip) + "\"", ";");
 				tl(1, "}");
 	
 				//////////
@@ -3028,7 +3139,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(7, "r.l(\"/>\");");
 					}
 					if(entiteHtmlTooltip != null)
-						tl(4, "r.s(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", StringEscapeUtils.escapeJava(entiteHtmlTooltip), "</span>\");");
+						tl(4, "r.s(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", escapeJava(entiteHtmlTooltip), "</span>\");");
 					tl(4, "r.l(\"		</label>\");");
 					tl(4, "r.l(\"	</div>\");");
 					tl(3, "} else {");
