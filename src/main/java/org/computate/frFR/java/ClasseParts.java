@@ -192,10 +192,10 @@ public class ClasseParts {
 	 * r.enUS: classExtendsGen
 	 */ 
 	public static ClasseParts initClasseParts(ConfigSite configSite, JavaClass classeQdox, String langueNom) throws Exception {
-		String nomCanonique = classeQdox.getCanonicalName();
-		String nomCanoniqueComplet = classeQdox.getGenericFullyQualifiedName();
-		String valeurGeneriqueSimpleAvant = classeQdox.getGenericValue();
-		String valeurGeneriqueCanoniqueAvant = classeQdox.getGenericCanonicalName();
+		String nomCanonique = StringUtils.replace(classeQdox.getCanonicalName(), "$", ".");
+		String nomCanoniqueComplet = StringUtils.replace(classeQdox.getGenericFullyQualifiedName(), "$", ".");
+		String valeurGeneriqueSimpleAvant = StringUtils.replace(classeQdox.getGenericValue(), "$", ".");
+		String valeurGeneriqueCanoniqueAvant = StringUtils.replace(classeQdox.getGenericCanonicalName(), "$", ".");
 		if(StringUtils.contains(valeurGeneriqueCanoniqueAvant, "<")) {
 			String valeurGeneriqueSimple = StringUtils.substringAfter(StringUtils.substringBeforeLast(valeurGeneriqueSimpleAvant, ">"), "<");
 			String valeurGeneriqueCanonique = StringUtils.substringAfter(StringUtils.substringBeforeLast(valeurGeneriqueCanoniqueAvant, ">"), "<");

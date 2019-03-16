@@ -82,6 +82,7 @@ public class WriteClass extends IndexClass {
 			List<String> classImports = null;  
 			List<String> classTypeParameterNames = null;  
 			List<String> classSuperTypeParameterNames = null;  
+			List<String> classImplementsSimpleNameCompleteList = null;  
 			Boolean classExtendsGen = null;
 	
 			for(int i = 0; i < searchList.size(); i++) { 
@@ -107,6 +108,7 @@ public class WriteClass extends IndexClass {
 					classImports = (List<String>)doc.get("classImports_" + languageName + "_stored_strings");
 					classTypeParameterNames = (List<String>)doc.get("classTypeParameterNames_stored_strings");
 					classSuperTypeParameterNames = (List<String>)doc.get("classSuperTypeParameterNames_stored_strings");
+					classImplementsSimpleNameCompleteList = (List<String>)doc.get("classImplementsSimpleNameComplete_" + languageName + "_stored_strings");
 					classExtendsGen = (Boolean)doc.get("classExtendsGen_stored_boolean");
 
 					auteurClasse = AllWriter.create(classFile);
@@ -155,6 +157,16 @@ public class WriteClass extends IndexClass {
 								s(classSuperTypeParameterName);
 							}
 							s(">");
+						}
+					}
+					if(classImplementsSimpleNameCompleteList != null && classImplementsSimpleNameCompleteList.size() > 0) {
+						s(" implements");
+						for(Integer j = 0; j < classImplementsSimpleNameCompleteList.size(); j++) {
+							String classImplementsSimpleNameComplete = classImplementsSimpleNameCompleteList.get(i);
+
+							if(j > 0)
+								s(",");
+							s(" ", classImplementsSimpleNameComplete);
 						}
 					}
 					l(" {");

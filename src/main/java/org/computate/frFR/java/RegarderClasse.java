@@ -91,6 +91,12 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r.enUS: writeClass
 	 * r: classeDoc
 	 * r.enUS: classDoc
+	 * r: classeTraduire
+	 * r.enUS: classTranslate
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 */   
 	public static void regarderClasse(RegarderClasse regarderClasse) throws Exception {
 		System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
@@ -105,18 +111,22 @@ public class RegarderClasse extends EcrireToutesClasses {
 //						regarderClasse.enUSWatchClass.indexClass(regarderClasse.classeCheminAbsolu, classeDoc);
 //				}
 //			}
+			Boolean classeTraduire = (Boolean)classeDoc.get("classeTraduire_indexed_boolean").getValue();
+			String classeLangueNom = (String)classeDoc.get("langueNom_indexed_string").getValue();
 			for(String langueNom : regarderClasse.toutesLangues) {
 //				if("enUS".equals(langueNom))
 //					regarderClasse.enUSWatchClass.writeGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
 //				if("frFR".equals(langueNom))
 //					regarderClasse.frFRRegarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
-				regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
+				if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
+					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
 			}
 			for(String langueNom : regarderClasse.autresLangues) {
 				if(!StringUtils.equals(langueNom, regarderClasse.langueNom)) {
 //					if("enUS".equals(langueNom))
 //						regarderClasse.enUSWatchClass.writeClass(regarderClasse.classeCheminAbsolu, langueNom);
-					regarderClasse.ecrireClasse(regarderClasse.classeCheminAbsolu, langueNom);
+					if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
+						regarderClasse.ecrireClasse(regarderClasse.classeCheminAbsolu, langueNom);
 				}
 			}
 		}

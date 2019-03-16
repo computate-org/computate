@@ -24,14 +24,19 @@ import org.apache.solr.common.SolrDocumentList;
 public class EcrirePageClasse extends EcrireApiClasse {
 
 	/**
-	 * Var.enUS: classSimpleNamePage
+	 * Var.enUS: classPageSimpleName
 	 */
-	protected String classeNomSimplePage;
+	protected String classePageNomSimple;
 
 	/**
-	 * Var.enUS: classSimpleNameGenPage
+	 * Var.enUS: classPageSuperSimpleName
 	 */
-	protected String classeNomSimpleGenPage;
+	protected String classePageSuperNomSimple;
+
+	/**
+	 * Var.enUS: classGenPageSimpleName
+	 */
+	protected String classeGenPageNomSimple;
 
 	public void pageCodeClasseDebut(String langueNom) throws Exception {
 //		o = auteurGenPageClasse;
@@ -887,13 +892,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	public void pageCodeClasse(String langueNom) throws Exception {
 		for(String classePageMethode : classeApiMethodes) {
 
-			String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode + "_" + langueNom + "_stored_string");
-			String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode + "_" + langueNom + "_stored_string");
-			String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode + "_" + langueNom + "_stored_string");
-			String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode + "_" + langueNom + "_stored_string");
-			String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_frFR_stored_string");
+			String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
+			String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode  + "_stored_string");
+			String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
+			String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
+			String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
+			String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
+
+			classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
+			classePageSuperNomSimple = (String)doc.get("classePageSuperNomSimple" + classePageMethode  + "_stored_string");
+			classeGenPageNomSimple = (String)doc.get("classeGenPageNomSimple" + classePageMethode  + "_stored_string");
 	
-			if(classePageCheminGen != null) {
+			if(classePageCheminGen != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 			
 				File classePageFichierGen = null;
 				File classePageFichier = null;
@@ -1116,6 +1126,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(auteurPageClasse != null) {
 					auteurPageClasse.l("package ", classeNomEnsemble, ";");
 					auteurPageClasse.l();
+					auteurPageClasse.l("/**");
+					auteurPageClasse.l(" * Traduire: false");
+					auteurPageClasse.l(" **/");
 					auteurPageClasse.tl(0, "");
 					auteurPageClasse.s("public class ", classeNomSimple, "Page");
 					auteurPageClasse.s(" extends ", classeNomSimple, "PageGen<", classeNomSimple, "GenPage>");
@@ -1133,9 +1146,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 		
 				tl(0, "");
-				ecrireCommentaire(classeCommentaire, 0); 
-				s("public class ", classeNomSimple, "GenPage");
-				s(" extends ", classeNomSimple, "GenPageGen<MiseEnPage>");
+//				ecrireCommentaire(classeCommentaire, 0); 
+				l("/**");
+				l(" * Traduire: false");
+				l(" **/");
+				s("public class ", classeGenPageNomSimple);
+				s(" extends ", classeGenPageNomSimple, "Gen");
+				s("<", classePageSuperNomSimple == null ? "MiseEnPage" : classePageSuperNomSimple, ">");
 				l(" {");
 				l();
 				tl(1, "/**");
@@ -1636,10 +1653,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				wTh.flushClose();
 
 				auteurPageGenClasse.flushClose();
-				if(auteurPageClasse != null)
+				System.out.println("Ecrire Page: " + classePageCheminGen); 
+				if(auteurPageClasse != null) {
 					auteurPageClasse.flushClose();
+					System.out.println("Ecrire: " + classePageChemin); 
+				}
 				auteurPageCss.flushClose();
+				System.out.println("Ecrire: " + classePageCheminCss); 
 				auteurPageJs.flushClose();
+				System.out.println("Ecrire: " + classePageCheminJs); 
 			}
 	
 	//		auteurGenPageClasse.close();

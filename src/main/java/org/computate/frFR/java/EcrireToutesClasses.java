@@ -207,6 +207,12 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classRolesFound
 	 * r: classeRoles
 	 * r.enUS: classRoles
+	 * r: classePageNomSimple
+	 * r.enUS: classPageSimpleName
+	 * r: classePageSuperNomSimple
+	 * r.enUS: classPageSuperSimpleName
+	 * r: classeGenPageNomSimple
+	 * r.enUS: classGenPageSimpleName
 	 * 
 	 * r: classeFiltresTrouves
 	 * r.enUS: classFiltersFound

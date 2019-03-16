@@ -194,10 +194,16 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: classImport
 	 * r: classePartsSuperLangue
 	 * r.enUS: classSuperPartsLanguage
+	 * r: classeEstAbstrait
+	 * r.enUS: classIsAbstract
 	 * r: ecrireCommentaire
 	 * r.enUS: writeComment
 	 * r: classeSuperParamTypeNom
 	 * r.enUS: classSuperTypeParameterName
+	 * r: classeImplementsNomSimpleCompletListe
+	 * r.enUS: classImplementsSimpleNameCompleteList
+	 * r: classeImplementsNomSimpleComplet
+	 * r.enUS: classImplementsSimpleNameComplete
 	 * r: partEstConstructeur
 	 * r.enUS: partIsConstructor
 	 * r: partEstChamp
@@ -401,6 +407,7 @@ public class EcrireClasse extends IndexerClasse {
 			List<String> classeImportations = null;  
 			List<String> classeParamsTypeNom = null;  
 			List<String> classeSuperParamsTypeNom = null;  
+			List<String> classeImplementsNomSimpleCompletListe = null;  
 			Boolean classeEtendGen = null;
 	
 			for(int i = 0; i < listeRecherche.size(); i++) { 
@@ -426,6 +433,7 @@ public class EcrireClasse extends IndexerClasse {
 					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stored_strings");
 					classeParamsTypeNom = (List<String>)doc.get("classeParamsTypeNom_stored_strings");
 					classeSuperParamsTypeNom = (List<String>)doc.get("classeSuperParamsTypeNom_stored_strings");
+					classeImplementsNomSimpleCompletListe = (List<String>)doc.get("classeImplementsNomSimpleComplet_" + langueNom + "_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
 
 					auteurClasse = ToutEcrivain.create(classeFichier);
@@ -440,7 +448,10 @@ public class EcrireClasse extends IndexerClasse {
 						l();  
 					}
 					ecrireCommentaire(classeCommentaire, 0); 
-					s("public class ", classeNomSimple);
+					s("public ");
+					if(BooleanUtils.isTrue((Boolean)doc.get("classeEstAbstrait_stored_boolean")))
+						s("abstract ");
+					s("class ", classeNomSimple);
 
 					if(classeParamsTypeNom != null && classeParamsTypeNom.size() > 0) {
 						s("<");
@@ -474,6 +485,16 @@ public class EcrireClasse extends IndexerClasse {
 								s(classeSuperParamTypeNom);
 							}
 							s(">");
+						}
+					}
+					if(classeImplementsNomSimpleCompletListe != null && classeImplementsNomSimpleCompletListe.size() > 0) {
+						s(" implements");
+						for(Integer j = 0; j < classeImplementsNomSimpleCompletListe.size(); j++) {
+							String classeImplementsNomSimpleComplet = classeImplementsNomSimpleCompletListe.get(i);
+
+							if(j > 0)
+								s(",");
+							s(" ", classeImplementsNomSimpleComplet);
 						}
 					}
 					l(" {");
@@ -664,9 +685,14 @@ public class EcrireClasse extends IndexerClasse {
 								s(methodeExceptionNomSimpleComplet);
 							}
 						}
-						s(" {");
-						s(methodeCodeSource);
-						l("}");
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstAbstrait_stored_boolean"))) {
+							s(";");
+						}
+						else {
+							s(" {");
+							s(methodeCodeSource);
+							l("}");
+						}
 					} 
 					else if(BooleanUtils.isTrue(partEstEntite)) {
 						String entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");

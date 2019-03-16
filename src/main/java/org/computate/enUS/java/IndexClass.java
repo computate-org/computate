@@ -638,6 +638,10 @@ public class IndexClass extends WatchClassBase {
 			if(classSuperQdox.getGenericFullyQualifiedName().contains("<"))
 				classSuperCompleteName = indexStoreSolr(classDoc, "classSuperCompleteName", languageName, classSuperQdox.getGenericFullyQualifiedName());
 		}
+		for(JavaClass cImplements : classQdox.getImplementedInterfaces()) {
+			ClassParts classPartsImplements = ClassParts.initClassParts(this, cImplements, languageName);
+			classSuperCompleteName = indexStoreListSolr(classDoc, "classImplementsSimpleNameComplete", languageName, classPartsImplements.simpleNameComplete);
+		}
 
 		String classSuperCompleteNameGeneric = StringUtils.substringBeforeLast(StringUtils.substringAfter(classSuperCompleteName, "<"), ">");
 		String classSuperCanonicalNameGeneric = null;
@@ -734,10 +738,11 @@ public class IndexClass extends WatchClassBase {
 				ClassParts classPartsSuperGenericLanguage = ClassParts.initClassParts(this, classSuperCompleteNameGeneric, languageName);
 				indexStoreSolr(classDoc, "classSuperCanonicalNameGeneric", languageName, classPartsSuperGenericLanguage.canonicalNameComplete);
 				indexStoreSolr(classDoc, "classSuperSimpleNameGeneric", languageName, classPartsSuperGenericLanguage.simpleNameComplete);
-				if(classExtendsGen) {
-					classPartsGenAdd(classPartsSuperGenericLanguage);
-				}
 			}
+//			for(JavaClass cImplements : classQdox.getImplementedInterfaces()) {
+//				ClassParts classPartsImplements = ClassParts.initClassParts(this, cImplements, languageName);
+//				classSuperCompleteName = indexStoreListSolr(classDoc, "classImplementsSimpleNameComplete", languageName, classPartsImplements.simpleNameComplete);
+//			}
 		}
 
 		Boolean classInitDeep = !regexFound("^(class)?InitLoin:\\s*(false)$", classComment);
@@ -2337,11 +2342,13 @@ public class IndexClass extends WatchClassBase {
 							indexStoreSolr(entityDoc, "entitySimpleNameComplete", languageName, entityClassPartsLangue.simpleNameComplete); 
 							indexStoreSolr(entityDoc, "entityCanonicalNameGeneric", languageName, entityClassPartsLangue.canonicalNameGeneric); 
 							indexStoreSolr(entityDoc, "entitySimpleNameGeneric", languageName, entityClassPartsLangue.simpleNameGeneric); 
+							indexStoreSolr(entityDoc, "entitySimpleNameCompleteGeneric", languageName, entityClassPartsLangue.simpleNameGeneric); 
 
 							indexStoreSolr(entityDoc, "entityVarParam", languageName, entityVarParam); 
 
 							String entityVarLangue = regex("^(entity)?Var\\." + languageName + ": (.*)", methodComment);
 							entityVarLangue = indexStoreSolr(entityDoc, "entityVar", languageName, entityVarLangue == null ? entityVar : entityVarLangue);
+							indexStoreSolr(entityDoc, "entityVarCapitalized", languageName, StringUtils.capitalize(entityVarLangue));
 							indexStoreListSolr(classDoc, "classEntityVars", languageName, entityVarLangue);
 							if(entityPrimaryKey) {
 								storeSolr(classDoc, "classVarPrimaryKey", languageName, entityVarLangue);
