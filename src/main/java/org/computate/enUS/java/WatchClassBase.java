@@ -15,136 +15,28 @@ import com.thoughtworks.qdox.model.JavaType;
 
 public class WatchClassBase extends SiteConfig {
 
-	/**
-	 * r: contexteCe
-	 * r.enUS: contextThis
-	 * r: contexteCeNom
-	 * r.enUS: contextThisName
-	 * r: contexteUn
-	 * r.enUS: contextA
-	 * r: contexteUnNom
-	 * r.enUS: contextAName
-	 * r: contexteLeNom
-	 * r.enUS: contextTheName
-	 * r: contexteNomSingulier
-	 * r.enUS: contextNameSingular
-	 * r: contexteNomPluriel
-	 * r.enUS: contextNamePlural
-	 * r: contexteNomActuel
-	 * r.enUS: contextActualName
-	 * r: contexteTous
-	 * r.enUS: contextAll
-	 * r: contexteTousNom
-	 * r.enUS: contextAllName
-	 * r: contexteAucunNomTrouve
-	 * r.enUS: contextNoneNameFound
-	 * r: contexteNomVar
-	 * r.enUS: contextNameVar
-	 * r: contexteDeNom
-	 * r.enUS: contextOfName
-	 * r: contexteNom
-	 * r.enUS: contextName
-	 * r: UnNomAdjectif
-	 * r.enUS: ANameAdjective
-	 * r: LeNomAdjectif
-	 * r.enUS: TheNameAdjective
-	 * r: AdjectifAvant
-	 * r.enUS: AdjectiveBefore
-	 * r: NomAdjectifSingulier
-	 * r.enUS: NameAdjectiveSingular
-	 * r: NomAdjectifPluriel
-	 * r.enUS: NameAdjectivePlural
-	 * r: PlurielNomAdjectif
-	 * r.enUS: PluralNameAdjective
-	 * r: SingulierNomAdjectif
-	 * r.enUS: SingularNameAdjective
-	 * r: LeNomAdjectif
-	 * r.enUS: TheAdjectiveName
-	 * r: UnNomAdjectif
-	 * r.enUS: AnAdjectiveName
-	 * r: AdjectifVar
-	 * r.enUS: AdjectiveVar
-	 * r: Adjectif
-	 * r.enUS: Adjective
-	 * r: CONTEXTE_UnMasculinVoyelle
-	 * r.enUS: CONTEXT_AMaleVowel
-	 * r: CONTEXTE_UnFemininVoyelle
-	 * r.enUS: CONTEXT_AFemaleVowel
-	 * r: CONTEXTE_UnMasculinConsonne
-	 * r.enUS: CONTEXT_AMaleConsonant
-	 * r: CONTEXTE_UnFemininConsonne
-	 * r.enUS: CONTEXT_AFemaleConsonant
-	 * r: CONTEXTE_CetMasculinVoyelle
-	 * r.enUS: CONTEXT_ThisMaleVowel
-	 * r: CONTEXTE_CetteFemininVoyelle
-	 * r.enUS: CONTEXT_ThisFemaleVowel
-	 * r: CONTEXTE_CeMasculinConsonne
-	 * r.enUS: CONTEXT_ThisMaleConsonant
-	 * r: CONTEXTE_CetteFemininConsonne
-	 * r.enUS: CONTEXT_ThisFemaleConsonant
-	 * r: CONTEXTE_CesPluriel
-	 * r.enUS: CONTEXT_ThesePlural
-	 * r: CONTEXTE_LMasculinVoyelle
-	 * r.enUS: CONTEXT_TheMaleVowel
-	 * r: CONTEXTE_LFemininVoyelle
-	 * r.enUS: CONTEXT_TheFemaleVowel
-	 * r: CONTEXTE_LeMasculinConsonne
-	 * r.enUS: CONTEXT_TheMaleConsonant
-	 * r: CONTEXTE_LaFemininConsonne
-	 * r.enUS: CONTEXT_TheFemaleConsonant
-	 * r: CONTEXTE_LesPluriel
-	 * r.enUS: CONTEXT_ThePlural
-	 * r: CONTEXTE_ActuelMasculinAvant
-	 * r.enUS: CONTEXT_CurrentMaleBefore
-	 * r: CONTEXTE_ActuelleFemininAvant
-	 * r.enUS: CONTEXT_CurrentFemaleBefore
-	 * r: CONTEXTE_ActuelMasculinApres
-	 * r.enUS: CONTEXT_CurrentMaleAfter
-	 * r: CONTEXTE_ActuelleFemininApres
-	 * r.enUS: CONTEXT_CurrentFemaleAfter
-	 * r: CONTEXTE_TousMasculinPluriel
-	 * r.enUS: CONTEXT_AllMalePlural
-	 * r: CONTEXTE_ToutesFemininPluriel
-	 * r.enUS: CONTEXT_AllFemalePlural
-	 * r: CONTEXTE_AucunTrouveMasculinAvant
-	 * r.enUS: CONTEXT_NoneFoundMaleBefore
-	 * r: CONTEXTE_AucuneTrouveFemininAvant
-	 * r.enUS: CONTEXT_NoneFemaleBefore
-	 * r: CONTEXTE_AucunTrouveMasculinApres
-	 * r.enUS: CONTEXT_NoneFoundMaleAfter
-	 * r: CONTEXTE_AucuneTrouveFemininApres
-	 * r.enUS: CONTEXT_NoneFemaleAfter
-	 * r: CONTEXTE_DVoyelle
-	 * r.enUS: CONTEXT_OfVowel
-	 * r: CONTEXTE_DeConsonne
-	 * r.enUS: CONTEXT_OfConsonant
-	 * r: CONTEXTE_AdjectifPluriel
-	 * r.enUS: CONTEXT_AdjectivePlural
-	 */
 	public String[] args;
-
-	public String classAbsolutePath;
-
-	public HashMap<String, String> appPaths = new HashMap<String, String>();
-
-	public HashMap<String, SolrDocument> classDocs = new HashMap<String, SolrDocument>();
-
-	public HashMap<String, ClassParts> classPartsGen = new HashMap<String, ClassParts>();
-
-	public JavaProjectBuilder builder;
 
 	@Override()
 	protected void  _appPath() throws Exception, Exception {
-		appPath = System.getenv("appPath"); 
-		if(appPath == null)
-			appPath = args[0]; 
+		if(appPath == null) {
+			appPath = System.getenv("appPath"); 
+			if(appPath == null)
+				appPath = args[0]; 
+		}
 	}
 
+	public String classAbsolutePath;
+
 	protected void  _classAbsolutePath() throws Exception, Exception {
-		classAbsolutePath = System.getenv("classAbsolutePath"); 
-		if(classAbsolutePath == null)
-			classAbsolutePath = args[1];
+		if(classAbsolutePath == null) {
+			classAbsolutePath = System.getenv("classAbsolutePath"); 
+			if(classAbsolutePath == null)
+				classAbsolutePath = args[1];
+		}
 	}
+
+	public HashMap<String, String> appPaths = new HashMap<String, String>();
 
 	protected void  _appPaths() throws Exception, Exception {
 		for(String languageName : otherLanguages) { 
@@ -158,11 +50,17 @@ public class WatchClassBase extends SiteConfig {
 		}
 	}
 
+	public HashMap<String, SolrDocument> classDocs = new HashMap<String, SolrDocument>();
+
 	protected void  _classDocs() throws Exception, Exception {
 	}
 
+	public HashMap<String, ClassParts> classPartsGen = new HashMap<String, ClassParts>();
+
 	protected void  _classPartsGen() throws Exception, Exception {
 	}
+
+	public JavaProjectBuilder builder;
 
 	protected void  _builder() throws Exception, Exception { 
 		builder = new JavaProjectBuilder();

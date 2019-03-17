@@ -60,19 +60,23 @@ public class WatchClass extends WriteAllClasses {
 //						watchClass.enUSWatchClass.indexClass(watchClass.classAbsolutePath, classDoc);
 //				}
 //			}
+			Boolean classTranslate = (Boolean)classDoc.get("classTranslate_indexed_boolean").getValue();
+			String classLanguageName = (String)classDoc.get("languageName_indexed_string").getValue();
+			for(String languageName : watchClass.otherLanguages) {
+				if(!StringUtils.equals(languageName, watchClass.languageName)) {
+//					if("enUS".equals(languageName))
+//						watchClass.enUSWatchClass.writeClass(watchClass.classAbsolutePath, languageName);
+					if(classTranslate || StringUtils.equals(classLanguageName, languageName))
+						watchClass.writeClass(watchClass.classAbsolutePath, languageName);
+				}
+			}
 			for(String languageName : watchClass.allLanguages) {
 //				if("enUS".equals(languageName))
 //					watchClass.enUSWatchClass.writeGenClasses(watchClass.classAbsolutePath, languageName);
 //				if("frFR".equals(languageName))
 //					watchClass.frFRRegarderClasse.writeGenClasses(watchClass.classAbsolutePath, languageName);
-				watchClass.writeGenClasses(watchClass.classAbsolutePath, languageName);
-			}
-			for(String languageName : watchClass.otherLanguages) {
-				if(!StringUtils.equals(languageName, watchClass.languageName)) {
-//					if("enUS".equals(languageName))
-//						watchClass.enUSWatchClass.writeClass(watchClass.classAbsolutePath, languageName);
-					watchClass.writeClass(watchClass.classAbsolutePath, languageName);
-				}
+				if(classTranslate || StringUtils.equals(classLanguageName, languageName))
+					watchClass.writeGenClasses(watchClass.classAbsolutePath, classLanguageName, languageName);
 			}
 		}
 	}

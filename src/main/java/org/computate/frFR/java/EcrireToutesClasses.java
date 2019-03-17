@@ -58,17 +58,17 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */   
-	public void ecrireGenClasses(String classeCheminAbsolu, String langueNom) throws Exception { 
+	public void ecrireGenClasses(String classeCheminAbsolu, String classeLangueNom, String langueNom) throws Exception { 
 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
 		rechercheSolr.setRows(1000000);
-		rechercheSolr.addFilterQuery("classeCheminAbsolu_indexed_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
+		rechercheSolr.addFilterQuery("classeChemin_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classeCheminAbsolu));
 		rechercheSolr.addFilterQuery("classeEtendGen_indexed_boolean:true");
 		rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
 
 		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		ecrireGenClasses(reponseRecherche, langueNom);
+		ecrireGenClasses(reponseRecherche, classeLangueNom, langueNom);
 	}
 
 	/** 
@@ -397,7 +397,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */  
-	public void ecrireGenClasses(QueryResponse reponseRecherche, String langueNom) throws Exception { 
+	public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
 		if(listeRecherche.size() > 0 && (langueIndexe || !StringUtils.equals(langueNom, this.langueNom))) {    
@@ -521,32 +521,37 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					contexteLeNom = (String)doc.get("contexteLeNom" + "_" + langueNom + "_stored_string");
 					contexteDeNom = (String)doc.get("contexteDeNom" + "_" + langueNom + "_stored_string");
 
-					auteurGenClasse = ToutEcrivain.create(classeFichierGen);
 					if(classeApi && ecrireApi) {
-//						if(classeFichierApiEnsembleInfo != null && !classeFichierApiEnsembleInfo.exists())
-//							auteurApiEnsembleInfo = ToutEcrivain.create(classeFichierApiEnsembleInfo);
-						if(classeFichierGenApiServiceImpl != null)
+						if(classeFichierGenApiServiceImpl != null) {
+							classeFichierGenApiServiceImpl.getParentFile().mkdirs();
 							auteurGenApiServiceImpl = ToutEcrivain.create(classeFichierGenApiServiceImpl);
-						if(classeFichierApiServiceImpl != null && !classeFichierApiServiceImpl.exists())
-//						if(classeFichierApiServiceImpl != null)
+						}
+						if(classeFichierApiServiceImpl != null && !classeFichierApiServiceImpl.exists()) {
+							classeFichierApiServiceImpl.getParentFile().mkdirs();
 							auteurApiServiceImpl = ToutEcrivain.create(classeFichierApiServiceImpl);
-						if(classeFichierGenApiService != null)
+						}
+						if(classeFichierGenApiService != null) {
+							classeFichierGenApiService.getParentFile().mkdirs();
 							auteurGenApiService = ToutEcrivain.create(classeFichierGenApiService);
+						}
 					}
-
 					genCodeInit();
-					o = auteurGenClasse;
-
-					genCodeInitLoin(langueNom);
-					genCodeRequeteSite(langueNom);
-					genCodeIndexer(langueNom);
-					genCodeObtenir(langueNom);
-					genCodeAttribuer(langueNom);
-					genCodePut(langueNom);
-					genCodePeupler(langueNom);
-					genCodeExiste(langueNom); 
-					genCodeSauvegardes(langueNom);
-					genCodeClasseDebut(langueNom);
+//					if(StringUtils.equals(classeLangueNom, langueNom)) {
+						auteurGenClasse = ToutEcrivain.create(classeFichierGen);
+	
+						o = auteurGenClasse;
+	
+						genCodeInitLoin(langueNom);
+						genCodeRequeteSite(langueNom);
+						genCodeIndexer(langueNom);
+						genCodeObtenir(langueNom);
+						genCodeAttribuer(langueNom);
+						genCodePut(langueNom);
+						genCodePeupler(langueNom);
+						genCodeExiste(langueNom); 
+						genCodeSauvegardes(langueNom);
+						genCodeClasseDebut(langueNom);
+//					}
 					if(classeApi)
 						apiCodeClasseDebut(langueNom);
 					if(classePage)
@@ -557,17 +562,21 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
 					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
 	
-					if(BooleanUtils.isTrue(partEstConstructeur)) {
-						genCodeConstructeur(langueNom);
-					}
-					else if(BooleanUtils.isTrue(partEstEntite)) {
-						genCodeEntite(langueNom);
-					}
+//					if(StringUtils.equals(classeLangueNom, langueNom)) {
+						if(BooleanUtils.isTrue(partEstConstructeur)) {
+							genCodeConstructeur(langueNom);
+						}
+						else if(BooleanUtils.isTrue(partEstEntite)) {
+							genCodeEntite(langueNom);
+						}
+//					}
 				}
 			}
 			if(o != null) {
 				if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeCheminGen)) {
-					genCodeClasseFin(langueNom);
+//					if(StringUtils.equals(classeLangueNom, langueNom)) {
+						genCodeClasseFin(langueNom);
+//					}
 					if(classeApi) {
 //						ecrireApiEnsembleInfo(langueNom);
 						ecrireGenApiService(langueNom);

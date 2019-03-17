@@ -30,24 +30,24 @@ public class WriteAllClasses extends WritePageClass {
 	 *	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language. 
 	 **/
-	public void  writeGenClasses(String classAbsolutePath, String languageName) throws Exception, Exception { 
+	public void  writeGenClasses(String classAbsolutePath, String languageName, String langueNom) throws Exception, Exception { 
 
 		SolrQuery solrSearch = new SolrQuery();   
 		solrSearch.setQuery("*:*");
 		solrSearch.setRows(1000000);
-		solrSearch.addFilterQuery("classAbsolutePath_indexed_string:" + ClientUtils.escapeQueryChars(classAbsolutePath));
+		solrSearch.addFilterQuery("classeChemin_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classAbsolutePath));
 		solrSearch.addFilterQuery("classExtendsGen_indexed_boolean:true");
 		solrSearch.addSort("partNumber_indexed_int", ORDER.asc);
 
 		QueryResponse searchResponse = solrClientComputate.query(solrSearch);
-		writeGenClasses(searchResponse, languageName);
+		writeGenClasses(searchResponse, classeLangueNom, languageName);
 	}
 
 	/**	
 	 *	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language. 
 	 **/
-	public void  writeGenClasses(QueryResponse searchResponse, String languageName) throws Exception, Exception { 
+	public void  writeGenClasses(QueryResponse searchResponse, String languageName, String langueNom) throws Exception, Exception { 
 		SolrDocumentList searchList = searchResponse.getResults();
 
 		if(searchList.size() > 0 && (languageIndexed || !StringUtils.equals(languageName, this.languageName))) {    
@@ -129,6 +129,8 @@ public class WriteAllClasses extends WritePageClass {
 					classPage = BooleanUtils.isTrue((Boolean)doc.get("classPage_stored_boolean"));
 					classRolesFound = BooleanUtils.isTrue((Boolean)doc.get("classRolesFound_stored_boolean"));
 					classRoles = (List<String>)doc.get("classRoles_" + languageName + "_stored_strings");
+					classFiltersFound = BooleanUtils.isTrue((Boolean)doc.get("classFiltersFound_stored_boolean"));
+					classFilters = (List<String>)doc.get("classFilters_stored_strings");
 					classApiMethods = (List<String>)doc.get("classApiMethods_stored_strings");
 					if(classApiMethods == null)
 						classApiMethods = new ArrayList<>();
@@ -169,32 +171,37 @@ public class WriteAllClasses extends WritePageClass {
 					contextTheName = (String)doc.get("contextTheName" + "_" + languageName + "_stored_string");
 					contextOfName = (String)doc.get("contextOfName" + "_" + languageName + "_stored_string");
 
-					writerGenClass = AllWriter.create(classFileGen);
 					if(classApi && writeApi) {
-//						if(classFileApiPackageInfo != null && !classFileApiPackageInfo.exists())
-//							writerApiPackageInfo = AllWriter.create(classFileApiPackageInfo);
-						if(classFileGenApiServiceImpl != null)
+						if(classFileGenApiServiceImpl != null) {
+							classFileGenApiServiceImpl.getParentFile().mkdirs();
 							writerGenApiServiceImpl = AllWriter.create(classFileGenApiServiceImpl);
-						if(classFileApiServiceImpl != null && !classFileApiServiceImpl.exists())
-//						if(classFileApiServiceImpl != null)
+						}
+						if(classFileApiServiceImpl != null && !classFileApiServiceImpl.exists()) {
+							classFileApiServiceImpl.getParentFile().mkdirs();
 							writerApiServiceImpl = AllWriter.create(classFileApiServiceImpl);
-						if(classFileGenApiService != null)
+						}
+						if(classFileGenApiService != null) {
+							classFileGenApiService.getParentFile().mkdirs();
 							writerGenApiService = AllWriter.create(classFileGenApiService);
+						}
 					}
-
 					genCodeInit();
-					o = writerGenClass;
-
-					genCodeInitDeep(languageName);
-					genCodeSiteRequest(languageName);
-					genCodeIndex(languageName);
-					genCodeObtain(languageName);
-					genCodeAttribute(languageName);
-					genCodePut(languageName);
-					genCodePopulate(languageName);
-					genCodeExists(languageName); 
-					genCodeSaves(languageName);
-					genCodeClassBegin(languageName);
+//					if(StringUtils.equals(classLangueNom, languageName)) {
+						writerGenClass = AllWriter.create(classFileGen);
+	
+						o = writerGenClass;
+	
+						genCodeInitDeep(languageName);
+						genCodeSiteRequest(languageName);
+						genCodeIndex(languageName);
+						genCodeObtain(languageName);
+						genCodeAttribute(languageName);
+						genCodePut(languageName);
+						genCodePopulate(languageName);
+						genCodeExists(languageName); 
+						genCodeSaves(languageName);
+						genCodeClassBegin(languageName);
+//					}
 					if(classApi)
 						apiCodeClassBegin(languageName);
 					if(classPage)
@@ -205,17 +212,21 @@ public class WriteAllClasses extends WritePageClass {
 					Boolean partIsConstructor = (Boolean)doc.get("partIsConstructor_stored_boolean");
 					Boolean partIsEntity = (Boolean)doc.get("partIsEntity_stored_boolean");
 	
-					if(BooleanUtils.isTrue(partIsConstructor)) {
-						genCodeConstructor(languageName);
-					}
-					else if(BooleanUtils.isTrue(partIsEntity)) {
-						genCodeEntity(languageName);
-					}
+//					if(StringUtils.equals(classLangueNom, languageName)) {
+						if(BooleanUtils.isTrue(partIsConstructor)) {
+							genCodeConstructor(languageName);
+						}
+						else if(BooleanUtils.isTrue(partIsEntity)) {
+							genCodeEntity(languageName);
+						}
+//					}
 				}
 			}
 			if(o != null) {
 				if(searchList.size() > 0 && !StringUtils.equals(classAbsolutePath, classPathGen)) {
-					genCodeClassEnd(languageName);
+//					if(StringUtils.equals(classLangueNom, languageName)) {
+						genCodeClassEnd(languageName);
+//					}
 					if(classApi) {
 //						writeApiPackageInfo(languageName);
 						writeGenApiService(languageName);

@@ -103,11 +103,6 @@ public class SiteConfig {
 		config = configurations.ini(configFile);
 	}
 
-	/**	
-	 *	The configured language name for this app. 
-	 **/
-	public String languageName;
-
 	protected void  _languageName() throws Exception, Exception {
 		languageName = config.getString(StringUtils.replace(appName, ".", "..") + ".languageName");
 	}

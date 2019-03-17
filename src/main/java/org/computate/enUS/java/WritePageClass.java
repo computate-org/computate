@@ -19,9 +19,11 @@ import org.apache.solr.common.SolrDocumentList;
  **/
 public class WritePageClass extends WriteApiClass {
 
-	protected String classSimpleNamePage;
+	protected String classPageSimpleName;
 
-	protected String classSimpleNameGenPage;
+	protected String classPageSuperSimpleName;
+
+	protected String classGenPageSimpleName;
 
 	public void  pageCodeClasseDebut(String langueNom) throws Exception, Exception {
 //		o = auteurGenPageClasse;
@@ -606,13 +608,19 @@ public class WritePageClass extends WriteApiClass {
 	public void  pageCodeClass(String languageName) throws Exception, Exception {
 		for(String classePageMethode : classApiMethods) {
 
-			String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode + "_" + languageName + "_stored_string");
-			String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode + "_" + languageName + "_stored_string");
-			String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode + "_" + languageName + "_stored_string");
-			String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode + "_" + languageName + "_stored_string");
-			String classePageUriMethode = (String)classDoc.get("classApiUri" + classePageMethode + "_frFR_stored_string");
+			String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
+			String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode  + "_stored_string");
+			String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
+			String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
+			String classePageUriMethode = (String)classDoc.get("classApiUri" + classePageMethode + "_stored_string");
+			String classePageLangueNom = (String)classDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
+
+			classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
+			classePageSuperNomSimple = (String)doc.get("classePageSuperNomSimple" + classePageMethode  + "_stored_string");
+			classeGenPageNomSimple = (String)doc.get("classeGenPageNomSimple" + classePageMethode  + "_stored_string");
+			String classePageNomCanonique = (String)doc.get("classePageNomCanonique" + classePageMethode  + "_stored_string");
 	
-			if(classePageCheminGen != null) {
+			if(classePageCheminGen != null && StringUtils.equals(classePageLangueNom, languageName)) {
 			
 				File classePageFichierGen = null;
 				File classePageFichier = null;
@@ -835,9 +843,11 @@ public class WritePageClass extends WriteApiClass {
 				if(writerPageClass != null) {
 					writerPageClass.l("package ", classPackageName, ";");
 					writerPageClass.l();
-					writerPageClass.tl(0, "");
-					writerPageClass.s("public class ", classSimpleName, "Page");
-					writerPageClass.s(" extends ", classSimpleName, "PageGen<", classSimpleName, "GenPage>");
+					writerPageClass.l("/**");
+					writerPageClass.l(" * Traduire: false");
+					writerPageClass.l(" **/");
+					writerPageClass.s("public class ", classePageNomSimple);
+					writerPageClass.s(" extends ", classePageNomSimple, "Gen<", classeGenPageNomSimple, ">");
 					writerPageClass.l(" {");
 					writerPageClass.tl(0, "}");
 				}
@@ -852,9 +862,13 @@ public class WritePageClass extends WriteApiClass {
 				}
 		
 				tl(0, "");
-				writeComment(classComment, 0); 
-				s("public class ", classSimpleName, "GenPage");
-				s(" extends ", classSimpleName, "GenPageGen<PageLayout>");
+//				writeComment(classComment, 0); 
+				l("/**");
+				l(" * Traduire: false");
+				l(" **/");
+				s("public class ", classeGenPageNomSimple);
+				s(" extends ", classeGenPageNomSimple, "Gen");
+				s("<", classePageSuperNomSimple, ">");
 				l(" {");
 				l();
 				tl(1, "/**");
@@ -885,13 +899,13 @@ public class WritePageClass extends WriteApiClass {
 				}
 	
 				l();
-				tl(1, "@Override public void initDeep", classSimpleName, "GenPage() {");
-				tl(2, "init", classSimpleName, "GenPage();");
+				tl(1, "@Override public void initDeep", classeGenPageNomSimple, "() {");
+				tl(2, "init", classeGenPageNomSimple, "();");
 				tl(2, "super.initDeepPageLayout();");
 				tl(1, "}");
 				l();
-				tl(1, "@Override public void htmlScripts", classSimpleName, "GenPage() {");
-				t(2).e("script").da("src", "/static/js/", classSimpleName, "Page.js").df().dgl("script");
+				tl(1, "@Override public void htmlScripts", classeGenPageNomSimple, "() {");
+				t(2).e("script").da("src", "/static/js/", classeGenPageNomSimple, ".js").df().dgl("script");
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classApiUri)) {
@@ -1025,7 +1039,7 @@ public class WritePageClass extends WriteApiClass {
 				}
 	
 				l();
-				tl(1, "@Override public void htmlScript", classSimpleName, "GenPage() {");
+				tl(1, "@Override public void htmlScript", classeGenPageNomSimple, "() {");
 				for(String classeApiMethode : classApiMethods) {
 					String classeApiOperationIdMethode = (String)classDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
 					String classApiUriMethode = (String)classDoc.get("classApiUri" + classeApiMethode + "_frFR_stored_string");
@@ -1132,7 +1146,7 @@ public class WritePageClass extends WriteApiClass {
 				s(wFormSearch);
 				tl(1, "}");
 				l();
-				tl(1, "@Override public void htmlBody", classSimpleName, "GenPage() {");
+				tl(1, "@Override public void htmlBody", classeGenPageNomSimple, "() {");
 				l();
 				tl(2, "if(list", classSimpleName, ".size() == 0) {");
 				t(3).l("//", contextNoneNameFound);
@@ -1355,13 +1369,38 @@ public class WritePageClass extends WriteApiClass {
 				wTh.flushClose();
 
 				auteurPageGenClasse.flushClose();
-				if(writerPageClass != null)
+				System.out.println("Write: " + classePageCheminGen); 
+				if(writerPageClass != null) {
 					writerPageClass.flushClose();
+					System.out.println("Write: " + classePageChemin); 
+				}
 				writerPageCss.flushClose();
+				System.out.println("Write: " + classePageCheminCss); 
 				writerPageJs.flushClose();
-			}
+				System.out.println("Write: " + classePageCheminJs); 
+
+				{
+					RegarderClasse regarderClasse = new RegarderClasse();
+					regarderClasse.appliChemin = appliChemin;
+					regarderClasse.classAbsolutePath = classePageChemin;
+					regarderClasse.appliNom = appliNom;
+					regarderClasse.initRegarderClasseBase(); 
+//					regarderClasse.ecrireGenClasses(regarderClasse.classAbsolutePath, languageName, languageName);
+					RegarderClasse.regarderClasse(regarderClasse, languageName);
+				}
+
+				{
+					RegarderClasse regarderClasse = new RegarderClasse();
+					regarderClasse.appliChemin = appliChemin;
+					regarderClasse.classAbsolutePath = classePageCheminGen;
+					regarderClasse.appliNom = appliNom;
+					regarderClasse.initRegarderClasseBase(); 
+//					regarderClasse.ecrireGenClasses(regarderClasse.classAbsolutePath, languageName, languageName);
+					RegarderClasse.regarderClasse(regarderClasse, languageName);
+				}
 	
 	//		writerGenPageClass.close();
+			}
 		}
 	}
 }

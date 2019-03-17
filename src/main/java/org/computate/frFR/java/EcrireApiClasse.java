@@ -231,8 +231,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
-				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
-				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_frFR_stored_string");
+				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_stored_string");
+				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_stored_string");
 
 				if(classePageNomCanoniqueMethode != null) {
 					auteurGenApiService.t(1, "public void ", classeApiOperationIdMethode, "Id(");
@@ -439,7 +439,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 			l("package ", classeNomEnsemble, ";");
 			l();
-			auteurGenApiServiceImpl.l("import ", classePartsToutEcrivain.nomCanonique, ";");
 			if(classeImportationsGenApi.size() > 0) { 
 				for(String classeImportation : classeImportationsGenApi) {
 					l("import ", classeImportation, ";");
@@ -886,10 +885,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
-				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_frFR_stored_string");
-				String classePageNomSimpleMethode = (String)classeDoc.get("classePageNomSimple" + classeApiMethode + "_frFR_stored_string");
-				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
-				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
+				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_stored_string");
+				String classePageNomSimpleMethode = (String)classeDoc.get("classePageNomSimple" + classeApiMethode + "_stored_string");
+				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_stored_string");
+				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_stored_string");
 				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia" + classeApiMethode + "_stored_string");
 				l();
 				tl(1, "// ", classeApiMethode, " //");

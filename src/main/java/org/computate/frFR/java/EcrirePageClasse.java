@@ -702,6 +702,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: classDoc
 	 * r: contexteCouleur
 	 * r.enUS: contextColor
+	 * r: classePageNomEnsemble
+	 * r.enUS: classPagePackageName
 	 * 
 	 * r: contexteUnNom
 	 * r.enUS: contextAName
@@ -902,6 +904,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
 			classePageSuperNomSimple = (String)doc.get("classePageSuperNomSimple" + classePageMethode  + "_stored_string");
 			classeGenPageNomSimple = (String)doc.get("classeGenPageNomSimple" + classePageMethode  + "_stored_string");
+			String classePageNomCanonique = (String)doc.get("classePageNomCanonique" + classePageMethode  + "_stored_string");
 	
 			if(classePageCheminGen != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 			
@@ -1129,9 +1132,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageClasse.l("/**");
 					auteurPageClasse.l(" * Traduire: false");
 					auteurPageClasse.l(" **/");
-					auteurPageClasse.tl(0, "");
-					auteurPageClasse.s("public class ", classeNomSimple, "Page");
-					auteurPageClasse.s(" extends ", classeNomSimple, "PageGen<", classeNomSimple, "GenPage>");
+					auteurPageClasse.s("public class ", classePageNomSimple);
+					auteurPageClasse.s(" extends ", classePageNomSimple, "Gen<", classeGenPageNomSimple, ">");
 					auteurPageClasse.l(" {");
 					auteurPageClasse.tl(0, "}");
 				}
@@ -1152,7 +1154,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l(" **/");
 				s("public class ", classeGenPageNomSimple);
 				s(" extends ", classeGenPageNomSimple, "Gen");
-				s("<", classePageSuperNomSimple == null ? "MiseEnPage" : classePageSuperNomSimple, ">");
+				s("<", classePageSuperNomSimple, ">");
 				l(" {");
 				l();
 				tl(1, "/**");
@@ -1183,13 +1185,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 	
 				l();
-				tl(1, "@Override public void initLoin", classeNomSimple, "GenPage() {");
-				tl(2, "init", classeNomSimple, "GenPage();");
+				tl(1, "@Override public void initLoin", classeGenPageNomSimple, "() {");
+				tl(2, "init", classeGenPageNomSimple, "();");
 				tl(2, "super.initLoinMiseEnPage();");
 				tl(1, "}");
 				l();
-				tl(1, "@Override public void htmlScripts", classeNomSimple, "GenPage() {");
-				t(2).e("script").da("src", "/static/js/", classeNomSimple, "Page.js").df().dgl("script");
+				tl(1, "@Override public void htmlScripts", classeGenPageNomSimple, "() {");
+				t(2).e("script").da("src", "/static/js/", classeGenPageNomSimple, ".js").df().dgl("script");
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classeApiUri)) {
@@ -1323,7 +1325,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 	
 				l();
-				tl(1, "@Override public void htmlScript", classeNomSimple, "GenPage() {");
+				tl(1, "@Override public void htmlScript", classeGenPageNomSimple, "() {");
 				for(String classeApiMethode : classeApiMethodes) {
 					String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
 					String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
@@ -1430,7 +1432,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				s(wFormRecherche);
 				tl(1, "}");
 				l();
-				tl(1, "@Override public void htmlBody", classeNomSimple, "GenPage() {");
+				tl(1, "@Override public void htmlBody", classeGenPageNomSimple, "() {");
 				l();
 				tl(2, "if(liste", classeNomSimple, ".size() == 0) {");
 				t(3).l("//", contexteAucunNomTrouve);
@@ -1653,7 +1655,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				wTh.flushClose();
 
 				auteurPageGenClasse.flushClose();
-				System.out.println("Ecrire Page: " + classePageCheminGen); 
+				System.out.println("Ecrire: " + classePageCheminGen); 
 				if(auteurPageClasse != null) {
 					auteurPageClasse.flushClose();
 					System.out.println("Ecrire: " + classePageChemin); 
@@ -1662,9 +1664,29 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				System.out.println("Ecrire: " + classePageCheminCss); 
 				auteurPageJs.flushClose();
 				System.out.println("Ecrire: " + classePageCheminJs); 
-			}
+
+				{
+					RegarderClasse regarderClasse = new RegarderClasse();
+					regarderClasse.appliChemin = appliChemin;
+					regarderClasse.classeCheminAbsolu = classePageChemin;
+					regarderClasse.appliNom = appliNom;
+					regarderClasse.initRegarderClasseBase(); 
+//					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom);
+					RegarderClasse.regarderClasse(regarderClasse, langueNom);
+				}
+
+				{
+					RegarderClasse regarderClasse = new RegarderClasse();
+					regarderClasse.appliChemin = appliChemin;
+					regarderClasse.classeCheminAbsolu = classePageCheminGen;
+					regarderClasse.appliNom = appliNom;
+					regarderClasse.initRegarderClasseBase(); 
+//					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom);
+					RegarderClasse.regarderClasse(regarderClasse, langueNom);
+				}
 	
 	//		auteurGenPageClasse.close();
+			}
 		}
 	}
 }

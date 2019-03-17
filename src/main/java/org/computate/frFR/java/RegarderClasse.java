@@ -32,9 +32,12 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r.enUS: appPath
 	 * r: Erreur pendant traiterEvenements.
 	 * r.enUS: Error during initWatchClassBase.
+	 * r: "frFR"
+	 * r.enUS: "enUS"
 	 */ 
 	public static void main(String[] args) throws Exception {   
 		RegarderClasse regarderClasse = new RegarderClasse();
+		String classeLangueNom = "frFR";
 		try {
 			regarderClasse.args = args;
 			regarderClasse.initRegarderClasseBase(); 
@@ -65,7 +68,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 			System.err.println("Erreur pendant traiterEvenements. ");
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
-		regarderClasse(regarderClasse);
+		regarderClasse(regarderClasse, classeLangueNom);
 	}
 	
 	/**
@@ -98,13 +101,13 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r: classeLangueNom
 	 * r.enUS: classLanguageName
 	 */   
-	public static void regarderClasse(RegarderClasse regarderClasse) throws Exception {
+	public static void regarderClasse(RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
 		System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile()) {
 			SolrInputDocument classeDoc = new SolrInputDocument();
 //			classeDoc.addField("id", regarderClasse.classeCheminAbsolu);  
-			regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc);
+			regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, classeLangueNom);
 //			for(String langueNom : regarderClasse.autresLangues) {
 //				if(!StringUtils.equals(langueNom, regarderClasse.langueNom)) {
 //					if("enUS".equals(langueNom))
@@ -112,15 +115,6 @@ public class RegarderClasse extends EcrireToutesClasses {
 //				}
 //			}
 			Boolean classeTraduire = (Boolean)classeDoc.get("classeTraduire_indexed_boolean").getValue();
-			String classeLangueNom = (String)classeDoc.get("langueNom_indexed_string").getValue();
-			for(String langueNom : regarderClasse.toutesLangues) {
-//				if("enUS".equals(langueNom))
-//					regarderClasse.enUSWatchClass.writeGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
-//				if("frFR".equals(langueNom))
-//					regarderClasse.frFRRegarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
-				if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
-					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
-			}
 			for(String langueNom : regarderClasse.autresLangues) {
 				if(!StringUtils.equals(langueNom, regarderClasse.langueNom)) {
 //					if("enUS".equals(langueNom))
@@ -128,6 +122,14 @@ public class RegarderClasse extends EcrireToutesClasses {
 					if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
 						regarderClasse.ecrireClasse(regarderClasse.classeCheminAbsolu, langueNom);
 				}
+			}
+			for(String langueNom : regarderClasse.toutesLangues) {
+//				if("enUS".equals(langueNom))
+//					regarderClasse.enUSWatchClass.writeGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
+//				if("frFR".equals(langueNom))
+//					regarderClasse.frFRRegarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
+				if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
+					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, langueNom);
 			}
 		}
 	}
