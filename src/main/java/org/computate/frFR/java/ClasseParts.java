@@ -26,11 +26,33 @@ public class ClasseParts {
 	 * Var.enUS: canonicalName
 	 */
 	public String nomCanonique;
+	/**
+	 * Var.enUS: canonicalName
+	 * r: nomCanonique
+	 * r.enUS: canonicalName
+	 */
+	public String nomCanonique(String langueNom) {
+		if(langueNom == null || documentSolr == null)
+			return nomCanonique;
+		else
+			return (String)documentSolr.get("classeNomCanonique_" + langueNom + "_stored_string");
+	}
 
 	/**
 	 * Var.enUS: simpleName
 	 */
 	public String nomSimple;
+	/**
+	 * Var.enUS: simpleName
+	 * r: nomSimple
+	 * r.enUS: simpleName
+	 */
+	public String nomSimple(String langueNom) {
+		if(langueNom == null || documentSolr == null)
+			return nomSimple;
+		else
+			return (String)documentSolr.get("classeNomSimple_" + langueNom + "_stored_string");
+	}
 
 	/**
 	 * Var.enUS: canonicalNameGeneric
@@ -58,6 +80,11 @@ public class ClasseParts {
 	public SolrDocument documentSolr;
 
 	/**
+	 * Var.enUS: languageName
+	 */
+	public String langueNom;
+
+	/**
 	 * Var.enUS: solrDocument
 	 * Param1.var.enUS: siteConfig
 	 * Param2.var.enUS: canonicalName
@@ -82,13 +109,13 @@ public class ClasseParts {
 	 * r: listeRecherche
 	 * r.enUS: searchList
 	 */
-	public static SolrDocument documentSolr(ConfigSite configSite, String nomCanonique) throws Exception {
+	public static SolrDocument documentSolr(ConfigSite configSite, String nomCanonique, String langueNom) throws Exception {
 		SolrDocument doc = null;   
 		if(StringUtils.startsWith(nomCanonique, configSite.nomEnsembleDomaine)) {
 			SolrQuery rechercheSolr = new SolrQuery();   
 			rechercheSolr.setQuery("*:*");
 			rechercheSolr.setRows(1);
-			rechercheSolr.addFilterQuery("classeNomCanonique_" + configSite.langueNomActuel + "_indexed_string:" + ClientUtils.escapeQueryChars(nomCanonique));
+			rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(nomCanonique));
 			rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
 			rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(configSite.nomEnsembleDomaine));
 			QueryResponse reponseRecherche = configSite.clientSolrComputate.query(rechercheSolr);
@@ -323,7 +350,10 @@ public class ClasseParts {
 			classeParts.nomCanonique = StringUtils.substringBefore(nomCanoniqueComplet, "<");
 			valeurGenerique = StringUtils.substringAfter(StringUtils.substringBeforeLast(nomCanoniqueComplet, ">"), "<");
 		}
-		classeParts.documentSolr = documentSolr(configSite, classeParts.nomCanonique);
+		classeParts.documentSolr = documentSolr(configSite, classeParts.nomCanonique, configSite.langueNomActuel);
+
+		if(nomCanoniqueComplet != null && langueNom != null && (nomCanoniqueComplet.contains(langueNom) || classeParts.documentSolr != null))
+			classeParts.langueNom = langueNom;
 
 		String nomCanonique = null;
 		String nomSimple = null;

@@ -74,7 +74,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //
 //		s(wPageEntites.toString());
 //		l();
-//		tl(1, "public void pageGet", classeNomSimple, "(SiteContexte siteContexte) {");
+//		tl(1, "public void pageGet", classeNomSimple, "(", classePartsSiteContexte.nomSimple(langueNom), " siteContexte) {");
 //		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur_();");
 //		l();
 //		tl(2, "usineRouteur.addHandlerByOperationId(\"getPage", classeNomSimple, "\", contexteRoutage -> {");
@@ -92,7 +92,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		}
 //		l();
 //		tl(tBase, "contexteRoutage.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
-//		tl(tBase, "RequeteSite requeteSite = genererRequeteSitePour", classeNomSimple, "(siteContexte, contexteRoutage);");
+//		tl(tBase, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = generer", classePartsRequeteSite.nomSimple(langueNom), "Pour", classeNomSimple, "(siteContexte, contexteRoutage);");
 //		tl(tBase, "SolrQuery rechercheSolr = requeteSite.getRechercheSolr_();");
 //		tl(tBase, "SolrDocumentList resultatsRecherche = requeteSite.getReponseRecherche().getResults();");
 //		tl(tBase, "Integer rechercheLignes = rechercheSolr.getRows();");
@@ -139,7 +139,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		tl(2, "});");
 //		tl(1, "}");
 //		l();
-//		tl(1, "public void genererGetDebut", classeNomSimple, "(RequeteSite requeteSite) {");
+//		tl(1, "public void genererGetDebut", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
 //		tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
 //		tl(2, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
 //		tl(2, "reponseServeur.write(\"{\\n\");");
@@ -179,7 +179,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		tl(1, "}");
 //		l();
 //		tl(1, "public void genererGetIndividuel", classeNomSimple, "(ResultatRecherche resultatRecherche) throws Exception {");
-//		tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
+//		tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = resultatRecherche.getRequeteSite_();");
 //		tl(2, "SolrDocument documentSolr = resultatRecherche.getDocumentSolr();");
 //		tl(2, "Long resultatIndice = resultatRecherche.getResultatIndice();");
 //		tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
@@ -196,7 +196,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		tl(2, "reponseServeur.write(\"\\t\\t}\\n\");");
 //		tl(1, "}");
 //		l();
-//		tl(1, "public void genererGetFin", classeNomSimple, "(RequeteSite requeteSite) {");
+//		tl(1, "public void genererGetFin", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
 //		tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
 ////		tl(2, "if(exceptionRecherche != null) {");
 ////		l();
@@ -276,16 +276,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		tl(2, "return rechercheSolr;");
 //		tl(1, "}");
 //		l();
-//		tl(1, "public RequeteSite genererRequeteSitePour", classeNomSimple, "(SiteContexte siteContexte, RoutingContext contexteItineraire) throws Exception {");
+//		tl(1, "public ", classePartsRequeteSite.nomSimple(langueNom), " generer", classePartsRequeteSite.nomSimple(langueNom), "Pour", classeNomSimple, "(", classePartsSiteContexte.nomSimple(langueNom), " siteContexte, RoutingContext contexteItineraire) throws Exception {");
 //		tl(2, "Vertx vertx = siteContexte.getVertx_();");
 //		tl(2, "SolrQuery rechercheSolr = genererRecherche", classeNomSimple, "(contexteItineraire.request());");
 //		l();
-//		tl(2, "RequeteSite requeteSite = new RequeteSite();");
+//		tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
 //		tl(2, "requeteSite.setVertx_(vertx);");
 //		tl(2, "requeteSite.setContexteItineraire_(contexteItineraire);");
 //		tl(2, "requeteSite.setSiteContexte_(siteContexte);");
 //		tl(2, "requeteSite.setRechercheSolr_(rechercheSolr);");
-//		tl(2, "requeteSite.initLoinRequeteSite(requeteSite);");
+//		tl(2, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "(requeteSite);");
 //		l();
 //
 //		tl(2, "UtilisateurSite utilisateurSite = new UtilisateurSite();");
@@ -298,7 +298,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		l();
 ////		tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {");
 //		tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, ResultatRecherche resultatRecherche, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {");
-//		tl(2, "RequeteSite requeteSite = resultatRecherche.getRequeteSite_();");
+//		tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = resultatRecherche.getRequeteSite_();");
 //		tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
 //		tl(2, "if(!champValeurs.isEmpty()) {");
 //		tl(3, "Object champValeur = champValeurs.iterator().next();");
@@ -313,10 +313,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //		// Erreur //
 //		////////////
 ////		l();
-////		tl(1, "public void genererErreur(RequeteSite requeteSite, Exception e) {");
+////		tl(1, "public void genererErreur(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite, Exception e) {");
 ////		tl(2, "e.printStackTrace();");
 ////		tl(2, "try {");
-////		tl(3, "MimeMessage message = new MimeMessage(requeteSite.SiteContexte_.sessionCourriel);");
+////		tl(3, "MimeMessage message = new MimeMessage(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), "_.sessionCourriel);");
 ////		tl(3, "message.setFrom(new InternetAddress(requeteSite.configSite_.mailAdmin));");
 ////		tl(3, "InternetAddress destinaires[] = new InternetAddress[1];");
 ////		tl(3, "destinaires[0] = new InternetAddress(requeteSite.configSite_.mailAdmin);");

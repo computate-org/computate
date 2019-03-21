@@ -362,7 +362,7 @@ public class WriteGenClass extends WriteClass {
 			wInitDeep.l(); 
 			wInitDeep.tl(1, "protected boolean alreadyInitialized", classSimpleName, " = false;");
 			wInitDeep.l();
-			wInitDeep.t(1, "public ", classSimpleName, " initDeep", classSimpleName, "(SiteRequest siteRequest_)");
+			wInitDeep.t(1, "public ", classSimpleName, " initDeep", classSimpleName, "(", classePartsSiteRequest.nomSimple(langueNom), " siteRequest_)");
 			if(classInitDeepExceptions.size() > 0) {
 				wInitDeep.s(" throws ");
 				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
@@ -374,7 +374,7 @@ public class WriteGenClass extends WriteClass {
 				}
 			}
 			wInitDeep.l(" {");
-//						if(contientSiteRequest && !StringUtils.equals(classSimpleName, "SiteRequest"))
+//						if(contient", classePartsSiteRequest.nomSimple(langueNom), " && !StringUtils.equals(classSimpleName, "", classePartsSiteRequest.nomSimple(langueNom), ""))
 //							tl(2, "((", classSimpleName, ")this).setSiteRequest_(siteRequest);");
 			wInitDeep.tl(2, "setSiteRequest_(siteRequest_);");
 			wInitDeep.tl(2, "if(!alreadyInitialized", classSimpleName, ") {");
@@ -424,7 +424,7 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "// siteRequest //");
 			tl(1, "/////////////////");
 			l(); 
-			tl(1, "public void siteRequest", classSimpleName, "(SiteRequest siteRequest_) {");
+			tl(1, "public void siteRequest", classSimpleName, "(", classePartsSiteRequest.nomSimple(langueNom), " siteRequest_) {");
 			if(BooleanUtils.isTrue(classExtendsBase)) 
 				tl(3, "super.siteRequest", classSuperSimpleNameGeneric, "(siteRequest_);");
 		}
@@ -440,11 +440,11 @@ public class WriteGenClass extends WriteClass {
 			tl(0);
 			tl(1, "public static void index() {");
 			tl(2, "try {");
-			tl(3, "SiteRequest siteRequest = new SiteRequest();");
-			tl(3, "siteRequest.initDeepSiteRequest();");
-			tl(3, "SiteContext siteContext = new SiteContext();");
+			tl(3, "", classePartsSiteRequest.nomSimple(langueNom), " siteRequest = new ", classePartsSiteRequest.nomSimple(langueNom), "();");
+			tl(3, "siteRequest.initDeep", classePartsSiteRequest.nomSimple(langueNom), "();");
+			tl(3, classePartsSiteContext.nomSimple(langueNom), " siteContext = new ", classePartsSiteContext.nomSimple(langueNom), "();");
 			tl(3, "siteContext.getSiteConfig().setConfigChemin(", q(configPath), ");");
-			tl(3, "siteContext.initDeepSiteContext();");
+			tl(3, "siteContext.initDeep", classePartsSiteContext.nomSimple(langueNom), "();");
 			tl(3, "siteContext.setSiteRequest_(siteRequest);");
 			tl(3, "siteRequest.setSiteContext_(siteContext);");
 			tl(3, classSimpleName, " o = new ", classSimpleName, "();");
@@ -624,7 +624,7 @@ public class WriteGenClass extends WriteClass {
 //			if(!classSimpleName.equals("Cluster"))
 //				s("@Override ");
 //			l("public Boolean existsForClass(Long pk) throws Exception {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite_.SiteContexte.sourceDonnees);");
+//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite_.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "userId = requeteSite_.userId;");
 //			tl(2, "this.pk = pk;");
@@ -640,7 +640,7 @@ public class WriteGenClass extends WriteClass {
 //			tl(5, "future.fail(ar.cause());");
 //			tl(4, "} else {");
 //			tl(5, "SQLConnection connexionSql = ar.result();");
-//			tl(5, "connectionSql.queryWithParams(SiteContexte.SQL_exists, new JsonArray().add(pk)), chercher -> {");
+//			tl(5, "connectionSql.queryWithParams(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_exists, new JsonArray().add(pk)), chercher -> {");
 //			tl(6, "connexionSql.close();");
 //			tl(6, "if(chercher.succeeded()) {");
 //			tl(7, "JsonArray ligneDonnees = chercher.result().getResults().stream().findFirst().orElseGet(() -> null);");
@@ -690,8 +690,8 @@ public class WriteGenClass extends WriteClass {
 //			t(1);
 //			if(!classSimpleName.equals("Cluster"))
 //				s("@Override ");
-//			l("public void savesForClass(RequeteSite requeteSite) throws Exception {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
+//			l("public void savesForClass(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) throws Exception {");
+//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //
 //			tl(2);
@@ -2177,13 +2177,13 @@ public class WriteGenClass extends WriteClass {
 	//		}
 			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
 				tl(tBase + 2, "case \"", entityVar, "\":");
-				tl(tBase + 3, "postSql.append(SiteContext.SQL_setD);");
+				tl(tBase + 3, "postSql.append(", classePartsSiteContext.nomSimple(languageName), ".SQL_setD);");
 				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.get", entitySimpleNameVertxJson, "(entityVar), ", classVarPrimaryKey, "));");
 				tl(tBase + 3, "break;");
 			}	
 			if(classSaved && BooleanUtils.isTrue(entityAttribute)) {
 				tl(tBase + 2, "case \"", entityVar, "\":");
-				tl(tBase + 3, "postSql.append(SiteContext.SQL_addA);");
+				tl(tBase + 3, "postSql.append(", classePartsSiteContext.nomSimple(languageName), ".SQL_addA);");
 				if(StringUtils.compare(entityVar, entityAttributeVar) < 0)
 					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.getLong(entityVar), \"", entityAttributeVar, "\", ", classVarPrimaryKey, "));");
 				else
@@ -2205,7 +2205,7 @@ public class WriteGenClass extends WriteClass {
 			}
 			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
 				tl(tBase + 6, "case \"", entityVar, "\":");
-				tl(tBase + 7, "putSql.append(SiteContext.SQL_setD);");
+				tl(tBase + 7, "putSql.append(", classePartsSiteContext.nomSimple(languageName), ".SQL_setD);");
 				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entityVar, "\", requestJson.get", entitySimpleNameVertxJson, "(entityVar), putPk));");
 				tl(tBase + 7, "break;");
 			}	
@@ -2251,7 +2251,7 @@ public class WriteGenClass extends WriteClass {
 				wInitDeep.t(1);
 				if(classExtendsBase)
 					wInitDeep.s("@Override ");
-				wInitDeep.s("public void initDeepForClass(SiteRequest siteRequest_)");
+				wInitDeep.s("public void initDeepForClass(", classPartsSiteRequest.nomSimple(langueNom), " siteRequest_)");
 				if(classInitDeepExceptions.size() > 0) {
 					wInitDeep.s(" throws ");
 					for(int i = 0; i < classInitDeepExceptions.size(); i++) {
@@ -2275,7 +2275,7 @@ public class WriteGenClass extends WriteClass {
 			o = wSiteRequest;
 			tl(1, "}");
 			l();
-			tl(1, "public void siteRequestForClass(SiteRequest siteRequest_) {");
+			tl(1, "public void siteRequestForClass(", classPartsSiteRequest.nomSimple(langueNom), " siteRequest_) {");
 			tl(2, "siteRequest", classSimpleName, "(siteRequest_);");
 			tl(1, "}");  
 		}
@@ -2294,10 +2294,10 @@ public class WriteGenClass extends WriteClass {
 			if(StringUtils.isNotEmpty(classVarUniqueKey)) {
 				tl(0);
 				tl(1, "public void unindex", classSimpleName, "() throws Exception {");
-				tl(2, "SiteRequest siteRequest = new SiteRequest();");
-				tl(2, "siteRequest.initDeepSiteRequest();");
-				tl(2, "SiteContext siteContext = new SiteContext();");
-				tl(2, "siteContext.initDeepSiteContext();");
+				tl(2, "", classPartsSiteRequest.nomSimple(langueNom), " siteRequest = new ", classPartsSiteRequest.nomSimple(langueNom), "();");
+				tl(2, "siteRequest.initDeep", classPartsSiteRequest.nomSimple(langueNom), "();");
+				tl(2, classPartsSiteContext.nomSimple(langueNom), " siteContext = new ", classPartsSiteContext.nomSimple(langueNom), "();");
+				tl(2, "siteContext.initDeep", classPartsSiteContext.nomSimple(langueNom), "();");
 				tl(2, "siteContext.setSiteRequest_(siteRequest);");
 				tl(2, "siteRequest.setSiteContext_(siteContext);");
 				tl(2, "siteRequest.setSiteConfig_(siteContext.getSiteConfig());");
@@ -2574,8 +2574,8 @@ public class WriteGenClass extends WriteClass {
 //			t(1);
 //			if(classExtendsBase)
 //				s("@Override ");
-//			l("public void savePourClasse(SiteRequest siteRequest_) throws Exception {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(siteRequest.SiteContext.sourceDonnees);");
+//			l("public void savePourClasse(", classPartsSiteRequest.nomSimple(langueNom), " siteRequest_) throws Exception {");
+//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(siteRequest.", classPartsSiteContext.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "String pkStr = siteRequest_.getRequeteServeur().getParam(\"pk\");");
 //			tl(2, "pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
@@ -2624,7 +2624,7 @@ public class WriteGenClass extends WriteClass {
 //			tl(2, "save", classSimpleName, "(siteRequest, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
 ////						tl(2, "}");
 //			tl(1, "}");
-//			tl(1, "public void save", classSimpleName, "(SiteRequest siteRequest, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
+//			tl(1, "public void save", classSimpleName, "(", classPartsSiteRequest.nomSimple(langueNom), " siteRequest, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
 //			s(wSave.toString());
 //			if(classExtendsBase) {
 //				tl(0);

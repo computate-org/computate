@@ -912,7 +912,7 @@ public class ConfigSite {
 	public String regexRemplacerTout(String commentaire, String codeSource, String langueNom) throws Exception {
 		String codeSourceLangue = codeSource;
 		if(!StringUtils.isEmpty(commentaire)) {
-			Matcher m = Pattern.compile("^r(egex)?:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + langueNom + ":\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
+			Matcher m = Pattern.compile("^[Rr](egex)?:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + langueNom + ":\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
 			boolean trouve = m.find();
 			
 			while(trouve) {

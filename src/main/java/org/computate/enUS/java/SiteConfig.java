@@ -103,6 +103,11 @@ public class SiteConfig {
 		config = configurations.ini(configFile);
 	}
 
+	/**	
+	 *	The configured language name for this app. 
+	 **/
+	public String languageName;
+
 	protected void  _languageName() throws Exception, Exception {
 		languageName = config.getString(StringUtils.replace(appName, ".", "..") + ".languageName");
 	}
@@ -448,7 +453,7 @@ public class SiteConfig {
 	public String regexReplaceAll(String comment, String sourceCode, String languageName) throws Exception, Exception {
 		String sourceCodeLanguage = sourceCode;
 		if(!StringUtils.isEmpty(comment)) {
-			Matcher m = Pattern.compile("^r(egex)?:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + languageName + ":\\s*(.*)", Pattern.MULTILINE).matcher(comment);
+			Matcher m = Pattern.compile("^[Rr](egex)?:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + languageName + ":\\s*(.*)", Pattern.MULTILINE).matcher(comment);
 			boolean found = m.find();
 			
 			while(found) {

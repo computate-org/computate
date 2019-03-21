@@ -860,7 +860,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			wInitLoin.l(); 
 			wInitLoin.tl(1, "protected boolean dejaInitialise", classeNomSimple, " = false;");
 			wInitLoin.l();
-			wInitLoin.t(1, "public ", classeNomSimple, " initLoin", classeNomSimple, "(RequeteSite requeteSite_)");
+			wInitLoin.t(1, "public ", classeNomSimple, " initLoin", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_)");
 			if(classeInitLoinExceptions.size() > 0) {
 				wInitLoin.s(" throws ");
 				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -872,7 +872,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 			}
 			wInitLoin.l(" {");
-//						if(contientRequeteSite && !StringUtils.equals(classeNomSimple, "RequeteSite"))
+//						if(contient", classePartsRequeteSite.nomSimple(langueNom), " && !StringUtils.equals(classeNomSimple, "", classePartsRequeteSite.nomSimple(langueNom), ""))
 //							tl(2, "((", classeNomSimple, ")this).setRequeteSite_(requeteSite);");
 			wInitLoin.tl(2, "setRequeteSite_(requeteSite_);");
 			wInitLoin.tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
@@ -940,7 +940,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "// requeteSite //");
 			tl(1, "/////////////////");
 			l(); 
-			tl(1, "public void requeteSite", classeNomSimple, "(RequeteSite requeteSite_) {");
+			tl(1, "public void requeteSite", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_) {");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
 				tl(3, "super.requeteSite", classeNomSimpleSuperGenerique, "(requeteSite_);");
 		}
@@ -995,11 +995,11 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(0);
 			tl(1, "public static void indexer() {");
 			tl(2, "try {");
-			tl(3, "RequeteSite requeteSite = new RequeteSite();");
-			tl(3, "requeteSite.initLoinRequeteSite();");
-			tl(3, "SiteContexte siteContexte = new SiteContexte();");
+			tl(3, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
+			tl(3, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
+			tl(3, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
 			tl(3, "siteContexte.getConfigSite().setConfigChemin(", q(configChemin), ");");
-			tl(3, "siteContexte.initLoinSiteContexte();");
+			tl(3, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
 			tl(3, "siteContexte.setRequeteSite_(requeteSite);");
 			tl(3, "requeteSite.setSiteContexte_(siteContexte);");
 			tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
@@ -1276,7 +1276,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //			if(!classeNomSimple.equals("Cluster"))
 //				s("@Override ");
 //			l("public Boolean existePourClasse(Long pk) throws Exception {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite_.SiteContexte.sourceDonnees);");
+//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite_.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "utilisateurId = requeteSite_.utilisateurId;");
 //			tl(2, "this.pk = pk;");
@@ -1292,7 +1292,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //			tl(5, "future.fail(ar.cause());");
 //			tl(4, "} else {");
 //			tl(5, "SQLConnection connexionSql = ar.result();");
-//			tl(5, "connectionSql.queryWithParams(SiteContexte.SQL_existe, new JsonArray().add(pk)), chercher -> {");
+//			tl(5, "connectionSql.queryWithParams(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_existe, new JsonArray().add(pk)), chercher -> {");
 //			tl(6, "connexionSql.close();");
 //			tl(6, "if(chercher.succeeded()) {");
 //			tl(7, "JsonArray ligneDonnees = chercher.result().getResults().stream().findFirst().orElseGet(() -> null);");
@@ -1397,8 +1397,8 @@ public class EcrireGenClasse extends EcrireClasse {
 //			t(1);
 //			if(!classeNomSimple.equals("Cluster"))
 //				s("@Override ");
-//			l("public void sauvegardesPourClasse(RequeteSite requeteSite) throws Exception {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
+//			l("public void sauvegardesPourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) throws Exception {");
+//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //
 //			tl(2);
@@ -3457,13 +3457,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	//		}
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 				tl(tBase + 2, "case \"", entiteVar, "\":");
-				tl(tBase + 3, "postSql.append(SiteContexte.SQL_setD);");
+				tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
 				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(entiteVar), ", classeVarClePrimaire, "));");
 				tl(tBase + 3, "break;");
 			}	
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
 				tl(tBase + 2, "case \"", entiteVar, "\":");
-				tl(tBase + 3, "postSql.append(SiteContexte.SQL_addA);");
+				tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
 				if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0)
 					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.getLong(entiteVar), \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, "));");
 				else
@@ -3485,7 +3485,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 				tl(tBase + 6, "case \"", entiteVar, "\":");
-				tl(tBase + 7, "putSql.append(SiteContexte.SQL_setD);");
+				tl(tBase + 7, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
 				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), putPk));");
 				tl(tBase + 7, "break;");
 			}	
@@ -3671,7 +3671,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wInitLoin.t(1);
 				if(classeEtendBase)
 					wInitLoin.s("@Override ");
-				wInitLoin.s("public void initLoinPourClasse(RequeteSite requeteSite_)");
+				wInitLoin.s("public void initLoinPourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_)");
 				if(classeInitLoinExceptions.size() > 0) {
 					wInitLoin.s(" throws ");
 					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -3695,7 +3695,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			o = wRequeteSite;
 			tl(1, "}");
 			l();
-			tl(1, "public void requeteSitePourClasse(RequeteSite requeteSite_) {");
+			tl(1, "public void requeteSitePourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_) {");
 			tl(2, "requeteSite", classeNomSimple, "(requeteSite_);");
 			tl(1, "}");  
 		}
@@ -3714,10 +3714,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
 				tl(0);
 				tl(1, "public void desindexer", classeNomSimple, "() throws Exception {");
-				tl(2, "RequeteSite requeteSite = new RequeteSite();");
-				tl(2, "requeteSite.initLoinRequeteSite();");
-				tl(2, "SiteContexte siteContexte = new SiteContexte();");
-				tl(2, "siteContexte.initLoinSiteContexte();");
+				tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
+				tl(2, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
+				tl(2, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
+				tl(2, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
 				tl(2, "siteContexte.setRequeteSite_(requeteSite);");
 				tl(2, "requeteSite.setSiteContexte_(siteContexte);");
 				tl(2, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
@@ -3994,8 +3994,8 @@ public class EcrireGenClasse extends EcrireClasse {
 //			t(1);
 //			if(classeEtendBase)
 //				s("@Override ");
-//			l("public void sauvegarderPourClasse(RequeteSite requeteSite_) throws Exception {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.SiteContexte.sourceDonnees);");
+//			l("public void sauvegarderPourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_) throws Exception {");
+//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
 //			tl(2, "pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
@@ -4044,7 +4044,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //			tl(2, "sauvegarder", classeNomSimple, "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
 ////						tl(2, "}");
 //			tl(1, "}");
-//			tl(1, "public void sauvegarder", classeNomSimple, "(RequeteSite requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
+//			tl(1, "public void sauvegarder", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
 //			s(wSauvegarder.toString());
 //			if(classeEtendBase) {
 //				tl(0);
