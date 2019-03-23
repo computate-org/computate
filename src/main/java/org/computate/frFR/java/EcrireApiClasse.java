@@ -89,6 +89,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	protected String classeNomCanoniqueGenApiService;
 
 	/**
+	 * Var.enUS: classPageSimple
+	 */
+	protected Boolean classePageSimple;
+
+	/**
 	 * Var.enUS: apiCodeClassBegin
 	 * Param1.var.enUS: languageName
 	 * r: auteurGenApiServiceImpl
@@ -221,7 +226,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l();
 			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
 			auteurGenApiService.tl(1, "static void enregistrerService(", classePartsSiteContexte.nomSimple(langueNom), " siteContexte, Vertx vertx) {");
-			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(siteContexte));");
+			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(langueNom, classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(siteContexte));");
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
@@ -1501,7 +1506,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "pageDocumentSolr.setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
 							tl(3, "page.setPageDocumentSolr(pageDocumentSolr);");
 							tl(3, "page.setW(w);");
-							tl(3, "page.setListe", classeNomSimple, "(liste", classeNomSimple, ");");
+							if(!classePageSimple)
+								tl(3, "page.setListe", classeNomSimple, "(liste", classeNomSimple, ");");
 							tl(3, "page.initLoin", classePageNomSimpleMethode, "(requeteSite);");
 							tl(3, "page.html();");
 						}

@@ -68,6 +68,10 @@ public class ClassParts {
 	}
 
 	public static ClassParts initClassParts(SiteConfig siteConfig, JavaClass classQdox, String languageName) throws Exception, Exception {
+		return initClassParts(siteConfig, classeQdox, languageName, null);
+	}
+
+	public static ClassParts initClassParts(SiteConfig siteConfig, JavaClass classQdox, String languageName, String classeLanguageName) throws Exception, Exception {
 		String canonicalName = StringUtils.replace(classQdox.getCanonicalName(), "$", ".");
 		String canonicalNameComplete = StringUtils.replace(classQdox.getGenericFullyQualifiedName(), "$", ".");
 		String genericSimpleValueBefore = StringUtils.replace(classQdox.getGenericValue(), "$", ".");
@@ -94,7 +98,7 @@ public class ClassParts {
 				SolrQuery solrSearch = new SolrQuery();   
 				solrSearch.setQuery("*:*");
 				solrSearch.setRows(1);
-				solrSearch.addFilterQuery("classSimpleName_" + siteConfig.languageActualName + "_indexed_string:" + ClientUtils.escapeQueryChars(simpleNamePart));
+				solrSearch.addFilterQuery("classSimpleName_" + (classeLangueNom == null ? siteConfig.languageActualName : classeLangueNom) + "_indexed_string:" + ClientUtils.escapeQueryChars(simpleNamePart));
 				solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
 				solrSearch.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(siteConfig.domainPackageName));
 				QueryResponse searchResponse = siteConfig.solrClientComputate.query(solrSearch);
@@ -114,7 +118,7 @@ public class ClassParts {
 						SolrQuery solrSearch2 = new SolrQuery();   
 						solrSearch2.setQuery("*:*");
 						solrSearch2.setRows(1);
-						solrSearch2.addFilterQuery("classSimpleName_" + siteConfig.languageActualName + "_indexed_string:" + ClientUtils.escapeQueryChars(simpleNamePart2));
+						solrSearch2.addFilterQuery("classSimpleName_" + (classeLangueNom == null ? siteConfig.languageActualName : classeLangueNom) + "_indexed_string:" + ClientUtils.escapeQueryChars(simpleNamePart2));
 						solrSearch2.addFilterQuery("partIsClass_indexed_boolean:true");
 						solrSearch2.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(siteConfig.domainPackageName));
 						QueryResponse searchResponse2 = siteConfig.solrClientComputate.query(solrSearch2);
@@ -141,11 +145,15 @@ public class ClassParts {
 			}
 			canonicalNameComplete = canonicalName + "<" + canonicalNameGeneric + ">";
 		}
-		ClassParts classParts = initClassParts(siteConfig, canonicalNameComplete, languageName);
+		ClassParts classParts = initClassParts(siteConfig, canonicalNameComplete, languageName, classeLangueNom == null ? siteConfig.languageActualName : classeLangueNom);
 		return classParts;
 	}
 
 	public static ClassParts initClassParts(SiteConfig siteConfig, String canonicalNameComplete, String languageName) throws Exception, Exception {
+		return initClassParts(siteConfig, nomCanoniqueComplet, languageName, null);
+	}
+
+	public static ClassParts initClassParts(SiteConfig siteConfig, String canonicalNameComplete, String languageName, String classeLangueNom) throws Exception, Exception {
 		ClassParts classParts = new ClassParts();
 		classParts.canonicalName = canonicalNameComplete;
 		classParts.canonicalNameGeneric = null;
@@ -155,7 +163,7 @@ public class ClassParts {
 			classParts.canonicalName = StringUtils.substringBefore(canonicalNameComplete, "<");
 			genericValue = StringUtils.substringAfter(StringUtils.substringBeforeLast(canonicalNameComplete, ">"), "<");
 		}
-		classParts.solrDocument = solrDocument(siteConfig, classParts.canonicalName, siteConfig.languageNameActuel);
+		classParts.solrDocument = solrDocument(siteConfig, classParts.canonicalName, classLanguageName == null ? siteConfig.languageNameActuel : classLanguageName);
 
 		if(canonicalNameComplete != null && languageName != null && (canonicalNameComplete.contains(languageName) || classParts.solrDocument != null))
 			classParts.languageName = languageName;
@@ -166,7 +174,6 @@ public class ClassParts {
 			canonicalName = (String)classParts.solrDocument.get("classCanonicalName_" + languageName + "_stored_string");
 			simpleName = (String)classParts.solrDocument.get("classSimpleName_" + languageName + "_stored_string");
 			classParts.extendsGen = (Boolean)classParts.solrDocument.get("classExtendsGen_stored_boolean");
-
 		}
 		if(canonicalName != null && simpleName != null) {
 			classParts.canonicalName = canonicalName;

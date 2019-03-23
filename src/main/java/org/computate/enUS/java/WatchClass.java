@@ -14,6 +14,7 @@ public class WatchClass extends WriteAllClasses {
 
 	public static void  main(String[] args) throws Exception, Exception {   
 		WatchClass watchClass = new WatchClass();
+		String classeLangueNom = StringUtils.defaultString(System.getenv("classeLangueNom"), "enUS");
 		try {
 			watchClass.args = args;
 			watchClass.initWatchClassBase(); 
@@ -29,7 +30,7 @@ public class WatchClass extends WriteAllClasses {
 //				System.err.println(e.getMessage());
 //			}
 //			try {
-//				if(ArrayUtils.contains(watchClass.otherLanguages, "frFR")) {
+//				if(ArrayUtils.contains(watchClass.otherLanguages, "enUS")) {
 //					watchClass.frFRRegarderClasse = new WatchClass();
 //					watchClass.frFRRegarderClasse.args = args;
 //					watchClass.frFRRegarderClasse.appName = watchClass.appName;
@@ -44,16 +45,16 @@ public class WatchClass extends WriteAllClasses {
 			System.err.println("Error during initWatchClassBase. ");
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
-		watchClass(watchClass);
+		watchClass(watchClass, classeLangueNom);
 	}
 
-	public static void  watchClass(WatchClass watchClass) throws Exception, Exception {
+	public static void  watchClass(WatchClass watchClass, String classeLangueNom) throws Exception, Exception {
 		System.out.println("absolutePath : " + watchClass.classAbsolutePath);
 
 		if(new File(watchClass.classAbsolutePath).isFile()) {
 			SolrInputDocument classDoc = new SolrInputDocument();
 //			classDoc.addField("id", watchClass.classAbsolutePath);  
-			watchClass.indexClass(watchClass.classAbsolutePath, classDoc);
+			watchClass.indexClass(watchClass.classAbsolutePath, classDoc, classLanguageName);
 //			for(String languageName : watchClass.otherLanguages) {
 //				if(!StringUtils.equals(languageName, watchClass.languageName)) {
 //					if("enUS".equals(languageName))
@@ -61,7 +62,6 @@ public class WatchClass extends WriteAllClasses {
 //				}
 //			}
 			Boolean classTranslate = (Boolean)classDoc.get("classTranslate_indexed_boolean").getValue();
-			String classLanguageName = (String)classDoc.get("languageName_indexed_string").getValue();
 			for(String languageName : watchClass.otherLanguages) {
 				if(!StringUtils.equals(languageName, watchClass.languageName)) {
 //					if("enUS".equals(languageName))

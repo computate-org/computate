@@ -163,6 +163,29 @@ public class ClasseParts {
 	 * r.enUS: classParts
 	 * r: configSite
 	 * r.enUS: siteConfig
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
+	 */
+	public static ClasseParts initClasseParts(ConfigSite configSite, JavaClass classeQdox, String langueNom) throws Exception {
+		return initClasseParts(configSite, classeQdox, langueNom, null);
+	}
+
+	/**
+	 * Var.enUS: initClassParts
+	 * Param1.var.enUS: siteConfig
+	 * Param2.var.enUS: classQdox
+	 * Param3.var.enUS: languageName
+	 * Param4.var.enUS: classeLanguageName
+	 * r: ClasseParts
+	 * r.enUS: ClassParts
+	 * r: initClasseParts
+	 * r.enUS: initClassParts
+	 * r: classeParts
+	 * r.enUS: classParts
+	 * r: configSite
+	 * r.enUS: siteConfig
 	 * r: nomCanoniqueGeneriquePart
 	 * r.enUS: canonicalNameGenericPart
 	 * r: nomCanoniqueGenerique
@@ -218,7 +241,7 @@ public class ClasseParts {
 	 * r: classeEtendGen
 	 * r.enUS: classExtendsGen
 	 */ 
-	public static ClasseParts initClasseParts(ConfigSite configSite, JavaClass classeQdox, String langueNom) throws Exception {
+	public static ClasseParts initClasseParts(ConfigSite configSite, JavaClass classeQdox, String langueNom, String classeLangueNom) throws Exception {
 		String nomCanonique = StringUtils.replace(classeQdox.getCanonicalName(), "$", ".");
 		String nomCanoniqueComplet = StringUtils.replace(classeQdox.getGenericFullyQualifiedName(), "$", ".");
 		String valeurGeneriqueSimpleAvant = StringUtils.replace(classeQdox.getGenericValue(), "$", ".");
@@ -245,7 +268,7 @@ public class ClasseParts {
 				SolrQuery rechercheSolr = new SolrQuery();   
 				rechercheSolr.setQuery("*:*");
 				rechercheSolr.setRows(1);
-				rechercheSolr.addFilterQuery("classeNomSimple_" + configSite.langueNomActuel + "_indexed_string:" + ClientUtils.escapeQueryChars(nomSimplePart));
+				rechercheSolr.addFilterQuery("classeNomSimple_" + (classeLangueNom == null ? configSite.langueNomActuel : classeLangueNom) + "_indexed_string:" + ClientUtils.escapeQueryChars(nomSimplePart));
 				rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
 				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(configSite.nomEnsembleDomaine));
 				QueryResponse reponseRecherche = configSite.clientSolrComputate.query(rechercheSolr);
@@ -265,7 +288,7 @@ public class ClasseParts {
 						SolrQuery rechercheSolr2 = new SolrQuery();   
 						rechercheSolr2.setQuery("*:*");
 						rechercheSolr2.setRows(1);
-						rechercheSolr2.addFilterQuery("classeNomSimple_" + configSite.langueNomActuel + "_indexed_string:" + ClientUtils.escapeQueryChars(nomSimplePart2));
+						rechercheSolr2.addFilterQuery("classeNomSimple_" + (classeLangueNom == null ? configSite.langueNomActuel : classeLangueNom) + "_indexed_string:" + ClientUtils.escapeQueryChars(nomSimplePart2));
 						rechercheSolr2.addFilterQuery("partEstClasse_indexed_boolean:true");
 						rechercheSolr2.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(configSite.nomEnsembleDomaine));
 						QueryResponse reponseRecherche2 = configSite.clientSolrComputate.query(rechercheSolr2);
@@ -292,7 +315,7 @@ public class ClasseParts {
 			}
 			nomCanoniqueComplet = nomCanonique + "<" + nomCanoniqueGenerique + ">";
 		}
-		ClasseParts classeParts = initClasseParts(configSite, nomCanoniqueComplet, langueNom);
+		ClasseParts classeParts = initClasseParts(configSite, nomCanoniqueComplet, langueNom, classeLangueNom == null ? configSite.langueNomActuel : classeLangueNom);
 		return classeParts;
 	} 
 
@@ -309,6 +332,29 @@ public class ClasseParts {
 	 * r.enUS: classParts
 	 * r: configSite
 	 * r.enUS: siteConfig
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
+	 **/
+	public static ClasseParts initClasseParts(ConfigSite configSite, String nomCanoniqueComplet, String langueNom) throws Exception {
+		return initClasseParts(configSite, nomCanoniqueComplet, langueNom, null);
+	}
+
+	/**
+	 * Var.enUS: initClassParts
+	 * Param1.var.enUS: siteConfig
+	 * Param2.var.enUS: canonicalNameComplete
+	 * Param3.var.enUS: languageName
+	 * Param3.var.enUS: classeLanguageName
+	 * r: ClasseParts
+	 * r.enUS: ClassParts
+	 * r: initClasseParts
+	 * r.enUS: initClassParts
+	 * r: classeParts
+	 * r.enUS: classParts
+	 * r: configSite
+	 * r.enUS: siteConfig
 	 * r: nomCanoniqueGeneriquePart
 	 * r.enUS: canonicalNameGenericPart
 	 * r: nomCanoniqueGenerique
@@ -317,6 +363,8 @@ public class ClasseParts {
 	 * r.enUS: canonicalNameComplete
 	 * r: langueNom
 	 * r.enUS: languageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: nomCanonique
 	 * r.enUS: canonicalName
 	 * r: classeNomSimple
@@ -340,7 +388,7 @@ public class ClasseParts {
 	 * r: classeEtendGen
 	 * r.enUS: classExtendsGen
 	 */
-	public static ClasseParts initClasseParts(ConfigSite configSite, String nomCanoniqueComplet, String langueNom) throws Exception {
+	public static ClasseParts initClasseParts(ConfigSite configSite, String nomCanoniqueComplet, String langueNom, String classeLangueNom) throws Exception {
 		ClasseParts classeParts = new ClasseParts();
 		classeParts.nomCanonique = nomCanoniqueComplet;
 		classeParts.nomCanoniqueGenerique = null;
@@ -350,7 +398,7 @@ public class ClasseParts {
 			classeParts.nomCanonique = StringUtils.substringBefore(nomCanoniqueComplet, "<");
 			valeurGenerique = StringUtils.substringAfter(StringUtils.substringBeforeLast(nomCanoniqueComplet, ">"), "<");
 		}
-		classeParts.documentSolr = documentSolr(configSite, classeParts.nomCanonique, configSite.langueNomActuel);
+		classeParts.documentSolr = documentSolr(configSite, classeParts.nomCanonique, classeLangueNom == null ? configSite.langueNomActuel : classeLangueNom);
 
 		if(nomCanoniqueComplet != null && langueNom != null && (nomCanoniqueComplet.contains(langueNom) || classeParts.documentSolr != null))
 			classeParts.langueNom = langueNom;
@@ -361,7 +409,6 @@ public class ClasseParts {
 			nomCanonique = (String)classeParts.documentSolr.get("classeNomCanonique_" + langueNom + "_stored_string");
 			nomSimple = (String)classeParts.documentSolr.get("classeNomSimple_" + langueNom + "_stored_string");
 			classeParts.etendGen = (Boolean)classeParts.documentSolr.get("classeEtendGen_stored_boolean");
-
 		}
 		if(nomCanonique != null && nomSimple != null) {
 			classeParts.nomCanonique = nomCanonique;

@@ -831,6 +831,34 @@ public class WriteGenClass extends WriteClass {
 		//////////////
 		
 		if(classContext) {
+
+			contextColor = (String)classeDoc.get("contextColor_stored_string");
+			contextIconGroup = (String)classeDoc.get("contextIconGroup_stored_string");
+			contextIconName = (String)classeDoc.get("contextIconName_stored_string");
+
+			contextAName = (String)classeDoc.get("contextAName" + "_" + languageName + "_stored_string");
+			contextNameSingular = (String)classeDoc.get("contextNameSingular" + "_" + languageName + "_stored_string");
+			contextNamePlural = (String)classeDoc.get("contextNamePlural" + "_" + languageName + "_stored_string");
+			contextNameVar = (String)classeDoc.get("contextNameVar" + "_" + languageName + "_stored_string");
+			contextAdjective = (String)classeDoc.get("contextAdjective" + "_" + languageName + "_stored_string");
+			contextAdjectivePlural = (String)classeDoc.get("contextAdjectivePlural" + "_" + languageName + "_stored_string");
+			contextAdjectiveVar = (String)classeDoc.get("contextAdjectiveVar" + "_" + languageName + "_stored_string");
+			contextNameAdjectiveSingular = (String)classeDoc.get("contextNameAdjectiveSingular" + "_" + languageName + "_stored_string");
+			contextNameAdjectivePlural = (String)classeDoc.get("contextNameAdjectivePlural" + "_" + languageName + "_stored_string");
+			contextThis = (String)classeDoc.get("contextThis" + "_" + languageName + "_stored_string");
+			contextA = (String)classeDoc.get("contextA" + "_" + languageName + "_stored_string");
+			contextActualName = (String)classeDoc.get("contextActualName" + "_" + languageName + "_stored_string");
+			contextAllName = (String)classeDoc.get("contextAllName" + "_" + languageName + "_stored_string");
+			contextTheNames = (String)classeDoc.get("contextTheNames" + "_" + languageName + "_stored_string");
+			contextTitle = (String)classeDoc.get("contextTitle" + "_" + languageName + "_stored_string");
+			contextH1 = (String)classeDoc.get("contextH1" + "_" + languageName + "_stored_string");
+			contextH2 = (String)classeDoc.get("contextH2" + "_" + languageName + "_stored_string");
+			contextH3 = (String)classeDoc.get("contextH3" + "_" + languageName + "_stored_string");
+			contextNoneNameFound = (String)classeDoc.get("contextNoneNameFound" + "_" + languageName + "_stored_string");
+			contextANameAdjective = (String)classeDoc.get("contextANameAdjective" + "_" + languageName + "_stored_string");
+			contextThisName = (String)classeDoc.get("contextThisName" + "_" + languageName + "_stored_string");
+			contextTheName = (String)classeDoc.get("contextTheName" + "_" + languageName + "_stored_string");
+			contextOfName = (String)classeDoc.get("contextOfName" + "_" + languageName + "_stored_string");
 			
 			l();
 			if(contextAName != null)
@@ -1080,6 +1108,63 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "// ", entityVar, " //");
 			l(commentLine);
 			l();
+
+			List<String> entityValsVar = (List<String>)doc.get("entityValsVar_stored_strings");
+			List<String> entityValsLangue = (List<String>)doc.get("entityValsLangue_stored_strings");
+			List<String> entityValsValeur = (List<String>)doc.get("entityValsValeur_stored_strings");
+			if(entityValsVar != null && entityValsLangue != null && entityValsValeur != null) {
+				String entityValVarAncien = null;
+				Integer entityValVarNumero = 0;
+				String entityValVar = null;
+				String entityValLangue = null;
+				String entityValVarLangue = null;
+				String entityValVarLangueAncien = null;
+				String entityValValeur = null;
+	
+				for(int j = 0; j < entityValsVar.size(); j++) {
+					entityValVar = entityValsVar.get(j);
+					entityValLangue = entityValsLangue.get(j);
+					entityValVarLangue = entityValVar + entityValLangue;
+					entityValValeur = entityValsValeur.get(j);
+	
+					if(!StringUtils.equals(entityValVarLangue, entityValVarLangueAncien) && (StringUtils.equals(entityValVarLangueAncien, entityValVarAncien + languageName))) {
+						t(1, "public static final String ", entityVar, entityValVarAncien, " = ");
+						for(int k = 1; k <= entityValVarNumero; k++) {
+							if(k > 1)
+								s(" + ");
+							s(entityVar, entityValVarAncien, k);
+						}
+						l(";");
+						entityValVarNumero = 0;
+					}
+	
+					if(StringUtils.equals(languageName, entityValLangue)) {
+						entityValVarNumero++;
+						tl(1, "public static final String ", entityVar, entityValVar, entityValVarNumero, " = \"", escapeJava(entityValValeur), "\";");
+					}
+	
+					entityValVarAncien = entityValVar;
+					entityValVarLangueAncien = entityValVarLangue;
+				}
+				if(StringUtils.equals(languageName, entityValLangue)) {
+					entityValVarAncien = entityValVar;
+					entityValVarLangueAncien = entityValVarLangue;
+					entityValVar = null;
+		
+					if(entityValVarAncien != null && !StringUtils.equals(entityValVar, entityValVarLangueAncien)) {
+						t(1, "public static final String ", entityVar, entityValVarAncien, " = ");
+						for(int k = 1; k <= entityValVarNumero; k++) {
+							if(k > 1)
+								s(" + ");
+							s(entityVar, entityValVarAncien, k);
+						}
+						l(";");
+						entityValVarNumero = 0;
+					}
+				}
+				l();
+			}
+
 			t(1, "/**");
 			t(1);
 				s("The entity \" ", entityVar, " \"");

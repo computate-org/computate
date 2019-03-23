@@ -38,6 +38,8 @@ public class WriteApiClass extends WriteGenClass {
 
 	protected String classCanonicalNameGenApiService;
 
+	protected Boolean classPageSimple;
+
 	public void  apiCodeClassBegin(String languageName) throws Exception, Exception {
 //		l();
 //		tl(1, "public static final String VAL_nomCanonique", classSimpleName, " = \"", classCanonicalName, "\";");
@@ -79,7 +81,7 @@ public class WriteApiClass extends WriteGenClass {
 			writerGenApiService.l();
 			writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
 			writerGenApiService.tl(1, "static void enregistrerService(", classPartsSiteContext.nomSimple(langueNom), " siteContext, Vertx vertx) {");
-			writerGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(classSimpleName), ").register(", classSimpleNameGenApiService, ".class, new ", classSimpleNameApiServiceImpl, "(siteContext));");
+			writerGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(langueNom, classSimpleName), ").register(", classSimpleNameGenApiService, ".class, new ", classSimpleNameApiServiceImpl, "(siteContext));");
 			writerGenApiService.tl(1, "}");
 			writerGenApiService.l();
 			writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
@@ -1197,7 +1199,8 @@ public class WriteApiClass extends WriteGenClass {
 							tl(3, "pageDocumentSolr.setField(", q("pageUri_frFR_stored_string"), ", ", q(classApiUriMethode), ");");
 							tl(3, "page.setPageDocumentSolr(pageDocumentSolr);");
 							tl(3, "page.setW(w);");
-							tl(3, "page.setListe", classSimpleName, "(liste", classSimpleName, ");");
+							if(!classePageSimple)
+								tl(3, "page.setListe", classSimpleName, "(liste", classSimpleName, ");");
 							tl(3, "page.initLoin", classPageSimpleNameMethod, "(siteRequest);");
 							tl(3, "page.html();");
 						}

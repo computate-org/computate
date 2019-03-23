@@ -37,7 +37,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 */ 
 	public static void main(String[] args) throws Exception {   
 		RegarderClasse regarderClasse = new RegarderClasse();
-		String classeLangueNom = "frFR";
+		String classeLangueNom = StringUtils.defaultString(System.getenv("classeLangueNom"), "frFR");
 		try {
 			regarderClasse.args = args;
 			regarderClasse.initRegarderClasseBase(); 
