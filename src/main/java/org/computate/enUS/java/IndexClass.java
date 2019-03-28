@@ -184,6 +184,8 @@ public class IndexClass extends WatchClassBase {
 
 	protected LinkedHashMap<String, ClassParts> classPartsGenPage = new LinkedHashMap<String, ClassParts>();
 
+	private String contextVideoId;
+
 	private String contextAName;
 
 	private String contextThis;
@@ -2949,6 +2951,10 @@ public class IndexClass extends WatchClassBase {
 				indexStoreSolr(classDoc, "contextIconName", contextIconName); 
 
 			for(String languageName : toutesLangues) {
+				contextVideoId = regexLanguage(languageName, "(context)?VideoId", classComment);
+				if(contextVideoId != null)
+					indexStoreSolr(languageName, classDoc, "contextVideoId", contextVideoId); 
+					
 				contextAName = regexLanguage(languageName, "(context)?ANameLowercase", classComment);
 				if(contextAName != null) {
 					indexStoreSolr(languageName, classDoc, "contextAName", contextAName); 

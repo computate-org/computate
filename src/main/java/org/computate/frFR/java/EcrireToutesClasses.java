@@ -334,6 +334,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: contextOfName
 	 * r: contexteNom
 	 * r.enUS: contextName
+	 * r: contexteVideoId
+	 * r.enUS: contextVideoId
 	 * r: UnNomAdjectif
 	 * r.enUS: ANameAdjective
 	 * r: LeNomAdjectif
@@ -498,6 +500,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					contexteIconeGroupe = (String)doc.get("contexteIconeGroupe_stored_string");
 					contexteIconeNom = (String)doc.get("contexteIconeNom_stored_string");
 
+					contexteVideoId = (String)doc.get("contexteVideoId" + "_" + langueNom + "_stored_string");
 					contexteUnNom = (String)doc.get("contexteUnNom" + "_" + langueNom + "_stored_string");
 					contexteNomSingulier = (String)doc.get("contexteNomSingulier" + "_" + langueNom + "_stored_string");
 					contexteNomPluriel = (String)doc.get("contexteNomPluriel" + "_" + langueNom + "_stored_string");

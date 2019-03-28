@@ -376,6 +376,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	protected LinkedHashMap<String, ClasseParts> classePartsGenPage = new LinkedHashMap<String, ClasseParts>();
 
 	/**
+	 * Var.enUS: contextVideoId
+	 */
+	private String contexteVideoId;
+
+	/**
 	 * Var.enUS: contextAName
 	 */
 	private String contexteUnNom;
@@ -5166,6 +5171,10 @@ public class IndexerClasse extends RegarderClasseBase {
 				indexerStockerSolr(classeDoc, "contexteIconeNom", contexteIconeNom); 
 
 			for(String langueNom : toutesLangues) {
+				contexteVideoId = regexLangue(langueNom, "(contexte)?VideoId", classeCommentaire);
+				if(contexteVideoId != null)
+					indexerStockerSolr(langueNom, classeDoc, "contexteVideoId", contexteVideoId); 
+					
 				contexteUnNom = regexLangue(langueNom, "(contexte)?UnNomMinuscule", classeCommentaire);
 				if(contexteUnNom != null) {
 					indexerStockerSolr(langueNom, classeDoc, "contexteUnNom", contexteUnNom); 

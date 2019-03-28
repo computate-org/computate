@@ -628,6 +628,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String contexteIconeNom;
 
 	/**
+	 * Var.enUS: contextVideoId
+	 */
+	protected String contexteVideoId;
+
+	/**
 	 * Var.enUS: classContext
 	 */
 	protected Boolean classeContexte;
@@ -1564,6 +1569,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: contextIconGroup
 	 * r: contexteIconeNom
 	 * r.enUS: contextIconName
+	 * r: contexteVideoId
+	 * r.enUS: contextVideoId
 	 * r: UnNomAdjectif
 	 * r.enUS: ANameAdjective
 	 * r: LeNomAdjectif
@@ -1706,6 +1713,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			contexteIconeGroupe = (String)classeDoc.get("contexteIconeGroupe_stored_string");
 			contexteIconeNom = (String)classeDoc.get("contexteIconeNom_stored_string");
 
+			contexteVideoId = (String)classeDoc.get("contexteVideoId" + "_" + langueNom + "_stored_string");
 			contexteUnNom = (String)classeDoc.get("contexteUnNom" + "_" + langueNom + "_stored_string");
 			contexteNomSingulier = (String)classeDoc.get("contexteNomSingulier" + "_" + langueNom + "_stored_string");
 			contexteNomPluriel = (String)classeDoc.get("contexteNomPluriel" + "_" + langueNom + "_stored_string");

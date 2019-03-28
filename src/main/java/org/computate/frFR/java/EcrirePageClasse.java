@@ -1129,6 +1129,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wEntites.tl(3, "c.o(", q(contexteTitre), ");");
 				}
 				wEntites.tl(1, "}");
+	
+				wEntites.l();
+				wEntites.tl(1, "@Override protected void _pageUri(Couverture<String> c) {");
+				wEntites.tl(2, "c.o(", q(classePageUriMethode), ");");
+				wEntites.tl(1, "}");
 		
 				if(auteurPageClasse != null) {
 					auteurPageClasse.l("package ", classeNomEnsemble, ";");
@@ -1179,6 +1184,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 				tl(1, "}");
 				s(wEntites);
+	
+				if(StringUtils.isNotBlank(contexteVideoId)) {
+					l();
+					tl(1, "@Override protected void _pageVideoId(Couverture<String> c) {");
+					tl(3, "c.o(", q(contexteVideoId), ");");
+					tl(1, "}");
+				}
 	
 				if(StringUtils.isNotBlank(contexteIconeGroupe)) {
 					l();
@@ -1447,42 +1459,45 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "@Override public void htmlBody", classeGenPageNomSimple, "() {");
 				if(classePageSimple) {
 					l();
-					tl(3, "if(pageH1 != null) {");
-					t(4).be("h1").dfl();
-					tl(5, "if(contexteIconeClassesCss != null)");
-					tl(6, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" w3-margin-right-4 \").f().g(\"i\");");
+					tl(2, "if(pageH1 != null) {");
+					t(3).be("h1").dfl();
+					tl(4, "if(contexteIconeClassesCss != null)");
+					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
 		
 					if(classeEntiteVars != null && classeEntiteVars.contains("pageH1"))
-						t(5).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
+						t(4).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
 					else
-						t(5).e("span").da("class", " ").df().dsx(contexteUnNom).dgl("span");
+						t(4).e("span").da("class", " ").df().dsx(contexteUnNom).dgl("span");
 		
-					t(4).bgl("h1");
-					tl(3, "}");
+					t(3).bgl("h1");
+					tl(2, "}");
 		
 					if(classeEntiteVars != null && classeEntiteVars.contains("pageH2")) {
-						tl(3, "if(pageH2 != null) {");
-						t(4).be("h2").dfl();
-						t(5).e("span").da("class", " ").df().s(".sx(pageH2)").dgl("span");
-						t(4).bgl("h2");
-						tl(3, "}");
+						tl(2, "if(pageH2 != null) {");
+						t(3).be("h2").dfl();
+						t(4).e("span").da("class", " ").df().s(".sx(pageH2)").dgl("span");
+						t(3).bgl("h2");
+						tl(2, "}");
 					}
 		
 					if(classeEntiteVars != null && classeEntiteVars.contains("pageH3")) {
-						tl(3, "if(pageH3 != null) {");
-						t(4).be("h3").dfl();
-						t(5).e("span").da("class", " ").df().s(".sx(pageH3)").dgl("span");
-						t(4).bgl("h3");
-						tl(3, "}");
+						tl(2, "if(pageH3 != null) {");
+						t(3).be("h3").dfl();
+						t(4).e("span").da("class", " ").df().s(".sx(pageH3)").dgl("span");
+						t(3).bgl("h3");
+						tl(2, "}");
 					}
 		
-					t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show w3-white ").dfl();
+					if(contexteVideoId != null) {
+						t(2).be("div").da("class", "site-video-box ").dfl();
+							t(3).e("iframe").da("class", "site-video-embed ").da("width", "560").da("height", "315").s(".a(\"src\", pageVideoUrlEmbed)").da("frameborder", "0").da("allow", "autoplay; encrypted-media").da("allowfullscreen", "").df().dgl("iframe");
+						t(2).bgl("div"); 
+					}
 					if(classeMethodeVars.contains("htmlBody")) {
 						l();
-						tl(4, StringUtils.uncapitalize(classeNomSimple), ".htmlBody();");
+						tl(2, StringUtils.uncapitalize(classeNomSimple), ".htmlBody();");
 					}
 					l();
-					t(3).bgl("div");
 				} else {
 					l();
 					tl(2, "if(liste", classeNomSimple, ".size() == 0) {");
@@ -1490,7 +1505,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l();
 					t(3).be("h1").dfl();
 					tl(4, "if(contexteIconeClassesCss != null)");
-					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" w3-margin-right-4 \").f().g(\"i\");");
+					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
 					t(4).e("span").da("class", " ").df().dsx(contexteAucunNomTrouve).dgl("span");
 					t(3).bgl("h1");
 					tl(2, "} else if(liste", classeNomSimple, ".size() == 1) {");
@@ -1500,7 +1515,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(3, "if(pageH1 != null) {");
 					t(4).be("h1").dfl();
 					tl(5, "if(contexteIconeClassesCss != null)");
-					tl(6, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" w3-margin-right-4 \").f().g(\"i\");");
+					tl(6, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
 		
 					if(classeEntiteVars != null && classeEntiteVars.contains("pageH1"))
 						t(5).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
@@ -1552,7 +1567,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l();
 					t(3).be("h1").dfl();
 					tl(4, "if(contexteIconeClassesCss != null)");
-					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" w3-margin-right-4 \").f().g(\"i\");");
+					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
 					t(4).e("span").da("class", " ").df().dsx(contexteNomPluriel).dgl("i");
 					t(3).bgl("h1");
 					t(3).be("table").da("class", "w3-table w3-bordered w3-striped w3-border w3-hoverable ").dfl();
@@ -1700,8 +1715,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 					t(2).gl("div");
 				}
-	
 				tl(1, "}");
+
+				l();
+				if(classeMethodeVars.contains("htmlBodyCourt")) {
+					tl(1, "@Override public void htmlBodyCourt", classeGenPageNomSimple, "() {");
+					l();
+					tl(2, StringUtils.uncapitalize(classeNomSimple), ".htmlBodyCourt();");
+					tl(1, "}");
+				}
+	
 				tl(0, "}");
 	
 				wTh.flushClose();

@@ -30,6 +30,8 @@ public class ClasseParts {
 	 * Var.enUS: canonicalName
 	 * r: nomCanonique
 	 * r.enUS: canonicalName
+	 * r: documentSolr
+	 * r.enUS: solrDocument
 	 */
 	public String nomCanonique(String langueNom) {
 		if(langueNom == null || documentSolr == null)
@@ -46,6 +48,8 @@ public class ClasseParts {
 	 * Var.enUS: simpleName
 	 * r: nomSimple
 	 * r.enUS: simpleName
+	 * r: documentSolr
+	 * r.enUS: solrDocument
 	 */
 	public String nomSimple(String langueNom) {
 		if(langueNom == null || documentSolr == null)
@@ -161,6 +165,8 @@ public class ClasseParts {
 	 * r.enUS: initClassParts
 	 * r: classeParts
 	 * r.enUS: classParts
+	 * r: classeQdox
+	 * r.enUS: classQdox
 	 * r: configSite
 	 * r.enUS: siteConfig
 	 * r: langueNom
@@ -177,7 +183,7 @@ public class ClasseParts {
 	 * Param1.var.enUS: siteConfig
 	 * Param2.var.enUS: classQdox
 	 * Param3.var.enUS: languageName
-	 * Param4.var.enUS: classeLanguageName
+	 * Param4.var.enUS: classLanguageName
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 * r: initClasseParts
@@ -240,6 +246,8 @@ public class ClasseParts {
 	 * r.enUS: extendsGen
 	 * r: classeEtendGen
 	 * r.enUS: classExtendsGen
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 */ 
 	public static ClasseParts initClasseParts(ConfigSite configSite, JavaClass classeQdox, String langueNom, String classeLangueNom) throws Exception {
 		String nomCanonique = StringUtils.replace(classeQdox.getCanonicalName(), "$", ".");
@@ -336,6 +344,8 @@ public class ClasseParts {
 	 * r.enUS: languageName
 	 * r: classeLangueNom
 	 * r.enUS: classLanguageName
+	 * r: nomCanoniqueComplet
+	 * r.enUS: canonicalNameComplete
 	 **/
 	public static ClasseParts initClasseParts(ConfigSite configSite, String nomCanoniqueComplet, String langueNom) throws Exception {
 		return initClasseParts(configSite, nomCanoniqueComplet, langueNom, null);
@@ -346,7 +356,7 @@ public class ClasseParts {
 	 * Param1.var.enUS: siteConfig
 	 * Param2.var.enUS: canonicalNameComplete
 	 * Param3.var.enUS: languageName
-	 * Param3.var.enUS: classeLanguageName
+	 * Param4.var.enUS: classLanguageName
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 * r: initClasseParts
@@ -361,6 +371,8 @@ public class ClasseParts {
 	 * r.enUS: canonicalNameGeneric
 	 * r: nomCanoniqueComplet
 	 * r.enUS: canonicalNameComplete
+	 * r: langueNomActuel
+	 * r.enUS: languageActualName
 	 * r: langueNom
 	 * r.enUS: languageName
 	 * r: classeLangueNom

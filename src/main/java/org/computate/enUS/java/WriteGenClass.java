@@ -276,6 +276,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected String contextIconName;
 
+	protected String contextVideoId;
+
 	protected Boolean classContext;
 
 	Boolean entityHtml;
@@ -836,6 +838,7 @@ public class WriteGenClass extends WriteClass {
 			contextIconGroup = (String)classeDoc.get("contextIconGroup_stored_string");
 			contextIconName = (String)classeDoc.get("contextIconName_stored_string");
 
+			contextVideoId = (String)classeDoc.get("contextVideoId" + "_" + languageName + "_stored_string");
 			contextAName = (String)classeDoc.get("contextAName" + "_" + languageName + "_stored_string");
 			contextNameSingular = (String)classeDoc.get("contextNameSingular" + "_" + languageName + "_stored_string");
 			contextNamePlural = (String)classeDoc.get("contextNamePlural" + "_" + languageName + "_stored_string");
