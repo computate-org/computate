@@ -124,6 +124,7 @@ public class WriteAllClasses extends WritePageClass {
 					classInitDeep = (Boolean)doc.get("classInitDeep_stored_boolean");
 					classSaved = BooleanUtils.isTrue((Boolean)doc.get("classSaved_stored_boolean"));
 					classIndexed = BooleanUtils.isTrue((Boolean)doc.get("classIndexed_stored_boolean"));
+					classImage = BooleanUtils.isTrue((Boolean)doc.get("classImage_stored_boolean"));
 					classModel = BooleanUtils.isTrue((Boolean)doc.get("classModel_stored_boolean"));
 					classApi = BooleanUtils.isTrue((Boolean)doc.get("classApi_stored_boolean"));
 					classPage = BooleanUtils.isTrue((Boolean)doc.get("classPage_stored_boolean"));
@@ -148,6 +149,8 @@ public class WriteAllClasses extends WritePageClass {
 					contextIconGroup = (String)doc.get("contextIconGroup_stored_string");
 					contextIconName = (String)doc.get("contextIconName_stored_string");
 
+					contextImageLargeur = (Integer)doc.get("contextImageLargeur" + "_" + languageName + "_stored_int");
+					contextImageHauteur = (Integer)doc.get("contextImageHauteur" + "_" + languageName + "_stored_int");
 					contextVideoId = (String)doc.get("contextVideoId" + "_" + languageName + "_stored_string");
 					contextAName = (String)doc.get("contextAName" + "_" + languageName + "_stored_string");
 					contextNameSingular = (String)doc.get("contextNameSingular" + "_" + languageName + "_stored_string");

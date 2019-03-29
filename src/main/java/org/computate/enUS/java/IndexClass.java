@@ -1,5 +1,7 @@
 package org.computate.enUS.java;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.Normalizer;
@@ -11,7 +13,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,8 +21,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javax.imageio.ImageIO;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -392,6 +397,38 @@ public class IndexClass extends WatchClassBase {
 	protected Boolean indexStoreSolr(SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception, Exception {
 		doc.addField(concat(fieldName, "_stored_boolean"), fieldValue);
 		doc.addField(concat(fieldName, "_indexed_boolean"), fieldValue);
+		return fieldValue;
+	}
+
+	protected Long indexStoreSolr(String langueNom, SolrInputDocument fieldName, String fieldValue, Long valeurChamp) throws Exception, Exception {
+		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
+			doc.addField(concat(fieldName, "_", langueNom, "_stored_long"), fieldValue);
+			doc.addField(concat(fieldName, "_", langueNom, "_indexed_long"), fieldValue);
+		}
+		return fieldValue;
+	}
+
+	protected Double indexStoreSolr(String langueNom, SolrInputDocument fieldName, String fieldValue, Double valeurChamp) throws Exception, Exception {
+		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
+			doc.addField(concat(fieldName, "_", langueNom, "_stored_double"), fieldValue);
+			doc.addField(concat(fieldName, "_", langueNom, "_indexed_double"), fieldValue);
+		}
+		return fieldValue;
+	}
+
+	protected Integer indexStoreSolr(String langueNom, SolrInputDocument fieldName, String fieldValue, Integer valeurChamp) throws Exception, Exception {
+		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
+			doc.addField(concat(fieldName, "_", langueNom, "_stored_int"), fieldValue);
+			doc.addField(concat(fieldName, "_", langueNom, "_indexed_int"), fieldValue);
+		}
+		return fieldValue;
+	}
+
+	protected Boolean indexStoreSolr(String langueNom, SolrInputDocument fieldName, String fieldValue, Boolean valeurChamp) throws Exception, Exception {
+		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
+			doc.addField(concat(fieldName, "_", langueNom, "_stored_boolean"), fieldValue);
+			doc.addField(concat(fieldName, "_", langueNom, "_indexed_boolean"), fieldValue);
+		}
 		return fieldValue;
 	}
 
@@ -2954,6 +2991,14 @@ public class IndexClass extends WatchClassBase {
 				contextVideoId = regexLanguage(languageName, "(context)?VideoId", classComment);
 				if(contextVideoId != null)
 					indexStoreSolr(languageName, classDoc, "contextVideoId", contextVideoId); 
+
+				String contextImageWidthStr = regexLanguage(languageName, "^(context)?ImageLargeur", classComment);
+				if(NumberUtils.isCreatable(contextImageWidthStr))
+					indexStoreSolr(languageName, classDoc, "contextImageWidth", Integer.parseInt(contextImageWidthStr));
+
+				String contextImageHeightStr = regexLanguage(languageName, "^(context)?ImageHauteur", classComment);
+				if(NumberUtils.isCreatable(contextImageHeightStr))
+					indexStoreSolr(languageName, classDoc, "contextImageHeight", Integer.parseInt(contextImageHeightStr));
 					
 				contextAName = regexLanguage(languageName, "(context)?ANameLowercase", classComment);
 				if(contextAName != null) {
@@ -3082,6 +3127,7 @@ public class IndexClass extends WatchClassBase {
 		}
 
 		Boolean classIndexed = indexStoreSolr(classDoc, "classIndexed", regexFound("^(class)?Indexed:\\s*(true)$", classComment) || classSaved || classModel || classPage);
+		Boolean classImage = indexStoreSolr(classDoc, "classImage", regexFound("^(class)?Image:\\s*(true)$", classComment));
 
 		if(classIndexed) {
 			classPartsGenAdd(classPartsSolrInputDocument);
@@ -3092,6 +3138,14 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenAdd(classPartsList);
 			classPartsGenAdd(classPartsArrayList);
 			classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classLangueNom));
+		}
+
+		if(classImage) {
+			classPartsGenAdd(ClassParts.initClassParts(this, DefaultExecutor.class.getCanonicalName(), classLangueNom));
+			classPartsGenAdd(ClassParts.initClassParts(this, CommandLine.class.getCanonicalName(), classLangueNom));
+			classPartsGenAdd(ClassParts.initClassParts(this, File.class.getCanonicalName(), classLangueNom));
+			classPartsGenAdd(ClassParts.initClassParts(this, BufferedImage.class.getCanonicalName(), classLangueNom));
+			classPartsGenAdd(ClassParts.initClassParts(this, ImageIO.class.getCanonicalName(), classLangueNom));
 		}
 
 		for(ClassParts classPartGen : classPartsGen.values()) {

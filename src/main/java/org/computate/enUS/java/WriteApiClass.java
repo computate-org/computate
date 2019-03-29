@@ -1193,7 +1193,7 @@ public class WriteApiClass extends WriteGenClass {
 					if(classApiMethod.contains("Recherche")) {
 						if(classPageCanonicalNameMethod != null) {
 							tl(3, classPageSimpleNameMethod, " page = new ", classPageSimpleNameMethod, "();");
-							tl(3, "page.setPageUrl(\"", siteBaseUrl, classApiUri, "\");");
+//							tl(3, "page.setPageUrl(\"", siteBaseUrl, classApiUri, "\");");
 							tl(3, "SolrDocument pageDocumentSolr = new SolrDocument();");
 							l();
 							tl(3, "pageDocumentSolr.setField(", q("pageUri_frFR_stored_string"), ", ", q(classApiUriMethode), ");");
@@ -1251,7 +1251,7 @@ public class WriteApiClass extends WriteGenClass {
 					if(classApiMethod.contains("GET")) {
 						if(classPageCanonicalNameMethod != null) {
 							tl(3, classPageSimpleNameMethod, " page = new ", classPageSimpleNameMethod, "();");
-							tl(3, "page.setPageUrl(\"", siteBaseUrl, classApiUri, "\");");
+//							tl(3, "page.setPageUrl(\"", siteBaseUrl, classApiUri, "\");");
 							tl(3, "SolrDocument pageDocumentSolr = new SolrDocument();");
 							tl(3, "", classPartsSiteRequest.nomSimple(languageName), " siteRequest = liste", classSimpleName, ".getSiteRequest_();");
 							l();

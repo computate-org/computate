@@ -194,6 +194,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classSaved
 	 * r: classeIndexe
 	 * r.enUS: classIndexed
+	 * r: classeImage
+	 * r.enUS: classImage
 	 * r: classeModele
 	 * r.enUS: classModel
 	 * r: classeApiMethodes
@@ -334,6 +336,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: contextOfName
 	 * r: contexteNom
 	 * r.enUS: contextName
+	 * r: contexteImageWidth
+	 * r.enUS: contextImageLargeur
+	 * r: contexteImageHeight
+	 * r.enUS: contextImageHauteur
 	 * r: contexteVideoId
 	 * r.enUS: contextVideoId
 	 * r: UnNomAdjectif
@@ -476,6 +482,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeInitLoin = (Boolean)doc.get("classeInitLoin_stored_boolean");
 					classeSauvegarde = BooleanUtils.isTrue((Boolean)doc.get("classeSauvegarde_stored_boolean"));
 					classeIndexe = BooleanUtils.isTrue((Boolean)doc.get("classeIndexe_stored_boolean"));
+					classeImage = BooleanUtils.isTrue((Boolean)doc.get("classeImage_stored_boolean"));
 					classeModele = BooleanUtils.isTrue((Boolean)doc.get("classeModele_stored_boolean"));
 					classeApi = BooleanUtils.isTrue((Boolean)doc.get("classeApi_stored_boolean"));
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
@@ -500,6 +507,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					contexteIconeGroupe = (String)doc.get("contexteIconeGroupe_stored_string");
 					contexteIconeNom = (String)doc.get("contexteIconeNom_stored_string");
 
+					contexteImageLargeur = (Integer)doc.get("contexteImageLargeur" + "_" + langueNom + "_stored_int");
+					contexteImageHauteur = (Integer)doc.get("contexteImageHauteur" + "_" + langueNom + "_stored_int");
 					contexteVideoId = (String)doc.get("contexteVideoId" + "_" + langueNom + "_stored_string");
 					contexteUnNom = (String)doc.get("contexteUnNom" + "_" + langueNom + "_stored_string");
 					contexteNomSingulier = (String)doc.get("contexteNomSingulier" + "_" + langueNom + "_stored_string");

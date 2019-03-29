@@ -848,6 +848,18 @@ public class WritePageClass extends WriteApiClass {
 				wEntitys.tl(1, "@Override protected void _pageUri(Wrap<String> c) {");
 				wEntitys.tl(2, "c.o(", q(classePageUriMethode), ");");
 				wEntitys.tl(1, "}");
+				for(String pageLangueNom : toutesLangues) {
+					if(!StringUtils.equals(classePageLangueNom, pageLangueNom)) {
+						String classePageUriMethodeLangue = (String)classDoc.get(StringUtils.replace("classApiUri" + classePageMethode + "_stored_string", StringUtils.capitalize(classePageLangueNom), StringUtils.capitalize(pageLangueNom)));
+						
+						if(classePageUriMethodeLangue != null) {
+							wEntitys.l();
+							wEntitys.tl(1, "@Override protected void _pageUri", StringUtils.capitalize(pageLangueNom), "(Wrap<String> c) {");
+							wEntitys.tl(2, "c.o(", q(classePageUriMethodeLangue), ");");
+							wEntitys.tl(1, "}");
+						}
+					}
+				}
 		
 				if(writerPageClass != null) {
 					writerPageClass.l("package ", classPackageName, ";");
@@ -898,6 +910,27 @@ public class WritePageClass extends WriteApiClass {
 				}
 				tl(1, "}");
 				s(wEntitys);
+	
+				if(classeImage != null) {
+					l();
+					tl(1, "@Override protected void _pageImageUri(Wrap<String> c) {");
+					tl(3, "c.o(", q("/static/png", classePageUriMethode, "-999.png"), ");");
+					tl(1, "}");
+				}
+	
+				if(contexteImageLargeur != null) {
+					l();
+					tl(1, "@Override protected void _pageImageLargeur(Wrap<Integer> c) {");
+					tl(3, "c.o(", contexteImageLargeur, ");");
+					tl(1, "}");
+				}
+	
+				if(contexteImageHauteur != null) {
+					l();
+					tl(1, "@Override protected void _pageImageHauteur(Wrap<Integer> c) {");
+					tl(3, "c.o(", contexteImageHauteur, ");");
+					tl(1, "}");
+				}
 	
 				if(StringUtils.isNotBlank(contexteVideoId)) {
 					l();

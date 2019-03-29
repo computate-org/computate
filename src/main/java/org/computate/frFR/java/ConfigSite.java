@@ -308,7 +308,7 @@ public class ConfigSite {
 	 * r.enUS: domainName
 	 **/  
 	protected void _siteUrlBase() throws Exception {
-		nomDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".siteUrlBase");
+		siteUrlBase = config.getString(StringUtils.replace(appliNom, ".", "..") + ".siteUrlBase");
 	}
 	
 	/**

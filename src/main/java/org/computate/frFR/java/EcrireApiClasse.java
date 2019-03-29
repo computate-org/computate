@@ -1500,7 +1500,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classeApiMethode.contains("Recherche")) {
 						if(classePageNomCanoniqueMethode != null) {
 							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
-							tl(3, "page.setPageUrl(\"", siteUrlBase, classeApiUri, "\");");
+//							tl(3, "page.setPageUrl(\"", siteUrlBase, classeApiUri, "\");");
 							tl(3, "SolrDocument pageDocumentSolr = new SolrDocument();");
 							l();
 							tl(3, "pageDocumentSolr.setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
@@ -1558,7 +1558,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classeApiMethode.contains("GET")) {
 						if(classePageNomCanoniqueMethode != null) {
 							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
-							tl(3, "page.setPageUrl(\"", siteUrlBase, classeApiUri, "\");");
+//							tl(3, "page.setPageUrl(\"", siteUrlBase, classeApiUri, "\");");
 							tl(3, "SolrDocument pageDocumentSolr = new SolrDocument();");
 							tl(3, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = liste", classeNomSimple, ".getRequeteSite_();");
 							l();

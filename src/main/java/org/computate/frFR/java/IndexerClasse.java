@@ -1,5 +1,7 @@
 package org.computate.frFR.java; 
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.Normalizer;
@@ -11,7 +13,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,8 +22,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.imageio.ImageIO;
+
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -928,6 +934,74 @@ public class IndexerClasse extends RegarderClasseBase {
 	protected Boolean indexerStockerSolr(SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
 		doc.addField(concat(nomChamp, "_stored_boolean"), valeurChamp);
 		doc.addField(concat(nomChamp, "_indexed_boolean"), valeurChamp);
+		return valeurChamp;
+	}
+	
+	/**
+	 * Var.enUS: indexStoreSolr
+	 * Param2.var.enUS: fieldName
+	 * Param3.var.enUS: fieldValue
+	 * r: nomChamp
+	 * r.enUS: fieldName
+	 * r: valeurChamp
+	 * r.enUS: fieldValue
+	 */
+	protected Long indexerStockerSolr(String langueNom, SolrInputDocument doc, String nomChamp, Long valeurChamp) throws Exception {
+		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
+			doc.addField(concat(nomChamp, "_", langueNom, "_stored_long"), valeurChamp);
+			doc.addField(concat(nomChamp, "_", langueNom, "_indexed_long"), valeurChamp);
+		}
+		return valeurChamp;
+	}
+	
+	/**
+	 * Var.enUS: indexStoreSolr
+	 * Param2.var.enUS: fieldName
+	 * Param3.var.enUS: fieldValue
+	 * r: nomChamp
+	 * r.enUS: fieldName
+	 * r: valeurChamp
+	 * r.enUS: fieldValue
+	 */
+	protected Double indexerStockerSolr(String langueNom, SolrInputDocument doc, String nomChamp, Double valeurChamp) throws Exception {
+		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
+			doc.addField(concat(nomChamp, "_", langueNom, "_stored_double"), valeurChamp);
+			doc.addField(concat(nomChamp, "_", langueNom, "_indexed_double"), valeurChamp);
+		}
+		return valeurChamp;
+	}
+	
+	/**
+	 * Var.enUS: indexStoreSolr
+	 * Param2.var.enUS: fieldName
+	 * Param3.var.enUS: fieldValue
+	 * r: nomChamp
+	 * r.enUS: fieldName
+	 * r: valeurChamp
+	 * r.enUS: fieldValue
+	 */
+	protected Integer indexerStockerSolr(String langueNom, SolrInputDocument doc, String nomChamp, Integer valeurChamp) throws Exception {
+		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
+			doc.addField(concat(nomChamp, "_", langueNom, "_stored_int"), valeurChamp);
+			doc.addField(concat(nomChamp, "_", langueNom, "_indexed_int"), valeurChamp);
+		}
+		return valeurChamp;
+	}
+	
+	/**
+	 * Var.enUS: indexStoreSolr
+	 * Param2.var.enUS: fieldName
+	 * Param3.var.enUS: fieldValue
+	 * r: nomChamp
+	 * r.enUS: fieldName
+	 * r: valeurChamp
+	 * r.enUS: fieldValue
+	 */
+	protected Boolean indexerStockerSolr(String langueNom, SolrInputDocument doc, String nomChamp, Boolean valeurChamp) throws Exception {
+		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
+			doc.addField(concat(nomChamp, "_", langueNom, "_stored_boolean"), valeurChamp);
+			doc.addField(concat(nomChamp, "_", langueNom, "_indexed_boolean"), valeurChamp);
+		}
 		return valeurChamp;
 	}
 	
@@ -2472,6 +2546,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classSaved
 	 * r: classeIndexe
 	 * r.enUS: classIndexed
+	 * r: classeImage
+	 * r.enUS: classImage
 	 * r: classeVarClePrimaire
 	 * r.enUS: classVarPrimaryKey
 	 * r: classeVarCleUnique
@@ -2688,6 +2764,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: contextActualName
 	 * r: contexteTousNom
 	 * r.enUS: contextAllName
+	 * r: contexteImageUri
+	 * r.enUS: contextImageUri
+	 * r: contexteImageLargeur
+	 * r.enUS: contextImageWidth
+	 * r: contexteImageHauteur
+	 * r.enUS: contextImageHeight
 	 * r: LesNom
 	 * r.enUS: TheName
 	 * r: contexteTous
@@ -5174,6 +5256,14 @@ public class IndexerClasse extends RegarderClasseBase {
 				contexteVideoId = regexLangue(langueNom, "(contexte)?VideoId", classeCommentaire);
 				if(contexteVideoId != null)
 					indexerStockerSolr(langueNom, classeDoc, "contexteVideoId", contexteVideoId); 
+
+				String contexteImageLargeurStr = regexLangue(langueNom, "^(contexte)?ImageLargeur", classeCommentaire);
+				if(NumberUtils.isCreatable(contexteImageLargeurStr))
+					indexerStockerSolr(langueNom, classeDoc, "contexteImageLargeur", Integer.parseInt(contexteImageLargeurStr));
+
+				String contexteImageHauteurStr = regexLangue(langueNom, "^(contexte)?ImageHauteur", classeCommentaire);
+				if(NumberUtils.isCreatable(contexteImageHauteurStr))
+					indexerStockerSolr(langueNom, classeDoc, "contexteImageHauteur", Integer.parseInt(contexteImageHauteurStr));
 					
 				contexteUnNom = regexLangue(langueNom, "(contexte)?UnNomMinuscule", classeCommentaire);
 				if(contexteUnNom != null) {
@@ -5302,6 +5392,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^(classe)?Indexe:\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele || classePage);
+		Boolean classeImage = indexerStockerSolr(classeDoc, "classeImage", regexTrouve("^(classe)?Image:\\s*(true)$", classeCommentaire));
 
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument);
@@ -5312,6 +5403,14 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(classePartsList);
 			classePartsGenAjouter(classePartsArrayList);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classeLangueNom));
+		}
+
+		if(classeImage) {
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, DefaultExecutor.class.getCanonicalName(), classeLangueNom));
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, CommandLine.class.getCanonicalName(), classeLangueNom));
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, File.class.getCanonicalName(), classeLangueNom));
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, BufferedImage.class.getCanonicalName(), classeLangueNom));
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, ImageIO.class.getCanonicalName(), classeLangueNom));
 		}
 
 		for(ClasseParts classePartGen : classePartsGen.values()) {

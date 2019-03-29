@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -231,6 +232,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classIndexed
 	 */
 	protected Boolean classeIndexe;
+
+	/**
+	 * Var.enUS: classImage
+	 */
+	protected Boolean classeImage;
 
 	/**
 	 * Var.enUS: classExtendsBase
@@ -628,6 +634,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String contexteIconeNom;
 
 	/**
+	 * Var.enUS: contextImageWidth
+	 */
+	protected Integer contexteImageLargeur;
+
+	/**
+	 * Var.enUS: contextImageHeight
+	 */
+	protected Integer contexteImageHauteur;
+
+	/**
 	 * Var.enUS: contextVideoId
 	 */
 	protected String contexteVideoId;
@@ -980,6 +996,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: SiteConfig
 	 * r: configChemin
 	 * r.enUS: configPath
+	 * r: imageLangueNom
+	 * r.enUS: imageLanguageName
+	 * r: classeImage
+	 * r.enUS: classImage
 	 * 
 	 * r: getClientSolr
 	 * r.enUS: getSolrClient
@@ -992,6 +1012,41 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	public void genCodeIndexer(String langueNom) throws Exception {
 		o = wIndexer;
+		if(classeImage) {
+			l(); 
+			tl(1, "///////////");
+			tl(1, "// image //");
+			tl(1, "///////////");
+			tl(0);
+			tl(1, "public static void image() {");
+			tl(2, "try {");
+			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
+			for(String classePageMethode : classeApiMethodes) {
+	
+				String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
+				String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode  + "_stored_string");
+				String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
+				String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
+				String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
+				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
+				String classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
+		
+				if(classePageCheminGen != null) {
+			
+					tl(3, "{");
+					tl(4, "new File(\"", appliChemin, "/src/main/resources/webroot/png", StringUtils.substringBeforeLast(classePageUriMethode, "/"), "\").mkdirs();");
+					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --url=", siteUrlBase, classePageUriMethode, "?pageRecapituler=true --out=", appliChemin, "/src/main/resources/webroot/png", classePageUriMethode, "-999.png\"));");
+					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appliChemin, "/src/main/resources/webroot/png", classePageUriMethode, "-999.png\"));");
+					tl(4, "System.out.println(\" * ImageLargeur.", classePageLangueNom, ": \" + img.getWidth());");
+					tl(4, "System.out.println(\" * ImageHauteur.", classePageLangueNom, ": \" + img.getHeight());");
+					tl(3, "}");
+				}
+			}
+			tl(2, "} catch(Exception e) {");
+			tl(3, "ExceptionUtils.rethrow(e);");
+			tl(2, "}");
+			tl(1, "}");
+		}
 		if(classeIndexe) {
 			l(); 
 			tl(1, "/////////////");
