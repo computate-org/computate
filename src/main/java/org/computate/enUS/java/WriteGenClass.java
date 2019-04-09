@@ -139,13 +139,15 @@ public class WriteGenClass extends WriteClass {
 
 	protected List<String> classEntityVars;
 
-	protected List<String> classMethodeVars;
+	protected List<String> classMethodVars;
 
 	protected AllWriter wInitDeep;
 
 	protected AllWriter wSiteRequest;
 
 	protected AllWriter wIndex;
+
+	protected AllWriter wText;
 
 	protected AllWriter wObtain;
 
@@ -245,6 +247,10 @@ public class WriteGenClass extends WriteClass {
 
 	protected String contextAllName;
 
+	protected String contextSearchAllNameBy;
+
+	protected String contextSearchAllName;
+
 	protected String contextH1;
 
 	protected String contextH2;
@@ -301,6 +307,12 @@ public class WriteGenClass extends WriteClass {
 
 	Boolean entityIndexed;
 
+	Boolean entityText;
+
+	String entityLanguage;
+
+	Boolean entitySuggested;
+
 	Boolean entityStored;
 
 	String entitySolrCanonicalName;
@@ -335,11 +347,14 @@ public class WriteGenClass extends WriteClass {
 
 	Integer searchLineActualPage;
 
+	AllWriter classVals;
+
 	public void  genCodeInit() throws Exception, Exception {
 
 		wInitDeep = AllWriter.create();
 		wSiteRequest = AllWriter.create();
 		wIndex = AllWriter.create();
+		wText = AllWriter.create();
 		wObtain = AllWriter.create();
 		wAttribute = AllWriter.create();
 		wPut = AllWriter.create();
@@ -371,7 +386,7 @@ public class WriteGenClass extends WriteClass {
 			wInitDeep.l(); 
 			wInitDeep.tl(1, "protected boolean alreadyInitialized", classSimpleName, " = false;");
 			wInitDeep.l();
-			wInitDeep.t(1, "public ", classSimpleName, " initDeep", classSimpleName, "(", classePartsSiteRequest.nomSimple(langueNom), " siteRequest_)");
+			wInitDeep.t(1, "public ", classSimpleName, " initDeep", classSimpleName, "(", classPartsSiteRequest.simpleName(languageName), " siteRequest_)");
 			if(classInitDeepExceptions.size() > 0) {
 				wInitDeep.s(" throws ");
 				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
@@ -383,7 +398,7 @@ public class WriteGenClass extends WriteClass {
 				}
 			}
 			wInitDeep.l(" {");
-//						if(contient", classePartsSiteRequest.nomSimple(langueNom), " && !StringUtils.equals(classSimpleName, "", classePartsSiteRequest.nomSimple(langueNom), ""))
+//						if(contient", classPartsSiteRequest.simpleName(languageName), " && !StringUtils.equals(classSimpleName, "", classPartsSiteRequest.simpleName(languageName), ""))
 //							tl(2, "((", classSimpleName, ")this).setSiteRequest_(siteRequest);");
 			wInitDeep.tl(2, "setSiteRequest_(siteRequest_);");
 			wInitDeep.tl(2, "if(!alreadyInitialized", classSimpleName, ") {");
@@ -433,112 +448,9 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "// siteRequest //");
 			tl(1, "/////////////////");
 			l(); 
-			tl(1, "public void siteRequest", classSimpleName, "(", classePartsSiteRequest.nomSimple(langueNom), " siteRequest_) {");
+			tl(1, "public void siteRequest", classSimpleName, "(", classPartsSiteRequest.simpleName(languageName), " siteRequest_) {");
 			if(BooleanUtils.isTrue(classExtendsBase)) 
 				tl(3, "super.siteRequest", classSuperSimpleNameGeneric, "(siteRequest_);");
-		}
-	}
-
-	public void  genCodeIndex(String languageName) throws Exception, Exception {
-		o = wIndex;
-		if(classImage) {
-			l(); 
-			tl(1, "///////////");
-			tl(1, "// image //");
-			tl(1, "///////////");
-			tl(0);
-			tl(1, "public static void image() {");
-			tl(2, "try {");
-			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
-			for(String classePageMethode : classeApiMethodes) {
-	
-				String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
-				String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode  + "_stored_string");
-				String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
-				String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
-				String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
-				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
-				String classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
-		
-				if(classePageCheminGen != null) {
-			
-					tl(3, "{");
-					tl(4, "new File(\"", appliChemin, "/src/main/resources/webroot/png", StringUtils.substringBeforeLast(classePageUriMethode, "/"), "\").mkdirs();");
-					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --url=", siteUrlBase, classePageUriMethode, "?pageRecapituler=true --out=", appliChemin, "/src/main/resources/webroot/png", classePageUriMethode, "-999.png\"));");
-					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appliChemin, "/src/main/resources/webroot/png", classePageUriMethode, "-999.png\"));");
-					tl(4, "System.out.println(\" * ImageLargeur.", classePageLangueNom, ": \" + img.getWidth());");
-					tl(4, "System.out.println(\" * ImageHauteur.", classePageLangueNom, ": \" + img.getHeight());");
-					tl(3, "}");
-				}
-			}
-			tl(2, "} catch(Exception e) {");
-			tl(3, "ExceptionUtils.rethrow(e);");
-			tl(2, "}");
-			tl(1, "}");
-		}
-		if(classIndexed) {
-			l(); 
-			tl(1, "/////////////");
-			tl(1, "// index //");
-			tl(1, "/////////////");
-			tl(0);
-			tl(1, "public static void index() {");
-			tl(2, "try {");
-			tl(3, "", classePartsSiteRequest.nomSimple(langueNom), " siteRequest = new ", classePartsSiteRequest.nomSimple(langueNom), "();");
-			tl(3, "siteRequest.initDeep", classePartsSiteRequest.nomSimple(langueNom), "();");
-			tl(3, classePartsSiteContext.nomSimple(langueNom), " siteContext = new ", classePartsSiteContext.nomSimple(langueNom), "();");
-			tl(3, "siteContext.getSiteConfig().setConfigChemin(", q(configPath), ");");
-			tl(3, "siteContext.initDeep", classePartsSiteContext.nomSimple(langueNom), "();");
-			tl(3, "siteContext.setSiteRequest_(siteRequest);");
-			tl(3, "siteRequest.setSiteContext_(siteContext);");
-			tl(3, classSimpleName, " o = new ", classSimpleName, "();");
-			tl(3, "o.siteRequest", classSimpleName, "(siteRequest);");
-			tl(3, "o.initDeep", classSimpleName, "(siteRequest);");
-			tl(3, "o.index", classSimpleName, "();");
-			tl(2, "} catch(Exception e) {");
-			tl(3, "ExceptionUtils.rethrow(e);");
-			tl(2, "}");
-			tl(1, "}");
-			tl(0);
-			if(classExtendsBase || classIsBase) {
-				tl(0);
-				t(1);
-				if(!classIsBase)
-					s("@Override ");
-				l("public void indexForClass() throws Exception {");
-				tl(2, "index", classSimpleName, "();");
-				tl(1, "}");
-				tl(0);
-				t(1);
-				if(!classIsBase)
-					s("@Override ");
-				l("public void indexForClass(SolrInputDocument document) throws Exception {");
-				tl(2, "index", classSimpleName, "(document);");
-				tl(1, "}");
-			}
-			l();
-			tl(1, "public void index", classSimpleName, "(SolrClient solrClient) throws Exception {");
-			tl(2, "SolrInputDocument document = new SolrInputDocument();");
-			tl(2, "index", classSimpleName, "(document);");
-			tl(2, "solrClient.add(document);");
-			tl(2, "solrClient.commit();");
-			l("\t}");
-			l();
-			tl(1, "public void index", classSimpleName, "() throws Exception {");
-			tl(2, "SolrInputDocument document = new SolrInputDocument();");
-			tl(2, "index", classSimpleName, "(document);");
-			tl(2, "SolrClient solrClient = siteRequest_.getSiteContext_().getSolrClient();");
-			tl(2, "solrClient.add(document);");
-			tl(2, "solrClient.commit();");
-			l("\t}");
-
-			tl(0);
-			tl(1, "public void index", classSimpleName, "(SolrInputDocument document) throws Exception {");
-			if(classSaved) {
-				tl(2, "if(sauvegardes", classSimpleName, " != null)");
-				tl(3, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
-				l();
-			}
 		}
 	}
 
@@ -716,10 +628,8 @@ public class WriteGenClass extends WriteClass {
 		}
 	}
 
-	public static final CharSequenceTranslator ESCAPE_JAVA;
-
 	public static final String escapeJava(String input) {
-        return ESCAPE_JAVA.translate(input);
+        return org.computate.frFR.java.EcrireGenClasse.ESCAPE_JAVA.translate(input);
     }
 
 	public void  genCodeSaves(String languageName) throws Exception, Exception {
@@ -847,6 +757,9 @@ public class WriteGenClass extends WriteClass {
 				if(StringUtils.equals(languageName, classValLanguage)) {
 					classValVarNumero++;
 					tl(1, "public static final String ", classValVar, classValVarNumero, " = \"", escapeJava(classValValue), "\";");
+					if(!classVals.getEmpty())
+						classVals.s(", ");
+					classVals.s(classValVar, classValVarNumero);
 				}
 
 				classValVarOld = classValVar;
@@ -876,34 +789,36 @@ public class WriteGenClass extends WriteClass {
 		
 		if(classContext) {
 
-			contextColor = (String)classeDoc.get("contextColor_stored_string");
-			contextIconGroup = (String)classeDoc.get("contextIconGroup_stored_string");
-			contextIconName = (String)classeDoc.get("contextIconName_stored_string");
+			contextColor = (String)classDoc.get("contextColor_stored_string");
+			contextIconGroup = (String)classDoc.get("contextIconGroup_stored_string");
+			contextIconName = (String)classDoc.get("contextIconName_stored_string");
 
-			contextVideoId = (String)classeDoc.get("contextVideoId" + "_" + languageName + "_stored_string");
-			contextAName = (String)classeDoc.get("contextAName" + "_" + languageName + "_stored_string");
-			contextNameSingular = (String)classeDoc.get("contextNameSingular" + "_" + languageName + "_stored_string");
-			contextNamePlural = (String)classeDoc.get("contextNamePlural" + "_" + languageName + "_stored_string");
-			contextNameVar = (String)classeDoc.get("contextNameVar" + "_" + languageName + "_stored_string");
-			contextAdjective = (String)classeDoc.get("contextAdjective" + "_" + languageName + "_stored_string");
-			contextAdjectivePlural = (String)classeDoc.get("contextAdjectivePlural" + "_" + languageName + "_stored_string");
-			contextAdjectiveVar = (String)classeDoc.get("contextAdjectiveVar" + "_" + languageName + "_stored_string");
-			contextNameAdjectiveSingular = (String)classeDoc.get("contextNameAdjectiveSingular" + "_" + languageName + "_stored_string");
-			contextNameAdjectivePlural = (String)classeDoc.get("contextNameAdjectivePlural" + "_" + languageName + "_stored_string");
-			contextThis = (String)classeDoc.get("contextThis" + "_" + languageName + "_stored_string");
-			contextA = (String)classeDoc.get("contextA" + "_" + languageName + "_stored_string");
-			contextActualName = (String)classeDoc.get("contextActualName" + "_" + languageName + "_stored_string");
-			contextAllName = (String)classeDoc.get("contextAllName" + "_" + languageName + "_stored_string");
-			contextTheNames = (String)classeDoc.get("contextTheNames" + "_" + languageName + "_stored_string");
-			contextTitle = (String)classeDoc.get("contextTitle" + "_" + languageName + "_stored_string");
-			contextH1 = (String)classeDoc.get("contextH1" + "_" + languageName + "_stored_string");
-			contextH2 = (String)classeDoc.get("contextH2" + "_" + languageName + "_stored_string");
-			contextH3 = (String)classeDoc.get("contextH3" + "_" + languageName + "_stored_string");
-			contextNoneNameFound = (String)classeDoc.get("contextNoneNameFound" + "_" + languageName + "_stored_string");
-			contextANameAdjective = (String)classeDoc.get("contextANameAdjective" + "_" + languageName + "_stored_string");
-			contextThisName = (String)classeDoc.get("contextThisName" + "_" + languageName + "_stored_string");
-			contextTheName = (String)classeDoc.get("contextTheName" + "_" + languageName + "_stored_string");
-			contextOfName = (String)classeDoc.get("contextOfName" + "_" + languageName + "_stored_string");
+			contextVideoId = (String)classDoc.get("contextVideoId" + "_" + languageName + "_stored_string");
+			contextAName = (String)classDoc.get("contextAName" + "_" + languageName + "_stored_string");
+			contextNameSingular = (String)classDoc.get("contextNameSingular" + "_" + languageName + "_stored_string");
+			contextNamePlural = (String)classDoc.get("contextNamePlural" + "_" + languageName + "_stored_string");
+			contextNameVar = (String)classDoc.get("contextNameVar" + "_" + languageName + "_stored_string");
+			contextAdjective = (String)classDoc.get("contextAdjective" + "_" + languageName + "_stored_string");
+			contextAdjectivePlural = (String)classDoc.get("contextAdjectivePlural" + "_" + languageName + "_stored_string");
+			contextAdjectiveVar = (String)classDoc.get("contextAdjectiveVar" + "_" + languageName + "_stored_string");
+			contextNameAdjectiveSingular = (String)classDoc.get("contextNameAdjectiveSingular" + "_" + languageName + "_stored_string");
+			contextNameAdjectivePlural = (String)classDoc.get("contextNameAdjectivePlural" + "_" + languageName + "_stored_string");
+			contextThis = (String)classDoc.get("contextThis" + "_" + languageName + "_stored_string");
+			contextA = (String)classDoc.get("contextA" + "_" + languageName + "_stored_string");
+			contextActualName = (String)classDoc.get("contextActualName" + "_" + languageName + "_stored_string");
+			contextAllName = (String)classDoc.get("contextAllName" + "_" + languageName + "_stored_string");
+			contextSearchAllNameBy = (String)classDoc.get("contextSearchAllNameBy" + "_" + languageName + "_stored_string");
+			contextSearchAllName = (String)classDoc.get("contextSearchAllName" + "_" + languageName + "_stored_string");
+			contextTheNames = (String)classDoc.get("contextTheNames" + "_" + languageName + "_stored_string");
+			contextTitle = (String)classDoc.get("contextTitle" + "_" + languageName + "_stored_string");
+			contextH1 = (String)classDoc.get("contextH1" + "_" + languageName + "_stored_string");
+			contextH2 = (String)classDoc.get("contextH2" + "_" + languageName + "_stored_string");
+			contextH3 = (String)classDoc.get("contextH3" + "_" + languageName + "_stored_string");
+			contextNoneNameFound = (String)classDoc.get("contextNoneNameFound" + "_" + languageName + "_stored_string");
+			contextANameAdjective = (String)classDoc.get("contextANameAdjective" + "_" + languageName + "_stored_string");
+			contextThisName = (String)classDoc.get("contextThisName" + "_" + languageName + "_stored_string");
+			contextTheName = (String)classDoc.get("contextTheName" + "_" + languageName + "_stored_string");
+			contextOfName = (String)classDoc.get("contextOfName" + "_" + languageName + "_stored_string");
 			
 			l();
 			if(contextAName != null)
@@ -935,6 +850,12 @@ public class WriteGenClass extends WriteClass {
 			
 			if(contextAllName != null)
 				tl(1, "public static final String ", classSimpleName, "_TousNom = ", q(contextAllName), ";");
+			
+			if(contextSearchAllNameBy != null)
+				tl(1, "public static final String ", classSimpleName, "_RechercherTousNomPar = ", q(contextSearchAllNameBy), ";");
+			
+			if(contextSearchAllName != null)
+				tl(1, "public static final String ", classSimpleName, "_RechercherTousNom = ", q(contextSearchAllName), ";");
 			
 			if(contextH1 != null)
 				tl(1, "public static final String ", classSimpleName, "_H1 = ", q(contextH1), ";");
@@ -986,6 +907,16 @@ public class WriteGenClass extends WriteClass {
 			
 			if(contextIconName != null)
 				tl(1, "public static final String ", classSimpleName, "_IconeNom = ", q(contextIconName), ";");
+		}
+
+		for(String classPageMethod : classApiMethods) {
+
+			String classPageUriMethod = (String)classDoc.get("classeApiUri" + classPageMethod + "_stored_string");
+			String classPageSimpleName = (String)doc.get("classPageSimpleName" + classPageMethod  + "_stored_string");
+	
+			if(classPageUriMethod != null) {
+				tl(1, "public static final String ", classPageSimpleName, "_Uri", " = ", q(classPageUriMethod), ";");
+			}
 		}
 
 	}
@@ -1094,7 +1025,8 @@ public class WriteGenClass extends WriteClass {
 			Boolean entitySaved = (Boolean)doc.get("entitySaved_stored_boolean");
 			Boolean entityIndexed = (Boolean)doc.get("entityIndexed_stored_boolean");
 			Boolean entityStored = (Boolean)doc.get("entityStored_stored_boolean");
-			Boolean entitytexte = (Boolean)doc.get("entitytexte_stored_boolean");
+			Boolean entityText = (Boolean)doc.get("entityText_stored_boolean");
+			String entityLanguage = (String)doc.get("entityLanguage_stored_string");
 			Boolean entityIncremented = (Boolean)doc.get("entityIncremented_stored_boolean");
 			Boolean entityIgnored = (Boolean)doc.get("entityIgnored_stored_boolean");
 			Boolean entityDeclared = (Boolean)doc.get("entityDeclared_stored_boolean");
@@ -1138,7 +1070,7 @@ public class WriteGenClass extends WriteClass {
 				if(entityWriteMethods.contains(classWriteMethod)) {
 					AllWriter w = classWriteWriters.get(i);
 					String var = classWriteMethod + entityVarCapitalized;
-					if(classeMethodeVars.contains(var))
+					if(classMethodVars.contains(var))
 						w.tl(2, "((", classSimpleName, ")this).", var, "();");
 					else
 						w.tl(2, entityVar, ".", classWriteMethod, "();");
@@ -1186,6 +1118,9 @@ public class WriteGenClass extends WriteClass {
 					if(StringUtils.equals(languageName, entityValLangue)) {
 						entityValVarNumero++;
 						tl(1, "public static final String ", entityVar, entityValVar, entityValVarNumero, " = \"", escapeJava(entityValValeur), "\";");
+						if(!classeVals.getEmpty())
+							classeVals.s(", ");
+						classeVals.s(entityVar, entityValVar, entityValVarNumero);
 					}
 	
 					entityValVarAncien = entityValVar;
@@ -2057,6 +1992,28 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "document.addField(\"", entityVar, "_suggested", entityTypeSuffix, "\", ", entityVar, ");");
 					}
 				}
+				if(entityText && entityLanguage != null) {
+					if("frFR".equals(entityLanguage) || "esES".equals(entityLanguage)) {
+						if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList") || entitySimpleName.equals("Set") || entitySimpleName.equals("HashSet")) {
+							tl(3, "for(", entitySimpleNameCompleteGeneric, " o : ", entityVar, ") {");
+							tl(4, "document.addField(\"", entityVar, "_text_", entityLanguage, "\", o", "String".equals(entitySimpleNameCompleteGeneric) ? "" : ".toString()", ");");
+							tl(3, "}");
+						}
+						else {
+							tl(3, "document.addField(\"", entityVar, "_text_", entityLanguage, "\", ", entityVar, "", "String".equals(entitySimpleNameCompleteGeneric) ? "" : ".toString()", ");");
+						}
+					}
+					else {
+						if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList") || entitySimpleName.equals("Set") || entitySimpleName.equals("HashSet")) {
+							tl(3, "for(", entitySimpleNameCompleteGeneric, " o : ", entityVar, ") {");
+							tl(4, "document.addField(\"", entityVar, "_text_enUS\", o", "String".equals(entitySimpleNameCompleteGeneric) ? "" : ".toString()", ");");
+							tl(3, "}");
+						}
+						else {
+							tl(3, "document.addField(\"", entityVar, "_text_enUS", "\", ", entityVar, "", "String".equals(entitySimpleNameCompleteGeneric) ? "" : ".toString()", ");");
+						}
+					}
+				}
 	
 				if(entitySimpleName != null && entityIndexed) {
 					// indexe
@@ -2188,19 +2145,20 @@ public class WriteGenClass extends WriteClass {
 				if(entityEncrypted || entityStored || entityUniqueKey || entitySuggested || entityIncremented) {
 					tl(0);
 	
-					if(entitySuggested) {
-						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entityTypeSuffix, "\");");
-						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-						tl(3, "}");
-					}
-					else if(entityIncremented) {
-						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
-						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entityTypeSuffix, "\");");
-						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-						tl(3, "}");
-					}
-					else if(entityUniqueKey) {
+//					if(entitySuggested) {
+//						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+//						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entityTypeSuffix, "\");");
+//						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+//						tl(3, "}");
+//					}
+//					else if(entityIncremented) {
+//						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+//						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entityTypeSuffix, "\");");
+//						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+//						tl(3, "}");
+//					}
+//					else if(entityUniqueKey) {
+					if(entityUniqueKey) {
 						tl(3, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "\");");
 						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 					}
@@ -2243,18 +2201,26 @@ public class WriteGenClass extends WriteClass {
 			// codeStocker //
 			/////////////////
 			o = wStore;
-			if(entityEncrypted || entityStored || entityUniqueKey || entitySuggested || entityIncremented) {
+			if(entityEncrypted || entityStored || entityUniqueKey || entitySuggested || entityIncremented || entityText) {
 				tl(0);
 
-				if(entitySuggested) {
-					tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entityTypeSuffix, "\");");
-					tl(2, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-				}
-				else if(entityIncremented) {
-					tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entityTypeSuffix, "\");");
-					tl(2, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
-				}
-				else if(entityUniqueKey) {
+//				if(entityText) {
+//					if("frFR".equals(languageName) || "esES".equals(languageName))
+//						tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_text_", languageName, "\");");
+//					else
+//						tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_text_enUS\");");
+//					tl(2, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+//				}
+//				else if(entitySuggested) {
+//					tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entityTypeSuffix, "\");");
+//					tl(2, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+//				}
+//				else if(entityIncremented) {
+//					tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entityTypeSuffix, "\");");
+//					tl(2, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
+//				}
+//				else if(entityUniqueKey) {
+				if(entityUniqueKey) {
 					tl(2, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "\");");
 					tl(2, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 				}
@@ -2307,13 +2273,13 @@ public class WriteGenClass extends WriteClass {
 	//		}
 			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
 				tl(tBase + 2, "case \"", entityVar, "\":");
-				tl(tBase + 3, "postSql.append(", classePartsSiteContext.nomSimple(languageName), ".SQL_setD);");
+				tl(tBase + 3, "postSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setD);");
 				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.get", entitySimpleNameVertxJson, "(entityVar), ", classVarPrimaryKey, "));");
 				tl(tBase + 3, "break;");
 			}	
 			if(classSaved && BooleanUtils.isTrue(entityAttribute)) {
 				tl(tBase + 2, "case \"", entityVar, "\":");
-				tl(tBase + 3, "postSql.append(", classePartsSiteContext.nomSimple(languageName), ".SQL_addA);");
+				tl(tBase + 3, "postSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_addA);");
 				if(StringUtils.compare(entityVar, entityAttributeVar) < 0)
 					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.getLong(entityVar), \"", entityAttributeVar, "\", ", classVarPrimaryKey, "));");
 				else
@@ -2335,7 +2301,7 @@ public class WriteGenClass extends WriteClass {
 			}
 			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
 				tl(tBase + 6, "case \"", entityVar, "\":");
-				tl(tBase + 7, "putSql.append(", classePartsSiteContext.nomSimple(languageName), ".SQL_setD);");
+				tl(tBase + 7, "putSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setD);");
 				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entityVar, "\", requestJson.get", entitySimpleNameVertxJson, "(entityVar), putPk));");
 				tl(tBase + 7, "break;");
 			}	
@@ -2381,7 +2347,7 @@ public class WriteGenClass extends WriteClass {
 				wInitDeep.t(1);
 				if(classExtendsBase)
 					wInitDeep.s("@Override ");
-				wInitDeep.s("public void initDeepForClass(", classPartsSiteRequest.nomSimple(langueNom), " siteRequest_)");
+				wInitDeep.s("public void initDeepForClass(", classPartsSiteRequest.simpleName(languageName), " siteRequest_)");
 				if(classInitDeepExceptions.size() > 0) {
 					wInitDeep.s(" throws ");
 					for(int i = 0; i < classInitDeepExceptions.size(); i++) {
@@ -2405,38 +2371,9 @@ public class WriteGenClass extends WriteClass {
 			o = wSiteRequest;
 			tl(1, "}");
 			l();
-			tl(1, "public void siteRequestForClass(", classPartsSiteRequest.nomSimple(langueNom), " siteRequest_) {");
+			tl(1, "public void siteRequestForClass(", classPartsSiteRequest.simpleName(languageName), " siteRequest_) {");
 			tl(2, "siteRequest", classSimpleName, "(siteRequest_);");
 			tl(1, "}");  
-		}
-
-		/////////////////
-		// codeIndexer //
-		/////////////////
-		o = wIndex;
-		if(classIndexed) {
-			if(classExtendsBase && !classIsBase) {
-				tl(2, "super.indexer", classSuperSimpleNameGeneric, "(document);");
-				tl(0);
-			}
-			l("\t}");
-
-			if(StringUtils.isNotEmpty(classVarUniqueKey)) {
-				tl(0);
-				tl(1, "public void unindex", classSimpleName, "() throws Exception {");
-				tl(2, "", classPartsSiteRequest.nomSimple(langueNom), " siteRequest = new ", classPartsSiteRequest.nomSimple(langueNom), "();");
-				tl(2, "siteRequest.initDeep", classPartsSiteRequest.nomSimple(langueNom), "();");
-				tl(2, classPartsSiteContext.nomSimple(langueNom), " siteContext = new ", classPartsSiteContext.nomSimple(langueNom), "();");
-				tl(2, "siteContext.initDeep", classPartsSiteContext.nomSimple(langueNom), "();");
-				tl(2, "siteContext.setSiteRequest_(siteRequest);");
-				tl(2, "siteRequest.setSiteContext_(siteContext);");
-				tl(2, "siteRequest.setSiteConfig_(siteContext.getSiteConfig());");
-				tl(2, "initDeep", classSimpleName, "(siteContext.getSiteRequest_());");
-				tl(2, "SolrClient solrClient = siteContext.getSolrClient();");
-				tl(2, "solrClient.deleteById(", classVarUniqueKey, ".toString());");
-				tl(2, "solrClient.commit();");
-				tl(1, "}");
-			}
 		}
 
 		/////////////////
@@ -2511,7 +2448,6 @@ public class WriteGenClass extends WriteClass {
 
 		s(wInitDeep.toString());
 		s(wSiteRequest.toString());
-		s(wIndex.toString());
 		s(wObtain.toString());
 		s(wAttribute.toString());
 
@@ -2606,9 +2542,142 @@ public class WriteGenClass extends WriteClass {
 		}	
 
 		/////////////////
+		// codeIndexer //
+		/////////////////
+		if(classImage) {
+			l(); 
+			tl(1, "///////////");
+			tl(1, "// image //");
+			tl(1, "///////////");
+			tl(0);
+			tl(1, "public static void image() {");
+			tl(2, "try {");
+			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
+			for(String classPageMethode : classApiMethods) {
+	
+				String classPageCheminGen = (String)doc.get("classPageCheminGen" + classPageMethode  + "_stored_string");
+				String classPageChemin = (String)doc.get("classPageChemin" + classPageMethode  + "_stored_string");
+				String classPageCheminCss = (String)doc.get("classPageCheminCss" + classPageMethode  + "_stored_string");
+				String classPageCheminJs = (String)doc.get("classPageCheminJs" + classPageMethode  + "_stored_string");
+				String classPageUriMethode = (String)classDoc.get("classApiUri" + classPageMethode + "_stored_string");
+				String classPageLangueNom = (String)classDoc.get("classPageLangueNom" + classPageMethode + "_stored_string");
+				String classPageNomSimple = (String)doc.get("classPageNomSimple" + classPageMethode  + "_stored_string");
+		
+				if(classPageCheminGen != null) {
+			
+					tl(3, "{");
+					tl(4, "new File(\"", appPath, "/src/main/resources/webroot/png", StringUtils.substringBeforeLast(classPageUriMethode, "/"), "\").mkdirs();");
+					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --url=", siteBaseUrl, classPageUriMethode, "?pageRecapituler=true --out=", appPath, "/src/main/resources/webroot/png", classPageUriMethode, "-999.png\"));");
+					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appPath, "/src/main/resources/webroot/png", classPageUriMethode, "-999.png\"));");
+					tl(4, "System.out.println(\" * ImageLargeur.", classPageLangueNom, ": \" + img.getWidth());");
+					tl(4, "System.out.println(\" * ImageHauteur.", classPageLangueNom, ": \" + img.getHeight());");
+					tl(3, "}");
+				}
+			}
+			tl(2, "} catch(Exception e) {");
+			tl(3, "ExceptionUtils.rethrow(e);");
+			tl(2, "}");
+			tl(1, "}");
+		}
+		if(classIndexed) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// indexer //");
+			tl(1, "/////////////");
+			tl(0);
+			tl(1, "public static void indexer() {");
+			tl(2, "try {");
+			tl(3, "", classPartsSiteRequest.simpleName(languageName), " siteRequest = new ", classPartsSiteRequest.simpleName(languageName), "();");
+			tl(3, "siteRequest.initDeep", classPartsSiteRequest.simpleName(languageName), "();");
+			tl(3, classPartsSiteContext.simpleName(languageName), " siteContext = new ", classPartsSiteContext.simpleName(languageName), "();");
+			tl(3, "siteContext.getSiteConfig().setConfigChemin(", q(configPath), ");");
+			tl(3, "siteContext.initDeep", classPartsSiteContext.simpleName(languageName), "();");
+			tl(3, "siteContext.setSiteRequest_(siteRequest);");
+			tl(3, "siteRequest.setSiteContext_(siteContext);");
+			tl(3, "SolrQuery rechercheSolr = new SolrQuery();");
+			tl(3, "rechercheSolr.setQuery(\"*:*\");");
+			tl(3, "rechercheSolr.setRows(1);");
+			tl(3, "rechercheSolr.addFilterQuery(\"id:\" + ClientUtils.escapeQueryChars(\"", classCanonicalName, "\"));");
+			tl(3, "QueryResponse reponseRecherche = siteRequest.getSiteContext_().getSolrClient().query(rechercheSolr);");
+			tl(3, "if(reponseRecherche.getResults().size() > 0)");
+			tl(4, "siteRequest.setDocumentSolr(reponseRecherche.getResults().get(0));");
+			tl(3, classSimpleName, " o = new ", classSimpleName, "();");
+			tl(3, "o.siteRequest", classSimpleName, "(siteRequest);");
+			tl(3, "o.initDeep", classSimpleName, "(siteRequest);");
+			tl(3, "o.indexer", classSimpleName, "();");
+			tl(2, "} catch(Exception e) {");
+			tl(3, "ExceptionUtils.rethrow(e);");
+			tl(2, "}");
+			tl(1, "}");
+			tl(0);
+			if(classExtendsBase || classIsBase) {
+				tl(0);
+				t(1);
+				if(!classIsBase)
+					s("@Override ");
+				l("public void indexerPourClasse() throws Exception {");
+				tl(2, "indexer", classSimpleName, "();");
+				tl(1, "}");
+				tl(0);
+				t(1);
+				if(!classIsBase)
+					s("@Override ");
+				l("public void indexerPourClasse(SolrInputDocument document) throws Exception {");
+				tl(2, "indexer", classSimpleName, "(document);");
+				tl(1, "}");
+			}
+			l();
+			tl(1, "public void indexer", classSimpleName, "(SolrClient solrClient) throws Exception {");
+			tl(2, "SolrInputDocument document = new SolrInputDocument();");
+			tl(2, "indexer", classSimpleName, "(document);");
+			tl(2, "solrClient.add(document);");
+			tl(2, "solrClient.commit();");
+			l("\t}");
+			l();
+			tl(1, "public void indexer", classSimpleName, "() throws Exception {");
+			tl(2, "SolrInputDocument document = new SolrInputDocument();");
+			tl(2, "indexer", classSimpleName, "(document);");
+			tl(2, "SolrClient solrClient = siteRequest_.getSiteContext_().getSolrClient();");
+			tl(2, "solrClient.add(document);");
+			tl(2, "solrClient.commit();");
+			l("\t}");
+
+			tl(0);
+			tl(1, "public void indexer", classSimpleName, "(SolrInputDocument document) throws Exception {");
+			if(classSaved) {
+				tl(2, "if(sauvegardes", classSimpleName, " != null)");
+				tl(3, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
+				l();
+			}
+			s(wIndex.toString());
+			if(classExtendsBase && !classIsBase) {
+				tl(2, "super.indexer", classSuperSimpleNameGeneric, "(document);");
+				tl(0);
+			}
+			l("\t}");
+
+			if(StringUtils.isNotEmpty(classVarUniqueKey)) {
+				tl(0);
+				tl(1, "public void unindex", classSimpleName, "() throws Exception {");
+				tl(2, "", classPartsSiteRequest.simpleName(languageName), " siteRequest = new ", classPartsSiteRequest.simpleName(languageName), "();");
+				tl(2, "siteRequest.initDeep", classPartsSiteRequest.simpleName(languageName), "();");
+				tl(2, classPartsSiteContext.simpleName(languageName), " siteContext = new ", classPartsSiteContext.simpleName(languageName), "();");
+				tl(2, "siteContext.initDeep", classPartsSiteContext.simpleName(languageName), "();");
+				tl(2, "siteContext.setSiteRequest_(siteRequest);");
+				tl(2, "siteRequest.setSiteContext_(siteContext);");
+				tl(2, "siteRequest.setSiteConfig_(siteContext.getSiteConfig());");
+				tl(2, "initDeep", classSimpleName, "(siteContext.getSiteRequest_());");
+				tl(2, "SolrClient solrClient = siteContext.getSolrClient();");
+				tl(2, "solrClient.deleteById(", classVarUniqueKey, ".toString());");
+				tl(2, "solrClient.commit();");
+				tl(1, "}");
+			}
+		}
+
+		/////////////////
 		// codeStore //
 		/////////////////
-		if(classSaved) {
+		if(classIndexed) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// store //");
@@ -2618,7 +2687,7 @@ public class WriteGenClass extends WriteClass {
 			if(BooleanUtils.isTrue(classExtendsBase))
 				s("@Override ");
 			l("public void storePourClasse(SolrDocument solrDocument) {");
-			if(classSaved) {
+			if(classIndexed) {
 			tl(2, "store", classSimpleName, "(solrDocument);");
 			}
 			tl(1, "}");
@@ -2704,8 +2773,8 @@ public class WriteGenClass extends WriteClass {
 //			t(1);
 //			if(classExtendsBase)
 //				s("@Override ");
-//			l("public void savePourClasse(", classPartsSiteRequest.nomSimple(langueNom), " siteRequest_) throws Exception {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(siteRequest.", classPartsSiteContext.nomSimple(langueNom), ".sourceDonnees);");
+//			l("public void savePourClasse(", classPartsSiteRequest.simpleName(languageName), " siteRequest_) throws Exception {");
+//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(siteRequest.", classPartsSiteContext.simpleName(languageName), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "String pkStr = siteRequest_.getRequeteServeur().getParam(\"pk\");");
 //			tl(2, "pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
@@ -2754,7 +2823,7 @@ public class WriteGenClass extends WriteClass {
 //			tl(2, "save", classSimpleName, "(siteRequest, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
 ////						tl(2, "}");
 //			tl(1, "}");
-//			tl(1, "public void save", classSimpleName, "(", classPartsSiteRequest.nomSimple(langueNom), " siteRequest, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
+//			tl(1, "public void save", classSimpleName, "(", classPartsSiteRequest.simpleName(languageName), " siteRequest, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
 //			s(wSave.toString());
 //			if(classExtendsBase) {
 //				tl(0);
@@ -2827,6 +2896,11 @@ public class WriteGenClass extends WriteClass {
 		tl(2, "sb.append(\" }\");");
 		tl(2, "return sb.toString();");
 		tl(1, "}");
+
+		if(!classVals.getEmpty()) {
+			l();
+			tl(1, "public static final String[] ", classSimpleName, "Vals", " = new String[] { ", classVals, " };");
+		}
 
 		l("}"); 
 

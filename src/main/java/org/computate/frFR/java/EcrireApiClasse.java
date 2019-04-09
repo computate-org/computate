@@ -1,5 +1,6 @@
 package org.computate.frFR.java; 
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -1603,16 +1604,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 			s(wApiEntites.toString());
 
-			l();
-			tl(1, "public String varIndexe", classeNomSimple, "(String entiteVar) {");
-			tl(2, "switch(entiteVar) {");
+			ToutEcrivain wVarIndexe = ToutEcrivain.create();
+			ToutEcrivain wVarRecherche = ToutEcrivain.create();
+			ToutEcrivain wVarSuggere = ToutEcrivain.create();
 			{
 				SolrQuery rechercheSolr = new SolrQuery();   
 				rechercheSolr.setQuery("*:*");
 				rechercheSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
+				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();
 				Integer rechercheLignes = rechercheSolr.getRows();
@@ -1621,13 +1622,26 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
 						for(Integer j = 0; j < rechercheListe.size(); j++) {
 							SolrDocument entiteDocumentSolr = rechercheListe.get(j);
-							entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
+							entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNomActuel + "_stored_string");
 							entiteSuffixeType = (String)entiteDocumentSolr.get("entiteSuffixeType_stored_string");
 							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
+							entiteTexte = (Boolean)entiteDocumentSolr.get("entiteTexte_stored_boolean");
+							entiteLangue = (String)entiteDocumentSolr.get("entiteLangue_stored_string");
+							entiteSuggere = (Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean");
 
-							if(classeIndexe && entiteIndexe) {
-								tl(3, "case \"", entiteVar, "\":");
-								tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
+							if(classeIndexe) {
+								if(entiteIndexe) {
+									wVarIndexe.tl(3, "case \"", entiteVar, "\":");
+									wVarIndexe.tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
+								}
+								if(entiteTexte && entiteLangue != null) {
+									wVarRecherche.tl(3, "case \"", entiteVar, "\":");
+									wVarRecherche.tl(4, "return \"", entiteVar, "_text_" + entiteLangue, "\";");
+								}
+								if(entiteSuggere) {
+									wVarSuggere.tl(3, "case \"", entiteVar, "\":");
+									wVarSuggere.tl(4, "return \"", entiteVar, "_suggested", "\";");
+								}
 							}
 						}
 						rechercheSolr.setStart(i.intValue() + rechercheLignes);
@@ -1637,6 +1651,28 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 			}
 
+			l();
+			tl(1, "public String varIndexe", classeNomSimple, "(String entiteVar) {");
+			tl(2, "switch(entiteVar) {");
+			s(wVarIndexe);
+			tl(3, "default:");
+			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entiteVar));");
+			tl(2, "}");
+			tl(1, "}");
+
+			l();
+			tl(1, "public String varRecherche", classeNomSimple, "(String entiteVar) {");
+			tl(2, "switch(entiteVar) {");
+			s(wVarRecherche);
+			tl(3, "default:");
+			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entiteVar));");
+			tl(2, "}");
+			tl(1, "}");
+
+			l();
+			tl(1, "public String varSuggere", classeNomSimple, "(String entiteVar) {");
+			tl(2, "switch(entiteVar) {");
+			s(wVarSuggere);
 			tl(3, "default:");
 			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entiteVar));");
 			tl(2, "}");
@@ -1832,7 +1868,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "listeRecherche.setFields(entiteListe);");
 			tl(3, "listeRecherche.addSort(\"archive_indexed_boolean\", ORDER.asc);");
 			tl(3, "listeRecherche.addSort(\"supprime_indexed_boolean\", ORDER.asc);");
-			tl(3, "listeRecherche.addFilterQuery(\"classeNomCanonique_indexed_string:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
+			tl(3, "listeRecherche.addFilterQuery(\"classeNomsCanoniques_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
 			if(classeFiltresTrouves && classeFiltres.contains("utilisateurId"))
 				tl(3, "listeRecherche.addFilterQuery(\"utilisateurId_indexed_string:\" + ClientUtils.escapeQueryChars(requeteSite.getUtilisateurId()));");
 			tl(3, "UtilisateurSite utilisateurSite = requeteSite.getUtilisateurSite();");
@@ -1850,6 +1886,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(3, "operationRequete.getParams().getJsonObject(\"query\").forEach(paramRequete -> {");
 			tl(4, "String entiteVar = null;");
+			tl(4, "String entiteVarRecherche = null;");
 			tl(4, "String valeurIndexe = null;");
 			tl(4, "String varIndexe = null;");
 			tl(4, "String valeurTri = null;");
@@ -1859,49 +1896,63 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "Object paramValeursObjet = paramRequete.getValue();");
 			tl(4, "JsonArray paramObjets = paramValeursObjet instanceof JsonArray ? (JsonArray)paramValeursObjet : new JsonArray().add(paramValeursObjet);");
 			l();
-			tl(4, "for(Object paramObjet : paramObjets) {");
-			tl(5, "switch(paramNom) {");
+			tl(4, "try {");
+			tl(5, "for(Object paramObjet : paramObjets) {");
+			tl(6, "switch(paramNom) {");
 	
-			tl(6, "case \"q\":");
-			tl(7, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
-			tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\"));");
-			tl(7, "varIndexe = \"*\".equals(entiteVar) ? entiteVar : varIndexe", classeNomSimple, "(entiteVar);");
-			tl(7, "listeRecherche.setQuery(varIndexe + \":\" + (\"*\".equals(valeurIndexe) ? valeurIndexe : ClientUtils.escapeQueryChars(valeurIndexe)));");
-			tl(7, "break;");
+			tl(7, "case \"q\":");
+			tl(8, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
+			tl(8, "entiteVarRecherche = varRecherche", classeNomSimple, "(entiteVar);");
+			tl(8, "varIndexe = \"*\".equals(entiteVar) ? entiteVar : entiteVarRecherche;");
+			tl(8, "valeurIndexe = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\")), \"UTF-8\");");
+			tl(8, "valeurIndexe = StringUtils.isEmpty(valeurIndexe) ? \"*\" : valeurIndexe;");
+//			tl(8, "if(StringUtils.isEmpty(valeurIndexe)) {");
+//			tl(9, "valeurIndexe = entiteVar;");
+//			tl(9, "entiteVar = \"*\";");
+//			tl(8, "}");
+			tl(8, "listeRecherche.setQuery(varIndexe + \":\" + (\"*\".equals(valeurIndexe) ? valeurIndexe : ClientUtils.escapeQueryChars(valeurIndexe)));");
+			tl(8, "listeRecherche.setHighlight(true);");
+			tl(8, "listeRecherche.setHighlightSnippets(3);");
+			tl(8, "listeRecherche.addHighlightField(entiteVarRecherche);");
+			tl(8, "listeRecherche.setParam(\"hl.encoder\", \"html\");");
+			tl(8, "break;");
 	
-			tl(6, "case \"fq\":");
-			tl(7, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
-			tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\"));");
-			tl(7, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
-			tl(7, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
-			tl(7, "break;");
+			tl(7, "case \"fq\":");
+			tl(8, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
+			tl(8, "valeurIndexe = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\")), \"UTF-8\");");
+			tl(8, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
+			tl(8, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
+			tl(8, "break;");
 	
-			tl(6, "case \"sort\":");
-			tl(7, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \" \"));");
-			tl(7, "valeurTri = StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \" \"));");
-			tl(7, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
-			tl(7, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
-			tl(7, "break;");
+			tl(7, "case \"sort\":");
+			tl(8, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \" \"));");
+			tl(8, "valeurTri = StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \" \"));");
+			tl(8, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
+			tl(8, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
+			tl(8, "break;");
 	
-			tl(6, "case \"fl\":");
-			tl(7, "entiteVar = StringUtils.trim((String)paramObjet);");
-			tl(7, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
-			tl(7, "listeRecherche.addField(varIndexe);");
-			tl(7, "break;");
+			tl(7, "case \"fl\":");
+			tl(8, "entiteVar = StringUtils.trim((String)paramObjet);");
+			tl(8, "varIndexe = varIndexe", classeNomSimple, "(entiteVar);");
+			tl(8, "listeRecherche.addField(varIndexe);");
+			tl(8, "break;");
 	
-			tl(6, "case \"start\":");
-			tl(7, "rechercheDebut = (Integer)paramObjet;");
-			tl(7, "listeRecherche.setStart(rechercheDebut);");
-			tl(7, "break;");
+			tl(7, "case \"start\":");
+			tl(8, "rechercheDebut = (Integer)paramObjet;");
+			tl(8, "listeRecherche.setStart(rechercheDebut);");
+			tl(8, "break;");
 	
-			tl(6, "case \"rows\":");
-			tl(7, "rechercheNum = (Integer)paramObjet;");
-			tl(7, "listeRecherche.setRows(rechercheNum);");
-			tl(7, "break;");
+			tl(7, "case \"rows\":");
+			tl(8, "rechercheNum = (Integer)paramObjet;");
+			tl(8, "listeRecherche.setRows(rechercheNum);");
+			tl(8, "break;");
 	
+			tl(6, "}");
 			tl(5, "}");
-	
+			tl(4, "} catch(Exception e) {");
+			tl(5, "gestionnaireEvenements.handle(Future.failedFuture(e));");
 			tl(4, "}");
+
 			tl(3, "});");
 			tl(3, "listeRecherche.initLoinPourClasse(requeteSite);");
 			tl(3, "gestionnaireEvenements.handle(Future.succeededFuture(listeRecherche));");

@@ -57,6 +57,8 @@ public class WriteAllClasses extends WritePageClass {
 				if(partNumber.equals(1)) {
 					classDoc = doc;
 
+					classVals = AllWriter.create();
+
 					classDirPathGen = (String)doc.get("classDirPathGen_" + languageName + "_stored_string");
 					classPathGen = (String)doc.get("classPathGen_" + languageName + "_stored_string"); 
 					classPathApiPackageInfo = (String)doc.get("classPathApiPackageInfo_" + languageName + "_stored_string"); 
@@ -165,6 +167,7 @@ public class WriteAllClasses extends WritePageClass {
 					contextA = (String)doc.get("contextA" + "_" + languageName + "_stored_string");
 					contextActualName = (String)doc.get("contextActualName" + "_" + languageName + "_stored_string");
 					contextAllName = (String)doc.get("contextAllName" + "_" + languageName + "_stored_string");
+					contextRechercherTousNomPar = (String)doc.get("contextRechercherTousNomPar" + "_" + languageName + "_stored_string");
 					contextTheName = (String)doc.get("contextTheName" + "_" + languageName + "_stored_string");
 					contextTitle = (String)doc.get("contextTitle" + "_" + languageName + "_stored_string");
 					contextH1 = (String)doc.get("contextH1" + "_" + languageName + "_stored_string");
@@ -198,7 +201,6 @@ public class WriteAllClasses extends WritePageClass {
 	
 						genCodeInitDeep(languageName);
 						genCodeSiteRequest(languageName);
-						genCodeIndex(languageName);
 						genCodeObtain(languageName);
 						genCodeAttribute(languageName);
 						genCodePut(languageName);

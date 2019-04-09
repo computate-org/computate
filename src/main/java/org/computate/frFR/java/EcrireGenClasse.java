@@ -299,7 +299,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected List<String> classeEntiteVars;
 
 	/**
-	 * Var.enUS: classMethodeVars
+	 * Var.enUS: classMethodVars
 	 */  
 	protected List<String> classeMethodeVars;
 
@@ -317,6 +317,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: wIndex
 	 */
 	protected ToutEcrivain wIndexer;
+
+	/**
+	 * Var.enUS: wText
+	 */
+	protected ToutEcrivain wTexte;
 
 	/**
 	 * Var.enUS: wObtain
@@ -549,6 +554,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String contexteTousNom;
 
 	/**
+	 * Var.enUS: contextSearchAllNameBy
+	 */
+	protected String contexteRechercherTousNomPar;
+
+	/**
+	 * Var.enUS: contextSearchAllName
+	 */
+	protected String contexteRechercherTousNom;
+
+	/**
 	 * Var.enUS: contextH1
 	 */
 	protected String contexteH1;
@@ -689,6 +704,21 @@ public class EcrireGenClasse extends EcrireClasse {
 	Boolean entiteIndexe;
 
 	/**
+	 * Var.enUS: entityText
+	 */
+	Boolean entiteTexte;
+
+	/**
+	 * Var.enUS: entityLanguage
+	 */
+	String entiteLangue;
+
+	/**
+	 * Var.enUS: entitySuggested
+	 */
+	Boolean entiteSuggere;
+
+	/**
 	 * Var.enUS: entityStored
 	 */
 	Boolean entiteStocke;
@@ -772,12 +802,19 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: searchLineActualPage
 	 */
 	Integer rechercheLigneActuelPage;
+
+	/**
+	 * Var.enUS: classVals
+	 */
+	ToutEcrivain classeVals;
 	
 	/** 
 	 * r: wInitLoin
 	 * r.enUS: wInitDeep
 	 * r: wRequeteSite
 	 * r.enUS: wSiteRequest
+	 * r: wTexte
+	 * r.enUS: wText
 	 * r: wIndexer
 	 * r.enUS: wIndex
 	 * r: wObtenir
@@ -818,6 +855,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wInitLoin = ToutEcrivain.create();
 		wRequeteSite = ToutEcrivain.create();
 		wIndexer = ToutEcrivain.create();
+		wTexte = ToutEcrivain.create();
 		wObtenir = ToutEcrivain.create();
 		wAttribuer = ToutEcrivain.create();
 		wPut = ToutEcrivain.create();
@@ -871,6 +909,12 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: classeEtendBase
 	 * r.enUS: classExtendsBase
 	 * 
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: classeParts
+	 * r.enUS: classParts
+	 * r: nomSimple
+	 * r.enUS: simpleName
 	 */
 	public void genCodeInitLoin(String langueNom) throws Exception {
 		if(BooleanUtils.isTrue(classeInitLoin)) {
@@ -952,6 +996,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classSimpleName
 	 * r: classeEtendBase
 	 * r.enUS: classExtendsBase
+	 * 
+	 * r: classeParts
+	 * r.enUS: classParts
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: nomSimple
+	 * r.enUS: simpleName
 	 */
 	public void genCodeRequeteSite(String langueNom) throws Exception {
 		if(BooleanUtils.isTrue(classeInitLoin)) {
@@ -964,152 +1015,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "public void requeteSite", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_) {");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
 				tl(3, "super.requeteSite", classeNomSimpleSuperGenerique, "(requeteSite_);");
-		}
-	}
-
-	/**
-	 * Var.enUS: genCodeIndex
-	 * Param1.var.enUS: languageName
-	 * r: wIndexer
-	 * r.enUS: wIndex
-	 * r: classeIndexe
-	 * r.enUS: classIndexed
-	 * r: RequeteSite
-	 * r.enUS: SiteRequest
-	 * r: requeteSite
-	 * r.enUS: siteRequest
-	 * r: classeNomSimple
-	 * r.enUS: classSimpleName
-	 * r: SiteContexte
-	 * r.enUS: SiteContext
-	 * r: siteContexte
-	 * r.enUS: siteContext
-	 * r: classeEtendBase
-	 * r.enUS: classExtendsBase
-	 * r: classeEstBase
-	 * r.enUS: classIsBase
-	 * r: indexerPourClasse
-	 * r.enUS: indexForClass
-	 * r: classeSauvegarde
-	 * r.enUS: classSaved
-	 * r: ConfigSite
-	 * r.enUS: SiteConfig
-	 * r: configChemin
-	 * r.enUS: configPath
-	 * r: imageLangueNom
-	 * r.enUS: imageLanguageName
-	 * r: classeImage
-	 * r.enUS: classImage
-	 * 
-	 * r: getClientSolr
-	 * r.enUS: getSolrClient
-	 * r: clientSolr
-	 * r.enUS: solrClient
-	 * r: indexer
-	 * r.enUS: index
-	 * r: initLoin
-	 * r.enUS: initDeep
-	 */
-	public void genCodeIndexer(String langueNom) throws Exception {
-		o = wIndexer;
-		if(classeImage) {
-			l(); 
-			tl(1, "///////////");
-			tl(1, "// image //");
-			tl(1, "///////////");
-			tl(0);
-			tl(1, "public static void image() {");
-			tl(2, "try {");
-			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
-			for(String classePageMethode : classeApiMethodes) {
-	
-				String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
-				String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode  + "_stored_string");
-				String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
-				String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
-				String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
-				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
-				String classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
-		
-				if(classePageCheminGen != null) {
-			
-					tl(3, "{");
-					tl(4, "new File(\"", appliChemin, "/src/main/resources/webroot/png", StringUtils.substringBeforeLast(classePageUriMethode, "/"), "\").mkdirs();");
-					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --url=", siteUrlBase, classePageUriMethode, "?pageRecapituler=true --out=", appliChemin, "/src/main/resources/webroot/png", classePageUriMethode, "-999.png\"));");
-					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appliChemin, "/src/main/resources/webroot/png", classePageUriMethode, "-999.png\"));");
-					tl(4, "System.out.println(\" * ImageLargeur.", classePageLangueNom, ": \" + img.getWidth());");
-					tl(4, "System.out.println(\" * ImageHauteur.", classePageLangueNom, ": \" + img.getHeight());");
-					tl(3, "}");
-				}
-			}
-			tl(2, "} catch(Exception e) {");
-			tl(3, "ExceptionUtils.rethrow(e);");
-			tl(2, "}");
-			tl(1, "}");
-		}
-		if(classeIndexe) {
-			l(); 
-			tl(1, "/////////////");
-			tl(1, "// indexer //");
-			tl(1, "/////////////");
-			tl(0);
-			tl(1, "public static void indexer() {");
-			tl(2, "try {");
-			tl(3, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
-			tl(3, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
-			tl(3, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
-			tl(3, "siteContexte.getConfigSite().setConfigChemin(", q(configChemin), ");");
-			tl(3, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
-			tl(3, "siteContexte.setRequeteSite_(requeteSite);");
-			tl(3, "requeteSite.setSiteContexte_(siteContexte);");
-			tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
-			tl(3, "o.requeteSite", classeNomSimple, "(requeteSite);");
-			tl(3, "o.initLoin", classeNomSimple, "(requeteSite);");
-			tl(3, "o.indexer", classeNomSimple, "();");
-			tl(2, "} catch(Exception e) {");
-			tl(3, "ExceptionUtils.rethrow(e);");
-			tl(2, "}");
-			tl(1, "}");
-			tl(0);
-			if(classeEtendBase || classeEstBase) {
-				tl(0);
-				t(1);
-				if(!classeEstBase)
-					s("@Override ");
-				l("public void indexerPourClasse() throws Exception {");
-				tl(2, "indexer", classeNomSimple, "();");
-				tl(1, "}");
-				tl(0);
-				t(1);
-				if(!classeEstBase)
-					s("@Override ");
-				l("public void indexerPourClasse(SolrInputDocument document) throws Exception {");
-				tl(2, "indexer", classeNomSimple, "(document);");
-				tl(1, "}");
-			}
-			l();
-			tl(1, "public void indexer", classeNomSimple, "(SolrClient clientSolr) throws Exception {");
-			tl(2, "SolrInputDocument document = new SolrInputDocument();");
-			tl(2, "indexer", classeNomSimple, "(document);");
-			tl(2, "clientSolr.add(document);");
-			tl(2, "clientSolr.commit();");
-			l("\t}");
-			l();
-			tl(1, "public void indexer", classeNomSimple, "() throws Exception {");
-			tl(2, "SolrInputDocument document = new SolrInputDocument();");
-			tl(2, "indexer", classeNomSimple, "(document);");
-			tl(2, "SolrClient clientSolr = requeteSite_.getSiteContexte_().getClientSolr();");
-			tl(2, "clientSolr.add(document);");
-			tl(2, "clientSolr.commit();");
-			l("\t}");
-
-			tl(0);
-			tl(1, "public void indexer", classeNomSimple, "(SolrInputDocument document) throws Exception {");
-			if(classeSauvegarde) {
-				tl(2, "if(sauvegardes", classeNomSimple, " != null)");
-				tl(3, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
-				l();
-			}
 		}
 	}
 
@@ -1385,14 +1290,15 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
     /**
+     * Traduire: false
      * Translator object for escaping Java.
      *
      * While {@link #escapeJava(String)} is the expected method of use, this
      * object allows the Java escaping functionality to be used
      * as the foundation for a custom translator.
-     */
+     */ 
     public static final CharSequenceTranslator ESCAPE_JAVA;
-    static {
+    static { 
         final Map<CharSequence, CharSequence> escapeJavaMap = new HashMap<>();
         escapeJavaMap.put("\"", "\\\"");
         escapeJavaMap.put("\\", "\\\\");
@@ -1425,7 +1331,7 @@ public class EcrireGenClasse extends EcrireClasse {
      * @return String with escaped values, {@code null} if null string input
      */
     public static final String escapeJava(final String input) {
-        return ESCAPE_JAVA.translate(input);
+        return org.computate.frFR.java.EcrireGenClasse.ESCAPE_JAVA.translate(input);
     }
 
 	/**
@@ -1571,6 +1477,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classValLanguage
 	 * r: classeValValeur
 	 * r.enUS: classValValue
+	 * r: classeVals
+	 * r.enUS: classVals
 	 * 
 	 * r: classeContexte
 	 * r.enUS: classContext
@@ -1606,6 +1514,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: contextActualName
 	 * r: contexteTousNom
 	 * r.enUS: contextAllName
+	 * r: contexteRechercherTousNomPar
+	 * r.enUS: contextSearchAllNameBy
+	 * r: contexteRechercherTousNom
+	 * r.enUS: contextSearchAllName
 	 * r: LesNom
 	 * r.enUS: TheName
 	 * r: contexteTous
@@ -1648,6 +1560,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: AdjectiveVar
 	 * r: Adjectif
 	 * r.enUS: Adjective
+	 * r: classeDoc
+	 * r.enUS: classDoc
+	 * r: classeApiMethode
+	 * r.enUS: classApiMethod
+	 * r: classePageMethode
+	 * r.enUS: classPageMethod
+	 * r: classePageUriMethode
+	 * r.enUS: classPageUriMethod
+	 * r: classePageNomSimple
+	 * r.enUS: classPageSimpleName
 	 * r: contexte
 	 * r.enUS: context
 	 */
@@ -1735,6 +1657,9 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(StringUtils.equals(langueNom, classeValLangue)) {
 					classeValVarNumero++;
 					tl(1, "public static final String ", classeValVar, classeValVarNumero, " = \"", escapeJava(classeValValeur), "\";");
+					if(!classeVals.getEmpty())
+						classeVals.s(", ");
+					classeVals.s(classeValVar, classeValVarNumero);
 				}
 
 				classeValVarAncien = classeValVar;
@@ -1782,6 +1707,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			contexteUn = (String)classeDoc.get("contexteUn" + "_" + langueNom + "_stored_string");
 			contexteNomActuel = (String)classeDoc.get("contexteNomActuel" + "_" + langueNom + "_stored_string");
 			contexteTousNom = (String)classeDoc.get("contexteTousNom" + "_" + langueNom + "_stored_string");
+			contexteRechercherTousNomPar = (String)classeDoc.get("contexteRechercherTousNomPar" + "_" + langueNom + "_stored_string");
+			contexteRechercherTousNom = (String)classeDoc.get("contexteRechercherTousNom" + "_" + langueNom + "_stored_string");
 			contexteLesNoms = (String)classeDoc.get("contexteLesNoms" + "_" + langueNom + "_stored_string");
 			contexteTitre = (String)classeDoc.get("contexteTitre" + "_" + langueNom + "_stored_string");
 			contexteH1 = (String)classeDoc.get("contexteH1" + "_" + langueNom + "_stored_string");
@@ -1823,6 +1750,12 @@ public class EcrireGenClasse extends EcrireClasse {
 			
 			if(contexteTousNom != null)
 				tl(1, "public static final String ", classeNomSimple, "_TousNom = ", q(contexteTousNom), ";");
+			
+			if(contexteRechercherTousNomPar != null)
+				tl(1, "public static final String ", classeNomSimple, "_RechercherTousNomPar = ", q(contexteRechercherTousNomPar), ";");
+			
+			if(contexteRechercherTousNom != null)
+				tl(1, "public static final String ", classeNomSimple, "_RechercherTousNom = ", q(contexteRechercherTousNom), ";");
 			
 			if(contexteH1 != null)
 				tl(1, "public static final String ", classeNomSimple, "_H1 = ", q(contexteH1), ";");
@@ -1874,6 +1807,16 @@ public class EcrireGenClasse extends EcrireClasse {
 			
 			if(contexteIconeNom != null)
 				tl(1, "public static final String ", classeNomSimple, "_IconeNom = ", q(contexteIconeNom), ";");
+		}
+
+		for(String classePageMethode : classeApiMethodes) {
+
+			String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
+			String classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
+	
+			if(classePageUriMethode != null) {
+				tl(1, "public static final String ", classePageNomSimple, "_Uri", " = ", q(classePageUriMethode), ";");
+			}
 		}
 
 	}
@@ -2189,6 +2132,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: entityStored
 	 * r: entiteTexte
 	 * r.enUS: entityText
+	 * r: entiteLangue
+	 * r.enUS: entityLanguage
 	 * r: entiteNomAffichage
 	 * r.enUS: entityDisplayName
 	 * r: entiteIgnorer
@@ -2343,7 +2288,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classWriteMethod
 	 * r: classeEcrireEcrivain
 	 * r.enUS: classWriteWriter
+	 * r: classeMethodeVar
+	 * r.enUS: classMethodVar
 	 * 
+	 * r: nomSimple
+	 * r.enUS: simpleName
+	 * r: classeParts
+	 * r.enUS: classParts
 	 * r: nomAffichage
 	 * r.enUS: displayName
 	 * r: ClientSolr
@@ -2412,7 +2363,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			Boolean entiteSauvegarde = (Boolean)doc.get("entiteSauvegarde_stored_boolean");
 			Boolean entiteIndexe = (Boolean)doc.get("entiteIndexe_stored_boolean");
 			Boolean entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
-			Boolean entitetexte = (Boolean)doc.get("entitetexte_stored_boolean");
+			Boolean entiteTexte = (Boolean)doc.get("entiteTexte_stored_boolean");
+			String entiteLangue = (String)doc.get("entiteLangue_stored_string");
 			Boolean entiteIncremente = (Boolean)doc.get("entiteIncremente_stored_boolean");
 			Boolean entiteIgnorer = (Boolean)doc.get("entiteIgnorer_stored_boolean");
 			Boolean entiteDeclarer = (Boolean)doc.get("entiteDeclarer_stored_boolean");
@@ -2504,6 +2456,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(StringUtils.equals(langueNom, entiteValLangue)) {
 						entiteValVarNumero++;
 						tl(1, "public static final String ", entiteVar, entiteValVar, entiteValVarNumero, " = \"", escapeJava(entiteValValeur), "\";");
+						if(!classeVals.getEmpty())
+							classeVals.s(", ");
+						classeVals.s(entiteVar, entiteValVar, entiteValVarNumero);
 					}
 	
 					entiteValVarAncien = entiteValVar;
@@ -3375,6 +3330,28 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", ", entiteVar, ");");
 					}
 				}
+				if(entiteTexte && entiteLangue != null) {
+					if("frFR".equals(entiteLangue) || "esES".equals(entiteLangue)) {
+						if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
+							tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
+							tl(4, "document.addField(\"", entiteVar, "_text_", entiteLangue, "\", o", "String".equals(entiteNomSimpleCompletGenerique) ? "" : ".toString()", ");");
+							tl(3, "}");
+						}
+						else {
+							tl(3, "document.addField(\"", entiteVar, "_text_", entiteLangue, "\", ", entiteVar, "", "String".equals(entiteNomSimpleCompletGenerique) ? "" : ".toString()", ");");
+						}
+					}
+					else {
+						if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
+							tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
+							tl(4, "document.addField(\"", entiteVar, "_text_enUS\", o", "String".equals(entiteNomSimpleCompletGenerique) ? "" : ".toString()", ");");
+							tl(3, "}");
+						}
+						else {
+							tl(3, "document.addField(\"", entiteVar, "_text_enUS", "\", ", entiteVar, "", "String".equals(entiteNomSimpleCompletGenerique) ? "" : ".toString()", ");");
+						}
+					}
+				}
 	
 				if(entiteNomSimple != null && entiteIndexe) {
 					// indexe
@@ -3506,19 +3483,20 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(entiteCrypte || entiteStocke || entiteCleUnique || entiteSuggere || entiteIncremente) {
 					tl(0);
 	
-					if(entiteSuggere) {
-						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", entiteSuffixeType, "\");");
-						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-						tl(3, "}");
-					}
-					else if(entiteIncremente) {
-						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", entiteSuffixeType, "\");");
-						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-						tl(3, "}");
-					}
-					else if(entiteCleUnique) {
+//					if(entiteSuggere) {
+//						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+//						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", entiteSuffixeType, "\");");
+//						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+//						tl(3, "}");
+//					}
+//					else if(entiteIncremente) {
+//						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+//						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", entiteSuffixeType, "\");");
+//						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+//						tl(3, "}");
+//					}
+//					else if(entiteCleUnique) {
+					if(entiteCleUnique) {
 						tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "\");");
 						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					}
@@ -3561,18 +3539,26 @@ public class EcrireGenClasse extends EcrireClasse {
 			// codeStocker //
 			/////////////////
 			o = wStocker;
-			if(entiteCrypte || entiteStocke || entiteCleUnique || entiteSuggere || entiteIncremente) {
+			if(entiteCrypte || entiteStocke || entiteCleUnique || entiteSuggere || entiteIncremente || entiteTexte) {
 				tl(0);
 
-				if(entiteSuggere) {
-					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", entiteSuffixeType, "\");");
-					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-				}
-				else if(entiteIncremente) {
-					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", entiteSuffixeType, "\");");
-					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-				}
-				else if(entiteCleUnique) {
+//				if(entiteTexte) {
+//					if("frFR".equals(langueNom) || "esES".equals(langueNom))
+//						tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_text_", langueNom, "\");");
+//					else
+//						tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_text_enUS\");");
+//					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+//				}
+//				else if(entiteSuggere) {
+//					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", entiteSuffixeType, "\");");
+//					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+//				}
+//				else if(entiteIncremente) {
+//					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", entiteSuffixeType, "\");");
+//					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+//				}
+//				else if(entiteCleUnique) {
+				if(entiteCleUnique) {
 					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "\");");
 					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 				}
@@ -3790,6 +3776,20 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classWriteMethod
 	 * r: classeEcrireEcrivain
 	 * r.enUS: classWriteWriter
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: nomSimple
+	 * r.enUS: simpleName
+	 * r: appliChemin
+	 * r.enUS: appPath
+	 * r: configChemin
+	 * r.enUS: configPath
+	 * r: siteUrlBase
+	 * r.enUS: siteBaseUrl
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
+	 * r: classeApiMethodes
+	 * r.enUS: classApiMethods
 	 * 
 	 * r: sauvegarder
 	 * r.enUS: save
@@ -3869,35 +3869,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		/////////////////
-		// codeIndexer //
-		/////////////////
-		o = wIndexer;
-		if(classeIndexe) {
-			if(classeEtendBase && !classeEstBase) {
-				tl(2, "super.indexer", classeNomSimpleSuperGenerique, "(document);");
-				tl(0);
-			}
-			l("\t}");
-
-			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
-				tl(0);
-				tl(1, "public void desindexer", classeNomSimple, "() throws Exception {");
-				tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
-				tl(2, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
-				tl(2, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
-				tl(2, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
-				tl(2, "siteContexte.setRequeteSite_(requeteSite);");
-				tl(2, "requeteSite.setSiteContexte_(siteContexte);");
-				tl(2, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
-				tl(2, "initLoin", classeNomSimple, "(siteContexte.getRequeteSite_());");
-				tl(2, "SolrClient clientSolr = siteContexte.getClientSolr();");
-				tl(2, "clientSolr.deleteById(", classeVarCleUnique, ".toString());");
-				tl(2, "clientSolr.commit();");
-				tl(1, "}");
-			}
-		}
-
-		/////////////////
 		// codeObtenir //
 		/////////////////
 		o = wObtenir;
@@ -3969,7 +3940,6 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		s(wInitLoin.toString());
 		s(wRequeteSite.toString());
-		s(wIndexer.toString());
 		s(wObtenir.toString());
 		s(wAttribuer.toString());
 
@@ -4064,9 +4034,142 @@ public class EcrireGenClasse extends EcrireClasse {
 		}	
 
 		/////////////////
+		// codeIndexer //
+		/////////////////
+		if(classeImage) {
+			l(); 
+			tl(1, "///////////");
+			tl(1, "// image //");
+			tl(1, "///////////");
+			tl(0);
+			tl(1, "public static void image() {");
+			tl(2, "try {");
+			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
+			for(String classePageMethode : classeApiMethodes) {
+	
+				String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
+				String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode  + "_stored_string");
+				String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
+				String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
+				String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
+				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
+				String classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
+		
+				if(classePageCheminGen != null) {
+			
+					tl(3, "{");
+					tl(4, "new File(\"", appliChemin, "/src/main/resources/webroot/png", StringUtils.substringBeforeLast(classePageUriMethode, "/"), "\").mkdirs();");
+					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --url=", siteUrlBase, classePageUriMethode, "?pageRecapituler=true --out=", appliChemin, "/src/main/resources/webroot/png", classePageUriMethode, "-999.png\"));");
+					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appliChemin, "/src/main/resources/webroot/png", classePageUriMethode, "-999.png\"));");
+					tl(4, "System.out.println(\" * ImageLargeur.", classePageLangueNom, ": \" + img.getWidth());");
+					tl(4, "System.out.println(\" * ImageHauteur.", classePageLangueNom, ": \" + img.getHeight());");
+					tl(3, "}");
+				}
+			}
+			tl(2, "} catch(Exception e) {");
+			tl(3, "ExceptionUtils.rethrow(e);");
+			tl(2, "}");
+			tl(1, "}");
+		}
+		if(classeIndexe) {
+			l(); 
+			tl(1, "/////////////");
+			tl(1, "// indexer //");
+			tl(1, "/////////////");
+			tl(0);
+			tl(1, "public static void indexer() {");
+			tl(2, "try {");
+			tl(3, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
+			tl(3, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
+			tl(3, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
+			tl(3, "siteContexte.getConfigSite().setConfigChemin(", q(configChemin), ");");
+			tl(3, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
+			tl(3, "siteContexte.setRequeteSite_(requeteSite);");
+			tl(3, "requeteSite.setSiteContexte_(siteContexte);");
+			tl(3, "SolrQuery rechercheSolr = new SolrQuery();");
+			tl(3, "rechercheSolr.setQuery(\"*:*\");");
+			tl(3, "rechercheSolr.setRows(1);");
+			tl(3, "rechercheSolr.addFilterQuery(\"id:\" + ClientUtils.escapeQueryChars(\"", classeNomCanonique, "\"));");
+			tl(3, "QueryResponse reponseRecherche = requeteSite.getSiteContexte_().getClientSolr().query(rechercheSolr);");
+			tl(3, "if(reponseRecherche.getResults().size() > 0)");
+			tl(4, "requeteSite.setDocumentSolr(reponseRecherche.getResults().get(0));");
+			tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
+			tl(3, "o.requeteSite", classeNomSimple, "(requeteSite);");
+			tl(3, "o.initLoin", classeNomSimple, "(requeteSite);");
+			tl(3, "o.indexer", classeNomSimple, "();");
+			tl(2, "} catch(Exception e) {");
+			tl(3, "ExceptionUtils.rethrow(e);");
+			tl(2, "}");
+			tl(1, "}");
+			tl(0);
+			if(classeEtendBase || classeEstBase) {
+				tl(0);
+				t(1);
+				if(!classeEstBase)
+					s("@Override ");
+				l("public void indexerPourClasse() throws Exception {");
+				tl(2, "indexer", classeNomSimple, "();");
+				tl(1, "}");
+				tl(0);
+				t(1);
+				if(!classeEstBase)
+					s("@Override ");
+				l("public void indexerPourClasse(SolrInputDocument document) throws Exception {");
+				tl(2, "indexer", classeNomSimple, "(document);");
+				tl(1, "}");
+			}
+			l();
+			tl(1, "public void indexer", classeNomSimple, "(SolrClient clientSolr) throws Exception {");
+			tl(2, "SolrInputDocument document = new SolrInputDocument();");
+			tl(2, "indexer", classeNomSimple, "(document);");
+			tl(2, "clientSolr.add(document);");
+			tl(2, "clientSolr.commit();");
+			l("\t}");
+			l();
+			tl(1, "public void indexer", classeNomSimple, "() throws Exception {");
+			tl(2, "SolrInputDocument document = new SolrInputDocument();");
+			tl(2, "indexer", classeNomSimple, "(document);");
+			tl(2, "SolrClient clientSolr = requeteSite_.getSiteContexte_().getClientSolr();");
+			tl(2, "clientSolr.add(document);");
+			tl(2, "clientSolr.commit();");
+			l("\t}");
+
+			tl(0);
+			tl(1, "public void indexer", classeNomSimple, "(SolrInputDocument document) throws Exception {");
+			if(classeSauvegarde) {
+				tl(2, "if(sauvegardes", classeNomSimple, " != null)");
+				tl(3, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
+				l();
+			}
+			s(wIndexer.toString());
+			if(classeEtendBase && !classeEstBase) {
+				tl(2, "super.indexer", classeNomSimpleSuperGenerique, "(document);");
+				tl(0);
+			}
+			l("\t}");
+
+			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
+				tl(0);
+				tl(1, "public void desindexer", classeNomSimple, "() throws Exception {");
+				tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
+				tl(2, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
+				tl(2, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
+				tl(2, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
+				tl(2, "siteContexte.setRequeteSite_(requeteSite);");
+				tl(2, "requeteSite.setSiteContexte_(siteContexte);");
+				tl(2, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
+				tl(2, "initLoin", classeNomSimple, "(siteContexte.getRequeteSite_());");
+				tl(2, "SolrClient clientSolr = siteContexte.getClientSolr();");
+				tl(2, "clientSolr.deleteById(", classeVarCleUnique, ".toString());");
+				tl(2, "clientSolr.commit();");
+				tl(1, "}");
+			}
+		}
+
+		/////////////////
 		// codeStocker //
 		/////////////////
-		if(classeSauvegarde) {
+		if(classeIndexe) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// stocker //");
@@ -4076,7 +4179,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(BooleanUtils.isTrue(classeEtendBase))
 				s("@Override ");
 			l("public void stockerPourClasse(SolrDocument solrDocument) {");
-			if(classeSauvegarde) {
+			if(classeIndexe) {
 			tl(2, "stocker", classeNomSimple, "(solrDocument);");
 			}
 			tl(1, "}");
@@ -4285,6 +4388,11 @@ public class EcrireGenClasse extends EcrireClasse {
 		tl(2, "sb.append(\" }\");");
 		tl(2, "return sb.toString();");
 		tl(1, "}");
+
+		if(!classeVals.getEmpty()) {
+			l();
+			tl(1, "public static final String[] ", classeNomSimple, "Vals", " = new String[] { ", classeVals, " };");
+		}
 
 		l("}"); 
 

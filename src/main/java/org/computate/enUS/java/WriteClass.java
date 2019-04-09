@@ -123,7 +123,10 @@ public class WriteClass extends IndexClass {
 						l();  
 					}
 					writeComment(classComment, 0); 
-					s("public class ", classSimpleName);
+					s("public ");
+					if(BooleanUtils.isTrue((Boolean)doc.get("classIsAbstract_stored_boolean")))
+						s("abstract ");
+					s("class ", classSimpleName);
 
 					if(classTypeParameterNames != null && classTypeParameterNames.size() > 0) {
 						s("<");
@@ -182,29 +185,32 @@ public class WriteClass extends IndexClass {
 						String fieldVar = (String)doc.get("fieldVar_" + languageName + "_stored_string");
 						String fieldSimpleNameComplete = (String)doc.get("fieldSimpleNameComplete_" + languageName + "_stored_string");
 						String fieldSourceCode = (String)doc.get("fieldSourceCode_" + languageName + "_stored_string");
+						Boolean champTranslate = (Boolean)doc.get("champTranslate_stored_boolean");
 
-						l(); 
-						writeComment(fieldComment, 1);
-						s("\t");
-						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsPublic_stored_boolean")))
-							s("public ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsProtected_stored_boolean")))
-							s("protected ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsPrivate_stored_boolean")))
-							s("private ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsStatic_stored_boolean")))
-							s("static ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsFinal_stored_boolean")))
-							s("final ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsAbstract_stored_boolean")))
-							s("abstract ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsNative_stored_boolean")))
-							s("native ");
-						
-						s(fieldSimpleNameComplete, " ", fieldVar);
-						if(StringUtils.isNotEmpty(fieldSourceCode))
-							s(" = ", fieldSourceCode);
-						l(";");
+						if(champTranslate) {
+							l(); 
+							writeComment(fieldComment, 1);
+							s("\t");
+							if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsPublic_stored_boolean")))
+								s("public ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsProtected_stored_boolean")))
+								s("protected ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsPrivate_stored_boolean")))
+								s("private ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsStatic_stored_boolean")))
+								s("static ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsFinal_stored_boolean")))
+								s("final ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsAbstract_stored_boolean")))
+								s("abstract ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("fieldIsNative_stored_boolean")))
+								s("native ");
+							
+							s(fieldSimpleNameComplete, " ", fieldVar);
+							if(StringUtils.isNotEmpty(fieldSourceCode))
+								s(" = ", fieldSourceCode);
+							l(";");
+						}
 					}     
 					else if(BooleanUtils.isTrue(partIsConstructor)) {
 						String constructeurCodeSource = (String)doc.get("constructeurCodeSource_" + languageName + "_stored_string");
@@ -357,9 +363,14 @@ public class WriteClass extends IndexClass {
 								s(methodExceptionSimpleNameComplete);
 							}
 						}
-						s(" {");
-						s(methodSourceCode);
-						l("}");
+						if(BooleanUtils.isTrue((Boolean)doc.get("methodIsAbstract_stored_boolean"))) {
+							s(";");
+						}
+						else {
+							s(" {");
+							s(methodSourceCode);
+							l("}");
+						}
 					} 
 					else if(BooleanUtils.isTrue(partIsEntity)) {
 						String entityVar = (String)doc.get("entityVar_" + languageName + "_stored_string");

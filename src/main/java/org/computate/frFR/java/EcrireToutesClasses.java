@@ -380,6 +380,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classEntityVars
 	 * r: classeMethodeVars
 	 * r.enUS: classMethodVars
+	 * r: classeVals
+	 * r.enUS: classVals
 	 * 
 	 * r: EnsembleInfo
 	 * r.enUS: PackageInfo
@@ -414,6 +416,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 				Integer partNumero = (Integer)doc.get("partNumero_stored_int");
 				if(partNumero.equals(1)) {
 					classeDoc = doc;
+
+					classeVals = ToutEcrivain.create();
 
 					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stored_string");
 					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stored_string"); 
@@ -523,6 +527,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					contexteUn = (String)doc.get("contexteUn" + "_" + langueNom + "_stored_string");
 					contexteNomActuel = (String)doc.get("contexteNomActuel" + "_" + langueNom + "_stored_string");
 					contexteTousNom = (String)doc.get("contexteTousNom" + "_" + langueNom + "_stored_string");
+					contexteRechercherTousNomPar = (String)doc.get("contexteRechercherTousNomPar" + "_" + langueNom + "_stored_string");
 					contexteLesNoms = (String)doc.get("contexteLesNoms" + "_" + langueNom + "_stored_string");
 					contexteTitre = (String)doc.get("contexteTitre" + "_" + langueNom + "_stored_string");
 					contexteH1 = (String)doc.get("contexteH1" + "_" + langueNom + "_stored_string");
@@ -556,7 +561,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	
 						genCodeInitLoin(langueNom);
 						genCodeRequeteSite(langueNom);
-						genCodeIndexer(langueNom);
 						genCodeObtenir(langueNom);
 						genCodeAttribuer(langueNom);
 						genCodePut(langueNom);

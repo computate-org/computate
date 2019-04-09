@@ -384,6 +384,8 @@ public class EcrireClasse extends IndexerClasse {
 	 * r.enUS: Wrap
 	 * r: Ecrire:
 	 * r.enUS: Write:
+	 * r: Traduire
+	 * r.enUS: Translate
 	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
 	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
 	 * enUS: Retrieve the records for the class from the search engine, 
@@ -510,29 +512,32 @@ public class EcrireClasse extends IndexerClasse {
 						String champVar = (String)doc.get("champVar_" + langueNom + "_stored_string");
 						String champNomSimpleComplet = (String)doc.get("champNomSimpleComplet_" + langueNom + "_stored_string");
 						String champCodeSource = (String)doc.get("champCodeSource_" + langueNom + "_stored_string");
+						Boolean champTraduire = (Boolean)doc.get("champTraduire_stored_boolean");
 
-						l(); 
-						ecrireCommentaire(champCommentaire, 1);
-						s("\t");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stored_boolean")))
-							s("public ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stored_boolean")))
-							s("protected ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstPrive_stored_boolean")))
-							s("private ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstStatique_stored_boolean")))
-							s("static ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstFinale_stored_boolean")))
-							s("final ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstAbstrait_stored_boolean")))
-							s("abstract ");
-						if(BooleanUtils.isTrue((Boolean)doc.get("champEstNatif_stored_boolean")))
-							s("native ");
-						
-						s(champNomSimpleComplet, " ", champVar);
-						if(StringUtils.isNotEmpty(champCodeSource))
-							s(" = ", champCodeSource);
-						l(";");
+						if(champTraduire) {
+							l(); 
+							ecrireCommentaire(champCommentaire, 1);
+							s("\t");
+							if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stored_boolean")))
+								s("public ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stored_boolean")))
+								s("protected ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("champEstPrive_stored_boolean")))
+								s("private ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("champEstStatique_stored_boolean")))
+								s("static ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("champEstFinale_stored_boolean")))
+								s("final ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("champEstAbstrait_stored_boolean")))
+								s("abstract ");
+							if(BooleanUtils.isTrue((Boolean)doc.get("champEstNatif_stored_boolean")))
+								s("native ");
+							
+							s(champNomSimpleComplet, " ", champVar);
+							if(StringUtils.isNotEmpty(champCodeSource))
+								s(" = ", champCodeSource);
+							l(";");
+						}
 					}     
 					else if(BooleanUtils.isTrue(partEstConstructeur)) {
 						String constructeurCodeSource = (String)doc.get("constructeurCodeSource_" + langueNom + "_stored_string");

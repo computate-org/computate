@@ -1,5 +1,6 @@
 package org.computate.enUS.java;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -1296,16 +1297,16 @@ public class WriteApiClass extends WriteGenClass {
 	
 			s(wApiEntities.toString());
 
-			l();
-			tl(1, "public String varIndexe", classSimpleName, "(String entityVar) {");
-			tl(2, "switch(entityVar) {");
+			AllWriter wVarIndexe = AllWriter.create();
+			AllWriter wVarRecherche = AllWriter.create();
+			AllWriter wVarSuggere = AllWriter.create();
 			{
 				SolrQuery searchSolr = new SolrQuery();   
 				searchSolr.setQuery("*:*");
 				searchSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				searchSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-				searchSolr.addFilterQuery("classeNomCanonique_" + languageName + "_indexed_string:" + fqClassesSuperEtMoi);
+				searchSolr.addFilterQuery("classeNomCanonique_" + languageNameActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				QueryResponse searchReponse = clientSolrComputate.query(searchSolr);
 				SolrDocumentList searchListe = searchReponse.getResults();
 				Integer searchLignes = searchSolr.getRows();
@@ -1314,13 +1315,26 @@ public class WriteApiClass extends WriteGenClass {
 					for(Long i = searchListe.getStart(); i < searchListe.getNumFound(); i+=searchLignes) {
 						for(Integer j = 0; j < searchListe.size(); j++) {
 							SolrDocument entiteDocumentSolr = searchListe.get(j);
-							entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
+							entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageNameActuel + "_stored_string");
 							entiteSuffixeType = (String)entiteDocumentSolr.get("entiteSuffixeType_stored_string");
 							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
+							entiteTexte = (Boolean)entiteDocumentSolr.get("entiteTexte_stored_boolean");
+							entiteLangue = (String)entiteDocumentSolr.get("entiteLangue_stored_string");
+							entiteSuggere = (Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean");
 
-							if(classeIndexe && entiteIndexe) {
-								tl(3, "case \"", entityVar, "\":");
-								tl(4, "return \"", entityVar, "_indexed", entiteSuffixeType, "\";");
+							if(classeIndexe) {
+								if(entiteIndexe) {
+									wVarIndexe.tl(3, "case \"", entityVar, "\":");
+									wVarIndexe.tl(4, "return \"", entityVar, "_indexed", entiteSuffixeType, "\";");
+								}
+								if(entiteTexte && entiteLangue != null) {
+									wVarRecherche.tl(3, "case \"", entityVar, "\":");
+									wVarRecherche.tl(4, "return \"", entityVar, "_text_" + entiteLangue, "\";");
+								}
+								if(entiteSuggere) {
+									wVarSuggere.tl(3, "case \"", entityVar, "\":");
+									wVarSuggere.tl(4, "return \"", entityVar, "_suggested", "\";");
+								}
 							}
 						}
 						searchSolr.setStart(i.intValue() + searchLignes);
@@ -1330,6 +1344,28 @@ public class WriteApiClass extends WriteGenClass {
 				}
 			}
 
+			l();
+			tl(1, "public String varIndexe", classSimpleName, "(String entityVar) {");
+			tl(2, "switch(entityVar) {");
+			s(wVarIndexe);
+			tl(3, "default:");
+			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entityVar));");
+			tl(2, "}");
+			tl(1, "}");
+
+			l();
+			tl(1, "public String varRecherche", classSimpleName, "(String entityVar) {");
+			tl(2, "switch(entityVar) {");
+			s(wVarRecherche);
+			tl(3, "default:");
+			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entityVar));");
+			tl(2, "}");
+			tl(1, "}");
+
+			l();
+			tl(1, "public String varSuggere", classSimpleName, "(String entityVar) {");
+			tl(2, "switch(entityVar) {");
+			s(wVarSuggere);
 			tl(3, "default:");
 			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entityVar));");
 			tl(2, "}");
@@ -1525,7 +1561,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(3, "listeRecherche.setFields(entiteListe);");
 			tl(3, "listeRecherche.addSort(\"archive_indexed_boolean\", ORDER.asc);");
 			tl(3, "listeRecherche.addSort(\"supprime_indexed_boolean\", ORDER.asc);");
-			tl(3, "listeRecherche.addFilterQuery(\"classeNomCanonique_indexed_string:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
+			tl(3, "listeRecherche.addFilterQuery(\"classeNomsCanoniques_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
 			if(classFiltersFound && classFilters.contains("userId"))
 				tl(3, "listeRecherche.addFilterQuery(\"userId_indexed_string:\" + ClientUtils.escapeQueryChars(siteRequest.getUserId()));");
 			tl(3, "UtilisateurSite utilisateurSite = siteRequest.getUtilisateurSite();");
@@ -1543,6 +1579,7 @@ public class WriteApiClass extends WriteGenClass {
 			l();
 			tl(3, "operationRequest.getParams().getJsonObject(\"query\").forEach(queryParam -> {");
 			tl(4, "String entityVar = null;");
+			tl(4, "String entityVarRecherche = null;");
 			tl(4, "String valeurIndexe = null;");
 			tl(4, "String varIndexe = null;");
 			tl(4, "String valeurTri = null;");
@@ -1552,49 +1589,63 @@ public class WriteApiClass extends WriteGenClass {
 			tl(4, "Object paramValuesObject = queryParam.getValue();");
 			tl(4, "JsonArray paramObjects = paramValuesObject instanceof JsonArray ? (JsonArray)paramValuesObject : new JsonArray().add(paramValuesObject);");
 			l();
-			tl(4, "for(Object paramObject : paramObjects) {");
-			tl(5, "switch(paramNom) {");
+			tl(4, "try {");
+			tl(5, "for(Object paramObject : paramObjects) {");
+			tl(6, "switch(paramNom) {");
 	
-			tl(6, "case \"q\":");
-			tl(7, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)paramObject, \":\"));");
-			tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter((String)paramObject, \":\"));");
-			tl(7, "varIndexe = \"*\".equals(entityVar) ? entityVar : varIndexe", classSimpleName, "(entityVar);");
-			tl(7, "listeRecherche.setQuery(varIndexe + \":\" + (\"*\".equals(valeurIndexe) ? valeurIndexe : ClientUtils.escapeQueryChars(valeurIndexe)));");
-			tl(7, "break;");
+			tl(7, "case \"q\":");
+			tl(8, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)paramObject, \":\"));");
+			tl(8, "entityVarRecherche = varRecherche", classSimpleName, "(entityVar);");
+			tl(8, "varIndexe = \"*\".equals(entityVar) ? entityVar : entityVarRecherche;");
+			tl(8, "valeurIndexe = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)paramObject, \":\")), \"UTF-8\");");
+			tl(8, "valeurIndexe = StringUtils.isEmpty(valeurIndexe) ? \"*\" : valeurIndexe;");
+//			tl(8, "if(StringUtils.isEmpty(valeurIndexe)) {");
+//			tl(9, "valeurIndexe = entityVar;");
+//			tl(9, "entityVar = \"*\";");
+//			tl(8, "}");
+			tl(8, "listeRecherche.setQuery(varIndexe + \":\" + (\"*\".equals(valeurIndexe) ? valeurIndexe : ClientUtils.escapeQueryChars(valeurIndexe)));");
+			tl(8, "listeRecherche.setHighlight(true);");
+			tl(8, "listeRecherche.setHighlightSnippets(3);");
+			tl(8, "listeRecherche.addHighlightField(entityVarRecherche);");
+			tl(8, "listeRecherche.setParam(\"hl.encoder\", \"html\");");
+			tl(8, "break;");
 	
-			tl(6, "case \"fq\":");
-			tl(7, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)paramObject, \":\"));");
-			tl(7, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter((String)paramObject, \":\"));");
-			tl(7, "varIndexe = varIndexe", classSimpleName, "(entityVar);");
-			tl(7, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
-			tl(7, "break;");
+			tl(7, "case \"fq\":");
+			tl(8, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)paramObject, \":\"));");
+			tl(8, "valeurIndexe = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)paramObject, \":\")), \"UTF-8\");");
+			tl(8, "varIndexe = varIndexe", classSimpleName, "(entityVar);");
+			tl(8, "listeRecherche.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
+			tl(8, "break;");
 	
-			tl(6, "case \"sort\":");
-			tl(7, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)paramObject, \" \"));");
-			tl(7, "valeurTri = StringUtils.trim(StringUtils.substringAfter((String)paramObject, \" \"));");
-			tl(7, "varIndexe = varIndexe", classSimpleName, "(entityVar);");
-			tl(7, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
-			tl(7, "break;");
+			tl(7, "case \"sort\":");
+			tl(8, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)paramObject, \" \"));");
+			tl(8, "valeurTri = StringUtils.trim(StringUtils.substringAfter((String)paramObject, \" \"));");
+			tl(8, "varIndexe = varIndexe", classSimpleName, "(entityVar);");
+			tl(8, "listeRecherche.addSort(varIndexe, ORDER.valueOf(valeurTri));");
+			tl(8, "break;");
 	
-			tl(6, "case \"fl\":");
-			tl(7, "entityVar = StringUtils.trim((String)paramObject);");
-			tl(7, "varIndexe = varIndexe", classSimpleName, "(entityVar);");
-			tl(7, "listeRecherche.addField(varIndexe);");
-			tl(7, "break;");
+			tl(7, "case \"fl\":");
+			tl(8, "entityVar = StringUtils.trim((String)paramObject);");
+			tl(8, "varIndexe = varIndexe", classSimpleName, "(entityVar);");
+			tl(8, "listeRecherche.addField(varIndexe);");
+			tl(8, "break;");
 	
-			tl(6, "case \"start\":");
-			tl(7, "searchDebut = (Integer)paramObject;");
-			tl(7, "listeRecherche.setStart(searchDebut);");
-			tl(7, "break;");
+			tl(7, "case \"start\":");
+			tl(8, "searchDebut = (Integer)paramObject;");
+			tl(8, "listeRecherche.setStart(searchDebut);");
+			tl(8, "break;");
 	
-			tl(6, "case \"rows\":");
-			tl(7, "searchNum = (Integer)paramObject;");
-			tl(7, "listeRecherche.setRows(searchNum);");
-			tl(7, "break;");
+			tl(7, "case \"rows\":");
+			tl(8, "searchNum = (Integer)paramObject;");
+			tl(8, "listeRecherche.setRows(searchNum);");
+			tl(8, "break;");
 	
+			tl(6, "}");
 			tl(5, "}");
-	
+			tl(4, "} catch(Exception e) {");
+			tl(5, "eventHandler.handle(Future.failedFuture(e));");
 			tl(4, "}");
+
 			tl(3, "});");
 			tl(3, "listeRecherche.initLoinPourClasse(siteRequest);");
 			tl(3, "eventHandler.handle(Future.succeededFuture(listeRecherche));");
