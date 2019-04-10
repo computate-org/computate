@@ -794,6 +794,204 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsxq(Object...objets) {
+		s(".sx(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsq(Object...objets) {
+		s(".s(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsx(Object...objets) {
+		s(".sx(", objets, ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse ds(Object...objets) {
+		s(".s(", objets, ")");
+		return this;
+	}
+
+
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsxqscl(Object...objets) {
+		l(".sx(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsqscl(Object...objets) {
+		l(".s(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsxscl(Object...objets) {
+		l(".sx(", objets, ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsscl(Object...objets) {
+		l(".s(", objets, ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsxql(Object...objets) {
+		l(".sx(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsql(Object...objets) {
+		l(".s(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsxl(Object...objets) {
+		l(".sx(", objets, ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse sxqscl(Object...objets) {
+		l("sx(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse sqscl(Object...objets) {
+		l("s(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse sxscl(Object...objets) {
+		s("sx(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse sscl(Object...objets) {
+		s("s(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse sxql(Object...objets) {
+		l("sx(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse sql(Object...objets) {
+		l("s(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse sxl(Object...objets) {
+		s("sx(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public EcrireClasse dsl(Object...objets) {
+		l(".s(", objets, ")");
+		return this;
+	}
+
+	/**
 	 * Param1.var.enUS: numberTabs
 	 * Param2.var.enUS: objects
 	 * r: nombreTabulations
@@ -919,16 +1117,6 @@ public class EcrireClasse extends IndexerClasse {
 	 */
 	public EcrireClasse al(String var, Object...objets) {
 		l("a(", q(var), ", ", q(objets), ")");
-		return this;
-	}
-
-	/**
-	 * Param1.var.enUS: objects
-	 * r: objet
-	 * r.enUS: object
-	 */
-	public EcrireClasse dsx(Object...objets) {
-		s(".sx(", q(objets), ")");
 		return this;
 	}
 

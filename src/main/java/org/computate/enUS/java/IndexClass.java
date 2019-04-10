@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +27,6 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -1943,6 +1943,7 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(classLangueNom, entityDoc, "entityEnumVar", regexLanguage(classLangueNom, "(entity)?EnumVar", methodComment));
 						indexStoreSolr(classLangueNom, entityDoc, "entityEnumVarDescription", regexLanguage(classLangueNom, "(entity)?EnumVarDescription", methodComment));
 
+						Boolean entityHighlighting = indexStoreSolr(entityDoc, "entityHighlighting", regexFound("^(entity)?Highlighting:\\s*(true)$", methodComment));
 						Boolean entityHtml = regexFound("^(entity)?Html:\\s*(true)$", methodComment);
 
 						{ 
@@ -3018,6 +3019,7 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenPageAdd(ClassParts.initClassParts(this, "java.net.URLDecoder", classLangueNom));
 			classPartsGenPageAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classLangueNom));
 			classPartsGenPageAdd(ClassParts.initClassParts(this, StringUtils.class.getCanonicalName(), classLangueNom));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, Map.class.getCanonicalName(), classLangueNom));
 		}
 
 		for(ClassParts classPartGenPage : classPartsGenPage.values()) {

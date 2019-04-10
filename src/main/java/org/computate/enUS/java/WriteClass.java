@@ -452,6 +452,107 @@ public class WriteClass extends IndexClass {
 		return this;
 	}
 
+	public WriteClass dsxq(Object...objects) {
+		s(".sx(", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass dsq(Object...objects) {
+		s(".s(", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass dsx(Object...objects) {
+		s(".sx(", objects, ")");
+		return this;
+	}
+
+	public WriteClass ds(Object...objects) {
+		s(".s(", objects, ")");
+		return this;
+	}
+
+	public WriteClass dsxqscl(Object...objects) {
+		l(".sx(", q(objects), ");");
+		return this;
+	}
+
+	public WriteClass dsqscl(Object...objects) {
+		l(".s(", q(objects), ");");
+		return this;
+	}
+
+	public WriteClass dsxscl(Object...objects) {
+		l(".sx(", objects, ");");
+		return this;
+	}
+
+	public WriteClass dsscl(Object...objects) {
+		l(".s(", objects, ");");
+		return this;
+	}
+
+	public WriteClass dsxql(Object...objects) {
+		l(".sx(", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass dsql(Object...objects) {
+		l(".s(", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass dsxl(Object...objects) {
+		l(".sx(", objects, ")");
+		return this;
+	}
+
+	public WriteClass sxqscl(Object...objects) {
+		l("sx(", q(objects), ");");
+		return this;
+	}
+
+	public WriteClass sqscl(Object...objects) {
+		l("s(", q(objects), ");");
+		return this;
+	}
+
+	public WriteClass sxscl(Object...objects) {
+		s("sx(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public WriteClass sscl(Object...objects) {
+		s("s(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public WriteClass sxql(Object...objects) {
+		l("sx(", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass sql(Object...objects) {
+		l("s(", q(objects), ")");
+		return this;
+	}
+
+	public WriteClass sxl(Object...objects) {
+		s("sx(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public WriteClass dsl(Object...objects) {
+		l(".s(", objects, ")");
+		return this;
+	}
+
 	public WriteClass t(int numberTabs, Object...objects) {
 		for(int i = 0; i < numberTabs; i++)
 			o.s("\t");
@@ -516,11 +617,6 @@ public class WriteClass extends IndexClass {
 
 	public WriteClass al(String var, Object...objects) {
 		l("a(", q(var), ", ", q(objects), ")");
-		return this;
-	}
-
-	public WriteClass dsx(Object...objects) {
-		s(".sx(", q(objects), ")");
 		return this;
 	}
 

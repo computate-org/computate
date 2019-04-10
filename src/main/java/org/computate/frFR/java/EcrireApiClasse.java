@@ -1886,7 +1886,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(3, "operationRequete.getParams().getJsonObject(\"query\").forEach(paramRequete -> {");
 			tl(4, "String entiteVar = null;");
-			tl(4, "String entiteVarRecherche = null;");
 			tl(4, "String valeurIndexe = null;");
 			tl(4, "String varIndexe = null;");
 			tl(4, "String valeurTri = null;");
@@ -1902,8 +1901,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 			tl(7, "case \"q\":");
 			tl(8, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
-			tl(8, "entiteVarRecherche = varRecherche", classeNomSimple, "(entiteVar);");
-			tl(8, "varIndexe = \"*\".equals(entiteVar) ? entiteVar : entiteVarRecherche;");
+			tl(8, "varIndexe = \"*\".equals(entiteVar) ? entiteVar : varRecherche", classeNomSimple, "(entiteVar);");
 			tl(8, "valeurIndexe = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\")), \"UTF-8\");");
 			tl(8, "valeurIndexe = StringUtils.isEmpty(valeurIndexe) ? \"*\" : valeurIndexe;");
 //			tl(8, "if(StringUtils.isEmpty(valeurIndexe)) {");
@@ -1911,10 +1909,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			tl(9, "entiteVar = \"*\";");
 //			tl(8, "}");
 			tl(8, "listeRecherche.setQuery(varIndexe + \":\" + (\"*\".equals(valeurIndexe) ? valeurIndexe : ClientUtils.escapeQueryChars(valeurIndexe)));");
-			tl(8, "listeRecherche.setHighlight(true);");
-			tl(8, "listeRecherche.setHighlightSnippets(3);");
-			tl(8, "listeRecherche.addHighlightField(entiteVarRecherche);");
-			tl(8, "listeRecherche.setParam(\"hl.encoder\", \"html\");");
+			tl(8, "if(!\"*\".equals(entiteVar)) {");
+			tl(9, "listeRecherche.setHighlight(true);");
+			tl(9, "listeRecherche.setHighlightSnippets(3);");
+			tl(9, "listeRecherche.addHighlightField(varIndexe);");
+			tl(9, "listeRecherche.setParam(\"hl.encoder\", \"html\");");
+			tl(8, "}");
 			tl(8, "break;");
 	
 			tl(7, "case \"fq\":");

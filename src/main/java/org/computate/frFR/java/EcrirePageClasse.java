@@ -3,6 +3,7 @@ package org.computate.frFR.java;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -402,7 +403,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.tl(tIndex + 4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
 					l();
 					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
 					}
 					wForm.t(tIndex + 4).e("input").l();
 					wForm.t(tIndex + 5).dal("type", "text");
@@ -446,7 +447,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.tl(tIndex + 4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
 					wForm.l();
 					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
 					}
 					wForm.t(tIndex + 4).e("input").l();
 					wForm.t(tIndex + 5).dal("type", "text");
@@ -491,7 +492,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.tl(tIndex + 4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
 					wForm.l();
 					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
 					}
 					wForm.t(tIndex + 4).e("input").l();
 					wForm.t(tIndex + 5).dal("type", "text");
@@ -563,12 +564,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 4).fgl();
 					wForm.l();
 					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
 					}
 				}
 				else {
 					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
 					}
 					wForm.l();
 	
@@ -622,7 +623,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				// entiteModifier: false
 
 				wForm.t(tIndex + 4).be("div").da("class", "").dfl();
-				wForm.t(tIndex + 5).e("label").da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+				wForm.t(tIndex + 5).e("label").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
 				wForm.t(tIndex + 4).bgl("div");
 				wForm.t(tIndex + 4).be("div").da("class", "").dfl();
 				wForm.t(tIndex + 5).e("span").df().s(".sx(o.str", entiteVarCapitalise, "())").dgl("span");
@@ -1317,6 +1318,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								String entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
 								Boolean entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
 								Boolean entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
+								Boolean entiteHighlighting = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHighlighting_stored_boolean"));
 								if(entiteHtml) {
 									String jsVal = ".val()";
 									if("Boolean".equals(entiteNomSimple)) {
@@ -1329,6 +1331,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wTd.tl(8, "{ e(\"a\").a(\"href\", uri).f();");
 									wTd.tl(9, "sx(o.get", entiteVarCapitalise, "());");
 									wTd.tl(8, "} g(\"a\");");
+									if(entiteHighlighting) {
+										wTd.tl(8, "if(highlightList != null) {");
+										wTd.t(9).be("div").da("class", "site-highlight ").dfl();
+											wTd.t(10).sscl("StringUtils.join(highlightList, \" ... \")");
+										wTd.t(9).bgl("div");
+										wTd.tl(8, "}");
+									}
 									wTd.tl(7, "} g(\"td\");");
 								}
 							}
@@ -1533,7 +1542,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					if(classeEntiteVars != null && classeEntiteVars.contains("pageH1"))
 						t(4).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
 					else
-						t(4).e("span").da("class", " ").df().dsx(contexteUnNom).dgl("span");
+						t(4).e("span").da("class", " ").df().dsxq(contexteUnNom).dgl("span");
 		
 					t(3).bgl("h1");
 					tl(2, "}");
@@ -1574,7 +1583,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(3).be("h1").dfl();
 					tl(4, "if(contexteIconeClassesCss != null)");
 					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
-					t(4).e("span").da("class", " ").df().dsx(contexteAucunNomTrouve).dgl("span");
+					t(4).e("span").da("class", " ").df().dsxq(contexteAucunNomTrouve).dgl("span");
 					t(3).bgl("h1");
 					tl(2, "} else if(liste", classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\") == null && params.getJsonObject(\"query\").getJsonArray(\"fq\").size() == 0) {");
 					t(3).l("// ", contexteUnNom);
@@ -1586,7 +1595,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					if(classeEntiteVars != null && classeEntiteVars.contains("pageH1"))
 						t(5).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
 					else
-						t(5).e("span").da("class", " ").df().dsx(contexteUnNom).dgl("span");
+						t(5).e("span").da("class", " ").df().dsxq(contexteUnNom).dgl("span");
 		
 					t(4).bgl("h1");
 					tl(3, "}");
@@ -1613,7 +1622,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(3).be("h1").dfl();
 					tl(4, "if(contexteIconeClassesCss != null)");
 					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
-					t(4).e("span").da("class", " ").df().dsx(contexteNomPluriel).dgl("span");
+					t(4).e("span").da("class", " ").df().dsxq(contexteNomPluriel).dgl("span");
 					t(3).bgl("h1");
 					t(3).be("table").da("class", "w3-table w3-bordered w3-striped w3-border w3-hoverable ").dfl();
 					t(4).be("thead").dfl();
@@ -1622,8 +1631,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(5).bgl("tr");
 					t(4).bgl("thead");
 					t(4).be("tbody").dfl();
+					tl(5, "Map<String, Map<String, List<String>>> highlighting = liste", classeNomSimple, ".getQueryResponse().getHighlighting();");
 					tl(5, "for(int i = 0; i < liste", classeNomSimple, ".size(); i++) {");
 					tl(6, classeNomSimple, " o = liste", classeNomSimple, ".getList().get(i);");
+					tl(6, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
+					tl(6, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 					tl(6, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : q(classePageUriMethode, "/") + " + o.getPk()", ";");
 					tl(6, "{ e(\"tr\").f();");
 					s(wTd);
@@ -1670,7 +1682,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											.da("onsubmit", "event.preventDefault(); rechercher($('#recherche" + entiteVarCapitalise + "')); return false; ")
 											.dfl();
 										t(4).be("div").da("class", "w3-bar ").dfl();
-	//									t(5).e("label").da("for", "recherche", entiteVarCapitalise).da("class", "").df().dsx(entiteNomAffichage).dgl("label");
+	//									t(5).e("label").da("for", "recherche", entiteVarCapitalise).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
 										t(5).e("input").dal("type", "text");
 										if(contexteTousNom != null) {
 											if(entiteNomAffichage != null) {
@@ -1794,13 +1806,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								t(2 + tab).e("button").l();
 								t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
 								t(3 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, "Modale').show(); ");
-								t(3 + tab).df().dsx(methodeTitre).l();
+								t(3 + tab).df().dsxq(methodeTitre).l();
 								t(2 + tab).dgl("button");
 								{ t(2 + tab).be("div").da("id", classeApiOperationIdMethode, "Modale").da("class", "w3-modal ").dfl();
 									{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();
 										{ t(4 + tab).be("header").da("class", "w3-container w3-", contexteCouleur, " ").dfl();
-											t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classeApiOperationIdMethode, "Modale').hide(); ").df().dsx("×").dgl("span");
-											t(5 + tab).e("h2").da("class", "").df().dsx(methodeTitre).dgl("h2");
+											t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classeApiOperationIdMethode, "Modale').hide(); ").df().dsxq("×").dgl("span");
+											t(5 + tab).e("h2").da("class", "").df().dsxq(methodeTitre).dgl("h2");
 										} t(4 + tab).bgl("header");
 			
 										{ t(4 + tab).be("div").da("class", "w3-container ").dfl();
@@ -1816,7 +1828,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				
 												tl(6 + tab, ".a(\"onclick\", \"recherche", classeNomSimple, "($('#", classeApiOperationIdMethode, "FormFiltres')); \")");
 				
-												t(6 + tab).df().dsx(methodeTitre).l();
+												t(6 + tab).df().dsxq(methodeTitre).l();
 												t(5 + tab).dgl("button");
 												l();
 												
@@ -1845,7 +1857,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												else
 													t(6 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
 				
-												t(6 + tab).df().dsx(methodeTitre).l();
+												t(6 + tab).df().dsxq(methodeTitre).l();
 												t(5 + tab).dgl("button");
 												l();
 											}
@@ -1878,7 +1890,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												else
 													t(6 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
 				
-												t(6 + tab).df().dsx(methodeTitre).l();
+												t(6 + tab).df().dsxq(methodeTitre).l();
 												t(5 + tab).dgl("button");
 												l();
 											}

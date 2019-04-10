@@ -668,6 +668,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected Boolean classeContexte;
 
+	Boolean entiteHighlighting;
+
 	/**
 	 * Var.enUS: entityHtml
 	 */

@@ -1579,7 +1579,6 @@ public class WriteApiClass extends WriteGenClass {
 			l();
 			tl(3, "operationRequest.getParams().getJsonObject(\"query\").forEach(queryParam -> {");
 			tl(4, "String entityVar = null;");
-			tl(4, "String entityVarRecherche = null;");
 			tl(4, "String valeurIndexe = null;");
 			tl(4, "String varIndexe = null;");
 			tl(4, "String valeurTri = null;");
@@ -1595,8 +1594,7 @@ public class WriteApiClass extends WriteGenClass {
 	
 			tl(7, "case \"q\":");
 			tl(8, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)paramObject, \":\"));");
-			tl(8, "entityVarRecherche = varRecherche", classSimpleName, "(entityVar);");
-			tl(8, "varIndexe = \"*\".equals(entityVar) ? entityVar : entityVarRecherche;");
+			tl(8, "varIndexe = \"*\".equals(entityVar) ? entityVar : varRecherche", classSimpleName, "(entityVar);");
 			tl(8, "valeurIndexe = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)paramObject, \":\")), \"UTF-8\");");
 			tl(8, "valeurIndexe = StringUtils.isEmpty(valeurIndexe) ? \"*\" : valeurIndexe;");
 //			tl(8, "if(StringUtils.isEmpty(valeurIndexe)) {");
@@ -1604,10 +1602,12 @@ public class WriteApiClass extends WriteGenClass {
 //			tl(9, "entityVar = \"*\";");
 //			tl(8, "}");
 			tl(8, "listeRecherche.setQuery(varIndexe + \":\" + (\"*\".equals(valeurIndexe) ? valeurIndexe : ClientUtils.escapeQueryChars(valeurIndexe)));");
-			tl(8, "listeRecherche.setHighlight(true);");
-			tl(8, "listeRecherche.setHighlightSnippets(3);");
-			tl(8, "listeRecherche.addHighlightField(entityVarRecherche);");
-			tl(8, "listeRecherche.setParam(\"hl.encoder\", \"html\");");
+			tl(8, "if(!\"*\".equals(entityVar)) {");
+			tl(9, "listeRecherche.setHighlight(true);");
+			tl(9, "listeRecherche.setHighlightSnippets(3);");
+			tl(9, "listeRecherche.addHighlightField(varIndexe);");
+			tl(9, "listeRecherche.setParam(\"hl.encoder\", \"html\");");
+			tl(8, "}");
 			tl(8, "break;");
 	
 			tl(7, "case \"fq\":");

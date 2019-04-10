@@ -293,6 +293,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected Boolean classContext;
 
+	Boolean entiteHighlighting;
+
 	Boolean entityHtml;
 
 	Boolean entityModify;

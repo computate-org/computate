@@ -124,8 +124,116 @@ public class AllWriter {
 		return this;
 	}
 
-	public AllWriter dsx(Object...objects) {
+	public AllWriter dsxq(Object...objects) {
 		s(".sx(", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter dsq(Object...objects) {
+		s(".s(", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter dsx(Object...objects) {
+		s(".sx(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public AllWriter ds(Object...objects) {
+		s(".s(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public AllWriter dsxqscl(Object...objects) {
+		l(".sx(", q(objects), ");");
+		return this;
+	}
+
+	public AllWriter dsqscl(Object...objects) {
+		l(".s(", q(objects), ");");
+		return this;
+	}
+
+	public AllWriter dsxscl(Object...objects) {
+		s(".sx(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public AllWriter dsscl(Object...objects) {
+		s(".s(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public AllWriter dsxql(Object...objects) {
+		l(".sx(", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter dsql(Object...objects) {
+		l(".s(", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter dsxl(Object...objects) {
+		s(".sx(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public AllWriter sxqscl(Object...objects) {
+		l("sx(", q(objects), ");");
+		return this;
+	}
+
+	public AllWriter sqscl(Object...objects) {
+		l("s(", q(objects), ");");
+		return this;
+	}
+
+	public AllWriter sxscl(Object...objects) {
+		s("sx(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public AllWriter sscl(Object...objects) {
+		s("s(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public AllWriter sxql(Object...objects) {
+		l("sx(", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter sql(Object...objects) {
+		l("s(", q(objects), ")");
+		return this;
+	}
+
+	public AllWriter sxl(Object...objects) {
+		s("sx(");
+		s(objects);
+		l(");");
+		return this;
+	}
+
+	public AllWriter dsl(Object...objects) {
+		s(".s(");
+		s(objects);
+		l(");");
 		return this;
 	}
 

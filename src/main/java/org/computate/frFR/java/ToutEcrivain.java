@@ -184,8 +184,206 @@ public class ToutEcrivain {
 	 * r: objet
 	 * r.enUS: object
 	 */
-	public ToutEcrivain dsx(Object...objets) {
+	public ToutEcrivain dsxq(Object...objets) {
 		s(".sx(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsq(Object...objets) {
+		s(".s(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsx(Object...objets) {
+		s(".sx(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain ds(Object...objets) {
+		s(".s(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsxqscl(Object...objets) {
+		l(".sx(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsqscl(Object...objets) {
+		l(".s(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsxscl(Object...objets) {
+		s(".sx(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsscl(Object...objets) {
+		s(".s(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsxql(Object...objets) {
+		l(".sx(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsql(Object...objets) {
+		l(".s(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsxl(Object...objets) {
+		s(".sx(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain sxqscl(Object...objets) {
+		l("sx(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain sqscl(Object...objets) {
+		l("s(", q(objets), ");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain sxscl(Object...objets) {
+		s("sx(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain sscl(Object...objets) {
+		s("s(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain sxql(Object...objets) {
+		l("sx(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain sql(Object...objets) {
+		l("s(", q(objets), ")");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain sxl(Object...objets) {
+		s("sx(");
+		s(objets);
+		l(");");
+		return this;
+	}
+
+	/**
+	 * Param1.var.enUS: objects
+	 * r: objet
+	 * r.enUS: object
+	 */
+	public ToutEcrivain dsl(Object...objets) {
+		s(".s(");
+		s(objets);
+		l(");");
 		return this;
 	}
 
