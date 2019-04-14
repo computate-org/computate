@@ -125,6 +125,8 @@ public class IndexClass extends WatchClassBase {
 
 	ClassParts classPartsPageLayout;
 
+	ClassParts classPartsPagePart;
+
 	String CONTEXTE_frFR_UnMasculin = "un ";
 
 	String CONTEXTE_frFR_UneFeminin = "une ";
@@ -662,6 +664,10 @@ public class IndexClass extends WatchClassBase {
 		return classPartsForSimpleName(domainPackageName, "PageLayout", classeLangueNom);
 	}
 
+	protected ClassParts classPartsPagePart(String domainPackageName, String classeLangueNom) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "PagePart", classeLangueNom);
+	}
+
 	public String storeRegexComments(String comment, SolrInputDocument languageName, String varEntite, String entityVar) throws Exception, Exception {
 		if(!StringUtils.isEmpty(comment)) {
 			Matcher m = Pattern.compile("^(enUS|frFR): (.*)", Pattern.MULTILINE).matcher(comment);
@@ -882,6 +888,7 @@ public class IndexClass extends WatchClassBase {
 		classPartsSearchList = classPartsSearchList(domainPackageName, classLangueNom);
 		classPartsWrap = classPartsWrap(domainPackageName, classLangueNom);
 		classPartsPageLayout = classPartsPageLayout(domainPackageName, classLangueNom);
+		classPartsPagePart = classPartsPagePart(domainPackageName, classLangueNom);
 		classPartsChain = classPartsChain(domainPackageName, classLangueNom);
 		classPartsSiteRequest = classPartsSiteRequest(domainPackageName, classLangueNom);
 
@@ -1789,15 +1796,24 @@ public class IndexClass extends WatchClassBase {
 
 						if(methodComment != null) {
 
-							Matcher entityValsSearch = Pattern.compile("^(entity)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
+							Matcher entityValsSearch = Pattern.compile("^(entity)?Val(\\.(\\w+))?\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityValsFound = entityValsSearch.find();
 							while(entityValsFound) {
 								String entityValLanguage = entityValsSearch.group(2);
-								String entityValVar = entityValsSearch.group(3);
-								String entityValValue = entityValsSearch.group(4);
-								storeListSolr(entityDoc, "entityValsVar", entityValVar);
-								storeListSolr(entityDoc, "entityValsLanguage", entityValLanguage);
-								storeListSolr(entityDoc, "entityValsValue", entityValValue);
+								String entityValVar = entityValsSearch.group(4);
+								String entityValValue = entityValsSearch.group(5);
+								if(entityValLanguage == null) {
+									for(String languageName : toutesLangues) {
+										storeListSolr(entityDoc, "entityValsVar", entityValVar);
+										storeListSolr(entityDoc, "entityValsLanguage", languageName);
+										storeListSolr(entityDoc, "entityValsValue", entityValValue);
+									}
+								}
+								else {
+									storeListSolr(entityDoc, "entityValsVar", entityValVar);
+									storeListSolr(entityDoc, "entityValsLanguage", entityValLanguage);
+									storeListSolr(entityDoc, "entityValsValue", entityValValue);
+								}
 								entityValsFound = entityValsSearch.find();
 							}
 
@@ -2937,8 +2953,8 @@ public class IndexClass extends WatchClassBase {
 							classPartsGenPageAdd(classPartsPageLayout);
 						}
 
-						String classPageCheminCss = concat(srcMainResourcesPath, "/webroot/css/", classPageNomSimpleMethode, ".css");
-						String classPageCheminJs = concat(srcMainResourcesPath, "/webroot/js/", classPageNomSimpleMethode, ".js");
+						String classPageCheminCss = concat(appPath, "-static/css/", classPageNomSimpleMethode, ".css");
+						String classPageCheminJs = concat(appPath, "-static/js/", classPageNomSimpleMethode, ".js");
 			
 						indexStoreSolr(classDoc, "classPageCheminCss" + classApiMethod, classPageCheminCss); 
 						indexStoreSolr(classDoc, "classPageCheminJs" + classApiMethod, classPageCheminJs); 

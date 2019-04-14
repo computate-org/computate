@@ -1049,6 +1049,8 @@ public class WriteGenClass extends WriteClass {
 			String entityDisplayName = (String)doc.get("entityDisplayName_" + languageName + "_stored_string");
 			String entityHtmlTooltip = (String)doc.get("entityHtmlTooltip_" + languageName + "_stored_string");
 			Boolean entityHtml = (Boolean)doc.get("entityHtml_" + languageName + "_stored_boolean");
+
+			entityClassesSuperEtMoiSansGen = (List<String>)doc.get("entityClassesSuperEtMoiSansGen_stored_strings");
 	
 			List<String> entityMethodsBeforeVisibility = (List<String>)doc.get("entityMethodsBeforeVisibility_stored_strings");
 			List<String> entityMethodsBeforeVar = (List<String>)doc.get("entityMethodsBeforeVar_stored_strings");
@@ -1072,10 +1074,13 @@ public class WriteGenClass extends WriteClass {
 				if(entityWriteMethods.contains(classWriteMethod)) {
 					AllWriter w = classWriteWriters.get(i);
 					String var = classWriteMethod + entityVarCapitalized;
-					if(classMethodVars.contains(var))
+					if(classMethodVars.contains(var)) {
 						w.tl(2, "((", classSimpleName, ")this).", var, "();");
-					else
-						w.tl(2, entityVar, ".", classWriteMethod, "();");
+					}
+					else {
+						w.tl(2, "if(", entityVar, " != null)");
+						w.tl(3, entityVar, ".", classWriteMethod, "();");
+					}
 				}
 			}
 	
@@ -1937,6 +1942,20 @@ public class WriteGenClass extends WriteClass {
 					tl(1, "}");
 				}
 			}
+
+			for(String classWriteMethod : new String[] { "htmlBody" }) {
+				if(entityWriteMethods.contains(classWriteMethod)) {
+					if("htmlBody".equals(classWriteMethod) && entityClassesSuperEtMoiSansGen.contains(classPartsPagePart.canonicalName)) {
+						tl(1, "public void ", classWriteMethod, entityVarCapitalized, "(", entitySimpleNameComplete, " o) {");
+						tl(1, "}");
+						tl(1, "public void ", classWriteMethod, entityVarCapitalized, "() {");
+						tl(2, entityVar, ".htmlAvant();");
+						tl(2, classWriteMethod, entityVarCapitalized, "(", entityVar, ");");
+						tl(2, entityVar, ".htmlApres();");
+						tl(1, "}");
+					}
+				}
+			}
 	
 			////////////////////
 			// codeIninitLoin //
@@ -2568,7 +2587,7 @@ public class WriteGenClass extends WriteClass {
 				if(classPageCheminGen != null) {
 			
 					tl(3, "{");
-					tl(4, "new File(\"", appPath, "/src/main/resources/webroot/png", StringUtils.substringBeforeLast(classPageUriMethode, "/"), "\").mkdirs();");
+					tl(4, "new File(\"", appPath, "-static/png", StringUtils.substringBeforeLast(classPageUriMethode, "/"), "\").mkdirs();");
 					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --url=", siteBaseUrl, classPageUriMethode, "?pageRecapituler=true --out=", appPath, "/src/main/resources/webroot/png", classPageUriMethode, "-999.png\"));");
 					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appPath, "/src/main/resources/webroot/png", classPageUriMethode, "-999.png\"));");
 					tl(4, "System.out.println(\" * ImageLargeur.", classPageLangueNom, ": \" + img.getWidth());");

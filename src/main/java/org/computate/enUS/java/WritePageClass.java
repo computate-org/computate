@@ -623,32 +623,32 @@ public class WritePageClass extends WriteApiClass {
 	
 			if(classePageCheminGen != null && StringUtils.equals(classePageLangueNom, languageName)) {
 
-				contexteImageLargeur = (Integer)doc.get("contexteImageLargeur" + "_" + languageName + "_stored_int");
-				contexteImageHauteur = (Integer)doc.get("contexteImageHauteur" + "_" + languageName + "_stored_int");
-				contexteVideoId = (String)doc.get("contexteVideoId" + "_" + languageName + "_stored_string");
-				contextAName = (String)doc.get("contextAName" + "_" + languageName + "_stored_string");
-				contextNameSingular = (String)doc.get("contextNameSingular" + "_" + languageName + "_stored_string");
-				contextNamePlural = (String)doc.get("contextNamePlural" + "_" + languageName + "_stored_string");
-				contextNameVar = (String)doc.get("contextNameVar" + "_" + languageName + "_stored_string");
-				contexteAdjective = (String)doc.get("contexteAdjective" + "_" + languageName + "_stored_string");
-				contexteAdjectivePluriel = (String)doc.get("contexteAdjectivePluriel" + "_" + languageName + "_stored_string");
-				contexteAdjectiveVar = (String)doc.get("contexteAdjectiveVar" + "_" + languageName + "_stored_string");
-				contextNameAdjectiveSingulier = (String)doc.get("contextNameAdjectiveSingulier" + "_" + languageName + "_stored_string");
-				contextNameAdjectivePluriel = (String)doc.get("contextNameAdjectivePluriel" + "_" + languageName + "_stored_string");
-				contextThis = (String)doc.get("contextThis" + "_" + languageName + "_stored_string");
+				contexteImageLargeur = (Integer)classDoc.get("contexteImageLargeur" + "_" + languageName + "_stored_int");
+				contexteImageHauteur = (Integer)classDoc.get("contexteImageHauteur" + "_" + languageName + "_stored_int");
+				contexteVideoId = (String)classDoc.get("contexteVideoId" + "_" + languageName + "_stored_string");
+				contextAName = (String)classDoc.get("contextAName" + "_" + languageName + "_stored_string");
+				contextNameSingular = (String)classDoc.get("contextNameSingular" + "_" + languageName + "_stored_string");
+				contextNamePlural = (String)classDoc.get("contextNamePlural" + "_" + languageName + "_stored_string");
+				contextNameVar = (String)classDoc.get("contextNameVar" + "_" + languageName + "_stored_string");
+				contexteAdjective = (String)classDoc.get("contexteAdjective" + "_" + languageName + "_stored_string");
+				contexteAdjectivePluriel = (String)classDoc.get("contexteAdjectivePluriel" + "_" + languageName + "_stored_string");
+				contexteAdjectiveVar = (String)classDoc.get("contexteAdjectiveVar" + "_" + languageName + "_stored_string");
+				contextNameAdjectiveSingulier = (String)classDoc.get("contextNameAdjectiveSingulier" + "_" + languageName + "_stored_string");
+				contextNameAdjectivePluriel = (String)classDoc.get("contextNameAdjectivePluriel" + "_" + languageName + "_stored_string");
+				contextThis = (String)classDoc.get("contextThis" + "_" + languageName + "_stored_string");
 				contextA = (String)classDoc.get("contextA" + "_" + languageName + "_stored_string");
-				contextActualName = (String)doc.get("contextActualName" + "_" + languageName + "_stored_string");
-				contextAllNom = (String)doc.get("contextAllNom" + "_" + languageName + "_stored_string");
-				contextTheNames = (String)doc.get("contextTheNames" + "_" + languageName + "_stored_string");
-				contextTitle = (String)doc.get("contextTitle" + "_" + languageName + "_stored_string");
-				contextH1 = (String)doc.get("contextH1" + "_" + languageName + "_stored_string");
-				contextH2 = (String)doc.get("contextH2" + "_" + languageName + "_stored_string");
-				contextH3 = (String)doc.get("contextH3" + "_" + languageName + "_stored_string");
-				contextNoneNameFound = (String)doc.get("contextNoneNameFound" + "_" + languageName + "_stored_string");
-				contextANameAdjective = (String)doc.get("contextANameAdjective" + "_" + languageName + "_stored_string");
-				contextThisNom = (String)doc.get("contextThisNom" + "_" + languageName + "_stored_string");
-				contextTheName = (String)doc.get("contextTheName" + "_" + languageName + "_stored_string");
-				contextOfName = (String)doc.get("contextOfName" + "_" + languageName + "_stored_string");
+				contextActualName = (String)classDoc.get("contextActualName" + "_" + languageName + "_stored_string");
+				contextAllNom = (String)classDoc.get("contextAllNom" + "_" + languageName + "_stored_string");
+				contextTheNames = (String)classDoc.get("contextTheNames" + "_" + languageName + "_stored_string");
+				contextTitle = (String)classDoc.get("contextTitle" + "_" + languageName + "_stored_string");
+				contextH1 = (String)classDoc.get("contextH1" + "_" + languageName + "_stored_string");
+				contextH2 = (String)classDoc.get("contextH2" + "_" + languageName + "_stored_string");
+				contextH3 = (String)classDoc.get("contextH3" + "_" + languageName + "_stored_string");
+				contextNoneNameFound = (String)classDoc.get("contextNoneNameFound" + "_" + languageName + "_stored_string");
+				contextANameAdjective = (String)classDoc.get("contextANameAdjective" + "_" + languageName + "_stored_string");
+				contextThisNom = (String)classDoc.get("contextThisNom" + "_" + languageName + "_stored_string");
+				contextTheName = (String)classDoc.get("contextTheName" + "_" + languageName + "_stored_string");
+				contextOfName = (String)classDoc.get("contextOfName" + "_" + languageName + "_stored_string");
 			
 				File classePageFichierGen = null;
 				File classePageFichier = null;
@@ -861,7 +861,7 @@ public class WritePageClass extends WriteApiClass {
 				} else {
 					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
 				}
-				wEntitys.tl(3, "c.o(", q(contextAName), ");");
+				wEntitys.tl(3, "c.o(", q(contextTitle), ");");
 				if(!classePageSimple) {
 					wEntitys.tl(2, "else if(list", classSimpleName, ".size() == 0)");
 					wEntitys.tl(3, "c.o(", q(contextNoneNameFound), ");");

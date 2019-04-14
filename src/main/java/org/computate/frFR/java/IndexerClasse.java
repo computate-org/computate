@@ -205,6 +205,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * Var.enUS: classPartsPageLayout
 	 */
 	ClasseParts classePartsMiseEnPage;
+	/**
+	 * Var.enUS: classPartsPagePart
+	 */
+	ClasseParts classePartsPagePart;
 
 	String CONTEXTE_frFR_UnMasculin = "un ";
 	String CONTEXTE_frFR_UneFeminin = "une ";
@@ -1433,6 +1437,20 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	protected ClasseParts classePartsMiseEnPage(String nomEnsembleDomaine, String classeLangueNom) throws Exception {
 		return classePartsPourNomSimple(nomEnsembleDomaine, "MiseEnPage", classeLangueNom);
+	}
+
+	/**
+	 * Var.enUS: classPartsPagePart
+	 * Param1.var.enUS: domainPackageName
+	 * r: classePartsPourNomSimple
+	 * r.enUS: classPartsForSimpleName
+	 * r: nomEnsembleDomaine
+	 * r.enUS: domainPackageName
+	 * r: MiseEnPage
+	 * r.enUS: PageLayout
+	 */
+	protected ClasseParts classePartsPagePart(String nomEnsembleDomaine, String classeLangueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "PagePart", classeLangueNom);
 	}
 
 	/**
@@ -3023,6 +3041,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsListeRecherche = classePartsListeRecherche(nomEnsembleDomaine, classeLangueNom);
 		classePartsCouverture = classePartsCouverture(nomEnsembleDomaine, classeLangueNom);
 		classePartsMiseEnPage = classePartsMiseEnPage(nomEnsembleDomaine, classeLangueNom);
+		classePartsPagePart = classePartsPagePart(nomEnsembleDomaine, classeLangueNom);
 		classePartsChaine = classePartsChaine(nomEnsembleDomaine, classeLangueNom);
 		classePartsRequeteSite = classePartsRequeteSite(nomEnsembleDomaine, classeLangueNom);
 
@@ -3930,15 +3949,24 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						if(methodeCommentaire != null) {
 
-							Matcher entiteValsRecherche = Pattern.compile("^(entite)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+							Matcher entiteValsRecherche = Pattern.compile("^(entite)?Val(\\.(\\w+))?\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteValsTrouves = entiteValsRecherche.find();
 							while(entiteValsTrouves) {
 								String entiteValLangue = entiteValsRecherche.group(2);
-								String entiteValVar = entiteValsRecherche.group(3);
-								String entiteValValeur = entiteValsRecherche.group(4);
-								stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
-								stockerListeSolr(entiteDoc, "entiteValsLangue", entiteValLangue);
-								stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
+								String entiteValVar = entiteValsRecherche.group(4);
+								String entiteValValeur = entiteValsRecherche.group(5);
+								if(entiteValLangue == null) {
+									for(String langueNom : toutesLangues) {
+										stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
+										stockerListeSolr(entiteDoc, "entiteValsLangue", langueNom);
+										stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
+									}
+								}
+								else {
+									stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
+									stockerListeSolr(entiteDoc, "entiteValsLangue", entiteValLangue);
+									stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
+								}
 								entiteValsTrouves = entiteValsRecherche.find();
 							}
 
@@ -5078,8 +5106,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenPageAjouter(classePartsMiseEnPage);
 						}
 
-						String classePageCheminCss = concat(cheminSrcMainResources, "/webroot/css/", classePageNomSimpleMethode, ".css");
-						String classePageCheminJs = concat(cheminSrcMainResources, "/webroot/js/", classePageNomSimpleMethode, ".js");
+						String classePageCheminCss = concat(appliChemin, "-static/css/", classePageNomSimpleMethode, ".css");
+						String classePageCheminJs = concat(appliChemin, "-static/js/", classePageNomSimpleMethode, ".js");
 			
 						indexerStockerSolr(classeDoc, "classePageCheminCss" + classeApiMethode, classePageCheminCss); 
 						indexerStockerSolr(classeDoc, "classePageCheminJs" + classeApiMethode, classePageCheminJs); 

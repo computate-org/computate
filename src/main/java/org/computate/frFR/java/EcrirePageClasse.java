@@ -915,32 +915,32 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 			if(classePageCheminGen != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 
-				contexteImageLargeur = (Integer)doc.get("contexteImageLargeur" + "_" + langueNom + "_stored_int");
-				contexteImageHauteur = (Integer)doc.get("contexteImageHauteur" + "_" + langueNom + "_stored_int");
-				contexteVideoId = (String)doc.get("contexteVideoId" + "_" + langueNom + "_stored_string");
-				contexteUnNom = (String)doc.get("contexteUnNom" + "_" + langueNom + "_stored_string");
-				contexteNomSingulier = (String)doc.get("contexteNomSingulier" + "_" + langueNom + "_stored_string");
-				contexteNomPluriel = (String)doc.get("contexteNomPluriel" + "_" + langueNom + "_stored_string");
-				contexteNomVar = (String)doc.get("contexteNomVar" + "_" + langueNom + "_stored_string");
-				contexteAdjectif = (String)doc.get("contexteAdjectif" + "_" + langueNom + "_stored_string");
-				contexteAdjectifPluriel = (String)doc.get("contexteAdjectifPluriel" + "_" + langueNom + "_stored_string");
-				contexteAdjectifVar = (String)doc.get("contexteAdjectifVar" + "_" + langueNom + "_stored_string");
-				contexteNomAdjectifSingulier = (String)doc.get("contexteNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
-				contexteNomAdjectifPluriel = (String)doc.get("contexteNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
-				contexteCe = (String)doc.get("contexteCe" + "_" + langueNom + "_stored_string");
+				contexteImageLargeur = (Integer)classeDoc.get("contexteImageLargeur" + "_" + langueNom + "_stored_int");
+				contexteImageHauteur = (Integer)classeDoc.get("contexteImageHauteur" + "_" + langueNom + "_stored_int");
+				contexteVideoId = (String)classeDoc.get("contexteVideoId" + "_" + langueNom + "_stored_string");
+				contexteUnNom = (String)classeDoc.get("contexteUnNom" + "_" + langueNom + "_stored_string");
+				contexteNomSingulier = (String)classeDoc.get("contexteNomSingulier" + "_" + langueNom + "_stored_string");
+				contexteNomPluriel = (String)classeDoc.get("contexteNomPluriel" + "_" + langueNom + "_stored_string");
+				contexteNomVar = (String)classeDoc.get("contexteNomVar" + "_" + langueNom + "_stored_string");
+				contexteAdjectif = (String)classeDoc.get("contexteAdjectif" + "_" + langueNom + "_stored_string");
+				contexteAdjectifPluriel = (String)classeDoc.get("contexteAdjectifPluriel" + "_" + langueNom + "_stored_string");
+				contexteAdjectifVar = (String)classeDoc.get("contexteAdjectifVar" + "_" + langueNom + "_stored_string");
+				contexteNomAdjectifSingulier = (String)classeDoc.get("contexteNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
+				contexteNomAdjectifPluriel = (String)classeDoc.get("contexteNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
+				contexteCe = (String)classeDoc.get("contexteCe" + "_" + langueNom + "_stored_string");
 				contexteUn = (String)classeDoc.get("contexteUn" + "_" + langueNom + "_stored_string");
-				contexteNomActuel = (String)doc.get("contexteNomActuel" + "_" + langueNom + "_stored_string");
-				contexteTousNom = (String)doc.get("contexteTousNom" + "_" + langueNom + "_stored_string");
-				contexteLesNoms = (String)doc.get("contexteLesNoms" + "_" + langueNom + "_stored_string");
-				contexteTitre = (String)doc.get("contexteTitre" + "_" + langueNom + "_stored_string");
-				contexteH1 = (String)doc.get("contexteH1" + "_" + langueNom + "_stored_string");
-				contexteH2 = (String)doc.get("contexteH2" + "_" + langueNom + "_stored_string");
-				contexteH3 = (String)doc.get("contexteH3" + "_" + langueNom + "_stored_string");
-				contexteAucunNomTrouve = (String)doc.get("contexteAucunNomTrouve" + "_" + langueNom + "_stored_string");
-				contexteUnNomAdjectif = (String)doc.get("contexteUnNomAdjectif" + "_" + langueNom + "_stored_string");
-				contexteCeNom = (String)doc.get("contexteCeNom" + "_" + langueNom + "_stored_string");
-				contexteLeNom = (String)doc.get("contexteLeNom" + "_" + langueNom + "_stored_string");
-				contexteDeNom = (String)doc.get("contexteDeNom" + "_" + langueNom + "_stored_string");
+				contexteNomActuel = (String)classeDoc.get("contexteNomActuel" + "_" + langueNom + "_stored_string");
+				contexteTousNom = (String)classeDoc.get("contexteTousNom" + "_" + langueNom + "_stored_string");
+				contexteLesNoms = (String)classeDoc.get("contexteLesNoms" + "_" + langueNom + "_stored_string");
+				contexteTitre = (String)classeDoc.get("contexteTitre" + "_" + langueNom + "_stored_string");
+				contexteH1 = (String)classeDoc.get("contexteH1" + "_" + langueNom + "_stored_string");
+				contexteH2 = (String)classeDoc.get("contexteH2" + "_" + langueNom + "_stored_string");
+				contexteH3 = (String)classeDoc.get("contexteH3" + "_" + langueNom + "_stored_string");
+				contexteAucunNomTrouve = (String)classeDoc.get("contexteAucunNomTrouve" + "_" + langueNom + "_stored_string");
+				contexteUnNomAdjectif = (String)classeDoc.get("contexteUnNomAdjectif" + "_" + langueNom + "_stored_string");
+				contexteCeNom = (String)classeDoc.get("contexteCeNom" + "_" + langueNom + "_stored_string");
+				contexteLeNom = (String)classeDoc.get("contexteLeNom" + "_" + langueNom + "_stored_string");
+				contexteDeNom = (String)classeDoc.get("contexteDeNom" + "_" + langueNom + "_stored_string");
 			
 				File classePageFichierGen = null;
 				File classePageFichier = null;
@@ -1153,7 +1153,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				} else {
 					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null)");
 				}
-				wEntites.tl(3, "c.o(", q(contexteUnNom), ");");
+				wEntites.tl(3, "c.o(", q(contexteTitre), ");");
 				if(!classePageSimple) {
 					wEntites.tl(2, "else if(liste", classeNomSimple, ".size() == 0)");
 					wEntites.tl(3, "c.o(", q(contexteAucunNomTrouve), ");");

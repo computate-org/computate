@@ -2387,6 +2387,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			String entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
 			String entiteHtmlTooltip = (String)doc.get("entiteHtmlTooltip_" + langueNom + "_stored_string");
 			Boolean entiteHtml = (Boolean)doc.get("entiteHtml_" + langueNom + "_stored_boolean");
+
+			entiteClassesSuperEtMoiSansGen = (List<String>)doc.get("entiteClassesSuperEtMoiSansGen_stored_strings");
 	
 			List<String> entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
 			List<String> entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_stored_strings");
@@ -2410,10 +2412,13 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
 					ToutEcrivain w = classeEcrireEcrivains.get(i);
 					String var = classeEcrireMethode + entiteVarCapitalise;
-					if(classeMethodeVars.contains(var))
+					if(classeMethodeVars.contains(var)) {
 						w.tl(2, "((", classeNomSimple, ")this).", var, "();");
-					else
-						w.tl(2, entiteVar, ".", classeEcrireMethode, "();");
+					}
+					else {
+						w.tl(2, "if(", entiteVar, " != null)");
+						w.tl(3, entiteVar, ".", classeEcrireMethode, "();");
+					}
 				}
 			}
 	
@@ -3275,6 +3280,20 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "}");
 				}
 			}
+
+			for(String classeEcrireMethode : new String[] { "htmlBody" }) {
+				if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
+					if("htmlBody".equals(classeEcrireMethode) && entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
+						tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "(", entiteNomSimpleComplet, " o) {");
+						tl(1, "}");
+						tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "() {");
+						tl(2, entiteVar, ".htmlAvant();");
+						tl(2, classeEcrireMethode, entiteVarCapitalise, "(", entiteVar, ");");
+						tl(2, entiteVar, ".htmlApres();");
+						tl(1, "}");
+					}
+				}
+			}
 	
 			////////////////////
 			// codeIninitLoin //
@@ -4060,7 +4079,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(classePageCheminGen != null) {
 			
 					tl(3, "{");
-					tl(4, "new File(\"", appliChemin, "/src/main/resources/webroot/png", StringUtils.substringBeforeLast(classePageUriMethode, "/"), "\").mkdirs();");
+					tl(4, "new File(\"", appliChemin, "-static/png", StringUtils.substringBeforeLast(classePageUriMethode, "/"), "\").mkdirs();");
 					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --url=", siteUrlBase, classePageUriMethode, "?pageRecapituler=true --out=", appliChemin, "/src/main/resources/webroot/png", classePageUriMethode, "-999.png\"));");
 					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appliChemin, "/src/main/resources/webroot/png", classePageUriMethode, "-999.png\"));");
 					tl(4, "System.out.println(\" * ImageLargeur.", classePageLangueNom, ": \" + img.getWidth());");
