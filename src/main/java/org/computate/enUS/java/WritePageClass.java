@@ -815,7 +815,7 @@ public class WritePageClass extends WriteApiClass {
 				else
 					wEntitys.tl(3, "c.o(", q(contextAName), ");");
 				if(!classePageSimple) {
-					wEntitys.tl(2, "else if(list", classSimpleName, ".size() == 0)");
+					wEntitys.tl(2, "else if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0)");
 					wEntitys.tl(3, "c.o(", q(contextNoneNameFound), ");");
 				}
 				if(contextH1 != null) {
@@ -863,7 +863,7 @@ public class WritePageClass extends WriteApiClass {
 				}
 				wEntitys.tl(3, "c.o(", q(contextTitle), ");");
 				if(!classePageSimple) {
-					wEntitys.tl(2, "else if(list", classSimpleName, ".size() == 0)");
+					wEntitys.tl(2, "else if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0)");
 					wEntitys.tl(3, "c.o(", q(contextNoneNameFound), ");");
 				}
 				if(contextTitle != null) {
@@ -933,7 +933,7 @@ public class WritePageClass extends WriteApiClass {
 				if(classePageSimple) {
 					tl(2, "c.o(new ", classSimpleName, "());");
 				} else {
-					tl(2, "if(list", classSimpleName, ".size() == 1)");
+					tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1)");
 					tl(3, "c.o(list", classSimpleName, ".get(0)", ");");
 				}
 				tl(1, "}");
@@ -1285,7 +1285,7 @@ public class WritePageClass extends WriteApiClass {
 					l();
 					tl(2, "OperationRequest operationRequest = requeteSite_.getOperationRequest();");
 					tl(2, "JsonObject params = operationRequest.getParams();");
-					tl(2, "if(list", classSimpleName, ".size() == 0) {");
+					tl(2, "if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0) {");
 					t(3).l("//", contextNoneNameFound);
 					l();
 					t(3).be("h1").dfl();
@@ -1293,7 +1293,7 @@ public class WritePageClass extends WriteApiClass {
 					tl(5, "e(\"i\").a(\"class\", contextIconCssClasses + \" site-menu-icon \").f().g(\"i\");");
 					t(4).e("span").da("class", " ").df().dsxq(contextNoneNameFound).dgl("span");
 					t(3).bgl("h1");
-					tl(2, "} else if(list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\") == null && params.getJsonObject(\"query\").getJsonArray(\"fq\").size() == 0) {");
+					tl(2, "} else if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\") == null && params.getJsonObject(\"query\").getJsonArray(\"fq\").size() == 0) {");
 					t(3).l("// ", contextAName);
 					tl(3, "if(pageH1 != null) {");
 					t(4).be("h1").dfl();
@@ -1458,7 +1458,7 @@ public class WritePageClass extends WriteApiClass {
 
 					// singulier part 2
 					l();
-					tl(2, "if(list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\") == null && params.getJsonObject(\"query\").getJsonArray(\"fq\").size() == 0) {");
+					tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\") == null && params.getJsonObject(\"query\").getJsonArray(\"fq\").size() == 0) {");
 					t(3).l(classSimpleName, " o = list", classSimpleName, ".first();");
 					l();
 					t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show w3-white ").dfl();
@@ -1510,7 +1510,7 @@ public class WritePageClass extends WriteApiClass {
 			
 								l();
 								if(tab > 0)
-									tl(2, "if(list", classSimpleName, ".size() == 1) {");
+									tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1) {");
 								t(2 + tab).e("button").l();
 								t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contextColor, " ");
 								t(3 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, "Modale').show(); ");

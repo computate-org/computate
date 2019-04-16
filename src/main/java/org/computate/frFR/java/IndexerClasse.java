@@ -3092,12 +3092,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^(classe)?Sauvegarde:\\s*(true)$", classeCommentaire) || classeModele);
 		ArrayList<String> classeApiMethodes = regexListe("^(classe)?ApiMethode:\\s*(.*)", classeCommentaire);
 
-		for(String siteEcrireMethode : siteEcrireMethodes) {
-			if(classeQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
-					|| classeQdox.getMethodBySignature(siteEcrireMethode + classeNomSimple, new ArrayList<JavaType>()) != null)
-				indexerStockerListeSolr(classeDoc, "classeEcrireMethodes",  siteEcrireMethode);
-		}
-
 		String classeNomSimpleApiEnsembleInfo;
 		String classeNomSimpleGenApiServiceImpl;
 		String classeNomSimpleApiServiceImpl;
@@ -3446,11 +3440,32 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
+
+		List<String> classeSuperEcrireMethodes;
+		List<String> classeEcrireMethodes = new ArrayList<>();
+		if(classeSuperDoc != null) 
+			classeSuperEcrireMethodes = (List<String>)classeSuperDoc.get("classeEcrireMethodes_stored_strings");
+		else
+			classeSuperEcrireMethodes = new ArrayList<>();
+
+		for(String siteEcrireMethode : siteEcrireMethodes) {
+			if(classeQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
+					|| classeQdox.getMethodBySignature(siteEcrireMethode + classeNomSimple, new ArrayList<JavaType>()) != null) {
+				if(!classeEcrireMethodes.contains(siteEcrireMethode)) {
+					indexerStockerListeSolr(classeDoc, "classeEcrireMethodes",  siteEcrireMethode);
+					classeEcrireMethodes.add(siteEcrireMethode);
+				}
+			}
+		}
+
 		if(classeSuperDoc != null) {
-			List<String> classeSuperEcrireMethodes = (List<String>)classeSuperDoc.get("classeEcrireMethodes_stored_strings");
 			if(classeSuperEcrireMethodes != null) {
 				for(String classeSuperEcrireMethode : classeSuperEcrireMethodes) {
 					indexerStockerListeSolr(classeDoc, "classeSuperEcrireMethodes",  classeSuperEcrireMethode);
+					if(!classeEcrireMethodes.contains(classeSuperEcrireMethode)) {
+						indexerStockerListeSolr(classeDoc, "classeEcrireMethodes",  classeSuperEcrireMethode);
+						classeEcrireMethodes.add(classeSuperEcrireMethode);
+					}
 				}
 			}
 		}
@@ -5189,6 +5204,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classeLangueNom));
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, StringUtils.class.getCanonicalName(), classeLangueNom));
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Map.class.getCanonicalName(), classeLangueNom));
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, List.class.getCanonicalName(), classeLangueNom));
 		}
 
 		for(ClasseParts classePartGenPage : classePartsGenPage.values()) {

@@ -939,12 +939,6 @@ public class IndexClass extends WatchClassBase {
 		Boolean classSaved = indexStoreSolr(classDoc, "classSaved", regexFound("^(class)?Saved:\\s*(true)$", classComment) || classModel);
 		ArrayList<String> classApiMethods = regexList("^(class)?ApiMethode:\\s*(.*)", classComment);
 
-		for(String siteEcrireMethode : siteWriteMethods) {
-			if(classQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
-					|| classQdox.getMethodBySignature(siteEcrireMethode + classSimpleName, new ArrayList<JavaType>()) != null)
-				indexStoreListSolr(classDoc, "classWriteMethods",  siteEcrireMethode);
-		}
-
 		String classSimpleNameApiPackageInfo;
 		String classSimpleNameGenApiServiceImpl;
 		String classSimpleNameApiServiceImpl;
@@ -1293,11 +1287,32 @@ public class IndexClass extends WatchClassBase {
 				}
 			}
 		}
+
+		List<String> classSuperEcrireMethodes;
+		List<String> classWriteMethods = new ArrayList<>();
+		if(classSuperDoc != null) 
+			classSuperEcrireMethodes = (List<String>)classSuperDoc.get("classWriteMethods_stored_strings");
+		else
+			classSuperEcrireMethodes = new ArrayList<>();
+
+		for(String siteEcrireMethode : siteWriteMethods) {
+			if(classQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
+					|| classQdox.getMethodBySignature(siteEcrireMethode + classSimpleName, new ArrayList<JavaType>()) != null) {
+				if(!classWriteMethods.contains(siteEcrireMethode)) {
+					indexStoreListSolr(classDoc, "classWriteMethods",  siteEcrireMethode);
+					classWriteMethods.add(siteEcrireMethode);
+				}
+			}
+		}
+
 		if(classSuperDoc != null) {
-			List<String> classSuperEcrireMethodes = (List<String>)classSuperDoc.get("classWriteMethods_stored_strings");
 			if(classSuperEcrireMethodes != null) {
 				for(String classSuperEcrireMethode : classSuperEcrireMethodes) {
 					indexStoreListSolr(classDoc, "classSuperEcrireMethodes",  classSuperEcrireMethode);
+					if(!classWriteMethods.contains(classSuperEcrireMethode)) {
+						indexStoreListSolr(classDoc, "classWriteMethods",  classSuperEcrireMethode);
+						classWriteMethods.add(classSuperEcrireMethode);
+					}
 				}
 			}
 		}
@@ -3036,6 +3051,7 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenPageAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classLangueNom));
 			classPartsGenPageAdd(ClassParts.initClassParts(this, StringUtils.class.getCanonicalName(), classLangueNom));
 			classPartsGenPageAdd(ClassParts.initClassParts(this, Map.class.getCanonicalName(), classLangueNom));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, List.class.getCanonicalName(), classLangueNom));
 		}
 
 		for(ClassParts classPartGenPage : classPartsGenPage.values()) {

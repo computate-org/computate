@@ -891,9 +891,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			s(" implements ", classeNomSimpleGenApiService);
 			l(" {");
 			l();
-			tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
+			tl(1, "protected static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
 			l();
-			tl(1, "private static final String SERVICE_ADDRESS = \"", classeNomSimpleApiServiceImpl, "\";");
+			tl(1, "protected static final String SERVICE_ADDRESS = \"", classeNomSimpleApiServiceImpl, "\";");
 			l();
 			tl(1, "protected ", classePartsSiteContexte.nomSimple(langueNom), " siteContexte;");
 			l();

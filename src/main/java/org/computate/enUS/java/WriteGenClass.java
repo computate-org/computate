@@ -1970,7 +1970,8 @@ public class WriteGenClass extends WriteClass {
 			/////////////////////
 			if(classInitDeep && entityInitialized) {
 				o = wSiteRequest;
-				tl(2, entityVar, ".setSiteRequest_(siteRequest_);");
+				tl(2, "if(", entityVar, " != null)");
+				tl(3, entityVar, ".setSiteRequest_(siteRequest_);");
 			}
 	
 			/////////////////
@@ -2576,20 +2577,21 @@ public class WriteGenClass extends WriteClass {
 			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
 			for(String classPageMethode : classApiMethods) {
 	
-				String classPageCheminGen = (String)doc.get("classPageCheminGen" + classPageMethode  + "_stored_string");
-				String classPageChemin = (String)doc.get("classPageChemin" + classPageMethode  + "_stored_string");
-				String classPageCheminCss = (String)doc.get("classPageCheminCss" + classPageMethode  + "_stored_string");
-				String classPageCheminJs = (String)doc.get("classPageCheminJs" + classPageMethode  + "_stored_string");
+				String classPageCheminGen = (String)classDoc.get("classPageCheminGen" + classPageMethode  + "_stored_string");
+				String classPageChemin = (String)classDoc.get("classPageChemin" + classPageMethode  + "_stored_string");
+				String classPageCheminCss = (String)classDoc.get("classPageCheminCss" + classPageMethode  + "_stored_string");
+				String classPageCheminJs = (String)classDoc.get("classPageCheminJs" + classPageMethode  + "_stored_string");
 				String classPageUriMethode = (String)classDoc.get("classApiUri" + classPageMethode + "_stored_string");
 				String classPageLangueNom = (String)classDoc.get("classPageLangueNom" + classPageMethode + "_stored_string");
-				String classPageNomSimple = (String)doc.get("classPageNomSimple" + classPageMethode  + "_stored_string");
+				String classPageNomSimple = (String)classDoc.get("classPageNomSimple" + classPageMethode  + "_stored_string");
 		
 				if(classPageCheminGen != null) {
 			
 					tl(3, "{");
 					tl(4, "new File(\"", appPath, "-static/png", StringUtils.substringBeforeLast(classPageUriMethode, "/"), "\").mkdirs();");
-					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --url=", siteBaseUrl, classPageUriMethode, "?pageRecapituler=true --out=", appPath, "/src/main/resources/webroot/png", classPageUriMethode, "-999.png\"));");
-					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appPath, "/src/main/resources/webroot/png", classPageUriMethode, "-999.png\"));");
+					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --url=", siteBaseUrl, classPageUriMethode, "?pageRecapituler=true --out=", appPath, "-static/png", classPageUriMethode, "-999.png\"));");
+					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appPath, "-static/png", classPageUriMethode, "-999.png\"));");
+					tl(4, "System.out.println(\"", classPageNomSimple, "\");");
 					tl(4, "System.out.println(\" * ImageLargeur.", classPageLangueNom, ": \" + img.getWidth());");
 					tl(4, "System.out.println(\" * ImageHauteur.", classPageLangueNom, ": \" + img.getHeight());");
 					tl(3, "}");
@@ -2738,7 +2740,7 @@ public class WriteGenClass extends WriteClass {
 					s("@Override ");
 					l("public void ", classWriteMethod, "() {");
 					tl(2, classWriteMethod, classSimpleName, "();");
-					tl(2, "super.", classWriteMethod, classSuperSimpleNameGeneric, "();");
+					tl(2, "super.", classWriteMethod, "();");
 				}
 				else {
 					l("public void ", classWriteMethod, "() {");

@@ -584,9 +584,9 @@ public class WriteApiClass extends WriteGenClass {
 			s(" implements ", classSimpleNameGenApiService);
 			l(" {");
 			l();
-			tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classSimpleNameGenApiServiceImpl, ".class);");
+			tl(1, "protected static final Logger LOGGER = LoggerFactory.getLogger(", classSimpleNameGenApiServiceImpl, ".class);");
 			l();
-			tl(1, "private static final String SERVICE_ADDRESS = \"", classSimpleNameApiServiceImpl, "\";");
+			tl(1, "protected static final String SERVICE_ADDRESS = \"", classSimpleNameApiServiceImpl, "\";");
 			l();
 			tl(1, "protected ", classPartsSiteContext.nomSimple(languageName), " siteContext;");
 			l();
