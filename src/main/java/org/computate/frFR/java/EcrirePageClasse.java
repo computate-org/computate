@@ -1234,7 +1234,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classeImage != null) {
 					l();
 					tl(1, "@Override protected void _pageImageUri(Couverture<String> c) {");
-					tl(3, "c.o(", q("/static/png", classePageUriMethode, "-999.png"), ");");
+					tl(3, "c.o(", q("/png", classePageUriMethode, "-999.png"), ");");
 					tl(1, "}");
 				}
 	

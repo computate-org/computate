@@ -942,7 +942,7 @@ public class WritePageClass extends WriteApiClass {
 				if(classeImage != null) {
 					l();
 					tl(1, "@Override protected void _pageImageUri(Wrap<String> c) {");
-					tl(3, "c.o(", q("/static/png", classePageUriMethode, "-999.png"), ");");
+					tl(3, "c.o(", q("/png", classePageUriMethode, "-999.png"), ");");
 					tl(1, "}");
 				}
 	
