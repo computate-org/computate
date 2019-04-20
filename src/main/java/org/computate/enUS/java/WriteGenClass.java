@@ -1111,6 +1111,8 @@ public class WriteGenClass extends WriteClass {
 				for(int j = 0; j < entityValsVar.size(); j++) {
 					entityValVar = entityValsVar.get(j);
 					entityValLangue = entityValsLangue.get(j);
+					if(StringUtils.isBlank(entityValLangue))
+						entityValLangue = languageName;
 					entityValVarLangue = entityValVar + entityValLangue;
 					entityValValeur = entityValsValeur.get(j);
 	
@@ -1950,6 +1952,9 @@ public class WriteGenClass extends WriteClass {
 				if(entityWriteMethods.contains(classWriteMethod)) {
 					if("htmlBody".equals(classWriteMethod) && entityClassesSuperEtMoiSansGen.contains(classPartsPagePart.canonicalName)) {
 						tl(1, "public void ", classWriteMethod, entityVarCapitalized, "(", entitySimpleNameComplete, " o) {");
+						if("Cmd".equals(entitySimpleName)) {
+							// do stuff here. 
+						}
 						tl(1, "}");
 						tl(1, "public void ", classWriteMethod, entityVarCapitalized, "() {");
 						tl(2, entityVar, ".htmlAvant();");

@@ -2449,6 +2449,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				for(int j = 0; j < entiteValsVar.size(); j++) {
 					entiteValVar = entiteValsVar.get(j);
 					entiteValLangue = entiteValsLangue.get(j);
+					if(StringUtils.isBlank(entiteValLangue))
+						entiteValLangue = langueNom;
 					entiteValVarLangue = entiteValVar + entiteValLangue;
 					entiteValValeur = entiteValsValeur.get(j);
 	
@@ -3288,6 +3290,9 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
 					if("htmlBody".equals(classeEcrireMethode) && entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
 						tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "(", entiteNomSimpleComplet, " o) {");
+						if("Cmd".equals(entiteNomSimple)) {
+							// do stuff here. 
+						}
 						tl(1, "}");
 						tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "() {");
 						tl(2, entiteVar, ".htmlAvant();");

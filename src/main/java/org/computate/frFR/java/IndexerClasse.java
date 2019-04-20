@@ -3964,18 +3964,21 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						if(methodeCommentaire != null) {
 
-							Matcher entiteValsRecherche = Pattern.compile("^(entite)?Val(\\.(\\w+))?\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+							Matcher entiteValsRecherche = Pattern.compile("^(entite)?Val\\.(\\w+)(\\.(\\w+))?:(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteValsTrouves = entiteValsRecherche.find();
 							while(entiteValsTrouves) {
-								String entiteValLangue = entiteValsRecherche.group(2);
-								String entiteValVar = entiteValsRecherche.group(4);
+								String entiteValVar = entiteValsRecherche.group(2);
+								String entiteValLangue = entiteValsRecherche.group(4);
 								String entiteValValeur = entiteValsRecherche.group(5);
 								if(entiteValLangue == null) {
-									for(String langueNom : toutesLangues) {
-										stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
-										stockerListeSolr(entiteDoc, "entiteValsLangue", langueNom);
-										stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
-									}
+									stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
+									stockerListeSolr(entiteDoc, "entiteValsLangue", "");
+									stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
+//									for(String langueNom : toutesLangues) {
+//										stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
+//										stockerListeSolr(entiteDoc, "entiteValsLangue", langueNom);
+//										stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
+//									}
 								}
 								else {
 									stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
@@ -3983,7 +3986,21 @@ public class IndexerClasse extends RegarderClasseBase {
 									stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
 								}
 								entiteValsTrouves = entiteValsRecherche.find();
-							}
+							}//			
+//						if(methodeCommentaire != null) {
+//							Matcher entiteValsRecherche = Pattern.compile("^(entite)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+//							boolean entiteValsTrouves = entiteValsRecherche.find();
+//							while(entiteValsTrouves) {
+//								String entiteValVar = entiteValsRecherche.group(2);
+//								String entiteValLangue = entiteValsRecherche.group(3);
+//								String entiteValValeur = entiteValsRecherche.group(4);
+//								stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
+//								stockerListeSolr(entiteDoc, "entiteValsLangue", entiteValLangue);
+//								stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
+//								entiteValsTrouves = entiteValsRecherche.find();
+//							}
+//						}
+
 
 							Matcher entiteOptionsRecherche = Pattern.compile("^(entite)?Option\\.(\\w+)\\.([^:\\n]+)(:([^:\\n]+))?(:([^\\n]+))?", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteOptionsTrouves = entiteOptionsRecherche.find();
@@ -4736,20 +4753,20 @@ public class IndexerClasse extends RegarderClasseBase {
 								}
 							}
 						}
-			
-						if(methodeCommentaire != null) {
-							Matcher entiteValsRecherche = Pattern.compile("^(entite)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
-							boolean entiteValsTrouves = entiteValsRecherche.find();
-							while(entiteValsTrouves) {
-								String entiteValVar = entiteValsRecherche.group(2);
-								String entiteValLangue = entiteValsRecherche.group(3);
-								String entiteValValeur = entiteValsRecherche.group(4);
-								stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
-								stockerListeSolr(entiteDoc, "entiteValsLangue", entiteValLangue);
-								stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
-								entiteValsTrouves = entiteValsRecherche.find();
-							}
-						}
+//			
+//						if(methodeCommentaire != null) {
+//							Matcher entiteValsRecherche = Pattern.compile("^(entite)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+//							boolean entiteValsTrouves = entiteValsRecherche.find();
+//							while(entiteValsTrouves) {
+//								String entiteValVar = entiteValsRecherche.group(2);
+//								String entiteValLangue = entiteValsRecherche.group(3);
+//								String entiteValValeur = entiteValsRecherche.group(4);
+//								stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
+//								stockerListeSolr(entiteDoc, "entiteValsLangue", entiteValLangue);
+//								stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
+//								entiteValsTrouves = entiteValsRecherche.find();
+//							}
+//						}
 
 						clientSolrComputate.add(entiteDoc); 
 					}
