@@ -3827,10 +3827,15 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteCouverture)
 							entiteClasseQdox = bricoleur.getClassByName(entiteNomCanonique);
 
+						boolean entiteEtendPagePart = entiteNomsCanoniquesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique);
+								
 						for(String siteEcrireMethode : siteEcrireMethodes) {
 							if(entiteClasseQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
-									|| entiteClasseQdox.getMethodBySignature(siteEcrireMethode + classeNomSimple, new ArrayList<JavaType>()) != null)
+									|| entiteClasseQdox.getMethodBySignature(siteEcrireMethode + classeNomSimple, new ArrayList<JavaType>()) != null
+									|| entiteEtendPagePart && siteEcrireMethode.equals("htmlBody"))
 								indexerStockerListeSolr(entiteDoc, "entiteEcrireMethodes",  siteEcrireMethode);
+							if(entiteEtendPagePart && siteEcrireMethode.equals("htmlBody"))
+								indexerStockerListeSolr(classeLangueNom, classeDoc, "classeMethodeVars", "htmlBody" + entiteVarCapitalise);
 						}
 						
 						String entiteNomSimpleBase = null;

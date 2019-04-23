@@ -1674,10 +1674,15 @@ public class IndexClass extends WatchClassBase {
 						if(entityWrap)
 							entityClassQdox = builder.getClassByName(entityCanonicalName);
 
+						boolean entityEtendPagePart = entityCanonicalNamesSuperAndMeWithoutGen.contains(classPartsPagePart.canonicalName);
+								
 						for(String siteEcrireMethode : siteWriteMethods) {
 							if(entityClassQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
-									|| entityClassQdox.getMethodBySignature(siteEcrireMethode + classSimpleName, new ArrayList<JavaType>()) != null)
+									|| entityClassQdox.getMethodBySignature(siteEcrireMethode + classSimpleName, new ArrayList<JavaType>()) != null
+									|| entityEtendPagePart && siteEcrireMethode.equals("htmlBody"))
 								indexStoreListSolr(entityDoc, "entityWriteMethods",  siteEcrireMethode);
+							if(entityEtendPagePart && siteEcrireMethode.equals("htmlBody"))
+								indexStoreListSolr(classLangueNom, classDoc, "classMethodVars", "htmlBody" + entityVarCapitalized);
 						}
 						
 						String entitySimpleNameBase = null;

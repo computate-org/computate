@@ -14,15 +14,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
 import org.apache.commons.text.translate.EntityArrays;
-import org.apache.commons.text.translate.JavaUnicodeEscaper;
 import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
@@ -809,6 +810,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classVals
 	 */
 	ToutEcrivain classeVals;
+
+	/**
+	 * Var.enUS: entityXmlStack
+	 */
+	protected Stack<String> entiteXmlPile = new Stack<String>();
+
+	/**
+	 * Var.enUS: entityNumberStack
+	 */
+	protected Stack<Integer> entiteNumeroPile = new Stack<Integer>();
 	
 	/** 
 	 * r: wInitLoin
@@ -1442,6 +1453,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
 	 * 
+	 * r: entiteValsEcrivain
+	 * r.enUS: entityValsWriter
 	 * r: entiteValsVar
 	 * r.enUS: entityValsVar
 	 * r: entiteValsLangue
@@ -2434,6 +2447,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			l(ligneCommentaire);
 			l();
 
+			ToutEcrivain entiteValsEcrivain = ToutEcrivain.create();
 			List<String> entiteValsVar = (List<String>)doc.get("entiteValsVar_stored_strings");
 			List<String> entiteValsLangue = (List<String>)doc.get("entiteValsLangue_stored_strings");
 			List<String> entiteValsValeur = (List<String>)doc.get("entiteValsValeur_stored_strings");
@@ -2446,6 +2460,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				String entiteValVarLangueAncien = null;
 				String entiteValValeur = null;
 	
+				entiteXmlPile = new Stack<String>();
+				entiteNumeroPile = new Stack<Integer>();
 				for(int j = 0; j < entiteValsVar.size(); j++) {
 					entiteValVar = entiteValsVar.get(j);
 					entiteValLangue = entiteValsLangue.get(j);
@@ -2454,6 +2470,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					entiteValVarLangue = entiteValVar + entiteValLangue;
 					entiteValValeur = entiteValsValeur.get(j);
 	
+					Integer xmlPart = 0;
 					if(!StringUtils.equals(entiteValVarLangue, entiteValVarLangueAncien) && (StringUtils.equals(entiteValVarLangueAncien, entiteValVarAncien + langueNom))) {
 						t(1, "public static final String ", entiteVar, entiteValVarAncien, " = ");
 						for(int k = 1; k <= entiteValVarNumero; k++) {
@@ -2471,6 +2488,75 @@ public class EcrireGenClasse extends EcrireClasse {
 						if(!classeVals.getEmpty())
 							classeVals.s(", ");
 						classeVals.s(entiteVar, entiteValVar, entiteValVarNumero);
+						{
+							String[] parts = splitByCharacterTypeCamelCase(entiteValVar);
+							Boolean html = false;
+							for(Integer p = 0; p < parts.length; p++) {
+								String part = StringUtils.uncapitalize(parts[p]);
+
+								Matcher regex = Pattern.compile("^(\\w+?)(\\d*)$").matcher(part);
+								boolean trouve = regex.find();
+								if(trouve) {
+									String element = StringUtils.lowerCase(regex.group(1));
+									String numeroStr = regex.group(2);
+									Integer numero = StringUtils.isEmpty(numeroStr) ? null : Integer.parseInt(numeroStr);
+									if("h".equals(element)) {
+										element += numero;
+										numero = null;
+									}
+									if(numero == null)
+										numero = 1;
+
+//									entiteValsEcrivain.t(1);
+									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i")) {
+										html = true;
+										if(entiteXmlPile.size() < (xmlPart + 1)) {
+											if("i".equals(element))
+												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon \").f();");
+											else
+												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \"\").f();");
+
+											entiteXmlPile.push(element);
+											entiteNumeroPile.push(numero);
+											xmlPart++;
+										}
+										else if(StringUtils.equals(element, entiteXmlPile.get(xmlPart)) && numero.equals(entiteNumeroPile.get(xmlPart))) {
+											xmlPart++;
+										}
+										else {
+//										else if(!StringUtils.equals(element, entiteXmlPile.get(xmlPart))) {
+											while(entiteXmlPile.size() > xmlPart) {
+//											for(int q = entiteXmlPile.size() - 1; q >= xmlPart; q--) {
+												entiteValsEcrivain.tl(1 + entiteXmlPile.size(), "} g(\"", entiteXmlPile.peek(), "\");");
+												entiteXmlPile.pop();
+												entiteNumeroPile.pop();
+//												xmlPart--;
+											}
+//											entiteValsEcrivain.tl(2 + xmlPart, "} g(\"", entiteXmlPile.get(xmlPart), "\");");
+											entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \"\").f();");
+
+											entiteXmlPile.push(element);
+											entiteNumeroPile.push(numero);
+											xmlPart++;
+	//										entiteValsEcrivain.t(1);
+										}
+	
+	//									if(entiteXmlPile.size() < (i + 1)) {
+	//										entiteValsEcrivain.t(2 + i, "{ e(\"p\").a(\"class\", \"\").f();");
+	//										entiteValsEcrivain.t(2 + i, "} g(\"p\");");
+	//									}
+	//									else if(StringUtils)
+									}
+								}
+							}
+							if(html && !"i".equals(entiteXmlPile.peek())) {
+								Integer p = entiteXmlPile.size();
+//								entiteValsEcrivain.tl(3 + p, "{ e(\"span\").a(\"class\", \"\").f();");
+//								entiteValsEcrivain.tl(4 + p, "sx(", entiteVar, entiteValVar, entiteValVarNumero, ");");
+//								entiteValsEcrivain.tl(3 + p, "} g(\"span\");");
+								entiteValsEcrivain.tl(3 + p, "sx(", entiteVar, entiteValVar, entiteValVarNumero, ");");
+							}
+						}
 					}
 	
 					entiteValVarAncien = entiteValVar;
@@ -2493,6 +2579,11 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				}
 				l();
+
+				for(int q = entiteXmlPile.size() - 1; q >= 0; q--) {
+					entiteValsEcrivain.tl(2 + q, "} g(\"", entiteXmlPile.get(q), "\");");
+					entiteXmlPile.pop();
+				}
 			}
 
 			t(1, "/**");
@@ -3290,8 +3381,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
 					if("htmlBody".equals(classeEcrireMethode) && entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
 						tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "(", entiteNomSimpleComplet, " o) {");
-						if("Cmd".equals(entiteNomSimple)) {
+						if(entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
 							// do stuff here. 
+							if(!entiteValsEcrivain.getEmpty()) {
+								s(entiteValsEcrivain);
+							}
 						}
 						tl(1, "}");
 						tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "() {");
@@ -4430,4 +4524,44 @@ public class EcrireGenClasse extends EcrireClasse {
 		System.out.println("Ecrire: " + classeCheminGen); 
 		auteurGenClasse.flushClose();
 	}  
+
+    public String[] splitByCharacterTypeCamelCase(String str) {
+        return splitByCharacterType(str, true);
+    }
+
+    public static String[] splitByCharacterType(String str, boolean camelCase) {
+        if (str == null) {
+            return null;
+        }
+        if (str.isEmpty()) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+        final char[] c = str.toCharArray();
+        final List<String> list = new ArrayList<>();
+        int tokenStart = 0;
+        int currentType = Character.getType(c[tokenStart]);
+        for (int pos = tokenStart + 1; pos < c.length; pos++) {
+            final int type = Character.getType(c[pos]);
+            if (type == currentType) {
+                continue;
+            }
+            if (camelCase && type == Character.DECIMAL_DIGIT_NUMBER && (currentType == Character.LOWERCASE_LETTER || currentType == Character.UPPERCASE_LETTER)) {
+            	currentType = type;
+                continue;
+            }
+            if (camelCase && type == Character.LOWERCASE_LETTER && currentType == Character.UPPERCASE_LETTER) {
+                final int newTokenStart = pos - 1;
+                if (newTokenStart != tokenStart) {
+                    list.add(new String(c, tokenStart, newTokenStart - tokenStart));
+                    tokenStart = newTokenStart;
+                }
+            } else {
+                list.add(new String(c, tokenStart, pos - tokenStart));
+                tokenStart = pos;
+            }
+            currentType = type;
+        }
+        list.add(new String(c, tokenStart, c.length - tokenStart));
+        return list.toArray(new String[list.size()]);
+    }
 }

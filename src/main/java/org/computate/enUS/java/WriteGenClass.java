@@ -14,14 +14,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.exec.DefaultExecutor;
+import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
 import org.apache.commons.text.translate.EntityArrays;
-import org.apache.commons.text.translate.JavaUnicodeEscaper;
 import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
@@ -350,6 +351,10 @@ public class WriteGenClass extends WriteClass {
 	Integer searchLineActualPage;
 
 	AllWriter classVals;
+
+	protected Stack<String> entityXmlStack = new Stack<String>();
+
+	protected Stack<Integer> entityNumberStack = new Stack<Integer>();
 
 	public void  genCodeInit() throws Exception, Exception {
 
@@ -1096,6 +1101,7 @@ public class WriteGenClass extends WriteClass {
 			l(commentLine);
 			l();
 
+			AllWriter entityValsEcrivain = AllWriter.create();
 			List<String> entityValsVar = (List<String>)doc.get("entityValsVar_stored_strings");
 			List<String> entityValsLangue = (List<String>)doc.get("entityValsLangue_stored_strings");
 			List<String> entityValsValeur = (List<String>)doc.get("entityValsValeur_stored_strings");
@@ -1108,6 +1114,8 @@ public class WriteGenClass extends WriteClass {
 				String entityValVarLangueAncien = null;
 				String entityValValeur = null;
 	
+				entityXmlPile = new Stack<String>();
+				entityNumeroPile = new Stack<Integer>();
 				for(int j = 0; j < entityValsVar.size(); j++) {
 					entityValVar = entityValsVar.get(j);
 					entityValLangue = entityValsLangue.get(j);
@@ -1116,6 +1124,7 @@ public class WriteGenClass extends WriteClass {
 					entityValVarLangue = entityValVar + entityValLangue;
 					entityValValeur = entityValsValeur.get(j);
 	
+					Integer xmlPart = 0;
 					if(!StringUtils.equals(entityValVarLangue, entityValVarLangueAncien) && (StringUtils.equals(entityValVarLangueAncien, entityValVarAncien + languageName))) {
 						t(1, "public static final String ", entityVar, entityValVarAncien, " = ");
 						for(int k = 1; k <= entityValVarNumero; k++) {
@@ -1133,6 +1142,75 @@ public class WriteGenClass extends WriteClass {
 						if(!classeVals.getEmpty())
 							classeVals.s(", ");
 						classeVals.s(entityVar, entityValVar, entityValVarNumero);
+						{
+							String[] parts = splitByCharacterTypeCamelCase(entityValVar);
+							Boolean html = false;
+							for(Integer p = 0; p < parts.length; p++) {
+								String part = StringUtils.uncapitalize(parts[p]);
+
+								Matcher regex = Pattern.compile("^(\\w+?)(\\d*)$").matcher(part);
+								boolean trouve = regex.find();
+								if(trouve) {
+									String element = StringUtils.lowerCase(regex.group(1));
+									String numeroStr = regex.group(2);
+									Integer numero = StringUtils.isEmpty(numeroStr) ? null : Integer.parseInt(numeroStr);
+									if("h".equals(element)) {
+										element += numero;
+										numero = null;
+									}
+									if(numero == null)
+										numero = 1;
+
+//									entityValsEcrivain.t(1);
+									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i")) {
+										html = true;
+										if(entityXmlPile.size() < (xmlPart + 1)) {
+											if("i".equals(element))
+												entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entityVar, entityValVar, entityValVarNumero, ", \" site-menu-icon \").f();");
+											else
+												entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \"\").f();");
+
+											entityXmlPile.push(element);
+											entityNumeroPile.push(numero);
+											xmlPart++;
+										}
+										else if(StringUtils.equals(element, entityXmlPile.get(xmlPart)) && numero.equals(entityNumeroPile.get(xmlPart))) {
+											xmlPart++;
+										}
+										else {
+//										else if(!StringUtils.equals(element, entityXmlPile.get(xmlPart))) {
+											while(entityXmlPile.size() > xmlPart) {
+//											for(int q = entityXmlPile.size() - 1; q >= xmlPart; q--) {
+												entityValsEcrivain.tl(1 + entityXmlPile.size(), "} g(\"", entityXmlPile.peek(), "\");");
+												entityXmlPile.pop();
+												entityNumeroPile.pop();
+//												xmlPart--;
+											}
+//											entityValsEcrivain.tl(2 + xmlPart, "} g(\"", entityXmlPile.get(xmlPart), "\");");
+											entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \"\").f();");
+
+											entityXmlPile.push(element);
+											entityNumeroPile.push(numero);
+											xmlPart++;
+	//										entityValsEcrivain.t(1);
+										}
+	
+	//									if(entityXmlPile.size() < (i + 1)) {
+	//										entityValsEcrivain.t(2 + i, "{ e(\"p\").a(\"class\", \"\").f();");
+	//										entityValsEcrivain.t(2 + i, "} g(\"p\");");
+	//									}
+	//									else if(StringUtils)
+									}
+								}
+							}
+							if(html && !"i".equals(entityXmlPile.peek())) {
+								Integer p = entityXmlPile.size();
+//								entityValsEcrivain.tl(3 + p, "{ e(\"span\").a(\"class\", \"\").f();");
+//								entityValsEcrivain.tl(4 + p, "sx(", entityVar, entityValVar, entityValVarNumero, ");");
+//								entityValsEcrivain.tl(3 + p, "} g(\"span\");");
+								entityValsEcrivain.tl(3 + p, "sx(", entityVar, entityValVar, entityValVarNumero, ");");
+							}
+						}
 					}
 	
 					entityValVarAncien = entityValVar;
@@ -1155,6 +1233,11 @@ public class WriteGenClass extends WriteClass {
 					}
 				}
 				l();
+
+				for(int q = entityXmlPile.size() - 1; q >= 0; q--) {
+					entityValsEcrivain.tl(2 + q, "} g(\"", entityXmlPile.get(q), "\");");
+					entityXmlPile.pop();
+				}
 			}
 
 			t(1, "/**");
@@ -1952,8 +2035,11 @@ public class WriteGenClass extends WriteClass {
 				if(entityWriteMethods.contains(classWriteMethod)) {
 					if("htmlBody".equals(classWriteMethod) && entityClassesSuperEtMoiSansGen.contains(classPartsPagePart.canonicalName)) {
 						tl(1, "public void ", classWriteMethod, entityVarCapitalized, "(", entitySimpleNameComplete, " o) {");
-						if("Cmd".equals(entitySimpleName)) {
+						if(entityClassesSuperEtMoiSansGen.contains(classPartsPagePart.canonicalName)) {
 							// do stuff here. 
+							if(!entityValsEcrivain.getEmpty()) {
+								s(entityValsEcrivain);
+							}
 						}
 						tl(1, "}");
 						tl(1, "public void ", classWriteMethod, entityVarCapitalized, "() {");
@@ -2938,4 +3024,44 @@ public class WriteGenClass extends WriteClass {
 		System.out.println("Write: " + classPathGen); 
 		writerGenClass.flushClose();
 	}
+
+	public String[] splitByCharacterTypeCamelCase(String str) {
+        return splitByCharacterType(str, true);
+    }
+
+	public static String[] splitByCharacterType(String str, boolean camelCase) {
+        if (str == null) {
+            return null;
+        }
+        if (str.isEmpty()) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+        final char[] c = str.toCharArray();
+        final List<String> list = new ArrayList<>();
+        int tokenStart = 0;
+        int currentType = Character.getType(c[tokenStart]);
+        for (int pos = tokenStart + 1; pos < c.length; pos++) {
+            final int type = Character.getType(c[pos]);
+            if (type == currentType) {
+                continue;
+            }
+            if (camelCase && type == Character.DECIMAL_DIGIT_NUMBER && (currentType == Character.LOWERCASE_LETTER || currentType == Character.UPPERCASE_LETTER)) {
+            	currentType = type;
+                continue;
+            }
+            if (camelCase && type == Character.LOWERCASE_LETTER && currentType == Character.UPPERCASE_LETTER) {
+                final int newTokenStart = pos - 1;
+                if (newTokenStart != tokenStart) {
+                    list.add(new String(c, tokenStart, newTokenStart - tokenStart));
+                    tokenStart = newTokenStart;
+                }
+            } else {
+                list.add(new String(c, tokenStart, pos - tokenStart));
+                tokenStart = pos;
+            }
+            currentType = type;
+        }
+        list.add(new String(c, tokenStart, c.length - tokenStart));
+        return list.toArray(new String[list.size()]);
+    }
 }
