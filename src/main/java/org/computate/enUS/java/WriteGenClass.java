@@ -1079,7 +1079,7 @@ public class WriteGenClass extends WriteClass {
 				entityWriteMethods = new ArrayList<>();
 			for(int i = 0; i < classWriteMethods.size(); i++) {
 				String classWriteMethod = classWriteMethods.get(i);
-				if(entityWriteMethods.contains(classWriteMethod)) {
+				if(entitySimpleNameCompleteGeneric == null && entityWriteMethods.contains(classWriteMethod)) {
 					AllWriter w = classWriteWriters.get(i);
 					String var = classWriteMethod + entityVarCapitalized;
 					if(classMethodVars.contains(var)) {
@@ -1158,17 +1158,30 @@ public class WriteGenClass extends WriteClass {
 										element += numero;
 										numero = null;
 									}
-									if(numero == null)
-										numero = 1;
 
 //									entityValsEcrivain.t(1);
-									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i")) {
+									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th")) {
 										html = true;
+
+										String css = entityVar;
+										for(Integer r = 0; r <= xmlPart; r++) {
+											String s = parts[r];
+											css += s;
+										}
+										css += " ";
+
+										String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(css, numero.toString()) + (numero % 2 == 0 ? " even " : " odd "));
+
+										if(numero == null)
+											numero = 1;
+
 										if(entityXmlPile.size() < (xmlPart + 1)) {
 											if("i".equals(element))
-												entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entityVar, entityValVar, entityValVarNumero, ", \" site-menu-icon \").f();");
+												entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entityVar, entityValVar, entityValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
+											else if("a".equals(element))
+												entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entityVar, entityValVar, entityValVarNumero, ").f();");
 											else
-												entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \"\").f();");
+												entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
 
 											entityXmlPile.push(element);
 											entityNumeroPile.push(numero);
@@ -1187,7 +1200,7 @@ public class WriteGenClass extends WriteClass {
 //												xmlPart--;
 											}
 //											entityValsEcrivain.tl(2 + xmlPart, "} g(\"", entityXmlPile.get(xmlPart), "\");");
-											entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \"\").f();");
+											entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
 
 											entityXmlPile.push(element);
 											entityNumeroPile.push(numero);
@@ -1196,7 +1209,7 @@ public class WriteGenClass extends WriteClass {
 										}
 	
 	//									if(entityXmlPile.size() < (i + 1)) {
-	//										entityValsEcrivain.t(2 + i, "{ e(\"p\").a(\"class\", \"\").f();");
+	//										entityValsEcrivain.t(2 + i, "{ e(\"p\").a(\"class\", \" ", css, cssNumero, "\").f();");
 	//										entityValsEcrivain.t(2 + i, "} g(\"p\");");
 	//									}
 	//									else if(StringUtils)
@@ -1205,10 +1218,7 @@ public class WriteGenClass extends WriteClass {
 							}
 							if(html && !"i".equals(entityXmlPile.peek())) {
 								Integer p = entityXmlPile.size();
-//								entityValsEcrivain.tl(3 + p, "{ e(\"span\").a(\"class\", \"\").f();");
-//								entityValsEcrivain.tl(4 + p, "sx(", entityVar, entityValVar, entityValVarNumero, ");");
-//								entityValsEcrivain.tl(3 + p, "} g(\"span\");");
-								entityValsEcrivain.tl(3 + p, "sx(", entityVar, entityValVar, entityValVarNumero, ");");
+								entityValsEcrivain.tl(2 + p, "sx(", entityVar, entityValVar, entityValVarNumero, ");");
 							}
 						}
 					}
@@ -2033,7 +2043,7 @@ public class WriteGenClass extends WriteClass {
 
 			for(String classWriteMethod : new String[] { "htmlBody" }) {
 				if(entityWriteMethods.contains(classWriteMethod)) {
-					if("htmlBody".equals(classWriteMethod) && entityClassesSuperEtMoiSansGen.contains(classPartsPagePart.canonicalName)) {
+					if(entitySimpleNameCompleteGeneric == null && "htmlBody".equals(classWriteMethod) && entityClassesSuperEtMoiSansGen.contains(classPartsPagePart.canonicalName)) {
 						tl(1, "public void ", classWriteMethod, entityVarCapitalized, "(", entitySimpleNameComplete, " o) {");
 						if(entityClassesSuperEtMoiSansGen.contains(classPartsPagePart.canonicalName)) {
 							// do stuff here. 

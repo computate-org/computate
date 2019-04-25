@@ -1681,8 +1681,11 @@ public class IndexClass extends WatchClassBase {
 									|| entityClassQdox.getMethodBySignature(siteEcrireMethode + classSimpleName, new ArrayList<JavaType>()) != null
 									|| entityEtendPagePart && siteEcrireMethode.equals("htmlBody"))
 								indexStoreListSolr(entityDoc, "entityWriteMethods",  siteEcrireMethode);
-							if(entityEtendPagePart && siteEcrireMethode.equals("htmlBody"))
-								indexStoreListSolr(classLangueNom, classDoc, "classMethodVars", "htmlBody" + entityVarCapitalized);
+							if(entityEtendPagePart && siteEcrireMethode.equals("htmlBody")) {
+								for(String languageName : toutesLangues) {
+									indexStoreListSolr(languageName, classDoc, "classMethodVars", "htmlBody" + entityVarCapitalized);
+								}
+							}
 						}
 						
 						String entitySimpleNameBase = null;

@@ -3834,8 +3834,11 @@ public class IndexerClasse extends RegarderClasseBase {
 									|| entiteClasseQdox.getMethodBySignature(siteEcrireMethode + classeNomSimple, new ArrayList<JavaType>()) != null
 									|| entiteEtendPagePart && siteEcrireMethode.equals("htmlBody"))
 								indexerStockerListeSolr(entiteDoc, "entiteEcrireMethodes",  siteEcrireMethode);
-							if(entiteEtendPagePart && siteEcrireMethode.equals("htmlBody"))
-								indexerStockerListeSolr(classeLangueNom, classeDoc, "classeMethodeVars", "htmlBody" + entiteVarCapitalise);
+							if(entiteEtendPagePart && siteEcrireMethode.equals("htmlBody")) {
+								for(String langueNom : toutesLangues) {
+									indexerStockerListeSolr(langueNom, classeDoc, "classeMethodeVars", "htmlBody" + entiteVarCapitalise);
+								}
+							}
 						}
 						
 						String entiteNomSimpleBase = null;

@@ -2425,7 +2425,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				entiteEcrireMethodes = new ArrayList<>();
 			for(int i = 0; i < classeEcrireMethodes.size(); i++) {
 				String classeEcrireMethode = classeEcrireMethodes.get(i);
-				if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
+				if(entiteNomSimpleCompletGenerique == null && entiteEcrireMethodes.contains(classeEcrireMethode)) {
 					ToutEcrivain w = classeEcrireEcrivains.get(i);
 					String var = classeEcrireMethode + entiteVarCapitalise;
 					if(classeMethodeVars.contains(var)) {
@@ -2504,17 +2504,30 @@ public class EcrireGenClasse extends EcrireClasse {
 										element += numero;
 										numero = null;
 									}
-									if(numero == null)
-										numero = 1;
 
 //									entiteValsEcrivain.t(1);
-									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i")) {
+									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th")) {
 										html = true;
+
+										String css = entiteVar;
+										for(Integer r = 0; r <= xmlPart; r++) {
+											String s = parts[r];
+											css += s;
+										}
+										css += " ";
+
+										String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(css, numero.toString()) + (numero % 2 == 0 ? " even " : " odd "));
+
+										if(numero == null)
+											numero = 1;
+
 										if(entiteXmlPile.size() < (xmlPart + 1)) {
 											if("i".equals(element))
-												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon \").f();");
+												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
+											else if("a".equals(element))
+												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entiteVar, entiteValVar, entiteValVarNumero, ").f();");
 											else
-												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \"\").f();");
+												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
 
 											entiteXmlPile.push(element);
 											entiteNumeroPile.push(numero);
@@ -2533,7 +2546,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //												xmlPart--;
 											}
 //											entiteValsEcrivain.tl(2 + xmlPart, "} g(\"", entiteXmlPile.get(xmlPart), "\");");
-											entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \"\").f();");
+											entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
 
 											entiteXmlPile.push(element);
 											entiteNumeroPile.push(numero);
@@ -2542,7 +2555,7 @@ public class EcrireGenClasse extends EcrireClasse {
 										}
 	
 	//									if(entiteXmlPile.size() < (i + 1)) {
-	//										entiteValsEcrivain.t(2 + i, "{ e(\"p\").a(\"class\", \"\").f();");
+	//										entiteValsEcrivain.t(2 + i, "{ e(\"p\").a(\"class\", \" ", css, cssNumero, "\").f();");
 	//										entiteValsEcrivain.t(2 + i, "} g(\"p\");");
 	//									}
 	//									else if(StringUtils)
@@ -2551,10 +2564,7 @@ public class EcrireGenClasse extends EcrireClasse {
 							}
 							if(html && !"i".equals(entiteXmlPile.peek())) {
 								Integer p = entiteXmlPile.size();
-//								entiteValsEcrivain.tl(3 + p, "{ e(\"span\").a(\"class\", \"\").f();");
-//								entiteValsEcrivain.tl(4 + p, "sx(", entiteVar, entiteValVar, entiteValVarNumero, ");");
-//								entiteValsEcrivain.tl(3 + p, "} g(\"span\");");
-								entiteValsEcrivain.tl(3 + p, "sx(", entiteVar, entiteValVar, entiteValVarNumero, ");");
+								entiteValsEcrivain.tl(2 + p, "sx(", entiteVar, entiteValVar, entiteValVarNumero, ");");
 							}
 						}
 					}
@@ -3379,7 +3389,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			for(String classeEcrireMethode : new String[] { "htmlBody" }) {
 				if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
-					if("htmlBody".equals(classeEcrireMethode) && entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
+					if(entiteNomSimpleCompletGenerique == null && "htmlBody".equals(classeEcrireMethode) && entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
 						tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "(", entiteNomSimpleComplet, " o) {");
 						if(entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
 							// do stuff here. 
