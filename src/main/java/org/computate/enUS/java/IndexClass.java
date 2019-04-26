@@ -127,109 +127,109 @@ public class IndexClass extends WatchClassBase {
 
 	ClassParts classPartsPagePart;
 
-	String CONTEXTE_frFR_UnMasculin = "un ";
+	String CONTEXT_frFR_AMale = "un ";
 
-	String CONTEXTE_frFR_UneFeminin = "une ";
+	String CONTEXT_frFR_AFemale = "une ";
 
-	String CONTEXTE_enUS_Une = "an ";
+	String CONTEXT_enUS_A = "an ";
 
-	String CONTEXTE_frFR_CetMasculinVoyelle = "cet ";
+	String CONTEXT_frFR_ThisMaleVowel = "cet ";
 
-	String CONTEXTE_frFR_CetteFemininVoyelle = "cette ";
+	String CONTEXT_frFR_ThisFemaleVowel = "cette ";
 
-	String CONTEXTE_enUS_CetteVoyelle = "this ";
+	String CONTEXT_enUS_ThisVowel = "this ";
 
-	String CONTEXTE_frFR_CeMasculinConsonne = "ce ";
+	String CONTEXT_frFR_ThisMaleConsonant = "ce ";
 
-	String CONTEXTE_frFR_CetteFemininConsonne = "cette ";
+	String CONTEXT_frFR_ThisFemaleConsonant = "cette ";
 
-	String CONTEXTE_enUS_CetteConsonne = "this ";
+	String CONTEXT_enUS_ThisConsonant = "this ";
 
-	String CONTEXTE_frFR_CesPluriel = "ces ";
+	String CONTEXT_frFR_ThesePlural = "ces ";
 
-	String CONTEXTE_enUS_CesPluriel = "these ";
+	String CONTEXT_enUS_ThesePlural = "these ";
 
-	String CONTEXTE_frFR_CreeMasculin = "créé ";
+	String CONTEXT_frFR_CreatedMale = "créé ";
 
-	String CONTEXTE_frFR_CreeeFeminin = "créée ";
+	String CONTEXT_frFR_CreatedFemale = "créée ";
 
-	String CONTEXTE_enUS_Creee = "created ";
+	String CONTEXT_enUS_Created = "created ";
 
-	String CONTEXTE_frFR_ModifieMasculin = "modifié ";
+	String CONTEXT_frFR_ModifiedMale = "modifié ";
 
-	String CONTEXTE_frFR_ModifieeFeminin = "modifiée ";
+	String CONTEXT_frFR_ModifiedFemale = "modifiée ";
 
-	String CONTEXTE_enUS_Modifiee = "modified ";
+	String CONTEXT_enUS_Modified = "modified ";
 
-	String CONTEXTE_frFR_LMasculinVoyelle = "l'";
+	String CONTEXT_frFR_TheMaleVowel = "l'";
 
-	String CONTEXTE_frFR_LFemininVoyelle = "l'";
+	String CONTEXT_frFR_TheFemaleVowel = "l'";
 
-	String CONTEXTE_enUS_LVoyelle = "the";
+	String CONTEXT_enUS_TheVowel = "the";
 
-	String CONTEXTE_frFR_LeMasculinConsonne = "le ";
+	String CONTEXT_frFR_TheMaleConsonant = "le ";
 
-	String CONTEXTE_frFR_LaFemininConsonne = "la ";
+	String CONTEXT_frFR_TheFemaleConsonant = "la ";
 
-	String CONTEXTE_enUS_LaConsonne = "the ";
+	String CONTEXT_enUS_TheConsonant = "the ";
 
-	String CONTEXTE_frFR_LesPluriel = "les ";
+	String CONTEXT_frFR_ThePlural = "les ";
 
-	String CONTEXTE_enUS_LesPluriel = "the ";
+	String CONTEXT_enUS_ThePlural = "the ";
 
-	String CONTEXTE_frFR_Rechercher = "rechercher ";
+	String CONTEXT_frFR_Search = "rechercher ";
 
-	String CONTEXTE_enUS_Rechercher = "search ";
+	String CONTEXT_enUS_Search = "search ";
 
-	String CONTEXTE_frFR_Par = " par ";
+	String CONTEXT_frFR_By = " par ";
 
-	String CONTEXTE_enUS_Par = " by ";
+	String CONTEXT_enUS_By = " by ";
 
-	String CONTEXTE_frFR_ActuelMasculinAvant = "";
+	String CONTEXT_frFR_CurrentMaleBefore = "";
 
-	String CONTEXTE_frFR_ActuelleFemininAvant = "";
+	String CONTEXT_frFR_CurrentFemaleBefore = "";
 
-	String CONTEXTE_enUS_ActuelleAvant = "current ";
+	String CONTEXT_enUS_CurrentBefore = "current ";
 
-	String CONTEXTE_frFR_ActuelMasculinApres = " actuel";
+	String CONTEXT_frFR_CurrentMaleAfter = " actuel";
 
-	String CONTEXTE_frFR_ActuelleFemininApres = " actuelle";
+	String CONTEXT_frFR_CurrentFemaleAfter = " actuelle";
 
-	String CONTEXTE_enUS_ActuelleApres = "";
+	String CONTEXT_enUS_CurrentAfter = "";
 
-	String CONTEXTE_frFR_TousMasculinPluriel = "tous les ";
+	String CONTEXT_frFR_AllMalePlural = "tous les ";
 
-	String CONTEXTE_frFR_ToutesFemininPluriel = "toutes les ";
+	String CONTEXT_frFR_AllFemalePlural = "toutes les ";
 
-	String CONTEXTE_enUS_ToutesPluriel = "all the ";
+	String CONTEXT_enUS_AllPlural = "all the ";
 
-	String CONTEXTE_frFR_AucunTrouveMasculinAvant = "aucun ";
+	String CONTEXT_frFR_NoneFoundMaleBefore = "aucun ";
 
-	String CONTEXTE_frFR_AucuneTrouveFemininAvant = "aucune ";
+	String CONTEXT_frFR_NoneFoundFemaleBefore = "aucune ";
 
-	String CONTEXTE_enUS_AucuneTrouveAvant = "no ";
+	String CONTEXT_enUS_NoneFoundBefore = "no ";
 
-	String CONTEXTE_frFR_AucunTrouveMasculinApres = " trouvé";
+	String CONTEXT_frFR_NoneFoundMaleAfter = " trouvé";
 
-	String CONTEXTE_frFR_AucuneTrouveFemininApres = " trouvée";
+	String CONTEXT_frFR_NoneFoundFemaleAfter = " trouvée";
 
-	String CONTEXTE_enUS_AucuneTrouveApres = " found";
+	String CONTEXT_enUS_NoneFoundAfter = " found";
 
-	String CONTEXTE_frFR_DVoyelle = "d'";
+	String CONTEXT_frFR_OfVowel = "d'";
 
-	String CONTEXTE_enUS_DVoyelle = "of ";
+	String CONTEXT_enUS_OfVowel = "of ";
 
-	String CONTEXTE_frFR_DeConsonne = "de ";
+	String CONTEXT_frFR_OfConsonant = "de ";
 
-	String CONTEXTE_enUS_DeConsonne = "of ";
+	String CONTEXT_enUS_OfConsonant = "of ";
 
-	String CONTEXTE_frFR_AdjectifPluriel = "s";
+	String CONTEXT_frFR_AdjectivePlural = "s";
 
-	String CONTEXTE_enUS_AdjectifPluriel = "";
+	String CONTEXT_enUS_AdjectivePlural = "";
 
-	Boolean CONTEXTE_frFR_AdjectifAvant = false;
+	Boolean CONTEXT_frFR_AdjectiveBefore = false;
 
-	Boolean CONTEXTE_enUS_AdjectifAvant = true;
+	Boolean CONTEXT_enUS_AdjectiveBefore = true;
 
 	protected LinkedHashMap<String, ClassParts> classPartsGenApi = new LinkedHashMap<String, ClassParts>();
 
@@ -267,7 +267,7 @@ public class IndexClass extends WatchClassBase {
 
 	private String contextTheNames;
 
-	private String contextNoneNameFound;
+	private String contextNoNameFound;
 
 	private String contextNameVar;
 
@@ -331,7 +331,7 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected Boolean storeSolr(String langueNom, SolrInputDocument fieldName, String languageName, Boolean fieldValue) throws Exception, Exception {
+	protected Boolean storeSolr(String languageName, SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_boolean"), fieldValue);
 		}
@@ -353,21 +353,21 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected String storeSolr(String langueNom, SolrInputDocument fieldName, String languageName, String fieldValue) throws Exception, Exception {
+	protected String storeSolr(String languageName, SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_string"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected String storeListSolr(String langueNom, SolrInputDocument fieldName, String languageName, String fieldValue) throws Exception, Exception {
+	protected String storeListSolr(String languageName, SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_strings"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected List<String> storeSolr(String langueNom, SolrInputDocument fieldName, String languageName, List<String> fieldValues) throws Exception, Exception {
+	protected List<String> storeSolr(String languageName, SolrInputDocument doc, String fieldName, List<String> fieldValues) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			for(String fieldValue : fieldValues) {
 				doc.addField(concat(fieldName, "_", languageName, "_stored_strings"), fieldValue);
@@ -391,7 +391,7 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected Boolean indexSolr(String langueNom, SolrInputDocument fieldName, String languageName, Boolean fieldValue) throws Exception, Exception {
+	protected Boolean indexSolr(String languageName, SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_string"), fieldValue);
 		}
@@ -403,21 +403,21 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected String indexSolr(String langueNom, SolrInputDocument fieldName, String languageName, String fieldValue) throws Exception, Exception {
+	protected String indexSolr(String languageName, SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_string"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected String indexListSolr(String langueNom, SolrInputDocument fieldName, String languageName, String fieldValue) throws Exception, Exception {
+	protected String indexListSolr(String languageName, SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_strings"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected List<String> indexSolr(String langueNom, SolrInputDocument fieldName, String languageName, List<String> fieldValues) throws Exception, Exception {
+	protected List<String> indexSolr(String languageName, SolrInputDocument doc, String fieldName, List<String> fieldValues) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			for(String fieldValue : fieldValues) {
 				doc.addField(concat(fieldName, "_", languageName, "_indexed_strings"), fieldValue);
@@ -450,34 +450,34 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected Long indexStoreSolr(String langueNom, SolrInputDocument fieldName, String fieldValue, Long valeurChamp) throws Exception, Exception {
-		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
-			doc.addField(concat(fieldName, "_", langueNom, "_stored_long"), fieldValue);
-			doc.addField(concat(fieldName, "_", langueNom, "_indexed_long"), fieldValue);
+	protected Long indexStoreSolr(String languageName, SolrInputDocument doc, String fieldName, Long fieldValue) throws Exception, Exception {
+		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
+			doc.addField(concat(fieldName, "_", languageName, "_stored_long"), fieldValue);
+			doc.addField(concat(fieldName, "_", languageName, "_indexed_long"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected Double indexStoreSolr(String langueNom, SolrInputDocument fieldName, String fieldValue, Double valeurChamp) throws Exception, Exception {
-		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
-			doc.addField(concat(fieldName, "_", langueNom, "_stored_double"), fieldValue);
-			doc.addField(concat(fieldName, "_", langueNom, "_indexed_double"), fieldValue);
+	protected Double indexStoreSolr(String languageName, SolrInputDocument doc, String fieldName, Double fieldValue) throws Exception, Exception {
+		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
+			doc.addField(concat(fieldName, "_", languageName, "_stored_double"), fieldValue);
+			doc.addField(concat(fieldName, "_", languageName, "_indexed_double"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected Integer indexStoreSolr(String langueNom, SolrInputDocument fieldName, String fieldValue, Integer valeurChamp) throws Exception, Exception {
-		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
-			doc.addField(concat(fieldName, "_", langueNom, "_stored_int"), fieldValue);
-			doc.addField(concat(fieldName, "_", langueNom, "_indexed_int"), fieldValue);
+	protected Integer indexStoreSolr(String languageName, SolrInputDocument doc, String fieldName, Integer fieldValue) throws Exception, Exception {
+		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
+			doc.addField(concat(fieldName, "_", languageName, "_stored_int"), fieldValue);
+			doc.addField(concat(fieldName, "_", languageName, "_indexed_int"), fieldValue);
 		}
 		return fieldValue;
 	}
 
-	protected Boolean indexStoreSolr(String langueNom, SolrInputDocument fieldName, String fieldValue, Boolean valeurChamp) throws Exception, Exception {
-		if(langueIndexe || !StringUtils.equals(langueNom, this.langueNom)) {
-			doc.addField(concat(fieldName, "_", langueNom, "_stored_boolean"), fieldValue);
-			doc.addField(concat(fieldName, "_", langueNom, "_indexed_boolean"), fieldValue);
+	protected Boolean indexStoreSolr(String languageName, SolrInputDocument doc, String fieldName, Boolean fieldValue) throws Exception, Exception {
+		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
+			doc.addField(concat(fieldName, "_", languageName, "_stored_boolean"), fieldValue);
+			doc.addField(concat(fieldName, "_", languageName, "_indexed_boolean"), fieldValue);
 		}
 		return fieldValue;
 	}
@@ -494,11 +494,11 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected String indexStoreSolrRegex(String langueNom, SolrInputDocument languageName, String fieldName, String fieldNameRegex, String comment) throws Exception, Exception {
+	protected String indexStoreSolrRegex(String languageName, SolrInputDocument doc, String fieldName, String fieldNameRegex, String comment) throws Exception, Exception {
 		return indexStoreSolrRegex(languageName, doc, fieldName, fieldNameRegex, comment, null);
 	}
 
-	protected String indexStoreSolrRegex(String langueNom, SolrInputDocument languageName, String fieldName, String fieldNameRegex, String comment, String defaultValue) throws Exception, Exception {
+	protected String indexStoreSolrRegex(String languageName, SolrInputDocument doc, String fieldName, String fieldNameRegex, String comment, String defaultValue) throws Exception, Exception {
 		String fieldValue = null;
 		if(fieldNameRegex != null && comment != null) {
 			Matcher m = Pattern.compile("^" + fieldNameRegex + "(." + languageName + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(comment);
@@ -544,7 +544,7 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected String indexStoreSolr(String langueNom, SolrInputDocument fieldName, String languageName, String fieldValue) throws Exception, Exception {
+	protected String indexStoreSolr(String languageName, SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_string"), fieldValue);
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_string"), fieldValue);
@@ -552,7 +552,7 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected String indexStoreListSolr(String langueNom, SolrInputDocument fieldName, String languageName, String fieldValue) throws Exception, Exception {
+	protected String indexStoreListSolr(String languageName, SolrInputDocument doc, String fieldName, String fieldValue) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			doc.addField(concat(fieldName, "_", languageName, "_stored_strings"), fieldValue);
 			doc.addField(concat(fieldName, "_", languageName, "_indexed_strings"), fieldValue);
@@ -560,7 +560,7 @@ public class IndexClass extends WatchClassBase {
 		return fieldValue;
 	}
 
-	protected List<String> indexStoreSolr(String langueNom, SolrInputDocument fieldName, String languageName, List<String> fieldValues) throws Exception, Exception {
+	protected List<String> indexStoreSolr(String languageName, SolrInputDocument doc, String fieldName, List<String> fieldValues) throws Exception, Exception {
 		if(languageIndexed || !StringUtils.equals(languageName, this.languageName)) {
 			for(String fieldValue : fieldValues) {
 				doc.addField(concat(fieldName, "_", languageName, "_stored_strings"), fieldValue);
@@ -668,7 +668,7 @@ public class IndexClass extends WatchClassBase {
 		return classPartsForSimpleName(domainPackageName, "PagePart", classeLangueNom);
 	}
 
-	public String storeRegexComments(String comment, SolrInputDocument languageName, String varEntite, String entityVar) throws Exception, Exception {
+	public String storeRegexComments(String languageName, SolrInputDocument doc, String comment, String entityVar) throws Exception, Exception {
 		if(!StringUtils.isEmpty(comment)) {
 			Matcher m = Pattern.compile("^(enUS|frFR): (.*)", Pattern.MULTILINE).matcher(comment);
 			boolean found = m.find();
@@ -703,9 +703,9 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenPage.put(classParts.canonicalName, classParts);
 	}
 
-	public SolrInputDocument indexClass(String classAbsolutePath, SolrInputDocument classDoc, String classeLangueNom) throws Exception, Exception { 
+	public SolrInputDocument indexClass(String classAbsolutePath, SolrInputDocument classDoc, String classLanguageName) throws Exception, Exception { 
 
-		String[] classOtherLanguages = ArrayUtils.removeAllOccurences(toutesLangues, classLangueNom);
+		String[] classOtherLanguages = ArrayUtils.removeAllOccurences(allLanguages, classLanguageName);
 		String classCanonicalName = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classAbsolutePath, "."), srcMainJavaPath + "/"), "/", ".");
 		String classSimpleName = StringUtils.substringAfterLast(classCanonicalName, ".");
 		String classCanonicalNameGen = classCanonicalName + "Gen";
@@ -751,19 +751,17 @@ public class IndexClass extends WatchClassBase {
 				storeListSolr(classDoc, "classSuperTypeParametersNom", classSuperTypeParameterName);
 			}
 		}
-//		classTypeParameters.get(0).getGenericFullyQualifiedName(); // returns <DEV>
-//		classQdox.getSuperClass().getGenericCanonicalName(); // returns WrapGen<DEV>
 		
 		String classSuperCompleteName = Object.class.getCanonicalName();
 		try {
-			classSuperCompleteName = indexStoreSolr(classLangueNom, classDoc, "classSuperCompleteName", classSuperQdox.getGenericCanonicalName());
+			classSuperCompleteName = indexStoreSolr(classLanguageName, classDoc, "classSuperCompleteName", classSuperQdox.getGenericCanonicalName());
 		} catch (Exception e) {
 			if(classSuperQdox != null && classSuperQdox.getGenericFullyQualifiedName().contains("<"))
-				classSuperCompleteName = indexStoreSolr(classLangueNom, classDoc, "classSuperCompleteName", classSuperQdox.getGenericFullyQualifiedName());
+				classSuperCompleteName = indexStoreSolr(classLanguageName, classDoc, "classSuperCompleteName", classSuperQdox.getGenericFullyQualifiedName());
 		}
 		for(JavaClass cImplements : classQdox.getImplementedInterfaces()) {
-			ClassParts classPartsImplements = ClassParts.initClassParts(this, cImplements, classLangueNom);
-			indexStoreListSolr(classLangueNom, classDoc, "classImplementsSimpleNameComplete", classPartsImplements.simpleNameComplete);
+			ClassParts classPartsImplements = ClassParts.initClassParts(this, cImplements, classLanguageName);
+			indexStoreListSolr(classLanguageName, classDoc, "classImplementsSimpleNameComplete", classPartsImplements.simpleNameComplete);
 		}
 
 		String classSuperCompleteNameGeneric = StringUtils.substringBeforeLast(StringUtils.substringAfter(classSuperCompleteName, "<"), ">");
@@ -771,20 +769,20 @@ public class IndexClass extends WatchClassBase {
 		String classSuperSimpleNameGeneric = null;
 		Boolean baseClassExtendsGen = false;
 		if(StringUtils.isNotEmpty(classSuperCompleteName)) {
-			indexStoreSolr(classLangueNom, classDoc, "classSuperCompleteNameGeneric", classSuperCompleteNameGeneric);
+			indexStoreSolr(classLanguageName, classDoc, "classSuperCompleteNameGeneric", classSuperCompleteNameGeneric);
 			if(classSuperCompleteName.contains("<")) {
 				classSuperCanonicalNameGeneric = StringUtils.substringAfter(StringUtils.substringBeforeLast(classSuperCompleteName, ">"), "<");
 				classSuperCanonicalNameGeneric = classSuperCanonicalNameGeneric.contains(",") ? StringUtils.substringBefore(classSuperCanonicalNameGeneric, ",") : classSuperCanonicalNameGeneric;
-				indexStoreSolr(classLangueNom, classDoc, "classSuperCanonicalNameGeneric", classSuperCanonicalNameGeneric);
+				indexStoreSolr(classLanguageName, classDoc, "classSuperCanonicalNameGeneric", classSuperCanonicalNameGeneric);
 				classSuperCompleteNameGeneric = classSuperCanonicalNameGeneric;
 
 				if(classSuperCanonicalNameGeneric.contains("."))
 					classSuperSimpleNameGeneric = StringUtils.substringAfterLast(classSuperCanonicalNameGeneric, ".");
 				else
 					classSuperSimpleNameGeneric = classSuperCanonicalNameGeneric;
-				indexStoreSolr(classLangueNom, classDoc, "classSuperSimpleNameGeneric", classSuperSimpleNameGeneric);
+				indexStoreSolr(classLanguageName, classDoc, "classSuperSimpleNameGeneric", classSuperSimpleNameGeneric);
 
-				ClassParts classPartsBase = ClassParts.initClassParts(this, classSuperCanonicalNameGeneric, classLangueNom, classLangueNom);
+				ClassParts classPartsBase = ClassParts.initClassParts(this, classSuperCanonicalNameGeneric, classLanguageName, classLanguageName);
 				baseClassExtendsGen = classPartsBase.extendsGen;
 				if(baseClassExtendsGen == null)
 					baseClassExtendsGen = false;
@@ -795,12 +793,12 @@ public class IndexClass extends WatchClassBase {
 		indexStoreSolr(classDoc, "baseClassExtendsGen", baseClassExtendsGen);
 		Boolean classContainsSiteRequest = false;
 		try {
-			indexStoreSolr(classDoc, "classContainsSiteRequest", classQdox.getMethodBySignature("getRequestSite_", new ArrayList<JavaType>(), true) != null);
+			indexStoreSolr(classDoc, "classContainsSiteRequest", classQdox.getMethodBySignature("getSiteRequest_", new ArrayList<JavaType>(), true) != null);
 		} catch (Exception e) {
 			// TODO ctate fix this to pull from solr. 
 		}
 		
-		String classComment = storeRegexComments(classLangueNom, classDoc, "classComment", classQdox.getComment());
+		String classComment = storeRegexComments(classLanguageName, classDoc, "classComment", classQdox.getComment());
 		String classPackageName = StringUtils.substringBeforeLast(classCanonicalName, ".");
 		String classPath = concat(srcMainJavaPath, "/", StringUtils.replace(classCanonicalName, ".", "/"), ".java");
 		String classDirPath = StringUtils.substringBeforeLast(classPath, "/");
@@ -826,7 +824,7 @@ public class IndexClass extends WatchClassBase {
 				storeRegexComments(languageName, classDoc, "classComment", classComment);
 				String srcMainJavaPathLanguage = appPathLanguage + "/src/main/java";
 				String srcGenJavaPathLanguage = appPathLanguage + "/src/gen/java";
-				String classCanonicalNameLanguage = regex("^(class)?NomCanonique\\." + languageName + ":\\s*(.*)", classComment);
+				String classCanonicalNameLanguage = regex("^(class)?CanonicalName\\." + languageName + ":\\s*(.*)", classComment);
 	
 				if(classCanonicalNameLanguage == null)
 					classCanonicalNameLanguage = classCanonicalName.replace(this.languageName, languageName);
@@ -873,26 +871,26 @@ public class IndexClass extends WatchClassBase {
 			}
 		}
 
-		classPartsSolrInputDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrInputDocument", classLangueNom);
-		classPartsSolrDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocument", classLangueNom);
-		classPartsSolrClient = ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrClient", classLangueNom);
-		classPartsTest = ClassParts.initClassParts(this, "org.junit.Test", classLangueNom);
-		classPartsList = ClassParts.initClassParts(this, List.class.getCanonicalName(), classLangueNom);
-		classPartsArrayList = ClassParts.initClassParts(this, ArrayList.class.getCanonicalName(), classLangueNom);
-		classPartsSiteContext = classPartsSiteContext(domainPackageName, classLangueNom);
-		classPartsSiteConfig = classPartsSiteConfig(domainPackageName, classLangueNom);
-		classPartsSiteUser = classPartsSiteUser(domainPackageName, classLangueNom);
-		classPartsCluster = classPartsCluster(domainPackageName, classLangueNom);
-		classPartsSearchResult = classPartsSearchResult(domainPackageName, classLangueNom);
-		classPartsAllWriter = classPartsAllWriter(domainPackageName, classLangueNom);
-		classPartsSearchList = classPartsSearchList(domainPackageName, classLangueNom);
-		classPartsWrap = classPartsWrap(domainPackageName, classLangueNom);
-		classPartsPageLayout = classPartsPageLayout(domainPackageName, classLangueNom);
-		classPartsPagePart = classPartsPagePart(domainPackageName, classLangueNom);
-		classPartsChain = classPartsChain(domainPackageName, classLangueNom);
-		classPartsSiteRequest = classPartsSiteRequest(domainPackageName, classLangueNom);
+		classPartsSolrInputDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrInputDocument", classLanguageName);
+		classPartsSolrDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocument", classLanguageName);
+		classPartsSolrClient = ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrClient", classLanguageName);
+		classPartsTest = ClassParts.initClassParts(this, "org.junit.Test", classLanguageName);
+		classPartsList = ClassParts.initClassParts(this, List.class.getCanonicalName(), classLanguageName);
+		classPartsArrayList = ClassParts.initClassParts(this, ArrayList.class.getCanonicalName(), classLanguageName);
+		classPartsSiteContext = classPartsSiteContext(domainPackageName, classLanguageName);
+		classPartsSiteConfig = classPartsSiteConfig(domainPackageName, classLanguageName);
+		classPartsSiteUser = classPartsSiteUser(domainPackageName, classLanguageName);
+		classPartsCluster = classPartsCluster(domainPackageName, classLanguageName);
+		classPartsSearchResult = classPartsSearchResult(domainPackageName, classLanguageName);
+		classPartsAllWriter = classPartsAllWriter(domainPackageName, classLanguageName);
+		classPartsSearchList = classPartsSearchList(domainPackageName, classLanguageName);
+		classPartsWrap = classPartsWrap(domainPackageName, classLanguageName);
+		classPartsPageLayout = classPartsPageLayout(domainPackageName, classLanguageName);
+		classPartsPagePart = classPartsPagePart(domainPackageName, classLanguageName);
+		classPartsChain = classPartsChain(domainPackageName, classLanguageName);
+		classPartsSiteRequest = classPartsSiteRequest(domainPackageName, classLanguageName);
 
-		Boolean classInitDeep = !regexFound("^(class)?InitLoin:\\s*(false)$", classComment);
+		Boolean classInitDeep = !regexFound("^(class)?InitDeep:\\s*(false)$", classComment);
 		if(classInitDeep)
 			classInitDeep = classExtendsBase || classIsBase;
 		classInitDeep = storeSolr(classDoc, "classInitDeep", classInitDeep);
@@ -900,20 +898,20 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenAdd(classPartsSiteRequest);
 		indexStoreSolr(classDoc, "classExtendsGen", classExtendsGen);
 
-		indexStoreSolr(classDoc, "languageName", classLangueNom); 
+		indexStoreSolr(classDoc, "languageName", classLanguageName); 
 		indexStoreSolr(classDoc, "modified", modifiedDate); 
-		indexStoreSolr(classLangueNom, classDoc, "classCanonicalName", classCanonicalName); 
-		indexStoreSolr(classLangueNom, classDoc, "classSimpleName", classSimpleName); 
-		indexStoreSolr(classLangueNom, classDoc, "classPackageName", classPackageName); 
-		indexStoreSolr(classLangueNom, classDoc, "classCanonicalNameGen", classCanonicalNameGen); 
-		indexStoreSolr(classLangueNom, classDoc, "classSimpleNameGen", classSimpleNameGen); 
-		indexStoreSolr(classLangueNom, classDoc, "classSuperCanonicalName", classSuperCanonicalName); 
-		indexStoreSolr(classLangueNom, classDoc, "classSuperSimpleName", classSuperSimpleName); 
+		indexStoreSolr(classLanguageName, classDoc, "classCanonicalName", classCanonicalName); 
+		indexStoreSolr(classLanguageName, classDoc, "classSimpleName", classSimpleName); 
+		indexStoreSolr(classLanguageName, classDoc, "classPackageName", classPackageName); 
+		indexStoreSolr(classLanguageName, classDoc, "classCanonicalNameGen", classCanonicalNameGen); 
+		indexStoreSolr(classLanguageName, classDoc, "classSimpleNameGen", classSimpleNameGen); 
+		indexStoreSolr(classLanguageName, classDoc, "classSuperCanonicalName", classSuperCanonicalName); 
+		indexStoreSolr(classLanguageName, classDoc, "classSuperSimpleName", classSuperSimpleName); 
 		indexStoreSolr(classDoc, "classAbsolutePath", classAbsolutePath);
-		indexStoreSolr(classLangueNom, classDoc, "classPath", classPath); 
-		indexStoreSolr(classLangueNom, classDoc, "classDirPath", classDirPath);  
-		indexStoreSolr(classLangueNom, classDoc, "classPathGen", classPathGen); 
-		indexStoreSolr(classLangueNom, classDoc, "classDirPathGen", classDirPathGen); 
+		indexStoreSolr(classLanguageName, classDoc, "classPath", classPath); 
+		indexStoreSolr(classLanguageName, classDoc, "classDirPath", classDirPath);  
+		indexStoreSolr(classLanguageName, classDoc, "classPathGen", classPathGen); 
+		indexStoreSolr(classLanguageName, classDoc, "classDirPathGen", classDirPathGen); 
 		indexStoreSolr(classDoc, "domainPackageName", domainPackageName); 
 
 		ArrayList<JavaClass> qdoxSuperClasses = new ArrayList<JavaClass>();
@@ -937,7 +935,7 @@ public class IndexClass extends WatchClassBase {
 		Boolean classPage = regexFound("^(class)?Page: \\s*(true)$", classComment);
 		Boolean classPageSimple = indexStoreSolr(classDoc, "classPageSimple", regexFound("^(class)?PageSimple: \\s*(true)$", classComment));
 		Boolean classSaved = indexStoreSolr(classDoc, "classSaved", regexFound("^(class)?Saved:\\s*(true)$", classComment) || classModel);
-		ArrayList<String> classApiMethods = regexList("^(class)?ApiMethode:\\s*(.*)", classComment);
+		ArrayList<String> classApiMethods = regexList("^(class)?ApiMethod:\\s*(.*)", classComment);
 
 		String classSimpleNameApiPackageInfo;
 		String classSimpleNameGenApiServiceImpl;
@@ -950,8 +948,8 @@ public class IndexClass extends WatchClassBase {
 		String classCanonicalNameGenApiService;
 
 		String classCanonicalNamePageGen = classCanonicalName + "PageGen";
-		String classSimpleNamePage = indexStoreSolr(classLangueNom, classDoc, "classSimpleNamePage", classSimpleName + "Page");
-		String classSimpleNameGenPage = indexStoreSolr(classLangueNom, classDoc, "classSimpleNameGenPage", classSimpleName + "PageGen");
+		String classSimpleNamePage = indexStoreSolr(classLanguageName, classDoc, "classSimpleNamePage", classSimpleName + "Page");
+		String classSimpleNameGenPage = indexStoreSolr(classLanguageName, classDoc, "classSimpleNameGenPage", classSimpleName + "PageGen");
 
 		String classPathApiPackageInfo;
 		String classPathGenApiServiceImpl;
@@ -959,25 +957,25 @@ public class IndexClass extends WatchClassBase {
 		String classPathGenApiService;
 
 		if(classApi) {
-			classSimpleNameApiPackageInfo = indexStoreSolr(classLangueNom, classDoc, "classSimpleNameApiPackageInfo", "package-info");
-			classSimpleNameGenApiServiceImpl = indexStoreSolr(classLangueNom, classDoc, "classSimpleNameGenApiServiceImpl", classSimpleName + StringUtils.capitalize(classLangueNom) + "GenApiServiceImpl");
-			classSimpleNameApiServiceImpl = indexStoreSolr(classLangueNom, classDoc, "classSimpleNameApiServiceImpl", classSimpleName + StringUtils.capitalize(classLangueNom) + "ApiServiceImpl");
-			classSimpleNameGenApiService = indexStoreSolr(classLangueNom, classDoc, "classSimpleNameGenApiService", classSimpleName + StringUtils.capitalize(classLangueNom) + "GenApiService");
+			classSimpleNameApiPackageInfo = indexStoreSolr(classLanguageName, classDoc, "classSimpleNameApiPackageInfo", "package-info");
+			classSimpleNameGenApiServiceImpl = indexStoreSolr(classLanguageName, classDoc, "classSimpleNameGenApiServiceImpl", classSimpleName + StringUtils.capitalize(classLanguageName) + "GenApiServiceImpl");
+			classSimpleNameApiServiceImpl = indexStoreSolr(classLanguageName, classDoc, "classSimpleNameApiServiceImpl", classSimpleName + StringUtils.capitalize(classLanguageName) + "ApiServiceImpl");
+			classSimpleNameGenApiService = indexStoreSolr(classLanguageName, classDoc, "classSimpleNameGenApiService", classSimpleName + StringUtils.capitalize(classLanguageName) + "GenApiService");
 
-			classCanonicalNameApiPackageInfo = indexStoreSolr(classLangueNom, classDoc, "classCanonicalNameApiPackageInfo", classPackageName + "." + classSimpleNameApiPackageInfo);
-			classCanonicalNameGenApiServiceImpl = indexStoreSolr(classLangueNom, classDoc, "classCanonicalNameGenApiServiceImpl", classPackageName + "." + classSimpleNameGenApiServiceImpl);
-			classCanonicalNameApiServiceImpl = indexStoreSolr(classLangueNom, classDoc, "classCanonicalNameApiServiceImpl", classPackageName + "." + classSimpleNameApiServiceImpl);
-			classCanonicalNameGenApiService = indexStoreSolr(classLangueNom, classDoc, "classCanonicalNameGenApiService", classPackageName + "." + classSimpleNameGenApiService);
+			classCanonicalNameApiPackageInfo = indexStoreSolr(classLanguageName, classDoc, "classCanonicalNameApiPackageInfo", classPackageName + "." + classSimpleNameApiPackageInfo);
+			classCanonicalNameGenApiServiceImpl = indexStoreSolr(classLanguageName, classDoc, "classCanonicalNameGenApiServiceImpl", classPackageName + "." + classSimpleNameGenApiServiceImpl);
+			classCanonicalNameApiServiceImpl = indexStoreSolr(classLanguageName, classDoc, "classCanonicalNameApiServiceImpl", classPackageName + "." + classSimpleNameApiServiceImpl);
+			classCanonicalNameGenApiService = indexStoreSolr(classLanguageName, classDoc, "classCanonicalNameGenApiService", classPackageName + "." + classSimpleNameGenApiService);
 
 			classPathApiPackageInfo = concat(srcGenJavaPath, "/", StringUtils.replace(classCanonicalNameApiPackageInfo, ".", "/"), ".java");
 			classPathGenApiServiceImpl = concat(srcMainJavaPath, "/", StringUtils.replace(classCanonicalNameGenApiServiceImpl, ".", "/"), ".java");
 			classPathApiServiceImpl = concat(srcMainJavaPath, "/", StringUtils.replace(classCanonicalNameApiServiceImpl, ".", "/"), ".java");
 			classPathGenApiService = concat(srcMainJavaPath, "/", StringUtils.replace(classCanonicalNameGenApiService, ".", "/"), ".java");
 
-			indexStoreSolr(classLangueNom, classDoc, "classPathApiPackageInfo", classPathApiPackageInfo); 
-			indexStoreSolr(classLangueNom, classDoc, "classPathGenApiServiceImpl", classPathGenApiServiceImpl); 
-			indexStoreSolr(classLangueNom, classDoc, "classPathApiServiceImpl", classPathApiServiceImpl); 
-			indexStoreSolr(classLangueNom, classDoc, "classPathGenApiService", classPathGenApiService); 
+			indexStoreSolr(classLanguageName, classDoc, "classPathApiPackageInfo", classPathApiPackageInfo); 
+			indexStoreSolr(classLanguageName, classDoc, "classPathGenApiServiceImpl", classPathGenApiServiceImpl); 
+			indexStoreSolr(classLanguageName, classDoc, "classPathApiServiceImpl", classPathApiServiceImpl); 
+			indexStoreSolr(classLanguageName, classDoc, "classPathGenApiService", classPathGenApiService); 
 		}
 
 		if(classTranslate) {
@@ -988,8 +986,6 @@ public class IndexClass extends WatchClassBase {
 				String classCanonicalNameLanguage = (String)classDoc.get("classCanonicalName_" + languageName + "_indexed_string").getValue();
 				String classSimpleNameLanguage = (String)classDoc.get("classSimpleName_" + languageName + "_indexed_string").getValue();
 				String classPackageNameLanguage = (String)classDoc.get("classPackageName_" + languageName + "_indexed_string").getValue();
-	//			String classCanonicalNameGenLanguage = (String)classDoc.get("classCanonicalNameGen_" + languageName + "_indexed_string").getValue();
-	//			String classSimpleNameGenLanguage = (String)classDoc.get("classSimpleNameGen_" + languageName + "_indexed_string").getValue();
 	
 				String classSimpleNameApiLangue = classSimpleNameLanguage + "Api";
 				String classSimpleNamePageLanguage = classSimpleNameLanguage + "Page";
@@ -1034,84 +1030,68 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenApiAdd(classPartsSiteContext);
 			classPartsGenApiAdd(classPartsSiteUser);
 			classPartsGenApiAdd(classPartsSearchResult);
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.io.IOException", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.servlet.http.HttpServlet", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.servlet.http.HttpServerRequest", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.servlet.http.HttpServerResponse", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Collections", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Map", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.servlet.ServletException", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.concurrent.TimeUnit", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.stream.Collectors", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.Json", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.json.JsonArray", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.json.JsonObject", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.json.JsonReader", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrQuery", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrQuery.ORDER", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.response.QueryResponse", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.util.ClientUtils", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.StringUtils", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.keycloak.KeycloakPrincipal", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.keycloak.KeycloakSecurityContext", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.keycloak.representations.AccessToken", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.keycloak.representations.AccessToken.Access", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.security.Principal", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.mail.Message", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.mail.Session", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.mail.Transport", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.mail.internet.InternetAddress", classLangueNom));
-//			classPartsGenApiAdd(ClassParts.initClassParts(this, "javax.mail.internet.MimeMessage", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.io.PrintWriter", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocumentList", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocument", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Collection", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.math.BigDecimal", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Date", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.ZoneId", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.List", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.ArrayList", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Arrays", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Set", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Handler", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.RoutingContext", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.Router", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Vertx", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveReadStream", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveWriteStream", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.MultiMap", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.auth.oauth2.OAuth2Auth", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.netty.handler.codec.http.HttpResponseStatus", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.Logger", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.LoggerFactory", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.HTTPRequestValidationHandler", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ParameterTypeValidator", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ValidationException", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLClient", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.sql.Timestamp", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Future", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.http.CaseInsensitiveHeaders", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.AsyncResult", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Handler", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.buffer.Buffer", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationResponse", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.CompositeFuture", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.http.client.utils.URLEncodedUtils", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.nio.charset.Charset", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.http.NameValuePair", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationRequest", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.auth.oauth2.KeycloakHelper", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Optional", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.stream.Stream", classLangueNom));
-			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.net.URLDecoder", classLangueNom));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.io.IOException", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Collections", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Map", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.concurrent.TimeUnit", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.stream.Collectors", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.Json", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrQuery", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrQuery.ORDER", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.response.QueryResponse", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.util.ClientUtils", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.StringUtils", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.security.Principal", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.io.PrintWriter", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocumentList", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.solr.common.SolrDocument", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Collection", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.math.BigDecimal", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Date", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.ZoneId", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.List", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.ArrayList", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Arrays", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Set", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Handler", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.RoutingContext", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.Router", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Vertx", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveReadStream", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.reactivestreams.ReactiveWriteStream", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.MultiMap", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.auth.oauth2.OAuth2Auth", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.netty.handler.codec.http.HttpResponseStatus", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.Logger", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.LoggerFactory", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.HTTPRequestValidationHandler", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ParameterTypeValidator", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.validation.ValidationException", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLClient", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.sql.Timestamp", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Future", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.http.CaseInsensitiveHeaders", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.AsyncResult", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Handler", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.buffer.Buffer", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationResponse", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.CompositeFuture", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.http.client.utils.URLEncodedUtils", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.nio.charset.Charset", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "org.apache.http.NameValuePair", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationRequest", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.auth.oauth2.KeycloakHelper", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.Optional", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.util.stream.Stream", classLanguageName));
+			classPartsGenApiAdd(ClassParts.initClassParts(this, "java.net.URLDecoder", classLanguageName));
 			classPartsGenApiAdd(classPartsSearchList);
 			classPartsGenApiAdd(classPartsAllWriter);
 		}
@@ -1121,18 +1101,18 @@ public class IndexClass extends WatchClassBase {
 		}
 		if(classSaved) {
 			classPartsGenAdd(classPartsSiteContext);
-			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.Logger", classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.LoggerFactory", classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLClient", classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Set", classLangueNom));
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.Logger", classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.logging.LoggerFactory", classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLClient", classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.ext.sql.SQLConnection", classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Set", classLanguageName));
 		}
-		classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", classLangueNom));
-		classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.text.StringEscapeUtils", classLangueNom));
-		classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.StringUtils", classLangueNom));
-		classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Objects", classLangueNom));
+		classPartsGenAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", classLanguageName));
+		classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.text.StringEscapeUtils", classLanguageName));
+		classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.StringUtils", classLanguageName));
+		classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Objects", classLanguageName));
 
 		if(classComment != null) {
 
@@ -1257,14 +1237,14 @@ public class IndexClass extends WatchClassBase {
 
 		SolrDocument classSuperDoc = null;   
 		if(classExtendsGen) {
-			ClassParts classPartsSuperGeneric = ClassParts.initClassParts(this, classSuperCompleteNameGeneric, classLangueNom);
+			ClassParts classPartsSuperGeneric = ClassParts.initClassParts(this, classSuperCompleteNameGeneric, classLanguageName);
 			classPartsGenAdd(classPartsSuperGeneric);
 
 			if(StringUtils.startsWith(classSuperCanonicalName, domainPackageName)) {
 				SolrQuery solrSearch = new SolrQuery();   
 				solrSearch.setQuery("*:*");
 				solrSearch.setRows(1);
-				solrSearch.addFilterQuery("classCanonicalName_" + classLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classSuperCanonicalNameGeneric));
+				solrSearch.addFilterQuery("classCanonicalName_" + classLanguageName + "_indexed_string:" + ClientUtils.escapeQueryChars(classSuperCanonicalNameGeneric));
 				solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
 				solrSearch.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 				QueryResponse searchResponse = solrClientComputate.query(solrSearch);
@@ -1277,7 +1257,7 @@ public class IndexClass extends WatchClassBase {
 				SolrQuery solrSearch = new SolrQuery();   
 				solrSearch.setQuery("*:*");
 				solrSearch.setRows(1);
-				solrSearch.addFilterQuery("classCanonicalName_" + classLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classSuperCanonicalNameGeneric));
+				solrSearch.addFilterQuery("classCanonicalName_" + classLanguageName + "_indexed_string:" + ClientUtils.escapeQueryChars(classSuperCanonicalNameGeneric));
 				solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
 				solrSearch.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 				QueryResponse searchResponse = solrClientComputate.query(solrSearch);
@@ -1288,27 +1268,27 @@ public class IndexClass extends WatchClassBase {
 			}
 		}
 
-		List<String> classSuperEcrireMethodes;
+		List<String> classSuperWriteMethods;
 		List<String> classWriteMethods = new ArrayList<>();
 		if(classSuperDoc != null) 
-			classSuperEcrireMethodes = (List<String>)classSuperDoc.get("classWriteMethods_stored_strings");
+			classSuperWriteMethods = (List<String>)classSuperDoc.get("classWriteMethods_stored_strings");
 		else
-			classSuperEcrireMethodes = new ArrayList<>();
+			classSuperWriteMethods = new ArrayList<>();
 
-		for(String siteEcrireMethode : siteWriteMethods) {
-			if(classQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
-					|| classQdox.getMethodBySignature(siteEcrireMethode + classSimpleName, new ArrayList<JavaType>()) != null) {
-				if(!classWriteMethods.contains(siteEcrireMethode)) {
-					indexStoreListSolr(classDoc, "classWriteMethods",  siteEcrireMethode);
-					classWriteMethods.add(siteEcrireMethode);
+		for(String siteWriteMethod : siteWriteMethods) {
+			if(classQdox.getMethodBySignature(siteWriteMethod, new ArrayList<JavaType>()) != null
+					|| classQdox.getMethodBySignature(siteWriteMethod + classSimpleName, new ArrayList<JavaType>()) != null) {
+				if(!classWriteMethods.contains(siteWriteMethod)) {
+					indexStoreListSolr(classDoc, "classWriteMethods",  siteWriteMethod);
+					classWriteMethods.add(siteWriteMethod);
 				}
 			}
 		}
 
 		if(classSuperDoc != null) {
-			if(classSuperEcrireMethodes != null) {
-				for(String classSuperEcrireMethode : classSuperEcrireMethodes) {
-					indexStoreListSolr(classDoc, "classSuperEcrireMethodes",  classSuperEcrireMethode);
+			if(classSuperWriteMethods != null) {
+				for(String classSuperEcrireMethode : classSuperWriteMethods) {
+					indexStoreListSolr(classDoc, "classSuperWriteMethods",  classSuperEcrireMethode);
 					if(!classWriteMethods.contains(classSuperEcrireMethode)) {
 						indexStoreListSolr(classDoc, "classWriteMethods",  classSuperEcrireMethode);
 						classWriteMethods.add(classSuperEcrireMethode);
@@ -1324,8 +1304,8 @@ public class IndexClass extends WatchClassBase {
 		indexStoreSolr(classDoc, "partNumber", partNumber);
 		
 		for(String classImport : classQdox.getSource().getImports()) {
-			ClassParts classImportClassParts = ClassParts.initClassParts(this, classImport, classLangueNom);
-			indexStoreListSolr(classLangueNom, classDoc, "classImports", classImportClassParts.canonicalName(classLangueNom));
+			ClassParts classImportClassParts = ClassParts.initClassParts(this, classImport, classLanguageName);
+			indexStoreListSolr(classLanguageName, classDoc, "classImports", classImportClassParts.canonicalName(classLanguageName));
 
 			for(String languageName : classOtherLanguages) {  
 				ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classImportClassParts, languageName);
@@ -1334,10 +1314,6 @@ public class IndexClass extends WatchClassBase {
 		}
 
 		List<JavaMember> membersQdox = classQdox.getMembers();
-//		List<JavaMember> membersQdox = new ArrayList<JavaMember>();
-//		membersQdox.addAll(classQdox.getFields());
-//		membersQdox.addAll(classQdox.getConstructors());
-//		membersQdox.addAll(classQdox.getMethods());
 		for(JavaMember memberQdox : membersQdox) {  
 			partNumber++;
 
@@ -1348,15 +1324,15 @@ public class IndexClass extends WatchClassBase {
 				String fieldVar = fieldQdox.getName();
 				String fieldKey = classAbsolutePath + "." + fieldVar;
 				String fieldSourceCode = StringUtils.substringBeforeLast(StringUtils.trim(regex("\\s+" + fieldVar + "\\s*=([\\s\\S]*)", fieldQdox.getCodeBlock(), 1)), ";");
-				String fieldString = regex("^(champ)?String\\." + classLangueNom + ":(.*)", fieldComment);
+				String fieldString = regex("^(field)?String\\." + classLanguageName + ":(.*)", fieldComment);
 				if(fieldString != null) {
 					fieldSourceCode = "\"" + StringUtils.replace(StringUtils.replace(fieldString, "\\", "\\\\"), "\"", "\\\"") + "\"";
-					indexStoreSolr(classLangueNom, fieldDoc, "fieldString", fieldString); 
+					indexStoreSolr(classLanguageName, fieldDoc, "fieldString", fieldString); 
 				}
 
-				// Champs Solr du champ. 
+				// Champs Solr du field. 
 
-				indexStoreSolr(classLangueNom, fieldDoc, "fieldVar", fieldVar); 
+				indexStoreSolr(classLanguageName, fieldDoc, "fieldVar", fieldVar); 
 				indexStoreSolr(fieldDoc, "partIsField", true);
 				indexStoreSolr(fieldDoc, "partNumber", partNumber);
 				indexStoreSolr(fieldDoc, "fieldIsPublic", fieldQdox.isPublic()); 
@@ -1366,7 +1342,7 @@ public class IndexClass extends WatchClassBase {
 				indexStoreSolr(fieldDoc, "fieldIsFinal", fieldQdox.isFinal()); 
 				indexStoreSolr(fieldDoc, "fieldIsAbstract", fieldQdox.isAbstract()); 
 				indexStoreSolr(fieldDoc, "fieldIsNative", fieldQdox.isNative()); 
-				indexStoreSolr(fieldDoc, "champTranslate", !regexFound("^(champ)?Translate: \\s*(false)$", fieldComment));
+				indexStoreSolr(fieldDoc, "fieldTranslate", !regexFound("^(field)?Translate: \\s*(false)$", fieldComment));
 	
 				/////////////////
 				// Annotations //
@@ -1377,7 +1353,7 @@ public class IndexClass extends WatchClassBase {
 				Boolean fieldIsOverride = false;
 				for(JavaAnnotation annotation : annotations) {
 					String fieldAnnotationLanguage = annotation.getType().getCanonicalName();
-					indexStoreSolr(classLangueNom, fieldDoc, "champAnnotation", fieldAnnotationLanguage); 
+					indexStoreSolr(classLanguageName, fieldDoc, "fieldAnnotation", fieldAnnotationLanguage); 
 
 					if("org.junit.Test".equals(annotation.getType().getCanonicalName())) {
 						fieldIsTest = true;
@@ -1389,21 +1365,21 @@ public class IndexClass extends WatchClassBase {
 				indexStoreSolr(fieldDoc, "fieldIsTest", fieldIsTest); 
 				indexStoreSolr(fieldDoc, "fieldIsOverride", fieldIsOverride); 
 
-				ClassParts fieldClassParts = ClassParts.initClassParts(this, fieldQdox.getType(), classLangueNom);
+				ClassParts fieldClassParts = ClassParts.initClassParts(this, fieldQdox.getType(), classLanguageName);
 	
-				storeRegexComments(classLangueNom, fieldDoc, "fieldComment", fieldComment);
-				storeSolr(classLangueNom, fieldDoc, "fieldSimpleNameComplete", fieldClassParts.simpleNameComplete);
-				String fieldCanonicalNameComplete = storeSolr(classLangueNom, fieldDoc, "fieldCanonicalNameComplete", fieldClassParts.canonicalNameComplete);
-				storeSolr(classLangueNom, fieldDoc, "fieldSourceCode", fieldSourceCode);
+				storeRegexComments(classLanguageName, fieldDoc, "fieldComment", fieldComment);
+				storeSolr(classLanguageName, fieldDoc, "fieldSimpleNameComplete", fieldClassParts.simpleNameComplete);
+				String fieldCanonicalNameComplete = storeSolr(classLanguageName, fieldDoc, "fieldCanonicalNameComplete", fieldClassParts.canonicalNameComplete);
+				storeSolr(classLanguageName, fieldDoc, "fieldSourceCode", fieldSourceCode);
 				fieldDoc.addField("id", fieldCanonicalNameComplete + " " + fieldKey);
 
 				if(classTranslate) {
 					for(String languageName : classOtherLanguages) { 
 						ClassParts fieldClassPartsLanguage = ClassParts.initClassParts(this, fieldClassParts, languageName);
-						String fieldVarLanguage = regex("^(champ)?Var\\." + languageName + ": (.*)", fieldComment);
+						String fieldVarLanguage = regex("^(field)?Var\\." + languageName + ": (.*)", fieldComment);
 						fieldVarLanguage = fieldVarLanguage == null ? fieldVar : fieldVarLanguage;
 						String fieldSourceCodeLanguage = regexReplaceAll(fieldComment, fieldSourceCode, languageName);
-						String fieldStringLanguage = regex("^(champ)?String\\." + languageName + ":(.*)", fieldComment);
+						String fieldStringLanguage = regex("^(field)?String\\." + languageName + ":(.*)", fieldComment);
 						if(fieldStringLanguage != null) {
 							fieldSourceCodeLanguage = "\"" + StringUtils.replace(StringUtils.replace(fieldStringLanguage, "\\", "\\\\"), "\"", "\\\"") + "\"";
 							indexStoreSolr(languageName, fieldDoc, "fieldString", fieldString); 
@@ -1430,10 +1406,10 @@ public class IndexClass extends WatchClassBase {
 				for(Integer constructorParamNum = 1; constructorParamNum <= constructorParamsQdox.size(); constructorParamNum++) {
 					JavaParameter constructorParamQdox = constructorParamsQdox.get(constructorParamNum - 1);
 					String constructorParamVar = constructorParamQdox.getName();
-					storeListSolr(classLangueNom, constructorDoc, "constructorParamsVar", constructorParamVar);
-					ClassParts constructorParamClassParts = ClassParts.initClassParts(this, constructorParamQdox.getJavaClass(), classLangueNom);
+					storeListSolr(classLanguageName, constructorDoc, "constructorParamsVar", constructorParamVar);
+					ClassParts constructorParamClassParts = ClassParts.initClassParts(this, constructorParamQdox.getJavaClass(), classLanguageName);
 					classPartsGenAdd(constructorParamClassParts);
-					storeListSolr(classLangueNom, constructorDoc, "constructorParamsSimpleNameComplete", constructorParamClassParts.simpleNameComplete);
+					storeListSolr(classLanguageName, constructorDoc, "constructorParamsSimpleNameComplete", constructorParamClassParts.simpleNameComplete);
 					storeListSolr(constructorDoc, "constructorParamsVariableArgs", constructorParamQdox.isVarArgs());
 					if(classTranslate) {
 						for(String languageName : classOtherLanguages) { 
@@ -1476,18 +1452,18 @@ public class IndexClass extends WatchClassBase {
 				indexStoreSolr(constructorDoc, "constructorIsFinal", constructorQdox.isFinal());
 				indexStoreSolr(constructorDoc, "constructorIsAbstract", constructorQdox.isAbstract());
 				indexStoreSolr(constructorDoc, "constructorIsNative", constructorQdox.isNative());
-				storeRegexComments(classLangueNom, constructorDoc, "constructorComment", constructorComment);
+				storeRegexComments(classLanguageName, constructorDoc, "constructorComment", constructorComment);
 
 				String constructorSourceCode = constructorQdox.getSourceCode();
 				String constructorSourceCodeLanguage = constructorSourceCode;
-				ArrayList<String> replaceKeysLanguage = regexList("^r." + classLangueNom + "\\s*=\\s*(.*)\\n.*", constructorComment);
-				ArrayList<String> replaceValuesLanguage = regexList("^r." + classLangueNom + "\\s*=\\s*.*\\n(.*)", constructorComment);
+				ArrayList<String> replaceKeysLanguage = regexList("^r." + classLanguageName + "\\s*=\\s*(.*)\\n.*", constructorComment);
+				ArrayList<String> replaceValuesLanguage = regexList("^r." + classLanguageName + "\\s*=\\s*.*\\n(.*)", constructorComment);
 				for(int i = 0; i < replaceKeysLanguage.size(); i++) {
 					String cle = replaceKeysLanguage.get(i);
 					String valeur = replaceValuesLanguage.get(i);
 					StringUtils.replace(constructorSourceCodeLanguage, cle, valeur);
 				}
-				storeSolr(classLangueNom, constructorDoc, "constructorSourceCode", constructorSourceCodeLanguage);
+				storeSolr(classLanguageName, constructorDoc, "constructorSourceCode", constructorSourceCodeLanguage);
 
 				if(classTranslate) {
 					for(String languageName : classOtherLanguages) {  
@@ -1534,15 +1510,15 @@ public class IndexClass extends WatchClassBase {
 
 						// is Entity. 
 						SolrInputDocument entityDoc = classDocClone.deepCopy();
-						String entityVar = indexStoreSolr(classLangueNom, entityDoc, "entityVar", StringUtils.substringAfter(methodQdox.getName(), "_"));
-						indexStoreListSolr(classLangueNom, classDoc, "classEntityVars", entityVar);
-						String entityVarCapitalized = indexStoreSolr(classLangueNom, entityDoc, "entityVarCapitalized", StringUtils.capitalize(entityVar));
+						String entityVar = indexStoreSolr(classLanguageName, entityDoc, "entityVar", StringUtils.substringAfter(methodQdox.getName(), "_"));
+						indexStoreListSolr(classLanguageName, classDoc, "classEntityVars", entityVar);
+						String entityVarCapitalized = indexStoreSolr(classLanguageName, entityDoc, "entityVarCapitalized", StringUtils.capitalize(entityVar));
 						JavaClass entityClassQdox = methodParamsQdox.get(0).getJavaClass();
-						ClassParts entityClassParts = ClassParts.initClassParts(this, entityClassQdox, classLangueNom, classLangueNom);
+						ClassParts entityClassParts = ClassParts.initClassParts(this, entityClassQdox, classLanguageName, classLanguageName);
 						Boolean entityWrap = false;
 
 						if(entityClassParts.simpleName.equals("Wrap")) {
-							entityClassParts = ClassParts.initClassParts(this, entityClassParts.canonicalNameGeneric, classLangueNom, classLangueNom);
+							entityClassParts = ClassParts.initClassParts(this, entityClassParts.canonicalNameGeneric, classLanguageName, classLanguageName);
 							entityWrap = true;
 							classContainsWrap = true;
 						}
@@ -1551,7 +1527,7 @@ public class IndexClass extends WatchClassBase {
 						classPartsGenPageAdd(entityClassParts);
 						List<String> entityCanonicalNamesSuperAndMeWithoutGen = new ArrayList<String>();
 						if(StringUtils.isNotEmpty(entityClassParts.canonicalNameGeneric)) {
-							ClassParts classPartsGeneric = ClassParts.initClassParts(this, entityClassParts.canonicalNameGeneric, classLangueNom);
+							ClassParts classPartsGeneric = ClassParts.initClassParts(this, entityClassParts.canonicalNameGeneric, classLanguageName);
 							classPartsGenAdd(classPartsGeneric);
 							classPartsGenPageAdd(classPartsGeneric);
 							classPartsGenAdd(entityClassParts);
@@ -1580,16 +1556,16 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "entityWrap", entityWrap);
 						Boolean entityInitialized = indexStoreSolr(entityDoc, "entityInitialized", !entityVar.endsWith("_") && BooleanUtils.isTrue(entityClassParts.extendsGen));
 
-						String entityCanonicalName = indexStoreSolr(classLangueNom, entityDoc, "entityCanonicalName", entityClassParts.canonicalName);
-						String entitySimpleName = indexStoreSolr(classLangueNom, entityDoc, "entitySimpleName", entityClassParts.simpleName);
-						String entityCompleteNameGeneric = indexStoreSolr(classLangueNom, entityDoc, "entityCompleteNameGeneric", entityClassParts.canonicalNameGeneric);
-						String entityCanonicalNameGeneric = indexStoreSolr(classLangueNom, entityDoc, "entityCanonicalNameGeneric", entityClassParts.canonicalNameGeneric);
-						String entitySimpleNameGeneric = indexStoreSolr(classLangueNom, entityDoc, "entitySimpleNameGeneric", entityClassParts.simpleNameGeneric);
+						String entityCanonicalName = indexStoreSolr(classLanguageName, entityDoc, "entityCanonicalName", entityClassParts.canonicalName);
+						String entitySimpleName = indexStoreSolr(classLanguageName, entityDoc, "entitySimpleName", entityClassParts.simpleName);
+						String entityCompleteNameGeneric = indexStoreSolr(classLanguageName, entityDoc, "entityCompleteNameGeneric", entityClassParts.canonicalNameGeneric);
+						String entityCanonicalNameGeneric = indexStoreSolr(classLanguageName, entityDoc, "entityCanonicalNameGeneric", entityClassParts.canonicalNameGeneric);
+						String entitySimpleNameGeneric = indexStoreSolr(classLanguageName, entityDoc, "entitySimpleNameGeneric", entityClassParts.simpleNameGeneric);
 						String entityCanonicalNameActuel = entityCanonicalNameGeneric == null ? entityCanonicalName : entityCanonicalNameGeneric;
 						String entitySimpleNameActuel = entitySimpleNameGeneric == null ? entitySimpleName : entitySimpleNameGeneric;
-						indexStoreSolr(classLangueNom, entityDoc, "entityCanonicalNameComplete", entityClassParts.canonicalNameComplete);
-						indexStoreSolr(classLangueNom, entityDoc, "entitySimpleNameComplete", entityClassParts.simpleNameComplete);
-						indexStoreSolr(classLangueNom, entityDoc, "entitySimpleNameCompleteGeneric", entityClassParts.simpleNameGeneric);
+						indexStoreSolr(classLanguageName, entityDoc, "entityCanonicalNameComplete", entityClassParts.canonicalNameComplete);
+						indexStoreSolr(classLanguageName, entityDoc, "entitySimpleNameComplete", entityClassParts.simpleNameComplete);
+						indexStoreSolr(classLanguageName, entityDoc, "entitySimpleNameCompleteGeneric", entityClassParts.simpleNameGeneric);
 
 						JavaMethod entitySetter = null;
 						try {
@@ -1670,19 +1646,19 @@ public class IndexClass extends WatchClassBase {
 							if(s.contains("."))
 								entityCanonicalNameBase = s;
 						}
-						indexStoreSolr(classLangueNom, entityDoc, "entityCanonicalNameBase", entityCanonicalNameBase);
+						indexStoreSolr(classLanguageName, entityDoc, "entityCanonicalNameBase", entityCanonicalNameBase);
 						if(entityWrap)
 							entityClassQdox = builder.getClassByName(entityCanonicalName);
 
-						boolean entityEtendPagePart = entityCanonicalNamesSuperAndMeWithoutGen.contains(classPartsPagePart.canonicalName);
+						boolean entityExtendsPagePart = entityCanonicalNamesSuperAndMeWithoutGen.contains(classPartsPagePart.canonicalName);
 								
-						for(String siteEcrireMethode : siteWriteMethods) {
-							if(entityClassQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null
-									|| entityClassQdox.getMethodBySignature(siteEcrireMethode + classSimpleName, new ArrayList<JavaType>()) != null
-									|| entityEtendPagePart && siteEcrireMethode.equals("htmlBody"))
-								indexStoreListSolr(entityDoc, "entityWriteMethods",  siteEcrireMethode);
-							if(entityEtendPagePart && siteEcrireMethode.equals("htmlBody")) {
-								for(String languageName : toutesLangues) {
+						for(String siteWriteMethod : siteWriteMethods) {
+							if(entityClassQdox.getMethodBySignature(siteWriteMethod, new ArrayList<JavaType>()) != null
+									|| entityClassQdox.getMethodBySignature(siteWriteMethod + classSimpleName, new ArrayList<JavaType>()) != null
+									|| entityExtendsPagePart && siteWriteMethod.equals("htmlBody"))
+								indexStoreListSolr(entityDoc, "entityWriteMethods",  siteWriteMethod);
+							if(entityExtendsPagePart && siteWriteMethod.equals("htmlBody")) {
+								for(String languageName : allLanguages) {
 									indexStoreListSolr(languageName, classDoc, "classMethodVars", "htmlBody" + entityVarCapitalized);
 								}
 							}
@@ -1692,25 +1668,14 @@ public class IndexClass extends WatchClassBase {
 						if(StringUtils.isNotEmpty(entityCanonicalNameBase)) {
 							entitySimpleNameBase = StringUtils.substringAfterLast(entityCanonicalNameBase, ".");
 						}
-						indexStoreSolr(classLangueNom, entityDoc, "entitySimpleNameBase", entitySimpleNameBase);
+						indexStoreSolr(classLanguageName, entityDoc, "entitySimpleNameBase", entitySimpleNameBase);
 						
 						String entityVarParam = methodParamsQdox.get(0).getName();
-//						if(entityClassParts.canonicalName.equals(ArrayList.class.getCanonicalName()) || entityClassParts.canonicalName.equals(List.class.getCanonicalName()))
-//							entityVarParam = "l";
-//						else
-//							entityVarParam = "o";
-						indexStoreSolr(classLangueNom, entityDoc, "entityVarParam", entityVarParam);
+						indexStoreSolr(classLanguageName, entityDoc, "entityVarParam", entityVarParam);
 						
-						String entityVarWrap = indexStoreSolr(classLangueNom, entityDoc, "entityVarWrap", entityVar + "Wrap");
+						String entityVarWrap = indexStoreSolr(classLanguageName, entityDoc, "entityVarWrap", entityVar + "Wrap");
 
 						Boolean entityInitDeep = indexStoreSolr(entityDoc, "entityInitDeep", !entityVar.endsWith("_"));
-						
-//						String entityParamVar = StringUtils.equalsAny(entityClassQdox, "");
-//						indexStoreSolr(entityDoc, "entityParamVar", regexFound("^(entity)?exact:\\s*(true)$", methodComment));
-//							if(canonicalName.equals(class_.canonicalNameArrayList) || canonicalName.equals(class_.canonicalNameList))
-//								o.tout("l");
-//							else if(o.estVide())
-//								o.tout("o");
 
 						if(entityCanonicalNamesSuperAndMeWithoutGen.size() > 0) {
 							String fqSuperClassesAndMe = "(" + qdoxSuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c.getCanonicalName())).collect(Collectors.joining(" OR ")) + ")";
@@ -1722,49 +1687,31 @@ public class IndexClass extends WatchClassBase {
 							solrSearchMethodBefore.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqSuperClassesAndMe);
 							solrSearchMethodBefore.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 							solrSearchMethodBefore.addFilterQuery("partIsMethod_indexed_boolean:true");
-							solrSearchMethodBefore.addFilterQuery("methodVar_" + classLangueNom + "_indexed_string:" + fqMethodBefore);
+							solrSearchMethodBefore.addFilterQuery("methodVar_" + classLanguageName + "_indexed_string:" + fqMethodBefore);
 							QueryResponse searchResponseMethodBefore = solrClientComputate.query(solrSearchMethodBefore);
 							SolrDocumentList searchListMethodBefore = searchResponseMethodBefore.getResults();
 	
 							for(SolrDocument solrDocument : searchListMethodBefore) {
-								String methodVarCurrent = (String)solrDocument.get("methodVar_" + classLangueNom + "_stored_string");
-								String methodClassCanonicalName = (String)solrDocument.get("classCanonicalName_" + classLangueNom + "_stored_string");
-								List<String> methodParamsSimpleNameComplete = (List<String>)solrDocument.get("methodParamsSimpleNameComplete_" + classLangueNom + "_stored_strings");
+								String methodVarCurrent = (String)solrDocument.get("methodVar_" + classLanguageName + "_stored_string");
+								String methodClassCanonicalName = (String)solrDocument.get("classCanonicalName_" + classLanguageName + "_stored_string");
+								List<String> methodParamsSimpleNameComplete = (List<String>)solrDocument.get("methodParamsSimpleNameComplete_" + classLanguageName + "_stored_strings");
 								String methodParamSimpleNameComplete = methodParamsSimpleNameComplete.get(0);
-								List<String> methodParamsVar = (List<String>)solrDocument.get("methodParamsVar_" + classLangueNom + "_stored_strings");
-								String methodeParamVar = methodParamsVar.get(0);
+								List<String> methodParamsVar = (List<String>)solrDocument.get("methodParamsVar_" + classLanguageName + "_stored_strings");
+								String methodParamVar = methodParamsVar.get(0);
 								storeListSolr(entityDoc, "entityMethodsBeforeVisibility", BooleanUtils.isTrue((Boolean)solrDocument.get("methodIsPublic_stored_boolean")) ? "public" : "protected");
 								storeListSolr(entityDoc, "entityMethodsBeforeVar", methodVarCurrent);
-								storeListSolr(entityDoc, "entityMethodsBeforeParamVar", methodeParamVar);
+								storeListSolr(entityDoc, "entityMethodsBeforeParamVar", methodParamVar);
 								storeListSolr(entityDoc, "entityMethodsBeforeSimpleName", methodParamSimpleNameComplete);
 								storeListSolr(entityDoc, "entityMethodsBeforeParamName", methodParamsVar.size() > 1);
 								Boolean entityMethodsBeforeWrite = (StringUtils.equals(methodClassCanonicalName, classCanonicalName)) && !classMethodsWritten.contains(methodVarCurrent);
 								storeListSolr(entityDoc, "entityMethodsBeforeWrite", entityMethodsBeforeWrite);
 								classMethodsWritten.add(methodVarCurrent);
-								List<String> methodParamCanonicalNames = (List<String>)solrDocument.get("methodParamCanonicalNames_" + classLangueNom + "_stored_strings");
+								List<String> methodParamCanonicalNames = (List<String>)solrDocument.get("methodParamCanonicalNames_" + classLanguageName + "_stored_strings");
 								if(methodParamCanonicalNames != null) {
 									String methodParamCanonicalName = methodParamCanonicalNames.get(0);
-									classPartsGenAdd(ClassParts.initClassParts(this, methodParamCanonicalName, classLangueNom));
+									classPartsGenAdd(ClassParts.initClassParts(this, methodParamCanonicalName, classLanguageName));
 								}
 							}
-	
-	//						List<JavaMethod> entityMethodsBefore = new ArrayList<JavaMethod>();
-	//						entityMethodsBefore.add(classQdox.getMethodBySignature(entityVar + "Before", new ArrayList<JavaType>() {{ add(entityClassQdox); }}, true));
-	//						for(JavaClass c : qdoxSuperClassesAndMe) {
-	//							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
-	//							entityMethodsBefore.add(classQdox.getMethodBySignature("before" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
-	//							entityMethodsBefore.add(classQdox.getMethodBySignature("before" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classQdoxString); }}, true));
-	//						}
-	//						for(JavaMethod methode : entityMethodsBefore) {
-	//							if(methode != null) {
-	//								JavaParameter param = methode.getParameters().get(0);
-	//								storeListSolr(entityDoc, "entityMethodsBeforeVisibility", methode.isPublic() ? "public" : "protected");
-	//								storeListSolr(entityDoc, "entityMethodsBeforeVar", methode.getName());
-	//								storeListSolr(entityDoc, "entityMethodsBeforeParamVar", param.getName());
-	//								storeListSolr(entityDoc, "entityMethodsBeforeSimpleName", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
-	//								storeListSolr(entityDoc, "entityMethodsBeforeParamName", methode.getParameters().size() > 1);
-	//							}
-	//						}
 	
 							SolrQuery solrSearchMethodAfter = new SolrQuery();   
 							solrSearchMethodAfter.setQuery("*:*");
@@ -1773,49 +1720,32 @@ public class IndexClass extends WatchClassBase {
 							solrSearchMethodAfter.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqSuperClassesAndMe);
 							solrSearchMethodAfter.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 							solrSearchMethodAfter.addFilterQuery("partIsMethod_indexed_boolean:true");
-							solrSearchMethodAfter.addFilterQuery("methodVar_" + classLangueNom + "_indexed_string:" + fqMethodAfter);
+							solrSearchMethodAfter.addFilterQuery("methodVar_" + classLanguageName + "_indexed_string:" + fqMethodAfter);
 							QueryResponse searchResponseMethodAfter = solrClientComputate.query(solrSearchMethodAfter);
 							SolrDocumentList searchListMethodAfter = searchResponseMethodAfter.getResults();
 	
 							for(SolrDocument solrDocument : searchListMethodAfter) {
-								String methodVarCurrent = (String)solrDocument.get("methodVar_" + classLangueNom + "_stored_string");
-								String methodClassCanonicalName = (String)solrDocument.get("classCanonicalName_" + classLangueNom + "_stored_string");
-								List<String> methodParamsSimpleNameComplete = (List<String>)solrDocument.get("methodParamsSimpleNameComplete_" + classLangueNom + "_stored_strings");
+								String methodVarCurrent = (String)solrDocument.get("methodVar_" + classLanguageName + "_stored_string");
+								String methodClassCanonicalName = (String)solrDocument.get("classCanonicalName_" + classLanguageName + "_stored_string");
+								List<String> methodParamsSimpleNameComplete = (List<String>)solrDocument.get("methodParamsSimpleNameComplete_" + classLanguageName + "_stored_strings");
 								String methodParamSimpleNameComplete = methodParamsSimpleNameComplete.get(0);
-								List<String> methodParamsVar = (List<String>)solrDocument.get("methodParamsVar_" + classLangueNom + "_stored_strings");
-								String methodeParamVar = methodParamsVar.get(0);
+								List<String> methodParamsVar = (List<String>)solrDocument.get("methodParamsVar_" + classLanguageName + "_stored_strings");
+								String methodParamVar = methodParamsVar.get(0);
 								storeListSolr(entityDoc, "entityMethodsAfterVisibility", BooleanUtils.isTrue((Boolean)solrDocument.get("methodIsPublic_stored_boolean")) ? "public" : "protected");
 								storeListSolr(entityDoc, "entityMethodsAfterVar", methodVarCurrent);
-								storeListSolr(entityDoc, "entityMethodsAfterParamVar", methodeParamVar);
+								storeListSolr(entityDoc, "entityMethodsAfterParamVar", methodParamVar);
 								storeListSolr(entityDoc, "entityMethodsAfterSimpleName", methodParamSimpleNameComplete);
 								storeListSolr(entityDoc, "entityMethodsAfterParamName", methodParamsVar.size() > 1);
 								Boolean entityMethodsBeforeWrite = (StringUtils.equals(methodClassCanonicalName, classCanonicalName)) && !classMethodsWritten.contains(methodVarCurrent);
 								storeListSolr(entityDoc, "entityMethodsBeforeWrite", entityMethodsBeforeWrite);
 								classMethodsWritten.add(methodVarCurrent);
-								List<String> methodParamCanonicalNames = (List<String>)solrDocument.get("methodParamCanonicalNames_" + classLangueNom + "_stored_strings");
+								List<String> methodParamCanonicalNames = (List<String>)solrDocument.get("methodParamCanonicalNames_" + classLanguageName + "_stored_strings");
 								if(methodParamCanonicalNames != null) {
 									String methodParamCanonicalName = methodParamCanonicalNames.get(0);
-									classPartsGenAdd(ClassParts.initClassParts(this, methodParamCanonicalName, classLangueNom));
+									classPartsGenAdd(ClassParts.initClassParts(this, methodParamCanonicalName, classLanguageName));
 								}
 							}
 						}
-
-//						List<JavaMethod> entityMethodsAfter = new ArrayList<JavaMethod>();
-//						entityMethodsAfter.add(classQdox.getMethodBySignature(entityVar + "After", new ArrayList<JavaType>() {{ add(entityClassQdox); }}, true));
-//						for(JavaClass c : qdoxSuperClassesAndMe) {
-//							String cNomSimple = StringUtils.substringAfterLast(c.getCanonicalName(), ".");
-//							entityMethodsAfter.add(classQdox.getMethodBySignature("after" + cNomSimple, new ArrayList<JavaType>() {{ add(c); }}, true));
-//							entityMethodsAfter.add(classQdox.getMethodBySignature("after" + cNomSimple, new ArrayList<JavaType>() {{ add(c); add(classQdoxString); }}, true));
-//						}
-//						for(JavaMethod methode : entityMethodsAfter) {
-//							if(methode != null) {
-//								JavaParameter param = methode.getParameters().get(0);
-//								storeListSolr(entityDoc, "entityMethodsAfterVar", methode.getName());
-//								storeListSolr(entityDoc, "entityMethodsAfterParamVar", param.getName());
-//								storeListSolr(entityDoc, "entityMethodsAfterSimpleName", StringUtils.substringAfterLast(param.getCanonicalName(), "."));
-//								storeListSolr(entityDoc, "entityMethodsAfterParamName", methode.getParameters().size() > 1);
-//							}
-//						}
 
 						if(methodComment != null) {
 
@@ -1829,11 +1759,6 @@ public class IndexClass extends WatchClassBase {
 									storeListSolr(entityDoc, "entityValsVar", entityValVar);
 									storeListSolr(entityDoc, "entityValsLanguage", "");
 									storeListSolr(entityDoc, "entityValsValue", entityValValue);
-//									for(String languageName : toutesLangues) {
-//										storeListSolr(entityDoc, "entityValsVar", entityValVar);
-//										storeListSolr(entityDoc, "entityValsLanguage", languageName);
-//										storeListSolr(entityDoc, "entityValsValue", entityValValue);
-//									}
 								}
 								else {
 									storeListSolr(entityDoc, "entityValsVar", entityValVar);
@@ -1841,21 +1766,7 @@ public class IndexClass extends WatchClassBase {
 									storeListSolr(entityDoc, "entityValsValue", entityValValue);
 								}
 								entityValsFound = entityValsSearch.find();
-							}//			
-//						if(methodComment != null) {
-//							Matcher entityValsSearch = Pattern.compile("^(entity)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
-//							boolean entityValsFound = entityValsSearch.find();
-//							while(entityValsFound) {
-//								String entityValVar = entityValsSearch.group(2);
-//								String entityValLanguage = entityValsSearch.group(3);
-//								String entityValValue = entityValsSearch.group(4);
-//								storeListSolr(entityDoc, "entityValsVar", entityValVar);
-//								storeListSolr(entityDoc, "entityValsLanguage", entityValLanguage);
-//								storeListSolr(entityDoc, "entityValsValue", entityValValue);
-//								entityValsFound = entityValsSearch.find();
-//							}
-//						}
-
+							}
 
 							Matcher entityOptionsSearch = Pattern.compile("^(entity)?Option\\.(\\w+)\\.([^:\\n]+)(:([^:\\n]+))?(:([^\\n]+))?", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityOptionsFound = entityOptionsSearch.find();
@@ -1989,15 +1900,14 @@ public class IndexClass extends WatchClassBase {
 						if(entityLanguage != null)
 							indexStoreSolr(entityDoc, "entityLanguage", entityLanguage);
 
-						indexStoreSolr(classLangueNom, entityDoc, "entityDisplayName", regexLanguage(classLangueNom, "(entity)?DisplayName", methodComment));
-						indexStoreSolr(classLangueNom, entityDoc, "entityDescription", regexLanguage(classLangueNom, "(entity)?Description", methodComment));
+						indexStoreSolr(classLanguageName, entityDoc, "entityDisplayName", regexLanguage(classLanguageName, "(entity)?DisplayName", methodComment));
+						indexStoreSolr(classLanguageName, entityDoc, "entityDescription", regexLanguage(classLanguageName, "(entity)?Description", methodComment));
 						indexStoreSolr(entityDoc, "entityOptional", regexFound("^(entity)?Optional:\\s*(true)$", methodComment));
-						indexStoreSolr(classLangueNom, entityDoc, "entityHtmlTooltip", regexLanguage(classLangueNom, "(entity)?HtmlTooltip", methodComment));
-//						indexStoreSolr(entityDoc, "entityVarApi", regex("^(entity)?EntiteVarApi:\\s*(.*)$", methodComment));
-						indexStoreSolrRegex(classLangueNom, entityDoc, "entityVarApi", "VarApi", methodComment);
-						indexStoreSolr(classLangueNom, entityDoc, "entityEnumSimpleName", regexLanguage(classLangueNom, "(entity)?EnumSimpleName", methodComment));
-						indexStoreSolr(classLangueNom, entityDoc, "entityEnumVar", regexLanguage(classLangueNom, "(entity)?EnumVar", methodComment));
-						indexStoreSolr(classLangueNom, entityDoc, "entityEnumVarDescription", regexLanguage(classLangueNom, "(entity)?EnumVarDescription", methodComment));
+						indexStoreSolr(classLanguageName, entityDoc, "entityHtmlTooltip", regexLanguage(classLanguageName, "(entity)?HtmlTooltip", methodComment));
+						indexStoreSolrRegex(classLanguageName, entityDoc, "entityVarApi", "VarApi", methodComment);
+						indexStoreSolr(classLanguageName, entityDoc, "entityEnumSimpleName", regexLanguage(classLanguageName, "(entity)?EnumSimpleName", methodComment));
+						indexStoreSolr(classLanguageName, entityDoc, "entityEnumVar", regexLanguage(classLanguageName, "(entity)?EnumVar", methodComment));
+						indexStoreSolr(classLanguageName, entityDoc, "entityEnumVarDescription", regexLanguage(classLanguageName, "(entity)?EnumVarDescription", methodComment));
 
 						Boolean entityHighlighting = indexStoreSolr(entityDoc, "entityHighlighting", regexFound("^(entity)?Highlighting:\\s*(true)$", methodComment));
 						Boolean entityHtml = regexFound("^(entity)?Html:\\s*(true)$", methodComment);
@@ -2059,7 +1969,6 @@ public class IndexClass extends WatchClassBase {
 								indexStoreSolr(languageName, entityDoc, "entityDisplayName", regexLanguage(languageName, "(entity)?DisplayName", methodComment));
 								indexStoreSolr(languageName, entityDoc, "entityEnumVarDescription", regexLanguage(languageName, "(entity)?EnumVarDescription", methodComment));
 								indexStoreSolr(languageName, entityDoc, "entityHtmlTooltip", regexLanguage(languageName, "(entity)?HtmlTooltip", methodComment));
-	//							indexStoreSolr(languageName, entityDoc, "entityVarApi", regex("^(entity)?EntiteVarApi." + languageName + ":\\s*(.*)$", methodComment, 1));
 								indexStoreSolrRegex(languageName, entityDoc, "entityVarApi", "VarApi", methodComment);
 								indexStoreSolr(languageName, entityDoc, "entityEnumVar", regexLanguage(languageName, "(entity)?EnumVar", methodComment));
 							}
@@ -2074,7 +1983,7 @@ public class IndexClass extends WatchClassBase {
 							SolrQuery solrSearchClasse = new SolrQuery();   
 							solrSearchClasse.setQuery("*:*");
 							solrSearchClasse.setRows(1);
-							solrSearchClasse.addFilterQuery("classSimpleName_" + classLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entityAttributeSimpleName));
+							solrSearchClasse.addFilterQuery("classSimpleName_" + classLanguageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entityAttributeSimpleName));
 							solrSearchClasse.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 							solrSearchClasse.addFilterQuery("partIsClass_indexed_boolean:true");
 							QueryResponse searchResponseClasse = solrClientComputate.query(solrSearchClasse);
@@ -2082,13 +1991,13 @@ public class IndexClass extends WatchClassBase {
 
 							if(searchListClasse.size() > 0) {
 								SolrDocument docClasse = searchListClasse.get(0);
-								String entityAttributeCanonicalName = (String)docClasse.get("classCanonicalName_" + classLangueNom + "_stored_string");
+								String entityAttributeCanonicalName = (String)docClasse.get("classCanonicalName_" + classLanguageName + "_stored_string");
 
 								SolrQuery solrSearchVar = new SolrQuery();   
 								solrSearchVar.setQuery("*:*");
 								solrSearchVar.setRows(1);
-								solrSearchVar.addFilterQuery("classCanonicalName_" + classLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entityAttributeCanonicalName));
-								solrSearchVar.addFilterQuery("entityVar_" + classLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entityAttributeVar));
+								solrSearchVar.addFilterQuery("classCanonicalName_" + classLanguageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entityAttributeCanonicalName));
+								solrSearchVar.addFilterQuery("entityVar_" + classLanguageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entityAttributeVar));
 								solrSearchVar.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 								solrSearchVar.addFilterQuery("partIsEntity_indexed_boolean:true");
 								QueryResponse searchResponseVar = solrClientComputate.query(solrSearchVar);
@@ -2099,9 +2008,9 @@ public class IndexClass extends WatchClassBase {
 									entityDefined = false;
 
 									indexStoreSolr(entityDoc, "entityAttribute", true);
-									indexStoreSolr(classLangueNom, entityDoc, "entityAttributeSimpleName", entityAttributeSimpleName);
-									indexStoreSolr(classLangueNom, entityDoc, "entityAttributeCanonicalName", entityAttributeCanonicalName);
-									indexStoreSolr(classLangueNom, entityDoc, "entityAttributeVar", entityAttributeVar);
+									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeSimpleName", entityAttributeSimpleName);
+									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeCanonicalName", entityAttributeCanonicalName);
+									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVar", entityAttributeVar);
 
 									if(classTranslate) {
 										for(String languageName : classOtherLanguages) {  
@@ -2118,117 +2027,10 @@ public class IndexClass extends WatchClassBase {
 							}
 						}
 						storeSolr(entityDoc, "entityDefined", entityDefined);
-
-//						boolean entityWrap = false;
-//	
-//						String varEntiteEnUS = regex("^(entity)?Var.enUS: (.*)", methodQdox.getComment());
-//						entity.var.frFR(entityVar);
-//						entity.var.enUS(StringUtils.isEmpty(varEntiteEnUS) ? entityVar : StringUtils.substringAfter(varEntiteEnUS, "_"));
-//	
-//						regexCommentaires(methodQdox.getComment(), entity.comment);
-//						regexReplaceAll(methodQdox.getComment(), methodQdox.getSourceCode(), entity.codeSource);
-//			
-//						if(entityClassQdox.getFullyQualifiedName().equals(canonicalNameWrapActuel)) {
-//							entityType = StringUtils.substringBeforeLast(StringUtils.substringAfter(entityType, "<"), ">");
-//							if(StringUtils.contains(entityType, "<"))
-//								entityClassQdox = typeBricoleur.getClassByName(StringUtils.substringBefore(entityType, "<"));
-//							else
-//								entityClassQdox = typeBricoleur.getClassByName(entityType);
-//							entityCanonicalName = entityClassQdox.getCanonicalName();
-//							entityWrap = true;
-//							entity.couverture(true);
-//						} 
-//						if(entity.clePrimaire)
-//							varCleUniqueActuel.tout(entity.var);
-//						if(entity.suggere)
-//							varSuggereActuel.tout(entity.var);
-//	
-//						if(!entitysTout.contains(entity))
-//							entitysTout.add(entity);
-//	
-//						tout.add(entity);
-//						importationsAjouter(new Chaine().tout(entityCanonicalName));
-//						importationsGenAjouter(new Chaine().tout(entityCanonicalName));
-//						if(entityListeTypeGenerique != null) {
-//							Chaine importation = new Chaine().tout(entityListeTypeGenerique);
-//							importationsAjouter(importation);
-//							importationsGenAjouter(importation);
-//						}
-//	
-//						boolean etendCluster = etendClasse(entityCanonicalNameClusterActuel);
-//						entity.etendCluster(etendCluster);
-//						if(!etendCluster && entity.canonicalNameGeneric.pasVide()) {
-//							boolean listeCluster = etendClasse(canonicalNameClusterActuel, entity.canonicalNameGeneric.toString());
-//							entity.listeCluster(listeCluster);
-//						}
-//	
-//						boolean etendPageXml = entity.etendClasse(canonicalNamePageXmlActuel);
-//						entity.etendPageXml(etendPageXml);
-//						if(!etendPageXml && entity.canonicalNameGeneric.pasVide()) {
-//							boolean listePageXml = etendClasse(canonicalNamePageXmlActuel, entity.canonicalNameGeneric.toString());
-//							entity.listePageXml(listePageXml);
-//						}
-//	
-//						boolean etendPagePart = entity.etendClasse(canonicalNamePagePartActuel);
-//						entity.etendPagePart(etendPagePart);
-//						if(!etendPagePart && entity.canonicalNameGeneric.pasVide()) {
-//							boolean listePagePart = etendClasse(canonicalNamePagePartActuel, entity.canonicalNameGeneric.toString());
-//							entity.listePagePart(listePagePart);
-//						}
-//	
-//	
-//						boolean contientRequestSite = contientChamp(varRequestSite.toString(), entity.classQdox);
-//						entity.contientRequestSite(contientRequestSite);
-//	
-//						boolean contientSetterString = contientMethode(entity.var.toString(), classQdoxString);
-//						entity.contientSetterString(contientSetterString);
-//	
-//						entityEstCmd(entity);
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
 						
 						for(JavaAnnotation annotation : annotations) {
-							String entityAnnotationLanguage = indexStoreSolr(classLangueNom, entityDoc, "entityAnnotations", annotation.getType().getCanonicalName());
+							String entityAnnotationLanguage = indexStoreSolr(classLanguageName, entityDoc, "entityAnnotations", annotation.getType().getCanonicalName());
 						}
-//						if(classReturnQdox != null && !classReturnQdox.getCanonicalName().equals("void")) {
-//							entityCanonicalNameRetourComplet = indexerStocker(entityDoc, "entityCanonicalNameRetourComplet", classLangueNom, classReturnQdox.getGenericCanonicalName());
-//							entityCanonicalNameRetour = indexerStocker(entityDoc, "entityCanonicalNameRetour", classLangueNom, classReturnQdox.getCanonicalName());
-//							String entitySimpleNameRetour = indexerStocker(entityDoc, "entitySimpleNameRetour", classLangueNom, StringUtils.substringAfterLast(entityCanonicalNameRetour, "."));
-//							String listeNomTypeOrigineRetourGenerique = entityCanonicalNameRetourComplet;
-//							String entityCanonicalNameRetourGenerique = StringUtils.substringBeforeLast(StringUtils.substringAfter(listeNomTypeOrigineRetourGenerique, "<"), ">");
-//							String entitySimpleNameRetourComplet;
-//							String entitySimpleNameRetourGenerique;
-//							entityCanonicalNameRetourGenerique = entityCanonicalNameRetourGenerique.contains("<") ? StringUtils.substringBefore(entityCanonicalNameRetourGenerique, "<") : entityCanonicalNameRetourGenerique;
-//							entityCanonicalNameRetourGenerique = entityCanonicalNameRetourGenerique.contains(",") ? StringUtils.substringBefore(entityCanonicalNameRetourGenerique, ",") : entityCanonicalNameRetourGenerique;
-//							if(StringUtils.isNotEmpty(entityCanonicalNameRetourGenerique)) {
-//								indexerStocker(entityDoc, "entityCanonicalNameRetourGenerique", classLangueNom, entityCanonicalNameRetourGenerique);
-//	
-//								if(StringUtils.contains(entityCanonicalNameRetourGenerique, "."))
-//									entitySimpleNameRetourGenerique = indexerStocker(entityDoc, "entitySimpleNameRetourGenerique", classLangueNom, StringUtils.substringAfterLast(entityCanonicalNameRetourGenerique, "."));
-//								else
-//									entitySimpleNameRetourGenerique = indexerStocker(entityDoc, "entitySimpleNameRetourGenerique", classLangueNom, entityCanonicalNameRetourGenerique);
-//	
-//								if(StringUtils.contains(entitySimpleNameRetourGenerique, ".")) {
-//									entitySimpleNameRetourComplet = indexerStocker(entityDoc, "entitySimpleNameRetourComplet", classLangueNom, concat(StringUtils.substringAfterLast(entitySimpleNameRetour, "."), "<", entitySimpleNameRetourGenerique, ">"));
-//								}
-//								else {
-//									entitySimpleNameRetourComplet = indexerStocker(entityDoc, "entitySimpleNameRetourComplet", classLangueNom, concat(entitySimpleNameRetour, "<", entitySimpleNameRetourGenerique, ">"));
-//								}
-//							}
-//							else {
-//								entitySimpleNameRetourComplet = indexerStocker(entityDoc, "entityCanonicalNameRetourComplet", classLangueNom, entitySimpleNameRetour);
-//							}
-//						}
 	
 						String entityKey = classAbsolutePath + "." + entityVar;
 		
@@ -2239,12 +2041,12 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "partNumber", partNumber);
 
 						String entitySourceCode = methodQdox.getSourceCode();
-						String entityString = regex("^(entity)?String\\." + classLangueNom + ":(.*)", methodComment);
+						String entityString = regex("^(entity)?String\\." + classLanguageName + ":(.*)", methodComment);
 						if(entityString != null) {
 							entitySourceCode = "\n\t\tc.o(\"" + StringUtils.replace(StringUtils.replace(entityString, "\\", "\\\\"), "\"", "\\\"") + "\");\n\t";
-							indexStoreSolr(classLangueNom, entityDoc, "entityString", entityString); 
+							indexStoreSolr(classLanguageName, entityDoc, "entityString", entityString); 
 						}
-						storeSolr(classLangueNom, entityDoc, "entitySourceCode", entitySourceCode); 
+						storeSolr(classLanguageName, entityDoc, "entitySourceCode", entitySourceCode); 
 
 						/////////////////////////
 						// entityTypeVertxJson //
@@ -2260,25 +2062,25 @@ public class IndexClass extends WatchClassBase {
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 							entitySimpleNameVertxJson = "Instant";
 							entityCanonicalNameVertxJson = VAL_canonicalNameInstant;
-							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", classLangueNom));
-							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneOffset", classLangueNom));
-							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", classLangueNom));
-							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZonedDateTime", classLangueNom));
-							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, classLangueNom));
-							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLangueNom));
-							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLangueNom));
-							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.util.Locale", classLangueNom));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneOffset", classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZonedDateTime", classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLanguageName));
+							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLanguageName));
+							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.util.Locale", classLanguageName));
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLocalDate)) {
 							entitySimpleNameVertxJson = "Instant";
 							entityCanonicalNameVertxJson = VAL_canonicalNameInstant;
-							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", classLangueNom));
-							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneOffset", classLangueNom));
-							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDate", classLangueNom));
-							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, classLangueNom));
-							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLangueNom));
-							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLangueNom));
-							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.util.Locale", classLangueNom));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneOffset", classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDate", classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLanguageName));
+							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLanguageName));
+							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.util.Locale", classLanguageName));
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLong)) {
 							entitySimpleNameVertxJson = "Long";
@@ -2287,7 +2089,7 @@ public class IndexClass extends WatchClassBase {
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBigDecimal)) {
 							entitySimpleNameVertxJson = "Double";
 							entityCanonicalNameVertxJson = VAL_canonicalNameLong;
-							classPartsGenAdd(ClassParts.initClassParts(this, NumberUtils.class.getCanonicalName(), classLangueNom));
+							classPartsGenAdd(ClassParts.initClassParts(this, NumberUtils.class.getCanonicalName(), classLanguageName));
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameDouble)) {
 							entitySimpleNameVertxJson = "Double";
@@ -2331,7 +2133,7 @@ public class IndexClass extends WatchClassBase {
 								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entityListSimpleNameVertxJson = "Long";
 								entityListCanonicalNameVertxJson = VAL_canonicalNameLong;
-								classPartsGenAdd(ClassParts.initClassParts(this, NumberUtils.class.getCanonicalName(), classLangueNom));
+								classPartsGenAdd(ClassParts.initClassParts(this, NumberUtils.class.getCanonicalName(), classLanguageName));
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameDouble)) {
 								entitySimpleNameVertxJson = "JsonArray";
@@ -2353,13 +2155,13 @@ public class IndexClass extends WatchClassBase {
 							}
 							storeSolr(entityDoc, "entityListSimpleNameVertxJson", entityListSimpleNameVertxJson);
 							storeSolr(entityDoc, "entityListCanonicalNameVertxJson", entityListCanonicalNameVertxJson);
-							classPartsGenAdd(ClassParts.initClassParts(this, entityListCanonicalNameVertxJson, classLangueNom));
+							classPartsGenAdd(ClassParts.initClassParts(this, entityListCanonicalNameVertxJson, classLanguageName));
 						}
 						else if(classPartsChain != null && StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameString, classPartsChain.canonicalName)) {
 							entitySimpleNameVertxJson = "String";
 							entityCanonicalNameVertxJson = VAL_canonicalNameString;
 						}
-						classPartsGenAdd(ClassParts.initClassParts(this, entityCanonicalNameVertxJson, classLangueNom));
+						classPartsGenAdd(ClassParts.initClassParts(this, entityCanonicalNameVertxJson, classLanguageName));
 						storeSolr(entityDoc, "entitySimpleNameVertxJson", entitySimpleNameVertxJson);
 						storeSolr(entityDoc, "entityCanonicalNameVertxJson", entityCanonicalNameVertxJson);
 
@@ -2450,8 +2252,6 @@ public class IndexClass extends WatchClassBase {
 							entitySolrCanonicalName = VAL_canonicalNameString;
 							entitySolrSimpleName = StringUtils.substringAfterLast(entitySolrCanonicalName, ".");
 							entityTypeSuffix = "_string";
-////								if(videDernier)
-////									suffixeType += "_videDernier";
 						}
 						storeSolr(entityDoc, "entitySolrCanonicalName", entitySolrCanonicalName);
 						storeSolr(entityDoc, "entitySolrSimpleName", entitySolrSimpleName);
@@ -2530,35 +2330,17 @@ public class IndexClass extends WatchClassBase {
 						storeSolr(entityDoc, "entityJsonType", entityJsonType);
 						if(entityJsonFormat != null)
 							storeSolr(entityDoc, "entityJsonFormat", entityJsonFormat);
-//						
-//						if(entityUniqueKey)
-//							storeSolr(entityDoc, "entityVarCleUnique", entityVar);
-//						if(entityPrimaryKey)
-//							storeSolr(entityDoc, "entityVarClePrimaire", entityVar);
-//						if(entitySuggested)
-//							storeSolr(entityDoc, "entityVarSuggere", entityVar + "_suggere");
-//						if(entityIncremented)
-//							storeSolr(entityDoc, "entityVarIncremente", entityVar + "_incremente");
-//						if(entityEncrypted)
-//							storeSolr(entityDoc, "entityVarCrypte", entityVar + "_crypte");
-//						if(entityIndexed)
-//							storeSolr(entityDoc, "entityVarIndexe", entityVar + "_indexe" + entityTypeSuffix);
-//						if(entityStored)
-//							storeSolr(entityDoc, "entityVarStocke", entityVar + "_stocke" + entityTypeSuffix);
 
 						if(entityPrimaryKey) {
-							classVarPrimaryKey = storeSolr(classLangueNom, classDoc, "classVarPrimaryKey", entityVar);
+							classVarPrimaryKey = storeSolr(classLanguageName, classDoc, "classVarPrimaryKey", entityVar);
 						}
 						if(entityUniqueKey) {
-							classVarUniqueKey = storeSolr(classLangueNom, classDoc, "classVarUniqueKey", entityVar);
+							classVarUniqueKey = storeSolr(classLanguageName, classDoc, "classVarUniqueKey", entityVar);
 						}
 				
 						if(classTranslate) {
 							for(String languageName : classOtherLanguages) {  
 								ClassParts entityClassPartsLangue = ClassParts.initClassParts(this, entityClassParts, languageName);
-	//							String entityCanonicalNameLangue = regex("^(entity)?NomCanonique\\." + languageName + ":\\s*(.*)", entityComment, entityCanonicalName);
-	//							String entitySimpleNameLangue = StringUtils.substringAfterLast(entityCanonicalNameLangue, ".");
-	//							String entityNomEnsembleLangue = StringUtils.substringBeforeLast(entityCanonicalNameLangue, ".");
 					
 								indexStoreSolr(languageName, entityDoc, "entityCanonicalName", entityClassPartsLangue.canonicalName); 
 								indexStoreSolr(languageName, entityDoc, "entitySimpleName", entityClassPartsLangue.simpleName); 
@@ -2596,32 +2378,18 @@ public class IndexClass extends WatchClassBase {
 
 						for(JavaClass methodExceptionQdox : methodExceptionsQdox) { 
 							String methodExceptionSimpleNameComplete = StringUtils.substringAfterLast(methodExceptionQdox.getCanonicalName(), ".");
-							ClassParts methodeExceptionClassParts = ClassParts.initClassParts(this, methodExceptionQdox.getCanonicalName(), classLangueNom);
-							if(!classInitDeepExceptions.contains(methodeExceptionClassParts.canonicalNameComplete))
-								classInitDeepExceptions.add(methodeExceptionClassParts.canonicalNameComplete);
+							ClassParts methodExceptionClassParts = ClassParts.initClassParts(this, methodExceptionQdox.getCanonicalName(), classLanguageName);
+							if(!classInitDeepExceptions.contains(methodExceptionClassParts.canonicalNameComplete))
+								classInitDeepExceptions.add(methodExceptionClassParts.canonicalNameComplete);
 							storeListSolr(entityDoc, "methodExceptionsSimpleNameComplete", methodExceptionSimpleNameComplete);
-							classPartsGenAdd(methodeExceptionClassParts);
+							classPartsGenAdd(methodExceptionClassParts);
 							if(classTranslate) {
 								for(String languageName : classOtherLanguages) {  
-									ClassParts methodeExceptionClassPartsLangue = ClassParts.initClassParts(this, methodExceptionQdox.getCanonicalName(), languageName);
-									storeListSolr(entityDoc, "methodExceptionsSimpleNameComplete", methodeExceptionClassPartsLangue.simpleNameComplete);
+									ClassParts methodExceptionClassPartsLangue = ClassParts.initClassParts(this, methodExceptionQdox.getCanonicalName(), languageName);
+									storeListSolr(entityDoc, "methodExceptionsSimpleNameComplete", methodExceptionClassPartsLangue.simpleNameComplete);
 								}
 							}
 						}
-//			
-//						if(methodComment != null) {
-//							Matcher entityValsSearch = Pattern.compile("^(entity)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(methodComment);
-//							boolean entityValsFound = entityValsSearch.find();
-//							while(entityValsFound) {
-//								String entityValVar = entityValsSearch.group(2);
-//								String entityValLanguage = entityValsSearch.group(3);
-//								String entityValValue = entityValsSearch.group(4);
-//								storeListSolr(entityDoc, "entityValsVar", entityValVar);
-//								storeListSolr(entityDoc, "entityValsLanguage", entityValLanguage);
-//								storeListSolr(entityDoc, "entityValsValue", entityValValue);
-//								entityValsFound = entityValsSearch.find();
-//							}
-//						}
 
 						solrClientComputate.add(entityDoc); 
 					}
@@ -2629,22 +2397,22 @@ public class IndexClass extends WatchClassBase {
 						// est Methode. 
 						
 						SolrInputDocument methodDoc = classDocClone.deepCopy();
-						indexStoreSolr(classLangueNom, methodDoc, "methodVar", methodVar);
-						indexStoreListSolr(classLangueNom, classDoc, "classMethodVars", methodVar);
+						indexStoreSolr(classLanguageName, methodDoc, "methodVar", methodVar);
+						indexStoreListSolr(classLanguageName, classDoc, "classMethodVars", methodVar);
 						for(Integer methodParamNum = 1; methodParamNum <= methodParamsQdox.size(); methodParamNum++) {
 							JavaParameter methodParamQdox = methodParamsQdox.get(methodParamNum - 1);
-							String methodeParamVar = methodParamQdox.getName();
-							storeListSolr(classLangueNom, methodDoc, "methodParamsVar", methodeParamVar);
-							ClassParts methodeParamsClassePart = ClassParts.initClassParts(this, methodParamQdox.getJavaClass(), classLangueNom);
-							storeListSolr(classLangueNom, methodDoc, "methodParamCanonicalNames", methodeParamsClassePart.canonicalName);
-							storeListSolr(classLangueNom, methodDoc, "methodParamsSimpleNameComplete", methodeParamsClassePart.simpleNameComplete);
+							String methodParamVar = methodParamQdox.getName();
+							storeListSolr(classLanguageName, methodDoc, "methodParamsVar", methodParamVar);
+							ClassParts methodParamsClassePart = ClassParts.initClassParts(this, methodParamQdox.getJavaClass(), classLanguageName);
+							storeListSolr(classLanguageName, methodDoc, "methodParamCanonicalNames", methodParamsClassePart.canonicalName);
+							storeListSolr(classLanguageName, methodDoc, "methodParamsSimpleNameComplete", methodParamsClassePart.simpleNameComplete);
 							storeListSolr(methodDoc, "methodParamsVariableArgs", methodParamQdox.isVarArgs());
 							if(classTranslate) {
 								for(String languageName : classOtherLanguages) { 
-									String methodParamVarLanguage = regex("^(methode)?Param" + methodParamNum + "\\.var\\." + languageName + ": (.*)", methodComment);
+									String methodParamVarLanguage = regex("^(method)?Param" + methodParamNum + "\\.var\\." + languageName + ": (.*)", methodComment);
 									if(methodParamVarLanguage == null)
-										methodParamVarLanguage = methodeParamVar;
-									ClassParts methodParamClassPartsLanguage = ClassParts.initClassParts(this, methodeParamsClassePart, languageName);
+										methodParamVarLanguage = methodParamVar;
+									ClassParts methodParamClassPartsLanguage = ClassParts.initClassParts(this, methodParamsClassePart, languageName);
 	
 									storeListSolr(languageName, methodDoc, "methodParamCanonicalNames", methodParamClassPartsLanguage.canonicalName);
 									storeListSolr(languageName, methodDoc, "methodParamsSimpleNameComplete", methodParamClassPartsLanguage.simpleNameComplete);
@@ -2660,13 +2428,13 @@ public class IndexClass extends WatchClassBase {
 						}
 
 						for(JavaAnnotation annotation : annotations) {
-							ClassParts methodAnnotationClassParts = ClassParts.initClassParts(this, annotation.getType(), classLangueNom);
-							storeListSolr(classLangueNom, methodDoc, "methodAnnotationsNomSimpleComplet", methodAnnotationClassParts.simpleNameComplete);
-							storeListSolr(classLangueNom, methodDoc, "methodAnnotationsBlocCode", StringUtils.substringAfter(annotation.toString(), methodAnnotationClassParts.simpleName));
+							ClassParts methodAnnotationClassParts = ClassParts.initClassParts(this, annotation.getType(), classLanguageName);
+							storeListSolr(classLanguageName, methodDoc, "methodAnnotationsSimpleNameComplet", methodAnnotationClassParts.simpleNameComplete);
+							storeListSolr(classLanguageName, methodDoc, "methodAnnotationsBlocCode", StringUtils.substringAfter(annotation.toString(), methodAnnotationClassParts.simpleName));
 							if(classTranslate) {
 								for(String languageName : classOtherLanguages) {  
 									ClassParts methodAnnotationClassPartsLangue = ClassParts.initClassParts(this, methodAnnotationClassParts, languageName);
-									storeListSolr(languageName, methodDoc, "methodAnnotationsNomSimpleComplet", methodAnnotationClassPartsLangue.simpleNameComplete);
+									storeListSolr(languageName, methodDoc, "methodAnnotationsSimpleNameComplet", methodAnnotationClassPartsLangue.simpleNameComplete);
 									storeListSolr(languageName, methodDoc, "methodAnnotationsBlocCode", StringUtils.substringAfter(annotation.toString(), methodAnnotationClassParts.simpleName));
 								}
 							}
@@ -2677,16 +2445,16 @@ public class IndexClass extends WatchClassBase {
 							storeListSolr(methodDoc, "methodExceptionsSimpleNameComplete", methodExceptionSimpleNameComplete);
 							if(classTranslate) {
 								for(String languageName : classOtherLanguages) {  
-									ClassParts methodeExceptionClassPartsLangue = ClassParts.initClassParts(this, methodExceptionQdox.getCanonicalName(), languageName);
-									storeListSolr(methodDoc, "methodExceptionsSimpleNameComplete", methodeExceptionClassPartsLangue.simpleNameComplete);
+									ClassParts methodExceptionClassPartsLangue = ClassParts.initClassParts(this, methodExceptionQdox.getCanonicalName(), languageName);
+									storeListSolr(methodDoc, "methodExceptionsSimpleNameComplete", methodExceptionClassPartsLangue.simpleNameComplete);
 								}
 							}
 						}
 
 						Boolean methodIsVoid = false;
 						if(classReturnQdox != null && !classReturnQdox.getCanonicalName().equals("void")) {
-							ClassParts methodReturnClassParts = ClassParts.initClassParts(this, methodQdox.getReturns(), classLangueNom);
-							storeSolr(classLangueNom, methodDoc, "methodReturnSimpleNameComplete", methodReturnClassParts.simpleNameComplete);
+							ClassParts methodReturnClassParts = ClassParts.initClassParts(this, methodQdox.getReturns(), classLanguageName);
+							storeSolr(classLanguageName, methodDoc, "methodReturnSimpleNameComplete", methodReturnClassParts.simpleNameComplete);
 							if(classTranslate) {
 								for(String languageName : classOtherLanguages) { 
 									ClassParts methodReturnClassPartsLanguage = ClassParts.initClassParts(this, methodReturnClassParts, languageName);
@@ -2708,7 +2476,7 @@ public class IndexClass extends WatchClassBase {
 						}
 						methodKey += ")";  
 		
-						// Methodes Solr du methode. 
+						// Methodes Solr du method. 
 		
 						methodDoc.addField("id", methodKey);
 						indexStoreSolr(methodDoc, "partIsMethod", true);
@@ -2723,37 +2491,30 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(methodDoc, "methodIsNative", methodQdox.isNative());
 						indexStoreSolr(methodDoc, "methodIsTest", methodIsTest);
 						indexStoreSolr(methodDoc, "methodIsOverride", methodIsOverride);
-						storeRegexComments(classLangueNom, methodDoc, "methodComment", methodComment);
+						storeRegexComments(classLanguageName, methodDoc, "methodComment", methodComment);
 	
-						String methodVarLanguage = regex("^(methode)?Var\\." + classLangueNom + ": (.*)", methodComment);
+						String methodVarLanguage = regex("^(method)?Var\\." + classLanguageName + ": (.*)", methodComment);
 						methodVarLanguage =  methodVarLanguage == null ? methodVar : methodVarLanguage;
 	
-						regexList("^" + classLangueNom + ":\\s*([^\n]+)", methodComment);
+						regexList("^" + classLanguageName + ":\\s*([^\n]+)", methodComment);
 
 						String methodSourceCode = methodQdox.getSourceCode();
 						String methodSourceCodeLanguage = methodSourceCode;
-//						ArrayList<String> replaceKeysLanguage = regexList("^r." + classLangueNom + "\\s*=\\s*(.*)\\n.*", methodComment);
-//						ArrayList<String> replaceValuesLanguage = regexList("^r." + classLangueNom + "\\s*=\\s*.*\\n(.*)", methodComment);
-//						for(int i = 0; i < replaceKeysLanguage.size(); i++) {
-//							String regexKey = replaceKeysLanguage.get(i);
-//							String regexValue = replaceValuesLanguage.get(i);
-//							StringUtils.replace(methodSourceCodeLanguage, regexKey, regexValue);
-//						}
-						String methodString = regex("^(methode)?String\\." + classLangueNom + ":(.*)", methodComment);
+						String methodString = regex("^(method)?String\\." + classLanguageName + ":(.*)", methodComment);
 						if(methodString != null) {
 							methodSourceCode = "\n\t\treturn \"" + StringUtils.replace(StringUtils.replace(methodString, "\\", "\\\\"), "\"", "\\\"") + "\";\n\t";
-							indexStoreSolr(classLangueNom, methodDoc, "methodString", methodString); 
+							indexStoreSolr(classLanguageName, methodDoc, "methodString", methodString); 
 						}
-						storeSolr(classLangueNom, methodDoc, "methodSourceCode", methodSourceCode);
+						storeSolr(classLanguageName, methodDoc, "methodSourceCode", methodSourceCode);
 
 						if(classTranslate) {
 							for(String languageName : classOtherLanguages) {  
-								methodVarLanguage = regex("^(methode)?Var\\." + languageName + ":\\s*([^\n]+)", methodComment);
+								methodVarLanguage = regex("^(method)?Var\\." + languageName + ":\\s*([^\n]+)", methodComment);
 								methodVarLanguage = indexStoreSolr(languageName, methodDoc, "methodVar", methodVarLanguage == null ? methodVar : methodVarLanguage);
 								regexList("^" + languageName + ":\\s*([^\n]+)", methodComment);
 								methodSourceCodeLanguage = regexReplaceAll(methodComment, methodSourceCode, languageName);
 								indexStoreListSolr(languageName, classDoc, "classMethodVars", methodVarLanguage);
-								String methodStringLangue = regex("^(methode)?String\\." + languageName + ":(.*)", methodComment);
+								String methodStringLangue = regex("^(method)?String\\." + languageName + ":(.*)", methodComment);
 								if(methodStringLangue != null) {
 									methodSourceCodeLanguage = "\n\t\treturn \"" + StringUtils.replace(StringUtils.replace(methodStringLangue, "\\", "\\\\"), "\"", "\\\"") + "\";\n\t";
 									indexStoreSolr(languageName, methodDoc, "methodString", methodStringLangue); 
@@ -2770,9 +2531,9 @@ public class IndexClass extends WatchClassBase {
 		}
 
 		if(classVarPrimaryKey == null && classSuperDoc != null) {
-			classVarPrimaryKey = (String)classSuperDoc.get("classVarPrimaryKey_" + classLangueNom + "_stored_string");
+			classVarPrimaryKey = (String)classSuperDoc.get("classVarPrimaryKey_" + classLanguageName + "_stored_string");
 			if(classVarPrimaryKey != null) {
-				storeSolr(classLangueNom, classDoc, "classVarPrimaryKey", classVarPrimaryKey);
+				storeSolr(classLanguageName, classDoc, "classVarPrimaryKey", classVarPrimaryKey);
 				if(classTranslate) {
 					for(String languageName : classOtherLanguages) {  
 						String classVarPrimaryKeyLangue = (String)classSuperDoc.get("classVarPrimaryKey_" + languageName + "_stored_string");
@@ -2784,9 +2545,9 @@ public class IndexClass extends WatchClassBase {
 			}
 		}
 		if(classVarUniqueKey == null && classSuperDoc != null) {
-			classVarUniqueKey = (String)classSuperDoc.get("classVarUniqueKey_" + classLangueNom + "_stored_string");
+			classVarUniqueKey = (String)classSuperDoc.get("classVarUniqueKey_" + classLanguageName + "_stored_string");
 			if(classVarUniqueKey != null) {
-				storeSolr(classLangueNom, classDoc, "classVarUniqueKey", classVarUniqueKey);
+				storeSolr(classLanguageName, classDoc, "classVarUniqueKey", classVarUniqueKey);
 				if(classTranslate) {
 					for(String languageName : classOtherLanguages) {  
 						String classVarUniqueKeyLangue = (String)classSuperDoc.get("classVarUniqueKey_" + languageName + "_stored_string");
@@ -2809,7 +2570,7 @@ public class IndexClass extends WatchClassBase {
 			storeListSolr(classDoc, "classKeywords", classKeywordValue); 
 		}
 		
-		ClassParts classPartsWrap = classPartsWrap(domainPackageName, classLangueNom);
+		ClassParts classPartsWrap = classPartsWrap(domainPackageName, classLanguageName);
 		classPartsGenAdd(classPartsWrap);
 
 		if(!classApiMethods.contains("Search") && classKeywordsFound && (classKeywords.contains("Search.request") || classKeywords.contains("Search.response")))
@@ -2844,25 +2605,25 @@ public class IndexClass extends WatchClassBase {
 				else
 					classApiMethodMethode = "GET";
 
-				indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, classApiMethodMethode));
+				indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethod" + classApiMethod + ":\\s*(.*)", classComment, classApiMethodMethode));
 
-				String classApiUriMethode = regexLanguage(classLangueNom, "(class)?ApiUri" + classApiMethod, classComment);
+				String classApiUriMethode = regexLanguage(classLanguageName, "(class)?ApiUri" + classApiMethod, classComment);
 
 				indexStoreSolrRegex(classDoc, "classApiOperationId" + classApiMethod, "ApiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
 				indexStoreSolrRegex(classDoc, "classApiOperationId" + classApiMethod + "Request", "ApiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
 				indexStoreSolrRegex(classDoc, "classApiOperationId" + classApiMethod + "Response", "ApiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
-				indexStoreSolrRegex(classDoc, "classApiDescription" + classApiMethod, "ApiDescription" + classApiMethod, classComment, regexLanguage(classLangueNom, "(class)?Description" + classApiMethod + "", classComment));
+				indexStoreSolrRegex(classDoc, "classApiDescription" + classApiMethod, "ApiDescription" + classApiMethod, classComment, regexLanguage(classLanguageName, "(class)?Description" + classApiMethod + "", classComment));
 
 				if(classExtendsBase && classSuperDoc != null) {
-					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + classLangueNom + "_stored_string"));
-					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Request", (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Request" + "_" + classLangueNom + "_stored_string"));
-					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + classLangueNom + "_stored_string"));
+					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + classLanguageName + "_stored_string"));
+					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Request", (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Request" + "_" + classLanguageName + "_stored_string"));
+					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + classLanguageName + "_stored_string"));
 				}
 
-				String classPageNomSimpleMethode = regex("^(class)?Page" + classApiMethod + ":\\s*(.*)", classComment);
-				String classPageSuperNomSimpleMethode = regex("^(class)?PageSuper" + classApiMethod + ":\\s*(.*)", classComment);
-				String classApiMediaType200Methode = regex("^(class)?ApiTypeMedia200" + classApiMethod + ":\\s*(.*)", classComment, classPageNomSimpleMethode == null ? "application/json" : "text/html");
-				String classApiKeywordMethod = regexLanguage(classLangueNom, "(class)?ApiKeyword" + classApiMethod, classComment);
+				String classPageSimpleNameMethode = regex("^(class)?Page" + classApiMethod + ":\\s*(.*)", classComment);
+				String classPageSuperSimpleNameMethode = regex("^(class)?PageSuper" + classApiMethod + ":\\s*(.*)", classComment);
+				String classApiMediaType200Methode = regex("^(class)?ApiTypeMedia200" + classApiMethod + ":\\s*(.*)", classComment, classPageSimpleNameMethode == null ? "application/json" : "text/html");
+				String classApiKeywordMethod = regexLanguage(classLanguageName, "(class)?ApiKeyword" + classApiMethod, classComment);
 				if(StringUtils.contains(classApiMethod, "POST")
 						|| StringUtils.contains(classApiMethod, "Search")
 						|| StringUtils.contains(classApiMethod, "PATCH")
@@ -2878,19 +2639,19 @@ public class IndexClass extends WatchClassBase {
 					if(StringUtils.isBlank(classApiUriMethode))
 						classApiUriMethode = classApiUri + "/{id}";
 				}
-				if(this.languageName.equals(classLangueNom))
+				if(this.languageName.equals(classLanguageName))
 					indexStoreSolr(classDoc, "classApiMediaType200" + classApiMethod, classApiMediaType200Methode);
 				indexStoreSolr(classDoc, "classApiKeyword" + classApiMethod, classApiKeywordMethod);
 				indexStoreSolr(classDoc, "classApiUri" + classApiMethod, classApiUriMethode);
-				if(classPageNomSimpleMethode != null) {
-					String classPageLangueNom = null;
+				if(classPageSimpleNameMethode != null) {
+					String classPageLanguageName = null;
 
 					if(classTranslate) {
-						for(String languageName : toutesLangues) {
+						for(String languageName : allLanguages) {
 							SolrQuery searchPage = new SolrQuery();   
 							searchPage.setQuery("*:*");
 							searchPage.setRows(1);
-							searchPage.addFilterQuery("classSimpleName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(classPageNomSimpleMethode));
+							searchPage.addFilterQuery("classSimpleName_" + languageName + "_indexed_string:" + ClientUtils.escapeQueryChars(classPageSimpleNameMethode));
 							searchPage.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 							searchPage.addFilterQuery("partIsClass_indexed_boolean:true");
 							QueryResponse searchResponsePage = solrClientComputate.query(searchPage);
@@ -2899,74 +2660,73 @@ public class IndexClass extends WatchClassBase {
 							if(searchListPage.size() > 0) {
 								SolrDocument docEntite = searchListPage.get(0);
 								String classPackageNameLanguage = (String)classDoc.get("classPackageName_" + languageName + "_indexed_string").getValue();
-								String classPageNomCanoniqueMethode = (String)docEntite.get("classCanonicalName_" + languageName + "_stored_string");
-		//							String classPageNomSimpleMethode = (String)docEntite.get("classSimpleName_" + languageName + "_stored_string");
-								indexStoreSolr(classDoc, "classPageNomCanonique" + classApiMethod, classPageNomCanoniqueMethode);
-								indexStoreSolr(classDoc, "classPageNomSimple" + classApiMethod, classPageNomSimpleMethode);
-								classPartsGenApiAdd(ClassParts.initClassParts(this, classPageNomCanoniqueMethode, languageName));
+								String classPageCanonicalNameMethode = (String)docEntite.get("classCanonicalName_" + languageName + "_stored_string");
+								indexStoreSolr(classDoc, "classPageCanonicalName" + classApiMethod, classPageCanonicalNameMethode);
+								indexStoreSolr(classDoc, "classPageSimpleName" + classApiMethod, classPageSimpleNameMethode);
+								classPartsGenApiAdd(ClassParts.initClassParts(this, classPageCanonicalNameMethode, languageName));
 	
-								String classGenPageNomSimple;
+								String classGenPageSimpleName;
 								String classPageCheminGen;
-								if(StringUtils.contains(classPageNomSimpleMethode, "Page")) {
-									classGenPageNomSimple = StringUtils.substringBeforeLast(classPageNomSimpleMethode, "Page") + "GenPage" + StringUtils.substringAfterLast(classPageNomSimpleMethode, "Page");
-									classPageCheminGen = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classGenPageNomSimple, ".java");
+								if(StringUtils.contains(classPageSimpleNameMethode, "Page")) {
+									classGenPageSimpleName = StringUtils.substringBeforeLast(classPageSimpleNameMethode, "Page") + "GenPage" + StringUtils.substringAfterLast(classPageSimpleNameMethode, "Page");
+									classPageCheminGen = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classGenPageSimpleName, ".java");
 								}
 								else {
-									classGenPageNomSimple = "Gen" + classPageNomSimpleMethode;
-									classPageCheminGen = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classGenPageNomSimple, ".java");
+									classGenPageSimpleName = "Gen" + classPageSimpleNameMethode;
+									classPageCheminGen = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classGenPageSimpleName, ".java");
 								}
-								indexStoreSolr(classDoc, "classGenPageNomSimple" + classApiMethod, classGenPageNomSimple);
-								String classPageChemin = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classPageNomSimpleMethode, ".java");
+								indexStoreSolr(classDoc, "classGenPageSimpleName" + classApiMethod, classGenPageSimpleName);
+								String classPageChemin = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classPageSimpleNameMethode, ".java");
 								indexStoreSolr(classDoc, "classPageCheminGen" + classApiMethod, classPageCheminGen); 
 								indexStoreSolr(classDoc, "classPageChemin" + classApiMethod, classPageChemin); 
-								classPageLangueNom = languageName;
+								classPageLanguageName = languageName;
 								break;
 							}
 						}
 					}
-					if(classPageLangueNom == null) {
+					if(classPageLanguageName == null) {
 
 						if(classTranslate) {
-							for(String languageName : toutesLangues) {
-								if(StringUtils.containsIgnoreCase(classPageNomSimpleMethode, languageName)) {
+							for(String languageName : allLanguages) {
+								if(StringUtils.containsIgnoreCase(classPageSimpleNameMethode, languageName)) {
 									String classPackageNameLanguage = (String)classDoc.get("classPackageName_" + languageName + "_indexed_string").getValue();
 	
-									String classGenPageNomSimple;
+									String classGenPageSimpleName;
 									String classPageCheminGen;
 									String classPageChemin;
-									if(StringUtils.contains(classPageNomSimpleMethode, "Page")) {
-										classGenPageNomSimple = StringUtils.substringBeforeLast(classPageNomSimpleMethode, "Page") + "GenPage" + StringUtils.substringAfterLast(classPageNomSimpleMethode, "Page");
-										classPageCheminGen = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classGenPageNomSimple, ".java");
-										classPageChemin = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classPageNomSimpleMethode, ".java");
+									if(StringUtils.contains(classPageSimpleNameMethode, "Page")) {
+										classGenPageSimpleName = StringUtils.substringBeforeLast(classPageSimpleNameMethode, "Page") + "GenPage" + StringUtils.substringAfterLast(classPageSimpleNameMethode, "Page");
+										classPageCheminGen = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classGenPageSimpleName, ".java");
+										classPageChemin = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classPageSimpleNameMethode, ".java");
 									}
 									else {
-										classGenPageNomSimple = "Gen" + classPageNomSimpleMethode;
-										classPageCheminGen = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classGenPageNomSimple, ".java");
-										classPageChemin = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classPageNomSimpleMethode, ".java");
+										classGenPageSimpleName = "Gen" + classPageSimpleNameMethode;
+										classPageCheminGen = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classGenPageSimpleName, ".java");
+										classPageChemin = concat(srcMainJavaPath, "/", StringUtils.replace(classPackageNameLanguage, ".", "/"), "/", classPageSimpleNameMethode, ".java");
 									}
-									indexStoreSolr(classDoc, "classGenPageNomSimple" + classApiMethod, classGenPageNomSimple);
+									indexStoreSolr(classDoc, "classGenPageSimpleName" + classApiMethod, classGenPageSimpleName);
 									indexStoreSolr(classDoc, "classPageCheminGen" + classApiMethod, classPageCheminGen); 
 									indexStoreSolr(classDoc, "classPageChemin" + classApiMethod, classPageChemin); 
-									classPageLangueNom = languageName;
+									classPageLanguageName = languageName;
 									break;
 								}
 							}
 						}
-						if(classPageLangueNom != null) {
-							String classPageNomCanoniqueMethode = classPackageName + "." + classPageNomSimpleMethode;
+						if(classPageLanguageName != null) {
+							String classPageCanonicalNameMethode = classPackageName + "." + classPageSimpleNameMethode;
 							
-							indexStoreSolr(classDoc, "classPageNomCanonique" + classApiMethod, classPageNomCanoniqueMethode);
-							indexStoreSolr(classDoc, "classPageNomSimple" + classApiMethod, classPageNomSimpleMethode);
-							classPartsGenApiAdd(ClassParts.initClassParts(this, classPageNomCanoniqueMethode, classPageLangueNom));
+							indexStoreSolr(classDoc, "classPageCanonicalName" + classApiMethod, classPageCanonicalNameMethode);
+							indexStoreSolr(classDoc, "classPageSimpleName" + classApiMethod, classPageSimpleNameMethode);
+							classPartsGenApiAdd(ClassParts.initClassParts(this, classPageCanonicalNameMethode, classPageLanguageName));
 						}
 					}
 
-					if(classPageLangueNom != null) {
-						if(classPageSuperNomSimpleMethode != null) {
+					if(classPageLanguageName != null) {
+						if(classPageSuperSimpleNameMethode != null) {
 							SolrQuery searchPage = new SolrQuery();   
 							searchPage.setQuery("*:*");
 							searchPage.setRows(1);
-							searchPage.addFilterQuery("classSimpleName_" + classPageLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classPageSuperNomSimpleMethode));
+							searchPage.addFilterQuery("classSimpleName_" + classPageLanguageName + "_indexed_string:" + ClientUtils.escapeQueryChars(classPageSuperSimpleNameMethode));
 							searchPage.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 							searchPage.addFilterQuery("partIsClass_indexed_boolean:true");
 							QueryResponse searchResponsePage = solrClientComputate.query(searchPage);
@@ -2974,82 +2734,38 @@ public class IndexClass extends WatchClassBase {
 		
 							if(searchListPage.size() > 0) {
 								SolrDocument docEntite = searchListPage.get(0);
-								String classPageSuperNomCanoniqueMethode = (String)docEntite.get("classCanonicalName_" + classPageLangueNom + "_stored_string");
-								indexStoreSolr(classDoc, "classPageSuperNomCanonique" + classApiMethod, classPageSuperNomCanoniqueMethode);
-								indexStoreSolr(classDoc, "classPageSuperNomSimple" + classApiMethod, classPageSuperNomSimpleMethode);
-								classPartsGenPageAdd(ClassParts.initClassParts(this, classPageSuperNomCanoniqueMethode, classPageLangueNom));
+								String classPageSuperCanonicalNameMethode = (String)docEntite.get("classCanonicalName_" + classPageLanguageName + "_stored_string");
+								indexStoreSolr(classDoc, "classPageSuperCanonicalName" + classApiMethod, classPageSuperCanonicalNameMethode);
+								indexStoreSolr(classDoc, "classPageSuperSimpleName" + classApiMethod, classPageSuperSimpleNameMethode);
+								classPartsGenPageAdd(ClassParts.initClassParts(this, classPageSuperCanonicalNameMethode, classPageLanguageName));
 							}
 							else {
-								indexStoreSolr(classDoc, "classPageSuperNomCanonique" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classCanonicalName_" + classPageLangueNom + "_stored_string"));
-								indexStoreSolr(classDoc, "classPageSuperNomSimple" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classSimpleName_" + classPageLangueNom + "_stored_string"));
-//								classPartsGenPageAdd(ClassParts.initClassParts(this, (String)classPartsPageLayout.solrDocument.get("classCanonicalName_" + classPageLangueNom + "_stored_string"), classPageLangueNom));
+								indexStoreSolr(classDoc, "classPageSuperCanonicalName" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classCanonicalName_" + classPageLanguageName + "_stored_string"));
+								indexStoreSolr(classDoc, "classPageSuperSimpleName" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classSimpleName_" + classPageLanguageName + "_stored_string"));
 								classPartsGenPageAdd(classPartsPageLayout);
 							}
 						}
 						else {
-							indexStoreSolr(classDoc, "classPageSuperNomCanonique" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classCanonicalName_" + classPageLangueNom + "_stored_string"));
-							indexStoreSolr(classDoc, "classPageSuperNomSimple" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classSimpleName_" + classPageLangueNom + "_stored_string"));
-//							classPartsGenPageAdd(ClassParts.initClassParts(this, (String)classPartsPageLayout.solrDocument.get("classCanonicalName_" + classPageLangueNom + "_stored_string"), classPageLangueNom));
+							indexStoreSolr(classDoc, "classPageSuperCanonicalName" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classCanonicalName_" + classPageLanguageName + "_stored_string"));
+							indexStoreSolr(classDoc, "classPageSuperSimpleName" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classSimpleName_" + classPageLanguageName + "_stored_string"));
 							classPartsGenPageAdd(classPartsPageLayout);
 						}
 
-						String classPageCheminCss = concat(appPath, "-static/css/", classPageNomSimpleMethode, ".css");
-						String classPageCheminJs = concat(appPath, "-static/js/", classPageNomSimpleMethode, ".js");
+						String classPageCheminCss = concat(appPath, "-static/css/", classPageSimpleNameMethode, ".css");
+						String classPageCheminJs = concat(appPath, "-static/js/", classPageSimpleNameMethode, ".js");
 			
 						indexStoreSolr(classDoc, "classPageCheminCss" + classApiMethod, classPageCheminCss); 
 						indexStoreSolr(classDoc, "classPageCheminJs" + classApiMethod, classPageCheminJs); 
-						indexStoreSolr(classDoc, "classPageLangueNom" + classApiMethod, classPageLangueNom); 
+						indexStoreSolr(classDoc, "classPageLanguageName" + classApiMethod, classPageLanguageName); 
 						classPage = true;
 					}
 					else {
-						indexStoreSolr(classDoc, "classPageSuperNomCanonique" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classCanonicalName_" + classPageLangueNom + "_stored_string"));
-						indexStoreSolr(classDoc, "classPageSuperNomSimple" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classSimpleName_" + classPageLangueNom + "_stored_string"));
-//						classPartsGenPageAdd(ClassParts.initClassParts(this, (String)classPartsPageLayout.solrDocument.get("classCanonicalName_" + classPageLangueNom + "_stored_string"), classPageLangueNom));
+						indexStoreSolr(classDoc, "classPageSuperCanonicalName" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classCanonicalName_" + classPageLanguageName + "_stored_string"));
+						indexStoreSolr(classDoc, "classPageSuperSimpleName" + classApiMethod, (String)classPartsPageLayout.solrDocument.get("classSimpleName_" + classPageLanguageName + "_stored_string"));
 						classPartsGenPageAdd(classPartsPageLayout);
 					}
 				}
-//				}
 			}
-//			if(classTranslate) {
-//			for(String languageName : classOtherLanguages) {  
-//				String classApiUriLangue = indexStoreSolrRegex(classDoc, "classApiUri", "ApiUri", classComment);
-//				String classApiTagLangue = indexStoreSolrRegex(classDoc, "classApiTag", "ApiTag", classComment);
-//
-//				for(String classApiMethod : classApiMethods) {
-//					String classApiUriMethodeLangue = regexLanguage(languageName, "apiUri" + classApiMethod, classComment);
-//					indexStoreSolr(classDoc, "classApiMethod" + classApiMethod, regex("^(class)?ApiMethode" + classApiMethod + ":\\s*(.*)", classComment, classApiMethod));
-//					indexStoreSolrRegex(classDoc, "classApiOperationId" + classApiMethod, "ApiOperationId" + classApiMethod, classComment, StringUtils.lowerCase(classApiMethod) + classSimpleName);
-//					indexStoreSolrRegex(classDoc, "classApiOperationId" + classApiMethod + "Request", "ApiOperationId" + classApiMethod + "Request", classComment, classApiMethod + classSimpleName + "Request");
-//					indexStoreSolrRegex(classDoc, "classApiOperationId" + classApiMethod + "Response", "ApiOperationId" + classApiMethod + "Response", classComment, classApiMethod + classSimpleName + "Response");
-//					indexStoreSolrRegex(classDoc, "classApiDescription" + classApiMethod, "ApiDescription" + classApiMethod, classComment, regexLanguage(languageName, "(class)?Description" + classApiMethod + "", classComment));
-//
-//					if(classExtendsBase) {
-//						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string"));
-//						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Request", (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Request" + "_" + languageName + "_stored_string"));
-//						indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + languageName + "_stored_string"));
-//					}
-//
-//					String classApiKeywordMethodLangue = regexLanguage(languageName, "(class)?ApiKeyword" + classApiMethod, classComment);
-//					if(StringUtils.contains(classApiMethod, "POST")
-//							|| StringUtils.contains(classApiMethod, "Search")
-//							|| StringUtils.contains(classApiMethod, "PATCH")
-//							) {
-//						if(StringUtils.isBlank(classApiKeywordMethodLangue))
-//							classApiKeywordMethodLangue = StringUtils.substringAfterLast(classApiUriMethodeLangue, "/");
-//						if(StringUtils.isBlank(classApiUriMethodeLangue))
-//							classApiUriMethodeLangue = classApiUriLangue;
-//					}
-//					else {
-//						if(StringUtils.isBlank(classApiKeywordMethodLangue))
-//							classApiKeywordMethodLangue = StringUtils.substringAfterLast(StringUtils.substringBeforeLast(classApiUriMethodeLangue, "/"), "/");
-//						if(StringUtils.isBlank(classApiUriMethodeLangue))
-//							classApiUriMethodeLangue = classApiUriLangue + "/{id}";
-//					}
-//					indexStoreSolr(classDoc, "classApiKeyword" + classApiMethod, classApiKeywordMethodLangue);
-//					indexStoreSolr(classDoc, "classApiUri" + classApiMethod, classApiUriMethodeLangue);
-//				}
-//			}
-//			}
 		}
 
 		if(classPage) {
@@ -3057,31 +2773,30 @@ public class IndexClass extends WatchClassBase {
 			classPartsGenPageAdd(classPartsSiteRequest);
 			classPartsGenPageAdd(classPartsSiteContext);
 			classPartsGenPageAdd(classPartsSiteUser);
-			classPartsGenPageAdd(ClassParts.initClassParts(this, "java.io.IOException", classLangueNom));
-//			classPartsGenPageAdd(ClassParts.initClassParts(this, "javax.servlet.http.HttpServlet", classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerRequest", classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerResponse", classLangueNom));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, "java.io.IOException", classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerRequest", classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, "io.vertx.core.http.HttpServerResponse", classLanguageName));
 			classPartsGenPageAdd(classPartsSearchList);
 			classPartsGenPageAdd(classPartsWrap);
 			classPartsGenPageAdd(classPartsPageLayout);
-			classPartsGenPageAdd(ClassParts.initClassParts(this, LocalDateTime.class.getCanonicalName(), classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, LocalDate.class.getCanonicalName(), classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, ZonedDateTime.class.getCanonicalName(), classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, DateTimeFormatter.class.getCanonicalName(), classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, Locale.class.getCanonicalName(), classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationRequest", classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, "java.net.URLDecoder", classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, StringUtils.class.getCanonicalName(), classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, Map.class.getCanonicalName(), classLangueNom));
-			classPartsGenPageAdd(ClassParts.initClassParts(this, List.class.getCanonicalName(), classLangueNom));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, LocalDateTime.class.getCanonicalName(), classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, LocalDate.class.getCanonicalName(), classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, ZonedDateTime.class.getCanonicalName(), classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, DateTimeFormatter.class.getCanonicalName(), classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, Locale.class.getCanonicalName(), classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, "io.vertx.ext.web.api.OperationRequest", classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, "java.net.URLDecoder", classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, StringUtils.class.getCanonicalName(), classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, Map.class.getCanonicalName(), classLanguageName));
+			classPartsGenPageAdd(ClassParts.initClassParts(this, List.class.getCanonicalName(), classLanguageName));
 		}
 
 		for(ClassParts classPartGenPage : classPartsGenPage.values()) {
 			if(classPartGenPage.languageName == null || classPartGenPage.languageName.equals(languageName))
-				indexStoreListSolr(classLangueNom, classDoc, "classImportsGenPage", classPartGenPage.canonicalName);
+				indexStoreListSolr(classLanguageName, classDoc, "classImportsGenPage", classPartGenPage.canonicalName);
 			if(classTranslate) {
 				for(String languageName : classOtherLanguages) {  
 					ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classPartGenPage, languageName);
@@ -3091,9 +2806,9 @@ public class IndexClass extends WatchClassBase {
 			}
 		}
 
-		Boolean classContexte = indexStoreSolr(classDoc, "classContexte", regexFound("^(class)?Contexte: \\s*(true)$", classComment) || classPage);
+		Boolean classContext = indexStoreSolr(classDoc, "classContext", regexFound("^(class)?Context: \\s*(true)$", classComment) || classPage);
 
-		if(classContexte) {
+		if(classContext) {
 			contextColor = regex("^(context)?Color:\\s*(.*)", classComment);
 			if(contextColor != null)
 				indexStoreSolr(classDoc, "contextColor", contextColor); 
@@ -3106,16 +2821,16 @@ public class IndexClass extends WatchClassBase {
 			if(contextIconName != null)
 				indexStoreSolr(classDoc, "contextIconName", contextIconName); 
 
-			for(String languageName : toutesLangues) {
+			for(String languageName : allLanguages) {
 				contextVideoId = regexLanguage(languageName, "(context)?VideoId", classComment);
 				if(contextVideoId != null)
 					indexStoreSolr(languageName, classDoc, "contextVideoId", contextVideoId); 
 
-				String contextImageWidthStr = regexLanguage(languageName, "^(context)?ImageLargeur", classComment);
+				String contextImageWidthStr = regexLanguage(languageName, "^(context)?ImageWidth", classComment);
 				if(NumberUtils.isCreatable(contextImageWidthStr))
 					indexStoreSolr(languageName, classDoc, "contextImageWidth", Integer.parseInt(contextImageWidthStr));
 
-				String contextImageHeightStr = regexLanguage(languageName, "^(context)?ImageHauteur", classComment);
+				String contextImageHeightStr = regexLanguage(languageName, "^(context)?ImageHeight", classComment);
 				if(NumberUtils.isCreatable(contextImageHeightStr))
 					indexStoreSolr(languageName, classDoc, "contextImageHeight", Integer.parseInt(contextImageHeightStr));
 					
@@ -3123,9 +2838,9 @@ public class IndexClass extends WatchClassBase {
 				if(contextAName != null) {
 					if("frFR".equals(languageName)) {
 						indexStoreSolr(languageName, classDoc, "contextAName", contextAName); 
-						contextNameSingular = indexStoreSolr(languageName, classDoc, "contextNameSingular", regexLanguage(languageName, "(context)?NomSingulier", classComment, StringUtils.substringAfter(contextAName, " ")));
-						contextNamePlural = indexStoreSolr(languageName, classDoc, "contextNamePlural", regexLanguage(languageName, "(context)?NomPluriel", classComment, contextNameSingular + "s"));
-						contextNameVar = indexStoreSolr(languageName, classDoc, "contextNameVar", regexLanguage(languageName, "(context)?NomVar", classComment, StringUtils.uncapitalize(Normalizer.normalize(StringUtils.replace(WordUtils.capitalize(StringUtils.join(StringUtils.split(contextNameSingular, "-"), " ")), " ", ""), Normalizer.Form.NFD))));
+						contextNameSingular = indexStoreSolr(languageName, classDoc, "contextNameSingular", regexLanguage(languageName, "(context)?NameSingular", classComment, StringUtils.substringAfter(contextAName, " ")));
+						contextNamePlural = indexStoreSolr(languageName, classDoc, "contextNamePlural", regexLanguage(languageName, "(context)?NamePlural", classComment, contextNameSingular + "s"));
+						contextNameVar = indexStoreSolr(languageName, classDoc, "contextNameVar", regexLanguage(languageName, "(context)?NameVar", classComment, StringUtils.uncapitalize(Normalizer.normalize(StringUtils.replace(WordUtils.capitalize(StringUtils.join(StringUtils.split(contextNameSingular, "-"), " ")), " ", ""), Normalizer.Form.NFD))));
 						contextTheNames = indexStoreSolr(languageName, classDoc, "contextTheNames", regexLanguage(languageName, "(context)?TheName", classComment, CONTEXT_frFR_ThePlural + contextNamePlural));
 		
 						contextAdjective = regexLanguage(languageName, "(context)?Adjective", classComment);
@@ -3138,22 +2853,21 @@ public class IndexClass extends WatchClassBase {
 							}
 							else {
 								contextNameAdjectiveSingular = indexStoreSolr(languageName, classDoc, "contextNameAdjectiveSingular", regexLanguage(languageName, "(context)?NameAdjectiveSingular", classComment, contextNameSingular + " " + contextAdjective));
-								contextNameAdjectivePlural = indexStoreSolr(languageName, classDoc, "contextNameSingularPluriel", regexLanguage(languageName, "(context)?NomSingulierPluriel", classComment, contextNamePlural + " " + contextAdjectivePlural));
+								contextNameAdjectivePlural = indexStoreSolr(languageName, classDoc, "contextNameSingularAdjectivePlural", regexLanguage(languageName, "(context)?NameSingularAdjectivePlural", classComment, contextNamePlural + " " + contextAdjectivePlural));
 							}
 		
 						}
 		
 						if(contextAName.startsWith(CONTEXT_frFR_AFemale)) {
-							contextThis = indexStoreSolr(languageName, classDoc, "contextThis", regexLanguage(languageName, "(context)?Ce", classComment, CONTEXT_frFR_ThisFemaleConsonant));
-							contextA = indexStoreSolr(languageName, classDoc, "contextA", regexLanguage(languageName, "(context)?Un", classComment, CONTEXT_frFR_AFemale));
-							contextCreated = indexStoreSolr(languageName, classDoc, "contextCreated", regexLanguage(languageName, "(context)?Cree", classComment, CONTEXT_frFR_CreeeFeminin));
-							contextModified = indexStoreSolr(languageName, classDoc, "contextModified", regexLanguage(languageName, "(context)?Modifie", classComment, CONTEXT_frFR_ModifieeFeminin));
-							contextActualName = indexStoreSolr(languageName, classDoc, "contextActualName", regexLanguage(languageName, "(context)?NomActuel", classComment, CONTEXT_frFR_CurrentFemaleBefore + contextNameSingular + CONTEXT_frFR_CurrentFemaleAfter));
-		//					contextAll = indexStoreSolr(languageName, classDoc, "contextAll", regexLanguage(languageName, "(context)?Tous", classComment, CONTEXT_frFR_AllFemalePlural));
-							contextAllName = indexStoreSolr(languageName, classDoc, "contextAllName", regexLanguage(languageName, "(context)?TousNom", classComment, CONTEXT_frFR_ThePlural + contextNamePlural));
-							contextSearchrTousNomPar = indexStoreSolr(languageName, classDoc, "contextSearchrTousNomPar", regexLanguage(languageName, "(context)?SearchTousNomPar", classComment, CONTEXT_frFR_Searchr + contextNamePlural + CONTEXT_frFR_Par));
-							contextSearchrTousNom = indexStoreSolr(languageName, classDoc, "contextSearchrTousNom", regexLanguage(languageName, "(context)?SearchTousNomPar", classComment, CONTEXT_frFR_Searchr + contextNamePlural));
-							contextNoneNameFound = indexStoreSolr(languageName, classDoc, "contextNoneNameFound", regexLanguage(languageName, "(context)?AucunNomTrouve", classComment, CONTEXT_frFR_NoneFemaleBefore + contextNameSingular + CONTEXT_frFR_NoneFemaleAfter));
+							contextThis = indexStoreSolr(languageName, classDoc, "contextThis", regexLanguage(languageName, "(context)?This", classComment, CONTEXT_frFR_ThisFemaleConsonant));
+							contextA = indexStoreSolr(languageName, classDoc, "contextA", regexLanguage(languageName, "(context)?A", classComment, CONTEXT_frFR_AFemale));
+							contextCreated = indexStoreSolr(languageName, classDoc, "contextCreated", regexLanguage(languageName, "(context)?Created", classComment, CONTEXT_frFR_CreatedFemale));
+							contextModified = indexStoreSolr(languageName, classDoc, "contextModified", regexLanguage(languageName, "(context)?Modified", classComment, CONTEXT_frFR_ModifiedFemale));
+							contextActualName = indexStoreSolr(languageName, classDoc, "contextActualName", regexLanguage(languageName, "(context)?ActualName", classComment, CONTEXT_frFR_CurrentFemaleBefore + contextNameSingular + CONTEXT_frFR_CurrentFemaleAfter));
+							contextAllName = indexStoreSolr(languageName, classDoc, "contextAllName", regexLanguage(languageName, "(context)?AllName", classComment, CONTEXT_frFR_ThePlural + contextNamePlural));
+							contextSearchAllNameBy = indexStoreSolr(languageName, classDoc, "contextSearchAllNameBy", regexLanguage(languageName, "(context)?SearchAllNameBy", classComment, CONTEXT_frFR_Search + contextNamePlural + CONTEXT_frFR_By));
+							contextSearchAllName = indexStoreSolr(languageName, classDoc, "contextSearchAllName", regexLanguage(languageName, "(context)?SearchAllName", classComment, CONTEXT_frFR_Search + contextNamePlural));
+							contextNoNameFound = indexStoreSolr(languageName, classDoc, "contextNoNameFound", regexLanguage(languageName, "(context)?NoNameFound", classComment, CONTEXT_frFR_NoneFoundFemaleBefore + contextNameSingular + CONTEXT_frFR_NoneFoundFemaleAfter));
 							if(contextAdjective != null) {
 								if(CONTEXT_frFR_AdjectiveBefore)
 									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextANameAdjective", regexLanguage(languageName, "(context)?ANameAdjective", classComment, CONTEXT_frFR_AFemale + " " + contextAdjective + " " + contextNameSingular));
@@ -3161,12 +2875,12 @@ public class IndexClass extends WatchClassBase {
 									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextANameAdjective", regexLanguage(languageName, "(context)?ANameAdjective", classComment, CONTEXT_frFR_AFemale + " " + contextNameSingular + " " + contextAdjective));
 							}
 		
-							String suffixe = StringUtils.substringAfter(contextAName, " ");
-							String c = Normalizer.normalize(StringUtils.substring(suffixe.toLowerCase(), 0, 1), Normalizer.Form.NFD);
+							String suffix = StringUtils.substringAfter(contextAName, " ");
+							String c = Normalizer.normalize(StringUtils.substring(suffix.toLowerCase(), 0, 1), Normalizer.Form.NFD);
 							if(StringUtils.containsAny(c, 'a', 'e', 'i', 'o', 'u', 'h', 'y')) {
-								contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?CeNom", classComment, CONTEXT_frFR_ThisFemaleVowel + suffixe));
-								contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?LeNom", classComment, CONTEXT_frFR_TheFemaleVowel + suffixe));
-								contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?DeNom", classComment, CONTEXT_frFR_OfVowel + suffixe));
+								contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?ThisName", classComment, CONTEXT_frFR_ThisFemaleVowel + suffix));
+								contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?TheName", classComment, CONTEXT_frFR_TheFemaleVowel + suffix));
+								contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?OfName", classComment, CONTEXT_frFR_OfVowel + suffix));
 								if(contextAdjective != null) {
 									if(CONTEXT_frFR_AdjectiveBefore)
 										contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_frFR_TheFemaleVowel + " " + contextAdjective + " " + contextNameSingular));
@@ -3175,9 +2889,9 @@ public class IndexClass extends WatchClassBase {
 								}
 							}
 							else {
-								contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?CeNom", classComment, CONTEXT_frFR_ThisFemaleConsonant + suffixe));
-								contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?LeNom", classComment, CONTEXT_frFR_TheFemaleConsonant + suffixe));
-								contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?DeNom", classComment, CONTEXT_frFR_OfConsonant + suffixe));
+								contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?ThisName", classComment, CONTEXT_frFR_ThisFemaleConsonant + suffix));
+								contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?TheName", classComment, CONTEXT_frFR_TheFemaleConsonant + suffix));
+								contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?OfName", classComment, CONTEXT_frFR_OfConsonant + suffix));
 								if(contextAdjective != null) {
 									if(CONTEXT_frFR_AdjectiveBefore)
 										contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_frFR_TheFemaleConsonant + " " + contextAdjective + " " + contextNameSingular));
@@ -3187,16 +2901,15 @@ public class IndexClass extends WatchClassBase {
 							}
 						}
 						else if(contextAName.startsWith(CONTEXT_frFR_AMale)) {
-							contextThis = indexStoreSolr(languageName, classDoc, "contextThis", regexLanguage(languageName, "(context)?Ce", classComment, CONTEXT_frFR_ThisMaleConsonant));
-							contextA = indexStoreSolr(languageName, classDoc, "contextA", regexLanguage(languageName, "(context)?Un", classComment, CONTEXT_frFR_AMale));
-							contextCreated = indexStoreSolr(languageName, classDoc, "contextCreated", regexLanguage(languageName, "(context)?Cree", classComment, CONTEXT_frFR_CreeMasculin));
-							contextModified = indexStoreSolr(languageName, classDoc, "contextModified", regexLanguage(languageName, "(context)?Modifie", classComment, CONTEXT_frFR_ModifieMasculin));
-							contextActualName = indexStoreSolr(languageName, classDoc, "contextActualName", regexLanguage(languageName, "(context)?NomActuel", classComment, CONTEXT_frFR_CurrentMaleBefore + contextNameSingular + CONTEXT_frFR_CurrentMaleAfter));
-		//					contextAll = indexStoreSolr(languageName, classDoc, "contextAll", regexLanguage(languageName, "(context)?Tous", classComment, CONTEXT_frFR_AllMalePlural));
-							contextAllName = indexStoreSolr(languageName, classDoc, "contextAllName", regexLanguage(languageName, "(context)?TousNom", classComment, CONTEXT_frFR_AllMalePlural + contextNamePlural));
-							contextSearchrTousNomPar = indexStoreSolr(languageName, classDoc, "contextSearchrTousNomPar", regexLanguage(languageName, "(context)?SearchTousNomPar", classComment, CONTEXT_frFR_Searchr + contextNamePlural + CONTEXT_frFR_Par));
-							contextSearchrTousNom = indexStoreSolr(languageName, classDoc, "contextSearchrTousNom", regexLanguage(languageName, "(context)?SearchTousNomPar", classComment, CONTEXT_frFR_Searchr + contextNamePlural));
-							contextNoneNameFound = indexStoreSolr(languageName, classDoc, "contextNoneNameFound", regexLanguage(languageName, "(context)?AucunNomTrouve", classComment, CONTEXT_frFR_NoneFoundMaleBefore + contextNameSingular + CONTEXT_frFR_NoneFoundMaleAfter));
+							contextThis = indexStoreSolr(languageName, classDoc, "contextThis", regexLanguage(languageName, "(context)?This", classComment, CONTEXT_frFR_ThisMaleConsonant));
+							contextA = indexStoreSolr(languageName, classDoc, "contextA", regexLanguage(languageName, "(context)?A", classComment, CONTEXT_frFR_AMale));
+							contextCreated = indexStoreSolr(languageName, classDoc, "contextCreated", regexLanguage(languageName, "(context)?Created", classComment, CONTEXT_frFR_CreatedMale));
+							contextModified = indexStoreSolr(languageName, classDoc, "contextModified", regexLanguage(languageName, "(context)?Modified", classComment, CONTEXT_frFR_ModifiedMale));
+							contextActualName = indexStoreSolr(languageName, classDoc, "contextActualName", regexLanguage(languageName, "(context)?ActualName", classComment, CONTEXT_frFR_CurrentMaleBefore + contextNameSingular + CONTEXT_frFR_CurrentMaleAfter));
+							contextAllName = indexStoreSolr(languageName, classDoc, "contextAllName", regexLanguage(languageName, "(context)?AllName", classComment, CONTEXT_frFR_AllMalePlural + contextNamePlural));
+							contextSearchAllNameBy = indexStoreSolr(languageName, classDoc, "contextSearchAllNameBy", regexLanguage(languageName, "(context)?SearchAllNameBy", classComment, CONTEXT_frFR_Search + contextNamePlural + CONTEXT_frFR_By));
+							contextSearchAllName = indexStoreSolr(languageName, classDoc, "contextSearchAllName", regexLanguage(languageName, "(context)?SearchAllName", classComment, CONTEXT_frFR_Search + contextNamePlural));
+							contextNoNameFound = indexStoreSolr(languageName, classDoc, "contextNoNameFound", regexLanguage(languageName, "(context)?NoNameFound", classComment, CONTEXT_frFR_NoneFoundMaleBefore + contextNameSingular + CONTEXT_frFR_NoneFoundMaleAfter));
 							if(contextAdjective != null) {
 								if(CONTEXT_frFR_AdjectiveBefore)
 									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextANameAdjective", regexLanguage(languageName, "(context)?ANameAdjective", classComment, CONTEXT_frFR_AMale + " " + contextAdjective + " " + contextNameSingular));
@@ -3204,12 +2917,12 @@ public class IndexClass extends WatchClassBase {
 									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextANameAdjective", regexLanguage(languageName, "(context)?ANameAdjective", classComment, CONTEXT_frFR_AMale + " " + contextNameSingular + " " + contextAdjective));
 							}
 		
-							String suffixe = StringUtils.substringAfter(contextAName, " ");
-							String c = Normalizer.normalize(StringUtils.substring(suffixe.toLowerCase(), 0, 1), Normalizer.Form.NFD);
+							String suffix = StringUtils.substringAfter(contextAName, " ");
+							String c = Normalizer.normalize(StringUtils.substring(suffix.toLowerCase(), 0, 1), Normalizer.Form.NFD);
 							if(StringUtils.containsAny(c, 'a', 'e', 'i', 'o', 'u', 'h', 'y')) {
-								contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?CeNom", classComment, CONTEXT_frFR_ThisMaleVowel + suffixe));
-								contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?LeNom", classComment, CONTEXT_frFR_TheMaleVowel + suffixe));
-								contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?DeNom", classComment, CONTEXT_frFR_OfVowel + suffixe));
+								contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?ThisName", classComment, CONTEXT_frFR_ThisMaleVowel + suffix));
+								contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?TheName", classComment, CONTEXT_frFR_TheMaleVowel + suffix));
+								contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?OfName", classComment, CONTEXT_frFR_OfVowel + suffix));
 								if(contextAdjective != null) {
 									if(CONTEXT_frFR_AdjectiveBefore)
 										contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_frFR_TheMaleVowel + " " + contextAdjective + " " + contextNameSingular));
@@ -3218,9 +2931,9 @@ public class IndexClass extends WatchClassBase {
 								}
 							}
 							else {
-								contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?CeNom", classComment, CONTEXT_frFR_ThisMaleConsonant + suffixe));
-								contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?LeNom", classComment, CONTEXT_frFR_TheMaleConsonant + suffixe));
-								contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?DeNom", classComment, CONTEXT_frFR_OfConsonant + suffixe));
+								contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?ThisName", classComment, CONTEXT_frFR_ThisMaleConsonant + suffix));
+								contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?TheName", classComment, CONTEXT_frFR_TheMaleConsonant + suffix));
+								contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?OfName", classComment, CONTEXT_frFR_OfConsonant + suffix));
 								if(contextAdjective != null) {
 									if(CONTEXT_frFR_AdjectiveBefore)
 										contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_frFR_TheMaleConsonant + " " + contextAdjective + " " + contextNameSingular));
@@ -3233,9 +2946,9 @@ public class IndexClass extends WatchClassBase {
 					}
 					else if("enUS".equals(languageName)) {
 						indexStoreSolr(languageName, classDoc, "contextAName", contextAName); 
-						contextNameSingular = indexStoreSolr(languageName, classDoc, "contextNameSingular", regexLanguage(languageName, "(context)?NomSingulier", classComment, StringUtils.substringAfter(contextAName, " ")));
-						contextNamePlural = indexStoreSolr(languageName, classDoc, "contextNamePlural", regexLanguage(languageName, "(context)?NomPluriel", classComment, contextNameSingular + "s"));
-						contextNameVar = indexStoreSolr(languageName, classDoc, "contextNameVar", regexLanguage(languageName, "(context)?NomVar", classComment, StringUtils.uncapitalize(Normalizer.normalize(StringUtils.replace(WordUtils.capitalize(StringUtils.join(StringUtils.split(contextNameSingular, "-"), " ")), " ", ""), Normalizer.Form.NFD))));
+						contextNameSingular = indexStoreSolr(languageName, classDoc, "contextNameSingular", regexLanguage(languageName, "(context)?NameSingular", classComment, StringUtils.substringAfter(contextAName, " ")));
+						contextNamePlural = indexStoreSolr(languageName, classDoc, "contextNamePlural", regexLanguage(languageName, "(context)?NamePlural", classComment, contextNameSingular + "s"));
+						contextNameVar = indexStoreSolr(languageName, classDoc, "contextNameVar", regexLanguage(languageName, "(context)?NameVar", classComment, StringUtils.uncapitalize(Normalizer.normalize(StringUtils.replace(WordUtils.capitalize(StringUtils.join(StringUtils.split(contextNameSingular, "-"), " ")), " ", ""), Normalizer.Form.NFD))));
 						contextTheNames = indexStoreSolr(languageName, classDoc, "contextTheNames", regexLanguage(languageName, "(context)?TheName", classComment, CONTEXT_enUS_ThePlural + contextNamePlural));
 		
 						contextAdjective = regexLanguage(languageName, "(context)?Adjective", classComment);
@@ -3248,50 +2961,49 @@ public class IndexClass extends WatchClassBase {
 							}
 							else {
 								contextNameAdjectiveSingular = indexStoreSolr(languageName, classDoc, "contextNameAdjectiveSingular", regexLanguage(languageName, "(context)?NameAdjectiveSingular", classComment, contextNameSingular + " " + contextAdjective));
-								contextNameAdjectivePlural = indexStoreSolr(languageName, classDoc, "contextNameSingularPluriel", regexLanguage(languageName, "(context)?NomSingulierPluriel", classComment, contextNamePlural + " " + contextAdjectivePlural));
+								contextNameAdjectivePlural = indexStoreSolr(languageName, classDoc, "contextNameSingularAdjectivePlural", regexLanguage(languageName, "(context)?NameSingularAdjectivePlural", classComment, contextNamePlural + " " + contextAdjectivePlural));
 							}
 		
 						}
 		
-						contextThis = indexStoreSolr(languageName, classDoc, "contextThis", regexLanguage(languageName, "(context)?Ce", classComment, CONTEXT_enUS_CetteConsonne));
-						contextA = indexStoreSolr(languageName, classDoc, "contextA", regexLanguage(languageName, "(context)?Un", classComment, CONTEXT_enUS_Une));
-						contextCreated = indexStoreSolr(languageName, classDoc, "contextCreated", regexLanguage(languageName, "(context)?Cree", classComment, CONTEXT_enUS_Creee));
-						contextModified = indexStoreSolr(languageName, classDoc, "contextModified", regexLanguage(languageName, "(context)?Modifie", classComment, CONTEXT_enUS_Modifiee));
-						contextActualName = indexStoreSolr(languageName, classDoc, "contextActualName", regexLanguage(languageName, "(context)?NomActuel", classComment, CONTEXT_enUS_ActuelleBefore + contextNameSingular + CONTEXT_enUS_ActuelleAfter));
-	//					contextAll = indexStoreSolr(languageName, classDoc, "contextAll", regexLanguage(languageName, "(context)?Tous", classComment, CONTEXT_enUS_ToutesPluriel));
-						contextAllName = indexStoreSolr(languageName, classDoc, "contextAllName", regexLanguage(languageName, "(context)?TousNom", classComment, CONTEXT_enUS_ThePlural + contextNamePlural));
-						contextSearchrTousNomPar = indexStoreSolr(languageName, classDoc, "contextSearchrTousNomPar", regexLanguage(languageName, "(context)?SearchTousNomPar", classComment, CONTEXT_enUS_Searchr + contextNamePlural + CONTEXT_enUS_Par));
-						contextSearchrTousNom = indexStoreSolr(languageName, classDoc, "contextSearchrTousNomr", regexLanguage(languageName, "(context)?SearchTousNom", classComment, CONTEXT_enUS_Searchr + contextNamePlural));
-						contextNoneNameFound = indexStoreSolr(languageName, classDoc, "contextNoneNameFound", regexLanguage(languageName, "(context)?AucunNomTrouve", classComment, CONTEXT_enUS_AucuneTrouveBefore + contextNameSingular + CONTEXT_enUS_AucuneTrouveAfter));
+						contextThis = indexStoreSolr(languageName, classDoc, "contextThis", regexLanguage(languageName, "(context)?This", classComment, CONTEXT_enUS_ThisConsonant));
+						contextA = indexStoreSolr(languageName, classDoc, "contextA", regexLanguage(languageName, "(context)?A", classComment, CONTEXT_enUS_A));
+						contextCreated = indexStoreSolr(languageName, classDoc, "contextCreated", regexLanguage(languageName, "(context)?Created", classComment, CONTEXT_enUS_Created));
+						contextModified = indexStoreSolr(languageName, classDoc, "contextModified", regexLanguage(languageName, "(context)?Modified", classComment, CONTEXT_enUS_Modified));
+						contextActualName = indexStoreSolr(languageName, classDoc, "contextActualName", regexLanguage(languageName, "(context)?ActualName", classComment, CONTEXT_enUS_CurrentBefore + contextNameSingular + CONTEXT_enUS_CurrentAfter));
+						contextAllName = indexStoreSolr(languageName, classDoc, "contextAllName", regexLanguage(languageName, "(context)?AllName", classComment, CONTEXT_enUS_ThePlural + contextNamePlural));
+						contextSearchAllNameBy = indexStoreSolr(languageName, classDoc, "contextSearchAllNameBy", regexLanguage(languageName, "(context)?SearchAllNameBy", classComment, CONTEXT_enUS_Search + contextNamePlural + CONTEXT_enUS_By));
+						contextSearchAllName = indexStoreSolr(languageName, classDoc, "contextSearchAllNamer", regexLanguage(languageName, "(context)?SearchAllName", classComment, CONTEXT_enUS_Search + contextNamePlural));
+						contextNoNameFound = indexStoreSolr(languageName, classDoc, "contextNoNameFound", regexLanguage(languageName, "(context)?NoNameFound", classComment, CONTEXT_enUS_NoneFoundBefore + contextNameSingular + CONTEXT_enUS_NoneFoundAfter));
 						if(contextAdjective != null) {
 							if(CONTEXT_enUS_AdjectiveBefore)
-								contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextANameAdjective", regexLanguage(languageName, "(context)?ANameAdjective", classComment, CONTEXT_enUS_Une + " " + contextAdjective + " " + contextNameSingular));
+								contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextANameAdjective", regexLanguage(languageName, "(context)?ANameAdjective", classComment, CONTEXT_enUS_A + " " + contextAdjective + " " + contextNameSingular));
 							else
-								contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextANameAdjective", regexLanguage(languageName, "(context)?ANameAdjective", classComment, CONTEXT_enUS_Une + " " + contextNameSingular + " " + contextAdjective));
+								contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextANameAdjective", regexLanguage(languageName, "(context)?ANameAdjective", classComment, CONTEXT_enUS_A + " " + contextNameSingular + " " + contextAdjective));
 						}
 	
-						String suffixe = StringUtils.substringAfter(contextAName, " ");
-						String c = Normalizer.normalize(StringUtils.substring(suffixe.toLowerCase(), 0, 1), Normalizer.Form.NFD);
+						String suffix = StringUtils.substringAfter(contextAName, " ");
+						String c = Normalizer.normalize(StringUtils.substring(suffix.toLowerCase(), 0, 1), Normalizer.Form.NFD);
 						if(StringUtils.containsAny(c, 'a', 'e', 'i', 'o', 'u', 'h', 'y')) {
-							contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?CeNom", classComment, CONTEXT_enUS_CetteVoyelle + suffixe));
-							contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?LeNom", classComment, CONTEXT_enUS_LVoyelle + suffixe));
-							contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?DeNom", classComment, CONTEXT_enUS_OfVowel + suffixe));
+							contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?ThisName", classComment, CONTEXT_enUS_ThisVowel + suffix));
+							contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?TheName", classComment, CONTEXT_enUS_TheVowel + suffix));
+							contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?OfName", classComment, CONTEXT_enUS_OfVowel + suffix));
 							if(contextAdjective != null) {
 								if(CONTEXT_enUS_AdjectiveBefore)
-									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_enUS_LVoyelle + " " + contextAdjective + " " + contextNameSingular));
+									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_enUS_TheVowel + " " + contextAdjective + " " + contextNameSingular));
 								else
-									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_enUS_LVoyelle + " " + contextNameSingular + " " + contextAdjective));
+									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_enUS_TheVowel + " " + contextNameSingular + " " + contextAdjective));
 							}
 						}
 						else {
-							contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?CeNom", classComment, CONTEXT_enUS_CetteConsonne + suffixe));
-							contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?LeNom", classComment, CONTEXT_enUS_LaConsonne + suffixe));
-							contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?DeNom", classComment, CONTEXT_enUS_OfConsonant + suffixe));
+							contextThisName = indexStoreSolr(languageName, classDoc, "contextThisName", regexLanguage(languageName, "(context)?ThisName", classComment, CONTEXT_enUS_ThisConsonant + suffix));
+							contextTheName = indexStoreSolr(languageName, classDoc, "contextTheName", regexLanguage(languageName, "(context)?TheName", classComment, CONTEXT_enUS_TheConsonant + suffix));
+							contextOfName = indexStoreSolr(languageName, classDoc, "contextOfName", regexLanguage(languageName, "(context)?OfName", classComment, CONTEXT_enUS_OfConsonant + suffix));
 							if(contextAdjective != null) {
 								if(CONTEXT_enUS_AdjectiveBefore)
-									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_enUS_LaConsonne + " " + contextAdjective + " " + contextNameSingular));
+									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_enUS_TheConsonant + " " + contextAdjective + " " + contextNameSingular));
 								else
-									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_enUS_LaConsonne + " " + contextNameSingular + " " + contextAdjective));
+									contextANameAdjective = indexStoreSolr(languageName, classDoc, "contextTheNameAdjective", regexLanguage(languageName, "(context)?TheNameAdjective", classComment, CONTEXT_enUS_TheConsonant + " " + contextNameSingular + " " + contextAdjective));
 							}
 						}
 						indexStoreSolr(languageName, classDoc, "contextThisLowercase", contextThis); 
@@ -3322,27 +3034,26 @@ public class IndexClass extends WatchClassBase {
 		if(classIndexed) {
 			classPartsGenAdd(classPartsSolrInputDocument);
 			classPartsGenAdd(classPartsSolrClient);
-//			classPartsGenAdd(classPartsTest);
 			classPartsGenAdd(classPartsSiteContext);
 			classPartsGenAdd(classPartsSolrDocument);
 			classPartsGenAdd(classPartsList);
 			classPartsGenAdd(classPartsArrayList);
-			classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrQuery", classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.response.QueryResponse", classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.util.ClientUtils", classLangueNom));
+			classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.SolrQuery", classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.response.QueryResponse", classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.solr.client.solrj.util.ClientUtils", classLanguageName));
 		}
 
 		if(classImage) {
-			classPartsGenAdd(ClassParts.initClassParts(this, DefaultExecutor.class.getCanonicalName(), classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, CommandLine.class.getCanonicalName(), classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, File.class.getCanonicalName(), classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, BufferedImage.class.getCanonicalName(), classLangueNom));
-			classPartsGenAdd(ClassParts.initClassParts(this, ImageIO.class.getCanonicalName(), classLangueNom));
+			classPartsGenAdd(ClassParts.initClassParts(this, DefaultExecutor.class.getCanonicalName(), classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, CommandLine.class.getCanonicalName(), classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, File.class.getCanonicalName(), classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, BufferedImage.class.getCanonicalName(), classLanguageName));
+			classPartsGenAdd(ClassParts.initClassParts(this, ImageIO.class.getCanonicalName(), classLanguageName));
 		}
 
 		for(ClassParts classPartGen : classPartsGen.values()) {
-			indexStoreListSolr(classLangueNom, classDoc, "classImportsGen", classPartGen.canonicalName);
+			indexStoreListSolr(classLanguageName, classDoc, "classImportsGen", classPartGen.canonicalName);
 			for(String languageName : classOtherLanguages) {  
 				ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classPartGen, languageName);
 				indexStoreListSolr(languageName, classDoc, "classImportsGen", classImportClassPartsLanguage.canonicalName);
@@ -3351,7 +3062,7 @@ public class IndexClass extends WatchClassBase {
 
 		for(ClassParts classPartGenApi : classPartsGenApi.values()) {
 			if(classPartGenApi.languageName == null || classPartGenApi.languageName.equals(languageName))
-				indexStoreListSolr(classLangueNom, classDoc, "classImportsGenApi", classPartGenApi.canonicalName);
+				indexStoreListSolr(classLanguageName, classDoc, "classImportsGenApi", classPartGenApi.canonicalName);
 			if(classTranslate) {
 				for(String languageName : classOtherLanguages) {  
 					ClassParts classImportClassPartsLanguage = ClassParts.initClassParts(this, classPartGenApi, languageName);
@@ -3362,7 +3073,7 @@ public class IndexClass extends WatchClassBase {
 		}
 
 		if(classSuperDoc != null) {
-			for(String languageName : toutesLangues) {
+			for(String languageName : allLanguages) {
 				List<String> classSuperEntityVars = (List<String>)classSuperDoc.get("classEntityVars_" + languageName + "_stored_strings");
 				if(classSuperEntityVars != null) {
 					for(String classSuperEntityVar : classSuperEntityVars)
@@ -3372,7 +3083,7 @@ public class IndexClass extends WatchClassBase {
 		}
 
 		if(classSuperDoc != null) {
-			for(String languageName : toutesLangues) {
+			for(String languageName : allLanguages) {
 				List<String> classSuperMethodVars = (List<String>)classSuperDoc.get("classMethodVars_" + languageName + "_stored_strings");
 				if(classSuperMethodVars != null) {
 					for(String classSuperMethodeVar : classSuperMethodVars)

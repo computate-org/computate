@@ -22,6 +22,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r.enUS: WatchClass watchClass
 	 * r: new RegarderClasse
 	 * r.enUS: new WatchClass
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: regarderClasse
 	 * r.enUS: watchClass
 	 * r: autresLangues
@@ -74,6 +76,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 	/**
 	 * Var.enUS: watchClass
 	 * Param1.var.enUS: watchClass
+	 * Param2.var.enUS: classLanguageName
 	 * r: regarderClasse
 	 * r.enUS: watchClass
 	 * r: cheminAbsolu

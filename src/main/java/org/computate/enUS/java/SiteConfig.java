@@ -168,7 +168,7 @@ public class SiteConfig {
 	public String siteBaseUrl;
 
 	protected void  _siteBaseUrl() throws Exception, Exception {
-		siteUrlBase = config.getString(StringUtils.replace(appName, ".", "..") + ".siteUrlBase");
+		siteBaseUrl = config.getString(StringUtils.replace(appName, ".", "..") + ".siteBaseUrl");
 	}
 
 	/**	

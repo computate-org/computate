@@ -42,24 +42,13 @@ public class WriteApiClass extends WriteGenClass {
 	protected Boolean classPageSimple;
 
 	public void  apiCodeClassBegin(String languageName) throws Exception, Exception {
-//		l();
-//		tl(1, "public static final String VAL_nomCanonique", classSimpleName, " = \"", classCanonicalName, "\";");
-//		tl(1, "public static final String VAL_virguleEspace = \", \";");
-//		tl(1, "public static final String VAL_citation = \"\\\"\";");
-//		tl(1, "public static final String VAL_citationDeuxPointsEspaceCitation = \"\\\": \\\"\";");
-//		tl(1, "public static final String VAL_citationDeuxPointsEspace = \"\\\": \";");
-//		tl(1, "public static final String VAL_citationLigne = \"\\\"\\n\";");
-//		tl(1, "public static final String VAL_ligne = \"\\n\";");
-//		tl(1, "public static final String VAL_citationVirguleEspaceCitation = \"\\\", \\\"\";");
-//		tl(1, "public static final String VAL_citationDeuxPointsEspaceGuillmets = \"\\\": [\";");
-//		tl(1, "public static final String VAL_guillmetsFin = \"]\";");
 	}
 
 	public void  writeGenApiService(String languageName) throws Exception, Exception {
 		if(writerGenApiService != null) {
 			writerGenApiService.l("package ", classPackageName, ";");
 			writerGenApiService.l();
-			writerGenApiService.l("import ", classPartsSiteContext.documentSolr.get("classeNomCanonique_" + langueNom + "_stored_string"), ";");
+			writerGenApiService.l("import ", classPartsSiteContext.solrDocument.get("classCanonicalName_" + languageName + "_stored_string"), ";");
 //			writerGenApiService.l("import ", classPackageName, ".", classSimpleName, "ApiServiceVertxEBProxy;");
 			writerGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
 			writerGenApiService.l("import io.vertx.ext.web.api.generator.WebApiServiceGen;");
@@ -81,37 +70,37 @@ public class WriteApiClass extends WriteGenClass {
 			writerGenApiService.s("public interface ", classSimpleNameGenApiService, " {");
 			writerGenApiService.l();
 			writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
-			writerGenApiService.tl(1, "static void enregistrerService(", classPartsSiteContext.nomSimple(langueNom), " siteContext, Vertx vertx) {");
-			writerGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(langueNom, classSimpleName), ").register(", classSimpleNameGenApiService, ".class, new ", classSimpleNameApiServiceImpl, "(siteContext));");
+			writerGenApiService.tl(1, "static void enregistrerService(", classPartsSiteContext.simpleName(languageName), " siteContext, Vertx vertx) {");
+			writerGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(languageName, classSimpleName), ").register(", classSimpleNameGenApiService, ".class, new ", classSimpleNameApiServiceImpl, "(siteContext));");
 			writerGenApiService.tl(1, "}");
 			writerGenApiService.l();
 			writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
-			writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " creer(", classPartsSiteContext.nomSimple(langueNom), " siteContext, Vertx vertx) {");
+			writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " creer(", classPartsSiteContext.simpleName(languageName), " siteContext, Vertx vertx) {");
 			writerGenApiService.tl(2, "return new ", classSimpleNameApiServiceImpl, "(siteContext);");
 			writerGenApiService.tl(1, "}");
 			writerGenApiService.l();
 			writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
-			writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " creerProxy(Vertx vertx, String addresse) {");
-			writerGenApiService.tl(2, "return new ", classSimpleNameGenApiService, "VertxEBProxy(vertx, addresse);");
+			writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " creerProxy(Vertx vertx, String address) {");
+			writerGenApiService.tl(2, "return new ", classSimpleNameGenApiService, "VertxEBProxy(vertx, address);");
 			writerGenApiService.tl(1, "}");
 			writerGenApiService.l();
-			for(String classeApiMethode : classApiMethods) {
-				String classApiOperationIdMethod = (String)classDoc.get("classApiOperationId" + classeApiMethode + "_stored_string");
-				String classPageCanonicalNameMethod = (String)classDoc.get("classePageNomCanonique" + classeApiMethode + "_stored_string");
-				String classePageLangueNom = (String)classDoc.get("classePageLangueNom" + classeApiMethode + "_stored_string");
+			for(String classApiMethod : classApiMethods) {
+				String classApiOperationIdMethod = (String)classDoc.get("classApiOperationId" + classApiMethod + "_stored_string");
+				String classPageCanonicalNameMethod = (String)classDoc.get("classPageCanonicalName" + classApiMethod + "_stored_string");
+				String classPageLanguageName = (String)classDoc.get("classPageLanguageName" + classApiMethod + "_stored_string");
 
-				if(classePageLangueNom == null || classePageLangueNom.equals(langueNom)) {
+				if(classPageLanguageName == null || classPageLanguageName.equals(languageName)) {
 					if(classPageCanonicalNameMethod != null) {
 						writerGenApiService.t(1, "public void ", classApiOperationIdMethod, "Id(");
-						if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
+						if(StringUtils.containsAny(classApiMethod, "POST", "PUT", "PATCH"))
 							writerGenApiService.s("JsonObject body, ");
-						writerGenApiService.l("OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements);");
+						writerGenApiService.l("OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> eventHandler);");
 					}
 	
 					writerGenApiService.t(1, "public void ", classApiOperationIdMethod, "(");
-					if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
+					if(StringUtils.containsAny(classApiMethod, "POST", "PUT", "PATCH"))
 						writerGenApiService.s("JsonObject body, ");
-					writerGenApiService.l("OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> gestionnaireEvenements);");
+					writerGenApiService.l("OperationRequest operationRequest, Handler<AsyncResult<OperationResponse>> eventHandler);");
 				}
 			}
 			writerGenApiService.tl(0, "}");
@@ -124,15 +113,15 @@ public class WriteApiClass extends WriteGenClass {
 		if(writerApiServiceImpl != null) {
 			writerApiServiceImpl.l("package ", classPackageName, ";");
 			writerApiServiceImpl.l();
-			writerApiServiceImpl.l("import ", classPartsSiteContext.documentSolr.get("classeNomCanonique_" + langueNom + "_stored_string"), ";");
+			writerApiServiceImpl.l("import ", classPartsSiteContext.solrDocument.get("classCanonicalName_" + languageName + "_stored_string"), ";");
 //			auteurGenApiService.l("import ", classPackageName, ".", classSimpleName, "ApiServiceVertxEBProxy;");
 			writerApiServiceImpl.l();
 			writerApiServiceImpl.l("/**");
-			writerApiServiceImpl.l(" * Traduire: false");
+			writerApiServiceImpl.l(" * Translate: false");
 			writerApiServiceImpl.l(" **/");
 			writerApiServiceImpl.l("public class ", classSimpleNameApiServiceImpl, " extends ", classSimpleNameGenApiServiceImpl, " {");
 			writerApiServiceImpl.l();
-			writerApiServiceImpl.tl(1, "public ", classSimpleNameApiServiceImpl, "(", classPartsSiteContext.nomSimple(langueNom), " siteContext) {");
+			writerApiServiceImpl.tl(1, "public ", classSimpleNameApiServiceImpl, "(", classPartsSiteContext.simpleName(languageName), " siteContext) {");
 			writerApiServiceImpl.tl(2, "super(siteContext);");
 			writerApiServiceImpl.tl(1, "}");
 			writerApiServiceImpl.l("}");
@@ -156,20 +145,20 @@ public class WriteApiClass extends WriteGenClass {
 			}
 
 			{
-				SolrQuery searchSolr = new SolrQuery();   
-				searchSolr.setQuery("*:*");
-				searchSolr.setRows(1000000);
-				String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-				searchSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-				searchSolr.addFilterQuery("classeNomCanonique_" + languageName + "_indexed_string:" + fqClassesSuperEtMoi);
-				QueryResponse searchReponse = clientSolrComputate.query(searchSolr);
-				SolrDocumentList searchListe = searchReponse.getResults();
-				Integer searchLignes = searchSolr.getRows();
+				SolrQuery solrSearch = new SolrQuery();   
+				solrSearch.setQuery("*:*");
+				solrSearch.setRows(1000000);
+				String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+				solrSearch.addFilterQuery("partIsEntity_indexed_boolean:true");
+				solrSearch.addFilterQuery("classCanonicalName_" + languageName + "_indexed_string:" + fqClassesSuperEtMoi);
+				QueryResponse searchReponse = solrClientComputate.query(solrSearch);
+				SolrDocumentList searchList = searchReponse.getResults();
+				Integer searchLines = solrSearch.getRows();
 	
-				if(searchListe.size() > 0) {
-					for(Long i = searchListe.getStart(); i < searchListe.getNumFound(); i+=searchLignes) {
-						for(Integer j = 0; j < searchListe.size(); j++) {
-							SolrDocument doc = searchListe.get(j);
+				if(searchList.size() > 0) {
+					for(Long i = searchList.getStart(); i < searchList.getNumFound(); i+=searchLines) {
+						for(Integer j = 0; j < searchList.size(); j++) {
+							SolrDocument doc = searchList.get(j);
 							entityVar = (String)doc.get("entityVar_" + languageName + "_stored_string");
 							entityVarCapitalise = (String)doc.get("entityVarCapitalise_" + languageName + "_stored_string");
 							entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
@@ -566,9 +555,9 @@ public class WriteApiClass extends WriteGenClass {
 								}
 							}	
 						}
-						searchSolr.setStart(i.intValue() + searchLignes);
-						searchReponse = clientSolrComputate.query(searchSolr);
-						searchListe = searchReponse.getResults();
+						solrSearch.setStart(i.intValue() + searchLines);
+						searchReponse = solrClientComputate.query(solrSearch);
+						searchList = searchReponse.getResults();
 					}
 				}
 			}
@@ -1022,7 +1011,7 @@ public class WriteApiClass extends WriteGenClass {
 						tl(3, classSimpleName, " o2 = new ", classSimpleName, "();");
 						l();
 						tl(3, "patchSql.append(", classPartsSiteContext.nomSimple(languageName), ".SQL_modifier);");
-						tl(3, "patchSqlParams.addAll(Arrays.asList(pk, ", q(classeNomCanonique), "));");
+						tl(3, "patchSqlParams.addAll(Arrays.asList(pk, ", q(classCanonicalName), "));");
 						tl(3, "for(String methodeNom : methodeNoms) {");
 						tl(4, "switch(methodeNom) {");
 						s(wApiGeneratePatch.toString());
@@ -1313,20 +1302,20 @@ public class WriteApiClass extends WriteGenClass {
 			AllWriter wVarRecherche = AllWriter.create();
 			AllWriter wVarSuggere = AllWriter.create();
 			{
-				SolrQuery searchSolr = new SolrQuery();   
-				searchSolr.setQuery("*:*");
-				searchSolr.setRows(1000000);
-				String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-				searchSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-				searchSolr.addFilterQuery("classeNomCanonique_" + languageNameActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-				QueryResponse searchReponse = clientSolrComputate.query(searchSolr);
-				SolrDocumentList searchListe = searchReponse.getResults();
-				Integer searchLignes = searchSolr.getRows();
+				SolrQuery solrSearch = new SolrQuery();   
+				solrSearch.setQuery("*:*");
+				solrSearch.setRows(1000000);
+				String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+				solrSearch.addFilterQuery("partIsEntity_indexed_boolean:true");
+				solrSearch.addFilterQuery("classCanonicalName_" + languageNameActuel + "_indexed_string:" + fqClassesSuperEtMoi);
+				QueryResponse searchReponse = solrClientComputate.query(solrSearch);
+				SolrDocumentList searchList = searchReponse.getResults();
+				Integer searchLines = solrSearch.getRows();
 	
-				if(searchListe.size() > 0) {
-					for(Long i = searchListe.getStart(); i < searchListe.getNumFound(); i+=searchLignes) {
-						for(Integer j = 0; j < searchListe.size(); j++) {
-							SolrDocument entiteDocumentSolr = searchListe.get(j);
+				if(searchList.size() > 0) {
+					for(Long i = searchList.getStart(); i < searchList.getNumFound(); i+=searchLines) {
+						for(Integer j = 0; j < searchList.size(); j++) {
+							SolrDocument entiteDocumentSolr = searchList.get(j);
 							entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageNameActuel + "_stored_string");
 							entiteSuffixeType = (String)entiteDocumentSolr.get("entiteSuffixeType_stored_string");
 							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
@@ -1349,9 +1338,9 @@ public class WriteApiClass extends WriteGenClass {
 								}
 							}
 						}
-						searchSolr.setStart(i.intValue() + searchLignes);
-						searchReponse = clientSolrComputate.query(searchSolr);
-						searchListe = searchReponse.getResults();
+						solrSearch.setStart(i.intValue() + searchLines);
+						searchReponse = solrClientComputate.query(solrSearch);
+						searchList = searchReponse.getResults();
 					}
 				}
 			}
@@ -1577,7 +1566,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(3, "listeRecherche.setFields(entiteListe);");
 			tl(3, "listeRecherche.addSort(\"archive_indexed_boolean\", ORDER.asc);");
 			tl(3, "listeRecherche.addSort(\"supprime_indexed_boolean\", ORDER.asc);");
-			tl(3, "listeRecherche.addFilterQuery(\"classeNomsCanoniques_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
+			tl(3, "listeRecherche.addFilterQuery(\"classeNomsCanoniques_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classCanonicalName), "));");
 			if(classFiltersFound && classFilters.contains("userId"))
 				tl(3, "listeRecherche.addFilterQuery(\"userId_indexed_string:\" + ClientUtils.escapeQueryChars(siteRequest.getUserId()));");
 			tl(3, "UtilisateurSite utilisateurSite = siteRequest.getUtilisateurSite();");

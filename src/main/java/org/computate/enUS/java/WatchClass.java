@@ -14,7 +14,7 @@ public class WatchClass extends WriteAllClasses {
 
 	public static void  main(String[] args) throws Exception, Exception {   
 		WatchClass watchClass = new WatchClass();
-		String classeLangueNom = StringUtils.defaultString(System.getenv("classeLangueNom"), "enUS");
+		String classLanguageName = StringUtils.defaultString(System.getenv("classLanguageName"), "enUS");
 		try {
 			watchClass.args = args;
 			watchClass.initWatchClassBase(); 
@@ -45,10 +45,10 @@ public class WatchClass extends WriteAllClasses {
 			System.err.println("Error during initWatchClassBase. ");
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
-		watchClass(watchClass, classeLangueNom);
+		watchClass(watchClass, classLanguageName);
 	}
 
-	public static void  watchClass(WatchClass watchClass, String classeLangueNom) throws Exception, Exception {
+	public static void  watchClass(WatchClass watchClass, String classLanguageName) throws Exception, Exception {
 		System.out.println("absolutePath : " + watchClass.classAbsolutePath);
 
 		if(new File(watchClass.classAbsolutePath).isFile()) {

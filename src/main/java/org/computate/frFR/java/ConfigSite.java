@@ -300,12 +300,12 @@ public class ConfigSite {
 	public String siteUrlBase;
 	/**	
 	 * Var.enUS: _siteBaseUrl
-	 * r: siteBaseUrl
-	 * r.enUS: siteUrlBase
 	 * r: appliNom
 	 * r.enUS: appName
 	 * r: nomDomaine
 	 * r.enUS: domainName
+	 * r: siteUrlBase
+	 * r.enUS: siteBaseUrl
 	 **/  
 	protected void _siteUrlBase() throws Exception {
 		siteUrlBase = config.getString(StringUtils.replace(appliNom, ".", "..") + ".siteUrlBase");

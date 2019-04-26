@@ -34,7 +34,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	/**
 	 * Var.enUS: writeGenClasses
 	 * Param1.var.enUS: classAbsolutePath
-	 * Param2.var.enUS: languageName
+	 * Param2.var.enUS: classLanguageName
+	 * Param3.var.enUS: languageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: clientSolrComputate
 	 * r.enUS: solrClientComputate
 	 * r: rechercheSolr
@@ -53,6 +56,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classExtendsGen
 	 * r: ecrireGenClasses
 	 * r.enUS: writeGenClasses
+	 * r: classeChemin
+	 * r.enUS: classPath
 	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
 	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
 	 * enUS: Retrieve the records for the class from the search engine, 
@@ -74,7 +79,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	/** 
 	 * Var.enUS: writeGenClasses
 	 * Param1.var.enUS: searchResponse
-	 * Param2.var.enUS: languageName
+	 * Param2.var.enUS: classLanguageName
+	 * Param3.var.enUS: languageName
 	 * r: VAL_entiteCommentaireLigne1Part1
 	 * r.enUS: VAL_entityCommentLine1Part1
 	 * r: VAL_entiteCommentaireLigne1Part2
@@ -342,6 +348,12 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: contextImageHauteur
 	 * r: contexteVideoId
 	 * r.enUS: contextVideoId
+	 * r: contexteImageLargeur
+	 * r.enUS: contextImageWidth
+	 * r: contexteImageHauteur
+	 * r.enUS: contextImageHeight
+	 * r: contexteRechercherTousNomPar
+	 * r.enUS: contextSearchAllNameBy
 	 * r: UnNomAdjectif
 	 * r.enUS: ANameAdjective
 	 * r: LeNomAdjectif

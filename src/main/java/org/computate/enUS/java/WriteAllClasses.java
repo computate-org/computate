@@ -30,24 +30,24 @@ public class WriteAllClasses extends WritePageClass {
 	 *	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language. 
 	 **/
-	public void  writeGenClasses(String classAbsolutePath, String languageName, String langueNom) throws Exception, Exception { 
+	public void  writeGenClasses(String classAbsolutePath, String classLanguageName, String languageName) throws Exception, Exception { 
 
 		SolrQuery solrSearch = new SolrQuery();   
 		solrSearch.setQuery("*:*");
 		solrSearch.setRows(1000000);
-		solrSearch.addFilterQuery("classeChemin_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classAbsolutePath));
+		solrSearch.addFilterQuery("classPath_" + classLanguageName + "_indexed_string:" + ClientUtils.escapeQueryChars(classAbsolutePath));
 		solrSearch.addFilterQuery("classExtendsGen_indexed_boolean:true");
 		solrSearch.addSort("partNumber_indexed_int", ORDER.asc);
 
 		QueryResponse searchResponse = solrClientComputate.query(solrSearch);
-		writeGenClasses(searchResponse, classeLangueNom, languageName);
+		writeGenClasses(searchResponse, classLanguageName, languageName);
 	}
 
 	/**	
 	 *	Retrieve the records for the class from the search engine, 
 	 *	process them and write them into class files for each supported language. 
 	 **/
-	public void  writeGenClasses(QueryResponse searchResponse, String languageName, String langueNom) throws Exception, Exception { 
+	public void  writeGenClasses(QueryResponse searchResponse, String classLanguageName, String languageName) throws Exception, Exception { 
 		SolrDocumentList searchList = searchResponse.getResults();
 
 		if(searchList.size() > 0 && (languageIndexed || !StringUtils.equals(languageName, this.languageName))) {    
@@ -151,8 +151,8 @@ public class WriteAllClasses extends WritePageClass {
 					contextIconGroup = (String)doc.get("contextIconGroup_stored_string");
 					contextIconName = (String)doc.get("contextIconName_stored_string");
 
-					contextImageLargeur = (Integer)doc.get("contextImageLargeur" + "_" + languageName + "_stored_int");
-					contextImageHauteur = (Integer)doc.get("contextImageHauteur" + "_" + languageName + "_stored_int");
+					contextImageWidth = (Integer)doc.get("contextImageWidth" + "_" + languageName + "_stored_int");
+					contextImageHeight = (Integer)doc.get("contextImageHeight" + "_" + languageName + "_stored_int");
 					contextVideoId = (String)doc.get("contextVideoId" + "_" + languageName + "_stored_string");
 					contextAName = (String)doc.get("contextAName" + "_" + languageName + "_stored_string");
 					contextNameSingular = (String)doc.get("contextNameSingular" + "_" + languageName + "_stored_string");
@@ -167,7 +167,7 @@ public class WriteAllClasses extends WritePageClass {
 					contextA = (String)doc.get("contextA" + "_" + languageName + "_stored_string");
 					contextActualName = (String)doc.get("contextActualName" + "_" + languageName + "_stored_string");
 					contextAllName = (String)doc.get("contextAllName" + "_" + languageName + "_stored_string");
-					contextRechercherTousNomPar = (String)doc.get("contextRechercherTousNomPar" + "_" + languageName + "_stored_string");
+					contextSearchAllNameBy = (String)doc.get("contextSearchAllNameBy" + "_" + languageName + "_stored_string");
 					contextTheName = (String)doc.get("contextTheName" + "_" + languageName + "_stored_string");
 					contextTitle = (String)doc.get("contextTitle" + "_" + languageName + "_stored_string");
 					contextH1 = (String)doc.get("contextH1" + "_" + languageName + "_stored_string");

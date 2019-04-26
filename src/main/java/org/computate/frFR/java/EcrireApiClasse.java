@@ -123,17 +123,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: PackageInfo
 	 */
 	public void apiCodeClasseDebut(String langueNom) throws Exception {
-//		l();
-//		tl(1, "public static final String VAL_nomCanonique", classeNomSimple, " = \"", classeNomCanonique, "\";");
-//		tl(1, "public static final String VAL_virguleEspace = \", \";");
-//		tl(1, "public static final String VAL_citation = \"\\\"\";");
-//		tl(1, "public static final String VAL_citationDeuxPointsEspaceCitation = \"\\\": \\\"\";");
-//		tl(1, "public static final String VAL_citationDeuxPointsEspace = \"\\\": \";");
-//		tl(1, "public static final String VAL_citationLigne = \"\\\"\\n\";");
-//		tl(1, "public static final String VAL_ligne = \"\\n\";");
-//		tl(1, "public static final String VAL_citationVirguleEspaceCitation = \"\\\", \\\"\";");
-//		tl(1, "public static final String VAL_citationDeuxPointsEspaceGuillmets = \"\\\": [\";");
-//		tl(1, "public static final String VAL_guillmetsFin = \"]\";");
 	}
 //
 //	/**
@@ -164,12 +153,24 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * 
 	 * r: auteurGenApiService
 	 * r.enUS: writerGenApiService
+	 * r: classePageLangueNom
+	 * r.enUS: classPageLanguageName
+	 * r: classePageNomCanoniqueMethode
+	 * r.enUS: classPageCanonicalNameMethod
+	 * r: classePageNomCanonique
+	 * r.enUS: classPageCanonicalName
+	 * r: classeApiMethode
+	 * r.enUS: classApiMethod
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
 	 * r: classeNomEnsemble
 	 * r.enUS: classPackageName
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
 	 * r: operationRequete
 	 * r.enUS: operationRequest
+	 * r: gestionnaireEvenements
+	 * r.enUS: eventHandler
 	 * r: gestionnaireResultat
 	 * r.enUS: resultHandler
 	 * r: // Une méthode d'usine pour créer une instance et un proxy. 
@@ -196,9 +197,17 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: AllWriter
 	 * r: classePageNomCanoniqueMethode
 	 * r.enUS: classPageCanonicalNameMethod
+	 * r: documentSolr
+	 * r.enUS: solrDocument
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: nomSimple
+	 * r.enUS: simpleName
 	 * 
 	 * r: recherche
 	 * r.enUS: search
+	 * r: addresse
+	 * r.enUS: address
 	 **/ 
 	public void ecrireGenApiService(String langueNom) throws Exception {
 		if(auteurGenApiService != null) {
@@ -275,6 +284,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: classSimpleName
 	 * r: classeNomEnsemble
 	 * r.enUS: classPackageName
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
 	 * r: SiteContexte
 	 * r.enUS: SiteContext
 	 * r: siteContexte
@@ -283,7 +294,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: classParts
 	 * r: nomCanonique
 	 * r.enUS: canonicalName
+	 * r: nomSimple
+	 * r.enUS: simpleName
+	 * r: documentSolr
+	 * r.enUS: solrDocument
+	 * r: langueNom
+	 * r.enUS: languageName
 	 * 
+	 * r: Traduire
+	 * r.enUS: Translate
 	 **/
 	public void ecrireApiServiceImpl(String langueNom) throws Exception {
 		if(auteurApiServiceImpl != null) {
@@ -316,6 +335,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: classPathApiServiceImpl
 	 * r: classeCheminGenApiService
 	 * r.enUS: classPathGenApiService
+	 * r: entiteClassesSuperEtMoiSansGen
+	 * r.enUS: entitySuperClassesAndMeWithoutGen
+	 * r: partEstEntite
+	 * r.enUS: partIsEntity
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
+	 * r: clientSolrComputate
+	 * r.enUS: solrClientComputate
+	 * r: rechercheListe
+	 * r.enUS: searchList
+	 * r: rechercheLignes
+	 * r.enUS: searchLines
+	 * r: rechercheSolr
+	 * r.enUS: solrSearch
 	 * 
 	 * r: auteurGenApiServiceImpl
 	 * r.enUS: writerGenApiServiceImpl
