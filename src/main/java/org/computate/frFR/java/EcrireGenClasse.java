@@ -2506,7 +2506,7 @@ public class EcrireGenClasse extends EcrireClasse {
 									}
 
 //									entiteValsEcrivain.t(1);
-									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th")) {
+									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code")) {
 										html = true;
 
 										String css = entiteVar;
@@ -4193,7 +4193,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			
 					tl(3, "{");
 					tl(4, "new File(\"", appliChemin, "-static/png", StringUtils.substringBeforeLast(classePageUriMethode, "/"), "\").mkdirs();");
-					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --url=", siteUrlBase, classePageUriMethode, "?pageRecapituler=true --out=", appliChemin, "-static/png", classePageUriMethode, "-999.png\"));");
+					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --min-height=200 --url=", siteUrlBase, classePageUriMethode, "?pageRecapituler=true --out=", appliChemin, "-static/png", classePageUriMethode, "-999.png\"));");
 					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appliChemin, "-static/png", classePageUriMethode, "-999.png\"));");
 					tl(4, "System.out.println(\"", classePageNomSimple, "\");");
 					tl(4, "System.out.println(\" * ImageLargeur.", classePageLangueNom, ": \" + img.getWidth());");
@@ -4221,6 +4221,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(3, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
 			tl(3, "siteContexte.setRequeteSite_(requeteSite);");
 			tl(3, "requeteSite.setSiteContexte_(siteContexte);");
+			tl(3, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
 			tl(3, "SolrQuery rechercheSolr = new SolrQuery();");
 			tl(3, "rechercheSolr.setQuery(\"*:*\");");
 			tl(3, "rechercheSolr.setRows(1);");
