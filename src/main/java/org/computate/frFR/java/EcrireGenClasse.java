@@ -590,7 +590,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String contexteLesNoms;
 
 	/**
-	 * Var.enUS: contextNoneNameFound
+	 * Var.enUS: contextNoNameFound
 	 */
 	protected String contexteAucunNomTrouve;
 
@@ -697,7 +697,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	String entiteDescription;
 
 	/**
-	 * Var.enUS: entityHtmlLine
+	 * Var.enUS: entityHtmlRow
 	 */
 	Integer entiteHtmlLigne;
 
@@ -762,47 +762,47 @@ public class EcrireGenClasse extends EcrireClasse {
 	SolrDocument entiteDocumentSolr;
 
 	/**
-	 * Var.enUS: searchLines
+	 * Var.enUS: searchRows
 	 */
 	Integer rechercheLignes;
 
 	/**
-	 * Var.enUS: searchLineSearch
+	 * Var.enUS: searchRowSearch
 	 */
 	Integer rechercheLigneRecherche;
 
 	/**
-	 * Var.enUS: searchLineActualSearch
+	 * Var.enUS: searchRowActualSearch
 	 */
 	Integer rechercheLigneActuelRecherche;
 
 	/**
-	 * Var.enUS: searchLinePOST
+	 * Var.enUS: searchRowPOST
 	 */
 	Integer rechercheLignePOST;
 
 	/**
-	 * Var.enUS: searchLineActualPOST
+	 * Var.enUS: searchRowActualPOST
 	 */
 	Integer rechercheLigneActuelPOST;
 
 	/**
-	 * Var.enUS: searchLinePATCH
+	 * Var.enUS: searchRowPATCH
 	 */
 	Integer rechercheLignePATCH;
 
 	/**
-	 * Var.enUS: searchLineActualPATCH
+	 * Var.enUS: searchRowActualPATCH
 	 */
 	Integer rechercheLigneActuelPATCH;
 
 	/**
-	 * Var.enUS: searchLinePage
+	 * Var.enUS: searchRowPage
 	 */
 	Integer rechercheLignePage;
 
 	/**
-	 * Var.enUS: searchLineActualPage
+	 * Var.enUS: searchRowActualPage
 	 */
 	Integer rechercheLigneActuelPage;
 
@@ -1452,6 +1452,53 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classSaved
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
+	 * r: classeValVarNumero
+	 * r.enUS: classValVarNumber
+	 * 
+	 * r: _UnNom 
+	 * r.enUS: _AName 
+	 * r: _Ce 
+	 * r.enUS: _This 
+	 * r: _CeNom 
+	 * r.enUS: _ThisName 
+	 * r: _Un 
+	 * r.enUS: _A 
+	 * r: _LeNom 
+	 * r.enUS: _TheName 
+	 * r: _NomSingulier 
+	 * r.enUS: _NameSingular 
+	 * r: _NomPluriel 
+	 * r.enUS: _NamePlural 
+	 * r: _NomActuel 
+	 * r.enUS: _NameActual 
+	 * r: _TousNom 
+	 * r.enUS: _AllName 
+	 * r: _Tous 
+	 * r.enUS: _All 
+	 * r: _RechercherTousNomPar 
+	 * r.enUS: _SearchAllNameBy 
+	 * r: _RechercherTousNom 
+	 * r.enUS: _SearchAllName 
+	 * r: _Titre 
+	 * r.enUS: _Title 
+	 * r: _LesNoms 
+	 * r.enUS: _TheNames 
+	 * r: _AucunNomTrouve 
+	 * r.enUS: _NoNameFound 
+	 * r: _NomVar 
+	 * r.enUS: _NameVar 
+	 * r: _DeNom 
+	 * r.enUS: _OfName 
+	 * r: _AdjectifPluriel 
+	 * r.enUS: _AdjectivePlural 
+	 * r: _Adjectif 
+	 * r.enUS: _Adjective 
+	 * r: _Couleur 
+	 * r.enUS: _Color 
+	 * r: _IconeGroupe 
+	 * r.enUS: _IconGroup 
+	 * r: _IconeNom 
+	 * r.enUS: _IconName 
 	 * 
 	 * r: entiteValsEcrivain
 	 * r.enUS: entityValsWriter
@@ -1538,7 +1585,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: contexteTous
 	 * r.enUS: contextAll
 	 * r: contexteAucunNomTrouve
-	 * r.enUS: contextNoneNameFound
+	 * r.enUS: contextNoNameFound
 	 * r: contexteNomVar
 	 * r.enUS: contextNameVar
 	 * r: contexteDeNom
@@ -1842,6 +1889,20 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * Var.enUS: genCodeConstructor
 	 * Param1.var.enUS: languageName
+	 * r: constructeurExceptionsNomSimpleCompletListe
+	 * r.enUS: constructorExceptionsSimpleNameCompleteList
+	 * r: constructeurExceptionsNomSimpleComplet
+	 * r.enUS: constructorExceptionsSimpleNameComplete
+	 * r: constructeurAnnotationsNomSimpleCompletListe
+	 * r.enUS: constructorAnnotationsSimpleNameCompleteList
+	 * r: constructeurAnnotationsNomSimpleComplet
+	 * r.enUS: constructorAnnotationsSimpleNameComplete
+	 * r: constructeurAnnotationsBlocCodeListe
+	 * r.enUS: constructorAnnotationsCodeBlockList
+	 * r: constructeurAnnotationsBlocCode
+	 * r.enUS: constructorAnnotationsCodeBlock
+	 * r: constructeurParamVar
+	 * r.enUS: constructorParamVar
 	 * r: constructeurDoc
 	 * r.enUS: constructorDoc
 	 * r: constructeurQdox
@@ -1993,6 +2054,45 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * Var.enUS: genCodeEntity
 	 * Param1.var.enUS: languageName
+	 * 
+	 * r: methodeExceptionsNomSimpleComplet
+	 * r.enUS: methodExceptionsSimpleNameComplete
+	 * r: methodeExceptionNomSimpleComplet
+	 * r.enUS: methodExceptionSimpleNameComplete
+	 * r: cssNumero
+	 * r.enUS: cssNumber
+	 * r: numeroStr
+	 * r.enUS: numberStr
+	 * r: classeVal
+	 * r.enUS: classVal
+	 * r: entiteValsEcrivain
+	 * r.enUS: entityValsWriter
+	 * r: entiteNumeroPile
+	 * r.enUS: entityNumberStack
+	 * r: entiteXmlPile
+	 * r.enUS: entityXmlStack
+	 * r: entiteValVarAncien
+	 * r.enUS: entityValVarOld
+	 * r: entiteValVarNumero
+	 * r.enUS: entityValVarNumber
+	 * r: entiteValVarLangueAncien
+	 * r.enUS: entityValVarLanguageOld
+	 * r: entiteValVarLangue
+	 * r.enUS: entityValVarLanguage
+	 * r: entiteValLangue
+	 * r.enUS: entityValLanguage
+	 * r: entiteValVar
+	 * r.enUS: entityValVar
+	 * r: entiteValsVar
+	 * r.enUS: entityValsVar
+	 * r: entiteValsLangue
+	 * r.enUS: entityValsLanguage
+	 * r: entiteValsValeur
+	 * r.enUS: entityValsValue
+	 * r: entiteValValeur
+	 * r.enUS: entityValValue
+	 * r: entiteClassesSuperEtMoiSansGen
+	 * r.enUS: entitySuperClassesAndMeWithoutGen
 	 * r: entiteVarCapitalise
 	 * r.enUS: entityVarCapitalized
 	 * r: entiteInitialise
@@ -2172,14 +2272,14 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: entityMultiLine
 	 * r: entiteCles
 	 * r.enUS: entityKeys
-	 * r: entiteAttribuer
-	 * r.enUS: entityAttribute
 	 * r: entiteAttribuerNomCanonique
 	 * r.enUS: entityAttributeCanonicalName
 	 * r: entiteAttribuerNomSimple
 	 * r.enUS: entityAttributeSimpleName
 	 * r: entiteAttribuerVar
 	 * r.enUS: entityAttributeVar
+	 * r: entiteAttribuer
+	 * r.enUS: entityAttribute
 	 * r: entiteAttribuer
 	 * r.enUS: entityAttribute
 	 * r: entiteDefinir
@@ -2345,6 +2445,12 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: canonicalName
 	 * r: Couverture
 	 * r.enUS: Wrap
+	 * r: numero
+	 * r.enUS: number
+	 * r: sauvegardes
+	 * r.enUS: saves
+	 * r: definir
+	 * r.enUS: define
 	 */   
 	public void genCodeEntite(String langueNom) throws Exception {
 		String entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
@@ -3924,7 +4030,39 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classCanonicalName
 	 * r: classeApiMethodes
 	 * r.enUS: classApiMethods
+	 * r: classePageCheminGen
+	 * r.enUS: classPagePathGen
+	 * r: classePageCheminCss
+	 * r.enUS: classPagePathCss
+	 * r: classePageCheminJs
+	 * r.enUS: classPagePathJs
+	 * r: classePageUriMethode
+	 * r.enUS: classPageUriMethod
+	 * r: classePageLangueNom
+	 * r.enUS: classPageLanguageName
+	 * r: classePageNomSimple
+	 * r.enUS: classPageSimpleName
+	 * r: classePageChemin
+	 * r.enUS: classPagePath
+	 * r: classePageMethode
+	 * r.enUS: classPageMethod
+	 * r: indexerPourClasse
+	 * r.enUS: indexForClass
+	 * r: stockerPourClasse
+	 * r.enUS: storeForClass
 	 * 
+	 * r: reponseRecherche
+	 * r.enUS: searchResponse
+	 * r: DocumentSolr
+	 * r.enUS: SolrDocument
+	 * r: pageRecapituler
+	 * r.enUS: pageReview
+	 * r: ImageLargeur
+	 * r.enUS: ImageWidth
+	 * r: ImageHauteur
+	 * r.enUS: ImageHeight
+	 * r: rechercheSolr
+	 * r.enUS: solrSearch
 	 * r: sauvegarder
 	 * r.enUS: save
 	 * r: peupler
@@ -3960,6 +4098,20 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: Write: 
 	 * r: classe
 	 * r.enUS: class
+	 * r: sauvegardes
+	 * r.enUS: saves
+	 * r: definir
+	 * r.enUS: define
+	 * r: executeur
+	 * r.enUS: executor
+	 * r: indexer
+	 * r.enUS: index
+	 * r: Avant
+	 * r.enUS: Before
+	 * r: Milieu
+	 * r.enUS: Middle
+	 * r: Apres
+	 * r.enUS: After
 	 */
 	public void genCodeClasseFin(String langueNom) throws Exception {
 		//////////////////

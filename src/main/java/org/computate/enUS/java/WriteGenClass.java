@@ -262,7 +262,7 @@ public class WriteGenClass extends WriteClass {
 
 	protected String contextTheNames;
 
-	protected String contextNoneNameFound;
+	protected String contextNoNameFound;
 
 	protected String contextNameVar;
 
@@ -306,7 +306,7 @@ public class WriteGenClass extends WriteClass {
 
 	String entityDescription;
 
-	Integer entityHtmlLine;
+	Integer entityHtmlRow;
 
 	Boolean entityIndexed;
 
@@ -332,23 +332,23 @@ public class WriteGenClass extends WriteClass {
 
 	SolrDocument entitySolrDocument;
 
-	Integer searchLines;
+	Integer searchRows;
 
-	Integer searchLineSearch;
+	Integer searchRowSearch;
 
-	Integer searchLineActualSearch;
+	Integer searchRowActualSearch;
 
-	Integer searchLinePOST;
+	Integer searchRowPOST;
 
-	Integer searchLineActualPOST;
+	Integer searchRowActualPOST;
 
-	Integer searchLinePATCH;
+	Integer searchRowPATCH;
 
-	Integer searchLineActualPATCH;
+	Integer searchRowActualPATCH;
 
-	Integer searchLinePage;
+	Integer searchRowPage;
 
-	Integer searchLineActualPage;
+	Integer searchRowActualPage;
 
 	AllWriter classVals;
 
@@ -737,7 +737,7 @@ public class WriteGenClass extends WriteClass {
 		List<String> classValsValue = (List<String>)doc.get("classValsValue_stored_strings");
 		if(classValsVar != null && classValsLanguage != null && classValsValue != null) {
 			String classValVarOld = null;
-			Integer classValVarNumero = 0;
+			Integer classValVarNumber = 0;
 			String classValVar = null;
 			String classValLanguage = null;
 			String classValVarLanguage = null;
@@ -752,21 +752,21 @@ public class WriteGenClass extends WriteClass {
 
 				if(!StringUtils.equals(classValVarLanguage, classValVarLanguageOld) && (StringUtils.equals(classValVarLanguageOld, classValVarOld + languageName))) {
 					t(1, "public static final String ", classValVarOld, " = ");
-					for(int k = 1; k <= classValVarNumero; k++) {
+					for(int k = 1; k <= classValVarNumber; k++) {
 						if(k > 1)
 							s(" + ");
 						s(classValVarOld, k);
 					}
 					l(";");
-					classValVarNumero = 0;
+					classValVarNumber = 0;
 				}
 
 				if(StringUtils.equals(languageName, classValLanguage)) {
-					classValVarNumero++;
-					tl(1, "public static final String ", classValVar, classValVarNumero, " = \"", escapeJava(classValValue), "\";");
+					classValVarNumber++;
+					tl(1, "public static final String ", classValVar, classValVarNumber, " = \"", escapeJava(classValValue), "\";");
 					if(!classVals.getEmpty())
 						classVals.s(", ");
-					classVals.s(classValVar, classValVarNumero);
+					classVals.s(classValVar, classValVarNumber);
 				}
 
 				classValVarOld = classValVar;
@@ -779,13 +779,13 @@ public class WriteGenClass extends WriteClass {
 	
 				if(classValVarOld != null && !StringUtils.equals(classValVar, classValVarLanguageOld)) {
 					t(1, "public static final String ", classValVarOld, " = ");
-					for(int k = 1; k <= classValVarNumero; k++) {
+					for(int k = 1; k <= classValVarNumber; k++) {
 						if(k > 1)
 							s(" + ");
 						s(classValVarOld, k);
 					}
 					l(";");
-					classValVarNumero = 0;
+					classValVarNumber = 0;
 				}
 			}
 		}
@@ -821,7 +821,7 @@ public class WriteGenClass extends WriteClass {
 			contextH1 = (String)classDoc.get("contextH1" + "_" + languageName + "_stored_string");
 			contextH2 = (String)classDoc.get("contextH2" + "_" + languageName + "_stored_string");
 			contextH3 = (String)classDoc.get("contextH3" + "_" + languageName + "_stored_string");
-			contextNoneNameFound = (String)classDoc.get("contextNoneNameFound" + "_" + languageName + "_stored_string");
+			contextNoNameFound = (String)classDoc.get("contextNoNameFound" + "_" + languageName + "_stored_string");
 			contextANameAdjective = (String)classDoc.get("contextANameAdjective" + "_" + languageName + "_stored_string");
 			contextThisName = (String)classDoc.get("contextThisName" + "_" + languageName + "_stored_string");
 			contextTheName = (String)classDoc.get("contextTheName" + "_" + languageName + "_stored_string");
@@ -829,40 +829,40 @@ public class WriteGenClass extends WriteClass {
 			
 			l();
 			if(contextAName != null)
-				tl(1, "public static final String ", classSimpleName, "_UnNom = ", q(contextAName), ";");
+				tl(1, "public static final String ", classSimpleName, "_AName = ", q(contextAName), ";");
 			
 			if(contextThis != null)
-				tl(1, "public static final String ", classSimpleName, "_Ce = ", q(contextThis), ";");
+				tl(1, "public static final String ", classSimpleName, "_This = ", q(contextThis), ";");
 			
 			if(contextThisName != null)
-				tl(1, "public static final String ", classSimpleName, "_CeNom = ", q(contextThisName), ";");
+				tl(1, "public static final String ", classSimpleName, "_ThisName = ", q(contextThisName), ";");
 			
 			if(contextA != null)
-				tl(1, "public static final String ", classSimpleName, "_Un = ", q(contextA), ";");
+				tl(1, "public static final String ", classSimpleName, "_A = ", q(contextA), ";");
 			
 			if(contextTheName != null)
-				tl(1, "public static final String ", classSimpleName, "_LeNom = ", q(contextTheName), ";");
+				tl(1, "public static final String ", classSimpleName, "_TheName = ", q(contextTheName), ";");
 			
 			if(contextNameSingular != null)
-				tl(1, "public static final String ", classSimpleName, "_NomSingulier = ", q(contextNameSingular), ";");
+				tl(1, "public static final String ", classSimpleName, "_NameSingular = ", q(contextNameSingular), ";");
 			
 			if(contextNamePlural != null)
-				tl(1, "public static final String ", classSimpleName, "_NomPluriel = ", q(contextNamePlural), ";");
+				tl(1, "public static final String ", classSimpleName, "_NamePlural = ", q(contextNamePlural), ";");
 			
 			if(contextActualName != null)
-				tl(1, "public static final String ", classSimpleName, "_NomActuel = ", q(contextActualName), ";");
+				tl(1, "public static final String ", classSimpleName, "_NameActual = ", q(contextActualName), ";");
 			
 			if(contextAll != null)
-				tl(1, "public static final String ", classSimpleName, "_Tous = ", q(contextAll), ";");
+				tl(1, "public static final String ", classSimpleName, "_All = ", q(contextAll), ";");
 			
 			if(contextAllName != null)
-				tl(1, "public static final String ", classSimpleName, "_TousNom = ", q(contextAllName), ";");
+				tl(1, "public static final String ", classSimpleName, "_AllName = ", q(contextAllName), ";");
 			
 			if(contextSearchAllNameBy != null)
-				tl(1, "public static final String ", classSimpleName, "_RechercherTousNomPar = ", q(contextSearchAllNameBy), ";");
+				tl(1, "public static final String ", classSimpleName, "_SearchAllNameBy = ", q(contextSearchAllNameBy), ";");
 			
 			if(contextSearchAllName != null)
-				tl(1, "public static final String ", classSimpleName, "_RechercherTousNom = ", q(contextSearchAllName), ";");
+				tl(1, "public static final String ", classSimpleName, "_SearchAllName = ", q(contextSearchAllName), ";");
 			
 			if(contextH1 != null)
 				tl(1, "public static final String ", classSimpleName, "_H1 = ", q(contextH1), ";");
@@ -874,25 +874,25 @@ public class WriteGenClass extends WriteClass {
 				tl(1, "public static final String ", classSimpleName, "_H3 = ", q(contextH3), ";");
 			
 			if(contextTitle != null)
-				tl(1, "public static final String ", classSimpleName, "_Titre = ", q(contextTitle), ";");
+				tl(1, "public static final String ", classSimpleName, "_Title = ", q(contextTitle), ";");
 			
 			if(contextTheNames != null)
 				tl(1, "public static final String ", classSimpleName, "_TheNames = ", q(contextTheNames), ";");
 			
-			if(contextNoneNameFound != null)
-				tl(1, "public static final String ", classSimpleName, "_AucunNomTrouve = ", q(contextNoneNameFound), ";");
+			if(contextNoNameFound != null)
+				tl(1, "public static final String ", classSimpleName, "_NoNameFound = ", q(contextNoNameFound), ";");
 			
 			if(contextNameVar != null)
-				tl(1, "public static final String ", classSimpleName, "_NomVar = ", q(contextNameVar), ";");
+				tl(1, "public static final String ", classSimpleName, "_NameVar = ", q(contextNameVar), ";");
 			
 			if(contextOfName != null)
-				tl(1, "public static final String ", classSimpleName, "_DeNom = ", q(contextOfName), ";");
+				tl(1, "public static final String ", classSimpleName, "_OfName = ", q(contextOfName), ";");
 			
 			if(contextAdjective != null)
 				tl(1, "public static final String ", classSimpleName, "_Adjective = ", q(contextAdjective), ";");
 			
 			if(contextAdjectivePlural != null)
-				tl(1, "public static final String ", classSimpleName, "_AdjectivePluriel = ", q(contextAdjectivePlural), ";");
+				tl(1, "public static final String ", classSimpleName, "_AdjectivePlural = ", q(contextAdjectivePlural), ";");
 			
 			if(contextAdjectiveVar != null)
 				tl(1, "public static final String ", classSimpleName, "_AdjectiveVar = ", q(contextAdjectiveVar), ";");
@@ -907,13 +907,13 @@ public class WriteGenClass extends WriteClass {
 				tl(1, "public static final String ", classSimpleName, "_NameAdjectivePlural = ", q(contextNameAdjectivePlural), ";");
 			
 			if(contextColor != null)
-				tl(1, "public static final String ", classSimpleName, "_Couleur = ", q(contextColor), ";");
+				tl(1, "public static final String ", classSimpleName, "_Color = ", q(contextColor), ";");
 			
 			if(contextIconGroup != null)
-				tl(1, "public static final String ", classSimpleName, "_IconeGroupe = ", q(contextIconGroup), ";");
+				tl(1, "public static final String ", classSimpleName, "_IconGroup = ", q(contextIconGroup), ";");
 			
 			if(contextIconName != null)
-				tl(1, "public static final String ", classSimpleName, "_IconeNom = ", q(contextIconName), ";");
+				tl(1, "public static final String ", classSimpleName, "_IconName = ", q(contextIconName), ";");
 		}
 
 		for(String classPageMethod : classApiMethods) {
@@ -934,16 +934,16 @@ public class WriteGenClass extends WriteClass {
 	public void  genCodeConstructor(String languageName) throws Exception, Exception {
 		String constructorSourceCode = (String)doc.get("constructorSourceCode_" + languageName + "_stored_string");
 		String constructorComment = (String)doc.get("constructorComment_" + languageName + "_stored_string");
-		List<String> constructeurExceptionsNomSimpleComplet = (List<String>)doc.get("constructeurExceptionsNomSimpleComplet_stored_strings");
-		List<String> constructorAnnotationsNomSimpleCompletListe = (List<String>)doc.get("constructorAnnotationsNomSimpleComplet_" + languageName + "_stored_strings");
-		List<String> constructorAnnotationsBlocCodeListe = (List<String>)doc.get("constructorAnnotationsBlocCode_" + languageName + "_stored_strings");
+		List<String> constructorExceptionsSimpleNameComplete = (List<String>)doc.get("constructorExceptionsSimpleNameComplete_stored_strings");
+		List<String> constructorAnnotationsSimpleNameCompleteList = (List<String>)doc.get("constructorAnnotationsSimpleNameComplete_" + languageName + "_stored_strings");
+		List<String> constructorAnnotationsCodeBlockList = (List<String>)doc.get("constructorAnnotationsCodeBlock_" + languageName + "_stored_strings");
 
 		l(""); 
 		writeComment(constructorComment, 1);
-		if(constructorAnnotationsNomSimpleCompletListe != null && constructorAnnotationsBlocCodeListe != null) {
-			for(int j = 0; j < constructorAnnotationsNomSimpleCompletListe.size(); j++) {
-				String constructorAnnotationNomSimpleComplet = constructorAnnotationsNomSimpleCompletListe.get(j);
-				String constructorAnnotationCodeBlock = constructorAnnotationsBlocCodeListe.get(j);
+		if(constructorAnnotationsSimpleNameCompleteList != null && constructorAnnotationsCodeBlockList != null) {
+			for(int j = 0; j < constructorAnnotationsSimpleNameCompleteList.size(); j++) {
+				String constructorAnnotationNomSimpleComplet = constructorAnnotationsSimpleNameCompleteList.get(j);
+				String constructorAnnotationCodeBlock = constructorAnnotationsCodeBlockList.get(j);
 				l("\t@", constructorAnnotationNomSimpleComplet, constructorAnnotationCodeBlock, "");
 			}
 		}
@@ -971,7 +971,7 @@ public class WriteGenClass extends WriteClass {
 		if(constructorParamsSimpleNameComplete != null && constructorParamsVar != null && constructorParamsSimpleNameComplete.size() == constructorParamsVar.size()) {
 			for(int j = 0; j < constructorParamsVar.size(); j++) {
 				String constructorParamSimpleNameComplete = constructorParamsSimpleNameComplete.get(j);
-				String constructeurParamVar = constructorParamsVar.get(j);
+				String constructorParamVar = constructorParamsVar.get(j);
 				Boolean constructorParamVariableArgs = constructorParamsVariableArgs.get(j);
 				if(j > 0)
 					s(", ");
@@ -982,14 +982,14 @@ public class WriteGenClass extends WriteClass {
 				else
 					s(" ");
 
-				s(constructeurParamVar);
+				s(constructorParamVar);
 			}
 		}    
 		s(")");
-		if(constructeurExceptionsNomSimpleComplet != null && constructeurExceptionsNomSimpleComplet.size() > 0) {
+		if(constructorExceptionsSimpleNameComplete != null && constructorExceptionsSimpleNameComplete.size() > 0) {
 			s(" throws ");
-			for(int j = 0; j < constructeurExceptionsNomSimpleComplet.size(); j++) {
-				String constructorExceptionSimpleNameComplete = constructeurExceptionsNomSimpleComplet.get(j);
+			for(int j = 0; j < constructorExceptionsSimpleNameComplete.size(); j++) {
+				String constructorExceptionSimpleNameComplete = constructorExceptionsSimpleNameComplete.get(j);
 				if(j > 0)
 					s(", ");
 				s(constructorExceptionSimpleNameComplete);
@@ -1042,8 +1042,8 @@ public class WriteGenClass extends WriteClass {
 			Boolean entityDeclared = (Boolean)doc.get("entityDeclared_stored_boolean");
 			Boolean entitySearch = (Boolean)doc.get("entitySearch_stored_boolean");
 			Boolean entityAttribute = BooleanUtils.isTrue((Boolean)doc.get("entityAttribute_stored_boolean"));
-			String entityAttributeNomCanonique = (String)doc.get("entityAttributeNomCanonique_" + languageName + "_stored_string");
-			String entityAttributeNomSimple = (String)doc.get("entityAttributeNomSimple_" + languageName + "_stored_string");
+			String entityAttributeCanonicalName = (String)doc.get("entityAttributeCanonicalName_" + languageName + "_stored_string");
+			String entityAttributeSimpleName = (String)doc.get("entityAttributeSimpleName_" + languageName + "_stored_string");
 			String entityAttributeVar = (String)doc.get("entityAttributeVar_" + languageName + "_stored_string");
 			Boolean entityAdd = (Boolean)doc.get("entityAdd_stored_boolean");
 			Boolean entityDelete = (Boolean)doc.get("entityDelete_stored_boolean");
@@ -1058,7 +1058,7 @@ public class WriteGenClass extends WriteClass {
 			String entityHtmlTooltip = (String)doc.get("entityHtmlTooltip_" + languageName + "_stored_string");
 			Boolean entityHtml = (Boolean)doc.get("entityHtml_" + languageName + "_stored_boolean");
 
-			entityClassesSuperEtMoiSansGen = (List<String>)doc.get("entityClassesSuperEtMoiSansGen_stored_strings");
+			entitySuperClassesAndMeWithoutGen = (List<String>)doc.get("entitySuperClassesAndMeWithoutGen_stored_strings");
 	
 			List<String> entityMethodsBeforeVisibility = (List<String>)doc.get("entityMethodsBeforeVisibility_stored_strings");
 			List<String> entityMethodsBeforeVar = (List<String>)doc.get("entityMethodsBeforeVar_stored_strings");
@@ -1101,47 +1101,47 @@ public class WriteGenClass extends WriteClass {
 			l(commentLine);
 			l();
 
-			AllWriter entityValsEcrivain = AllWriter.create();
+			AllWriter entityValsWriter = AllWriter.create();
 			List<String> entityValsVar = (List<String>)doc.get("entityValsVar_stored_strings");
-			List<String> entityValsLangue = (List<String>)doc.get("entityValsLangue_stored_strings");
-			List<String> entityValsValeur = (List<String>)doc.get("entityValsValeur_stored_strings");
-			if(entityValsVar != null && entityValsLangue != null && entityValsValeur != null) {
-				String entityValVarAncien = null;
-				Integer entityValVarNumero = 0;
+			List<String> entityValsLanguage = (List<String>)doc.get("entityValsLanguage_stored_strings");
+			List<String> entityValsValue = (List<String>)doc.get("entityValsValue_stored_strings");
+			if(entityValsVar != null && entityValsLanguage != null && entityValsValue != null) {
+				String entityValVarOld = null;
+				Integer entityValVarNumber = 0;
 				String entityValVar = null;
-				String entityValLangue = null;
-				String entityValVarLangue = null;
-				String entityValVarLangueAncien = null;
-				String entityValValeur = null;
+				String entityValLanguage = null;
+				String entityValVarLanguage = null;
+				String entityValVarLanguageOld = null;
+				String entityValValue = null;
 	
-				entityXmlPile = new Stack<String>();
-				entityNumeroPile = new Stack<Integer>();
+				entityXmlStack = new Stack<String>();
+				entityNumberStack = new Stack<Integer>();
 				for(int j = 0; j < entityValsVar.size(); j++) {
 					entityValVar = entityValsVar.get(j);
-					entityValLangue = entityValsLangue.get(j);
-					if(StringUtils.isBlank(entityValLangue))
-						entityValLangue = languageName;
-					entityValVarLangue = entityValVar + entityValLangue;
-					entityValValeur = entityValsValeur.get(j);
+					entityValLanguage = entityValsLanguage.get(j);
+					if(StringUtils.isBlank(entityValLanguage))
+						entityValLanguage = languageName;
+					entityValVarLanguage = entityValVar + entityValLanguage;
+					entityValValue = entityValsValue.get(j);
 	
 					Integer xmlPart = 0;
-					if(!StringUtils.equals(entityValVarLangue, entityValVarLangueAncien) && (StringUtils.equals(entityValVarLangueAncien, entityValVarAncien + languageName))) {
-						t(1, "public static final String ", entityVar, entityValVarAncien, " = ");
-						for(int k = 1; k <= entityValVarNumero; k++) {
+					if(!StringUtils.equals(entityValVarLanguage, entityValVarLanguageOld) && (StringUtils.equals(entityValVarLanguageOld, entityValVarOld + languageName))) {
+						t(1, "public static final String ", entityVar, entityValVarOld, " = ");
+						for(int k = 1; k <= entityValVarNumber; k++) {
 							if(k > 1)
 								s(" + ");
-							s(entityVar, entityValVarAncien, k);
+							s(entityVar, entityValVarOld, k);
 						}
 						l(";");
-						entityValVarNumero = 0;
+						entityValVarNumber = 0;
 					}
 	
-					if(StringUtils.equals(languageName, entityValLangue)) {
-						entityValVarNumero++;
-						tl(1, "public static final String ", entityVar, entityValVar, entityValVarNumero, " = \"", escapeJava(entityValValeur), "\";");
-						if(!classeVals.getEmpty())
-							classeVals.s(", ");
-						classeVals.s(entityVar, entityValVar, entityValVarNumero);
+					if(StringUtils.equals(languageName, entityValLanguage)) {
+						entityValVarNumber++;
+						tl(1, "public static final String ", entityVar, entityValVar, entityValVarNumber, " = \"", escapeJava(entityValValue), "\";");
+						if(!classVals.getEmpty())
+							classVals.s(", ");
+						classVals.s(entityVar, entityValVar, entityValVarNumber);
 						{
 							String[] parts = splitByCharacterTypeCamelCase(entityValVar);
 							Boolean html = false;
@@ -1152,14 +1152,14 @@ public class WriteGenClass extends WriteClass {
 								boolean trouve = regex.find();
 								if(trouve) {
 									String element = StringUtils.lowerCase(regex.group(1));
-									String numeroStr = regex.group(2);
-									Integer numero = StringUtils.isEmpty(numeroStr) ? null : Integer.parseInt(numeroStr);
+									String numberStr = regex.group(2);
+									Integer number = StringUtils.isEmpty(numberStr) ? null : Integer.parseInt(numberStr);
 									if("h".equals(element)) {
-										element += numero;
-										numero = null;
+										element += number;
+										number = null;
 									}
 
-//									entityValsEcrivain.t(1);
+//									entityValsWriter.t(1);
 									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code")) {
 										html = true;
 
@@ -1170,83 +1170,83 @@ public class WriteGenClass extends WriteClass {
 										}
 										css += " ";
 
-										String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(css, numero.toString()) + (numero % 2 == 0 ? " even " : " odd "));
+										String cssNumber = number == null ? "" : (StringUtils.substringBeforeLast(css, number.toString()) + (number % 2 == 0 ? " even " : " odd "));
 
-										if(numero == null)
-											numero = 1;
+										if(number == null)
+											number = 1;
 
-										if(entityXmlPile.size() < (xmlPart + 1)) {
+										if(entityXmlStack.size() < (xmlPart + 1)) {
 											if("i".equals(element))
-												entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entityVar, entityValVar, entityValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
+												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entityVar, entityValVar, entityValVarNumber, ", \" site-menu-icon ", css, cssNumber, "\").f();");
 											else if("a".equals(element))
-												entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entityVar, entityValVar, entityValVarNumero, ").f();");
+												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumber, "\").a(\"href\", ", entityVar, entityValVar, entityValVarNumber, ").f();");
 											else
-												entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
+												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumber, "\").f();");
 
-											entityXmlPile.push(element);
-											entityNumeroPile.push(numero);
+											entityXmlStack.push(element);
+											entityNumberStack.push(number);
 											xmlPart++;
 										}
-										else if(StringUtils.equals(element, entityXmlPile.get(xmlPart)) && numero.equals(entityNumeroPile.get(xmlPart))) {
+										else if(StringUtils.equals(element, entityXmlStack.get(xmlPart)) && number.equals(entityNumberStack.get(xmlPart))) {
 											xmlPart++;
 										}
 										else {
-//										else if(!StringUtils.equals(element, entityXmlPile.get(xmlPart))) {
-											while(entityXmlPile.size() > xmlPart) {
-//											for(int q = entityXmlPile.size() - 1; q >= xmlPart; q--) {
-												entityValsEcrivain.tl(1 + entityXmlPile.size(), "} g(\"", entityXmlPile.peek(), "\");");
-												entityXmlPile.pop();
-												entityNumeroPile.pop();
+//										else if(!StringUtils.equals(element, entityXmlStack.get(xmlPart))) {
+											while(entityXmlStack.size() > xmlPart) {
+//											for(int q = entityXmlStack.size() - 1; q >= xmlPart; q--) {
+												entityValsWriter.tl(1 + entityXmlStack.size(), "} g(\"", entityXmlStack.peek(), "\");");
+												entityXmlStack.pop();
+												entityNumberStack.pop();
 //												xmlPart--;
 											}
-//											entityValsEcrivain.tl(2 + xmlPart, "} g(\"", entityXmlPile.get(xmlPart), "\");");
-											entityValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
+//											entityValsWriter.tl(2 + xmlPart, "} g(\"", entityXmlStack.get(xmlPart), "\");");
+											entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumber, "\").f();");
 
-											entityXmlPile.push(element);
-											entityNumeroPile.push(numero);
+											entityXmlStack.push(element);
+											entityNumberStack.push(number);
 											xmlPart++;
-	//										entityValsEcrivain.t(1);
+	//										entityValsWriter.t(1);
 										}
 	
-	//									if(entityXmlPile.size() < (i + 1)) {
-	//										entityValsEcrivain.t(2 + i, "{ e(\"p\").a(\"class\", \" ", css, cssNumero, "\").f();");
-	//										entityValsEcrivain.t(2 + i, "} g(\"p\");");
+	//									if(entityXmlStack.size() < (i + 1)) {
+	//										entityValsWriter.t(2 + i, "{ e(\"p\").a(\"class\", \" ", css, cssNumber, "\").f();");
+	//										entityValsWriter.t(2 + i, "} g(\"p\");");
 	//									}
 	//									else if(StringUtils)
 									}
 								}
 							}
-							if(html && !"i".equals(entityXmlPile.peek())) {
-								Integer p = entityXmlPile.size();
-								entityValsEcrivain.tl(2 + p, "sx(", entityVar, entityValVar, entityValVarNumero, ");");
+							if(html && !"i".equals(entityXmlStack.peek())) {
+								Integer p = entityXmlStack.size();
+								entityValsWriter.tl(2 + p, "sx(", entityVar, entityValVar, entityValVarNumber, ");");
 							}
 						}
 					}
 	
-					entityValVarAncien = entityValVar;
-					entityValVarLangueAncien = entityValVarLangue;
+					entityValVarOld = entityValVar;
+					entityValVarLanguageOld = entityValVarLanguage;
 				}
-				if(StringUtils.equals(languageName, entityValLangue)) {
-					entityValVarAncien = entityValVar;
-					entityValVarLangueAncien = entityValVarLangue;
+				if(StringUtils.equals(languageName, entityValLanguage)) {
+					entityValVarOld = entityValVar;
+					entityValVarLanguageOld = entityValVarLanguage;
 					entityValVar = null;
 		
-					if(entityValVarAncien != null && !StringUtils.equals(entityValVar, entityValVarLangueAncien)) {
-						t(1, "public static final String ", entityVar, entityValVarAncien, " = ");
-						for(int k = 1; k <= entityValVarNumero; k++) {
+					if(entityValVarOld != null && !StringUtils.equals(entityValVar, entityValVarLanguageOld)) {
+						t(1, "public static final String ", entityVar, entityValVarOld, " = ");
+						for(int k = 1; k <= entityValVarNumber; k++) {
 							if(k > 1)
 								s(" + ");
-							s(entityVar, entityValVarAncien, k);
+							s(entityVar, entityValVarOld, k);
 						}
 						l(";");
-						entityValVarNumero = 0;
+						entityValVarNumber = 0;
 					}
 				}
 				l();
 
-				for(int q = entityXmlPile.size() - 1; q >= 0; q--) {
-					entityValsEcrivain.tl(2 + q, "} g(\"", entityXmlPile.get(q), "\");");
-					entityXmlPile.pop();
+				for(int q = entityXmlStack.size() - 1; q >= 0; q--) {
+					entityValsWriter.tl(2 + q, "} g(\"", entityXmlStack.get(q), "\");");
+					entityXmlStack.pop();
 				}
 			}
 
@@ -1344,8 +1344,8 @@ public class WriteGenClass extends WriteClass {
 	//		if(methodExceptionsSimpleNameComplete != null && methodExceptionsSimpleNameComplete.size() > 0) {
 	//
 	//			for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
-	//				String methodeExceptionNomSimpleComplet = methodExceptionsSimpleNameComplete.get(i);
-	//				tl(1, " * @throws ", methodeExceptionNomSimpleComplet);
+	//				String methodExceptionSimpleNameComplete = methodExceptionsSimpleNameComplete.get(i);
+	//				tl(1, " * @throws ", methodExceptionSimpleNameComplete);
 	//			}
 	//		}
 			tl(1, " **/");
@@ -1363,10 +1363,10 @@ public class WriteGenClass extends WriteClass {
 	
 				s(" throws ");
 				for(int i = 0; i < methodExceptionsSimpleNameComplete.size(); i++) {
-					String methodeExceptionNomSimpleComplet = methodExceptionsSimpleNameComplete.get(i);
+					String methodExceptionSimpleNameComplete = methodExceptionsSimpleNameComplete.get(i);
 					if(i > 0) 
 						s(", ");
-					s(methodeExceptionNomSimpleComplet);
+					s(methodExceptionSimpleNameComplete);
 				}
 			}
 			l(";");
@@ -2043,12 +2043,12 @@ public class WriteGenClass extends WriteClass {
 
 			for(String classWriteMethod : new String[] { "htmlBody" }) {
 				if(entityWriteMethods.contains(classWriteMethod)) {
-					if(entitySimpleNameCompleteGeneric == null && "htmlBody".equals(classWriteMethod) && entityClassesSuperEtMoiSansGen.contains(classPartsPagePart.canonicalName)) {
+					if(entitySimpleNameCompleteGeneric == null && "htmlBody".equals(classWriteMethod) && entitySuperClassesAndMeWithoutGen.contains(classPartsPagePart.canonicalName)) {
 						tl(1, "public void ", classWriteMethod, entityVarCapitalized, "(", entitySimpleNameComplete, " o) {");
-						if(entityClassesSuperEtMoiSansGen.contains(classPartsPagePart.canonicalName)) {
+						if(entitySuperClassesAndMeWithoutGen.contains(classPartsPagePart.canonicalName)) {
 							// do stuff here. 
-							if(!entityValsEcrivain.getEmpty()) {
-								s(entityValsEcrivain);
+							if(!entityValsWriter.getEmpty()) {
+								s(entityValsWriter);
 							}
 						}
 						tl(1, "}");
@@ -2220,7 +2220,7 @@ public class WriteGenClass extends WriteClass {
 			}	
 	
 			/////////////
-			// definir //
+			// define //
 			/////////////
 			o = wDefine;
 			
@@ -2228,12 +2228,12 @@ public class WriteGenClass extends WriteClass {
 					tl(3, "case \"", entityVar, "\":");
 					if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
 						tl(4, "add", entityVarCapitalized, "(val);");
-						tl(4, "if(!sauvegardes", classSimpleName, ".contains(var))");
-						tl(5, "sauvegardes", classSimpleName, ".add(var);");
+						tl(4, "if(!saves", classSimpleName, ".contains(var))");
+						tl(5, "saves", classSimpleName, ".add(var);");
 					}
 					else {
 						tl(4, "set", entityVarCapitalized, "(val);");
-						tl(4, "sauvegardes", classSimpleName, ".add(var);");
+						tl(4, "saves", classSimpleName, ".add(var);");
 					}
 					tl(4, "return val;");
 			}	
@@ -2272,13 +2272,13 @@ public class WriteGenClass extends WriteClass {
 					tl(0);
 	
 //					if(entitySuggested) {
-//						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+//						tl(3, "if(saves", classSimpleName, ".contains(\"", entityVar, "\")) {");
 //						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entityTypeSuffix, "\");");
 //						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 //						tl(3, "}");
 //					}
 //					else if(entityIncremented) {
-//						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+//						tl(3, "if(saves", classSimpleName, ".contains(\"", entityVar, "\")) {");
 //						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entityTypeSuffix, "\");");
 //						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 //						tl(3, "}");
@@ -2293,7 +2293,7 @@ public class WriteGenClass extends WriteClass {
 						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 					}
 					else if(entityEncrypted) {
-						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(3, "if(saves", classSimpleName, ".contains(\"", entityVar, "\")) {");
 						if(siteEncrypted)
 							tl(4, entitySolrSimpleName, " ", entityVar, " = siteRequest.deencryptStr((", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entityTypeSuffix, "\"));");
 						else
@@ -2310,7 +2310,7 @@ public class WriteGenClass extends WriteClass {
 							tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 					}
 					else {
-						tl(3, "if(sauvegardes", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(3, "if(saves", classSimpleName, ".contains(\"", entityVar, "\")) {");
 						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entityTypeSuffix, "\");");
 						tl(4, "if(", entityVar, " != null)");
 						if(StringUtils.contains(entitySolrCanonicalName, "<"))
@@ -2383,7 +2383,7 @@ public class WriteGenClass extends WriteClass {
 	//				tl(1, "public static final String ENTITY_VAR_ENCRYPTED_", entityVar, " = \"", entityVar, "_encrypted", entityTypeSuffix, "\";");
 	//		}
 	//		if(entityAttribute)
-	//			tl(1, "public static final String ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeNomSimple, "_", entityAttributeVar, " = \"", entityAttributeVar, "\";");
+	//			tl(1, "public static final String ENTITY_VAR_", entityVar, "_ATTRIBUTE_", entityAttributeSimpleName, "_", entityAttributeVar, " = \"", entityAttributeVar, "\";");
 	
 			////////////////////////
 			// codeApiGenererPost //
@@ -2581,7 +2581,7 @@ public class WriteGenClass extends WriteClass {
 		if(classInitDeep && (classExtendsBase || classIsBase)) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// definir //");
+			tl(1, "// define //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
@@ -2604,7 +2604,7 @@ public class WriteGenClass extends WriteClass {
 			tl(2, "if(val != null) {");
 			tl(3, "for(String v : vars) {");
 			tl(4, "if(o == null)");
-			tl(5, "o = definir", classSimpleName, "(v, val);");
+			tl(5, "o = define", classSimpleName, "(v, val);");
 			tl(4, "else if(o instanceof Cluster) {");
 			tl(5, "Cluster cluster = (Cluster)o;");
 			tl(5, "o = cluster.defineForClass(v, val);");
@@ -2613,7 +2613,7 @@ public class WriteGenClass extends WriteClass {
 			tl(2, "}");
 			tl(2, "return o != null;");
 			tl(1, "}");
-			tl(1, "public Object definir", classSimpleName, "(String var, String val) {");
+			tl(1, "public Object define", classSimpleName, "(String var, String val) {");
 			tl(2, "switch(var) {");
 			s(wDefine.toString());
 			tl(3, "default:");
@@ -2621,7 +2621,7 @@ public class WriteGenClass extends WriteClass {
 			if(classIsBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return super.definir", classSuperSimpleNameGeneric, "(var, val);");
+				tl(4, "return super.define", classSuperSimpleNameGeneric, "(var, val);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -2630,10 +2630,10 @@ public class WriteGenClass extends WriteClass {
 		if(classSaved) {
 			l(); 
 			tl(1, "/////////////////");
-			tl(1, "// sauvegardes //");
+			tl(1, "// saves //");
 			tl(1, "/////////////////");
 			tl(0);
-			tl(1, "protected List<String> sauvegardes", classSimpleName, " = new ArrayList<String>();");
+			tl(1, "protected List<String> saves", classSimpleName, " = new ArrayList<String>();");
 		}
 
 		/////////////////
@@ -2655,8 +2655,8 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "}");
 			tl(1, "public void populate", classSimpleName, "(SolrDocument solrDocument) {");
 			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
-			tl(2, "sauvegardes", classSimpleName, " = (List<String>)solrDocument.get(\"sauvegardes", classSimpleName, "_stored_strings\");");
-			tl(2, "if(sauvegardes", classSimpleName, " != null) {");
+			tl(2, "saves", classSimpleName, " = (List<String>)solrDocument.get(\"saves", classSimpleName, "_stored_strings\");");
+			tl(2, "if(saves", classSimpleName, " != null) {");
 			s(wPopulate.toString());
 			tl(2, "}");
 			if(BooleanUtils.isTrue(classExtendsBase)) {
@@ -2678,26 +2678,26 @@ public class WriteGenClass extends WriteClass {
 			tl(0);
 			tl(1, "public static void image() {");
 			tl(2, "try {");
-			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
-			for(String classPageMethode : classApiMethods) {
+			tl(3, "DefaultExecutor executor = new DefaultExecutor();");
+			for(String classPageMethod : classApiMethods) {
 	
-				String classPageCheminGen = (String)classDoc.get("classPageCheminGen" + classPageMethode  + "_stored_string");
-				String classPageChemin = (String)classDoc.get("classPageChemin" + classPageMethode  + "_stored_string");
-				String classPageCheminCss = (String)classDoc.get("classPageCheminCss" + classPageMethode  + "_stored_string");
-				String classPageCheminJs = (String)classDoc.get("classPageCheminJs" + classPageMethode  + "_stored_string");
-				String classPageUriMethode = (String)classDoc.get("classApiUri" + classPageMethode + "_stored_string");
-				String classPageLangueNom = (String)classDoc.get("classPageLangueNom" + classPageMethode + "_stored_string");
-				String classPageNomSimple = (String)classDoc.get("classPageNomSimple" + classPageMethode  + "_stored_string");
+				String classPagePathGen = (String)classDoc.get("classPagePathGen" + classPageMethod  + "_stored_string");
+				String classPagePath = (String)classDoc.get("classPagePath" + classPageMethod  + "_stored_string");
+				String classPagePathCss = (String)classDoc.get("classPagePathCss" + classPageMethod  + "_stored_string");
+				String classPagePathJs = (String)classDoc.get("classPagePathJs" + classPageMethod  + "_stored_string");
+				String classPageUriMethod = (String)classDoc.get("classApiUri" + classPageMethod + "_stored_string");
+				String classPageLanguageName = (String)classDoc.get("classPageLanguageName" + classPageMethod + "_stored_string");
+				String classPageSimpleName = (String)classDoc.get("classPageSimpleName" + classPageMethod  + "_stored_string");
 		
-				if(classPageCheminGen != null) {
+				if(classPagePathGen != null) {
 			
 					tl(3, "{");
-					tl(4, "new File(\"", appPath, "-static/png", StringUtils.substringBeforeLast(classPageUriMethode, "/"), "\").mkdirs();");
-					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --min-height=200 --url=", siteBaseUrl, classPageUriMethode, "?pageRecapituler=true --out=", appPath, "-static/png", classPageUriMethode, "-999.png\"));");
-					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appPath, "-static/png", classPageUriMethode, "-999.png\"));");
-					tl(4, "System.out.println(\"", classPageNomSimple, "\");");
-					tl(4, "System.out.println(\" * ImageLargeur.", classPageLangueNom, ": \" + img.getWidth());");
-					tl(4, "System.out.println(\" * ImageHauteur.", classPageLangueNom, ": \" + img.getHeight());");
+					tl(4, "new File(\"", appPath, "-static/png", StringUtils.substringBeforeLast(classPageUriMethod, "/"), "\").mkdirs();");
+					tl(4, "executor.execute(CommandLine.parse(\"/usr/bin/CutyCapt --min-height=200 --url=", siteBaseUrl, classPageUriMethod, "?pageReview=true --out=", appPath, "-static/png", classPageUriMethod, "-999.png\"));");
+					tl(4, "BufferedImage img = ImageIO.read(new File(\"", appPath, "-static/png", classPageUriMethod, "-999.png\"));");
+					tl(4, "System.out.println(\"", classPageSimpleName, "\");");
+					tl(4, "System.out.println(\" * ImageWidth.", classPageLanguageName, ": \" + img.getWidth());");
+					tl(4, "System.out.println(\" * ImageHeight.", classPageLanguageName, ": \" + img.getHeight());");
 					tl(3, "}");
 				}
 			}
@@ -2709,10 +2709,10 @@ public class WriteGenClass extends WriteClass {
 		if(classIndexed) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// indexer //");
+			tl(1, "// index //");
 			tl(1, "/////////////");
 			tl(0);
-			tl(1, "public static void indexer() {");
+			tl(1, "public static void index() {");
 			tl(2, "try {");
 			tl(3, "", classPartsSiteRequest.simpleName(languageName), " siteRequest = new ", classPartsSiteRequest.simpleName(languageName), "();");
 			tl(3, "siteRequest.initDeep", classPartsSiteRequest.simpleName(languageName), "();");
@@ -2722,17 +2722,17 @@ public class WriteGenClass extends WriteClass {
 			tl(3, "siteContext.setSiteRequest_(siteRequest);");
 			tl(3, "siteRequest.setSiteContext_(siteContext);");
 			tl(3, "siteRequest.setSiteConfig_(siteContext.getSiteConfig());");
-			tl(3, "SolrQuery rechercheSolr = new SolrQuery();");
-			tl(3, "rechercheSolr.setQuery(\"*:*\");");
-			tl(3, "rechercheSolr.setRows(1);");
-			tl(3, "rechercheSolr.addFilterQuery(\"id:\" + ClientUtils.escapeQueryChars(\"", classCanonicalName, "\"));");
-			tl(3, "QueryResponse reponseRecherche = siteRequest.getSiteContext_().getSolrClient().query(rechercheSolr);");
-			tl(3, "if(reponseRecherche.getResults().size() > 0)");
-			tl(4, "siteRequest.setDocumentSolr(reponseRecherche.getResults().get(0));");
+			tl(3, "SolrQuery solrSearch = new SolrQuery();");
+			tl(3, "solrSearch.setQuery(\"*:*\");");
+			tl(3, "solrSearch.setRows(1);");
+			tl(3, "solrSearch.addFilterQuery(\"id:\" + ClientUtils.escapeQueryChars(\"", classCanonicalName, "\"));");
+			tl(3, "QueryResponse searchResponse = siteRequest.getSiteContext_().getSolrClient().query(solrSearch);");
+			tl(3, "if(searchResponse.getResults().size() > 0)");
+			tl(4, "siteRequest.setSolrDocument(searchResponse.getResults().get(0));");
 			tl(3, classSimpleName, " o = new ", classSimpleName, "();");
 			tl(3, "o.siteRequest", classSimpleName, "(siteRequest);");
 			tl(3, "o.initDeep", classSimpleName, "(siteRequest);");
-			tl(3, "o.indexer", classSimpleName, "();");
+			tl(3, "o.index", classSimpleName, "();");
 			tl(2, "} catch(Exception e) {");
 			tl(3, "ExceptionUtils.rethrow(e);");
 			tl(2, "}");
@@ -2743,43 +2743,43 @@ public class WriteGenClass extends WriteClass {
 				t(1);
 				if(!classIsBase)
 					s("@Override ");
-				l("public void indexerPourClasse() throws Exception {");
-				tl(2, "indexer", classSimpleName, "();");
+				l("public void indexForClass() throws Exception {");
+				tl(2, "index", classSimpleName, "();");
 				tl(1, "}");
 				tl(0);
 				t(1);
 				if(!classIsBase)
 					s("@Override ");
-				l("public void indexerPourClasse(SolrInputDocument document) throws Exception {");
-				tl(2, "indexer", classSimpleName, "(document);");
+				l("public void indexForClass(SolrInputDocument document) throws Exception {");
+				tl(2, "index", classSimpleName, "(document);");
 				tl(1, "}");
 			}
 			l();
-			tl(1, "public void indexer", classSimpleName, "(SolrClient solrClient) throws Exception {");
+			tl(1, "public void index", classSimpleName, "(SolrClient solrClient) throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
-			tl(2, "indexer", classSimpleName, "(document);");
+			tl(2, "index", classSimpleName, "(document);");
 			tl(2, "solrClient.add(document);");
 			tl(2, "solrClient.commit();");
 			l("\t}");
 			l();
-			tl(1, "public void indexer", classSimpleName, "() throws Exception {");
+			tl(1, "public void index", classSimpleName, "() throws Exception {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
-			tl(2, "indexer", classSimpleName, "(document);");
+			tl(2, "index", classSimpleName, "(document);");
 			tl(2, "SolrClient solrClient = siteRequest_.getSiteContext_().getSolrClient();");
 			tl(2, "solrClient.add(document);");
 			tl(2, "solrClient.commit();");
 			l("\t}");
 
 			tl(0);
-			tl(1, "public void indexer", classSimpleName, "(SolrInputDocument document) throws Exception {");
+			tl(1, "public void index", classSimpleName, "(SolrInputDocument document) throws Exception {");
 			if(classSaved) {
-				tl(2, "if(sauvegardes", classSimpleName, " != null)");
-				tl(3, "document.addField(\"sauvegardes", classSimpleName, "_stored_strings\", sauvegardes", classSimpleName, ");");
+				tl(2, "if(saves", classSimpleName, " != null)");
+				tl(3, "document.addField(\"saves", classSimpleName, "_stored_strings\", saves", classSimpleName, ");");
 				l();
 			}
 			s(wIndex.toString());
 			if(classExtendsBase && !classIsBase) {
-				tl(2, "super.indexer", classSuperSimpleNameGeneric, "(document);");
+				tl(2, "super.index", classSuperSimpleNameGeneric, "(document);");
 				tl(0);
 			}
 			l("\t}");
@@ -2814,7 +2814,7 @@ public class WriteGenClass extends WriteClass {
 			t(1);
 			if(BooleanUtils.isTrue(classExtendsBase))
 				s("@Override ");
-			l("public void storePourClasse(SolrDocument solrDocument) {");
+			l("public void storeForClass(SolrDocument solrDocument) {");
 			if(classIndexed) {
 			tl(2, "store", classSimpleName, "(solrDocument);");
 			}
@@ -2857,31 +2857,31 @@ public class WriteGenClass extends WriteClass {
 				tl(1, "public void ", classWriteMethod, classSimpleName, "() {");
 				s(classWriteWriters.get(i));
 				tl(1, "}");
-	//				tl(1, "public void ", siteWriteMethod, "Avant() {");
-	//				tl(2, siteWriteMethod, classSimpleName, "Avant();");
+	//				tl(1, "public void ", siteWriteMethod, "Before() {");
+	//				tl(2, siteWriteMethod, classSimpleName, "Before();");
 	//				if(BooleanUtils.isTrue(classExtendsBase)) {
-	//					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Avant();");
+	//					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Before();");
 	//				}
 	//				tl(1, "}");
-	//				tl(1, "public void ", siteWriteMethod, "Milieu() {");
-	//				tl(2, siteWriteMethod, classSimpleName, "Milieu();");
+	//				tl(1, "public void ", siteWriteMethod, "Middle() {");
+	//				tl(2, siteWriteMethod, classSimpleName, "Middle();");
 	//				if(BooleanUtils.isTrue(classExtendsBase)) {
-	//					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Milieu();");
+	//					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Middle();");
 	//				}
 	//				tl(1, "}");
-	//				tl(1, "public void ", siteWriteMethod, "Apres() {");
-	//				tl(2, siteWriteMethod, classSimpleName, "Apres();");
+	//				tl(1, "public void ", siteWriteMethod, "After() {");
+	//				tl(2, siteWriteMethod, classSimpleName, "After();");
 	//				if(BooleanUtils.isTrue(classExtendsBase)) {
-	//					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "Apres();");
+	//					tl(2, "super.", siteWriteMethod, classSuperSimpleNameGeneric, "After();");
 	//				}
 	//				tl(1, "}");
-	//				tl(1, "public void ", siteWriteMethod, classSimpleName, "Avant() {");
+	//				tl(1, "public void ", siteWriteMethod, classSimpleName, "Before() {");
 	////				s(wStore.toString());
 	//				tl(1, "}");
-	//				tl(1, "public void ", siteWriteMethod, classSimpleName, "Milieu() {");
+	//				tl(1, "public void ", siteWriteMethod, classSimpleName, "Middle() {");
 	////				s(wStore.toString());
 	//				tl(1, "}");
-	//				tl(1, "public void ", siteWriteMethod, classSimpleName, "Apres() {");
+	//				tl(1, "public void ", siteWriteMethod, classSimpleName, "After() {");
 	////				s(wStore.toString());
 	//				tl(1, "}");
 			}
@@ -2938,8 +2938,8 @@ public class WriteGenClass extends WriteClass {
 ////							tl(4, "String valeur = siteRequest.decrypterStr((String)objets[1]);");
 ////						else
 ////							tl(4, "String valeur = (String)objets[1];");
-////						tl(4, "definir(chemin, valeur);");
-////						tl(4, "sauvegardes", classSimpleName, ".add(chemin);");
+////						tl(4, "define(chemin, valeur);");
+////						tl(4, "saves", classSimpleName, ".add(chemin);");
 ////						tl(3, "}");
 ////						tl(2, "}");
 //			tl(0);

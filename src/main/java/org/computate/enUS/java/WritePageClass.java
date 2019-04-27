@@ -26,363 +26,81 @@ public class WritePageClass extends WriteApiClass {
 
 	protected String classGenPageSimpleName;
 
-	public void  pageCodeClasseDebut(String langueNom) throws Exception, Exception {
-//		o = auteurGenPageClasse;
-//		l("package ", classeNomEnsemble, ";");
-//		l();
-//		if(classeImportationsGenPage.size() > 0) { 
-//			for(String classeImportation : classeImportationsGenPage) {
-//				l("import ", classeImportation, ";");
-//			}
-//			l();
-//		}
-//
-//		tl(0, "");
-//		ecrireCommentaire(classeCommentaire, 0); 
-//		s("public class ", classeNomSimpleGenPage);
-//		l(" {");
-//		l();
-//		tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimpleGenPage, ".class);");
+	public void  pageCodeClassStart(String languageName) throws Exception, Exception {
 	}
 
-	public void  pageCodeClasseFin(String langueNom) throws Exception, Exception {
-//		o = writerGenPageClass;
-//
-//		s(wPageEntites.toString());
-//		l();
-//		tl(1, "public void pageGet", classeNomSimple, "(", classePartsSiteContexte.nomSimple(langueNom), " siteContexte) {");
-//		tl(2, "OpenAPI3RouterFactory usineRouteur = siteContexte.getUsineRouteur_();");
-//		l();
-//		tl(2, "usineRouteur.addHandlerByOperationId(\"getPage", classeNomSimple, "\", contexteRoutage -> {");
-//		Integer tBase = 0;
-//		if(classeRolesTrouves) {
-//			String requeteRole = classeRoles.get(0);
-//			tBase = 6;
-//			tl(3, "contexteRoutage.user().isAuthorized(\"", requeteRole, "\", authRes -> {");
-//			tl(4, "try {");
-//			tl(5, "if (authRes.result() == Boolean.TRUE) {");
-//		}
-//		else {
-//			tBase = 4;
-//			tl(3, "try {");
-//		}
-//		l();
-//		tl(tBase, "contexteRoutage.response().putHeader(\"content-type\", \"application/json\").setChunked(true);");
-//		tl(tBase, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = generer", classePartsRequeteSite.nomSimple(langueNom), "Pour", classeNomSimple, "(siteContexte, contexteRoutage);");
-//		tl(tBase, "SolrQuery rechercheSolr = requeteSite.getRechercheSolr_();");
-//		tl(tBase, "SolrDocumentList resultatsRecherche = requeteSite.getReponseRecherche().getResults();");
-//		tl(tBase, "Integer rechercheLignes = rechercheSolr.getRows();");
-//		l();
-//		tl(tBase, "genererGetDebut", classeNomSimple, "(requeteSite);");
-//		tl(tBase, "for(long i = resultatsRecherche.getStart(); i < resultatsRecherche.getNumFound(); i+=rechercheLignes) {");
-//		tl(tBase + 1, "for(int j = 0; j < resultatsRecherche.size(); j++) {");
-//		tl(tBase + 2, "long resultatIndice = i + j;");
-//		tl(tBase + 2, "SolrDocument documentSolr = resultatsRecherche.get(j);");
-//		tl(tBase + 2, "ResultatRecherche resultatRecherche = new ResultatRecherche();");
-//		tl(tBase + 2, "resultatRecherche.setRequeteSite_(requeteSite);");
-//		tl(tBase + 2, "resultatRecherche.setDocumentSolr(documentSolr);");
-//		tl(tBase + 2, "resultatRecherche.setResultatIndice(resultatIndice);");
-//		tl(tBase + 2, "genererGetIndividuel", classeNomSimple, "(resultatRecherche);");
-//		tl(tBase + 1, "}");
-//		tl(tBase, "}");
-//		tl(tBase, "genererGetFin", classeNomSimple, "(requeteSite);");
-//		tl(tBase, "requeteSite.getReponseServeur().end();");
-//		if(classeRolesTrouves) {
-//			tl(5, "}");
-//			tl(5, "else {");
-//			tl(6, "contexteRoutage.response().setStatusCode(HttpResponseStatus.UNAUTHORIZED.code()).end();");
-//			tl(5, "}");
-//			tl(4, "} catch(Exception e) {");
-//			tl(5, "LOGGER.error(\"Error: \", e.getMessage());");
-//			tl(5, "contexteRoutage.fail(e);");
-//			tl(4, "}");
-//			tl(3, "});");
-//		}
-//		else {
-//			tl(3, "} catch(Exception e) {");
-//			tl(4, "LOGGER.error(\"Error: \", e.getMessage());");
-//			tl(4, "contexteRoutage.fail(e);");
-//			tl(3, "}");
-//		}
-//		tl(2, "});");
-//		tl(2, "usineRouteur.addFailureHandlerByOperationId(\"get", classeNomSimple, "\", contexteRoutage -> {");
-//		tl(3, "Throwable failure = contexteRoutage.failure();");
-//		tl(3, "if (failure instanceof ValidationException) {");
-//		tl(4, "String validationErrorMessage = failure.getMessage();");
-//		tl(4, "LOGGER.error(\"Error: \", validationErrorMessage);");
-//		tl(4, "contexteRoutage.fail(failure);");
-//		tl(3, "}");
-//		tl(2, "});");
-//		tl(1, "}");
-//		l();
-//		tl(1, "public void genererGetDebut", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
-//		tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-//		tl(2, "QueryResponse reponseRecherche = requeteSite.getReponseRecherche();");
-//		tl(2, "reponseServeur.write(\"{\\n\");");
-//		tl(2, "Long millisRecherche = Long.valueOf(reponseRecherche.getQTime());");
-//		tl(2, "Long millisTransmission = reponseRecherche.getElapsedTime();");
-//		tl(2, "Long numCommence = reponseRecherche.getResults().getStart();");
-//		tl(2, "Long numTrouve = reponseRecherche.getResults().getNumFound();");
-//		tl(2, "Integer numRetourne = reponseRecherche.getResults().size();");
-//		tl(2, "String tempsRecherche = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisRecherche), TimeUnit.MILLISECONDS.toMillis(millisRecherche) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(millisRecherche)));");
-//		tl(2, "String tempsTransmission = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(millisTransmission), TimeUnit.MILLISECONDS.toMillis(millisTransmission) - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(millisTransmission)));");
-//		tl(2, "Exception exceptionRecherche = reponseRecherche.getException();");
-//		l();
-//		tl(2, "reponseServeur.write(\"\\t\\\"numCommence\\\": \");");
-//		tl(2, "reponseServeur.write(numCommence.toString());");
-//		l();
-//		tl(2, "reponseServeur.write(\",\\n\\t\\\"numTrouve\\\": \");");
-//		tl(2, "reponseServeur.write(numTrouve.toString());");
-//		l();
-//		tl(2, "reponseServeur.write(\",\\n\\t\\\"numRetourne\\\": \");");
-//		tl(2, "reponseServeur.write(numRetourne.toString());");
-//		l();
-//		tl(2, "reponseServeur.write(\",\\n\\t\\\"tempsRecherche\\\": \\\"\");");
-//		tl(2, "reponseServeur.write(tempsRecherche);");
-//		tl(2, "reponseServeur.write(\"\\\"\");");
-//		l();
-//		tl(2, "reponseServeur.write(\",\\n\\t\\\"tempsTransmission\\\": \\\"\");");
-//		tl(2, "reponseServeur.write(tempsTransmission);");
-//		tl(2, "reponseServeur.write(\"\\\"\");");
-//		l();
-//		tl(2, "if(exceptionRecherche != null) {");
-//		tl(3, "reponseServeur.write(\",\\n\\t\\\"exceptionRecherche\\\": \\\"\");");
-//		tl(3, "reponseServeur.write(exceptionRecherche.getMessage());");
-//		tl(3, "reponseServeur.write(\"\\\"\");");
-//		tl(2, "}");
-//		l();
-//		tl(2, "reponseServeur.write(\",\\n\\t\\\"resultats\\\": [\\n\");");
-//		tl(1, "}");
-//		l();
-//		tl(1, "public void genererGetIndividuel", classeNomSimple, "(ResultatRecherche resultatRecherche) throws Exception {");
-//		tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = resultatRecherche.getRequeteSite_();");
-//		tl(2, "SolrDocument documentSolr = resultatRecherche.getDocumentSolr();");
-//		tl(2, "Long resultatIndice = resultatRecherche.getResultatIndice();");
-//		tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-//		tl(2, "reponseServeur.write(\"\\t\\t\");");
-//		tl(2, "if(resultatIndice > 0)");
-//		tl(3, "reponseServeur.write(\", \");");
-//		tl(2, "reponseServeur.write(\"{\\n\");");
-//		tl(2, "Collection<String> champNoms = documentSolr.getFieldNames();");
-//		tl(2, "Integer j = 0;");
-//		tl(2, "for(String champNomStocke : champNoms) {");
-//		tl(3, "Collection<Object> champValeurs = documentSolr.getFieldValues(champNomStocke);");
-//		tl(3, "j = genererGet", classeNomSimple, "(j, resultatRecherche, champNomStocke, champValeurs);");
-//		tl(2, "}");
-//		tl(2, "reponseServeur.write(\"\\t\\t}\\n\");");
-//		tl(1, "}");
-//		l();
-//		tl(1, "public void genererGetFin", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
-//		tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-////		tl(2, "if(exceptionRecherche != null) {");
-////		l();
-////		tl(4, "reponseServeur.write(\"\\t\\t}\\n\");");
-////		tl(3, "}");
-////		tl(2, "}");
-//		tl(2, "reponseServeur.write(\"\\t]\\n\");");
-//		tl(2, "reponseServeur.write(\"}\\n\");");
-//		tl(1, "}");
-////		tl(1, "@Override protected void doGet(HttpServerRequest requeteServeur, HttpServerResponse reponseServeur) throws ServletException, IOException {");
-//		l();
-//		tl(1, "public String varIndexe", classeNomSimple, "(String entiteVar) throws Exception {");
-//		tl(2, "switch(entiteVar) {");
-//		s(wPageGet.toString());
-//		tl(3, "default:");
-//		tl(4, "throw new Exception(String.format(\"\\\"%s\\\" n'est pas une entité indexé. \", entiteVar));");
-//		tl(2, "}");
-//		tl(1, "}");
-//		l();
-//		tl(1, "public SolrQuery genererRecherche", classeNomSimple, "(HttpServerRequest requeteServeur) throws Exception {");
-//		tl(2, "String entiteVar = null;");
-//		tl(2, "String valeurIndexe = null;");
-//		tl(2, "String varIndexe = null;");
-//		tl(2, "String valeurTri = null;");
-//		tl(2, "Integer rechercheDebut = null;");
-//		tl(2, "Integer rechercheNum = null;");
-//		tl(2, "SolrQuery rechercheSolr = new SolrQuery();");
-//		tl(2, "rechercheSolr.setQuery(\"*:*\");");
-//		tl(2, "rechercheSolr.setRows(1000000);");
-//		tl(2, "rechercheSolr.addSort(\"partNumero_indexed_int\", ORDER.asc);");
-//		tl(2, "MultiMap paramMap = requeteServeur.params();");
-//		tl(2, "for(String paramCle : paramMap.names()) {");
-//		tl(3, "List<String> paramValeurs = paramMap.getAll(paramCle);");
-//		tl(3, "for(String paramValeur : paramValeurs) {");
-//		tl(4, "switch(paramCle) {");
-//
-//		tl(5, "case \"q\":");
-//		tl(6, "entiteVar = StringUtils.trim(StringUtils.substringBefore(paramValeur, \":\"));");
-//		tl(6, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paramValeur, \":\"));");
-//		tl(6, "varIndexe = varIndexe", classeNomSimple, "(paramCle);");
-//		tl(6, "rechercheSolr.setQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
-//		tl(6, "break;");
-//
-//		tl(5, "case \"fq\":");
-//		tl(6, "entiteVar = StringUtils.trim(StringUtils.substringBefore(paramValeur, \":\"));");
-//		tl(6, "valeurIndexe = StringUtils.trim(StringUtils.substringAfter(paramValeur, \":\"));");
-//		tl(6, "varIndexe = varIndexe", classeNomSimple, "(paramCle);");
-//		tl(6, "rechercheSolr.addFilterQuery(varIndexe + \":\" + ClientUtils.escapeQueryChars(valeurIndexe));");
-//		tl(6, "break;");
-//
-//		tl(5, "case \"sort\":");
-//		tl(6, "entiteVar = StringUtils.trim(StringUtils.substringBefore(paramValeur, \" \"));");
-//		tl(6, "valeurTri = StringUtils.trim(StringUtils.substringAfter(paramValeur, \" \"));");
-//		tl(6, "varIndexe = varIndexe", classeNomSimple, "(paramCle);");
-//		tl(6, "rechercheSolr.addSort(varIndexe, ORDER.valueOf(valeurTri));");
-//		tl(6, "break;");
-//
-//		tl(5, "case \"fl\":");
-//		tl(6, "entiteVar = StringUtils.trim(paramValeur);");
-//		tl(6, "varIndexe = varIndexe", classeNomSimple, "(paramCle);");
-//		tl(6, "rechercheSolr.addField(varIndexe);");
-//		tl(6, "break;");
-//
-//		tl(5, "case \"start\":");
-//		tl(6, "rechercheDebut = Integer.parseInt(paramValeur);");
-//		tl(6, "rechercheSolr.setStart(rechercheDebut);");
-//		tl(6, "break;");
-//
-//		tl(5, "case \"rows\":");
-//		tl(6, "rechercheNum = Integer.parseInt(paramValeur);");
-//		tl(6, "rechercheSolr.setRows(rechercheNum);");
-//		tl(6, "break;");
-//
-//		tl(4, "}");
-//		tl(3, "}");
-//		tl(2, "}");
-//		tl(2, "return rechercheSolr;");
-//		tl(1, "}");
-//		l();
-//		tl(1, "public ", classePartsRequeteSite.nomSimple(langueNom), " generer", classePartsRequeteSite.nomSimple(langueNom), "Pour", classeNomSimple, "(", classePartsSiteContexte.nomSimple(langueNom), " siteContexte, RoutingContext contexteItineraire) throws Exception {");
-//		tl(2, "Vertx vertx = siteContexte.getVertx_();");
-//		tl(2, "SolrQuery rechercheSolr = genererRecherche", classeNomSimple, "(contexteItineraire.request());");
-//		l();
-//		tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
-//		tl(2, "requeteSite.setVertx_(vertx);");
-//		tl(2, "requeteSite.setContexteItineraire_(contexteItineraire);");
-//		tl(2, "requeteSite.setSiteContexte_(siteContexte);");
-//		tl(2, "requeteSite.setRechercheSolr_(rechercheSolr);");
-//		tl(2, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "(requeteSite);");
-//		l();
-//
-//		tl(2, "UtilisateurSite utilisateurSite = new UtilisateurSite();");
-//		tl(2, "utilisateurSite.initLoinUtilisateurSite(requeteSite);");
-//		tl(2, "requeteSite.setUtilisateurSite(utilisateurSite);");
-//		tl(2, "utilisateurSite.setRequeteSite_(requeteSite);");
-//
-//		tl(2, "return requeteSite;");
-//		tl(1, "}");
-//		l();
-////		tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, PrintWriter ecrivain, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {");
-//		tl(1, "public Integer genererGet", classeNomSimple, "(Integer j, ResultatRecherche resultatRecherche, String entiteVarStocke, Collection<Object> champValeurs) throws Exception {");
-//		tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = resultatRecherche.getRequeteSite_();");
-//		tl(2, "HttpServerResponse reponseServeur = requeteSite.getReponseServeur();");
-//		tl(2, "if(!champValeurs.isEmpty()) {");
-//		tl(3, "Object champValeur = champValeurs.iterator().next();");
-//		tl(3, "if(champValeur != null) {");
-////		s(wPageGenererGet.toString());
-//		tl(3, "}");
-//		tl(2, "}");
-//		tl(2, "return j;");
-//		tl(1, "}");
-//
-//		////////////
-//		// Erreur //
-//		////////////
-////		l();
-////		tl(1, "public void genererErreur(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite, Exception e) {");
-////		tl(2, "e.printStackTrace();");
-////		tl(2, "try {");
-////		tl(3, "MimeMessage message = new MimeMessage(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), "_.sessionCourriel);");
-////		tl(3, "message.setFrom(new InternetAddress(requeteSite.configSite_.mailAdmin));");
-////		tl(3, "InternetAddress destinaires[] = new InternetAddress[1];");
-////		tl(3, "destinaires[0] = new InternetAddress(requeteSite.configSite_.mailAdmin);");
-////		tl(3, "message.setRecipients(Message.RecipientType.TO, destinaires);");
-////		tl(3, "String nomDomaine = requeteSite.configSite_.nomDomaine;");
-////		tl(3, "String sujet = nomDomaine + \" erreur \" + \" \" + requeteSite.utilisateurNom + \" \" + requeteSite.requeteServeur.getRequestURI();");
-////		tl(3, "String corps = ExceptionUtils.getStackTrace(e);");
-////		tl(3, "message.setSubject(sujet);");
-////		tl(3, "message.setContent(corps, \"text/plain\");");
-////		tl(3, "Transport.send(message);");
-////		tl(3, "String s = e.getMessage();");
-////		tl(3, "requeteSite.getReponseServeur().sendError(500, s);");
-////		tl(2, "} catch(Exception e2) {");
-////		tl(3, "e.printStackTrace();");
-////		tl(2, "}");
-////		tl(1, "}");
-//		tl(0, "}");
-//
-//		System.out.println("Write: " + classeCheminGenPage); 
+	public void  pageCodeClassEnd(String languageName) throws Exception, Exception {
 	}
 
-	public Boolean ecrireFormEntite(AllWriter wForm, String classeApiMethodeMethode) {
+	public Boolean writeFormEntity(AllWriter wForm, String classApiMethodMethod) {
 		int tIndex = 0;
 		Boolean result = false;
 
-		if(entiteHtml) {
-			if("Recherche".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelRecherche = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
-				if(rechercheLigneRecherche != rechercheLigneActuelRecherche) {
-					if(rechercheLigneRecherche != -1)
+		if(entityHtml) {
+			if("Search".equals(classApiMethodMethod)) {
+				searchRowActualSearch = ObjectUtils.defaultIfNull((Integer)entitySolrDocument.get("entityHtmlRow_stored_int"), 0);
+				if(searchRowSearch != searchRowActualSearch) {
+					if(searchRowSearch != -1)
 						wForm.t(2).bgl("div");
 					wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
-					rechercheLigneRecherche = rechercheLigneActuelRecherche;
+					searchRowSearch = searchRowActualSearch;
 					result = true;
 				}
 			}
-			else if("POST".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPOST = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
-				if(rechercheLignePOST != rechercheLigneActuelPOST) {
-					if(rechercheLignePOST != -1)
+			else if("POST".equals(classApiMethodMethod)) {
+				searchRowActualPOST = ObjectUtils.defaultIfNull((Integer)entitySolrDocument.get("entityHtmlRow_stored_int"), 0);
+				if(searchRowPOST != searchRowActualPOST) {
+					if(searchRowPOST != -1)
 						wForm.t(2).bgl("div");
 					wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
-					rechercheLignePOST = rechercheLigneActuelPOST;
+					searchRowPOST = searchRowActualPOST;
 					result = true;
 				}
 			}
-			else if("PATCH".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPATCH = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
-				if(rechercheLignePATCH != rechercheLigneActuelPATCH) {
-					if(rechercheLignePATCH != -1)
+			else if("PATCH".equals(classApiMethodMethod)) {
+				searchRowActualPATCH = ObjectUtils.defaultIfNull((Integer)entitySolrDocument.get("entityHtmlRow_stored_int"), 0);
+				if(searchRowPATCH != searchRowActualPATCH) {
+					if(searchRowPATCH != -1)
 						wForm.t(2).bgl("div");
 					wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
-					rechercheLignePATCH = rechercheLigneActuelPATCH;
+					searchRowPATCH = searchRowActualPATCH;
 					result = true;
 				}
 			}
-			else if("Page".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPage = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
-				if(rechercheLignePage != rechercheLigneActuelPage) {
-					if(rechercheLignePage != -1)
+			else if("Page".equals(classApiMethodMethod)) {
+				searchRowActualPage = ObjectUtils.defaultIfNull((Integer)entitySolrDocument.get("entityHtmlRow_stored_int"), 0);
+				if(searchRowPage != searchRowActualPage) {
+					if(searchRowPage != -1)
 						wForm.t(2).bgl("div");
 					wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
-					rechercheLignePage = rechercheLigneActuelPage;
+					searchRowPage = searchRowActualPage;
 					result = true;
 				}
 			}
 
 			wForm.t(3).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-			if(entiteModifier) {
+			if(entityModify) {
 
-				// entiteModifier: true
+				// entityModify: true
 
-				if("Page".equals(classeApiMethodeMethode)) {
+				if("Page".equals(classApiMethodMethod)) {
 					tIndex = 1;
-					wForm.t(tIndex + 3).be("form").da("id", entiteVar, "Form").da("style", "display: inline-block; ").dfl();
+					wForm.t(tIndex + 3).be("form").da("id", entityVar, "Form").da("style", "display: inline-block; ").dfl();
 				}
-				if("LocalDate".equals(entiteNomSimple)) {
-					wForm.tl(tIndex + 4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
+				if("LocalDate".equals(entitySimpleName)) {
+					wForm.tl(tIndex + 4, entitySimpleNameComplete, " val = o.get", entityVarCapitalized, "();");
 					l();
-					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
+					if(entityDisplayName != null) {
+						wForm.t(tIndex + 4).e("label").da("for", classApiMethodMethod, "_", entityVar).da("class", "").df().dsxq(entityDisplayName).dgl("label");
 					}
 					wForm.t(tIndex + 4).e("input").l();
 					wForm.t(tIndex + 5).dal("type", "text");
 					wForm.t(tIndex + 5).dal("class", "w3-input w3-border datepicker ");
 					wForm.t(tIndex + 5).dal("placeholder", "DD-MM-YYYY");
 					wForm.t(tIndex + 5).dal("data-timeformat", "DD-MM-YYYY");
-					wForm.t(tIndex + 5).dal("onclick", "enleverLueur($(this)); ");
-					if(entiteDescription != null)
-						wForm.t(tIndex + 5).dal("title", entiteDescription + " (DD-MM-YYYY)");
+					wForm.t(tIndex + 5).dal("onclick", "removeGlow($(this)); ");
+					if(entityDescription != null)
+						wForm.t(tIndex + 5).dal("title", entityDescription + " (DD-MM-YYYY)");
 					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
 					wForm.t(tIndex + 5).s(".a(\"onchange\", \"");
 						wForm.s("var t = moment(this.value, 'DD-MM-YYYY'); ");
@@ -396,37 +114,37 @@ public class WritePageClass extends WriteApiClass {
 	
 					wForm.t(tIndex + 4).e("input").l();
 	
-					if("Page".equals(classeApiMethodeMethode) || "PATCH".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("class", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("name", "set", entiteVarCapitalise);
+					if("Page".equals(classApiMethodMethod) || "PATCH".equals(classApiMethodMethod)) {
+						wForm.t(tIndex + 5).dal("class", "set", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("name", "set", entityVarCapitalized);
 					}
 					else {
-						wForm.t(tIndex + 5).dal("class", "valeur", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("name", entiteVar);
-						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
+						wForm.t(tIndex + 5).dal("class", "value", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("name", entityVar);
+						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
-					if("Page".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("onchange", "patch", classeNomSimple, "($('#", classeNomSimple, "Form'), $('#", entiteVar, "Form')); ");
+					if("Page".equals(classApiMethodMethod)) {
+						wForm.t(tIndex + 5).dal("onchange", "patch", classSimpleName, "($('#", classSimpleName, "Form'), $('#", entityVar, "Form')); ");
 					}
 	
 					wForm.t(tIndex + 5).dal("type", "hidden");
-					wForm.tl(tIndex + 5, ".a(\"value\", o.str", entiteVarCapitalise, "())");
+					wForm.tl(tIndex + 5, ".a(\"value\", o.str", entityVarCapitalized, "())");
 					wForm.t(tIndex + 4).dfgl();
 				}
-				else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
-					wForm.tl(tIndex + 4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
+				else if("LocalDateTime".equals(entitySimpleName) || "ZonedDateTime".equals(entitySimpleName)) {
+					wForm.tl(tIndex + 4, entitySimpleNameComplete, " val = o.get", entityVarCapitalized, "();");
 					wForm.l();
-					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
+					if(entityDisplayName != null) {
+						wForm.t(tIndex + 4).e("label").da("for", classApiMethodMethod, "_", entityVar).da("class", "").df().dsxq(entityDisplayName).dgl("label");
 					}
 					wForm.t(tIndex + 4).e("input").l();
 					wForm.t(tIndex + 5).dal("type", "text");
 					wForm.t(tIndex + 5).dal("class", "w3-input w3-border datepicker ");
 					wForm.t(tIndex + 5).dal("placeholder", "DD-MM-YYYY");
 					wForm.t(tIndex + 5).dal("data-timeformat", "DD-MM-YYYY");
-					wForm.t(tIndex + 5).dal("onclick", "enleverLueur($(this)); ");
-					if(entiteDescription != null)
-						wForm.t(tIndex + 5).dal("title", entiteDescription + " (DD-MM-YYYY)");
+					wForm.t(tIndex + 5).dal("onclick", "removeGlow($(this)); ");
+					if(entityDescription != null)
+						wForm.t(tIndex + 5).dal("title", entityDescription + " (DD-MM-YYYY)");
 					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
 					wForm.t(tIndex + 5).s(".a(\"onchange\", \"");
 						wForm.s("var t = moment(this.value, 'DD-MM-YYYY'); ");
@@ -441,36 +159,36 @@ public class WritePageClass extends WriteApiClass {
 					wForm.t(tIndex + 4).e("input").l();
 					wForm.t(tIndex + 5).dal("type", "hidden");
 	
-					if("Page".equals(classeApiMethodeMethode) || "PATCH".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("class", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("name", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
+					if("Page".equals(classApiMethodMethod) || "PATCH".equals(classApiMethodMethod)) {
+						wForm.t(tIndex + 5).dal("class", "set", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("name", "set", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
 					else {
-						wForm.t(tIndex + 5).dal("class", "valeur", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("name", entiteVar);
-						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
+						wForm.t(tIndex + 5).dal("class", "value", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("name", entityVar);
+						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
-					if("Page".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("onchange", "patch", classeNomSimple, "($('#", classeNomSimple, "Form'), $('#", entiteVar, "Form')); ");
+					if("Page".equals(classApiMethodMethod)) {
+						wForm.t(tIndex + 5).dal("onchange", "patch", classSimpleName, "($('#", classSimpleName, "Form'), $('#", entityVar, "Form')); ");
 					}
 	
-					wForm.tl(tIndex + 5, ".a(\"value\", o.str", entiteVarCapitalise, "())");
+					wForm.tl(tIndex + 5, ".a(\"value\", o.str", entityVarCapitalized, "())");
 					wForm.t(tIndex + 4).dfgl();
 				}
-				else if("LocalTime".equals(entiteNomSimple)) {
-					wForm.tl(tIndex + 4, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
+				else if("LocalTime".equals(entitySimpleName)) {
+					wForm.tl(tIndex + 4, entitySimpleNameComplete, " val = o.get", entityVarCapitalized, "();");
 					wForm.l();
-					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
+					if(entityDisplayName != null) {
+						wForm.t(tIndex + 4).e("label").da("for", classApiMethodMethod, "_", entityVar).da("class", "").df().dsxq(entityDisplayName).dgl("label");
 					}
 					wForm.t(tIndex + 4).e("input").l();
 					wForm.t(tIndex + 5).dal("type", "text");
 					wForm.t(tIndex + 5).dal("class", "w3-input w3-border timepicker ");
 					wForm.t(tIndex + 5).dal("placeholder", "HH:MM AM");
-					wForm.t(tIndex + 5).dal("onclick", "enleverLueur($(this)); ");
-					if(entiteDescription != null)
-						wForm.t(tIndex + 5).da("title", entiteDescription + " (h'h'mm)");
+					wForm.t(tIndex + 5).dal("onclick", "removeGlow($(this)); ");
+					if(entityDescription != null)
+						wForm.t(tIndex + 5).da("title", entityDescription + " (h'h'mm)");
 					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
 					wForm.t(tIndex + 5).s(".a(\"onchange\", \"");
 						wForm.s("var t = parseTime(this.value); ");
@@ -485,28 +203,28 @@ public class WritePageClass extends WriteApiClass {
 					wForm.t(tIndex + 4).e("input").l();
 					wForm.t(tIndex + 5).dal("type", "hidden");
 	
-					if("Page".equals(classeApiMethodeMethode) || "PATCH".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("class", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("name", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
+					if("Page".equals(classApiMethodMethod) || "PATCH".equals(classApiMethodMethod)) {
+						wForm.t(tIndex + 5).dal("class", "set", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("name", "set", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
 					else {
-						wForm.t(tIndex + 5).dal("class", "valeur", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("name", entiteVar);
-						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
+						wForm.t(tIndex + 5).dal("class", "value", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("name", entityVar);
+						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
-					if("Page".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("onchange", "patch", classeNomSimple, "($('#", classeNomSimple, "Form'), $('#", entiteVar, "Form')); ");
+					if("Page".equals(classApiMethodMethod)) {
+						wForm.t(tIndex + 5).dal("onchange", "patch", classSimpleName, "($('#", classSimpleName, "Form'), $('#", entityVar, "Form')); ");
 					}
 	
-					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : o.str", entiteVarCapitalise, "())");
+					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : o.str", entityVarCapitalized, "())");
 					wForm.t(tIndex + 4).dfgl();
 				}
-				else if("Boolean".equals(entiteNomSimple)) {
+				else if("Boolean".equals(entitySimpleName)) {
 					wForm.t(tIndex + 4).e("input").l();
 					wForm.t(tIndex + 5).dal("type", "hidden");
-					wForm.t(tIndex + 5).dal("name", entiteVar);
-					wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
+					wForm.t(tIndex + 5).dal("name", entityVar);
+					wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					wForm.t(tIndex + 5).dal("value", "false");
 					wForm.t(tIndex + 4).dfgl();
 					wForm.l();
@@ -514,89 +232,89 @@ public class WritePageClass extends WriteApiClass {
 					wForm.t(tIndex + 5).dal("type", "checkbox");
 					wForm.t(tIndex + 5).dal("value", "true");
 	
-					if("Page".equals(classeApiMethodeMethode) || "PATCH".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("class", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("name", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
+					if("Page".equals(classApiMethodMethod) || "PATCH".equals(classApiMethodMethod)) {
+						wForm.t(tIndex + 5).dal("class", "set", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("name", "set", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
 					else {
-						wForm.t(tIndex + 5).dal("class", "valeur", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("name", entiteVar);
-						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
+						wForm.t(tIndex + 5).dal("class", "value", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("name", entityVar);
+						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
-					if("Page".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("onchange", "patch", classeNomSimple, "($('#", classeNomSimple, "Form'), $('#", entiteVar, "Form')); ");
+					if("Page".equals(classApiMethodMethod)) {
+						wForm.t(tIndex + 5).dal("onchange", "patch", classSimpleName, "($('#", classSimpleName, "Form'), $('#", entityVar, "Form')); ");
 					}
 					wForm.tl(tIndex + 5, ";");
 	
-					wForm.tl(tIndex + 5, "if(o.get", entiteVarCapitalise, "() != null && o.get", entiteVarCapitalise, "())");
+					wForm.tl(tIndex + 5, "if(o.get", entityVarCapitalized, "() != null && o.get", entityVarCapitalized, "())");
 					wForm.t(tIndex + 6).a("checked", "checked").l(";");
 					wForm.t(tIndex + 4).fgl();
 					wForm.l();
-					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
+					if(entityDisplayName != null) {
+						wForm.t(tIndex + 4).e("label").da("for", classApiMethodMethod, "_", entityVar).da("class", "").df().dsxq(entityDisplayName).dgl("label");
 					}
 				}
 				else {
-					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 4).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
+					if(entityDisplayName != null) {
+						wForm.t(tIndex + 4).e("label").da("for", classApiMethodMethod, "_", entityVar).da("class", "").df().dsxq(entityDisplayName).dgl("label");
 					}
 					wForm.l();
 	
-					if(entiteMultiligne)
+					if(entityMultiline)
 						wForm.t(tIndex + 4).e("textarea").l();
 					else
 						wForm.t(tIndex + 4).e("input").l().t(tIndex + 5).dal("type", "text");
 	
-					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 5).dal("placeholder", entiteNomAffichage);
+					if(entityDisplayName != null) {
+						wForm.t(tIndex + 5).dal("placeholder", entityDisplayName);
 					}
-					if(entiteDescription != null) {
-						wForm.t(tIndex + 5).dal("title", entiteDescription);
+					if(entityDescription != null) {
+						wForm.t(tIndex + 5).dal("title", entityDescription);
 					}
 	
-					if("Page".equals(classeApiMethodeMethode) || "PATCH".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("class", "set", entiteVarCapitalise, " w3-input w3-border ");
-						wForm.t(tIndex + 5).dal("name", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
+					if("Page".equals(classApiMethodMethod) || "PATCH".equals(classApiMethodMethod)) {
+						wForm.t(tIndex + 5).dal("class", "set", entityVarCapitalized, " w3-input w3-border ");
+						wForm.t(tIndex + 5).dal("name", "set", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
 					else {
-						wForm.t(tIndex + 5).dal("class", "valeur", entiteVarCapitalise, " w3-input w3-border ");
-						wForm.t(tIndex + 5).dal("name", entiteVar);
-						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
+						wForm.t(tIndex + 5).dal("class", "value", entityVarCapitalized, " w3-input w3-border ");
+						wForm.t(tIndex + 5).dal("name", entityVar);
+						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
-					if("Page".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("onchange", "patch", classeNomSimple, "($('#", classeNomSimple, "Form'), $('#", entiteVar, "Form')); ");
+					if("Page".equals(classApiMethodMethod)) {
+						wForm.t(tIndex + 5).dal("onchange", "patch", classSimpleName, "($('#", classSimpleName, "Form'), $('#", entityVar, "Form')); ");
 					}
 	
-					if(entiteMultiligne) {
+					if(entityMultiline) {
 						wForm.t(tIndex + 4).df();
-						wForm.s(".sx(o.str", entiteVarCapitalise, "())");
+						wForm.s(".sx(o.str", entityVarCapitalized, "())");
 					}
 					else {
-						wForm.tl(tIndex + 5, ".a(\"value\", o.str", entiteVarCapitalise, "())");
+						wForm.tl(tIndex + 5, ".a(\"value\", o.str", entityVarCapitalized, "())");
 					}
 	
-					if(entiteMultiligne)
+					if(entityMultiline)
 						wForm.dgl("textarea");
 					else
 						wForm.t(tIndex + 4).dfgl();
 	
 					wForm.l();
 				}
-				if("Page".equals(classeApiMethodeMethode)) {
+				if("Page".equals(classApiMethodMethod)) {
 					wForm.t(tIndex + 3).bgl("form");
 				}
 			}
 			else {
 
-				// entiteModifier: false
+				// entityModify: false
 
 				wForm.t(tIndex + 4).be("div").da("class", "").dfl();
-				wForm.t(tIndex + 5).e("label").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
+				wForm.t(tIndex + 5).e("label").da("class", "").df().dsxq(entityDisplayName).dgl("label");
 				wForm.t(tIndex + 4).bgl("div");
 				wForm.t(tIndex + 4).be("div").da("class", "").dfl();
-				wForm.t(tIndex + 5).e("span").df().s(".sx(o.str", entiteVarCapitalise, "())").dgl("span");
+				wForm.t(tIndex + 5).e("span").df().s(".sx(o.str", entityVarCapitalized, "())").dgl("span");
 				wForm.t(tIndex + 4).bgl("div");
 			}
 
@@ -607,76 +325,76 @@ public class WritePageClass extends WriteApiClass {
 	}
 
 	public void  pageCodeClass(String languageName) throws Exception, Exception {
-		for(String classePageMethode : classApiMethods) {
+		for(String classPageMethod : classApiMethods) {
 
-			String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
-			String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode  + "_stored_string");
-			String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
-			String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
-			String classePageUriMethode = (String)classDoc.get("classApiUri" + classePageMethode + "_stored_string");
-			String classePageLangueNom = (String)classDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
+			String classPagePathGen = (String)doc.get("classPagePathGen" + classPageMethod  + "_stored_string");
+			String classPagePath = (String)doc.get("classPagePath" + classPageMethod  + "_stored_string");
+			String classPagePathCss = (String)doc.get("classPagePathCss" + classPageMethod  + "_stored_string");
+			String classPagePathJs = (String)doc.get("classPagePathJs" + classPageMethod  + "_stored_string");
+			String classPageUriMethod = (String)classDoc.get("classApiUri" + classPageMethod + "_stored_string");
+			String classPageLanguageName = (String)classDoc.get("classPageLanguageName" + classPageMethod + "_stored_string");
 
-			classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
-			classePageSuperNomSimple = (String)doc.get("classePageSuperNomSimple" + classePageMethode  + "_stored_string");
-			classeGenPageNomSimple = (String)doc.get("classeGenPageNomSimple" + classePageMethode  + "_stored_string");
-			String classePageNomCanonique = (String)doc.get("classePageNomCanonique" + classePageMethode  + "_stored_string");
+			classPageSimpleName = (String)doc.get("classPageSimpleName" + classPageMethod  + "_stored_string");
+			classPageSuperSimpleName = (String)doc.get("classPageSuperSimpleName" + classPageMethod  + "_stored_string");
+			classGenPageSimpleName = (String)doc.get("classGenPageSimpleName" + classPageMethod  + "_stored_string");
+			String classPageCanonicalName = (String)doc.get("classPageCanonicalName" + classPageMethod  + "_stored_string");
 	
-			if(classePageCheminGen != null && StringUtils.equals(classePageLangueNom, languageName)) {
+			if(classPagePathGen != null && StringUtils.equals(classPageLanguageName, languageName)) {
 
-				contexteImageLargeur = (Integer)classDoc.get("contexteImageLargeur" + "_" + languageName + "_stored_int");
-				contexteImageHauteur = (Integer)classDoc.get("contexteImageHauteur" + "_" + languageName + "_stored_int");
-				contexteVideoId = (String)classDoc.get("contexteVideoId" + "_" + languageName + "_stored_string");
+				contextImageWidth = (Integer)classDoc.get("contextImageWidth" + "_" + languageName + "_stored_int");
+				contextImageHeight = (Integer)classDoc.get("contextImageHeight" + "_" + languageName + "_stored_int");
+				contextVideoId = (String)classDoc.get("contextVideoId" + "_" + languageName + "_stored_string");
 				contextAName = (String)classDoc.get("contextAName" + "_" + languageName + "_stored_string");
 				contextNameSingular = (String)classDoc.get("contextNameSingular" + "_" + languageName + "_stored_string");
 				contextNamePlural = (String)classDoc.get("contextNamePlural" + "_" + languageName + "_stored_string");
 				contextNameVar = (String)classDoc.get("contextNameVar" + "_" + languageName + "_stored_string");
-				contexteAdjective = (String)classDoc.get("contexteAdjective" + "_" + languageName + "_stored_string");
-				contexteAdjectivePluriel = (String)classDoc.get("contexteAdjectivePluriel" + "_" + languageName + "_stored_string");
-				contexteAdjectiveVar = (String)classDoc.get("contexteAdjectiveVar" + "_" + languageName + "_stored_string");
-				contextNameAdjectiveSingulier = (String)classDoc.get("contextNameAdjectiveSingulier" + "_" + languageName + "_stored_string");
-				contextNameAdjectivePluriel = (String)classDoc.get("contextNameAdjectivePluriel" + "_" + languageName + "_stored_string");
+				contextAdjective = (String)classDoc.get("contextAdjective" + "_" + languageName + "_stored_string");
+				contextAdjectivePlural = (String)classDoc.get("contextAdjectivePlural" + "_" + languageName + "_stored_string");
+				contextAdjectiveVar = (String)classDoc.get("contextAdjectiveVar" + "_" + languageName + "_stored_string");
+				contextNameAdjectiveSingular = (String)classDoc.get("contextNameAdjectiveSingular" + "_" + languageName + "_stored_string");
+				contextNameAdjectivePlural = (String)classDoc.get("contextNameAdjectivePlural" + "_" + languageName + "_stored_string");
 				contextThis = (String)classDoc.get("contextThis" + "_" + languageName + "_stored_string");
 				contextA = (String)classDoc.get("contextA" + "_" + languageName + "_stored_string");
 				contextActualName = (String)classDoc.get("contextActualName" + "_" + languageName + "_stored_string");
-				contextAllNom = (String)classDoc.get("contextAllNom" + "_" + languageName + "_stored_string");
+				contextAllName = (String)classDoc.get("contextAllName" + "_" + languageName + "_stored_string");
 				contextTheNames = (String)classDoc.get("contextTheNames" + "_" + languageName + "_stored_string");
 				contextTitle = (String)classDoc.get("contextTitle" + "_" + languageName + "_stored_string");
 				contextH1 = (String)classDoc.get("contextH1" + "_" + languageName + "_stored_string");
 				contextH2 = (String)classDoc.get("contextH2" + "_" + languageName + "_stored_string");
 				contextH3 = (String)classDoc.get("contextH3" + "_" + languageName + "_stored_string");
-				contextNoneNameFound = (String)classDoc.get("contextNoneNameFound" + "_" + languageName + "_stored_string");
+				contextNoNameFound = (String)classDoc.get("contextNoNameFound" + "_" + languageName + "_stored_string");
 				contextANameAdjective = (String)classDoc.get("contextANameAdjective" + "_" + languageName + "_stored_string");
-				contextThisNom = (String)classDoc.get("contextThisNom" + "_" + languageName + "_stored_string");
+				contextThisName = (String)classDoc.get("contextThisName" + "_" + languageName + "_stored_string");
 				contextTheName = (String)classDoc.get("contextTheName" + "_" + languageName + "_stored_string");
 				contextOfName = (String)classDoc.get("contextOfName" + "_" + languageName + "_stored_string");
 			
-				File classePageFichierGen = null;
-				File classePageFichier = null;
-				File classePageFichierCss = null;
-				File classePageFichierJs = null;
+				File classPageFileGen = null;
+				File classPageFile = null;
+				File classPageFileCss = null;
+				File classPageFileJs = null;
 
-				if(classePageCheminGen != null)
-					classePageFichierGen = new File(classePageCheminGen);
-				if(classePageChemin != null)
-					classePageFichier = new File(classePageChemin);
-				if(classePageCheminCss != null)
-					classePageFichierCss = new File(classePageCheminCss);
-				if(classePageCheminJs != null)
-					classePageFichierJs = new File(classePageCheminJs);
+				if(classPagePathGen != null)
+					classPageFileGen = new File(classPagePathGen);
+				if(classPagePath != null)
+					classPageFile = new File(classPagePath);
+				if(classPagePathCss != null)
+					classPageFileCss = new File(classPagePathCss);
+				if(classPagePathJs != null)
+					classPageFileJs = new File(classPagePathJs);
 			
-				AllWriter auteurPageGenClasse = null;
+				AllWriter writerPageGenClass = null;
 				AllWriter writerPageClass = null;
 				AllWriter writerPageCss = null;
 				AllWriter writerPageJs = null;
 
-				if(classePageFichierGen != null)
-					auteurPageGenClasse = AllWriter.create(classePageFichierGen);
-				if(classePageFichier != null && !classePageFichier.exists())
-					writerPageClass = AllWriter.create(classePageFichier);
-				if(classePageFichierCss != null)
-					writerPageCss = AllWriter.create(classePageFichierCss);
-				if(classePageFichierJs != null)
-					writerPageJs = AllWriter.create(classePageFichierJs);
+				if(classPageFileGen != null)
+					writerPageGenClass = AllWriter.create(classPageFileGen);
+				if(classPageFile != null && !classPageFile.exists())
+					writerPageClass = AllWriter.create(classPageFile);
+				if(classPageFileCss != null)
+					writerPageCss = AllWriter.create(classPageFileCss);
+				if(classPageFileJs != null)
+					writerPageJs = AllWriter.create(classPageFileJs);
 
 				Boolean pageH1 = false;
 				Boolean pageH2 = false;
@@ -692,56 +410,56 @@ public class WritePageClass extends WriteApiClass {
 				AllWriter wFormPOST = AllWriter.create();
 				AllWriter wFormPage = AllWriter.create();
 				AllWriter wFormPATCH = AllWriter.create();
-				AllWriter wEntitys = AllWriter.create();
+				AllWriter wEntities = AllWriter.create();
 	
-				o = auteurPageGenClasse;
+				o = writerPageGenClass;
 				{
-					SolrQuery rechercheSolr = new SolrQuery();   
-					rechercheSolr.setQuery("*:*");
-					rechercheSolr.setRows(1000000);
-					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("classeNomCanonique_" + languageName + "_indexed_string:" + fqClassesSuperEtMoi);
-//					rechercheSolr.addFilterQuery("entityHtmlRow_indexed_int:[* TO *]");
-					rechercheSolr.addSort("entityHtmlRow_indexed_int", ORDER.asc);
-					rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
-					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
-					SolrDocumentList rechercheListe = rechercheReponse.getResults();
+					SolrQuery solrSearch = new SolrQuery();   
+					solrSearch.setQuery("*:*");
+					solrSearch.setRows(1000000);
+					String fqSuperClassesAndMe = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+					solrSearch.addFilterQuery("partIsEntity_indexed_boolean:true");
+					solrSearch.addFilterQuery("classCanonicalName_" + languageName + "_indexed_string:" + fqSuperClassesAndMe);
+//					solrSearch.addFilterQuery("entityHtmlRow_indexed_int:[* TO *]");
+					solrSearch.addSort("entityHtmlRow_indexed_int", ORDER.asc);
+					solrSearch.addSort("entityHtmlCell_indexed_int", ORDER.asc);
+					QueryResponse searchResponse = solrClientComputate.query(solrSearch);
+					SolrDocumentList searchList = searchResponse.getResults();
 
-					searchLines = rechercheSolr.getRows();
+					searchRows = solrSearch.getRows();
 
-					searchLineSearch = -1;
-					searchLinePOST = -1;
-					searchLinePATCH = -1;
-					searchLinePage = -1;
+					searchRowSearch = -1;
+					searchRowPOST = -1;
+					searchRowPATCH = -1;
+					searchRowPage = -1;
 
 					List<String> pageVars = Arrays.asList("pageH1", "pageH2", "pageH3", "pageTitle");
 	
-					if(rechercheListe.size() > 0) {
+					if(searchList.size() > 0) {
 						Boolean resultFormPOST = false; 
 						Boolean resultFormPage = false; 
 						Boolean resultFormPATCH = false; 
 						Boolean resultFormSearch = false; 
 
-						for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
-							for(Integer j = 0; j < rechercheListe.size(); j++) {
-								entiteDocumentSolr = rechercheListe.get(j);
-								entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
-								entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
-								entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
-								entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
-								entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
-								entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
-								entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
-								entityHtmlRow = (Integer)entiteDocumentSolr.get("entityHtmlRow_stored_int");
-								entityHtml = (Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean");
-								entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
-								entiteStocke = (Boolean)entiteDocumentSolr.get("entiteStocke_stored_boolean");
-								entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
-								entiteModify = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteModifier_stored_boolean"));
+						for(Long i = searchList.getStart(); i < searchList.getNumFound(); i+=searchRows) {
+							for(Integer j = 0; j < searchList.size(); j++) {
+								entitySolrDocument = searchList.get(j);
+								entityVar = (String)entitySolrDocument.get("entityVar_" + languageName + "_stored_string");
+								entityVarCapitalized = (String)entitySolrDocument.get("entityVarCapitalized_" + languageName + "_stored_string");
+								entitySimpleName = (String)entitySolrDocument.get("entitySimpleName_" + languageName + "_stored_string");
+								entitySimpleNameGeneric = (String)entitySolrDocument.get("entitySimpleNameGeneric_" + languageName + "_stored_string");
+								entitySimpleNameComplete = (String)entitySolrDocument.get("entitySimpleNameComplete_" + languageName + "_stored_string");
+								entityDescription = (String)entitySolrDocument.get("entityDescription_" + languageName + "_stored_string");
+								entityDisplayName = (String)entitySolrDocument.get("entityDisplayName_" + languageName + "_stored_string");
+								entityHtmlRow = (Integer)entitySolrDocument.get("entityHtmlRow_stored_int");
+								entityHtml = (Boolean)entitySolrDocument.get("entityHtml_stored_boolean");
+								entityIndexed = (Boolean)entitySolrDocument.get("entityIndexed_stored_boolean");
+								entityStored = (Boolean)entitySolrDocument.get("entityStored_stored_boolean");
+								entityMultiline = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityMultiline_stored_boolean"));
+								entityModify = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityModify_stored_boolean"));
 	
 								if(entityHtmlRow != null && pageVars.contains(entityVar)) {
-									if(entiteWrap) {
+									if(entityWrap) {
 										if("pageH1".equals(entityVar)) {
 											pageH1 = true;
 										}
@@ -755,40 +473,40 @@ public class WritePageClass extends WriteApiClass {
 											pageTitle = true;
 										}
 										else {
-											wEntitys.l();
-											wEntitys.t(1, "@Override protected void _", entityVar, "(");
-											if(entiteWrap)
-												wEntitys.s("Wrap<", entitySimpleNameComplet, "> c");
+											wEntities.l();
+											wEntities.t(1, "@Override protected void _", entityVar, "(");
+											if(entityWrap)
+												wEntities.s("Wrap<", entitySimpleNameComplete, "> c");
 											else
-												wEntitys.s(entitySimpleNameComplet, " o");
-											wEntitys.l(") {");
-											wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
-											wEntitys.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".get", entityVarCapitalized, "()", ");");
-											wEntitys.tl(1, "}");
+												wEntities.s(entitySimpleNameComplete, " o");
+											wEntities.l(") {");
+											wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+											wEntities.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".get", entityVarCapitalized, "()", ");");
+											wEntities.tl(1, "}");
 										}
 									}
 								}
 	
 								if(entityHtml) {
 									if(entityHtmlRow != null) {
-										if(ecrireFormEntity(wFormPOST, "POST"))
+										if(writeFormEntity(wFormPOST, "POST"))
 											resultFormPOST = true;
-										if(ecrireFormEntity(wFormPage, "Page"))
+										if(writeFormEntity(wFormPage, "Page"))
 											resultFormPage = true;
 									}
-									if(entiteStocke) {
-										if(ecrireFormEntity(wFormPATCH, "PATCH"))
+									if(entityStored) {
+										if(writeFormEntity(wFormPATCH, "PATCH"))
 											resultFormPATCH = true;
 									}
-									if(entiteIndexe) {
-										if(ecrireFormEntity(wFormSearch, "Search"))
+									if(entityIndexed) {
+										if(writeFormEntity(wFormSearch, "Search"))
 											resultFormSearch = true;
 									}
 								}
 							}
-							rechercheSolr.setStart(i.intValue() + searchLines);
-							rechercheReponse = solrClientComputate.query(rechercheSolr);
-							rechercheListe = rechercheReponse.getResults();
+							solrSearch.setStart(i.intValue() + searchRows);
+							searchResponse = solrClientComputate.query(solrSearch);
+							searchList = searchResponse.getResults();
 						}
 						if(resultFormPOST)
 							wFormPOST.t(2).bgl("div");
@@ -801,90 +519,90 @@ public class WritePageClass extends WriteApiClass {
 					}
 				}
 	
-				wEntitys.l();
-				wEntitys.tl(1, "@Override protected void _pageH1(Wrap<String> c) {");
+				wEntities.l();
+				wEntities.tl(1, "@Override protected void _pageH1(Wrap<String> c) {");
 				if(pageH1) {
-					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH1() != null)");
-					wEntitys.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH1()", ");");
-					wEntitys.tl(2, "else if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH1() != null)");
+					wEntities.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH1()", ");");
+					wEntities.tl(2, "else if(", StringUtils.uncapitalize(classSimpleName), " != null)");
 				} else {
-					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
 				}
 				if(contextH1 != null)
-					wEntitys.tl(3, "c.o(", q(contextH1), ");");
+					wEntities.tl(3, "c.o(", q(contextH1), ");");
 				else
-					wEntitys.tl(3, "c.o(", q(contextAName), ");");
-				if(!classePageSimple) {
-					wEntitys.tl(2, "else if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0)");
-					wEntitys.tl(3, "c.o(", q(contextNoneNameFound), ");");
+					wEntities.tl(3, "c.o(", q(contextAName), ");");
+				if(!classPageSimple) {
+					wEntities.tl(2, "else if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0)");
+					wEntities.tl(3, "c.o(", q(contextNoNameFound), ");");
 				}
 				if(contextH1 != null) {
-					wEntitys.tl(2, "else");
-					wEntitys.tl(3, "c.o(", q(contextH1), ");");
+					wEntities.tl(2, "else");
+					wEntities.tl(3, "c.o(", q(contextH1), ");");
 				}
-				wEntitys.tl(1, "}");
+				wEntities.tl(1, "}");
 	
-				wEntitys.l();
-				wEntitys.tl(1, "@Override protected void _pageH2(Wrap<String> c) {");
+				wEntities.l();
+				wEntities.tl(1, "@Override protected void _pageH2(Wrap<String> c) {");
 				if(pageH2) {
-					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH2() != null)");
-					wEntitys.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH2()", ");");
+					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH2() != null)");
+					wEntities.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH2()", ");");
 					if(contextH2 != null) {
-						wEntitys.tl(2, "else");
-						wEntitys.tl(3, "c.o(", q(contextH2), ");");
+						wEntities.tl(2, "else");
+						wEntities.tl(3, "c.o(", q(contextH2), ");");
 					}
 				} else {
-					wEntitys.tl(2, "c.o(", q(contextH2), ");");
+					wEntities.tl(2, "c.o(", q(contextH2), ");");
 				}
-				wEntitys.tl(1, "}");
+				wEntities.tl(1, "}");
 	
-				wEntitys.l();
-				wEntitys.tl(1, "@Override protected void _pageH3(Wrap<String> c) {");
+				wEntities.l();
+				wEntities.tl(1, "@Override protected void _pageH3(Wrap<String> c) {");
 				if(pageH3) {
-					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH3() != null)");
-					wEntitys.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH3()", ");");
+					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH3() != null)");
+					wEntities.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH3()", ");");
 					if(contextH3 != null) {
-						wEntitys.tl(2, "else");
-						wEntitys.tl(3, "c.o(", q(contextH3), ");");
+						wEntities.tl(2, "else");
+						wEntities.tl(3, "c.o(", q(contextH3), ");");
 					}
 				} else {
-					wEntitys.tl(2, "c.o(", q(contextH3), ");");
+					wEntities.tl(2, "c.o(", q(contextH3), ");");
 				}
-				wEntitys.tl(1, "}");
+				wEntities.tl(1, "}");
 	
-				wEntitys.l();
-				wEntitys.tl(1, "@Override protected void _pageTitle(Wrap<String> c) {");
+				wEntities.l();
+				wEntities.tl(1, "@Override protected void _pageTitle(Wrap<String> c) {");
 				if(pageTitle) {
-					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageTitle() != null)");
-					wEntitys.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageTitle()", ");");
-					wEntitys.tl(2, "else if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageTitle() != null)");
+					wEntities.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageTitle()", ");");
+					wEntities.tl(2, "else if(", StringUtils.uncapitalize(classSimpleName), " != null)");
 				} else {
-					wEntitys.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
 				}
-				wEntitys.tl(3, "c.o(", q(contextTitle), ");");
-				if(!classePageSimple) {
-					wEntitys.tl(2, "else if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0)");
-					wEntitys.tl(3, "c.o(", q(contextNoneNameFound), ");");
+				wEntities.tl(3, "c.o(", q(contextTitle), ");");
+				if(!classPageSimple) {
+					wEntities.tl(2, "else if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0)");
+					wEntities.tl(3, "c.o(", q(contextNoNameFound), ");");
 				}
 				if(contextTitle != null) {
-					wEntitys.tl(2, "else");
-					wEntitys.tl(3, "c.o(", q(contextTitle), ");");
+					wEntities.tl(2, "else");
+					wEntities.tl(3, "c.o(", q(contextTitle), ");");
 				}
-				wEntitys.tl(1, "}");
+				wEntities.tl(1, "}");
 	
-				wEntitys.l();
-				wEntitys.tl(1, "@Override protected void _pageUri(Wrap<String> c) {");
-				wEntitys.tl(2, "c.o(", q(classePageUriMethode), ");");
-				wEntitys.tl(1, "}");
-				for(String pageLangueNom : toutesLangues) {
-					if(!StringUtils.equals(classePageLangueNom, pageLangueNom)) {
-						String classePageUriMethodeLangue = (String)classDoc.get(StringUtils.replace("classApiUri" + classePageMethode + "_stored_string", StringUtils.capitalize(classePageLangueNom), StringUtils.capitalize(pageLangueNom)));
+				wEntities.l();
+				wEntities.tl(1, "@Override protected void _pageUri(Wrap<String> c) {");
+				wEntities.tl(2, "c.o(", q(classPageUriMethod), ");");
+				wEntities.tl(1, "}");
+				for(String pageLanguageName : allLanguages) {
+					if(!StringUtils.equals(classPageLanguageName, pageLanguageName)) {
+						String classPageUriMethodLanguage = (String)classDoc.get(StringUtils.replace("classApiUri" + classPageMethod + "_stored_string", StringUtils.capitalize(classPageLanguageName), StringUtils.capitalize(pageLanguageName)));
 						
-						if(classePageUriMethodeLangue != null) {
-							wEntitys.l();
-							wEntitys.tl(1, "@Override protected void _pageUri", StringUtils.capitalize(pageLangueNom), "(Wrap<String> c) {");
-							wEntitys.tl(2, "c.o(", q(classePageUriMethodeLangue), ");");
-							wEntitys.tl(1, "}");
+						if(classPageUriMethodLanguage != null) {
+							wEntities.l();
+							wEntities.tl(1, "@Override protected void _pageUri", StringUtils.capitalize(pageLanguageName), "(Wrap<String> c) {");
+							wEntities.tl(2, "c.o(", q(classPageUriMethodLanguage), ");");
+							wEntities.tl(1, "}");
 						}
 					}
 				}
@@ -895,8 +613,8 @@ public class WritePageClass extends WriteApiClass {
 					writerPageClass.l("/**");
 					writerPageClass.l(" * Traduire: false");
 					writerPageClass.l(" **/");
-					writerPageClass.s("public class ", classePageNomSimple);
-					writerPageClass.s(" extends ", classePageNomSimple, "Gen<", classeGenPageNomSimple, ">");
+					writerPageClass.s("public class ", classPageSimpleName);
+					writerPageClass.s(" extends ", classPageSimpleName, "Gen<", classGenPageSimpleName, ">");
 					writerPageClass.l(" {");
 					writerPageClass.tl(0, "}");
 				}
@@ -915,11 +633,11 @@ public class WritePageClass extends WriteApiClass {
 				l("/**");
 				l(" * Traduire: false");
 				l(" **/");
-				s("public class ", classeGenPageNomSimple);
-				s(" extends ", classeGenPageNomSimple, "Gen");
-				s("<", classePageSuperNomSimple, ">");
+				s("public class ", classGenPageSimpleName);
+				s(" extends ", classGenPageSimpleName, "Gen");
+				s("<", classPageSuperSimpleName, ">");
 				l(" {");
-				if(!classePageSimple) {
+				if(!classPageSimple) {
 					l();
 					tl(1, "/**");
 					tl(1, " * {@inheritDoc}");
@@ -930,40 +648,40 @@ public class WritePageClass extends WriteApiClass {
 				}
 				l();
 				tl(1, "protected void _", StringUtils.uncapitalize(classSimpleName), "(", "Wrap<", classSimpleName, "> c", ") {");
-				if(classePageSimple) {
+				if(classPageSimple) {
 					tl(2, "c.o(new ", classSimpleName, "());");
 				} else {
 					tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1)");
 					tl(3, "c.o(list", classSimpleName, ".get(0)", ");");
 				}
 				tl(1, "}");
-				s(wEntitys);
+				s(wEntities);
 	
-				if(classeImage != null) {
+				if(classImage != null) {
 					l();
 					tl(1, "@Override protected void _pageImageUri(Wrap<String> c) {");
-					tl(3, "c.o(", q("/png", classePageUriMethode, "-999.png"), ");");
+					tl(3, "c.o(", q("/png", classPageUriMethod, "-999.png"), ");");
 					tl(1, "}");
 				}
 	
-				if(contexteImageLargeur != null) {
+				if(contextImageWidth != null) {
 					l();
-					tl(1, "@Override protected void _pageImageLargeur(Wrap<Integer> c) {");
-					tl(3, "c.o(", contexteImageLargeur, ");");
+					tl(1, "@Override protected void _pageImageWidth(Wrap<Integer> c) {");
+					tl(3, "c.o(", contextImageWidth, ");");
 					tl(1, "}");
 				}
 	
-				if(contexteImageHauteur != null) {
+				if(contextImageHeight != null) {
 					l();
-					tl(1, "@Override protected void _pageImageHauteur(Wrap<Integer> c) {");
-					tl(3, "c.o(", contexteImageHauteur, ");");
+					tl(1, "@Override protected void _pageImageHeight(Wrap<Integer> c) {");
+					tl(3, "c.o(", contextImageHeight, ");");
 					tl(1, "}");
 				}
 	
-				if(StringUtils.isNotBlank(contexteVideoId)) {
+				if(StringUtils.isNotBlank(contextVideoId)) {
 					l();
 					tl(1, "@Override protected void _pageVideoId(Wrap<String> c) {");
-					tl(3, "c.o(", q(contexteVideoId), ");");
+					tl(3, "c.o(", q(contextVideoId), ");");
 					tl(1, "}");
 				}
 	
@@ -982,51 +700,51 @@ public class WritePageClass extends WriteApiClass {
 				}
 	
 				l();
-				tl(1, "@Override public void initDeep", classeGenPageNomSimple, "() {");
-				tl(2, "init", classeGenPageNomSimple, "();");
+				tl(1, "@Override public void initDeep", classGenPageSimpleName, "() {");
+				tl(2, "init", classGenPageSimpleName, "();");
 				tl(2, "super.initDeepPageLayout();");
 				tl(1, "}");
 				l();
-				tl(1, "@Override public void htmlScripts", classeGenPageNomSimple, "() {");
-				t(2).e("script").da("src", "/static/js/", classeGenPageNomSimple, ".js").df().dgl("script");
+				tl(1, "@Override public void htmlScripts", classGenPageSimpleName, "() {");
+				t(2).e("script").da("src", "/static/js/", classGenPageSimpleName, ".js").df().dgl("script");
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classApiUri)) {
 					l();
 					tl(1, "protected void _pageUri", classSimpleName, "(Wrap<String> c) {");
-					tl(3, "c.o(", q(classePageUriMethode), ");");
+					tl(3, "c.o(", q(classPageUriMethod), ");");
 					tl(1, "}");
 				}
 	
 				{
-					SolrQuery rechercheSolr = new SolrQuery();   
-					rechercheSolr.setQuery("*:*");
-					rechercheSolr.setRows(1000000);
-					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("classeNomCanonique_" + this.languageNameActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-					rechercheSolr.addFilterQuery("entityHtmlColumn_indexed_double:[* TO *]");
-					rechercheSolr.addSort("entityHtmlColumn_indexed_double", ORDER.asc);
-					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
-					SolrDocumentList rechercheListe = rechercheReponse.getResults();
-					Integer searchLines = rechercheSolr.getRows();
-					Integer searchLine = -1;
-					Integer searchLineActual;
+					SolrQuery solrSearch = new SolrQuery();   
+					solrSearch.setQuery("*:*");
+					solrSearch.setRows(1000000);
+					String fqSuperClassesAndMe = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+					solrSearch.addFilterQuery("partIsEntity_indexed_boolean:true");
+					solrSearch.addFilterQuery("classCanonicalName_" + this.languageActualName + "_indexed_string:" + fqSuperClassesAndMe);
+					solrSearch.addFilterQuery("entityHtmlColumn_indexed_double:[* TO *]");
+					solrSearch.addSort("entityHtmlColumn_indexed_double", ORDER.asc);
+					QueryResponse searchResponse = solrClientComputate.query(solrSearch);
+					SolrDocumentList searchList = searchResponse.getResults();
+					Integer searchRows = solrSearch.getRows();
+					Integer searchRow = -1;
+					Integer searchRowActual;
 		
-					if(rechercheListe.size() > 0) {
-						for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
-							for(Integer j = 0; j < rechercheListe.size(); j++) {
-								SolrDocument entiteDocumentSolr = rechercheListe.get(j);
-								String entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
-								String entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
-								String entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
-								String entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
-								String entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
-								String entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
-								String entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
-								Boolean entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
-								Boolean entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
-								Boolean entiteHighlighting = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHighlighting_stored_boolean"));
+					if(searchList.size() > 0) {
+						for(Long i = searchList.getStart(); i < searchList.getNumFound(); i+=searchRows) {
+							for(Integer j = 0; j < searchList.size(); j++) {
+								SolrDocument entitySolrDocument = searchList.get(j);
+								String entityVar = (String)entitySolrDocument.get("entityVar_" + languageName + "_stored_string");
+								String entityVarCapitalized = (String)entitySolrDocument.get("entityVarCapitalized_" + languageName + "_stored_string");
+								String entitySimpleName = (String)entitySolrDocument.get("entitySimpleName_" + languageName + "_stored_string");
+								String entitySimpleNameGeneric = (String)entitySolrDocument.get("entitySimpleNameGeneric_" + languageName + "_stored_string");
+								String entitySimpleNameComplete = (String)entitySolrDocument.get("entitySimpleNameComplete_" + languageName + "_stored_string");
+								String entityDescription = (String)entitySolrDocument.get("entityDescription_" + languageName + "_stored_string");
+								String entityDisplayName = (String)entitySolrDocument.get("entityDisplayName_" + languageName + "_stored_string");
+								Boolean entityHtml = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityHtml_stored_boolean"));
+								Boolean entityMultiline = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityMultiline_stored_boolean"));
+								Boolean entiteHighlighting = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entiteHighlighting_stored_boolean"));
 								if(entityHtml) {
 									String jsVal = ".val()";
 									if("Boolean".equals(entitySimpleName)) {
@@ -1049,48 +767,48 @@ public class WritePageClass extends WriteApiClass {
 									wTd.tl(7, "} g(\"td\");");
 								}
 							}
-							rechercheSolr.setStart(i.intValue() + searchLines);
-							rechercheReponse = solrClientComputate.query(rechercheSolr);
-							rechercheListe = rechercheReponse.getResults();
+							solrSearch.setStart(i.intValue() + searchRows);
+							searchResponse = solrClientComputate.query(solrSearch);
+							searchList = searchResponse.getResults();
 						}
 					}
 				}
 	
 				{
-					SolrQuery rechercheSolr = new SolrQuery();   
-					rechercheSolr.setQuery("*:*");
-					rechercheSolr.setRows(1000000);
-					String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-					rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("classeNomCanonique_" + languageName + "_indexed_string:" + fqClassesSuperEtMoi);
-					rechercheSolr.addSort("entityHtmlRow_indexed_int", ORDER.asc);
-					rechercheSolr.addSort("entityHtmlCellule_indexed_int", ORDER.asc);
-					QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
-					SolrDocumentList rechercheListe = rechercheReponse.getResults();
-					Integer searchLines = rechercheSolr.getRows();
-					Integer searchLine = -1;
-					Integer searchLineActual;
+					SolrQuery solrSearch = new SolrQuery();   
+					solrSearch.setQuery("*:*");
+					solrSearch.setRows(1000000);
+					String fqSuperClassesAndMe = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+					solrSearch.addFilterQuery("partIsEntity_indexed_boolean:true");
+					solrSearch.addFilterQuery("classCanonicalName_" + languageName + "_indexed_string:" + fqSuperClassesAndMe);
+					solrSearch.addSort("entityHtmlRow_indexed_int", ORDER.asc);
+					solrSearch.addSort("entityHtmlCell_indexed_int", ORDER.asc);
+					QueryResponse searchResponse = solrClientComputate.query(solrSearch);
+					SolrDocumentList searchList = searchResponse.getResults();
+					Integer searchRows = solrSearch.getRows();
+					Integer searchRow = -1;
+					Integer searchRowActual;
 		
-					if(rechercheListe.size() > 0) {
-						for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
-							for(Integer j = 0; j < rechercheListe.size(); j++) {
-								entiteDocumentSolr = rechercheListe.get(j);
-								entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
-								entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
-								entitySimpleName = (String)entiteDocumentSolr.get("entitySimpleName_" + languageName + "_stored_string");
-								entitySimpleNameGenerique = (String)entiteDocumentSolr.get("entitySimpleNameGenerique_" + languageName + "_stored_string");
-								entitySimpleNameComplet = (String)entiteDocumentSolr.get("entitySimpleNameComplet_" + languageName + "_stored_string");
-								entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
-								entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
-								entityHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityHtml_stored_boolean"));
-								entityMultiline = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entityMultiline_stored_boolean"));
-								entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
+					if(searchList.size() > 0) {
+						for(Long i = searchList.getStart(); i < searchList.getNumFound(); i+=searchRows) {
+							for(Integer j = 0; j < searchList.size(); j++) {
+								entitySolrDocument = searchList.get(j);
+								entityVar = (String)entitySolrDocument.get("entityVar_" + languageName + "_stored_string");
+								entityVarCapitalized = (String)entitySolrDocument.get("entityVarCapitalized_" + languageName + "_stored_string");
+								entitySimpleName = (String)entitySolrDocument.get("entitySimpleName_" + languageName + "_stored_string");
+								entitySimpleNameGeneric = (String)entitySolrDocument.get("entitySimpleNameGeneric_" + languageName + "_stored_string");
+								entitySimpleNameComplete = (String)entitySolrDocument.get("entitySimpleNameComplete_" + languageName + "_stored_string");
+								entityDescription = (String)entitySolrDocument.get("entityDescription_" + languageName + "_stored_string");
+								entityDisplayName = (String)entitySolrDocument.get("entityDisplayName_" + languageName + "_stored_string");
+								entityHtml = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityHtml_stored_boolean"));
+								entityMultiline = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityMultiline_stored_boolean"));
+								entityIndexed = (Boolean)entitySolrDocument.get("entityIndexed_stored_boolean");
 								String jsVal = ".val()";
 								if("Boolean".equals(entitySimpleName)) {
 									jsVal = ".prop('checked')";
 								}
 
-								if(entiteIndexe) {
+								if(entityIndexed) {
 		
 									wSearch.l();
 									wSearch.tl(1, "var filter", entityVarCapitalized, " = $formFilters.find('.value", entityVarCapitalized, "')", jsVal, ";");
@@ -1122,16 +840,16 @@ public class WritePageClass extends WriteApiClass {
 									wPATCH.tl(2, "values['remove", entityVarCapitalized, "'] = remove", entityVarCapitalized, ";");
 								}
 							}
-							rechercheSolr.setStart(i.intValue() + searchLines);
-							rechercheReponse = solrClientComputate.query(rechercheSolr);
-							rechercheListe = rechercheReponse.getResults();
+							solrSearch.setStart(i.intValue() + searchRows);
+							searchResponse = solrClientComputate.query(solrSearch);
+							searchList = searchResponse.getResults();
 						}
 					}
 				}
 	
 				l();
-				if(!classePageSimple) {
-					tl(1, "@Override public void htmlScript", classeGenPageNomSimple, "() {");
+				if(!classPageSimple) {
+					tl(1, "@Override public void htmlScript", classGenPageSimpleName, "() {");
 					for(String classeApiMethode : classApiMethods) {
 						String classeApiOperationIdMethode = (String)classDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
 						String classApiUriMethode = (String)classDoc.get("classApiUri" + classeApiMethode + "_frFR_stored_string");
@@ -1239,8 +957,8 @@ public class WritePageClass extends WriteApiClass {
 					tl(1, "}");
 				}
 				l();
-				tl(1, "@Override public void htmlBody", classeGenPageNomSimple, "() {");
-				if(classePageSimple) {
+				tl(1, "@Override public void htmlBody", classGenPageSimpleName, "() {");
+				if(classPageSimple) {
 					l();
 					tl(2, "if(pageH1 != null) {");
 					t(3).be("h1").dfl();
@@ -1271,7 +989,7 @@ public class WritePageClass extends WriteApiClass {
 						tl(2, "}");
 					}
 		
-					if(contexteVideoId != null) {
+					if(contextVideoId != null) {
 						t(2).be("div").da("class", "site-video-box ").dfl();
 							t(3).e("iframe").da("class", "site-video-embed ").da("width", "560").da("height", "315").s(".a(\"src\", pageVideoUrlEmbed)").da("frameborder", "0").da("allow", "autoplay; encrypted-media").da("allowfullscreen", "").df().dgl("iframe");
 						t(2).bgl("div"); 
@@ -1286,12 +1004,12 @@ public class WritePageClass extends WriteApiClass {
 					tl(2, "OperationRequest operationRequest = requeteSite_.getOperationRequest();");
 					tl(2, "JsonObject params = operationRequest.getParams();");
 					tl(2, "if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0) {");
-					t(3).l("//", contextNoneNameFound);
+					t(3).l("//", contextNoNameFound);
 					l();
 					t(3).be("h1").dfl();
 					tl(4, "if(contextIconCssClasses != null)");
 					tl(5, "e(\"i\").a(\"class\", contextIconCssClasses + \" site-menu-icon \").f().g(\"i\");");
-					t(4).e("span").da("class", " ").df().dsxq(contextNoneNameFound).dgl("span");
+					t(4).e("span").da("class", " ").df().dsxq(contextNoNameFound).dgl("span");
 					t(3).bgl("h1");
 					tl(2, "} else if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\") == null && params.getJsonObject(\"query\").getJsonArray(\"fq\").size() == 0) {");
 					t(3).l("// ", contextAName);
@@ -1344,7 +1062,7 @@ public class WritePageClass extends WriteApiClass {
 					tl(6, classSimpleName, " o = list", classSimpleName, ".getList().get(i);");
 					tl(6, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
 					tl(6, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
-					tl(6, "String uri = ", classEntityVars.contains("pageUri") ? "o.getPageUri()" : q(classePageUriMethode, "/") + " + o.getPk()", ";");
+					tl(6, "String uri = ", classEntityVars.contains("pageUri") ? "o.getPageUri()" : q(classPageUriMethod, "/") + " + o.getPk()", ";");
 					tl(6, "{ e(\"tr\").f();");
 					s(wTd);
 					tl(6, "} g(\"tr\");");
@@ -1355,29 +1073,29 @@ public class WritePageClass extends WriteApiClass {
 		
 					{
 						// Formulaires de recherche
-						SolrQuery rechercheSolr = new SolrQuery();   
-						rechercheSolr.setQuery("*:*");
-						rechercheSolr.setRows(1000000);
-						String fqClassesSuperEtMoi = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-						rechercheSolr.addFilterQuery("partEstEntity_indexed_boolean:true");
-						rechercheSolr.addFilterQuery("classeNomCanonique_" + languageNameActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-						rechercheSolr.addFilterQuery("entiteTexte_indexed_boolean:true");
-						QueryResponse rechercheReponse = solrClientComputate.query(rechercheSolr);
-						SolrDocumentList rechercheListe = rechercheReponse.getResults();
-						Integer searchLines = rechercheSolr.getRows();
-						Integer searchLine = -1;
-						Integer searchLineActual;
+						SolrQuery solrSearch = new SolrQuery();   
+						solrSearch.setQuery("*:*");
+						solrSearch.setRows(1000000);
+						String fqSuperClassesAndMe = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+						solrSearch.addFilterQuery("partIsEntity_indexed_boolean:true");
+						solrSearch.addFilterQuery("classCanonicalName_" + languageActualName + "_indexed_string:" + fqSuperClassesAndMe);
+						solrSearch.addFilterQuery("entiteTexte_indexed_boolean:true");
+						QueryResponse searchResponse = solrClientComputate.query(solrSearch);
+						SolrDocumentList searchList = searchResponse.getResults();
+						Integer searchRows = solrSearch.getRows();
+						Integer searchRow = -1;
+						Integer searchRowActual;
 			
-						if(rechercheListe.size() > 0) {
-							for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=searchLines) {
-								for(Integer j = 0; j < rechercheListe.size(); j++) {
-									SolrDocument entiteDocumentSolr = rechercheListe.get(j);
-									String entityVar = (String)entiteDocumentSolr.get("entityVar_" + languageName + "_stored_string");
-									String entityVarCapitalized = (String)entiteDocumentSolr.get("entityVarCapitalized_" + languageName + "_stored_string");
-									String entityDescription = (String)entiteDocumentSolr.get("entityDescription_" + languageName + "_stored_string");
-									String entityDisplayName = (String)entiteDocumentSolr.get("entityDisplayName_" + languageName + "_stored_string");
-									String entiteLangue = (String)entiteDocumentSolr.get("entiteLangue_stored_string");
-									Boolean entiteSuggere = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean"));
+						if(searchList.size() > 0) {
+							for(Long i = searchList.getStart(); i < searchList.getNumFound(); i+=searchRows) {
+								for(Integer j = 0; j < searchList.size(); j++) {
+									SolrDocument entitySolrDocument = searchList.get(j);
+									String entityVar = (String)entitySolrDocument.get("entityVar_" + languageName + "_stored_string");
+									String entityVarCapitalized = (String)entitySolrDocument.get("entityVarCapitalized_" + languageName + "_stored_string");
+									String entityDescription = (String)entitySolrDocument.get("entityDescription_" + languageName + "_stored_string");
+									String entityDisplayName = (String)entitySolrDocument.get("entityDisplayName_" + languageName + "_stored_string");
+									String entiteLangue = (String)entitySolrDocument.get("entiteLangue_stored_string");
+									Boolean entiteSuggere = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entiteSuggere_stored_boolean"));
 
 									if(entiteLangue == null || StringUtils.equals(entiteLangue, languageName)) {
 										l();
@@ -1386,13 +1104,13 @@ public class WritePageClass extends WriteApiClass {
 											.da("id", classSimpleName, "Form")
 											.da("style", "display: inline-block; ")
 											.da("method", "GET")
-											.da("action", classePageUriMethode)
+											.da("action", classPageUriMethod)
 											.da("onsubmit", "event.preventDefault(); rechercher($('#recherche" + entityVarCapitalized + "')); return false; ")
 											.dfl();
 										t(4).be("div").da("class", "w3-bar ").dfl();
 	//									t(5).e("label").da("for", "recherche", entityVarCapitalized).da("class", "").df().dsxq(entityDisplayName).dgl("label");
 										t(5).e("input").dal("type", "text");
-										if(contextAllNom != null) {
+										if(contextAllName != null) {
 											if(entityDisplayName != null) {
 												t(6).dal("placeholder", contexteSearchrTousNomPar + entityDisplayName);
 											}
@@ -1449,9 +1167,9 @@ public class WritePageClass extends WriteApiClass {
 										t(2).bgl("div");
 									}
 								}
-								rechercheSolr.setStart(i.intValue() + searchLines);
-								rechercheReponse = solrClientComputate.query(rechercheSolr);
-								rechercheListe = rechercheReponse.getResults();
+								solrSearch.setStart(i.intValue() + searchRows);
+								searchResponse = solrClientComputate.query(solrSearch);
+								searchList = searchResponse.getResults();
 							}
 						}
 					}
@@ -1485,7 +1203,7 @@ public class WritePageClass extends WriteApiClass {
 					tl(2, "}");
 		
 					// formulaires
-					if(!classePageSimple) {
+					if(!classPageSimple) {
 						t(2).e("div").dfl();
 						l();
 						for(String classeApiMethode : classApiMethods) {
@@ -1618,7 +1336,7 @@ public class WritePageClass extends WriteApiClass {
 
 				l();
 				if(classeMethodeVars.contains("htmlBodyCourt")) {
-					tl(1, "@Override public void htmlBodyCourt", classeGenPageNomSimple, "() {");
+					tl(1, "@Override public void htmlBodyCourt", classGenPageSimpleName, "() {");
 					l();
 					tl(2, StringUtils.uncapitalize(classSimpleName), ".htmlBodyCourt();");
 					tl(1, "}");
@@ -1628,21 +1346,21 @@ public class WritePageClass extends WriteApiClass {
 	
 				wTh.flushClose();
 
-				auteurPageGenClasse.flushClose();
-				System.out.println("Write: " + classePageCheminGen); 
+				writerPageGenClass.flushClose();
+				System.out.println("Write: " + classPagePathGen); 
 				if(writerPageClass != null) {
 					writerPageClass.flushClose();
-					System.out.println("Write: " + classePageChemin); 
+					System.out.println("Write: " + classPagePath); 
 				}
 				writerPageCss.flushClose();
-				System.out.println("Write: " + classePageCheminCss); 
+				System.out.println("Write: " + classPagePathCss); 
 				writerPageJs.flushClose();
-				System.out.println("Write: " + classePageCheminJs); 
+				System.out.println("Write: " + classPagePathJs); 
 
 				{
 					RegarderClasse regarderClasse = new RegarderClasse();
 					regarderClasse.appliChemin = appliChemin;
-					regarderClasse.classAbsolutePath = classePageChemin;
+					regarderClasse.classAbsolutePath = classPagePath;
 					regarderClasse.appliNom = appliNom;
 					regarderClasse.initRegarderClasseBase(); 
 //					regarderClasse.ecrireGenClasses(regarderClasse.classAbsolutePath, languageName, languageName);
@@ -1652,7 +1370,7 @@ public class WritePageClass extends WriteApiClass {
 				{
 					RegarderClasse regarderClasse = new RegarderClasse();
 					regarderClasse.appliChemin = appliChemin;
-					regarderClasse.classAbsolutePath = classePageCheminGen;
+					regarderClasse.classAbsolutePath = classPagePathGen;
 					regarderClasse.appliNom = appliNom;
 					regarderClasse.initRegarderClasseBase(); 
 //					regarderClasse.ecrireGenClasses(regarderClasse.classAbsolutePath, languageName, languageName);
