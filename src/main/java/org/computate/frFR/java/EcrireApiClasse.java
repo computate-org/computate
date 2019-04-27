@@ -329,6 +329,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * Var.enUS: writeGenApiServiceImpl
 	 * Param1.var.enUS: languageName
 	 * 
+	 * r: entiteNomSimpleVertxJson
+	 * r.enUS: entitySimpleNameVertxJson
+	 * r: entiteNomCanoniqueVertxJson
+	 * r.enUS: entityCanonicalNameVertxJson
 	 * r: classeCheminGenApiServiceImpl
 	 * r.enUS: classPathGenApiServiceImpl
 	 * r: classeCheminApiServiceImpl
@@ -349,6 +353,128 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: searchLines
 	 * r: rechercheSolr
 	 * r.enUS: solrSearch
+	 * r: entiteVarCapitalise
+	 * r.enUS: entityVarCapitalized
+	 * r: entiteAttribuerVar
+	 * r.enUS: entityAttributeVar
+	 * r: entiteAttribuer
+	 * r.enUS: entityAttribute
+	 * r: entiteDefinir
+	 * r.enUS: entityDefine
+	 * r: entiteSuffixeType
+	 * r.enUS: entityTypeSuffix
+	 * r: entiteIndexe
+	 * r.enUS: entityIndexed
+	 * r: entiteStocke
+	 * r.enUS: entityStored
+	 * r: entiteSolrNomCanonique
+	 * r.enUS: entitySolrCanonicalName
+	 * r: entiteSolrNomSimple
+	 * r.enUS: entitySolrSimpleName
+	 * r: entiteListeNomSimpleVertxJson
+	 * r.enUS: entityListSimpleNameVertxJson
+	 * r: entiteListeNomCanoniqueVertxJson
+	 * r.enUS: entityListCanonicalNameVertxJson
+	 * r: classeIndexe
+	 * r.enUS: classIndexed
+	 * r: entiteValeur
+	 * r.enUS: entityValue
+	 * r: entiteNumero
+	 * r.enUS: entityNumber
+	 * r: entiteStr
+	 * r.enUS: entityStr
+	 * r: classeSauvegarde
+	 * r.enUS: classSaved
+	 * r: requeteJson
+	 * r.enUS: requestJson
+	 * r: methodeNom
+	 * r.enUS: methodName
+	 * r: classePageNomCanoniqueMethode
+	 * r.enUS: classPageCanonicalNameMethod
+	 * r: classePageNomSimpleMethode
+	 * r.enUS: classPageSimpleNameMethod
+	 * r: classePageNomCanonique
+	 * r.enUS: classPageCanonicalName
+	 * r: classePageNomSimple
+	 * r.enUS: classPageSimpleName
+	 * r: classeApiTypeMedia
+	 * r.enUS: classApiMediaType
+	 * r: classePageLangueNom
+	 * r.enUS: classPageLanguageName
+	 * r: listeRecherche
+	 * r.enUS: searchList
+	 * r: "Recherche"
+	 * r.enUS: "Search"
+	 * r: "supprimer"
+	 * r.enUS: "delete"
+	 * r: creerLigne
+	 * r.enUS: createRow
+	 * r: definirAsync
+	 * r.enUS: defineAsync
+	 * r: definirPourClasse
+	 * r.enUS: defineForClass
+	 * r: initLoinPourClasse
+	 * r.enUS: initDeepForClass
+	 * r: indexerPourClasse
+	 * r.enUS: indexForClass
+	 * r: classePageSimple
+	 * r.enUS: classPageSimple
+	 * r: classeApiUriMethode
+	 * r.enUS: classApiUriMethod
+	 * r: reponseRecherche
+	 * r.enUS: searchResponse
+	 * r: millisRecherche
+	 * r.enUS: millisSearch
+	 * r: numCommence
+	 * r.enUS: numStart
+	 * r: numTrouve
+	 * r.enUS: numFound
+	 * r: numRetourne
+	 * r.enUS: numReturned
+	 * r: tempsRecherche
+	 * r.enUS: timeSearch
+	 * r: tempsTransmission
+	 * r.enUS: timeTransmission
+	 * r: exceptionRecherche
+	 * r.enUS: exceptionSearch
+	 * r: champNom
+	 * r.enUS: fieldName
+	 * r: entiteVarStocke
+	 * r.enUS: entityVarStored
+	 * r: pageDocumentSolr
+	 * r.enUS: pageSolrDocument
+	 * r: PageDocumentSolr
+	 * r.enUS: PageSolrDocument
+	 * r: wVarIndexe
+	 * r.enUS: wVarIndexed
+	 * r: wVarRecherche
+	 * r.enUS: wVarSearched
+	 * r: wVarSuggere
+	 * r.enUS: wVarSuggested
+	 * r: langueNomActuel
+	 * r.enUS: languageActualName
+	 * r: entiteTexte
+	 * r.enUS: entityText
+	 * r: entiteLangue
+	 * r.enUS: entityLanguage
+	 * r: entiteSuggere
+	 * r.enUS: entitySuggested
+	 * r: n'est pas une entité indexé.
+	 * r.enUS: is not an indexed entity.
+	 * r: entiteListeStr
+	 * r.enUS: entityListStr
+	 * r: entiteListe
+	 * r.enUS: entityList
+	 * r: classeVarCleUnique
+	 * r.enUS: classVarUniqueKey
+	 * r: classeNomsCanoniques
+	 * r.enUS: classCanonicalNames
+	 * r: valeurIndexe
+	 * r.enUS: valueIndexed
+	 * r: rechercheDebut
+	 * r.enUS: searchStart
+	 * r: valeurTri
+	 * r.enUS: valueSort
 	 * 
 	 * r: auteurGenApiServiceImpl
 	 * r.enUS: writerGenApiServiceImpl
@@ -455,6 +581,83 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r: utilisateurId
 	 * r.enUS: userId
 	 * 
+	 * r: resultatAsync
+	 * r.enUS: asyncResult
+	 * r: varIndexe
+	 * r.enUS: varIndexed
+	 * r: varRecherche
+	 * r.enUS: varSearched
+	 * r: varSuggere
+	 * r.enUS: varSuggested
+	 * r: entiteNomSimpleCompletGenerique
+	 * r.enUS: entitySimpleNameCompleteGeneric
+	 * r: entiteNomSimpleComplet
+	 * r.enUS: entitySimpleNameComplete
+	 * r: entiteNomCanoniqueComplet
+	 * r.enUS: entityCanonicalNameComplete
+	 * r: entiteNomSimpleGenerique
+	 * r.enUS: entitySimpleNameGeneric
+	 * r: entiteNomCanoniqueGenerique
+	 * r.enUS: entityCanonicalNameGeneric
+	 * r: entiteNomSimple
+	 * r.enUS: entitySimpleName
+	 * r: entiteNomCanonique
+	 * r.enUS: entityCanonicalName
+	 * r: ClientSql
+	 * r.enUS: SqlClient
+	 * r: clientSql
+	 * r.enUS: sqlClient
+	 * r: OperationRequete
+	 * r.enUS: OperationRequest
+	 * r: classePartsUtilisateurSite
+	 * r.enUS: classPartsSiteUser
+	 * 
+	 * r: UtilisateurPrenom
+	 * r.enUS: UserFirstName
+	 * r: UtilisateurNomFamille
+	 * r.enUS: UserLastName
+	 * r: UtilisateurNom
+	 * r.enUS: UserName
+	 * r: UtilisateurId
+	 * r.enUS: UserId
+	 * r: UtilisateurSite
+	 * r.enUS: SiteUser
+	 * r: Utilisateur
+	 * r.enUS: User
+	 * r: utilisateur
+	 * r.enUS: user
+	 * r: Partagé
+	 * r.enUS: Shared
+	 * r: documentsSolr
+	 * r.enUS: solrDocuments
+	 * r: documentSolr
+	 * r.enUS: solrDocument
+	 * r: supprimer
+	 * r.enUS: delete
+	 * r: SQL_vider
+	 * r.enUS: SQL_clear
+	 * r: RequetePk
+	 * r.enUS: RequestPk
+	 * r: remplacer
+	 * r.enUS: replace
+	 * r: initLoin
+	 * r.enUS: initDeep
+	 * r: erreur
+	 * r.enUS: error
+	 * r: ListeRecherche
+	 * r.enUS: SearchList
+	 * r: liste
+	 * r.enUS: list
+	 * r: ConnexionSql
+	 * r.enUS: SqlConnection
+	 * r: generer
+	 * r.enUS: generate
+	 * r: "Pour"
+	 * r.enUS: "For"
+	 * r: Traduire
+	 * r.enUS: Translate
+	 * r: nomSimple
+	 * r.enUS: simpleName
 	 * r: SiteContexte
 	 * r.enUS: SiteContext
 	 * r: siteContexte
@@ -479,6 +682,30 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: create
 	 * r: reponse
 	 * r.enUS: response
+	 * r: Liste
+	 * r.enUS: List
+	 * r: definir
+	 * r.enUS: define
+	 * r: peupler
+	 * r.enUS: populate
+	 * r: stocker
+	 * r.enUS: store
+	 * r: Peupler
+	 * r.enUS: Populate
+	 * r: Stocker
+	 * r.enUS: Store
+	 * r: archive
+	 * r.enUS: archived
+	 * r: supprime
+	 * r.enUS: deleted
+	 * r: Archive
+	 * r.enUS: Archived
+	 * r: Supprime
+	 * r.enUS: Deleted
+	 * r: attribuer
+	 * r.enUS: attribute
+	 * r: indexer
+	 * r.enUS: index
 	 * 
 	 */ 
 	public void ecrireGenApiServiceImpl(String langueNom) throws Exception {
