@@ -556,6 +556,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: languageActualName
 	 * r: fqClassesSuperEtMoi
 	 * r.enUS: fqSuperClassesAndMe
+	 * r: classeApiOperationIdMethode
+	 * r.enUS: classApiOperationIdMethod
+	 * r: classeApiUriMethode
+	 * r.enUS: classApiUriMethod
+	 * r: classeApiTypeMediaMethode
+	 * r.enUS: classApiMediaTypeMethod
+	 * r: classeApiMethodeMethode
+	 * r.enUS: classApiMethodMethod
+	 * r: classeApiMethode
+	 * r.enUS: classApiMethod
 	 * 
 	 * r: langueNom
 	 * r.enUS: languageName

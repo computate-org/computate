@@ -1170,7 +1170,7 @@ public class WriteGenClass extends WriteClass {
 										}
 										css += " ";
 
-										String cssNumber = number == null ? "" : (StringUtils.substringBeforeLast(css, number.toString()) + (number % 2 == 0 ? " even " : " odd "));
+										String cssNumber = number == null ? "" : (StringUtils.substringBeforeLast(StringUtils.substringBeforeLast(css, number.toString()), "0") + (number % 2 == 0 ? " even " : " odd "));
 
 										if(number == null)
 											number = 1;

@@ -2622,7 +2622,7 @@ public class EcrireGenClasse extends EcrireClasse {
 										}
 										css += " ";
 
-										String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(css, numero.toString()) + (numero % 2 == 0 ? " even " : " odd "));
+										String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(StringUtils.substringBeforeLast(css, numero.toString()), "0") + (numero % 2 == 0 ? " even " : " odd "));
 
 										if(numero == null)
 											numero = 1;

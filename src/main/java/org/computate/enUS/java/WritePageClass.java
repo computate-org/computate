@@ -850,22 +850,23 @@ public class WritePageClass extends WriteApiClass {
 				l();
 				if(!classPageSimple) {
 					tl(1, "@Override public void htmlScript", classGenPageSimpleName, "() {");
-					for(String classeApiMethode : classApiMethods) {
-						String classeApiOperationIdMethode = (String)classDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
-						String classApiUriMethode = (String)classDoc.get("classApiUri" + classeApiMethode + "_frFR_stored_string");
-						String classeApiTypeMediaMethode = (String)classDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
-						String classeApiMethodeMethode = (String)classDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+					for(String classApiMethod : classApiMethods) {
+						String classApiOperationIdMethod = (String)classDoc.get("classeApiOperationId" + classApiMethod + "_frFR_stored_string");
+						String classApiUriMethod = (String)classDoc.get("classApiUri" + classApiMethod + "_frFR_stored_string");
+						String classApiMediaTypeMethod = (String)classDoc.get("classeApiTypeMedia200" + classApiMethod + "_stored_string");
+						String classApiMethodMethod = (String)classDoc.get("classApiMethod" + classApiMethod + "_stored_string");
+						// TODO: ctate continue here. 
 		
-						if("application/json".equals(classeApiTypeMediaMethode)) {
-							Boolean methodePOST = classeApiMethodeMethode.equals("POST");
-							Boolean methodeGET = classeApiMethode.contains("GET");
-							Boolean methodePUT = classeApiMethodeMethode.equals("PUT");
-							Boolean methodePATCH = classeApiMethodeMethode.equals("PATCH");
-							Boolean methodeDELETE = classeApiMethodeMethode.equals("DELETE");
-							Boolean methodeSearch = classeApiMethode.contains("Search");
+						if("application/json".equals(classApiMediaTypeMethod)) {
+							Boolean methodePOST = classApiMethodMethod.equals("POST");
+							Boolean methodeGET = classApiMethod.contains("GET");
+							Boolean methodePUT = classApiMethodMethod.equals("PUT");
+							Boolean methodePATCH = classApiMethodMethod.equals("PATCH");
+							Boolean methodeDELETE = classApiMethodMethod.equals("DELETE");
+							Boolean methodeSearch = classApiMethod.contains("Search");
 		
 							writerPageJs.l();
-							writerPageJs.tl(0, "// ", classeApiMethode, " //");
+							writerPageJs.tl(0, "// ", classApiMethod, " //");
 							writerPageJs.l();
 							writerPageJs.l("/**");
 							if(methodePATCH) {
@@ -879,7 +880,7 @@ public class WritePageClass extends WriteApiClass {
 							writerPageJs.l(" *           Example: { pk: 1 }");
 							}
 							writerPageJs.l(" */");
-							writerPageJs.t(0, "function ", classeApiOperationIdMethode, "(");
+							writerPageJs.t(0, "function ", classApiOperationIdMethod, "(");
 							if(methodePOST)
 								writerPageJs.s("$formValues");
 							else if(methodePUT)
@@ -918,16 +919,16 @@ public class WritePageClass extends WriteApiClass {
 							writerPageJs.tl(1, "$.ajax({");
 		
 							if(methodeGET || methodeDELETE || methodePUT)
-								writerPageJs.tl(2, "url: '", StringUtils.replace(classApiUriMethode, "{id}", "' + id"));
+								writerPageJs.tl(2, "url: '", StringUtils.replace(classApiUriMethod, "{id}", "' + id"));
 							else if(methodePATCH || methodeSearch)
-								writerPageJs.tl(2, "url: '", classApiUriMethode, "?' + $.param(filters)");
+								writerPageJs.tl(2, "url: '", classApiUriMethod, "?' + $.param(filters)");
 							else
-								writerPageJs.tl(2, "url: '", classApiUriMethode, "'");
+								writerPageJs.tl(2, "url: '", classApiUriMethod, "'");
 		
 							writerPageJs.tl(2, ", dataType: 'json'");
-							writerPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
+							writerPageJs.tl(2, ", type: '", classApiMethodMethod, "'");
 							writerPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
-							if(!"GET".equals(classeApiMethodeMethode) || "DELETE".equals(classeApiMethodeMethode))
+							if(!"GET".equals(classApiMethodMethod) || "DELETE".equals(classApiMethodMethod))
 								writerPageJs.tl(2, ", data: JSON.stringify(values)");
 							writerPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
 							writerPageJs.tl(2, "}");
@@ -1153,7 +1154,7 @@ public class WritePageClass extends WriteApiClass {
 										tl(6, "}");
 										tl(5, "});");
 										t(5).fgl();
-					//					if("Page".equals(classeApiMethodeMethode)) {
+					//					if("Page".equals(classApiMethodMethod)) {
 					//						wForm.t(tIndex + 5).dal("onchange", "patch", classSimpleName, "($('#", classSimpleName, "Form'), $('#", entityVar, "Form')); ");
 					//					}
 	
@@ -1206,23 +1207,23 @@ public class WritePageClass extends WriteApiClass {
 					if(!classPageSimple) {
 						t(2).e("div").dfl();
 						l();
-						for(String classeApiMethode : classApiMethods) {
-							String classeApiOperationIdMethode = (String)classDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
-							String classApiUriMethode = (String)classDoc.get("classApiUri" + classeApiMethode + "_frFR_stored_string");
-							String classeApiTypeMediaMethode = (String)classDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
-							String classeApiMethodeMethode = (String)classDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+						for(String classApiMethod : classApiMethods) {
+							String classApiOperationIdMethod = (String)classDoc.get("classeApiOperationId" + classApiMethod + "_frFR_stored_string");
+							String classApiUriMethod = (String)classDoc.get("classApiUri" + classApiMethod + "_frFR_stored_string");
+							String classApiMediaTypeMethod = (String)classDoc.get("classeApiTypeMedia200" + classApiMethod + "_stored_string");
+							String classApiMethodMethod = (String)classDoc.get("classApiMethod" + classApiMethod + "_stored_string");
 			
-							if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
-								Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("DELETE") || classeApiMethodeMethode.contains("POST") ? 0 : 1;
+							if("application/json".equals(classApiMediaTypeMethod) && !"GET".equals(classApiMethodMethod)) {
+								Integer tab = classApiMethodMethod.contains("PATCH") || classApiMethodMethod.contains("DELETE") || classApiMethodMethod.contains("POST") ? 0 : 1;
 								String methodTitle = null;
 			
-								if("POST".equals(classeApiMethodeMethode))
+								if("POST".equals(classApiMethodMethod))
 									methodTitle = "Create " + contextAName;
-								else if("PUT".equals(classeApiMethodeMethode))
+								else if("PUT".equals(classApiMethodMethod))
 									methodTitle = "Replace " + contextTheName;
-								else if("PATCH".equals(classeApiMethodeMethode))
+								else if("PATCH".equals(classApiMethodMethod))
 									methodTitle = "Modify des " + contextNamePlural;
-								else if("DELETE".equals(classeApiMethodeMethode))
+								else if("DELETE".equals(classApiMethodMethod))
 									methodTitle = "Delete des " + contextNamePlural;
 			
 			
@@ -1231,57 +1232,57 @@ public class WritePageClass extends WriteApiClass {
 									tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1) {");
 								t(2 + tab).e("button").l();
 								t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contextColor, " ");
-								t(3 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, "Modale').show(); ");
+								t(3 + tab).dal("onclick", "$('#", classApiOperationIdMethod, "Modale').show(); ");
 								t(3 + tab).df().dsxq(methodTitle).l();
 								t(2 + tab).dgl("button");
-								{ t(2 + tab).be("div").da("id", classeApiOperationIdMethode, "Modale").da("class", "w3-modal ").dfl();
+								{ t(2 + tab).be("div").da("id", classApiOperationIdMethod, "Modale").da("class", "w3-modal ").dfl();
 									{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();
 										{ t(4 + tab).be("header").da("class", "w3-container w3-", contextColor, " ").dfl();
-											t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classeApiOperationIdMethode, "Modale').hide(); ").df().dsxq("×").dgl("span");
+											t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classApiOperationIdMethod, "Modale').hide(); ").df().dsxq("×").dgl("span");
 											t(5 + tab).e("h2").da("class", "").df().dsxq(methodTitle).dgl("h2");
 										} t(4 + tab).bgl("header");
 			
 										{ t(4 + tab).be("div").da("class", "w3-container ").dfl();
 											tl(5+ tab, classSimpleName, " o = new ", classSimpleName, "();");
-											if("PATCH".equals(classeApiMethodeMethode)) {
+											if("PATCH".equals(classApiMethodMethod)) {
 		
 												l();
-												{ t(5 + tab).be("form").da("id", classeApiOperationIdMethode, "FormFilters").dfl();
+												{ t(5 + tab).be("form").da("id", classApiOperationIdMethod, "FormFilters").dfl();
 												tl(6 + tab, "htmlFormSearch", classSimpleName, "(o);");
 												} t(5 + tab).bgl("form");
 												t(5 + tab).e("button").l();
 												t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contextColor, " ");
 				
-												tl(6 + tab, ".a(\"onclick\", \"recherche", classSimpleName, "($('#", classeApiOperationIdMethode, "FormFilters')); \")");
+												tl(6 + tab, ".a(\"onclick\", \"recherche", classSimpleName, "($('#", classApiOperationIdMethod, "FormFilters')); \")");
 				
 												t(6 + tab).df().dsxq(methodTitle).l();
 												t(5 + tab).dgl("button");
 												l();
 												
 												l();
-												{ t(5 + tab).be("form").da("id", classeApiOperationIdMethode, "FormValues").dfl();
+												{ t(5 + tab).be("form").da("id", classApiOperationIdMethod, "FormValues").dfl();
 			
-												if("DELETE".equals(classeApiMethodeMethode))
+												if("DELETE".equals(classApiMethodMethod))
 													tl(6 + tab, "htmlFormPATCH", classSimpleName, "(o);");
-												else if("PUT".equals(classeApiMethodeMethode))
+												else if("PUT".equals(classApiMethodMethod))
 													tl(6 + tab, "htmlFormPOST", classSimpleName, "(o);");
 												else
-													tl(6 + tab, "htmlForm", classeApiMethodeMethode, classSimpleName, "(o);");
+													tl(6 + tab, "htmlForm", classApiMethodMethod, classSimpleName, "(o);");
 			
 												} t(5 + tab).bgl("form");
 												t(5 + tab).e("button").l();
 												t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contextColor, " ");
 				
-												if("POST".equals(classeApiMethodeMethode))
-													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
-												else if("PATCH".equals(classeApiMethodeMethode))
-													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "FormFilters'), $('#", classeApiOperationIdMethode, "FormValues')); \")");
-												else if("PUT".equals(classeApiMethodeMethode))
-													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Form')); \")");
+												if("POST".equals(classApiMethodMethod))
+													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "($('#", classApiOperationIdMethod, "Form')); \")");
+												else if("PATCH".equals(classApiMethodMethod))
+													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "($('#", classApiOperationIdMethod, "FormFilters'), $('#", classApiOperationIdMethod, "FormValues')); \")");
+												else if("PUT".equals(classApiMethodMethod))
+													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "(\", o.getPk(), \", $('#", classApiOperationIdMethod, "Form')); \")");
 												else if(tab > 0)
-													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \"); \")");
+													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "(\", o.getPk(), \"); \")");
 												else
-													t(6 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
+													t(6 + tab).dal("onclick", classApiOperationIdMethod, "(); ");
 				
 												t(6 + tab).df().dsxq(methodTitle).l();
 												t(5 + tab).dgl("button");
@@ -1289,32 +1290,32 @@ public class WritePageClass extends WriteApiClass {
 											}
 											else {
 												l();
-												{ t(5 + tab).be("form").da("id", classeApiOperationIdMethode, "Form").dfl();
+												{ t(5 + tab).be("form").da("id", classApiOperationIdMethod, "Form").dfl();
 			
-												if("DELETE".equals(classeApiMethodeMethode))
+												if("DELETE".equals(classApiMethodMethod))
 													tl(6 + tab, "htmlFormPATCH", classSimpleName, "(o);");
-												else if("PUT".equals(classeApiMethodeMethode))
+												else if("PUT".equals(classApiMethodMethod))
 													tl(6 + tab, "htmlFormPOST", classSimpleName, "(o);");
 												else
-													tl(6 + tab, "htmlForm", classeApiMethodeMethode, classSimpleName, "(o);");
+													tl(6 + tab, "htmlForm", classApiMethodMethod, classSimpleName, "(o);");
 			
 												} t(5 + tab).bgl("form");
 												t(5 + tab).e("button").l();
 												t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contextColor, " ");
 				
-				//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Form').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {}))); \")");
-				//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Form').serializeObject())); \")");
+				//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classApiOperationIdMethod, "Form').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {}))); \")");
+				//								tl(6 + tab, ".a(\"onclick\", \"alert(JSON.stringify($('#", classApiOperationIdMethod, "Form').serializeObject())); \")");
 				
-												if("POST".equals(classeApiMethodeMethode))
-													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
-												else if("PATCH".equals(classeApiMethodeMethode))
-													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "FormFilters'), $('#", classeApiOperationIdMethode, "FormValues')); \")");
-												else if("PUT".equals(classeApiMethodeMethode))
-													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Form')); \")");
+												if("POST".equals(classApiMethodMethod))
+													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "($('#", classApiOperationIdMethod, "Form')); \")");
+												else if("PATCH".equals(classApiMethodMethod))
+													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "($('#", classApiOperationIdMethod, "FormFilters'), $('#", classApiOperationIdMethod, "FormValues')); \")");
+												else if("PUT".equals(classApiMethodMethod))
+													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "(\", o.getPk(), \", $('#", classApiOperationIdMethod, "Form')); \")");
 												else if(tab > 0)
-													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \"); \")");
+													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "(\", o.getPk(), \"); \")");
 												else
-													t(6 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
+													t(6 + tab).dal("onclick", classApiOperationIdMethod, "(); ");
 				
 												t(6 + tab).df().dsxq(methodTitle).l();
 												t(5 + tab).dgl("button");
