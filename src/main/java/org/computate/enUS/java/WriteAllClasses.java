@@ -173,7 +173,7 @@ public class WriteAllClasses extends WritePageClass {
 					contextH1 = (String)doc.get("contextH1" + "_" + languageName + "_stored_string");
 					contextH2 = (String)doc.get("contextH2" + "_" + languageName + "_stored_string");
 					contextH3 = (String)doc.get("contextH3" + "_" + languageName + "_stored_string");
-					contextNoneNameFound = (String)doc.get("contextNoneNameFound" + "_" + languageName + "_stored_string");
+					contextNoNameFound = (String)doc.get("contextNoNameFound" + "_" + languageName + "_stored_string");
 					contextANameAdjective = (String)doc.get("contextANameAdjective" + "_" + languageName + "_stored_string");
 					contextThisName = (String)doc.get("contextThisName" + "_" + languageName + "_stored_string");
 					contextTheName = (String)doc.get("contextTheName" + "_" + languageName + "_stored_string");

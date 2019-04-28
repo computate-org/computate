@@ -335,7 +335,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r: contexteTous
 	 * r.enUS: contextAll
 	 * r: contexteAucunNomTrouve
-	 * r.enUS: contextNoneNameFound
+	 * r.enUS: contextNoNameFound
 	 * r: contexteNomVar
 	 * r.enUS: contextNameVar
 	 * r: contexteDeNom

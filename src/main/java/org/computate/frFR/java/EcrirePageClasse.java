@@ -566,6 +566,36 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: classApiMethodMethod
 	 * r: classeApiMethode
 	 * r.enUS: classApiMethod
+	 * r: classeMethodeVar
+	 * r.enUS: classMethodVar
+	 * r: entiteTexte
+	 * r.enUS: entityText
+	 * r: entiteSuggere
+	 * r.enUS: entitySuggested
+	 * r: entiteLangue
+	 * r.enUS: entityLanguage
+	 * r: contexteRechercherTousNomPar
+	 * r.enUS: contextSearchAllNameBy
+	 * r: contexteRechercherTousNom
+	 * r.enUS: contextSearchAllName
+	 * r: valeurIndexe
+	 * r.enUS: valueIndexed
+	 * r: paramNom
+	 * r.enUS: paramName
+	 * r: paramValeursObjet
+	 * r.enUS: paramValuesObject
+	 * r: paramObjet
+	 * r.enUS: paramObject
+	 * r: RegarderClasseBase
+	 * r.enUS: WatchClassBase
+	 * r: RegarderClasse
+	 * r.enUS: WatchClass
+	 * r: appliChemin
+	 * r.enUS: appPath
+	 * r: appliNom
+	 * r.enUS: appName
+	 * r: regarderClasse
+	 * r.enUS: watchClass
 	 * 
 	 * r: langueNom
 	 * r.enUS: languageName
@@ -776,6 +806,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: multiple 
 	 * r: resultat
 	 * r.enUS: result
+	 * r: methode
+	 * r.enUS: method
+	 * r: recherche
+	 * r.enUS: search
+	 * r: Court
+	 * r.enUS: Short
 	 */ 
 	public void pageCodeClasse(String langueNom) throws Exception {
 		for(String classePageMethode : classeApiMethodes) {

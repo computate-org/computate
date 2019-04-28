@@ -855,55 +855,54 @@ public class WritePageClass extends WriteApiClass {
 						String classApiUriMethod = (String)classDoc.get("classApiUri" + classApiMethod + "_frFR_stored_string");
 						String classApiMediaTypeMethod = (String)classDoc.get("classeApiTypeMedia200" + classApiMethod + "_stored_string");
 						String classApiMethodMethod = (String)classDoc.get("classApiMethod" + classApiMethod + "_stored_string");
-						// TODO: ctate continue here. 
 		
 						if("application/json".equals(classApiMediaTypeMethod)) {
-							Boolean methodePOST = classApiMethodMethod.equals("POST");
-							Boolean methodeGET = classApiMethod.contains("GET");
-							Boolean methodePUT = classApiMethodMethod.equals("PUT");
-							Boolean methodePATCH = classApiMethodMethod.equals("PATCH");
-							Boolean methodeDELETE = classApiMethodMethod.equals("DELETE");
-							Boolean methodeSearch = classApiMethod.contains("Search");
+							Boolean methodPOST = classApiMethodMethod.equals("POST");
+							Boolean methodGET = classApiMethod.contains("GET");
+							Boolean methodPUT = classApiMethodMethod.equals("PUT");
+							Boolean methodPATCH = classApiMethodMethod.equals("PATCH");
+							Boolean methodDELETE = classApiMethodMethod.equals("DELETE");
+							Boolean methodSearch = classApiMethod.contains("Search");
 		
 							writerPageJs.l();
 							writerPageJs.tl(0, "// ", classApiMethod, " //");
 							writerPageJs.l();
 							writerPageJs.l("/**");
-							if(methodePATCH) {
+							if(methodPATCH) {
 							writerPageJs.l(" * Modify un ou multiple ", contextNamePlural, " sans valuers qui change, ");
 							writerPageJs.l(" * ou changer des values pour un ou multiple ", contextTheName, ". ");
 							writerPageJs.l(" * @param params: [ \"q=*:*\", \"fq=pk:1\", \"sort=pk asc\", \"rows=1\", \"fl=pk\" ]");
-							writerPageJs.l(" *        Une list des opérations de recherche sur des ", contextNamePlural, " ");
-							writerPageJs.l(" *        pour rechercher \"q=*:*\", filterr \"fq=pk:1\", trier \"sort=pk desc\", ");
+							writerPageJs.l(" *        Une list des opérations de search sur des ", contextNamePlural, " ");
+							writerPageJs.l(" *        pour searchr \"q=*:*\", filterr \"fq=pk:1\", trier \"sort=pk desc\", ");
 							writerPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les values \"fl=pk\". ");
 							writerPageJs.l(" * @param values Noms des champs et values à changer selon les filters fq. ");
 							writerPageJs.l(" *           Example: { pk: 1 }");
 							}
 							writerPageJs.l(" */");
 							writerPageJs.t(0, "function ", classApiOperationIdMethod, "(");
-							if(methodePOST)
+							if(methodPOST)
 								writerPageJs.s("$formValues");
-							else if(methodePUT)
+							else if(methodPUT)
 								writerPageJs.s("pk, $formValues");
-							else if(methodePATCH)
+							else if(methodPATCH)
 								writerPageJs.s("$formFilters, $formValues");
-							else if(methodeSearch)
+							else if(methodSearch)
 								writerPageJs.s("$formFilters");
-							else if(methodeGET || methodeDELETE)
+							else if(methodGET || methodDELETE)
 								writerPageJs.s("pk");
 		
 							writerPageJs.l(") {");
-							if(methodePOST) {
+							if(methodPOST) {
 								writerPageJs.tl(1, "var values = {};");
 								writerPageJs.s(wPOST);
 								writerPageJs.l();
 							}
-							else if(methodePUT) {
+							else if(methodPUT) {
 								writerPageJs.tl(1, "var values = {};");
 								writerPageJs.s(wPOST);
 								writerPageJs.l();
 							}
-							else if(methodePATCH) {
+							else if(methodPATCH) {
 								writerPageJs.tl(1, "var filters = [];");
 								writerPageJs.s(wSearch);
 								writerPageJs.l();
@@ -911,16 +910,16 @@ public class WritePageClass extends WriteApiClass {
 								writerPageJs.s(wPATCH);
 								writerPageJs.l();
 							}
-							else if(methodeSearch) {
+							else if(methodSearch) {
 								writerPageJs.tl(1, "var filters = [];");
 								writerPageJs.s(wSearch);
 							}
 		
 							writerPageJs.tl(1, "$.ajax({");
 		
-							if(methodeGET || methodeDELETE || methodePUT)
+							if(methodGET || methodDELETE || methodPUT)
 								writerPageJs.tl(2, "url: '", StringUtils.replace(classApiUriMethod, "{id}", "' + id"));
-							else if(methodePATCH || methodeSearch)
+							else if(methodPATCH || methodSearch)
 								writerPageJs.tl(2, "url: '", classApiUriMethod, "?' + $.param(filters)");
 							else
 								writerPageJs.tl(2, "url: '", classApiUriMethod, "'");
@@ -995,7 +994,7 @@ public class WritePageClass extends WriteApiClass {
 							t(3).e("iframe").da("class", "site-video-embed ").da("width", "560").da("height", "315").s(".a(\"src\", pageVideoUrlEmbed)").da("frameborder", "0").da("allow", "autoplay; encrypted-media").da("allowfullscreen", "").df().dgl("iframe");
 						t(2).bgl("div"); 
 					}
-					if(classeMethodeVars.contains("htmlBody")) {
+					if(classMethodVars.contains("htmlBody")) {
 						l();
 						tl(2, StringUtils.uncapitalize(classSimpleName), ".htmlBody();");
 					}
@@ -1073,14 +1072,14 @@ public class WritePageClass extends WriteApiClass {
 					tl(2, "}");
 		
 					{
-						// Formulaires de recherche
+						// Formulaires de search
 						SolrQuery solrSearch = new SolrQuery();   
 						solrSearch.setQuery("*:*");
 						solrSearch.setRows(1000000);
 						String fqSuperClassesAndMe = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 						solrSearch.addFilterQuery("partIsEntity_indexed_boolean:true");
 						solrSearch.addFilterQuery("classCanonicalName_" + languageActualName + "_indexed_string:" + fqSuperClassesAndMe);
-						solrSearch.addFilterQuery("entiteTexte_indexed_boolean:true");
+						solrSearch.addFilterQuery("entityText_indexed_boolean:true");
 						QueryResponse searchResponse = solrClientComputate.query(solrSearch);
 						SolrDocumentList searchList = searchResponse.getResults();
 						Integer searchRows = solrSearch.getRows();
@@ -1095,10 +1094,10 @@ public class WritePageClass extends WriteApiClass {
 									String entityVarCapitalized = (String)entitySolrDocument.get("entityVarCapitalized_" + languageName + "_stored_string");
 									String entityDescription = (String)entitySolrDocument.get("entityDescription_" + languageName + "_stored_string");
 									String entityDisplayName = (String)entitySolrDocument.get("entityDisplayName_" + languageName + "_stored_string");
-									String entiteLangue = (String)entitySolrDocument.get("entiteLangue_stored_string");
-									Boolean entiteSuggere = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entiteSuggere_stored_boolean"));
+									String entityLanguage = (String)entitySolrDocument.get("entityLanguage_stored_string");
+									Boolean entitySuggested = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entitySuggested_stored_boolean"));
 
-									if(entiteLangue == null || StringUtils.equals(entiteLangue, languageName)) {
+									if(entityLanguage == null || StringUtils.equals(entityLanguage, languageName)) {
 										l();
 										t(2).be("div").da("class", "").dfl();
 										t(3).be("form")
@@ -1106,17 +1105,17 @@ public class WritePageClass extends WriteApiClass {
 											.da("style", "display: inline-block; ")
 											.da("method", "GET")
 											.da("action", classPageUriMethod)
-											.da("onsubmit", "event.preventDefault(); rechercher($('#recherche" + entityVarCapitalized + "')); return false; ")
+											.da("onsubmit", "event.preventDefault(); searchr($('#search" + entityVarCapitalized + "')); return false; ")
 											.dfl();
 										t(4).be("div").da("class", "w3-bar ").dfl();
-	//									t(5).e("label").da("for", "recherche", entityVarCapitalized).da("class", "").df().dsxq(entityDisplayName).dgl("label");
+	//									t(5).e("label").da("for", "search", entityVarCapitalized).da("class", "").df().dsxq(entityDisplayName).dgl("label");
 										t(5).e("input").dal("type", "text");
 										if(contextAllName != null) {
 											if(entityDisplayName != null) {
-												t(6).dal("placeholder", contexteSearchrTousNomPar + entityDisplayName);
+												t(6).dal("placeholder", contextSearchAllNameBy + entityDisplayName);
 											}
 											else {
-												t(6).dal("placeholder", contexteSearchrTousNom);
+												t(6).dal("placeholder", contextSearchAllName);
 											}
 										}
 
@@ -1127,26 +1126,26 @@ public class WritePageClass extends WriteApiClass {
 											t(6).dal("title", entityDescription);
 										}
 
-										t(6).dal("class", "recherche", entityVarCapitalized, " w3-input w3-border w3-bar-item ");
+										t(6).dal("class", "search", entityVarCapitalized, " w3-input w3-border w3-bar-item ");
 										t(6).dal("name", entityVar);
-										t(6).da("id", "recherche", entityVarCapitalized).l(";");
+										t(6).da("id", "search", entityVarCapitalized).l(";");
 										tl(5, "operationRequest.getParams().getJsonObject(\"query\").forEach(paramRequete -> {");
 										tl(6, "String entityVar = null;");
-										tl(6, "String valueIndexe = null;");
-										tl(6, "String paramNom = paramRequete.getKey();");
-										tl(6, "Object paramValeursObjet = paramRequete.getValue();");
-										tl(6, "JsonArray paramObjets = paramValeursObjet instanceof JsonArray ? (JsonArray)paramValeursObjet : new JsonArray().add(paramValeursObjet);");
+										tl(6, "String valueIndexed = null;");
+										tl(6, "String paramName = paramRequete.getKey();");
+										tl(6, "Object paramValuesObject = paramRequete.getValue();");
+										tl(6, "JsonArray paramObjects = paramValuesObject instanceof JsonArray ? (JsonArray)paramValuesObject : new JsonArray().add(paramValuesObject);");
 										l();
 										tl(6, "try {");
-										tl(7, "for(Object paramObjet : paramObjets) {");
-										tl(8, "switch(paramNom) {");
+										tl(7, "for(Object paramObject : paramObjects) {");
+										tl(8, "switch(paramName) {");
 								
 										tl(9, "case \"q\":");
-										tl(10, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
-										tl(10, "valueIndexe = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\")), \"UTF-8\");");
+										tl(10, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)paramObject, \":\"));");
+										tl(10, "valueIndexed = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)paramObject, \":\")), \"UTF-8\");");
 
 										tl(10, "if(\"", entityVar, "\".equals(entityVar))");
-										tl(11, "a(\"value\", URLDecoder.decode(valueIndexe, \"UTF-8\"));");
+										tl(11, "a(\"value\", URLDecoder.decode(valueIndexed, \"UTF-8\"));");
 										tl(8, "}");
 										tl(7, "}");
 										tl(6, "} catch(Exception e) {");
@@ -1195,7 +1194,7 @@ public class WritePageClass extends WriteApiClass {
 						tl(5, "htmlFormPage", classSimpleName, "(o);");
 						tl(4, "}");
 					}
-					if(classeMethodeVars.contains("htmlBody")) {
+					if(classMethodVars.contains("htmlBody")) {
 						l();
 						tl(4, "o.htmlBody();");
 					}
@@ -1253,7 +1252,7 @@ public class WritePageClass extends WriteApiClass {
 												t(5 + tab).e("button").l();
 												t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contextColor, " ");
 				
-												tl(6 + tab, ".a(\"onclick\", \"recherche", classSimpleName, "($('#", classApiOperationIdMethod, "FormFilters')); \")");
+												tl(6 + tab, ".a(\"onclick\", \"search", classSimpleName, "($('#", classApiOperationIdMethod, "FormFilters')); \")");
 				
 												t(6 + tab).df().dsxq(methodTitle).l();
 												t(5 + tab).dgl("button");
@@ -1336,10 +1335,10 @@ public class WritePageClass extends WriteApiClass {
 				tl(1, "}");
 
 				l();
-				if(classeMethodeVars.contains("htmlBodyCourt")) {
-					tl(1, "@Override public void htmlBodyCourt", classGenPageSimpleName, "() {");
+				if(classMethodVars.contains("htmlBodyShort")) {
+					tl(1, "@Override public void htmlBodyShort", classGenPageSimpleName, "() {");
 					l();
-					tl(2, StringUtils.uncapitalize(classSimpleName), ".htmlBodyCourt();");
+					tl(2, StringUtils.uncapitalize(classSimpleName), ".htmlBodyShort();");
 					tl(1, "}");
 				}
 	
@@ -1359,23 +1358,23 @@ public class WritePageClass extends WriteApiClass {
 				System.out.println("Write: " + classPagePathJs); 
 
 				{
-					RegarderClasse regarderClasse = new RegarderClasse();
-					regarderClasse.appliChemin = appliChemin;
-					regarderClasse.classAbsolutePath = classPagePath;
-					regarderClasse.appliNom = appliNom;
-					regarderClasse.initRegarderClasseBase(); 
-//					regarderClasse.ecrireGenClasses(regarderClasse.classAbsolutePath, languageName, languageName);
-					RegarderClasse.regarderClasse(regarderClasse, languageName);
+					WatchClass watchClass = new WatchClass();
+					watchClass.appPath = appPath;
+					watchClass.classAbsolutePath = classPagePath;
+					watchClass.appName = appName;
+					watchClass.initWatchClassBase(); 
+//					watchClass.ecrireGenClasses(watchClass.classAbsolutePath, languageName, languageName);
+					WatchClass.watchClass(watchClass, languageName);
 				}
 
 				{
-					RegarderClasse regarderClasse = new RegarderClasse();
-					regarderClasse.appliChemin = appliChemin;
-					regarderClasse.classAbsolutePath = classPagePathGen;
-					regarderClasse.appliNom = appliNom;
-					regarderClasse.initRegarderClasseBase(); 
-//					regarderClasse.ecrireGenClasses(regarderClasse.classAbsolutePath, languageName, languageName);
-					RegarderClasse.regarderClasse(regarderClasse, languageName);
+					WatchClass watchClass = new WatchClass();
+					watchClass.appPath = appPath;
+					watchClass.classAbsolutePath = classPagePathGen;
+					watchClass.appName = appName;
+					watchClass.initWatchClassBase(); 
+//					watchClass.ecrireGenClasses(watchClass.classAbsolutePath, languageName, languageName);
+					WatchClass.watchClass(watchClass, languageName);
 				}
 	
 	//		writerGenPageClass.close();
