@@ -1417,6 +1417,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * Var.enUS: classPartsForSimpleName
 	 * Param1.var.enUS: domainPackageName
 	 * Param2.var.enUS: simpleName
+	 * Param3.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
+	 * r: classeMotsCles
+	 * r.enUS: classKeywords
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 * r: classeParts
@@ -1464,6 +1469,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsWrap
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1478,6 +1486,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsChain
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1492,6 +1503,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsSiteRequest
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1506,6 +1520,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsSiteContext
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1520,6 +1537,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsSiteConfig
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1534,6 +1554,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsSiteUser
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1548,6 +1571,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsCluster
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1562,6 +1588,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsSearchResult
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1576,6 +1605,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsAllWriter
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1590,6 +1622,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsSearchList
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1604,6 +1639,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsPageLayout
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1618,6 +1656,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: classPartsPagePart
 	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
 	 * r: classePartsPourNomSimple
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
@@ -1632,8 +1673,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: storeRegexComments
 	 * Param1.var.enUS: languageName
-	 * Param3.var.enUS: comment
-	 * Param4.var.enUS: entityVar
+	 * Param3.var.enUS: entityVar
+	 * Param4.var.enUS: comment
 	 * r: langueNom
 	 * r.enUS: languageName
 	 * r: varEntite
@@ -2061,6 +2102,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: methodAnnotations
 	 * r: methodeAnnotationLangue
 	 * r.enUS: methodAnnotationLanguage
+	 * r: methodeParamsClassePart
+	 * r.enUS: methodParamsClassPart
 	 * r: methodeParamsQdox
 	 * r.enUS: methodParamsQdox
 	 * r: methodeExceptionsQdox
@@ -2677,6 +2720,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classVarUniqueKey
 	 * r: entiteEtendPagePart
 	 * r.enUS: entityExtendsPagePart
+	 * r: docClasse
+	 * r.enUS: docClass
+	 * r: docEntite
+	 * r.enUS: docEntity
 	 * 
 	 * r: classeSuperErreur
 	 * r.enUS: superClassError
@@ -3040,10 +3087,17 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: keyword
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
+	 * r: rechercheSolrClasse
+	 * r.enUS: solrSearchClass
+	 * r.enUS: solrSearch
 	 * r: rechercheSolr
 	 * r.enUS: solrSearch
+	 * r: reponseRechercheClasse
+	 * r.enUS: searchResponseClass
 	 * r: reponseRecherche
 	 * r.enUS: searchResponse
+	 * r: listeRechercheClasse
+	 * r.enUS: searchListClass
 	 * r: listeRecherche
 	 * r.enUS: searchList
 	 * r: champ
@@ -4038,7 +4092,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteCouverture)
 							entiteClasseQdox = bricoleur.getClassByName(entiteNomCanonique);
 
-						boolean entiteEtendPagePart = entiteNomsCanoniquesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique);
+						boolean entiteEtendPagePart = classePartsPagePart != null && entiteNomsCanoniquesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique);
 								
 						for(String siteEcrireMethode : siteEcrireMethodes) {
 							if(entiteClasseQdox.getMethodBySignature(siteEcrireMethode, new ArrayList<JavaType>()) != null

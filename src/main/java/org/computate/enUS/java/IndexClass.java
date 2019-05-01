@@ -601,74 +601,74 @@ public class IndexClass extends WatchClassBase {
 		return val;
 	}
 
-	protected ClassParts classPartsForSimpleName(String domainPackageName, String simpleName, String classeLangueNom) throws Exception, Exception {
+	protected ClassParts classPartsForSimpleName(String domainPackageName, String simpleName, String classLanguageName) throws Exception, Exception {
 		ClassParts classParts = null;
 		SolrDocument doc = null;
 		SolrQuery solrSearch = new SolrQuery();   
 		solrSearch.setQuery("*:*");
 		solrSearch.setRows(1);
-		solrSearch.addFilterQuery("classeMotsCles_indexed_strings:" + ClientUtils.escapeQueryChars("classSimpleName" + simpleName));
+		solrSearch.addFilterQuery("classKeywords_indexed_strings:" + ClientUtils.escapeQueryChars("classSimpleName" + simpleName));
 		solrSearch.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 		solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
 		QueryResponse searchResponse = solrClientComputate.query(solrSearch);
 		SolrDocumentList searchList = searchResponse.getResults();
 		if(searchList.size() > 0) {
 			doc = searchList.get(0);
-			String nomCanonique = (String)doc.get("classCanonicalName_" + classeLangueNom + "_stored_string");
-			classParts = ClassParts.initClassParts(this, nomCanonique, classeLangueNom);
+			String nomCanonique = (String)doc.get("classCanonicalName_" + classLanguageName + "_stored_string");
+			classParts = ClassParts.initClassParts(this, nomCanonique, classLanguageName);
 		}
 		return classParts;
 	}
 
-	protected ClassParts classPartsWrap(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "Wrap", classeLangueNom);
+	protected ClassParts classPartsWrap(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "Wrap", classLanguageName);
 	}
 
-	protected ClassParts classPartsChain(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "Chain", classeLangueNom);
+	protected ClassParts classPartsChain(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "Chain", classLanguageName);
 	}
 
-	protected ClassParts classPartsSiteRequest(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "SiteRequest", classeLangueNom);
+	protected ClassParts classPartsSiteRequest(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "SiteRequest", classLanguageName);
 	}
 
-	protected ClassParts classPartsSiteContext(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "SiteContext", classeLangueNom);
+	protected ClassParts classPartsSiteContext(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "SiteContext", classLanguageName);
 	}
 
-	protected ClassParts classPartsSiteConfig(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "SiteConfig", classeLangueNom);
+	protected ClassParts classPartsSiteConfig(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "SiteConfig", classLanguageName);
 	}
 
-	protected ClassParts classPartsSiteUser(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "SiteUser", classeLangueNom);
+	protected ClassParts classPartsSiteUser(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "SiteUser", classLanguageName);
 	}
 
-	protected ClassParts classPartsCluster(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "Cluster", classeLangueNom);
+	protected ClassParts classPartsCluster(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "Cluster", classLanguageName);
 	}
 
-	protected ClassParts classPartsSearchResult(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "SearchResult", classeLangueNom);
+	protected ClassParts classPartsSearchResult(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "SearchResult", classLanguageName);
 	}
 
-	protected ClassParts classPartsAllWriter(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "AllWriter", classeLangueNom);
+	protected ClassParts classPartsAllWriter(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "AllWriter", classLanguageName);
 	}
 
-	protected ClassParts classPartsSearchList(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "SearchList", classeLangueNom);
+	protected ClassParts classPartsSearchList(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "SearchList", classLanguageName);
 	}
 
-	protected ClassParts classPartsPageLayout(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "PageLayout", classeLangueNom);
+	protected ClassParts classPartsPageLayout(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "PageLayout", classLanguageName);
 	}
 
-	protected ClassParts classPartsPagePart(String domainPackageName, String classeLangueNom) throws Exception, Exception {
-		return classPartsForSimpleName(domainPackageName, "PagePart", classeLangueNom);
+	protected ClassParts classPartsPagePart(String domainPackageName, String classLanguageName) throws Exception, Exception {
+		return classPartsForSimpleName(domainPackageName, "PagePart", classLanguageName);
 	}
 
-	public String storeRegexComments(String languageName, SolrInputDocument doc, String comment, String entityVar) throws Exception, Exception {
+	public String storeRegexComments(String languageName, SolrInputDocument doc, String entityVar, String comment) throws Exception, Exception {
 		if(!StringUtils.isEmpty(comment)) {
 			Matcher m = Pattern.compile("^(enUS|frFR): (.*)", Pattern.MULTILINE).matcher(comment);
 			boolean found = m.find();
@@ -1650,7 +1650,7 @@ public class IndexClass extends WatchClassBase {
 						if(entityWrap)
 							entityClassQdox = builder.getClassByName(entityCanonicalName);
 
-						boolean entityExtendsPagePart = entityCanonicalNamesSuperAndMeWithoutGen.contains(classPartsPagePart.canonicalName);
+						boolean entityExtendsPagePart = classPartsPagePart != null && entityCanonicalNamesSuperAndMeWithoutGen.contains(classPartsPagePart.canonicalName);
 								
 						for(String siteWriteMethod : siteWriteMethods) {
 							if(entityClassQdox.getMethodBySignature(siteWriteMethod, new ArrayList<JavaType>()) != null
@@ -1980,18 +1980,18 @@ public class IndexClass extends WatchClassBase {
 							String entityAttributeSimpleName = entityAttributeSearch.group(2);
 							String entityAttributeVar = entityAttributeSearch.group(3);
 
-							SolrQuery solrSearchClasse = new SolrQuery();   
-							solrSearchClasse.setQuery("*:*");
-							solrSearchClasse.setRows(1);
-							solrSearchClasse.addFilterQuery("classSimpleName_" + classLanguageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entityAttributeSimpleName));
-							solrSearchClasse.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
-							solrSearchClasse.addFilterQuery("partIsClass_indexed_boolean:true");
-							QueryResponse searchResponseClasse = solrClientComputate.query(solrSearchClasse);
-							SolrDocumentList searchListClasse = searchResponseClasse.getResults();
+							SolrQuery solrSearchClass = new SolrQuery();   
+							solrSearchClass.setQuery("*:*");
+							solrSearchClass.setRows(1);
+							solrSearchClass.addFilterQuery("classSimpleName_" + classLanguageName + "_indexed_string:" + ClientUtils.escapeQueryChars(entityAttributeSimpleName));
+							solrSearchClass.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
+							solrSearchClass.addFilterQuery("partIsClass_indexed_boolean:true");
+							QueryResponse searchResponseClass = solrClientComputate.query(solrSearchClass);
+							SolrDocumentList searchListClass = searchResponseClass.getResults();
 
-							if(searchListClasse.size() > 0) {
-								SolrDocument docClasse = searchListClasse.get(0);
-								String entityAttributeCanonicalName = (String)docClasse.get("classCanonicalName_" + classLanguageName + "_stored_string");
+							if(searchListClass.size() > 0) {
+								SolrDocument docClass = searchListClass.get(0);
+								String entityAttributeCanonicalName = (String)docClass.get("classCanonicalName_" + classLanguageName + "_stored_string");
 
 								SolrQuery solrSearchVar = new SolrQuery();   
 								solrSearchVar.setQuery("*:*");
@@ -2004,7 +2004,7 @@ public class IndexClass extends WatchClassBase {
 								SolrDocumentList searchListVar = searchResponseVar.getResults();
 
 								if(searchListVar.size() > 0) {
-									SolrDocument docEntite = searchListClasse.get(0);
+									SolrDocument docEntity = searchListClass.get(0);
 									entityDefined = false;
 
 									indexStoreSolr(entityDoc, "entityAttribute", true);
@@ -2014,9 +2014,9 @@ public class IndexClass extends WatchClassBase {
 
 									if(classTranslate) {
 										for(String languageName : classOtherLanguages) {  
-											String entityAttributeCanonicalNameLangue = (String)docClasse.get("classCanonicalName_" + languageName + "_stored_string");
-											String entityAttributeSimpleNameLangue = (String)docClasse.get("classCanonicalName_" + languageName + "_stored_string");
-											String entityAttributeVarLangue = (String)docEntite.get("entityVar_" + languageName + "_stored_string");
+											String entityAttributeCanonicalNameLangue = (String)docClass.get("classCanonicalName_" + languageName + "_stored_string");
+											String entityAttributeSimpleNameLangue = (String)docClass.get("classCanonicalName_" + languageName + "_stored_string");
+											String entityAttributeVarLangue = (String)docEntity.get("entityVar_" + languageName + "_stored_string");
 	
 											indexStoreSolr(languageName, entityDoc, "entityAttributeSimpleName", entityAttributeSimpleNameLangue);
 											indexStoreSolr(languageName, entityDoc, "entityAttributeCanonicalName", entityAttributeCanonicalNameLangue);
@@ -2403,16 +2403,16 @@ public class IndexClass extends WatchClassBase {
 							JavaParameter methodParamQdox = methodParamsQdox.get(methodParamNum - 1);
 							String methodParamVar = methodParamQdox.getName();
 							storeListSolr(classLanguageName, methodDoc, "methodParamsVar", methodParamVar);
-							ClassParts methodParamsClassePart = ClassParts.initClassParts(this, methodParamQdox.getJavaClass(), classLanguageName);
-							storeListSolr(classLanguageName, methodDoc, "methodParamCanonicalNames", methodParamsClassePart.canonicalName);
-							storeListSolr(classLanguageName, methodDoc, "methodParamsSimpleNameComplete", methodParamsClassePart.simpleNameComplete);
+							ClassParts methodParamsClassPart = ClassParts.initClassParts(this, methodParamQdox.getJavaClass(), classLanguageName);
+							storeListSolr(classLanguageName, methodDoc, "methodParamCanonicalNames", methodParamsClassPart.canonicalName);
+							storeListSolr(classLanguageName, methodDoc, "methodParamsSimpleNameComplete", methodParamsClassPart.simpleNameComplete);
 							storeListSolr(methodDoc, "methodParamsVariableArgs", methodParamQdox.isVarArgs());
 							if(classTranslate) {
 								for(String languageName : classOtherLanguages) { 
 									String methodParamVarLanguage = regex("^(method)?Param" + methodParamNum + "\\.var\\." + languageName + ": (.*)", methodComment);
 									if(methodParamVarLanguage == null)
 										methodParamVarLanguage = methodParamVar;
-									ClassParts methodParamClassPartsLanguage = ClassParts.initClassParts(this, methodParamsClassePart, languageName);
+									ClassParts methodParamClassPartsLanguage = ClassParts.initClassParts(this, methodParamsClassPart, languageName);
 	
 									storeListSolr(languageName, methodDoc, "methodParamCanonicalNames", methodParamClassPartsLanguage.canonicalName);
 									storeListSolr(languageName, methodDoc, "methodParamsSimpleNameComplete", methodParamClassPartsLanguage.simpleNameComplete);
@@ -2658,9 +2658,9 @@ public class IndexClass extends WatchClassBase {
 							SolrDocumentList searchListPage = searchResponsePage.getResults();
 		
 							if(searchListPage.size() > 0) {
-								SolrDocument docEntite = searchListPage.get(0);
+								SolrDocument docEntity = searchListPage.get(0);
 								String classPackageNameLanguage = (String)classDoc.get("classPackageName_" + languageName + "_indexed_string").getValue();
-								String classPageCanonicalNameMethode = (String)docEntite.get("classCanonicalName_" + languageName + "_stored_string");
+								String classPageCanonicalNameMethode = (String)docEntity.get("classCanonicalName_" + languageName + "_stored_string");
 								indexStoreSolr(classDoc, "classPageCanonicalName" + classApiMethod, classPageCanonicalNameMethode);
 								indexStoreSolr(classDoc, "classPageSimpleName" + classApiMethod, classPageSimpleNameMethode);
 								classPartsGenApiAdd(ClassParts.initClassParts(this, classPageCanonicalNameMethode, languageName));
@@ -2733,8 +2733,8 @@ public class IndexClass extends WatchClassBase {
 							SolrDocumentList searchListPage = searchResponsePage.getResults();
 		
 							if(searchListPage.size() > 0) {
-								SolrDocument docEntite = searchListPage.get(0);
-								String classPageSuperCanonicalNameMethode = (String)docEntite.get("classCanonicalName_" + classPageLanguageName + "_stored_string");
+								SolrDocument docEntity = searchListPage.get(0);
+								String classPageSuperCanonicalNameMethode = (String)docEntity.get("classCanonicalName_" + classPageLanguageName + "_stored_string");
 								indexStoreSolr(classDoc, "classPageSuperCanonicalName" + classApiMethod, classPageSuperCanonicalNameMethode);
 								indexStoreSolr(classDoc, "classPageSuperSimpleName" + classApiMethod, classPageSuperSimpleNameMethode);
 								classPartsGenPageAdd(ClassParts.initClassParts(this, classPageSuperCanonicalNameMethode, classPageLanguageName));

@@ -32,6 +32,8 @@ import org.apache.solr.common.SolrDocument;
  **/
 public class WriteGenClass extends WriteClass {
 
+	public static final String[] HTML_ELEMENTS = new String[] { "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code", "br" };
+
 	protected String classDirPathGen;
 
 	protected String classPathGen;
@@ -385,7 +387,7 @@ public class WriteGenClass extends WriteClass {
 	}
 
 	public void  genCodeInitDeep(String languageName) throws Exception, Exception {
-		if(BooleanUtils.isTrue(classInitDeep)) {
+		if(BooleanUtils.isTrue(classInitDeep) && classPartsSiteRequest != null) {
 			wInitDeep.l(); 
 			wInitDeep.tl(1, "//////////////");
 			wInitDeep.tl(1, "// initDeep //");
@@ -448,7 +450,7 @@ public class WriteGenClass extends WriteClass {
 	}
 
 	public void  genCodeSiteRequest(String languageName) throws Exception, Exception {
-		if(BooleanUtils.isTrue(classInitDeep)) {
+		if(BooleanUtils.isTrue(classInitDeep) && classPartsSiteRequest != null) {
 			o = wSiteRequest;
 			l(); 
 			tl(1, "/////////////////");
@@ -1160,7 +1162,7 @@ public class WriteGenClass extends WriteClass {
 									}
 
 //									entityValsWriter.t(1);
-									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code")) {
+									if(StringUtils.equalsAny(element, HTML_ELEMENTS)) {
 										html = true;
 
 										String css = entityVar;
@@ -1180,12 +1182,16 @@ public class WriteGenClass extends WriteClass {
 												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entityVar, entityValVar, entityValVarNumber, ", \" site-menu-icon ", css, cssNumber, "\").f();");
 											else if("a".equals(element))
 												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumber, "\").a(\"href\", ", entityVar, entityValVar, entityValVarNumber, ").f();");
+											else if("br".equals(element))
+												entityValsWriter.tl(2 + xmlPart, "e(\"", element, "\").fg();");
 											else
 												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumber, "\").f();");
 
-											entityXmlStack.push(element);
-											entityNumberStack.push(number);
-											xmlPart++;
+											if(!"br".equals(element)) {
+												entityXmlStack.push(element);
+												entityNumberStack.push(number);
+												xmlPart++;
+											}
 										}
 										else if(StringUtils.equals(element, entityXmlStack.get(xmlPart)) && number.equals(entityNumberStack.get(xmlPart))) {
 											xmlPart++;
@@ -2465,7 +2471,7 @@ public class WriteGenClass extends WriteClass {
 		//////////////////
 		// codeInitLoin //
 		//////////////////
-		if(classInitDeep) {
+		if(classInitDeep && classPartsSiteRequest != null) {
 //			wInitDeep.tl(3, "alreadyInitialized", classSimpleName, " = true;");
 			wInitDeep.tl(1, "}");
 			if(classInitDeep) {
@@ -2493,7 +2499,7 @@ public class WriteGenClass extends WriteClass {
 		/////////////////////
 		// codeSiteRequest //
 		/////////////////////
-		if(classInitDeep) {
+		if(classInitDeep && classPartsSiteRequest != null) {
 			o = wSiteRequest;
 			tl(1, "}");
 			l();
@@ -2572,10 +2578,12 @@ public class WriteGenClass extends WriteClass {
 
 		o = writerGenClass;
 
-		s(wInitDeep.toString());
-		s(wSiteRequest.toString());
-		s(wObtain.toString());
-		s(wAttribute.toString());
+		if(BooleanUtils.isTrue(classInitDeep) && classPartsSiteRequest != null) {
+			s(wInitDeep.toString());
+			s(wSiteRequest.toString());
+			s(wObtain.toString());
+			s(wAttribute.toString());
+		}
 
 
 		if(classInitDeep && (classExtendsBase || classIsBase)) {
@@ -2706,7 +2714,7 @@ public class WriteGenClass extends WriteClass {
 			tl(2, "}");
 			tl(1, "}");
 		}
-		if(classIndexed) {
+		if(classIndexed && classPartsSiteRequest != null) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// index //");

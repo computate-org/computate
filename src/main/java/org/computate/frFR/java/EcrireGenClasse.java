@@ -35,6 +35,8 @@ import org.apache.solr.common.SolrDocument;
  */  
 public class EcrireGenClasse extends EcrireClasse { 
 
+	public static final String[] HTML_ELEMENTS = new String[] { "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code", "br" };
+
 	/**
 	 * Var.enUS: classDirPathGen
 	 */
@@ -930,7 +932,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: simpleName
 	 */
 	public void genCodeInitLoin(String langueNom) throws Exception {
-		if(BooleanUtils.isTrue(classeInitLoin)) {
+		if(BooleanUtils.isTrue(classeInitLoin) && classePartsRequeteSite != null) {
 			wInitLoin.l(); 
 			wInitLoin.tl(1, "//////////////");
 			wInitLoin.tl(1, "// initLoin //");
@@ -1018,7 +1020,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: simpleName
 	 */
 	public void genCodeRequeteSite(String langueNom) throws Exception {
-		if(BooleanUtils.isTrue(classeInitLoin)) {
+		if(BooleanUtils.isTrue(classeInitLoin) && classePartsRequeteSite != null) {
 			o = wRequeteSite;
 			l(); 
 			tl(1, "/////////////////");
@@ -2612,7 +2614,7 @@ public class EcrireGenClasse extends EcrireClasse {
 									}
 
 //									entiteValsEcrivain.t(1);
-									if(StringUtils.equalsAny(element, "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code")) {
+									if(StringUtils.equalsAny(element, HTML_ELEMENTS)) {
 										html = true;
 
 										String css = entiteVar;
@@ -2632,12 +2634,16 @@ public class EcrireGenClasse extends EcrireClasse {
 												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
 											else if("a".equals(element))
 												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entiteVar, entiteValVar, entiteValVarNumero, ").f();");
+											else if("br".equals(element))
+												entiteValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
 											else
 												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
 
-											entiteXmlPile.push(element);
-											entiteNumeroPile.push(numero);
-											xmlPart++;
+											if(!"br".equals(element)) {
+												entiteXmlPile.push(element);
+												entiteNumeroPile.push(numero);
+												xmlPart++;
+											}
 										}
 										else if(StringUtils.equals(element, entiteXmlPile.get(xmlPart)) && numero.equals(entiteNumeroPile.get(xmlPart))) {
 											xmlPart++;
@@ -4117,7 +4123,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		//////////////////
 		// codeInitLoin //
 		//////////////////
-		if(classeInitLoin) {
+		if(classeInitLoin && classePartsRequeteSite != null) {
 //			wInitLoin.tl(3, "dejaInitialise", classeNomSimple, " = true;");
 			wInitLoin.tl(1, "}");
 			if(classeInitLoin) {
@@ -4145,7 +4151,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////////
 		// codeRequeteSite //
 		/////////////////////
-		if(classeInitLoin) {
+		if(classeInitLoin && classePartsRequeteSite != null) {
 			o = wRequeteSite;
 			tl(1, "}");
 			l();
@@ -4224,10 +4230,12 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		o = auteurGenClasse;
 
-		s(wInitLoin.toString());
-		s(wRequeteSite.toString());
-		s(wObtenir.toString());
-		s(wAttribuer.toString());
+		if(BooleanUtils.isTrue(classeInitLoin) && classePartsRequeteSite != null) {
+			s(wInitLoin.toString());
+			s(wRequeteSite.toString());
+			s(wObtenir.toString());
+			s(wAttribuer.toString());
+		}
 
 
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
@@ -4358,7 +4366,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "}");
 			tl(1, "}");
 		}
-		if(classeIndexe) {
+		if(classeIndexe && classePartsRequeteSite != null) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// indexer //");
