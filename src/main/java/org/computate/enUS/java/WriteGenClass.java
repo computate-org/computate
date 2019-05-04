@@ -637,6 +637,17 @@ public class WriteGenClass extends WriteClass {
 		}
 	}
 
+    public static final CharSequenceTranslator ESCAPE_JAVA;
+    static { 
+        final Map<CharSequence, CharSequence> escapeJavaMap = new HashMap<>();
+        escapeJavaMap.put("\"", "\\\"");
+        escapeJavaMap.put("\\", "\\\\");
+        ESCAPE_JAVA = new AggregateTranslator(
+                new LookupTranslator(Collections.unmodifiableMap(escapeJavaMap)),
+                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE)
+        );
+    }
+
 	public static final String escapeJava(String input) {
         return org.computate.frFR.java.EcrireGenClasse.ESCAPE_JAVA.translate(input);
     }

@@ -32,6 +32,8 @@ public class ClasseParts {
 	 * r.enUS: canonicalName
 	 * r: documentSolr
 	 * r.enUS: solrDocument
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
 	 */
 	public String nomCanonique(String langueNom) {
 		if(langueNom == null || documentSolr == null)
@@ -50,6 +52,8 @@ public class ClasseParts {
 	 * r.enUS: simpleName
 	 * r: documentSolr
 	 * r.enUS: solrDocument
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
 	 */
 	public String nomSimple(String langueNom) {
 		if(langueNom == null || documentSolr == null)

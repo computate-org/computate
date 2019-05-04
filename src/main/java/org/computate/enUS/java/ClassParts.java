@@ -20,7 +20,7 @@ public class ClassParts {
 		if(langueNom == null || solrDocument == null)
 			return canonicalName;
 		else
-			return (String)solrDocument.get("classeNomCanonique_" + langueNom + "_stored_string");
+			return (String)solrDocument.get("classCanonicalName_" + langueNom + "_stored_string");
 	}
 
 	public String simpleName;
@@ -29,7 +29,7 @@ public class ClassParts {
 		if(langueNom == null || solrDocument == null)
 			return simpleName;
 		else
-			return (String)solrDocument.get("classeNomSimple_" + langueNom + "_stored_string");
+			return (String)solrDocument.get("classSimpleName_" + langueNom + "_stored_string");
 	}
 
 	public String canonicalNameGeneric;
