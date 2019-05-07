@@ -474,7 +474,7 @@ public class WriteGenClass extends WriteClass {
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			l("public Object obtainForClass(String var) throws Exception {");
+			l("public Object obtainForClass(String var) {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
@@ -487,7 +487,7 @@ public class WriteGenClass extends WriteClass {
 			tl(2, "}");
 			tl(2, "return o;");
 			tl(1, "}");
-			tl(1, "public Object obtain", classSimpleName, "(String var) throws Exception {");
+			tl(1, "public Object obtain", classSimpleName, "(String var) {");
 			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
 			tl(2, "switch(var) {");
 		}
@@ -547,7 +547,7 @@ public class WriteGenClass extends WriteClass {
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			l("public void putForClass(JsonObject requeteJson) throws Exception {");
+			l("public void putForClass(JsonObject requeteJson) {");
 			tl(2, "Set<String> vars = requeteJson.fieldNames();");
 			tl(2, "for(String var : vars) {");
 			tl(3, "put", classSimpleName + "(requeteJson, var);");
@@ -557,7 +557,7 @@ public class WriteGenClass extends WriteClass {
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			l("public Boolean put", classSimpleName, "(JsonObject requeteJson, String var) throws Exception {");
+			l("public Boolean put", classSimpleName, "(JsonObject requeteJson, String var) {");
 			tl(2, "switch(var) {");
 		}
 	}
@@ -579,7 +579,7 @@ public class WriteGenClass extends WriteClass {
 //			t(1);
 //			if(!classSimpleName.equals("Cluster"))
 //				s("@Override ");
-//			l("public Boolean existsForClass() throws Exception {");
+//			l("public Boolean existsForClass() {");
 //			tl(2, "String pkStr = requeteSite_.getServerRequest().getParam(\"pk\");");
 //			tl(2, "Long pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
 //			tl(2, "Boolean exists = existsForClass(pk);");
@@ -588,7 +588,7 @@ public class WriteGenClass extends WriteClass {
 //			t(1);
 //			if(!classSimpleName.equals("Cluster"))
 //				s("@Override ");
-//			l("public Boolean existsForClass(Long pk) throws Exception {");
+//			l("public Boolean existsForClass(Long pk) {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite_.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "userId = requeteSite_.userId;");
@@ -637,17 +637,6 @@ public class WriteGenClass extends WriteClass {
 		}
 	}
 
-    public static final CharSequenceTranslator ESCAPE_JAVA;
-    static { 
-        final Map<CharSequence, CharSequence> escapeJavaMap = new HashMap<>();
-        escapeJavaMap.put("\"", "\\\"");
-        escapeJavaMap.put("\\", "\\\\");
-        ESCAPE_JAVA = new AggregateTranslator(
-                new LookupTranslator(Collections.unmodifiableMap(escapeJavaMap)),
-                new LookupTranslator(EntityArrays.JAVA_CTRL_CHARS_ESCAPE)
-        );
-    }
-
 	public static final String escapeJava(String input) {
         return org.computate.frFR.java.EcrireGenClasse.ESCAPE_JAVA.translate(input);
     }
@@ -664,7 +653,7 @@ public class WriteGenClass extends WriteClass {
 //			t(1);
 //			if(!classSimpleName.equals("Cluster"))
 //				s("@Override ");
-//			l("public void savesForClass(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) throws Exception {");
+//			l("public void savesForClass(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //
@@ -1389,7 +1378,7 @@ public class WriteGenClass extends WriteClass {
 			l(";");
 	
 	//						l();
-	//						tl(1, "public ", classSimpleName, " ", entityVar, "(", entitySimpleNameComplete, " ", entityVarParam, ") throws Exception {");
+	//						tl(1, "public ", classSimpleName, " ", entityVar, "(", entitySimpleNameComplete, " ", entityVarParam, ") {");
 	//						tl(2, "set", entityVarCapitalized, "(", entityVarParam, ");");
 	//						tl(2, "return (", classSimpleName, ")this;");
 	//						tl(1, "}");
@@ -1406,7 +1395,7 @@ public class WriteGenClass extends WriteClass {
 			tl(1, "}");
 	//
 	//						l();
-	//						tl(1, "public ", entitySimpleNameComplete, " ", entityVar, "() throws Exception {");
+	//						tl(1, "public ", entitySimpleNameComplete, " ", entityVar, "() {");
 	//						tl(2, "return get", entityVarCapitalized, "();");
 	//						tl(1, "}");
 	
@@ -2762,26 +2751,26 @@ public class WriteGenClass extends WriteClass {
 				t(1);
 				if(!classIsBase)
 					s("@Override ");
-				l("public void indexForClass() throws Exception {");
+				l("public void indexForClass() {");
 				tl(2, "index", classSimpleName, "();");
 				tl(1, "}");
 				tl(0);
 				t(1);
 				if(!classIsBase)
 					s("@Override ");
-				l("public void indexForClass(SolrInputDocument document) throws Exception {");
+				l("public void indexForClass(SolrInputDocument document) {");
 				tl(2, "index", classSimpleName, "(document);");
 				tl(1, "}");
 			}
 			l();
-			tl(1, "public void index", classSimpleName, "(SolrClient solrClient) throws Exception {");
+			tl(1, "public void index", classSimpleName, "(SolrClient solrClient) {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "index", classSimpleName, "(document);");
 			tl(2, "solrClient.add(document);");
 			tl(2, "solrClient.commit();");
 			l("\t}");
 			l();
-			tl(1, "public void index", classSimpleName, "() throws Exception {");
+			tl(1, "public void index", classSimpleName, "() {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "index", classSimpleName, "(document);");
 			tl(2, "SolrClient solrClient = siteRequest_.getSiteContext_().getSolrClient();");
@@ -2790,7 +2779,7 @@ public class WriteGenClass extends WriteClass {
 			l("\t}");
 
 			tl(0);
-			tl(1, "public void index", classSimpleName, "(SolrInputDocument document) throws Exception {");
+			tl(1, "public void index", classSimpleName, "(SolrInputDocument document) {");
 			if(classSaved) {
 				tl(2, "if(saves", classSimpleName, " != null)");
 				tl(3, "document.addField(\"saves", classSimpleName, "_stored_strings\", saves", classSimpleName, ");");
@@ -2805,7 +2794,7 @@ public class WriteGenClass extends WriteClass {
 
 			if(StringUtils.isNotEmpty(classVarUniqueKey)) {
 				tl(0);
-				tl(1, "public void unindex", classSimpleName, "() throws Exception {");
+				tl(1, "public void unindex", classSimpleName, "() {");
 				tl(2, "", classPartsSiteRequest.simpleName(languageName), " siteRequest = new ", classPartsSiteRequest.simpleName(languageName), "();");
 				tl(2, "siteRequest.initDeep", classPartsSiteRequest.simpleName(languageName), "();");
 				tl(2, classPartsSiteContext.simpleName(languageName), " siteContext = new ", classPartsSiteContext.simpleName(languageName), "();");
@@ -2920,7 +2909,7 @@ public class WriteGenClass extends WriteClass {
 //			t(1);
 //			if(classExtendsBase)
 //				s("@Override ");
-//			l("public void savePourClasse(", classPartsSiteRequest.simpleName(languageName), " siteRequest_) throws Exception {");
+//			l("public void savePourClasse(", classPartsSiteRequest.simpleName(languageName), " siteRequest_) {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(siteRequest.", classPartsSiteContext.simpleName(languageName), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "String pkStr = siteRequest_.getRequeteServeur().getParam(\"pk\");");
@@ -2970,7 +2959,7 @@ public class WriteGenClass extends WriteClass {
 //			tl(2, "save", classSimpleName, "(siteRequest, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
 ////						tl(2, "}");
 //			tl(1, "}");
-//			tl(1, "public void save", classSimpleName, "(", classPartsSiteRequest.simpleName(languageName), " siteRequest, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
+//			tl(1, "public void save", classSimpleName, "(", classPartsSiteRequest.simpleName(languageName), " siteRequest, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) {");
 //			s(wSave.toString());
 //			if(classExtendsBase) {
 //				tl(0);

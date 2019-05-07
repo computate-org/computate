@@ -1063,7 +1063,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public Object obtenirPourClasse(String var) throws Exception {");
+			l("public Object obtenirPourClasse(String var) {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
@@ -1076,7 +1076,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "}");
 			tl(2, "return o;");
 			tl(1, "}");
-			tl(1, "public Object obtenir", classeNomSimple, "(String var) throws Exception {");
+			tl(1, "public Object obtenir", classeNomSimple, "(String var) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "switch(var) {");
 		}
@@ -1174,7 +1174,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public void putPourClasse(JsonObject requeteJson) throws Exception {");
+			l("public void putPourClasse(JsonObject requeteJson) {");
 			tl(2, "Set<String> vars = requeteJson.fieldNames();");
 			tl(2, "for(String var : vars) {");
 			tl(3, "put", classeNomSimple + "(requeteJson, var);");
@@ -1184,7 +1184,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public Boolean put", classeNomSimple, "(JsonObject requeteJson, String var) throws Exception {");
+			l("public Boolean put", classeNomSimple, "(JsonObject requeteJson, String var) {");
 			tl(2, "switch(var) {");
 		}
 	}
@@ -1246,7 +1246,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //			t(1);
 //			if(!classeNomSimple.equals("Cluster"))
 //				s("@Override ");
-//			l("public Boolean existePourClasse() throws Exception {");
+//			l("public Boolean existePourClasse() {");
 //			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
 //			tl(2, "Long pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
 //			tl(2, "Boolean existe = existePourClasse(pk);");
@@ -1255,7 +1255,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //			t(1);
 //			if(!classeNomSimple.equals("Cluster"))
 //				s("@Override ");
-//			l("public Boolean existePourClasse(Long pk) throws Exception {");
+//			l("public Boolean existePourClasse(Long pk) {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite_.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "utilisateurId = requeteSite_.utilisateurId;");
@@ -1378,7 +1378,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //			t(1);
 //			if(!classeNomSimple.equals("Cluster"))
 //				s("@Override ");
-//			l("public void sauvegardesPourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) throws Exception {");
+//			l("public void sauvegardesPourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //
@@ -2830,7 +2830,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			l(";");
 	
 	//						l();
-	//						tl(1, "public ", classeNomSimple, " ", entiteVar, "(", entiteNomSimpleComplet, " ", entiteVarParam, ") throws Exception {");
+	//						tl(1, "public ", classeNomSimple, " ", entiteVar, "(", entiteNomSimpleComplet, " ", entiteVarParam, ") {");
 	//						tl(2, "set", entiteVarCapitalise, "(", entiteVarParam, ");");
 	//						tl(2, "return (", classeNomSimple, ")this;");
 	//						tl(1, "}");
@@ -2847,7 +2847,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 	//
 	//						l();
-	//						tl(1, "public ", entiteNomSimpleComplet, " ", entiteVar, "() throws Exception {");
+	//						tl(1, "public ", entiteNomSimpleComplet, " ", entiteVar, "() {");
 	//						tl(2, "return get", entiteVarCapitalise, "();");
 	//						tl(1, "}");
 	
@@ -4403,26 +4403,26 @@ public class EcrireGenClasse extends EcrireClasse {
 				t(1);
 				if(!classeEstBase)
 					s("@Override ");
-				l("public void indexerPourClasse() throws Exception {");
+				l("public void indexerPourClasse() {");
 				tl(2, "indexer", classeNomSimple, "();");
 				tl(1, "}");
 				tl(0);
 				t(1);
 				if(!classeEstBase)
 					s("@Override ");
-				l("public void indexerPourClasse(SolrInputDocument document) throws Exception {");
+				l("public void indexerPourClasse(SolrInputDocument document) {");
 				tl(2, "indexer", classeNomSimple, "(document);");
 				tl(1, "}");
 			}
 			l();
-			tl(1, "public void indexer", classeNomSimple, "(SolrClient clientSolr) throws Exception {");
+			tl(1, "public void indexer", classeNomSimple, "(SolrClient clientSolr) {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "indexer", classeNomSimple, "(document);");
 			tl(2, "clientSolr.add(document);");
 			tl(2, "clientSolr.commit();");
 			l("\t}");
 			l();
-			tl(1, "public void indexer", classeNomSimple, "() throws Exception {");
+			tl(1, "public void indexer", classeNomSimple, "() {");
 			tl(2, "SolrInputDocument document = new SolrInputDocument();");
 			tl(2, "indexer", classeNomSimple, "(document);");
 			tl(2, "SolrClient clientSolr = requeteSite_.getSiteContexte_().getClientSolr();");
@@ -4431,7 +4431,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			l("\t}");
 
 			tl(0);
-			tl(1, "public void indexer", classeNomSimple, "(SolrInputDocument document) throws Exception {");
+			tl(1, "public void indexer", classeNomSimple, "(SolrInputDocument document) {");
 			if(classeSauvegarde) {
 				tl(2, "if(sauvegardes", classeNomSimple, " != null)");
 				tl(3, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
@@ -4446,7 +4446,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
 				tl(0);
-				tl(1, "public void desindexer", classeNomSimple, "() throws Exception {");
+				tl(1, "public void desindexer", classeNomSimple, "() {");
 				tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
 				tl(2, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
 				tl(2, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
@@ -4561,7 +4561,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //			t(1);
 //			if(classeEtendBase)
 //				s("@Override ");
-//			l("public void sauvegarderPourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_) throws Exception {");
+//			l("public void sauvegarderPourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_) {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
@@ -4611,7 +4611,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //			tl(2, "sauvegarder", classeNomSimple, "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
 ////						tl(2, "}");
 //			tl(1, "}");
-//			tl(1, "public void sauvegarder", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) throws Exception {");
+//			tl(1, "public void sauvegarder", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) {");
 //			s(wSauvegarder.toString());
 //			if(classeEtendBase) {
 //				tl(0);
