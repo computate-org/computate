@@ -348,6 +348,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: contextImageHauteur
 	 * r: contexteVideoId
 	 * r.enUS: contextVideoId
+	 * r: contexteDescription
+	 * r.enUS: contextDescription
 	 * r: contexteImageLargeur
 	 * r.enUS: contextImageWidth
 	 * r: contexteImageHauteur
@@ -523,6 +525,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					contexteIconeGroupe = (String)doc.get("contexteIconeGroupe_stored_string");
 					contexteIconeNom = (String)doc.get("contexteIconeNom_stored_string");
 
+					contexteDescription = (String)doc.get("contexteDescription" + "_" + langueNom + "_stored_string");
 					contexteImageLargeur = (Integer)doc.get("contexteImageLargeur" + "_" + langueNom + "_stored_int");
 					contexteImageHauteur = (Integer)doc.get("contexteImageHauteur" + "_" + langueNom + "_stored_int");
 					contexteVideoId = (String)doc.get("contexteVideoId" + "_" + langueNom + "_stored_string");

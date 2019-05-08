@@ -151,6 +151,7 @@ public class WriteAllClasses extends WritePageClass {
 					contextIconGroup = (String)doc.get("contextIconGroup_stored_string");
 					contextIconName = (String)doc.get("contextIconName_stored_string");
 
+					contextDescription = (String)doc.get("contextDescription" + "_" + languageName + "_stored_string");
 					contextImageWidth = (Integer)doc.get("contextImageWidth" + "_" + languageName + "_stored_int");
 					contextImageHeight = (Integer)doc.get("contextImageHeight" + "_" + languageName + "_stored_int");
 					contextVideoId = (String)doc.get("contextVideoId" + "_" + languageName + "_stored_string");

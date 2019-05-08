@@ -237,6 +237,8 @@ public class IndexClass extends WatchClassBase {
 
 	private String contextVideoId;
 
+	private String contextDescription;
+
 	private String contextAName;
 
 	private String contextThis;
@@ -2822,9 +2824,14 @@ public class IndexClass extends WatchClassBase {
 				indexStoreSolr(classDoc, "contextIconName", contextIconName); 
 
 			for(String languageName : allLanguages) {
+
 				contextVideoId = regexLanguage(languageName, "(context)?VideoId", classComment);
 				if(contextVideoId != null)
 					indexStoreSolr(languageName, classDoc, "contextVideoId", contextVideoId); 
+
+				contextDescription = regexLanguage(languageName, "(context)?Description", classComment);
+				if(contextDescription != null)
+					indexStoreSolr(languageName, classDoc, "contextDescription", contextDescription); 
 
 				String contextImageWidthStr = regexLanguage(languageName, "^(context)?ImageWidth", classComment);
 				if(NumberUtils.isCreatable(contextImageWidthStr))

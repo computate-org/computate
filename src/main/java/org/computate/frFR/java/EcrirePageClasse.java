@@ -546,6 +546,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: allLanguages
 	 * r: pageLangueNom
 	 * r.enUS: pageLanguageName
+	 * r: contexteDescription
+	 * r.enUS: contextDescription
 	 * r: classeImage
 	 * r.enUS: classImage
 	 * r: pageImageLargeur
@@ -1146,6 +1148,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 				s(wEntites);
 	
+				if(contexteDescription != null) {
+					l();
+					tl(1, "@Override protected void _pageDescription(Couverture<String> c) {");
+					tl(3, "c.o(", q(contexteDescription), ");");
+					tl(1, "}");
+				}
+	
 				if(classeImage != null) {
 					l();
 					tl(1, "@Override protected void _pageImageUri(Couverture<String> c) {");
@@ -1485,7 +1494,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 					if(classeMethodeVars.contains("htmlBody")) {
 						l();
-						tl(2, StringUtils.uncapitalize(classeNomSimple), ".htmlBody();");
+						tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null)");
+						tl(3, StringUtils.uncapitalize(classeNomSimple), ".htmlBody();");
 					}
 					l();
 				} else {
@@ -1685,7 +1695,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 					if(classeMethodeVars.contains("htmlBody")) {
 						l();
-						tl(4, "o.htmlBody();");
+						tl(4, "if(o != null)");
+						tl(5, "o.htmlBody();");
 					}
 					l();
 					t(3).bgl("div");

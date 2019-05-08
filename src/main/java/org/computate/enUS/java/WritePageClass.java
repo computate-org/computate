@@ -657,6 +657,13 @@ public class WritePageClass extends WriteApiClass {
 				tl(1, "}");
 				s(wEntities);
 	
+				if(contextDescription != null) {
+					l();
+					tl(1, "@Override protected void _pageDescription(Wrap<String> c) {");
+					tl(3, "c.o(", q(contextDescription), ");");
+					tl(1, "}");
+				}
+	
 				if(classImage != null) {
 					l();
 					tl(1, "@Override protected void _pageImageUri(Wrap<String> c) {");
@@ -996,7 +1003,8 @@ public class WritePageClass extends WriteApiClass {
 					}
 					if(classMethodVars.contains("htmlBody")) {
 						l();
-						tl(2, StringUtils.uncapitalize(classSimpleName), ".htmlBody();");
+						tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
+						tl(3, StringUtils.uncapitalize(classSimpleName), ".htmlBody();");
 					}
 					l();
 				} else {
@@ -1196,7 +1204,8 @@ public class WritePageClass extends WriteApiClass {
 					}
 					if(classMethodVars.contains("htmlBody")) {
 						l();
-						tl(4, "o.htmlBody();");
+						tl(4, "if(o != null)");
+						tl(5, "o.htmlBody();");
 					}
 					l();
 					t(3).bgl("div");

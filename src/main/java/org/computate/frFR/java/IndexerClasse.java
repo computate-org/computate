@@ -457,6 +457,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	private String contexteVideoId;
 
 	/**
+	 * Var.enUS: contextDescription
+	 */
+	private String contexteDescription;
+
+	/**
 	 * Var.enUS: contextAName
 	 */
 	private String contexteUnNom;
@@ -2984,6 +2989,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: contextAllName
 	 * r: contexteImageUri
 	 * r.enUS: contextImageUri
+	 * r: contexteDescription
+	 * r.enUS: contextDescription
 	 * r: contexteImageLargeur
 	 * r.enUS: contextImageWidth
 	 * r: contexteImageHauteur
@@ -5264,9 +5271,14 @@ public class IndexerClasse extends RegarderClasseBase {
 				indexerStockerSolr(classeDoc, "contexteIconeNom", contexteIconeNom); 
 
 			for(String langueNom : toutesLangues) {
+
 				contexteVideoId = regexLangue(langueNom, "(contexte)?VideoId", classeCommentaire);
 				if(contexteVideoId != null)
 					indexerStockerSolr(langueNom, classeDoc, "contexteVideoId", contexteVideoId); 
+
+				contexteDescription = regexLangue(langueNom, "(contexte)?Description", classeCommentaire);
+				if(contexteDescription != null)
+					indexerStockerSolr(langueNom, classeDoc, "contexteDescription", contexteDescription); 
 
 				String contexteImageLargeurStr = regexLangue(langueNom, "^(contexte)?ImageLargeur", classeCommentaire);
 				if(NumberUtils.isCreatable(contexteImageLargeurStr))

@@ -652,6 +652,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String contexteIconeNom;
 
 	/**
+	 * Var.enUS: contextDescription
+	 */
+	protected String contexteDescription;
+
+	/**
 	 * Var.enUS: contextImageWidth
 	 */
 	protected Integer contexteImageLargeur;
@@ -4416,18 +4421,26 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			l();
 			tl(1, "public void indexer", classeNomSimple, "(SolrClient clientSolr) {");
-			tl(2, "SolrInputDocument document = new SolrInputDocument();");
-			tl(2, "indexer", classeNomSimple, "(document);");
-			tl(2, "clientSolr.add(document);");
-			tl(2, "clientSolr.commit();");
+			tl(2, "try {");
+			tl(3, "SolrInputDocument document = new SolrInputDocument();");
+			tl(3, "indexer", classeNomSimple, "(document);");
+			tl(3, "clientSolr.add(document);");
+			tl(3, "clientSolr.commit();");
+			tl(2, "} catch(Exception e) {");
+			tl(3, "ExceptionUtils.rethrow(e);");
+			tl(2, "}");
 			l("\t}");
 			l();
 			tl(1, "public void indexer", classeNomSimple, "() {");
-			tl(2, "SolrInputDocument document = new SolrInputDocument();");
-			tl(2, "indexer", classeNomSimple, "(document);");
-			tl(2, "SolrClient clientSolr = requeteSite_.getSiteContexte_().getClientSolr();");
-			tl(2, "clientSolr.add(document);");
-			tl(2, "clientSolr.commit();");
+			tl(2, "try {");
+			tl(3, "SolrInputDocument document = new SolrInputDocument();");
+			tl(3, "indexer", classeNomSimple, "(document);");
+			tl(3, "SolrClient clientSolr = requeteSite_.getSiteContexte_().getClientSolr();");
+			tl(3, "clientSolr.add(document);");
+			tl(3, "clientSolr.commit();");
+			tl(2, "} catch(Exception e) {");
+			tl(3, "ExceptionUtils.rethrow(e);");
+			tl(2, "}");
 			l("\t}");
 
 			tl(0);
@@ -4447,17 +4460,21 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
 				tl(0);
 				tl(1, "public void desindexer", classeNomSimple, "() {");
+				tl(2, "try {");
 				tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
-				tl(2, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
-				tl(2, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
-				tl(2, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
-				tl(2, "siteContexte.setRequeteSite_(requeteSite);");
-				tl(2, "requeteSite.setSiteContexte_(siteContexte);");
-				tl(2, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
-				tl(2, "initLoin", classeNomSimple, "(siteContexte.getRequeteSite_());");
-				tl(2, "SolrClient clientSolr = siteContexte.getClientSolr();");
-				tl(2, "clientSolr.deleteById(", classeVarCleUnique, ".toString());");
-				tl(2, "clientSolr.commit();");
+				tl(3, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
+				tl(3, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
+				tl(3, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
+				tl(3, "siteContexte.setRequeteSite_(requeteSite);");
+				tl(3, "requeteSite.setSiteContexte_(siteContexte);");
+				tl(3, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
+				tl(3, "initLoin", classeNomSimple, "(siteContexte.getRequeteSite_());");
+				tl(3, "SolrClient clientSolr = siteContexte.getClientSolr();");
+				tl(3, "clientSolr.deleteById(", classeVarCleUnique, ".toString());");
+				tl(3, "clientSolr.commit();");
+				tl(2, "} catch(Exception e) {");
+				tl(3, "ExceptionUtils.rethrow(e);");
+				tl(2, "}");
 				tl(1, "}");
 			}
 		}

@@ -288,6 +288,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected String contextIconName;
 
+	protected String contextDescription;
+
 	protected Integer contextImageWidth;
 
 	protected Integer contextImageHeight;
@@ -2764,18 +2766,26 @@ public class WriteGenClass extends WriteClass {
 			}
 			l();
 			tl(1, "public void index", classSimpleName, "(SolrClient solrClient) {");
-			tl(2, "SolrInputDocument document = new SolrInputDocument();");
-			tl(2, "index", classSimpleName, "(document);");
-			tl(2, "solrClient.add(document);");
-			tl(2, "solrClient.commit();");
+			tl(2, "try {");
+			tl(3, "SolrInputDocument document = new SolrInputDocument();");
+			tl(3, "index", classSimpleName, "(document);");
+			tl(3, "solrClient.add(document);");
+			tl(3, "solrClient.commit();");
+			tl(2, "} catch(Exception e) {");
+			tl(3, "ExceptionUtils.rethrow(e);");
+			tl(2, "}");
 			l("\t}");
 			l();
 			tl(1, "public void index", classSimpleName, "() {");
-			tl(2, "SolrInputDocument document = new SolrInputDocument();");
-			tl(2, "index", classSimpleName, "(document);");
-			tl(2, "SolrClient solrClient = siteRequest_.getSiteContext_().getSolrClient();");
-			tl(2, "solrClient.add(document);");
-			tl(2, "solrClient.commit();");
+			tl(2, "try {");
+			tl(3, "SolrInputDocument document = new SolrInputDocument();");
+			tl(3, "index", classSimpleName, "(document);");
+			tl(3, "SolrClient solrClient = siteRequest_.getSiteContext_().getSolrClient();");
+			tl(3, "solrClient.add(document);");
+			tl(3, "solrClient.commit();");
+			tl(2, "} catch(Exception e) {");
+			tl(3, "ExceptionUtils.rethrow(e);");
+			tl(2, "}");
 			l("\t}");
 
 			tl(0);
@@ -2795,17 +2805,21 @@ public class WriteGenClass extends WriteClass {
 			if(StringUtils.isNotEmpty(classVarUniqueKey)) {
 				tl(0);
 				tl(1, "public void unindex", classSimpleName, "() {");
+				tl(2, "try {");
 				tl(2, "", classPartsSiteRequest.simpleName(languageName), " siteRequest = new ", classPartsSiteRequest.simpleName(languageName), "();");
-				tl(2, "siteRequest.initDeep", classPartsSiteRequest.simpleName(languageName), "();");
-				tl(2, classPartsSiteContext.simpleName(languageName), " siteContext = new ", classPartsSiteContext.simpleName(languageName), "();");
-				tl(2, "siteContext.initDeep", classPartsSiteContext.simpleName(languageName), "();");
-				tl(2, "siteContext.setSiteRequest_(siteRequest);");
-				tl(2, "siteRequest.setSiteContext_(siteContext);");
-				tl(2, "siteRequest.setSiteConfig_(siteContext.getSiteConfig());");
-				tl(2, "initDeep", classSimpleName, "(siteContext.getSiteRequest_());");
-				tl(2, "SolrClient solrClient = siteContext.getSolrClient();");
-				tl(2, "solrClient.deleteById(", classVarUniqueKey, ".toString());");
-				tl(2, "solrClient.commit();");
+				tl(3, "siteRequest.initDeep", classPartsSiteRequest.simpleName(languageName), "();");
+				tl(3, classPartsSiteContext.simpleName(languageName), " siteContext = new ", classPartsSiteContext.simpleName(languageName), "();");
+				tl(3, "siteContext.initDeep", classPartsSiteContext.simpleName(languageName), "();");
+				tl(3, "siteContext.setSiteRequest_(siteRequest);");
+				tl(3, "siteRequest.setSiteContext_(siteContext);");
+				tl(3, "siteRequest.setSiteConfig_(siteContext.getSiteConfig());");
+				tl(3, "initDeep", classSimpleName, "(siteContext.getSiteRequest_());");
+				tl(3, "SolrClient solrClient = siteContext.getSolrClient();");
+				tl(3, "solrClient.deleteById(", classVarUniqueKey, ".toString());");
+				tl(3, "solrClient.commit();");
+				tl(2, "} catch(Exception e) {");
+				tl(3, "ExceptionUtils.rethrow(e);");
+				tl(2, "}");
 				tl(1, "}");
 			}
 		}
