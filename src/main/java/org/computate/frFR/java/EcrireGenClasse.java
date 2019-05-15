@@ -2641,6 +2641,8 @@ public class EcrireGenClasse extends EcrireClasse {
 												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entiteVar, entiteValVar, entiteValVarNumero, ").f();");
 											else if("br".equals(element))
 												entiteValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
+											else if("td".equals(element))
+												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
 											else
 												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
 
@@ -2654,28 +2656,28 @@ public class EcrireGenClasse extends EcrireClasse {
 											xmlPart++;
 										}
 										else {
-//										else if(!StringUtils.equals(element, entiteXmlPile.get(xmlPart))) {
 											while(entiteXmlPile.size() > xmlPart) {
-//											for(int q = entiteXmlPile.size() - 1; q >= xmlPart; q--) {
 												entiteValsEcrivain.tl(1 + entiteXmlPile.size(), "} g(\"", entiteXmlPile.peek(), "\");");
 												entiteXmlPile.pop();
 												entiteNumeroPile.pop();
-//												xmlPart--;
 											}
-//											entiteValsEcrivain.tl(2 + xmlPart, "} g(\"", entiteXmlPile.get(xmlPart), "\");");
-											entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
+											if("i".equals(element))
+												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
+											else if("a".equals(element))
+												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entiteVar, entiteValVar, entiteValVarNumero, ").f();");
+											else if("br".equals(element))
+												entiteValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
+											else if("td".equals(element))
+												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
+											else
+												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
 
-											entiteXmlPile.push(element);
-											entiteNumeroPile.push(numero);
-											xmlPart++;
-	//										entiteValsEcrivain.t(1);
+											if(!"br".equals(element)) {
+												entiteXmlPile.push(element);
+												entiteNumeroPile.push(numero);
+												xmlPart++;
+											}
 										}
-	
-	//									if(entiteXmlPile.size() < (i + 1)) {
-	//										entiteValsEcrivain.t(2 + i, "{ e(\"p\").a(\"class\", \" ", css, cssNumero, "\").f();");
-	//										entiteValsEcrivain.t(2 + i, "} g(\"p\");");
-	//									}
-	//									else if(StringUtils)
 									}
 								}
 							}

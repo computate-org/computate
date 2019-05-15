@@ -1186,6 +1186,8 @@ public class WriteGenClass extends WriteClass {
 												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumber, "\").a(\"href\", ", entityVar, entityValVar, entityValVarNumber, ").f();");
 											else if("br".equals(element))
 												entityValsWriter.tl(2 + xmlPart, "e(\"", element, "\").fg();");
+											else if("td".equals(element))
+												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumber, "\").f();");
 											else
 												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumber, "\").f();");
 
@@ -1199,28 +1201,28 @@ public class WriteGenClass extends WriteClass {
 											xmlPart++;
 										}
 										else {
-//										else if(!StringUtils.equals(element, entityXmlStack.get(xmlPart))) {
 											while(entityXmlStack.size() > xmlPart) {
-//											for(int q = entityXmlStack.size() - 1; q >= xmlPart; q--) {
 												entityValsWriter.tl(1 + entityXmlStack.size(), "} g(\"", entityXmlStack.peek(), "\");");
 												entityXmlStack.pop();
 												entityNumberStack.pop();
-//												xmlPart--;
 											}
-//											entityValsWriter.tl(2 + xmlPart, "} g(\"", entityXmlStack.get(xmlPart), "\");");
-											entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumber, "\").f();");
+											if("i".equals(element))
+												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entityVar, entityValVar, entityValVarNumber, ", \" site-menu-icon ", css, cssNumber, "\").f();");
+											else if("a".equals(element))
+												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumber, "\").a(\"href\", ", entityVar, entityValVar, entityValVarNumber, ").f();");
+											else if("br".equals(element))
+												entityValsWriter.tl(2 + xmlPart, "e(\"", element, "\").fg();");
+											else if("td".equals(element))
+												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumber, "\").f();");
+											else
+												entityValsWriter.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumber, "\").f();");
 
-											entityXmlStack.push(element);
-											entityNumberStack.push(number);
-											xmlPart++;
-	//										entityValsWriter.t(1);
+											if(!"br".equals(element)) {
+												entityXmlStack.push(element);
+												entityNumberStack.push(number);
+												xmlPart++;
+											}
 										}
-	
-	//									if(entityXmlStack.size() < (i + 1)) {
-	//										entityValsWriter.t(2 + i, "{ e(\"p\").a(\"class\", \" ", css, cssNumber, "\").f();");
-	//										entityValsWriter.t(2 + i, "} g(\"p\");");
-	//									}
-	//									else if(StringUtils)
 									}
 								}
 							}

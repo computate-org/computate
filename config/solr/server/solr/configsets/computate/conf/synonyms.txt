@@ -1,6 +1,7 @@
 # Some synonym groups specific to this example
-GB,gib,gigabyte,gigabytes
-MB,mib,megabyte,megabytes
+gb,gib,gigabyte,gigabytes
+mb,mib,megabyte,megabytes
 Television, Televisions, TV, TVs
+vert.x,vertx
 #notice we use "gib" instead of "GiB" so any WordDelimiterFilter coming
 #after us won't split it into two words.
