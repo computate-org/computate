@@ -3,5 +3,6 @@ gb,gib,gigabyte,gigabytes
 mb,mib,megabyte,megabytes
 Television, Televisions, TV, TVs
 vert.x,vertx
+technology,tech
 #notice we use "gib" instead of "GiB" so any WordDelimiterFilter coming
 #after us won't split it into two words.
