@@ -1884,11 +1884,13 @@ public class EcrireGenClasse extends EcrireClasse {
 			String classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
 			String classePageCheminGen = (String)classeDoc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
 	
-			if(classePageUriMethode != null) {
-				tl(1, "public static final String ", classePageNomSimple, "_Uri", " = ", q(classePageUriMethode), ";");
-			}
-			if(classePageCheminGen != null) {
-				tl(1, "public static final String ", classePageNomSimple, "_ImageUri", " = ", q("/png", classePageUriMethode, "-999.png"), ";");
+			if(classePageNomSimple != null) {
+				if(classePageUriMethode != null) {
+					tl(1, "public static final String ", classePageNomSimple, "_Uri", " = ", q(classePageUriMethode), ";");
+				}
+				if(classePageCheminGen != null) {
+					tl(1, "public static final String ", classePageNomSimple, "_ImageUri", " = ", q("/png", classePageUriMethode, "-999.png"), ";");
+				}
 			}
 		}
 	}

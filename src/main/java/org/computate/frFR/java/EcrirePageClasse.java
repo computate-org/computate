@@ -1204,7 +1204,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 				l();
 				tl(1, "@Override public void htmlScripts", classeGenPageNomSimple, "() {");
-				t(2).e("script").da("src", "/static/js/", classeGenPageNomSimple, ".js").df().dgl("script");
+				t(2).e("script").da("src", "/static/js/", classePageNomSimple, ".js").df().dgl("script");
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classeApiUri)) {
@@ -1349,8 +1349,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(!classePageSimple) {
 					tl(1, "@Override public void htmlScript", classeGenPageNomSimple, "() {");
 					for(String classeApiMethode : classeApiMethodes) {
-						String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
-						String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
+						String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_stored_string");
+						String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_stored_string");
 						String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
 						String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
 		
@@ -1707,8 +1707,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						t(2).e("div").dfl();
 						l();
 						for(String classeApiMethode : classeApiMethodes) {
-							String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_frFR_stored_string");
-							String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_frFR_stored_string");
+							String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_stored_string");
+							String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_stored_string");
 							String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
 							String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
 			

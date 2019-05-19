@@ -926,11 +926,13 @@ public class WriteGenClass extends WriteClass {
 			String classPageSimpleName = (String)doc.get("classPageSimpleName" + classPageMethod  + "_stored_string");
 			String classePageCheminGen = (String)classDoc.get("classePageCheminGen" + classPageMethod  + "_stored_string");
 	
-			if(classPageUriMethod != null) {
-				tl(1, "public static final String ", classPageSimpleName, "_Uri", " = ", q(classPageUriMethod), ";");
-			}
-			if(classePageCheminGen != null) {
-				tl(1, "public static final String ", classPageSimpleName, "_ImageUri", " = ", q("/png", classPageUriMethod, "-999.png"), ";");
+			if(classPageSimpleName != null) {
+				if(classPageUriMethod != null) {
+					tl(1, "public static final String ", classPageSimpleName, "_Uri", " = ", q(classPageUriMethod), ";");
+				}
+				if(classePageCheminGen != null) {
+					tl(1, "public static final String ", classPageSimpleName, "_ImageUri", " = ", q("/png", classPageUriMethod, "-999.png"), ";");
+				}
 			}
 		}
 	}

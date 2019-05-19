@@ -2617,9 +2617,9 @@ public class IndexClass extends WatchClassBase {
 				indexStoreSolrRegex(classDoc, "classApiDescription" + classApiMethod, "ApiDescription" + classApiMethod, classComment, regexLanguage(classLanguageName, "(class)?Description" + classApiMethod + "", classComment));
 
 				if(classExtendsBase && classSuperDoc != null) {
-					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_" + classLanguageName + "_stored_string"));
-					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Request", (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Request" + "_" + classLanguageName + "_stored_string"));
-					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_" + classLanguageName + "_stored_string"));
+					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod, (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "_stored_string"));
+					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Request", (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Request" + "_stored_string"));
+					indexStoreSolr(classDoc, "classSuperApiOperationId" + classApiMethod + "Response", (String)classSuperDoc.get("classApiOperationId" + classApiMethod + "Response" + "_stored_string"));
 				}
 
 				String classPageSimpleNameMethode = regex("^(class)?Page" + classApiMethod + ":\\s*(.*)", classComment);
