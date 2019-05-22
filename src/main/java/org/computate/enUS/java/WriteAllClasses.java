@@ -94,7 +94,7 @@ public class WriteAllClasses extends WritePageClass {
 					classSimpleNameGenApiService = (String)doc.get("classSimpleNameGenApiService_" + languageName + "_stored_string");
 					classVarPrimaryKey = (String)doc.get("classVarPrimaryKey_" + languageName + "_stored_string");
 					classVarUniqueKey = (String)doc.get("classVarUniqueKey_" + languageName + "_stored_string");
-					classApiUri = (String)doc.get("classApiUri_" + languageName + "_stored_string");
+					classApiUri = (String)doc.get("classApiUri_stored_string");
 					classComment = (String)doc.get("classComment_" + languageName + "_stored_string");
 					classImportsGen = (List<String>)doc.get("classImportsGen_" + languageName + "_stored_strings");
 					classSuperWriteMethods = (List<String>)doc.get("classSuperWriteMethods_stored_strings");

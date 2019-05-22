@@ -79,13 +79,13 @@ public class WritePageClass extends WriteApiClass {
 			}
 
 			wForm.t(3).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-			if(entityModify) {
+			if(entityDefine) {
 
-				// entityModify: true
+				// entityDefine: true
 
 				if("Page".equals(classApiMethodMethod)) {
 					tIndex = 1;
-					wForm.t(tIndex + 3).be("form").da("id", entityVar, "Form").da("style", "display: inline-block; ").dfl();
+					wForm.t(tIndex + 3).be("form").da("action", classeApiUri).da("id", entityVar, "Form").da("style", "display: inline-block; ").dfl();
 				}
 				if("LocalDate".equals(entitySimpleName)) {
 					wForm.tl(tIndex + 4, entitySimpleNameComplete, " val = o.get", entityVarCapitalized, "();");
@@ -308,7 +308,7 @@ public class WritePageClass extends WriteApiClass {
 			}
 			else {
 
-				// entityModify: false
+				// entityDefine: false
 
 				wForm.t(tIndex + 4).be("div").da("class", "").dfl();
 				wForm.t(tIndex + 5).e("label").da("class", "").df().dsxq(entityDisplayName).dgl("label");
@@ -456,7 +456,7 @@ public class WritePageClass extends WriteApiClass {
 								entityIndexed = (Boolean)entitySolrDocument.get("entityIndexed_stored_boolean");
 								entityStored = (Boolean)entitySolrDocument.get("entityStored_stored_boolean");
 								entityMultiline = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityMultiline_stored_boolean"));
-								entityModify = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityModify_stored_boolean"));
+								entityDefine = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityDefine_stored_boolean"));
 	
 								if(entityHtmlRow != null && pageVars.contains(entityVar)) {
 									if(entityWrap) {
@@ -1012,15 +1012,15 @@ public class WritePageClass extends WriteApiClass {
 					tl(2, "OperationRequest operationRequest = requeteSite_.getOperationRequest();");
 					tl(2, "JsonObject params = operationRequest.getParams();");
 					tl(2, "if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0) {");
-					t(3).l("//", contextNoNameFound);
+					t(3).l("// contextNoNameFound : ", contextNoNameFound);
 					l();
 					t(3).be("h1").dfl();
 					tl(4, "if(contextIconCssClasses != null)");
 					tl(5, "e(\"i\").a(\"class\", contextIconCssClasses + \" site-menu-icon \").f().g(\"i\");");
 					t(4).e("span").da("class", " ").df().dsxq(contextNoNameFound).dgl("span");
 					t(3).bgl("h1");
-					tl(2, "} else if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\") == null && params.getJsonObject(\"query\").getJsonArray(\"fq\").size() == 0) {");
-					t(3).l("// ", contextAName);
+					tl(2, "} else if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
+					t(3).l("// contextAName : ", contextAName);
 					tl(3, "if(pageH1 != null) {");
 					t(4).be("h1").dfl();
 					tl(5, "if(contextIconCssClasses != null)");
@@ -1032,6 +1032,8 @@ public class WritePageClass extends WriteApiClass {
 						t(5).e("span").da("class", " ").df().dsxq(contextAName).dgl("span");
 		
 					t(4).bgl("h1");
+					tl(4, classSimpleName, " o = list", classSimpleName, ".get(0);");
+
 					tl(3, "}");
 		
 					if(classEntityVars != null && classEntityVars.contains("pageH2")) {
@@ -1051,7 +1053,7 @@ public class WritePageClass extends WriteApiClass {
 					}
 		
 					tl(2, "} else {");
-					t(3).l("// multiple ", contextNamePlural);
+					t(3).l("// contextNamePlural : multiple ", contextNamePlural);
 					l();
 					t(3).be("h1").dfl();
 					tl(4, "if(contextIconCssClasses != null)");
@@ -1184,14 +1186,14 @@ public class WritePageClass extends WriteApiClass {
 
 					// singulier part 2
 					l();
-					tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\") == null && params.getJsonObject(\"query\").getJsonArray(\"fq\").size() == 0) {");
+					tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
 					t(3).l(classSimpleName, " o = list", classSimpleName, ".first();");
 					l();
 					t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show w3-white ").dfl();
 					if(classVarPrimaryKey != null) {
 						l();
 						tl(4, "if(o.get", StringUtils.capitalize(classVarPrimaryKey), "() != null) {");
-						t(5).be("form").da("id", classSimpleName, "Form").da("style", "display: inline-block; ").dfl();
+						t(5).be("form").da("action", classApiUri).da("id", classSimpleName, "Form").da("style", "display: inline-block; ").dfl();
 						t(6).e("input").l();
 						t(6).dal("name", classVarPrimaryKey);
 						t(6).dal("class", "value", StringUtils.capitalize(classVarPrimaryKey));
@@ -1223,16 +1225,24 @@ public class WritePageClass extends WriteApiClass {
 			
 							if("application/json".equals(classApiMediaTypeMethod) && !"GET".equals(classApiMethodMethod)) {
 								Integer tab = classApiMethodMethod.contains("PATCH") || classApiMethodMethod.contains("DELETE") || classApiMethodMethod.contains("POST") ? 0 : 1;
-								String methodTitle = null;
+								String methodTitleFiltres = null;
+								String methodTitleValeurs = null;
 			
-								if("POST".equals(classApiMethodMethod))
-									methodTitle = "Create " + contextAName;
-								else if("PUT".equals(classApiMethodMethod))
-									methodTitle = "Replace " + contextTheName;
-								else if("PATCH".equals(classApiMethodMethod))
-									methodTitle = "Modify des " + contextNamePlural;
-								else if("DELETE".equals(classApiMethodMethod))
-									methodTitle = "Delete des " + contextNamePlural;
+								if("POST".equals(classApiMethodMethod)) {
+									methodTitleValeurs = "Create " + contextAName;
+								}
+								else if("PUT".equals(classApiMethodMethod)) {
+									methodTitleFiltres = "Searchr des " + contextAName;
+									methodTitleValeurs = "Replace " + contextTheName;
+								}
+								else if("PATCH".equals(classApiMethodMethod)) {
+									methodTitleFiltres = "Searchr des " + contextAName;
+									methodTitleValeurs = "Modify des " + contextNamePlural;
+								}
+								else if("DELETE".equals(classApiMethodMethod)) {
+									methodTitleFiltres = "Searchr des " + contextAName;
+									methodTitleValeurs = "Delete des " + contextNamePlural;
+								}
 			
 			
 								l();
@@ -1241,21 +1251,21 @@ public class WritePageClass extends WriteApiClass {
 								t(2 + tab).e("button").l();
 								t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contextColor, " ");
 								t(3 + tab).dal("onclick", "$('#", classApiOperationIdMethod, "Modale').show(); ");
-								t(3 + tab).df().dsxq(methodTitle).l();
+								t(3 + tab).df().dsxq(methodTitleValeurs).l();
 								t(2 + tab).dgl("button");
 								{ t(2 + tab).be("div").da("id", classApiOperationIdMethod, "Modale").da("class", "w3-modal ").dfl();
 									{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();
 										{ t(4 + tab).be("header").da("class", "w3-container w3-", contextColor, " ").dfl();
 											t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classApiOperationIdMethod, "Modale').hide(); ").df().dsxq("×").dgl("span");
-											t(5 + tab).e("h2").da("class", "").df().dsxq(methodTitle).dgl("h2");
+											t(5 + tab).e("h2").da("class", "").df().dsxq(methodTitleValeurs).dgl("h2");
 										} t(4 + tab).bgl("header");
 			
 										{ t(4 + tab).be("div").da("class", "w3-container ").dfl();
 											tl(5+ tab, classSimpleName, " o = new ", classSimpleName, "();");
 											if("PATCH".equals(classApiMethodMethod)) {
-		
 												l();
-												{ t(5 + tab).be("form").da("id", classApiOperationIdMethod, "FormFilters").dfl();
+												t(5 + tab).l("// FormFilters ", classApiMethodMethod);
+												{ t(5 + tab).be("form").da("action", classApiUri).da("id", classApiOperationIdMethod, "FormFilters").dfl();
 												tl(6 + tab, "htmlFormSearch", classSimpleName, "(o);");
 												} t(5 + tab).bgl("form");
 												t(5 + tab).e("button").l();
@@ -1263,12 +1273,13 @@ public class WritePageClass extends WriteApiClass {
 				
 												tl(6 + tab, ".a(\"onclick\", \"search", classSimpleName, "($('#", classApiOperationIdMethod, "FormFilters')); \")");
 				
-												t(6 + tab).df().dsxq(methodTitle).l();
+												t(6 + tab).df().dsxq(methodTitleFiltres).l();
 												t(5 + tab).dgl("button");
 												l();
 												
 												l();
-												{ t(5 + tab).be("form").da("id", classApiOperationIdMethod, "FormValues").dfl();
+												t(5 + tab).l("// FormValues ", classApiMethodMethod);
+												{ t(5 + tab).be("form").da("action", classApiUri).da("id", classApiOperationIdMethod, "FormValues").dfl();
 			
 												if("DELETE".equals(classApiMethodMethod))
 													tl(6 + tab, "htmlFormPATCH", classSimpleName, "(o);");
@@ -1292,13 +1303,14 @@ public class WritePageClass extends WriteApiClass {
 												else
 													t(6 + tab).dal("onclick", classApiOperationIdMethod, "(); ");
 				
-												t(6 + tab).df().dsxq(methodTitle).l();
+												t(6 + tab).df().dsxq(methodTitleValeurs).l();
 												t(5 + tab).dgl("button");
 												l();
 											}
 											else {
 												l();
-												{ t(5 + tab).be("form").da("id", classApiOperationIdMethod, "Form").dfl();
+												t(5 + tab).l("// Form ", classApiMethodMethod);
+												{ t(5 + tab).be("form").da("action", classApiUri).da("id", classApiOperationIdMethod, "Form").dfl();
 			
 												if("DELETE".equals(classApiMethodMethod))
 													tl(6 + tab, "htmlFormPATCH", classSimpleName, "(o);");
@@ -1325,7 +1337,7 @@ public class WritePageClass extends WriteApiClass {
 												else
 													t(6 + tab).dal("onclick", classApiOperationIdMethod, "(); ");
 				
-												t(6 + tab).df().dsxq(methodTitle).l();
+												t(6 + tab).df().dsxq(methodTitleValeurs).l();
 												t(5 + tab).dgl("button");
 												l();
 											}

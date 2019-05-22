@@ -468,7 +468,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeNomSimpleGenApiService = (String)doc.get("classeNomSimpleGenApiService_" + langueNom + "_stored_string");
 					classeVarClePrimaire = (String)doc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
 					classeVarCleUnique = (String)doc.get("classeVarCleUnique_" + langueNom + "_stored_string");
-					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
+					classeApiUri = (String)doc.get("classeApiUri_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
 					classeSuperEcrireMethodes = (List<String>)doc.get("classeSuperEcrireMethodes_stored_strings");

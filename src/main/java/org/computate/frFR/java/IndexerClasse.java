@@ -2649,8 +2649,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityAdd
 	 * r: entiteSupprimer
 	 * r.enUS: entityDelete
-	 * r: entiteModifier
-	 * r.enUS: entityModify
 	 * r: entiteRecharger
 	 * r.enUS: entityRefresh
 	 * r: entiteMultiligne
@@ -4021,64 +4019,6 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteSetter = classeQdox.getMethodBySignature("set" + entiteVarCapitalise, new ArrayList<JavaType>() {{ add(classeQdoxString); }}, true);
 						} catch (Exception e) {
 						}
-
-						Boolean entiteDefinir = 
-								entiteNomCanonique.equals(VAL_nomCanoniqueString)
-								|| classePartsChaine != null && entiteNomCanonique.equals(classePartsChaine.nomCanonique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueBoolean)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueInteger)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueBigDecimal)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueDouble)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueFloat)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueLong)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueZonedDateTime)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueLocalDateTime)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueLocalDate)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueTimestamp)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueDate)
-								|| classePartsChaine != null && entiteNomCanonique.equals(VAL_nomCanoniqueList) && classePartsChaine.nomCanonique.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueString.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueList) && VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)
-								|| classePartsChaine != null && entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && classePartsChaine.nomCanonique.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueString.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueHashSet) && VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
-								|| classePartsChaine != null && entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && classePartsChaine.nomCanonique.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueString.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueBoolean.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueLocalDate.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueTimestamp.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueDate.equals(entiteNomCanoniqueGenerique)
-								|| entiteNomCanonique.equals(VAL_nomCanoniqueArrayList) && VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
-								|| entiteSetter != null
-								;
 						
 						JavaClass entiteClasseQdoxBase = null;
 						JavaClass entiteClasseSuperQdox = entiteClasseQdox.getSuperJavaClass();
@@ -4340,7 +4280,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteRechercher", regexTrouve("^(entite)?Rechercher:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteAjouter", regexTrouve("^(entite)?Ajouter:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteSupprimer", regexTrouve("^(entite)?Supprimer:\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteModifier", !regexTrouve("^(entite)?Modifier:\\s*(false)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteDefinir", regexTrouve("^(entite)?Definir:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteRecharger", regexTrouve("^(entite)?Recharger:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^(entite)?Multiligne:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^(entite)?Cles:\\s*(true)$", methodeCommentaire));
@@ -4454,7 +4394,6 @@ public class IndexerClasse extends RegarderClasseBase {
 
 								if(listeRechercheVar.size() > 0) {
 									SolrDocument docEntite = listeRechercheClasse.get(0);
-									entiteDefinir = false;
 
 									indexerStockerSolr(entiteDoc, "entiteAttribuer", true);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimple", entiteAttribuerNomSimple);
@@ -4475,7 +4414,6 @@ public class IndexerClasse extends RegarderClasseBase {
 								}
 							}
 						}
-						stockerSolr(entiteDoc, "entiteDefinir", entiteDefinir);
 						
 						for(JavaAnnotation annotation : annotations) {
 							String entiteAnnotationLangue = indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAnnotations", annotation.getType().getCanonicalName());
@@ -4601,6 +4539,12 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Integer";
 								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueInteger;
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
+								entiteNomSimpleVertxJson = "JsonArray";
+								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
+								entiteListeNomSimpleVertxJson = "String";
+								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							}
 							stockerSolr(entiteDoc, "entiteListeNomSimpleVertxJson", entiteListeNomSimpleVertxJson);
 							stockerSolr(entiteDoc, "entiteListeNomCanoniqueVertxJson", entiteListeNomCanoniqueVertxJson);
@@ -5288,7 +5232,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				if(NumberUtils.isCreatable(contexteImageHauteurStr))
 					indexerStockerSolr(langueNom, classeDoc, "contexteImageHauteur", Integer.parseInt(contexteImageHauteurStr));
 					
-				contexteUnNom = regexLangue(langueNom, "(contexte)?UnNomMinuscule", classeCommentaire);
+				contexteUnNom = regexLangue(langueNom, "(contexte)?UnNom", classeCommentaire);
 				if(contexteUnNom != null) {
 					if("frFR".equals(langueNom)) {
 						indexerStockerSolr(langueNom, classeDoc, "contexteUnNom", contexteUnNom); 

@@ -463,7 +463,7 @@ public class WriteApiClass extends WriteGenClass {
 							////////////////////////
 							o = wApiGeneratePatch;
 
-							if(classSaved && BooleanUtils.isTrue(entityDefine)) {
+							if(classSaved) {
 								Integer tBase = 3;
 								if(BooleanUtils.isTrue(entityAttribute)) {
 									if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
@@ -534,14 +534,19 @@ public class WriteApiClass extends WriteGenClass {
 									if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
 						
 										tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
-										tl(tBase + 3, "o2.set", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(methodName));");
-										tl(tBase + 3, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_addA);");
-										tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", o2.get", entityVarCapitalized, "()", ", ", classVarPrimaryKey, "));");
+										tl(tBase + 3, "requestJson.getJsonArray(methodName).forEach((v) -> {");
+										tl(tBase + 4, "o2.add", entityVarCapitalized, "((", entityListSimpleNameVertxJson, ")v);");
+										tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_addA);");
+										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", o2.get", entityVarCapitalized, "()", ", ", classVarPrimaryKey, "));");
+										tl(tBase + 3, "});");
 						
 										tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
-										tl(tBase + 3, "o2.set", entityVarCapitalized, "(requestJson.get", entitySimpleNameVertxJson, "(methodName));");
-										tl(tBase + 3, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setD);");
-										tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.get", entityVarCapitalized, "(), ", classVarPrimaryKey, "));");
+										tl(tBase + 3, "o2.get", entityVarCapitalized, "().clear();");
+										tl(tBase + 3, "requestJson.getJsonArray(methodName).forEach((v) -> {");
+										tl(tBase + 4, "o2.add", entityVarCapitalized, "((", entityListSimpleNameVertxJson, ")v);");
+										tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setD);");
+										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.get", entityVarCapitalized, "(), ", classVarPrimaryKey, "));");
+										tl(tBase + 3, "});");
 									}
 									else {
 						
@@ -1534,6 +1539,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(9, "userSite.setUserLastName(principalJson.getString(\"family_name\"));");
 			tl(9, "userSite.setUserId(principalJson.getString(\"sub\"));");
 			tl(9, "userSite.initDeepForClass(siteRequest);");
+			tl(9, "userSite.indexForClass();");
 			tl(9, "siteRequest.setSiteUser(userSite);");
 			tl(9, "eventHandler.handle(Future.succeededFuture());");
 			tl(8, "} else {");

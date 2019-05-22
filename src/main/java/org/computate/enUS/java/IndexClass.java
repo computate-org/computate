@@ -1574,64 +1574,6 @@ public class IndexClass extends WatchClassBase {
 							entitySetter = classQdox.getMethodBySignature("set" + entityVarCapitalized, new ArrayList<JavaType>() {{ add(classQdoxString); }}, true);
 						} catch (Exception e) {
 						}
-
-						Boolean entityDefined = 
-								entityCanonicalName.equals(VAL_canonicalNameString)
-								|| classPartsChain != null && entityCanonicalName.equals(classPartsChain.canonicalName)
-								|| entityCanonicalName.equals(VAL_canonicalNameBoolean)
-								|| entityCanonicalName.equals(VAL_canonicalNameInteger)
-								|| entityCanonicalName.equals(VAL_canonicalNameBigDecimal)
-								|| entityCanonicalName.equals(VAL_canonicalNameDouble)
-								|| entityCanonicalName.equals(VAL_canonicalNameFloat)
-								|| entityCanonicalName.equals(VAL_canonicalNameLong)
-								|| entityCanonicalName.equals(VAL_canonicalNameZonedDateTime)
-								|| entityCanonicalName.equals(VAL_canonicalNameLocalDateTime)
-								|| entityCanonicalName.equals(VAL_canonicalNameLocalDate)
-								|| entityCanonicalName.equals(VAL_canonicalNameTimestamp)
-								|| entityCanonicalName.equals(VAL_canonicalNameDate)
-								|| classPartsChain != null && entityCanonicalName.equals(VAL_canonicalNameList) && classPartsChain.canonicalName.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameString.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameInteger.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameBigDecimal.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameZonedDateTime.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameList) && VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)
-								|| classPartsChain != null && entityCanonicalName.equals(VAL_canonicalNameHashSet) && classPartsChain.canonicalName.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameString.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameInteger.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameBigDecimal.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameZonedDateTime.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameHashSet) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
-								|| classPartsChain != null && entityCanonicalName.equals(VAL_canonicalNameArrayList) && classPartsChain.canonicalName.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameString.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameBoolean.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameInteger.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameBigDecimal.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameDouble.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameFloat.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameZonedDateTime.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLocalDateTime.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLocalDate.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameTimestamp.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameDate.equals(entityCanonicalNameGeneric)
-								|| entityCanonicalName.equals(VAL_canonicalNameArrayList) && VAL_canonicalNameLong.equals(entityCanonicalNameGeneric)
-								|| entitySetter != null
-								;
 						
 						JavaClass entityClassQdoxBase = null;
 						JavaClass entitySuperClassQdox = entityClassQdox.getSuperJavaClass();
@@ -1893,7 +1835,7 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "entitySearch", regexFound("^(entity)?Search:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityAdd", regexFound("^(entity)?Add:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityDelete", regexFound("^(entity)?Delete:\\s*(true)$", methodComment));
-						indexStoreSolr(entityDoc, "entityModify", !regexFound("^(entity)?Modify:\\s*(false)$", methodComment));
+						indexStoreSolr(entityDoc, "entityDefined", regexFound("^(entity)?Definir:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityRefresh", regexFound("^(entity)?Refresh:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityMultiline", regexFound("^(entity)?Multiline:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityKeys", regexFound("^(entity)?Keys:\\s*(true)$", methodComment));
@@ -2007,7 +1949,6 @@ public class IndexClass extends WatchClassBase {
 
 								if(searchListVar.size() > 0) {
 									SolrDocument docEntity = searchListClass.get(0);
-									entityDefined = false;
 
 									indexStoreSolr(entityDoc, "entityAttribute", true);
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeSimpleName", entityAttributeSimpleName);
@@ -2028,7 +1969,6 @@ public class IndexClass extends WatchClassBase {
 								}
 							}
 						}
-						storeSolr(entityDoc, "entityDefined", entityDefined);
 						
 						for(JavaAnnotation annotation : annotations) {
 							String entityAnnotationLanguage = indexStoreSolr(classLanguageName, entityDoc, "entityAnnotations", annotation.getType().getCanonicalName());
@@ -2154,6 +2094,12 @@ public class IndexClass extends WatchClassBase {
 								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entityListSimpleNameVertxJson = "Integer";
 								entityListCanonicalNameVertxJson = VAL_canonicalNameInteger;
+							}
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameString)) {
+								entitySimpleNameVertxJson = "JsonArray";
+								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
+								entityListSimpleNameVertxJson = "String";
+								entityListCanonicalNameVertxJson = VAL_canonicalNameString;
 							}
 							storeSolr(entityDoc, "entityListSimpleNameVertxJson", entityListSimpleNameVertxJson);
 							storeSolr(entityDoc, "entityListCanonicalNameVertxJson", entityListCanonicalNameVertxJson);
@@ -2841,7 +2787,7 @@ public class IndexClass extends WatchClassBase {
 				if(NumberUtils.isCreatable(contextImageHeightStr))
 					indexStoreSolr(languageName, classDoc, "contextImageHeight", Integer.parseInt(contextImageHeightStr));
 					
-				contextAName = regexLanguage(languageName, "(context)?ANameLowercase", classComment);
+				contextAName = regexLanguage(languageName, "(context)?UnNom", classComment);
 				if(contextAName != null) {
 					if("frFR".equals(languageName)) {
 						indexStoreSolr(languageName, classDoc, "contextAName", contextAName); 
