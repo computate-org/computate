@@ -3563,14 +3563,18 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		if(classeCommentaire != null) {
 
-			Matcher classeValsRecherche = Pattern.compile("^(classe)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeValsRecherche = Pattern.compile("^(classe)?Val(:([^:\n]+):)?\\.(\\w+)\\.([^:\n]+):(.*)", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeValsTrouves = classeValsRecherche.find();
 			while(classeValsTrouves) {
-				String classeValVar = classeValsRecherche.group(2);
-				String classeValLangue = classeValsRecherche.group(3);
-				String classeValValeur = classeValsRecherche.group(4);
+				String classeValVar = classeValsRecherche.group(4);
+				String classeValLangue = classeValsRecherche.group(5);
+				String classeValCode = classeValsRecherche.group(3);
+				String classeValValeur = classeValsRecherche.group(6);
+				if(classeValCode == null)
+					classeValCode = "";
 				stockerListeSolr(classeDoc, "classeValsVar", classeValVar);
 				stockerListeSolr(classeDoc, "classeValsLangue", classeValLangue);
+				stockerListeSolr(classeDoc, "classeValsCode", classeValCode);
 				stockerListeSolr(classeDoc, "classeValsValeur", classeValValeur);
 				classeValsTrouves = classeValsRecherche.find();
 			}
@@ -4138,20 +4142,25 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						if(methodeCommentaire != null) {
 
-							Matcher entiteValsRecherche = Pattern.compile("^(entite)?Val\\.(\\w+)(\\.(\\w+))?:(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+							Matcher entiteValsRecherche = Pattern.compile("^(entite)?Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?:(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
 							boolean entiteValsTrouves = entiteValsRecherche.find();
 							while(entiteValsTrouves) {
-								String entiteValVar = entiteValsRecherche.group(2);
-								String entiteValLangue = entiteValsRecherche.group(4);
-								String entiteValValeur = entiteValsRecherche.group(5);
+								String entiteValVar = entiteValsRecherche.group(4);
+								String entiteValLangue = entiteValsRecherche.group(6);
+								String entiteValCode = entiteValsRecherche.group(3);
+								String entiteValValeur = entiteValsRecherche.group(7);
+								if(entiteValCode == null)
+									entiteValCode = "";
 								if(entiteValLangue == null) {
 									stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
 									stockerListeSolr(entiteDoc, "entiteValsLangue", "");
+									stockerListeSolr(entiteDoc, "entiteValsCode", entiteValCode);
 									stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
 								}
 								else {
 									stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
 									stockerListeSolr(entiteDoc, "entiteValsLangue", entiteValLangue);
+									stockerListeSolr(entiteDoc, "entiteValsCode", entiteValCode);
 									stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
 								}
 								entiteValsTrouves = entiteValsRecherche.find();

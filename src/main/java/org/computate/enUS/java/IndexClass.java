@@ -1118,14 +1118,18 @@ public class IndexClass extends WatchClassBase {
 
 		if(classComment != null) {
 
-			Matcher classValsSearch = Pattern.compile("^(class)?Val\\.(\\w+)\\.(\\w+):(.*)", Pattern.MULTILINE).matcher(classComment);
+			Matcher classValsSearch = Pattern.compile("^(class)?Val(:([^:\n]+):)?\\.(\\w+)\\.([^:\n]+):(.*)", Pattern.MULTILINE).matcher(classComment);
 			boolean classValsFound = classValsSearch.find();
 			while(classValsFound) {
-				String classValVar = classValsSearch.group(2);
-				String classValLanguage = classValsSearch.group(3);
-				String classValValue = classValsSearch.group(4);
+				String classValVar = classValsSearch.group(4);
+				String classValLanguage = classValsSearch.group(5);
+				String classValCode = classValsSearch.group(3);
+				String classValValue = classValsSearch.group(6);
+				if(classValCode == null)
+					classValCode = "";
 				storeListSolr(classDoc, "classValsVar", classValVar);
 				storeListSolr(classDoc, "classValsLanguage", classValLanguage);
+				storeListSolr(classDoc, "classValsCode", classValCode);
 				storeListSolr(classDoc, "classValsValue", classValValue);
 				classValsFound = classValsSearch.find();
 			}
@@ -1693,20 +1697,25 @@ public class IndexClass extends WatchClassBase {
 
 						if(methodComment != null) {
 
-							Matcher entityValsSearch = Pattern.compile("^(entity)?Val\\.(\\w+)(\\.(\\w+))?:(.*)", Pattern.MULTILINE).matcher(methodComment);
+							Matcher entityValsSearch = Pattern.compile("^(entity)?Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?:(.*)", Pattern.MULTILINE).matcher(methodComment);
 							boolean entityValsFound = entityValsSearch.find();
 							while(entityValsFound) {
-								String entityValVar = entityValsSearch.group(2);
-								String entityValLanguage = entityValsSearch.group(4);
-								String entityValValue = entityValsSearch.group(5);
+								String entityValVar = entityValsSearch.group(4);
+								String entityValLanguage = entityValsSearch.group(6);
+								String entityValCode = entityValsSearch.group(3);
+								String entityValValue = entityValsSearch.group(7);
+								if(entityValCode == null)
+									entityValCode = "";
 								if(entityValLanguage == null) {
 									storeListSolr(entityDoc, "entityValsVar", entityValVar);
 									storeListSolr(entityDoc, "entityValsLanguage", "");
+									storeListSolr(entityDoc, "entityValsCode", entityValCode);
 									storeListSolr(entityDoc, "entityValsValue", entityValValue);
 								}
 								else {
 									storeListSolr(entityDoc, "entityValsVar", entityValVar);
 									storeListSolr(entityDoc, "entityValsLanguage", entityValLanguage);
+									storeListSolr(entityDoc, "entityValsCode", entityValCode);
 									storeListSolr(entityDoc, "entityValsValue", entityValValue);
 								}
 								entityValsFound = entityValsSearch.find();

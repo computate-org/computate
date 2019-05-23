@@ -85,7 +85,7 @@ public class WritePageClass extends WriteApiClass {
 
 				if("Page".equals(classApiMethodMethod)) {
 					tIndex = 1;
-					wForm.t(tIndex + 3).be("form").da("action", classeApiUri).da("id", entityVar, "Form").da("style", "display: inline-block; ").dfl();
+					wForm.t(tIndex + 3).be("form").da("action", classApiUri).da("id", entityVar, "Form").da("style", "display: inline-block; ").dfl();
 				}
 				if("LocalDate".equals(entitySimpleName)) {
 					wForm.tl(tIndex + 4, entitySimpleNameComplete, " val = o.get", entityVarCapitalized, "();");

@@ -35,7 +35,7 @@ import org.apache.solr.common.SolrDocument;
  */  
 public class EcrireGenClasse extends EcrireClasse { 
 
-	public static final String[] HTML_ELEMENTS = new String[] { "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code", "br" };
+	public static final String[] HTML_ELEMENTS = new String[] { "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code", "br", "dd", "dt" };
 
 	/**
 	 * Var.enUS: classDirPathGen
@@ -2417,6 +2417,12 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classWriteWriter
 	 * r: classeMethodeVar
 	 * r.enUS: classMethodVar
+	 * r: classeEntiteVars
+	 * r.enUS: classEntityVars
+	 * r: UtilisateurId
+	 * r.enUS: UserId
+	 * r: utilisateurId
+	 * r.enUS: userId
 	 * 
 	 * r: nomSimple
 	 * r.enUS: simpleName
@@ -2565,6 +2571,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			ToutEcrivain entiteValsEcrivain = ToutEcrivain.create();
 			List<String> entiteValsVar = (List<String>)doc.get("entiteValsVar_stored_strings");
 			List<String> entiteValsLangue = (List<String>)doc.get("entiteValsLangue_stored_strings");
+			List<String> entiteValsCode = (List<String>)doc.get("entiteValsCode_stored_strings");
 			List<String> entiteValsValeur = (List<String>)doc.get("entiteValsValeur_stored_strings");
 			if(entiteValsVar != null && entiteValsLangue != null && entiteValsValeur != null) {
 				String entiteValVarAncien = null;
@@ -2573,6 +2580,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				String entiteValLangue = null;
 				String entiteValVarLangue = null;
 				String entiteValVarLangueAncien = null;
+				String entiteValCode = null;
 				String entiteValValeur = null;
 	
 				entiteXmlPile = new Stack<String>();
@@ -2583,6 +2591,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(StringUtils.isBlank(entiteValLangue))
 						entiteValLangue = langueNom;
 					entiteValVarLangue = entiteValVar + entiteValLangue;
+					entiteValCode = entiteValsCode.get(j);
 					entiteValValeur = entiteValsValeur.get(j);
 	
 					Integer xmlPart = 0;
@@ -2685,7 +2694,15 @@ public class EcrireGenClasse extends EcrireClasse {
 							}
 							if(html && !"i".equals(entiteXmlPile.peek())) {
 								Integer p = entiteXmlPile.size();
-								entiteValsEcrivain.tl(2 + p, "sx(", entiteVar, entiteValVar, entiteValVarNumero, ");");
+								if(StringUtils.isEmpty(entiteValCode)) {
+									entiteValsEcrivain.tl(2 + p, "sx(", entiteVar, entiteValVar, entiteValVarNumero, ");");
+								}
+								else {
+									if(classeEntiteVars.contains("utilisateurId"))
+										entiteValsEcrivain.tl(2 + p, "sx(utilisateurId == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
+									else
+										entiteValsEcrivain.tl(2 + p, "sx(requeteSite_.getUtilisateurId() == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
+								}
 							}
 						}
 					}

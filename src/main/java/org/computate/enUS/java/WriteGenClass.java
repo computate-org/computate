@@ -32,7 +32,7 @@ import org.apache.solr.common.SolrDocument;
  **/
 public class WriteGenClass extends WriteClass {
 
-	public static final String[] HTML_ELEMENTS = new String[] { "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code", "br" };
+	public static final String[] HTML_ELEMENTS = new String[] { "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code", "br", "dd", "dt" };
 
 	protected String classDirPathGen;
 
@@ -1110,6 +1110,7 @@ public class WriteGenClass extends WriteClass {
 			AllWriter entityValsWriter = AllWriter.create();
 			List<String> entityValsVar = (List<String>)doc.get("entityValsVar_stored_strings");
 			List<String> entityValsLanguage = (List<String>)doc.get("entityValsLanguage_stored_strings");
+			List<String> entityValsCode = (List<String>)doc.get("entityValsCode_stored_strings");
 			List<String> entityValsValue = (List<String>)doc.get("entityValsValue_stored_strings");
 			if(entityValsVar != null && entityValsLanguage != null && entityValsValue != null) {
 				String entityValVarOld = null;
@@ -1118,6 +1119,7 @@ public class WriteGenClass extends WriteClass {
 				String entityValLanguage = null;
 				String entityValVarLanguage = null;
 				String entityValVarLanguageOld = null;
+				String entityValCode = null;
 				String entityValValue = null;
 	
 				entityXmlStack = new Stack<String>();
@@ -1128,6 +1130,7 @@ public class WriteGenClass extends WriteClass {
 					if(StringUtils.isBlank(entityValLanguage))
 						entityValLanguage = languageName;
 					entityValVarLanguage = entityValVar + entityValLanguage;
+					entityValCode = entityValsCode.get(j);
 					entityValValue = entityValsValue.get(j);
 	
 					Integer xmlPart = 0;
@@ -1230,7 +1233,15 @@ public class WriteGenClass extends WriteClass {
 							}
 							if(html && !"i".equals(entityXmlStack.peek())) {
 								Integer p = entityXmlStack.size();
-								entityValsWriter.tl(2 + p, "sx(", entityVar, entityValVar, entityValVarNumber, ");");
+								if(StringUtils.isEmpty(entityValCode)) {
+									entityValsWriter.tl(2 + p, "sx(", entityVar, entityValVar, entityValVarNumber, ");");
+								}
+								else {
+									if(classEntityVars.contains("userId"))
+										entityValsWriter.tl(2 + p, "sx(userId == null ? ", entityVar, entityValVar, entityValVarNumber, " : ", entityValCode, ");");
+									else
+										entityValsWriter.tl(2 + p, "sx(siteRequest_.getUserId() == null ? ", entityVar, entityValVar, entityValVarNumber, " : ", entityValCode, ");");
+								}
 							}
 						}
 					}

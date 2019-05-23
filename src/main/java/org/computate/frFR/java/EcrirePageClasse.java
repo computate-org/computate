@@ -101,6 +101,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: classSimpleName
 	 * r: entiteMultiligne
 	 * r.enUS: entityMultiline
+	 * r: classeApiUri
+	 * r.enUS: classApiUri
 	 * 
 	 * r: entiteDefinir
 	 * r.enUS: entityDefine
