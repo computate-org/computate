@@ -160,7 +160,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 
 			wForm.t(3).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-			if(entiteDefinir) {
+			if(entiteDefinir && entiteModifier) {
 
 				// entiteDefinir: true
 
@@ -912,7 +912,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 //					rechercheSolr.addFilterQuery("entiteHtmlLigne_indexed_int:[* TO *]");
 					rechercheSolr.addSort("entiteHtmlLigne_indexed_int", ORDER.asc);
 					rechercheSolr.addSort("entiteHtmlCellule_indexed_int", ORDER.asc);
@@ -950,6 +950,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteStocke = (Boolean)entiteDocumentSolr.get("entiteStocke_stored_boolean");
 								entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
 								entiteDefinir = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteDefinir_stored_boolean"));
+								entiteModifier = BooleanUtils.isNotFalse((Boolean)entiteDocumentSolr.get("entiteModifier_stored_boolean"));
 	
 								if(entiteHtmlLigne != null && pageVars.contains(entiteVar)) {
 									if(entiteCouverture) {
@@ -1206,7 +1207,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 				l();
 				tl(1, "@Override public void htmlScripts", classeGenPageNomSimple, "() {");
-				t(2).e("script").da("src", "/static/js/", classePageNomSimple, ".js").df().dgl("script");
+				t(2).l("e(\"script\").a(\"src\", statiqueUrlBase, \"/js/", classePageNomSimple, ".js\").f().g(\"script\");");
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classeApiUri)) {
@@ -1430,8 +1431,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							if(!"GET".equals(classeApiMethodeMethode) || "DELETE".equals(classeApiMethodeMethode))
 								auteurPageJs.tl(2, ", data: JSON.stringify(valeurs)");
 							auteurPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
+							auteurPageJs.tl(3, "$.each( valeurs, function( key, value ) {");
+							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).removeClass('lueurErreur');");
+							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).addClass('lueurSuccès');");
+							auteurPageJs.tl(3, "});");
 							auteurPageJs.tl(2, "}");
 							auteurPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
+							auteurPageJs.tl(3, "$.each( valeurs, function( key, value ) {");
+							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).removeClass('lueurSuccès');");
+							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).addClass('lueurErreur');");
+							auteurPageJs.tl(3, "});");
 							auteurPageJs.tl(2, "}");
 							auteurPageJs.tl(1, "});");
 							auteurPageJs.l("}");
@@ -1682,7 +1691,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(2, "if(liste", classeNomSimple, " != null && liste", classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
 					t(3).l(classeNomSimple, " o = liste", classeNomSimple, ".first();");
 					l();
-					t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show w3-white ").dfl();
+					t(3).be("div").da("class", "").dfl();
 					if(classeVarClePrimaire != null) {
 						l();
 						tl(4, "if(o.get", StringUtils.capitalize(classeVarClePrimaire), "() != null) {");
@@ -1707,6 +1716,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(2, "}");
 		
 					// formulaires
+					tl(2, "htmlBodyForms", classeGenPageNomSimple, "();");
+					tl(1, "}");
+					l();
+					tl(1, "public void htmlBodyForms", classeGenPageNomSimple, "() {");
 					if(!classePageSimple) {
 						t(2).e("div").dfl();
 						l();

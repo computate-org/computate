@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -1985,7 +1986,13 @@ public class WriteGenClass extends WriteClass {
 				/////////
 				l();
 				tl(1, "public String str", entityVarCapitalized, "() {");
-				if(VAL_canonicalNameString.equals(entityCanonicalName))
+				if(VAL_canonicalNameZonedDateTime.equals(entityCanonicalName)) {
+					if("frFR".equals(languageName))
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz\", Locale.FRANCE));");
+					else
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ssa zz\", Locale.US));");
+				}
+				else if(VAL_canonicalNameString.equals(entityCanonicalName))
 					tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ";");
 				else
 					tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".toString();");

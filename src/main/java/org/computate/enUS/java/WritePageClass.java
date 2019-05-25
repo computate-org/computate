@@ -79,7 +79,7 @@ public class WritePageClass extends WriteApiClass {
 			}
 
 			wForm.t(3).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-			if(entityDefine) {
+			if(entityDefine && entiteModifier) {
 
 				// entityDefine: true
 
@@ -419,7 +419,7 @@ public class WritePageClass extends WriteApiClass {
 					solrSearch.setRows(1000000);
 					String fqSuperClassesAndMe = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					solrSearch.addFilterQuery("partIsEntity_indexed_boolean:true");
-					solrSearch.addFilterQuery("classCanonicalName_" + languageName + "_indexed_string:" + fqSuperClassesAndMe);
+					solrSearch.addFilterQuery("classCanonicalName_" + languageActualName + "_indexed_string:" + fqSuperClassesAndMe);
 //					solrSearch.addFilterQuery("entityHtmlRow_indexed_int:[* TO *]");
 					solrSearch.addSort("entityHtmlRow_indexed_int", ORDER.asc);
 					solrSearch.addSort("entityHtmlCell_indexed_int", ORDER.asc);
@@ -457,6 +457,7 @@ public class WritePageClass extends WriteApiClass {
 								entityStored = (Boolean)entitySolrDocument.get("entityStored_stored_boolean");
 								entityMultiline = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityMultiline_stored_boolean"));
 								entityDefine = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityDefine_stored_boolean"));
+								entiteModify = BooleanUtils.isNotFalse((Boolean)entitySolrDocument.get("entiteModifier_stored_boolean"));
 	
 								if(entityHtmlRow != null && pageVars.contains(entityVar)) {
 									if(entityWrap) {
@@ -713,7 +714,7 @@ public class WritePageClass extends WriteApiClass {
 				tl(1, "}");
 				l();
 				tl(1, "@Override public void htmlScripts", classGenPageSimpleName, "() {");
-				t(2).e("script").da("src", "/static/js/", classPageSimpleName, ".js").df().dgl("script");
+				t(2).l("e(\"script\").a(\"src\", statiqueUrlBase, \"/js/", classPageSimpleName, ".js\").f().g(\"script\");");
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classApiUri)) {
@@ -937,8 +938,16 @@ public class WritePageClass extends WriteApiClass {
 							if(!"GET".equals(classApiMethodMethod) || "DELETE".equals(classApiMethodMethod))
 								writerPageJs.tl(2, ", data: JSON.stringify(values)");
 							writerPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
+							writerPageJs.tl(3, "$.each( values, function( key, value ) {");
+							writerPageJs.tl(4, "$formValues.find('.' + key).removeClass('lueurErreur');");
+							writerPageJs.tl(4, "$formValues.find('.' + key).addClass('lueurSuccès');");
+							writerPageJs.tl(3, "});");
 							writerPageJs.tl(2, "}");
 							writerPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
+							writerPageJs.tl(3, "$.each( values, function( key, value ) {");
+							writerPageJs.tl(4, "$formValues.find('.' + key).removeClass('lueurSuccès');");
+							writerPageJs.tl(4, "$formValues.find('.' + key).addClass('lueurErreur');");
+							writerPageJs.tl(3, "});");
 							writerPageJs.tl(2, "}");
 							writerPageJs.tl(1, "});");
 							writerPageJs.l("}");
@@ -1189,7 +1198,7 @@ public class WritePageClass extends WriteApiClass {
 					tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
 					t(3).l(classSimpleName, " o = list", classSimpleName, ".first();");
 					l();
-					t(3).be("div").da("class", "w3-card w3-margin w3-padding w3-margin-top w3-show w3-white ").dfl();
+					t(3).be("div").da("class", "").dfl();
 					if(classVarPrimaryKey != null) {
 						l();
 						tl(4, "if(o.get", StringUtils.capitalize(classVarPrimaryKey), "() != null) {");
@@ -1214,6 +1223,10 @@ public class WritePageClass extends WriteApiClass {
 					tl(2, "}");
 		
 					// formulaires
+					tl(2, "htmlBodyForms", classGenPageSimpleName, "();");
+					tl(1, "}");
+					l();
+					tl(1, "public void htmlBodyForms", classGenPageSimpleName, "() {");
 					if(!classPageSimple) {
 						t(2).e("div").dfl();
 						l();

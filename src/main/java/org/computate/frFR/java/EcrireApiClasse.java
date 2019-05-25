@@ -2086,6 +2086,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(11, "utilisateurSite.initLoinPourClasse(requeteSite);");
 			tl(11, "utilisateurSite.indexerPourClasse();");
 			tl(11, "requeteSite.setUtilisateurSite(utilisateurSite);");
+			tl(11, "requeteSite.setUtilisateurNom(principalJson.getString(\"preferred_username\"));");
+			tl(11, "requeteSite.setUtilisateurPrenom(principalJson.getString(\"given_name\"));");
+			tl(11, "requeteSite.setUtilisateurNomFamille(principalJson.getString(\"family_name\"));");
+			tl(11, "requeteSite.setUtilisateurId(principalJson.getString(\"sub\"));");
 			tl(11, "gestionnaireEvenements.handle(Future.succeededFuture());");
 			tl(10, "} catch(Exception e) {");
 			tl(11, "gestionnaireEvenements.handle(Future.failedFuture(e));");
@@ -2119,6 +2123,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(9, "utilisateurSite.initLoinPourClasse(requeteSite);");
 			tl(9, "utilisateurSite.indexerPourClasse();");
 			tl(9, "requeteSite.setUtilisateurSite(utilisateurSite);");
+			tl(9, "requeteSite.setUtilisateurNom(principalJson.getString(\"preferred_username\"));");
+			tl(9, "requeteSite.setUtilisateurPrenom(principalJson.getString(\"given_name\"));");
+			tl(9, "requeteSite.setUtilisateurNomFamille(principalJson.getString(\"family_name\"));");
+			tl(9, "requeteSite.setUtilisateurId(principalJson.getString(\"sub\"));");
 			tl(9, "gestionnaireEvenements.handle(Future.succeededFuture());");
 			tl(8, "} else {");
 			tl(9, "gestionnaireEvenements.handle(Future.failedFuture(definirAsync.cause()));");

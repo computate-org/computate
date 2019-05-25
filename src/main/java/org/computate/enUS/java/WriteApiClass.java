@@ -1508,6 +1508,10 @@ public class WriteApiClass extends WriteGenClass {
 			tl(11, "userSite.initDeepForClass(siteRequest);");
 			tl(11, "userSite.indexForClass();");
 			tl(11, "siteRequest.setSiteUser(userSite);");
+			tl(11, "siteRequest.setUserName(principalJson.getString(\"preferred_username\"));");
+			tl(11, "siteRequest.setUserFirstName(principalJson.getString(\"given_name\"));");
+			tl(11, "siteRequest.setUserLastName(principalJson.getString(\"family_name\"));");
+			tl(11, "siteRequest.setUserId(principalJson.getString(\"sub\"));");
 			tl(11, "eventHandler.handle(Future.succeededFuture());");
 			tl(10, "} catch(Exception e) {");
 			tl(11, "eventHandler.handle(Future.failedFuture(e));");
@@ -1541,6 +1545,10 @@ public class WriteApiClass extends WriteGenClass {
 			tl(9, "userSite.initDeepForClass(siteRequest);");
 			tl(9, "userSite.indexForClass();");
 			tl(9, "siteRequest.setSiteUser(userSite);");
+			tl(9, "siteRequest.setUserName(principalJson.getString(\"preferred_username\"));");
+			tl(9, "siteRequest.setUserFirstName(principalJson.getString(\"given_name\"));");
+			tl(9, "siteRequest.setUserLastName(principalJson.getString(\"family_name\"));");
+			tl(9, "siteRequest.setUserId(principalJson.getString(\"sub\"));");
 			tl(9, "eventHandler.handle(Future.succeededFuture());");
 			tl(8, "} else {");
 			tl(9, "eventHandler.handle(Future.failedFuture(defineAsync.cause()));");

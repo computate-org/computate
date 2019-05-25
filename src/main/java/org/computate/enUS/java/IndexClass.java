@@ -1845,6 +1845,7 @@ public class IndexClass extends WatchClassBase {
 						indexStoreSolr(entityDoc, "entityAdd", regexFound("^(entity)?Add:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityDelete", regexFound("^(entity)?Delete:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityDefined", regexFound("^(entity)?Definir:\\s*(true)$", methodComment));
+						indexStoreSolr(entityDoc, "entityModifier", !regexFound("^(entity)?Modify:\\s*(false)$", methodComment));
 						indexStoreSolr(entityDoc, "entityRefresh", regexFound("^(entity)?Refresh:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityMultiline", regexFound("^(entity)?Multiline:\\s*(true)$", methodComment));
 						indexStoreSolr(entityDoc, "entityKeys", regexFound("^(entity)?Keys:\\s*(true)$", methodComment));
@@ -2019,6 +2020,7 @@ public class IndexClass extends WatchClassBase {
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZonedDateTime", classLanguageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, classLanguageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Locale", classLanguageName));
 							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLanguageName));
 							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.util.Locale", classLanguageName));
 						}
@@ -2030,6 +2032,7 @@ public class IndexClass extends WatchClassBase {
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalDate", classLanguageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, VAL_canonicalNameDate, classLanguageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLanguageName));
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Locale", classLanguageName));
 							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.time.format.DateTimeFormatter", classLanguageName));
 							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.util.Locale", classLanguageName));
 						}

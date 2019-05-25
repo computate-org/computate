@@ -4290,6 +4290,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteAjouter", regexTrouve("^(entite)?Ajouter:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteSupprimer", regexTrouve("^(entite)?Supprimer:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteDefinir", regexTrouve("^(entite)?Definir:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteModifier", !regexTrouve("^(entite)?Modifier:\\s*(false)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteRecharger", regexTrouve("^(entite)?Recharger:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^(entite)?Multiligne:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^(entite)?Cles:\\s*(true)$", methodeCommentaire));
@@ -4464,6 +4465,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZonedDateTime", classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom));
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom));
 						}
@@ -4475,6 +4477,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDate", classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom));
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom));
 						}
