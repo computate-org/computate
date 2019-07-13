@@ -24,7 +24,7 @@ import org.apache.solr.common.SolrDocumentList;
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  **/
-public class WriteAllClasses extends WritePageClass {
+public class WriteAllClasses extends EcrirePageClasse {
 
 	/**	
 	 *	Retrieve the records for the class from the search engine, 
@@ -132,7 +132,7 @@ public class WriteAllClasses extends WritePageClass {
 					classPage = BooleanUtils.isTrue((Boolean)doc.get("classPage_stored_boolean"));
 					classPageSimple = BooleanUtils.isTrue((Boolean)doc.get("classPageSimple_stored_boolean"));
 					classRolesFound = BooleanUtils.isTrue((Boolean)doc.get("classRolesFound_stored_boolean"));
-					classRoles = (List<String>)doc.get("classRoles_" + languageName + "_stored_strings");
+					classRoles = (List<String>)doc.get("classRoles_stored_strings");
 					classFiltersFound = BooleanUtils.isTrue((Boolean)doc.get("classFiltersFound_stored_boolean"));
 					classFilters = (List<String>)doc.get("classFilters_stored_strings");
 					classApiMethods = (List<String>)doc.get("classApiMethods_stored_strings");
@@ -219,10 +219,14 @@ public class WriteAllClasses extends WritePageClass {
 				else {
 					Boolean partIsConstructor = (Boolean)doc.get("partIsConstructor_stored_boolean");
 					Boolean partIsEntity = (Boolean)doc.get("partIsEntity_stored_boolean");
+					Boolean partIsMethode = (Boolean)doc.get("partIsMethode_stored_boolean");
 	
 //					if(StringUtils.equals(classLangueNom, languageName)) {
 						if(BooleanUtils.isTrue(partIsConstructor)) {
 							genCodeConstructor(languageName);
+						}
+						else if(BooleanUtils.isTrue(partIsMethode)) {
+							genCodeMethod(languageName);
 						}
 						else if(BooleanUtils.isTrue(partIsEntity)) {
 							genCodeEntity(languageName);

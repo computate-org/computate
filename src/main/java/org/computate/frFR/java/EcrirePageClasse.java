@@ -365,6 +365,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
 					}
 					if("Page".equals(classeApiMethodeMethode)) {
+						wForm.t(tIndex + 5).dal("onclick", "enleverLueur($(this)); ");
 						wForm.t(tIndex + 5).dal("onchange", "patch", classeNomSimple, "($('#", classeNomSimple, "Form'), $('#", entiteVar, "Form')); ");
 					}
 	
@@ -1281,7 +1282,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					rechercheSolr.setRows(1000000);
 					String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 					rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
+					rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr.addSort("entiteHtmlLigne_indexed_int", ORDER.asc);
 					rechercheSolr.addSort("entiteHtmlCellule_indexed_int", ORDER.asc);
 					QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -1304,6 +1305,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
 								entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
 								entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
+								entiteNomSimpleVertxJson = (String)entiteDocumentSolr.get("entiteNomSimpleVertxJson_stored_string");
 								String jsVal = ".val()";
 								if("Boolean".equals(entiteNomSimple)) {
 									jsVal = ".prop('checked')";
@@ -1323,22 +1325,36 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								}
 
 								if(entiteHtml) {
+									String valPrefixe;
+									String valSuffixe;
+									if("Double".equals(entiteNomSimpleVertxJson)) {
+										valPrefixe = "parseDouble(";
+										valSuffixe = ")";
+									}
+									else if("Integer".equals(entiteNomSimpleVertxJson)) {
+										valPrefixe = "parseInt(";
+										valSuffixe = ")";
+									}
+									else { 
+										valPrefixe = "";
+										valSuffixe = "";
+									}
 		
 									wPOST.l();
 									wPOST.tl(1, "var valeur", entiteVarCapitalise, " = $formulaireValeurs.find('.valeur", entiteVarCapitalise, "')", jsVal, ";");
 									wPOST.tl(1, "if(valeur", entiteVarCapitalise, " != null && valeur", entiteVarCapitalise, " !== '')");
-									wPOST.tl(2, "valeurs['", entiteVar, "'] = valeur", entiteVarCapitalise, ";");
+									wPOST.tl(2, "valeurs['", entiteVar, "'] = ", valPrefixe, "valeur", entiteVarCapitalise, ";");
 		
 									wPATCH.l();
 									wPATCH.tl(1, "var set", entiteVarCapitalise, " = $formulaireValeurs.find('.set", entiteVarCapitalise, "')", jsVal, ";");
 									wPATCH.tl(1, "if(set", entiteVarCapitalise, " != null && set", entiteVarCapitalise, " !== '')");
-									wPATCH.tl(2, "valeurs['set", entiteVarCapitalise, "'] = set", entiteVarCapitalise, ";");
+									wPATCH.tl(2, "valeurs['set", entiteVarCapitalise, "'] = ", valPrefixe, "set", entiteVarCapitalise, valSuffixe, ";");
 									wPATCH.tl(1, "var add", entiteVarCapitalise, " = $formulaireValeurs.find('.add", entiteVarCapitalise, "')", jsVal, ";");
 									wPATCH.tl(1, "if(add", entiteVarCapitalise, " != null && add", entiteVarCapitalise, " !== '')");
-									wPATCH.tl(2, "valeurs['add", entiteVarCapitalise, "'] = add", entiteVarCapitalise, ";");
+									wPATCH.tl(2, "valeurs['add", entiteVarCapitalise, "'] = ", valPrefixe, "add", entiteVarCapitalise, valSuffixe, ";");
 									wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $formulaireValeurs.find('.remove", entiteVarCapitalise, "')", jsVal, ";");
 									wPATCH.tl(1, "if(remove", entiteVarCapitalise, " != null && remove", entiteVarCapitalise, " !== '')");
-									wPATCH.tl(2, "valeurs['remove", entiteVarCapitalise, "'] = remove", entiteVarCapitalise, ";");
+									wPATCH.tl(2, "valeurs['remove", entiteVarCapitalise, "'] = ", valPrefixe, "remove", entiteVarCapitalise, valSuffixe, ";");
 								}
 							}
 							rechercheSolr.setStart(i.intValue() + rechercheLignes);
@@ -1433,12 +1449,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							auteurPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
 							auteurPageJs.tl(3, "$.each( valeurs, function( key, value ) {");
 							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).removeClass('lueurErreur');");
-							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).addClass('lueurSuccès');");
+							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).addClass('lueurSucces');");
 							auteurPageJs.tl(3, "});");
 							auteurPageJs.tl(2, "}");
 							auteurPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
 							auteurPageJs.tl(3, "$.each( valeurs, function( key, value ) {");
-							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).removeClass('lueurSuccès');");
+							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).removeClass('lueurSucces');");
 							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).addClass('lueurErreur');");
 							auteurPageJs.tl(3, "});");
 							auteurPageJs.tl(2, "}");
@@ -1469,7 +1485,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "@Override public void htmlBody", classeGenPageNomSimple, "() {");
 				if(classePageSimple) {
 					l();
-					tl(2, "if(pageH1 != null) {");
+					tl(2, "if(StringUtils.isNotBlank(pageH1)) {");
 					t(3).be("h1").dfl();
 					tl(4, "if(contexteIconeClassesCss != null)");
 					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
@@ -1483,7 +1499,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(2, "}");
 		
 					if(classeEntiteVars != null && classeEntiteVars.contains("pageH2")) {
-						tl(2, "if(pageH2 != null) {");
+						tl(2, "if(StringUtils.isNotBlank(pageH1)) {");
 						t(3).be("h2").dfl();
 						t(4).e("span").da("class", " ").df().s(".sx(pageH2)").dgl("span");
 						t(3).bgl("h2");
@@ -1491,7 +1507,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 		
 					if(classeEntiteVars != null && classeEntiteVars.contains("pageH3")) {
-						tl(2, "if(pageH3 != null) {");
+						tl(2, "if(StringUtils.isNotBlank(pageH3)) {");
 						t(3).be("h3").dfl();
 						t(4).e("span").da("class", " ").df().s(".sx(pageH3)").dgl("span");
 						t(3).bgl("h3");

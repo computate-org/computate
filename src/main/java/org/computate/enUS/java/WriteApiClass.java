@@ -48,6 +48,8 @@ public class WriteApiClass extends WriteGenClass {
 		if(writerGenApiService != null) {
 			writerGenApiService.l("package ", classPackageName, ";");
 			writerGenApiService.l();
+			if(classPartsSiteContext == null)
+				throw new Exception("Ajouter une classe avec le commentaire: MotCle: classSimpleNameSiteContext");
 			writerGenApiService.l("import ", classPartsSiteContext.solrDocument.get("classCanonicalName_" + languageName + "_stored_string"), ";");
 //			writerGenApiService.l("import ", classPackageName, ".", classSimpleName, "ApiServiceVertxEBProxy;");
 			writerGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
@@ -201,12 +203,11 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(((Boolean)entityValue).toString());");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -217,14 +218,13 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entityValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -235,14 +235,13 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entityValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -253,14 +252,13 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entityValue).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime()));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -271,14 +269,13 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entityValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -289,14 +286,13 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)entityValue).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -307,12 +303,11 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(((Long)entityValue).toString());");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -323,12 +318,11 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(BigDecimal.valueOf((Double)entityValue).toString());");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -339,12 +333,11 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(((Double)entityValue).toString());");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -355,12 +348,11 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(((Float)entityValue).toString());");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -371,12 +363,11 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(((Integer)entityValue).toString());");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -387,15 +378,13 @@ public class WriteApiClass extends WriteGenClass {
 										tl(5, entitySimpleNameComplete, " entityValues = o.get", entityVarCapitalized, "();");
 										tl(5, "w.t(3, entityNumber++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entityVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entityValue != null) {");
+										tl(5, "for(int k = 0; k < entityValues.size(); k++) {");
+										tl(6, "entityValue = entityValues.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
-										tl(6, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(((String)entityValue));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entityValue = entityValues.iterator().hasNext() ? entityValues.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -1183,6 +1172,9 @@ public class WriteApiClass extends WriteGenClass {
 						s("list", classSimpleName, ".getSiteRequest_()");
 					l(", buffer);");
 					tl(3, "siteRequest.setW(w);");
+
+					if(classApiMethod.contains("PATCH"))
+						tl(3, "buffer.appendString(\"{}\");");
 	
 	
 					if(classApiMethod.contains("GET")) {
@@ -1481,7 +1473,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(6, "if(userValues == null) {");
 			tl(7, "sqlConnection.queryWithParams(");
 			tl(9, "", classPartsSiteContext.simpleName(languageName), ".SQL_create");
-			tl(9, ", new JsonArray(Arrays.asList(SiteUser.class.getCanonicalName(), userId))");
+			tl(9, ", new JsonArray(Arrays.asList(", q(classPartsSiteUser.canonicalName), ", userId))");
 			tl(9, ", createAsync");
 			tl(7, "-> {");
 			tl(8, "JsonArray createRow = createAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");

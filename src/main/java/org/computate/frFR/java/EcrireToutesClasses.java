@@ -178,8 +178,11 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r: entiteClassesSuperEtMoiSansGen
 	 * r.enUS: entitySuperClassesAndMeWithoutGen
 	 * r: partEstChamp
+	 * r.enUS: partIsField
 	 * r: partEstEntite
 	 * r.enUS: partIsEntity
+	 * r: partEstMethode
+	 * r.enUS: partIsMethode
 	 * r: classeVarClePrimaire
 	 * r.enUS: classVarPrimaryKey
 	 * r: classeVarCleUnique
@@ -271,6 +274,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: genCodeClassBegin
 	 * r: genCodeEntite
 	 * r.enUS: genCodeEntity
+	 * r: genCodeMethode
+	 * r.enUS: genCodeMethod
 	 * r: partEstConstructeur
 	 * r.enUS: partIsConstructor
 	 * r: genCodeClasseFin
@@ -506,7 +511,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
 					classePageSimple = BooleanUtils.isTrue((Boolean)doc.get("classePageSimple_stored_boolean"));
 					classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouves_stored_boolean"));
-					classeRoles = (List<String>)doc.get("classeRoles_" + langueNom + "_stored_strings");
+					classeRoles = (List<String>)doc.get("classeRoles_stored_strings");
 					classeFiltresTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeFiltresTrouves_stored_boolean"));
 					classeFiltres = (List<String>)doc.get("classeFiltres_stored_strings");
 					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_stored_strings");
@@ -593,10 +598,14 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
 					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
+					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stored_boolean");
 	
 //					if(StringUtils.equals(classeLangueNom, langueNom)) {
 						if(BooleanUtils.isTrue(partEstConstructeur)) {
 							genCodeConstructeur(langueNom);
+						}
+						else if(BooleanUtils.isTrue(partEstMethode)) {
+							genCodeMethode(langueNom);
 						}
 						else if(BooleanUtils.isTrue(partEstEntite)) {
 							genCodeEntite(langueNom);

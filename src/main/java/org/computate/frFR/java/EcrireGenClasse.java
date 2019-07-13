@@ -828,6 +828,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityNumberStack
 	 */
 	protected Stack<Integer> entiteNumeroPile = new Stack<Integer>();
+
+	/**
+	 * Var.enUS: methodXmlStack
+	 */
+	protected Stack<String> methodeXmlPile = new Stack<String>();
+
+	/**
+	 * Var.enUS: entityNumberStack
+	 */
+	protected Stack<Integer> methodeNumeroPile = new Stack<Integer>();
 	
 	/** 
 	 * r: wInitLoin
@@ -2059,6 +2069,211 @@ public class EcrireGenClasse extends EcrireClasse {
 		s(" {");
 		s(constructeurCodeSource);
 		l("}");
+	}
+
+
+	/**
+	 * Var.enUS: genCodeEntity
+	 * Param1.var.enUS: languageName
+	 * 
+	 * r: methodeVar
+	 * r.enUS: methodVar
+	 * r: methodeValsEcrivain
+	 * r.enUS: methodValsWriter
+	 * r: methodeNumeroPile
+	 * r.enUS: methodNumberStack
+	 * r: methodeXmlPile
+	 * r.enUS: methodXmlStack
+	 * r: methodeValVarAncien
+	 * r.enUS: methodValVarOld
+	 * r: methodeValVarNumero
+	 * r.enUS: methodValVarNumber
+	 * r: methodeValVarLangueAncien
+	 * r.enUS: methodValVarLanguageOld
+	 * r: methodeValVarLangue
+	 * r.enUS: methodValVarLanguage
+	 * r: methodeValLangue
+	 * r.enUS: methodValLanguage
+	 * r: methodeValVar
+	 * r.enUS: methodValVar
+	 * r: methodeValsVar
+	 * r.enUS: methodValsVar
+	 * r: methodeValsLangue
+	 * r.enUS: methodValsLanguage
+	 * r: methodeValsValeur
+	 * r.enUS: methodValsValue
+	 * r: methodeValValeur
+	 * r.enUS: methodValValue
+	 **/
+	public void genCodeMethode(String langueNom) throws Exception {
+
+		String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
+
+		ToutEcrivain methodeValsEcrivain = ToutEcrivain.create();
+		List<String> methodeValsVar = (List<String>)doc.get("methodeValsVar_stored_strings");
+		List<String> methodeValsLangue = (List<String>)doc.get("methodeValsLangue_stored_strings");
+		List<String> methodeValsCode = (List<String>)doc.get("methodeValsCode_stored_strings");
+		List<String> methodeValsValeur = (List<String>)doc.get("methodeValsValeur_stored_strings");
+		if(methodeValsVar != null && methodeValsLangue != null && methodeValsValeur != null) {
+			String methodeValVarAncien = null;
+			Integer methodeValVarNumero = 0;
+			String methodeValVar = null;
+			String methodeValLangue = null;
+			String methodeValVarLangue = null;
+			String methodeValVarLangueAncien = null;
+			String methodeValCode = null;
+			String methodeValValeur = null;
+
+			methodeXmlPile = new Stack<String>();
+			methodeNumeroPile = new Stack<Integer>();
+			for(int j = 0; j < methodeValsVar.size(); j++) {
+				methodeValVar = methodeValsVar.get(j);
+				methodeValLangue = methodeValsLangue.get(j);
+				if(StringUtils.isBlank(methodeValLangue))
+					methodeValLangue = langueNom;
+				methodeValVarLangue = methodeValVar + methodeValLangue;
+				methodeValCode = methodeValsCode.get(j);
+				methodeValValeur = methodeValsValeur.get(j);
+
+				Integer xmlPart = 0;
+				if(!StringUtils.equals(methodeValVarLangue, methodeValVarLangueAncien) && (StringUtils.equals(methodeValVarLangueAncien, methodeValVarAncien + langueNom))) {
+					t(1, "public static final String ", methodeVar, methodeValVarAncien, " = ");
+					for(int k = 1; k <= methodeValVarNumero; k++) {
+						if(k > 1)
+							s(" + ");
+						s(methodeVar, methodeValVarAncien, k);
+					}
+					l(";");
+					methodeValVarNumero = 0;
+				}
+
+				if(StringUtils.equals(langueNom, methodeValLangue)) {
+					methodeValVarNumero++;
+					tl(1, "public static final String ", methodeVar, methodeValVar, methodeValVarNumero, " = \"", escapeJava(methodeValValeur), "\";");
+					if(!classeVals.getEmpty())
+						classeVals.s(", ");
+					classeVals.s(methodeVar, methodeValVar, methodeValVarNumero);
+					{
+						String[] parts = splitByCharacterTypeCamelCase(methodeValVar);
+						Boolean html = false;
+						for(Integer p = 0; p < parts.length; p++) {
+							String part = StringUtils.uncapitalize(parts[p]);
+
+							Matcher regex = Pattern.compile("^(\\w+?)(\\d*)$").matcher(part);
+							boolean trouve = regex.find();
+							if(trouve) {
+								String element = StringUtils.lowerCase(regex.group(1));
+								String numeroStr = regex.group(2);
+								Integer numero = StringUtils.isEmpty(numeroStr) ? null : Integer.parseInt(numeroStr);
+								if("h".equals(element)) {
+									element += numero;
+									numero = null;
+								}
+
+//									methodeValsEcrivain.t(1);
+								if(StringUtils.equalsAny(element, HTML_ELEMENTS)) {
+									html = true;
+
+									String css = methodeVar;
+									for(Integer r = 0; r <= xmlPart; r++) {
+										String s = parts[r];
+										css += s;
+									}
+									css += " ";
+
+									String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(StringUtils.substringBeforeLast(css, numero.toString()), "0") + (numero % 2 == 0 ? " even " : " odd "));
+
+									if(numero == null)
+										numero = 1;
+
+									if(methodeXmlPile.size() < (xmlPart + 1)) {
+										if("i".equals(element))
+											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", methodeVar, methodeValVar, methodeValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
+										else if("a".equals(element))
+											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", methodeVar, methodeValVar, methodeValVarNumero, ").f();");
+										else if("br".equals(element))
+											methodeValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
+										else if("td".equals(element))
+											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
+										else
+											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
+
+										if(!"br".equals(element)) {
+											methodeXmlPile.push(element);
+											methodeNumeroPile.push(numero);
+											xmlPart++;
+										}
+									}
+									else if(StringUtils.equals(element, methodeXmlPile.get(xmlPart)) && numero.equals(methodeNumeroPile.get(xmlPart))) {
+										xmlPart++;
+									}
+									else {
+										while(methodeXmlPile.size() > xmlPart) {
+											methodeValsEcrivain.tl(1 + methodeXmlPile.size(), "} g(\"", methodeXmlPile.peek(), "\");");
+											methodeXmlPile.pop();
+											methodeNumeroPile.pop();
+										}
+										if("i".equals(element))
+											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", methodeVar, methodeValVar, methodeValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
+										else if("a".equals(element))
+											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", methodeVar, methodeValVar, methodeValVarNumero, ").f();");
+										else if("br".equals(element))
+											methodeValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
+										else if("td".equals(element))
+											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
+										else
+											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
+
+										if(!"br".equals(element)) {
+											methodeXmlPile.push(element);
+											methodeNumeroPile.push(numero);
+											xmlPart++;
+										}
+									}
+								}
+							}
+						}
+						if(html && !"i".equals(methodeXmlPile.peek())) {
+							Integer p = methodeXmlPile.size();
+							if(StringUtils.isEmpty(methodeValCode)) {
+								methodeValsEcrivain.tl(2 + p, "sx(", methodeVar, methodeValVar, methodeValVarNumero, ");");
+							}
+							else {
+								if(classeEntiteVars.contains("utilisateurId"))
+									methodeValsEcrivain.tl(2 + p, "sx(utilisateurId == null ? ", methodeVar, methodeValVar, methodeValVarNumero, " : ", methodeValCode, ");");
+								else
+									methodeValsEcrivain.tl(2 + p, "sx(requeteSite_.getUtilisateurId() == null ? ", methodeVar, methodeValVar, methodeValVarNumero, " : ", methodeValCode, ");");
+							}
+						}
+					}
+				}
+
+				methodeValVarAncien = methodeValVar;
+				methodeValVarLangueAncien = methodeValVarLangue;
+			}
+			if(StringUtils.equals(langueNom, methodeValLangue)) {
+				methodeValVarAncien = methodeValVar;
+				methodeValVarLangueAncien = methodeValVarLangue;
+				methodeValVar = null;
+	
+				if(methodeValVarAncien != null && !StringUtils.equals(methodeValVar, methodeValVarLangueAncien)) {
+					t(1, "public static final String ", methodeVar, methodeValVarAncien, " = ");
+					for(int k = 1; k <= methodeValVarNumero; k++) {
+						if(k > 1)
+							s(" + ");
+						s(methodeVar, methodeValVarAncien, k);
+					}
+					l(";");
+					methodeValVarNumero = 0;
+				}
+			}
+			l();
+
+			for(int q = methodeXmlPile.size() - 1; q >= 0; q--) {
+				methodeValsEcrivain.tl(2 + q, "} g(\"", methodeXmlPile.get(q), "\");");
+				methodeXmlPile.pop();
+			}
+		}
 	}
 
 	/**
@@ -3293,116 +3508,114 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 	
 			// Initialise //
-			if(entiteInitLoin) {
-	
-				if(entiteMethodesAvantVar != null && entiteMethodesAvantVar.size() > 0) {
-					for(int j = 0; j < entiteMethodesAvantVar.size(); j++) {
-						String entiteMethodeAvantVisibilite = entiteMethodesAvantVisibilite.get(j);
-						String entiteMethodeAvantVar = entiteMethodesAvantVar.get(j);
-						String entiteMethodeAvantParamVar = entiteMethodesAvantParamVar.get(j);
-						String entiteMethodeAvantParamNomSimple = entiteMethodesAvantParamNomSimple.get(j);
-						Boolean entiteMethodeAvantNomParam = entiteMethodesAvantNomParam.get(j);
-						Boolean entiteMethodeAvantEcrire = entiteMethodesAvantEcrire.get(j);
-	
-						if(BooleanUtils.isTrue(entiteMethodeAvantEcrire)) {
-							t(1, entiteMethodeAvantVisibilite, " abstract void ", entiteMethodeAvantVar, "(", entiteMethodeAvantParamNomSimple, " ", entiteMethodeAvantParamVar);
-							if(entiteMethodeAvantNomParam)
-								s(", String entiteVar");
-							l(");");
-						}
-					}
-				}
-		
-				// Initialiser //
-				t(1, "protected ", classeNomSimple, " ", entiteVar, "Init()");
-				if(classeInitLoinExceptions.size() > 0) {
-					s(" throws ");
-					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
-						String classeInitLoinException = classeInitLoinExceptions.get(i);
-						String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
-						if(i > 0)
-							s(", ");
-						s(classeInitLoinExceptionNomSimple);
-					}
-				}
-				l(" {");
-	
-				if(entiteNomCanoniqueGenerique == null && entiteMethodesAvantVar != null && entiteMethodesAvantVar.size() > 0) {
-					tl(2, "if(", entiteVar, " != null) {");
-					for(int j = 0; j < entiteMethodesAvantVar.size(); j++) {
-						String entiteMethodeAvantVar = entiteMethodesAvantVar.get(j);
-						Boolean entiteMethodeAvantNomParam = entiteMethodesAvantNomParam.get(j);
-	
-						t(3, "((", classeNomSimple, ")this).", entiteMethodeAvantVar, "(", entiteVar);
+
+			if(entiteMethodesAvantVar != null && entiteMethodesAvantVar.size() > 0) {
+				for(int j = 0; j < entiteMethodesAvantVar.size(); j++) {
+					String entiteMethodeAvantVisibilite = entiteMethodesAvantVisibilite.get(j);
+					String entiteMethodeAvantVar = entiteMethodesAvantVar.get(j);
+					String entiteMethodeAvantParamVar = entiteMethodesAvantParamVar.get(j);
+					String entiteMethodeAvantParamNomSimple = entiteMethodesAvantParamNomSimple.get(j);
+					Boolean entiteMethodeAvantNomParam = entiteMethodesAvantNomParam.get(j);
+					Boolean entiteMethodeAvantEcrire = entiteMethodesAvantEcrire.get(j);
+
+					if(BooleanUtils.isTrue(entiteMethodeAvantEcrire)) {
+						t(1, entiteMethodeAvantVisibilite, " abstract void ", entiteMethodeAvantVar, "(", entiteMethodeAvantParamNomSimple, " ", entiteMethodeAvantParamVar);
 						if(entiteMethodeAvantNomParam)
-							s(", \"", entiteVar, "\"");
+							s(", String entiteVar");
 						l(");");
-					}
-					tl(2, "}");
-				}
-	
-				tl(2, "if(!", entiteVar, "Couverture.dejaInitialise) {");
-				if(entiteCouverture) {
-					tl(3, "_", entiteVar, "(", entiteVar, "Couverture);");
-					tl(3, "if(", entiteVar, " == null)");
-					tl(4, "set", entiteVarCapitalise, "(", entiteVar, "Couverture.o);");
-				}
-				else {
-					tl(3, "_", entiteVar, "(", entiteVar, ");");
-				}
-				tl(2, "}");
-	
-				// initLoin
-	
-	//						if(initLoin && nomCanonique.enUS().startsWith(classe.nomEnsembleDomaine.enUS())) {
-				if(entiteInitialise) {
-					if(entiteCouverture) {
-						tl(2, "if(", entiteVar, " != null)");
-						tl(3, entiteVar, ".initLoinPourClasse(requeteSite_);");
-					}
-					else {
-						tl(2, entiteVar, ".initLoinPourClasse(requeteSite_);");
-					}
-				}
-	
-				if(entiteNomCanoniqueGenerique == null && entiteMethodesApresVar != null && entiteMethodesApresVar.size() > 0) {
-					tl(2, "if(", entiteVar, " != null) {");
-					for(int j = 0; j < entiteMethodesApresVar.size(); j++) {
-						String entiteMethodeApresVisibilite = entiteMethodesApresVisibilite.get(j);
-						String entiteMethodeApresVar = entiteMethodesApresVar.get(j);
-						Boolean entiteMethodeApresNomParam = entiteMethodesApresNomParam.get(j);
-	
-						t(3, "((", classeNomSimple, ")this).", entiteMethodeApresVar, "(", entiteVar);
-						if(entiteMethodeApresNomParam)
-							s(", \"", entiteVar, "\"");
-						l(");");
-					}
-					tl(2, "}");
-				}
-	
-				tl(2, entiteVar, "Couverture.dejaInitialise(true);");
-				tl(2, "return (", classeNomSimple, ")this;");
-				tl(1, "}");
-	
-				if(entiteMethodesApresVar != null) {
-					for(int j = 0; j < entiteMethodesApresVar.size(); j++) {
-						String entiteMethodeApresVisibilite = entiteMethodesApresVisibilite.get(j);
-						String entiteMethodeApresVar = entiteMethodesApresVar.get(j);
-						String entiteMethodeApresParamVar = entiteMethodesApresParamVar.get(j);
-						String entiteMethodeApresParamNomSimple = entiteMethodesApresParamNomSimple.get(j);
-						Boolean entiteMethodeApresNomParam = entiteMethodesApresNomParam.get(j);
-						Boolean entiteMethodeApresEcrire = entiteMethodesAvantEcrire.get(j);
-	
-						if(BooleanUtils.isTrue(entiteMethodeApresEcrire)) {
-							t(1, entiteMethodeApresVisibilite, " abstract void ", entiteMethodeApresVar, "(", entiteMethodeApresParamNomSimple, " ", entiteMethodeApresParamVar);
-							if(entiteMethodeApresNomParam)
-								s(", String entiteVar");
-							l(");");
-						}
 					}
 				}
 			}
 	
+			// Initialiser //
+			t(1, "protected ", classeNomSimple, " ", entiteVar, "Init()");
+			if(classeInitLoinExceptions.size() > 0) {
+				s(" throws ");
+				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+					String classeInitLoinException = classeInitLoinExceptions.get(i);
+					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+					if(i > 0)
+						s(", ");
+					s(classeInitLoinExceptionNomSimple);
+				}
+			}
+			l(" {");
+
+			if(entiteNomCanoniqueGenerique == null && entiteMethodesAvantVar != null && entiteMethodesAvantVar.size() > 0) {
+				tl(2, "if(", entiteVar, " != null) {");
+				for(int j = 0; j < entiteMethodesAvantVar.size(); j++) {
+					String entiteMethodeAvantVar = entiteMethodesAvantVar.get(j);
+					Boolean entiteMethodeAvantNomParam = entiteMethodesAvantNomParam.get(j);
+
+					t(3, "((", classeNomSimple, ")this).", entiteMethodeAvantVar, "(", entiteVar);
+					if(entiteMethodeAvantNomParam)
+						s(", \"", entiteVar, "\"");
+					l(");");
+				}
+				tl(2, "}");
+			}
+
+			tl(2, "if(!", entiteVar, "Couverture.dejaInitialise) {");
+			if(entiteCouverture) {
+				tl(3, "_", entiteVar, "(", entiteVar, "Couverture);");
+				tl(3, "if(", entiteVar, " == null)");
+				tl(4, "set", entiteVarCapitalise, "(", entiteVar, "Couverture.o);");
+			}
+			else {
+				tl(3, "_", entiteVar, "(", entiteVar, ");");
+			}
+			tl(2, "}");
+
+			// initLoin
+
+//						if(initLoin && nomCanonique.enUS().startsWith(classe.nomEnsembleDomaine.enUS())) {
+			if(entiteInitLoin && entiteInitialise) {
+				if(entiteCouverture) {
+					tl(2, "if(", entiteVar, " != null)");
+					tl(3, entiteVar, ".initLoinPourClasse(requeteSite_);");
+				}
+				else {
+					tl(2, entiteVar, ".initLoinPourClasse(requeteSite_);");
+				}
+			}
+
+			if(entiteNomCanoniqueGenerique == null && entiteMethodesApresVar != null && entiteMethodesApresVar.size() > 0) {
+				tl(2, "if(", entiteVar, " != null) {");
+				for(int j = 0; j < entiteMethodesApresVar.size(); j++) {
+					String entiteMethodeApresVisibilite = entiteMethodesApresVisibilite.get(j);
+					String entiteMethodeApresVar = entiteMethodesApresVar.get(j);
+					Boolean entiteMethodeApresNomParam = entiteMethodesApresNomParam.get(j);
+
+					t(3, "((", classeNomSimple, ")this).", entiteMethodeApresVar, "(", entiteVar);
+					if(entiteMethodeApresNomParam)
+						s(", \"", entiteVar, "\"");
+					l(");");
+				}
+				tl(2, "}");
+			}
+
+			tl(2, entiteVar, "Couverture.dejaInitialise(true);");
+			tl(2, "return (", classeNomSimple, ")this;");
+			tl(1, "}");
+
+			if(entiteMethodesApresVar != null) {
+				for(int j = 0; j < entiteMethodesApresVar.size(); j++) {
+					String entiteMethodeApresVisibilite = entiteMethodesApresVisibilite.get(j);
+					String entiteMethodeApresVar = entiteMethodesApresVar.get(j);
+					String entiteMethodeApresParamVar = entiteMethodesApresParamVar.get(j);
+					String entiteMethodeApresParamNomSimple = entiteMethodesApresParamNomSimple.get(j);
+					Boolean entiteMethodeApresNomParam = entiteMethodesApresNomParam.get(j);
+					Boolean entiteMethodeApresEcrire = entiteMethodesAvantEcrire.get(j);
+
+					if(BooleanUtils.isTrue(entiteMethodeApresEcrire)) {
+						t(1, entiteMethodeApresVisibilite, " abstract void ", entiteMethodeApresVar, "(", entiteMethodeApresParamNomSimple, " ", entiteMethodeApresParamVar);
+						if(entiteMethodeApresNomParam)
+							s(", String entiteVar");
+						l(");");
+					}
+				}
+			}
+
 			//////////
 			// htm //
 			//////////
@@ -3534,6 +3747,8 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			for(String classeEcrireMethode : new String[] { "htmlBody" }) {
 				if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
+					if(classePartsPagePart == null)
+						throw new Exception("Ajouter une classe avec le commentaire: MotCle: classeNomSimplePagePart");
 					if(entiteNomSimpleCompletGenerique == null && "htmlBody".equals(classeEcrireMethode) && entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
 						tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "(", entiteNomSimpleComplet, " o) {");
 						if(entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
@@ -3555,9 +3770,9 @@ public class EcrireGenClasse extends EcrireClasse {
 			////////////////////
 			// codeIninitLoin //
 			////////////////////
-			if(entiteInitLoin) {
-				wInitLoin.tl(2, entiteVar, "Init();");
-			}
+//			if(entiteInitLoin) {
+			wInitLoin.tl(2, entiteVar, "Init();");
+//			}
 	
 	
 			/////////////////////

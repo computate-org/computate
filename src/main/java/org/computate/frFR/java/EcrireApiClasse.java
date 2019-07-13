@@ -213,6 +213,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 		if(auteurGenApiService != null) {
 			auteurGenApiService.l("package ", classeNomEnsemble, ";");
 			auteurGenApiService.l();
+			if(classePartsSiteContexte == null)
+				throw new Exception("Ajouter une classe avec le commentaire: MotCle: classeNomSimpleSiteContexte");
 			auteurGenApiService.l("import ", classePartsSiteContexte.documentSolr.get("classeNomCanonique_" + langueNom + "_stored_string"), ";");
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
@@ -779,12 +781,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(((Boolean)entiteValeur).toString());");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -795,14 +796,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -813,14 +813,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -831,14 +830,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toZonedDateTime()));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -849,14 +847,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -867,14 +864,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(DateTimeFormatter.ISO_OFFSET_DATE.format(((Date)entiteValeur).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -885,12 +881,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(((Long)entiteValeur).toString());");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -901,12 +896,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(BigDecimal.valueOf((Double)entiteValeur).toString());");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -917,12 +911,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(((Double)entiteValeur).toString());");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -933,12 +926,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(((Float)entiteValeur).toString());");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -949,12 +941,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
 										tl(6, "w.s(((Integer)entiteValeur).toString());");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -965,15 +956,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, entiteNomSimpleComplet, " entiteValeurs = o.get", entiteVarCapitalise, "();");
 										tl(5, "w.t(3, entiteNumero++ == 0 ? \"\" : \", \");");
 										tl(5, "w.s(\"\\\"", entiteVar, "\\\": [\");");
-										tl(5, "int k = 0;");
-										tl(5, "while(entiteValeur != null) {");
+										tl(5, "for(int k = 0; k < entiteValeurs.size(); k++) {");
+										tl(6, "entiteValeur = entiteValeurs.get(k);");
 										tl(6, "if(k > 0)");
 										tl(7, "w.s(\", \");");
-										tl(6, "w.s(\", \");");
 										tl(6, "w.s(\"\\\"\");");
 										tl(6, "w.s(((String)entiteValeur));");
 										tl(6, "w.s(\"\\\"\");");
-										tl(6, "entiteValeur = entiteValeurs.iterator().hasNext() ? entiteValeurs.iterator().next() : null;");
 										tl(5, "}");
 										tl(5, "w.l(\"]\");");
 										tl(4, "}");
@@ -1761,6 +1750,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						s("liste", classeNomSimple, ".getRequeteSite_()");
 					l(", buffer);");
 					tl(3, "requeteSite.setW(w);");
+
+					if(classeApiMethode.contains("PATCH"))
+						tl(3, "buffer.appendString(\"{}\");");
 	
 	
 					if(classeApiMethode.contains("GET")) {
@@ -2059,7 +2051,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(6, "if(utilisateurValeurs == null) {");
 			tl(7, "connexionSql.queryWithParams(");
 			tl(9, "", classePartsSiteContexte.nomSimple(langueNom), ".SQL_creer");
-			tl(9, ", new JsonArray(Arrays.asList(UtilisateurSite.class.getCanonicalName(), utilisateurId))");
+			tl(9, ", new JsonArray(Arrays.asList(", q(classePartsUtilisateurSite.nomCanonique), ", utilisateurId))");
 			tl(9, ", creerAsync");
 			tl(7, "-> {");
 			tl(8, "JsonArray creerLigne = creerAsync.result().getResults().stream().findFirst().orElseGet(() -> null);");

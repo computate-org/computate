@@ -170,10 +170,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */ 
 	ClasseParts classePartsRequeteSite;
 	/**
-	 * Var.enUS: classPartsChain
-	 */
-	ClasseParts classePartsChaine;
-	/**
 	 * Var.enUS: classPartsSiteConfig
 	 */
 	ClasseParts classePartsConfigSite;
@@ -1489,23 +1485,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
-	 * Var.enUS: classPartsChain
-	 * Param1.var.enUS: domainPackageName
-	 * Param2.var.enUS: classLanguageName
-	 * r: classeLangueNom
-	 * r.enUS: classLanguageName
-	 * r: classePartsPourNomSimple
-	 * r.enUS: classPartsForSimpleName
-	 * r: nomEnsembleDomaine
-	 * r.enUS: domainPackageName
-	 * r: Chaine
-	 * r.enUS: Chain
-	 */
-	protected ClasseParts classePartsChaine(String nomEnsembleDomaine, String classeLangueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, "Chaine", classeLangueNom);
-	}
-
-	/**
 	 * Var.enUS: classPartsSiteRequest
 	 * Param1.var.enUS: domainPackageName
 	 * Param2.var.enUS: classLanguageName
@@ -2235,8 +2214,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classContainsSiteRequest
 	 * r: classeContientCouverture
 	 * r.enUS: classContainsWrap
-	 * r: classePartsChaine
-	 * r.enUS: classPartsChain
 	 * r: classePartsRequeteSite
 	 * r.enUS: classPartsSiteRequest
 	 * r: classeModele
@@ -2310,22 +2287,22 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r: entiteValValeur
 	 * r.enUS: entityValValue
 	 * 
-	 * r: entiteValsRecherche
-	 * r.enUS: entityValsSearch
-	 * r: entiteValsTrouves
-	 * r.enUS: entityValsFound
-	 * r: entiteValsVar
-	 * r.enUS: entityValsVar
-	 * r: entiteValsLangue
-	 * r.enUS: entityValsLanguage
-	 * r: entiteValsValeur
-	 * r.enUS: entityValsValue
-	 * r: entiteValVar
-	 * r.enUS: entityValVar
-	 * r: entiteValLangue
-	 * r.enUS: entityValLanguage
-	 * r: entiteValValeur
-	 * r.enUS: entityValValue
+	 * r: methodeValsRecherche
+	 * r.enUS: methodValsSearch
+	 * r: methodeValsTrouves
+	 * r.enUS: methodValsFound
+	 * r: methodeValsVar
+	 * r.enUS: methodValsVar
+	 * r: methodeValsLangue
+	 * r.enUS: methodValsLanguage
+	 * r: methodeValsValeur
+	 * r.enUS: methodValsValue
+	 * r: methodeValVar
+	 * r.enUS: methodValVar
+	 * r: methodeValLangue
+	 * r.enUS: methodValLanguage
+	 * r: methodeValValeur
+	 * r.enUS: methodValValue
 	 * 
 	 * r: classeRolesRecherche
 	 * r.enUS: classRolesSearch
@@ -3334,12 +3311,12 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsCouverture = classePartsCouverture(nomEnsembleDomaine, classeLangueNom);
 		classePartsMiseEnPage = classePartsMiseEnPage(nomEnsembleDomaine, classeLangueNom);
 		classePartsPagePart = classePartsPagePart(nomEnsembleDomaine, classeLangueNom);
-		classePartsChaine = classePartsChaine(nomEnsembleDomaine, classeLangueNom);
 		classePartsRequeteSite = classePartsRequeteSite(nomEnsembleDomaine, classeLangueNom);
 
 		Boolean classeInitLoin = !regexTrouve("^(classe)?InitLoin:\\s*(false)$", classeCommentaire);
 		if(classeInitLoin)
-			classeInitLoin = classeEtendBase || classeEstBase;
+//			classeInitLoin = classeEtendBase || classeEstBase;
+			classeInitLoin = classeContientRequeteSite;
 		classeInitLoin = stockerSolr(classeDoc, "classeInitLoin", classeInitLoin);
 		if(classeInitLoin)
 			classePartsGenAjouter(classePartsRequeteSite);
@@ -3579,13 +3556,12 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeValsTrouves = classeValsRecherche.find();
 			}
 
-			Matcher classeRolesRecherche = Pattern.compile("^(classe)?Role\\.(\\w+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeRolesRecherche = Pattern.compile("^(classe)?Role:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeRolesTrouves = classeRolesRecherche.find();
 			boolean classeRolesTrouvesActuel = classeRolesTrouves;
 			while(classeRolesTrouvesActuel) {
-				String classeRoleLangue = classeRolesRecherche.group(2);
-				String classeRoleValeur = classeRolesRecherche.group(3);
-				stockerListeSolr(classeRoleLangue, classeDoc, "classeRoles", classeRoleValeur);
+				String classeRoleValeur = classeRolesRecherche.group(2);
+				stockerListeSolr(classeDoc, "classeRoles", classeRoleValeur);
 				classeRolesTrouves = true;
 				classeRolesTrouvesActuel = classeRolesRecherche.find();
 			}
@@ -4562,7 +4538,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							stockerSolr(entiteDoc, "entiteListeNomCanoniqueVertxJson", entiteListeNomCanoniqueVertxJson);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, entiteListeNomCanoniqueVertxJson, classeLangueNom));
 						}
-						else if(classePartsChaine != null && StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueString, classePartsChaine.nomCanonique)) {
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueString)) {
 							entiteNomSimpleVertxJson = "String";
 							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 						}
@@ -4647,13 +4623,13 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniqueInteger, ".") + ">";
 								entiteSuffixeType = "_ints";
 							}
-							else if(classePartsChaine != null && StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString, classePartsChaine.nomCanonique)) {
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
 								entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueString + ">";
 								entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniqueString, ".") + ">";
 								entiteSuffixeType = "_strings";
 							}
 						}
-						else if(classePartsChaine != null && StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueString, classePartsChaine.nomCanonique)) {
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueString)) {
 							entiteSolrNomCanonique = VAL_nomCanoniqueString;
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
 							entiteSuffixeType = "_string";
@@ -4723,13 +4699,13 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "number";
 							}
-							else if(classePartsChaine != null && StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString, classePartsChaine.nomCanonique)) {
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "string";
 							}
 							stockerSolr(entiteDoc, "entiteListeTypeJson", entiteListeTypeJson);
 						}
-						else if(classePartsChaine != null && StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueString, classePartsChaine.nomCanonique)) {
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueString)) {
 							entiteTypeJson = "string";
 						}
 						stockerSolr(entiteDoc, "entiteTypeJson", entiteTypeJson);
@@ -4927,6 +4903,33 @@ public class IndexerClasse extends RegarderClasseBase {
 								stockerSolr(langueNom, methodeDoc, "methodeCodeSource", methodeCodeSourceLangue);
 								stockerRegexCommentaires(langueNom, methodeDoc, "methodeCommentaire", methodeCommentaire);
 							} 
+						}
+
+						if(methodeCommentaire != null) {
+
+							Matcher methodeValsRecherche = Pattern.compile("^(methode)?Val(:([^:\n]+):)?\\.(\\w+)(\\.([^:\n]+))?:(.*)", Pattern.MULTILINE).matcher(methodeCommentaire);
+							boolean methodeValsTrouves = methodeValsRecherche.find();
+							while(methodeValsTrouves) {
+								String methodeValVar = methodeValsRecherche.group(4);
+								String methodeValLangue = methodeValsRecherche.group(6);
+								String methodeValCode = methodeValsRecherche.group(3);
+								String methodeValValeur = methodeValsRecherche.group(7);
+								if(methodeValCode == null)
+									methodeValCode = "";
+								if(methodeValLangue == null) {
+									stockerListeSolr(methodeDoc, "methodeValsVar", methodeValVar);
+									stockerListeSolr(methodeDoc, "methodeValsLangue", "");
+									stockerListeSolr(methodeDoc, "methodeValsCode", methodeValCode);
+									stockerListeSolr(methodeDoc, "methodeValsValeur", methodeValValeur);
+								}
+								else {
+									stockerListeSolr(methodeDoc, "methodeValsVar", methodeValVar);
+									stockerListeSolr(methodeDoc, "methodeValsLangue", methodeValLangue);
+									stockerListeSolr(methodeDoc, "methodeValsCode", methodeValCode);
+									stockerListeSolr(methodeDoc, "methodeValsValeur", methodeValValeur);
+								}
+								methodeValsTrouves = methodeValsRecherche.find();
+							}
 						}
 	
 						clientSolrComputate.add(methodeDoc); 
