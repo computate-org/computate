@@ -20,7 +20,7 @@ import org.apache.solr.common.SolrDocumentList;
  **/
 public class WriteClass extends IndexClass {
 
-	protected AllWriter auteurClasse;
+	protected ToutEcrivain auteurClasse;
 
 	public void  writeClass(String classAbsolutePath, String languageName) throws Exception, Exception { 
 		SolrQuery solrSearch = new SolrQuery();   
@@ -398,7 +398,7 @@ public class WriteClass extends IndexClass {
 						s(entityVar);
 
 						if(BooleanUtils.isTrue(entityWrap))
-							s("(Wrap<", entitySimpleNameComplete, "> ", entityVarParam);
+							s("(", classePartsWrap.nomSimple(languageName), "<", entitySimpleNameComplete, "> ", entityVarParam);
 						else
 							s("(", entitySimpleNameComplete, " ", entityVarParam);
 						s(")");
@@ -431,9 +431,9 @@ public class WriteClass extends IndexClass {
 		}
 	}
 
-	AllWriter o;
+	ToutEcrivain o;
 
-	public WriteClass o(AllWriter o) {
+	public WriteClass o(ToutEcrivain o) {
 		this.o = o;
 		return this;
 	}

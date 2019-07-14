@@ -233,6 +233,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected Boolean classeInitLoin;
 
 	/**
+	 * Var.enUS: classContainsSiteRequest
+	 */
+	protected Boolean classeContientRequeteSite;
+
+	/**
 	 * Var.enUS: classIndexed
 	 */
 	protected Boolean classeIndexe;
@@ -910,6 +915,126 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
+	 * Var.enUS: str_alreadyInitialised
+	 */
+	public String str_dejaInitialise(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "dejaInitialise";
+		else
+			return "alreadyInitialized";
+	}
+
+	/**
+	 * Var.enUS: str_initDeep
+	 */
+	public String str_initLoin(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "initLoin";
+		else
+			return "initDeep";
+	}
+
+	/**
+	 * Var.enUS: str_ForClass
+	 */
+	public String str_PourClasse(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "PourClasse";
+		else
+			return "ForClass";
+	}
+
+	/**
+	 * Var.enUS: str_obtenir
+	 */
+	public String str_obtenir(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "obtenir";
+		else
+			return "obtain";
+	}
+
+	/**
+	 * Var.enUS: str_attribuer
+	 */
+	public String str_attribuer(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "attribuer";
+		else
+			return "attribute";
+	}
+
+	/**
+	 * Var.enUS: str_put
+	 */
+	public String str_put(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "put";
+		else
+			return "put";
+	}
+
+	/**
+	 * Var.enUS: str_indexer
+	 */
+	public String str_indexer(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "indexer";
+		else
+			return "index";
+	}
+
+	/**
+	 * Var.enUS: str_stocker
+	 */
+	public String str_stocker(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "stocker";
+		else
+			return "store";
+	}
+
+	/**
+	 * Var.enUS: str_peupler
+	 */
+	public String str_peupler(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "peupler";
+		else
+			return "populate";
+	}
+
+	/**
+	 * Var.enUS: str_definir
+	 */
+	public String str_definir(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "definir";
+		else
+			return "define";
+	}
+
+	/**
+	 * Var.enUS: str_requeteSite
+	 */
+	public String str_requeteSite(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "requeteSite";
+		else
+			return "siteRequest";
+	}
+
+	/**
+	 * Var.enUS: str_requeteSite
+	 */
+	public String str_RequeteSite(String langueNom) throws Exception {
+		if("frFR".equals(langueNom))
+			return "RequeteSite";
+		else
+			return "SiteRequest";
+	}
+
+	/**
 	 * Var.enUS: genCodeInitDeep
 	 * Param1.var.enUS: languageName
 	 * r: classeInitLoinExceptionNomSimple
@@ -925,8 +1050,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: wIndex
 	 * r: dejaInitialise
 	 * r.enUS: alreadyInitialized
-	 * r: initLoinPourClasse
-	 * r.enUS: initDeepForClass
+	 * r: PourClasse
+	 * r.enUS: ForClass
 	 * r: initLoin
 	 * r.enUS: initDeep
 	 * r: RequeteSite
@@ -951,16 +1076,16 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(BooleanUtils.isTrue(classeInitLoin) && classePartsRequeteSite != null) {
 			wInitLoin.l(); 
 			wInitLoin.tl(1, "//////////////");
-			wInitLoin.tl(1, "// initLoin //");
+			wInitLoin.tl(1, "// ", str_initLoin(langueNom), " //");
 			wInitLoin.tl(1, "//////////////");
 			wInitLoin.l(); 
-			wInitLoin.tl(1, "protected boolean dejaInitialise", classeNomSimple, " = false;");
+			wInitLoin.tl(1, "protected boolean ", str_dejaInitialise(langueNom), classeNomSimple, " = false;");
 			wInitLoin.l();
-			wInitLoin.t(1, "public ", classeNomSimple, " initLoin", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_)");
+			wInitLoin.t(1, "public ", classeNomSimple, " ", str_initLoin(langueNom), classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_)");
 			if(classeInitLoinExceptions.size() > 0) {
 				wInitLoin.s(" throws ");
 				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
-					String classeInitLoinException = classeInitLoinExceptions.get(i);
+String classeInitLoinException = classeInitLoinExceptions.get(i);
 					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
 					if(i > 0)
 						wInitLoin.s(", ");
@@ -970,15 +1095,16 @@ public class EcrireGenClasse extends EcrireClasse {
 			wInitLoin.l(" {");
 //						if(contient", classePartsRequeteSite.nomSimple(langueNom), " && !StringUtils.equals(classeNomSimple, "", classePartsRequeteSite.nomSimple(langueNom), ""))
 //							tl(2, "((", classeNomSimple, ")this).setRequeteSite_(requeteSite);");
-			wInitLoin.tl(2, "setRequeteSite_(requeteSite_);");
-			wInitLoin.tl(2, "if(!dejaInitialise", classeNomSimple, ") {");
-			wInitLoin.tl(3, "dejaInitialise", classeNomSimple, " = true;");
-			wInitLoin.tl(3, "initLoin", classeNomSimple, "();");
+			if(classeContientRequeteSite)
+				wInitLoin.tl(2, "set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
+			wInitLoin.tl(2, "if(!", str_dejaInitialise(langueNom), classeNomSimple, ") {");
+			wInitLoin.tl(3, str_dejaInitialise(langueNom), classeNomSimple, " = true;");
+			wInitLoin.tl(3, str_initLoin(langueNom), classeNomSimple, "();");
 			wInitLoin.tl(2, "}");
 			wInitLoin.tl(2, "return (", classeNomSimple, ")this;");
 			wInitLoin.tl(1, "}");
 			wInitLoin.l();
-			wInitLoin.t(1, "public void initLoin", classeNomSimple, "()");
+			wInitLoin.t(1, "public void ", str_initLoin(langueNom), classeNomSimple, "()");
 			if(classeInitLoinExceptions.size() > 0) {
 				wInitLoin.s(" throws ");
 				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -991,7 +1117,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			wInitLoin.l(" {");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
-				wInitLoin.tl(2, "super.initLoin", classeNomSimpleSuperGenerique, "(requeteSite_);");
+				wInitLoin.tl(2, "super.", str_initLoin(langueNom), classeNomSimpleSuperGenerique, "(", str_requeteSite(langueNom), "_);");
 			wInitLoin.tl(2, "init", classeNomSimple, "();");
 			wInitLoin.tl(1, "}");
 			wInitLoin.l();
@@ -1036,16 +1162,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: simpleName
 	 */
 	public void genCodeRequeteSite(String langueNom) throws Exception {
-		if(BooleanUtils.isTrue(classeInitLoin) && classePartsRequeteSite != null) {
+		if(BooleanUtils.isTrue(classeContientRequeteSite) && classePartsRequeteSite != null) {
 			o = wRequeteSite;
 			l(); 
 			tl(1, "/////////////////");
-			tl(1, "// requeteSite //");
+			tl(1, "// ", str_requeteSite(langueNom), " //");
 			tl(1, "/////////////////");
 			l(); 
-			tl(1, "public void requeteSite", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_) {");
+			tl(1, "public void ", str_requeteSite(langueNom), classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_) {");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
-				tl(3, "super.requeteSite", classeNomSimpleSuperGenerique, "(requeteSite_);");
+				tl(3, "super.", str_requeteSite(langueNom), classeNomSimpleSuperGenerique, "(", str_requeteSite(langueNom), "_);");
 		}
 	}
 
@@ -1073,26 +1199,26 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// obtenir //");
+			tl(1, "// ", str_obtenir(langueNom), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public Object obtenirPourClasse(String var) {");
+			l("public Object ", str_obtenir(langueNom), str_PourClasse(langueNom), "(String var) {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
-			tl(4, "o = obtenir", classeNomSimple, "(v);");
+			tl(4, "o = ", str_obtenir(langueNom), classeNomSimple, "(v);");
 			tl(3, "else if(o instanceof Cluster) {");
 			tl(4, "Cluster cluster = (Cluster)o;");
-			tl(4, "o = cluster.obtenirPourClasse(v);");
+			tl(4, "o = cluster.", str_obtenir(langueNom), str_PourClasse(langueNom), "(v);");
 			tl(3, "}");
 			tl(2, "}");
 			tl(2, "return o;");
 			tl(1, "}");
-			tl(1, "public Object obtenir", classeNomSimple, "(String var) {");
+			tl(1, "public Object ", str_obtenir(langueNom), classeNomSimple, "(String var) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "switch(var) {");
 		}
@@ -1124,13 +1250,13 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "///////////////");
-			tl(1, "// attribuer //");
+			tl(1, "// ", str_attribuer(langueNom), " //");
 			tl(1, "///////////////");
 			tl(0);
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			s("public boolean attribuerPourClasse(String var, Object val)");
+			s("public boolean ", str_attribuer(langueNom), str_PourClasse(langueNom), "(String var, Object val)");
 			if(classeInitLoinExceptions.size() > 0) {
 				s(" throws ");
 				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -1146,15 +1272,15 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
-			tl(4, "o = attribuer", classeNomSimple + "(v, val);");
+			tl(4, "o = ", str_attribuer(langueNom), classeNomSimple + "(v, val);");
 			tl(3, "else if(o instanceof Cluster) {");
 			tl(4, "Cluster cluster = (Cluster)o;");
-			tl(4, "o = cluster.attribuerPourClasse(v, val);");
+			tl(4, "o = cluster.", str_attribuer(langueNom), str_PourClasse(langueNom), "(v, val);");
 			tl(3, "}");
 			tl(2, "}");
 			tl(2, "return o != null;");
 			tl(1, "}");
-			tl(1, "public Object attribuer", classeNomSimple, "(String var, Object val) {");
+			tl(1, "public Object ", str_attribuer(langueNom), classeNomSimple, "(String var, Object val) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "switch(var) {");
 
@@ -1190,7 +1316,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public void putPourClasse(JsonObject requeteJson) {");
+			l("public void ", str_put(langueNom), str_PourClasse(langueNom), "(JsonObject requeteJson) {");
 			tl(2, "Set<String> vars = requeteJson.fieldNames();");
 			tl(2, "for(String var : vars) {");
 			tl(3, "put", classeNomSimple + "(requeteJson, var);");
@@ -1200,7 +1326,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			l("public Boolean put", classeNomSimple, "(JsonObject requeteJson, String var) {");
+			l("public Boolean ", str_put(langueNom), classeNomSimple, "(JsonObject requeteJson, String var) {");
 			tl(2, "switch(var) {");
 		}
 	}
@@ -2242,7 +2368,7 @@ public class EcrireGenClasse extends EcrireClasse {
 								if(classeEntiteVars.contains("utilisateurId"))
 									methodeValsEcrivain.tl(2 + p, "sx(utilisateurId == null ? ", methodeVar, methodeValVar, methodeValVarNumero, " : ", methodeValCode, ");");
 								else
-									methodeValsEcrivain.tl(2 + p, "sx(requeteSite_.getUtilisateurId() == null ? ", methodeVar, methodeValVar, methodeValVarNumero, " : ", methodeValCode, ");");
+									methodeValsEcrivain.tl(2 + p, "sx(", str_requeteSite(langueNom), "_.getUtilisateurId() == null ? ", methodeVar, methodeValVar, methodeValVarNumero, " : ", methodeValCode, ");");
 							}
 						}
 					}
@@ -2615,8 +2741,12 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: wApiGeneratePatch
 	 * r: classeEtendGen
 	 * r.enUS: classExtendsGen
-	 * r: initLoinPourClasse
-	 * r.enUS: initDeepForClass
+	 * r: PourClasse
+	 * r.enUS: ForClass
+	 * r: PourClasse
+	 * r.enUS: ForClass
+	 * r: initLoin
+	 * r.enUS: initDeep
 	 * r: ToutEcrivain
 	 * r.enUS: AllWriter
 	 * r: Droits
@@ -2917,7 +3047,7 @@ public class EcrireGenClasse extends EcrireClasse {
 									if(classeEntiteVars.contains("utilisateurId"))
 										entiteValsEcrivain.tl(2 + p, "sx(utilisateurId == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
 									else
-										entiteValsEcrivain.tl(2 + p, "sx(requeteSite_.getUtilisateurId() == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
+										entiteValsEcrivain.tl(2 + p, "sx(", str_requeteSite(langueNom), "_.getUtilisateurId() == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
 								}
 							}
 						}
@@ -3000,8 +3130,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			l(";");
 	
-			t(1, "public Couverture<", entiteNomSimpleComplet, "> ", entiteVar, "Couverture");
-			l(" = new Couverture<", entiteNomSimpleComplet, ">().p(this).c(", entiteNomSimple, ".class).var(\"", entiteVar, "\").o(", entiteVar, ");");
+			t(1, "public ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVar, classePartsCouverture.nomSimple(langueNom));
+			l(" = new ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, ">().p(this).c(", entiteNomSimple, ".class).var(\"", entiteVar, "\").o(", entiteVar, ");");
 	
 			// Methode underscore //
 			l();
@@ -3053,7 +3183,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			s(" _", entiteVar);
 			s("(");
 			if(entiteCouverture) {
-				s("Couverture<", entiteNomSimpleComplet, "> ", entiteVarParam);
+				s(classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVarParam);
 			}
 			else {
 				s(entiteNomSimpleComplet, " ", entiteVarParam);
@@ -3085,7 +3215,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			l();
 			tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVar, ") {");
 			tl(2, "this.", entiteVar, " = ", entiteVar, ";");
-			tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+			tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 			tl(1, "}");
 	//
 	//						l();
@@ -3100,7 +3230,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(3, "Long l = Long.parseLong(o);");
 				tl(3, "add", entiteVarCapitalise, "(l);");
 				tl(2, "}");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3109,7 +3239,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(StringUtils.equals(entiteNomCanonique, Boolean.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = Boolean.parseBoolean(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3119,7 +3249,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 				tl(3, "this.", entiteVar, " = Integer.parseInt(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3129,7 +3259,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 				tl(3, "this.", entiteVar, " = Float.parseFloat(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3139,7 +3269,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 				tl(3, "this.", entiteVar, " = Double.parseDouble(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3149,7 +3279,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 				tl(3, "this.", entiteVar, " = Long.parseLong(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3158,7 +3288,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(StringUtils.equals(entiteNomSimple, "Chaine")) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, entiteVar, ".s(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3168,17 +3298,17 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 				tl(3, "this.", entiteVar, " = new BigDecimal(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Double o) {");
 				tl(3, "this.", entiteVar, " = new BigDecimal(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Integer o) {");
 				tl(3, "this.", entiteVar, " = new BigDecimal(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3188,7 +3318,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3198,7 +3328,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3207,18 +3337,18 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Instant o) {");
 				tl(2, "this.", entiteVar, " = LocalDate.from(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
 				tl(2, "this.", entiteVar, " = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3227,18 +3357,18 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Instant o) {");
 				tl(2, "this.", entiteVar, " = ZonedDateTime.from(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ZonedDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
 				tl(2, "this.", entiteVar, " = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3247,18 +3377,18 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Instant o) {");
 				tl(2, "this.", entiteVar, " = LocalDateTime.from(o);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
 				tl(2, "this.", entiteVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
-				tl(2, "this.", entiteVar, "Couverture.dejaInitialise = true;");
+				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3555,11 +3685,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "}");
 			}
 
-			tl(2, "if(!", entiteVar, "Couverture.dejaInitialise) {");
+			tl(2, "if(!", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), ") {");
 			if(entiteCouverture) {
-				tl(3, "_", entiteVar, "(", entiteVar, "Couverture);");
+				tl(3, "_", entiteVar, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ");");
 				tl(3, "if(", entiteVar, " == null)");
-				tl(4, "set", entiteVarCapitalise, "(", entiteVar, "Couverture.o);");
+				tl(4, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
 			}
 			else {
 				tl(3, "_", entiteVar, "(", entiteVar, ");");
@@ -3572,10 +3702,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(entiteInitLoin && entiteInitialise) {
 				if(entiteCouverture) {
 					tl(2, "if(", entiteVar, " != null)");
-					tl(3, entiteVar, ".initLoinPourClasse(requeteSite_);");
+					tl(3, entiteVar, ".", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ");");
 				}
 				else {
-					tl(2, entiteVar, ".initLoinPourClasse(requeteSite_);");
+					tl(2, entiteVar, ".", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ");");
 				}
 			}
 
@@ -3594,7 +3724,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "}");
 			}
 
-			tl(2, entiteVar, "Couverture.dejaInitialise(true);");
+			tl(2, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
 			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 
@@ -3778,10 +3908,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			/////////////////////
 			// codeRequeteSite //
 			/////////////////////
-			if(classeInitLoin && entiteInitialise) {
+			if(classeContientRequeteSite && classeInitLoin && entiteInitialise) {
 				o = wRequeteSite;
 				tl(2, "if(", entiteVar, " != null)");
-				tl(3, entiteVar, ".setRequeteSite_(requeteSite_);");
+				tl(3, entiteVar, ".set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
 			}
 	
 			/////////////////
@@ -4186,8 +4316,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classSimpleName
 	 * r: dejaInitialise
 	 * r.enUS: alreadyInitialized
-	 * r: initLoinPourClasse
-	 * r.enUS: initDeepForClass
+	 * r: PourClasse
+	 * r.enUS: ForClass
+	 * r: initLoin
+	 * r.enUS: initDeep
 	 * r: requeteSitePourClasse
 	 * r.enUS: siteRequestForClass
 	 * r: wIndexer
@@ -4372,14 +4504,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		// codeInitLoin //
 		//////////////////
 		if(classeInitLoin && classePartsRequeteSite != null) {
-//			wInitLoin.tl(3, "dejaInitialise", classeNomSimple, " = true;");
+//			wInitLoin.tl(3, "", dejaInitialise(langueNom), "", classeNomSimple, " = true;");
 			wInitLoin.tl(1, "}");
 			if(classeInitLoin) {
 				wInitLoin.l();
 				wInitLoin.t(1);
 				if(classeEtendBase)
 					wInitLoin.s("@Override ");
-				wInitLoin.s("public void initLoinPourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_)");
+				wInitLoin.s("public void ", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_)");
 				if(classeInitLoinExceptions.size() > 0) {
 					wInitLoin.s(" throws ");
 					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -4391,7 +4523,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				}
 				wInitLoin.l(" {");
-				wInitLoin.tl(2, "initLoin", classeNomSimple, "(requeteSite_);");
+				wInitLoin.tl(2, str_initLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), "_);");
 				wInitLoin.tl(1, "}");  
 			}
 		}
@@ -4399,12 +4531,12 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////////
 		// codeRequeteSite //
 		/////////////////////
-		if(classeInitLoin && classePartsRequeteSite != null) {
+		if(classeContientRequeteSite && classeInitLoin && classePartsRequeteSite != null) {
 			o = wRequeteSite;
 			tl(1, "}");
 			l();
-			tl(1, "public void requeteSitePourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_) {");
-			tl(2, "requeteSite", classeNomSimple, "(requeteSite_);");
+			tl(1, "public void ", str_requeteSite(langueNom), str_PourClasse(langueNom), "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_) {");
+			tl(2, str_requeteSite(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), "_);");
 			tl(1, "}");  
 		}
 
@@ -4418,7 +4550,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return super.obtenir", classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return super.", str_obtenir(langueNom), classeNomSimpleSuperGenerique, "(var);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -4434,7 +4566,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return super.attribuer", classeNomSimpleSuperGenerique, "(var, val);");
+				tl(4, "return super.", str_attribuer(langueNom), classeNomSimpleSuperGenerique, "(var, val);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -4495,7 +4627,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			s("public boolean definirPourClasse(String var, String val)");
+			s("public boolean ", str_definir(langueNom), str_PourClasse(langueNom), "(String var, String val)");
 			if(classeInitLoinExceptions.size() > 0) {
 				s(" throws ");
 				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
@@ -4515,7 +4647,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(5, "o = definir", classeNomSimple, "(v, val);");
 			tl(4, "else if(o instanceof Cluster) {");
 			tl(5, "Cluster cluster = (Cluster)o;");
-			tl(5, "o = cluster.definirPourClasse(v, val);");
+			tl(5, "o = cluster.", str_definir(langueNom), str_PourClasse(langueNom), "(v, val);");
 			tl(4, "}");
 			tl(3, "}");
 			tl(2, "}");
@@ -4550,18 +4682,18 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeSauvegarde) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// peupler //");
+			tl(1, "// ", str_peupler(langueNom), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(BooleanUtils.isTrue(classeEtendBase))
 				s("@Override ");
-			l("public void peuplerPourClasse(SolrDocument solrDocument) {");
+			l("public void ", str_peupler(langueNom), str_PourClasse(langueNom), "(SolrDocument solrDocument) {");
 			if(classeSauvegarde) {
 			tl(2, "peupler", classeNomSimple, "(solrDocument);");
 			}
 			tl(1, "}");
-			tl(1, "public void peupler", classeNomSimple, "(SolrDocument solrDocument) {");
+			tl(1, "public void ", str_peupler(langueNom), classeNomSimple, "(SolrDocument solrDocument) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			tl(2, "sauvegardes", classeNomSimple, " = (List<String>)solrDocument.get(\"sauvegardes", classeNomSimple, "_stored_strings\");");
 			tl(2, "if(sauvegardes", classeNomSimple, " != null) {");
@@ -4569,7 +4701,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "}");
 			if(BooleanUtils.isTrue(classeEtendBase)) {
 				tl(0);
-				tl(2, "super.peupler", classeNomSimpleSuperGenerique, "(solrDocument);");
+				tl(2, "super.", str_peupler(langueNom), classeNomSimpleSuperGenerique, "(solrDocument);");
 			}
 
 			tl(1, "}");
@@ -4617,19 +4749,18 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeIndexe && classePartsRequeteSite != null) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// indexer //");
+			tl(1, "// ", str_indexer(langueNom), " //");
 			tl(1, "/////////////");
 			tl(0);
-			tl(1, "public static void indexer() {");
+			tl(1, "public static void ", str_indexer(langueNom), "() {");
 			tl(2, "try {");
 			tl(3, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
-			tl(3, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
+			tl(3, "requeteSite.", str_initLoin(langueNom), classePartsRequeteSite.nomSimple(langueNom), "();");
 			tl(3, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
 			tl(3, "siteContexte.getConfigSite().setConfigChemin(", q(configChemin), ");");
-			tl(3, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
-			tl(3, "siteContexte.setRequeteSite_(requeteSite);");
-			tl(3, "requeteSite.setSiteContexte_(siteContexte);");
-			tl(3, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
+			tl(3, "siteContexte.", str_initLoin(langueNom), classePartsSiteContexte.nomSimple(langueNom), "();");
+			tl(3, str_requeteSite(langueNom), ".setSiteContexte_(siteContexte);");
+			tl(3, str_requeteSite(langueNom), ".setConfigSite_(siteContexte.getConfigSite());");
 			tl(3, "SolrQuery rechercheSolr = new SolrQuery();");
 			tl(3, "rechercheSolr.setQuery(\"*:*\");");
 			tl(3, "rechercheSolr.setRows(1);");
@@ -4639,8 +4770,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(4, "requeteSite.setDocumentSolr(reponseRecherche.getResults().get(0));");
 			tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
 			tl(3, "o.requeteSite", classeNomSimple, "(requeteSite);");
-			tl(3, "o.initLoin", classeNomSimple, "(requeteSite);");
-			tl(3, "o.indexer", classeNomSimple, "();");
+			tl(3, "o.", str_initLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ");");
+			tl(3, "o.", str_indexer(langueNom), classeNomSimple, "();");
 			tl(2, "} catch(Exception e) {");
 			tl(3, "ExceptionUtils.rethrow(e);");
 			tl(2, "}");
@@ -4651,19 +4782,19 @@ public class EcrireGenClasse extends EcrireClasse {
 				t(1);
 				if(!classeEstBase)
 					s("@Override ");
-				l("public void indexerPourClasse() {");
-				tl(2, "indexer", classeNomSimple, "();");
+				l("public void ", str_indexer(langueNom), str_PourClasse(langueNom), "() {");
+				tl(2, str_indexer(langueNom), classeNomSimple, "();");
 				tl(1, "}");
 				tl(0);
 				t(1);
 				if(!classeEstBase)
 					s("@Override ");
-				l("public void indexerPourClasse(SolrInputDocument document) {");
-				tl(2, "indexer", classeNomSimple, "(document);");
+				l("public void ", str_indexer(langueNom), str_PourClasse(langueNom), "(SolrInputDocument document) {");
+				tl(2, str_indexer(langueNom), classeNomSimple, "(document);");
 				tl(1, "}");
 			}
 			l();
-			tl(1, "public void indexer", classeNomSimple, "(SolrClient clientSolr) {");
+			tl(1, "public void ", str_indexer(langueNom), classeNomSimple, "(SolrClient clientSolr) {");
 			tl(2, "try {");
 			tl(3, "SolrInputDocument document = new SolrInputDocument();");
 			tl(3, "indexer", classeNomSimple, "(document);");
@@ -4674,11 +4805,11 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "}");
 			l("\t}");
 			l();
-			tl(1, "public void indexer", classeNomSimple, "() {");
+			tl(1, "public void ", str_indexer(langueNom), classeNomSimple, "() {");
 			tl(2, "try {");
 			tl(3, "SolrInputDocument document = new SolrInputDocument();");
 			tl(3, "indexer", classeNomSimple, "(document);");
-			tl(3, "SolrClient clientSolr = requeteSite_.getSiteContexte_().getClientSolr();");
+			tl(3, "SolrClient clientSolr = ", str_requeteSite(langueNom), "_.getSiteContexte_().getClientSolr();");
 			tl(3, "clientSolr.add(document);");
 			tl(3, "clientSolr.commit();");
 			tl(2, "} catch(Exception e) {");
@@ -4687,7 +4818,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			l("\t}");
 
 			tl(0);
-			tl(1, "public void indexer", classeNomSimple, "(SolrInputDocument document) {");
+			tl(1, "public void ", str_indexer(langueNom), classeNomSimple, "(SolrInputDocument document) {");
 			if(classeSauvegarde) {
 				tl(2, "if(sauvegardes", classeNomSimple, " != null)");
 				tl(3, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
@@ -4705,13 +4836,12 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public void desindexer", classeNomSimple, "() {");
 				tl(2, "try {");
 				tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
-				tl(3, "requeteSite.initLoin", classePartsRequeteSite.nomSimple(langueNom), "();");
+				tl(3, "requeteSite.", str_initLoin(langueNom), classePartsRequeteSite.nomSimple(langueNom), "();");
 				tl(3, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
-				tl(3, "siteContexte.initLoin", classePartsSiteContexte.nomSimple(langueNom), "();");
-				tl(3, "siteContexte.setRequeteSite_(requeteSite);");
-				tl(3, "requeteSite.setSiteContexte_(siteContexte);");
-				tl(3, "requeteSite.setConfigSite_(siteContexte.getConfigSite());");
-				tl(3, "initLoin", classeNomSimple, "(siteContexte.getRequeteSite_());");
+				tl(3, "siteContexte.", str_initLoin(langueNom), classePartsSiteContexte.nomSimple(langueNom), "();");
+				tl(3, str_requeteSite(langueNom), ".setSiteContexte_(siteContexte);");
+				tl(3, str_requeteSite(langueNom), ".setConfigSite_(siteContexte.getConfigSite());");
+				tl(3, str_initLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ");");
 				tl(3, "SolrClient clientSolr = siteContexte.getClientSolr();");
 				tl(3, "clientSolr.deleteById(", classeVarCleUnique, ".toString());");
 				tl(3, "clientSolr.commit();");
@@ -4728,23 +4858,23 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeIndexe) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// stocker //");
+			tl(1, "// ", str_stocker(langueNom), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(BooleanUtils.isTrue(classeEtendBase))
 				s("@Override ");
-			l("public void stockerPourClasse(SolrDocument solrDocument) {");
+			l("public void ", str_stocker(langueNom), str_PourClasse(langueNom), "(SolrDocument solrDocument) {");
 			if(classeIndexe) {
-			tl(2, "stocker", classeNomSimple, "(solrDocument);");
+			tl(2, str_stocker(langueNom), classeNomSimple, "(solrDocument);");
 			}
 			tl(1, "}");
-			tl(1, "public void stocker", classeNomSimple, "(SolrDocument solrDocument) {");
+			tl(1, "public void ", str_stocker(langueNom), classeNomSimple, "(SolrDocument solrDocument) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
 			s(wStocker.toString());
 			if(BooleanUtils.isTrue(classeEtendBase)) {
 				tl(0);
-				tl(2, "super.stocker", classeNomSimpleSuperGenerique, "(solrDocument);");
+				tl(2, "super.", str_stocker(langueNom), classeNomSimpleSuperGenerique, "(solrDocument);");
 			}
 
 			tl(1, "}");

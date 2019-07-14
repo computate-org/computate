@@ -789,10 +789,11 @@ public class IndexClass extends RegarderClasseBase {
 		indexStoreSolr(classDoc, "baseClassExtendsGen", baseClassExtendsGen);
 		Boolean classContainsSiteRequest = false;
 		try {
-			indexStoreSolr(classDoc, "classContainsSiteRequest", classQdox.getMethodBySignature("getSiteRequest_", new ArrayList<JavaType>(), true) != null);
+			classContainsSiteRequest = classQdox.getMethodBySignature("getSiteRequest_", new ArrayList<JavaType>(), true) != null;
 		} catch (Exception e) {
 			// TODO ctate fix this to pull from solr. 
 		}
+		indexStoreSolr(classDoc, "classContainsSiteRequest", classContainsSiteRequest);
 		
 		String classComment = storeRegexComments(classLanguageName, classDoc, "classComment", classQdox.getComment());
 		String classPackageName = StringUtils.substringBeforeLast(classCanonicalName, ".");
@@ -887,8 +888,8 @@ public class IndexClass extends RegarderClasseBase {
 
 		Boolean classInitDeep = !regexFound("^(class)?InitDeep:\\s*(false)$", classComment);
 		if(classInitDeep)
-//			classInitDeep = classExtendsBase || classIsBase;
-			classInitDeep = classContainsSiteRequest;
+			classInitDeep = classExtendsBase || classIsBase;
+//			classInitDeep = classContainsSiteRequest;
 		classInitDeep = storeSolr(classDoc, "classInitDeep", classInitDeep);
 		if(classInitDeep)
 			classPartsGenAdd(classPartsSiteRequest);

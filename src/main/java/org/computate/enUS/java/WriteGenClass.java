@@ -31,7 +31,7 @@ import org.apache.solr.common.SolrDocument;
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  **/
-public class WriteGenClass extends EcrireClasse {
+public class WriteGenClass extends WriteClass {
 
 	public static final String[] HTML_ELEMENTS = new String[] { "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code", "br", "dd", "dt" };
 
@@ -114,6 +114,8 @@ public class WriteGenClass extends EcrireClasse {
 	protected Boolean classBaseExtendsGen;
 
 	protected Boolean classInitDeep;
+
+	protected Boolean classContainsSiteRequest;
 
 	protected Boolean classIndexed;
 
@@ -393,20 +395,104 @@ public class WriteGenClass extends EcrireClasse {
 		wEquals = AllWriter.create();
 	}
 
+	public String str_alreadyInitialised(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "dejaInitialise";
+		else
+			return "alreadyInitialized";
+	}
+
+	public String str_initDeep(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "initLoin";
+		else
+			return "initDeep";
+	}
+
+	public String str_ForClass(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "PourClasse";
+		else
+			return "ForClass";
+	}
+
+	public String str_obtenir(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "obtenir";
+		else
+			return "obtain";
+	}
+
+	public String str_attribuer(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "attribuer";
+		else
+			return "attribute";
+	}
+
+	public String str_put(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "put";
+		else
+			return "put";
+	}
+
+	public String str_indexer(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "indexer";
+		else
+			return "index";
+	}
+
+	public String str_stocker(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "stocker";
+		else
+			return "store";
+	}
+
+	public String str_peupler(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "peupler";
+		else
+			return "populate";
+	}
+
+	public String str_definir(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "definir";
+		else
+			return "define";
+	}
+
+	public String str_requeteSite(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "requeteSite";
+		else
+			return "siteRequest";
+	}
+
+	public String str_requeteSite(String langueNom) throws Exception, Exception {
+		if("frFR".equals(langueNom))
+			return "RequeteSite";
+		else
+			return "SiteRequest";
+	}
+
 	public void  genCodeInitDeep(String languageName) throws Exception, Exception {
 		if(BooleanUtils.isTrue(classInitDeep) && classPartsSiteRequest != null) {
 			wInitDeep.l(); 
 			wInitDeep.tl(1, "//////////////");
-			wInitDeep.tl(1, "// initDeep //");
+			wInitDeep.tl(1, "// ", str_initDeep(languageName), " //");
 			wInitDeep.tl(1, "//////////////");
 			wInitDeep.l(); 
-			wInitDeep.tl(1, "protected boolean alreadyInitialized", classSimpleName, " = false;");
+			wInitDeep.tl(1, "protected boolean ", str_alreadyInitialized(languageName), classSimpleName, " = false;");
 			wInitDeep.l();
-			wInitDeep.t(1, "public ", classSimpleName, " initDeep", classSimpleName, "(", classPartsSiteRequest.simpleName(languageName), " siteRequest_)");
+			wInitDeep.t(1, "public ", classSimpleName, " ", str_initDeep(languageName), classSimpleName, "(", classPartsSiteRequest.simpleName(languageName), " ", str_siteRequest(languageName), "_)");
 			if(classInitDeepExceptions.size() > 0) {
 				wInitDeep.s(" throws ");
 				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
-					String classInitDeepException = classInitDeepExceptions.get(i);
+String classInitDeepException = classInitDeepExceptions.get(i);
 					String classInitDeepExceptionSimpleName = StringUtils.substringAfterLast(classInitDeepException, ".");
 					if(i > 0)
 						wInitDeep.s(", ");
@@ -416,15 +502,16 @@ public class WriteGenClass extends EcrireClasse {
 			wInitDeep.l(" {");
 //						if(contient", classPartsSiteRequest.simpleName(languageName), " && !StringUtils.equals(classSimpleName, "", classPartsSiteRequest.simpleName(languageName), ""))
 //							tl(2, "((", classSimpleName, ")this).setSiteRequest_(siteRequest);");
-			wInitDeep.tl(2, "setSiteRequest_(siteRequest_);");
-			wInitDeep.tl(2, "if(!alreadyInitialized", classSimpleName, ") {");
-			wInitDeep.tl(3, "alreadyInitialized", classSimpleName, " = true;");
-			wInitDeep.tl(3, "initDeep", classSimpleName, "();");
+			if(classeContientSiteRequest)
+				wInitDeep.tl(2, "set", str_SiteRequest(languageName), "_(", str_siteRequest(languageName), "_);");
+			wInitDeep.tl(2, "if(!", str_alreadyInitialized(languageName), classSimpleName, ") {");
+			wInitDeep.tl(3, str_alreadyInitialized(languageName), classSimpleName, " = true;");
+			wInitDeep.tl(3, str_initDeep(languageName), classSimpleName, "();");
 			wInitDeep.tl(2, "}");
 			wInitDeep.tl(2, "return (", classSimpleName, ")this;");
 			wInitDeep.tl(1, "}");
 			wInitDeep.l();
-			wInitDeep.t(1, "public void initDeep", classSimpleName, "()");
+			wInitDeep.t(1, "public void ", str_initDeep(languageName), classSimpleName, "()");
 			if(classInitDeepExceptions.size() > 0) {
 				wInitDeep.s(" throws ");
 				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
@@ -437,7 +524,7 @@ public class WriteGenClass extends EcrireClasse {
 			}
 			wInitDeep.l(" {");
 			if(BooleanUtils.isTrue(classExtendsBase)) 
-				wInitDeep.tl(2, "super.initDeep", classSuperSimpleNameGeneric, "(siteRequest_);");
+				wInitDeep.tl(2, "super.", str_initDeep(languageName), classSuperSimpleNameGeneric, "(", str_siteRequest(languageName), "_);");
 			wInitDeep.tl(2, "init", classSimpleName, "();");
 			wInitDeep.tl(1, "}");
 			wInitDeep.l();
@@ -457,16 +544,16 @@ public class WriteGenClass extends EcrireClasse {
 	}
 
 	public void  genCodeSiteRequest(String languageName) throws Exception, Exception {
-		if(BooleanUtils.isTrue(classInitDeep) && classPartsSiteRequest != null) {
+		if(BooleanUtils.isTrue(classeContientSiteRequest) && classPartsSiteRequest != null) {
 			o = wSiteRequest;
 			l(); 
 			tl(1, "/////////////////");
-			tl(1, "// siteRequest //");
+			tl(1, "// ", str_siteRequest(languageName), " //");
 			tl(1, "/////////////////");
 			l(); 
-			tl(1, "public void siteRequest", classSimpleName, "(", classPartsSiteRequest.simpleName(languageName), " siteRequest_) {");
+			tl(1, "public void ", str_siteRequest(languageName), classSimpleName, "(", classPartsSiteRequest.simpleName(languageName), " ", str_siteRequest(languageName), "_) {");
 			if(BooleanUtils.isTrue(classExtendsBase)) 
-				tl(3, "super.siteRequest", classSuperSimpleNameGeneric, "(siteRequest_);");
+				tl(3, "super.", str_siteRequest(languageName), classSuperSimpleNameGeneric, "(", str_siteRequest(languageName), "_);");
 		}
 	}
 
@@ -475,26 +562,26 @@ public class WriteGenClass extends EcrireClasse {
 		if(classInitDeep && (classExtendsBase || classIsBase)) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// obtain //");
+			tl(1, "// ", str_obtain(langueNom), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			l("public Object obtainForClass(String var) {");
+			l("public Object ", str_obtain(langueNom), str_PourClasse(langueNom), "(String var) {");
 			tl(2, "String[] vars = StringUtils.split(var, \".\");");
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
-			tl(4, "o = obtain", classSimpleName, "(v);");
+			tl(4, "o = ", str_obtain(langueNom), classSimpleName, "(v);");
 			tl(3, "else if(o instanceof Cluster) {");
 			tl(4, "Cluster cluster = (Cluster)o;");
-			tl(4, "o = cluster.obtainForClass(v);");
+			tl(4, "o = cluster.", str_obtain(langueNom), str_PourClasse(langueNom), "(v);");
 			tl(3, "}");
 			tl(2, "}");
 			tl(2, "return o;");
 			tl(1, "}");
-			tl(1, "public Object obtain", classSimpleName, "(String var) {");
+			tl(1, "public Object ", str_obtain(langueNom), classSimpleName, "(String var) {");
 			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
 			tl(2, "switch(var) {");
 		}
@@ -505,13 +592,13 @@ public class WriteGenClass extends EcrireClasse {
 		if(classInitDeep && (classExtendsBase || classIsBase)) {
 			l(); 
 			tl(1, "///////////////");
-			tl(1, "// attribute //");
+			tl(1, "// ", str_attribute(langueNom), " //");
 			tl(1, "///////////////");
 			tl(0);
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			s("public boolean attributeForClass(String var, Object val)");
+			s("public boolean ", str_attribute(langueNom), str_PourClasse(langueNom), "(String var, Object val)");
 			if(classInitDeepExceptions.size() > 0) {
 				s(" throws ");
 				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
@@ -527,15 +614,15 @@ public class WriteGenClass extends EcrireClasse {
 			tl(2, "Object o = null;");
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
-			tl(4, "o = attribute", classSimpleName + "(v, val);");
+			tl(4, "o = ", str_attribute(langueNom), classSimpleName + "(v, val);");
 			tl(3, "else if(o instanceof Cluster) {");
 			tl(4, "Cluster cluster = (Cluster)o;");
-			tl(4, "o = cluster.attributeForClass(v, val);");
+			tl(4, "o = cluster.", str_attribute(langueNom), str_PourClasse(langueNom), "(v, val);");
 			tl(3, "}");
 			tl(2, "}");
 			tl(2, "return o != null;");
 			tl(1, "}");
-			tl(1, "public Object attribute", classSimpleName, "(String var, Object val) {");
+			tl(1, "public Object ", str_attribute(langueNom), classSimpleName, "(String var, Object val) {");
 			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
 			tl(2, "switch(var) {");
 
@@ -554,7 +641,7 @@ public class WriteGenClass extends EcrireClasse {
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			l("public void putForClass(JsonObject requeteJson) {");
+			l("public void ", str_put(langueNom), str_PourClasse(langueNom), "(JsonObject requeteJson) {");
 			tl(2, "Set<String> vars = requeteJson.fieldNames();");
 			tl(2, "for(String var : vars) {");
 			tl(3, "put", classSimpleName + "(requeteJson, var);");
@@ -564,7 +651,7 @@ public class WriteGenClass extends EcrireClasse {
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			l("public Boolean put", classSimpleName, "(JsonObject requeteJson, String var) {");
+			l("public Boolean ", str_put(langueNom), classSimpleName, "(JsonObject requeteJson, String var) {");
 			tl(2, "switch(var) {");
 		}
 	}
@@ -1148,7 +1235,7 @@ public class WriteGenClass extends EcrireClasse {
 								if(classeEntiteVars.contains("utilisateurId"))
 									methodValsWriter.tl(2 + p, "sx(utilisateurId == null ? ", methodVar, methodValVar, methodValVarNumber, " : ", methodeValCode, ");");
 								else
-									methodValsWriter.tl(2 + p, "sx(requeteSite_.getUtilisateurId() == null ? ", methodVar, methodValVar, methodValVarNumber, " : ", methodeValCode, ");");
+									methodValsWriter.tl(2 + p, "sx(", str_requeteSite(langueNom), "_.getUtilisateurId() == null ? ", methodVar, methodValVar, methodValVarNumber, " : ", methodeValCode, ");");
 							}
 						}
 					}
@@ -1416,7 +1503,7 @@ public class WriteGenClass extends EcrireClasse {
 									if(classEntityVars.contains("userId"))
 										entityValsWriter.tl(2 + p, "sx(userId == null ? ", entityVar, entityValVar, entityValVarNumber, " : ", entityValCode, ");");
 									else
-										entityValsWriter.tl(2 + p, "sx(siteRequest_.getUserId() == null ? ", entityVar, entityValVar, entityValVarNumber, " : ", entityValCode, ");");
+										entityValsWriter.tl(2 + p, "sx(", str_siteRequest(languageName), "_.getUserId() == null ? ", entityVar, entityValVar, entityValVarNumber, " : ", entityValCode, ");");
 								}
 							}
 						}
@@ -1499,8 +1586,8 @@ public class WriteGenClass extends EcrireClasse {
 			}
 			l(";");
 	
-			t(1, "public Wrap<", entitySimpleNameComplete, "> ", entityVar, "Wrap");
-			l(" = new Wrap<", entitySimpleNameComplete, ">().p(this).c(", entitySimpleName, ".class).var(\"", entityVar, "\").o(", entityVar, ");");
+			t(1, "public ", classPartsWrap.simpleName(languageName), "<", entitySimpleNameComplete, "> ", entityVar, classPartsWrap.simpleName(languageName));
+			l(" = new ", classPartsWrap.simpleName(languageName), "<", entitySimpleNameComplete, ">().p(this).c(", entitySimpleName, ".class).var(\"", entityVar, "\").o(", entityVar, ");");
 	
 			// Methode underscore //
 			l();
@@ -1552,7 +1639,7 @@ public class WriteGenClass extends EcrireClasse {
 			s(" _", entityVar);
 			s("(");
 			if(entityWrap) {
-				s("Wrap<", entitySimpleNameComplete, "> ", entityVarParam);
+				s(classPartsWrap.simpleName(languageName), "<", entitySimpleNameComplete, "> ", entityVarParam);
 			}
 			else {
 				s(entitySimpleNameComplete, " ", entityVarParam);
@@ -1584,7 +1671,7 @@ public class WriteGenClass extends EcrireClasse {
 			l();
 			tl(1, "public void set", entityVarCapitalized, "(", entitySimpleNameComplete, " ", entityVar, ") {");
 			tl(2, "this.", entityVar, " = ", entityVar, ";");
-			tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+			tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 			tl(1, "}");
 	//
 	//						l();
@@ -1599,7 +1686,7 @@ public class WriteGenClass extends EcrireClasse {
 				tl(3, "Long l = Long.parseLong(o);");
 				tl(3, "add", entityVarCapitalized, "(l);");
 				tl(2, "}");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1608,7 +1695,7 @@ public class WriteGenClass extends EcrireClasse {
 			if(StringUtils.equals(entityCanonicalName, Boolean.class.getCanonicalName())) {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "this.", entityVar, " = Boolean.parseBoolean(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1618,7 +1705,7 @@ public class WriteGenClass extends EcrireClasse {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 				tl(3, "this.", entityVar, " = Integer.parseInt(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1628,7 +1715,7 @@ public class WriteGenClass extends EcrireClasse {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 				tl(3, "this.", entityVar, " = Float.parseFloat(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1638,7 +1725,7 @@ public class WriteGenClass extends EcrireClasse {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 				tl(3, "this.", entityVar, " = Double.parseDouble(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1648,7 +1735,7 @@ public class WriteGenClass extends EcrireClasse {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 				tl(3, "this.", entityVar, " = Long.parseLong(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1657,7 +1744,7 @@ public class WriteGenClass extends EcrireClasse {
 			if(StringUtils.equals(entitySimpleName, "Chain")) {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, entityVar, ".s(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1667,17 +1754,17 @@ public class WriteGenClass extends EcrireClasse {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
 				tl(3, "this.", entityVar, " = new BigDecimal(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Double o) {");
 				tl(3, "this.", entityVar, " = new BigDecimal(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Integer o) {");
 				tl(3, "this.", entityVar, " = new BigDecimal(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1687,7 +1774,7 @@ public class WriteGenClass extends EcrireClasse {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "this.", entityVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1697,7 +1784,7 @@ public class WriteGenClass extends EcrireClasse {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "this.", entityVar, " = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1706,18 +1793,18 @@ public class WriteGenClass extends EcrireClasse {
 			if(StringUtils.equals(entityCanonicalName, LocalDate.class.getCanonicalName())) {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Instant o) {");
 				tl(2, "this.", entityVar, " = LocalDate.from(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03+01:00 **/");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "this.", entityVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
 				tl(2, "this.", entityVar, " = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1726,18 +1813,18 @@ public class WriteGenClass extends EcrireClasse {
 			if(StringUtils.equals(entityCanonicalName, ZonedDateTime.class.getCanonicalName())) {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Instant o) {");
 				tl(2, "this.", entityVar, " = ZonedDateTime.from(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "this.", entityVar, " = ZonedDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
 				tl(2, "this.", entityVar, " = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -1746,18 +1833,18 @@ public class WriteGenClass extends EcrireClasse {
 			if(StringUtils.equals(entityCanonicalName, LocalDateTime.class.getCanonicalName())) {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Instant o) {");
 				tl(2, "this.", entityVar, " = LocalDateTime.from(o);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "this.", entityVar, " = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
 				tl(2, "this.", entityVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
-				tl(2, "this.", entityVar, "Wrap.alreadyInitialized = true;");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 			}
@@ -2054,27 +2141,27 @@ public class WriteGenClass extends EcrireClasse {
 				tl(2, "}");
 			}
 
-			tl(2, "if(!", entityVar, "Wrap.alreadyInitialized) {");
+			tl(2, "if(!", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), ") {");
 			if(entityWrap) {
-				tl(3, "_", entityVar, "(", entityVar, "Wrap);");
+				tl(3, "_", entityVar, "(", entityVar, classPartsWrap.simpleName(languageName), ");");
 				tl(3, "if(", entityVar, " == null)");
-				tl(4, "set", entityVarCapitalized, "(", entityVar, "Wrap.o);");
+				tl(4, "set", entityVarCapitalized, "(", entityVar, classPartsWrap.simpleName(languageName), ".o);");
 			}
 			else {
 				tl(3, "_", entityVar, "(", entityVar, ");");
 			}
 			tl(2, "}");
 
-			// initLoin
+			// initDeep
 
-//						if(initLoin && canonicalName.enUS().startsWith(classe.nomEnsembleDomaine.enUS())) {
+//						if(initDeep && canonicalName.enUS().startsWith(classe.nomEnsembleDomaine.enUS())) {
 			if(entityInitDeep && entityInitialized) {
 				if(entityWrap) {
 					tl(2, "if(", entityVar, " != null)");
-					tl(3, entityVar, ".initDeepForClass(siteRequest_);");
+					tl(3, entityVar, ".", str_initDeep(languageName), str_ForClass(languageName), "(", classeContientSiteRequest ? (str_siteRequest(languageName) + "_") : "null", ");");
 				}
 				else {
-					tl(2, entityVar, ".initDeepForClass(siteRequest_);");
+					tl(2, entityVar, ".", str_initDeep(languageName), str_ForClass(languageName), "(", classeContientSiteRequest ? (str_siteRequest(languageName) + "_") : "null", ");");
 				}
 			}
 
@@ -2093,7 +2180,7 @@ public class WriteGenClass extends EcrireClasse {
 				tl(2, "}");
 			}
 
-			tl(2, entityVar, "Wrap.alreadyInitialized(true);");
+			tl(2, entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), "(true);");
 			tl(2, "return (", classSimpleName, ")this;");
 			tl(1, "}");
 
@@ -2267,7 +2354,7 @@ public class WriteGenClass extends EcrireClasse {
 			}
 	
 			////////////////////
-			// codeIninitLoin //
+			// codeIninitDeep //
 			////////////////////
 //			if(entityInitDeep) {
 			wInitDeep.tl(2, entityVar, "Init();");
@@ -2277,10 +2364,10 @@ public class WriteGenClass extends EcrireClasse {
 			/////////////////////
 			// codeSiteRequest //
 			/////////////////////
-			if(classInitDeep && entityInitialized) {
+			if(classeContientSiteRequest && classInitDeep && entityInitialized) {
 				o = wSiteRequest;
 				tl(2, "if(", entityVar, " != null)");
-				tl(3, entityVar, ".setSiteRequest_(siteRequest_);");
+				tl(3, entityVar, ".set", str_SiteRequest(languageName), "_(", str_siteRequest(languageName), "_);");
 			}
 	
 			/////////////////
@@ -2671,14 +2758,14 @@ public class WriteGenClass extends EcrireClasse {
 		// codeInitLoin //
 		//////////////////
 		if(classInitDeep && classPartsSiteRequest != null) {
-//			wInitDeep.tl(3, "alreadyInitialized", classSimpleName, " = true;");
+//			wInitDeep.tl(3, "", alreadyInitialized(languageName), "", classSimpleName, " = true;");
 			wInitDeep.tl(1, "}");
 			if(classInitDeep) {
 				wInitDeep.l();
 				wInitDeep.t(1);
 				if(classExtendsBase)
 					wInitDeep.s("@Override ");
-				wInitDeep.s("public void initDeepForClass(", classPartsSiteRequest.simpleName(languageName), " siteRequest_)");
+				wInitDeep.s("public void ", str_initDeep(languageName), str_ForClass(languageName), "(", classPartsSiteRequest.simpleName(languageName), " ", str_siteRequest(languageName), "_)");
 				if(classInitDeepExceptions.size() > 0) {
 					wInitDeep.s(" throws ");
 					for(int i = 0; i < classInitDeepExceptions.size(); i++) {
@@ -2690,7 +2777,7 @@ public class WriteGenClass extends EcrireClasse {
 					}
 				}
 				wInitDeep.l(" {");
-				wInitDeep.tl(2, "initDeep", classSimpleName, "(siteRequest_);");
+				wInitDeep.tl(2, str_initDeep(languageName), classSimpleName, "(", str_siteRequest(languageName), "_);");
 				wInitDeep.tl(1, "}");  
 			}
 		}
@@ -2698,12 +2785,12 @@ public class WriteGenClass extends EcrireClasse {
 		/////////////////////
 		// codeSiteRequest //
 		/////////////////////
-		if(classInitDeep && classPartsSiteRequest != null) {
+		if(classContientSiteRequest && classInitDeep && classPartsSiteRequest != null) {
 			o = wSiteRequest;
 			tl(1, "}");
 			l();
-			tl(1, "public void siteRequestForClass(", classPartsSiteRequest.simpleName(languageName), " siteRequest_) {");
-			tl(2, "siteRequest", classSimpleName, "(siteRequest_);");
+			tl(1, "public void ", str_siteRequest(languageName), str_ForClass(languageName), "(", classPartsSiteRequest.simpleName(languageName), " ", str_siteRequest(languageName), "_) {");
+			tl(2, str_siteRequest(languageName), classSimpleName, "(", str_siteRequest(languageName), "_);");
 			tl(1, "}");  
 		}
 
@@ -2717,7 +2804,7 @@ public class WriteGenClass extends EcrireClasse {
 			if(classIsBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return super.obtain", classSuperSimpleNameGeneric, "(var);");
+				tl(4, "return super.", str_obtain(languageName), classSuperSimpleNameGeneric, "(var);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -2733,7 +2820,7 @@ public class WriteGenClass extends EcrireClasse {
 			if(classIsBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return super.attribute", classSuperSimpleNameGeneric, "(var, val);");
+				tl(4, "return super.", str_attribute(languageName), classSuperSimpleNameGeneric, "(var, val);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -2794,7 +2881,7 @@ public class WriteGenClass extends EcrireClasse {
 			t(1);
 			if(!classIsBase)
 				s("@Override ");
-			s("public boolean defineForClass(String var, String val)");
+			s("public boolean ", str_define(languageName), str_ForClass(languageName), "(String var, String val)");
 			if(classInitDeepExceptions.size() > 0) {
 				s(" throws ");
 				for(int i = 0; i < classInitDeepExceptions.size(); i++) {
@@ -2814,7 +2901,7 @@ public class WriteGenClass extends EcrireClasse {
 			tl(5, "o = define", classSimpleName, "(v, val);");
 			tl(4, "else if(o instanceof Cluster) {");
 			tl(5, "Cluster cluster = (Cluster)o;");
-			tl(5, "o = cluster.defineForClass(v, val);");
+			tl(5, "o = cluster.", str_define(languageName), str_ForClass(languageName), "(v, val);");
 			tl(4, "}");
 			tl(3, "}");
 			tl(2, "}");
@@ -2849,18 +2936,18 @@ public class WriteGenClass extends EcrireClasse {
 		if(classSaved) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// populate //");
+			tl(1, "// ", str_populate(languageName), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(BooleanUtils.isTrue(classExtendsBase))
 				s("@Override ");
-			l("public void populatePourClasse(SolrDocument solrDocument) {");
+			l("public void ", str_populate(languageName), str_ForClass(languageName), "(SolrDocument solrDocument) {");
 			if(classSaved) {
 			tl(2, "populate", classSimpleName, "(solrDocument);");
 			}
 			tl(1, "}");
-			tl(1, "public void populate", classSimpleName, "(SolrDocument solrDocument) {");
+			tl(1, "public void ", str_populate(languageName), classSimpleName, "(SolrDocument solrDocument) {");
 			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
 			tl(2, "saves", classSimpleName, " = (List<String>)solrDocument.get(\"saves", classSimpleName, "_stored_strings\");");
 			tl(2, "if(saves", classSimpleName, " != null) {");
@@ -2868,7 +2955,7 @@ public class WriteGenClass extends EcrireClasse {
 			tl(2, "}");
 			if(BooleanUtils.isTrue(classExtendsBase)) {
 				tl(0);
-				tl(2, "super.populate", classSuperSimpleNameGeneric, "(solrDocument);");
+				tl(2, "super.", str_populate(languageName), classSuperSimpleNameGeneric, "(solrDocument);");
 			}
 
 			tl(1, "}");
@@ -2916,19 +3003,18 @@ public class WriteGenClass extends EcrireClasse {
 		if(classIndexed && classPartsSiteRequest != null) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// index //");
+			tl(1, "// ", str_index(languageName), " //");
 			tl(1, "/////////////");
 			tl(0);
-			tl(1, "public static void index() {");
+			tl(1, "public static void ", str_index(languageName), "() {");
 			tl(2, "try {");
 			tl(3, "", classPartsSiteRequest.simpleName(languageName), " siteRequest = new ", classPartsSiteRequest.simpleName(languageName), "();");
-			tl(3, "siteRequest.initDeep", classPartsSiteRequest.simpleName(languageName), "();");
+			tl(3, "siteRequest.", str_initDeep(languageName), classPartsSiteRequest.simpleName(languageName), "();");
 			tl(3, classPartsSiteContext.simpleName(languageName), " siteContext = new ", classPartsSiteContext.simpleName(languageName), "();");
 			tl(3, "siteContext.getSiteConfig().setConfigChemin(", q(configPath), ");");
-			tl(3, "siteContext.initDeep", classPartsSiteContext.simpleName(languageName), "();");
-			tl(3, "siteContext.setSiteRequest_(siteRequest);");
-			tl(3, "siteRequest.setSiteContext_(siteContext);");
-			tl(3, "siteRequest.setSiteConfig_(siteContext.getSiteConfig());");
+			tl(3, "siteContext.", str_initDeep(languageName), classPartsSiteContext.simpleName(languageName), "();");
+			tl(3, str_siteRequest(languageName), ".setSiteContext_(siteContext);");
+			tl(3, str_siteRequest(languageName), ".setSiteConfig_(siteContext.getSiteConfig());");
 			tl(3, "SolrQuery solrSearch = new SolrQuery();");
 			tl(3, "solrSearch.setQuery(\"*:*\");");
 			tl(3, "solrSearch.setRows(1);");
@@ -2938,8 +3024,8 @@ public class WriteGenClass extends EcrireClasse {
 			tl(4, "siteRequest.setSolrDocument(searchResponse.getResults().get(0));");
 			tl(3, classSimpleName, " o = new ", classSimpleName, "();");
 			tl(3, "o.siteRequest", classSimpleName, "(siteRequest);");
-			tl(3, "o.initDeep", classSimpleName, "(siteRequest);");
-			tl(3, "o.index", classSimpleName, "();");
+			tl(3, "o.", str_initDeep(languageName), classSimpleName, "(", str_siteRequest(languageName), ");");
+			tl(3, "o.", str_index(languageName), classSimpleName, "();");
 			tl(2, "} catch(Exception e) {");
 			tl(3, "ExceptionUtils.rethrow(e);");
 			tl(2, "}");
@@ -2950,19 +3036,19 @@ public class WriteGenClass extends EcrireClasse {
 				t(1);
 				if(!classIsBase)
 					s("@Override ");
-				l("public void indexForClass() {");
-				tl(2, "index", classSimpleName, "();");
+				l("public void ", str_index(languageName), str_ForClass(languageName), "() {");
+				tl(2, str_index(languageName), classSimpleName, "();");
 				tl(1, "}");
 				tl(0);
 				t(1);
 				if(!classIsBase)
 					s("@Override ");
-				l("public void indexForClass(SolrInputDocument document) {");
-				tl(2, "index", classSimpleName, "(document);");
+				l("public void ", str_index(languageName), str_ForClass(languageName), "(SolrInputDocument document) {");
+				tl(2, str_index(languageName), classSimpleName, "(document);");
 				tl(1, "}");
 			}
 			l();
-			tl(1, "public void index", classSimpleName, "(SolrClient solrClient) {");
+			tl(1, "public void ", str_index(languageName), classSimpleName, "(SolrClient solrClient) {");
 			tl(2, "try {");
 			tl(3, "SolrInputDocument document = new SolrInputDocument();");
 			tl(3, "index", classSimpleName, "(document);");
@@ -2973,11 +3059,11 @@ public class WriteGenClass extends EcrireClasse {
 			tl(2, "}");
 			l("\t}");
 			l();
-			tl(1, "public void index", classSimpleName, "() {");
+			tl(1, "public void ", str_index(languageName), classSimpleName, "() {");
 			tl(2, "try {");
 			tl(3, "SolrInputDocument document = new SolrInputDocument();");
 			tl(3, "index", classSimpleName, "(document);");
-			tl(3, "SolrClient solrClient = siteRequest_.getSiteContext_().getSolrClient();");
+			tl(3, "SolrClient solrClient = ", str_siteRequest(languageName), "_.getSiteContext_().getSolrClient();");
 			tl(3, "solrClient.add(document);");
 			tl(3, "solrClient.commit();");
 			tl(2, "} catch(Exception e) {");
@@ -2986,7 +3072,7 @@ public class WriteGenClass extends EcrireClasse {
 			l("\t}");
 
 			tl(0);
-			tl(1, "public void index", classSimpleName, "(SolrInputDocument document) {");
+			tl(1, "public void ", str_index(languageName), classSimpleName, "(SolrInputDocument document) {");
 			if(classSaved) {
 				tl(2, "if(saves", classSimpleName, " != null)");
 				tl(3, "document.addField(\"saves", classSimpleName, "_stored_strings\", saves", classSimpleName, ");");
@@ -3004,13 +3090,12 @@ public class WriteGenClass extends EcrireClasse {
 				tl(1, "public void unindex", classSimpleName, "() {");
 				tl(2, "try {");
 				tl(2, "", classPartsSiteRequest.simpleName(languageName), " siteRequest = new ", classPartsSiteRequest.simpleName(languageName), "();");
-				tl(3, "siteRequest.initDeep", classPartsSiteRequest.simpleName(languageName), "();");
+				tl(3, "siteRequest.", str_initDeep(languageName), classPartsSiteRequest.simpleName(languageName), "();");
 				tl(3, classPartsSiteContext.simpleName(languageName), " siteContext = new ", classPartsSiteContext.simpleName(languageName), "();");
-				tl(3, "siteContext.initDeep", classPartsSiteContext.simpleName(languageName), "();");
-				tl(3, "siteContext.setSiteRequest_(siteRequest);");
-				tl(3, "siteRequest.setSiteContext_(siteContext);");
-				tl(3, "siteRequest.setSiteConfig_(siteContext.getSiteConfig());");
-				tl(3, "initDeep", classSimpleName, "(siteContext.getSiteRequest_());");
+				tl(3, "siteContext.", str_initDeep(languageName), classPartsSiteContext.simpleName(languageName), "();");
+				tl(3, str_siteRequest(languageName), ".setSiteContext_(siteContext);");
+				tl(3, str_siteRequest(languageName), ".setSiteConfig_(siteContext.getSiteConfig());");
+				tl(3, str_initDeep(languageName), classSimpleName, "(", str_siteRequest(languageName), ");");
 				tl(3, "SolrClient solrClient = siteContext.getSolrClient();");
 				tl(3, "solrClient.deleteById(", classVarUniqueKey, ".toString());");
 				tl(3, "solrClient.commit();");
@@ -3027,23 +3112,23 @@ public class WriteGenClass extends EcrireClasse {
 		if(classIndexed) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// store //");
+			tl(1, "// ", str_store(languageName), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
 			if(BooleanUtils.isTrue(classExtendsBase))
 				s("@Override ");
-			l("public void storeForClass(SolrDocument solrDocument) {");
+			l("public void ", str_store(languageName), str_ForClass(languageName), "(SolrDocument solrDocument) {");
 			if(classIndexed) {
-			tl(2, "store", classSimpleName, "(solrDocument);");
+			tl(2, str_store(languageName), classSimpleName, "(solrDocument);");
 			}
 			tl(1, "}");
-			tl(1, "public void store", classSimpleName, "(SolrDocument solrDocument) {");
+			tl(1, "public void ", str_store(languageName), classSimpleName, "(SolrDocument solrDocument) {");
 			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
 			s(wStore.toString());
 			if(BooleanUtils.isTrue(classExtendsBase)) {
 				tl(0);
-				tl(2, "super.store", classSuperSimpleNameGeneric, "(solrDocument);");
+				tl(2, "super.", str_store(languageName), classSuperSimpleNameGeneric, "(solrDocument);");
 			}
 
 			tl(1, "}");
@@ -3120,7 +3205,7 @@ public class WriteGenClass extends EcrireClasse {
 //			t(1);
 //			if(classExtendsBase)
 //				s("@Override ");
-//			l("public void savePourClasse(", classPartsSiteRequest.simpleName(languageName), " siteRequest_) {");
+//			l("public void saveForClass(", classPartsSiteRequest.simpleName(languageName), " siteRequest_) {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(siteRequest.", classPartsSiteContext.simpleName(languageName), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //			tl(2, "String pkStr = siteRequest_.getRequeteServeur().getParam(\"pk\");");

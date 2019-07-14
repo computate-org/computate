@@ -3217,10 +3217,11 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "classeBaseEtendGen", classeBaseEtendGen);
 		Boolean classeContientRequeteSite = false;
 		try {
-			indexerStockerSolr(classeDoc, "classeContientRequeteSite", classeQdox.getMethodBySignature("getRequeteSite_", new ArrayList<JavaType>(), true) != null);
+			classeContientRequeteSite = classeQdox.getMethodBySignature("getRequeteSite_", new ArrayList<JavaType>(), true) != null;
 		} catch (Exception e) {
 			// TODO ctate fix this to pull from solr. 
 		}
+		indexerStockerSolr(classeDoc, "classeContientRequeteSite", classeContientRequeteSite);
 		
 		String classeCommentaire = stockerRegexCommentaires(classeLangueNom, classeDoc, "classeCommentaire", classeQdox.getComment());
 		String classeNomEnsemble = StringUtils.substringBeforeLast(classeNomCanonique, ".");
@@ -3315,8 +3316,8 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		Boolean classeInitLoin = !regexTrouve("^(classe)?InitLoin:\\s*(false)$", classeCommentaire);
 		if(classeInitLoin)
-//			classeInitLoin = classeEtendBase || classeEstBase;
-			classeInitLoin = classeContientRequeteSite;
+			classeInitLoin = classeEtendBase || classeEstBase;
+//			classeInitLoin = classeContientRequeteSite;
 		classeInitLoin = stockerSolr(classeDoc, "classeInitLoin", classeInitLoin);
 		if(classeInitLoin)
 			classePartsGenAjouter(classePartsRequeteSite);

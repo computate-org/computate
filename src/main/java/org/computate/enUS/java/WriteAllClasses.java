@@ -124,6 +124,7 @@ public class WriteAllClasses extends EcrirePageClasse {
 					classExtendsBase = (Boolean)doc.get("classExtendsBase_stored_boolean");
 					classIsBase = (Boolean)doc.get("classIsBase_stored_boolean");
 					classInitDeep = (Boolean)doc.get("classInitDeep_stored_boolean");
+					classContainsSiteRequest = (Boolean)doc.get("classContainsSiteRequest_stored_boolean");
 					classSaved = BooleanUtils.isTrue((Boolean)doc.get("classSaved_stored_boolean"));
 					classIndexed = BooleanUtils.isTrue((Boolean)doc.get("classIndexed_stored_boolean"));
 					classImage = BooleanUtils.isTrue((Boolean)doc.get("classImage_stored_boolean"));
