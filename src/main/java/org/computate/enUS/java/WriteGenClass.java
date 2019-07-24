@@ -395,90 +395,6 @@ public class WriteGenClass extends WriteClass {
 		wEquals = AllWriter.create();
 	}
 
-	public String str_alreadyInitialised(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "dejaInitialise";
-		else
-			return "alreadyInitialized";
-	}
-
-	public String str_initDeep(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "initLoin";
-		else
-			return "initDeep";
-	}
-
-	public String str_ForClass(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "PourClasse";
-		else
-			return "ForClass";
-	}
-
-	public String str_obtenir(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "obtenir";
-		else
-			return "obtain";
-	}
-
-	public String str_attribuer(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "attribuer";
-		else
-			return "attribute";
-	}
-
-	public String str_put(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "put";
-		else
-			return "put";
-	}
-
-	public String str_indexer(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "indexer";
-		else
-			return "index";
-	}
-
-	public String str_stocker(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "stocker";
-		else
-			return "store";
-	}
-
-	public String str_peupler(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "peupler";
-		else
-			return "populate";
-	}
-
-	public String str_definir(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "definir";
-		else
-			return "define";
-	}
-
-	public String str_requeteSite(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "requeteSite";
-		else
-			return "siteRequest";
-	}
-
-	public String str_requeteSite(String langueNom) throws Exception, Exception {
-		if("frFR".equals(langueNom))
-			return "RequeteSite";
-		else
-			return "SiteRequest";
-	}
-
 	public void  genCodeInitDeep(String languageName) throws Exception, Exception {
 		if(BooleanUtils.isTrue(classInitDeep) && classPartsSiteRequest != null) {
 			wInitDeep.l(); 
@@ -740,14 +656,14 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 		if(classSaved) {
 			l(); 
 			tl(1, "/////////////////");
-			tl(1, "// saves //");
+			tl(1, "// ", str_saves(langueNom), " //");
 			tl(1, "/////////////////");
 			tl(0);
-			tl(1, "protected List<String> saves", classSimpleName, " = new ArrayList<String>();");
+			tl(1, "protected List<String> ", str_saves(langueNom), "", classSimpleName, " = new ArrayList<String>();");
 //			t(1);
 //			if(!classSimpleName.equals("Cluster"))
 //				s("@Override ");
-//			l("public void savesForClass(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
+//			l("public void ", str_saves(langueNom), "PourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //
@@ -769,7 +685,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 //			tl(4, "String chemin = (String)objets[0];");
 //			tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
 //			tl(4, "defineForClass(chemin, valeur);");
-//			tl(4, "saves", classSimpleName, ".add(chemin);");
+//			tl(4, "", str_saves(langueNom), "", classSimpleName, ".add(chemin);");
 //			tl(3, "}");
 //			tl(2, "}");
 //			tl(1, "}");
@@ -1330,16 +1246,16 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			entitySuperClassesAndMeWithoutGen = (List<String>)doc.get("entitySuperClassesAndMeWithoutGen_stored_strings");
 	
 			List<String> entityMethodsBeforeVisibility = (List<String>)doc.get("entityMethodsBeforeVisibility_stored_strings");
-			List<String> entityMethodsBeforeVar = (List<String>)doc.get("entityMethodsBeforeVar_stored_strings");
-			List<String> entityMethodsBeforeParamVar = (List<String>)doc.get("entityMethodsBeforeParamVar_stored_strings");
-			List<String> entityMethodsBeforeSimpleName = (List<String>)doc.get("entityMethodsBeforeSimpleName_stored_strings");
+			List<String> entityMethodsBeforeVar = (List<String>)doc.get("entityMethodsBeforeVar_" + languageName + "_stored_strings");
+			List<String> entityMethodsBeforeParamVar = (List<String>)doc.get("entityMethodsBeforeParamVar_" + languageName + "_stored_strings");
+			List<String> entityMethodsBeforeSimpleName = (List<String>)doc.get("entityMethodsBeforeSimpleName_" + languageName + "_stored_strings");
 			List<Boolean> entityMethodsBeforeParamName = (List<Boolean>)doc.get("entityMethodsBeforeParamName_stored_booleans");
 			List<Boolean> entityMethodsBeforeWrite = (List<Boolean>)doc.get("entityMethodsBeforeWrite_stored_booleans");
 	
 			List<String> entityMethodsAfterVisibility = (List<String>)doc.get("entityMethodsAfterVisibility_stored_strings");
-			List<String> entityMethodsAfterVar = (List<String>)doc.get("entityMethodsAfterVar_stored_strings");
-			List<String> entityMethodsAfterParamVar = (List<String>)doc.get("entityMethodsAfterParamVar_stored_strings");
-			List<String> entityMethodsAfterSimpleName = (List<String>)doc.get("entityMethodsAfterSimpleName_stored_strings");
+			List<String> entityMethodsAfterVar = (List<String>)doc.get("entityMethodsAfterVar_" + languageName + "_stored_strings");
+			List<String> entityMethodsAfterParamVar = (List<String>)doc.get("entityMethodsAfterParamVar_" + languageName + "_stored_strings");
+			List<String> entityMethodsAfterSimpleName = (List<String>)doc.get("entityMethodsAfterSimpleName_" + languageName + "_stored_strings");
 			List<Boolean> entityMethodsAfterParamName = (List<Boolean>)doc.get("entityMethodsAfterParamName_stored_booleans");
 			List<Boolean> entityMethodsAfterWrite = (List<Boolean>)doc.get("entityMethodsAfterWrite_stored_booleans");
 
@@ -2285,10 +2201,10 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 	
 				if(entityVarCapitalized != null && classSaved && entitySolrCanonicalName != null) {
 					l();
-					tl(1, "public void htm", entityVarCapitalized, "(AllWriter r, Boolean patchRights) {");
+					tl(1, "public void htm", entityVarCapitalized, "(", classPartsAllWriter.simpleName(languageName), " r, Boolean patch", str_Rights(languageName), ") {");
 					tl(2, "if(", classVarPrimaryKey, "!= null) {");
 					tl(3, "r.s(\"<div id=\\\"patch", classSimpleName, "\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"", entityVarCapitalized, "\\\">\");");
-					tl(3, "if(patchRights) {");
+					tl(3, "if(patch", str_Rights(languageName), ") {");
 					tl(4, "r.l();");
 					tl(4, "r.l(\"	<script>//<![CDATA[\");");
 					tl(4, "r.l(\"		function patch", classSimpleName, "\", str", StringUtils.capitalize(classVarPrimaryKey), "(), \"", entityVarCapitalized, "() {\");");
@@ -2512,7 +2428,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			}	
 	
 			/////////////
-			// define //
+			// ", str_define(languageName), " //
 			/////////////
 			o = wDefine;
 			
@@ -2520,12 +2436,12 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 					tl(3, "case \"", entityVar, "\":");
 					if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
 						tl(4, "add", entityVarCapitalized, "(val);");
-						tl(4, "if(!saves", classSimpleName, ".contains(var))");
-						tl(5, "saves", classSimpleName, ".add(var);");
+						tl(4, "if(!", str_saves(languageName), "", classSimpleName, ".contains(var))");
+						tl(5, "", str_saves(languageName), "", classSimpleName, ".add(var);");
 					}
 					else {
 						tl(4, "set", entityVarCapitalized, "(val);");
-						tl(4, "saves", classSimpleName, ".add(var);");
+						tl(4, "", str_saves(languageName), "", classSimpleName, ".add(var);");
 					}
 					tl(4, "return val;");
 			}	
@@ -2564,13 +2480,13 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 					tl(0);
 	
 //					if(entitySuggested) {
-//						tl(3, "if(saves", classSimpleName, ".contains(\"", entityVar, "\")) {");
+//						tl(3, "if(", str_saves(languageName), "", classSimpleName, ".contains(\"", entityVar, "\")) {");
 //						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_suggested", entityTypeSuffix, "\");");
 //						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 //						tl(3, "}");
 //					}
 //					else if(entityIncremented) {
-//						tl(3, "if(saves", classSimpleName, ".contains(\"", entityVar, "\")) {");
+//						tl(3, "if(", str_saves(languageName), "", classSimpleName, ".contains(\"", entityVar, "\")) {");
 //						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_incremented", entityTypeSuffix, "\");");
 //						tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 //						tl(3, "}");
@@ -2585,7 +2501,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 						tl(3, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 					}
 					else if(entityEncrypted) {
-						tl(3, "if(saves", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(3, "if(", str_saves(languageName), "", classSimpleName, ".contains(\"", entityVar, "\")) {");
 						if(siteEncrypted)
 							tl(4, entitySolrSimpleName, " ", entityVar, " = siteRequest.deencryptStr((", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_encrypted", entityTypeSuffix, "\"));");
 						else
@@ -2602,7 +2518,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 							tl(4, "o", classSimpleName, ".set", entityVarCapitalized, "(", entityVar, ");");
 					}
 					else {
-						tl(3, "if(saves", classSimpleName, ".contains(\"", entityVar, "\")) {");
+						tl(3, "if(", str_saves(languageName), "", classSimpleName, ".contains(\"", entityVar, "\")) {");
 						tl(4, entitySolrSimpleName, " ", entityVar, " = (", entitySolrSimpleName, ")solrDocument.get(\"", entityVar, "_stored", entityTypeSuffix, "\");");
 						tl(4, "if(", entityVar, " != null)");
 						if(StringUtils.contains(entitySolrCanonicalName, "<"))
@@ -2692,7 +2608,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
 				tl(tBase + 2, "case \"", entityVar, "\":");
 				tl(tBase + 3, "postSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setD);");
-				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.get", entitySimpleNameVertxJson, "(entityVar), ", classVarPrimaryKey, "));");
+				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.get", entitySimpleNameVertxJson, "(", str_entity(languageName), "Var), ", classVarPrimaryKey, "));");
 				tl(tBase + 3, "break;");
 			}	
 			if(classSaved && BooleanUtils.isTrue(entityAttribute)) {
@@ -2701,7 +2617,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				if(StringUtils.compare(entityVar, entityAttributeVar) < 0)
 					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.getLong(entityVar), \"", entityAttributeVar, "\", ", classVarPrimaryKey, "));");
 				else
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityAttributeVar, "\", ", classVarPrimaryKey, ", \"", entityVar, "\", jsonObject.getLong(entityVar)));");
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityAttributeVar, "\", ", classVarPrimaryKey, ", \"", entityVar, "\", jsonObject.getLong(", str_entity(languageName), "Var)));");
 				tl(tBase + 3, "break;");
 			}	
 	
@@ -2720,7 +2636,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			if(classSaved && BooleanUtils.isTrue(entityDefined)) {
 				tl(tBase + 6, "case \"", entityVar, "\":");
 				tl(tBase + 7, "putSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setD);");
-				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entityVar, "\", requestJson.get", entitySimpleNameVertxJson, "(entityVar), putPk));");
+				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entityVar, "\", requestJson.get", entitySimpleNameVertxJson, "(", str_entity(languageName), "Var), putPk));");
 				tl(tBase + 7, "break;");
 			}	
 	
@@ -2875,7 +2791,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 		if(classInitDeep && (classExtendsBase || classIsBase)) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// define //");
+			tl(1, "// ", str_define(languageName), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
@@ -2898,7 +2814,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			tl(2, "if(val != null) {");
 			tl(3, "for(String v : vars) {");
 			tl(4, "if(o == null)");
-			tl(5, "o = define", classSimpleName, "(v, val);");
+			tl(5, "o = ", str_define(languageName), "", classSimpleName, "(v, val);");
 			tl(4, "else if(o instanceof Cluster) {");
 			tl(5, "Cluster cluster = (Cluster)o;");
 			tl(5, "o = cluster.", str_define(languageName), str_ForClass(languageName), "(v, val);");
@@ -2907,7 +2823,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			tl(2, "}");
 			tl(2, "return o != null;");
 			tl(1, "}");
-			tl(1, "public Object define", classSimpleName, "(String var, String val) {");
+			tl(1, "public Object ", str_define(languageName), "", classSimpleName, "(String var, String val) {");
 			tl(2, "switch(var) {");
 			s(wDefine.toString());
 			tl(3, "default:");
@@ -2915,7 +2831,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			if(classIsBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return super.define", classSuperSimpleNameGeneric, "(var, val);");
+				tl(4, "return super.", str_define(languageName), "", classSuperSimpleNameGeneric, "(var, val);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -2924,10 +2840,10 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 		if(classSaved) {
 			l(); 
 			tl(1, "/////////////////");
-			tl(1, "// saves //");
+			tl(1, "// ", str_saves(languageName), " //");
 			tl(1, "/////////////////");
 			tl(0);
-			tl(1, "protected List<String> saves", classSimpleName, " = new ArrayList<String>();");
+			tl(1, "protected List<String> ", str_saves(languageName), "", classSimpleName, " = new ArrayList<String>();");
 		}
 
 		/////////////////
@@ -2944,13 +2860,13 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				s("@Override ");
 			l("public void ", str_populate(languageName), str_ForClass(languageName), "(SolrDocument solrDocument) {");
 			if(classSaved) {
-			tl(2, "populate", classSimpleName, "(solrDocument);");
+			tl(2, str_populate(languageName), classSimpleName, "(solrDocument);");
 			}
 			tl(1, "}");
 			tl(1, "public void ", str_populate(languageName), classSimpleName, "(SolrDocument solrDocument) {");
 			tl(2, classSimpleName, " o", classSimpleName, " = (", classSimpleName, ")this;");
-			tl(2, "saves", classSimpleName, " = (List<String>)solrDocument.get(\"saves", classSimpleName, "_stored_strings\");");
-			tl(2, "if(saves", classSimpleName, " != null) {");
+			tl(2, "", str_saves(languageName), "", classSimpleName, " = (List<String>)solrDocument.get(\"", str_saves(languageName), "", classSimpleName, "_stored_strings\");");
+			tl(2, "if(", str_saves(languageName), "", classSimpleName, " != null) {");
 			s(wPopulate.toString());
 			tl(2, "}");
 			if(BooleanUtils.isTrue(classExtendsBase)) {
@@ -3008,22 +2924,22 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			tl(0);
 			tl(1, "public static void ", str_index(languageName), "() {");
 			tl(2, "try {");
-			tl(3, "", classPartsSiteRequest.simpleName(languageName), " siteRequest = new ", classPartsSiteRequest.simpleName(languageName), "();");
-			tl(3, "siteRequest.", str_initDeep(languageName), classPartsSiteRequest.simpleName(languageName), "();");
-			tl(3, classPartsSiteContext.simpleName(languageName), " siteContext = new ", classPartsSiteContext.simpleName(languageName), "();");
-			tl(3, "siteContext.getSiteConfig().setConfigChemin(", q(configPath), ");");
-			tl(3, "siteContext.", str_initDeep(languageName), classPartsSiteContext.simpleName(languageName), "();");
-			tl(3, str_siteRequest(languageName), ".setSiteContext_(siteContext);");
-			tl(3, str_siteRequest(languageName), ".setSiteConfig_(siteContext.getSiteConfig());");
-			tl(3, "SolrQuery solrSearch = new SolrQuery();");
-			tl(3, "solrSearch.setQuery(\"*:*\");");
-			tl(3, "solrSearch.setRows(1);");
-			tl(3, "solrSearch.addFilterQuery(\"id:\" + ClientUtils.escapeQueryChars(\"", classCanonicalName, "\"));");
-			tl(3, "QueryResponse searchResponse = siteRequest.getSiteContext_().getSolrClient().query(solrSearch);");
-			tl(3, "if(searchResponse.getResults().size() > 0)");
-			tl(4, "siteRequest.setSolrDocument(searchResponse.getResults().get(0));");
+			tl(3, classPartsSiteRequest.simpleName(languageName), " ", str_siteRequest(languageName), " = new ", classPartsSiteRequest.simpleName(languageName), "();");
+			tl(3, str_siteRequest(languageName), ".", str_initDeep(languageName), classPartsSiteRequest.simpleName(languageName), "();");
+			tl(3, classPartsSiteContext.simpleName(languageName), " ", str_siteContext(languageName), " = new ", classPartsSiteContext.simpleName(languageName), "();");
+			tl(3, str_siteContext(languageName), ".get", classPartsSiteConfig.simpleName(languageName), "().set", str_ConfigChemin(languageName), "(", q(configPath), ");");
+			tl(3, str_siteContext(languageName), ".", str_initDeep(languageName), classPartsSiteContext.simpleName(languageName), "();");
+			tl(3, str_siteRequest(languageName), ".set", str_SiteContext(languageName), "_(", str_siteContext(languageName), ");");
+			tl(3, str_siteRequest(languageName), ".set", str_SiteConfig(languageName), "_(", str_siteContext(languageName), ".get", str_SiteConfig(languageName), "());");
+			tl(3, "SolrQuery ", str_solrSearch(languageName), " = new SolrQuery();");
+			tl(3, "", str_solrSearch(languageName), ".setQuery(\"*:*\");");
+			tl(3, "", str_solrSearch(languageName), ".setRows(1);");
+			tl(3, "", str_solrSearch(languageName), ".addFilterQuery(\"id:\" + ClientUtils.escapeQueryChars(\"", classCanonicalName, "\"));");
+			tl(3, "QueryResponse ", str_searchResponse(languageName), " = ", str_siteRequest(languageName), ".get", str_SiteContext(languageName), "_().get", str_SolrClient(languageName), "().query(", str_solrSearch(languageName), ");");
+			tl(3, "if(", str_searchResponse(languageName), ".getResults().size() > 0)");
+			tl(4, str_siteRequest(languageName), ".set", str_SolrDocument(languageName), "(", str_searchResponse(languageName), ".getResults().get(0));");
 			tl(3, classSimpleName, " o = new ", classSimpleName, "();");
-			tl(3, "o.siteRequest", classSimpleName, "(siteRequest);");
+			tl(3, "o.", str_siteRequest(languageName), classSimpleName, "(", str_siteRequest(languageName), ");");
 			tl(3, "o.", str_initDeep(languageName), classSimpleName, "(", str_siteRequest(languageName), ");");
 			tl(3, "o.", str_index(languageName), classSimpleName, "();");
 			tl(2, "} catch(Exception e) {");
@@ -3051,7 +2967,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			tl(1, "public void ", str_index(languageName), classSimpleName, "(SolrClient solrClient) {");
 			tl(2, "try {");
 			tl(3, "SolrInputDocument document = new SolrInputDocument();");
-			tl(3, "index", classSimpleName, "(document);");
+			tl(3, str_index(languageName), classSimpleName, "(document);");
 			tl(3, "solrClient.add(document);");
 			tl(3, "solrClient.commit();");
 			tl(2, "} catch(Exception e) {");
@@ -3062,8 +2978,8 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			tl(1, "public void ", str_index(languageName), classSimpleName, "() {");
 			tl(2, "try {");
 			tl(3, "SolrInputDocument document = new SolrInputDocument();");
-			tl(3, "index", classSimpleName, "(document);");
-			tl(3, "SolrClient solrClient = ", str_siteRequest(languageName), "_.getSiteContext_().getSolrClient();");
+			tl(3, str_index(languageName), classSimpleName, "(document);");
+			tl(3, "SolrClient solrClient = ", str_siteRequest(languageName), "_.get", str_SiteContext(languageName), "_().get", str_SolrClient(languageName), "();");
 			tl(3, "solrClient.add(document);");
 			tl(3, "solrClient.commit();");
 			tl(2, "} catch(Exception e) {");
@@ -3074,31 +2990,31 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			tl(0);
 			tl(1, "public void ", str_index(languageName), classSimpleName, "(SolrInputDocument document) {");
 			if(classSaved) {
-				tl(2, "if(saves", classSimpleName, " != null)");
-				tl(3, "document.addField(\"saves", classSimpleName, "_stored_strings\", saves", classSimpleName, ");");
+				tl(2, "if(", str_saves(languageName), "", classSimpleName, " != null)");
+				tl(3, "document.addField(\"", str_saves(languageName), "", classSimpleName, "_stored_strings\", ", str_saves(languageName), "", classSimpleName, ");");
 				l();
 			}
 			s(wIndex.toString());
 			if(classExtendsBase && !classIsBase) {
-				tl(2, "super.index", classSuperSimpleNameGeneric, "(document);");
+				tl(2, "super.", str_index(languageName), "", classSuperSimpleNameGeneric, "(document);");
 				tl(0);
 			}
 			l("\t}");
 
 			if(StringUtils.isNotEmpty(classVarUniqueKey)) {
 				tl(0);
-				tl(1, "public void unindex", classSimpleName, "() {");
+				tl(1, "public void ", str_unindex(languageName), "", classSimpleName, "() {");
 				tl(2, "try {");
-				tl(2, "", classPartsSiteRequest.simpleName(languageName), " siteRequest = new ", classPartsSiteRequest.simpleName(languageName), "();");
-				tl(3, "siteRequest.", str_initDeep(languageName), classPartsSiteRequest.simpleName(languageName), "();");
-				tl(3, classPartsSiteContext.simpleName(languageName), " siteContext = new ", classPartsSiteContext.simpleName(languageName), "();");
-				tl(3, "siteContext.", str_initDeep(languageName), classPartsSiteContext.simpleName(languageName), "();");
-				tl(3, str_siteRequest(languageName), ".setSiteContext_(siteContext);");
-				tl(3, str_siteRequest(languageName), ".setSiteConfig_(siteContext.getSiteConfig());");
+				tl(2, "", classPartsSiteRequest.simpleName(languageName), " ", str_siteRequest(languageName), " = new ", classPartsSiteRequest.simpleName(languageName), "();");
+				tl(3, "", str_siteRequest(languageName), ".", str_initDeep(languageName), classPartsSiteRequest.simpleName(languageName), "();");
+				tl(3, classPartsSiteContext.simpleName(languageName), " ", str_siteContext(languageName), " = new ", classPartsSiteContext.simpleName(languageName), "();");
+				tl(3, "", str_siteContext(languageName), ".", str_initDeep(languageName), classPartsSiteContext.simpleName(languageName), "();");
+				tl(3, str_siteRequest(languageName), ".set", str_SiteContext(languageName), "_(", str_siteContext(languageName), ");");
+				tl(3, str_siteRequest(languageName), ".set", str_SiteConfig(languageName), "_(", str_siteContext(languageName), ".get", str_SiteConfig(languageName), "());");
 				tl(3, str_initDeep(languageName), classSimpleName, "(", str_siteRequest(languageName), ");");
-				tl(3, "SolrClient solrClient = siteContext.getSolrClient();");
-				tl(3, "solrClient.deleteById(", classVarUniqueKey, ".toString());");
-				tl(3, "solrClient.commit();");
+				tl(3, "SolrClient ", str_solrClient(languageName), " = ", str_siteContext(languageName), ".get", str_SolrClient(languageName), "();");
+				tl(3, str_solrClient(languageName), ".deleteById(", classVarUniqueKey, ".toString());");
+				tl(3, str_solrClient(languageName), ".commit();");
 				tl(2, "} catch(Exception e) {");
 				tl(3, "ExceptionUtils.rethrow(e);");
 				tl(2, "}");
@@ -3242,8 +3158,8 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 ////							tl(4, "String valeur = siteRequest.decrypterStr((String)objets[1]);");
 ////						else
 ////							tl(4, "String valeur = (String)objets[1];");
-////						tl(4, "define(chemin, valeur);");
-////						tl(4, "saves", classSimpleName, ".add(chemin);");
+////						tl(4, "", str_define(languageName), "(chemin, valeur);");
+////						tl(4, "", str_saves(languageName), "", classSimpleName, ".add(chemin);");
 ////						tl(3, "}");
 ////						tl(2, "}");
 //			tl(0);

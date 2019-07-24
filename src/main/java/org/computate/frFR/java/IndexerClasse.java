@@ -613,6 +613,1197 @@ public class IndexerClasse extends RegarderClasseBase {
 	private String contexteIconeNom;
 
 	/**
+	 * Var.enUS: str_alreadyInitialized
+	 */
+	public String str_dejaInitialise(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "dejaInitialise";
+		else
+			return "alreadyInitialized";
+	}
+
+	/**
+	 * Var.enUS: str_initDeep
+	 */
+	public String str_initLoin(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "initLoin";
+		else
+			return "initDeep";
+	}
+
+	/**
+	 * Var.enUS: str_ForClass
+	 */
+	public String str_PourClasse(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "PourClasse";
+		else
+			return "ForClass";
+	}
+
+	/**
+	 * Var.enUS: str_obtain
+	 */
+	public String str_obtenir(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "obtenir";
+		else
+			return "obtain";
+	}
+
+	/**
+	 * Var.enUS: str_attribute
+	 */
+	public String str_attribuer(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "attribuer";
+		else
+			return "attribute";
+	}
+
+	/**
+	 * Var.enUS: str_put
+	 */
+	public String str_put(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "put";
+		else
+			return "put";
+	}
+
+	/**
+	 * Var.enUS: str_index
+	 */
+	public String str_indexer(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "indexer";
+		else
+			return "index";
+	}
+
+	/**
+	 * Var.enUS: str_Indexed
+	 */
+	public String str_Indexe(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Indexe";
+		else
+			return "Indexed";
+	}
+
+	/**
+	 * Var.enUS: str_store
+	 */
+	public String str_stocker(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "stocker";
+		else
+			return "store";
+	}
+
+	/**
+	 * Var.enUS: str_populate
+	 */
+	public String str_peupler(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "peupler";
+		else
+			return "populate";
+	}
+
+	/**
+	 * Var.enUS: str_define
+	 */
+	public String str_definir(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "definir";
+		else
+			return "define";
+	}
+
+	/**
+	 * Var.enUS: str_siteRequest
+	 */
+	public String str_requeteSite(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "requeteSite";
+		else
+			return "siteRequest";
+	}
+
+	/**
+	 * Var.enUS: str_SiteRequest
+	 */
+	public String str_RequeteSite(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "RequeteSite";
+		else
+			return "SiteRequest";
+	}
+
+	/**
+	 * Var.enUS: str_before
+	 */
+	public String str_avant(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "avant";
+		else
+			return "before";
+	}
+
+	/**
+	 * Var.enUS: str_after
+	 */
+	public String str_apres(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "apres";
+		else
+			return "after";
+	}
+
+	/**
+	 * Var.enUS: str_Rights
+	 */
+	public String str_Droits(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Droits";
+		else
+			return "Rights";
+	}
+
+	/**
+	 * Var.enUS: str_SiteConfig
+	 */
+	public String str_ConfigSite(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ConfigSite";
+		else
+			return "SiteConfig";
+	}
+
+	/**
+	 * Var.enUS: str_search
+	 */
+	public String str_rechercher(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "rechercher";
+		else
+			return "search";
+	}
+
+	/**
+	 * Var.enUS: str_aSearch
+	 */
+	public String str_recherche(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "recherche";
+		else
+			return "aSearch";
+	}
+
+	/**
+	 * Var.enUS: str_Search
+	 */
+	public String str_Recherche(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Recherche";
+		else
+			return "Search";
+	}
+
+	/**
+	 * Var.enUS: str_solrQuery
+	 */
+	public String str_rechercheSolr(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "rechercheSolr";
+		else
+			return "solrQuery";
+	}
+
+	/**
+	 * Var.enUS: str_queryResponse
+	 */
+	public String str_reponseRecherche(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "reponseRecherche";
+		else
+			return "queryResponse";
+	}
+
+	/**
+	 * Var.enUS: str_SolrDocument
+	 */
+	public String str_DocumentSolr(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "DocumentSolr";
+		else
+			return "SolrDocument";
+	}
+
+	/**
+	 * Var.enUS: str_siteContext
+	 */
+	public String str_siteContexte(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "siteContexte";
+		else
+			return "siteContext";
+	}
+
+	/**
+	 * Var.enUS: str_SiteContext
+	 */
+	public String str_SiteContexte(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "SiteContexte";
+		else
+			return "SiteContext";
+	}
+
+	/**
+	 * Var.enUS: str_ConfigPath
+	 */
+	public String str_ConfigChemin(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ConfigChemin";
+		else
+			return "ConfigPath";
+	}
+
+	/**
+	 * Var.enUS: str_solrClient
+	 */
+	public String str_clientSolr(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "clientSolr";
+		else
+			return "solrClient";
+	}
+
+	/**
+	 * Var.enUS: str_SolrClient
+	 */
+	public String str_ClientSolr(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ClientSolr";
+		else
+			return "SolrClient";
+	}
+
+	/**
+	 * Var.enUS: str_list
+	 */
+	public String str_liste(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "liste";
+		else
+			return "list";
+	}
+
+	/**
+	 * Var.enUS: str_Title
+	 */
+	public String str_Titre(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Titre";
+		else
+			return "Title";
+	}
+
+	/**
+	 * Var.enUS: str_Translate
+	 */
+	public String str_Traduire(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Traduire";
+		else
+			return "Translate";
+	}
+
+	/**
+	 * Var.enUS: str_SearchList
+	 */
+	public String str_ListeRecherche(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ListeRecherche";
+		else
+			return "SearchList";
+	}
+
+	/**
+	 * Var.enUS: str_Width
+	 */
+	public String str_Largeur(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Largeur";
+		else
+			return "Width";
+	}
+
+	/**
+	 * Var.enUS: str_Height
+	 */
+	public String str_Hauteur(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Hauteur";
+		else
+			return "Height";
+	}
+
+	/**
+	 * Var.enUS: str_Group
+	 */
+	public String str_Groupe(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Groupe";
+		else
+			return "Group";
+	}
+
+	/**
+	 * Var.enUS: str_Name
+	 */
+	public String str_Nom(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Nom";
+		else
+			return "Name";
+	}
+
+	/**
+	 * Var.enUS: str_context
+	 */
+	public String str_contexte(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "contexte";
+		else
+			return "context";
+	}
+
+	/**
+	 * Var.enUS: str_staticBaseUrl
+	 */
+	public String str_statiqueUrlBase(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "statiqueUrlBase";
+		else
+			return "staticBaseUrl";
+	}
+
+	/**
+	 * Var.enUS: str_Icon
+	 */
+	public String str_Icone(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Icone";
+		else
+			return "Icon";
+	}
+
+	/**
+	 * Var.enUS: str_filter
+	 */
+	public String str_filtre(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "filtre";
+		else
+			return "filter";
+	}
+
+	/**
+	 * Var.enUS: str_filters
+	 */
+	public String str_filtres(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "filtres";
+		else
+			return "filters";
+	}
+
+	/**
+	 * Var.enUS: str_formFilters
+	 */
+	public String str_formulaireFiltres(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "formulaireFiltres";
+		else
+			return "formFilters";
+	}
+
+	/**
+	 * Var.enUS: str_FormFilters
+	 */
+	public String str_FormulaireFiltres(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "FormulaireFiltres";
+		else
+			return "FormFilters";
+	}
+
+	/**
+	 * Var.enUS: str_FormValues
+	 */
+	public String str_FormulaireValeurs(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "FormulaireValeurs";
+		else
+			return "FormValues";
+	}
+
+	/**
+	 * Var.enUS: str_formValues
+	 */
+	public String str_formulaireValeurs(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "formulaireValeurs";
+		else
+			return "formValues";
+	}
+
+	/**
+	 * Var.enUS: str_Values
+	 */
+	public String str_Valeurs(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Valeurs";
+		else
+			return "Values";
+	}
+
+	/**
+	 * Var.enUS: str_values
+	 */
+	public String str_valeurs(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "valeurs";
+		else
+			return "values";
+	}
+
+	/**
+	 * Var.enUS: str_value
+	 */
+	public String str_valeur(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "valeur";
+		else
+			return "value";
+	}
+
+	/**
+	 * Var.enUS: str_glow
+	 */
+	public String str_lueur(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "lueur";
+		else
+			return "glow";
+	}
+
+	/**
+	 * Var.enUS: str_Error
+	 */
+	public String str_Erreur(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Erreur";
+		else
+			return "Error";
+	}
+
+	/**
+	 * Var.enUS: str_Success
+	 */
+	public String str_Succes(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Succes";
+		else
+			return "Success";
+	}
+
+	/**
+	 * Var.enUS: str_operationRequest
+	 */
+	public String str_operationRequete(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "operationRequete";
+		else
+			return "operationRequest";
+	}
+
+	/**
+	 * Var.enUS: str_OperationRequest
+	 */
+	public String str_OperationRequete(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "OperationRequete";
+		else
+			return "OperationRequest";
+	}
+
+	/**
+	 * Var.enUS: str_Request
+	 */
+	public String str_Requete(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Requete";
+		else
+			return "Request";
+	}
+
+	/**
+	 * Var.enUS: str_ObjectValues
+	 */
+	public String str_ValeursObjet(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ValeursObjet";
+		else
+			return "ObjectValues";
+	}
+
+	/**
+	 * Var.enUS: str_Object
+	 */
+	public String str_Objet(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Objet";
+		else
+			return "Object";
+	}
+
+	/**
+	 * Var.enUS: str_Objects
+	 */
+	public String str_Objets(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Objets";
+		else
+			return "Objects";
+	}
+
+	/**
+	 * Var.enUS: str_Method
+	 */
+	public String str_Methode(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Methode";
+		else
+			return "Method";
+	}
+
+	/**
+	 * Var.enUS: str_Modal
+	 */
+	public String str_Modale(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Modale";
+		else
+			return "Modal";
+	}
+
+	/**
+	 * Var.enUS: str_Short
+	 */
+	public String str_Court(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Court";
+		else
+			return "Short";
+	}
+
+	/**
+	 * Var.enUS: str_Write
+	 */
+	public String str_Ecrire(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Ecrire";
+		else
+			return "Write";
+	}
+
+	/**
+	 * Var.enUS: str_contextIconCssClasses
+	 */
+	public String str_contexteIconeClassesCss(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "contexteIconeClassesCss";
+		else
+			return "contextIconCssClasses";
+	}
+
+	/**
+	 * Var.enUS: str_register
+	 */
+	public String str_enregistrer(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "enregistrer";
+		else
+			return "register";
+	}
+
+	/**
+	 * Var.enUS: str_Create_
+	 */
+	public String str_Creer_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Créer ";
+		else
+			return "Create ";
+	}
+
+	/**
+	 * Var.enUS: str_Search_the_
+	 */
+	public String str_Rechercher_des_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Rechercher des ";
+		else
+			return "Search the ";
+	}
+
+	/**
+	 * Var.enUS: str_Replace_
+	 */
+	public String str_Remplacer_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Remplacer ";
+		else
+			return "Replace ";
+	}
+
+	/**
+	 * Var.enUS: str_Modify_the_
+	 */
+	public String str_Modifier_des_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Modifier des ";
+		else
+			return "Modify the ";
+	}
+
+	/**
+	 * Var.enUS: str_Delete_the_
+	 */
+	public String str_Supprimer_des_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Supprimer des ";
+		else
+			return "Delete the ";
+	}
+
+	/**
+	 * Var.enUS: str_is_not_an_indexed_entity
+	 */
+	public String str_nest_pas_une_entite_indexe(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "n'est pas une entité indexé";
+		else
+			return "is not an indexed entity";
+	}
+
+	/**
+	 * Var.enUS: str_create
+	 */
+	public String str_creer(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "creer";
+		else
+			return "create";
+	}
+
+	/**
+	 * Var.enUS: str_address
+	 */
+	public String str_addresse(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "addresse";
+		else
+			return "address";
+	}
+
+	/**
+	 * Var.enUS: str_eventHandler
+	 */
+	public String str_gestionnaireEvenements(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "gestionnaireEvenements";
+		else
+			return "eventHandler";
+	}
+
+	/**
+	 * Var.enUS: str_entity
+	 */
+	public String str_entite(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "entite";
+		else
+			return "entity";
+	}
+
+	/**
+	 * Var.enUS: str_Number
+	 */
+	public String str_Numero(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Numero";
+		else
+			return "Number";
+	}
+
+	/**
+	 * Var.enUS: str_Value
+	 */
+	public String str_Valeur(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Valeur";
+		else
+			return "Value";
+	}
+
+	/**
+	 * Var.enUS: str_request
+	 */
+	public String str_requete(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "requete";
+		else
+			return "request";
+	}
+
+	/**
+	 * Var.enUS: str_methodName
+	 */
+	public String str_methodeNom(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "methodeNom";
+		else
+			return "methodName";
+	}
+
+	/**
+	 * Var.enUS: str_generate
+	 */
+	public String str_generer(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "generer";
+		else
+			return "generate";
+	}
+
+	/**
+	 * Var.enUS: str_SqlConnection
+	 */
+	public String str_ConnexionSql(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ConnexionSql";
+		else
+			return "SqlConnection";
+	}
+
+	/**
+	 * Var.enUS: str_response
+	 */
+	public String str_reponse(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "reponse";
+		else
+			return "response";
+	}
+
+	/**
+	 * Var.enUS: str_sqlConnection
+	 */
+	public String str_connexionSql(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "connexionSql";
+		else
+			return "sqlConnection";
+	}
+
+	/**
+	 * Var.enUS: str_error
+	 */
+	public String str_erreur(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "erreur";
+		else
+			return "error";
+	}
+
+	/**
+	 * Var.enUS: str_user
+	 */
+	public String str_utilisateur(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateur";
+		else
+			return "user";
+	}
+
+	/**
+	 * Var.enUS: str_For
+	 */
+	public String str_Pour(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Pour";
+		else
+			return "For";
+	}
+
+	/**
+	 * Var.enUS: str_delete
+	 */
+	public String str_supprimer(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "supprimer";
+		else
+			return "delete";
+	}
+
+	/**
+	 * Var.enUS: str_User
+	 */
+	public String str_Utilisateur(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Utilisateur";
+		else
+			return "User";
+	}
+
+	/**
+	 * Var.enUS: str_Line
+	 */
+	public String str_Ligne(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Ligne";
+		else
+			return "Line";
+	}
+
+	/**
+	 * Var.enUS: str_methodNames
+	 */
+	public String str_methodeNoms(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "methodeNoms";
+		else
+			return "methodNames";
+	}
+
+	/**
+	 * Var.enUS: str_JsonObject
+	 */
+	public String str_ObjetJson(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ObjetJson";
+		else
+			return "JsonObject";
+	}
+
+	/**
+	 * Var.enUS: str_modify
+	 */
+	public String str_modifier(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "modifier";
+		else
+			return "modify";
+	}
+
+	/**
+	 * Var.enUS: str_solrDocuments
+	 */
+	public String str_documentsSolr(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "documentsSolr";
+		else
+			return "solrDocuments";
+	}
+
+	/**
+	 * Var.enUS: str_List
+	 */
+	public String str_Liste(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Liste";
+		else
+			return "List";
+	}
+
+	/**
+	 * Var.enUS: str_searchInMillis
+	 */
+	public String str_millisRecherche(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "millisRecherche";
+		else
+			return "searchInMillis";
+	}
+
+	/**
+	 * Var.enUS: str_transmissionInMillis
+	 */
+	public String str_millisTransmission(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "millisTransmission";
+		else
+			return "transmissionInMillis";
+	}
+
+	/**
+	 * Var.enUS: str_startNum
+	 */
+	public String str_numCommence(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "numCommence";
+		else
+			return "startNum";
+	}
+
+	/**
+	 * Var.enUS: str_foundNum
+	 */
+	public String str_numTrouve(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "numTrouve";
+		else
+			return "foundNum";
+	}
+
+	/**
+	 * Var.enUS: str_returnedNum
+	 */
+	public String str_numRetourne(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "numRetourne";
+		else
+			return "returnedNum";
+	}
+
+	/**
+	 * Var.enUS: str_searchTime
+	 */
+	public String str_tempsRecherche(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "tempsRecherche";
+		else
+			return "searchTime";
+	}
+
+	/**
+	 * Var.enUS: str_transmissionTime
+	 */
+	public String str_tempsTransmission(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "tempsTransmission";
+		else
+			return "transmissionTime";
+	}
+
+	/**
+	 * Var.enUS: str_solrDocument
+	 */
+	public String str_documentSolr(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "documentSolr";
+		else
+			return "solrDocument";
+	}
+
+	/**
+	 * Var.enUS: str_result
+	 */
+	public String str_resultat(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "resultat";
+		else
+			return "result";
+	}
+
+	/**
+	 * Var.enUS: str_sqlClient
+	 */
+	public String str_clientSql(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "clientSql";
+		else
+			return "sqlClient";
+	}
+
+	/**
+	 * Var.enUS: str_SqlClient
+	 */
+	public String str_ClientSql(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ClientSql";
+		else
+			return "SqlClient";
+	}
+
+	/**
+	 * Var.enUS: str_siteUser
+	 */
+	public String str_utilisateurSite(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateurSite";
+		else
+			return "siteUser";
+	}
+
+	/**
+	 * Var.enUS: str_jsonPrincipal
+	 */
+	public String str_principalJson(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "principalJson";
+		else
+			return "jsonPrincipal";
+	}
+
+	/**
+	 * Var.enUS: str_FirstName
+	 */
+	public String str_Prenom(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Prenom";
+		else
+			return "FirstName";
+	}
+
+	/**
+	 * Var.enUS: str_LastName
+	 */
+	public String str_NomFamille(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "NomFamille";
+		else
+			return "LastName";
+	}
+
+	/**
+	 * Var.enUS: str_Populate
+	 */
+	public String str_Peupler(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Peupler";
+		else
+			return "Populate";
+	}
+
+	/**
+	 * Var.enUS: str_Store
+	 */
+	public String str_Stocker(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Stocker";
+		else
+			return "Store";
+	}
+
+	/**
+	 * Var.enUS: str_archived
+	 */
+	public String str_archive(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "archive";
+		else
+			return "archived";
+	}
+
+	/**
+	 * Var.enUS: str_deleted
+	 */
+	public String str_supprime(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "supprime";
+		else
+			return "deleted";
+	}
+
+	/**
+	 * Var.enUS: str_classCanonicalNames
+	 */
+	public String str_classeNomsCanoniques(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "classeNomsCanoniques";
+		else
+			return "classCanonicalNames";
+	}
+
+	/**
+	 * Var.enUS: str_SeeDeleted
+	 */
+	public String str_VoirSupprime(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "VoirSupprime";
+		else
+			return "SeeDeleted";
+	}
+
+	/**
+	 * Var.enUS: str_SeeArchived
+	 */
+	public String str_VoirArchive(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "VoirArchive";
+		else
+			return "SeeArchived";
+	}
+
+	/**
+	 * Var.enUS: str_classApiUriMethod
+	 */
+	public String str_classeApiUriMethode(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "classeApiUriMethode";
+		else
+			return "classApiUriMethod";
+	}
+
+	/**
+	 * Var.enUS: str_Sort
+	 */
+	public String str_Tri(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Tri";
+		else
+			return "Sort";
+	}
+
+	/**
+	 * Var.enUS: str_Start
+	 */
+	public String str_Debut(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Debut";
+		else
+			return "Start";
+	}
+
+	/**
+	 * Var.enUS: str_saves
+	 */
+	public String str_sauvegardes(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "sauvegardes";
+		else
+			return "saves";
+	}
+
+	/**
+	 * Var.enUS: str_unindex
+	 */
+	public String str_desindexer(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "desindexer";
+		else
+			return "unindex";
+	}
+
+
+	/**
 	 * Var.enUS: populateQdoxSuperClassesInterfacesAndMe
 	 * Param2.var.enUS: qdoxSuperClasses
 	 * Param3.var.enUS: qdoxSuperClassesAndMe
@@ -3945,7 +5136,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						ClasseParts entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseQdox, classeLangueNom, classeLangueNom);
 						Boolean entiteCouverture = false;
 
-						if(entiteClasseParts.nomSimple.equals("Couverture")) {
+						if(entiteClasseParts.nomSimple.equals(classePartsCouverture.nomSimple(langueNom))) {
 							entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseParts.nomCanoniqueGenerique, classeLangueNom, classeLangueNom);
 							entiteCouverture = true;
 							classeContientCouverture = true;
@@ -4053,7 +5244,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							SolrQuery rechercheSolrMethodeAvant = new SolrQuery();   
 							rechercheSolrMethodeAvant.setQuery("*:*");
 							rechercheSolrMethodeAvant.setRows(10);
-							String fqMethodeAvant = "(" + entiteNomsCanoniquesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars("avant" + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
+							String fqMethodeAvant = "(" + entiteNomsCanoniquesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(str_avant(langueNom) + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
 							rechercheSolrMethodeAvant.addFilterQuery("entiteClassesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
 							rechercheSolrMethodeAvant.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
 							rechercheSolrMethodeAvant.addFilterQuery("partEstMethode_indexed_boolean:true");
@@ -4068,12 +5259,9 @@ public class IndexerClasse extends RegarderClasseBase {
 								String methodeParamNomSimpleComplet = methodeParamsNomSimpleComplet.get(0);
 								List<String> methodeParamsVar = (List<String>)documentSolr.get("methodeParamsVar_" + classeLangueNom + "_stored_strings");
 								String methodeParamVar = methodeParamsVar.get(0);
-								stockerListeSolr(entiteDoc, "entiteMethodesAvantVisibilite", BooleanUtils.isTrue((Boolean)documentSolr.get("methodeEstPublic_stored_boolean")) ? "public" : "protected");
-								stockerListeSolr(entiteDoc, "entiteMethodesAvantVar", methodeVarActuel);
-								stockerListeSolr(entiteDoc, "entiteMethodesAvantParamVar", methodeParamVar);
-								stockerListeSolr(entiteDoc, "entiteMethodesAvantParamNomSimple", methodeParamNomSimpleComplet);
-								stockerListeSolr(entiteDoc, "entiteMethodesAvantNomParam", methodeParamsVar.size() > 1);
 								Boolean entiteMethodesAvantEcrire = (StringUtils.equals(methodeClasseNomCanonique, classeNomCanonique)) && !classeMethodesEcrites.contains(methodeVarActuel);
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantVisibilite", BooleanUtils.isTrue((Boolean)documentSolr.get("methodeEstPublic_stored_boolean")) ? "public" : "protected");
+								stockerListeSolr(entiteDoc, "entiteMethodesAvantNomParam", methodeParamsVar.size() > 1);
 								stockerListeSolr(entiteDoc, "entiteMethodesAvantEcrire", entiteMethodesAvantEcrire);
 								classeMethodesEcrites.add(methodeVarActuel);
 								List<String> methodeParamsNomCanonique = (List<String>)documentSolr.get("methodeParamsNomCanonique_" + classeLangueNom + "_stored_strings");
@@ -4081,12 +5269,23 @@ public class IndexerClasse extends RegarderClasseBase {
 									String methodeParamNomCanonique = methodeParamsNomCanonique.get(0);
 									classePartsGenAjouter(ClasseParts.initClasseParts(this, methodeParamNomCanonique, classeLangueNom));
 								}
+								for(String langueNom : toutesLangues) {  
+									methodeVarActuel = (String)documentSolr.get("methodeVar_" + langueNom + "_stored_string");
+									methodeClasseNomCanonique = (String)documentSolr.get("classeNomCanonique_" + langueNom + "_stored_string");
+									methodeParamsNomSimpleComplet = (List<String>)documentSolr.get("methodeParamsNomSimpleComplet_" + langueNom + "_stored_strings");
+									methodeParamNomSimpleComplet = methodeParamsNomSimpleComplet.get(0);
+									methodeParamsVar = (List<String>)documentSolr.get("methodeParamsVar_" + langueNom + "_stored_strings");
+									methodeParamVar = methodeParamsVar.get(0);
+									stockerListeSolr(langueNom, entiteDoc, "entiteMethodesAvantVar", methodeVarActuel);
+									stockerListeSolr(langueNom, entiteDoc, "entiteMethodesAvantParamVar", methodeParamVar);
+									stockerListeSolr(langueNom, entiteDoc, "entiteMethodesAvantParamNomSimple", methodeParamNomSimpleComplet);
+								}
 							}
 	
 							SolrQuery rechercheSolrMethodeApres = new SolrQuery();   
 							rechercheSolrMethodeApres.setQuery("*:*");
 							rechercheSolrMethodeApres.setRows(10);
-							String fqMethodeApres = "(" + entiteNomsCanoniquesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars("apres" + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
+							String fqMethodeApres = "(" + entiteNomsCanoniquesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(str_apres(langueNom) + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
 							rechercheSolrMethodeApres.addFilterQuery("entiteClassesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
 							rechercheSolrMethodeApres.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
 							rechercheSolrMethodeApres.addFilterQuery("partEstMethode_indexed_boolean:true");
@@ -4113,6 +5312,17 @@ public class IndexerClasse extends RegarderClasseBase {
 								if(methodeParamsNomCanonique != null) {
 									String methodeParamNomCanonique = methodeParamsNomCanonique.get(0);
 									classePartsGenAjouter(ClasseParts.initClasseParts(this, methodeParamNomCanonique, classeLangueNom));
+								}
+								for(String langueNom : toutesLangues) {  
+									methodeVarActuel = (String)documentSolr.get("methodeVar_" + langueNom + "_stored_string");
+									methodeClasseNomCanonique = (String)documentSolr.get("classeNomCanonique_" + langueNom + "_stored_string");
+									methodeParamsNomSimpleComplet = (List<String>)documentSolr.get("methodeParamsNomSimpleComplet_" + langueNom + "_stored_strings");
+									methodeParamNomSimpleComplet = methodeParamsNomSimpleComplet.get(0);
+									methodeParamsVar = (List<String>)documentSolr.get("methodeParamsVar_" + langueNom + "_stored_strings");
+									methodeParamVar = methodeParamsVar.get(0);
+									stockerListeSolr(langueNom, entiteDoc, "entiteMethodesApresVar", methodeVarActuel);
+									stockerListeSolr(langueNom, entiteDoc, "entiteMethodesApresParamVar", methodeParamVar);
+									stockerListeSolr(langueNom, entiteDoc, "entiteMethodesApresParamNomSimple", methodeParamNomSimpleComplet);
 								}
 							}
 						}

@@ -299,6 +299,839 @@ public class IndexClass extends RegarderClasseBase {
 
 	private String contextIconName;
 
+	public String str_alreadyInitialized(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "dejaInitialise";
+		else
+			return "alreadyInitialized";
+	}
+
+	public String str_initDeep(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "initLoin";
+		else
+			return "initDeep";
+	}
+
+	public String str_ForClass(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "PourClasse";
+		else
+			return "ForClass";
+	}
+
+	public String str_obtain(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "obtenir";
+		else
+			return "obtain";
+	}
+
+	public String str_attribute(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "attribuer";
+		else
+			return "attribute";
+	}
+
+	public String str_put(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "put";
+		else
+			return "put";
+	}
+
+	public String str_index(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "indexer";
+		else
+			return "index";
+	}
+
+	public String str_Indexed(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Indexe";
+		else
+			return "Indexed";
+	}
+
+	public String str_store(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "stocker";
+		else
+			return "store";
+	}
+
+	public String str_populate(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "peupler";
+		else
+			return "populate";
+	}
+
+	public String str_define(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "definir";
+		else
+			return "define";
+	}
+
+	public String str_siteRequest(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "requeteSite";
+		else
+			return "siteRequest";
+	}
+
+	public String str_SiteRequest(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "RequeteSite";
+		else
+			return "SiteRequest";
+	}
+
+	public String str_before(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "avant";
+		else
+			return "before";
+	}
+
+	public String str_after(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "apres";
+		else
+			return "after";
+	}
+
+	public String str_Rights(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Droits";
+		else
+			return "Rights";
+	}
+
+	public String str_SiteConfig(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ConfigSite";
+		else
+			return "SiteConfig";
+	}
+
+	public String str_search(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "rechercher";
+		else
+			return "search";
+	}
+
+	public String str_aSearch(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "recherche";
+		else
+			return "aSearch";
+	}
+
+	public String str_Search(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Recherche";
+		else
+			return "Search";
+	}
+
+	public String str_solrQuery(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "rechercheSolr";
+		else
+			return "solrQuery";
+	}
+
+	public String str_queryResponse(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "reponseRecherche";
+		else
+			return "queryResponse";
+	}
+
+	public String str_SolrDocument(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "DocumentSolr";
+		else
+			return "SolrDocument";
+	}
+
+	public String str_siteContext(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "siteContexte";
+		else
+			return "siteContext";
+	}
+
+	public String str_SiteContext(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "SiteContexte";
+		else
+			return "SiteContext";
+	}
+
+	public String str_ConfigPath(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ConfigChemin";
+		else
+			return "ConfigPath";
+	}
+
+	public String str_solrClient(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "clientSolr";
+		else
+			return "solrClient";
+	}
+
+	public String str_SolrClient(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ClientSolr";
+		else
+			return "SolrClient";
+	}
+
+	public String str_list(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "liste";
+		else
+			return "list";
+	}
+
+	public String str_Title(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Titre";
+		else
+			return "Title";
+	}
+
+	public String str_Translate(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Traduire";
+		else
+			return "Translate";
+	}
+
+	public String str_SearchList(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ListeRecherche";
+		else
+			return "SearchList";
+	}
+
+	public String str_Width(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Largeur";
+		else
+			return "Width";
+	}
+
+	public String str_Height(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Hauteur";
+		else
+			return "Height";
+	}
+
+	public String str_Group(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Groupe";
+		else
+			return "Group";
+	}
+
+	public String str_Name(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Nom";
+		else
+			return "Name";
+	}
+
+	public String str_context(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "contexte";
+		else
+			return "context";
+	}
+
+	public String str_staticBaseUrl(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "statiqueUrlBase";
+		else
+			return "staticBaseUrl";
+	}
+
+	public String str_Icon(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Icone";
+		else
+			return "Icon";
+	}
+
+	public String str_filter(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "filtre";
+		else
+			return "filter";
+	}
+
+	public String str_filters(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "filtres";
+		else
+			return "filters";
+	}
+
+	public String str_formFilters(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "formulaireFiltres";
+		else
+			return "formFilters";
+	}
+
+	public String str_FormFilters(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "FormulaireFiltres";
+		else
+			return "FormFilters";
+	}
+
+	public String str_FormValues(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "FormulaireValeurs";
+		else
+			return "FormValues";
+	}
+
+	public String str_formValues(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "formulaireValeurs";
+		else
+			return "formValues";
+	}
+
+	public String str_Values(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Valeurs";
+		else
+			return "Values";
+	}
+
+	public String str_values(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "valeurs";
+		else
+			return "values";
+	}
+
+	public String str_value(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "valeur";
+		else
+			return "value";
+	}
+
+	public String str_glow(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "lueur";
+		else
+			return "glow";
+	}
+
+	public String str_Error(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Erreur";
+		else
+			return "Error";
+	}
+
+	public String str_Success(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Succes";
+		else
+			return "Success";
+	}
+
+	public String str_operationRequest(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "operationRequete";
+		else
+			return "operationRequest";
+	}
+
+	public String str_OperationRequest(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "OperationRequete";
+		else
+			return "OperationRequest";
+	}
+
+	public String str_Request(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Requete";
+		else
+			return "Request";
+	}
+
+	public String str_ObjectValues(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ValeursObjet";
+		else
+			return "ObjectValues";
+	}
+
+	public String str_Object(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Objet";
+		else
+			return "Object";
+	}
+
+	public String str_Objects(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Objets";
+		else
+			return "Objects";
+	}
+
+	public String str_Method(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Methode";
+		else
+			return "Method";
+	}
+
+	public String str_Modal(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Modale";
+		else
+			return "Modal";
+	}
+
+	public String str_Short(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Court";
+		else
+			return "Short";
+	}
+
+	public String str_Write(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Ecrire";
+		else
+			return "Write";
+	}
+
+	public String str_contextIconCssClasses(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "contexteIconeClassesCss";
+		else
+			return "contextIconCssClasses";
+	}
+
+	public String str_register(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "enregistrer";
+		else
+			return "register";
+	}
+
+	public String str_Create_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Créer ";
+		else
+			return "Create ";
+	}
+
+	public String str_Search_the_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Rechercher des ";
+		else
+			return "Search the ";
+	}
+
+	public String str_Replace_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Remplacer ";
+		else
+			return "Replace ";
+	}
+
+	public String str_Modify_the_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Modifier des ";
+		else
+			return "Modify the ";
+	}
+
+	public String str_Delete_the_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Supprimer des ";
+		else
+			return "Delete the ";
+	}
+
+	public String str_is_not_an_indexed_entity(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "n'est pas une entité indexé";
+		else
+			return "is not an indexed entity";
+	}
+
+	public String str_create(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "creer";
+		else
+			return "create";
+	}
+
+	public String str_address(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "addresse";
+		else
+			return "address";
+	}
+
+	public String str_eventHandler(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "gestionnaireEvenements";
+		else
+			return "eventHandler";
+	}
+
+	public String str_entity(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "entite";
+		else
+			return "entity";
+	}
+
+	public String str_Number(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Numero";
+		else
+			return "Number";
+	}
+
+	public String str_Value(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Valeur";
+		else
+			return "Value";
+	}
+
+	public String str_request(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "requete";
+		else
+			return "request";
+	}
+
+	public String str_methodName(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "methodeNom";
+		else
+			return "methodName";
+	}
+
+	public String str_generate(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "generer";
+		else
+			return "generate";
+	}
+
+	public String str_SqlConnection(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ConnexionSql";
+		else
+			return "SqlConnection";
+	}
+
+	public String str_response(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "reponse";
+		else
+			return "response";
+	}
+
+	public String str_sqlConnection(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "connexionSql";
+		else
+			return "sqlConnection";
+	}
+
+	public String str_error(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "erreur";
+		else
+			return "error";
+	}
+
+	public String str_user(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateur";
+		else
+			return "user";
+	}
+
+	public String str_For(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Pour";
+		else
+			return "For";
+	}
+
+	public String str_delete(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "supprimer";
+		else
+			return "delete";
+	}
+
+	public String str_User(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Utilisateur";
+		else
+			return "User";
+	}
+
+	public String str_Line(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Ligne";
+		else
+			return "Line";
+	}
+
+	public String str_methodNames(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "methodeNoms";
+		else
+			return "methodNames";
+	}
+
+	public String str_JsonObject(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ObjetJson";
+		else
+			return "JsonObject";
+	}
+
+	public String str_modify(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "modifier";
+		else
+			return "modify";
+	}
+
+	public String str_solrDocuments(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "documentsSolr";
+		else
+			return "solrDocuments";
+	}
+
+	public String str_List(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Liste";
+		else
+			return "List";
+	}
+
+	public String str_searchInMillis(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "millisRecherche";
+		else
+			return "searchInMillis";
+	}
+
+	public String str_transmissionInMillis(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "millisTransmission";
+		else
+			return "transmissionInMillis";
+	}
+
+	public String str_startNum(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "numCommence";
+		else
+			return "startNum";
+	}
+
+	public String str_foundNum(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "numTrouve";
+		else
+			return "foundNum";
+	}
+
+	public String str_returnedNum(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "numRetourne";
+		else
+			return "returnedNum";
+	}
+
+	public String str_searchTime(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "tempsRecherche";
+		else
+			return "searchTime";
+	}
+
+	public String str_transmissionTime(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "tempsTransmission";
+		else
+			return "transmissionTime";
+	}
+
+	public String str_solrDocument(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "documentSolr";
+		else
+			return "solrDocument";
+	}
+
+	public String str_result(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "resultat";
+		else
+			return "result";
+	}
+
+	public String str_sqlClient(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "clientSql";
+		else
+			return "sqlClient";
+	}
+
+	public String str_SqlClient(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ClientSql";
+		else
+			return "SqlClient";
+	}
+
+	public String str_siteUser(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateurSite";
+		else
+			return "siteUser";
+	}
+
+	public String str_jsonPrincipal(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "principalJson";
+		else
+			return "jsonPrincipal";
+	}
+
+	public String str_FirstName(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Prenom";
+		else
+			return "FirstName";
+	}
+
+	public String str_LastName(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "NomFamille";
+		else
+			return "LastName";
+	}
+
+	public String str_Populate(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Peupler";
+		else
+			return "Populate";
+	}
+
+	public String str_Store(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Stocker";
+		else
+			return "Store";
+	}
+
+	public String str_archived(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "archive";
+		else
+			return "archived";
+	}
+
+	public String str_deleted(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "supprime";
+		else
+			return "deleted";
+	}
+
+	public String str_classCanonicalNames(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "classeNomsCanoniques";
+		else
+			return "classCanonicalNames";
+	}
+
+	public String str_SeeDeleted(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "VoirSupprime";
+		else
+			return "SeeDeleted";
+	}
+
+	public String str_SeeArchived(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "VoirArchive";
+		else
+			return "SeeArchived";
+	}
+
+	public String str_classApiUriMethod(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "classeApiUriMethode";
+		else
+			return "classApiUriMethod";
+	}
+
+	public String str_Sort(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Tri";
+		else
+			return "Sort";
+	}
+
+	public String str_Start(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Debut";
+		else
+			return "Start";
+	}
+
+	public String str_saves(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "sauvegardes";
+		else
+			return "saves";
+	}
+
+	public String str_unindex(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "desindexer";
+		else
+			return "unindex";
+	}
+
 	public void  populateQdoxSuperClassesInterfacesAndMe(JavaClass c, ArrayList<JavaClass> qdoxSuperClasses, ArrayList<JavaClass> qdoxSuperClassesAndMe, ArrayList<JavaClass> qdoxSuperClassesAndMeWithoutGen, ArrayList<JavaClass> qdoxSuperClassesAndInterfaces, ArrayList<JavaClass> qdoxSuperClassesInterfacesAndMe) throws Exception, Exception { 
 		if(c != null) {
 			JavaClass superClass = c.getSuperJavaClass();
@@ -1517,7 +2350,7 @@ public class IndexClass extends RegarderClasseBase {
 						ClassParts entityClassParts = ClassParts.initClassParts(this, entityClassQdox, classLanguageName, classLanguageName);
 						Boolean entityWrap = false;
 
-						if(entityClassParts.simpleName.equals("Wrap")) {
+						if(entityClassParts.simpleName.equals(classPartsWrap.simpleName(languageName))) {
 							entityClassParts = ClassParts.initClassParts(this, entityClassParts.canonicalNameGeneric, classLanguageName, classLanguageName);
 							entityWrap = true;
 							classContainsWrap = true;
@@ -1625,7 +2458,7 @@ public class IndexClass extends RegarderClasseBase {
 							SolrQuery solrSearchMethodBefore = new SolrQuery();   
 							solrSearchMethodBefore.setQuery("*:*");
 							solrSearchMethodBefore.setRows(10);
-							String fqMethodBefore = "(" + entityCanonicalNamesSuperAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars("before" + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
+							String fqMethodBefore = "(" + entityCanonicalNamesSuperAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(str_before(languageName) + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
 							solrSearchMethodBefore.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqSuperClassesAndMe);
 							solrSearchMethodBefore.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 							solrSearchMethodBefore.addFilterQuery("partIsMethod_indexed_boolean:true");
@@ -1640,12 +2473,9 @@ public class IndexClass extends RegarderClasseBase {
 								String methodParamSimpleNameComplete = methodParamsSimpleNameComplete.get(0);
 								List<String> methodParamsVar = (List<String>)solrDocument.get("methodParamsVar_" + classLanguageName + "_stored_strings");
 								String methodParamVar = methodParamsVar.get(0);
-								storeListSolr(entityDoc, "entityMethodsBeforeVisibility", BooleanUtils.isTrue((Boolean)solrDocument.get("methodIsPublic_stored_boolean")) ? "public" : "protected");
-								storeListSolr(entityDoc, "entityMethodsBeforeVar", methodVarCurrent);
-								storeListSolr(entityDoc, "entityMethodsBeforeParamVar", methodParamVar);
-								storeListSolr(entityDoc, "entityMethodsBeforeSimpleName", methodParamSimpleNameComplete);
-								storeListSolr(entityDoc, "entityMethodsBeforeParamName", methodParamsVar.size() > 1);
 								Boolean entityMethodsBeforeWrite = (StringUtils.equals(methodClassCanonicalName, classCanonicalName)) && !classMethodsWritten.contains(methodVarCurrent);
+								storeListSolr(entityDoc, "entityMethodsBeforeVisibility", BooleanUtils.isTrue((Boolean)solrDocument.get("methodIsPublic_stored_boolean")) ? "public" : "protected");
+								storeListSolr(entityDoc, "entityMethodsBeforeParamName", methodParamsVar.size() > 1);
 								storeListSolr(entityDoc, "entityMethodsBeforeWrite", entityMethodsBeforeWrite);
 								classMethodsWritten.add(methodVarCurrent);
 								List<String> methodParamCanonicalNames = (List<String>)solrDocument.get("methodParamCanonicalNames_" + classLanguageName + "_stored_strings");
@@ -1653,12 +2483,23 @@ public class IndexClass extends RegarderClasseBase {
 									String methodParamCanonicalName = methodParamCanonicalNames.get(0);
 									classPartsGenAdd(ClassParts.initClassParts(this, methodParamCanonicalName, classLanguageName));
 								}
+								for(String languageName : allLanguages) {  
+									methodVarCurrent = (String)solrDocument.get("methodVar_" + languageName + "_stored_string");
+									methodClassCanonicalName = (String)solrDocument.get("classCanonicalName_" + languageName + "_stored_string");
+									methodParamsSimpleNameComplete = (List<String>)solrDocument.get("methodParamsSimpleNameComplete_" + languageName + "_stored_strings");
+									methodParamSimpleNameComplete = methodParamsSimpleNameComplete.get(0);
+									methodParamsVar = (List<String>)solrDocument.get("methodParamsVar_" + languageName + "_stored_strings");
+									methodParamVar = methodParamsVar.get(0);
+									storeListSolr(languageName, entityDoc, "entityMethodsBeforeVar", methodVarCurrent);
+									storeListSolr(languageName, entityDoc, "entityMethodsBeforeParamVar", methodParamVar);
+									storeListSolr(languageName, entityDoc, "entityMethodsBeforeSimpleName", methodParamSimpleNameComplete);
+								}
 							}
 	
 							SolrQuery solrSearchMethodAfter = new SolrQuery();   
 							solrSearchMethodAfter.setQuery("*:*");
 							solrSearchMethodAfter.setRows(10);
-							String fqMethodAfter = "(" + entityCanonicalNamesSuperAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars("after" + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
+							String fqMethodAfter = "(" + entityCanonicalNamesSuperAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(str_after(languageName) + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
 							solrSearchMethodAfter.addFilterQuery("entitySuperClassesAndMeWithoutGen_indexed_strings:" + fqSuperClassesAndMe);
 							solrSearchMethodAfter.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(domainPackageName));
 							solrSearchMethodAfter.addFilterQuery("partIsMethod_indexed_boolean:true");
@@ -1685,6 +2526,17 @@ public class IndexClass extends RegarderClasseBase {
 								if(methodParamCanonicalNames != null) {
 									String methodParamCanonicalName = methodParamCanonicalNames.get(0);
 									classPartsGenAdd(ClassParts.initClassParts(this, methodParamCanonicalName, classLanguageName));
+								}
+								for(String languageName : allLanguages) {  
+									methodVarCurrent = (String)solrDocument.get("methodVar_" + languageName + "_stored_string");
+									methodClassCanonicalName = (String)solrDocument.get("classCanonicalName_" + languageName + "_stored_string");
+									methodParamsSimpleNameComplete = (List<String>)solrDocument.get("methodParamsSimpleNameComplete_" + languageName + "_stored_strings");
+									methodParamSimpleNameComplete = methodParamsSimpleNameComplete.get(0);
+									methodParamsVar = (List<String>)solrDocument.get("methodParamsVar_" + languageName + "_stored_strings");
+									methodParamVar = methodParamsVar.get(0);
+									storeListSolr(languageName, entityDoc, "entityMethodsAfterVar", methodVarCurrent);
+									storeListSolr(languageName, entityDoc, "entityMethodsAfterParamVar", methodParamVar);
+									storeListSolr(languageName, entityDoc, "entityMethodsAfterSimpleName", methodParamSimpleNameComplete);
 								}
 							}
 						}

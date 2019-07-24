@@ -915,126 +915,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * Var.enUS: str_alreadyInitialised
-	 */
-	public String str_dejaInitialise(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "dejaInitialise";
-		else
-			return "alreadyInitialized";
-	}
-
-	/**
-	 * Var.enUS: str_initDeep
-	 */
-	public String str_initLoin(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "initLoin";
-		else
-			return "initDeep";
-	}
-
-	/**
-	 * Var.enUS: str_ForClass
-	 */
-	public String str_PourClasse(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "PourClasse";
-		else
-			return "ForClass";
-	}
-
-	/**
-	 * Var.enUS: str_obtenir
-	 */
-	public String str_obtenir(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "obtenir";
-		else
-			return "obtain";
-	}
-
-	/**
-	 * Var.enUS: str_attribuer
-	 */
-	public String str_attribuer(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "attribuer";
-		else
-			return "attribute";
-	}
-
-	/**
-	 * Var.enUS: str_put
-	 */
-	public String str_put(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "put";
-		else
-			return "put";
-	}
-
-	/**
-	 * Var.enUS: str_indexer
-	 */
-	public String str_indexer(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "indexer";
-		else
-			return "index";
-	}
-
-	/**
-	 * Var.enUS: str_stocker
-	 */
-	public String str_stocker(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "stocker";
-		else
-			return "store";
-	}
-
-	/**
-	 * Var.enUS: str_peupler
-	 */
-	public String str_peupler(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "peupler";
-		else
-			return "populate";
-	}
-
-	/**
-	 * Var.enUS: str_definir
-	 */
-	public String str_definir(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "definir";
-		else
-			return "define";
-	}
-
-	/**
-	 * Var.enUS: str_requeteSite
-	 */
-	public String str_requeteSite(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "requeteSite";
-		else
-			return "siteRequest";
-	}
-
-	/**
-	 * Var.enUS: str_requeteSite
-	 */
-	public String str_RequeteSite(String langueNom) throws Exception {
-		if("frFR".equals(langueNom))
-			return "RequeteSite";
-		else
-			return "SiteRequest";
-	}
-
-	/**
 	 * Var.enUS: genCodeInitDeep
 	 * Param1.var.enUS: languageName
 	 * r: classeInitLoinExceptionNomSimple
@@ -1513,14 +1393,14 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		if(classeSauvegarde) {
 			l(); 
 			tl(1, "/////////////////");
-			tl(1, "// sauvegardes //");
+			tl(1, "// ", str_sauvegardes(langueNom), " //");
 			tl(1, "/////////////////");
 			tl(0);
-			tl(1, "protected List<String> sauvegardes", classeNomSimple, " = new ArrayList<String>();");
+			tl(1, "protected List<String> ", str_sauvegardes(langueNom), "", classeNomSimple, " = new ArrayList<String>();");
 //			t(1);
 //			if(!classeNomSimple.equals("Cluster"))
 //				s("@Override ");
-//			l("public void sauvegardesPourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
+//			l("public void ", str_sauvegardes(langueNom), "PourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
 //			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
 //			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
 //
@@ -1542,7 +1422,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //			tl(4, "String chemin = (String)objets[0];");
 //			tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
 //			tl(4, "definirPourClasse(chemin, valeur);");
-//			tl(4, "sauvegardes", classeNomSimple, ".add(chemin);");
+//			tl(4, "", str_sauvegardes(langueNom), "", classeNomSimple, ".add(chemin);");
 //			tl(3, "}");
 //			tl(2, "}");
 //			tl(1, "}");
@@ -2874,16 +2754,16 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			entiteClassesSuperEtMoiSansGen = (List<String>)doc.get("entiteClassesSuperEtMoiSansGen_stored_strings");
 	
 			List<String> entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
-			List<String> entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_stored_strings");
-			List<String> entiteMethodesAvantParamVar = (List<String>)doc.get("entiteMethodesAvantParamVar_stored_strings");
-			List<String> entiteMethodesAvantParamNomSimple = (List<String>)doc.get("entiteMethodesAvantParamNomSimple_stored_strings");
+			List<String> entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_" + langueNom + "_stored_strings");
+			List<String> entiteMethodesAvantParamVar = (List<String>)doc.get("entiteMethodesAvantParamVar_" + langueNom + "_stored_strings");
+			List<String> entiteMethodesAvantParamNomSimple = (List<String>)doc.get("entiteMethodesAvantParamNomSimple_" + langueNom + "_stored_strings");
 			List<Boolean> entiteMethodesAvantNomParam = (List<Boolean>)doc.get("entiteMethodesAvantNomParam_stored_booleans");
 			List<Boolean> entiteMethodesAvantEcrire = (List<Boolean>)doc.get("entiteMethodesAvantEcrire_stored_booleans");
 	
 			List<String> entiteMethodesApresVisibilite = (List<String>)doc.get("entiteMethodesApresVisibilite_stored_strings");
-			List<String> entiteMethodesApresVar = (List<String>)doc.get("entiteMethodesApresVar_stored_strings");
-			List<String> entiteMethodesApresParamVar = (List<String>)doc.get("entiteMethodesApresParamVar_stored_strings");
-			List<String> entiteMethodesApresParamNomSimple = (List<String>)doc.get("entiteMethodesApresParamNomSimple_stored_strings");
+			List<String> entiteMethodesApresVar = (List<String>)doc.get("entiteMethodesApresVar_" + langueNom + "_stored_strings");
+			List<String> entiteMethodesApresParamVar = (List<String>)doc.get("entiteMethodesApresParamVar_" + langueNom + "_stored_strings");
+			List<String> entiteMethodesApresParamNomSimple = (List<String>)doc.get("entiteMethodesApresParamNomSimple_" + langueNom + "_stored_strings");
 			List<Boolean> entiteMethodesApresNomParam = (List<Boolean>)doc.get("entiteMethodesApresNomParam_stored_booleans");
 			List<Boolean> entiteMethodesApresEcrire = (List<Boolean>)doc.get("entiteMethodesApresEcrire_stored_booleans");
 
@@ -3829,10 +3709,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 				if(entiteVarCapitalise != null && classeSauvegarde && entiteSolrNomCanonique != null) {
 					l();
-					tl(1, "public void htm", entiteVarCapitalise, "(ToutEcrivain r, Boolean patchDroits) {");
+					tl(1, "public void htm", entiteVarCapitalise, "(", classePartsToutEcrivain.nomSimple(langueNom), " r, Boolean patch", str_Droits(langueNom), ") {");
 					tl(2, "if(", classeVarClePrimaire, "!= null) {");
 					tl(3, "r.s(\"<div id=\\\"patch", classeNomSimple, "\", str", StringUtils.capitalize(classeVarClePrimaire), "(), \"", entiteVarCapitalise, "\\\">\");");
-					tl(3, "if(patchDroits) {");
+					tl(3, "if(patch", str_Droits(langueNom), ") {");
 					tl(4, "r.l();");
 					tl(4, "r.l(\"	<script>//<![CDATA[\");");
 					tl(4, "r.l(\"		function patch", classeNomSimple, "\", str", StringUtils.capitalize(classeVarClePrimaire), "(), \"", entiteVarCapitalise, "() {\");");
@@ -4056,7 +3936,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}	
 	
 			/////////////
-			// definir //
+			// ", str_definir(langueNom), " //
 			/////////////
 			o = wDefinir;
 			
@@ -4064,12 +3944,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "case \"", entiteVar, "\":");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 						tl(4, "add", entiteVarCapitalise, "(val);");
-						tl(4, "if(!sauvegardes", classeNomSimple, ".contains(var))");
-						tl(5, "sauvegardes", classeNomSimple, ".add(var);");
+						tl(4, "if(!", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(var))");
+						tl(5, "", str_sauvegardes(langueNom), "", classeNomSimple, ".add(var);");
 					}
 					else {
 						tl(4, "set", entiteVarCapitalise, "(val);");
-						tl(4, "sauvegardes", classeNomSimple, ".add(var);");
+						tl(4, "", str_sauvegardes(langueNom), "", classeNomSimple, ".add(var);");
 					}
 					tl(4, "return val;");
 			}	
@@ -4108,13 +3988,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(0);
 	
 //					if(entiteSuggere) {
-//						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+//						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
 //						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", entiteSuffixeType, "\");");
 //						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //						tl(3, "}");
 //					}
 //					else if(entiteIncremente) {
-//						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+//						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
 //						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", entiteSuffixeType, "\");");
 //						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //						tl(3, "}");
@@ -4129,7 +4009,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					}
 					else if(entiteCrypte) {
-						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
 						if(siteCrypte)
 							tl(4, entiteSolrNomSimple, " ", entiteVar, " = requeteSite.decrypterStr((", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_encrypted", entiteSuffixeType, "\"));");
 						else
@@ -4146,7 +4026,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					}
 					else {
-						tl(3, "if(sauvegardes", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
 						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
 						tl(4, "if(", entiteVar, " != null)");
 						if(StringUtils.contains(entiteSolrNomCanonique, "<"))
@@ -4236,7 +4116,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 				tl(tBase + 2, "case \"", entiteVar, "\":");
 				tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
-				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(entiteVar), ", classeVarClePrimaire, "));");
+				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var), ", classeVarClePrimaire, "));");
 				tl(tBase + 3, "break;");
 			}	
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
@@ -4245,7 +4125,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0)
 					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.getLong(entiteVar), \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, "));");
 				else
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\", jsonObject.getLong(entiteVar)));");
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\", jsonObject.getLong(", str_entite(langueNom), "Var)));");
 				tl(tBase + 3, "break;");
 			}	
 	
@@ -4264,7 +4144,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 				tl(tBase + 6, "case \"", entiteVar, "\":");
 				tl(tBase + 7, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
-				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", requeteJson.get", entiteNomSimpleVertxJson, "(entiteVar), putPk));");
+				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", requeteJson.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var), putPk));");
 				tl(tBase + 7, "break;");
 			}	
 	
@@ -4621,7 +4501,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "/////////////");
-			tl(1, "// definir //");
+			tl(1, "// ", str_definir(langueNom), " //");
 			tl(1, "/////////////");
 			tl(0);
 			t(1);
@@ -4644,7 +4524,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(2, "if(val != null) {");
 			tl(3, "for(String v : vars) {");
 			tl(4, "if(o == null)");
-			tl(5, "o = definir", classeNomSimple, "(v, val);");
+			tl(5, "o = ", str_definir(langueNom), "", classeNomSimple, "(v, val);");
 			tl(4, "else if(o instanceof Cluster) {");
 			tl(5, "Cluster cluster = (Cluster)o;");
 			tl(5, "o = cluster.", str_definir(langueNom), str_PourClasse(langueNom), "(v, val);");
@@ -4653,7 +4533,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(2, "}");
 			tl(2, "return o != null;");
 			tl(1, "}");
-			tl(1, "public Object definir", classeNomSimple, "(String var, String val) {");
+			tl(1, "public Object ", str_definir(langueNom), "", classeNomSimple, "(String var, String val) {");
 			tl(2, "switch(var) {");
 			s(wDefinir.toString());
 			tl(3, "default:");
@@ -4661,7 +4541,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return super.definir", classeNomSimpleSuperGenerique, "(var, val);");
+				tl(4, "return super.", str_definir(langueNom), "", classeNomSimpleSuperGenerique, "(var, val);");
 
 			tl(2, "}");
 			tl(1, "}");
@@ -4670,10 +4550,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		if(classeSauvegarde) {
 			l(); 
 			tl(1, "/////////////////");
-			tl(1, "// sauvegardes //");
+			tl(1, "// ", str_sauvegardes(langueNom), " //");
 			tl(1, "/////////////////");
 			tl(0);
-			tl(1, "protected List<String> sauvegardes", classeNomSimple, " = new ArrayList<String>();");
+			tl(1, "protected List<String> ", str_sauvegardes(langueNom), "", classeNomSimple, " = new ArrayList<String>();");
 		}
 
 		/////////////////
@@ -4690,13 +4570,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				s("@Override ");
 			l("public void ", str_peupler(langueNom), str_PourClasse(langueNom), "(SolrDocument solrDocument) {");
 			if(classeSauvegarde) {
-			tl(2, "peupler", classeNomSimple, "(solrDocument);");
+			tl(2, str_peupler(langueNom), classeNomSimple, "(solrDocument);");
 			}
 			tl(1, "}");
 			tl(1, "public void ", str_peupler(langueNom), classeNomSimple, "(SolrDocument solrDocument) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
-			tl(2, "sauvegardes", classeNomSimple, " = (List<String>)solrDocument.get(\"sauvegardes", classeNomSimple, "_stored_strings\");");
-			tl(2, "if(sauvegardes", classeNomSimple, " != null) {");
+			tl(2, "", str_sauvegardes(langueNom), "", classeNomSimple, " = (List<String>)solrDocument.get(\"", str_sauvegardes(langueNom), "", classeNomSimple, "_stored_strings\");");
+			tl(2, "if(", str_sauvegardes(langueNom), "", classeNomSimple, " != null) {");
 			s(wPeupler.toString());
 			tl(2, "}");
 			if(BooleanUtils.isTrue(classeEtendBase)) {
@@ -4754,22 +4634,22 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(0);
 			tl(1, "public static void ", str_indexer(langueNom), "() {");
 			tl(2, "try {");
-			tl(3, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
-			tl(3, "requeteSite.", str_initLoin(langueNom), classePartsRequeteSite.nomSimple(langueNom), "();");
-			tl(3, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
-			tl(3, "siteContexte.getConfigSite().setConfigChemin(", q(configChemin), ");");
-			tl(3, "siteContexte.", str_initLoin(langueNom), classePartsSiteContexte.nomSimple(langueNom), "();");
-			tl(3, str_requeteSite(langueNom), ".setSiteContexte_(siteContexte);");
-			tl(3, str_requeteSite(langueNom), ".setConfigSite_(siteContexte.getConfigSite());");
-			tl(3, "SolrQuery rechercheSolr = new SolrQuery();");
-			tl(3, "rechercheSolr.setQuery(\"*:*\");");
-			tl(3, "rechercheSolr.setRows(1);");
-			tl(3, "rechercheSolr.addFilterQuery(\"id:\" + ClientUtils.escapeQueryChars(\"", classeNomCanonique, "\"));");
-			tl(3, "QueryResponse reponseRecherche = requeteSite.getSiteContexte_().getClientSolr().query(rechercheSolr);");
-			tl(3, "if(reponseRecherche.getResults().size() > 0)");
-			tl(4, "requeteSite.setDocumentSolr(reponseRecherche.getResults().get(0));");
+			tl(3, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
+			tl(3, str_requeteSite(langueNom), ".", str_initLoin(langueNom), classePartsRequeteSite.nomSimple(langueNom), "();");
+			tl(3, classePartsSiteContexte.nomSimple(langueNom), " ", str_siteContexte(langueNom), " = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
+			tl(3, str_siteContexte(langueNom), ".get", classePartsConfigSite.nomSimple(langueNom), "().set", str_ConfigChemin(langueNom), "(", q(configChemin), ");");
+			tl(3, str_siteContexte(langueNom), ".", str_initLoin(langueNom), classePartsSiteContexte.nomSimple(langueNom), "();");
+			tl(3, str_requeteSite(langueNom), ".set", str_SiteContexte(langueNom), "_(", str_siteContexte(langueNom), ");");
+			tl(3, str_requeteSite(langueNom), ".set", str_ConfigSite(langueNom), "_(", str_siteContexte(langueNom), ".get", str_ConfigSite(langueNom), "());");
+			tl(3, "SolrQuery ", str_rechercheSolr(langueNom), " = new SolrQuery();");
+			tl(3, "", str_rechercheSolr(langueNom), ".setQuery(\"*:*\");");
+			tl(3, "", str_rechercheSolr(langueNom), ".setRows(1);");
+			tl(3, "", str_rechercheSolr(langueNom), ".addFilterQuery(\"id:\" + ClientUtils.escapeQueryChars(\"", classeNomCanonique, "\"));");
+			tl(3, "QueryResponse ", str_reponseRecherche(langueNom), " = ", str_requeteSite(langueNom), ".get", str_SiteContexte(langueNom), "_().get", str_ClientSolr(langueNom), "().query(", str_rechercheSolr(langueNom), ");");
+			tl(3, "if(", str_reponseRecherche(langueNom), ".getResults().size() > 0)");
+			tl(4, str_requeteSite(langueNom), ".set", str_DocumentSolr(langueNom), "(", str_reponseRecherche(langueNom), ".getResults().get(0));");
 			tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
-			tl(3, "o.requeteSite", classeNomSimple, "(requeteSite);");
+			tl(3, "o.", str_requeteSite(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ");");
 			tl(3, "o.", str_initLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ");");
 			tl(3, "o.", str_indexer(langueNom), classeNomSimple, "();");
 			tl(2, "} catch(Exception e) {");
@@ -4797,7 +4677,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(1, "public void ", str_indexer(langueNom), classeNomSimple, "(SolrClient clientSolr) {");
 			tl(2, "try {");
 			tl(3, "SolrInputDocument document = new SolrInputDocument();");
-			tl(3, "indexer", classeNomSimple, "(document);");
+			tl(3, str_indexer(langueNom), classeNomSimple, "(document);");
 			tl(3, "clientSolr.add(document);");
 			tl(3, "clientSolr.commit();");
 			tl(2, "} catch(Exception e) {");
@@ -4808,8 +4688,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(1, "public void ", str_indexer(langueNom), classeNomSimple, "() {");
 			tl(2, "try {");
 			tl(3, "SolrInputDocument document = new SolrInputDocument();");
-			tl(3, "indexer", classeNomSimple, "(document);");
-			tl(3, "SolrClient clientSolr = ", str_requeteSite(langueNom), "_.getSiteContexte_().getClientSolr();");
+			tl(3, str_indexer(langueNom), classeNomSimple, "(document);");
+			tl(3, "SolrClient clientSolr = ", str_requeteSite(langueNom), "_.get", str_SiteContexte(langueNom), "_().get", str_ClientSolr(langueNom), "();");
 			tl(3, "clientSolr.add(document);");
 			tl(3, "clientSolr.commit();");
 			tl(2, "} catch(Exception e) {");
@@ -4820,31 +4700,31 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(0);
 			tl(1, "public void ", str_indexer(langueNom), classeNomSimple, "(SolrInputDocument document) {");
 			if(classeSauvegarde) {
-				tl(2, "if(sauvegardes", classeNomSimple, " != null)");
-				tl(3, "document.addField(\"sauvegardes", classeNomSimple, "_stored_strings\", sauvegardes", classeNomSimple, ");");
+				tl(2, "if(", str_sauvegardes(langueNom), "", classeNomSimple, " != null)");
+				tl(3, "document.addField(\"", str_sauvegardes(langueNom), "", classeNomSimple, "_stored_strings\", ", str_sauvegardes(langueNom), "", classeNomSimple, ");");
 				l();
 			}
 			s(wIndexer.toString());
 			if(classeEtendBase && !classeEstBase) {
-				tl(2, "super.indexer", classeNomSimpleSuperGenerique, "(document);");
+				tl(2, "super.", str_indexer(langueNom), "", classeNomSimpleSuperGenerique, "(document);");
 				tl(0);
 			}
 			l("\t}");
 
 			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
 				tl(0);
-				tl(1, "public void desindexer", classeNomSimple, "() {");
+				tl(1, "public void ", str_desindexer(langueNom), "", classeNomSimple, "() {");
 				tl(2, "try {");
-				tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " requeteSite = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
-				tl(3, "requeteSite.", str_initLoin(langueNom), classePartsRequeteSite.nomSimple(langueNom), "();");
-				tl(3, classePartsSiteContexte.nomSimple(langueNom), " siteContexte = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
-				tl(3, "siteContexte.", str_initLoin(langueNom), classePartsSiteContexte.nomSimple(langueNom), "();");
-				tl(3, str_requeteSite(langueNom), ".setSiteContexte_(siteContexte);");
-				tl(3, str_requeteSite(langueNom), ".setConfigSite_(siteContexte.getConfigSite());");
+				tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
+				tl(3, "", str_requeteSite(langueNom), ".", str_initLoin(langueNom), classePartsRequeteSite.nomSimple(langueNom), "();");
+				tl(3, classePartsSiteContexte.nomSimple(langueNom), " ", str_siteContexte(langueNom), " = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
+				tl(3, "", str_siteContexte(langueNom), ".", str_initLoin(langueNom), classePartsSiteContexte.nomSimple(langueNom), "();");
+				tl(3, str_requeteSite(langueNom), ".set", str_SiteContexte(langueNom), "_(", str_siteContexte(langueNom), ");");
+				tl(3, str_requeteSite(langueNom), ".set", str_ConfigSite(langueNom), "_(", str_siteContexte(langueNom), ".get", str_ConfigSite(langueNom), "());");
 				tl(3, str_initLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ");");
-				tl(3, "SolrClient clientSolr = siteContexte.getClientSolr();");
-				tl(3, "clientSolr.deleteById(", classeVarCleUnique, ".toString());");
-				tl(3, "clientSolr.commit();");
+				tl(3, "SolrClient ", str_clientSolr(langueNom), " = ", str_siteContexte(langueNom), ".get", str_ClientSolr(langueNom), "();");
+				tl(3, str_clientSolr(langueNom), ".deleteById(", classeVarCleUnique, ".toString());");
+				tl(3, str_clientSolr(langueNom), ".commit();");
 				tl(2, "} catch(Exception e) {");
 				tl(3, "ExceptionUtils.rethrow(e);");
 				tl(2, "}");
@@ -4988,8 +4868,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 ////							tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
 ////						else
 ////							tl(4, "String valeur = (String)objets[1];");
-////						tl(4, "definir(chemin, valeur);");
-////						tl(4, "sauvegardes", classeNomSimple, ".add(chemin);");
+////						tl(4, "", str_definir(langueNom), "(chemin, valeur);");
+////						tl(4, "", str_sauvegardes(langueNom), "", classeNomSimple, ".add(chemin);");
 ////						tl(3, "}");
 ////						tl(2, "}");
 //			tl(0);

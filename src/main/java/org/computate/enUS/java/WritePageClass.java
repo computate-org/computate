@@ -32,7 +32,7 @@ public class WritePageClass extends WriteApiClass {
 	public void  pageCodeClassEnd(String languageName) throws Exception, Exception {
 	}
 
-	public Boolean writeFormEntity(AllWriter wForm, String classApiMethodMethod) {
+	public Boolean writeFormEntity(ToutEcrivain wForm, String classApiMethodMethod) {
 		int tIndex = 0;
 		Boolean result = false;
 
@@ -478,7 +478,7 @@ public class WritePageClass extends WriteApiClass {
 											wEntities.l();
 											wEntities.t(1, "@Override protected void _", entityVar, "(");
 											if(entityWrap)
-												wEntities.s("Wrap<", entitySimpleNameComplete, "> c");
+												wEntities.s(classePartsWrap.nomSimple(languageName), "<", entitySimpleNameComplete, "> c");
 											else
 												wEntities.s(entitySimpleNameComplete, " o");
 											wEntities.l(") {");
@@ -522,7 +522,7 @@ public class WritePageClass extends WriteApiClass {
 				}
 	
 				wEntities.l();
-				wEntities.tl(1, "@Override protected void _pageH1(Wrap<String> c) {");
+				wEntities.tl(1, "@Override protected void _pageH1(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 				if(pageH1) {
 					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH1() != null)");
 					wEntities.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH1()", ");");
@@ -535,7 +535,7 @@ public class WritePageClass extends WriteApiClass {
 				else
 					wEntities.tl(3, "c.o(", q(contextAName), ");");
 				if(!classPageSimple) {
-					wEntities.tl(2, "else if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0)");
+					wEntities.tl(2, "else if(", str_list(languageName), classSimpleName, " == null || ", str_list(languageName), classSimpleName, ".size() == 0)");
 					wEntities.tl(3, "c.o(", q(contextNoNameFound), ");");
 				}
 				if(contextH1 != null) {
@@ -545,7 +545,7 @@ public class WritePageClass extends WriteApiClass {
 				wEntities.tl(1, "}");
 	
 				wEntities.l();
-				wEntities.tl(1, "@Override protected void _pageH2(Wrap<String> c) {");
+				wEntities.tl(1, "@Override protected void _pageH2(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 				if(pageH2) {
 					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH2() != null)");
 					wEntities.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH2()", ");");
@@ -559,7 +559,7 @@ public class WritePageClass extends WriteApiClass {
 				wEntities.tl(1, "}");
 	
 				wEntities.l();
-				wEntities.tl(1, "@Override protected void _pageH3(Wrap<String> c) {");
+				wEntities.tl(1, "@Override protected void _pageH3(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 				if(pageH3) {
 					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageH3() != null)");
 					wEntities.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageH3()", ");");
@@ -573,17 +573,17 @@ public class WritePageClass extends WriteApiClass {
 				wEntities.tl(1, "}");
 	
 				wEntities.l();
-				wEntities.tl(1, "@Override protected void _pageTitle(Wrap<String> c) {");
+				wEntities.tl(1, "@Override protected void _page", str_Titre(languageName), "(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 				if(pageTitle) {
-					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPageTitle() != null)");
-					wEntities.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPageTitle()", ");");
+					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null && ", StringUtils.uncapitalize(classSimpleName), ".getPage", str_Titre(languageName), "() != null)");
+					wEntities.tl(3, "c.o(", StringUtils.uncapitalize(classSimpleName), ".getPage", str_Titre(languageName), "()", ");");
 					wEntities.tl(2, "else if(", StringUtils.uncapitalize(classSimpleName), " != null)");
 				} else {
 					wEntities.tl(2, "if(", StringUtils.uncapitalize(classSimpleName), " != null)");
 				}
 				wEntities.tl(3, "c.o(", q(contextTitle), ");");
 				if(!classPageSimple) {
-					wEntities.tl(2, "else if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0)");
+					wEntities.tl(2, "else if(", str_list(languageName), classSimpleName, " == null || ", str_list(languageName), classSimpleName, ".size() == 0)");
 					wEntities.tl(3, "c.o(", q(contextNoNameFound), ");");
 				}
 				if(contextTitle != null) {
@@ -593,7 +593,7 @@ public class WritePageClass extends WriteApiClass {
 				wEntities.tl(1, "}");
 	
 				wEntities.l();
-				wEntities.tl(1, "@Override protected void _pageUri(Wrap<String> c) {");
+				wEntities.tl(1, "@Override protected void _pageUri(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 				wEntities.tl(2, "c.o(", q(classPageUriMethod), ");");
 				wEntities.tl(1, "}");
 				for(String pageLanguageName : allLanguages) {
@@ -602,7 +602,7 @@ public class WritePageClass extends WriteApiClass {
 						
 						if(classPageUriMethodLanguage != null) {
 							wEntities.l();
-							wEntities.tl(1, "@Override protected void _pageUri", StringUtils.capitalize(pageLanguageName), "(Wrap<String> c) {");
+							wEntities.tl(1, "@Override protected void _pageUri", StringUtils.capitalize(pageLanguageName), "(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 							wEntities.tl(2, "c.o(", q(classPageUriMethodLanguage), ");");
 							wEntities.tl(1, "}");
 						}
@@ -613,7 +613,7 @@ public class WritePageClass extends WriteApiClass {
 					writerPageClass.l("package ", classPackageName, ";");
 					writerPageClass.l();
 					writerPageClass.l("/**");
-					writerPageClass.l(" * Traduire: false");
+					writerPageClass.l(" * ", str_Traduire(languageName), ": false");
 					writerPageClass.l(" **/");
 					writerPageClass.s("public class ", classPageSimpleName);
 					writerPageClass.s(" extends ", classPageSimpleName, "Gen<", classGenPageSimpleName, ">");
@@ -633,7 +633,7 @@ public class WritePageClass extends WriteApiClass {
 				tl(0, "");
 //				writeComment(classComment, 0); 
 				l("/**");
-				l(" * Traduire: false");
+				l(" * ", str_Traduire(languageName), ": false");
 				l(" **/");
 				s("public class ", classGenPageSimpleName);
 				s(" extends ", classGenPageSimpleName, "Gen");
@@ -645,82 +645,82 @@ public class WritePageClass extends WriteApiClass {
 					tl(1, " * {@inheritDoc}");
 					tl(1, " * ");
 					tl(1, " **/");
-					tl(1, "protected void _list", classSimpleName, "(Wrap<SearchList<", classSimpleName, ">> c) {");
+					tl(1, "protected void _", str_list(languageName), classSimpleName, "(", classePartsWrap.nomSimple(languageName), "<", str_SearchList(languageName), "<", classSimpleName, ">> c) {");
 					tl(1, "}");
 				}
 				l();
-				tl(1, "protected void _", StringUtils.uncapitalize(classSimpleName), "(", "Wrap<", classSimpleName, "> c", ") {");
+				tl(1, "protected void _", StringUtils.uncapitalize(classSimpleName), "(", "", classePartsWrap.nomSimple(languageName), "<", classSimpleName, "> c", ") {");
 				if(classPageSimple) {
 					tl(2, "c.o(new ", classSimpleName, "());");
 				} else {
-					tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1)");
-					tl(3, "c.o(list", classSimpleName, ".get(0)", ");");
+					tl(2, "if(", str_list(languageName), classSimpleName, " != null && ", str_list(languageName), classSimpleName, ".size() == 1)");
+					tl(3, "c.o(", str_list(languageName), classSimpleName, ".get(0)", ");");
 				}
 				tl(1, "}");
 				s(wEntities);
 	
 				if(contextDescription != null) {
 					l();
-					tl(1, "@Override protected void _pageDescription(Wrap<String> c) {");
+					tl(1, "@Override protected void _pageDescription(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 					tl(3, "c.o(", q(contextDescription), ");");
 					tl(1, "}");
 				}
 	
 				if(classImage != null) {
 					l();
-					tl(1, "@Override protected void _pageImageUri(Wrap<String> c) {");
+					tl(1, "@Override protected void _pageImageUri(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 					tl(3, "c.o(", q("/png", classPageUriMethod, "-999.png"), ");");
 					tl(1, "}");
 				}
 	
 				if(contextImageWidth != null) {
 					l();
-					tl(1, "@Override protected void _pageImageWidth(Wrap<Integer> c) {");
+					tl(1, "@Override protected void _pageImage", str_Largeur(languageName), "(", classePartsWrap.nomSimple(languageName), "<Integer> c) {");
 					tl(3, "c.o(", contextImageWidth, ");");
 					tl(1, "}");
 				}
 	
 				if(contextImageHeight != null) {
 					l();
-					tl(1, "@Override protected void _pageImageHeight(Wrap<Integer> c) {");
+					tl(1, "@Override protected void _pageImage", str_Hauteur(languageName), "(", classePartsWrap.nomSimple(languageName), "<Integer> c) {");
 					tl(3, "c.o(", contextImageHeight, ");");
 					tl(1, "}");
 				}
 	
 				if(StringUtils.isNotBlank(contextVideoId)) {
 					l();
-					tl(1, "@Override protected void _pageVideoId(Wrap<String> c) {");
+					tl(1, "@Override protected void _pageVideoId(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 					tl(3, "c.o(", q(contextVideoId), ");");
 					tl(1, "}");
 				}
 	
 				if(StringUtils.isNotBlank(contextIconGroup)) {
 					l();
-					tl(1, "@Override protected void _contextIconGroup(Wrap<String> c) {");
+					tl(1, "@Override protected void _", str_contexte(languageName), str_Icone(languageName), str_Groupe(languageName), "(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 					tl(3, "c.o(", q(contextIconGroup), ");");
 					tl(1, "}");
 				}
 	
 				if(StringUtils.isNotBlank(contextIconName)) {
 					l();
-					tl(1, "@Override protected void _contextIconName(Wrap<String> c) {");
+					tl(1, "@Override protected void _", str_contexte(languageName), str_Nom(languageName), "(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 					tl(3, "c.o(", q(contextIconName), ");");
 					tl(1, "}");
 				}
 	
 				l();
-				tl(1, "@Override public void initDeep", classGenPageSimpleName, "() {");
+				tl(1, "@Override public void ", str_initDeep(languageName), classGenPageSimpleName, "() {");
 				tl(2, "init", classGenPageSimpleName, "();");
-				tl(2, "super.initDeepPageLayout();");
+				tl(2, "super.", str_initDeep(languageName), classePartsPageLayout.nomSimple(languageName), "();");
 				tl(1, "}");
 				l();
 				tl(1, "@Override public void htmlScripts", classGenPageSimpleName, "() {");
-				t(2).l("e(\"script\").a(\"src\", statiqueUrlBase, \"/js/", classPageSimpleName, ".js\").f().g(\"script\");");
+				t(2).l("e(\"script\").a(\"src\", ", str_statiqueUrlBase(languageName), ", \"/js/", classPageSimpleName, ".js\").f().g(\"script\");");
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classApiUri)) {
 					l();
-					tl(1, "protected void _pageUri", classSimpleName, "(Wrap<String> c) {");
+					tl(1, "protected void _pageUri", classSimpleName, "(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 					tl(3, "c.o(", q(classPageUriMethod), ");");
 					tl(1, "}");
 				}
@@ -821,14 +821,14 @@ public class WritePageClass extends WriteApiClass {
 								if(entityIndexed) {
 		
 									wSearch.l();
-									wSearch.tl(1, "var filter", entityVarCapitalized, " = $formFilters.find('.value", entityVarCapitalized, "')", jsVal, ";");
+									wSearch.tl(1, "var ", str_filter(languageName), entityVarCapitalized, " = $", str_formFilters(languageName), ".find('.value", entityVarCapitalized, "')", jsVal, ";");
 
 									if("Boolean".equals(entitySimpleName))
-										wSearch.tl(1, "if(filter", entityVarCapitalized, " != null && filter", entityVarCapitalized, " === true)");
+										wSearch.tl(1, "if(", str_filter(languageName), entityVarCapitalized, " != null && ", str_filter(languageName), entityVarCapitalized, " === true)");
 									else
-										wSearch.tl(1, "if(filter", entityVarCapitalized, " != null && filter", entityVarCapitalized, " !== '')");
+										wSearch.tl(1, "if(", str_filter(languageName), entityVarCapitalized, " != null && ", str_filter(languageName), entityVarCapitalized, " !== '')");
 
-									wSearch.tl(2, "filters.push({ name: 'fq', value: '", entityVar, ":' + filter", entityVarCapitalized, " });");
+									wSearch.tl(2, str_filters(languageName), ".push({ name: 'fq', value: '", entityVar, ":' + ", str_filter(languageName), entityVarCapitalized, " });");
 								}
 
 								if(entityHtml) {
@@ -848,18 +848,18 @@ public class WritePageClass extends WriteApiClass {
 									}
 		
 									wPOST.l();
-									wPOST.tl(1, "var value", entityVarCapitalized, " = $formValues.find('.value", entityVarCapitalized, "')", jsVal, ";");
+									wPOST.tl(1, "var value", entityVarCapitalized, " = $", str_formValues(languageName), ".find('.value", entityVarCapitalized, "')", jsVal, ";");
 									wPOST.tl(1, "if(value", entityVarCapitalized, " != null && value", entityVarCapitalized, " !== '')");
 									wPOST.tl(2, "values['", entityVar, "'] = ", valPrefixe, "value", entityVarCapitalized, ";");
 		
 									wPATCH.l();
-									wPATCH.tl(1, "var set", entityVarCapitalized, " = $formValues.find('.set", entityVarCapitalized, "')", jsVal, ";");
+									wPATCH.tl(1, "var set", entityVarCapitalized, " = $", str_formValues(languageName), ".find('.set", entityVarCapitalized, "')", jsVal, ";");
 									wPATCH.tl(1, "if(set", entityVarCapitalized, " != null && set", entityVarCapitalized, " !== '')");
 									wPATCH.tl(2, "values['set", entityVarCapitalized, "'] = ", valPrefixe, "set", entityVarCapitalized, valSuffixe, ";");
-									wPATCH.tl(1, "var add", entityVarCapitalized, " = $formValues.find('.add", entityVarCapitalized, "')", jsVal, ";");
+									wPATCH.tl(1, "var add", entityVarCapitalized, " = $", str_formValues(languageName), ".find('.add", entityVarCapitalized, "')", jsVal, ";");
 									wPATCH.tl(1, "if(add", entityVarCapitalized, " != null && add", entityVarCapitalized, " !== '')");
 									wPATCH.tl(2, "values['add", entityVarCapitalized, "'] = ", valPrefixe, "add", entityVarCapitalized, valSuffixe, ";");
-									wPATCH.tl(1, "var remove", entityVarCapitalized, " = $formValues.find('.remove", entityVarCapitalized, "')", jsVal, ";");
+									wPATCH.tl(1, "var remove", entityVarCapitalized, " = $", str_formValues(languageName), ".find('.remove", entityVarCapitalized, "')", jsVal, ";");
 									wPATCH.tl(1, "if(remove", entityVarCapitalized, " != null && remove", entityVarCapitalized, " !== '')");
 									wPATCH.tl(2, "values['remove", entityVarCapitalized, "'] = ", valPrefixe, "remove", entityVarCapitalized, valSuffixe, ";");
 								}
@@ -891,51 +891,51 @@ public class WritePageClass extends WriteApiClass {
 							writerPageJs.l();
 							writerPageJs.tl(0, "// ", classApiMethod, " //");
 							writerPageJs.l();
-							writerPageJs.l("/**");
-							if(methodPATCH) {
-							writerPageJs.l(" * Modify un ou multiple ", contextNamePlural, " sans valuers qui change, ");
-							writerPageJs.l(" * ou changer des values pour un ou multiple ", contextTheName, ". ");
-							writerPageJs.l(" * @param params: [ \"q=*:*\", \"fq=pk:1\", \"sort=pk asc\", \"rows=1\", \"fl=pk\" ]");
-							writerPageJs.l(" *        Une list des opérations de search sur des ", contextNamePlural, " ");
-							writerPageJs.l(" *        pour searchr \"q=*:*\", filterr \"fq=pk:1\", trier \"sort=pk desc\", ");
-							writerPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les values \"fl=pk\". ");
-							writerPageJs.l(" * @param values Noms des champs et values à changer selon les filters fq. ");
-							writerPageJs.l(" *           Example: { pk: 1 }");
-							}
-							writerPageJs.l(" */");
+//							writerPageJs.l("/**");
+//							if(methodPATCH) {
+//							writerPageJs.l(" * Modify un ou multiple ", contextNamePlural, " sans valuers qui change, ");
+//							writerPageJs.l(" * ou changer des values pour un ou multiple ", contextTheName, ". ");
+//							writerPageJs.l(" * @param params: [ \"q=*:*\", \"fq=pk:1\", \"sort=pk asc\", \"rows=1\", \"fl=pk\" ]");
+//							writerPageJs.l(" *        Une list des opérations de search sur des ", contextNamePlural, " ");
+//							writerPageJs.l(" *        pour searchr \"q=*:*\", filterr \"fq=pk:1\", trier \"sort=pk desc\", ");
+//							writerPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les values \"fl=pk\". ");
+//							writerPageJs.l(" * @param values Noms des champs et values à changer selon les filters fq. ");
+//							writerPageJs.l(" *           Example: { pk: 1 }");
+//							}
+//							writerPageJs.l(" */");
 							writerPageJs.t(0, "function ", classApiOperationIdMethod, "(");
 							if(methodPOST)
-								writerPageJs.s("$formValues");
+								writerPageJs.s("$", str_formValues(languageName));
 							else if(methodPUT)
-								writerPageJs.s("pk, $formValues");
+								writerPageJs.s("pk, $", str_formValues(languageName));
 							else if(methodPATCH)
-								writerPageJs.s("$formFilters, $formValues");
+								writerPageJs.s("$", str_formFilters(languageName), ", $", str_formValues(languageName));
 							else if(methodSearch)
-								writerPageJs.s("$formFilters");
+								writerPageJs.s("$", str_formFilters(languageName), "");
 							else if(methodGET || methodDELETE)
 								writerPageJs.s("pk");
 		
 							writerPageJs.l(") {");
 							if(methodPOST) {
-								writerPageJs.tl(1, "var values = {};");
+								writerPageJs.tl(1, "var ", str_values(languageName), " = {};");
 								writerPageJs.s(wPOST);
 								writerPageJs.l();
 							}
 							else if(methodPUT) {
-								writerPageJs.tl(1, "var values = {};");
+								writerPageJs.tl(1, "var ", str_values(languageName), " = {};");
 								writerPageJs.s(wPOST);
 								writerPageJs.l();
 							}
 							else if(methodPATCH) {
-								writerPageJs.tl(1, "var filters = [];");
+								writerPageJs.tl(1, "var ", str_filters(languageName), " = [];");
 								writerPageJs.s(wSearch);
 								writerPageJs.l();
-								writerPageJs.tl(1, "var values = {};");
+								writerPageJs.tl(1, "var ", str_values(languageName), " = {};");
 								writerPageJs.s(wPATCH);
 								writerPageJs.l();
 							}
 							else if(methodSearch) {
-								writerPageJs.tl(1, "var filters = [];");
+								writerPageJs.tl(1, "var ", str_filters(languageName), " = [];");
 								writerPageJs.s(wSearch);
 							}
 		
@@ -944,7 +944,7 @@ public class WritePageClass extends WriteApiClass {
 							if(methodGET || methodDELETE || methodPUT)
 								writerPageJs.tl(2, "url: '", StringUtils.replace(classApiUriMethod, "{id}", "' + id"));
 							else if(methodPATCH || methodSearch)
-								writerPageJs.tl(2, "url: '", classApiUriMethod, "?' + $.param(filters)");
+								writerPageJs.tl(2, "url: '", classApiUriMethod, "?' + $.param(", str_filters(languageName), ")");
 							else
 								writerPageJs.tl(2, "url: '", classApiUriMethod, "'");
 		
@@ -952,17 +952,17 @@ public class WritePageClass extends WriteApiClass {
 							writerPageJs.tl(2, ", type: '", classApiMethodMethod, "'");
 							writerPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
 							if(!"GET".equals(classApiMethodMethod) || "DELETE".equals(classApiMethodMethod))
-								writerPageJs.tl(2, ", data: JSON.stringify(values)");
+								writerPageJs.tl(2, ", data: JSON.stringify(", str_values(languageName), ")");
 							writerPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
-							writerPageJs.tl(3, "$.each( values, function( key, value ) {");
-							writerPageJs.tl(4, "$formValues.find('.' + key).removeClass('lueurErreur');");
-							writerPageJs.tl(4, "$formValues.find('.' + key).addClass('lueurSucces');");
+							writerPageJs.tl(3, "$.each( ", str_values(languageName), ", function( key, value ) {");
+							writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).removeClass('", str_lueur(languageName), str_Erreur(languageName), "');");
+							writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).addClass('", str_lueur(languageName), str_Succes(languageName), "');");
 							writerPageJs.tl(3, "});");
 							writerPageJs.tl(2, "}");
 							writerPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
-							writerPageJs.tl(3, "$.each( values, function( key, value ) {");
-							writerPageJs.tl(4, "$formValues.find('.' + key).removeClass('lueurSucces');");
-							writerPageJs.tl(4, "$formValues.find('.' + key).addClass('lueurErreur');");
+							writerPageJs.tl(3, "$.each( ", str_values(languageName), ", function( key, value ) {");
+							writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).removeClass('", str_lueur(languageName), str_Succes(languageName), "');");
+							writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).addClass('", str_lueur(languageName), str_Erreur(languageName), "');");
 							writerPageJs.tl(3, "});");
 							writerPageJs.tl(2, "}");
 							writerPageJs.tl(1, "});");
@@ -984,7 +984,7 @@ public class WritePageClass extends WriteApiClass {
 					s(wFormPATCH);
 					tl(1, "}");
 					l();
-					tl(1, "public void htmlFormSearch", classSimpleName, "(", classSimpleName, " o) {");
+					tl(1, "public void htmlForm", str_Search(languageName), classSimpleName, "(", classSimpleName, " o) {");
 					s(wFormSearch);
 					tl(1, "}");
 				}
@@ -994,8 +994,8 @@ public class WritePageClass extends WriteApiClass {
 					l();
 					tl(2, "if(StringUtils.isNotBlank(pageH1)) {");
 					t(3).be("h1").dfl();
-					tl(4, "if(contextIconCssClasses != null)");
-					tl(5, "e(\"i\").a(\"class\", contextIconCssClasses + \" site-menu-icon \").f().g(\"i\");");
+					tl(4, "if(", str_contextIconCssClasses(languageName), " != null)");
+					tl(5, "e(\"i\").a(\"class\", ", str_contextIconCssClasses(languageName), " + \" site-menu-icon \").f().g(\"i\");");
 		
 					if(classEntityVars != null && classEntityVars.contains("pageH1"))
 						t(4).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
@@ -1034,22 +1034,22 @@ public class WritePageClass extends WriteApiClass {
 					l();
 				} else {
 					l();
-					tl(2, "OperationRequest operationRequest = requeteSite_.getOperationRequest();");
-					tl(2, "JsonObject params = operationRequest.getParams();");
-					tl(2, "if(list", classSimpleName, " == null || list", classSimpleName, ".size() == 0) {");
-					t(3).l("// contextNoNameFound : ", contextNoNameFound);
+					tl(2, "OperationRequest ", str_operationRequest(languageName), " = ", str_requeteSite(languageName), "_.get", str_OperationRequest(languageName), "();");
+					tl(2, "JsonObject params = ", str_operationRequest(languageName), ".getParams();");
+					tl(2, "if(", str_list(languageName), classSimpleName, " == null || ", str_list(languageName), classSimpleName, ".size() == 0) {");
+//					t(3).l("// contextNoNameFound : ", contextNoNameFound);
 					l();
 					t(3).be("h1").dfl();
-					tl(4, "if(contextIconCssClasses != null)");
-					tl(5, "e(\"i\").a(\"class\", contextIconCssClasses + \" site-menu-icon \").f().g(\"i\");");
+					tl(4, "if(", str_contextIconCssClasses(languageName), " != null)");
+					tl(5, "e(\"i\").a(\"class\", ", str_contextIconCssClasses(languageName), " + \" site-menu-icon \").f().g(\"i\");");
 					t(4).e("span").da("class", " ").df().dsxq(contextNoNameFound).dgl("span");
 					t(3).bgl("h1");
-					tl(2, "} else if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
-					t(3).l("// contextAName : ", contextAName);
+					tl(2, "} else if(", str_list(languageName), classSimpleName, " != null && ", str_list(languageName), classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
+//					t(3).l("// contextAName : ", contextAName);
 					tl(3, "if(pageH1 != null) {");
 					t(4).be("h1").dfl();
-					tl(5, "if(contextIconCssClasses != null)");
-					tl(6, "e(\"i\").a(\"class\", contextIconCssClasses + \" site-menu-icon \").f().g(\"i\");");
+					tl(5, "if(", str_contextIconCssClasses(languageName), " != null)");
+					tl(6, "e(\"i\").a(\"class\", ", str_contextIconCssClasses(languageName), " + \" site-menu-icon \").f().g(\"i\");");
 		
 					if(classEntityVars != null && classEntityVars.contains("pageH1"))
 						t(5).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
@@ -1057,7 +1057,7 @@ public class WritePageClass extends WriteApiClass {
 						t(5).e("span").da("class", " ").df().dsxq(contextAName).dgl("span");
 		
 					t(4).bgl("h1");
-					tl(4, classSimpleName, " o = list", classSimpleName, ".get(0);");
+					tl(4, classSimpleName, " o = ", str_list(languageName), classSimpleName, ".get(0);");
 
 					tl(3, "}");
 		
@@ -1078,11 +1078,11 @@ public class WritePageClass extends WriteApiClass {
 					}
 		
 					tl(2, "} else {");
-					t(3).l("// contextNamePlural : multiple ", contextNamePlural);
+//					t(3).l("// contextNamePlural : multiple ", contextNamePlural);
 					l();
 					t(3).be("h1").dfl();
-					tl(4, "if(contextIconCssClasses != null)");
-					tl(5, "e(\"i\").a(\"class\", contextIconCssClasses + \" site-menu-icon \").f().g(\"i\");");
+					tl(4, "if(", str_contextIconCssClasses(languageName), " != null)");
+					tl(5, "e(\"i\").a(\"class\", ", str_contextIconCssClasses(languageName), " + \" site-menu-icon \").f().g(\"i\");");
 					t(4).e("span").da("class", " ").df().dsxq(contextNamePlural).dgl("span");
 					t(3).bgl("h1");
 					t(3).be("table").da("class", "w3-table w3-bordered w3-striped w3-border w3-hoverable ").dfl();
@@ -1092,9 +1092,9 @@ public class WritePageClass extends WriteApiClass {
 					t(5).bgl("tr");
 					t(4).bgl("thead");
 					t(4).be("tbody").dfl();
-					tl(5, "Map<String, Map<String, List<String>>> highlighting = list", classSimpleName, ".getQueryResponse().getHighlighting();");
-					tl(5, "for(int i = 0; i < list", classSimpleName, ".size(); i++) {");
-					tl(6, classSimpleName, " o = list", classSimpleName, ".getList().get(i);");
+					tl(5, "Map<String, Map<String, List<String>>> highlighting = ", str_list(languageName), classSimpleName, ".getQueryResponse().getHighlighting();");
+					tl(5, "for(int i = 0; i < ", str_list(languageName), classSimpleName, ".size(); i++) {");
+					tl(6, classSimpleName, " o = ", str_list(languageName), classSimpleName, ".getList().get(i);");
 					tl(6, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
 					tl(6, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 					tl(6, "String uri = ", classEntityVars.contains("pageUri") ? "o.getPageUri()" : q(classPageUriMethod, "/") + " + o.getPk()", ";");
@@ -1140,7 +1140,7 @@ public class WritePageClass extends WriteApiClass {
 											.da("style", "display: inline-block; ")
 											.da("method", "GET")
 											.da("action", classPageUriMethod)
-											.da("onsubmit", "event.preventDefault(); searchr($('#search" + entityVarCapitalized + "')); return false; ")
+											.da("onsubmit", "event.preventDefault(); " + str_searchr(languageName) + "($('#" + str_search(languageName) + entityVarCapitalized + "')); return false; ")
 											.dfl();
 										t(4).be("div").da("class", "w3-bar ").dfl();
 	//									t(5).e("label").da("for", "search", entityVarCapitalized).da("class", "").df().dsxq(entityDisplayName).dgl("label");
@@ -1161,26 +1161,26 @@ public class WritePageClass extends WriteApiClass {
 											t(6).dal("title", entityDescription);
 										}
 
-										t(6).dal("class", "search", entityVarCapitalized, " w3-input w3-border w3-bar-item ");
+										t(6).dal("class", str_search(languageName), entityVarCapitalized, " w3-input w3-border w3-bar-item ");
 										t(6).dal("name", entityVar);
-										t(6).da("id", "search", entityVarCapitalized).l(";");
-										tl(5, "operationRequest.getParams().getJsonObject(\"query\").forEach(paramRequete -> {");
+										t(6).da("id", str_search(languageName), entityVarCapitalized).l(";");
+										tl(5, str_operationRequest(languageName), ".getParams().getJsonObject(\"query\").forEach(param", str_Requete(languageName), " -> {");
 										tl(6, "String entityVar = null;");
-										tl(6, "String valueIndexed = null;");
-										tl(6, "String paramName = paramRequete.getKey();");
-										tl(6, "Object paramValuesObject = paramRequete.getValue();");
-										tl(6, "JsonArray paramObjects = paramValuesObject instanceof JsonArray ? (JsonArray)paramValuesObject : new JsonArray().add(paramValuesObject);");
+										tl(6, "String ", str_values(languageName), str_Indexe(languageName), " = null;");
+										tl(6, "String param", str_Nom(languageName), " = param", str_Requete(languageName), ".getKey();");
+										tl(6, "Object param", str_ValeursObjet(languageName), " = param", str_Requete(languageName), ".getValue();");
+										tl(6, "JsonArray param", str_Objets(languageName), " = param", str_ValeursObjet(languageName), " instanceof JsonArray ? (JsonArray)param", str_ValeursObjet(languageName), " : new JsonArray().add(param", str_ValeursObjet(languageName), ");");
 										l();
 										tl(6, "try {");
-										tl(7, "for(Object paramObject : paramObjects) {");
+										tl(7, "for(Object param", str_Objet(languageName), " : param", str_Objets(languageName), ") {");
 										tl(8, "switch(paramName) {");
 								
 										tl(9, "case \"q\":");
-										tl(10, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)paramObject, \":\"));");
-										tl(10, "valueIndexed = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)paramObject, \":\")), \"UTF-8\");");
+										tl(10, "entityVar = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(languageName), ", \":\"));");
+										tl(10, str_value(languageName), str_Indexe(languageName), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(languageName), ", \":\")), \"UTF-8\");");
 
 										tl(10, "if(\"", entityVar, "\".equals(entityVar))");
-										tl(11, "a(\"value\", URLDecoder.decode(valueIndexed, \"UTF-8\"));");
+										tl(11, "a(\"value\", URLDecoder.decode(", str_value(languageName), str_Indexe(languageName), ", \"UTF-8\"));");
 										tl(8, "}");
 										tl(7, "}");
 										tl(6, "} catch(Exception e) {");
@@ -1211,8 +1211,8 @@ public class WritePageClass extends WriteApiClass {
 
 					// singulier part 2
 					l();
-					tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
-					t(3).l(classSimpleName, " o = list", classSimpleName, ".first();");
+					tl(2, "if(", str_list(languageName), classSimpleName, " != null && ", str_list(languageName), classSimpleName, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
+					t(3).l(classSimpleName, " o = ", str_list(languageName), classSimpleName, ".first();");
 					l();
 					t(3).be("div").da("class", "").dfl();
 					if(classVarPrimaryKey != null) {
@@ -1221,7 +1221,7 @@ public class WritePageClass extends WriteApiClass {
 						t(5).be("form").da("action", classApiUri).da("id", classSimpleName, "Form").da("style", "display: inline-block; ").dfl();
 						t(6).e("input").l();
 						t(6).dal("name", classVarPrimaryKey);
-						t(6).dal("class", "value", StringUtils.capitalize(classVarPrimaryKey));
+						t(6).dal("class", str_value(languageName), StringUtils.capitalize(classVarPrimaryKey));
 						t(6).dal("type", "hidden");
 						tl(6, ".a(\"value\", o.get", StringUtils.capitalize(classVarPrimaryKey), "())");
 						t(6).dfgl();
@@ -1258,34 +1258,34 @@ public class WritePageClass extends WriteApiClass {
 								String methodTitleValeurs = null;
 			
 								if("POST".equals(classApiMethodMethod)) {
-									methodTitleValeurs = "Create " + contextAName;
+									methodTitleValeurs = str_Creer_(languageName) + contextAName;
 								}
 								else if("PUT".equals(classApiMethodMethod)) {
-									methodTitleFiltres = "Searchr des " + contextAName;
-									methodTitleValeurs = "Replace " + contextTheName;
+									methodTitleFiltres = str_Searchr_des_(languageName) + contextAName;
+									methodTitleValeurs = str_Remplacer_(languageName) + contextTheName;
 								}
 								else if("PATCH".equals(classApiMethodMethod)) {
-									methodTitleFiltres = "Searchr des " + contextAName;
-									methodTitleValeurs = "Modify des " + contextNamePlural;
+									methodTitleFiltres = str_Searchr_des_(languageName) + contextAName;
+									methodTitleValeurs = str_Modifier_des_(languageName) + contextNamePlural;
 								}
 								else if("DELETE".equals(classApiMethodMethod)) {
-									methodTitleFiltres = "Searchr des " + contextAName;
-									methodTitleValeurs = "Delete des " + contextNamePlural;
+									methodTitleFiltres = str_Searchr_des_(languageName) + contextAName;
+									methodTitleValeurs = str_Supprimer_des_(languageName) + contextNamePlural;
 								}
 			
 			
 								l();
 								if(tab > 0)
-									tl(2, "if(list", classSimpleName, " != null && list", classSimpleName, ".size() == 1) {");
+									tl(2, "if(", str_list(languageName), classSimpleName, " != null && ", str_list(languageName), classSimpleName, ".size() == 1) {");
 								t(2 + tab).e("button").l();
 								t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contextColor, " ");
 								t(3 + tab).dal("onclick", "$('#", classApiOperationIdMethod, "Modale').show(); ");
 								t(3 + tab).df().dsxq(methodTitleValeurs).l();
 								t(2 + tab).dgl("button");
-								{ t(2 + tab).be("div").da("id", classApiOperationIdMethod, "Modale").da("class", "w3-modal ").dfl();
+								{ t(2 + tab).be("div").da("id", classApiOperationIdMethod, str_Modale(languageName)).da("class", "w3-modal ").dfl();
 									{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();
 										{ t(4 + tab).be("header").da("class", "w3-container w3-", contextColor, " ").dfl();
-											t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classApiOperationIdMethod, "Modale').hide(); ").df().dsxq("×").dgl("span");
+											t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classApiOperationIdMethod, str_Modale(languageName), "').hide(); ").df().dsxq("×").dgl("span");
 											t(5 + tab).e("h2").da("class", "").df().dsxq(methodTitleValeurs).dgl("h2");
 										} t(4 + tab).bgl("header");
 			
@@ -1293,22 +1293,22 @@ public class WritePageClass extends WriteApiClass {
 											tl(5+ tab, classSimpleName, " o = new ", classSimpleName, "();");
 											if("PATCH".equals(classApiMethodMethod)) {
 												l();
-												t(5 + tab).l("// FormFilters ", classApiMethodMethod);
-												{ t(5 + tab).be("form").da("action", classApiUri).da("id", classApiOperationIdMethod, "FormFilters").dfl();
-												tl(6 + tab, "htmlFormSearch", classSimpleName, "(o);");
+												t(5 + tab).l("// ", str_FormFilters(languageName), " ", classApiMethodMethod);
+												{ t(5 + tab).be("form").da("action", classApiUri).da("id", classApiOperationIdMethod, str_FormFilters(languageName)).dfl();
+												tl(6 + tab, "htmlForm", str_Search(languageName), classSimpleName, "(o);");
 												} t(5 + tab).bgl("form");
 												t(5 + tab).e("button").l();
 												t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contextColor, " ");
 				
-												tl(6 + tab, ".a(\"onclick\", \"search", classSimpleName, "($('#", classApiOperationIdMethod, "FormFilters')); \")");
+												tl(6 + tab, ".a(\"onclick\", \"", str_search(languageName), classSimpleName, "($('#", classApiOperationIdMethod, str_FormFilters(languageName), "')); \")");
 				
 												t(6 + tab).df().dsxq(methodTitleFiltres).l();
 												t(5 + tab).dgl("button");
 												l();
 												
 												l();
-												t(5 + tab).l("// FormValues ", classApiMethodMethod);
-												{ t(5 + tab).be("form").da("action", classApiUri).da("id", classApiOperationIdMethod, "FormValues").dfl();
+												t(5 + tab).l("// ", str_FormulaireValeurs(classPageLanguageName), " ", classApiMethodMethod);
+												{ t(5 + tab).be("form").da("action", classApiUri).da("id", classApiOperationIdMethod, str_FormulaireValeurs(classPageLanguageName)).dfl();
 			
 												if("DELETE".equals(classApiMethodMethod))
 													tl(6 + tab, "htmlFormPATCH", classSimpleName, "(o);");
@@ -1324,7 +1324,7 @@ public class WritePageClass extends WriteApiClass {
 												if("POST".equals(classApiMethodMethod))
 													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "($('#", classApiOperationIdMethod, "Form')); \")");
 												else if("PATCH".equals(classApiMethodMethod))
-													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "($('#", classApiOperationIdMethod, "FormFilters'), $('#", classApiOperationIdMethod, "FormValues')); \")");
+													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "($('#", classApiOperationIdMethod, str_FormFilters(languageName), "'), $('#", classApiOperationIdMethod, str_FormulaireValeurs(classPageLanguageName), "')); \")");
 												else if("PUT".equals(classApiMethodMethod))
 													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "(\", o.getPk(), \", $('#", classApiOperationIdMethod, "Form')); \")");
 												else if(tab > 0)
@@ -1358,7 +1358,7 @@ public class WritePageClass extends WriteApiClass {
 												if("POST".equals(classApiMethodMethod))
 													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "($('#", classApiOperationIdMethod, "Form')); \")");
 												else if("PATCH".equals(classApiMethodMethod))
-													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "($('#", classApiOperationIdMethod, "FormFilters'), $('#", classApiOperationIdMethod, "FormValues')); \")");
+													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "($('#", classApiOperationIdMethod, str_FormFilters(languageName), "'), $('#", classApiOperationIdMethod, str_FormulaireValeurs(classPageLanguageName), "')); \")");
 												else if("PUT".equals(classApiMethodMethod))
 													tl(6 + tab, ".a(\"onclick\", \"", classApiOperationIdMethod, "(\", o.getPk(), \", $('#", classApiOperationIdMethod, "Form')); \")");
 												else if(tab > 0)
@@ -1385,10 +1385,10 @@ public class WritePageClass extends WriteApiClass {
 				tl(1, "}");
 
 				l();
-				if(classMethodVars.contains("htmlBodyShort")) {
+				if(classMethodVars.contains("htmlBody" + str_Short(languageName))) {
 					tl(1, "@Override public void htmlBodyShort", classGenPageSimpleName, "() {");
 					l();
-					tl(2, StringUtils.uncapitalize(classSimpleName), ".htmlBodyShort();");
+					tl(2, StringUtils.uncapitalize(classSimpleName), ".htmlBody" + str_Short(languageName) + "();");
 					tl(1, "}");
 				}
 	
@@ -1397,15 +1397,15 @@ public class WritePageClass extends WriteApiClass {
 				wTh.flushClose();
 
 				writerPageGenClass.flushClose();
-				System.out.println("Write: " + classPagePathGen); 
+				System.out.println(str_Ecrire(languageName) + ": " + classPagePathGen); 
 				if(writerPageClass != null) {
 					writerPageClass.flushClose();
-					System.out.println("Write: " + classPagePath); 
+					System.out.println(str_Ecrire(languageName) + ": " + classPagePath); 
 				}
 				writerPageCss.flushClose();
-				System.out.println("Write: " + classPagePathCss); 
+				System.out.println(str_Ecrire(languageName) + ": " + classPagePathCss); 
 				writerPageJs.flushClose();
-				System.out.println("Write: " + classPagePathJs); 
+				System.out.println(str_Ecrire(languageName) + ": " + classPagePathJs); 
 
 				{
 					WatchClass watchClass = new WatchClass();

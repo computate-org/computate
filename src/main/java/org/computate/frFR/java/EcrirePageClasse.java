@@ -776,7 +776,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: formFilters
 	 * r: formulaireValeurs
 	 * r.enUS: formValues
-	 * r: FormFiltres
+	 * r: FormulaireFiltres
 	 * r.enUS: FormFilters
 	 * r: FormValeurs
 	 * r.enUS: FormValues
@@ -971,7 +971,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											wEntites.l();
 											wEntites.t(1, "@Override protected void _", entiteVar, "(");
 											if(entiteCouverture)
-												wEntites.s("Couverture<", entiteNomSimpleComplet, "> c");
+												wEntites.s(classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> c");
 											else
 												wEntites.s(entiteNomSimpleComplet, " o");
 											wEntites.l(") {");
@@ -1015,7 +1015,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 	
 				wEntites.l();
-				wEntites.tl(1, "@Override protected void _pageH1(Couverture<String> c) {");
+				wEntites.tl(1, "@Override protected void _pageH1(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				if(pageH1) {
 					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null && ", StringUtils.uncapitalize(classeNomSimple), ".getPageH1() != null)");
 					wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), ".getPageH1()", ");");
@@ -1028,7 +1028,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				else
 					wEntites.tl(3, "c.o(", q(contexteUnNom), ");");
 				if(!classePageSimple) {
-					wEntites.tl(2, "else if(liste", classeNomSimple, " == null || liste", classeNomSimple, ".size() == 0)");
+					wEntites.tl(2, "else if(", str_liste(langueNom), classeNomSimple, " == null || ", str_liste(langueNom), classeNomSimple, ".size() == 0)");
 					wEntites.tl(3, "c.o(", q(contexteAucunNomTrouve), ");");
 				}
 				if(contexteH1 != null) {
@@ -1038,7 +1038,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				wEntites.tl(1, "}");
 	
 				wEntites.l();
-				wEntites.tl(1, "@Override protected void _pageH2(Couverture<String> c) {");
+				wEntites.tl(1, "@Override protected void _pageH2(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				if(pageH2) {
 					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null && ", StringUtils.uncapitalize(classeNomSimple), ".getPageH2() != null)");
 					wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), ".getPageH2()", ");");
@@ -1052,7 +1052,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				wEntites.tl(1, "}");
 	
 				wEntites.l();
-				wEntites.tl(1, "@Override protected void _pageH3(Couverture<String> c) {");
+				wEntites.tl(1, "@Override protected void _pageH3(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				if(pageH3) {
 					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null && ", StringUtils.uncapitalize(classeNomSimple), ".getPageH3() != null)");
 					wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), ".getPageH3()", ");");
@@ -1066,17 +1066,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				wEntites.tl(1, "}");
 	
 				wEntites.l();
-				wEntites.tl(1, "@Override protected void _pageTitre(Couverture<String> c) {");
+				wEntites.tl(1, "@Override protected void _page", str_Titre(langueNom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				if(pageTitre) {
-					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null && ", StringUtils.uncapitalize(classeNomSimple), ".getPageTitre() != null)");
-					wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), ".getPageTitre()", ");");
+					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null && ", StringUtils.uncapitalize(classeNomSimple), ".getPage", str_Titre(langueNom), "() != null)");
+					wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), ".getPage", str_Titre(langueNom), "()", ");");
 					wEntites.tl(2, "else if(", StringUtils.uncapitalize(classeNomSimple), " != null)");
 				} else {
 					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null)");
 				}
 				wEntites.tl(3, "c.o(", q(contexteTitre), ");");
 				if(!classePageSimple) {
-					wEntites.tl(2, "else if(liste", classeNomSimple, " == null || liste", classeNomSimple, ".size() == 0)");
+					wEntites.tl(2, "else if(", str_liste(langueNom), classeNomSimple, " == null || ", str_liste(langueNom), classeNomSimple, ".size() == 0)");
 					wEntites.tl(3, "c.o(", q(contexteAucunNomTrouve), ");");
 				}
 				if(contexteTitre != null) {
@@ -1086,7 +1086,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				wEntites.tl(1, "}");
 	
 				wEntites.l();
-				wEntites.tl(1, "@Override protected void _pageUri(Couverture<String> c) {");
+				wEntites.tl(1, "@Override protected void _pageUri(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				wEntites.tl(2, "c.o(", q(classePageUriMethode), ");");
 				wEntites.tl(1, "}");
 				for(String pageLangueNom : toutesLangues) {
@@ -1095,7 +1095,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						
 						if(classePageUriMethodeLangue != null) {
 							wEntites.l();
-							wEntites.tl(1, "@Override protected void _pageUri", StringUtils.capitalize(pageLangueNom), "(Couverture<String> c) {");
+							wEntites.tl(1, "@Override protected void _pageUri", StringUtils.capitalize(pageLangueNom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 							wEntites.tl(2, "c.o(", q(classePageUriMethodeLangue), ");");
 							wEntites.tl(1, "}");
 						}
@@ -1106,7 +1106,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageClasse.l("package ", classeNomEnsemble, ";");
 					auteurPageClasse.l();
 					auteurPageClasse.l("/**");
-					auteurPageClasse.l(" * Traduire: false");
+					auteurPageClasse.l(" * ", str_Traduire(langueNom), ": false");
 					auteurPageClasse.l(" **/");
 					auteurPageClasse.s("public class ", classePageNomSimple);
 					auteurPageClasse.s(" extends ", classePageNomSimple, "Gen<", classeGenPageNomSimple, ">");
@@ -1126,7 +1126,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "");
 //				ecrireCommentaire(classeCommentaire, 0); 
 				l("/**");
-				l(" * Traduire: false");
+				l(" * ", str_Traduire(langueNom), ": false");
 				l(" **/");
 				s("public class ", classeGenPageNomSimple);
 				s(" extends ", classeGenPageNomSimple, "Gen");
@@ -1138,82 +1138,82 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, " * {@inheritDoc}");
 					tl(1, " * ");
 					tl(1, " **/");
-					tl(1, "protected void _liste", classeNomSimple, "(Couverture<ListeRecherche<", classeNomSimple, ">> c) {");
+					tl(1, "protected void _", str_liste(langueNom), classeNomSimple, "(", classePartsCouverture.nomSimple(langueNom), "<", str_ListeRecherche(langueNom), "<", classeNomSimple, ">> c) {");
 					tl(1, "}");
 				}
 				l();
-				tl(1, "protected void _", StringUtils.uncapitalize(classeNomSimple), "(", "Couverture<", classeNomSimple, "> c", ") {");
+				tl(1, "protected void _", StringUtils.uncapitalize(classeNomSimple), "(", "", classePartsCouverture.nomSimple(langueNom), "<", classeNomSimple, "> c", ") {");
 				if(classePageSimple) {
 					tl(2, "c.o(new ", classeNomSimple, "());");
 				} else {
-					tl(2, "if(liste", classeNomSimple, " != null && liste", classeNomSimple, ".size() == 1)");
-					tl(3, "c.o(liste", classeNomSimple, ".get(0)", ");");
+					tl(2, "if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1)");
+					tl(3, "c.o(", str_liste(langueNom), classeNomSimple, ".get(0)", ");");
 				}
 				tl(1, "}");
 				s(wEntites);
 	
 				if(contexteDescription != null) {
 					l();
-					tl(1, "@Override protected void _pageDescription(Couverture<String> c) {");
+					tl(1, "@Override protected void _pageDescription(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					tl(3, "c.o(", q(contexteDescription), ");");
 					tl(1, "}");
 				}
 	
 				if(classeImage != null) {
 					l();
-					tl(1, "@Override protected void _pageImageUri(Couverture<String> c) {");
+					tl(1, "@Override protected void _pageImageUri(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					tl(3, "c.o(", q("/png", classePageUriMethode, "-999.png"), ");");
 					tl(1, "}");
 				}
 	
 				if(contexteImageLargeur != null) {
 					l();
-					tl(1, "@Override protected void _pageImageLargeur(Couverture<Integer> c) {");
+					tl(1, "@Override protected void _pageImage", str_Largeur(langueNom), "(", classePartsCouverture.nomSimple(langueNom), "<Integer> c) {");
 					tl(3, "c.o(", contexteImageLargeur, ");");
 					tl(1, "}");
 				}
 	
 				if(contexteImageHauteur != null) {
 					l();
-					tl(1, "@Override protected void _pageImageHauteur(Couverture<Integer> c) {");
+					tl(1, "@Override protected void _pageImage", str_Hauteur(langueNom), "(", classePartsCouverture.nomSimple(langueNom), "<Integer> c) {");
 					tl(3, "c.o(", contexteImageHauteur, ");");
 					tl(1, "}");
 				}
 	
 				if(StringUtils.isNotBlank(contexteVideoId)) {
 					l();
-					tl(1, "@Override protected void _pageVideoId(Couverture<String> c) {");
+					tl(1, "@Override protected void _pageVideoId(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					tl(3, "c.o(", q(contexteVideoId), ");");
 					tl(1, "}");
 				}
 	
 				if(StringUtils.isNotBlank(contexteIconeGroupe)) {
 					l();
-					tl(1, "@Override protected void _contexteIconeGroupe(Couverture<String> c) {");
+					tl(1, "@Override protected void _", str_contexte(langueNom), str_Icone(langueNom), str_Groupe(langueNom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					tl(3, "c.o(", q(contexteIconeGroupe), ");");
 					tl(1, "}");
 				}
 	
 				if(StringUtils.isNotBlank(contexteIconeNom)) {
 					l();
-					tl(1, "@Override protected void _contexteIconeNom(Couverture<String> c) {");
+					tl(1, "@Override protected void _", str_contexte(langueNom), str_Nom(langueNom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					tl(3, "c.o(", q(contexteIconeNom), ");");
 					tl(1, "}");
 				}
 	
 				l();
-				tl(1, "@Override public void initLoin", classeGenPageNomSimple, "() {");
+				tl(1, "@Override public void ", str_initLoin(langueNom), classeGenPageNomSimple, "() {");
 				tl(2, "init", classeGenPageNomSimple, "();");
-				tl(2, "super.initLoinMiseEnPage();");
+				tl(2, "super.", str_initLoin(langueNom), classePartsMiseEnPage.nomSimple(langueNom), "();");
 				tl(1, "}");
 				l();
 				tl(1, "@Override public void htmlScripts", classeGenPageNomSimple, "() {");
-				t(2).l("e(\"script\").a(\"src\", statiqueUrlBase, \"/js/", classePageNomSimple, ".js\").f().g(\"script\");");
+				t(2).l("e(\"script\").a(\"src\", ", str_statiqueUrlBase(langueNom), ", \"/js/", classePageNomSimple, ".js\").f().g(\"script\");");
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classeApiUri)) {
 					l();
-					tl(1, "protected void _pageUri", classeNomSimple, "(Couverture<String> c) {");
+					tl(1, "protected void _pageUri", classeNomSimple, "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					tl(3, "c.o(", q(classePageUriMethode), ");");
 					tl(1, "}");
 				}
@@ -1314,14 +1314,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								if(entiteIndexe) {
 		
 									wRecherche.l();
-									wRecherche.tl(1, "var filtre", entiteVarCapitalise, " = $formulaireFiltres.find('.valeur", entiteVarCapitalise, "')", jsVal, ";");
+									wRecherche.tl(1, "var ", str_filtre(langueNom), entiteVarCapitalise, " = $", str_formulaireFiltres(langueNom), ".find('.valeur", entiteVarCapitalise, "')", jsVal, ";");
 
 									if("Boolean".equals(entiteNomSimple))
-										wRecherche.tl(1, "if(filtre", entiteVarCapitalise, " != null && filtre", entiteVarCapitalise, " === true)");
+										wRecherche.tl(1, "if(", str_filtre(langueNom), entiteVarCapitalise, " != null && ", str_filtre(langueNom), entiteVarCapitalise, " === true)");
 									else
-										wRecherche.tl(1, "if(filtre", entiteVarCapitalise, " != null && filtre", entiteVarCapitalise, " !== '')");
+										wRecherche.tl(1, "if(", str_filtre(langueNom), entiteVarCapitalise, " != null && ", str_filtre(langueNom), entiteVarCapitalise, " !== '')");
 
-									wRecherche.tl(2, "filtres.push({ name: 'fq', value: '", entiteVar, ":' + filtre", entiteVarCapitalise, " });");
+									wRecherche.tl(2, str_filtres(langueNom), ".push({ name: 'fq', value: '", entiteVar, ":' + ", str_filtre(langueNom), entiteVarCapitalise, " });");
 								}
 
 								if(entiteHtml) {
@@ -1341,18 +1341,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									}
 		
 									wPOST.l();
-									wPOST.tl(1, "var valeur", entiteVarCapitalise, " = $formulaireValeurs.find('.valeur", entiteVarCapitalise, "')", jsVal, ";");
+									wPOST.tl(1, "var valeur", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.valeur", entiteVarCapitalise, "')", jsVal, ";");
 									wPOST.tl(1, "if(valeur", entiteVarCapitalise, " != null && valeur", entiteVarCapitalise, " !== '')");
 									wPOST.tl(2, "valeurs['", entiteVar, "'] = ", valPrefixe, "valeur", entiteVarCapitalise, ";");
 		
 									wPATCH.l();
-									wPATCH.tl(1, "var set", entiteVarCapitalise, " = $formulaireValeurs.find('.set", entiteVarCapitalise, "')", jsVal, ";");
+									wPATCH.tl(1, "var set", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.set", entiteVarCapitalise, "')", jsVal, ";");
 									wPATCH.tl(1, "if(set", entiteVarCapitalise, " != null && set", entiteVarCapitalise, " !== '')");
 									wPATCH.tl(2, "valeurs['set", entiteVarCapitalise, "'] = ", valPrefixe, "set", entiteVarCapitalise, valSuffixe, ";");
-									wPATCH.tl(1, "var add", entiteVarCapitalise, " = $formulaireValeurs.find('.add", entiteVarCapitalise, "')", jsVal, ";");
+									wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.add", entiteVarCapitalise, "')", jsVal, ";");
 									wPATCH.tl(1, "if(add", entiteVarCapitalise, " != null && add", entiteVarCapitalise, " !== '')");
 									wPATCH.tl(2, "valeurs['add", entiteVarCapitalise, "'] = ", valPrefixe, "add", entiteVarCapitalise, valSuffixe, ";");
-									wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $formulaireValeurs.find('.remove", entiteVarCapitalise, "')", jsVal, ";");
+									wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.remove", entiteVarCapitalise, "')", jsVal, ";");
 									wPATCH.tl(1, "if(remove", entiteVarCapitalise, " != null && remove", entiteVarCapitalise, " !== '')");
 									wPATCH.tl(2, "valeurs['remove", entiteVarCapitalise, "'] = ", valPrefixe, "remove", entiteVarCapitalise, valSuffixe, ";");
 								}
@@ -1384,51 +1384,51 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							auteurPageJs.l();
 							auteurPageJs.tl(0, "// ", classeApiMethode, " //");
 							auteurPageJs.l();
-							auteurPageJs.l("/**");
-							if(methodePATCH) {
-							auteurPageJs.l(" * Modifier un ou plusiers ", contexteNomPluriel, " sans valuers qui change, ");
-							auteurPageJs.l(" * ou changer des valeurs pour un ou plusiers ", contexteLeNom, ". ");
-							auteurPageJs.l(" * @param params: [ \"q=*:*\", \"fq=pk:1\", \"sort=pk asc\", \"rows=1\", \"fl=pk\" ]");
-							auteurPageJs.l(" *        Une liste des opérations de recherche sur des ", contexteNomPluriel, " ");
-							auteurPageJs.l(" *        pour rechercher \"q=*:*\", filtrer \"fq=pk:1\", trier \"sort=pk desc\", ");
-							auteurPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les valeurs \"fl=pk\". ");
-							auteurPageJs.l(" * @param valeurs Noms des champs et valeurs à changer selon les filtres fq. ");
-							auteurPageJs.l(" *           Example: { pk: 1 }");
-							}
-							auteurPageJs.l(" */");
+//							auteurPageJs.l("/**");
+//							if(methodePATCH) {
+//							auteurPageJs.l(" * Modifier un ou plusiers ", contexteNomPluriel, " sans valuers qui change, ");
+//							auteurPageJs.l(" * ou changer des valeurs pour un ou plusiers ", contexteLeNom, ". ");
+//							auteurPageJs.l(" * @param params: [ \"q=*:*\", \"fq=pk:1\", \"sort=pk asc\", \"rows=1\", \"fl=pk\" ]");
+//							auteurPageJs.l(" *        Une liste des opérations de recherche sur des ", contexteNomPluriel, " ");
+//							auteurPageJs.l(" *        pour rechercher \"q=*:*\", filtrer \"fq=pk:1\", trier \"sort=pk desc\", ");
+//							auteurPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les valeurs \"fl=pk\". ");
+//							auteurPageJs.l(" * @param valeurs Noms des champs et valeurs à changer selon les filtres fq. ");
+//							auteurPageJs.l(" *           Example: { pk: 1 }");
+//							}
+//							auteurPageJs.l(" */");
 							auteurPageJs.t(0, "function ", classeApiOperationIdMethode, "(");
 							if(methodePOST)
-								auteurPageJs.s("$formulaireValeurs");
+								auteurPageJs.s("$", str_formulaireValeurs(langueNom));
 							else if(methodePUT)
-								auteurPageJs.s("pk, $formulaireValeurs");
+								auteurPageJs.s("pk, $", str_formulaireValeurs(langueNom));
 							else if(methodePATCH)
-								auteurPageJs.s("$formulaireFiltres, $formulaireValeurs");
+								auteurPageJs.s("$", str_formulaireFiltres(langueNom), ", $", str_formulaireValeurs(langueNom));
 							else if(methodeRecherche)
-								auteurPageJs.s("$formulaireFiltres");
+								auteurPageJs.s("$", str_formulaireFiltres(langueNom), "");
 							else if(methodeGET || methodeDELETE)
 								auteurPageJs.s("pk");
 		
 							auteurPageJs.l(") {");
 							if(methodePOST) {
-								auteurPageJs.tl(1, "var valeurs = {};");
+								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = {};");
 								auteurPageJs.s(wPOST);
 								auteurPageJs.l();
 							}
 							else if(methodePUT) {
-								auteurPageJs.tl(1, "var valeurs = {};");
+								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = {};");
 								auteurPageJs.s(wPOST);
 								auteurPageJs.l();
 							}
 							else if(methodePATCH) {
-								auteurPageJs.tl(1, "var filtres = [];");
+								auteurPageJs.tl(1, "var ", str_filtres(langueNom), " = [];");
 								auteurPageJs.s(wRecherche);
 								auteurPageJs.l();
-								auteurPageJs.tl(1, "var valeurs = {};");
+								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = {};");
 								auteurPageJs.s(wPATCH);
 								auteurPageJs.l();
 							}
 							else if(methodeRecherche) {
-								auteurPageJs.tl(1, "var filtres = [];");
+								auteurPageJs.tl(1, "var ", str_filtres(langueNom), " = [];");
 								auteurPageJs.s(wRecherche);
 							}
 		
@@ -1437,7 +1437,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							if(methodeGET || methodeDELETE || methodePUT)
 								auteurPageJs.tl(2, "url: '", StringUtils.replace(classeApiUriMethode, "{id}", "' + id"));
 							else if(methodePATCH || methodeRecherche)
-								auteurPageJs.tl(2, "url: '", classeApiUriMethode, "?' + $.param(filtres)");
+								auteurPageJs.tl(2, "url: '", classeApiUriMethode, "?' + $.param(", str_filtres(langueNom), ")");
 							else
 								auteurPageJs.tl(2, "url: '", classeApiUriMethode, "'");
 		
@@ -1445,17 +1445,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							auteurPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
 							auteurPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
 							if(!"GET".equals(classeApiMethodeMethode) || "DELETE".equals(classeApiMethodeMethode))
-								auteurPageJs.tl(2, ", data: JSON.stringify(valeurs)");
+								auteurPageJs.tl(2, ", data: JSON.stringify(", str_valeurs(langueNom), ")");
 							auteurPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
-							auteurPageJs.tl(3, "$.each( valeurs, function( key, value ) {");
-							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).removeClass('lueurErreur');");
-							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).addClass('lueurSucces');");
+							auteurPageJs.tl(3, "$.each( ", str_valeurs(langueNom), ", function( key, value ) {");
+							auteurPageJs.tl(4, "$", str_formulaireValeurs(langueNom), ".find('.' + key).removeClass('", str_lueur(langueNom), str_Erreur(langueNom), "');");
+							auteurPageJs.tl(4, "$", str_formulaireValeurs(langueNom), ".find('.' + key).addClass('", str_lueur(langueNom), str_Succes(langueNom), "');");
 							auteurPageJs.tl(3, "});");
 							auteurPageJs.tl(2, "}");
 							auteurPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
-							auteurPageJs.tl(3, "$.each( valeurs, function( key, value ) {");
-							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).removeClass('lueurSucces');");
-							auteurPageJs.tl(4, "$formulaireValeurs.find('.' + key).addClass('lueurErreur');");
+							auteurPageJs.tl(3, "$.each( ", str_valeurs(langueNom), ", function( key, value ) {");
+							auteurPageJs.tl(4, "$", str_formulaireValeurs(langueNom), ".find('.' + key).removeClass('", str_lueur(langueNom), str_Succes(langueNom), "');");
+							auteurPageJs.tl(4, "$", str_formulaireValeurs(langueNom), ".find('.' + key).addClass('", str_lueur(langueNom), str_Erreur(langueNom), "');");
 							auteurPageJs.tl(3, "});");
 							auteurPageJs.tl(2, "}");
 							auteurPageJs.tl(1, "});");
@@ -1477,7 +1477,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					s(wFormPATCH);
 					tl(1, "}");
 					l();
-					tl(1, "public void htmlFormRecherche", classeNomSimple, "(", classeNomSimple, " o) {");
+					tl(1, "public void htmlForm", str_Recherche(langueNom), classeNomSimple, "(", classeNomSimple, " o) {");
 					s(wFormRecherche);
 					tl(1, "}");
 				}
@@ -1487,8 +1487,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l();
 					tl(2, "if(StringUtils.isNotBlank(pageH1)) {");
 					t(3).be("h1").dfl();
-					tl(4, "if(contexteIconeClassesCss != null)");
-					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
+					tl(4, "if(", str_contexteIconeClassesCss(langueNom), " != null)");
+					tl(5, "e(\"i\").a(\"class\", ", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \").f().g(\"i\");");
 		
 					if(classeEntiteVars != null && classeEntiteVars.contains("pageH1"))
 						t(4).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
@@ -1527,22 +1527,22 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l();
 				} else {
 					l();
-					tl(2, "OperationRequest operationRequete = requeteSite_.getOperationRequete();");
-					tl(2, "JsonObject params = operationRequete.getParams();");
-					tl(2, "if(liste", classeNomSimple, " == null || liste", classeNomSimple, ".size() == 0) {");
-					t(3).l("// contexteAucunNomTrouve : ", contexteAucunNomTrouve);
+					tl(2, "OperationRequest ", str_operationRequete(langueNom), " = ", str_requeteSite(langueNom), "_.get", str_OperationRequete(langueNom), "();");
+					tl(2, "JsonObject params = ", str_operationRequete(langueNom), ".getParams();");
+					tl(2, "if(", str_liste(langueNom), classeNomSimple, " == null || ", str_liste(langueNom), classeNomSimple, ".size() == 0) {");
+//					t(3).l("// contexteAucunNomTrouve : ", contexteAucunNomTrouve);
 					l();
 					t(3).be("h1").dfl();
-					tl(4, "if(contexteIconeClassesCss != null)");
-					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
+					tl(4, "if(", str_contexteIconeClassesCss(langueNom), " != null)");
+					tl(5, "e(\"i\").a(\"class\", ", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \").f().g(\"i\");");
 					t(4).e("span").da("class", " ").df().dsxq(contexteAucunNomTrouve).dgl("span");
 					t(3).bgl("h1");
-					tl(2, "} else if(liste", classeNomSimple, " != null && liste", classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
-					t(3).l("// contexteUnNom : ", contexteUnNom);
+					tl(2, "} else if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
+//					t(3).l("// contexteUnNom : ", contexteUnNom);
 					tl(3, "if(pageH1 != null) {");
 					t(4).be("h1").dfl();
-					tl(5, "if(contexteIconeClassesCss != null)");
-					tl(6, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
+					tl(5, "if(", str_contexteIconeClassesCss(langueNom), " != null)");
+					tl(6, "e(\"i\").a(\"class\", ", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \").f().g(\"i\");");
 		
 					if(classeEntiteVars != null && classeEntiteVars.contains("pageH1"))
 						t(5).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
@@ -1550,7 +1550,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						t(5).e("span").da("class", " ").df().dsxq(contexteUnNom).dgl("span");
 		
 					t(4).bgl("h1");
-					tl(4, classeNomSimple, " o = liste", classeNomSimple, ".get(0);");
+					tl(4, classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, ".get(0);");
 
 					tl(3, "}");
 		
@@ -1571,11 +1571,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 		
 					tl(2, "} else {");
-					t(3).l("// contexteNomPluriel : plusiers ", contexteNomPluriel);
+//					t(3).l("// contexteNomPluriel : plusiers ", contexteNomPluriel);
 					l();
 					t(3).be("h1").dfl();
-					tl(4, "if(contexteIconeClassesCss != null)");
-					tl(5, "e(\"i\").a(\"class\", contexteIconeClassesCss + \" site-menu-icon \").f().g(\"i\");");
+					tl(4, "if(", str_contexteIconeClassesCss(langueNom), " != null)");
+					tl(5, "e(\"i\").a(\"class\", ", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \").f().g(\"i\");");
 					t(4).e("span").da("class", " ").df().dsxq(contexteNomPluriel).dgl("span");
 					t(3).bgl("h1");
 					t(3).be("table").da("class", "w3-table w3-bordered w3-striped w3-border w3-hoverable ").dfl();
@@ -1585,9 +1585,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(5).bgl("tr");
 					t(4).bgl("thead");
 					t(4).be("tbody").dfl();
-					tl(5, "Map<String, Map<String, List<String>>> highlighting = liste", classeNomSimple, ".getQueryResponse().getHighlighting();");
-					tl(5, "for(int i = 0; i < liste", classeNomSimple, ".size(); i++) {");
-					tl(6, classeNomSimple, " o = liste", classeNomSimple, ".getList().get(i);");
+					tl(5, "Map<String, Map<String, List<String>>> highlighting = ", str_liste(langueNom), classeNomSimple, ".getQueryResponse().getHighlighting();");
+					tl(5, "for(int i = 0; i < ", str_liste(langueNom), classeNomSimple, ".size(); i++) {");
+					tl(6, classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, ".getList().get(i);");
 					tl(6, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
 					tl(6, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 					tl(6, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : q(classePageUriMethode, "/") + " + o.getPk()", ";");
@@ -1633,7 +1633,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											.da("style", "display: inline-block; ")
 											.da("method", "GET")
 											.da("action", classePageUriMethode)
-											.da("onsubmit", "event.preventDefault(); rechercher($('#recherche" + entiteVarCapitalise + "')); return false; ")
+											.da("onsubmit", "event.preventDefault(); " + str_rechercher(langueNom) + "($('#" + str_recherche(langueNom) + entiteVarCapitalise + "')); return false; ")
 											.dfl();
 										t(4).be("div").da("class", "w3-bar ").dfl();
 	//									t(5).e("label").da("for", "recherche", entiteVarCapitalise).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
@@ -1654,26 +1654,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											t(6).dal("title", entiteDescription);
 										}
 
-										t(6).dal("class", "recherche", entiteVarCapitalise, " w3-input w3-border w3-bar-item ");
+										t(6).dal("class", str_recherche(langueNom), entiteVarCapitalise, " w3-input w3-border w3-bar-item ");
 										t(6).dal("name", entiteVar);
-										t(6).da("id", "recherche", entiteVarCapitalise).l(";");
-										tl(5, "operationRequete.getParams().getJsonObject(\"query\").forEach(paramRequete -> {");
+										t(6).da("id", str_recherche(langueNom), entiteVarCapitalise).l(";");
+										tl(5, str_operationRequete(langueNom), ".getParams().getJsonObject(\"query\").forEach(param", str_Requete(langueNom), " -> {");
 										tl(6, "String entiteVar = null;");
-										tl(6, "String valeurIndexe = null;");
-										tl(6, "String paramNom = paramRequete.getKey();");
-										tl(6, "Object paramValeursObjet = paramRequete.getValue();");
-										tl(6, "JsonArray paramObjets = paramValeursObjet instanceof JsonArray ? (JsonArray)paramValeursObjet : new JsonArray().add(paramValeursObjet);");
+										tl(6, "String ", str_valeurs(langueNom), str_Indexe(langueNom), " = null;");
+										tl(6, "String param", str_Nom(langueNom), " = param", str_Requete(langueNom), ".getKey();");
+										tl(6, "Object param", str_ValeursObjet(langueNom), " = param", str_Requete(langueNom), ".getValue();");
+										tl(6, "JsonArray param", str_Objets(langueNom), " = param", str_ValeursObjet(langueNom), " instanceof JsonArray ? (JsonArray)param", str_ValeursObjet(langueNom), " : new JsonArray().add(param", str_ValeursObjet(langueNom), ");");
 										l();
 										tl(6, "try {");
-										tl(7, "for(Object paramObjet : paramObjets) {");
+										tl(7, "for(Object param", str_Objet(langueNom), " : param", str_Objets(langueNom), ") {");
 										tl(8, "switch(paramNom) {");
 								
 										tl(9, "case \"q\":");
-										tl(10, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)paramObjet, \":\"));");
-										tl(10, "valeurIndexe = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)paramObjet, \":\")), \"UTF-8\");");
+										tl(10, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(langueNom), ", \":\"));");
+										tl(10, str_valeur(langueNom), str_Indexe(langueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(langueNom), ", \":\")), \"UTF-8\");");
 
 										tl(10, "if(\"", entiteVar, "\".equals(entiteVar))");
-										tl(11, "a(\"value\", URLDecoder.decode(valeurIndexe, \"UTF-8\"));");
+										tl(11, "a(\"value\", URLDecoder.decode(", str_valeur(langueNom), str_Indexe(langueNom), ", \"UTF-8\"));");
 										tl(8, "}");
 										tl(7, "}");
 										tl(6, "} catch(Exception e) {");
@@ -1704,8 +1704,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 					// singulier part 2
 					l();
-					tl(2, "if(liste", classeNomSimple, " != null && liste", classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
-					t(3).l(classeNomSimple, " o = liste", classeNomSimple, ".first();");
+					tl(2, "if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
+					t(3).l(classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, ".first();");
 					l();
 					t(3).be("div").da("class", "").dfl();
 					if(classeVarClePrimaire != null) {
@@ -1714,7 +1714,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						t(5).be("form").da("action", classeApiUri).da("id", classeNomSimple, "Form").da("style", "display: inline-block; ").dfl();
 						t(6).e("input").l();
 						t(6).dal("name", classeVarClePrimaire);
-						t(6).dal("class", "valeur", StringUtils.capitalize(classeVarClePrimaire));
+						t(6).dal("class", str_valeur(langueNom), StringUtils.capitalize(classeVarClePrimaire));
 						t(6).dal("type", "hidden");
 						tl(6, ".a(\"value\", o.get", StringUtils.capitalize(classeVarClePrimaire), "())");
 						t(6).dfgl();
@@ -1751,34 +1751,34 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								String methodeTitreValeurs = null;
 			
 								if("POST".equals(classeApiMethodeMethode)) {
-									methodeTitreValeurs = "Créer " + contexteUnNom;
+									methodeTitreValeurs = str_Creer_(langueNom) + contexteUnNom;
 								}
 								else if("PUT".equals(classeApiMethodeMethode)) {
-									methodeTitreFiltres = "Rechercher des " + contexteUnNom;
-									methodeTitreValeurs = "Remplacer " + contexteLeNom;
+									methodeTitreFiltres = str_Rechercher_des_(langueNom) + contexteUnNom;
+									methodeTitreValeurs = str_Remplacer_(langueNom) + contexteLeNom;
 								}
 								else if("PATCH".equals(classeApiMethodeMethode)) {
-									methodeTitreFiltres = "Rechercher des " + contexteUnNom;
-									methodeTitreValeurs = "Modifier des " + contexteNomPluriel;
+									methodeTitreFiltres = str_Rechercher_des_(langueNom) + contexteUnNom;
+									methodeTitreValeurs = str_Modifier_des_(langueNom) + contexteNomPluriel;
 								}
 								else if("DELETE".equals(classeApiMethodeMethode)) {
-									methodeTitreFiltres = "Rechercher des " + contexteUnNom;
-									methodeTitreValeurs = "Supprimer des " + contexteNomPluriel;
+									methodeTitreFiltres = str_Rechercher_des_(langueNom) + contexteUnNom;
+									methodeTitreValeurs = str_Supprimer_des_(langueNom) + contexteNomPluriel;
 								}
 			
 			
 								l();
 								if(tab > 0)
-									tl(2, "if(liste", classeNomSimple, " != null && liste", classeNomSimple, ".size() == 1) {");
+									tl(2, "if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1) {");
 								t(2 + tab).e("button").l();
 								t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
 								t(3 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, "Modale').show(); ");
 								t(3 + tab).df().dsxq(methodeTitreValeurs).l();
 								t(2 + tab).dgl("button");
-								{ t(2 + tab).be("div").da("id", classeApiOperationIdMethode, "Modale").da("class", "w3-modal ").dfl();
+								{ t(2 + tab).be("div").da("id", classeApiOperationIdMethode, str_Modale(langueNom)).da("class", "w3-modal ").dfl();
 									{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();
 										{ t(4 + tab).be("header").da("class", "w3-container w3-", contexteCouleur, " ").dfl();
-											t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classeApiOperationIdMethode, "Modale').hide(); ").df().dsxq("×").dgl("span");
+											t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').hide(); ").df().dsxq("×").dgl("span");
 											t(5 + tab).e("h2").da("class", "").df().dsxq(methodeTitreValeurs).dgl("h2");
 										} t(4 + tab).bgl("header");
 			
@@ -1786,22 +1786,22 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											tl(5+ tab, classeNomSimple, " o = new ", classeNomSimple, "();");
 											if("PATCH".equals(classeApiMethodeMethode)) {
 												l();
-												t(5 + tab).l("// FormFiltres ", classeApiMethodeMethode);
-												{ t(5 + tab).be("form").da("action", classeApiUri).da("id", classeApiOperationIdMethode, "FormFiltres").dfl();
-												tl(6 + tab, "htmlFormRecherche", classeNomSimple, "(o);");
+												t(5 + tab).l("// ", str_FormulaireFiltres(langueNom), " ", classeApiMethodeMethode);
+												{ t(5 + tab).be("form").da("action", classeApiUri).da("id", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom)).dfl();
+												tl(6 + tab, "htmlForm", str_Recherche(langueNom), classeNomSimple, "(o);");
 												} t(5 + tab).bgl("form");
 												t(5 + tab).e("button").l();
 												t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
 				
-												tl(6 + tab, ".a(\"onclick\", \"recherche", classeNomSimple, "($('#", classeApiOperationIdMethode, "FormFiltres')); \")");
+												tl(6 + tab, ".a(\"onclick\", \"", str_recherche(langueNom), classeNomSimple, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "')); \")");
 				
 												t(6 + tab).df().dsxq(methodeTitreFiltres).l();
 												t(5 + tab).dgl("button");
 												l();
 												
 												l();
-												t(5 + tab).l("// FormValeurs ", classeApiMethodeMethode);
-												{ t(5 + tab).be("form").da("action", classeApiUri).da("id", classeApiOperationIdMethode, "FormValeurs").dfl();
+												t(5 + tab).l("// ", str_FormulaireValeurs(classePageLangueNom), " ", classeApiMethodeMethode);
+												{ t(5 + tab).be("form").da("action", classeApiUri).da("id", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom)).dfl();
 			
 												if("DELETE".equals(classeApiMethodeMethode))
 													tl(6 + tab, "htmlFormPATCH", classeNomSimple, "(o);");
@@ -1817,7 +1817,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												if("POST".equals(classeApiMethodeMethode))
 													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
 												else if("PATCH".equals(classeApiMethodeMethode))
-													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "FormFiltres'), $('#", classeApiOperationIdMethode, "FormValeurs')); \")");
+													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "')); \")");
 												else if("PUT".equals(classeApiMethodeMethode))
 													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Form')); \")");
 												else if(tab > 0)
@@ -1851,7 +1851,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												if("POST".equals(classeApiMethodeMethode))
 													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
 												else if("PATCH".equals(classeApiMethodeMethode))
-													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "FormFiltres'), $('#", classeApiOperationIdMethode, "FormValeurs')); \")");
+													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "')); \")");
 												else if("PUT".equals(classeApiMethodeMethode))
 													tl(6 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.getPk(), \", $('#", classeApiOperationIdMethode, "Form')); \")");
 												else if(tab > 0)
@@ -1878,10 +1878,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 
 				l();
-				if(classeMethodeVars.contains("htmlBodyCourt")) {
+				if(classeMethodeVars.contains("htmlBody" + str_Court(langueNom))) {
 					tl(1, "@Override public void htmlBodyCourt", classeGenPageNomSimple, "() {");
 					l();
-					tl(2, StringUtils.uncapitalize(classeNomSimple), ".htmlBodyCourt();");
+					tl(2, StringUtils.uncapitalize(classeNomSimple), ".htmlBody" + str_Court(langueNom) + "();");
 					tl(1, "}");
 				}
 	
@@ -1890,15 +1890,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				wTh.flushClose();
 
 				auteurPageGenClasse.flushClose();
-				System.out.println("Ecrire: " + classePageCheminGen); 
+				System.out.println(str_Ecrire(langueNom) + ": " + classePageCheminGen); 
 				if(auteurPageClasse != null) {
 					auteurPageClasse.flushClose();
-					System.out.println("Ecrire: " + classePageChemin); 
+					System.out.println(str_Ecrire(langueNom) + ": " + classePageChemin); 
 				}
 				auteurPageCss.flushClose();
-				System.out.println("Ecrire: " + classePageCheminCss); 
+				System.out.println(str_Ecrire(langueNom) + ": " + classePageCheminCss); 
 				auteurPageJs.flushClose();
-				System.out.println("Ecrire: " + classePageCheminJs); 
+				System.out.println(str_Ecrire(langueNom) + ": " + classePageCheminJs); 
 
 				{
 					RegarderClasse regarderClasse = new RegarderClasse();
