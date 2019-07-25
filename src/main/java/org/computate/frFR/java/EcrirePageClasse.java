@@ -1196,7 +1196,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 				if(StringUtils.isNotBlank(contexteIconeNom)) {
 					l();
-					tl(1, "@Override protected void _", str_contexte(langueNom), str_Nom(langueNom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
+					tl(1, "@Override protected void _", str_contexte(langueNom), str_Icone(langueNom), str_Nom(langueNom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					tl(3, "c.o(", q(contexteIconeNom), ");");
 					tl(1, "}");
 				}

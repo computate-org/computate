@@ -703,7 +703,7 @@ public class WritePageClass extends WriteApiClass {
 	
 				if(StringUtils.isNotBlank(contextIconName)) {
 					l();
-					tl(1, "@Override protected void _", str_contexte(languageName), str_Nom(languageName), "(", classePartsWrap.nomSimple(languageName), "<String> c) {");
+					tl(1, "@Override protected void _", str_contexte(languageName), str_Icone(languageName), str_Nom(languageName), "(", classePartsWrap.nomSimple(languageName), "<String> c) {");
 					tl(3, "c.o(", q(contextIconName), ");");
 					tl(1, "}");
 				}

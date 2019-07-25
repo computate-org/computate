@@ -2746,6 +2746,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			Boolean entiteCles = (Boolean)doc.get("entiteCles_stored_boolean");
 			Boolean entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
 			Boolean entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
+			Boolean entiteContientRequeteSite = BooleanUtils.isTrue((Boolean)doc.get("entiteContientRequeteSite_stored_boolean"));
 	
 			String entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
 			String entiteHtmlTooltip = (String)doc.get("entiteHtmlTooltip_" + langueNom + "_stored_string");
@@ -3788,7 +3789,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			/////////////////////
 			// codeRequeteSite //
 			/////////////////////
-			if(classeContientRequeteSite && classeInitLoin && entiteInitialise) {
+			if(classeContientRequeteSite && entiteContientRequeteSite && classeInitLoin && entiteInitialise) {
 				o = wRequeteSite;
 				tl(2, "if(", entiteVar, " != null)");
 				tl(3, entiteVar, ".set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");

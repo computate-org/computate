@@ -2674,6 +2674,7 @@ public class IndexClass extends RegarderClasseBase {
 							}
 						}
 
+						indexStoreSolr(entityDoc, "entityContientSiteRequest", entityClassParts != null && entityClassParts.solrDocument != null && (Boolean)entityClassParts.solrDocument.get("classContainsSiteRequest_stored_boolean"));
 						indexStoreSolr(entityDoc, "entityExact", regexFound("^(entity)?Exact:\\s*(true)$", methodComment));
 						Boolean entityPrimaryKey = indexStoreSolr(entityDoc, "entityPrimaryKey", regexFound("^(entity)?PrimaryKey:\\s*(true)$", methodComment));
 						Boolean entityUniqueKey = indexStoreSolr(entityDoc, "entityUniqueKey", regexFound("^(entity)?UniqueKey:\\s*(true)$", methodComment));

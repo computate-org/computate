@@ -1238,6 +1238,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			Boolean entityKeys = (Boolean)doc.get("entityKeys_stored_boolean");
 			Boolean entityIndexedOrStored = (Boolean)doc.get("entityIndexedOrStored_stored_boolean");
 			Boolean entityDefined = (Boolean)doc.get("entityDefined_stored_boolean");
+			Boolean entityContientSiteRequest = BooleanUtils.isTrue((Boolean)doc.get("entityContientSiteRequest_stored_boolean"));
 	
 			String entityDisplayName = (String)doc.get("entityDisplayName_" + languageName + "_stored_string");
 			String entityHtmlTooltip = (String)doc.get("entityHtmlTooltip_" + languageName + "_stored_string");
@@ -2280,7 +2281,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			/////////////////////
 			// codeSiteRequest //
 			/////////////////////
-			if(classeContientSiteRequest && classInitDeep && entityInitialized) {
+			if(classeContientSiteRequest && entityContientSiteRequest && classInitDeep && entityInitialized) {
 				o = wSiteRequest;
 				tl(2, "if(", entityVar, " != null)");
 				tl(3, entityVar, ".set", str_SiteRequest(languageName), "_(", str_siteRequest(languageName), "_);");
