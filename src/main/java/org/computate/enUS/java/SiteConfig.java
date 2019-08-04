@@ -10,15 +10,18 @@ import java.util.stream.Stream;
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**	
  *	Loads the properties in the application config file into specific fields. 
  **/
 public class SiteConfig {
+
+	protected final Logger log = LoggerFactory.getLogger(getClass());
 
 	public SiteConfig() {
 	}

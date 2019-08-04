@@ -24,7 +24,7 @@ import org.apache.solr.common.SolrDocumentList;
 /**	
  *	For retrieving a Java class from Solr and writing the Java class to a file for each language. 
  **/
-public class WriteAllClasses extends EcrirePageClasse {
+public class WriteAllClasses extends WritePageClass {
 
 	/**	
 	 *	Retrieve the records for the class from the search engine, 
@@ -136,7 +136,7 @@ public class WriteAllClasses extends EcrirePageClasse {
 					classRoles = (List<String>)doc.get("classRoles_stored_strings");
 					classFiltersFound = BooleanUtils.isTrue((Boolean)doc.get("classFiltersFound_stored_boolean"));
 					classFilters = (List<String>)doc.get("classFilters_stored_strings");
-					classApiMethods = (List<String>)doc.get("classApiMethods_stored_strings");
+					classApiMethods = (List<String>)doc.get("classApiMethods_" + languageName + "_stored_strings");
 					if(classApiMethods == null)
 						classApiMethods = new ArrayList<>();
 					classEntityVars = (List<String>)doc.get("classEntityVars_" + languageName + "_stored_strings");

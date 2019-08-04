@@ -252,9 +252,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
-				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_stored_string");
-				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_stored_string");
-				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classeApiMethode + "_stored_string");
+				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classeApiMethode + "_" + langueNom + "_stored_string");
 
 				if(classePageLangueNom == null || classePageLangueNom.equals(langueNom)) {
 					if(classePageNomCanoniqueMethode != null) {
@@ -709,6 +709,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r: indexer
 	 * r.enUS: index
 	 * 
+	 * r: classCanonicalNames_
+	 * r.enUS: classeNomsCanoniques_
+	 * r: archived_
+	 * r.enUS: archive_
+	 * r: deleted_
+	 * r.enUS: supprime_
 	 */ 
 	public void ecrireGenApiServiceImpl(String langueNom) throws Exception {
 
@@ -730,7 +736,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				rechercheSolr.setRows(1000000);
 				String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
+				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();
 				Integer rechercheLignes = rechercheSolr.getRows();
@@ -1157,12 +1163,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
-				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_stored_string");
-				String classePageNomSimpleMethode = (String)classeDoc.get("classePageNomSimple" + classeApiMethode + "_stored_string");
-				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_stored_string");
-				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_stored_string");
-				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia" + classeApiMethode + "_stored_string");
-				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classeApiMethode + "_stored_string");
+				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classePageNomSimpleMethode = (String)classeDoc.get("classePageNomSimple" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classeApiMethode + "_" + langueNom + "_stored_string");
 				if(classePageLangueNom == null || classePageLangueNom.equals(langueNom)) {
 					l();
 					tl(1, "// ", classeApiMethode, " //");
@@ -1297,7 +1303,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "", str_erreur(langueNom), "", classeNomSimple, "(null, ", str_gestionnaireEvenements(langueNom), ", Future.failedFuture(e));");
 						tl(2, "}");
 					}
-					else if(classeApiMethode.contains("Recherche")) {
+					else if(classeApiMethode.contains(str_Recherche(langueNom))) {
 						if(classePageNomSimpleMethode == null) {
 							tl(2, "try {");
 							tl(3, "", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = ", str_generer(langueNom), "", classePartsRequeteSite.nomSimple(langueNom), "", str_Pour(langueNom), "", classeNomSimple, "(", str_siteContexte(langueNom), ", ", str_operationRequete(langueNom), ");");
@@ -1507,9 +1513,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 					tl(1, "}");
 	
-					if(classeApiMethode.contains("Recherche")) {
+					if(classeApiMethode.contains(str_Recherche(langueNom))) {
 	//					l();
-	//					tl(1, "public Future<OperationResponse> ", str_liste(langueNom), "Recherche", classeNomSimple, classePartsListeRecherche.nomSimple(langueNom), "(<", classeNomSimple, "> ", str_liste(langueNom), "", classeNomSimple, ") {");
+	//					tl(1, "public Future<OperationResponse> ", str_liste(langueNom), str_Recherche(langueNom), classeNomSimple, classePartsListeRecherche.nomSimple(langueNom), "(<", classeNomSimple, "> ", str_liste(langueNom), "", classeNomSimple, ") {");
 	//					tl(2, "List<Future> futures = new ArrayList<>();");
 	//					tl(2, "", str_liste(langueNom), "", classeNomSimple, ".getList().forEach(o -> {");
 	//					tl(3, "futures.add(");
@@ -1735,7 +1741,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT")) {
 						tl(3, "", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = o.get", str_RequeteSite(langueNom), "_();");
 					}
-					else if(classeApiMethode.contains("Recherche") || classeApiMethode.contains("PATCH") || classeApiMethode.contains("GET")) {
+					else if(classeApiMethode.contains(str_Recherche(langueNom)) || classeApiMethode.contains("PATCH") || classeApiMethode.contains("GET")) {
 						tl(3, "", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = ", str_liste(langueNom), "", classeNomSimple, ".get", str_RequeteSite(langueNom), "_();");
 					}
 					else {
@@ -1759,15 +1765,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "SolrDocumentList ", str_documentsSolr(langueNom), " = ", str_liste(langueNom), "", classeNomSimple, ".getSolrDocumentList();");
 						l();
 					}
-					if(classeApiMethode.contains("Recherche")) {
+					if(classeApiMethode.contains(str_Recherche(langueNom))) {
 					}
 	
-					if(classeApiMethode.contains("Recherche") || classeApiMethode.contains("GET")) {
+					if(classeApiMethode.contains(str_Recherche(langueNom)) || classeApiMethode.contains("GET")) {
 					}
 					else if(classeApiMethode.contains("DELETE")) {
 					}
 	
-					if(classeApiMethode.contains("Recherche")) {
+					if(classeApiMethode.contains(str_Recherche(langueNom))) {
 						if(classePageNomCanoniqueMethode != null) {
 							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
 //							tl(3, "page.setPageUrl(\"", siteUrlBase, classeApiUri, "\");");
@@ -1857,7 +1863,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						}
 					}
 	
-					if((classeApiMethode.contains("GET") || classeApiMethode.contains("Recherche")) && classePageNomCanoniqueMethode != null) {
+					if((classeApiMethode.contains("GET") || classeApiMethode.contains(str_Recherche(langueNom))) && classePageNomCanoniqueMethode != null) {
 						tl(3, "", str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture(new OperationResponse(200, \"OK\", buffer, new CaseInsensitiveHeaders())));");
 					}
 					else {

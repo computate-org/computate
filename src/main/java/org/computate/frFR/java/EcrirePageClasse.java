@@ -179,7 +179,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 5).dal("class", "w3-input w3-border datepicker ");
 					wForm.t(tIndex + 5).dal("placeholder", "DD-MM-YYYY");
 					wForm.t(tIndex + 5).dal("data-timeformat", "DD-MM-YYYY");
-					wForm.t(tIndex + 5).dal("onclick", "enleverLueur($(this)); ");
+					wForm.t(tIndex + 5).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 					if(entiteDescription != null)
 						wForm.t(tIndex + 5).dal("title", entiteDescription + " (DD-MM-YYYY)");
 					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
@@ -223,7 +223,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 5).dal("class", "w3-input w3-border datepicker ");
 					wForm.t(tIndex + 5).dal("placeholder", "DD-MM-YYYY");
 					wForm.t(tIndex + 5).dal("data-timeformat", "DD-MM-YYYY");
-					wForm.t(tIndex + 5).dal("onclick", "enleverLueur($(this)); ");
+					wForm.t(tIndex + 5).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 					if(entiteDescription != null)
 						wForm.t(tIndex + 5).dal("title", entiteDescription + " (DD-MM-YYYY)");
 					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
@@ -267,7 +267,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 5).dal("type", "text");
 					wForm.t(tIndex + 5).dal("class", "w3-input w3-border timepicker ");
 					wForm.t(tIndex + 5).dal("placeholder", "HH:MM AM");
-					wForm.t(tIndex + 5).dal("onclick", "enleverLueur($(this)); ");
+					wForm.t(tIndex + 5).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 					if(entiteDescription != null)
 						wForm.t(tIndex + 5).da("title", entiteDescription + " (h'h'mm)");
 					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
@@ -365,7 +365,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						wForm.t(tIndex + 5).dal("id", classeApiMethodeMethode, "_", entiteVar);
 					}
 					if("Page".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 5).dal("onclick", "enleverLueur($(this)); ");
+						wForm.t(tIndex + 5).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 						wForm.t(tIndex + 5).dal("onchange", "patch", classeNomSimple, "($('#", classeNomSimple, "Form'), $('#", entiteVar, "Form')); ");
 					}
 	
@@ -821,17 +821,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	public void pageCodeClasse(String langueNom) throws Exception {
 		for(String classePageMethode : classeApiMethodes) {
 
-			String classePageCheminGen = (String)doc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
-			String classePageChemin = (String)doc.get("classePageChemin" + classePageMethode  + "_stored_string");
-			String classePageCheminCss = (String)doc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
-			String classePageCheminJs = (String)doc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
-			String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
-			String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
+			String classePageCheminGen = (String)classeDoc.get("classePageCheminGen" + classePageMethode  + "_" + langueNom + "_stored_string");
+			String classePageChemin = (String)classeDoc.get("classePageChemin" + classePageMethode  + "_" + langueNom + "_stored_string");
+			String classePageCheminCss = (String)classeDoc.get("classePageCheminCss" + classePageMethode  + "_" + langueNom + "_stored_string");
+			String classePageCheminJs = (String)classeDoc.get("classePageCheminJs" + classePageMethode  + "_" + langueNom + "_stored_string");
+			String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_" + langueNom + "_stored_string");
+			String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_" + langueNom + "_stored_string");
 
-			classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
-			classePageSuperNomSimple = (String)doc.get("classePageSuperNomSimple" + classePageMethode  + "_stored_string");
-			classeGenPageNomSimple = (String)doc.get("classeGenPageNomSimple" + classePageMethode  + "_stored_string");
-			String classePageNomCanonique = (String)doc.get("classePageNomCanonique" + classePageMethode  + "_stored_string");
+			classePageNomSimple = (String)classeDoc.get("classePageNomSimple" + classePageMethode  + "_" + langueNom + "_stored_string");
+			classePageSuperNomSimple = (String)classeDoc.get("classePageSuperNomSimple" + classePageMethode  + "_" + langueNom + "_stored_string");
+			classeGenPageNomSimple = (String)classeDoc.get("classeGenPageNomSimple" + classePageMethode  + "_" + langueNom + "_stored_string");
+			String classePageNomCanonique = (String)classeDoc.get("classePageNomCanonique" + classePageMethode  + "_" + langueNom + "_stored_string");
 	
 			if(classePageCheminGen != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 
@@ -1368,10 +1368,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(!classePageSimple) {
 					tl(1, "@Override public void htmlScript", classeGenPageNomSimple, "() {");
 					for(String classeApiMethode : classeApiMethodes) {
-						String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_stored_string");
-						String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_stored_string");
-						String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
-						String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+						String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
+						String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
+						String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
+						String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 		
 						if("application/json".equals(classeApiTypeMediaMethode)) {
 							Boolean methodePOST = classeApiMethodeMethode.equals("POST");
@@ -1740,10 +1740,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						t(2).e("div").dfl();
 						l();
 						for(String classeApiMethode : classeApiMethodes) {
-							String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_stored_string");
-							String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_stored_string");
-							String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_stored_string");
-							String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_stored_string");
+							String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
+							String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
+							String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
+							String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 			
 							if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
 								Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("DELETE") || classeApiMethodeMethode.contains("POST") ? 0 : 1;

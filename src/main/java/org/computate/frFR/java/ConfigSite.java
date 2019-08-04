@@ -11,10 +11,11 @@ import java.util.stream.Stream;
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.SiteConfig
@@ -22,6 +23,8 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
  * frFR: Charge les propriétés dans le fichier de config de l'application dans des champs spécifiques. 
  */ 
 public class ConfigSite { 
+
+	protected final Logger log = LoggerFactory.getLogger(getClass());
 	
 	public ConfigSite() {
 	}

@@ -517,7 +517,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeRoles = (List<String>)doc.get("classeRoles_stored_strings");
 					classeFiltresTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeFiltresTrouves_stored_boolean"));
 					classeFiltres = (List<String>)doc.get("classeFiltres_stored_strings");
-					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_stored_strings");
+					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_" + langueNom + "_stored_strings");
 					if(classeApiMethodes == null)
 						classeApiMethodes = new ArrayList<>();
 					classeEntiteVars = (List<String>)doc.get("classeEntiteVars_" + langueNom + "_stored_strings");

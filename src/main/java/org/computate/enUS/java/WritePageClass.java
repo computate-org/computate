@@ -98,7 +98,7 @@ public class WritePageClass extends WriteApiClass {
 					wForm.t(tIndex + 5).dal("class", "w3-input w3-border datepicker ");
 					wForm.t(tIndex + 5).dal("placeholder", "DD-MM-YYYY");
 					wForm.t(tIndex + 5).dal("data-timeformat", "DD-MM-YYYY");
-					wForm.t(tIndex + 5).dal("onclick", "removeGlow($(this)); ");
+					wForm.t(tIndex + 5).dal("onclick", str_removeGlow(langueNom), "($(this)); ");
 					if(entityDescription != null)
 						wForm.t(tIndex + 5).dal("title", entityDescription + " (DD-MM-YYYY)");
 					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
@@ -142,7 +142,7 @@ public class WritePageClass extends WriteApiClass {
 					wForm.t(tIndex + 5).dal("class", "w3-input w3-border datepicker ");
 					wForm.t(tIndex + 5).dal("placeholder", "DD-MM-YYYY");
 					wForm.t(tIndex + 5).dal("data-timeformat", "DD-MM-YYYY");
-					wForm.t(tIndex + 5).dal("onclick", "removeGlow($(this)); ");
+					wForm.t(tIndex + 5).dal("onclick", str_removeGlow(langueNom), "($(this)); ");
 					if(entityDescription != null)
 						wForm.t(tIndex + 5).dal("title", entityDescription + " (DD-MM-YYYY)");
 					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
@@ -186,7 +186,7 @@ public class WritePageClass extends WriteApiClass {
 					wForm.t(tIndex + 5).dal("type", "text");
 					wForm.t(tIndex + 5).dal("class", "w3-input w3-border timepicker ");
 					wForm.t(tIndex + 5).dal("placeholder", "HH:MM AM");
-					wForm.t(tIndex + 5).dal("onclick", "removeGlow($(this)); ");
+					wForm.t(tIndex + 5).dal("onclick", str_removeGlow(langueNom), "($(this)); ");
 					if(entityDescription != null)
 						wForm.t(tIndex + 5).da("title", entityDescription + " (h'h'mm)");
 					wForm.tl(tIndex + 5, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
@@ -284,7 +284,7 @@ public class WritePageClass extends WriteApiClass {
 						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
 					if("Page".equals(classApiMethodMethod)) {
-						wForm.t(tIndex + 5).dal("onclick", "removeGlow($(this)); ");
+						wForm.t(tIndex + 5).dal("onclick", str_removeGlow(langueNom), "($(this)); ");
 						wForm.t(tIndex + 5).dal("onchange", "patch", classSimpleName, "($('#", classSimpleName, "Form'), $('#", entityVar, "Form')); ");
 					}
 	
@@ -328,17 +328,17 @@ public class WritePageClass extends WriteApiClass {
 	public void  pageCodeClass(String languageName) throws Exception, Exception {
 		for(String classPageMethod : classApiMethods) {
 
-			String classPagePathGen = (String)doc.get("classPagePathGen" + classPageMethod  + "_stored_string");
-			String classPagePath = (String)doc.get("classPagePath" + classPageMethod  + "_stored_string");
-			String classPagePathCss = (String)doc.get("classPagePathCss" + classPageMethod  + "_stored_string");
-			String classPagePathJs = (String)doc.get("classPagePathJs" + classPageMethod  + "_stored_string");
-			String classPageUriMethod = (String)classDoc.get("classApiUri" + classPageMethod + "_stored_string");
-			String classPageLanguageName = (String)classDoc.get("classPageLanguageName" + classPageMethod + "_stored_string");
+			String classPagePathGen = (String)classDoc.get("classPagePathGen" + classPageMethod  + "_" + languageName + "_stored_string");
+			String classPagePath = (String)classDoc.get("classPagePath" + classPageMethod  + "_" + languageName + "_stored_string");
+			String classPagePathCss = (String)classDoc.get("classPagePathCss" + classPageMethod  + "_" + languageName + "_stored_string");
+			String classPagePathJs = (String)classDoc.get("classPagePathJs" + classPageMethod  + "_" + languageName + "_stored_string");
+			String classPageUriMethod = (String)classDoc.get("classApiUri" + classPageMethod + "_" + languageName + "_stored_string");
+			String classPageLanguageName = (String)classDoc.get("classPageLanguageName" + classPageMethod + "_" + languageName + "_stored_string");
 
-			classPageSimpleName = (String)doc.get("classPageSimpleName" + classPageMethod  + "_stored_string");
-			classPageSuperSimpleName = (String)doc.get("classPageSuperSimpleName" + classPageMethod  + "_stored_string");
-			classGenPageSimpleName = (String)doc.get("classGenPageSimpleName" + classPageMethod  + "_stored_string");
-			String classPageCanonicalName = (String)doc.get("classPageCanonicalName" + classPageMethod  + "_stored_string");
+			classPageSimpleName = (String)classDoc.get("classPageSimpleName" + classPageMethod  + "_" + languageName + "_stored_string");
+			classPageSuperSimpleName = (String)classDoc.get("classPageSuperSimpleName" + classPageMethod  + "_" + languageName + "_stored_string");
+			classGenPageSimpleName = (String)classDoc.get("classGenPageSimpleName" + classPageMethod  + "_" + languageName + "_stored_string");
+			String classPageCanonicalName = (String)classDoc.get("classPageCanonicalName" + classPageMethod  + "_" + languageName + "_stored_string");
 	
 			if(classPagePathGen != null && StringUtils.equals(classPageLanguageName, languageName)) {
 
@@ -875,10 +875,10 @@ public class WritePageClass extends WriteApiClass {
 				if(!classPageSimple) {
 					tl(1, "@Override public void htmlScript", classGenPageSimpleName, "() {");
 					for(String classApiMethod : classApiMethods) {
-						String classApiOperationIdMethod = (String)classDoc.get("classeApiOperationId" + classApiMethod + "_stored_string");
-						String classApiUriMethod = (String)classDoc.get("classApiUri" + classApiMethod + "_stored_string");
-						String classApiMediaTypeMethod = (String)classDoc.get("classeApiTypeMedia200" + classApiMethod + "_stored_string");
-						String classApiMethodMethod = (String)classDoc.get("classApiMethod" + classApiMethod + "_stored_string");
+						String classApiOperationIdMethod = (String)classDoc.get("classeApiOperationId" + classApiMethod + "_" + languageName + "_stored_string");
+						String classApiUriMethod = (String)classDoc.get("classApiUri" + classApiMethod + "_" + languageName + "_stored_string");
+						String classApiMediaTypeMethod = (String)classDoc.get("classeApiTypeMedia200" + classApiMethod + "_" + languageName + "_stored_string");
+						String classApiMethodMethod = (String)classDoc.get("classApiMethod" + classApiMethod + "_" + languageName + "_stored_string");
 		
 						if("application/json".equals(classApiMediaTypeMethod)) {
 							Boolean methodPOST = classApiMethodMethod.equals("POST");
@@ -1247,10 +1247,10 @@ public class WritePageClass extends WriteApiClass {
 						t(2).e("div").dfl();
 						l();
 						for(String classApiMethod : classApiMethods) {
-							String classApiOperationIdMethod = (String)classDoc.get("classeApiOperationId" + classApiMethod + "_stored_string");
-							String classApiUriMethod = (String)classDoc.get("classApiUri" + classApiMethod + "_stored_string");
-							String classApiMediaTypeMethod = (String)classDoc.get("classeApiTypeMedia200" + classApiMethod + "_stored_string");
-							String classApiMethodMethod = (String)classDoc.get("classApiMethod" + classApiMethod + "_stored_string");
+							String classApiOperationIdMethod = (String)classDoc.get("classeApiOperationId" + classApiMethod + "_" + languageName + "_stored_string");
+							String classApiUriMethod = (String)classDoc.get("classApiUri" + classApiMethod + "_" + languageName + "_stored_string");
+							String classApiMediaTypeMethod = (String)classDoc.get("classeApiTypeMedia200" + classApiMethod + "_" + languageName + "_stored_string");
+							String classApiMethodMethod = (String)classDoc.get("classApiMethod" + classApiMethod + "_" + languageName + "_stored_string");
 			
 							if("application/json".equals(classApiMediaTypeMethod) && !"GET".equals(classApiMethodMethod)) {
 								Integer tab = classApiMethodMethod.contains("PATCH") || classApiMethodMethod.contains("DELETE") || classApiMethodMethod.contains("POST") ? 0 : 1;
