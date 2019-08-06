@@ -4710,12 +4710,14 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 			indexerStockerSolr(classeDoc, "classeRolesTrouves", classeRolesTrouves); 
 
-			Matcher classeFiltresRecherche = Pattern.compile("^(classe)?Filtre:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeFiltresRecherche = Pattern.compile("^(classe)?Filtre\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeFiltresTrouves = classeFiltresRecherche.find();
 			boolean classeFiltresTrouvesActuel = classeFiltresTrouves;
 			while(classeFiltresTrouvesActuel) {
-				String classeFiltreValeur = classeFiltresRecherche.group(2);
+				String classeFiltreValeur = classeFiltresRecherche.group(3);
+				String classeFiltreLangue = classeRolesRecherche.group(2);
 				stockerListeSolr(classeDoc, "classeFiltres", classeFiltreValeur);
+				stockerListeSolr(classeDoc, "classeFiltresLangue", classeFiltreLangue);
 				classeFiltresTrouves = true;
 				classeFiltresTrouvesActuel = classeFiltresRecherche.find();
 			}
@@ -6269,9 +6271,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiDescription" + classeApiMethode, "ApiDescription" + classeApiMethode + "." + langueNom, classeCommentaire, regexLangue(langueNom, "(classe)?Description" + classeApiMethode, classeCommentaire));
 		
 						if(classeEtendBase && classeSuperDoc != null) {
-							indexerStockerSolr(langueNom, classeDoc, "classeSuperApiOperationId" + classeApiMethode, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "_stored_string"));
-							indexerStockerSolr(langueNom, classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Requete", (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Requete" + "_stored_string"));
-							indexerStockerSolr(langueNom, classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Reponse", (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Reponse" + "_stored_string"));
+							indexerStockerSolr(langueNom, classeDoc, "classeSuperApiOperationId" + classeApiMethode, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string"));
+							indexerStockerSolr(langueNom, classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Requete", (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Requete" + "_" + langueNom + "_stored_string"));
+							indexerStockerSolr(langueNom, classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Reponse", (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Reponse" + "_" + langueNom + "_stored_string"));
 						}
 		
 						String classePageNomSimpleMethode = regexLangue(langueNom, "^(classe)?Page" + classeApiMethode, classeCommentaire);

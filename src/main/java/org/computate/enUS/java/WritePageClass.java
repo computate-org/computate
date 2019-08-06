@@ -119,7 +119,7 @@ public class WritePageClass extends WriteApiClass {
 						wForm.t(tIndex + 5).dal("name", "set", entityVarCapitalized);
 					}
 					else {
-						wForm.t(tIndex + 5).dal("class", "value", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("class", str_value(langueNom), entityVarCapitalized);
 						wForm.t(tIndex + 5).dal("name", entityVar);
 						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
@@ -165,7 +165,7 @@ public class WritePageClass extends WriteApiClass {
 						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
 					else {
-						wForm.t(tIndex + 5).dal("class", "value", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("class", str_value(langueNom), entityVarCapitalized);
 						wForm.t(tIndex + 5).dal("name", entityVar);
 						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
@@ -209,7 +209,7 @@ public class WritePageClass extends WriteApiClass {
 						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
 					else {
-						wForm.t(tIndex + 5).dal("class", "value", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("class", str_value(langueNom), entityVarCapitalized);
 						wForm.t(tIndex + 5).dal("name", entityVar);
 						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
@@ -238,7 +238,7 @@ public class WritePageClass extends WriteApiClass {
 						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
 					else {
-						wForm.t(tIndex + 5).dal("class", "value", entityVarCapitalized);
+						wForm.t(tIndex + 5).dal("class", str_value(langueNom), entityVarCapitalized);
 						wForm.t(tIndex + 5).dal("name", entityVar);
 						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
@@ -279,7 +279,7 @@ public class WritePageClass extends WriteApiClass {
 						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
 					else {
-						wForm.t(tIndex + 5).dal("class", "value", entityVarCapitalized, " w3-input w3-border ");
+						wForm.t(tIndex + 5).dal("class", str_value(langueNom), entityVarCapitalized, " w3-input w3-border ");
 						wForm.t(tIndex + 5).dal("name", entityVar);
 						wForm.t(tIndex + 5).dal("id", classApiMethodMethod, "_", entityVar);
 					}
@@ -821,7 +821,7 @@ public class WritePageClass extends WriteApiClass {
 								if(entityIndexed) {
 		
 									wSearch.l();
-									wSearch.tl(1, "var ", str_filter(languageName), entityVarCapitalized, " = $", str_formFilters(languageName), ".find('.value", entityVarCapitalized, "')", jsVal, ";");
+									wSearch.tl(1, "var ", str_filter(languageName), entityVarCapitalized, " = $", str_formFilters(languageName), ".find('.", str_value(languageName), entityVarCapitalized, "')", jsVal, ";");
 
 									if("Boolean".equals(entitySimpleName))
 										wSearch.tl(1, "if(", str_filter(languageName), entityVarCapitalized, " != null && ", str_filter(languageName), entityVarCapitalized, " === true)");
@@ -848,20 +848,20 @@ public class WritePageClass extends WriteApiClass {
 									}
 		
 									wPOST.l();
-									wPOST.tl(1, "var value", entityVarCapitalized, " = $", str_formValues(languageName), ".find('.value", entityVarCapitalized, "')", jsVal, ";");
-									wPOST.tl(1, "if(value", entityVarCapitalized, " != null && value", entityVarCapitalized, " !== '')");
-									wPOST.tl(2, "values['", entityVar, "'] = ", valPrefixe, "value", entityVarCapitalized, ";");
+									wPOST.tl(1, "var ", str_value(languageName), entityVarCapitalized, " = $", str_formValues(languageName), ".find('.", str_value(languageName), entityVarCapitalized, "')", jsVal, ";");
+									wPOST.tl(1, "if(", str_value(languageName), entityVarCapitalized, " != null && ", str_value(languageName), entityVarCapitalized, " !== '')");
+									wPOST.tl(2, str_values(languageName), "['", entityVar, "'] = ", valPrefixe, str_value(languageName), entityVarCapitalized, ";");
 		
 									wPATCH.l();
 									wPATCH.tl(1, "var set", entityVarCapitalized, " = $", str_formValues(languageName), ".find('.set", entityVarCapitalized, "')", jsVal, ";");
 									wPATCH.tl(1, "if(set", entityVarCapitalized, " != null && set", entityVarCapitalized, " !== '')");
-									wPATCH.tl(2, "values['set", entityVarCapitalized, "'] = ", valPrefixe, "set", entityVarCapitalized, valSuffixe, ";");
+									wPATCH.tl(2, str_values(languageName), "['set", entityVarCapitalized, "'] = ", valPrefixe, "set", entityVarCapitalized, valSuffixe, ";");
 									wPATCH.tl(1, "var add", entityVarCapitalized, " = $", str_formValues(languageName), ".find('.add", entityVarCapitalized, "')", jsVal, ";");
 									wPATCH.tl(1, "if(add", entityVarCapitalized, " != null && add", entityVarCapitalized, " !== '')");
-									wPATCH.tl(2, "values['add", entityVarCapitalized, "'] = ", valPrefixe, "add", entityVarCapitalized, valSuffixe, ";");
+									wPATCH.tl(2, str_values(languageName), "['add", entityVarCapitalized, "'] = ", valPrefixe, "add", entityVarCapitalized, valSuffixe, ";");
 									wPATCH.tl(1, "var remove", entityVarCapitalized, " = $", str_formValues(languageName), ".find('.remove", entityVarCapitalized, "')", jsVal, ";");
 									wPATCH.tl(1, "if(remove", entityVarCapitalized, " != null && remove", entityVarCapitalized, " !== '')");
-									wPATCH.tl(2, "values['remove", entityVarCapitalized, "'] = ", valPrefixe, "remove", entityVarCapitalized, valSuffixe, ";");
+									wPATCH.tl(2, str_values(languageName), "['remove", entityVarCapitalized, "'] = ", valPrefixe, "remove", entityVarCapitalized, valSuffixe, ";");
 								}
 							}
 							solrSearch.setStart(i.intValue() + searchRows);
@@ -1279,7 +1279,7 @@ public class WritePageClass extends WriteApiClass {
 									tl(2, "if(", str_list(languageName), classSimpleName, " != null && ", str_list(languageName), classSimpleName, ".size() == 1) {");
 								t(2 + tab).e("button").l();
 								t(3 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contextColor, " ");
-								t(3 + tab).dal("onclick", "$('#", classApiOperationIdMethod, "Modale').show(); ");
+								t(3 + tab).dal("onclick", "$('#", classApiOperationIdMethod, str_Modale(languageName), "').show(); ");
 								t(3 + tab).df().dsxq(methodTitleValeurs).l();
 								t(2 + tab).dgl("button");
 								{ t(2 + tab).be("div").da("id", classApiOperationIdMethod, str_Modale(languageName)).da("class", "w3-modal ").dfl();
