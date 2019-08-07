@@ -1152,7 +1152,7 @@ public class WriteApiClass extends WriteGenClass {
 					l(", Handler<AsyncResult<OperationResponse>> ", str_eventHandler(languageName), ") {");
 	
 					tl(2, "try {");
-					tl(3, "Buffer buffer = Buffer.buffer();");
+//					tl(3, "JsonObject json = new JsonObject();");
 	
 					if(classApiMethod.contains("POST") || classApiMethod.contains("PUT")) {
 						tl(3, "", classPartsSiteRequest.simpleName(languageName), " ", str_siteRequest(languageName), " = o.get", str_SiteRequest(languageName), "_();");
@@ -1163,18 +1163,18 @@ public class WriteApiClass extends WriteGenClass {
 					else {
 					}
 	
-					t(3, "", classPartsAllWriter.simpleName(languageName), " w = ", classPartsAllWriter.simpleName(languageName), ".", str_create(languageName), "(");
-					if(classApiMethod.contains("POST") || classApiMethod.contains("PUT"))
-						s("o.get", str_SiteRequest(languageName), "_()");
-					else if(classApiMethod.contains("DELETE"))
-						s("", str_siteRequest(languageName), "");
-					else
-						s("", str_list(languageName), "", classSimpleName, ".get", str_SiteRequest(languageName), "_()");
-					l(", buffer);");
-					tl(3, "", str_siteRequest(languageName), ".setW(w);");
-
-					if(classApiMethod.contains("PATCH"))
-						tl(3, "buffer.appendString(\"{}\");");
+//					t(3, "", classPartsAllWriter.simpleName(languageName), " w = ", classPartsAllWriter.simpleName(languageName), ".", str_create(languageName), "(");
+//					if(classApiMethod.contains("POST") || classApiMethod.contains("PUT"))
+//						s("o.get", str_SiteRequest(languageName), "_()");
+//					else if(classApiMethod.contains("DELETE"))
+//						s("", str_siteRequest(languageName), "");
+//					else
+//						s("", str_list(languageName), "", classSimpleName, ".get", str_SiteRequest(languageName), "_()");
+//					l(", json);");
+//					tl(3, "", str_siteRequest(languageName), ".setW(w);");
+//
+//					if(classApiMethod.contains("PATCH"))
+//						tl(3, "buffer.appendString(\"{}\");");
 	
 	
 					if(classApiMethod.contains("GET")) {
@@ -1191,6 +1191,10 @@ public class WriteApiClass extends WriteGenClass {
 	
 					if(classApiMethod.contains(str_Recherche(languageName))) {
 						if(classPageCanonicalNameMethod != null) {
+							tl(3, "Buffer buffer = Buffer.buffer();");
+							t(3, classPartsAllWriter.simpleName(languageName), " w = ", classPartsAllWriter.simpleName(languageName), ".", str_create(languageName), "(");
+							s("", str_list(languageName), "", classSimpleName, ".get", str_SiteRequest(languageName), "_()");
+							l(", buffer);");
 							tl(3, classPageSimpleNameMethod, " page = new ", classPageSimpleNameMethod, "();");
 //							tl(3, "page.setPageUrl(\"", siteBaseUrl, classApiUri, "\");");
 							tl(3, "SolrDocument page", str_DocumentSolr(languageName), " = new SolrDocument();");
@@ -1215,39 +1219,23 @@ public class WriteApiClass extends WriteGenClass {
 							tl(3, "String ", str_timeTransmission(languageName), " = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(", str_millisTransmission(languageName), "), TimeUnit.MILLISECONDS.toMillis(", str_millisTransmission(languageName), ") - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(", str_millisTransmission(languageName), ")));");
 							tl(3, "Exception exception", str_Recherche(languageName), " = ", str_response(languageName), "", str_Recherche(languageName), ".getException();");
 							l();
-							tl(3, "w.l(\"{\");");
-							tl(3, "w.tl(1, ", q(q(str_numStart(languageName)), ": "), ", ", str_numStart(languageName), ");");
-							tl(3, "w.tl(1, ", q(", ", q(str_numFound(languageName)), ": "), ", ", str_numFound(languageName), ");");
-							tl(3, "w.tl(1, ", q(", ", q(str_numReturned(languageName)), ": "), ", ", str_numReturned(languageName), ");");
-							tl(3, "w.tl(1, ", q(", ", q(str_timeSearch(languageName)), ": "), ", w.q(", str_timeSearch(languageName), "));");
-							tl(3, "w.tl(1, ", q(", ", q(str_timeTransmission(languageName)), ": "), ", w.q(", str_timeTransmission(languageName), "));");
-							tl(3, "w.tl(1, ", q(", ", q("", str_list(languageName), ""), ": ["), ");");
-							tl(3, "for(int i = 0; i < ", str_list(languageName), "", classSimpleName, ".size(); i++) {");
-							tl(4, classSimpleName, " o = ", str_list(languageName), "", classSimpleName, ".getList().get(i);");
-							tl(4, "Object ", str_entite(languageName), "", str_Valeur(languageName), ";");
-							tl(4, "Integer ", str_entite(languageName), "", str_Numero(languageName), " = 0;");
-		//					tl(4, "List<String> fieldNames = new ArrayList<>(", str_solrDocument(languageName), ".getFieldNames());");
-							l();
-							tl(4, "w.t(2);");
-							tl(4, "if(i > 0)");
-							tl(5, "w.s(", q(", "), ");");
-							tl(4, "w.l(", q("{"), ");");
-		//					tl(4, "for(int j = 0; j < fieldNames.size(); j++) {");
-		//					tl(5, "String ", str_entite(languageName), "VarStocke = fieldNames.get(j);");
-		//					tl(5, "List<Object> ", str_entite(languageName), "", str_Valeurs(languageName), " = new ArrayList<>(", str_solrDocument(languageName), ".getFieldValues(", str_entite(languageName), "VarStocke));");
-							s(wApiGenerateGet.toString());
-		//					tl(4, "}");
-							l();
-							tl(4, "w.tl(2, ", q("}"), ");");
-							tl(3, "}");
-							tl(3, "w.tl(1, ", q("]"), ");");
+							tl(3, "JsonObject json = new JsonObject();");
+							tl(3, "json.put(", q(str_numStart(languageName)), ", ", str_numStart(languageName), ");");
+							tl(3, "json.put(", q(str_numFound(languageName)), ", ", str_numFound(languageName), ");");
+							tl(3, "json.put(", q(str_numReturned(languageName)), ", ", str_numReturned(languageName), ");");
+							tl(3, "json.put(", q(str_timeSearch(languageName)), ", ", str_timeSearch(languageName), ");");
+							tl(3, "json.put(", q(str_timeTransmission(languageName)), ", ", str_timeTransmission(languageName), ");");
+							tl(3, "JsonArray l = new JsonArray();");
+							tl(3, str_list(languageName), classSimpleName, ".getList().stream().forEach(o -> {");
+							tl(4, "l.add(JsonObject.mapFrom(o));");
+							tl(3, "});");
+							tl(3, "json.put(", q(str_list(languageName)), ", l);");
 							tl(3, "if(exception", str_Recherche(languageName), " != null) {");
-							tl(4, "w.tl(1, ", q(", ", q("exception", str_Recherche(languageName), ""), ": "), ", w.q(exception", str_Recherche(languageName), ".getMessage()));");
+							tl(4, "json.put(", q("exception", str_Recherche(languageName)), ", exception", str_Recherche(languageName), ".getMessage());");
 							tl(3, "}");
-							tl(3, "w.l(\"}\");");
 						}
 					}
-					if(classApiMethod.contains("GET")) {
+					else if(classApiMethod.contains("GET")) {
 						if(classPageCanonicalNameMethod != null) {
 							tl(3, classPageSimpleNameMethod, " page = new ", classPageSimpleNameMethod, "();");
 //							tl(3, "page.setPageUrl(\"", siteBaseUrl, classApiUri, "\");");
@@ -1261,29 +1249,39 @@ public class WriteApiClass extends WriteGenClass {
 							tl(3, "page.html();");
 						}
 						else {
-							tl(3, "if(", str_list(languageName), "", classSimpleName, ".size() > 0) {");
-							tl(4, "SolrDocument ", str_solrDocument(languageName), " = ", str_solrDocuments(languageName), ".get(0);");
-							tl(4, classSimpleName, " o = ", str_list(languageName), "", classSimpleName, ".get(0);");
-							tl(4, "Object ", str_entite(languageName), "", str_Valeur(languageName), ";");
-							tl(4, "Integer ", str_entite(languageName), "", str_Numero(languageName), " = 0;");
-							l();
-							tl(4, "w.l(", q("{"), ");");
-		//					tl(4, "for(int j = 0; j < fieldNames.size(); j++) {");
-		//					tl(5, "String ", str_entite(languageName), "VarStocke = fieldNames.get(j);");
-		//					tl(5, "List<Object> ", str_entite(languageName), "", str_Valeurs(languageName), " = new ArrayList<>(", str_solrDocument(languageName), ".getFieldValues(", str_entite(languageName), "VarStocke));");
-							s(wApiGenerateGet.toString());
-		//					tl(4, "}");
-							l();
-							tl(4, "w.l(", q("}"), ");");
-							tl(3, "}");
+//							tl(3, "if(", str_list(languageName), "", classSimpleName, ".size() > 0) {");
+//							tl(4, "SolrDocument ", str_solrDocument(languageName), " = ", str_solrDocuments(languageName), ".get(0);");
+//							tl(4, classSimpleName, " o = ", str_list(languageName), "", classSimpleName, ".get(0);");
+//							tl(4, "Object ", str_entite(languageName), "", str_Valeur(languageName), ";");
+//							tl(4, "Integer ", str_entite(languageName), "", str_Numero(languageName), " = 0;");
+//							l();
+//							tl(4, "w.l(", q("{"), ");");
+//		//					tl(4, "for(int j = 0; j < fieldNames.size(); j++) {");
+//		//					tl(5, "String ", str_entite(languageName), "VarStocke = fieldNames.get(j);");
+//		//					tl(5, "List<Object> ", str_entite(languageName), "", str_Valeurs(languageName), " = new ArrayList<>(", str_solrDocument(languageName), ".getFieldValues(", str_entite(languageName), "VarStocke));");
+//							s(wApiGenerateGet.toString());
+//		//					tl(4, "}");
+//							l();
+//							tl(4, "w.l(", q("}"), ");");
+							tl(3, "JsonObject json = JsonObject.mapFrom(", str_list(languageName), "", classSimpleName, ".get(0));");
+//							tl(3, "}");
 						}
+					}
+					else if(classApiMethod.contains("POST")) {
+						tl(3, "JsonObject json = new JsonObject();");
+					}
+					else if(classApiMethod.contains("PATCH")) {
+						tl(3, "JsonObject json = new JsonObject();");
+					}
+					else if(classApiMethod.contains("DELETE")) {
+						tl(3, "JsonObject json = new JsonObject();");
 					}
 	
 					if((classApiMethod.contains("GET") || classApiMethod.contains(str_Recherche(languageName))) && classPageCanonicalNameMethod != null) {
 						tl(3, "", str_eventHandler(languageName), ".handle(Future.succeededFuture(new OperationResponse(200, \"OK\", buffer, new CaseInsensitiveHeaders())));");
 					}
 					else {
-						tl(3, "", str_eventHandler(languageName), ".handle(Future.succeededFuture(OperationResponse.completedWithJson(buffer)));");
+						tl(3, "", str_eventHandler(languageName), ".handle(Future.succeededFuture(OperationResponse.completedWithJson(json)));");
 					}
 	
 					tl(2, "} catch(Exception e) {");

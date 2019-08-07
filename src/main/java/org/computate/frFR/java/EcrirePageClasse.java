@@ -885,10 +885,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageGenClasse = ToutEcrivain.create(classePageFichierGen);
 				if(classePageFichier != null && !classePageFichier.exists())
 					auteurPageClasse = ToutEcrivain.create(classePageFichier);
-				if(classePageFichierCss != null)
+				if(classePageFichierCss != null) {
+					classePageFichierCss.getParentFile().mkdirs();
 					auteurPageCss = ToutEcrivain.create(classePageFichierCss);
-				if(classePageFichierJs != null)
+				}
+				if(classePageFichierJs != null) {
+					classePageFichierJs.getParentFile().mkdirs();
 					auteurPageJs = ToutEcrivain.create(classePageFichierJs);
+				}
 
 				Boolean pageH1 = false;
 				Boolean pageH2 = false;
@@ -1208,7 +1212,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 				l();
 				tl(1, "@Override public void htmlScripts", classeGenPageNomSimple, "() {");
-				t(2).l("e(\"script\").a(\"src\", ", str_statiqueUrlBase(langueNom), ", \"/js/", classePageNomSimple, ".js\").f().g(\"script\");");
+				t(2).l("e(\"script\").a(\"src\", ", str_statiqueUrlBase(langueNom), ", \"/js/", langueNom, "/", classePageNomSimple, ".js\").f().g(\"script\");");
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classeApiUri)) {

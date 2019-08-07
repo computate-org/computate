@@ -4678,6 +4678,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.text.StringEscapeUtils", classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", classeLangueNom));
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonIgnore", classeLangueNom));
 
 		if(classeCommentaire != null) {
 
@@ -6396,8 +6397,8 @@ public class IndexerClasse extends RegarderClasseBase {
 								classePartsGenPageAjouter(classePartsMiseEnPage);
 							}
 	
-							String classePageCheminCss = concat(appliChemin, "-static/css/", classePageNomSimpleMethode, ".css");
-							String classePageCheminJs = concat(appliChemin, "-static/js/", classePageNomSimpleMethode, ".js");
+							String classePageCheminCss = concat(appliChemin, "-static/css/", langueNom, "/", classePageNomSimpleMethode, ".css");
+							String classePageCheminJs = concat(appliChemin, "-static/js/", langueNom, "/", classePageNomSimpleMethode, ".js");
 				
 							indexerStockerSolr(langueNom, classeDoc, "classePageCheminCss" + classeApiMethode, classePageCheminCss); 
 							indexerStockerSolr(langueNom, classeDoc, "classePageCheminJs" + classeApiMethode, classePageCheminJs); 

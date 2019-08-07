@@ -1736,7 +1736,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					l(", Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(langueNom), ") {");
 	
 					tl(2, "try {");
-					tl(3, "Buffer buffer = Buffer.buffer();");
+//					tl(3, "JsonObject json = new JsonObject();");
 	
 					if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT")) {
 						tl(3, "", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = o.get", str_RequeteSite(langueNom), "_();");
@@ -1747,18 +1747,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					else {
 					}
 	
-					t(3, "", classePartsToutEcrivain.nomSimple(langueNom), " w = ", classePartsToutEcrivain.nomSimple(langueNom), ".", str_creer(langueNom), "(");
-					if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT"))
-						s("o.get", str_RequeteSite(langueNom), "_()");
-					else if(classeApiMethode.contains("DELETE"))
-						s("", str_requeteSite(langueNom), "");
-					else
-						s("", str_liste(langueNom), "", classeNomSimple, ".get", str_RequeteSite(langueNom), "_()");
-					l(", buffer);");
-					tl(3, "", str_requeteSite(langueNom), ".setW(w);");
-
-					if(classeApiMethode.contains("PATCH"))
-						tl(3, "buffer.appendString(\"{}\");");
+//					t(3, "", classePartsToutEcrivain.nomSimple(langueNom), " w = ", classePartsToutEcrivain.nomSimple(langueNom), ".", str_creer(langueNom), "(");
+//					if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT"))
+//						s("o.get", str_RequeteSite(langueNom), "_()");
+//					else if(classeApiMethode.contains("DELETE"))
+//						s("", str_requeteSite(langueNom), "");
+//					else
+//						s("", str_liste(langueNom), "", classeNomSimple, ".get", str_RequeteSite(langueNom), "_()");
+//					l(", json);");
+//					tl(3, "", str_requeteSite(langueNom), ".setW(w);");
+//
+//					if(classeApiMethode.contains("PATCH"))
+//						tl(3, "buffer.appendString(\"{}\");");
 	
 	
 					if(classeApiMethode.contains("GET")) {
@@ -1775,6 +1775,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 					if(classeApiMethode.contains(str_Recherche(langueNom))) {
 						if(classePageNomCanoniqueMethode != null) {
+							tl(3, "Buffer buffer = Buffer.buffer();");
+							t(3, classePartsToutEcrivain.nomSimple(langueNom), " w = ", classePartsToutEcrivain.nomSimple(langueNom), ".", str_creer(langueNom), "(");
+							s("", str_liste(langueNom), "", classeNomSimple, ".get", str_RequeteSite(langueNom), "_()");
+							l(", buffer);");
 							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
 //							tl(3, "page.setPageUrl(\"", siteUrlBase, classeApiUri, "\");");
 							tl(3, "SolrDocument page", str_DocumentSolr(langueNom), " = new SolrDocument();");
@@ -1799,39 +1803,23 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "String ", str_tempsTransmission(langueNom), " = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(", str_millisTransmission(langueNom), "), TimeUnit.MILLISECONDS.toMillis(", str_millisTransmission(langueNom), ") - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(", str_millisTransmission(langueNom), ")));");
 							tl(3, "Exception exception", str_Recherche(langueNom), " = ", str_reponse(langueNom), "", str_Recherche(langueNom), ".getException();");
 							l();
-							tl(3, "w.l(\"{\");");
-							tl(3, "w.tl(1, ", q(q(str_numCommence(langueNom)), ": "), ", ", str_numCommence(langueNom), ");");
-							tl(3, "w.tl(1, ", q(", ", q(str_numTrouve(langueNom)), ": "), ", ", str_numTrouve(langueNom), ");");
-							tl(3, "w.tl(1, ", q(", ", q(str_numRetourne(langueNom)), ": "), ", ", str_numRetourne(langueNom), ");");
-							tl(3, "w.tl(1, ", q(", ", q(str_tempsRecherche(langueNom)), ": "), ", w.q(", str_tempsRecherche(langueNom), "));");
-							tl(3, "w.tl(1, ", q(", ", q(str_tempsTransmission(langueNom)), ": "), ", w.q(", str_tempsTransmission(langueNom), "));");
-							tl(3, "w.tl(1, ", q(", ", q("", str_liste(langueNom), ""), ": ["), ");");
-							tl(3, "for(int i = 0; i < ", str_liste(langueNom), "", classeNomSimple, ".size(); i++) {");
-							tl(4, classeNomSimple, " o = ", str_liste(langueNom), "", classeNomSimple, ".getList().get(i);");
-							tl(4, "Object ", str_entite(langueNom), "", str_Valeur(langueNom), ";");
-							tl(4, "Integer ", str_entite(langueNom), "", str_Numero(langueNom), " = 0;");
-		//					tl(4, "List<String> champNoms = new ArrayList<>(", str_documentSolr(langueNom), ".getFieldNames());");
-							l();
-							tl(4, "w.t(2);");
-							tl(4, "if(i > 0)");
-							tl(5, "w.s(", q(", "), ");");
-							tl(4, "w.l(", q("{"), ");");
-		//					tl(4, "for(int j = 0; j < champNoms.size(); j++) {");
-		//					tl(5, "String ", str_entite(langueNom), "VarStocke = champNoms.get(j);");
-		//					tl(5, "List<Object> ", str_entite(langueNom), "", str_Valeurs(langueNom), " = new ArrayList<>(", str_documentSolr(langueNom), ".getFieldValues(", str_entite(langueNom), "VarStocke));");
-							s(wApiGenererGet.toString());
-		//					tl(4, "}");
-							l();
-							tl(4, "w.tl(2, ", q("}"), ");");
-							tl(3, "}");
-							tl(3, "w.tl(1, ", q("]"), ");");
+							tl(3, "JsonObject json = new JsonObject();");
+							tl(3, "json.put(", q(str_numCommence(langueNom)), ", ", str_numCommence(langueNom), ");");
+							tl(3, "json.put(", q(str_numTrouve(langueNom)), ", ", str_numTrouve(langueNom), ");");
+							tl(3, "json.put(", q(str_numRetourne(langueNom)), ", ", str_numRetourne(langueNom), ");");
+							tl(3, "json.put(", q(str_tempsRecherche(langueNom)), ", ", str_tempsRecherche(langueNom), ");");
+							tl(3, "json.put(", q(str_tempsTransmission(langueNom)), ", ", str_tempsTransmission(langueNom), ");");
+							tl(3, "JsonArray l = new JsonArray();");
+							tl(3, str_liste(langueNom), classeNomSimple, ".getList().stream().forEach(o -> {");
+							tl(4, "l.add(JsonObject.mapFrom(o));");
+							tl(3, "});");
+							tl(3, "json.put(", q(str_liste(langueNom)), ", l);");
 							tl(3, "if(exception", str_Recherche(langueNom), " != null) {");
-							tl(4, "w.tl(1, ", q(", ", q("exception", str_Recherche(langueNom), ""), ": "), ", w.q(exception", str_Recherche(langueNom), ".getMessage()));");
+							tl(4, "json.put(", q("exception", str_Recherche(langueNom)), ", exception", str_Recherche(langueNom), ".getMessage());");
 							tl(3, "}");
-							tl(3, "w.l(\"}\");");
 						}
 					}
-					if(classeApiMethode.contains("GET")) {
+					else if(classeApiMethode.contains("GET")) {
 						if(classePageNomCanoniqueMethode != null) {
 							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
 //							tl(3, "page.setPageUrl(\"", siteUrlBase, classeApiUri, "\");");
@@ -1845,29 +1833,39 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "page.html();");
 						}
 						else {
-							tl(3, "if(", str_liste(langueNom), "", classeNomSimple, ".size() > 0) {");
-							tl(4, "SolrDocument ", str_documentSolr(langueNom), " = ", str_documentsSolr(langueNom), ".get(0);");
-							tl(4, classeNomSimple, " o = ", str_liste(langueNom), "", classeNomSimple, ".get(0);");
-							tl(4, "Object ", str_entite(langueNom), "", str_Valeur(langueNom), ";");
-							tl(4, "Integer ", str_entite(langueNom), "", str_Numero(langueNom), " = 0;");
-							l();
-							tl(4, "w.l(", q("{"), ");");
-		//					tl(4, "for(int j = 0; j < champNoms.size(); j++) {");
-		//					tl(5, "String ", str_entite(langueNom), "VarStocke = champNoms.get(j);");
-		//					tl(5, "List<Object> ", str_entite(langueNom), "", str_Valeurs(langueNom), " = new ArrayList<>(", str_documentSolr(langueNom), ".getFieldValues(", str_entite(langueNom), "VarStocke));");
-							s(wApiGenererGet.toString());
-		//					tl(4, "}");
-							l();
-							tl(4, "w.l(", q("}"), ");");
-							tl(3, "}");
+//							tl(3, "if(", str_liste(langueNom), "", classeNomSimple, ".size() > 0) {");
+//							tl(4, "SolrDocument ", str_documentSolr(langueNom), " = ", str_documentsSolr(langueNom), ".get(0);");
+//							tl(4, classeNomSimple, " o = ", str_liste(langueNom), "", classeNomSimple, ".get(0);");
+//							tl(4, "Object ", str_entite(langueNom), "", str_Valeur(langueNom), ";");
+//							tl(4, "Integer ", str_entite(langueNom), "", str_Numero(langueNom), " = 0;");
+//							l();
+//							tl(4, "w.l(", q("{"), ");");
+//		//					tl(4, "for(int j = 0; j < champNoms.size(); j++) {");
+//		//					tl(5, "String ", str_entite(langueNom), "VarStocke = champNoms.get(j);");
+//		//					tl(5, "List<Object> ", str_entite(langueNom), "", str_Valeurs(langueNom), " = new ArrayList<>(", str_documentSolr(langueNom), ".getFieldValues(", str_entite(langueNom), "VarStocke));");
+//							s(wApiGenererGet.toString());
+//		//					tl(4, "}");
+//							l();
+//							tl(4, "w.l(", q("}"), ");");
+							tl(3, "JsonObject json = JsonObject.mapFrom(", str_liste(langueNom), "", classeNomSimple, ".get(0));");
+//							tl(3, "}");
 						}
+					}
+					else if(classeApiMethode.contains("POST")) {
+						tl(3, "JsonObject json = new JsonObject();");
+					}
+					else if(classeApiMethode.contains("PATCH")) {
+						tl(3, "JsonObject json = new JsonObject();");
+					}
+					else if(classeApiMethode.contains("DELETE")) {
+						tl(3, "JsonObject json = new JsonObject();");
 					}
 	
 					if((classeApiMethode.contains("GET") || classeApiMethode.contains(str_Recherche(langueNom))) && classePageNomCanoniqueMethode != null) {
 						tl(3, "", str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture(new OperationResponse(200, \"OK\", buffer, new CaseInsensitiveHeaders())));");
 					}
 					else {
-						tl(3, "", str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture(OperationResponse.completedWithJson(buffer)));");
+						tl(3, "", str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture(OperationResponse.completedWithJson(json)));");
 					}
 	
 					tl(2, "} catch(Exception e) {");

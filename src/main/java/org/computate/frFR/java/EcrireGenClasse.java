@@ -2988,6 +2988,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 			tl(1, " */");
 	
+			if(entiteIgnorer)
+				tl(1, "@JsonIgnore");
 			t(1, "protected ", entiteNomSimpleComplet, " ", entiteVar);
 			if(!entiteCouverture) {
 				if("java.util.List".equals(entiteNomCanonique)) {
@@ -3011,6 +3013,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 			l(";");
 	
+			tl(1, "@JsonIgnore");
 			t(1, "public ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVar, classePartsCouverture.nomSimple(langueNom));
 			l(" = new ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, ">().p(this).c(", entiteNomSimple, ".class).var(\"", entiteVar, "\").o(", entiteVar, ");");
 	
@@ -3812,27 +3815,27 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				}
 				if(entiteIncremente) {
 					// crypte
-					tl(3, "document.addField(\"", entiteVar, "_incremented", entiteSuffixeType, "\", new java.util.HashMap<String, ", entiteNomSimple, ">() {{ put(\"inc\"", ("Long".equals(entiteNomSimple.toString()) ? "1L" : "1"), "); }});");
+					tl(3, "document.addField(\"", entiteVar, "_incremented", "\", new java.util.HashMap<String, ", entiteNomSimple, ">() {{ put(\"inc\"", ("Long".equals(entiteNomSimple.toString()) ? "1L" : "1"), "); }});");
 				}
 				if(entiteSuggere) {
 					// suggere
 					if(entiteNomSimple.equals("Chaine")) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", ", entiteVar, ");");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", ", entiteVar, ");");
 					}
 					else if(entiteNomSimple.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
 					}
 					else {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", entiteSuffixeType, "\", ", entiteVar, ");");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", ", entiteVar, ");");
 					}
 				}
 				if(entiteTexte && entiteLangue != null) {
@@ -3990,13 +3993,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 //					if(entiteSuggere) {
 //						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-//						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", entiteSuffixeType, "\");");
+//						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", "\");");
 //						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //						tl(3, "}");
 //					}
 //					else if(entiteIncremente) {
 //						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-//						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", entiteSuffixeType, "\");");
+//						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", "\");");
 //						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //						tl(3, "}");
 //					}
@@ -4055,11 +4058,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //				}
 //				else if(entiteSuggere) {
-//					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", entiteSuffixeType, "\");");
+//					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", "\");");
 //					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //				}
 //				else if(entiteIncremente) {
-//					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", entiteSuffixeType, "\");");
+//					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", "\");");
 //					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //				}
 //				else if(entiteCleUnique) {

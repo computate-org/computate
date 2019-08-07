@@ -392,10 +392,14 @@ public class WritePageClass extends WriteApiClass {
 					writerPageGenClass = AllWriter.create(classPageFileGen);
 				if(classPageFile != null && !classPageFile.exists())
 					writerPageClass = AllWriter.create(classPageFile);
-				if(classPageFileCss != null)
+				if(classPageFileCss != null) {
+					classPageFileCss.getParentFile().mkdirs();
 					writerPageCss = AllWriter.create(classPageFileCss);
-				if(classPageFileJs != null)
+				}
+				if(classPageFileJs != null) {
+					classPageFileJs.getParentFile().mkdirs();
 					writerPageJs = AllWriter.create(classPageFileJs);
+				}
 
 				Boolean pageH1 = false;
 				Boolean pageH2 = false;
@@ -715,7 +719,7 @@ public class WritePageClass extends WriteApiClass {
 				tl(1, "}");
 				l();
 				tl(1, "@Override public void htmlScripts", classGenPageSimpleName, "() {");
-				t(2).l("e(\"script\").a(\"src\", ", str_statiqueUrlBase(languageName), ", \"/js/", classPageSimpleName, ".js\").f().g(\"script\");");
+				t(2).l("e(\"script\").a(\"src\", ", str_statiqueUrlBase(languageName), ", \"/js/", languageName, "/", classPageSimpleName, ".js\").f().g(\"script\");");
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classApiUri)) {

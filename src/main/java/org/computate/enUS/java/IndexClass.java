@@ -1887,6 +1887,7 @@ public class IndexClass extends RegarderClasseBase {
 		classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.text.StringEscapeUtils", classLanguageName));
 		classPartsGenAdd(ClassParts.initClassParts(this, "org.apache.commons.lang3.StringUtils", classLanguageName));
 		classPartsGenAdd(ClassParts.initClassParts(this, "java.util.Objects", classLanguageName));
+		classPartsGenAdd(ClassParts.initClassParts(this, "com.fasterxml.jackson.annotation.JsonIgnore", classLanguageName));
 
 		if(classComment != null) {
 
@@ -3605,8 +3606,8 @@ public class IndexClass extends RegarderClasseBase {
 								classPartsGenPageAdd(classPartsPageLayout);
 							}
 	
-							String classPageCheminCss = concat(appPath, "-static/css/", classPageSimpleNameMethode, ".css");
-							String classPageCheminJs = concat(appPath, "-static/js/", classPageSimpleNameMethode, ".js");
+							String classPageCheminCss = concat(appPath, "-static/css/", languageName, "/", classPageSimpleNameMethode, ".css");
+							String classPageCheminJs = concat(appPath, "-static/js/", languageName, "/", classPageSimpleNameMethode, ".js");
 				
 							indexStoreSolr(languageName, classDoc, "classPageCheminCss" + classApiMethod, classPageCheminCss); 
 							indexStoreSolr(languageName, classDoc, "classPageCheminJs" + classApiMethod, classPageCheminJs); 
