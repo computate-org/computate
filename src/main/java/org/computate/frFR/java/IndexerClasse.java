@@ -6337,7 +6337,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								indexerStockerSolr(langueNom, classeDoc, "classePageChemin" + classeApiMethode, classePageChemin); 
 								classePageLangueNom = langueNom;
 
-								classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePageNomCanoniqueMethode, classePageLangueNom));
+//								classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePageNomCanoniqueMethode, classePageLangueNom));
 							}
 
 							if(classePageLangueNom == null) {

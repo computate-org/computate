@@ -3546,7 +3546,7 @@ public class IndexClass extends RegarderClasseBase {
 								indexStoreSolr(languageName, classDoc, "classPageChemin" + classApiMethod, classPageChemin); 
 								classPageLanguageName = languageName;
 
-								classPartsGenApiAdd(ClassParts.initClassParts(this, classPageCanonicalNameMethode, classPageLanguageName));
+//								classPartsGenApiAdd(ClassParts.initClassParts(this, classPageCanonicalNameMethode, classPageLanguageName));
 							}
 
 							if(classPageLanguageName == null) {
