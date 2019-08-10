@@ -2168,9 +2168,9 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				tl(1, "public String str", entityVarCapitalized, "() {");
 				if(VAL_canonicalNameZonedDateTime.equals(entityCanonicalName)) {
 					if("frFR".equals(languageName))
-						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz\", Locale.FRANCE));");
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz VV\", Locale.FRANCE));");
 					else
-						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ssa zz\", Locale.US));");
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss a zz VV\", Locale.US));");
 				}
 				else if(VAL_canonicalNameString.equals(entityCanonicalName))
 					tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ";");

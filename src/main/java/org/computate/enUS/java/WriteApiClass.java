@@ -541,8 +541,13 @@ public class WriteApiClass extends WriteGenClass {
 						
 										tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
 										tl(tBase + 3, "o2.set", entityVarCapitalized, "(", str_requete(languageName), "Json.get", entitySimpleNameVertxJson, "(", str_methodName(languageName), "));");
-										tl(tBase + 3, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setD);");
-										tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.get", entityVarCapitalized, "(), ", classVarPrimaryKey, "));");
+										tl(tBase + 3, "if(o2.get", entityVarCapitalized, "() == null) {");
+										tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_removeD);");
+										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", classVarPrimaryKey, ", \"", entityVar, "\"));");
+										tl(tBase + 3, "} else {");
+										tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setD);");
+										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.get", entityVarCapitalized, "(), ", classVarPrimaryKey, "));");
+										tl(tBase + 3, "}");
 									}
 						
 									tl(tBase + 3, "break;");

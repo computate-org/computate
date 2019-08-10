@@ -586,6 +586,13 @@ public class IndexClass extends RegarderClasseBase {
 			return "filters";
 	}
 
+	public String str_Filters(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Filtres";
+		else
+			return "Filters";
+	}
+
 	public String str_formFilters(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "formulaireFiltres";
@@ -605,6 +612,13 @@ public class IndexClass extends RegarderClasseBase {
 			return "FormulaireValeurs";
 		else
 			return "FormValues";
+	}
+
+	public String str_formValue(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "formulaireValeur";
+		else
+			return "formValue";
 	}
 
 	public String str_formValues(String langueNom) {

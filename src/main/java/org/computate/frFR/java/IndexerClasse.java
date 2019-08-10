@@ -1023,6 +1023,16 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_Filters
+	 */
+	public String str_Filtres(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Filtres";
+		else
+			return "Filters";
+	}
+
+	/**
 	 * Var.enUS: str_formFilters
 	 */
 	public String str_formulaireFiltres(String langueNom) {
@@ -1050,6 +1060,16 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "FormulaireValeurs";
 		else
 			return "FormValues";
+	}
+
+	/**
+	 * Var.enUS: str_formValue
+	 */
+	public String str_formulaireValeur(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "formulaireValeur";
+		else
+			return "formValue";
 	}
 
 	/**
