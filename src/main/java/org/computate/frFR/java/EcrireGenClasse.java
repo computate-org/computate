@@ -438,9 +438,19 @@ public class EcrireGenClasse extends EcrireClasse {
 	Boolean entiteAttribuer;
 
 	/**
+	 * Var.enUS: entityAttributeSimpleName
+	 */
+	String entiteAttribuerNomSimple;
+
+	/**
 	 * Var.enUS: entityAttributeVar
 	 */
 	String entiteAttribuerVar;
+
+	/**
+	 * Var.enUS: entityAttributeVarSuggest
+	 */
+	String entiteAttribuerVarSuggere;
 
 	/**
 	 * Var.enUS: entityDefine
@@ -3202,6 +3212,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+				// TODO: ctate until vertx fixes bug. 
+				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3226,7 +3238,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+				// TODO: ctate until vertx fixes bug. 
+				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ofPattern(\"yyyy/MM/dd\"));");
+//				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3463,7 +3477,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ofPattern(\"yyyy/MM/dd\"));");
+				// TODO: ctate until vertx fixes bug. 
+//					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -4127,7 +4143,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(tBase + 2, "case \"", entiteVar, "\":");
 				tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
 				if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0)
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.getLong(entiteVar), \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, "));");
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.getLong(", str_entite(langueNom), "Var), \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, "));");
 				else
 					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\", jsonObject.getLong(", str_entite(langueNom), "Var)));");
 				tl(tBase + 3, "break;");

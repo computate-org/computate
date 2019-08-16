@@ -488,7 +488,7 @@ public class WriteApiClass extends WriteGenClass {
 											tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "", str_Valeurs(languageName), " = ", str_requete(languageName), "Json.get", entitySimpleNameVertxJson, "(", str_methodName(languageName), ");");
 											tl(tBase + 3, "for(Integer i = 0; i <  addAll", entityVarCapitalized, "", str_Valeurs(languageName), ".size(); i++) {");
 											tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setA2);");
-											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", ", "addAll", entityVarCapitalized, "", str_Valeurs(languageName), ".get", entityListSimpleNameVertxJson, "(i)", q(entityVar), ", ", classVarPrimaryKey, "));");
+											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", ", "addAll", entityVarCapitalized, "", str_Valeurs(languageName), ".get", entityListSimpleNameVertxJson, "(i), ", q(entityVar), ", ", classVarPrimaryKey, "));");
 											tl(tBase + 3, "}");
 						
 											tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
@@ -498,7 +498,7 @@ public class WriteApiClass extends WriteGenClass {
 					
 											tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalized, "", str_Valeurs(languageName), ".size(); i++) {");
 											tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setA2);");
-											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", set", entityVarCapitalized, "", str_Valeurs(languageName), ".get", entityListSimpleNameVertxJson, "(i)", q(entityVar), ", ", classVarPrimaryKey, "));");
+											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", set", entityVarCapitalized, "", str_Valeurs(languageName), ".get", entityListSimpleNameVertxJson, "(i), ", q(entityVar), ", ", classVarPrimaryKey, "));");
 											tl(tBase + 3, "}");
 										}
 									}
@@ -967,7 +967,7 @@ public class WriteApiClass extends WriteGenClass {
 						tl(4, "Long ", classVarPrimaryKey, " = ", str_create(languageName), "", str_Ligne(languageName), ".getLong(0);");
 						tl(4, classSimpleName, " o = new ", classSimpleName, "();");
 						tl(4, "o.set", StringUtils.capitalize(classVarPrimaryKey), "(", classVarPrimaryKey, ");");
-						tl(4, "o.", str_initDeep(languageName), "", classSimpleName, "(", str_siteRequest(languageName), ");");
+						tl(4, "o.set", str_SiteRequest(languageName), "_(", str_siteRequest(languageName), ");");
 						tl(4, "", str_eventHandler(languageName), ".handle(Future.succeededFuture(o));");
 						tl(3, "});");
 						tl(2, "} catch(Exception e) {");
@@ -1016,7 +1016,7 @@ public class WriteApiClass extends WriteGenClass {
 						s(wApiGeneratePatch.toString());
 						tl(4, "}");
 						tl(3, "}");
-						tl(3, "", str_sqlConnection(languageName), ".queryWithParams(");
+						tl(3, "", str_sqlConnection(languageName), ".updateWithParams(");
 						tl(5, "patchSql.toString()");
 						tl(5, ", new JsonArray(patchSqlParams)");
 						tl(5, ", patchAsync");
@@ -1043,12 +1043,17 @@ public class WriteApiClass extends WriteGenClass {
 						tl(5, ", ", str_define(languageName), "Async");
 						tl(3, "-> {");
 						tl(4, "if(", str_define(languageName), "Async.succeeded()) {");
-						tl(5, "for(JsonArray definition : ", str_define(languageName), "Async.result().getResults()) {");
-						tl(6, "o.", str_define(languageName), "", str_PourClasse(languageName), "(definition.getString(0), definition.getString(1));");
+						tl(5, "try {");
+						tl(6, "for(JsonArray definition : ", str_define(languageName), "Async.result().getResults()) {");
+						tl(7, "o.", str_define(languageName), "", str_PourClasse(languageName), "(definition.getString(0), definition.getString(1));");
+						tl(6, "}");
+						tl(6, "o.", str_initDeep(languageName), "", classSimpleName, "(", str_siteRequest(languageName), ");");
+						tl(6, "future.complete(o);");
+						tl(5, "} catch(Exception e) {");
+						tl(6, "future.fail(e);");
 						tl(5, "}");
-						tl(5, "future.complete(o);");
 						tl(4, "} else {");
-						tl(3, "future.fail(", str_define(languageName), "Async.cause());");
+						tl(5, "future.fail(", str_define(languageName), "Async.cause());");
 						tl(4, "}");
 						tl(3, "});");
 						tl(3, "return future;");
@@ -1077,7 +1082,7 @@ public class WriteApiClass extends WriteGenClass {
 						tl(3, "String ", str_user(languageName), "Id = ", str_siteRequest(languageName), ".get", str_User(languageName), "Id();");
 						tl(3, "Long pk = ", str_siteRequest(languageName), ".get", str_Requete(languageName), "Pk();");
 						l();
-						tl(3, "", str_sqlConnection(languageName), ".queryWithParams(");
+						tl(3, "", str_sqlConnection(languageName), ".updateWithParams(");
 						tl(5, "", classPartsSiteContext.simpleName(languageName), ".SQL_clear");
 						tl(5, ", new JsonArray(Arrays.asList(pk, ", classSimpleName, ".class.getCanonicalName(), pk, pk, pk))");
 						tl(5, ", replaceAsync");
@@ -1110,7 +1115,7 @@ public class WriteApiClass extends WriteGenClass {
 						tl(5, "}");
 						tl(4, "}");
 						tl(3, "}");
-						tl(3, "", str_sqlConnection(languageName), ".queryWithParams(");
+						tl(3, "", str_sqlConnection(languageName), ".updateWithParams(");
 						tl(5, "postSql.toString()");
 						tl(5, ", new JsonArray(postSqlParams)");
 						tl(5, ", postAsync");
@@ -1132,7 +1137,7 @@ public class WriteApiClass extends WriteGenClass {
 						tl(3, "String ", str_user(languageName), "Id = ", str_siteRequest(languageName), ".get", str_User(languageName), "Id();");
 						tl(3, "Long pk = ", str_siteRequest(languageName), ".get", str_Requete(languageName), "Pk();");
 						l();
-						tl(3, "", str_sqlConnection(languageName), ".queryWithParams(");
+						tl(3, "", str_sqlConnection(languageName), ".updateWithParams(");
 						tl(5, "", classPartsSiteContext.simpleName(languageName), ".SQL_", str_delete(languageName), "");
 						tl(5, ", new JsonArray(Arrays.asList(pk, ", classSimpleName, ".class.getCanonicalName(), pk, pk, pk, pk))");
 						tl(5, ", ", str_delete(languageName), "Async");
@@ -1358,6 +1363,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(1, "public String var", str_Recherche(languageName), "", classSimpleName, "(String ", str_entite(languageName), "Var) {");
 			tl(2, "switch(", str_entite(languageName), "Var) {");
 			s(wVarSearched);
+			s(wVarSuggested);
 			tl(3, "default:");
 			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(languageName), ". \", ", str_entite(languageName), "Var));");
 			tl(2, "}");
@@ -1679,10 +1685,14 @@ public class WriteApiClass extends WriteGenClass {
 			tl(5, ", ", str_define(languageName), "Async");
 			tl(3, "-> {");
 			tl(4, "if(", str_define(languageName), "Async.succeeded()) {");
-			tl(5, "for(JsonArray definition : ", str_define(languageName), "Async.result().getResults()) {");
-			tl(6, "o.", str_define(languageName), "", str_PourClasse(languageName), "(definition.getString(0), definition.getString(1));");
+			tl(5, "try {");
+			tl(6, "for(JsonArray definition : ", str_define(languageName), "Async.result().getResults()) {");
+			tl(7, "o.", str_define(languageName), "", str_PourClasse(languageName), "(definition.getString(0), definition.getString(1));");
+			tl(6, "}");
+			tl(6, str_eventHandler(languageName), ".handle(Future.succeededFuture());");
+			tl(5, "} catch(Exception e) {");
+			tl(6, str_eventHandler(languageName), ".handle(Future.failedFuture(e));");
 			tl(5, "}");
-			tl(5, "", str_eventHandler(languageName), ".handle(Future.succeededFuture());");
 			tl(4, "} else {");
 			tl(5, "", str_eventHandler(languageName), ".handle(Future.failedFuture(", str_define(languageName), "Async.cause()));");
 			tl(4, "}");

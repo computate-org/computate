@@ -1139,6 +1139,20 @@ public class IndexClass extends RegarderClasseBase {
 			return "Start";
 	}
 
+	public String str_suggere(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "suggere";
+		else
+			return "suggest";
+	}
+
+	public String str_Suggere(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Suggere";
+		else
+			return "Suggest";
+	}
+
 	public String str_saves(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "sauvegardes";
@@ -1158,6 +1172,27 @@ public class IndexClass extends RegarderClasseBase {
 			return "enleverLueur";
 		else
 			return "removeGlow";
+	}
+
+	public String str_removeGlow(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "DD-MM-YYYY";
+		else
+			return "MM/DD/YYYY";
+	}
+
+	public String str_removeGlow(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "dd-MM-yyyy";
+		else
+			return "MM/dd/yyyy";
+	}
+
+	public String str_removeGlow(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "fr-FR";
+		else
+			return "en-US";
 	}
 
 	public void  populateQdoxSuperClassesInterfacesAndMe(JavaClass c, ArrayList<JavaClass> qdoxSuperClasses, ArrayList<JavaClass> qdoxSuperClassesAndMe, ArrayList<JavaClass> qdoxSuperClassesAndMeWithoutGen, ArrayList<JavaClass> qdoxSuperClassesAndInterfaces, ArrayList<JavaClass> qdoxSuperClassesInterfacesAndMe) throws Exception, Exception { 
@@ -1577,6 +1612,7 @@ public class IndexClass extends RegarderClasseBase {
 		Boolean classKeywordsFound = false;
 		List<String> classKeywords = new ArrayList<String>();
 		List<String> classInitDeepExceptions = new ArrayList<String>(); 
+		String classVarSuggest = null;
 		String classVarPrimaryKey = null;
 		String classVarUniqueKey = null;
 
@@ -2768,22 +2804,24 @@ public class IndexClass extends RegarderClasseBase {
 								SolrDocumentList searchListVar = searchResponseVar.getResults();
 
 								if(searchListVar.size() > 0) {
-									SolrDocument docEntity = searchListClass.get(0);
+									SolrDocument docEntity = searchListVar.get(0);
 
 									indexStoreSolr(entityDoc, "entityAttribute", true);
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeSimpleName", entityAttributeSimpleName);
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeCanonicalName", entityAttributeCanonicalName);
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVar", entityAttributeVar);
+									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarSuggest", (String)docClass.get("classVarSuggest_" + classLanguageName + "_stored_string"));
 
 									if(classTranslate) {
 										for(String languageName : classOtherLanguages) {  
-											String entityAttributeCanonicalNameLangue = (String)docClass.get("classCanonicalName_" + languageName + "_stored_string");
-											String entityAttributeSimpleNameLangue = (String)docClass.get("classCanonicalName_" + languageName + "_stored_string");
+											String entityAttributeCanonicalNameLangue = (String)docEntity.get("classCanonicalName_" + languageName + "_stored_string");
+											String entityAttributeSimpleNameLangue = (String)docEntity.get("classSimpleName_" + languageName + "_stored_string");
 											String entityAttributeVarLangue = (String)docEntity.get("entityVar_" + languageName + "_stored_string");
 	
 											indexStoreSolr(languageName, entityDoc, "entityAttributeSimpleName", entityAttributeSimpleNameLangue);
 											indexStoreSolr(languageName, entityDoc, "entityAttributeCanonicalName", entityAttributeCanonicalNameLangue);
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVar", entityAttributeVarLangue);
+											indexStoreSolr(languageName, entityDoc, "entityAttributeVarSuggest", (String)docClass.get("classVarSuggest_" + languageName + "_stored_string"));
 										}
 									}
 								}
@@ -2822,7 +2860,7 @@ public class IndexClass extends RegarderClasseBase {
 							entityCanonicalNameVertxJson = VAL_canonicalNameBoolean;
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
-							entitySimpleNameVertxJson = "Instant";
+							entitySimpleNameVertxJson = "String";
 							entityCanonicalNameVertxJson = VAL_canonicalNameInstant;
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", classLanguageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneOffset", classLanguageName));
@@ -2835,7 +2873,7 @@ public class IndexClass extends RegarderClasseBase {
 							classPartsGenPageAdd(ClassParts.initClassParts(this, "java.util.Locale", classLanguageName));
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLocalDate)) {
-							entitySimpleNameVertxJson = "Instant";
+							entitySimpleNameVertxJson = "String";
 							entityCanonicalNameVertxJson = VAL_canonicalNameInstant;
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneId", classLanguageName));
 							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.ZoneOffset", classLanguageName));
@@ -2877,13 +2915,13 @@ public class IndexClass extends RegarderClasseBase {
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 								entitySimpleNameVertxJson = "JsonArray";
 								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
-								entityListSimpleNameVertxJson = "Instant";
+								entityListSimpleNameVertxJson = "String";
 								entityListCanonicalNameVertxJson = VAL_canonicalNameInstant;
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameLocalDate)) {
 								entitySimpleNameVertxJson = "JsonArray";
 								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
-								entityListSimpleNameVertxJson = "Instant";
+								entityListSimpleNameVertxJson = "String";
 								entityListCanonicalNameVertxJson = VAL_canonicalNameInstant;
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameLong)) {
@@ -3038,11 +3076,13 @@ public class IndexClass extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 							entityJsonType = "string";
-							entityJsonFormat = "date-time";
+							//TODO: ctate disabled until vertx fix is made. 
+//							entityJsonFormat = "date-time";
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLocalDate)) {
 							entityJsonType = "string";
-							entityJsonFormat = "date";
+							//TODO: ctate disabled until vertx fix is made. 
+//							entityJsonFormat = "date";
 						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLong)) {
 							entityJsonType = "number";
@@ -3107,6 +3147,9 @@ public class IndexClass extends RegarderClasseBase {
 						if(entityUniqueKey) {
 							classVarUniqueKey = storeSolr(classLanguageName, classDoc, "classVarUniqueKey", entityVar);
 						}
+						if(entitySuggested) {
+							classVarSuggest = storeSolr(classLanguageName, classDoc, "classVarSuggest", entityVar);
+						}
 				
 						if(classTranslate) {
 							for(String languageName : classOtherLanguages) {  
@@ -3126,6 +3169,9 @@ public class IndexClass extends RegarderClasseBase {
 								entityVarLangue = indexStoreSolr(languageName, entityDoc, "entityVar", entityVarLangue == null ? entityVar : entityVarLangue);
 								indexStoreSolr(languageName, entityDoc, "entityVarCapitalized", StringUtils.capitalize(entityVarLangue));
 								indexStoreListSolr(languageName, classDoc, "classEntityVars", entityVarLangue);
+								if(entitySuggested) {
+									storeSolr(languageName, classDoc, "classVarSuggest", entityVarLangue);
+								}
 								if(entityPrimaryKey) {
 									storeSolr(languageName, classDoc, "classVarPrimaryKey", entityVarLangue);
 								}
@@ -3327,6 +3373,20 @@ public class IndexClass extends RegarderClasseBase {
 			}
 		}
 
+		if(classVarSuggest == null && classSuperDoc != null) {
+			classVarSuggest = (String)classSuperDoc.get("classVarSuggest_" + classLanguageName + "_stored_string");
+			if(classVarSuggest != null) {
+				storeSolr(classLanguageName, classDoc, "classVarSuggest", classVarSuggest);
+				if(classTranslate) {
+					for(String languageName : classOtherLanguages) {  
+						String classVarSuggestLangue = (String)classSuperDoc.get("classVarSuggest_" + languageName + "_stored_string");
+						if(classVarSuggestLangue != null) {
+							storeSolr(languageName, classDoc, "classVarSuggest", classVarSuggestLangue);
+						}
+					}
+				}
+			}
+		}
 		if(classVarPrimaryKey == null && classSuperDoc != null) {
 			classVarPrimaryKey = (String)classSuperDoc.get("classVarPrimaryKey_" + classLanguageName + "_stored_string");
 			if(classVarPrimaryKey != null) {

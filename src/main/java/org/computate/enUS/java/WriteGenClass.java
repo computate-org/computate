@@ -203,7 +203,11 @@ public class WriteGenClass extends WriteClass {
 
 	Boolean entityAttribute;
 
+	String entityAttributeSimpleName;
+
 	String entityAttributeVar;
+
+	String entityAttributeVarSuggest;
 
 	Boolean entityDefine;
 
@@ -1694,6 +1698,8 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
 				tl(2, "this.", entityVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+				// TODO: ctate until vertx fixes bug. 
+				tl(2, "this.", entityVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
 				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
@@ -1718,7 +1724,9 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03+01:00 **/");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-				tl(2, "this.", entityVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+				// TODO: ctate until vertx fixes bug. 
+				tl(2, "this.", entityVar, " = LocalDate.parse(o, DateTimeFormatter.ofPattern(\"yyyy/MM/dd\"));");
+//				tl(2, "this.", entityVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
 				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
@@ -1955,7 +1963,9 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03+01:00 **/");
 					tl(1, "public ", classSimpleName, " add", entityVarCapitalized, "(String o) {");
-					tl(2, entitySimpleNameCompleteGeneric, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+					tl(2, entitySimpleNameCompleteGeneric, " p = LocalDate.parse(o, DateTimeFormatter.ofPattern(\"yyyy/MM/dd\"));");
+				// TODO: ctate until vertx fixes bug. 
+//					tl(2, entitySimpleNameCompleteGeneric, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
 					tl(2, "add", entityVarCapitalized, "(p);");
 					tl(2, "return (", classSimpleName, ")this;");
 					tl(1, "}");
@@ -2619,7 +2629,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				tl(tBase + 2, "case \"", entityVar, "\":");
 				tl(tBase + 3, "postSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_addA);");
 				if(StringUtils.compare(entityVar, entityAttributeVar) < 0)
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.getLong(entityVar), \"", entityAttributeVar, "\", ", classVarPrimaryKey, "));");
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.getLong(", str_entity(languageName), "Var), \"", entityAttributeVar, "\", ", classVarPrimaryKey, "));");
 				else
 					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityAttributeVar, "\", ", classVarPrimaryKey, ", \"", entityVar, "\", jsonObject.getLong(", str_entity(languageName), "Var)));");
 				tl(tBase + 3, "break;");

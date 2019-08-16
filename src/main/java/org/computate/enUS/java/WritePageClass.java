@@ -79,9 +79,7 @@ public class WritePageClass extends WriteApiClass {
 			}
 
 			wForm.t(3).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-			if(entityDefine && entiteModifier) {
-
-				// entityDefine: true
+			if(entiteModifier && (entityDefine || entityAttribute)) {
 
 				if("Page".equals(classApiMethodMethod)) {
 					tIndex = 1;
@@ -91,7 +89,37 @@ public class WritePageClass extends WriteApiClass {
 				wForm.t(tIndex + 4).be("form").da("action", classApiUri).da("id", entityVar, "Form").da("style", "display: inline-block; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
 				wForm.t(tIndex + 5).be("div").da("class", "w3-card ").dfl();
 
-				if("LocalDate".equals(entitySimpleName)) {
+				if(entityAttribute) {
+					if(entityDisplayName != null) {
+						wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
+						wForm.t(tIndex + 7).e("label").da("for", classApiMethodMethod, "_", entityVar).da("class", "").df().dsxq(entityDisplayName).dgl("label");
+						wForm.t(tIndex + 6).bgl("div");
+					}
+					wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-padding ").dfl();
+					wForm.t(tIndex + 7).be("div").da("class", "w3-cell ").dfl();
+					wForm.l();
+	
+					wForm.t(tIndex + 8).e("input").l();
+					wForm.t(tIndex + 9).dal("type", "text");
+	
+					if(entityDisplayName != null) {
+						wForm.t(tIndex + 9).dal("placeholder", entityDisplayName);
+					}
+					if(entityDescription != null) {
+						wForm.t(tIndex + 9).dal("title", entityDescription);
+					}
+	
+					wForm.t(tIndex + 9).dal("class", "suggest", entityVarCapitalized, " w3-input w3-border ");
+					wForm.t(tIndex + 9).dal("name", "set", entityVarCapitalized);
+					wForm.t(tIndex + 9).dal("id", classApiMethodMethod, "_", entityVar);
+					wForm.t(tIndex + 9).dal("onkeyup", str_removeGlow(langueNom), "($('#", classApiMethodMethod, "_", entityVar, "')); $('#", classApiMethodMethod, "_", entityVar, "').val(null); patch", classSimpleName, "Val({ 'pk': $('#", classSimpleName, "Form :input[name=\"pk\"]').val() }, 'set", entityVarCapitalized, "', null, $('#", classApiMethodMethod, "_", entityVar, "')); ");
+
+					wForm.t(tIndex + 8).dfgl();
+	
+					wForm.l();
+					wForm.t(tIndex + 7).bgl("div");
+				}
+				else if("LocalDate".equals(entitySimpleName)) {
 					wForm.tl(tIndex + 6, entitySimpleNameComplete, " val = o.get", entityVarCapitalized, "();");
 					l();
 					if(entityDisplayName != null) {
@@ -104,16 +132,16 @@ public class WritePageClass extends WriteApiClass {
 					wForm.t(tIndex + 8).e("input").l();
 					wForm.t(tIndex + 9).dal("type", "text");
 					wForm.t(tIndex + 9).dal("class", "w3-input w3-border datepicker ");
-					wForm.t(tIndex + 9).dal("placeholder", "DD-MM-YYYY");
-					wForm.t(tIndex + 9).dal("data-timeformat", "DD-MM-YYYY");
+					wForm.t(tIndex + 9).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
+					wForm.t(tIndex + 9).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
 					wForm.t(tIndex + 9).dal("onclick", str_removeGlow(langueNom), "($(this)); ");
 					if(entityDescription != null)
-						wForm.t(tIndex + 9).dal("title", entityDescription + " (DD-MM-YYYY)");
-					wForm.tl(tIndex + 9, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
+						wForm.t(tIndex + 9).dal("title", entityDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
+					wForm.tl(tIndex + 9, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_ddDashMMDashyyyy(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(val))");
 					wForm.t(tIndex + 9).s(".a(\"onchange\", \"");
-						wForm.s("var t = moment(this.value, 'DD-MM-YYYY'); ");
+						wForm.s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 						wForm.s("if(t) { ");
-							wForm.s("var s = t.format('YYYY-MM-DD'); ");
+							wForm.s("var s = t.format('YYYY/MM/DD'); ");
 							wForm.s("$(this).next().val(s); ");
 							wForm.s("$(this).next().trigger('change'); ");
 						wForm.s("} ");
@@ -161,16 +189,16 @@ public class WritePageClass extends WriteApiClass {
 					wForm.t(tIndex + 8).e("input").l();
 					wForm.t(tIndex + 9).dal("type", "text");
 					wForm.t(tIndex + 9).dal("class", "w3-input w3-border datepicker ");
-					wForm.t(tIndex + 9).dal("placeholder", "DD-MM-YYYY");
-					wForm.t(tIndex + 9).dal("data-timeformat", "DD-MM-YYYY");
+					wForm.t(tIndex + 9).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
+					wForm.t(tIndex + 9).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
 					wForm.t(tIndex + 9).dal("onclick", str_removeGlow(langueNom), "($(this)); ");
 					if(entityDescription != null)
-						wForm.t(tIndex + 9).dal("title", entityDescription + " (DD-MM-YYYY)");
-					wForm.tl(tIndex + 9, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
+						wForm.t(tIndex + 9).dal("title", entityDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
+					wForm.tl(tIndex + 9, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(val))");
 					wForm.t(tIndex + 9).s(".a(\"onchange\", \"");
-						wForm.s("var t = moment(this.value, 'DD-MM-YYYY'); ");
+						wForm.s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 						wForm.s("if(t) { ");
-							wForm.s("var s = t.format('YYYY-MM-DD'); ");
+							wForm.s("var s = t.format('YYYY/MM/DD'); ");
 							wForm.s("$(this).next().val(s); ");
 							wForm.s("$(this).next().trigger('change'); ");
 						wForm.s("} ");
@@ -215,7 +243,7 @@ public class WritePageClass extends WriteApiClass {
 					wForm.t(tIndex + 9).dal("onclick", str_removeGlow(langueNom), "($(this)); ");
 					if(entityDescription != null)
 						wForm.t(tIndex + 9).da("title", entityDescription + " (h'h'mm)");
-					wForm.tl(tIndex + 9, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"fr-FR\")).format(val))");
+					wForm.tl(tIndex + 9, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(val))");
 					wForm.t(tIndex + 9).s(".a(\"onchange\", \"");
 						wForm.s("var t = parseTime(this.value); ");
 						wForm.s("if(t) { ");
@@ -342,7 +370,7 @@ public class WritePageClass extends WriteApiClass {
 					wForm.l();
 					wForm.t(tIndex + 7).bgl("div");
 				}
-				if("Page".equals(classApiMethodMethod)) {
+				if(entiteModifier && "Page".equals(classApiMethodMethod)) {
 
 					wForm.t(tIndex + 7).be("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
 					wForm.t(tIndex + 8).be("button").l();
@@ -361,7 +389,7 @@ public class WritePageClass extends WriteApiClass {
 			}
 			else {
 
-				// entityDefine: false
+				// entiteModifier: false
 				if("Page".equals(classApiMethodMethod)) {
 					tIndex = 1;
 				}
@@ -475,6 +503,7 @@ public class WritePageClass extends WriteApiClass {
 				AllWriter wSearch = AllWriter.create();
 				AllWriter wPOST = AllWriter.create();
 				AllWriter wPATCH = AllWriter.create();
+				AllWriter wSuggest = AllWriter.create();
 				AllWriter wTh = AllWriter.create();
 				AllWriter wTd = AllWriter.create();
 				AllWriter wFormSearch = AllWriter.create();
@@ -528,8 +557,13 @@ public class WritePageClass extends WriteApiClass {
 								entityIndexed = (Boolean)entitySolrDocument.get("entityIndexed_stored_boolean");
 								entityStored = (Boolean)entitySolrDocument.get("entityStored_stored_boolean");
 								entityMultiline = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityMultiline_stored_boolean"));
+								entiteModify = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entiteModifier_stored_boolean"));
 								entityDefine = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityDefine_stored_boolean"));
-								entiteModify = BooleanUtils.isNotFalse((Boolean)entitySolrDocument.get("entiteModifier_stored_boolean"));
+								entiteAttribuer = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entiteAttribuer_stored_boolean"));
+								entitySuggested = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entitySuggested_stored_boolean"));
+								entiteAttribuerNomSimple = (String)entitySolrDocument.get("entiteAttribuerNomSimple_" + languageName + "_stored_string");
+								entiteAttribuerVar = (String)entitySolrDocument.get("entiteAttribuerVar_" + languageName + "_stored_string");
+								entiteAttribuerVarSuggere = (String)entitySolrDocument.get("entiteAttribuerVarSuggere_" + languageName + "_stored_string");
 	
 								if(pageVars.contains(entityVar)) {
 									if(entityWrap) {
@@ -883,6 +917,7 @@ public class WritePageClass extends WriteApiClass {
 								entityHtml = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityHtml_stored_boolean"));
 								entityMultiline = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityMultiline_stored_boolean"));
 								entityIndexed = (Boolean)entitySolrDocument.get("entityIndexed_stored_boolean");
+								entitySuggested = (Boolean)entitySolrDocument.get("entitySuggested_stored_boolean");
 								entitySimpleNameVertxJson = (String)entitySolrDocument.get("entitySimpleNameVertxJson_stored_string");
 								String jsVal = ".val()";
 								if("Boolean".equals(entitySimpleName)) {
@@ -899,7 +934,7 @@ public class WritePageClass extends WriteApiClass {
 									else
 										wSearch.tl(1, "if(", str_filter(languageName), entityVarCapitalized, " != null && ", str_filter(languageName), entityVarCapitalized, " !== '')");
 
-									wSearch.tl(2, str_filters(languageName), ".push({ name: 'fq', value: '", entityVar, ":' + ", str_filter(languageName), entityVarCapitalized, " });");
+									wSearch.tl(2, str_filters(languageName), ".push({ name: '", (entitySuggested ? "q" : "fq"), "', value: '", entityVar, ":' + ", str_filter(languageName), entityVarCapitalized, " });");
 								}
 
 								if(entityHtml) {
@@ -959,7 +994,7 @@ public class WritePageClass extends WriteApiClass {
 							Boolean methodPUT = classApiMethodMethod.equals("PUT");
 							Boolean methodPATCH = classApiMethodMethod.equals("PATCH");
 							Boolean methodDELETE = classApiMethodMethod.equals("DELETE");
-							Boolean methodSearch = classApiMethod.contains("Search");
+							Boolean methodSearch = classApiMethod.contains(str_Search(languageName));
 		
 							writerPageJs.l();
 							writerPageJs.tl(0, "// ", classApiMethod, " //");
@@ -983,8 +1018,11 @@ public class WritePageClass extends WriteApiClass {
 								writerPageJs.s("pk, $", str_formValues(languageName));
 							else if(methodPATCH)
 								writerPageJs.s("$", str_formFilters(languageName), ", $", str_formValues(languageName));
-							else if(methodSearch)
+							else if(methodSearch) {
 								writerPageJs.s("$", str_formFilters(languageName), "");
+								writerPageJs.s(", success");
+								writerPageJs.s(", error");
+							}
 							else if(methodGET || methodDELETE)
 								writerPageJs.s("pk");
 		
@@ -1001,7 +1039,6 @@ public class WritePageClass extends WriteApiClass {
 							}
 							else if(methodPATCH) {
 								writerPageJs.tl(1, "var ", str_filters(languageName), " = ", classApiOperationIdMethod,str_Filtres(languageName), "();");
-								writerPageJs.s(wSearch);
 								writerPageJs.l();
 								writerPageJs.tl(1, "var ", str_values(languageName), " = {};");
 								writerPageJs.s(wPATCH);
@@ -1009,7 +1046,9 @@ public class WritePageClass extends WriteApiClass {
 							}
 							else if(methodSearch) {
 								writerPageJs.tl(1, "var ", str_filters(languageName), " = ", classApiOperationIdMethod,str_Filtres(languageName), "();");
-								writerPageJs.s(wSearch);
+								writerPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
+								writerPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
+								writerPageJs.l();
 							}
 		
 							if(methodPATCH) {
@@ -1030,25 +1069,27 @@ public class WritePageClass extends WriteApiClass {
 								writerPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
 								if(!"GET".equals(classApiMethodMethod) || "DELETE".equals(classApiMethodMethod))
 									writerPageJs.tl(2, ", data: JSON.stringify(", str_values(languageName), ")");
-								writerPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
-								writerPageJs.tl(3, "$.each( ", str_values(languageName), ", function( key, value ) {");
-								writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).removeClass('", str_lueur(languageName), str_Erreur(languageName), "');");
-								writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).addClass('", str_lueur(languageName), str_Succes(languageName), "');");
-								writerPageJs.tl(3, "});");
-								writerPageJs.tl(2, "}");
-								writerPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
-								writerPageJs.tl(3, "$.each( ", str_values(languageName), ", function( key, value ) {");
-								writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).removeClass('", str_lueur(languageName), str_Succes(languageName), "');");
-								writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).addClass('", str_lueur(languageName), str_Erreur(languageName), "');");
-								writerPageJs.tl(3, "});");
-								writerPageJs.tl(2, "}");
+								writerPageJs.tl(2, ", success: success");
+								writerPageJs.tl(2, ", error: error");
+//								writerPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
+//								writerPageJs.tl(3, "$.each( ", str_values(languageName), ", function( key, value ) {");
+//								writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).removeClass('", str_lueur(languageName), str_Erreur(languageName), "');");
+//								writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).addClass('", str_lueur(languageName), str_Succes(languageName), "');");
+//								writerPageJs.tl(3, "});");
+//								writerPageJs.tl(2, "}");
+//								writerPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
+//								writerPageJs.tl(3, "$.each( ", str_values(languageName), ", function( key, value ) {");
+//								writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).removeClass('", str_lueur(languageName), str_Succes(languageName), "');");
+//								writerPageJs.tl(4, "$", str_formValues(languageName), ".find('.' + key).addClass('", str_lueur(languageName), str_Erreur(languageName), "');");
+//								writerPageJs.tl(3, "});");
+//								writerPageJs.tl(2, "}");
 								writerPageJs.tl(1, "});");
 							}
 							writerPageJs.l("}");
 
 							if(methodPATCH || methodSearch) {
 								writerPageJs.l();
-								writerPageJs.tl(0, "function ", classApiOperationIdMethod,str_Filtres(languageName), "() {");
+								writerPageJs.tl(0, "function ", classApiOperationIdMethod,str_Filtres(languageName), "($", str_formFilters(languageName), ") {");
 								writerPageJs.tl(1, "var ", str_filters(languageName), " = [];");
 								writerPageJs.s(wSearch);
 								writerPageJs.tl(1, "return ", str_filters(languageName), ";");
@@ -1089,6 +1130,60 @@ public class WritePageClass extends WriteApiClass {
 								writerPageJs.tl(2, "}");
 								writerPageJs.tl(1, "});");
 								writerPageJs.l("}");
+							}
+							if(methodSearch) {
+								SolrQuery solrSearch = new SolrQuery();   
+								solrSearch.setQuery("*:*");
+								solrSearch.setRows(1000000);
+								String fqSuperClassesAndMe = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+								solrSearch.addFilterQuery("partIsEntity_indexed_boolean:true");
+								solrSearch.addFilterQuery("classCanonicalName_" + languageActualName + "_indexed_string:" + fqSuperClassesAndMe);
+								solrSearch.addFilterQuery("entitySuggested_indexed_boolean:true");
+								QueryResponse searchResponse = solrClientComputate.query(solrSearch);
+								SolrDocumentList searchList = searchResponse.getResults();
+			
+								searchRows = solrSearch.getRows();
+				
+								if(searchList.size() > 0) {
+			
+									for(Long i = searchList.getStart(); i < searchList.getNumFound(); i+=searchRows) {
+										for(Integer j = 0; j < searchList.size(); j++) {
+											entitySolrDocument = searchList.get(j);
+											entityVar = (String)entitySolrDocument.get("entityVar_" + languageName + "_stored_string");
+											entityVarCapitalized = (String)entitySolrDocument.get("entityVarCapitalized_" + languageName + "_stored_string");
+											entitySimpleName = (String)entitySolrDocument.get("entitySimpleName_" + languageName + "_stored_string");
+											entitySimpleNameGeneric = (String)entitySolrDocument.get("entitySimpleNameGeneric_" + languageName + "_stored_string");
+											entitySimpleNameComplete = (String)entitySolrDocument.get("entitySimpleNameComplete_" + languageName + "_stored_string");
+											entityDescription = (String)entitySolrDocument.get("entityDescription_" + languageName + "_stored_string");
+											entityDisplayName = (String)entitySolrDocument.get("entityDisplayName_" + languageName + "_stored_string");
+											entityHtmlRow = (Integer)entitySolrDocument.get("entityHtmlRow_stored_int");
+											entityWrap = (Boolean)entitySolrDocument.get("entityWrap_stored_boolean");
+											entityHtml = (Boolean)entitySolrDocument.get("entityHtml_stored_boolean");
+											entityIndexed = (Boolean)entitySolrDocument.get("entityIndexed_stored_boolean");
+											entityStored = (Boolean)entitySolrDocument.get("entityStored_stored_boolean");
+											entityMultiline = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityMultiline_stored_boolean"));
+											entiteModify = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entiteModifier_stored_boolean"));
+											entityDefine = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entityDefine_stored_boolean"));
+											entiteAttribuer = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entiteAttribuer_stored_boolean"));
+											entitySuggested = BooleanUtils.isTrue((Boolean)entitySolrDocument.get("entitySuggested_stored_boolean"));
+											entiteAttribuerNomSimple = (String)entitySolrDocument.get("entiteAttribuerNomSimple_" + languageName + "_stored_string");
+											entiteAttribuerVar = (String)entitySolrDocument.get("entiteAttribuerVar_" + languageName + "_stored_string");
+											entiteAttribuerVarSuggere = (String)entitySolrDocument.get("entiteAttribuerVarSuggere_" + languageName + "_stored_string");
+				
+											if(entitySuggested) {
+												writerPageJs.l();
+												writerPageJs.tl(0, "function ", classApiOperationIdMethod, entityVarCapitalized, "() {");
+												writerPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
+												writerPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
+												writerPageJs.tl(1, str_search(languageName), classSimpleName, "(success, error);");
+												writerPageJs.tl(0, "}");
+											}
+										}
+										solrSearch.setStart(i.intValue() + searchRows);
+										searchResponse = solrClientComputate.query(solrSearch);
+										searchList = searchResponse.getResults();
+									}
+								}
 							}
 						}
 						
