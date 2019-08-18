@@ -32,7 +32,7 @@ public class WritePageClass extends WriteApiClass {
 	public void  pageCodeClassEnd(String languageName) throws Exception, Exception {
 	}
 
-	public Boolean writeFormEntity(ToutEcrivain wForm, String classApiMethodMethod) {
+	public Boolean writeFormEntity(AllWriter wForm, String classApiMethodMethod) {
 		int tIndex = 0;
 		Boolean result = false;
 
@@ -1138,7 +1138,7 @@ public class WritePageClass extends WriteApiClass {
 								String fqSuperClassesAndMe = "(" + entitySuperClassesAndMeWithoutGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 								solrSearch.addFilterQuery("partIsEntity_indexed_boolean:true");
 								solrSearch.addFilterQuery("classCanonicalName_" + languageActualName + "_indexed_string:" + fqSuperClassesAndMe);
-								solrSearch.addFilterQuery("entitySuggested_indexed_boolean:true");
+								solrSearch.addFilterQuery("(entitySuggested_indexed_boolean:true OR entiteAttribuer_indexed_boolean:true)");
 								QueryResponse searchResponse = solrClientComputate.query(solrSearch);
 								SolrDocumentList searchList = searchResponse.getResults();
 			
@@ -1169,13 +1169,23 @@ public class WritePageClass extends WriteApiClass {
 											entiteAttribuerNomSimple = (String)entitySolrDocument.get("entiteAttribuerNomSimple_" + languageName + "_stored_string");
 											entiteAttribuerVar = (String)entitySolrDocument.get("entiteAttribuerVar_" + languageName + "_stored_string");
 											entiteAttribuerVarSuggere = (String)entitySolrDocument.get("entiteAttribuerVarSuggere_" + languageName + "_stored_string");
+//											entityAttributeOperationIdPATCH
+//											entityAttributeOperationIdSearch
 				
 											if(entitySuggested) {
 												writerPageJs.l();
 												writerPageJs.tl(0, "function ", classApiOperationIdMethod, entityVarCapitalized, "() {");
 												writerPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
 												writerPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
-												writerPageJs.tl(1, str_search(languageName), classSimpleName, "(success, error);");
+												writerPageJs.tl(1, classApiOperationIdMethod, "(success, error);");
+												writerPageJs.tl(0, "}");
+											}
+											else if(entiteAttribuer) {
+												writerPageJs.l();
+												writerPageJs.tl(0, "function ", classApiOperationIdMethod, entityVarCapitalized, "() {");
+												writerPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
+												writerPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
+												writerPageJs.tl(1, classApiOperationIdMethod, "(success, error);");
 												writerPageJs.tl(0, "}");
 											}
 										}

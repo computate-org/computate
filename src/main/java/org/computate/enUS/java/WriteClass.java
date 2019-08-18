@@ -20,7 +20,7 @@ import org.apache.solr.common.SolrDocumentList;
  **/
 public class WriteClass extends IndexClass {
 
-	protected ToutEcrivain auteurClasse;
+	protected AllWriter auteurClasse;
 
 	public void  writeClass(String classAbsolutePath, String languageName) throws Exception, Exception { 
 		SolrQuery solrSearch = new SolrQuery();   
@@ -431,9 +431,9 @@ public class WriteClass extends IndexClass {
 		}
 	}
 
-	ToutEcrivain o;
+	AllWriter o;
 
-	public WriteClass o(ToutEcrivain o) {
+	public WriteClass o(AllWriter o) {
 		this.o = o;
 		return this;
 	}

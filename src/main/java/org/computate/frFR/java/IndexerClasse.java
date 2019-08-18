@@ -1,4 +1,4 @@
-package org.computate.frFR.java; 
+package org.computate.frFR.java;   
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -1863,7 +1863,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
-	 * Var.enUS: str_removeGlow
 	 */
 	public String str_DDDashMMDashYYYY(String langueNom) {
 		if ("frFR".equals(langueNom))
@@ -1873,7 +1872,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
-	 * Var.enUS: str_removeGlow
 	 */
 	public String str_ddDashMMDashyyyy(String langueNom) {
 		if ("frFR".equals(langueNom))
@@ -1883,7 +1881,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
-	 * Var.enUS: str_removeGlow
+	 * Var.enUS: str_enDashUS
 	 */
 	public String str_frDashFR(String langueNom) {
 		if ("frFR".equals(langueNom))
@@ -3988,6 +3986,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: docClass
 	 * r: docEntite
 	 * r.enUS: docEntity
+	 * r: entiteAttribuerOperationIdPATCH
+	 * r.enUS: entityAttributeOperationIdPATCH
+	 * r: entiteAttribuerOperationIdRecherche
+	 * r.enUS: entityAttributeOperationIdSearch
 	 * 
 	 * r: classeSuperErreur
 	 * r.enUS: superClassError
@@ -5628,6 +5630,13 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVar);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + classeLangueNom + "_stored_string"));
 
+									String entiteAttribuerOperationIdPATCH = (String)docClasse.get("classeApiOperationIdPATCH_" + classeLangueNom + "_stored_string");
+									if(entiteAttribuerOperationIdPATCH != null)
+										indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerOperationIdPATCH", entiteAttribuerOperationIdPATCH);
+									String entiteAttribuerOperationIdRecherche = (String)docClasse.get("classeApiOperationId" + str_Recherche(classeLangueNom) + "_" + classeLangueNom + "_stored_string");
+									if(entiteAttribuerOperationIdRecherche != null)
+										indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerOperationId" + str_Recherche(classeLangueNom), entiteAttribuerOperationIdRecherche);
+
 									if(classeTraduire) {
 										for(String langueNom : classeAutresLangues) {  
 											String entiteAttribuerNomCanoniqueLangue = (String)docEntite.get("classeNomCanonique_" + langueNom + "_stored_string");
@@ -5638,6 +5647,14 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanoniqueLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVarLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + langueNom + "_stored_string"));
+
+											entiteAttribuerOperationIdPATCH = (String)docClasse.get("classeApiOperationIdPATCH_" + langueNom + "_stored_string");
+											if(entiteAttribuerOperationIdPATCH != null)
+												indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerOperationIdPATCH", entiteAttribuerOperationIdPATCH);
+											entiteAttribuerOperationIdRecherche = (String)docClasse.get("classeApiOperationId" + str_Recherche(langueNom) + "_" + langueNom + "_stored_string");
+											log.info("classeApiOperationId" + str_Recherche(langueNom) + "_" + langueNom + "_stored_string:" + entiteAttribuerOperationIdRecherche);
+											if(entiteAttribuerOperationIdRecherche != null)
+												indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerOperationId" + str_Recherche(langueNom), entiteAttribuerOperationIdRecherche);
 										}
 									}
 								}

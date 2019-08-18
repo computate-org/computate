@@ -898,6 +898,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: operationRequest
 	 * r: OperationRequete
 	 * r.enUS: OperationRequest
+	 * r: entiteAttribuerOperationIdPATCH
+	 * r.enUS: entityAttributeOperationIdPATCH
+	 * r: entiteAttribuerOperationIdRecherche
+	 * r.enUS: entityAttributeOperationIdSearch
 	 * 
 	 * r: liste
 	 * r.enUS: list
@@ -1649,7 +1653,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 								rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 								rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-								rechercheSolr.addFilterQuery("entiteSuggere_indexed_boolean:true");
+								rechercheSolr.addFilterQuery("(entiteSuggere_indexed_boolean:true OR entiteAttribuer_indexed_boolean:true)");
 								QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 								SolrDocumentList rechercheListe = rechercheReponse.getResults();
 			
@@ -1680,13 +1684,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 											entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + langueNom + "_stored_string");
 											entiteAttribuerVarSuggere = (String)entiteDocumentSolr.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
+//											entiteAttribuerOperationIdPATCH
+//											entiteAttribuerOperationIdRecherche
 				
 											if(entiteSuggere) {
 												auteurPageJs.l();
 												auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, entiteVarCapitalise, "() {");
 												auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
 												auteurPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
-												auteurPageJs.tl(1, str_recherche(langueNom), classeNomSimple, "(success, error);");
+												auteurPageJs.tl(1, classeApiOperationIdMethode, "(success, error);");
+												auteurPageJs.tl(0, "}");
+											}
+											else if(entiteAttribuer) {
+												auteurPageJs.l();
+												auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, entiteVarCapitalise, "() {");
+												auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
+												auteurPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
+												auteurPageJs.tl(1, classeApiOperationIdMethode, "(success, error);");
 												auteurPageJs.tl(0, "}");
 											}
 										}

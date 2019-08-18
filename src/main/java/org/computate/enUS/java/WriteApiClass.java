@@ -17,11 +17,11 @@ import org.apache.solr.common.SolrDocumentList;
  **/
 public class WriteApiClass extends WriteGenClass {
 
-	protected ToutEcrivain writerApiServiceImpl;
+	protected AllWriter writerApiServiceImpl;
 
-	protected ToutEcrivain writerGenApiServiceImpl;
+	protected AllWriter writerGenApiServiceImpl;
 
-	protected ToutEcrivain writerGenApiService;
+	protected AllWriter writerGenApiService;
 
 	protected String classSimpleNameApiPackageInfo;
 

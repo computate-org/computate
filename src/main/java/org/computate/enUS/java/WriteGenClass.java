@@ -107,7 +107,7 @@ public class WriteGenClass extends WriteClass {
 
 	protected List<String> classWriteMethods;
 
-	protected List<ToutEcrivain> classWriteWriters;
+	protected List<AllWriter> classWriteWriters;
 
 	protected Boolean classExtendsGen;
 
@@ -147,53 +147,53 @@ public class WriteGenClass extends WriteClass {
 
 	protected List<String> classMethodVars;
 
-	protected ToutEcrivain wInitDeep;
+	protected AllWriter wInitDeep;
 
-	protected ToutEcrivain wSiteRequest;
+	protected AllWriter wSiteRequest;
 
-	protected ToutEcrivain wIndex;
+	protected AllWriter wIndex;
 
-	protected ToutEcrivain wText;
+	protected AllWriter wText;
 
-	protected ToutEcrivain wObtain;
+	protected AllWriter wObtain;
 
-	protected ToutEcrivain wAttribute;
+	protected AllWriter wAttribute;
 
-	protected ToutEcrivain wPut;
+	protected AllWriter wPut;
 
-	protected ToutEcrivain wPopulate;
+	protected AllWriter wPopulate;
 
-	protected ToutEcrivain wStore;
+	protected AllWriter wStore;
 
-	protected ToutEcrivain wExists;
+	protected AllWriter wExists;
 
-	protected ToutEcrivain wSaves;
+	protected AllWriter wSaves;
 
-	protected ToutEcrivain wDefine;
+	protected AllWriter wDefine;
 
-	protected ToutEcrivain wApiGet;
+	protected AllWriter wApiGet;
 
-	protected ToutEcrivain wApiGenerateGet;
+	protected AllWriter wApiGenerateGet;
 
-	protected ToutEcrivain wApiGeneratePost;
+	protected AllWriter wApiGeneratePost;
 
-	protected ToutEcrivain wApiGeneratePut;
+	protected AllWriter wApiGeneratePut;
 
-	protected ToutEcrivain wApiGeneratePatch;
+	protected AllWriter wApiGeneratePatch;
 
-	protected ToutEcrivain wPageHtmlSingular;
+	protected AllWriter wPageHtmlSingular;
 
-	protected ToutEcrivain wApiEntities;
+	protected AllWriter wApiEntities;
 
-	protected ToutEcrivain wPageEntities;
+	protected AllWriter wPageEntities;
 
-	protected ToutEcrivain wPageGet;
+	protected AllWriter wPageGet;
 
-	protected ToutEcrivain wHashCode;
+	protected AllWriter wHashCode;
 
-	protected ToutEcrivain wToString;
+	protected AllWriter wToString;
 
-	protected ToutEcrivain wEquals;
+	protected AllWriter wEquals;
 
 	protected String entityVar;
 
@@ -233,7 +233,7 @@ public class WriteGenClass extends WriteClass {
 
 	protected Boolean entityInitDeep;
 
-	protected ToutEcrivain writerGenClass;
+	protected AllWriter writerGenClass;
 
 	protected Integer entityIndex;
 
@@ -361,7 +361,7 @@ public class WriteGenClass extends WriteClass {
 
 	Integer searchRowActualPage;
 
-	ToutEcrivain classVals;
+	AllWriter classVals;
 
 	protected Stack<String> entityXmlStack = new Stack<String>();
 

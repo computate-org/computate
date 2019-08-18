@@ -146,7 +146,7 @@ public class WatchDirectory {
 				paths.add(saveAll(Paths.get(pathToWatch)));
 				log.info("Watch: {}", pathToWatch);
 			} catch (IOException e) { 
-				log.error("Error adding path to watch.", e);
+				log.error("Error adding path to watch. ", e);
 			}
 		}
 	}

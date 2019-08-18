@@ -49,7 +49,7 @@ import com.thoughtworks.qdox.model.JavaType;
 import com.thoughtworks.qdox.model.JavaTypeVariable;
 import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
 
-public class IndexClass extends RegarderClasseBase {
+public class IndexClass extends WatchClassBase {
 
 	public static final String VAL_canonicalNameString = String.class.getCanonicalName();
 
@@ -89,41 +89,41 @@ public class IndexClass extends RegarderClasseBase {
 
 	public static final String VAL_canonicalNameVertxJsonObject = "io.vertx.core.json.JsonObject";
 
-	ClasseParts classPartsSolrInputDocument;
+	ClassParts classPartsSolrInputDocument;
 
-	ClasseParts classPartsSolrDocument;
+	ClassParts classPartsSolrDocument;
 
-	ClasseParts classPartsSolrClient;
+	ClassParts classPartsSolrClient;
 
-	ClasseParts classPartsTest;
+	ClassParts classPartsTest;
 
-	ClasseParts classPartsList;
+	ClassParts classPartsList;
 
-	ClasseParts classPartsArrayList;
+	ClassParts classPartsArrayList;
 
-	ClasseParts classPartsHashSet;
+	ClassParts classPartsHashSet;
 
-	ClasseParts classPartsSiteContext;
+	ClassParts classPartsSiteContext;
 
-	ClasseParts classPartsSiteRequest;
+	ClassParts classPartsSiteRequest;
 
-	ClasseParts classPartsSiteConfig;
+	ClassParts classPartsSiteConfig;
 
-	ClasseParts classPartsSiteUser;
+	ClassParts classPartsSiteUser;
 
-	ClasseParts classPartsCluster;
+	ClassParts classPartsCluster;
 
-	ClasseParts classPartsSearchResult;
+	ClassParts classPartsSearchResult;
 
-	ClasseParts classPartsAllWriter;
+	ClassParts classPartsAllWriter;
 
-	ClasseParts classPartsWrap;
+	ClassParts classPartsWrap;
 
-	ClasseParts classPartsSearchList;
+	ClassParts classPartsSearchList;
 
-	ClasseParts classPartsPageLayout;
+	ClassParts classPartsPageLayout;
 
-	ClasseParts classPartsPagePart;
+	ClassParts classPartsPagePart;
 
 	String CONTEXT_frFR_AMale = "un ";
 
@@ -229,9 +229,9 @@ public class IndexClass extends RegarderClasseBase {
 
 	Boolean CONTEXT_enUS_AdjectiveBefore = true;
 
-	protected LinkedHashMap<String, ClasseParts> classPartsGenApi = new LinkedHashMap<String, ClassParts>();
+	protected LinkedHashMap<String, ClassParts> classPartsGenApi = new LinkedHashMap<String, ClassParts>();
 
-	protected LinkedHashMap<String, ClasseParts> classPartsGenPage = new LinkedHashMap<String, ClassParts>();
+	protected LinkedHashMap<String, ClassParts> classPartsGenPage = new LinkedHashMap<String, ClassParts>();
 
 	private String contextVideoId;
 
@@ -1174,21 +1174,21 @@ public class IndexClass extends RegarderClasseBase {
 			return "removeGlow";
 	}
 
-	public String str_removeGlow(String langueNom) {
+	public String str_DDDashMMDashYYYY(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "DD-MM-YYYY";
 		else
 			return "MM/DD/YYYY";
 	}
 
-	public String str_removeGlow(String langueNom) {
+	public String str_ddDashMMDashyyyy(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "dd-MM-yyyy";
 		else
 			return "MM/dd/yyyy";
 	}
 
-	public String str_removeGlow(String langueNom) {
+	public String str_enDashUS(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "fr-FR";
 		else
@@ -1497,7 +1497,7 @@ public class IndexClass extends RegarderClasseBase {
 		return val;
 	}
 
-	protected ClasseParts classPartsForSimpleName(String domainPackageName, String simpleName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsForSimpleName(String domainPackageName, String simpleName, String classLanguageName) throws Exception, Exception {
 		ClassParts classParts = null;
 		SolrDocument doc = null;
 		SolrQuery solrSearch = new SolrQuery();   
@@ -1516,47 +1516,47 @@ public class IndexClass extends RegarderClasseBase {
 		return classParts;
 	}
 
-	protected ClasseParts classPartsWrap(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsWrap(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "Wrap", classLanguageName);
 	}
 
-	protected ClasseParts classPartsSiteRequest(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsSiteRequest(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SiteRequest", classLanguageName);
 	}
 
-	protected ClasseParts classPartsSiteContext(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsSiteContext(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SiteContext", classLanguageName);
 	}
 
-	protected ClasseParts classPartsSiteConfig(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsSiteConfig(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SiteConfig", classLanguageName);
 	}
 
-	protected ClasseParts classPartsSiteUser(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsSiteUser(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SiteUser", classLanguageName);
 	}
 
-	protected ClasseParts classPartsCluster(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsCluster(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "Cluster", classLanguageName);
 	}
 
-	protected ClasseParts classPartsSearchResult(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsSearchResult(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SearchResult", classLanguageName);
 	}
 
-	protected ClasseParts classPartsAllWriter(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsAllWriter(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "AllWriter", classLanguageName);
 	}
 
-	protected ClasseParts classPartsSearchList(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsSearchList(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "SearchList", classLanguageName);
 	}
 
-	protected ClasseParts classPartsPageLayout(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsPageLayout(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "PageLayout", classLanguageName);
 	}
 
-	protected ClasseParts classPartsPagePart(String domainPackageName, String classLanguageName) throws Exception, Exception {
+	protected ClassParts classPartsPagePart(String domainPackageName, String classLanguageName) throws Exception, Exception {
 		return classPartsForSimpleName(domainPackageName, "PagePart", classLanguageName);
 	}
 
@@ -1580,17 +1580,17 @@ public class IndexClass extends RegarderClasseBase {
 		return comment;
 	}
 
-	public void  classPartsGenAdd(ClasseParts classParts) {
+	public void  classPartsGenAdd(ClassParts classParts) {
 		if(classPartsGen != null && classParts != null && !classPartsGen.containsKey(classParts.canonicalName) && StringUtils.contains(classParts.canonicalName, ".") && !StringUtils.contains(classParts.canonicalName, ","))
 			classPartsGen.put(classParts.canonicalName, classParts);
 	}
 
-	public void  classPartsGenApiAdd(ClasseParts classParts) {
+	public void  classPartsGenApiAdd(ClassParts classParts) {
 		if(classPartsGenApi != null && classParts != null && !classPartsGenApi.containsKey(classParts.canonicalName) && StringUtils.contains(classParts.canonicalName, "."))
 			classPartsGenApi.put(classParts.canonicalName, classParts);
 	}
 
-	public void  classPartsGenPageAdd(ClasseParts classParts) {
+	public void  classPartsGenPageAdd(ClassParts classParts) {
 		if(classPartsGenPage != null && classParts != null && !classPartsGenPage.containsKey(classParts.canonicalName) && StringUtils.contains(classParts.canonicalName, "."))
 			classPartsGenPage.put(classParts.canonicalName, classParts);
 	}
@@ -2812,6 +2812,13 @@ public class IndexClass extends RegarderClasseBase {
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVar", entityAttributeVar);
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarSuggest", (String)docClass.get("classVarSuggest_" + classLanguageName + "_stored_string"));
 
+									String entityAttributeOperationIdPATCH = (String)docClass.get("classApiOperationIdPATCH_" + classLanguageName + "_stored_string");
+									if(entityAttributeOperationIdPATCH != null)
+										indexStoreSolr(classLanguageName, entityDoc, "entityAttributeOperationIdPATCH", entityAttributeOperationIdPATCH);
+									String entityAttributeOperationIdSearch = (String)docClass.get("classApiOperationId" + str_Search(classLanguageName) + "_" + classLanguageName + "_stored_string");
+									if(entityAttributeOperationIdSearch != null)
+										indexStoreSolr(classLanguageName, entityDoc, "entityAttributeOperationId" + str_Search(classLanguageName), entityAttributeOperationIdSearch);
+
 									if(classTranslate) {
 										for(String languageName : classOtherLanguages) {  
 											String entityAttributeCanonicalNameLangue = (String)docEntity.get("classCanonicalName_" + languageName + "_stored_string");
@@ -2822,6 +2829,14 @@ public class IndexClass extends RegarderClasseBase {
 											indexStoreSolr(languageName, entityDoc, "entityAttributeCanonicalName", entityAttributeCanonicalNameLangue);
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVar", entityAttributeVarLangue);
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVarSuggest", (String)docClass.get("classVarSuggest_" + languageName + "_stored_string"));
+
+											entityAttributeOperationIdPATCH = (String)docClass.get("classApiOperationIdPATCH_" + languageName + "_stored_string");
+											if(entityAttributeOperationIdPATCH != null)
+												indexStoreSolr(languageName, entityDoc, "entityAttributeOperationIdPATCH", entityAttributeOperationIdPATCH);
+											entityAttributeOperationIdSearch = (String)docClass.get("classApiOperationId" + str_Search(languageName) + "_" + languageName + "_stored_string");
+											log.info("classApiOperationId" + str_Search(languageName) + "_" + languageName + "_stored_string:" + entityAttributeOperationIdSearch);
+											if(entityAttributeOperationIdSearch != null)
+												indexStoreSolr(languageName, entityDoc, "entityAttributeOperationId" + str_Search(languageName), entityAttributeOperationIdSearch);
 										}
 									}
 								}
