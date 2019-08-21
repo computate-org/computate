@@ -432,6 +432,13 @@ public class IndexClass extends WatchClassBase {
 			return "aSearch";
 	}
 
+	public String str_SearchPage(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "PageRecherche";
+		else
+			return "SearchPage";
+	}
+
 	public String str_Search(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "Recherche";
@@ -1842,10 +1849,6 @@ public class IndexClass extends WatchClassBase {
 		String classCanonicalNameApiServiceImpl;
 		String classCanonicalNameGenApiService;
 
-		String classCanonicalNamePageGen = classCanonicalName + "PageGen";
-		String classSimpleNamePage = indexStoreSolr(classLanguageName, classDoc, "classSimpleNamePage", classSimpleName + "Page");
-		String classSimpleNameGenPage = indexStoreSolr(classLanguageName, classDoc, "classSimpleNameGenPage", classSimpleName + "PageGen");
-
 		String classPathApiPackageInfo;
 		String classPathGenApiServiceImpl;
 		String classPathApiServiceImpl;
@@ -2819,6 +2822,10 @@ public class IndexClass extends WatchClassBase {
 									if(entityAttributeOperationIdSearch != null)
 										indexStoreSolr(classLanguageName, entityDoc, "entityAttributeOperationId" + str_Search(classLanguageName), entityAttributeOperationIdSearch);
 
+									String classAttributeSimpleNamePage = (String)docClass.get("classPageSimpleName" + str_PageSearch(classLanguageName) + "_" + classLanguageName + "_stored_string");
+									if(classAttributeSimpleNamePage != null)
+										indexStoreListSolr(classLanguageName, classDoc, "classAttributeSimpleNamePages", classAttributeSimpleNamePage);
+
 									if(classTranslate) {
 										for(String languageName : classOtherLanguages) {  
 											String entityAttributeCanonicalNameLangue = (String)docEntity.get("classCanonicalName_" + languageName + "_stored_string");
@@ -2831,10 +2838,14 @@ public class IndexClass extends WatchClassBase {
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVarSuggest", (String)docClass.get("classVarSuggest_" + languageName + "_stored_string"));
 
 											entityAttributeOperationIdPATCH = (String)docClass.get("classApiOperationIdPATCH_" + languageName + "_stored_string");
+
+											classAttributeSimpleNamePage = (String)docClass.get("classPageSimpleName" + str_PageSearch(languageName) + "_" + languageName + "_stored_string");
+											if(classAttributeSimpleNamePage != null)
+												indexStoreListSolr(languageName, classDoc, "classAttributeSimpleNamePages", classAttributeSimpleNamePage);
+
 											if(entityAttributeOperationIdPATCH != null)
 												indexStoreSolr(languageName, entityDoc, "entityAttributeOperationIdPATCH", entityAttributeOperationIdPATCH);
 											entityAttributeOperationIdSearch = (String)docClass.get("classApiOperationId" + str_Search(languageName) + "_" + languageName + "_stored_string");
-											log.info("classApiOperationId" + str_Search(languageName) + "_" + languageName + "_stored_string:" + entityAttributeOperationIdSearch);
 											if(entityAttributeOperationIdSearch != null)
 												indexStoreSolr(languageName, entityDoc, "entityAttributeOperationId" + str_Search(languageName), entityAttributeOperationIdSearch);
 										}

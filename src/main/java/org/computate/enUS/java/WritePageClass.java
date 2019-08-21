@@ -26,6 +26,8 @@ public class WritePageClass extends WriteApiClass {
 
 	protected String classGenPageSimpleName;
 
+	protected List<String> classAttributeSimpleNamePages;
+
 	public void  pageCodeClassStart(String languageName) throws Exception, Exception {
 	}
 
@@ -434,6 +436,7 @@ public class WritePageClass extends WriteApiClass {
 			classPageSuperSimpleName = (String)classDoc.get("classPageSuperSimpleName" + classPageMethod  + "_" + languageName + "_stored_string");
 			classGenPageSimpleName = (String)classDoc.get("classGenPageSimpleName" + classPageMethod  + "_" + languageName + "_stored_string");
 			String classPageCanonicalName = (String)classDoc.get("classPageCanonicalName" + classPageMethod  + "_" + languageName + "_stored_string");
+			classAttributeSimpleNamePages = (List<String>)classDoc.get("classAttributeSimpleNamePages_" + languageName + "_stored_strings");
 	
 			if(classPagePathGen != null && StringUtils.equals(classPageLanguageName, languageName)) {
 
@@ -824,6 +827,11 @@ public class WritePageClass extends WriteApiClass {
 				l();
 				tl(1, "@Override public void htmlScripts", classGenPageSimpleName, "() {");
 				t(2).l("e(\"script\").a(\"src\", ", str_statiqueUrlBase(languageName), ", \"/js/", languageName, "/", classPageSimpleName, ".js\").f().g(\"script\");");
+				if(classAttributeSimpleNamePages != null) {
+					for(String classAttributeSimpleNamePage : classAttributeSimpleNamePages) {
+						t(2).l("e(\"script\").a(\"src\", ", str_statiqueUrlBase(languageName), ", \"/js/", languageName, "/", classAttributeSimpleNamePage, ".js\").f().g(\"script\");");
+					}
+				}
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classApiUri)) {

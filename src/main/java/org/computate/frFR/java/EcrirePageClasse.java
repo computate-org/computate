@@ -40,6 +40,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	protected String classeGenPageNomSimple;
 
 	/**
+	 * Var.enUS: classAttributeSimpleNamePages
+	 */
+	protected List<String> classeAttribuerNomSimplePages;
+
+	/**
 	 * Var.enUS: pageCodeClassStart
 	 * Param1.var.enUS: languageName
 	 */
@@ -634,6 +639,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: classPageFile
 	 * r: auteurPageGenClasse
 	 * r.enUS: writerPageGenClass
+	 * r: classeAttribuerNomSimplePage
+	 * r.enUS: classAttributeSimpleNamePage
 	 * r: wEntites
 	 * r.enUS: wEntities
 	 * r: partEstEntite
@@ -949,6 +956,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			classePageSuperNomSimple = (String)classeDoc.get("classePageSuperNomSimple" + classePageMethode  + "_" + langueNom + "_stored_string");
 			classeGenPageNomSimple = (String)classeDoc.get("classeGenPageNomSimple" + classePageMethode  + "_" + langueNom + "_stored_string");
 			String classePageNomCanonique = (String)classeDoc.get("classePageNomCanonique" + classePageMethode  + "_" + langueNom + "_stored_string");
+			classeAttribuerNomSimplePages = (List<String>)classeDoc.get("classeAttribuerNomSimplePages_" + langueNom + "_stored_strings");
 	
 			if(classePageCheminGen != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 
@@ -1339,6 +1347,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				tl(1, "@Override public void htmlScripts", classeGenPageNomSimple, "() {");
 				t(2).l("e(\"script\").a(\"src\", ", str_statiqueUrlBase(langueNom), ", \"/js/", langueNom, "/", classePageNomSimple, ".js\").f().g(\"script\");");
+				if(classeAttribuerNomSimplePages != null) {
+					for(String classeAttribuerNomSimplePage : classeAttribuerNomSimplePages) {
+						t(2).l("e(\"script\").a(\"src\", ", str_statiqueUrlBase(langueNom), ", \"/js/", langueNom, "/", classeAttribuerNomSimplePage, ".js\").f().g(\"script\");");
+					}
+				}
 				tl(1, "}");
 	
 				if(StringUtils.isNotBlank(classeApiUri)) {

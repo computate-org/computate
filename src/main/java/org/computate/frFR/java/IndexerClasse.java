@@ -803,6 +803,16 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_SearchPage
+	 */
+	public String str_PageRecherche(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "PageRecherche";
+		else
+			return "SearchPage";
+	}
+
+	/**
 	 * Var.enUS: str_Search
 	 */
 	public String str_Recherche(String langueNom) {
@@ -4019,6 +4029,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classSuperMethodVars
 	 * r: classeSuperEntiteVar
 	 * r.enUS: classSuperEntityVar
+	 * r: classeAttribuerNomSimplePage
+	 * r.enUS: classAttributeSimpleNamePage
 	 * 
 	 * r: classeApiOperationIdRechercheRequete
 	 * r.enUS: classApiOperationIdSearchRequest
@@ -4659,10 +4671,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomCanoniqueGenApiServiceImpl;
 		String classeNomCanoniqueApiServiceImpl;
 		String classeNomCanoniqueGenApiService;
-
-		String classeNomCanoniquePageGen = classeNomCanonique + "PageGen";
-		String classeNomSimplePage = indexerStockerSolr(classeLangueNom, classeDoc, "classeNomSimplePage", classeNomSimple + "Page");
-		String classeNomSimpleGenPage = indexerStockerSolr(classeLangueNom, classeDoc, "classeNomSimpleGenPage", classeNomSimple + "PageGen");
 
 		String classeCheminApiEnsembleInfo;
 		String classeCheminGenApiServiceImpl;
@@ -5637,6 +5645,10 @@ public class IndexerClasse extends RegarderClasseBase {
 									if(entiteAttribuerOperationIdRecherche != null)
 										indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerOperationId" + str_Recherche(classeLangueNom), entiteAttribuerOperationIdRecherche);
 
+									String classeAttribuerNomSimplePage = (String)docClasse.get("classePageNomSimple" + str_PageRecherche(classeLangueNom) + "_" + classeLangueNom + "_stored_string");
+									if(classeAttribuerNomSimplePage != null)
+										indexerStockerListeSolr(classeLangueNom, classeDoc, "classeAttribuerNomSimplePages", classeAttribuerNomSimplePage);
+
 									if(classeTraduire) {
 										for(String langueNom : classeAutresLangues) {  
 											String entiteAttribuerNomCanoniqueLangue = (String)docEntite.get("classeNomCanonique_" + langueNom + "_stored_string");
@@ -5649,10 +5661,14 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + langueNom + "_stored_string"));
 
 											entiteAttribuerOperationIdPATCH = (String)docClasse.get("classeApiOperationIdPATCH_" + langueNom + "_stored_string");
+
+											classeAttribuerNomSimplePage = (String)docClasse.get("classePageNomSimple" + str_PageRecherche(langueNom) + "_" + langueNom + "_stored_string");
+											if(classeAttribuerNomSimplePage != null)
+												indexerStockerListeSolr(langueNom, classeDoc, "classeAttribuerNomSimplePages", classeAttribuerNomSimplePage);
+
 											if(entiteAttribuerOperationIdPATCH != null)
 												indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerOperationIdPATCH", entiteAttribuerOperationIdPATCH);
 											entiteAttribuerOperationIdRecherche = (String)docClasse.get("classeApiOperationId" + str_Recherche(langueNom) + "_" + langueNom + "_stored_string");
-											log.info("classeApiOperationId" + str_Recherche(langueNom) + "_" + langueNom + "_stored_string:" + entiteAttribuerOperationIdRecherche);
 											if(entiteAttribuerOperationIdRecherche != null)
 												indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerOperationId" + str_Recherche(langueNom), entiteAttribuerOperationIdRecherche);
 										}
