@@ -183,7 +183,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 
 				wForm.t(tIndex + 3).be("div").da("class", "w3-padding ").dfl();
-				wForm.t(tIndex + 4).be("form").da("action", classeApiUri).da("id", entiteVar, "Form").da("style", "display: inline-block; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
+				wForm.t(tIndex + 4).be("form").da("action", classeApiUri).da("id", "form", classeNomSimple, entiteVar).da("style", "display: inline-block; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
 				wForm.t(tIndex + 5).be("div").da("class", "w3-card ").dfl();
 
 				if(entiteAttribuer) {
@@ -209,7 +209,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 9).dal("class", "suggere", entiteVarCapitalise, " w3-input w3-border ");
 					wForm.t(tIndex + 9).dal("name", "set", entiteVarCapitalise);
 					wForm.t(tIndex + 9).dal("id", classeApiMethodeMethode, "_", entiteVar);
-					wForm.t(tIndex + 9).dal("onkeyup", str_enleverLueur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); $('#", classeApiMethodeMethode, "_", entiteVar, "').val(null); patch", classeNomSimple, "Val({ 'pk': $('#", classeNomSimple, "Form :input[name=\"pk\"]').val() }, 'set", entiteVarCapitalise, "', null, $('#", classeApiMethodeMethode, "_", entiteVar, "')); ");
+					wForm.t(tIndex + 9).dal("autocomplete", "off");
+					wForm.t(tIndex + 9).dal("oninput", str_rechercher(langueNom), classeNomSimple, entiteVarCapitalise, "($('#", "form", classeNomSimple, entiteVar, "')); ");
 
 					wForm.t(tIndex + 8).dfgl();
 	
@@ -1079,6 +1080,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 								entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + langueNom + "_stored_string");
 								entiteAttribuerVarSuggere = (String)entiteDocumentSolr.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
+								entiteAttribuerOperationIdPATCH = (String)entiteDocumentSolr.get("entiteAttribuerOperationIdPATCH_" + langueNom + "_stored_string");
+								entiteAttribuerOperationIdRecherche = (String)entiteDocumentSolr.get("entiteAttribuerOperationId" + str_Recherche(langueNom) + "_" + langueNom + "_stored_string");
 	
 								if(pageVars.contains(entiteVar)) {
 									if(entiteCouverture) {
@@ -1684,23 +1687,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 											entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + langueNom + "_stored_string");
 											entiteAttribuerVarSuggere = (String)entiteDocumentSolr.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
-//											entiteAttribuerOperationIdPATCH
-//											entiteAttribuerOperationIdRecherche
+											entiteAttribuerOperationIdRecherche = (String)entiteDocumentSolr.get("entiteAttribuerOperationId" + str_Recherche(langueNom) + "_" + langueNom + "_stored_string");
+											entiteAttribuerOperationIdPATCH = (String)entiteDocumentSolr.get("entiteAttribuerOperationIdPATCH_" + langueNom + "_stored_string");
 				
 											if(entiteSuggere) {
 												auteurPageJs.l();
-												auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, entiteVarCapitalise, "() {");
+												auteurPageJs.tl(0, "function ", str_rechercher(langueNom), classeNomSimple, entiteVarCapitalise, "($", str_formulaireFiltres(langueNom), ") {");
 												auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
 												auteurPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
-												auteurPageJs.tl(1, classeApiOperationIdMethode, "(success, error);");
+												auteurPageJs.tl(1, classeApiOperationIdMethode, "($", str_formulaireFiltres(langueNom), ", success, error);");
 												auteurPageJs.tl(0, "}");
 											}
 											else if(entiteAttribuer) {
 												auteurPageJs.l();
-												auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, entiteVarCapitalise, "() {");
+												auteurPageJs.tl(0, "function ", str_rechercher(langueNom), classeNomSimple, entiteVarCapitalise, "($", str_formulaireFiltres(langueNom), ") {");
 												auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
 												auteurPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
-												auteurPageJs.tl(1, classeApiOperationIdMethode, "(success, error);");
+												auteurPageJs.tl(1, entiteAttribuerOperationIdRecherche, "($", str_formulaireFiltres(langueNom), ", success, error);");
 												auteurPageJs.tl(0, "}");
 											}
 										}
@@ -1787,7 +1790,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(5, "e(\"i\").a(\"class\", ", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \").f().g(\"i\");");
 					t(4).e("span").da("class", " ").df().dsxq(contexteAucunNomTrouve).dgl("span");
 					t(3).bgl("h1");
-					tl(2, "} else if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
+//					tl(2, "} else if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
+					tl(2, "} else if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\")) {");
 //					t(3).l("// contexteUnNom : ", contexteUnNom);
 					tl(3, "if(pageH1 != null) {");
 					t(4).be("h1").dfl();
@@ -1954,7 +1958,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 					// singulier part 2
 					l();
-					tl(2, "if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
+//					tl(2, "if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
+					tl(2, "if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\")) {");
 					t(3).l(classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, ".first();");
 					l();
 					t(3).be("div").da("class", "").dfl();

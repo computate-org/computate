@@ -705,6 +705,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	Boolean entiteModifier;
 
 	/**
+	 * Var.enUS: entityAttributeOperationIdPATCH
+	 */
+	String entiteAttribuerOperationIdPATCH;
+
+	/**
+	 * Var.enUS: entityAttributeOperationIdSearch
+	 */
+	String entiteAttribuerOperationIdRecherche;
+
+	/**
 	 * Var.enUS: entityMultiline
 	 */
 	Boolean entiteMultiligne;

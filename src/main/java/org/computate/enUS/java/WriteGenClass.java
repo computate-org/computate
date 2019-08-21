@@ -311,6 +311,10 @@ public class WriteGenClass extends WriteClass {
 
 	Boolean entityModify;
 
+	String entityAttributeOperationIdPATCH;
+
+	String entityAttributeOperationIdSearch;
+
 	Boolean entityMultiline;
 
 	String entityDisplayName;
