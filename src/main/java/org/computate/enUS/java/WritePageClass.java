@@ -88,7 +88,15 @@ public class WritePageClass extends WriteApiClass {
 				}
 
 				wForm.t(tIndex + 3).be("div").da("class", "w3-padding ").dfl();
-				wForm.t(tIndex + 4).be("form").da("action", classApiUri).da("id", "form", classSimpleName, entityVar).da("style", "display: inline-block; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
+				wForm.t(tIndex + 4).be("form").da("action", classApiUri).da("id", "form", classSimpleName, entityVarCapitalized).da("style", "display: inline-block; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
+				wForm.t(tIndex + 5).e("input").l();
+				wForm.t(tIndex + 6).dal("type", "hidden");
+				wForm.t(tIndex + 6).dal("name", str_value(langueNom), StringUtils.capitalize(entityAttributeVar));
+				wForm.t(tIndex + 6).dal("class", str_value(langueNom), StringUtils.capitalize(entityAttributeVar), " ");
+				wForm.t(tIndex + 6).l(".a(\"value\", ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), "Pk())");
+				wForm.t(tIndex + 6).dfgl();
+				wForm.t(tIndex + 4).bgl("form");
+				wForm.t(tIndex + 4).be("form").da("action", classApiUri).da("id", str_suggere(langueNom), classSimpleName, entityVarCapitalized).da("style", "display: inline-block; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
 				wForm.t(tIndex + 5).be("div").da("class", "w3-card ").dfl();
 
 				if(entityAttribute) {
@@ -111,15 +119,21 @@ public class WritePageClass extends WriteApiClass {
 						wForm.t(tIndex + 9).dal("title", entityDescription);
 					}
 	
-					wForm.t(tIndex + 9).dal("class", "suggest", entityVarCapitalized, " w3-input w3-border ");
+					wForm.t(tIndex + 9).dal("class", str_value(langueNom), StringUtils.capitalize(entityAttributeVarSuggest), " ", "suggest", entityVarCapitalized, " w3-input w3-border ");
 					wForm.t(tIndex + 9).dal("name", "set", entityVarCapitalized);
 					wForm.t(tIndex + 9).dal("id", classApiMethodMethod, "_", entityVar);
 					wForm.t(tIndex + 9).dal("autocomplete", "off");
-					wForm.t(tIndex + 9).dal("oninput", str_rechercher(langueNom), classSimpleName, entityVarCapitalized, "($('#", "form", classSimpleName, entityVar, "')); ");
+					wForm.t(tIndex + 9).dal("oninput", str_rechercher(langueNom), classSimpleName, entityVarCapitalized, "($('#' + ($(this).val() ? '", str_suggere(langueNom), "' : 'form') + '", classSimpleName, entityVarCapitalized, "'), $('#", "list", classSimpleName, entityVarCapitalized, "')); ");
 
 					wForm.t(tIndex + 8).dfgl();
 	
 					wForm.l();
+					wForm.t(tIndex + 7).bgl("div");
+					wForm.t(tIndex + 6).bgl("div");
+					wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-padding ").dfl();
+					wForm.t(tIndex + 7).be("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
+					wForm.t(tIndex + 8).be("ul").da("class", "w3-ul w3-hoverable ").da("id", "list", classSimpleName, entityVarCapitalized).dfl();
+					wForm.t(tIndex + 8).bgl("ul");
 					wForm.t(tIndex + 7).bgl("div");
 				}
 				else if("LocalDate".equals(entitySimpleName)) {
@@ -373,7 +387,7 @@ public class WritePageClass extends WriteApiClass {
 					wForm.l();
 					wForm.t(tIndex + 7).bgl("div");
 				}
-				if(entiteModifier && "Page".equals(classApiMethodMethod)) {
+				if(!entityAttribute && entiteModifier && "Page".equals(classApiMethodMethod)) {
 
 					wForm.t(tIndex + 7).be("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
 					wForm.t(tIndex + 8).be("button").l();
@@ -515,6 +529,7 @@ public class WritePageClass extends WriteApiClass {
 				AllWriter wFormPage = AllWriter.create();
 				AllWriter wFormPATCH = AllWriter.create();
 				AllWriter wEntities = AllWriter.create();
+				AllWriter wJsInit = AllWriter.create();
 	
 				o = writerPageGenClass;
 				{
@@ -615,6 +630,9 @@ public class WritePageClass extends WriteApiClass {
 										if(writeFormEntity(wFormSearch, "Search"))
 											resultFormSearch = true;
 									}
+								}
+								if(entiteAttribuer) {
+									wJsInit.tl(2, "tl(1, ", q(str_searchr(languageName), classSimpleName, entityVarCapitalized, "($('#", "form", classSimpleName, entityVarCapitalized, "'), $('#", "list", classSimpleName, entityVarCapitalized, "')); "), ");");
 								}
 							}
 							solrSearch.setStart(i.intValue() + searchRows);
@@ -1056,9 +1074,11 @@ public class WritePageClass extends WriteApiClass {
 								writerPageJs.l();
 							}
 							else if(methodSearch) {
-								writerPageJs.tl(1, "var ", str_filters(languageName), " = ", classApiOperationIdMethod,str_Filtres(languageName), "();");
-								writerPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
-								writerPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
+								writerPageJs.tl(1, "var ", str_filters(languageName), " = ", classApiOperationIdMethod,str_Filtres(languageName), "($", str_formFilters(languageName), ");");
+								writerPageJs.tl(1, "if(success == null)");
+								writerPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {};");
+								writerPageJs.tl(1, "if(error == null)");
+								writerPageJs.tl(2, "error = function( jqXhr, textStatus, errorThrown ) {};");
 								writerPageJs.l();
 							}
 		
@@ -1185,16 +1205,44 @@ public class WritePageClass extends WriteApiClass {
 				
 											if(entitySuggested) {
 												writerPageJs.l();
-												writerPageJs.tl(0, "function ", str_searchr(languageName), classSimpleName, entityVarCapitalized, "($", str_formFilters(languageName), ") {");
-												writerPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
+												writerPageJs.tl(0, "function ", str_searchr(languageName), classSimpleName, entityVarCapitalized, "($", str_formFilters(languageName), ", $list) {");
+												writerPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
+//												writerPageJs.tl(2, "$list.empty();");
+//												writerPageJs.tl(2, "$.each(data['list'], function(o) {");
+//												writerPageJs.tl(3, "var $i = $('<i>').attr('class', 'far fa-something ');");
+//												writerPageJs.tl(3, "var $span = $('<span>').attr('class', '').text();");
+//												writerPageJs.tl(3, "var $a = $('<a>').attr('href', '...');");
+//												writerPageJs.tl(3, "$a.append($i);");
+//												writerPageJs.tl(3, "$a.append($span);");
+//												writerPageJs.tl(3, "var $input = $('<input>').attr('class', 'w3-check ').attr('onchange', '", entityAttributeOperationIdPATCH, "($(this).parent()); ').attr('onclick', '", str_enleverLueur(languageName), "($(this)); ').attr('type', 'checkbox').attr('checked', 'checked').attr('name', '...').attr('value', '...');");
+//												writerPageJs.tl(3, "var $li = $('<li>');");
+//												writerPageJs.tl(3, "$li.append($input);");
+//												writerPageJs.tl(3, "$li.append($a);");
+//												writerPageJs.tl(3, "$list.append($li);");
+//												writerPageJs.tl(2, "});");
+												writerPageJs.tl(1, "};");
 												writerPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
 												writerPageJs.tl(1, classApiOperationIdMethod, "($", str_formFilters(languageName), ", success, error);");
 												writerPageJs.tl(0, "}");
 											}
 											else if(entiteAttribuer) {
 												writerPageJs.l();
-												writerPageJs.tl(0, "function ", str_searchr(languageName), classSimpleName, entityVarCapitalized, "($", str_formFilters(languageName), ") {");
-												writerPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {};");
+												writerPageJs.tl(0, "function ", str_searchr(languageName), classSimpleName, entityVarCapitalized, "($", str_formFilters(languageName), ", $list) {");
+												writerPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
+												writerPageJs.tl(2, "$list.empty();");
+												writerPageJs.tl(2, "$.each(data['list'], function(o) {");
+												writerPageJs.tl(3, "var $i = $('<i>').attr('class', 'far fa-something ');");
+												writerPageJs.tl(3, "var $span = $('<span>').attr('class', '').text();");
+												writerPageJs.tl(3, "var $a = $('<a>').attr('href', '...');");
+												writerPageJs.tl(3, "$a.append($i);");
+												writerPageJs.tl(3, "$a.append($span);");
+												writerPageJs.tl(3, "var $input = $('<input>').attr('class', 'w3-check ').attr('onchange', '", entityAttributeOperationIdPATCH, "($(this).parent()); ').attr('onclick', '", str_enleverLueur(languageName), "($(this)); ').attr('type', 'checkbox').attr('checked', 'checked').attr('name', '...').attr('value', '...');");
+												writerPageJs.tl(3, "var $li = $('<li>');");
+												writerPageJs.tl(3, "$li.append($input);");
+												writerPageJs.tl(3, "$li.append($a);");
+												writerPageJs.tl(3, "$list.append($li);");
+												writerPageJs.tl(2, "});");
+												writerPageJs.tl(1, "};");
 												writerPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
 												writerPageJs.tl(1, entityAttributeOperationIdSearch, "($", str_formFilters(languageName), ", success, error);");
 												writerPageJs.tl(0, "}");
@@ -1207,8 +1255,10 @@ public class WritePageClass extends WriteApiClass {
 								}
 							}
 						}
-						
 					}
+					tl(2, "l(\"$(document).ready(function() {\");");
+					s(wJsInit);
+					tl(2, "l(\"});\");");
 					tl(1, "}");
 					l();
 					tl(1, "public void htmlFormPage", classSimpleName, "(", classSimpleName, " o) {");
@@ -1298,6 +1348,7 @@ public class WritePageClass extends WriteApiClass {
 		
 					t(4).bgl("h1");
 					tl(4, classSimpleName, " o = ", str_list(languageName), classSimpleName, ".get(0);");
+					tl(4, str_requeteSite(languageName), "_.set", str_Requete(languageName), "Pk(o.getPk());");
 
 					tl(3, "}");
 		
