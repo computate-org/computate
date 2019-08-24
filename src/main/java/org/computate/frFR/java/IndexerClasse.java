@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,6 +40,7 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.SolrInputField;
 
 import com.thoughtworks.qdox.model.JavaAnnotation;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -3926,6 +3928,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityAttributeSimpleName
 	 * r: entiteAttribuerVarSuggere
 	 * r.enUS: entityAttributeVarSuggest
+	 * r: entiteAttribuerVarTitre
+	 * r.enUS: entityAttributeVarTitle
+	 * r: entiteAttribuerVarDescription
+	 * r.enUS: entityAttributeVarDescription
+	 * r: entiteAttribuerVarImageUrl
+	 * r.enUS: entityAttributeVarImageUrl
 	 * r: entiteAttribuerVar
 	 * r.enUS: entityAttributeVar
 	 * r: entiteAttribuer
@@ -3962,6 +3970,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityTypeSuffix
 	 * r: entiteTypeJson
 	 * r.enUS: entityJsonType
+	 * r: entiteAttribuerTypeJson
+	 * r.enUS: entityAttributeJsonType
 	 * r: entiteFormatJson
 	 * r.enUS: entityJsonFormat
 	 * r: entiteListeTypeJson
@@ -3984,6 +3994,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classIndexed
 	 * r: classeImage
 	 * r.enUS: classImage
+	 * r: classeVarTitre
+	 * r.enUS: classVarTitle
+	 * r: classeVarDescription
+	 * r.enUS: classVarDescription
+	 * r: classeVarImageUrl
+	 * r.enUS: classVarImageUrl
 	 * r: classeVarSuggere
 	 * r.enUS: classVarSuggest
 	 * r: classeVarClePrimaire
@@ -4000,6 +4016,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityAttributeOperationIdPATCH
 	 * r: entiteAttribuerOperationIdRecherche
 	 * r.enUS: entityAttributeOperationIdSearch
+	 * r: entiteOperationIdPATCH
+	 * r.enUS: entityOperationIdPATCH
 	 * 
 	 * r: classeSuperErreur
 	 * r.enUS: superClassError
@@ -4443,6 +4461,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		List<String> classeMotsCles = new ArrayList<String>();
 		List<String> classeInitLoinExceptions = new ArrayList<String>(); 
 		String classeVarSuggere = null;
+		String classeVarTitre = null;
+		String classeVarDescription = null;
+		String classeVarImageUrl = null;
 		String classeVarClePrimaire = null;
 		String classeVarCleUnique = null;
 
@@ -5505,6 +5526,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^(entite)?CleUnique:\\s*(true)$", methodeCommentaire));
 						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^(entite)?Crypte:\\s*(true)$", methodeCommentaire));
 						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^(entite)?Suggere:\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^(entite)?VarTitre:\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarDescription = indexerStockerSolr(entiteDoc, "entiteVarDescription", regexTrouve("^(entite)?VarDescription:\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarImageUrl = indexerStockerSolr(entiteDoc, "entiteVarImageUrl", regexTrouve("^(entite)?VarImageUrl:\\s*(true)$", methodeCommentaire));
 						Boolean entiteSauvegarde = indexerStockerSolr(entiteDoc, "entiteSauvegarde", regexTrouve("^(entite)?Sauvegarde:\\s*(true)$", methodeCommentaire));
 						Boolean entiteIncremente = indexerStockerSolr(entiteDoc, "entiteIncremente", regexTrouve("^(entite)?Incremente:\\s*(true)$", methodeCommentaire));
 						Boolean entiteIndexe = indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^(entite)?Indexe:\\s*(true)$", methodeCommentaire) || entiteCleUnique || entiteCrypte || entiteSuggere || entiteClePrimaire || entiteIncremente);
@@ -5637,6 +5661,18 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanonique);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVar);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + classeLangueNom + "_stored_string"));
+
+									
+									String entiteOperationIdPATCH = regexLangue(classeLangueNom, "(classe)?ApiOperationIdPATCH", classeCommentaire, "patch" + classeNomSimple);
+									if(entiteOperationIdPATCH != null)
+										indexerStockerSolr(classeLangueNom, entiteDoc, "entiteOperationIdPATCH", entiteOperationIdPATCH);
+
+									String entiteAttribuerTypeJson = (String)docEntite.get("entiteTypeJson_stored_string");
+									if(entiteAttribuerTypeJson != null)
+										indexerStockerSolr(entiteDoc, "entiteAttribuerTypeJson", entiteAttribuerTypeJson);
 
 									String entiteAttribuerOperationIdPATCH = (String)docClasse.get("classeApiOperationIdPATCH_" + classeLangueNom + "_stored_string");
 									if(entiteAttribuerOperationIdPATCH != null)
@@ -5654,11 +5690,19 @@ public class IndexerClasse extends RegarderClasseBase {
 											String entiteAttribuerNomCanoniqueLangue = (String)docEntite.get("classeNomCanonique_" + langueNom + "_stored_string");
 											String entiteAttribuerNomSimpleLangue = (String)docEntite.get("classeNomSimple_" + langueNom + "_stored_string");
 											String entiteAttribuerVarLangue = (String)docEntite.get("entiteVar_" + langueNom + "_stored_string");
+											String classeNomSimpleLangue = (String)Optional.ofNullable(classeDoc.get("classeNomSimple_" + langueNom + "_stored_string")).map(SolrInputField::getValue).orElse(null);
 	
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomSimple", entiteAttribuerNomSimpleLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanoniqueLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVarLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + langueNom + "_stored_string"));
+											
+											entiteOperationIdPATCH = regexLangue(langueNom, "(classe)?ApiOperationIdPATCH", classeCommentaire, "patch" + classeNomSimpleLangue);
+											if(entiteOperationIdPATCH != null)
+												indexerStockerSolr(langueNom, entiteDoc, "entiteOperationIdPATCH", entiteOperationIdPATCH);
 
 											entiteAttribuerOperationIdPATCH = (String)docClasse.get("classeApiOperationIdPATCH_" + langueNom + "_stored_string");
 
@@ -5999,6 +6043,15 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteSuggere) {
 							classeVarSuggere = stockerSolr(classeLangueNom, classeDoc, "classeVarSuggere", entiteVar);
 						}
+						if(entiteVarTitre) {
+							classeVarTitre = stockerSolr(classeLangueNom, classeDoc, "classeVarTitre", entiteVar);
+						}
+						if(entiteVarDescription) {
+							classeVarDescription = stockerSolr(classeLangueNom, classeDoc, "classeVarDescription", entiteVar);
+						}
+						if(entiteVarImageUrl) {
+							classeVarImageUrl = stockerSolr(classeLangueNom, classeDoc, "classeVarImageUrl", entiteVar);
+						}
 				
 						if(classeTraduire) {
 							for(String langueNom : classeAutresLangues) {  
@@ -6026,6 +6079,15 @@ public class IndexerClasse extends RegarderClasseBase {
 								}
 								if(entiteCleUnique) {
 									stockerSolr(langueNom, classeDoc, "classeVarCleUnique", entiteVarLangue);
+								}
+								if(entiteVarTitre) {
+									classeVarTitre = stockerSolr(langueNom, classeDoc, "classeVarTitre", entiteVarLangue);
+								}
+								if(entiteVarDescription) {
+									classeVarDescription = stockerSolr(langueNom, classeDoc, "classeVarDescription", entiteVarLangue);
+								}
+								if(entiteVarImageUrl) {
+									classeVarImageUrl = stockerSolr(langueNom, classeDoc, "classeVarTitre", entiteVarLangue);
 								}
 		
 								String entiteCodeSourceLangue = entiteCodeSource;

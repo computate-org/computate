@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,6 +38,7 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.SolrInputField;
 import com.thoughtworks.qdox.model.JavaAnnotation;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaConstructor;
@@ -1620,6 +1622,9 @@ public class IndexClass extends WatchClassBase {
 		List<String> classKeywords = new ArrayList<String>();
 		List<String> classInitDeepExceptions = new ArrayList<String>(); 
 		String classVarSuggest = null;
+		String classVarTitle = null;
+		String classVarDescription = null;
+		String classVarImageUrl = null;
 		String classVarPrimaryKey = null;
 		String classVarUniqueKey = null;
 
@@ -2682,6 +2687,9 @@ public class IndexClass extends WatchClassBase {
 						Boolean entityUniqueKey = indexStoreSolr(entityDoc, "entityUniqueKey", regexFound("^(entity)?UniqueKey:\\s*(true)$", methodComment));
 						Boolean entityEncrypted = indexStoreSolr(entityDoc, "entityEncrypted", regexFound("^(entity)?Encrypted:\\s*(true)$", methodComment));
 						Boolean entitySuggested = indexStoreSolr(entityDoc, "entitySuggested", regexFound("^(entity)?Suggested:\\s*(true)$", methodComment));
+						Boolean entityVarTitle = indexStoreSolr(entityDoc, "entityVarTitle", regexFound("^(entity)?VarTitle:\\s*(true)$", methodComment));
+						Boolean entityVarDescription = indexStoreSolr(entityDoc, "entityVarDescription", regexFound("^(entity)?VarDescription:\\s*(true)$", methodComment));
+						Boolean entityVarImageUrl = indexStoreSolr(entityDoc, "entityVarImageUrl", regexFound("^(entity)?VarImageUrl:\\s*(true)$", methodComment));
 						Boolean entitySaved = indexStoreSolr(entityDoc, "entitySaved", regexFound("^(entity)?Saved:\\s*(true)$", methodComment));
 						Boolean entityIncremented = indexStoreSolr(entityDoc, "entityIncremented", regexFound("^(entity)?Incremented:\\s*(true)$", methodComment));
 						Boolean entityIndexed = indexStoreSolr(entityDoc, "entityIndexed", regexFound("^(entity)?Indexed:\\s*(true)$", methodComment) || entityUniqueKey || entityEncrypted || entitySuggested || entityPrimaryKey || entityIncremented);
@@ -2814,6 +2822,18 @@ public class IndexClass extends WatchClassBase {
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeCanonicalName", entityAttributeCanonicalName);
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVar", entityAttributeVar);
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarSuggest", (String)docClass.get("classVarSuggest_" + classLanguageName + "_stored_string"));
+									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarTitle", (String)docClass.get("classVarTitle_" + classLanguageName + "_stored_string"));
+									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarDescription", (String)docClass.get("classVarDescription_" + classLanguageName + "_stored_string"));
+									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarImageUrl", (String)docClass.get("classVarImageUrl_" + classLanguageName + "_stored_string"));
+
+									
+									String entityOperationIdPATCH = regexLanguage(classLanguageName, "(class)?ApiOperationIdPATCH", classComment, "patch" + classSimpleName);
+									if(entityOperationIdPATCH != null)
+										indexStoreSolr(classLanguageName, entityDoc, "entityOperationIdPATCH", entityOperationIdPATCH);
+
+									String entityAttributeTypeJson = (String)docEntity.get("entityJsonType_stored_string");
+									if(entityAttributeTypeJson != null)
+										indexStoreSolr(entityDoc, "entityAttributeTypeJson", entityAttributeTypeJson);
 
 									String entityAttributeOperationIdPATCH = (String)docClass.get("classApiOperationIdPATCH_" + classLanguageName + "_stored_string");
 									if(entityAttributeOperationIdPATCH != null)
@@ -2831,11 +2851,19 @@ public class IndexClass extends WatchClassBase {
 											String entityAttributeCanonicalNameLangue = (String)docEntity.get("classCanonicalName_" + languageName + "_stored_string");
 											String entityAttributeSimpleNameLangue = (String)docEntity.get("classSimpleName_" + languageName + "_stored_string");
 											String entityAttributeVarLangue = (String)docEntity.get("entityVar_" + languageName + "_stored_string");
+											String classSimpleNameLanguage = (String)Optional.ofNullable(classDoc.get("classSimpleName_" + languageName + "_stored_string")).map(SolrInputField::getValue).orElse(null);
 	
 											indexStoreSolr(languageName, entityDoc, "entityAttributeSimpleName", entityAttributeSimpleNameLangue);
 											indexStoreSolr(languageName, entityDoc, "entityAttributeCanonicalName", entityAttributeCanonicalNameLangue);
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVar", entityAttributeVarLangue);
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVarSuggest", (String)docClass.get("classVarSuggest_" + languageName + "_stored_string"));
+											indexStoreSolr(languageName, entityDoc, "entityAttributeVarTitle", (String)docClass.get("classVarTitle_" + languageName + "_stored_string"));
+											indexStoreSolr(languageName, entityDoc, "entityAttributeVarDescription", (String)docClass.get("classVarDescription_" + languageName + "_stored_string"));
+											indexStoreSolr(languageName, entityDoc, "entityAttributeVarImageUrl", (String)docClass.get("classVarImageUrl_" + languageName + "_stored_string"));
+											
+											entityOperationIdPATCH = regexLanguage(languageName, "(class)?ApiOperationIdPATCH", classComment, "patch" + classSimpleNameLanguage);
+											if(entityOperationIdPATCH != null)
+												indexStoreSolr(languageName, entityDoc, "entityOperationIdPATCH", entityOperationIdPATCH);
 
 											entityAttributeOperationIdPATCH = (String)docClass.get("classApiOperationIdPATCH_" + languageName + "_stored_string");
 
@@ -3176,6 +3204,15 @@ public class IndexClass extends WatchClassBase {
 						if(entitySuggested) {
 							classVarSuggest = storeSolr(classLanguageName, classDoc, "classVarSuggest", entityVar);
 						}
+						if(entityVarTitle) {
+							classVarTitle = storeSolr(classLanguageName, classDoc, "classVarTitle", entityVar);
+						}
+						if(entityVarDescription) {
+							classVarDescription = storeSolr(classLanguageName, classDoc, "classVarDescription", entityVar);
+						}
+						if(entityVarImageUrl) {
+							classVarImageUrl = storeSolr(classLanguageName, classDoc, "classVarImageUrl", entityVar);
+						}
 				
 						if(classTranslate) {
 							for(String languageName : classOtherLanguages) {  
@@ -3203,6 +3240,15 @@ public class IndexClass extends WatchClassBase {
 								}
 								if(entityUniqueKey) {
 									storeSolr(languageName, classDoc, "classVarUniqueKey", entityVarLangue);
+								}
+								if(entityVarTitle) {
+									classVarTitle = storeSolr(languageName, classDoc, "classVarTitle", entityVarLangue);
+								}
+								if(entityVarDescription) {
+									classVarDescription = storeSolr(languageName, classDoc, "classVarDescription", entityVarLangue);
+								}
+								if(entityVarImageUrl) {
+									classVarImageUrl = storeSolr(languageName, classDoc, "classVarTitle", entityVarLangue);
 								}
 		
 								String entitySourceCodeLangue = entitySourceCode;

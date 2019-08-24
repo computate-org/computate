@@ -448,6 +448,21 @@ public class EcrireGenClasse extends EcrireClasse {
 	String entiteAttribuerVar;
 
 	/**
+	 * Var.enUS: entityAttributeVarTitle
+	 */
+	String entiteAttribuerVarTitre;
+
+	/**
+	 * Var.enUS: entityAttributeVarDescription
+	 */
+	String entiteAttribuerVarDescription;
+
+	/**
+	 * Var.enUS: entityAttributeVarImageUrl
+	 */
+	String entiteAttribuerVarImageUrl;
+
+	/**
 	 * Var.enUS: entityAttributeVarSuggest
 	 */
 	String entiteAttribuerVarSuggere;
@@ -703,6 +718,21 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityModify
 	 */
 	Boolean entiteModifier;
+
+	/**
+	 * Var.enUS: entityJsonType
+	 */
+	String entiteTypeJson;
+
+	/**
+	 * Var.enUS: entityAttributeJsonType
+	 */
+	String entiteAttribuerTypeJson;
+
+	/**
+	 * Var.enUS: entityOperationIdPATCH
+	 */
+	String entiteOperationIdPATCH;
 
 	/**
 	 * Var.enUS: entityAttributeOperationIdPATCH
@@ -2527,6 +2557,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	 * r.enUS: entityAttributeCanonicalName
 	 * r: entiteAttribuerNomSimple
 	 * r.enUS: entityAttributeSimpleName
+	 * r: entiteAttribuerVarTitre
+	 * r.enUS: entityAttributeVarTitle
+	 * r: entiteAttribuerVarDescription
+	 * r.enUS: entityAttributeVarDescription
+	 * r: entiteAttribuerVarImageUrl
+	 * r.enUS: entityAttributeVarImageUrl
 	 * r: entiteAttribuerVar
 	 * r.enUS: entityAttributeVar
 	 * r: entiteAttribuer
@@ -2758,6 +2794,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			String entiteAttribuerNomCanonique = (String)doc.get("entiteAttribuerNomCanonique_" + langueNom + "_stored_string");
 			String entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 			String entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
+			String entiteAttribuerVarTitre = (String)doc.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
+			String entiteAttribuerVarDescription = (String)doc.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
+			String entiteAttribuerVarImageUrl = (String)doc.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
 			Boolean entiteAjouter = (Boolean)doc.get("entiteAjouter_stored_boolean");
 			Boolean entiteSupprimer = (Boolean)doc.get("entiteSupprimer_stored_boolean");
 			Boolean entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");

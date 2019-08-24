@@ -207,6 +207,12 @@ public class WriteGenClass extends WriteClass {
 
 	String entityAttributeVar;
 
+	String entityAttributeVarTitle;
+
+	String entityAttributeVarDescription;
+
+	String entityAttributeVarImageUrl;
+
 	String entityAttributeVarSuggest;
 
 	Boolean entityDefine;
@@ -310,6 +316,12 @@ public class WriteGenClass extends WriteClass {
 	Boolean entityHtml;
 
 	Boolean entityModify;
+
+	String entityJsonType;
+
+	String entityAttributeJsonType;
+
+	String entityOperationIdPATCH;
 
 	String entityAttributeOperationIdPATCH;
 
@@ -1238,6 +1250,9 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			String entityAttributeCanonicalName = (String)doc.get("entityAttributeCanonicalName_" + languageName + "_stored_string");
 			String entityAttributeSimpleName = (String)doc.get("entityAttributeSimpleName_" + languageName + "_stored_string");
 			String entityAttributeVar = (String)doc.get("entityAttributeVar_" + languageName + "_stored_string");
+			String entityAttributeVarTitle = (String)doc.get("entityAttributeVarTitle_" + languageName + "_stored_string");
+			String entityAttributeVarDescription = (String)doc.get("entityAttributeVarDescription_" + languageName + "_stored_string");
+			String entityAttributeVarImageUrl = (String)doc.get("entityAttributeVarImageUrl_" + languageName + "_stored_string");
 			Boolean entityAdd = (Boolean)doc.get("entityAdd_stored_boolean");
 			Boolean entityDelete = (Boolean)doc.get("entityDelete_stored_boolean");
 			Boolean entityModify = (Boolean)doc.get("entityModify_stored_boolean");

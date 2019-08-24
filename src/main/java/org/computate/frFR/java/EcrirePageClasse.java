@@ -70,7 +70,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 	/**
 	 * Var.enUS: writeFormEntity
-	 * Param2.var.enUS: classApiMethodMethod
+	 * Param1.var.enUS: languageName
+	 * Param3.var.enUS: classApiMethodMethod
 	 * r: resultat
 	 * r.enUS: result
 	 * 
@@ -134,7 +135,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r: "suggere"
 	 * r.enUS: "suggest"
 	 */
-	public Boolean ecrireFormEntite(ToutEcrivain wForm, String classeApiMethodeMethode) {
+	public Boolean ecrireFormEntite(String langueNom, ToutEcrivain wForm, String classeApiMethodeMethode) {
 		int tIndex = 0;
 		Boolean resultat = false;
 
@@ -924,6 +925,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: entityAttributeOperationIdPATCH
 	 * r: entiteAttribuerOperationIdRecherche
 	 * r.enUS: entityAttributeOperationIdSearch
+	 * r: entiteOperationIdPATCH
+	 * r.enUS: entityOperationIdPATCH
+	 * r: entiteAttribuerTypeJson
+	 * r.enUS: entityAttributeJsonType
+	 * r: entiteTypeJson
+	 * r.enUS: entityJsonType
 	 * 
 	 * r: liste
 	 * r.enUS: list
@@ -1137,17 +1144,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 								if(entiteHtml) {
 									if(entiteHtmlLigne != null) {
-										if(ecrireFormEntite(wFormPOST, "POST"))
+										if(ecrireFormEntite(langueNom, wFormPOST, "POST"))
 											resultatFormPOST = true;
-										if(ecrireFormEntite(wFormPage, "Page"))
+										if(ecrireFormEntite(langueNom, wFormPage, "Page"))
 											resultatFormPage = true;
 									}
 									if(entiteStocke) {
-										if(ecrireFormEntite(wFormPATCH, "PATCH"))
+										if(ecrireFormEntite(langueNom, wFormPATCH, "PATCH"))
 											resultatFormPATCH = true;
 									}
 									if(entiteIndexe) {
-										if(ecrireFormEntite(wFormRecherche, "Recherche"))
+										if(ecrireFormEntite(langueNom, wFormRecherche, "Recherche"))
 											resultatFormRecherche = true;
 									}
 								}
@@ -1566,7 +1573,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							else if(methodePUT)
 								auteurPageJs.s("pk, $", str_formulaireValeurs(langueNom));
 							else if(methodePATCH)
-								auteurPageJs.s("$", str_formulaireFiltres(langueNom), ", $", str_formulaireValeurs(langueNom));
+								auteurPageJs.s("$", str_formulaireFiltres(langueNom), ", $", str_formulaireValeurs(langueNom), ", success, error");
 							else if(methodeRecherche) {
 								auteurPageJs.s("$", str_formulaireFiltres(langueNom), "");
 								auteurPageJs.s(", success");
@@ -1587,7 +1594,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								auteurPageJs.l();
 							}
 							else if(methodePATCH) {
-								auteurPageJs.tl(1, "var ", str_filtres(langueNom), " = ", classeApiOperationIdMethode,str_Filtres(langueNom), "();");
+								auteurPageJs.tl(1, "var ", str_filtres(langueNom), " = ", classeApiOperationIdMethode,str_Filtres(langueNom), "($", str_formulaireFiltres(langueNom), ");");
 								auteurPageJs.l();
 								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = {};");
 								auteurPageJs.s(wPATCH);
@@ -1603,7 +1610,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							}
 		
 							if(methodePATCH) {
-								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", str_valeurs(langueNom), ");");
+//								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", str_valeurs(langueNom), ", $", str_formulaireValeurs(langueNom), ", success, error);");
+								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", str_filtres(langueNom), ", ", str_valeurs(langueNom), ", success, error);");
 							}
 							else {
 								auteurPageJs.tl(1, "$.ajax({");
@@ -1651,34 +1659,38 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Val(", str_filtres(langueNom), ", v, val, $", str_formulaireValeur(langueNom), ") {");
 								auteurPageJs.tl(1, "var json = {};");
 								auteurPageJs.tl(1, "json[v] = val;");
-								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", str_filtres(langueNom), ", json, $", str_formulaireValeur(langueNom), " == null ? $", str_formulaireValeur(langueNom), " : [$", str_formulaireValeur(langueNom), "]);");
+//								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", str_filtres(langueNom), ", json, $", str_formulaireValeur(langueNom), " == null ? $", str_formulaireValeur(langueNom), " : [$", str_formulaireValeur(langueNom), "]);");
+								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", str_filtres(langueNom), ", json);");
 								auteurPageJs.l("}");
 								auteurPageJs.l();
-								auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(", str_filtres(langueNom), ", ", str_valeurs(langueNom), ", $", str_formulaireValeurs(langueNom), ") {");
+//								auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(", str_filtres(langueNom), ", ", str_valeurs(langueNom), ", $", str_formulaireValeurs(langueNom), ", success, error) {");
+								auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(", str_filtres(langueNom), ", ", str_valeurs(langueNom), ", success, error) {");
 								auteurPageJs.tl(1, "$.ajax({");
 								auteurPageJs.tl(2, "url: '", classeApiUriMethode, "?' + $.param(", str_filtres(langueNom), ")");
 								auteurPageJs.tl(2, ", dataType: 'json'");
 								auteurPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
 								auteurPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
 								auteurPageJs.tl(2, ", data: JSON.stringify(", str_valeurs(langueNom), ")");
-								auteurPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
-								auteurPageJs.tl(3, "if($", str_formulaireValeurs(langueNom), " != null) {");
-								auteurPageJs.tl(4, "for(var i = 0; i < $", str_formulaireValeurs(langueNom), ".length; i++) {");
-								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), " = $", str_formulaireValeurs(langueNom), "[i];");
-								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), ".removeClass('", str_lueur(langueNom), str_Erreur(langueNom), "');");
-								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), ".addClass('", str_lueur(langueNom), str_Succes(langueNom), "');");
-								auteurPageJs.tl(4, "}");
-								auteurPageJs.tl(3, "}");
-								auteurPageJs.tl(2, "}");
-								auteurPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
-								auteurPageJs.tl(3, "if($", str_formulaireValeurs(langueNom), " != null) {");
-								auteurPageJs.tl(4, "for(var i = 0; i < $", str_formulaireValeurs(langueNom), ".length; i++) {");
-								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), " = $", str_formulaireValeurs(langueNom), "[i];");
-								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), ".removeClass('", str_lueur(langueNom), str_Succes(langueNom), "');");
-								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), ".addClass('", str_lueur(langueNom), str_Erreur(langueNom), "');");
-								auteurPageJs.tl(4, "}");
-								auteurPageJs.tl(3, "}");
-								auteurPageJs.tl(2, "}");
+								auteurPageJs.tl(2, ", success: success");
+								auteurPageJs.tl(2, ", error: error");
+//								auteurPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
+//								auteurPageJs.tl(3, "if($", str_formulaireValeurs(langueNom), " != null) {");
+//								auteurPageJs.tl(4, "for(var i = 0; i < $", str_formulaireValeurs(langueNom), ".length; i++) {");
+//								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), " = $", str_formulaireValeurs(langueNom), "[i];");
+//								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), ".removeClass('", str_lueur(langueNom), str_Erreur(langueNom), "');");
+//								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), ".addClass('", str_lueur(langueNom), str_Succes(langueNom), "');");
+//								auteurPageJs.tl(4, "}");
+//								auteurPageJs.tl(3, "}");
+//								auteurPageJs.tl(2, "}");
+//								auteurPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
+//								auteurPageJs.tl(3, "if($", str_formulaireValeurs(langueNom), " != null) {");
+//								auteurPageJs.tl(4, "for(var i = 0; i < $", str_formulaireValeurs(langueNom), ".length; i++) {");
+//								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), " = $", str_formulaireValeurs(langueNom), "[i];");
+//								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), ".removeClass('", str_lueur(langueNom), str_Succes(langueNom), "');");
+//								auteurPageJs.tl(5, "$", str_formulaireValeur(langueNom), ".addClass('", str_lueur(langueNom), str_Erreur(langueNom), "');");
+//								auteurPageJs.tl(4, "}");
+//								auteurPageJs.tl(3, "}");
+//								auteurPageJs.tl(2, "}");
 								auteurPageJs.tl(1, "});");
 								auteurPageJs.l("}");
 							}
@@ -1719,9 +1731,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											entiteSuggere = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean"));
 											entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 											entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + langueNom + "_stored_string");
+											entiteAttribuerVarTitre = (String)entiteDocumentSolr.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
+											entiteAttribuerVarDescription = (String)entiteDocumentSolr.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
+											entiteAttribuerVarImageUrl = (String)entiteDocumentSolr.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
 											entiteAttribuerVarSuggere = (String)entiteDocumentSolr.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
 											entiteAttribuerOperationIdRecherche = (String)entiteDocumentSolr.get("entiteAttribuerOperationId" + str_Recherche(langueNom) + "_" + langueNom + "_stored_string");
 											entiteAttribuerOperationIdPATCH = (String)entiteDocumentSolr.get("entiteAttribuerOperationIdPATCH_" + langueNom + "_stored_string");
+											entiteOperationIdPATCH = (String)entiteDocumentSolr.get("entiteOperationIdPATCH_" + langueNom + "_stored_string");
+											entiteTypeJson = (String)entiteDocumentSolr.get("entiteTypeJson_stored_string");
+											entiteAttribuerTypeJson = (String)entiteDocumentSolr.get("entiteAttribuerTypeJson_stored_string");
 				
 											if(entiteSuggere) {
 												auteurPageJs.l();
@@ -1750,13 +1768,40 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												auteurPageJs.tl(0, "function ", str_rechercher(langueNom), classeNomSimple, entiteVarCapitalise, "($", str_formulaireFiltres(langueNom), ", $list) {");
 												auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
 												auteurPageJs.tl(2, "$list.empty();");
-												auteurPageJs.tl(2, "$.each(data['list'], function(o) {");
+												auteurPageJs.tl(2, "$.each(data['list'], function(i, o) {");
 												auteurPageJs.tl(3, "var $i = $('<i>').attr('class', 'far fa-something ');");
-												auteurPageJs.tl(3, "var $span = $('<span>').attr('class', '').text();");
+												auteurPageJs.t(3, "var $span = $('<span>').attr('class', '').text(");
+												if(entiteAttribuerVarTitre != null)
+													auteurPageJs.s("o['", entiteAttribuerVarTitre, "']");
+												auteurPageJs.l(");");
 												auteurPageJs.tl(3, "var $a = $('<a>').attr('href', '...');");
 												auteurPageJs.tl(3, "$a.append($i);");
 												auteurPageJs.tl(3, "$a.append($span);");
-												auteurPageJs.tl(3, "var $input = $('<input>').attr('class', 'w3-check ').attr('onchange', '", entiteAttribuerOperationIdPATCH, "($(this).parent()); ').attr('onclick', '", str_enleverLueur(langueNom), "($(this)); ').attr('type', 'checkbox').attr('checked', 'checked').attr('name', '...').attr('value', '...');");
+												auteurPageJs.tl(3, "var pk = $('#", classeNomSimple, "Form :input[name=\"pk\"]').val();");
+												auteurPageJs.tl(3, "var val = o['", entiteAttribuerVar, "'];");
+												auteurPageJs.tl(3, "var checked = Array.isArray(val) ? val.includes(val) : val == pk;");
+												auteurPageJs.tl(3, "var $input = $('<input>');");
+												auteurPageJs.tl(3, "$input.attr('class', 'w3-check ');");
+
+												if("array".equals(entiteTypeJson)) {
+													auteurPageJs.t(4, "$input.attr('onchange', \"", entiteOperationIdPATCH, "Vals({ 'pk': \" + pk + \" }, { [($(this).prop('checked') ? null : 'remove' : 'add') + '", entiteVarCapitalise, "']: \" + o['pk'] + \" }");
+												}
+												else {
+													auteurPageJs.t(3, "$input.attr('onchange', \"", entiteOperationIdPATCH, "Vals({ 'pk': \" + pk + \" }, { '", "set", entiteVarCapitalise, "': ($(this).prop('checked') ? null : \" + o['pk'] + \") }");
+												}
+
+												if("array".equals(entiteAttribuerTypeJson)) {
+													auteurPageJs.s(", function() { ", entiteAttribuerOperationIdPATCH, "Vals({ 'pk': \" + o['pk'] + \" }, {}, function() {}, function() {}); }");
+												}
+												else {
+													auteurPageJs.s(", function() { ", entiteAttribuerOperationIdPATCH, "Vals({ 'pk': \" + o['pk'] + \" }, {}, function() {}, function() {}); }");
+												}
+												auteurPageJs.l(", function() {} ); \");");
+
+												auteurPageJs.tl(3, "$input.attr('onclick', '", str_enleverLueur(langueNom), "($(this)); ');");
+												auteurPageJs.tl(3, "$input.attr('type', 'checkbox');");
+												auteurPageJs.tl(3, "if(checked)");
+												auteurPageJs.tl(4, "$input.attr('checked', 'checked');");
 												auteurPageJs.tl(3, "var $li = $('<li>');");
 												auteurPageJs.tl(3, "$li.append($input);");
 												auteurPageJs.tl(3, "$li.append($a);");
