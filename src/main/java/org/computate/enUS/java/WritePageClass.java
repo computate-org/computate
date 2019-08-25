@@ -1257,17 +1257,17 @@ public class WritePageClass extends WriteApiClass {
 												writerPageJs.tl(3, "$input.attr('class', 'w3-check ');");
 
 												if("array".equals(entityJsonType)) {
-													writerPageJs.t(4, "$input.attr('onchange', \"", entityOperationIdPATCH, "Vals({ 'pk': \" + pk + \" }, { [($(this).prop('checked') ? null : 'remove' : 'add') + '", entityVarCapitalized, "']: \" + o['pk'] + \" }");
+													writerPageJs.t(4, "$input.attr('onchange', \"", entityOperationIdPATCH, "Vals({ 'fq': 'pk:\" + pk + \"' }, { [($(this).prop('checked') ? 'add' : 'remove') + '", entityVarCapitalized, "']: \" + o['pk'] + \" }");
 												}
 												else {
-													writerPageJs.t(3, "$input.attr('onchange', \"", entityOperationIdPATCH, "Vals({ 'pk': \" + pk + \" }, { '", "set", entityVarCapitalized, "': ($(this).prop('checked') ? null : \" + o['pk'] + \") }");
+													writerPageJs.t(3, "$input.attr('onchange', \"", entityOperationIdPATCH, "Vals({ 'fq': 'pk:\" + pk + \"' }, { '", "set", entityVarCapitalized, "': ($(this).prop('checked') ? \" + o['pk'] + \" : null ) }");
 												}
 
 												if("array".equals(entityAttributeJsonType)) {
-													writerPageJs.s(", function() { ", entityAttributeOperationIdPATCH, "Vals({ 'pk': \" + o['pk'] + \" }, {}, function() {}, function() {}); }");
+													writerPageJs.s(", function() { ", entityAttributeOperationIdPATCH, "Vals({ 'fq': 'pk:\" + o['pk'] + \"' }, {}, function() {}, function() {}); }");
 												}
 												else {
-													writerPageJs.s(", function() { ", entityAttributeOperationIdPATCH, "Vals({ 'pk': \" + o['pk'] + \" }, {}, function() {}, function() {}); }");
+													writerPageJs.s(", function() { ", entityAttributeOperationIdPATCH, "Vals({ 'fq': 'pk:\" + o['pk'] + \"' }, {}, function() {}, function() {}); }");
 												}
 												writerPageJs.l(", function() {} ); \");");
 
