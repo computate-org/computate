@@ -448,6 +448,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	String entiteAttribuerVar;
 
 	/**
+	 * Var.enUS: entityAttributeVarUrl
+	 */
+	String entiteAttribuerVarUrl;
+
+	/**
 	 * Var.enUS: entityAttributeVarTitle
 	 */
 	String entiteAttribuerVarTitre;
@@ -2557,6 +2562,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	 * r.enUS: entityAttributeCanonicalName
 	 * r: entiteAttribuerNomSimple
 	 * r.enUS: entityAttributeSimpleName
+	 * r: entiteAttribuerVarUrl
+	 * r.enUS: entityAttributeVarUrl
 	 * r: entiteAttribuerVarTitre
 	 * r.enUS: entityAttributeVarTitle
 	 * r: entiteAttribuerVarDescription
@@ -2794,6 +2801,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			String entiteAttribuerNomCanonique = (String)doc.get("entiteAttribuerNomCanonique_" + langueNom + "_stored_string");
 			String entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 			String entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
+			String entiteAttribuerVarUrl = (String)doc.get("entiteAttribuerVarUrl_" + langueNom + "_stored_string");
 			String entiteAttribuerVarTitre = (String)doc.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
 			String entiteAttribuerVarDescription = (String)doc.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
 			String entiteAttribuerVarImageUrl = (String)doc.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
@@ -4217,7 +4225,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(tBase + 7, "break;");
 			}	
 	
-			if(entiteDefinir) {
+			if(entiteDefinir || entiteAttribuer) {
 		
 				//////////////
 				// hashCode //
@@ -5018,7 +5026,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		tl(2, "StringBuilder sb = new StringBuilder();");
 		if(BooleanUtils.isTrue(classeEtendBase)) 
 			tl(2, "sb.append(super.toString() + \"\\n\");");
-		tl(2, "sb.append(\"", classeNomSimple, " {\");");
+		tl(2, "sb.append(\"", classeNomSimple, " { \");");
 		s(wToString.toString());
 		tl(2, "sb.append(\" }\");");
 		tl(2, "return sb.toString();");

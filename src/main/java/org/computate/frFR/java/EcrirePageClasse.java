@@ -1731,6 +1731,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											entiteSuggere = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean"));
 											entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 											entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + langueNom + "_stored_string");
+											entiteAttribuerVarUrl = (String)entiteDocumentSolr.get("entiteAttribuerVarUrl_" + langueNom + "_stored_string");
 											entiteAttribuerVarTitre = (String)entiteDocumentSolr.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
 											entiteAttribuerVarDescription = (String)entiteDocumentSolr.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
 											entiteAttribuerVarImageUrl = (String)entiteDocumentSolr.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
@@ -1774,12 +1775,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												if(entiteAttribuerVarTitre != null)
 													auteurPageJs.s("o['", entiteAttribuerVarTitre, "']");
 												auteurPageJs.l(");");
-												auteurPageJs.tl(3, "var $a = $('<a>').attr('href', '...');");
+
+												if(entiteAttribuerVarUrl != null)
+													auteurPageJs.tl(3, "var $a = $('<a>').attr('href', o['", entiteAttribuerVarUrl, "']);");
+												else
+													auteurPageJs.tl(3, "var $a = $('<span>');");
+
 												auteurPageJs.tl(3, "$a.append($i);");
 												auteurPageJs.tl(3, "$a.append($span);");
-												auteurPageJs.tl(3, "var pk = $('#", classeNomSimple, "Form :input[name=\"pk\"]').val();");
+												auteurPageJs.tl(3, "var pk = parseInt($('#", classeNomSimple, "Form :input[name=\"pk\"]').val());");
 												auteurPageJs.tl(3, "var val = o['", entiteAttribuerVar, "'];");
-												auteurPageJs.tl(3, "var checked = Array.isArray(val) ? val.includes(val) : val == pk;");
+												auteurPageJs.tl(3, "var checked = Array.isArray(val) ? val.includes(pk) : val == pk;");
 												auteurPageJs.tl(3, "var $input = $('<input>');");
 												auteurPageJs.tl(3, "$input.attr('class', 'w3-check ');");
 

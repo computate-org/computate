@@ -3928,6 +3928,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityAttributeSimpleName
 	 * r: entiteAttribuerVarSuggere
 	 * r.enUS: entityAttributeVarSuggest
+	 * r: entiteAttribuerVarUrl
+	 * r.enUS: entityAttributeVarUrl
 	 * r: entiteAttribuerVarTitre
 	 * r.enUS: entityAttributeVarTitle
 	 * r: entiteAttribuerVarDescription
@@ -3994,6 +3996,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classIndexed
 	 * r: classeImage
 	 * r.enUS: classImage
+	 * r: classeVarUrl
+	 * r.enUS: classVarUrl
 	 * r: classeVarTitre
 	 * r.enUS: classVarTitle
 	 * r: classeVarDescription
@@ -4461,6 +4465,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		List<String> classeMotsCles = new ArrayList<String>();
 		List<String> classeInitLoinExceptions = new ArrayList<String>(); 
 		String classeVarSuggere = null;
+		String classeVarUrl = null;
 		String classeVarTitre = null;
 		String classeVarDescription = null;
 		String classeVarImageUrl = null;
@@ -5526,6 +5531,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^(entite)?CleUnique:\\s*(true)$", methodeCommentaire));
 						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^(entite)?Crypte:\\s*(true)$", methodeCommentaire));
 						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^(entite)?Suggere:\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarUrl = indexerStockerSolr(entiteDoc, "entiteVarUrl", regexTrouve("^(entite)?VarUrl:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^(entite)?VarTitre:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarDescription = indexerStockerSolr(entiteDoc, "entiteVarDescription", regexTrouve("^(entite)?VarDescription:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarImageUrl = indexerStockerSolr(entiteDoc, "entiteVarImageUrl", regexTrouve("^(entite)?VarImageUrl:\\s*(true)$", methodeCommentaire));
@@ -5661,6 +5667,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanonique);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVar);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrl", (String)docClasse.get("classeVarUrl_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + classeLangueNom + "_stored_string"));
@@ -5696,6 +5703,7 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanoniqueLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVarLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrl", (String)docClasse.get("classeVarUrl_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + langueNom + "_stored_string"));
@@ -6043,6 +6051,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteSuggere) {
 							classeVarSuggere = stockerSolr(classeLangueNom, classeDoc, "classeVarSuggere", entiteVar);
 						}
+						if(entiteVarUrl) {
+							classeVarUrl = stockerSolr(classeLangueNom, classeDoc, "classeVarUrl", entiteVar);
+						}
 						if(entiteVarTitre) {
 							classeVarTitre = stockerSolr(classeLangueNom, classeDoc, "classeVarTitre", entiteVar);
 						}
@@ -6080,6 +6091,9 @@ public class IndexerClasse extends RegarderClasseBase {
 								if(entiteCleUnique) {
 									stockerSolr(langueNom, classeDoc, "classeVarCleUnique", entiteVarLangue);
 								}
+								if(entiteVarUrl) {
+									classeVarUrl = stockerSolr(langueNom, classeDoc, "classeVarUrl", entiteVarLangue);
+								}
 								if(entiteVarTitre) {
 									classeVarTitre = stockerSolr(langueNom, classeDoc, "classeVarTitre", entiteVarLangue);
 								}
@@ -6087,7 +6101,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									classeVarDescription = stockerSolr(langueNom, classeDoc, "classeVarDescription", entiteVarLangue);
 								}
 								if(entiteVarImageUrl) {
-									classeVarImageUrl = stockerSolr(langueNom, classeDoc, "classeVarTitre", entiteVarLangue);
+									classeVarImageUrl = stockerSolr(langueNom, classeDoc, "classeVarImageUrl", entiteVarLangue);
 								}
 		
 								String entiteCodeSourceLangue = entiteCodeSource;
@@ -6490,6 +6504,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							if(StringUtils.isBlank(classeApiUriMethode))
 								classeApiUriMethode = classeApiUri + "/{id}";
 						}
+
 						if(this.langueNom.equals(classeLangueNom))
 							indexerStockerSolr(langueNom, classeDoc, "classeApiTypeMedia200" + classeApiMethode, classeApiTypeMedia200Methode);
 						indexerStockerSolr(langueNom, classeDoc, "classeApiMotCle" + classeApiMethode, classeApiMotCleMethode);

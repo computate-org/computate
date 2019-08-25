@@ -1622,6 +1622,7 @@ public class IndexClass extends WatchClassBase {
 		List<String> classKeywords = new ArrayList<String>();
 		List<String> classInitDeepExceptions = new ArrayList<String>(); 
 		String classVarSuggest = null;
+		String classVarUrl = null;
 		String classVarTitle = null;
 		String classVarDescription = null;
 		String classVarImageUrl = null;
@@ -2687,6 +2688,7 @@ public class IndexClass extends WatchClassBase {
 						Boolean entityUniqueKey = indexStoreSolr(entityDoc, "entityUniqueKey", regexFound("^(entity)?UniqueKey:\\s*(true)$", methodComment));
 						Boolean entityEncrypted = indexStoreSolr(entityDoc, "entityEncrypted", regexFound("^(entity)?Encrypted:\\s*(true)$", methodComment));
 						Boolean entitySuggested = indexStoreSolr(entityDoc, "entitySuggested", regexFound("^(entity)?Suggested:\\s*(true)$", methodComment));
+						Boolean entityVarUrl = indexStoreSolr(entityDoc, "entityVarUrl", regexFound("^(entity)?VarUrl:\\s*(true)$", methodComment));
 						Boolean entityVarTitle = indexStoreSolr(entityDoc, "entityVarTitle", regexFound("^(entity)?VarTitle:\\s*(true)$", methodComment));
 						Boolean entityVarDescription = indexStoreSolr(entityDoc, "entityVarDescription", regexFound("^(entity)?VarDescription:\\s*(true)$", methodComment));
 						Boolean entityVarImageUrl = indexStoreSolr(entityDoc, "entityVarImageUrl", regexFound("^(entity)?VarImageUrl:\\s*(true)$", methodComment));
@@ -2822,6 +2824,7 @@ public class IndexClass extends WatchClassBase {
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeCanonicalName", entityAttributeCanonicalName);
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVar", entityAttributeVar);
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarSuggest", (String)docClass.get("classVarSuggest_" + classLanguageName + "_stored_string"));
+									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarUrl", (String)docClass.get("classVarUrl_" + classLanguageName + "_stored_string"));
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarTitle", (String)docClass.get("classVarTitle_" + classLanguageName + "_stored_string"));
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarDescription", (String)docClass.get("classVarDescription_" + classLanguageName + "_stored_string"));
 									indexStoreSolr(classLanguageName, entityDoc, "entityAttributeVarImageUrl", (String)docClass.get("classVarImageUrl_" + classLanguageName + "_stored_string"));
@@ -2857,6 +2860,7 @@ public class IndexClass extends WatchClassBase {
 											indexStoreSolr(languageName, entityDoc, "entityAttributeCanonicalName", entityAttributeCanonicalNameLangue);
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVar", entityAttributeVarLangue);
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVarSuggest", (String)docClass.get("classVarSuggest_" + languageName + "_stored_string"));
+											indexStoreSolr(languageName, entityDoc, "entityAttributeVarUrl", (String)docClass.get("classVarUrl_" + languageName + "_stored_string"));
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVarTitle", (String)docClass.get("classVarTitle_" + languageName + "_stored_string"));
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVarDescription", (String)docClass.get("classVarDescription_" + languageName + "_stored_string"));
 											indexStoreSolr(languageName, entityDoc, "entityAttributeVarImageUrl", (String)docClass.get("classVarImageUrl_" + languageName + "_stored_string"));
@@ -3204,6 +3208,9 @@ public class IndexClass extends WatchClassBase {
 						if(entitySuggested) {
 							classVarSuggest = storeSolr(classLanguageName, classDoc, "classVarSuggest", entityVar);
 						}
+						if(entityVarUrl) {
+							classVarUrl = storeSolr(classLanguageName, classDoc, "classVarUrl", entityVar);
+						}
 						if(entityVarTitle) {
 							classVarTitle = storeSolr(classLanguageName, classDoc, "classVarTitle", entityVar);
 						}
@@ -3241,6 +3248,9 @@ public class IndexClass extends WatchClassBase {
 								if(entityUniqueKey) {
 									storeSolr(languageName, classDoc, "classVarUniqueKey", entityVarLangue);
 								}
+								if(entityVarUrl) {
+									classVarUrl = storeSolr(languageName, classDoc, "classVarUrl", entityVarLangue);
+								}
 								if(entityVarTitle) {
 									classVarTitle = storeSolr(languageName, classDoc, "classVarTitle", entityVarLangue);
 								}
@@ -3248,7 +3258,7 @@ public class IndexClass extends WatchClassBase {
 									classVarDescription = storeSolr(languageName, classDoc, "classVarDescription", entityVarLangue);
 								}
 								if(entityVarImageUrl) {
-									classVarImageUrl = storeSolr(languageName, classDoc, "classVarTitle", entityVarLangue);
+									classVarImageUrl = storeSolr(languageName, classDoc, "classVarImageUrl", entityVarLangue);
 								}
 		
 								String entitySourceCodeLangue = entitySourceCode;
@@ -3651,6 +3661,7 @@ public class IndexClass extends WatchClassBase {
 							if(StringUtils.isBlank(classApiUriMethode))
 								classApiUriMethode = classApiUri + "/{id}";
 						}
+
 						if(this.languageName.equals(classLanguageName))
 							indexStoreSolr(languageName, classDoc, "classApiMediaType200" + classApiMethod, classApiMediaType200Methode);
 						indexStoreSolr(languageName, classDoc, "classApiKeyword" + classApiMethod, classApiKeywordMethod);

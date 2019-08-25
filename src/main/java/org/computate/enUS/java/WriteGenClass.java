@@ -207,6 +207,8 @@ public class WriteGenClass extends WriteClass {
 
 	String entityAttributeVar;
 
+	String entityAttributeVarUrl;
+
 	String entityAttributeVarTitle;
 
 	String entityAttributeVarDescription;
@@ -1250,6 +1252,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			String entityAttributeCanonicalName = (String)doc.get("entityAttributeCanonicalName_" + languageName + "_stored_string");
 			String entityAttributeSimpleName = (String)doc.get("entityAttributeSimpleName_" + languageName + "_stored_string");
 			String entityAttributeVar = (String)doc.get("entityAttributeVar_" + languageName + "_stored_string");
+			String entityAttributeVarUrl = (String)doc.get("entityAttributeVarUrl_" + languageName + "_stored_string");
 			String entityAttributeVarTitle = (String)doc.get("entityAttributeVarTitle_" + languageName + "_stored_string");
 			String entityAttributeVarDescription = (String)doc.get("entityAttributeVarDescription_" + languageName + "_stored_string");
 			String entityAttributeVarImageUrl = (String)doc.get("entityAttributeVarImageUrl_" + languageName + "_stored_string");
@@ -2673,7 +2676,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				tl(tBase + 7, "break;");
 			}	
 	
-			if(entityDefined) {
+			if(entityDefined || entityAttribute) {
 		
 				//////////////
 				// hashCode //
@@ -3272,7 +3275,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 		tl(2, "StringBuilder sb = new StringBuilder();");
 		if(BooleanUtils.isTrue(classExtendsBase)) 
 			tl(2, "sb.append(super.toString() + \"\\n\");");
-		tl(2, "sb.append(\"", classSimpleName, " {\");");
+		tl(2, "sb.append(\"", classSimpleName, " { \");");
 		s(wToString.toString());
 		tl(2, "sb.append(\" }\");");
 		tl(2, "return sb.toString();");
