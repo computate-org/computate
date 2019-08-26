@@ -163,6 +163,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeVarClePrimaire;
 
 	/**
+	 * Var.enUS: classVarId
+	 */
+	protected String classeVarId;
+
+	/**
 	 * Var.enUS: classVarUniqueKey
 	 */
 	protected String classeVarCleUnique;
@@ -451,6 +456,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityAttributeVarUrl
 	 */
 	String entiteAttribuerVarUrl;
+
+	/**
+	 * Var.enUS: entityAttributeVarId
+	 */
+	String entiteAttribuerVarId;
 
 	/**
 	 * Var.enUS: entityAttributeVarTitle
@@ -2564,6 +2574,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	 * r.enUS: entityAttributeSimpleName
 	 * r: entiteAttribuerVarUrl
 	 * r.enUS: entityAttributeVarUrl
+	 * r: entiteAttribuerVarId
+	 * r.enUS: entityAttributeVarId
 	 * r: entiteAttribuerVarTitre
 	 * r.enUS: entityAttributeVarTitle
 	 * r: entiteAttribuerVarDescription
@@ -2802,6 +2814,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			String entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 			String entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
 			String entiteAttribuerVarUrl = (String)doc.get("entiteAttribuerVarUrl_" + langueNom + "_stored_string");
+			String entiteAttribuerVarId = (String)doc.get("entiteAttribuerVarId_" + langueNom + "_stored_string");
 			String entiteAttribuerVarTitre = (String)doc.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
 			String entiteAttribuerVarDescription = (String)doc.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
 			String entiteAttribuerVarImageUrl = (String)doc.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");

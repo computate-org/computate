@@ -3930,6 +3930,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityAttributeVarSuggest
 	 * r: entiteAttribuerVarUrl
 	 * r.enUS: entityAttributeVarUrl
+	 * r: entiteAttribuerVarId
+	 * r.enUS: entityAttributeVarId
 	 * r: entiteAttribuerVarTitre
 	 * r.enUS: entityAttributeVarTitle
 	 * r: entiteAttribuerVarDescription
@@ -3998,6 +4000,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classImage
 	 * r: classeVarUrl
 	 * r.enUS: classVarUrl
+	 * r: classeVarId
+	 * r.enUS: classVarId
 	 * r: classeVarTitre
 	 * r.enUS: classVarTitle
 	 * r: classeVarDescription
@@ -4466,6 +4470,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		List<String> classeInitLoinExceptions = new ArrayList<String>(); 
 		String classeVarSuggere = null;
 		String classeVarUrl = null;
+		String classeVarId = null;
 		String classeVarTitre = null;
 		String classeVarDescription = null;
 		String classeVarImageUrl = null;
@@ -5532,6 +5537,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^(entite)?Crypte:\\s*(true)$", methodeCommentaire));
 						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^(entite)?Suggere:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarUrl = indexerStockerSolr(entiteDoc, "entiteVarUrl", regexTrouve("^(entite)?VarUrl:\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarId = indexerStockerSolr(entiteDoc, "entiteVarId", regexTrouve("^(entite)?VarId:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^(entite)?VarTitre:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarDescription = indexerStockerSolr(entiteDoc, "entiteVarDescription", regexTrouve("^(entite)?VarDescription:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarImageUrl = indexerStockerSolr(entiteDoc, "entiteVarImageUrl", regexTrouve("^(entite)?VarImageUrl:\\s*(true)$", methodeCommentaire));
@@ -5668,6 +5674,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVar);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrl", (String)docClasse.get("classeVarUrl_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarId", (String)docClasse.get("classeVarId_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + classeLangueNom + "_stored_string"));
@@ -5704,6 +5711,7 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVarLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrl", (String)docClasse.get("classeVarUrl_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarId", (String)docClasse.get("classeVarId_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + langueNom + "_stored_string"));
@@ -6054,6 +6062,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteVarUrl) {
 							classeVarUrl = stockerSolr(classeLangueNom, classeDoc, "classeVarUrl", entiteVar);
 						}
+						if(entiteVarId) {
+							classeVarId = stockerSolr(classeLangueNom, classeDoc, "classeVarId", entiteVar);
+						}
 						if(entiteVarTitre) {
 							classeVarTitre = stockerSolr(classeLangueNom, classeDoc, "classeVarTitre", entiteVar);
 						}
@@ -6093,6 +6104,9 @@ public class IndexerClasse extends RegarderClasseBase {
 								}
 								if(entiteVarUrl) {
 									classeVarUrl = stockerSolr(langueNom, classeDoc, "classeVarUrl", entiteVarLangue);
+								}
+								if(entiteVarId) {
+									classeVarId = stockerSolr(langueNom, classeDoc, "classeVarId", entiteVarLangue);
 								}
 								if(entiteVarTitre) {
 									classeVarTitre = stockerSolr(langueNom, classeDoc, "classeVarTitre", entiteVarLangue);

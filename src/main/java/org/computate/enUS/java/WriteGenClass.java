@@ -87,6 +87,8 @@ public class WriteGenClass extends WriteClass {
 
 	protected String classVarPrimaryKey;
 
+	protected String classVarId;
+
 	protected String classVarUniqueKey;
 
 	protected List<String> classImportsGen;
@@ -208,6 +210,8 @@ public class WriteGenClass extends WriteClass {
 	String entityAttributeVar;
 
 	String entityAttributeVarUrl;
+
+	String entityAttributeVarId;
 
 	String entityAttributeVarTitle;
 
@@ -1253,6 +1257,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			String entityAttributeSimpleName = (String)doc.get("entityAttributeSimpleName_" + languageName + "_stored_string");
 			String entityAttributeVar = (String)doc.get("entityAttributeVar_" + languageName + "_stored_string");
 			String entityAttributeVarUrl = (String)doc.get("entityAttributeVarUrl_" + languageName + "_stored_string");
+			String entityAttributeVarId = (String)doc.get("entityAttributeVarId_" + languageName + "_stored_string");
 			String entityAttributeVarTitle = (String)doc.get("entityAttributeVarTitle_" + languageName + "_stored_string");
 			String entityAttributeVarDescription = (String)doc.get("entityAttributeVarDescription_" + languageName + "_stored_string");
 			String entityAttributeVarImageUrl = (String)doc.get("entityAttributeVarImageUrl_" + languageName + "_stored_string");

@@ -185,6 +185,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: partIsMethode
 	 * r: classeVarClePrimaire
 	 * r.enUS: classVarPrimaryKey
+	 * r: classeVarId
+	 * r.enUS: classVarId
 	 * r: classeVarCleUnique
 	 * r.enUS: classVarUniqueKey
 	 * r: classePageUri
@@ -474,6 +476,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeNomSimpleGenApiServiceImpl = (String)doc.get("classeNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
 					classeNomSimpleGenApiService = (String)doc.get("classeNomSimpleGenApiService_" + langueNom + "_stored_string");
 					classeVarClePrimaire = (String)doc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
+					classeVarId = (String)doc.get("classeVarId_" + langueNom + "_stored_string");
 					classeVarCleUnique = (String)doc.get("classeVarCleUnique_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");

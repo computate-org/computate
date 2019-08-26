@@ -461,6 +461,7 @@ public class WriteApiClass extends WriteGenClass {
 											tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
 											tl(tBase + 3, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_addA);");
 											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", ", str_requete(languageName), "Json.get", entityListSimpleNameVertxJson, "(", str_methodName(languageName), ")", "));");
+											tl(tBase + 3, "break;");
 					
 											tl(tBase + 2, "case \"addAll", entityVarCapitalized, "\":");
 											tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "", str_Valeurs(languageName), " = ", str_requete(languageName), "Json.get", entitySimpleNameVertxJson, "(", str_methodName(languageName), ");");
@@ -468,6 +469,7 @@ public class WriteApiClass extends WriteGenClass {
 											tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_addA);");
 											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", addAll", entityVarCapitalized, "", str_Valeurs(languageName), ".get", entityListSimpleNameVertxJson, "(i)", "));");
 											tl(tBase + 3, "}");
+											tl(tBase + 3, "break;");
 						
 											tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
 											tl(tBase + 3, entitySimpleNameVertxJson, " set", entityVarCapitalized, "", str_Valeurs(languageName), " = ", str_requete(languageName), "Json.get", entitySimpleNameVertxJson, "(", str_methodName(languageName), ");");
@@ -478,11 +480,18 @@ public class WriteApiClass extends WriteGenClass {
 											tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_addA);");
 											tl(tBase + 4, "patchSqlParams.set(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", addAll", entityVarCapitalized, "", str_Valeurs(languageName), ".get", entityListSimpleNameVertxJson, "(i)", "));");
 											tl(tBase + 3, "}");
+											tl(tBase + 3, "break;");
+							
+											tl(tBase + 2, "case \"remove", entityVarCapitalized, "\":");
+											tl(tBase + 3, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_removeA);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", ", str_requete(languageName), "Json.getLong(", str_methodName(languageName), ")));");
+											tl(tBase + 3, "break;");
 										}
 										else {
 											tl(tBase + 2, "case \"add", entityVarCapitalized, "\":");
 											tl(tBase + 3, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_addA);");
-											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", ", str_requete(languageName), "Json.get", entityListSimpleNameVertxJson, "(", str_methodName(languageName), ")", "));");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", ", str_requete(languageName), "Json.get", entityListSimpleNameVertxJson, "(", str_methodName(languageName), "), ", q(entityVar), ", ", classVarPrimaryKey, "));");
+											tl(tBase + 3, "break;");
 					
 											tl(tBase + 2, "case \"addAll", entityVarCapitalized, "\":");
 											tl(tBase + 3, entitySimpleNameVertxJson, " addAll", entityVarCapitalized, "", str_Valeurs(languageName), " = ", str_requete(languageName), "Json.get", entitySimpleNameVertxJson, "(", str_methodName(languageName), ");");
@@ -490,6 +499,7 @@ public class WriteApiClass extends WriteGenClass {
 											tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setA2);");
 											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", ", "addAll", entityVarCapitalized, "", str_Valeurs(languageName), ".get", entityListSimpleNameVertxJson, "(i), ", q(entityVar), ", ", classVarPrimaryKey, "));");
 											tl(tBase + 3, "}");
+											tl(tBase + 3, "break;");
 						
 											tl(tBase + 2, "case \"set", entityVarCapitalized, "\":");
 											tl(tBase + 3, entitySimpleNameVertxJson, " set", entityVarCapitalized, "", str_Valeurs(languageName), " = ", str_requete(languageName), "Json.get", entitySimpleNameVertxJson, "(", str_methodName(languageName), ");");
@@ -500,6 +510,12 @@ public class WriteApiClass extends WriteGenClass {
 											tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setA2);");
 											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", set", entityVarCapitalized, "", str_Valeurs(languageName), ".get", entityListSimpleNameVertxJson, "(i), ", q(entityVar), ", ", classVarPrimaryKey, "));");
 											tl(tBase + 3, "}");
+											tl(tBase + 3, "break;");
+							
+											tl(tBase + 2, "case \"remove", entityVarCapitalized, "\":");
+											tl(tBase + 3, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_removeA);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", ", str_requete(languageName), "Json.getLong(", str_methodName(languageName), ")", ", ", q(entityVar), ", ", classVarPrimaryKey, "));");
+											tl(tBase + 3, "break;");
 										}
 									}
 									else {
@@ -515,9 +531,22 @@ public class WriteApiClass extends WriteGenClass {
 											tl(tBase + 3, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setA2);");
 											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", o2.get", entityVarCapitalized, "()", ", ", q(entityVar), ", ", classVarPrimaryKey, "));");
 										}
+										tl(tBase + 3, "break;");
+						
+										tl(tBase + 2, "case \"remove", entityVarCapitalized, "\":");
+										if(StringUtils.compare(entityVar, entityAttributeVar) <= 0) {
+											tl(tBase + 3, "o2.set", entityVarCapitalized, "(", str_requete(languageName), "Json.get", entitySimpleNameVertxJson, "(", str_methodName(languageName), "));");
+											tl(tBase + 3, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_removeA);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", o2.get", entityVarCapitalized, "()));");
+										}
+										else {
+											tl(tBase + 3, "o2.set", entityVarCapitalized, "(", str_requete(languageName), "Json.get", entitySimpleNameVertxJson, "(", str_methodName(languageName), "));");
+											tl(tBase + 3, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_removeA);");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entityAttributeVar), ", o2.get", entityVarCapitalized, "()", ", ", q(entityVar), ", ", classVarPrimaryKey, "));");
+										}
+										tl(tBase + 3, "break;");
 									}
 						
-									tl(tBase + 7, "break;");
 								}
 								else if(BooleanUtils.isTrue(entityDefine)) {
 									if(StringUtils.equals(entityCanonicalName, List.class.getCanonicalName()) || StringUtils.equals(entityCanonicalName, ArrayList.class.getCanonicalName())) {
@@ -1052,9 +1081,10 @@ public class WriteApiClass extends WriteGenClass {
 						tl(5, ", new JsonArray(patchSqlParams)");
 						tl(5, ", patchAsync");
 						tl(3, "-> {");
-						tl(4, "o2.set", str_SiteRequest(languageName), "_(o.get", str_SiteRequest(languageName), "_());");
-						tl(4, "o2.set", StringUtils.capitalize(classVarPrimaryKey), "(", classVarPrimaryKey, ");");
-						tl(4, str_eventHandler(languageName), ".handle(Future.succeededFuture(o2));");
+						tl(4, classSimpleName, " o3 = new ", classSimpleName, "();");
+						tl(4, "o3.set", str_SiteRequest(languageName), "_(o.get", str_SiteRequest(languageName), "_());");
+						tl(4, "o3.set", StringUtils.capitalize(classVarPrimaryKey), "(", classVarPrimaryKey, ");");
+						tl(4, str_eventHandler(languageName), ".handle(Future.succeededFuture(o3));");
 						tl(3, "});");
 						tl(2, "} catch(Exception e) {");
 						tl(3, str_eventHandler(languageName), ".handle(Future.failedFuture(e));");
@@ -1577,11 +1607,9 @@ public class WriteApiClass extends WriteGenClass {
 			tl(3, "if(", str_userSite(languageName), " != null && !", str_userSite(languageName), ".get", str_VoirArchived(languageName), "())");
 			tl(4, "", str_list(languageName), "", str_Recherche(languageName), ".addFilterQuery(\"", str_archived(languageName), "_indexed_boolean:false\");");
 			l();
-			tl(3, "String pageUri = null;");
 			tl(3, "String id = ", str_operationRequest(languageName), ".getParams().getJsonObject(\"path\").getString(\"id\");");
 			tl(3, "if(", classVarUniqueKey, " != null) {");
-			tl(4, "pageUri = ", str_classApiUriMethod(languageName), " + ", q("/"), " + id;");
-			tl(4, "", str_list(languageName), "", str_Recherche(languageName), ".addFilterQuery(\"pageUri_indexed_string:\" + ClientUtils.escapeQueryChars(pageUri));");
+			tl(4, "", str_list(languageName), "", str_Recherche(languageName), ".addFilterQuery(\"", classeVarId, "_indexed_string:\" + ClientUtils.escapeQueryChars(id));");
 			tl(3, "}");
 			l();
 			tl(3, "", str_operationRequest(languageName), ".getParams().getJsonObject(\"query\").forEach(param", str_Requete(languageName), " -> {");
