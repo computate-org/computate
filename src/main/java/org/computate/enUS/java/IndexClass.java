@@ -1176,11 +1176,39 @@ public class IndexClass extends WatchClassBase {
 			return "unindex";
 	}
 
+	public String str_addGlow(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ajouterLueur";
+		else
+			return "addGlow";
+	}
+
+	public String str_addError(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ajouterErreur";
+		else
+			return "addError";
+	}
+
 	public String str_removeGlow(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "enleverLueur";
 		else
 			return "removeGlow";
+	}
+
+	public String str_MMSlashddSlashyyyy(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "MM/dd/yyyy";
+		else
+			return "MM/dd/yyyy";
+	}
+
+	public String str_MMSlashDDSlashYYYY(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "MM/DD/YYYY";
+		else
+			return "MM/DD/YYYY";
 	}
 
 	public String str_DDDashMMDashYYYY(String langueNom) {
@@ -2848,7 +2876,7 @@ public class IndexClass extends WatchClassBase {
 									if(entityAttributeOperationIdSearch != null)
 										indexStoreSolr(classLanguageName, entityDoc, "entityAttributeOperationId" + str_Search(classLanguageName), entityAttributeOperationIdSearch);
 
-									String classAttributeSimpleNamePage = (String)docClass.get("classPageSimpleName" + str_PageSearch(classLanguageName) + "_" + classLanguageName + "_stored_string");
+									String classAttributeSimpleNamePage = (String)docClass.get("classPageSimpleName" + str_SearchPage(classLanguageName) + "_" + classLanguageName + "_stored_string");
 									if(classAttributeSimpleNamePage != null)
 										indexStoreListSolr(classLanguageName, classDoc, "classAttributeSimpleNamePages", classAttributeSimpleNamePage);
 
@@ -2875,7 +2903,7 @@ public class IndexClass extends WatchClassBase {
 
 											entityAttributeOperationIdPATCH = (String)docClass.get("classApiOperationIdPATCH_" + languageName + "_stored_string");
 
-											classAttributeSimpleNamePage = (String)docClass.get("classPageSimpleName" + str_PageSearch(languageName) + "_" + languageName + "_stored_string");
+											classAttributeSimpleNamePage = (String)docClass.get("classPageSimpleName" + str_SearchPage(languageName) + "_" + languageName + "_stored_string");
 											if(classAttributeSimpleNamePage != null)
 												indexStoreListSolr(languageName, classDoc, "classAttributeSimpleNamePages", classAttributeSimpleNamePage);
 

@@ -263,38 +263,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 9).s(".a(\"onchange\", \"");
 						wForm.s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 						wForm.s("if(t) { ");
-							wForm.s("var s = t.format('YYYY/MM/DD'); ");
-							wForm.s("$(this).next().val(s); ");
-							wForm.s("$(this).next().trigger('change'); ");
+							wForm.s("var s = t.format('MM/DD/YYYY'); ");
+							wForm.s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=\\\"pk\\\"]').val() }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }, function() { ajouterErreur($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); ");
 						wForm.s("} ");
 					wForm.l("\")");
 					wForm.tl(tIndex + 9, ".fg();");
-	
-					wForm.t(tIndex + 8).e("input").l();
-					if("Page".equals(classeApiMethodeMethode) || "PATCH".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 9).dal("class", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 9).dal("name", "set", entiteVarCapitalise);
-					}
-					else {
-						wForm.t(tIndex + 9).dal("class", str_valeur(langueNom), entiteVarCapitalise);
-						wForm.t(tIndex + 9).dal("name", entiteVar);
-						wForm.t(tIndex + 9).dal("id", classeApiMethodeMethode, "_", entiteVar);
-					}
-					if("Page".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 9).dal("onchange", "patch", classeNomSimple, "($('#", classeNomSimple, "Form'), $('#", entiteVar, "Form'), $(this)); ");
-					}
-					wForm.t(tIndex + 9).dal("type", "hidden");
-					wForm.tl(tIndex + 9, ".a(\"value\", o.str", entiteVarCapitalise, "())");
-					wForm.t(tIndex + 8).dfgl();
-	
-					if("Page".equals(classeApiMethodeMethode) || "PATCH".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 8).e("input").l();
-						wForm.t(tIndex + 9).dal("class", "remove", entiteVarCapitalise);
-						wForm.t(tIndex + 9).dal("name", "remove", entiteVarCapitalise);
-						wForm.t(tIndex + 9).dal("type", "hidden");
-						wForm.tl(tIndex + 9, ".a(\"value\", \"false\")");
-						wForm.t(tIndex + 8).dfgl();
-					}
 
 					wForm.t(tIndex + 7).bgl("div");
 				}
@@ -320,32 +293,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 9).s(".a(\"onchange\", \"");
 						wForm.s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 						wForm.s("if(t) { ");
-							wForm.s("var s = t.format('YYYY/MM/DD'); ");
-							wForm.s("$(this).next().val(s); ");
-							wForm.s("$(this).next().trigger('change'); ");
+							wForm.s("var s = t.format('MM/DD/YYYY'); ");
+							wForm.s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=\\\"pk\\\"]').val() }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }, function() { ajouterErreur($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); ");
 						wForm.s("} ");
 					wForm.l("\")");
 					wForm.tl(tIndex + 9, ".fg();");
-	
-					wForm.t(tIndex + 8).e("input").l();
-					wForm.t(tIndex + 9).dal("type", "hidden");
-	
-					if("Page".equals(classeApiMethodeMethode) || "PATCH".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 9).dal("class", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 9).dal("name", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 9).dal("id", classeApiMethodeMethode, "_", entiteVar);
-					}
-					else {
-						wForm.t(tIndex + 9).dal("class", str_valeur(langueNom), entiteVarCapitalise);
-						wForm.t(tIndex + 9).dal("name", entiteVar);
-						wForm.t(tIndex + 9).dal("id", classeApiMethodeMethode, "_", entiteVar);
-					}
-					if("Page".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 9).dal("onchange", "patch", classeNomSimple, "($('#", classeNomSimple, "Form'), $('#", entiteVar, "Form'), $(this)); ");
-					}
-	
-					wForm.tl(tIndex + 9, ".a(\"value\", o.str", entiteVarCapitalise, "())");
-					wForm.t(tIndex + 8).dfgl();
 					wForm.t(tIndex + 9).bgl("div");
 				}
 				else if("LocalTime".equals(entiteNomSimple)) {
@@ -370,31 +322,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						wForm.s("var t = parseTime(this.value); ");
 						wForm.s("if(t) { ");
 							wForm.s("var s = dateFormat(t, \"'h'MM\"); ");
-							wForm.s("$(this).next().val(s); ");
-							wForm.s("$(this).next().trigger('change'); ");
+							wForm.s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=\\\"pk\\\"]').val() }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }, function() { ajouterErreur($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); ");
 						wForm.s("} ");
 					wForm.l("\")");
 					wForm.tl(tIndex + 9, ".fg();");
-	
-					wForm.t(tIndex + 8).e("input").l();
-					wForm.t(tIndex + 9).dal("type", "hidden");
-	
-					if("Page".equals(classeApiMethodeMethode) || "PATCH".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 9).dal("class", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 9).dal("name", "set", entiteVarCapitalise);
-						wForm.t(tIndex + 9).dal("id", classeApiMethodeMethode, "_", entiteVar);
-					}
-					else {
-						wForm.t(tIndex + 9).dal("class", str_valeur(langueNom), entiteVarCapitalise);
-						wForm.t(tIndex + 9).dal("name", entiteVar);
-						wForm.t(tIndex + 9).dal("id", classeApiMethodeMethode, "_", entiteVar);
-					}
-					if("Page".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 9).dal("onchange", "patch", classeNomSimple, "Val({ 'pk': $('#", classeNomSimple, "Form :input[name=\"pk\"]').val() }, 'set", entiteVarCapitalise, "', $(this).val(), function() { ajouterLueur($(this)); }, function() { ajouterErreur($(this)); }); ");
-					}
-	
-					wForm.tl(tIndex + 9, ".a(\"value\", val == null ? \"\" : o.str", entiteVarCapitalise, "())");
-					wForm.t(tIndex + 8).dfgl();
 					wForm.t(tIndex + 7).bgl("div");
 				}
 				else if("Boolean".equals(entiteNomSimple)) {
@@ -422,7 +353,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						wForm.t(tIndex + 9).dal("id", classeApiMethodeMethode, "_", entiteVar);
 					}
 					if("Page".equals(classeApiMethodeMethode)) {
-						wForm.t(tIndex + 9).dal("onchange", "patch", classeNomSimple, "Val({ 'pk': $('#", classeNomSimple, "Form :input[name=\"pk\"]').val() }, 'set", entiteVarCapitalise, "', $(this).val(), function() { ajouterLueur($(this)); }, function() { ajouterErreur($(this)); }); ");
+						wForm.t(tIndex + 9).dal("onchange", "patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=\"pk\"]').val() }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }, function() { ajouterErreur($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); ");
 					}
 					wForm.tl(tIndex + 9, ";");
 	
@@ -473,7 +404,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 					if("Page".equals(classeApiMethodeMethode)) {
 						wForm.t(tIndex + 9).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
-						wForm.t(tIndex + 9).dal("onchange", "patch", classeNomSimple, "Val({ 'pk': $('#", classeNomSimple, "Form :input[name=\"pk\"]').val() }, 'set", entiteVarCapitalise, "', $(this).val(), function() { ajouterLueur($(this)); }, function() { ajouterErreur($(this)); }); ");
+						wForm.t(tIndex + 9).dal("onchange", "patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=\"pk\"]').val() }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }, function() { ajouterErreur($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); ");
 					}
 	
 					if(entiteMultiligne) {
@@ -497,7 +428,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 7).be("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
 					wForm.t(tIndex + 8).be("button").l();
 					wForm.t(tIndex + 9).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
-					wForm.t(tIndex + 8).dal("onclick", str_enleverLueur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); $('#", classeApiMethodeMethode, "_", entiteVar, "').val(null); patch", classeNomSimple, "Val({ 'pk': $('#", classeNomSimple, "Form :input[name=\"pk\"]').val() }, 'set", entiteVarCapitalise, "', null, $('#", classeApiMethodeMethode, "_", entiteVar, "'), function() { ajouterLueur($(this)); }, function() { ajouterErreur($(this)); }); ");
+					wForm.t(tIndex + 8).dal("onclick", str_enleverLueur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); $('#", classeApiMethodeMethode, "_", entiteVar, "').val(null); patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=\"pk\"]').val() }], 'set", entiteVarCapitalise, "', null, $('#", classeApiMethodeMethode, "_", entiteVar, "'), function() { ", str_ajouterLueur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }, function() { ajouterErreur($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); ");
 					wForm.t(tIndex + 9).dfl();
 					wForm.t(tIndex + 9).e("i").da("class", "far fa-eraser ").df().dgl("i");
 					wForm.t(tIndex + 8).bgl("button");
@@ -1588,19 +1519,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		
 							auteurPageJs.l(") {");
 							if(methodePOST) {
-								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = {};");
+								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = Object();");
 								auteurPageJs.s(wPOST);
 								auteurPageJs.l();
 							}
 							else if(methodePUT) {
-								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = {};");
+								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = Object();");
 								auteurPageJs.s(wPOST);
 								auteurPageJs.l();
 							}
 							else if(methodePATCH) {
 								auteurPageJs.tl(1, "var ", str_filtres(langueNom), " = ", classeApiOperationIdMethode,str_Filtres(langueNom), "($", str_formulaireFiltres(langueNom), ");");
 								auteurPageJs.l();
-								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = {};");
+								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = Object();");
 								auteurPageJs.s(wPATCH);
 								auteurPageJs.l();
 							}
@@ -1661,7 +1592,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							if(methodePATCH) {
 								auteurPageJs.l();
 								auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Val(", str_filtres(langueNom), ", v, val, success, error) {");
-								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = {};");
+								auteurPageJs.tl(1, "var ", str_valeurs(langueNom), " = new Object();");
 								auteurPageJs.tl(1, str_valeurs(langueNom), "[v] = val;");
 								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", str_filtres(langueNom), ", ", str_valeurs(langueNom), ", success, error);");
 								auteurPageJs.l("}"); 
@@ -1790,22 +1721,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												auteurPageJs.tl(3, "var val = o['", entiteAttribuerVar, "'];");
 												auteurPageJs.tl(3, "var checked = Array.isArray(val) ? val.includes(pk) : val == pk;");
 												auteurPageJs.tl(3, "var $input = $('<input>');");
+												auteurPageJs.tl(3, "$input.attr('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + pk + '_", entiteAttribuerVar, "_' + o['pk']);");
 												auteurPageJs.tl(3, "$input.attr('class', 'w3-check ');");
 
+												auteurPageJs.t(3, "$input.attr('onchange', \"var $input = $('#", classeApiMethodeMethode, "_", entiteVar, "_\" + pk + \"_", entiteAttribuerVar, "_\" + o['pk'] + \"'); ");
 												if("array".equals(entiteTypeJson)) {
-													auteurPageJs.t(4, "$input.attr('onchange', \"", entiteOperationIdPATCH, "Vals({ 'fq': 'pk:\" + pk + \"' }, { [($(this).prop('checked') ? 'add' : 'remove') + '", entiteVarCapitalise, "']: \" + o['pk'] + \" }");
+													auteurPageJs.s(entiteOperationIdPATCH, "Vals([{ name: 'fq', value: 'pk:\" + pk + \"' }], { [($input.prop('checked') ? 'add' : 'remove') + '", entiteVarCapitalise, "']: \" + o['pk'] + \" }");
 												}
 												else {
-													auteurPageJs.t(3, "$input.attr('onchange', \"", entiteOperationIdPATCH, "Vals({ 'fq': 'pk:\" + pk + \"' }, { [($(this).prop('checked') ? 'set' : 'remove') + '", entiteVarCapitalise, "']: \" + o['pk'] + \" }");
+													auteurPageJs.s(entiteOperationIdPATCH, "Vals([{ name: 'fq', value: 'pk:\" + pk + \"' }], { [($input.prop('checked') ? 'set' : 'remove') + '", entiteVarCapitalise, "']: \" + o['pk'] + \" }");
 												}
 
 												if("array".equals(entiteAttribuerTypeJson)) {
-													auteurPageJs.s(", function() { ", entiteAttribuerOperationIdPATCH, "Vals({ 'fq': 'pk:\" + o['pk'] + \"' }, {}, function() {}, function() {}); }");
+													auteurPageJs.s(", function() { ", entiteAttribuerOperationIdPATCH, "Vals([{ name: 'fq', value: 'pk:\" + o['pk'] + \"' }], {}, function() { ", str_ajouterLueur(langueNom), "($input); }, function() { ", str_ajouterErreur(langueNom), "($input); } ); }");
 												}
 												else {
-													auteurPageJs.s(", function() { ", entiteAttribuerOperationIdPATCH, "Vals({ 'fq': 'pk:\" + o['pk'] + \"' }, {}, function() {}, function() {}); }");
+													auteurPageJs.s(", function() { ", entiteAttribuerOperationIdPATCH, "Vals([{ name: 'fq', value: 'pk:\" + o['pk'] + \"' }], {}, function() { ", str_ajouterLueur(langueNom), "($input); }, function() { ", str_ajouterErreur(langueNom), "($input); } ); }");
 												}
-												auteurPageJs.l(", function() {} ); \");");
+												auteurPageJs.l(" ); \");");
 
 												auteurPageJs.tl(3, "$input.attr('onclick', '", str_enleverLueur(langueNom), "($(this)); ');");
 												auteurPageJs.tl(3, "$input.attr('type', 'checkbox');");

@@ -478,7 +478,7 @@ public class WriteApiClass extends WriteGenClass {
 					
 											tl(tBase + 3, "for(Integer i = 0; i <  set", entityVarCapitalized, "", str_Valeurs(languageName), ".size(); i++) {");
 											tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_addA);");
-											tl(tBase + 4, "patchSqlParams.set(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", addAll", entityVarCapitalized, "", str_Valeurs(languageName), ".get", entityListSimpleNameVertxJson, "(i)", "));");
+											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entityVar), ", ", classVarPrimaryKey, ", ", q(entityAttributeVar), ", set", entityVarCapitalized, "", str_Valeurs(languageName), ".get", entityListSimpleNameVertxJson, "(i)", "));");
 											tl(tBase + 3, "}");
 											tl(tBase + 3, "break;");
 							
@@ -1609,7 +1609,7 @@ public class WriteApiClass extends WriteGenClass {
 			l();
 			tl(3, "String id = ", str_operationRequest(languageName), ".getParams().getJsonObject(\"path\").getString(\"id\");");
 			tl(3, "if(", classVarUniqueKey, " != null) {");
-			tl(4, "", str_list(languageName), "", str_Recherche(languageName), ".addFilterQuery(\"", classeVarId, "_indexed_string:\" + ClientUtils.escapeQueryChars(id));");
+			tl(4, "", str_list(languageName), "", str_Recherche(languageName), ".addFilterQuery(\"(", classVarUniqueKey, ":\" + ClientUtils.escapeQueryChars(id) + \" OR ", classeVarId, "_indexed_string:\" + ClientUtils.escapeQueryChars(id) + \")\");");
 			tl(3, "}");
 			l();
 			tl(3, "", str_operationRequest(languageName), ".getParams().getJsonObject(\"query\").forEach(param", str_Requete(languageName), " -> {");

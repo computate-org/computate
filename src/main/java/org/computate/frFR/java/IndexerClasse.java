@@ -1865,6 +1865,26 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_addGlow
+	 */
+	public String str_ajouterLueur(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ajouterLueur";
+		else
+			return "addGlow";
+	}
+
+	/**
+	 * Var.enUS: str_addError
+	 */
+	public String str_ajouterErreur(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ajouterErreur";
+		else
+			return "addError";
+	}
+
+	/**
 	 * Var.enUS: str_removeGlow
 	 */
 	public String str_enleverLueur(String langueNom) {
@@ -1872,6 +1892,24 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "enleverLueur";
 		else
 			return "removeGlow";
+	}
+
+	/**
+	 */
+	public String str_MMSlashddSlashyyyy(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "MM/dd/yyyy";
+		else
+			return "MM/dd/yyyy";
+	}
+
+	/**
+	 */
+	public String str_MMSlashDDSlashYYYY(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "MM/DD/YYYY";
+		else
+			return "MM/DD/YYYY";
 	}
 
 	/**
@@ -4066,6 +4104,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classApiOperationIdSearchResponse
 	 * r: classeApiOperationIdReponse
 	 * r.enUS: classApiOperationIdResponse
+	 * r: PageRecherche
+	 * r.enUS: SearchPage
 	 * 
 	 * r: regexLangue
 	 * r.enUS: regexLanguage

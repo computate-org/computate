@@ -3309,7 +3309,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "/** Example: 2011-12-03+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				// TODO: ctate until vertx fixes bug. 
-				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ofPattern(\"yyyy/MM/dd\"));");
+				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ofPattern(\"MM/dd/yyyy\"));");
 //				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
@@ -3547,7 +3547,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ofPattern(\"yyyy/MM/dd\"));");
+					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ofPattern(\"MM/dd/yyyy\"));");
 				// TODO: ctate until vertx fixes bug. 
 //					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
 					tl(2, "add", entiteVarCapitalise, "(p);");

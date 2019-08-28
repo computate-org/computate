@@ -15,36 +15,36 @@ public class StringPrintWriters {
 	protected void  _stringPrintWriters(List<AllWriter> c) {
 	}
 
-	public StringPrintWriters t(int nombreTabulations, Object...objets) {
-		for(ToutEcrivain stringPrintWriter : stringPrintWriters) {
-			stringPrintWriter.t(nombreTabulations, objets);
+	public StringPrintWriters t(int numberTabs, Object...objects) {
+		for(AllWriter stringPrintWriter : stringPrintWriters) {
+			stringPrintWriter.t(numberTabs, objects);
 		}
 		return this;
 	}
 
-	public StringPrintWriters tl(int nombreTabulations, Object...objets) {
-		for(ToutEcrivain stringPrintWriter : stringPrintWriters) {
-			stringPrintWriter.tl(nombreTabulations, objets);
+	public StringPrintWriters tl(int numberTabs, Object...objects) {
+		for(AllWriter stringPrintWriter : stringPrintWriters) {
+			stringPrintWriter.tl(numberTabs, objects);
 		}
 		return this;
 	}
 
-	public StringPrintWriters l(Object...objets) {
-		for(ToutEcrivain stringPrintWriter : stringPrintWriters) {
-			stringPrintWriter.l(objets);
+	public StringPrintWriters l(Object...objects) {
+		for(AllWriter stringPrintWriter : stringPrintWriters) {
+			stringPrintWriter.l(objects);
 		}
 		return this;
 	}
 
-	public StringPrintWriters s(Object...objets) { 
-		for(ToutEcrivain stringPrintWriter : stringPrintWriters) {
-			stringPrintWriter.s(objets);
+	public StringPrintWriters s(Object...objects) { 
+		for(AllWriter stringPrintWriter : stringPrintWriters) {
+			stringPrintWriter.s(objects);
 		}
 		return this;
 	}
 
 	public void  flushClose() throws IOException, IOException {
-		for(ToutEcrivain stringPrintWriter : stringPrintWriters) {
+		for(AllWriter stringPrintWriter : stringPrintWriters) {
 			stringPrintWriter.flushClose();
 		}
 	}
@@ -54,7 +54,7 @@ public class StringPrintWriters {
 		return stringPrintWriters.get(0).toString();
 	}
 
-	protected List<AllWriter> stringPrintWriters = new java.util.ArrayList<ToutEcrivain>();
+	protected List<AllWriter> stringPrintWriters = new java.util.ArrayList<AllWriter>();
 
 	public List<AllWriter> getStringPrintWriters() {
 		return stringPrintWriters;
@@ -64,8 +64,8 @@ public class StringPrintWriters {
 		this.stringPrintWriters = l;
 	}
 
-	public StringPrintWriters addStringPrintWriters(AllWriter...objets) {
-		for(ToutEcrivain o : objets) {
+	public StringPrintWriters addStringPrintWriters(AllWriter...objects) {
+		for(AllWriter o : objects) {
 			addStringPrintWriters(o);
 		}
 		return (StringPrintWriters)this;
