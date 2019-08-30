@@ -256,6 +256,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 9).dal("class", "w3-input w3-border datepicker ");
 					wForm.t(tIndex + 9).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
 					wForm.t(tIndex + 9).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
+					wForm.t(tIndex + 9).dal("id", classeApiMethodeMethode, "_", entiteVar);
 					wForm.t(tIndex + 9).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 					if(entiteDescription != null)
 						wForm.t(tIndex + 9).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
@@ -286,6 +287,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 9).dal("class", "w3-input w3-border datepicker ");
 					wForm.t(tIndex + 9).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
 					wForm.t(tIndex + 9).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
+					wForm.t(tIndex + 9).dal("id", classeApiMethodeMethode, "_", entiteVar);
 					wForm.t(tIndex + 9).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 					if(entiteDescription != null)
 						wForm.t(tIndex + 9).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
@@ -314,6 +316,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 9).dal("type", "text");
 					wForm.t(tIndex + 9).dal("class", "w3-input w3-border timepicker ");
 					wForm.t(tIndex + 9).dal("placeholder", "HH:MM AM");
+					wForm.t(tIndex + 9).dal("id", classeApiMethodeMethode, "_", entiteVar);
 					wForm.t(tIndex + 9).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 					if(entiteDescription != null)
 						wForm.t(tIndex + 9).da("title", entiteDescription + " (h'h'mm)");
