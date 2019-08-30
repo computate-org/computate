@@ -1106,6 +1106,13 @@ public class IndexClass extends WatchClassBase {
 			return "deleted";
 	}
 
+	public String str_classCanonicalName(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "classeNomCanonique";
+		else
+			return "classCanonicalName";
+	}
+
 	public String str_classCanonicalNames(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "classeNomsCanoniques";
@@ -1756,7 +1763,7 @@ public class IndexClass extends WatchClassBase {
 		if(regexFound("^(class)?Gen:\\s*(false)$", classComment) || classQdox.isInterface())
 			classExtendsGen = false;
 
-		if(classTranslate) {
+//		if(classTranslate) {
 			for(String languageName : classOtherLanguages) {
 				String appPathLanguage = appPaths.get(languageName);
 				storeRegexComments(languageName, classDoc, "classComment", classComment);
@@ -1806,7 +1813,7 @@ public class IndexClass extends WatchClassBase {
 					ClassParts classPartsImplements = ClassParts.initClassParts(this, cImplements, languageName);
 					indexStoreListSolr(languageName, classDoc, "classImplementsSimpleNameComplete", classPartsImplements.simpleNameComplete);
 				}
-			}
+//			}
 		}
 
 		classPartsSolrInputDocument = ClassParts.initClassParts(this, "org.apache.solr.common.SolrInputDocument", classLanguageName);

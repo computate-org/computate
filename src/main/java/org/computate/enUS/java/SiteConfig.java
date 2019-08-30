@@ -142,6 +142,11 @@ public class SiteConfig {
 	 **/
 	public String[] allLanguages;
 
+	/**	
+	 *	Other language names supported in this application. 
+	 **/
+	public String[] classeAutresLangues;
+
 	protected void  _allLanguages() throws Exception, Exception {
 		allLanguages = ArrayUtils.add(ArrayUtils.addAll(otherLanguages), languageName);
 	}

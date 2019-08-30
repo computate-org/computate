@@ -246,6 +246,13 @@ public class ConfigSite {
 	 * enUS: All language names supported in this application. 
 	 */
 	public String[] toutesLangues;
+
+	/**
+	 * Var.enUS:classOtherLanguages
+	 * enUS: Other language names supported in this application. 
+	 */
+	public String[] classeAutresLangues;
+
 	/**	
 	 * Var.enUS: _allLanguages
 	 * r: toutesLangues

@@ -126,6 +126,7 @@ public class ClasseParts {
 			rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(nomCanonique));
 			rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
 			rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(configSite.nomEnsembleDomaine));
+			rechercheSolr.addFilterQuery("langueNom_indexed_string:" + ClientUtils.escapeQueryChars(langueNom));
 			QueryResponse reponseRecherche = configSite.clientSolrComputate.query(rechercheSolr);
 			SolrDocumentList listeRecherche = reponseRecherche.getResults();
 			if(listeRecherche.size() > 0) { 

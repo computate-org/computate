@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -44,13 +45,14 @@ public class WriteApiClass extends WriteGenClass {
 	public void  apiCodeClassBegin(String languageName) throws Exception, Exception {
 	}
 
-	public void  writeGenApiService(String languageName) throws Exception, Exception {
+	public void  writeGenApiService(String classLanguageName) throws Exception, Exception {
+		classeAutresLangues = ArrayUtils.removeAllOccurences(toutesLangues, classLanguageName);
 		if(writerGenApiService != null) {
 			writerGenApiService.l("package ", classPackageName, ";");
 			writerGenApiService.l();
 			if(classPartsSiteContext == null)
 				throw new Exception("Ajouter une classe avec le commentaire: MotCle: classSimpleNameSiteContext");
-			writerGenApiService.l("import ", classPartsSiteContext.solrDocument.get("classCanonicalName_" + languageName + "_stored_string"), ";");
+			writerGenApiService.l("import ", classPartsSiteContext.solrDocument.get("classCanonicalName_" + classLanguageName + "_stored_string"), ";");
 //			writerGenApiService.l("import ", classPackageName, ".", classSimpleName, "ApiServiceVertxEBProxy;");
 			writerGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
 			writerGenApiService.l("import io.vertx.ext.web.api.generator.WebApiServiceGen;");
@@ -64,7 +66,11 @@ public class WriteApiClass extends WriteGenClass {
 			writerGenApiService.l("import io.vertx.ext.web.api.OperationResponse;");
 			writerGenApiService.l();
 			writerGenApiService.l("/**");
-			writerGenApiService.l(" * ", str_Traduire(languageName), ": false");
+			writerGenApiService.l(" * ", str_Traduire(classLanguageName), ": false");
+			for(String languageName : classeAutresLangues) {
+				String classSimpleNameGenApiServiceLangue = (String)classDoc.get("classCanonicalNameGenApiService_" + languageName + "_stored_string");
+				writerGenApiService.l(" * ", str_classCanonicalName(classLanguageName), ".", languageName, ": ", classSimpleNameGenApiServiceLangue);
+			}
 			writerGenApiService.l(" * Gen: false");
 			writerGenApiService.l(" **/");
 			writerGenApiService.l("@WebApiServiceGen");
@@ -72,37 +78,37 @@ public class WriteApiClass extends WriteGenClass {
 			writerGenApiService.s("public interface ", classSimpleNameGenApiService, " {");
 			writerGenApiService.l();
 //			writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
-			writerGenApiService.tl(1, "static void ", str_enregistrer(languageName), "Service(", classPartsSiteContext.simpleName(languageName), " ", str_siteContext(languageName), ", Vertx vertx) {");
-			writerGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(languageName, classSimpleName), ").register(", classSimpleNameGenApiService, ".class, new ", classSimpleNameApiServiceImpl, "(", str_siteContext(languageName), "));");
+			writerGenApiService.tl(1, "static void ", str_enregistrer(classLanguageName), "Service(", classPartsSiteContext.simpleName(classLanguageName), " ", str_siteContext(classLanguageName), ", Vertx vertx) {");
+			writerGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(classLanguageName, classSimpleName), ").register(", classSimpleNameGenApiService, ".class, new ", classSimpleNameApiServiceImpl, "(", str_siteContext(classLanguageName), "));");
 			writerGenApiService.tl(1, "}");
 			writerGenApiService.l();
 //			writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
-			writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " ", str_creer(languageName), "(", classPartsSiteContext.simpleName(languageName), " ", str_siteContext(languageName), ", Vertx vertx) {");
-			writerGenApiService.tl(2, "return new ", classSimpleNameApiServiceImpl, "(", str_siteContext(languageName), ");");
+			writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " ", str_creer(classLanguageName), "(", classPartsSiteContext.simpleName(classLanguageName), " ", str_siteContext(classLanguageName), ", Vertx vertx) {");
+			writerGenApiService.tl(2, "return new ", classSimpleNameApiServiceImpl, "(", str_siteContext(classLanguageName), ");");
 			writerGenApiService.tl(1, "}");
 			writerGenApiService.l();
 			writerGenApiService.tl(1, "// A factory method to create an instance and a proxy. ");
-			writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " ", str_creer(languageName), "Proxy(Vertx vertx, String ", str_address(languageName), ") {");
-			writerGenApiService.tl(2, "return new ", classSimpleNameGenApiService, "VertxEBProxy(vertx, ", str_address(languageName), ");");
+			writerGenApiService.tl(1, "static ", classSimpleNameGenApiService, " ", str_creer(classLanguageName), "Proxy(Vertx vertx, String ", str_address(classLanguageName), ") {");
+			writerGenApiService.tl(2, "return new ", classSimpleNameGenApiService, "VertxEBProxy(vertx, ", str_address(classLanguageName), ");");
 			writerGenApiService.tl(1, "}");
 			writerGenApiService.l();
 			for(String classApiMethod : classApiMethods) {
-				String classApiOperationIdMethod = (String)classDoc.get("classApiOperationId" + classApiMethod + "_" + languageName + "_stored_string");
-				String classPageCanonicalNameMethod = (String)classDoc.get("classPageCanonicalName" + classApiMethod + "_" + languageName + "_stored_string");
-				String classPageLanguageName = (String)classDoc.get("classPageLanguageName" + classApiMethod + "_" + languageName + "_stored_string");
+				String classApiOperationIdMethod = (String)classDoc.get("classApiOperationId" + classApiMethod + "_" + classLanguageName + "_stored_string");
+				String classPageCanonicalNameMethod = (String)classDoc.get("classPageCanonicalName" + classApiMethod + "_" + classLanguageName + "_stored_string");
+				String classPageLanguageName = (String)classDoc.get("classPageLanguageName" + classApiMethod + "_" + classLanguageName + "_stored_string");
 
-				if(classPageLanguageName == null || classPageLanguageName.equals(languageName)) {
+				if(classPageLanguageName == null || classPageLanguageName.equals(classLanguageName)) {
 					if(classPageCanonicalNameMethod != null) {
 						writerGenApiService.t(1, "public void ", classApiOperationIdMethod, "Id(");
 						if(StringUtils.containsAny(classApiMethod, "POST", "PUT", "PATCH"))
 							writerGenApiService.s("JsonObject body, ");
-						writerGenApiService.l("OperationRequest ", str_operationRequest(languageName), ", Handler<AsyncResult<OperationResponse>> ", str_eventHandler(languageName), ");");
+						writerGenApiService.l("OperationRequest ", str_operationRequest(classLanguageName), ", Handler<AsyncResult<OperationResponse>> ", str_eventHandler(classLanguageName), ");");
 					}
 	
 					writerGenApiService.t(1, "public void ", classApiOperationIdMethod, "(");
 					if(StringUtils.containsAny(classApiMethod, "POST", "PUT", "PATCH"))
 						writerGenApiService.s("JsonObject body, ");
-					writerGenApiService.l("OperationRequest ", str_operationRequest(languageName), ", Handler<AsyncResult<OperationResponse>> ", str_eventHandler(languageName), ");");
+					writerGenApiService.l("OperationRequest ", str_operationRequest(classLanguageName), ", Handler<AsyncResult<OperationResponse>> ", str_eventHandler(classLanguageName), ");");
 				}
 			}
 			writerGenApiService.tl(0, "}");

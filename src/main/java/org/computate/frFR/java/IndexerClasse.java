@@ -1765,6 +1765,16 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_classCanonicalName
+	 */
+	public String str_classeNomCanonique(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "classeNomCanonique";
+		else
+			return "classCanonicalName";
+	}
+
+	/**
 	 * Var.enUS: str_classCanonicalNames
 	 */
 	public String str_classeNomsCanoniques(String langueNom) {
@@ -4615,7 +4625,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		if(regexTrouve("^(classe)?Gen:\\s*(false)$", classeCommentaire) || classeQdox.isInterface())
 			classeEtendGen = false;
 
-		if(classeTraduire) {
+//		if(classeTraduire) {
 			for(String langueNom : classeAutresLangues) {
 				String appliCheminLangue = appliChemins.get(langueNom);
 				stockerRegexCommentaires(langueNom, classeDoc, "classeCommentaire", classeCommentaire);
@@ -4665,7 +4675,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					ClasseParts classePartsImplements = ClasseParts.initClasseParts(this, cImplements, langueNom);
 					indexerStockerListeSolr(langueNom, classeDoc, "classeImplementsNomSimpleComplet", classePartsImplements.nomSimpleComplet);
 				}
-			}
+//			}
 		}
 
 		classePartsSolrInputDocument = ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrInputDocument", classeLangueNom);

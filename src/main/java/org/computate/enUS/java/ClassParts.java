@@ -53,6 +53,7 @@ public class ClassParts {
 			solrSearch.addFilterQuery("classCanonicalName_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(canonicalName));
 			solrSearch.addFilterQuery("partIsClass_indexed_boolean:true");
 			solrSearch.addFilterQuery("domainPackageName_indexed_string:" + ClientUtils.escapeQueryChars(siteConfig.domainPackageName));
+			solrSearch.addFilterQuery("langueNom_indexed_string:" + ClientUtils.escapeQueryChars(langueNom));
 			QueryResponse searchResponse = siteConfig.solrClientComputate.query(solrSearch);
 			SolrDocumentList searchList = searchResponse.getResults();
 			if(searchList.size() > 0) { 
