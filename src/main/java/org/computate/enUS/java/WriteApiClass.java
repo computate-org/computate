@@ -1601,7 +1601,7 @@ public class WriteApiClass extends WriteGenClass {
 			tl(3, "", str_list(languageName), "", str_Recherche(languageName), ".setQuery(\"*:*\");");
 			tl(3, "", str_list(languageName), "", str_Recherche(languageName), ".setC(", classSimpleName, ".class);");
 			tl(3, "if(", str_entite(languageName), "", str_List(languageName), " != null)");
-			tl(3, "", str_list(languageName), "", str_Recherche(languageName), ".setFields(", str_entite(languageName), "", str_List(languageName), ");");
+			tl(4, "", str_list(languageName), "", str_Recherche(languageName), ".setFields(", str_entite(languageName), "", str_List(languageName), ");");
 			tl(3, "", str_list(languageName), "", str_Recherche(languageName), ".addSort(\"", str_archived(languageName), "_indexed_boolean\", ORDER.asc);");
 			tl(3, "", str_list(languageName), "", str_Recherche(languageName), ".addSort(\"", str_deleted(languageName), "_indexed_boolean\", ORDER.asc);");
 			tl(3, "", str_list(languageName), "", str_Recherche(languageName), ".addFilterQuery(\"", str_classCanonicalNames(languageName), "_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classCanonicalName), "));");
@@ -1664,12 +1664,12 @@ public class WriteApiClass extends WriteGenClass {
 			tl(8, "var", str_Indexe(languageName), " = var", str_Indexe(languageName), "", classSimpleName, "(", str_entite(languageName), "Var);");
 			tl(8, "", str_list(languageName), "", str_Recherche(languageName), ".addSort(var", str_Indexe(languageName), ", ORDER.valueOf(", str_valeur(languageName), "", str_Tri(languageName), "));");
 			tl(8, "break;");
-	
-			tl(7, "case \"fl\":");
-			tl(8, "", str_entite(languageName), "Var = StringUtils.trim((String)param", str_Objet(languageName), ");");
-			tl(8, "var", str_Indexe(languageName), " = var", str_Indexe(languageName), "", classSimpleName, "(", str_entite(languageName), "Var);");
-			tl(8, "", str_list(languageName), "", str_Recherche(languageName), ".addField(var", str_Indexe(languageName), ");");
-			tl(8, "break;");
+//	
+//			tl(7, "case \"fl\":");
+//			tl(8, "", str_entite(languageName), "Var = StringUtils.trim((String)param", str_Objet(languageName), ");");
+//			tl(8, "var", str_Indexe(languageName), " = var", str_Indexe(languageName), "", classSimpleName, "(", str_entite(languageName), "Var);");
+//			tl(8, "", str_list(languageName), "", str_Recherche(languageName), ".addField(var", str_Indexe(languageName), ");");
+//			tl(8, "break;");
 	
 			tl(7, "case \"start\":");
 			tl(8, "", str_search(languageName), "", str_Debut(languageName), " = (Integer)param", str_Objet(languageName), ";");

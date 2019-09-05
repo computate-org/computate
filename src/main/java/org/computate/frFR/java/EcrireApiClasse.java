@@ -2189,7 +2189,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".setQuery(\"*:*\");");
 			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".setC(", classeNomSimple, ".class);");
 			tl(3, "if(", str_entite(langueNom), "", str_Liste(langueNom), " != null)");
-			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".setFields(", str_entite(langueNom), "", str_Liste(langueNom), ");");
+			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".setFields(", str_entite(langueNom), "", str_Liste(langueNom), ");");
 			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_archive(langueNom), "_indexed_boolean\", ORDER.asc);");
 			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_supprime(langueNom), "_indexed_boolean\", ORDER.asc);");
 			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_classeNomsCanoniques(langueNom), "_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
@@ -2252,12 +2252,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(8, "var", str_Indexe(langueNom), " = var", str_Indexe(langueNom), "", classeNomSimple, "(", str_entite(langueNom), "Var);");
 			tl(8, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(var", str_Indexe(langueNom), ", ORDER.valueOf(", str_valeur(langueNom), "", str_Tri(langueNom), "));");
 			tl(8, "break;");
-	
-			tl(7, "case \"fl\":");
-			tl(8, "", str_entite(langueNom), "Var = StringUtils.trim((String)param", str_Objet(langueNom), ");");
-			tl(8, "var", str_Indexe(langueNom), " = var", str_Indexe(langueNom), "", classeNomSimple, "(", str_entite(langueNom), "Var);");
-			tl(8, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addField(var", str_Indexe(langueNom), ");");
-			tl(8, "break;");
+//	
+//			tl(7, "case \"fl\":");
+//			tl(8, "", str_entite(langueNom), "Var = StringUtils.trim((String)param", str_Objet(langueNom), ");");
+//			tl(8, "var", str_Indexe(langueNom), " = var", str_Indexe(langueNom), "", classeNomSimple, "(", str_entite(langueNom), "Var);");
+//			tl(8, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addField(var", str_Indexe(langueNom), ");");
+//			tl(8, "break;");
 	
 			tl(7, "case \"start\":");
 			tl(8, "", str_recherche(langueNom), "", str_Debut(langueNom), " = (Integer)param", str_Objet(langueNom), ";");
