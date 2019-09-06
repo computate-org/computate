@@ -107,27 +107,37 @@ public class WritePageClass extends WriteApiClass {
 					}
 					wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-padding ").dfl();
 					wForm.t(tIndex + 7).be("div").da("class", "w3-cell ").dfl();
+					wForm.t(tIndex + 8).be("div").da("class", "w3-cell-row ").dfl();
 					wForm.l();
 	
-					wForm.t(tIndex + 8).e("input").l();
-					wForm.t(tIndex + 9).dal("type", "text");
+					wForm.t(tIndex + 8).e("i").da("class", "far fa-search w3-xxlarge w3-cell w3-cell-middle ").df().dgl("i");
+					wForm.t(tIndex + 9).e("input").l();
+					wForm.t(tIndex + 10).dal("type", "text");
 	
 					if(entityDisplayName != null) {
-						wForm.t(tIndex + 9).dal("placeholder", entityDisplayName);
+						wForm.t(tIndex + 10).dal("placeholder", entityDisplayName);
 					}
 					if(entityDescription != null) {
-						wForm.t(tIndex + 9).dal("title", entityDescription);
+						wForm.t(tIndex + 10).dal("title", entityDescription);
 					}
 	
-					wForm.t(tIndex + 9).dal("class", str_value(langueNom), StringUtils.capitalize(entityAttributeVarSuggest), " ", "suggest", entityVarCapitalized, " w3-input w3-border ");
-					wForm.t(tIndex + 9).dal("name", "set", entityVarCapitalized);
-					wForm.t(tIndex + 9).dal("id", classApiMethodMethod, "_", entityVar);
-					wForm.t(tIndex + 9).dal("autocomplete", "off");
-					wForm.t(tIndex + 9).dal("oninput", str_rechercher(langueNom), classSimpleName, entityVarCapitalized, "($('#' + ($(this).val() ? '", str_suggere(langueNom), "' : 'form') + '", classSimpleName, entityVarCapitalized, "'), $('#", "list", classSimpleName, entityVarCapitalized, "')); ");
+					wForm.t(tIndex + 10).dal("class", str_value(langueNom), StringUtils.capitalize(entityAttributeVarSuggest), " ", "suggest", entityVarCapitalized, " w3-input w3-border w3-cell w3-cell-middle ");
+					wForm.t(tIndex + 10).dal("name", "set", entityVarCapitalized);
+					wForm.t(tIndex + 10).dal("id", classApiMethodMethod, "_", entityVar);
+					wForm.t(tIndex + 10).dal("autocomplete", "off");
+					wForm.t(tIndex + 10).dal("oninput", str_rechercher(langueNom), classSimpleName, entityVarCapitalized, "($('#' + ($(this).val() ? '", str_suggere(langueNom), "' : 'form') + '", classSimpleName, entityVarCapitalized, "'), $('#", "list", classSimpleName, entityVarCapitalized, "')); ");
 
-					wForm.t(tIndex + 8).dfgl();
+					wForm.t(tIndex + 9).dfgl();
 	
 					wForm.l();
+					wForm.t(tIndex + 8).bgl("div");
+					wForm.t(tIndex + 8).be("div").da("class", "w3-cell-row ").dfl();
+					wForm.t(tIndex + 9).e("button").l();
+					wForm.t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
+					wForm.t(tIndex + 10).dal("onclick", "$('#", "something", str_Modale(langueNom), "').show(); ");
+					wForm.t(tIndex + 10).df().dsxq("add").l();
+					wForm.t(tIndex + 9).dgl("button");
+					wForm.t(tIndex + 8).bgl("div");
 					wForm.t(tIndex + 7).bgl("div");
 					wForm.t(tIndex + 6).bgl("div");
 					wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-padding ").dfl();
