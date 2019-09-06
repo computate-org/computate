@@ -8,6 +8,7 @@ import java.text.Normalizer;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -106,6 +107,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * Var.enUS: VAL_canonicalNameLocalDate
 	 */
 	public static final String VAL_nomCanoniqueLocalDate = LocalDate.class.getCanonicalName();
+	/**
+	 * Var.enUS: VAL_canonicalNameLocalTime
+	 */
+	public static final String VAL_nomCanoniqueLocalTime = LocalTime.class.getCanonicalName();
 	/**
 	 * Var.enUS: VAL_canonicalNameList
 	 */
@@ -4963,6 +4968,13 @@ public class IndexerClasse extends RegarderClasseBase {
 							System.err.println(ExceptionUtils.getStackTrace(e));
 						}
 					}
+					else if("LocalTime".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
+						try {
+							indexerStockerSolr(classeDoc, classeMapCleParts[1], classeMapValeur);
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
 					else {
 						indexerStockerSolr(classeDoc, classeMapCle, classeMapValeur);
 					}
@@ -5569,6 +5581,13 @@ public class IndexerClasse extends RegarderClasseBase {
 											System.err.println(ExceptionUtils.getStackTrace(e));
 										}
 									}
+									else if("LocalTime".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
+										try {
+											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], entiteMapValeur);
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
 									else {
 										indexerStockerSolr(entiteDoc, entiteMapCle, entiteMapValeur);
 									}
@@ -5818,6 +5837,11 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteNomSimpleVertxJson = "Boolean";
 							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueBoolean;
 						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalTime)) {
+							entiteNomSimpleVertxJson = "String";
+							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.LocalTime", classeLangueNom));
+						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueDate, VAL_nomCanoniqueZonedDateTime)) {
 							entiteNomSimpleVertxJson = "String";
 							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueInstant;
@@ -5870,6 +5894,12 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
 								entiteListeNomSimpleVertxJson = "Boolean";
 								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueBoolean;
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueLocalTime)) {
+								entiteNomSimpleVertxJson = "JsonArray";
+								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
+								entiteListeNomSimpleVertxJson = "String";
+								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueDate, VAL_nomCanoniqueZonedDateTime)) {
 								entiteNomSimpleVertxJson = "JsonArray";
@@ -5943,6 +5973,11 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
 							entiteSuffixeType = "_boolean";
 						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalTime)) {
+							entiteSolrNomCanonique = VAL_nomCanoniqueString;
+							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
+							entiteSuffixeType = "_string";
+						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueLocalDate, VAL_nomCanoniqueDate, VAL_nomCanoniqueZonedDateTime)) {
 							entiteSolrNomCanonique = VAL_nomCanoniqueDate;
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
@@ -5978,6 +6013,11 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueBoolean + ">";
 								entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniqueBoolean, ".") + ">";
 								entiteSuffixeType = "_booleans";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueLocalTime)) {
+								entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueDate + ">";
+								entiteSolrNomSimple = "List<" + StringUtils.substringAfterLast(VAL_nomCanoniqueString, ".") + ">";
+								entiteSuffixeType = "_strings";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueLocalDate, VAL_nomCanoniqueZonedDateTime)) {
 								entiteSolrNomCanonique = VAL_nomCanoniqueList + "<" + VAL_nomCanoniqueDate + ">";
@@ -6033,6 +6073,11 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBoolean)) {
 							entiteTypeJson = "boolean";
 						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalTime)) {
+							entiteTypeJson = "string";
+							//TODO: ctate disabled until vertx fix is made. 
+//							entiteFormatJson = "date-time";
+						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueDate, VAL_nomCanoniqueZonedDateTime)) {
 							entiteTypeJson = "string";
 							//TODO: ctate disabled until vertx fix is made. 
@@ -6062,6 +6107,10 @@ public class IndexerClasse extends RegarderClasseBase {
 							if(entiteNomCanoniqueGenerique.equals(VAL_nomCanoniqueBoolean)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "boolean";
+							}
+							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueLocalTime)) {
+								entiteTypeJson = "array";
+								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueLocalDate, VAL_nomCanoniqueZonedDateTime)) {
 								entiteTypeJson = "array";
@@ -6492,6 +6541,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonArray", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDateTime", classeLangueNom));
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.LocalTime", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.sql.Timestamp", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Future", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.CaseInsensitiveHeaders", classeLangueNom));
@@ -6689,6 +6739,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenPageAjouter(classePartsCouverture);
 							classePartsGenPageAjouter(classePartsMiseEnPage);
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalDateTime.class.getCanonicalName(), classeLangueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalTime.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalDate.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, ZonedDateTime.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, DateTimeFormatter.class.getCanonicalName(), classeLangueNom));

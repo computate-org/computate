@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -1742,6 +1743,17 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				tl(1, "}");
 			}
 	
+			// Setter LocalTime //
+			if(StringUtils.equals(entityCanonicalName, LocalTime.class.getCanonicalName())) {
+				tl(1, "/** Example: 01:00 **/");
+				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
+				// TODO: ctate until vertx fixes bug. 
+				tl(2, "this.", entityVar, " = LocalTime.parse(o, DateTimeFormatter.ISO_OFFSET_TIME);");
+				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
+				tl(2, "return (", classSimpleName, ")this;");
+				tl(1, "}");
+			}
+	
 			// Setter LocalDate //
 			if(StringUtils.equals(entityCanonicalName, LocalDate.class.getCanonicalName())) {
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Instant o) {");
@@ -2178,6 +2190,9 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 					tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".toInstant());");
 				}
+				else if(entityCanonicalName.toString().equals(LocalTime.class.getCanonicalName())) {
+					tl(2, "return ", entityVar, " == null ? null : ", entityVar, ".format(DateTimeFormatter.ISO_LOCAL_TIME);");
+				}
 				else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
 					tl(2, "return ", entityVar, " == null ? null : Date.from(", entityVar, ".atZone(ZoneId.systemDefault()).toInstant());");
 				}
@@ -2217,18 +2232,52 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				}
 				else if(VAL_canonicalNameLocalDate.equals(entityCanonicalName)) {
 					if("frFR".equals(languageName))
-//						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy\", Locale.FRANCE));");
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy\", Locale.FRANCE));");
+					else
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy\", Locale.US));");
+				}
+				else if(VAL_canonicalNameLocalTime.equals(entityCanonicalName)) {
+					if("frFR".equals(languageName))
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"H'h'mm:ss zz VV\", Locale.FRANCE));");
+					else
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"h:mm:ss a zz VV\", Locale.US));");
+				}
+
+				else if(VAL_canonicalNameString.equals(entityCanonicalName))
+					tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ";");
+				else
+					tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".toString();");
+				tl(1, "}");
+	
+				//////////
+				// json //
+				//////////
+				l();
+				tl(1, "public String json", entityVarCapitalized, "() {");
+				if(VAL_canonicalNameZonedDateTime.equals(entityCanonicalName)) {
+					if("frFR".equals(languageName))
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz VV\", Locale.FRANCE));");
+					else
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss a zz VV\", Locale.US));");
+				}
+				else if(VAL_canonicalNameLocalDateTime.equals(entityCanonicalName)) {
+					if("frFR".equals(languageName))
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz VV\", Locale.FRANCE));");
+					else
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss a zz VV\", Locale.US));");
+				}
+				else if(VAL_canonicalNameLocalDate.equals(entityCanonicalName)) {
+					if("frFR".equals(languageName))
 						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.FRANCE));");
 					else
-//						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy\", Locale.US));");
 						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.US));");
 				}
-//				else if(VAL_canonicalNameLocalTime.equals(entityCanonicalName)) {
-//					if("frFR".equals(languageName))
-//						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"H'h'mm:ss zz VV\", Locale.FRANCE));");
-//					else
-//						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"h:mm:ss a zz VV\", Locale.US));");
-//				}
+				else if(VAL_canonicalNameLocalTime.equals(entityCanonicalName)) {
+					if("frFR".equals(languageName))
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"H'h'mm:ss zz VV\", Locale.FRANCE));");
+					else
+						tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ".format(DateTimeFormatter.ofPattern(\"h:mm:ss a zz VV\", Locale.US));");
+				}
 
 				else if(VAL_canonicalNameString.equals(entityCanonicalName))
 					tl(2, "return ", entityVar, " == null ? \"\" : ", entityVar, ";");
@@ -2378,6 +2427,9 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entityVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, "));");
 					}
+					else if(entityCanonicalName.toString().equals(LocalTime.class.getCanonicalName())) {
+						tl(3, "document.addField(\"", entityVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_TIME.format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
+					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entityVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
 					}
@@ -2422,6 +2474,9 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entityVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
+					else if(entityCanonicalName.toString().equals(LocalTime.class.getCanonicalName())) {
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"HH:mm:ss'Z'\").format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
+					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
 					}
@@ -2448,6 +2503,9 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 					}
 					else if(entityCanonicalName.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entityVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
+					}
+					else if(entityCanonicalName.toString().equals(LocalTime.class.getCanonicalName())) {
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"HH:mm:ss'Z'\").format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entityCanonicalName.toString().equals(LocalDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atOffset(ZoneOffset.UTC)));");

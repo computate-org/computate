@@ -88,7 +88,7 @@ public class WritePageClass extends WriteApiClass {
 				}
 
 				wForm.t(tIndex + 3).be("div").da("class", "w3-padding ").dfl();
-				wForm.t(tIndex + 4).be("form").da("action", classApiUri).da("id", "form", classSimpleName, entityVarCapitalized).da("style", "display: inline-block; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
+				wForm.t(tIndex + 4).be("form").da("action", classApiUri).da("id", "form", classSimpleName, entityVarCapitalized).da("style", "display: inline-block; width: 100%; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
 				wForm.t(tIndex + 5).e("input").l();
 				wForm.t(tIndex + 6).dal("type", "hidden");
 				wForm.t(tIndex + 6).dal("name", str_value(langueNom), StringUtils.capitalize(entityAttributeVar));
@@ -96,7 +96,7 @@ public class WritePageClass extends WriteApiClass {
 				wForm.t(tIndex + 6).l(".a(\"value\", ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), "Pk())");
 				wForm.t(tIndex + 6).dfgl();
 				wForm.t(tIndex + 4).bgl("form");
-				wForm.t(tIndex + 4).be("form").da("action", classApiUri).da("id", str_suggere(langueNom), classSimpleName, entityVarCapitalized).da("style", "display: inline-block; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
+				wForm.t(tIndex + 4).be("form").da("action", classApiUri).da("id", str_suggere(langueNom), classSimpleName, entityVarCapitalized).da("style", "display: inline-block; width: 100%; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
 				wForm.t(tIndex + 5).be("div").da("class", "w3-card ").dfl();
 
 				if(entityAttribute) {
@@ -219,7 +219,7 @@ public class WritePageClass extends WriteApiClass {
 					wForm.t(tIndex + 9).s(".a(\"onchange\", \"");
 						wForm.s("var t = parseTime(this.value); ");
 						wForm.s("if(t) { ");
-							wForm.s("var s = dateFormat(t, \"'h'MM\"); ");
+							wForm.s("var s = dateFormat(t, \\\"'h'MM\\\"); ");
 							wForm.s("patch", classSimpleName, "Val([{ name: 'fq', value: 'pk:' + $('#", classSimpleName, "Form :input[name=\\\"pk\\\"]').val() }], 'set", entityVarCapitalized, "', s, function() { ", str_addGlow(langueNom), "($('#", classApiMethodMethod, "_", entityVar, "')); }, function() { addError($('#", classApiMethodMethod, "_", entityVar, "')); }); ");
 						wForm.s("} ");
 					wForm.l("\")");
@@ -1407,7 +1407,7 @@ public class WritePageClass extends WriteApiClass {
 										t(2).be("div").da("class", "").dfl();
 										t(3).be("form")
 											.da("id", classSimpleName, "Form")
-											.da("style", "display: inline-block; ")
+											.da("style", "display: inline-block; width: 100%; ")
 											.da("method", "GET")
 											.da("action", classPageUriMethod)
 											.da("onsubmit", "event.preventDefault(); " + str_searchr(languageName) + "($('#" + str_search(languageName) + entityVarCapitalized + "')); return false; ")
@@ -1489,7 +1489,7 @@ public class WritePageClass extends WriteApiClass {
 					if(classVarPrimaryKey != null) {
 						l();
 						tl(4, "if(o.get", StringUtils.capitalize(classVarPrimaryKey), "() != null) {");
-						t(5).be("form").da("action", classApiUri).da("id", classSimpleName, "Form").da("style", "display: inline-block; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
+						t(5).be("form").da("action", classApiUri).da("id", classSimpleName, "Form").da("style", "display: inline-block; width: 100%; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
 						t(6).e("input").l();
 						t(6).dal("name", classVarPrimaryKey);
 						t(6).dal("class", str_value(languageName), StringUtils.capitalize(classVarPrimaryKey));

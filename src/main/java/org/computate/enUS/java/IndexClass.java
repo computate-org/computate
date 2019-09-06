@@ -8,6 +8,7 @@ import java.text.Normalizer;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -76,6 +77,8 @@ public class IndexClass extends WatchClassBase {
 	public static final String VAL_canonicalNameZonedDateTime = ZonedDateTime.class.getCanonicalName();
 
 	public static final String VAL_canonicalNameLocalDate = LocalDate.class.getCanonicalName();
+
+	public static final String VAL_canonicalNameLocalTime = LocalTime.class.getCanonicalName();
 
 	public static final String VAL_canonicalNameList = List.class.getCanonicalName();
 
@@ -2101,6 +2104,13 @@ public class IndexClass extends WatchClassBase {
 							System.err.println(ExceptionUtils.getStackTrace(e));
 						}
 					}
+					else if("LocalTime".equals(classMapKeyType) && NumberUtils.isCreatable(classMapValue)) {
+						try {
+							indexStoreSolr(classDoc, classMapKeyParts[1], classMapValue);
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
 					else {
 						indexStoreSolr(classDoc, classMapKey, classMapValue);
 					}
@@ -2707,6 +2717,13 @@ public class IndexClass extends WatchClassBase {
 											System.err.println(ExceptionUtils.getStackTrace(e));
 										}
 									}
+									else if("LocalTime".equals(entityMapKeyType) && NumberUtils.isCreatable(entityMapValue)) {
+										try {
+											indexStoreSolr(entityDoc, entityMapKeyParts[1], entityMapValue);
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
 									else {
 										indexStoreSolr(entityDoc, entityMapKey, entityMapValue);
 									}
@@ -2956,6 +2973,11 @@ public class IndexClass extends WatchClassBase {
 							entitySimpleNameVertxJson = "Boolean";
 							entityCanonicalNameVertxJson = VAL_canonicalNameBoolean;
 						}
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLocalTime)) {
+							entitySimpleNameVertxJson = "String";
+							entityCanonicalNameVertxJson = VAL_canonicalNameString;
+							classPartsGenAdd(ClassParts.initClassParts(this, "java.time.LocalTime", classLanguageName));
+						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 							entitySimpleNameVertxJson = "String";
 							entityCanonicalNameVertxJson = VAL_canonicalNameInstant;
@@ -3008,6 +3030,12 @@ public class IndexClass extends WatchClassBase {
 								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
 								entityListSimpleNameVertxJson = "Boolean";
 								entityListCanonicalNameVertxJson = VAL_canonicalNameBoolean;
+							}
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameLocalTime)) {
+								entitySimpleNameVertxJson = "JsonArray";
+								entityCanonicalNameVertxJson = VAL_canonicalNameVertxJsonArray;
+								entityListSimpleNameVertxJson = "String";
+								entityListCanonicalNameVertxJson = VAL_canonicalNameString;
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 								entitySimpleNameVertxJson = "JsonArray";
@@ -3081,6 +3109,11 @@ public class IndexClass extends WatchClassBase {
 							entitySolrSimpleName = StringUtils.substringAfterLast(entitySolrCanonicalName, ".");
 							entityTypeSuffix = "_boolean";
 						}
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLocalTime)) {
+							entitySolrCanonicalName = VAL_canonicalNameString;
+							entitySolrSimpleName = StringUtils.substringAfterLast(entitySolrCanonicalName, ".");
+							entityTypeSuffix = "_string";
+						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 							entitySolrCanonicalName = VAL_canonicalNameDate;
 							entitySolrSimpleName = StringUtils.substringAfterLast(entitySolrCanonicalName, ".");
@@ -3116,6 +3149,11 @@ public class IndexClass extends WatchClassBase {
 								entitySolrCanonicalName = VAL_canonicalNameList + "<" + VAL_canonicalNameBoolean + ">";
 								entitySolrSimpleName = "List<" + StringUtils.substringAfterLast(VAL_canonicalNameBoolean, ".") + ">";
 								entityTypeSuffix = "_booleans";
+							}
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameLocalTime)) {
+								entitySolrCanonicalName = VAL_canonicalNameList + "<" + VAL_canonicalNameDate + ">";
+								entitySolrSimpleName = "List<" + StringUtils.substringAfterLast(VAL_canonicalNameString, ".") + ">";
+								entityTypeSuffix = "_strings";
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameZonedDateTime)) {
 								entitySolrCanonicalName = VAL_canonicalNameList + "<" + VAL_canonicalNameDate + ">";
@@ -3171,6 +3209,11 @@ public class IndexClass extends WatchClassBase {
 						if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameBoolean)) {
 							entityJsonType = "boolean";
 						}
+						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameLocalTime)) {
+							entityJsonType = "string";
+							//TODO: ctate disabled until vertx fix is made. 
+//							entityJsonFormat = "date-time";
+						}
 						else if(StringUtils.equalsAny(entityCanonicalName, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameDate, VAL_canonicalNameZonedDateTime)) {
 							entityJsonType = "string";
 							//TODO: ctate disabled until vertx fix is made. 
@@ -3200,6 +3243,10 @@ public class IndexClass extends WatchClassBase {
 							if(entityCanonicalNameGeneric.equals(VAL_canonicalNameBoolean)) {
 								entityJsonType = "array";
 								entityListJsonType = "boolean";
+							}
+							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameLocalTime)) {
+								entityJsonType = "array";
+								entityListJsonType = "string";
 							}
 							else if(StringUtils.equalsAny(entityCanonicalNameGeneric, VAL_canonicalNameTimestamp, VAL_canonicalNameLocalDateTime, VAL_canonicalNameLocalDate, VAL_canonicalNameZonedDateTime)) {
 								entityJsonType = "array";
@@ -3630,6 +3677,7 @@ public class IndexClass extends WatchClassBase {
 				classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonArray", classLanguageName));
 				classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.json.JsonObject", classLanguageName));
 				classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.LocalDateTime", classLanguageName));
+				classPartsGenApiAdd(ClassParts.initClassParts(this, "java.time.LocalTime", classLanguageName));
 				classPartsGenApiAdd(ClassParts.initClassParts(this, "java.sql.Timestamp", classLanguageName));
 				classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.Future", classLanguageName));
 				classPartsGenApiAdd(ClassParts.initClassParts(this, "io.vertx.core.http.CaseInsensitiveHeaders", classLanguageName));
@@ -3827,6 +3875,7 @@ public class IndexClass extends WatchClassBase {
 							classPartsGenPageAdd(classPartsWrap);
 							classPartsGenPageAdd(classPartsPageLayout);
 							classPartsGenPageAdd(ClassParts.initClassParts(this, LocalDateTime.class.getCanonicalName(), classLanguageName));
+							classPartsGenPageAdd(ClassParts.initClassParts(this, LocalTime.class.getCanonicalName(), classLanguageName));
 							classPartsGenPageAdd(ClassParts.initClassParts(this, LocalDate.class.getCanonicalName(), classLanguageName));
 							classPartsGenPageAdd(ClassParts.initClassParts(this, ZonedDateTime.class.getCanonicalName(), classLanguageName));
 							classPartsGenPageAdd(ClassParts.initClassParts(this, DateTimeFormatter.class.getCanonicalName(), classLanguageName));
