@@ -569,7 +569,7 @@ public class WriteApiClass extends WriteGenClass {
 										tl(tBase + 3, "", str_requete(languageName), "Json.getJsonArray(", str_methodName(languageName), ").forEach((v) -> {");
 										tl(tBase + 4, "o2.add", entityVarCapitalized, "((", entityListSimpleNameVertxJson, ")v);");
 										tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setD);");
-										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.str", entityVarCapitalized, "(), ", classVarPrimaryKey, "));");
+										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.json", entityVarCapitalized, "(), ", classVarPrimaryKey, "));");
 										tl(tBase + 3, "});");
 									}
 									else {
@@ -581,7 +581,7 @@ public class WriteApiClass extends WriteGenClass {
 										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", classVarPrimaryKey, ", \"", entityVar, "\"));");
 										tl(tBase + 3, "} else {");
 										tl(tBase + 4, "patchSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_setD);");
-										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.str", entityVarCapitalized, "(), ", classVarPrimaryKey, "));");
+										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(\"", entityVar, "\", o2.json", entityVarCapitalized, "(), ", classVarPrimaryKey, "));");
 										tl(tBase + 3, "}");
 									}
 						

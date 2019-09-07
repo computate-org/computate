@@ -1737,7 +1737,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 			if(StringUtils.equals(entityCanonicalName, Date.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(String o) {");
-				tl(2, "this.", entityVar, " = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
+				tl(2, "this.", entityVar, " = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.of(\"Z\")).toInstant());");
 				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
@@ -1770,7 +1770,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
-				tl(2, "this.", entityVar, " = o.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();");
+				tl(2, "this.", entityVar, " = o.toInstant().atZone(ZoneId.of(\"Z\")).toLocalDate();");
 				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
@@ -1790,7 +1790,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
-				tl(2, "this.", entityVar, " = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
+				tl(2, "this.", entityVar, " = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(\"Z\"));");
 				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
@@ -1810,7 +1810,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classSimpleName, " set", entityVarCapitalized, "(Date o) {");
-				tl(2, "this.", entityVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.systemDefault());");
+				tl(2, "this.", entityVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(\"Z\"));");
 				tl(2, "this.", entityVar, classPartsWrap.simpleName(languageName), ".", str_alreadyInitialized(languageName), " = true;");
 				tl(2, "return (", classSimpleName, ")this;");
 				tl(1, "}");
@@ -2434,7 +2434,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 						tl(3, "document.addField(\"", entityVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entityVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entityVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else {
 						tl(3, "document.addField(\"", entityVar, "_suggested", "\", ", entityVar, ");");
@@ -2481,7 +2481,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entityVar, "_indexed", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList") || entitySimpleName.equals("Set") || entitySimpleName.equals("HashSet")) {
 						tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
@@ -2511,7 +2511,7 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entitySimpleName.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atStartOfDay(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entityVar, "_stored", entityTypeSuffix, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entityVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else if(entitySimpleName.equals("List") || entitySimpleName.equals("ArrayList") || entitySimpleName.equals("Set") || entitySimpleName.equals("HashSet")) {
 						tl(3, "for(", entityCanonicalNameGeneric, " o : ", entityVar, ") {");
@@ -2735,9 +2735,9 @@ String classInitDeepException = classInitDeepExceptions.get(i);
 				tl(tBase + 2, "case \"", entityVar, "\":");
 				tl(tBase + 3, "postSql.append(", classPartsSiteContext.simpleName(languageName), ".SQL_addA);");
 				if(StringUtils.compare(entityVar, entityAttributeVar) < 0)
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", jsonObject.getLong(", str_entity(languageName), "Var), \"", entityAttributeVar, "\", ", classVarPrimaryKey, "));");
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityVar, "\", ", classVarPrimaryKey, ", \"", entityAttributeVar, "\", jsonObject.getLong(", str_entity(languageName), "Var)));");
 				else
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityAttributeVar, "\", ", classVarPrimaryKey, ", \"", entityVar, "\", jsonObject.getLong(", str_entity(languageName), "Var)));");
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entityAttributeVar, "\", jsonObject.getLong(", str_entity(languageName), "Var), \"", entityVar, "\", ", classVarPrimaryKey, "));");
 				tl(tBase + 3, "break;");
 			}	
 	
