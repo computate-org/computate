@@ -1890,6 +1890,16 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_add
+	 */
+	public String str_ajouter(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ajouter";
+		else
+			return "add";
+	}
+
+	/**
 	 * Var.enUS: str_addError
 	 */
 	public String str_ajouterErreur(String langueNom) {
@@ -5747,8 +5757,9 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerContexteUnNom", (String)docClasse.get("contexteUnNom_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteCouleur", (String)docClasse.get("contexteCouleur_stored_string"));
 
-									
 									String entiteOperationIdPATCH = regexLangue(classeLangueNom, "(classe)?ApiOperationIdPATCH", classeCommentaire, "patch" + classeNomSimple);
 									if(entiteOperationIdPATCH != null)
 										indexerStockerSolr(classeLangueNom, entiteDoc, "entiteOperationIdPATCH", entiteOperationIdPATCH);
@@ -5784,6 +5795,7 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerContexteUnNom", (String)docClasse.get("contexteUnNom_" + langueNom + "_stored_string"));
 											
 											entiteOperationIdPATCH = regexLangue(langueNom, "(classe)?ApiOperationIdPATCH", classeCommentaire, "patch" + classeNomSimpleLangue);
 											if(entiteOperationIdPATCH != null)

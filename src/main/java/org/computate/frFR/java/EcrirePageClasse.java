@@ -206,7 +206,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				if(entiteAttribuer) {
 					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
+						wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-", entiteAttribuerContexteCouleur, " ").dfl();
 						wForm.t(tIndex + 7).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
 						wForm.t(tIndex + 6).bgl("div");
 					}
@@ -238,9 +238,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 8).bgl("div");
 					wForm.t(tIndex + 8).be("div").da("class", "w3-cell-row ").dfl();
 					wForm.t(tIndex + 9).e("button").l();
-					wForm.t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
+					wForm.t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
 					wForm.t(tIndex + 10).l(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \", o.getPk(), \" }, function() { var $e = $('#", classeApiMethodeMethode, "_", entiteVar, "'); $e.html($e.val()); }, function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); \")");
-					wForm.t(tIndex + 10).df().dsxq("add").l();
+					wForm.t(tIndex + 10).df().dsxq(str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom).l();
 					wForm.t(tIndex + 9).dgl("button");
 					wForm.t(tIndex + 8).bgl("div");
 					wForm.t(tIndex + 7).bgl("div");
@@ -1054,6 +1054,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteAttribuerVarSuggere = (String)entiteDocumentSolr.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
 								entiteAttribuerOperationIdPATCH = (String)entiteDocumentSolr.get("entiteAttribuerOperationIdPATCH_" + langueNom + "_stored_string");
 								entiteAttribuerOperationIdRecherche = (String)entiteDocumentSolr.get("entiteAttribuerOperationId" + str_Recherche(langueNom) + "_" + langueNom + "_stored_string");
+								entiteAttribuerContexteUnNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
+								entiteAttribuerContexteCouleur = (String)entiteDocumentSolr.get("entiteAttribuerContexteCouleur_stored_string");
 	
 								if(pageVars.contains(entiteVar)) {
 									if(entiteCouverture) {

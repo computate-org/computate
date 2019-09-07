@@ -761,6 +761,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	String entiteAttribuerOperationIdRecherche;
 
 	/**
+	 * Var.enUS: entityAttributeContextAName
+	 */
+	String entiteAttribuerContexteUnNom;
+
+	String entiteAttribuerContexteCouleur;
+
+	/**
 	 * Var.enUS: entityMultiline
 	 */
 	Boolean entiteMultiligne;

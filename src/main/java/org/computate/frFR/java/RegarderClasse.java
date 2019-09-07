@@ -5,7 +5,6 @@ import java.io.File;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.common.SolrInputDocument;
-import org.computate.enUS.java.WatchClass;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchClass
@@ -13,7 +12,6 @@ import org.computate.enUS.java.WatchClass;
 public class RegarderClasse extends EcrireToutesClasses {
 
 	public RegarderClasse frFRRegarderClasse;
-	public WatchClass enUSWatchClass;
 
 	/**
 	 * r: initRegarderClasseBase
