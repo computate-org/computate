@@ -767,6 +767,10 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String entiteAttribuerContexteCouleur;
 
+	String entiteAttribuerContexteIconeGroupe;
+
+	String entiteAttribuerContexteIconeNom;
+
 	/**
 	 * Var.enUS: entityMultiline
 	 */

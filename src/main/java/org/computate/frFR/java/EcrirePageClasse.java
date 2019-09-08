@@ -206,8 +206,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				if(entiteAttribuer) {
 					if(entiteNomAffichage != null) {
-						wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-", entiteAttribuerContexteCouleur, " ").dfl();
-						wForm.t(tIndex + 7).e("label").da("for", classeApiMethodeMethode, "_", entiteVar).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
+						wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row ").dfl();
+						wForm.t(tIndex + 7).be("a").da("href", entiteAttribuerVarUrl).da("class", "w3-cell w3-btn w3-center h4 w3-block h4 w3-", entiteAttribuerContexteCouleur, " w3-hover-", entiteAttribuerContexteCouleur, " ").dfl();
+						if(entiteAttribuerContexteIconeGroupe != null && entiteAttribuerContexteIconeNom != null)
+							wForm.t(tIndex + 8).e("i").da("class", "fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " w3-padding-small ").df().dgl("i");
+						wForm.t(tIndex + 8).sxqscl(entiteNomAffichage);
+						wForm.t(tIndex + 7).bgl("a");
 						wForm.t(tIndex + 6).bgl("div");
 					}
 					wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-padding ").dfl();
@@ -236,6 +240,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 					wForm.l();
 					wForm.t(tIndex + 8).bgl("div");
+					wForm.t(tIndex + 7).bgl("div");
+					wForm.t(tIndex + 6).bgl("div");
+					wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-padding ").dfl();
+					wForm.t(tIndex + 7).be("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
+					wForm.t(tIndex + 8).be("ul").da("class", "w3-ul w3-hoverable ").da("id", "list", classeNomSimple, entiteVarCapitalise).dfl();
+					wForm.t(tIndex + 8).bgl("ul");
 					wForm.t(tIndex + 8).be("div").da("class", "w3-cell-row ").dfl();
 					wForm.t(tIndex + 9).e("button").l();
 					wForm.t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
@@ -243,12 +253,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 10).df().dsxq(str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom).l();
 					wForm.t(tIndex + 9).dgl("button");
 					wForm.t(tIndex + 8).bgl("div");
-					wForm.t(tIndex + 7).bgl("div");
-					wForm.t(tIndex + 6).bgl("div");
-					wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-padding ").dfl();
-					wForm.t(tIndex + 7).be("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
-					wForm.t(tIndex + 8).be("ul").da("class", "w3-ul w3-hoverable ").da("id", "list", classeNomSimple, entiteVarCapitalise).dfl();
-					wForm.t(tIndex + 8).bgl("ul");
 					wForm.t(tIndex + 7).bgl("div");
 				}
 				else if("LocalDate".equals(entiteNomSimple)) {
@@ -1056,6 +1060,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteAttribuerOperationIdRecherche = (String)entiteDocumentSolr.get("entiteAttribuerOperationId" + str_Recherche(langueNom) + "_" + langueNom + "_stored_string");
 								entiteAttribuerContexteUnNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
 								entiteAttribuerContexteCouleur = (String)entiteDocumentSolr.get("entiteAttribuerContexteCouleur_stored_string");
+								entiteAttribuerContexteIconeGroupe = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeGroupe_stored_string");
+								entiteAttribuerContexteIconeNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeNom_stored_string");
 	
 								if(pageVars.contains(entiteVar)) {
 									if(entiteCouverture) {
