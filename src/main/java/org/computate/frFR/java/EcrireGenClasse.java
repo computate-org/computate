@@ -653,6 +653,14 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String contexteDeNom;
 
+	protected String classeVarTitre;
+
+	protected String classeVarH1;
+
+	protected String classeVarH2;
+
+	protected String classeVarH3;
+
 	/**
 	 * Var.enUS: contextAdjective
 	 */
@@ -760,10 +768,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	String entiteAttribuerOperationIdRecherche;
 
+	String entiteAttribuerApiUri;
+
+	String entiteAttribuerPageUri;
+
 	/**
 	 * Var.enUS: entityAttributeContextAName
 	 */
 	String entiteAttribuerContexteUnNom;
+
+	String entiteAttribuerContexteNomPluriel;
 
 	String entiteAttribuerContexteCouleur;
 
@@ -806,6 +820,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	String entiteLangue;
 
+	String entiteListeTypeJson;
+
 	/**
 	 * Var.enUS: entitySuggested
 	 */
@@ -815,6 +831,14 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityStored
 	 */
 	Boolean entiteStocke;
+
+	Boolean entiteVarTitre;
+
+	Boolean entiteVarH1;
+
+	Boolean entiteVarH2;
+
+	Boolean entiteVarH3;
 
 	/**
 	 * Var.enUS: entitySolrCanonicalName
@@ -3338,7 +3362,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
-				tl(2, "this.", entiteVar, " = o.toInstant().atZone(ZoneId.of(\"Z\")).toLocalDate();");
+				tl(2, "this.", entiteVar, " = o.toInstant().atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toLocalDate();");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3358,7 +3382,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
-				tl(2, "this.", entiteVar, " = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(\"Z\"));");
+				tl(2, "this.", entiteVar, " = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone()));");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3378,7 +3402,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
-				tl(2, "this.", entiteVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(\"Z\"));");
+				tl(2, "this.", entiteVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone()));");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");

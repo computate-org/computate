@@ -221,10 +221,15 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * Var.enUS: CONTEXT_frFR_AFemale
 	 */
 	String CONTEXTE_frFR_UneFeminin = "une ";
+
 	/**
-	 * Var.enUS: CONTEXT_enUS_A
+	 * Var.enUS: CONTEXT_enUS_AConsonant
 	 */
-	String CONTEXTE_enUS_Une = "an ";
+	String CONTEXTE_enUS_UnConsonne = "a ";
+	/**
+	 * Var.enUS: CONTEXT_enUS_AVowel
+	 */
+	String CONTEXTE_enUS_UnVoyelle = "an ";
 
 	/**
 	 * Var.enUS: CONTEXT_frFR_ThisMaleVowel
@@ -573,6 +578,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * Var.enUS: contextANameAdjective
 	 */
 	private String contexteUnNomAdjectif;
+
+	/**
+	 * Var.enUS: contextTheNameAdjective
+	 */
+	private String contexteLeNomAdjectif;
 
 	/**
 	 * Var.enUS: contextNameAdjectiveSingular
@@ -1117,6 +1127,20 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "valeurs";
 		else
 			return "values";
+	}
+
+	public String str_relier(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "relier";
+		else
+			return "relate";
+	}
+
+	public String str_a(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "a";
+		else
+			return "to";
 	}
 
 	/**
@@ -4537,6 +4561,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarUrl = null;
 		String classeVarId = null;
 		String classeVarTitre = null;
+		String classeVarH1 = null;
+		String classeVarH2 = null;
+		String classeVarH3 = null;
 		String classeVarDescription = null;
 		String classeVarImageUrl = null;
 		String classeVarClePrimaire = null;
@@ -5618,6 +5645,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteVarUrl = indexerStockerSolr(entiteDoc, "entiteVarUrl", regexTrouve("^(entite)?VarUrl:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarId = indexerStockerSolr(entiteDoc, "entiteVarId", regexTrouve("^(entite)?VarId:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarTitre = indexerStockerSolr(entiteDoc, "entiteVarTitre", regexTrouve("^(entite)?VarTitre:\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarH1 = indexerStockerSolr(entiteDoc, "entiteVarH1", regexTrouve("^(entite)?VarH1:\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarH2 = indexerStockerSolr(entiteDoc, "entiteVarH2", regexTrouve("^(entite)?VarH2:\\s*(true)$", methodeCommentaire));
+						Boolean entiteVarH3 = indexerStockerSolr(entiteDoc, "entiteVarH3", regexTrouve("^(entite)?VarH3:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarDescription = indexerStockerSolr(entiteDoc, "entiteVarDescription", regexTrouve("^(entite)?VarDescription:\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarImageUrl = indexerStockerSolr(entiteDoc, "entiteVarImageUrl", regexTrouve("^(entite)?VarImageUrl:\\s*(true)$", methodeCommentaire));
 						Boolean entiteSauvegarde = indexerStockerSolr(entiteDoc, "entiteSauvegarde", regexTrouve("^(entite)?Sauvegarde:\\s*(true)$", methodeCommentaire));
@@ -5755,9 +5785,15 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrl", (String)docClasse.get("classeVarUrl_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarId", (String)docClasse.get("classeVarId_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarH1", (String)docClasse.get("classeVarH1_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarH2", (String)docClasse.get("classeVarH2_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarH3", (String)docClasse.get("classeVarH3_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerApiUri", (String)docClasse.get("classeApiUri_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerApiUri" + str_Recherche(classeLangueNom) + "Page", (String)docClasse.get("classeApiUri" + str_Recherche(classeLangueNom) + "Page_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerContexteUnNom", (String)docClasse.get("contexteUnNom_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerContextePluriel", (String)docClasse.get("contextePluriel_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteCouleur", (String)docClasse.get("contexteCouleur_stored_string"));
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteIconeGroupe", (String)docClasse.get("contexteIconeGroupe_stored_string"));
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteIconeNom", (String)docClasse.get("contexteIconeNom_stored_string"));
@@ -5795,9 +5831,15 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrl", (String)docClasse.get("classeVarUrl_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarId", (String)docClasse.get("classeVarId_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarTitre", (String)docClasse.get("classeVarTitre_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarH1", (String)docClasse.get("classeVarH1_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarH2", (String)docClasse.get("classeVarH2_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarH3", (String)docClasse.get("classeVarH3_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerApiUri", (String)docClasse.get("classeApiUri_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerPageUri", (String)docClasse.get("classeApiUri" + str_Recherche(langueNom) + "Page_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerContexteUnNom", (String)docClasse.get("contexteUnNom_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerContexteNomPluriel", (String)docClasse.get("contexteNomPluriel_" + langueNom + "_stored_string"));
 											
 											entiteOperationIdPATCH = regexLangue(langueNom, "(classe)?ApiOperationIdPATCH", classeCommentaire, "patch" + classeNomSimpleLangue);
 											if(entiteOperationIdPATCH != null)
@@ -6181,6 +6223,15 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteVarTitre) {
 							classeVarTitre = stockerSolr(classeLangueNom, classeDoc, "classeVarTitre", entiteVar);
 						}
+						if(entiteVarH1) {
+							classeVarH1 = stockerSolr(classeLangueNom, classeDoc, "classeVarH1", entiteVar);
+						}
+						if(entiteVarH2) {
+							classeVarH2 = stockerSolr(classeLangueNom, classeDoc, "classeVarH2", entiteVar);
+						}
+						if(entiteVarH3) {
+							classeVarH3 = stockerSolr(classeLangueNom, classeDoc, "classeVarH3", entiteVar);
+						}
 						if(entiteVarDescription) {
 							classeVarDescription = stockerSolr(classeLangueNom, classeDoc, "classeVarDescription", entiteVar);
 						}
@@ -6223,6 +6274,15 @@ public class IndexerClasse extends RegarderClasseBase {
 								}
 								if(entiteVarTitre) {
 									classeVarTitre = stockerSolr(langueNom, classeDoc, "classeVarTitre", entiteVarLangue);
+								}
+								if(entiteVarH1) {
+									classeVarH1 = stockerSolr(langueNom, classeDoc, "classeVarH1", entiteVarLangue);
+								}
+								if(entiteVarH2) {
+									classeVarH2 = stockerSolr(langueNom, classeDoc, "classeVarH2", entiteVarLangue);
+								}
+								if(entiteVarH3) {
+									classeVarH3 = stockerSolr(langueNom, classeDoc, "classeVarH3", entiteVarLangue);
 								}
 								if(entiteVarDescription) {
 									classeVarDescription = stockerSolr(langueNom, classeDoc, "classeVarDescription", entiteVarLangue);
@@ -6535,6 +6595,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.ArrayList", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Arrays", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Set", classeLangueNom));
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.HashSet", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Handler", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.RoutingContext", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.Router", classeLangueNom));
@@ -6573,6 +6634,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Optional", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Stream", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.net.URLDecoder", classeLangueNom));
+
 				classePartsGenApiAjouter(classePartsListeRecherche);
 				classePartsGenApiAjouter(classePartsToutEcrivain);
 
@@ -6843,7 +6905,10 @@ public class IndexerClasse extends RegarderClasseBase {
 								contexteNomAdjectifSingulier = indexerStockerSolr(langueNom, classeDoc, "contexteNomAdjectifSingulier", regexLangue(langueNom, "(contexte)?NomAdjectifSingulier", classeCommentaire, contexteNomSingulier + " " + contexteAdjectif));
 								contexteNomAdjectifPluriel = indexerStockerSolr(langueNom, classeDoc, "contexteNomSingulierAdjectifPluriel", regexLangue(langueNom, "(contexte)?NomSingulierAdjectifPluriel", classeCommentaire, contexteNomPluriel + " " + contexteAdjectifPluriel));
 							}
-		
+						}
+						else {
+							contexteNomAdjectifSingulier = indexerStockerSolr(langueNom, classeDoc, "contexteNomAdjectifSingulier", regexLangue(langueNom, "(contexte)?NomAdjectifSingulier", classeCommentaire, contexteNomSingulier));
+							contexteNomAdjectifPluriel = indexerStockerSolr(langueNom, classeDoc, "contexteNomAdjectifPluriel", regexLangue(langueNom, "(contexte)?NomAdjectifPluriel", classeCommentaire, contexteNomPluriel));
 						}
 		
 						if(contexteUnNom.startsWith(CONTEXTE_frFR_UneFeminin)) {
@@ -6858,9 +6923,9 @@ public class IndexerClasse extends RegarderClasseBase {
 							contexteAucunNomTrouve = indexerStockerSolr(langueNom, classeDoc, "contexteAucunNomTrouve", regexLangue(langueNom, "(contexte)?AucunNomTrouve", classeCommentaire, CONTEXTE_frFR_AucuneTrouveFemininAvant + contexteNomSingulier + CONTEXTE_frFR_AucuneTrouveFemininApres));
 							if(contexteAdjectif != null) {
 								if(CONTEXTE_frFR_AdjectifAvant)
-									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_frFR_UneFeminin + " " + contexteAdjectif + " " + contexteNomSingulier));
+									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_frFR_UneFeminin + contexteAdjectif + " " + contexteNomSingulier));
 								else
-									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_frFR_UneFeminin + " " + contexteNomSingulier + " " + contexteAdjectif));
+									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_frFR_UneFeminin + contexteNomSingulier + " " + contexteAdjectif));
 							}
 		
 							String suffixe = StringUtils.substringAfter(contexteUnNom, " ");
@@ -6870,10 +6935,12 @@ public class IndexerClasse extends RegarderClasseBase {
 								contexteLeNom = indexerStockerSolr(langueNom, classeDoc, "contexteLeNom", regexLangue(langueNom, "(contexte)?LeNom", classeCommentaire, CONTEXTE_frFR_LFemininVoyelle + suffixe));
 								contexteDeNom = indexerStockerSolr(langueNom, classeDoc, "contexteDeNom", regexLangue(langueNom, "(contexte)?DeNom", classeCommentaire, CONTEXTE_frFR_DVoyelle + suffixe));
 								if(contexteAdjectif != null) {
-									if(CONTEXTE_frFR_AdjectifAvant)
-										contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LFemininVoyelle + " " + contexteAdjectif + " " + contexteNomSingulier));
-									else
-										contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LFemininVoyelle + " " + contexteNomSingulier + " " + contexteAdjectif));
+									if(CONTEXTE_frFR_AdjectifAvant) {
+										contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LFemininVoyelle + contexteAdjectif + " " + contexteNomSingulier));
+									}
+									else {
+										contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LFemininVoyelle + contexteNomSingulier + " " + contexteAdjectif));
+									}
 								}
 							}
 							else {
@@ -6881,10 +6948,12 @@ public class IndexerClasse extends RegarderClasseBase {
 								contexteLeNom = indexerStockerSolr(langueNom, classeDoc, "contexteLeNom", regexLangue(langueNom, "(contexte)?LeNom", classeCommentaire, CONTEXTE_frFR_LaFemininConsonne + suffixe));
 								contexteDeNom = indexerStockerSolr(langueNom, classeDoc, "contexteDeNom", regexLangue(langueNom, "(contexte)?DeNom", classeCommentaire, CONTEXTE_frFR_DeConsonne + suffixe));
 								if(contexteAdjectif != null) {
-									if(CONTEXTE_frFR_AdjectifAvant)
-										contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LaFemininConsonne + " " + contexteAdjectif + " " + contexteNomSingulier));
-									else
-										contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LaFemininConsonne + " " + contexteNomSingulier + " " + contexteAdjectif));
+									if(CONTEXTE_frFR_AdjectifAvant) {
+										contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LaFemininConsonne + contexteAdjectif + " " + contexteNomSingulier));
+									}
+									else {
+										contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LaFemininConsonne + contexteNomSingulier + " " + contexteAdjectif));
+									}
 								}
 							}
 						}
@@ -6900,9 +6969,9 @@ public class IndexerClasse extends RegarderClasseBase {
 							contexteAucunNomTrouve = indexerStockerSolr(langueNom, classeDoc, "contexteAucunNomTrouve", regexLangue(langueNom, "(contexte)?AucunNomTrouve", classeCommentaire, CONTEXTE_frFR_AucunTrouveMasculinAvant + contexteNomSingulier + CONTEXTE_frFR_AucunTrouveMasculinApres));
 							if(contexteAdjectif != null) {
 								if(CONTEXTE_frFR_AdjectifAvant)
-									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_frFR_UnMasculin + " " + contexteAdjectif + " " + contexteNomSingulier));
+									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_frFR_UnMasculin + contexteAdjectif + " " + contexteNomSingulier));
 								else
-									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_frFR_UnMasculin + " " + contexteNomSingulier + " " + contexteAdjectif));
+									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_frFR_UnMasculin + contexteNomSingulier + " " + contexteAdjectif));
 							}
 		
 							String suffixe = StringUtils.substringAfter(contexteUnNom, " ");
@@ -6912,10 +6981,12 @@ public class IndexerClasse extends RegarderClasseBase {
 								contexteLeNom = indexerStockerSolr(langueNom, classeDoc, "contexteLeNom", regexLangue(langueNom, "(contexte)?LeNom", classeCommentaire, CONTEXTE_frFR_LMasculinVoyelle + suffixe));
 								contexteDeNom = indexerStockerSolr(langueNom, classeDoc, "contexteDeNom", regexLangue(langueNom, "(contexte)?DeNom", classeCommentaire, CONTEXTE_frFR_DVoyelle + suffixe));
 								if(contexteAdjectif != null) {
-									if(CONTEXTE_frFR_AdjectifAvant)
-										contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LMasculinVoyelle + " " + contexteAdjectif + " " + contexteNomSingulier));
-									else
-										contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LMasculinVoyelle + " " + contexteNomSingulier + " " + contexteAdjectif));
+									if(CONTEXTE_frFR_AdjectifAvant) {
+										contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LMasculinVoyelle + contexteAdjectif + " " + contexteNomSingulier));
+									}
+									else {
+										contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LMasculinVoyelle + contexteNomSingulier + " " + contexteAdjectif));
+									}
 								}
 							}
 							else {
@@ -6923,10 +6994,12 @@ public class IndexerClasse extends RegarderClasseBase {
 								contexteLeNom = indexerStockerSolr(langueNom, classeDoc, "contexteLeNom", regexLangue(langueNom, "(contexte)?LeNom", classeCommentaire, CONTEXTE_frFR_LeMasculinConsonne + suffixe));
 								contexteDeNom = indexerStockerSolr(langueNom, classeDoc, "contexteDeNom", regexLangue(langueNom, "(contexte)?DeNom", classeCommentaire, CONTEXTE_frFR_DeConsonne + suffixe));
 								if(contexteAdjectif != null) {
-									if(CONTEXTE_frFR_AdjectifAvant)
-										contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LeMasculinConsonne + " " + contexteAdjectif + " " + contexteNomSingulier));
-									else
-										contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LeMasculinConsonne + " " + contexteNomSingulier + " " + contexteAdjectif));
+									if(CONTEXTE_frFR_AdjectifAvant) {
+										contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LeMasculinConsonne + contexteAdjectif + " " + contexteNomSingulier));
+									}
+									else {
+										contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_frFR_LeMasculinConsonne + contexteNomSingulier + " " + contexteAdjectif));
+									}
 								}
 							}
 						}
@@ -6951,11 +7024,14 @@ public class IndexerClasse extends RegarderClasseBase {
 								contexteNomAdjectifSingulier = indexerStockerSolr(langueNom, classeDoc, "contexteNomAdjectifSingulier", regexLangue(langueNom, "(contexte)?NomAdjectifSingulier", classeCommentaire, contexteNomSingulier + " " + contexteAdjectif));
 								contexteNomAdjectifPluriel = indexerStockerSolr(langueNom, classeDoc, "contexteNomSingulierAdjectifPluriel", regexLangue(langueNom, "(contexte)?NomSingulierAdjectifPluriel", classeCommentaire, contexteNomPluriel + " " + contexteAdjectifPluriel));
 							}
-		
+						}
+						else {
+							contexteNomAdjectifSingulier = indexerStockerSolr(langueNom, classeDoc, "contexteNomAdjectifSingulier", regexLangue(langueNom, "(contexte)?NomAdjectifSingulier", classeCommentaire, contexteNomSingulier));
+							contexteNomAdjectifPluriel = indexerStockerSolr(langueNom, classeDoc, "contexteNomAdjectifPluriel", regexLangue(langueNom, "(contexte)?NomAdjectifPluriel", classeCommentaire, contexteNomPluriel));
 						}
 		
 						contexteCe = indexerStockerSolr(langueNom, classeDoc, "contexteCe", regexLangue(langueNom, "(contexte)?Ce", classeCommentaire, CONTEXTE_enUS_CetteConsonne));
-						contexteUn = indexerStockerSolr(langueNom, classeDoc, "contexteUn", regexLangue(langueNom, "(contexte)?Un", classeCommentaire, CONTEXTE_enUS_Une));
+						contexteUn = indexerStockerSolr(langueNom, classeDoc, "contexteUn", regexLangue(langueNom, "(contexte)?Un", classeCommentaire, CONTEXTE_enUS_UnConsonne));
 						contexteCree = indexerStockerSolr(langueNom, classeDoc, "contexteCree", regexLangue(langueNom, "(contexte)?Cree", classeCommentaire, CONTEXTE_enUS_Creee));
 						contexteModifie = indexerStockerSolr(langueNom, classeDoc, "contexteModifie", regexLangue(langueNom, "(contexte)?Modifie", classeCommentaire, CONTEXTE_enUS_Modifiee));
 						contexteNomActuel = indexerStockerSolr(langueNom, classeDoc, "contexteNomActuel", regexLangue(langueNom, "(contexte)?NomActuel", classeCommentaire, CONTEXTE_enUS_ActuelleAvant + contexteNomSingulier + CONTEXTE_enUS_ActuelleApres));
@@ -6963,24 +7039,34 @@ public class IndexerClasse extends RegarderClasseBase {
 						contexteRechercherTousNomPar = indexerStockerSolr(langueNom, classeDoc, "contexteRechercherTousNomPar", regexLangue(langueNom, "(contexte)?RechercherTousNomPar", classeCommentaire, CONTEXTE_enUS_Rechercher + contexteNomPluriel + CONTEXTE_enUS_Par));
 						contexteRechercherTousNom = indexerStockerSolr(langueNom, classeDoc, "contexteRechercherTousNomr", regexLangue(langueNom, "(contexte)?RechercherTousNom", classeCommentaire, CONTEXTE_enUS_Rechercher + contexteNomPluriel));
 						contexteAucunNomTrouve = indexerStockerSolr(langueNom, classeDoc, "contexteAucunNomTrouve", regexLangue(langueNom, "(contexte)?AucunNomTrouve", classeCommentaire, CONTEXTE_enUS_AucuneTrouveAvant + contexteNomSingulier + CONTEXTE_enUS_AucuneTrouveApres));
-						if(contexteAdjectif != null) {
-							if(CONTEXTE_enUS_AdjectifAvant)
-								contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_enUS_Une + " " + contexteAdjectif + " " + contexteNomSingulier));
-							else
-								contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_enUS_Une + " " + contexteNomSingulier + " " + contexteAdjectif));
-						}
 	
 						String suffixe = StringUtils.substringAfter(contexteUnNom, " ");
 						String c = Normalizer.normalize(StringUtils.substring(suffixe.toLowerCase(), 0, 1), Normalizer.Form.NFD);
-						if(StringUtils.containsAny(c, 'a', 'e', 'i', 'o', 'u', 'h', 'y')) {
+
+						if(contexteAdjectif != null) {
+							if(StringUtils.containsAny(contexteAdjectif.substring(0, 1), 'a', 'e', 'i', 'o', 'u', 'h'))
+								contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_enUS_UnVoyelle + contexteAdjectif + " " + contexteNomSingulier));
+							else
+								contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_enUS_UnConsonne + contexteAdjectif + " " + contexteNomSingulier));
+						}
+						else {
+							if(StringUtils.containsAny(c, 'a', 'e', 'i', 'o', 'u', 'h'))
+								contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_enUS_UnVoyelle + contexteNomSingulier));
+							else
+								contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteUnNomAdjectif", regexLangue(langueNom, "(contexte)?UnNomAdjectif", classeCommentaire, CONTEXTE_enUS_UnConsonne + contexteNomSingulier));
+						}
+
+						if(StringUtils.containsAny(c, 'a', 'e', 'i', 'o', 'u', 'h')) {
 							contexteCeNom = indexerStockerSolr(langueNom, classeDoc, "contexteCeNom", regexLangue(langueNom, "(contexte)?CeNom", classeCommentaire, CONTEXTE_enUS_CetteVoyelle + suffixe));
 							contexteLeNom = indexerStockerSolr(langueNom, classeDoc, "contexteLeNom", regexLangue(langueNom, "(contexte)?LeNom", classeCommentaire, CONTEXTE_enUS_LVoyelle + suffixe));
 							contexteDeNom = indexerStockerSolr(langueNom, classeDoc, "contexteDeNom", regexLangue(langueNom, "(contexte)?DeNom", classeCommentaire, CONTEXTE_enUS_DVoyelle + suffixe));
 							if(contexteAdjectif != null) {
-								if(CONTEXTE_enUS_AdjectifAvant)
-									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_enUS_LVoyelle + " " + contexteAdjectif + " " + contexteNomSingulier));
-								else
-									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_enUS_LVoyelle + " " + contexteNomSingulier + " " + contexteAdjectif));
+								if(CONTEXTE_enUS_AdjectifAvant) {
+									contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_enUS_LVoyelle + contexteAdjectif + " " + contexteNomSingulier));
+								}
+								else {
+									contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_enUS_LVoyelle + contexteNomSingulier + " " + contexteAdjectif));
+								}
 							}
 						}
 						else {
@@ -6988,10 +7074,12 @@ public class IndexerClasse extends RegarderClasseBase {
 							contexteLeNom = indexerStockerSolr(langueNom, classeDoc, "contexteLeNom", regexLangue(langueNom, "(contexte)?LeNom", classeCommentaire, CONTEXTE_enUS_LaConsonne + suffixe));
 							contexteDeNom = indexerStockerSolr(langueNom, classeDoc, "contexteDeNom", regexLangue(langueNom, "(contexte)?DeNom", classeCommentaire, CONTEXTE_enUS_DeConsonne + suffixe));
 							if(contexteAdjectif != null) {
-								if(CONTEXTE_enUS_AdjectifAvant)
-									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_enUS_LaConsonne + " " + contexteAdjectif + " " + contexteNomSingulier));
-								else
-									contexteUnNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_enUS_LaConsonne + " " + contexteNomSingulier + " " + contexteAdjectif));
+								if(CONTEXTE_enUS_AdjectifAvant) {
+									contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_enUS_LaConsonne + contexteAdjectif + " " + contexteNomSingulier));
+								}
+								else {
+									contexteLeNomAdjectif = indexerStockerSolr(langueNom, classeDoc, "contexteLeNomAdjectif", regexLangue(langueNom, "(contexte)?LeNomAdjectif", classeCommentaire, CONTEXTE_enUS_LaConsonne + contexteNomSingulier + " " + contexteAdjectif));
+								}
 							}
 						}
 						indexerStockerSolr(langueNom, classeDoc, "contexteCeMinuscule", contexteCe); 
