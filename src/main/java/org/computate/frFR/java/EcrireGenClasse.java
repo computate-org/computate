@@ -655,6 +655,10 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected String classeVarTitre;
 
+	protected String classeVarSuggere;
+
+	protected String classeVarUrl;
+
 	protected String classeVarH1;
 
 	protected String classeVarH2;
@@ -4191,12 +4195,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				if(entiteCrypte || entiteStocke || entiteCleUnique || entiteSuggere || entiteIncremente) {
 					tl(0);
 	
-//					if(entiteSuggere) {
-//						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
-//						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", "\");");
-//						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-//						tl(3, "}");
-//					}
+					if(entiteSuggere) {
+						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", "\");");
+						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+						tl(3, "}");
+					}
 //					else if(entiteIncremente) {
 //						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
 //						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", "\");");
@@ -4204,7 +4208,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //						tl(3, "}");
 //					}
 //					else if(entiteCleUnique) {
-					if(entiteCleUnique) {
+					else if(entiteCleUnique) {
 						tl(3, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "\");");
 						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					}
@@ -4257,16 +4261,16 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //						tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_text_enUS\");");
 //					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //				}
-//				else if(entiteSuggere) {
-//					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", "\");");
-//					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-//				}
+				if(entiteSuggere) {
+					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", "\");");
+					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+				}
 //				else if(entiteIncremente) {
 //					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", "\");");
 //					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //				}
 //				else if(entiteCleUnique) {
-				if(entiteCleUnique) {
+				else if(entiteCleUnique) {
 					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "\");");
 					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 				}

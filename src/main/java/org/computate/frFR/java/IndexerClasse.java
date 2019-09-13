@@ -374,15 +374,15 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: CONTEXT_frFR_AllMalePlural
 	 */
-	String CONTEXTE_frFR_TousMasculinPluriel = "tous les ";
+	String CONTEXTE_frFR_TousMasculinPluriel = "tous ";
 	/**
 	 * Var.enUS: CONTEXT_frFR_AllFemalePlural
 	 */
-	String CONTEXTE_frFR_ToutesFemininPluriel = "toutes les ";
+	String CONTEXTE_frFR_ToutesFemininPluriel = "toutes ";
 	/**
 	 * Var.enUS: CONTEXT_enUS_AllPlural
 	 */
-	String CONTEXTE_enUS_ToutesPluriel = "all the ";
+	String CONTEXTE_enUS_ToutesPluriel = "all ";
 
 	/**
 	 * Var.enUS: CONTEXT_frFR_NoneFoundMaleBefore
@@ -1129,6 +1129,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "values";
 	}
 
+	public String str_recharger(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "recharger";
+		else
+			return "refresh";
+	}
+
 	public String str_relier(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "relier";
@@ -1821,6 +1828,16 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "VoirSupprime";
 		else
 			return "SeeDeleted";
+	}
+
+	/**
+	 * Var.enUS: str_See
+	 */
+	public String str_voir(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "voir";
+		else
+			return "see";
 	}
 
 	/**
@@ -6917,7 +6934,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							contexteCree = indexerStockerSolr(langueNom, classeDoc, "contexteCree", regexLangue(langueNom, "(contexte)?Cree", classeCommentaire, CONTEXTE_frFR_CreeeFeminin));
 							contexteModifie = indexerStockerSolr(langueNom, classeDoc, "contexteModifie", regexLangue(langueNom, "(contexte)?Modifie", classeCommentaire, CONTEXTE_frFR_ModifieeFeminin));
 							contexteNomActuel = indexerStockerSolr(langueNom, classeDoc, "contexteNomActuel", regexLangue(langueNom, "(contexte)?NomActuel", classeCommentaire, CONTEXTE_frFR_ActuelleFemininAvant + contexteNomSingulier + CONTEXTE_frFR_ActuelleFemininApres));
-							contexteTousNom = indexerStockerSolr(langueNom, classeDoc, "contexteTousNom", regexLangue(langueNom, "(contexte)?TousNom", classeCommentaire, CONTEXTE_frFR_LesPluriel + contexteNomPluriel));
+							contexteTous = indexerStockerSolr(langueNom, classeDoc, "contexteTous", regexLangue(langueNom, "(contexte)?TousNom", classeCommentaire, CONTEXTE_frFR_ToutesFemininPluriel));
+							contexteTousNom = indexerStockerSolr(langueNom, classeDoc, "contexteTousNom", regexLangue(langueNom, "(contexte)?TousNom", classeCommentaire, CONTEXTE_frFR_ToutesFemininPluriel + CONTEXTE_frFR_LesPluriel + contexteNomPluriel));
 							contexteRechercherTousNomPar = indexerStockerSolr(langueNom, classeDoc, "contexteRechercherTousNomPar", regexLangue(langueNom, "(contexte)?RechercherTousNomPar", classeCommentaire, CONTEXTE_frFR_Rechercher + contexteNomPluriel + CONTEXTE_frFR_Par));
 							contexteRechercherTousNom = indexerStockerSolr(langueNom, classeDoc, "contexteRechercherTousNom", regexLangue(langueNom, "(contexte)?RechercherTousNom", classeCommentaire, CONTEXTE_frFR_Rechercher + contexteNomPluriel));
 							contexteAucunNomTrouve = indexerStockerSolr(langueNom, classeDoc, "contexteAucunNomTrouve", regexLangue(langueNom, "(contexte)?AucunNomTrouve", classeCommentaire, CONTEXTE_frFR_AucuneTrouveFemininAvant + contexteNomSingulier + CONTEXTE_frFR_AucuneTrouveFemininApres));
@@ -6963,7 +6981,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							contexteCree = indexerStockerSolr(langueNom, classeDoc, "contexteCree", regexLangue(langueNom, "(contexte)?Cree", classeCommentaire, CONTEXTE_frFR_CreeMasculin));
 							contexteModifie = indexerStockerSolr(langueNom, classeDoc, "contexteModifie", regexLangue(langueNom, "(contexte)?Modifie", classeCommentaire, CONTEXTE_frFR_ModifieMasculin));
 							contexteNomActuel = indexerStockerSolr(langueNom, classeDoc, "contexteNomActuel", regexLangue(langueNom, "(contexte)?NomActuel", classeCommentaire, CONTEXTE_frFR_ActuelMasculinAvant + contexteNomSingulier + CONTEXTE_frFR_ActuelMasculinApres));
-							contexteTousNom = indexerStockerSolr(langueNom, classeDoc, "contexteTousNom", regexLangue(langueNom, "(contexte)?TousNom", classeCommentaire, CONTEXTE_frFR_TousMasculinPluriel + contexteNomPluriel));
+							contexteTous = indexerStockerSolr(langueNom, classeDoc, "contexteTous", regexLangue(langueNom, "(contexte)?TousNom", classeCommentaire, CONTEXTE_frFR_TousMasculinPluriel));
+							contexteTousNom = indexerStockerSolr(langueNom, classeDoc, "contexteTousNom", regexLangue(langueNom, "(contexte)?TousNom", classeCommentaire, CONTEXTE_frFR_TousMasculinPluriel + CONTEXTE_frFR_LesPluriel + contexteNomPluriel));
 							contexteRechercherTousNomPar = indexerStockerSolr(langueNom, classeDoc, "contexteRechercherTousNomPar", regexLangue(langueNom, "(contexte)?RechercherTousNomPar", classeCommentaire, CONTEXTE_frFR_Rechercher + contexteNomPluriel + CONTEXTE_frFR_Par));
 							contexteRechercherTousNom = indexerStockerSolr(langueNom, classeDoc, "contexteRechercherTousNom", regexLangue(langueNom, "(contexte)?RechercherTousNom", classeCommentaire, CONTEXTE_frFR_Rechercher + contexteNomPluriel));
 							contexteAucunNomTrouve = indexerStockerSolr(langueNom, classeDoc, "contexteAucunNomTrouve", regexLangue(langueNom, "(contexte)?AucunNomTrouve", classeCommentaire, CONTEXTE_frFR_AucunTrouveMasculinAvant + contexteNomSingulier + CONTEXTE_frFR_AucunTrouveMasculinApres));
@@ -7035,7 +7054,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						contexteCree = indexerStockerSolr(langueNom, classeDoc, "contexteCree", regexLangue(langueNom, "(contexte)?Cree", classeCommentaire, CONTEXTE_enUS_Creee));
 						contexteModifie = indexerStockerSolr(langueNom, classeDoc, "contexteModifie", regexLangue(langueNom, "(contexte)?Modifie", classeCommentaire, CONTEXTE_enUS_Modifiee));
 						contexteNomActuel = indexerStockerSolr(langueNom, classeDoc, "contexteNomActuel", regexLangue(langueNom, "(contexte)?NomActuel", classeCommentaire, CONTEXTE_enUS_ActuelleAvant + contexteNomSingulier + CONTEXTE_enUS_ActuelleApres));
-						contexteTousNom = indexerStockerSolr(langueNom, classeDoc, "contexteTousNom", regexLangue(langueNom, "(contexte)?TousNom", classeCommentaire, CONTEXTE_enUS_LesPluriel + contexteNomPluriel));
+						contexteTous = indexerStockerSolr(langueNom, classeDoc, "contexteTous", regexLangue(langueNom, "(contexte)?TousNom", classeCommentaire, CONTEXTE_enUS_ToutesPluriel));
+						contexteTousNom = indexerStockerSolr(langueNom, classeDoc, "contexteTousNom", regexLangue(langueNom, "(contexte)?TousNom", classeCommentaire, CONTEXTE_enUS_ToutesPluriel + CONTEXTE_enUS_LesPluriel + contexteNomPluriel));
 						contexteRechercherTousNomPar = indexerStockerSolr(langueNom, classeDoc, "contexteRechercherTousNomPar", regexLangue(langueNom, "(contexte)?RechercherTousNomPar", classeCommentaire, CONTEXTE_enUS_Rechercher + contexteNomPluriel + CONTEXTE_enUS_Par));
 						contexteRechercherTousNom = indexerStockerSolr(langueNom, classeDoc, "contexteRechercherTousNomr", regexLangue(langueNom, "(contexte)?RechercherTousNom", classeCommentaire, CONTEXTE_enUS_Rechercher + contexteNomPluriel));
 						contexteAucunNomTrouve = indexerStockerSolr(langueNom, classeDoc, "contexteAucunNomTrouve", regexLangue(langueNom, "(contexte)?AucunNomTrouve", classeCommentaire, CONTEXTE_enUS_AucuneTrouveAvant + contexteNomSingulier + CONTEXTE_enUS_AucuneTrouveApres));
