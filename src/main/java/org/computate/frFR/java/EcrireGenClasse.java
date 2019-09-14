@@ -3230,7 +3230,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			// Setter List //
 			if(StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) && StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+				tl(2, "if(NumberUtils.isParsable(o)) {");
 				tl(3, "Long l = Long.parseLong(o);");
 				tl(3, "add", entiteVarCapitalise, "(l);");
 				tl(2, "}");
@@ -3251,7 +3251,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			// Setter Integer //
 			if(StringUtils.equals(entiteNomCanonique, Integer.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+				tl(2, "if(NumberUtils.isParsable(o))");
 				tl(3, "this.", entiteVar, " = Integer.parseInt(o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
@@ -3261,7 +3261,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			// Setter Float //
 			if(StringUtils.equals(entiteNomCanonique, Float.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+				tl(2, "if(NumberUtils.isParsable(o))");
 				tl(3, "this.", entiteVar, " = Float.parseFloat(o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
@@ -3271,7 +3271,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			// Setter Double //
 			if(StringUtils.equals(entiteNomCanonique, Double.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+				tl(2, "if(NumberUtils.isParsable(o))");
 				tl(3, "this.", entiteVar, " = Double.parseDouble(o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
@@ -3281,7 +3281,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			// Setter Long //
 			if(StringUtils.equals(entiteNomCanonique, Long.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
+				tl(2, "if(NumberUtils.isParsable(o))");
 				tl(3, "this.", entiteVar, " = Long.parseLong(o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
@@ -3300,18 +3300,20 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			// Setter BigDecimal //
 			if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o))");
-				tl(3, "this.", entiteVar, " = new BigDecimal(o);");
+//				tl(2, "o = StringUtils.remove(o, \"$\");");
+				tl(2, "o = StringUtils.removeAll(o, \"[^\\\\d\\\\.]\");");
+				tl(2, "if(NumberUtils.isParsable(o))");
+				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Double o) {");
-				tl(3, "this.", entiteVar, " = new BigDecimal(o);");
+				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Integer o) {");
-				tl(3, "this.", entiteVar, " = new BigDecimal(o);");
+				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3344,8 +3346,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "/** Example: 01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				// TODO: ctate until vertx fixes bug. 
-				tl(2, "this.", entiteVar, " = LocalTime.parse(o, DateTimeFormatter.ISO_OFFSET_TIME);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
+				tl(2, "try {");
+				tl(3, "this.", entiteVar, " = LocalTime.parse(o, DateTimeFormatter.ofPattern(\"HH mm\"));");
+				tl(3, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
+				tl(2, "} catch(Exception e) {");
+				tl(2, "}");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 			}
@@ -3466,7 +3471,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+					tl(2, "if(NumberUtils.isParsable(o)) {");
 					tl(3, entiteNomSimpleCompletGenerique, " p = Integer.parseInt(o);");
 					tl(3, "add", entiteVarCapitalise, "(p);");
 					tl(3, "}");
@@ -3480,13 +3485,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
 					tl(3, "Double o = objets.getDouble(i);");
-					tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o));");
+					tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o, MathContext.DECIMAL64).setScale(2));");
 					tl(2, "}");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
-					tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o);");
+					tl(2, "if(NumberUtils.isParsable(o)) {");
+					tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o, MathContext.DECIMAL64).setScale(2);");
 					tl(3, "add", entiteVarCapitalise, "(p);");
 					tl(2, "}");
 					tl(2, "return (", classeNomSimple, ")this;");
@@ -3504,7 +3509,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+					tl(2, "if(NumberUtils.isParsable(o)) {");
 					tl(3, entiteNomSimpleCompletGenerique, " p = Float.parseFloat(o);");
 					tl(3, "add", entiteVarCapitalise, "(p);");
 					tl(2, "}");
@@ -3523,7 +3528,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+					tl(2, "if(NumberUtils.isParsable(o)) {");
 					tl(3, entiteNomSimpleCompletGenerique, " p = Double.parseDouble(o);");
 					tl(3, "add", entiteVarCapitalise, "(p);");
 					tl(2, "}");
@@ -3542,7 +3547,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, "if(org.apache.commons.lang3.math.NumberUtils.isCreatable(o)) {");
+					tl(2, "if(NumberUtils.isParsable(o)) {");
 					tl(3, entiteNomSimpleCompletGenerique, " p = Long.parseLong(o);");
 					tl(3, "add", entiteVarCapitalise, "(p);");
 					tl(2, "}");
@@ -3834,9 +3839,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				}
 				else if(VAL_nomCanoniqueLocalTime.equals(entiteNomCanonique)) {
 					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"H'h'mm:ss zz VV\", Locale.FRANCE));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"H'h'mm\", Locale.FRANCE));");
 					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"h:mm:ss a zz VV\", Locale.US));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"h:mm a\", Locale.US));");
 				}
 
 				else if(VAL_nomCanoniqueString.equals(entiteNomCanonique))
@@ -3869,10 +3874,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.US));");
 				}
 				else if(VAL_nomCanoniqueLocalTime.equals(entiteNomCanonique)) {
-					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"H'h'mm:ss zz VV\", Locale.FRANCE));");
-					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"h:mm:ss a zz VV\", Locale.US));");
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"HH mm\", Locale.US));");
 				}
 
 				else if(VAL_nomCanoniqueString.equals(entiteNomCanonique))
@@ -4024,7 +4026,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
@@ -4071,13 +4073,16 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"HH:mm:ss'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"HH mm\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
+					}
+					else if(entiteNomSimple.toString().equals("BigDecimal")) {
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
 					}
 					else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
 						tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");
@@ -4101,13 +4106,16 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"HH:mm:ss'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"HH mm\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
+					}
+					else if(entiteNomSimple.toString().equals("BigDecimal")) {
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
 					}
 					else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
 						tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");

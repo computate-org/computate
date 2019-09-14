@@ -3,8 +3,10 @@ package org.computate.frFR.java;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.Timestamp;
 import java.text.Normalizer;
+import java.text.NumberFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -1127,6 +1129,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "valeurs";
 		else
 			return "values";
+	}
+
+	public String str_deuxPoints(String langueNom) {
+		if("frFR".equals(langueNom))
+			return " : ";
+		else
+			return ": ";
 	}
 
 	public String str_recharger(String langueNom) {
@@ -4904,6 +4913,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonIgnore", classeLangueNom));
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom));
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), classeLangueNom));
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberFormat.class.getCanonicalName(), classeLangueNom));
 
 		if(classeCommentaire != null) {
 
@@ -5941,25 +5953,25 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom));
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLong)) {
-							entiteNomSimpleVertxJson = "Long";
-							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueLong;
+							entiteNomSimpleVertxJson = "String";
+							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
-							entiteNomSimpleVertxJson = "Double";
-							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueLong;
+							entiteNomSimpleVertxJson = "String";
+							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), classeLangueNom));
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
-							entiteNomSimpleVertxJson = "Double";
-							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueDouble;
+							entiteNomSimpleVertxJson = "String";
+							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueFloat)) {
-							entiteNomSimpleVertxJson = "Float";
-							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueFloat;
+							entiteNomSimpleVertxJson = "String";
+							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueInteger)) {
-							entiteNomSimpleVertxJson = "Integer";
-							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueInteger;
+							entiteNomSimpleVertxJson = "String";
+							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList, VAL_nomCanoniqueSet, VAL_nomCanoniqueHashSet)) {
 							if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBoolean)) {
@@ -5989,33 +6001,33 @@ public class IndexerClasse extends RegarderClasseBase {
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueLong)) {
 								entiteNomSimpleVertxJson = "JsonArray";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
-								entiteListeNomSimpleVertxJson = "Long";
-								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueLong;
+								entiteListeNomSimpleVertxJson = "String";
+								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
 								entiteNomSimpleVertxJson = "JsonArray";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
-								entiteListeNomSimpleVertxJson = "Long";
-								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueLong;
+								entiteListeNomSimpleVertxJson = "String";
+								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 								classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), classeLangueNom));
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueDouble)) {
 								entiteNomSimpleVertxJson = "JsonArray";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
-								entiteListeNomSimpleVertxJson = "Double";
-								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueDouble;
+								entiteListeNomSimpleVertxJson = "String";
+								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueFloat)) {
 								entiteNomSimpleVertxJson = "JsonArray";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
-								entiteListeNomSimpleVertxJson = "Float";
-								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueFloat;
+								entiteListeNomSimpleVertxJson = "String";
+								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueInteger)) {
 								entiteNomSimpleVertxJson = "JsonArray";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
-								entiteListeNomSimpleVertxJson = "Integer";
-								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueInteger;
+								entiteListeNomSimpleVertxJson = "String";
+								entiteListeNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
 								entiteNomSimpleVertxJson = "JsonArray";
@@ -6162,19 +6174,19 @@ public class IndexerClasse extends RegarderClasseBase {
 //							entiteFormatJson = "date";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLong)) {
-							entiteTypeJson = "number";
+							entiteTypeJson = "string";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
-							entiteTypeJson = "number";
+							entiteTypeJson = "string";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
-							entiteTypeJson = "number";
+							entiteTypeJson = "string";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueFloat)) {
-							entiteTypeJson = "number";
+							entiteTypeJson = "string";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueInteger)) {
-							entiteTypeJson = "number";
+							entiteTypeJson = "string";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList, VAL_nomCanoniqueSet, VAL_nomCanoniqueHashSet)) {
 							if(entiteNomCanoniqueGenerique.equals(VAL_nomCanoniqueBoolean)) {
@@ -6191,23 +6203,23 @@ public class IndexerClasse extends RegarderClasseBase {
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueLong)) {
 								entiteTypeJson = "array";
-								entiteListeTypeJson = "number";
+								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
 								entiteTypeJson = "array";
-								entiteListeTypeJson = "number";
+								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueDouble)) {
 								entiteTypeJson = "array";
-								entiteListeTypeJson = "number";
+								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueFloat)) {
 								entiteTypeJson = "array";
-								entiteListeTypeJson = "number";
+								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueInteger)) {
 								entiteTypeJson = "array";
-								entiteListeTypeJson = "number";
+								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
 								entiteTypeJson = "array";
