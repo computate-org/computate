@@ -72,7 +72,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r.enUS: appPath
 	 */  
 	protected void _appliChemins() throws Exception {
-		for(String langueNom : autresLangues) { 
+		for(String langueNom : toutesLangues) { 
 			String appliCheminLangue = config.getString(appliNom + ".appliChemin_" + langueNom); 
 			if(StringUtils.isEmpty(appliCheminLangue)) {
 				appliChemins.put(langueNom, appliChemin);
