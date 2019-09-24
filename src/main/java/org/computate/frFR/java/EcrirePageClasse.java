@@ -15,6 +15,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
 
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WritePageClass
@@ -254,7 +255,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 8).be("div").da("class", "w3-cell-row ").dfl();
 					wForm.t(tIndex + 9).e("button").l();
 					wForm.t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
-					wForm.t(tIndex + 10).l(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \", o.getPk(), \" }, function() { var $e = $('#", classeApiMethodeMethode, "_", entiteVar, "'); $e.html($e.val()); }, function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); \")");
+					wForm.t(tIndex + 10).l(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", o.getPk(), \"\\\" }, function() { var $e = $('#", classeApiMethodeMethode, "_", entiteVar, "'); $e.html($e.val()); }, function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); \")");
 					wForm.t(tIndex + 10).df().dsxq(str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom).l();
 					wForm.t(tIndex + 9).dgl("button");
 					wForm.t(tIndex + 8).bgl("div");
@@ -1378,7 +1379,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		
 									wTd.tl(7, "{ e(\"td\").f();");
 									wTd.tl(8, "{ e(\"a\").a(\"href\", uri).f();");
-									wTd.tl(9, "sx(o.get", entiteVarCapitalise, "());");
+									if(contexteIconeGroupe != null && contexteIconeNom != null)
+										wTd.t(9).e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " w3-padding-small ").df().dgl("i");
+									wTd.tl(9, "{ e(\"span\").f();");
+									wTd.tl(10, "sx(o.get", entiteVarCapitalise, "());");
+									wTd.tl(9, "} g(\"span\");");
 									wTd.tl(8, "} g(\"a\");");
 									if(entiteHighlighting) {
 										wTd.tl(8, "if(highlightList != null) {");
@@ -1748,10 +1753,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 												auteurPageJs.t(3, "$input.attr('onchange', \"var $input = $('#", classeApiMethodeMethode, "_", entiteVar, "_\" + pk + \"_", entiteAttribuerVar, "_\" + o['pk'] + \"'); ");
 												if("array".equals(entiteTypeJson)) {
-													auteurPageJs.s(entiteOperationIdPATCH, "Vals([{ name: 'fq', value: 'pk:\" + pk + \"' }], { [($input.prop('checked') ? 'add' : 'remove') + '", entiteVarCapitalise, "']: \" + o['pk'] + \" }");
+													auteurPageJs.s(entiteOperationIdPATCH, "Vals([{ name: 'fq', value: 'pk:\" + pk + \"' }], { [($input.prop('checked') ? 'add' : 'remove') + '", entiteVarCapitalise, "']: \\\"\" + o['pk'] + \"\\\" }");
 												}
 												else {
-													auteurPageJs.s(entiteOperationIdPATCH, "Vals([{ name: 'fq', value: 'pk:\" + pk + \"' }], { [($input.prop('checked') ? 'set' : 'remove') + '", entiteVarCapitalise, "']: \" + o['pk'] + \" }");
+													auteurPageJs.s(entiteOperationIdPATCH, "Vals([{ name: 'fq', value: 'pk:\" + pk + \"' }], { [($input.prop('checked') ? 'set' : 'remove') + '", entiteVarCapitalise, "']: \\\"\" + o['pk'] + \"\\\" }");
 												}
 
 												if("array".equals(entiteAttribuerTypeJson)) {
@@ -2234,6 +2239,54 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				if(!classePageSimple) {
 					l();
+					tl(1, "/**");
+					if(StringUtils.equals(langueNomActuel, langueNom) && str_PageRecherche(langueNomActuel).equals(classePageMethode))
+					for(String langueNom2 : autresLangues) {
+						String classeGenPageNomSimple2 = (String)classeDoc.get("classeGenPageNomSimple" + str_PageRecherche(langueNom2)  + "_" + langueNom2 + "_stored_string");
+						String classeNomSimple2 = (String)classeDoc.get("classeNomSimple" + "_" + langueNom2 + "_stored_string");
+						String contexteTousNom2 = (String)classeDoc.get("contexteTousNom" + "_" + langueNom2 + "_stored_string");
+						String contexteNomAdjectifPluriel2 = (String)classeDoc.get("contexteNomAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
+						String classePageUriMethode2 = (String)classeDoc.get("classeApiUri" + str_PageRecherche(langueNom2) + "_" + langueNom2 + "_stored_string");
+						String classeVarSuggere2 = (String)classeDoc.get("classeVarSuggere" + "_" + langueNom2 + "_stored_string");
+
+						tl(1, " * Var.", langueNom2, ": html", str_Suggere(langueNom2), classeGenPageNomSimple2);
+						tl(1, " * r: \"", classePageUriMethode, "\"");
+						tl(1, " * r.", langueNom2, ": \"", classePageUriMethode2, "\"");
+						tl(1, " * r: \"", str_voir(langueNom), " ", contexteTousNom, "\"");
+						tl(1, " * r.", langueNom2, ": \"", str_voir(langueNom2), " ", contexteTousNom2, "\"");
+						tl(1, " * r: \"", str_recharger(langueNom), classeGenPageNomSimple, "\"");
+						tl(1, " * r.", langueNom2, ": \"", str_recharger(langueNom2), classeGenPageNomSimple2, "\"");
+						tl(1, " * r: \"", str_recharger(langueNom), " ", contexteTousNom, "\"");
+						tl(1, " * r.", langueNom2, ": \"", str_recharger(langueNom2), " ", contexteTousNom2, "\"");
+						tl(1, " * r: \"", str_rechercher(langueNom), " ", contexteNomAdjectifPluriel, str_deuxPoints(langueNom), "\"");
+						tl(1, " * r.", langueNom2, ": \"", str_rechercher(langueNom2), " ", contexteNomAdjectifPluriel2, str_deuxPoints(langueNom2), "\"");
+						tl(1, " * r: \"", str_suggere(langueNom), "Form", classeNomSimple, "\"");
+						tl(1, " * r.", langueNom2, ": \"", str_suggere(langueNom2), "Form", classeNomSimple2, "\"");
+						tl(1, " * r: \"", str_rechercher(langueNom), " ", contexteNomAdjectifPluriel, "\"");
+						tl(1, " * r.", langueNom2, ": \"", str_rechercher(langueNom2), " ", contexteNomAdjectifPluriel2, "\"");
+						tl(1, " * r: \"", str_suggere(langueNom), classeNomSimple, " w3-input w3-border w3-cell w3-cell-middle ", "\"");
+						tl(1, " * r.", langueNom2, ": \"", str_suggere(langueNom2), classeNomSimple2, " w3-input w3-border w3-cell w3-cell-middle ", "\"");
+						tl(1, " * r: \"", str_suggere(langueNom), classeNomSimple, "\"");
+						tl(1, " * r.", langueNom2, ": \"", str_suggere(langueNom2), classeNomSimple2, "\"");
+
+						tl(1, " * r: ", "patch", classeNomSimple, "Vals", "");
+						tl(1, " * r.", langueNom2, ": ", "patch", classeNomSimple2, "Vals", "");
+						tl(1, " * r: ", str_ajouterLueur(langueNom), "");
+						tl(1, " * r.", langueNom2, ": ", str_ajouterLueur(langueNom2), "");
+						tl(1, " * r: ", str_recharger(langueNom), classeGenPageNomSimple, "");
+						tl(1, " * r.", langueNom2, ": ", str_recharger(langueNom2), classeGenPageNomSimple2, "");
+						tl(1, " * r: ", str_ajouterErreur(langueNom), "");
+						tl(1, " * r.", langueNom2, ": ", str_ajouterErreur(langueNom2), "");
+						tl(1, " * r: ", str_suggere(langueNom), classeNomSimple, StringUtils.capitalize(classeVarSuggere), "");
+						tl(1, " * r.", langueNom2, ": ", str_suggere(langueNom2), classeNomSimple2, StringUtils.capitalize(classeVarSuggere2), "");
+						tl(1, " * r: ", "'", classeVarSuggere, ":'", "");
+						tl(1, " * r.", langueNom2, ": ", "'", classeVarSuggere2, ":'", "");
+						tl(1, " * r: ", "'#", str_suggere(langueNom), "List", classeNomSimple, "'", "");
+						tl(1, " * r.", langueNom2, ": ", "'#", str_suggere(langueNom2), "List", classeNomSimple2, "'", "");
+						tl(1, " * r: \"", str_suggere(langueNom), "List", classeNomSimple, "\"");
+						tl(1, " * r.", langueNom2, ": \"", str_suggere(langueNom2), "List", classeNomSimple2, "\"");
+					}
+					tl(1, "**/");
 					tl(1, "public void html", str_Suggere(langueNom), classeGenPageNomSimple, "() {");
 
 					t(2).be("div").da("class", "w3-cell-row ").dfl();
@@ -2332,7 +2385,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					regarderClasse.appliNom = appliNom;
 					regarderClasse.initRegarderClasseBase(); 
 //					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom);
-					RegarderClasse.regarderClasse(regarderClasse, langueNom);
+//					RegarderClasse.regarderClasse(regarderClasse, langueNom);
+					SolrInputDocument classeDoc = new SolrInputDocument();
+					regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, langueNom);
+					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom);
 				}
 
 				{
@@ -2342,7 +2398,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					regarderClasse.appliNom = appliNom;
 					regarderClasse.initRegarderClasseBase(); 
 //					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom);
-					RegarderClasse.regarderClasse(regarderClasse, langueNom);
+//					RegarderClasse.regarderClasse(regarderClasse, langueNom);
+					SolrInputDocument classeDoc = new SolrInputDocument();
+					regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, langueNom);
+					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom);
 				}
 	
 	//		auteurGenPageClasse.close();

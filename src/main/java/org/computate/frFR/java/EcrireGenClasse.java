@@ -4339,9 +4339,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(tBase + 2, "case \"", entiteVar, "\":");
 				tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
 				if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0)
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", jsonObject.getLong(", str_entite(langueNom), "Var)));");
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var))));");
 				else
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", jsonObject.getLong(", str_entite(langueNom), "Var), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var)), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
 				tl(tBase + 3, "break;");
 			}	
 	
