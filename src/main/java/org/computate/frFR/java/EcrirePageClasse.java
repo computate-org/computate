@@ -255,7 +255,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 8).be("div").da("class", "w3-cell-row ").dfl();
 					wForm.t(tIndex + 9).e("button").l();
 					wForm.t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
-					wForm.t(tIndex + 10).l(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", o.getPk(), \"\\\" }, function() { var $e = $('#", classeApiMethodeMethode, "_", entiteVar, "'); $e.html($e.val()); }, function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); \")");
+
+					if(entiteListeTypeJson == null)
+						wForm.t(tIndex + 10).l(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", o.getPk(), \"\\\" }, function() { var $e = $('#", classeApiMethodeMethode, "_", entiteVar, "'); $e.html($e.val()); }, function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); \")");
+					else
+						wForm.t(tIndex + 10).l(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", o.getPk(), \"\\\" ] }, function() { var $e = $('#", classeApiMethodeMethode, "_", entiteVar, "'); $e.html($e.val()); }, function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); \")");
+
 					wForm.t(tIndex + 10).df().dsxq(str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom).l();
 					wForm.t(tIndex + 9).dgl("button");
 					wForm.t(tIndex + 8).bgl("div");

@@ -769,6 +769,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							entiteNomCanoniqueVertxJson = (String)doc.get("entiteNomCanoniqueVertxJson_stored_string");
 							entiteListeNomSimpleVertxJson = (String)doc.get("entiteListeNomSimpleVertxJson_stored_string");
 							entiteListeNomCanoniqueVertxJson = (String)doc.get("entiteListeNomCanoniqueVertxJson_stored_string");
+							entiteListeTypeJson = (String)entiteDocumentSolr.get("entiteListeTypeJson_stored_string");
 							entiteNomCanonique = (String)doc.get("entiteNomCanonique_" + langueNom + "_stored_string");
 							entiteNomCanoniqueGenerique = (String)doc.get("entiteNomCanoniqueGenerique_" + langueNom + "_stored_string");
 							entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
@@ -1058,7 +1059,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 3, "break;");
 					
 											tl(tBase + 2, "case \"addAll", entiteVarCapitalise, "\":");
-											tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "", str_Valeurs(langueNom), " = Long.parseLong(", str_requete(langueNom), "Json.get", entiteNomSimpleVertxJson, "(", str_methodeNom(langueNom), "));");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " addAll", entiteVarCapitalise, "", str_Valeurs(langueNom), " = ", str_requete(langueNom), "Json.get", entiteNomSimpleVertxJson, "(", str_methodeNom(langueNom), ");");
 											tl(tBase + 3, "for(Integer i = 0; i <  addAll", entiteVarCapitalise, "", str_Valeurs(langueNom), ".size(); i++) {");
 											tl(tBase + 4, "patchSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
 											tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", addAll", entiteVarCapitalise, "", str_Valeurs(langueNom), ".get", entiteListeNomSimpleVertxJson, "(i)", "));");
@@ -1066,9 +1067,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 3, "break;");
 						
 											tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
-											tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "", str_Valeurs(langueNom), " = Long.parseLong(", str_requete(langueNom), "Json.get", entiteNomSimpleVertxJson, "(", str_methodeNom(langueNom), "));");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, "", str_Valeurs(langueNom), " = ", str_requete(langueNom), "Json.get", entiteNomSimpleVertxJson, "(", str_methodeNom(langueNom), ");");
 											tl(tBase + 3, "patchSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_clearA1);");
-											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", Long.parseLong(", str_requete(langueNom), "Json.get", entiteNomSimpleVertxJson, "(", str_methodeNom(langueNom), "))", "));");
+											tl(tBase + 3, "patchSqlParams.addAll(Arrays.asList(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), "));");
 					
 											tl(tBase + 3, "for(Integer i = 0; i <  set", entiteVarCapitalise, "", str_Valeurs(langueNom), ".size(); i++) {");
 											tl(tBase + 4, "patchSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");

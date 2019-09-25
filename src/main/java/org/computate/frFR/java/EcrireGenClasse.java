@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -2867,6 +2868,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			Boolean entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
 			Boolean entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
 			Boolean entiteContientRequeteSite = BooleanUtils.isTrue((Boolean)doc.get("entiteContientRequeteSite_stored_boolean"));
+			String entiteListeTypeJson = (String)doc.get("entiteListeTypeJson_stored_string");
 	
 			String entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
 			String entiteHtmlTooltip = (String)doc.get("entiteHtmlTooltip_" + langueNom + "_stored_string");
@@ -4338,10 +4340,18 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
 				tl(tBase + 2, "case \"", entiteVar, "\":");
 				tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-				if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0)
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var))));");
-				else
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var)), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+				if(entiteListeTypeJson == null) {
+					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0)
+						tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var))));");
+					else
+						tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var)), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+				}
+				else {
+					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0)
+						tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())));");
+					else
+						tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList()), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+				}
 				tl(tBase + 3, "break;");
 			}	
 	
