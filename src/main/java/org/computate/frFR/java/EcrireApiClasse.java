@@ -1308,7 +1308,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "", str_recherche(langueNom), "", classeNomSimple, "(", str_requeteSite(langueNom), ", false, true, ", "null", ", c -> {");
 						tl(8, "if(c.succeeded()) {");
 						tl(9, classePartsListeRecherche.nomSimple(langueNom), "<", classeNomSimple, "> ", str_liste(langueNom), "", classeNomSimple, " = c.result();");
-						tl(9, "", str_liste(langueNom), "", classeApiMethode, classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ", d -> {");
+						tl(9, "String dt = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")));");
+						tl(9, "", str_liste(langueNom), "", classeApiMethode, classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ", dt, d -> {");
 						tl(10, "if(d.succeeded()) {");
 						tl(11, "SQLConnection ", str_connexionSql(langueNom), " = ", str_requeteSite(langueNom), ".get", str_ConnexionSql(langueNom), "();");
 						tl(11, "if(", str_connexionSql(langueNom), " == null) {");
@@ -1601,9 +1602,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 					if(classeApiMethode.contains("PATCH")) {
 						l();
-						tl(1, "public void ", str_liste(langueNom), "", classeApiMethode, classeNomSimple, "(", classePartsListeRecherche.nomSimple(langueNom), "<", classeNomSimple, "> ", str_liste(langueNom), classeNomSimple, ", Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(langueNom), ") {");
+						tl(1, "public void ", str_liste(langueNom), classeApiMethode, classeNomSimple, "(", classePartsListeRecherche.nomSimple(langueNom), "<", classeNomSimple, "> ", str_liste(langueNom), classeNomSimple, ", String dt, Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(langueNom), ") {");
 						tl(2, "List<Future> futures = new ArrayList<>();");
-						tl(3, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = ", str_liste(langueNom), classeNomSimple, ".get", str_RequeteSite(langueNom), "_();");
+						tl(2, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = ", str_liste(langueNom), classeNomSimple, ".get", str_RequeteSite(langueNom), "_();");
 						tl(2, str_liste(langueNom), classeNomSimple, ".getList().forEach(o -> {");
 						tl(3, "futures.add(");
 						tl(4, "future", classeApiMethode, classeNomSimple, "(o, a -> {");
@@ -1616,7 +1617,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, "});");
 						tl(2, "CompositeFuture.all(futures).setHandler( a -> {");
 						tl(3, "if(a.succeeded()) {");
-						tl(4, str_reponse(langueNom), "200", classeApiMethode, classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ", ", str_gestionnaireEvenements(langueNom), ");");
+						tl(4, "if(", str_liste(langueNom), classeNomSimple, ".next(dt)) {");
+						tl(5, str_liste(langueNom), "", classeApiMethode, classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ", dt, ", str_gestionnaireEvenements(langueNom), ");");
+						tl(4, "} else {");
+						tl(5, str_reponse(langueNom), "200", classeApiMethode, classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ", ", str_gestionnaireEvenements(langueNom), ");");
+						tl(4, "}");
 						tl(3, "} else {");
 						tl(4, str_erreur(langueNom), classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ".get", str_RequeteSite(langueNom), "_(), ", str_gestionnaireEvenements(langueNom), ", a);");
 						tl(3, "}");
@@ -1742,7 +1747,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, ", new JsonArray(postSqlParams)");
 						tl(5, ", postAsync");
 						tl(3, "-> {");
-						tl(4, "", str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture());");
+
+						tl(4, "if(postAsync.succeeded()) {");
+						tl(5, str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture());");
+						tl(4, "} else {");
+						tl(5, "", str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(new Exception(postAsync.cause())));");
+						tl(4, "}");
+
 						tl(3, "});");
 						tl(2, "} catch(Exception e) {");
 						tl(3, "", str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(e));");

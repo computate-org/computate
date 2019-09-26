@@ -3823,15 +3823,15 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "public String str", entiteVarCapitalise, "() {");
 				if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
 					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz VV\", Locale.FRANCE));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
 					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss a zz VV\", Locale.US));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
 				}
 				else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
 					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz VV\", Locale.FRANCE));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
 					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss a zz VV\", Locale.US));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
 				}
 				else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
 					if("frFR".equals(langueNom))
@@ -3859,15 +3859,15 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "public String json", entiteVarCapitalise, "() {");
 				if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
 					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz VV\", Locale.FRANCE));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
 					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss a zz VV\", Locale.US));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
 				}
 				else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
 					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz VV\", Locale.FRANCE));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
 					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss a zz VV\", Locale.US));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
 				}
 				else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
 					if("frFR".equals(langueNom))
@@ -4069,19 +4069,19 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", ", entiteVar, ");");
 					}
 					else if(entiteNomSimple.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"HH mm\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
@@ -4102,19 +4102,19 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", ", entiteVar, ");");
 					}
 					else if(entiteNomSimple.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"HH mm\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
@@ -4339,18 +4339,29 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}	
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
 				tl(tBase + 2, "case \"", entiteVar, "\":");
-				tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
 				if(entiteListeTypeJson == null) {
-					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0)
+					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+						tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
 						tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var))));");
-					else
+					}
+					else {
+						tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
 						tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var)), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+					}
 				}
 				else {
-					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0)
-						tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())));");
-					else
-						tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList()), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+						tl(tBase + 4, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
+						tl(tBase + 4, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", l));");
+						tl(tBase + 3, "}");
+					}
+					else {
+						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+						tl(tBase + 4, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
+						tl(tBase + 4, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", l, \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+						tl(tBase + 3, "}");
+					}
 				}
 				tl(tBase + 3, "break;");
 			}	
