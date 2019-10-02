@@ -187,6 +187,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classVarPrimaryKey
 	 * r: classeVarId
 	 * r.enUS: classVarId
+	 * r: classeVarModifie
+	 * r.enUS: classVarModified
+	 * r: classeVarCree
+	 * r.enUS: classVarCreated
 	 * r: classeVarCleUnique
 	 * r.enUS: classVarUniqueKey
 	 * r: classePageUri
@@ -478,6 +482,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeVarClePrimaire = (String)doc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
 					classeVarId = (String)doc.get("classeVarId_" + langueNom + "_stored_string");
 					classeVarCleUnique = (String)doc.get("classeVarCleUnique_" + langueNom + "_stored_string");
+					classeVarModifie = (String)doc.get("classeVarModifie_" + langueNom + "_stored_string");
+					classeVarCree = (String)doc.get("classeVarCree_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");

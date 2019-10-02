@@ -175,6 +175,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeVarCleUnique;
 
 	/**
+	 * Var.enUS: classVarModified
+	 */
+	protected String classeVarModifie;
+
+	/**
+	 * Var.enUS: classVarCreated
+	 */
+	protected String classeVarCree;
+
+	/**
 	 * Var.enUS: classImportsGen
 	 */
 	protected List<String> classeImportationsGen;
@@ -2893,17 +2903,19 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			List<String> entiteEcrireMethodes = (List<String>)doc.get("entiteEcrireMethodes_stored_strings");
 			if(entiteEcrireMethodes == null)
 				entiteEcrireMethodes = new ArrayList<>();
-			for(int i = 0; i < classeEcrireMethodes.size(); i++) {
-				String classeEcrireMethode = classeEcrireMethodes.get(i);
-				if(entiteNomSimpleCompletGenerique == null && entiteEcrireMethodes.contains(classeEcrireMethode)) {
-					ToutEcrivain w = classeEcrireEcrivains.get(i);
-					String var = classeEcrireMethode + entiteVarCapitalise;
-					if(classeMethodeVars.contains(var)) {
-						w.tl(2, "((", classeNomSimple, ")this).", var, "();");
-					}
-					else {
-						w.tl(2, "if(", entiteVar, " != null)");
-						w.tl(3, entiteVar, ".", classeEcrireMethode, "();");
+			if(classeEcrireMethodes != null) {
+				for(int i = 0; i < classeEcrireMethodes.size(); i++) {
+					String classeEcrireMethode = classeEcrireMethodes.get(i);
+					if(entiteNomSimpleCompletGenerique == null && entiteEcrireMethodes.contains(classeEcrireMethode)) {
+						ToutEcrivain w = classeEcrireEcrivains.get(i);
+						String var = classeEcrireMethode + entiteVarCapitalise;
+						if(classeMethodeVars.contains(var)) {
+							w.tl(2, "((", classeNomSimple, ")this).", var, "();");
+						}
+						else {
+							w.tl(2, "if(", entiteVar, " != null)");
+							w.tl(3, entiteVar, ".", classeEcrireMethode, "();");
+						}
 					}
 				}
 			}

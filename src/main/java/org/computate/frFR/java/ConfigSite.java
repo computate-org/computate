@@ -61,6 +61,22 @@ public class ConfigSite {
 			appliChemin = System.getenv("appliChemin"); 
 	} 
 
+	/**	
+	 * Var.enUS: appPathVertx
+	 * frFR: Le chemin vers l'lappli. 
+	 * enUS: The path to the application. 
+	 * **/
+	public String appliCheminVertx;
+	/**	
+	 * Var.enUS: _appPathVertx
+	 * r: appliCheminVertx
+	 * r.enUS: appPathVertx
+	 **/ 
+	protected void _appliCheminVertx() throws Exception {
+		if(appliCheminVertx == null)
+			appliCheminVertx = System.getenv("appliCheminVertx"); 
+	} 
+
 	/**
 	 * Var.enUS: srcMainJavaPath
 	 * enUS: The absolute path to the /src/main/java directory. 
@@ -685,6 +701,7 @@ public class ConfigSite {
 	public void initConfigSite() throws Exception {
 		_appliNom();
 		_appliChemin();
+		_appliCheminVertx();
 		_cheminSrcMainJava();
 		_cheminSrcMainResources();
 		_cheminSrcGenJava();

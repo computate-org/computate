@@ -36,6 +36,17 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 
 	/**
+	 * Var.enUS: _appPathVertx
+	 * r: appliCheminVertx
+	 * r.enUS: appPathVertx
+	 */ 
+	@Override protected void _appliCheminVertx() throws Exception {
+		if(appliCheminVertx == null) {
+			appliCheminVertx = System.getenv("appliCheminVertx"); 
+		}
+	}
+
+	/**
 	 * Var.enUS: classAbsolutePath
 	 */ 
 	public String classeCheminAbsolu;
@@ -79,6 +90,35 @@ public class RegarderClasseBase extends ConfigSite {
 			}
 			else {
 				appliChemins.put(langueNom, appliCheminLangue);
+			}
+		}
+	}
+	
+	/** 
+	 * Var.enUS: appPathsVertx
+	 */
+	public HashMap<String, String> appliCheminsVertx = new HashMap<String, String>(); 
+	/** 
+	 * Var.enUS: _appPathsVertx
+	 * r: autresLangues
+	 * r.enUS: otherLanguages
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: appliCheminVertxLangue
+	 * r.enUS: appPathVertxLanguage
+	 * r: appliNom
+	 * r.enUS: appName
+	 * r: appliChemin
+	 * r.enUS: appPath
+	 */  
+	protected void _appliCheminsVertx() throws Exception {
+		for(String langueNom : toutesLangues) { 
+			String appliCheminVertxLangue = config.getString(appliNom + ".appliCheminVertx_" + langueNom); 
+			if(StringUtils.isEmpty(appliCheminVertxLangue)) {
+				appliCheminsVertx.put(langueNom, appliCheminVertx);
+			}
+			else {
+				appliCheminsVertx.put(langueNom, appliCheminVertxLangue);
 			}
 		}
 	}
@@ -137,6 +177,8 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r.enUS: classAbsolutePath
 	 * r: appliChemins
 	 * r.enUS: appPaths
+	 * r: appliCheminsVertx
+	 * r.enUS: appPathsVertx
 	 * r: classeDocs
 	 * r.enUS: classDocs
 	 * r: classeParts
@@ -147,7 +189,10 @@ public class RegarderClasseBase extends ConfigSite {
 	public void initRegarderClasseBase() throws Exception {
 		initConfigSite();
 		_classeCheminAbsolu();
+		_appliChemin();
 		_appliChemins();
+		_appliCheminVertx();
+		_appliCheminsVertx();
 		_classeDocs();
 		_classePartsGen();
 		_bricoleur();

@@ -1308,8 +1308,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "", str_recherche(langueNom), "", classeNomSimple, "(", str_requeteSite(langueNom), ", false, true, ", "null", ", c -> {");
 						tl(8, "if(c.succeeded()) {");
 						tl(9, classePartsListeRecherche.nomSimple(langueNom), "<", classeNomSimple, "> ", str_liste(langueNom), "", classeNomSimple, " = c.result();");
-						tl(9, "String dt = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")));");
-						tl(9, "", str_liste(langueNom), "", classeApiMethode, classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ", dt, d -> {");
+						if(classeVarModifie == null) {
+							tl(9, "String dateStr = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")).minusNanos(1000));");
+						}
+						else {
+							tl(9, "SimpleOrderedMap facets = (SimpleOrderedMap)", str_liste(langueNom), "", classeNomSimple, ".getQueryResponse().getResponse().get(\"facets\");");
+							tl(9, "Date date = (Date)facets.get(\"max_", classeVarModifie, "\");");
+							tl(9, "String dateStr;");
+							tl(9, "if(date == null)");
+							tl(10, "dateStr = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")).minusNanos(1000));");
+							tl(9, "else");
+							tl(10, "dateStr = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(date.toInstant(), ZoneId.of(\"UTC\")));");
+						}
+						tl(9, "", str_liste(langueNom), "", classeApiMethode, classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ", dateStr, d -> {");
 						tl(10, "if(d.succeeded()) {");
 						tl(11, "SQLConnection ", str_connexionSql(langueNom), " = ", str_requeteSite(langueNom), ".get", str_ConnexionSql(langueNom), "();");
 						tl(11, "if(", str_connexionSql(langueNom), " == null) {");
@@ -2224,9 +2235,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFields(", str_entite(langueNom), "", str_Liste(langueNom), ");");
 			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_archive(langueNom), "_indexed_boolean\", ORDER.asc);");
 			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_supprime(langueNom), "_indexed_boolean\", ORDER.asc);");
+			if(classeVarCree != null)
+				tl(3, str_liste(langueNom), str_Recherche(langueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
 			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_classeNomsCanoniques(langueNom), "_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
 			if(classeFiltresTrouves && classeFiltres.contains("utilisateurId"))
 				tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_utilisateur(langueNom), "Id_indexed_string:\" + ClientUtils.escapeQueryChars(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "Id()));");
+			if(classeVarModifie != null)
+				tl(3, str_liste(langueNom), "", str_Recherche(langueNom), ".set(\"json.facet\", \"{max_", classeVarModifie, ":'max(", classeVarModifie, "_indexed_date)'}\");");
 			tl(3, classePartsUtilisateurSite.nomSimple(langueNom), " ", str_utilisateurSite(langueNom), " = ", str_requeteSite(langueNom), ".get", classePartsUtilisateurSite.nomSimple(langueNom), "();");
 			tl(3, "if(", str_utilisateurSite(langueNom), " != null && !", str_utilisateurSite(langueNom), ".get", str_VoirSupprime(langueNom), "())");
 			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_supprime(langueNom), "_indexed_boolean:false\");");

@@ -256,10 +256,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 9).e("button").l();
 					wForm.t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
 
-					if(entiteListeTypeJson == null)
-						wForm.t(tIndex + 10).l(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", o.getPk(), \"\\\" }, function() { var $e = $('#", classeApiMethodeMethode, "_", entiteVar, "'); $e.html($e.val()); }, function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); \")");
+					if("array".equals(entiteAttribuerTypeJson))
+						wForm.t(tIndex + 10).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", o.getPk(), \"\\\" ] }");
 					else
-						wForm.t(tIndex + 10).l(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", o.getPk(), \"\\\" ] }, function() { var $e = $('#", classeApiMethodeMethode, "_", entiteVar, "'); $e.html($e.val()); }, function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); \")");
+						wForm.t(tIndex + 10).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", o.getPk(), \"\\\" }");
+
+					wForm.s(", function() { patch", classeNomSimple, "Vals([{ name: 'fq', value: 'pk:\", o.getPk(), \"' }], {}");
+
+					wForm.s(", function() { ");
+					wForm.s(str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($('#", classeApiMethodeMethode, "_", entiteVar, "').val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "')); ");
+					wForm.s("var $e = $('#", classeApiMethodeMethode, "_", entiteVar, "'); $e.html($e.val()); ");
+					wForm.s("}");
+					wForm.s(", function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); ");
+
+					wForm.s("}, function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); });");
+
+
+					wForm.s("\")");
+					wForm.l();
 
 					wForm.t(tIndex + 10).df().dsxq(str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom).l();
 					wForm.t(tIndex + 9).dgl("button");
@@ -1084,6 +1098,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteAttribuerContexteCouleur = (String)entiteDocumentSolr.get("entiteAttribuerContexteCouleur_stored_string");
 								entiteAttribuerContexteIconeGroupe = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeGroupe_stored_string");
 								entiteAttribuerContexteIconeNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeNom_stored_string");
+								entiteAttribuerTypeJson = (String)entiteDocumentSolr.get("entiteAttribuerTypeJson_stored_string");
 	
 								if(entiteHtml) {
 									if(entiteHtmlLigne != null) {
@@ -2383,11 +2398,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.flushClose();
 				System.out.println(str_Ecrire(langueNom) + ": " + classePageCheminJs); 
 
+				String appliCheminVertx = appliCheminsVertx.get(langueNom);
+				String appliNomVertx = StringUtils.substringAfterLast(appliCheminVertx, "/");
+				String cheminSrcGenJavaVertx = (appliCheminVertx == null ? appliChemin : appliCheminVertx) + "/src/gen/java";
+				String cheminSrcMainJavaVertx = (appliCheminVertx == null ? appliChemin : appliCheminVertx) + "/src/main/java";
+				String cheminSrcMainResourcesVertx = (appliCheminVertx == null ? appliChemin : appliCheminVertx) + "/src/main/resources";
+
 				{
 					RegarderClasse regarderClasse = new RegarderClasse();
-					regarderClasse.appliChemin = appliChemin;
+					regarderClasse.appliChemin = appliCheminVertx;
+					regarderClasse.appliNom = appliNomVertx;
 					regarderClasse.classeCheminAbsolu = classePageChemin;
-					regarderClasse.appliNom = appliNom;
+					regarderClasse.cheminSrcGenJava = cheminSrcGenJavaVertx;
+					regarderClasse.cheminSrcMainJava = cheminSrcMainJavaVertx;
+					regarderClasse.cheminSrcMainResources = cheminSrcMainResourcesVertx;
 					regarderClasse.initRegarderClasseBase(); 
 //					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom);
 //					RegarderClasse.regarderClasse(regarderClasse, langueNom);
@@ -2398,9 +2422,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				{
 					RegarderClasse regarderClasse = new RegarderClasse();
-					regarderClasse.appliChemin = appliChemin;
+					regarderClasse.appliChemin = appliCheminVertx;
+					regarderClasse.appliNom = appliNomVertx;
 					regarderClasse.classeCheminAbsolu = classePageCheminGen;
-					regarderClasse.appliNom = appliNom;
+					regarderClasse.cheminSrcGenJava = cheminSrcGenJavaVertx;
+					regarderClasse.cheminSrcMainJava = cheminSrcMainJavaVertx;
+					regarderClasse.cheminSrcMainResources = cheminSrcMainResourcesVertx;
 					regarderClasse.initRegarderClasseBase(); 
 //					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom);
 //					RegarderClasse.regarderClasse(regarderClasse, langueNom);
