@@ -733,6 +733,16 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_de
+	 */
+	public String str_de(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "de";
+		else
+			return "of";
+	}
+
+	/**
 	 * Var.enUS: str_define
 	 */
 	public String str_definir(String langueNom) {

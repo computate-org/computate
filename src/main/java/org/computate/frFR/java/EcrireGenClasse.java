@@ -3835,15 +3835,19 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "public String str", entiteVarCapitalise, "() {");
 				if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
 					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
+//						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz\", Locale.FRANCE));");
 					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
+//						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d, yyyy h:mm:ss a zz\", Locale.US));");
 				}
 				else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
 					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
+//						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz\", Locale.FRANCE));");
 					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
+//						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
+						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d, yyyy h:mm:ss a zz\", Locale.US));");
 				}
 				else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
 					if("frFR".equals(langueNom))

@@ -194,7 +194,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 
 				wForm.t(tIndex + 3).be("div").da("class", "w3-padding ").dfl();
-				wForm.t(tIndex + 4).be("form").da("action", classeApiUri).da("id", "form", classeNomSimple, entiteVarCapitalise).da("style", "display: inline-block; width: 100%; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
+				wForm.t(tIndex + 4).be("form").da("action", classeApiUri).da("id", "form", classeNomSimple, entiteVarCapitalise).da("style", "display: inline; width: 100%; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
 				wForm.t(tIndex + 5).e("input").l();
 				wForm.t(tIndex + 6).dal("type", "hidden");
 				wForm.t(tIndex + 6).dal("name", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVar));
@@ -1402,7 +1402,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									if(contexteIconeGroupe != null && contexteIconeNom != null)
 										wTd.t(9).e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " w3-padding-small ").df().dgl("i");
 									wTd.tl(9, "{ e(\"span\").f();");
-									wTd.tl(10, "sx(o.get", entiteVarCapitalise, "());");
+									wTd.tl(10, "sx(o.str", entiteVarCapitalise, "());");
 									wTd.tl(9, "} g(\"span\");");
 									wTd.tl(8, "} g(\"a\");");
 									if(entiteHighlighting) {
@@ -1950,7 +1950,49 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(4).e("span").da("class", " ").df().dsxq(contexteNomPluriel).dgl("span");
 					t(3).bgl("h1");
 
-					t(3).e("div").da("class", "w3-padding-16 w3-card-4 w3-light-grey ").dfl();
+//					t(3).e("div").da("class", "w3-padding-16 w3-card-4 w3-light-grey ").dfl();
+					t(3).e("div").da("class", "").dfl();
+
+					t(4).be("div").dfl();
+					tl(5, "Long num = ", str_liste(langueNom), classeNomSimple, ".getQueryResponse().getResults().getNumFound();");
+					tl(5, "Integer rows1 = ", str_liste(langueNom), classeNomSimple, ".getRows();");
+					tl(5, "Integer start1 = ", str_liste(langueNom), classeNomSimple, ".getStart();");
+					tl(5, "Integer start2 = start1 - rows1;");
+					tl(5, "Integer start3 = start1 + rows1;");
+					tl(5, "Integer rows2 = rows1 / 2;");
+					tl(5, "Integer rows3 = rows1 * 2;");
+					tl(5, "start2 = start2 < 0 ? 0 : start2;");
+					l();
+					tl(5, "if(start1 == 0) {");
+					t(6).e("i").da("class", "fas fa-arrow-square-left w3-opacity ").df().dgl("i");
+					tl(5, "} else {");
+					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?start=\", start2, \"&rows=\", rows1).f();");
+					t(7).e("i").da("class", "fas fa-arrow-square-left ").df().dgl("i");
+					t(6).bgl("a");
+					tl(5, "}");
+					l();
+					tl(5, "if(rows1 <= 1) {");
+					t(6).e("i").da("class", "fas fa-minus-square w3-opacity ").df().dgl("i");
+					tl(5, "} else {");
+					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?start=\", start1, \"&rows=\", rows2).f();");
+					t(7).e("i").da("class", "fas fa-minus-square ").df().dgl("i");
+					t(6).bgl("a");
+					tl(5, "}");
+					l();
+					tl(5, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?start=\", start1, \"&rows=\", rows3).f();");
+					t(6).e("i").da("class", "fas fa-plus-square ").df().dgl("i");
+					t(5).bgl("a");
+					l();
+					tl(5, "if(start3 >= num) {");
+					t(6).e("i").da("class", "fas fa-arrow-square-right w3-opacity ").df().dgl("i");
+					tl(5, "} else {");
+					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?start=\", start3, \"&rows=\", rows1).f();");
+					t(7).e("i").da("class", "fas fa-arrow-square-right ").df().dgl("i");
+					t(6).bgl("a");
+					tl(5, "}");
+					tl(6, "e(\"span\").f().sx((start1 + 1), \" - \", (start1 + rows1), \" ", str_de(langueNom), " \", num).g(\"span\");");
+
+					t(4).bgl("div");
 
 					t(3).be("table").da("class", "w3-table w3-bordered w3-striped w3-border w3-hoverable ").dfl();
 					t(4).be("thead").dfl();
