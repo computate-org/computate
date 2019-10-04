@@ -187,7 +187,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 
 			wForm.t(3).be("div").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-			if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
+			if(entiteModifier && (entiteDefinir || entiteAttribuer && "Page".equals(classeApiMethodeMethode))) {
 
 				if("Page".equals(classeApiMethodeMethode)) {
 					tIndex = 1;
@@ -240,7 +240,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 10).dal("name", "set", entiteVarCapitalise);
 					wForm.t(tIndex + 10).dal("id", classeApiMethodeMethode, "_", entiteVar);
 					wForm.t(tIndex + 10).dal("autocomplete", "off");
-					wForm.t(tIndex + 10).dal("oninput", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($(this).val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "')); ");
+					wForm.t(tIndex + 10).dal("oninput", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($(this).val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "')); ");
 
 					wForm.t(tIndex + 9).dfgl();
 	
@@ -250,7 +250,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.t(tIndex + 6).bgl("div");
 					wForm.t(tIndex + 6).be("div").da("class", "w3-cell-row w3-padding ").dfl();
 					wForm.t(tIndex + 7).be("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
-					wForm.t(tIndex + 8).be("ul").da("class", "w3-ul w3-hoverable ").da("id", "list", classeNomSimple, entiteVarCapitalise).dfl();
+					wForm.t(tIndex + 8).be("ul").da("class", "w3-ul w3-hoverable ").da("id", "list", classeNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode).dfl();
 					wForm.t(tIndex + 8).bgl("ul");
 					wForm.t(tIndex + 8).be("div").da("class", "w3-cell-row ").dfl();
 					wForm.t(tIndex + 9).e("button").l();
@@ -264,7 +264,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.s(", function() { patch", classeNomSimple, "Vals([{ name: 'fq', value: 'pk:\", o.getPk(), \"' }], {}");
 
 					wForm.s(", function() { ");
-					wForm.s(str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($('#", classeApiMethodeMethode, "_", entiteVar, "').val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "')); ");
+					wForm.s(str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($('#", classeApiMethodeMethode, "_", entiteVar, "').val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "')); ");
 					wForm.s("var $e = $('#", classeApiMethodeMethode, "_", entiteVar, "'); $e.html($e.val()); ");
 					wForm.s("}");
 					wForm.s(", function() { ", str_ajouterErreur(langueNom), "($('#", classeApiMethodeMethode, "_", entiteVar, "')); }); ");
@@ -477,7 +477,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				wForm.t(tIndex + 4).bgl("form");
 				wForm.t(tIndex + 3).bgl("div");
 			}
-			else {
+			else if(!(entiteAttribuer && "Page".equals(classeApiMethodeMethode))) {
 
 				// entiteModifier: false
 				if("Page".equals(classeApiMethodeMethode)) {
@@ -1117,7 +1117,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									}
 								}
 								if(entiteAttribuer) {
-									wJsInit.tl(2, "tl(1, ", q(str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#", "form", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "')); "), ");");
+									wJsInit.tl(2, "tl(1, ", q(str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#", "form", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "')); "), ");");
 								}
 							}
 							rechercheSolr.setStart(i.intValue() + rechercheLignes);
@@ -1403,6 +1403,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								Boolean entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
 								Boolean entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
 								Boolean entiteHighlighting = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHighlighting_stored_boolean"));
+								Boolean entiteVarTitre = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteVarTitre_stored_boolean"));
 								if(entiteHtml) {
 									String jsVal = ".val()";
 									if("Boolean".equals(entiteNomSimple)) {
@@ -1413,7 +1414,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		
 									wTd.tl(7, "{ e(\"td\").f();");
 									wTd.tl(8, "{ e(\"a\").a(\"href\", uri).f();");
-									if(contexteIconeGroupe != null && contexteIconeNom != null)
+									if(contexteIconeGroupe != null && contexteIconeNom != null && BooleanUtils.isTrue(entiteVarTitre))
 										wTd.t(9).e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " w3-padding-small ").df().dgl("i");
 									wTd.tl(9, "{ e(\"span\").f();");
 									wTd.tl(10, "sx(o.str", entiteVarCapitalise, "());");
@@ -1560,8 +1561,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //							}
 //							auteurPageJs.l(" */");
 							auteurPageJs.t(0, "function ", classeApiOperationIdMethode, "(");
-							if(methodePOST)
+							if(methodePOST) {
 								auteurPageJs.s("$", str_formulaireValeurs(langueNom));
+								auteurPageJs.s(", success");
+								auteurPageJs.s(", error");
+							}
 							else if(methodePUT)
 								auteurPageJs.s("pk, $", str_formulaireValeurs(langueNom));
 							else if(methodePATCH)
@@ -1577,6 +1581,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							auteurPageJs.l(") {");
 							if(methodePOST) {
 								auteurPageJs.tl(1, "var vals = {};");
+								auteurPageJs.tl(1, "if(success == null) {");
+								auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
+								auteurPageJs.tl(3, str_ajouterLueur(langueNom), "($", str_formulaireValeurs(langueNom), ".next('button'));");
+								if(classeVarUrl != null) {
+									auteurPageJs.tl(3, "var url = data['", classeVarUrl, "'];");
+									auteurPageJs.tl(3, "if(url)");
+									auteurPageJs.tl(4, "window.location.href = url;");
+								}
+								auteurPageJs.tl(2, "};");
+								auteurPageJs.tl(1, "}");
+								auteurPageJs.tl(1, "if(error == null) {");
+								auteurPageJs.tl(2, "error = function( jqXhr, textStatus, errorThrown ) {");
+								auteurPageJs.tl(3, str_ajouterErreur(langueNom), "($", str_formulaireValeurs(langueNom), ".next('button'));");
+								auteurPageJs.tl(2, "};");
+								auteurPageJs.tl(1, "}");
 								auteurPageJs.s(wPOST);
 								auteurPageJs.l();
 							}
@@ -1976,6 +1995,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 					t(4).be("div").dfl();
 					tl(5, "Long num = ", str_liste(langueNom), classeNomSimple, ".getQueryResponse().getResults().getNumFound();");
+					tl(5, "String query = StringUtils.replace(", str_liste(langueNom), classeNomSimple, ".getQuery(), \"_suggested\", \"\");");
 					tl(5, "Integer rows1 = ", str_liste(langueNom), classeNomSimple, ".getRows();");
 					tl(5, "Integer start1 = ", str_liste(langueNom), classeNomSimple, ".getStart();");
 					tl(5, "Integer start2 = start1 - rows1;");
@@ -1987,7 +2007,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(5, "if(start1 == 0) {");
 					t(6).e("i").da("class", "fas fa-arrow-square-left w3-opacity ").df().dgl("i");
 					tl(5, "} else {");
-					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?start=\", start2, \"&rows=\", rows1).f();");
+					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, \"&start=\", start2, \"&rows=\", rows1).f();");
 					t(7).e("i").da("class", "fas fa-arrow-square-left ").df().dgl("i");
 					t(6).bgl("a");
 					tl(5, "}");
@@ -1995,19 +2015,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(5, "if(rows1 <= 1) {");
 					t(6).e("i").da("class", "fas fa-minus-square w3-opacity ").df().dgl("i");
 					tl(5, "} else {");
-					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?start=\", start1, \"&rows=\", rows2).f();");
+					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, \"&start=\", start1, \"&rows=\", rows2).f();");
 					t(7).e("i").da("class", "fas fa-minus-square ").df().dgl("i");
 					t(6).bgl("a");
 					tl(5, "}");
 					l();
-					tl(5, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?start=\", start1, \"&rows=\", rows3).f();");
+					tl(5, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, \"&start=\", start1, \"&rows=\", rows3).f();");
 					t(6).e("i").da("class", "fas fa-plus-square ").df().dgl("i");
 					t(5).bgl("a");
 					l();
 					tl(5, "if(start3 >= num) {");
 					t(6).e("i").da("class", "fas fa-arrow-square-right w3-opacity ").df().dgl("i");
 					tl(5, "} else {");
-					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?start=\", start3, \"&rows=\", rows1).f();");
+					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, \"&start=\", start3, \"&rows=\", rows1).f();");
 					t(7).e("i").da("class", "fas fa-arrow-square-right ").df().dgl("i");
 					t(6).bgl("a");
 					tl(5, "}");
@@ -2199,7 +2219,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 			
 							if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
-								Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("DELETE") || classeApiMethodeMethode.contains("POST") ? 0 : 1;
+								Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("POST") ? 0 : 1;
 								String methodeTitreFiltres = null;
 								String methodeTitreValeurs = null;
 			
@@ -2232,7 +2252,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									{ t(3 + tab).be("div").da("class", "w3-modal-content w3-card-4 ").dfl();
 										{ t(4 + tab).be("header").da("class", "w3-container w3-", contexteCouleur, " ").dfl();
 											t(5 + tab).e("span").da("class", "w3-button w3-display-topright ").da("onclick", "$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').hide(); ").df().dsxq("×").dgl("span");
-											t(5 + tab).e("h2").da("class", "").df().dsxq(methodeTitreValeurs).dgl("h2");
+											t(5 + tab).e("h2").da("class", "w3-padding ").df().dsxq(methodeTitreValeurs).dgl("h2");
 										} t(4 + tab).bgl("header");
 			
 										{ t(4 + tab).be("div").da("class", "w3-container ").dfl();
@@ -2285,7 +2305,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											else {
 												l();
 												t(5 + tab).l("// Form ", classeApiMethodeMethode);
-												{ t(5 + tab).be("form").da("action", classeApiUri).da("id", classeApiOperationIdMethode, "Form").da("onsubmit", "event.preventDefault(); return false; ").dfl();
+												{ t(5 + tab).be("div").da("id", classeApiOperationIdMethode, "Form").dfl();
 			
 												if("DELETE".equals(classeApiMethodeMethode))
 													tl(6 + tab, "htmlFormPATCH", classeNomSimple, "(o);");
@@ -2294,7 +2314,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												else
 													tl(6 + tab, "htmlForm", classeApiMethodeMethode, classeNomSimple, "(o);");
 			
-												} t(5 + tab).bgl("form");
+												} t(5 + tab).bgl("div");
 												t(5 + tab).e("button").l();
 												t(6 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
 				

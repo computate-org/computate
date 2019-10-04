@@ -1164,7 +1164,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									else {
 						
 										tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
-										tl(tBase + 3, "if(o2.get", entiteVarCapitalise, "() == null) {");
+										tl(tBase + 3, "if(", str_requete(langueNom), "Json.get", entiteNomSimpleVertxJson, "(", str_methodeNom(langueNom), ") == null) {");
 										tl(tBase + 4, "patchSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_removeD);");
 										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", classeVarClePrimaire, ", \"", entiteVar, "\"));");
 										tl(tBase + 3, "} else {");
@@ -1312,8 +1312,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(9, "String dateStr = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")).minusNanos(1000));");
 						}
 						else {
-							tl(9, "SimpleOrderedMap facets = (SimpleOrderedMap)", str_liste(langueNom), "", classeNomSimple, ".getQueryResponse().getResponse().get(\"facets\");");
-							tl(9, "Date date = (Date)facets.get(\"max_", classeVarModifie, "\");");
+							tl(9, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", str_liste(langueNom), "", classeNomSimple, ".getQueryResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(null);");
+							tl(9, "Date date = null;");
+							tl(9, "if(facets != null)");
+							tl(10, "date = (Date)facets.get(\"max_", classeVarModifie, "\");");
 							tl(9, "String dateStr;");
 							tl(9, "if(date == null)");
 							tl(10, "dateStr = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")).minusNanos(1000));");
@@ -1932,7 +1934,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						}
 					}
 					else if(classeApiMethode.contains("POST")) {
-						tl(3, "JsonObject json = new JsonObject();");
+						tl(3, "JsonObject json = JsonObject.mapFrom(o);");
 					}
 					else if(classeApiMethode.contains("PATCH")) {
 						tl(3, "JsonObject json = new JsonObject();");
@@ -2235,8 +2237,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFields(", str_entite(langueNom), "", str_Liste(langueNom), ");");
 //			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_archive(langueNom), "_indexed_boolean\", ORDER.asc);");
 //			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_supprime(langueNom), "_indexed_boolean\", ORDER.asc);");
-//			if(classeVarCree != null)
-//				tl(3, str_liste(langueNom), str_Recherche(langueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
+			if(classeVarCree != null)
+				tl(3, str_liste(langueNom), str_Recherche(langueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
 //			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_classeNomsCanoniques(langueNom), "_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
 //			if(classeFiltresTrouves && classeFiltres.contains("utilisateurId"))
 //				tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_utilisateur(langueNom), "Id_indexed_string:\" + ClientUtils.escapeQueryChars(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "Id()));");
