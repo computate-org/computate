@@ -1244,6 +1244,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageClasse.l();
 					auteurPageClasse.l("/**");
 					auteurPageClasse.l(" * ", str_Traduire(langueNom), ": false");
+					if(StringUtils.equals(classePageMethode, "PageRecherche")) {
+						for(String langueNom2 : autresLangues) {
+							String classePageNomSimple2 = (String)classeDoc.get("classePageNomCanonique" + str_PageRecherche(langueNom2)  + "_" + langueNom2 + "_stored_string");
+							if(classePageNomSimple2 != null)
+								l(" * ", str_NomCanonique(langueNom), ".", langueNom2, ": ", classePageNomSimple2);
+						}
+					}
 					auteurPageClasse.l(" **/");
 					auteurPageClasse.s("public class ", classePageNomSimple);
 					auteurPageClasse.s(" extends ", classePageNomSimple, "Gen<", classeGenPageNomSimple, ">");
@@ -1264,6 +1271,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				ecrireCommentaire(classeCommentaire, 0); 
 				l("/**");
 				l(" * ", str_Traduire(langueNom), ": false");
+				if(StringUtils.equals(classePageMethode, "PageRecherche")) {
+					for(String langueNom2 : autresLangues) {
+						String classeGenPageNomSimple2 = (String)classeDoc.get("classeGenPageNomCanonique" + str_PageRecherche(langueNom2)  + "_" + langueNom2 + "_stored_string");
+						if(classeGenPageNomSimple2 != null)
+							l(" * ", str_NomCanonique(langueNom), ".", langueNom2, ": ", classeGenPageNomSimple2);
+					}
+				}
 				l(" **/");
 				s("public class ", classeGenPageNomSimple);
 				s(" extends ", classeGenPageNomSimple, "Gen");
@@ -1944,11 +1958,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(2, "} else {");
 //					t(3).l("// contexteNomPluriel : plusiers ", contexteNomPluriel);
 					l();
-					t(3).be("h1").dfl();
-					tl(4, "if(", str_contexteIconeClassesCss(langueNom), " != null)");
-					tl(5, "e(\"i\").a(\"class\", ", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \").f().g(\"i\");");
-					t(4).e("span").da("class", " ").df().dsxq(contexteNomPluriel).dgl("span");
-					t(3).bgl("h1");
+//					t(3).be("h1").dfl();
+//					tl(4, "if(", str_contexteIconeClassesCss(langueNom), " != null)");
+//					tl(5, "e(\"i\").a(\"class\", ", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \").f().g(\"i\");");
+//					t(4).e("span").da("class", " ").df().dsxq(contexteNomPluriel).dgl("span");
+//					t(3).bgl("h1");
+					t(4).be("h1").dfl();
+					t(5).be("a").da("href", classePageUriMethode).da("class", "w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, " ").dfl();
+					tl(6, "if(", str_contexteIconeClassesCss(langueNom), " != null)");
+					tl(7, "e(\"i\").a(\"class\", ", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \").f().g(\"i\");");
+					t(6).e("span").da("class", " ").df().s(".sx(pageH1)").dgl("span");
+					t(5).bgl("a");
+					t(4).bgl("h1");
 
 //					t(3).e("div").da("class", "w3-padding-16 w3-card-4 w3-light-grey ").dfl();
 					t(3).e("div").da("class", "").dfl();
@@ -1995,7 +2016,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(4).bgl("div");
 
 					t(3).be("table").da("class", "w3-table w3-bordered w3-striped w3-border w3-hoverable ").dfl();
-					t(4).be("thead").dfl();
+					t(4).be("thead").da("class", "w3-", contexteCouleur, " w3-hover-", contexteCouleur, " ").dfl();
 					t(5).be("tr").dfl();
 					s(wTh);
 					t(5).bgl("tr");
@@ -2151,7 +2172,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					// formulaires
 					if(!classePageSimple) {
 						tl(2, "htmlBodyForms", classeGenPageNomSimple, "();");
-						tl(2, "html", str_Suggere(langueNom), classeGenPageNomSimple, "();");
+						tl(2, "html", str_Suggere(langueNom), classeGenPageNomSimple, "(this, null);");
 					}
 		
 					t(2).gl("div");
@@ -2159,8 +2180,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l();
 					tl(1, "public void htmlBodyForms", classeGenPageNomSimple, "() {");
 					if(!classePageSimple) {
-						t(2).e("div").dfl();
+						t(2).e("div").da("class", "w3-margin-top ").dfl();
 						l();
+
+						// refraîchir 1 //
+						t(2).be("button").l();
+						t(3).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
+						t(4).da("id", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple).l();
+						t(4).s(".a(\"onclick\", \"patch", classeNomSimple, "Vals( [ {name: 'fq', value: 'pk:' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), "Pk() + \" } ], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }); return false; \")").dfl();
+						t(4).e("i").da("class", "fas fa-sync-alt w3-padding-small ").df().dgl("i");
+						t(3).sxqscl(str_recharger(langueNom), " ", contexteCeNom);
+						t(2).bgl("button");
+
 						for(String classeApiMethode : classeApiMethodes) {
 							String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
 							String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
@@ -2349,46 +2380,46 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(1, " * r.", langueNom2, ": \"", str_suggere(langueNom2), "List", classeNomSimple2, "\"");
 					}
 					tl(1, "**/");
-					tl(1, "public void html", str_Suggere(langueNom), classeGenPageNomSimple, "() {");
+					tl(1, "public static void html", str_Suggere(langueNom), classeGenPageNomSimple, "(", classePartsMiseEnPage.nomSimple(langueNom), " p, String id) {");
 
-					t(2).be("div").da("class", "w3-cell-row ").dfl();
+					t(2).s("{ p.").e("div").da("class", "w3-cell-row ").dfl();
 
 					// voir tous //
-					t(3).be("div").da("class", "w3-cell ").dfl();
-					t(4).be("a").da("href", classePageUriMethode).da("class", "").dfl();
+					t(3).s("{ p.").e("div").da("class", "w3-cell ").dfl();
+					t(4).s("{ p.").e("a").da("href", classePageUriMethode).da("class", "").dfl();
 					if(contexteIconeGroupe != null && contexteIconeNom != null)
-						t(5).e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " w3-padding-small ").df().dgl("i");
-					t(5).sxqscl(str_voir(langueNom), " ", contexteTousNom);
-					t(4).bgl("a");
-					t(3).bgl("div");
+						t(5).s("p.").e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " w3-padding-small ").df().dgl("i");
+					t(5).s("p.").sxqscl(str_voir(langueNom), " ", contexteTousNom);
+					t(4).s("} p.").gl("a");
+					t(3).s("} p.").gl("div");
 
 					// recharger tous //
-					t(3).be("div").da("class", "w3-cell ").dfl();
-					t(4).be("a").da("id", str_recharger(langueNom), classeGenPageNomSimple).da("href", classePageUriMethode).da("class", "");
-					da("onclick", "patch", classeNomSimple, "Vals([], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), classeGenPageNomSimple, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), classeGenPageNomSimple, "')); }); return false; ");
+					t(3).s("{ p.").e("div").da("class", "w3-cell ").dfl();
+					t(4).s("{ p.").e("a").s(".a(\"id\", \"", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id)").da("href", classePageUriMethode).da("class", "");
+					s(".a(\"onclick\", \"patch", classeNomSimple, "Vals([], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }); return false; \")");
 					dfl();
-					t(5).e("i").da("class", "fas fa-sync-alt w3-padding-small ").df().dgl("i");
-					t(5).sxqscl(str_recharger(langueNom), " ", contexteTousNom);
-					t(4).bgl("a");
-					t(3).bgl("div");
+					t(5).s("p.").e("i").da("class", "fas fa-sync-alt w3-padding-small ").df().dgl("i");
+					t(5).s("p.").sxqscl(str_recharger(langueNom), " ", contexteTousNom);
+					t(4).s("} p.").gl("a");
+					t(3).s("} p.").gl("div");
 
-					t(2).bgl("div");
+					t(2).s("} p.").gl("div");
 
-					t(2).be("div").da("class", "w3-cell-row w3-padding ").dfl();
-					t(3).be("div").da("class", "w3-cell ").dfl();
-					t(4).be("span").dfl();
-					t(5).sxqscl(str_rechercher(langueNom), " ", contexteNomAdjectifPluriel, str_deuxPoints(langueNom));
-					t(4).bgl("span");
-					t(3).bgl("div");
-					t(2).bgl("div");
-					t(2).be("div").da("class", "w3-cell-row w3-padding ").dfl();
-					t(3).be("div").da("class", "w3-cell ").dfl();
-					t(4).be("div").da("class", "w3-cell-row ").dfl();
+					t(2).s("{ p.").e("div").da("class", "w3-cell-row w3-padding ").dfl();
+					t(3).s("{ p.").e("div").da("class", "w3-cell ").dfl();
+					t(4).s("{ p.").e("span").dfl();
+					t(5).s("p.").sxqscl(str_rechercher(langueNom), " ", contexteNomAdjectifPluriel, str_deuxPoints(langueNom));
+					t(4).s("} p.").gl("span");
+					t(3).s("} p.").gl("div");
+					t(2).s("} p.").gl("div");
+					t(2).s("{ p.").e("div").da("class", "w3-cell-row w3-padding ").dfl();
+					t(3).s("{ p.").e("div").da("class", "w3-cell ").dfl();
+					t(4).s("{ p.").e("div").da("class", "w3-cell-row ").dfl();
 					l();
 	
-					t(5).e("i").da("class", "far fa-search w3-xxlarge w3-cell w3-cell-middle ").df().dgl("i");
-					t(5).be("form").da("action", classeApiUri).da("id", str_suggere(langueNom), "Form", classeNomSimple).da("style", "display: inline-block; width: 100%; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
-					t(6).e("input").l();
+					t(5).s("p.").e("i").da("class", "far fa-search w3-xxlarge w3-cell w3-cell-middle ").df().dgl("i");
+					t(5).s("{ p.").e("form").da("action", classeApiUri).s(".a(\"id\", \"", str_suggere(langueNom), "Form", classeNomSimple, "\", id)").da("style", "display: inline-block; width: 100%; ").s(".a(\"onsubmit\", \"event.preventDefault(); window.location.href='", classePageUriMethode, "?q=", classeVarSuggere, ":' + encodeURIComponent($('#", str_suggere(langueNom), classeNomSimple, "\", id, \"').val()); return false; \")").dfl();
+					t(6).s("p.").e("input").l();
 					t(7).dal("type", "text");
 	
 					if(contexteRechercherTousNom != null) {
@@ -2397,23 +2428,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 					t(7).dal("class", str_suggere(langueNom), classeNomSimple, " w3-input w3-border w3-cell w3-cell-middle ");
 					t(7).dal("name", str_suggere(langueNom), classeNomSimple);
-					t(7).dal("id", str_suggere(langueNom), classeNomSimple);
+					t(7).s(".a(\"id\", \"", str_suggere(langueNom), classeNomSimple, "\", id)").l();
 					t(7).dal("autocomplete", "off");
-					t(7).dal("oninput", str_suggere(langueNom), classeNomSimple, StringUtils.capitalize(classeVarSuggere), "( [ { 'name': 'q', 'value': '", classeVarSuggere, ":' + $(this).val() } ], $('#", str_suggere(langueNom), "List", classeNomSimple, "')); ");
+					t(7).s(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, StringUtils.capitalize(classeVarSuggere), "( [ { 'name': 'q', 'value': '", classeVarSuggere, ":' + $(this).val() } ], $('#", str_suggere(langueNom), "List", classeNomSimple, "\", id, \"')); \")").l();
 
 					t(7).dfgl();
 	
 					l();
-					t(5).bgl("form");
-					t(4).bgl("div");
-					t(3).bgl("div");
-					t(2).bgl("div");
-					t(2).be("div").da("class", "w3-cell-row w3-padding ").dfl();
-					t(3).be("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
-					t(4).be("ul").da("class", "w3-ul w3-hoverable ").da("id", str_suggere(langueNom), "List", classeNomSimple).dfl();
-					t(4).bgl("ul");
-					t(3).bgl("div");
-					t(2).bgl("div");
+					t(5).s("} p.").gl("form");
+					t(4).s("} p.").gl("div");
+					t(3).s("} p.").gl("div");
+					t(2).s("} p.").gl("div");
+					t(2).s("{ p.").e("div").da("class", "w3-cell-row w3-padding ").dfl();
+					t(3).s("{ p.").e("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
+					t(4).s("{ p.").e("ul").da("class", "w3-ul w3-hoverable ").s(".a(\"id\", \"", str_suggere(langueNom), "List", classeNomSimple, "\", id)").dfl();
+					t(4).s("} p.").gl("ul");
+					t(3).s("} p.").gl("div");
+					t(2).s("} p.").gl("div");
 					tl(1, "}");
 				}
 

@@ -1821,6 +1821,16 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_CanonicalName
+	 */
+	public String str_NomCanonique(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "NomCanonique";
+		else
+			return "CanonicalName";
+	}
+
+	/**
 	 * Var.enUS: str_classCanonicalName
 	 */
 	public String str_classeNomCanonique(String langueNom) {
@@ -6845,6 +6855,8 @@ public class IndexerClasse extends RegarderClasseBase {
 									classePageCheminGen = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
 								}
 								indexerStockerSolr(langueNom, classeDoc, "classeGenPageNomSimple" + classeApiMethode, classeGenPageNomSimple);
+								String classeGenPageNomCanonique = classeNomEnsembleLangue + "." + classeGenPageNomSimple;
+								indexerStockerSolr(langueNom, classeDoc, "classeGenPageNomCanonique" + classeApiMethode, classeGenPageNomCanonique);
 								String classePageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimpleMethode, ".java");
 								indexerStockerSolr(langueNom, classeDoc, "classePageCheminGen" + classeApiMethode, classePageCheminGen); 
 								indexerStockerSolr(langueNom, classeDoc, "classePageChemin" + classeApiMethode, classePageChemin); 
@@ -6878,6 +6890,8 @@ public class IndexerClasse extends RegarderClasseBase {
 								classePageLangueNom = langueNom;
 
 								String classePageNomCanoniqueMethode = classeNomEnsemble + "." + classePageNomSimpleMethode;
+								String classeGenPageNomCanonique = classeNomEnsembleLangue + "." + classeGenPageNomSimple;
+								indexerStockerSolr(langueNom, classeDoc, "classeGenPageNomCanonique" + classeApiMethode, classeGenPageNomCanonique);
 								
 								indexerStockerSolr(langueNom, classeDoc, "classePageNomCanonique" + classeApiMethode, classePageNomCanoniqueMethode);
 								indexerStockerSolr(langueNom, classeDoc, "classePageNomSimple" + classeApiMethode, classePageNomSimpleMethode);
@@ -6945,6 +6959,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, StringUtils.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Map.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, List.class.getCanonicalName(), classeLangueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePartsMiseEnPage.nomCanonique(classeLangueNom), classeLangueNom));
 					
 							for(ClasseParts classePartGenPage : classePartsGenPage.values()) {
 //								if(classePartGenPage.langueNom == null || classePartGenPage.langueNom.equals(langueNom))

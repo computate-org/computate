@@ -1164,11 +1164,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									else {
 						
 										tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
-										tl(tBase + 3, "o2.set", entiteVarCapitalise, "(", str_requete(langueNom), "Json.get", entiteNomSimpleVertxJson, "(", str_methodeNom(langueNom), "));");
 										tl(tBase + 3, "if(o2.get", entiteVarCapitalise, "() == null) {");
 										tl(tBase + 4, "patchSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_removeD);");
 										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(", classeVarClePrimaire, ", \"", entiteVar, "\"));");
 										tl(tBase + 3, "} else {");
+										tl(tBase + 4, "o2.set", entiteVarCapitalise, "(", str_requete(langueNom), "Json.get", entiteNomSimpleVertxJson, "(", str_methodeNom(langueNom), "));");
 										tl(tBase + 4, "patchSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
 										tl(tBase + 4, "patchSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", o2.json", entiteVarCapitalise, "(), ", classeVarClePrimaire, "));");
 										tl(tBase + 3, "}");
@@ -2233,20 +2233,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".setC(", classeNomSimple, ".class);");
 			tl(3, "if(", str_entite(langueNom), "", str_Liste(langueNom), " != null)");
 			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFields(", str_entite(langueNom), "", str_Liste(langueNom), ");");
-			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_archive(langueNom), "_indexed_boolean\", ORDER.asc);");
-			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_supprime(langueNom), "_indexed_boolean\", ORDER.asc);");
-			if(classeVarCree != null)
-				tl(3, str_liste(langueNom), str_Recherche(langueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
-			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_classeNomsCanoniques(langueNom), "_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
-			if(classeFiltresTrouves && classeFiltres.contains("utilisateurId"))
-				tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_utilisateur(langueNom), "Id_indexed_string:\" + ClientUtils.escapeQueryChars(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "Id()));");
+//			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_archive(langueNom), "_indexed_boolean\", ORDER.asc);");
+//			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_supprime(langueNom), "_indexed_boolean\", ORDER.asc);");
+//			if(classeVarCree != null)
+//				tl(3, str_liste(langueNom), str_Recherche(langueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
+//			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_classeNomsCanoniques(langueNom), "_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
+//			if(classeFiltresTrouves && classeFiltres.contains("utilisateurId"))
+//				tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_utilisateur(langueNom), "Id_indexed_string:\" + ClientUtils.escapeQueryChars(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "Id()));");
 			if(classeVarModifie != null)
 				tl(3, str_liste(langueNom), "", str_Recherche(langueNom), ".set(\"json.facet\", \"{max_", classeVarModifie, ":'max(", classeVarModifie, "_indexed_date)'}\");");
-			tl(3, classePartsUtilisateurSite.nomSimple(langueNom), " ", str_utilisateurSite(langueNom), " = ", str_requeteSite(langueNom), ".get", classePartsUtilisateurSite.nomSimple(langueNom), "();");
-			tl(3, "if(", str_utilisateurSite(langueNom), " != null && !", str_utilisateurSite(langueNom), ".get", str_VoirSupprime(langueNom), "())");
-			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_supprime(langueNom), "_indexed_boolean:false\");");
-			tl(3, "if(", str_utilisateurSite(langueNom), " != null && !", str_utilisateurSite(langueNom), ".get", str_VoirArchive(langueNom), "())");
-			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_archive(langueNom), "_indexed_boolean:false\");");
+//			tl(3, classePartsUtilisateurSite.nomSimple(langueNom), " ", str_utilisateurSite(langueNom), " = ", str_requeteSite(langueNom), ".get", classePartsUtilisateurSite.nomSimple(langueNom), "();");
+//			tl(3, "if(", str_utilisateurSite(langueNom), " != null && !", str_utilisateurSite(langueNom), ".get", str_VoirSupprime(langueNom), "())");
+//			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_supprime(langueNom), "_indexed_boolean:false\");");
+//			tl(3, "if(", str_utilisateurSite(langueNom), " != null && !", str_utilisateurSite(langueNom), ".get", str_VoirArchive(langueNom), "())");
+//			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_archive(langueNom), "_indexed_boolean:false\");");
 			l();
 			tl(3, "String id = ", str_operationRequete(langueNom), ".getParams().getJsonObject(\"path\").getString(\"id\");");
 			tl(3, "if(", classeVarCleUnique, " != null) {");
