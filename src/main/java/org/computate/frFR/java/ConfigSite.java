@@ -463,7 +463,7 @@ public class ConfigSite {
 	 * r.enUS: solrVersion
 	 **/ 
 	protected void _versionSolr() throws Exception {
-		versionSolr = config.getString("solr.versionSolr", "7.3.1");
+		versionSolr = config.getString("solr.versionSolr", "7.1.0");
 	}
 
 	/**

@@ -6646,6 +6646,34 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
+		if(classeVarUrl == null && classeSuperDoc != null) {
+			classeVarUrl = (String)classeSuperDoc.get("classeVarUrl_" + classeLangueNom + "_stored_string");
+			if(classeVarUrl != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarUrl", classeVarUrl);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarUrlLangue = (String)classeSuperDoc.get("classeVarUrl_" + langueNom + "_stored_string");
+						if(classeVarUrlLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarUrl", classeVarUrlLangue);
+						}
+					}
+				}
+			}
+		}
+		if(classeVarId == null && classeSuperDoc != null) {
+			classeVarId = (String)classeSuperDoc.get("classeVarId_" + classeLangueNom + "_stored_string");
+			if(classeVarId != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarId", classeVarId);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarIdLangue = (String)classeSuperDoc.get("classeVarId_" + langueNom + "_stored_string");
+						if(classeVarIdLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarId", classeVarIdLangue);
+						}
+					}
+				}
+			}
+		}
 
 		for(String classeInitLoinException : classeInitLoinExceptions) {
 			indexerListeSolr(classeDoc, "classeInitLoinExceptions", classeInitLoinException); 

@@ -1112,9 +1112,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				}
 			}
 			wInitLoin.l(" {");
+			wInitLoin.tl(2, "init", classeNomSimple, "();");
 			if(BooleanUtils.isTrue(classeEtendBase)) 
 				wInitLoin.tl(2, "super.", str_initLoin(langueNom), classeNomSimpleSuperGenerique, "(", str_requeteSite(langueNom), "_);");
-			wInitLoin.tl(2, "init", classeNomSimple, "();");
 			wInitLoin.tl(1, "}");
 			wInitLoin.l();
 			wInitLoin.t(1, "public void init", classeNomSimple, "()");
@@ -4079,7 +4079,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					}
 				}
 	
-				if(entiteNomSimple != null && entiteIndexe) {
+				if(entiteNomSimple != null && entiteIndexe && !entiteSuggere) {
 					// indexe
 					if(entiteNomSimple.equals("Chaine")) {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", ", entiteVar, ");");

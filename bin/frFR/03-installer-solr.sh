@@ -22,9 +22,9 @@ computate "sudo cp -r /usr/local/src/solr/solr/build/solr-$versionSolr-SNAPSHOT 
 computate "sudo chown -R $USER: /srv/solr-$versionSolr"
 computate "chmod +x /srv/solr-$versionSolr/bin/*"
 computate "rm -rf /srv/solr-$versionSolr/example"
-computate "cp /srv/solr-$versionSolr/server/solr/solr.xml /srv/solr-$versionSolr/"
 computate "cat /srv/solr-$versionSolr/server/solr/solr.xml | perl -0777pe 's/(<str\s+name\s*=\s*\"host\"\s*>)\\\$\{host:\}(<\/str>)/\${1}localhost\${2}/gm' | tee /srv/solr-$versionSolr/server/solr/solr.xml"
 computate "cat /srv/solr-$versionSolr/server/solr/solr.xml | perl -0777pe 's/(<int\s+name\s*=\s*\"hostPort\"\s*>)\\\$\{jetty.port:8983\}(<\/int>)/\${1}$portSolr\${2}/gm' | tee /srv/solr-$versionSolr/server/solr/solr.xml"
+computate "cp /srv/solr-$versionSolr/server/solr/solr.xml /srv/solr-$versionSolr/"
 
 computate "echo '
 [Unit]

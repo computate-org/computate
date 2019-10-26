@@ -1309,20 +1309,21 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(8, "if(c.succeeded()) {");
 						tl(9, classePartsListeRecherche.nomSimple(langueNom), "<", classeNomSimple, "> ", str_liste(langueNom), "", classeNomSimple, " = c.result();");
 						if(classeVarModifie == null) {
-							tl(9, "String dateStr = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")).minusNanos(1000));");
+							tl(9, "String dt = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")).minusNanos(1000));");
 						}
 						else {
 							tl(9, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", str_liste(langueNom), "", classeNomSimple, ".getQueryResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(null);");
 							tl(9, "Date date = null;");
 							tl(9, "if(facets != null)");
 							tl(10, "date = (Date)facets.get(\"max_", classeVarModifie, "\");");
-							tl(9, "String dateStr;");
+							tl(9, "String dt;");
 							tl(9, "if(date == null)");
-							tl(10, "dateStr = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")).minusNanos(1000));");
+							tl(10, "dt = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")).minusNanos(1000));");
 							tl(9, "else");
-							tl(10, "dateStr = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(date.toInstant(), ZoneId.of(\"UTC\")));");
+							tl(10, "dt = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(date.toInstant(), ZoneId.of(\"UTC\")));");
+							tl(9, str_liste(langueNom), classeNomSimple, ".addFilterQuery(String.format(\"", classeVarModifie, "_indexed_date:[* TO %s]\", dt));");
 						}
-						tl(9, "", str_liste(langueNom), "", classeApiMethode, classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ", dateStr, d -> {");
+						tl(9, "", str_liste(langueNom), "", classeApiMethode, classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ", dt, d -> {");
 						tl(10, "if(d.succeeded()) {");
 						tl(11, "SQLConnection ", str_connexionSql(langueNom), " = ", str_requeteSite(langueNom), ".get", str_ConnexionSql(langueNom), "();");
 						tl(11, "if(", str_connexionSql(langueNom), " == null) {");
