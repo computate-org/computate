@@ -188,6 +188,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	ClasseParts classePartsUtilisateurSite;
 	/**
+	 * Var.enUS: classPartsPatchRequest
+	 */
+	ClasseParts classePartsRequetePatch;
+	/**
 	 * Var.enUS: classPartsCluster
 	 */
 	ClasseParts classePartsCluster;
@@ -943,6 +947,26 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_workerExecutor
+	 */
+	public String str_executeurTravailleur(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "executeurTravailleur";
+		else
+			return "workerExecutor";
+	}
+
+	/**
+	 * Var.enUS: str_WorkerExecutor
+	 */
+	public String str_ExecuteurTravailleur(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ExecuteurTravailleur";
+		else
+			return "WorkerExecutor";
+	}
+
+	/**
 	 * Var.enUS: str_Title
 	 */
 	public String str_Titre(String langueNom) {
@@ -1468,6 +1492,16 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "requete";
 		else
 			return "request";
+	}
+
+	/**
+	 * Var.enUS: str_patchRequest
+	 */
+	public String str_requetePatch(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "requetePatch";
+		else
+			return "patchRequest";
 	}
 
 	/**
@@ -2977,6 +3011,23 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: classPartsPatchRequest
+	 * Param1.var.enUS: domainPackageName
+	 * Param2.var.enUS: classLanguageName
+	 * r: classeLangueNom
+	 * r.enUS: classLanguageName
+	 * r: classePartsPourNomSimple
+	 * r.enUS: classPartsForSimpleName
+	 * r: nomEnsembleDomaine
+	 * r.enUS: domainPackageName
+	 * r: RequetePatch
+	 * r.enUS: PatchRequest
+	 */
+	protected ClasseParts classePartsRequetePatch(String nomEnsembleDomaine, String classeLangueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "RequetePatch", classeLangueNom);
+	}
+
+	/**
 	 * Var.enUS: classPartsCluster
 	 * Param1.var.enUS: domainPackageName
 	 * Param2.var.enUS: classLanguageName
@@ -3662,6 +3713,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classPartsSiteConfig
 	 * r: classePartsUtilisateurSite
 	 * r.enUS: classPartsSiteUser
+	 * r: classePartsRequetePatch
+	 * r.enUS: classPartsPatchRequest
 	 * r: classePartsCluster
 	 * r.enUS: classPartsCluster
 	 * r: classePartsResultatRecherche
@@ -4614,6 +4667,11 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		Boolean classeMotsClesTrouves = false;
 		List<String> classeMotsCles = new ArrayList<String>();
+
+		Boolean classeTrisTrouves = false;
+		List<String> classeTrisOrdre = new ArrayList<String>();
+		List<String> classeTrisVar = new ArrayList<String>();
+
 		List<String> classeInitLoinExceptions = new ArrayList<String>(); 
 		String classeVarSuggere = null;
 		String classeVarUrl = null;
@@ -4790,6 +4848,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsSiteContexte = classePartsSiteContexte(nomEnsembleDomaine, classeLangueNom);
 		classePartsConfigSite = classePartsConfigSite(nomEnsembleDomaine, classeLangueNom);
 		classePartsUtilisateurSite = classePartsUtilisateurSite(nomEnsembleDomaine, classeLangueNom);
+		classePartsRequetePatch = classePartsRequetePatch(nomEnsembleDomaine, classeLangueNom);
 		classePartsCluster = classePartsCluster(nomEnsembleDomaine, classeLangueNom);
 		classePartsResultatRecherche = classePartsResultatRecherche(nomEnsembleDomaine, classeLangueNom);
 		classePartsToutEcrivain = classePartsToutEcrivain(nomEnsembleDomaine, classeLangueNom);
@@ -5017,6 +5076,17 @@ public class IndexerClasse extends RegarderClasseBase {
 				if(!classeMotsCles.contains(classeMotCleValeur))
 					classeMotsCles.add(classeMotCleValeur);
 				classeMotsClesTrouves = true;
+			}
+
+			Matcher classeTrisRecherche = Pattern.compile("^(classe)?Tri\\.([^:]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			boolean classeTrisTrouvesActuel = classeTrisRecherche.find();
+			while(classeTrisTrouvesActuel) {
+				String classeTriOrdre = classeTrisRecherche.group(2);
+				String classeTriVar = classeTrisRecherche.group(3);
+				classeTrisTrouvesActuel = classeTrisRecherche.find();
+				classeTrisOrdre.add(classeTriOrdre);
+				classeTrisVar.add(classeTriVar);
+				classeTrisTrouves = true;
 			}
 
 			String sqlString = regex("^(classe)?Sql:\\s*(.*)$", classeCommentaire, 2);
@@ -6674,6 +6744,20 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
+		if(classeVarTitre == null && classeSuperDoc != null) {
+			classeVarTitre = (String)classeSuperDoc.get("classeVarTitre_" + classeLangueNom + "_stored_string");
+			if(classeVarTitre != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarTitre", classeVarTitre);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarTitreLangue = (String)classeSuperDoc.get("classeVarTitre_" + langueNom + "_stored_string");
+						if(classeVarTitreLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarTitre", classeVarTitreLangue);
+						}
+					}
+				}
+			}
+		}
 
 		for(String classeInitLoinException : classeInitLoinExceptions) {
 			indexerListeSolr(classeDoc, "classeInitLoinExceptions", classeInitLoinException); 
@@ -6716,7 +6800,9 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(classePartsRequeteSite);
 				classePartsGenApiAjouter(classePartsSiteContexte);
 				classePartsGenApiAjouter(classePartsUtilisateurSite);
+				classePartsGenApiAjouter(classePartsRequetePatch);
 				classePartsGenApiAjouter(classePartsResultatRecherche);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.WorkerExecutor", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collections", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Map", classeLangueNom));
@@ -7315,6 +7401,23 @@ public class IndexerClasse extends RegarderClasseBase {
 				if(classeSuperMethodeVars != null) {
 					for(String classeSuperMethodeVar : classeSuperMethodeVars)
 						indexerStockerListeSolr(langueNom, classeDoc, "classeMethodeVars", classeSuperMethodeVar);
+				}
+			}
+		}
+
+		indexerStockerSolr(classeDoc, "classeTrisTrouves", classeTrisTrouves); 
+		for(Integer i = 0; i < classeTrisOrdre.size(); i++) {
+			String classeTriOrdre = classeTrisOrdre.get(i);
+			String classeTriVar = classeTrisVar.get(i);
+			indexerStockerListeSolr(classeDoc, "classeTrisOrdre", classeTriOrdre); 
+			indexerStockerListeSolr(classeLangueNom, classeDoc, "classeTrisVar", classeTriVar); 
+			List<String> classeEntiteVars = (List<String>)classeDoc.get("classeEntiteVars_" + classeLangueNom + "_stored_strings").getValue();
+			for(String langueNom : classeAutresLangues) {  
+				List<String> classeEntiteVarsLangue = (List<String>)classeDoc.get("classeEntiteVars_" + langueNom + "_stored_strings").getValue();
+				int j = classeEntiteVars.indexOf(classeTriVar);
+				if(j >= 0) {
+					String classeTriVarLangue = classeEntiteVarsLangue.get(j);
+					indexerStockerListeSolr(langueNom, classeDoc, "classeTrisVar", classeTriVarLangue); 
 				}
 			}
 		}
