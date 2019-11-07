@@ -1661,9 +1661,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 							if(methodePATCH || methodeRecherche) {
 								auteurPageJs.l();
-								auteurPageJs.tl(0, "function ", classeApiOperationIdMethode,str_Filtres(langueNom), "($", str_formulaireFiltres(langueNom), ") {");
+								auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, str_Filtres(langueNom), "($", str_formulaireFiltres(langueNom), ") {");
 								auteurPageJs.tl(1, "var ", str_filtres(langueNom), " = [];");
 								auteurPageJs.s(wRecherche);
+								if(classeTrisVar != null) {
+									wRecherche.l();
+									for(Integer i = 0; i < classeTrisVar.size(); i++) {
+										String classeTriVar = classeTrisVar.get(i);
+										String classeTriOrdre = classeTrisOrdre.get(i);
+	
+										wRecherche.tl(1, str_filtres(langueNom), ".push({ name: '", "sort", "', value: '", classeTriVar, " ", classeTriOrdre, "' });");
+									}
+								}
 								auteurPageJs.tl(1, "return ", str_filtres(langueNom), ";");
 								auteurPageJs.tl(0, "}");
 							}
@@ -1754,6 +1763,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											entiteTypeJson = (String)entiteDocumentSolr.get("entiteTypeJson_stored_string");
 											entiteAttribuerTypeJson = (String)entiteDocumentSolr.get("entiteAttribuerTypeJson_stored_string");
 											entiteAttribuerContexteIconeNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeNom_stored_string");
+											entiteAttribuerTrisVar = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisVar_" + langueNom + "_stored_strings");
 				
 											if(entiteSuggere) {
 												auteurPageJs.l();
@@ -1825,6 +1835,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												auteurPageJs.tl(3, "if(checked)");
 												auteurPageJs.tl(4, "$input.attr('checked', 'checked');");
 												auteurPageJs.tl(3, "var $li = $('<li>');");
+												if(entiteAttribuerTrisVar != null) {
+													for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
+														auteurPageJs.tl(3, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
+														auteurPageJs.tl(3, "if(", entiteAttribuerTriVar, ") {");
+														auteurPageJs.tl(4, "$sort = $('<span>').attr('class', 'w3-text-grey ').attr('style', 'padding-right: 8px; ');");
+														auteurPageJs.tl(4, "$sortText = $('<span>').attr('class', '').text(", entiteAttribuerTriVar, ");");
+														auteurPageJs.tl(4, "var $iDown = $('<i>').attr('class', 'fad fa-caret-square-down w3-tiny ').attr('onclick', '');");
+														auteurPageJs.tl(4, "var $iUp = $('<i>').attr('class', 'fad fa-caret-square-up w3-tiny ').attr('onclick', '');");
+														auteurPageJs.tl(4, "var $iDelete = $('<i>').attr('class', 'fad fa-minus-square w3-tiny ').attr('onclick', '');");
+														auteurPageJs.tl(4, "var $iRight = $('<i>').attr('class', 'fad fa-caret-square-right w3-tiny ').attr('onclick', '');");
+														auteurPageJs.tl(4, "$supUp = $('<sup>').attr('class', 'w3-tiny ');");
+														auteurPageJs.tl(4, "$subDown = $('<sub>').attr('class', 'w3-tiny ');");
+														auteurPageJs.tl(4, "$supDelete = $('<sup>').attr('class', 'w3-tiny ');");
+														auteurPageJs.tl(4, "$subRight = $('<sub>').attr('class', 'w3-tiny ');");
+														auteurPageJs.tl(4, "$supUp.append($iUp);");
+														auteurPageJs.tl(4, "$subDown.append($iDown);");
+														auteurPageJs.tl(4, "$supDelete.append($iDelete);");
+														auteurPageJs.tl(4, "$subRight.append($iRight);");
+														auteurPageJs.tl(4, "$sort.append($supUp);");
+														auteurPageJs.tl(4, "$sort.append($subDown);");
+														auteurPageJs.tl(4, "$sort.append($sortText);");
+														auteurPageJs.tl(4, "$sort.append($supDelete);");
+														auteurPageJs.tl(4, "$sort.append($subRight);");
+														auteurPageJs.tl(4, "$li.append($sort);");
+														auteurPageJs.tl(3, "}");
+													}
+												}
 												auteurPageJs.tl(3, "$li.append($input);");
 												auteurPageJs.tl(3, "$li.append($a);");
 												auteurPageJs.tl(3, "$list.append($li);");

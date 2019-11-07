@@ -524,6 +524,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classePageSimple = BooleanUtils.isTrue((Boolean)doc.get("classePageSimple_stored_boolean"));
 					classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouves_stored_boolean"));
 					classeRoles = (List<String>)doc.get("classeRoles_stored_strings");
+					classeTrisVar = (List<String>)doc.get("classeTrisVar_" + langueNom + "_stored_strings");
+					classeTrisOrdre = (List<String>)doc.get("classeTrisOrdre_stored_strings");
 					classeFiltresTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeFiltresTrouves_stored_boolean"));
 					classeFiltres = (List<String>)doc.get("classeFiltres_stored_strings");
 					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_" + langueNom + "_stored_strings");

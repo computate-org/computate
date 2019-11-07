@@ -248,7 +248,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l();
 //			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
 			auteurGenApiService.tl(1, "static void ", str_enregistrer(classeLangueNom), "Service(", classePartsSiteContexte.nomSimple(classeLangueNom), " ", str_siteContexte(classeLangueNom), ", Vertx vertx) {");
-			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(classeLangueNom, classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(", str_siteContexte(classeLangueNom), "));");
+			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(appliNom, "-", classeLangueNom, "-", classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(", str_siteContexte(classeLangueNom), "));");
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 //			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
@@ -2267,8 +2267,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFields(", str_entite(langueNom), "", str_Liste(langueNom), ");");
 //			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_archive(langueNom), "_indexed_boolean\", ORDER.asc);");
 //			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_supprime(langueNom), "_indexed_boolean\", ORDER.asc);");
-			if(classeVarCree != null)
-				tl(3, str_liste(langueNom), str_Recherche(langueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
 //			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_classeNomsCanoniques(langueNom), "_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
 //			if(classeFiltresTrouves && classeFiltres.contains("utilisateurId"))
 //				tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_utilisateur(langueNom), "Id_indexed_string:\" + ClientUtils.escapeQueryChars(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "Id()));");
@@ -2355,6 +2353,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "}");
 
 			tl(3, "});");
+			if(classeVarCree != null) {
+				tl(3, "if(", str_liste(langueNom), str_Recherche(langueNom), ".getSorts().size() == 0)");
+				tl(4, str_liste(langueNom), str_Recherche(langueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
+			}
 			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".", str_initLoin(langueNom), "", str_PourClasse(langueNom), "(", str_requeteSite(langueNom), ");");
 			tl(3, "", str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture(", str_liste(langueNom), "", str_Recherche(langueNom), "));");
 			tl(2, "} catch(Exception e) {");

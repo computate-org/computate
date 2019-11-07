@@ -800,6 +800,12 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String entiteAttribuerContexteIconeNom;
 
+	List<String> classeTrisVar;
+
+	List<String> classeTrisOrdre;
+
+	List<String> entiteAttribuerTrisVar;
+
 	/**
 	 * Var.enUS: entityMultiline
 	 */
