@@ -543,6 +543,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					contexteCouleur = (String)doc.get("contexteCouleur_stored_string");
 					contexteIconeGroupe = (String)doc.get("contexteIconeGroupe_stored_string");
 					contexteIconeNom = (String)doc.get("contexteIconeNom_stored_string");
+					contexteRows = (Integer)doc.get("contexteRows_stored_int");
 
 					contexteDescription = (String)doc.get("contexteDescription" + "_" + langueNom + "_stored_string");
 					contexteImageLargeur = (Integer)doc.get("contexteImageLargeur" + "_" + langueNom + "_stored_int");

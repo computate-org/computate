@@ -722,6 +722,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String contexteIconeNom;
 
 	/**
+	 * Var.enUS: contextRows
+	 */
+	protected Integer contexteRows;
+
+	/**
 	 * Var.enUS: contextDescription
 	 */
 	protected String contexteDescription;
@@ -1744,6 +1749,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	 * r.enUS: contextIconGroup
 	 * r: contexteIconeNom
 	 * r.enUS: contextIconName
+	 * r: contexteRows
+	 * r.enUS: contextRows
 	 * r: contexteVideoId
 	 * r.enUS: contextVideoId
 	 * r: UnNomAdjectif
@@ -1900,6 +1907,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			contexteCouleur = (String)classeDoc.get("contexteCouleur_stored_string");
 			contexteIconeGroupe = (String)classeDoc.get("contexteIconeGroupe_stored_string");
 			contexteIconeNom = (String)classeDoc.get("contexteIconeNom_stored_string");
+			contexteRows = (Integer)classeDoc.get("contexteRows_stored_int");
 
 			contexteVideoId = (String)classeDoc.get("contexteVideoId" + "_" + langueNom + "_stored_string");
 			contexteUnNom = (String)classeDoc.get("contexteUnNom" + "_" + langueNom + "_stored_string");
@@ -2015,6 +2023,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			
 			if(contexteIconeNom != null)
 				tl(1, "public static final String ", classeNomSimple, "_IconeNom = ", q(contexteIconeNom), ";");
+			
+			if(contexteRows != null)
+				tl(1, "public static final Integer ", classeNomSimple, "_Rows = ", contexteRows, ";");
 		}
 
 		for(String classePageMethode : classeApiMethodes) {
@@ -4938,7 +4949,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(3, "SolrInputDocument document = new SolrInputDocument();");
 			tl(3, str_indexer(langueNom), classeNomSimple, "(document);");
 			tl(3, "clientSolr.add(document);");
-			tl(3, "clientSolr.commit(false, false, false);");
+			tl(3, "clientSolr.commit(false, false, true);");
 			tl(2, "} catch(Exception e) {");
 			tl(3, "ExceptionUtils.rethrow(e);");
 			tl(2, "}");
@@ -4950,7 +4961,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(3, str_indexer(langueNom), classeNomSimple, "(document);");
 			tl(3, "SolrClient clientSolr = ", str_requeteSite(langueNom), "_.get", str_SiteContexte(langueNom), "_().get", str_ClientSolr(langueNom), "();");
 			tl(3, "clientSolr.add(document);");
-			tl(3, "clientSolr.commit(false, false, false);");
+			tl(3, "clientSolr.commit(false, false, true);");
 			tl(2, "} catch(Exception e) {");
 			tl(3, "ExceptionUtils.rethrow(e);");
 			tl(2, "}");
@@ -4972,7 +4983,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
 				tl(0);
-				tl(1, "public void ", str_desindexer(langueNom), "", classeNomSimple, "() {");
+				tl(1, "public void ", str_desindexer(langueNom), classeNomSimple, "() {");
 				tl(2, "try {");
 				tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
 				tl(3, "", str_requeteSite(langueNom), ".", str_initLoin(langueNom), classePartsRequeteSite.nomSimple(langueNom), "();");
@@ -4983,7 +4994,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(3, str_initLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ");");
 				tl(3, "SolrClient ", str_clientSolr(langueNom), " = ", str_siteContexte(langueNom), ".get", str_ClientSolr(langueNom), "();");
 				tl(3, str_clientSolr(langueNom), ".deleteById(", classeVarCleUnique, ".toString());");
-				tl(3, str_clientSolr(langueNom), ".commit(false, false, false);");
+				tl(3, str_clientSolr(langueNom), ".commit(false, false, true);");
 				tl(2, "} catch(Exception e) {");
 				tl(3, "ExceptionUtils.rethrow(e);");
 				tl(2, "}");

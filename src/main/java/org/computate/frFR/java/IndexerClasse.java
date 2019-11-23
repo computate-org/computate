@@ -638,6 +638,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	private String contexteIconeNom;
 
 	/**
+	 * Var.enUS: contextRows
+	 */
+	private Integer contexteRows;
+
+	/**
 	 * Var.enUS: str_alreadyInitialized
 	 */
 	public String str_dejaInitialise(String langueNom) {
@@ -1923,6 +1928,16 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "classeApiUriMethode";
 		else
 			return "classApiUriMethod";
+	}
+
+	/**
+	 * Var.enUS: str_sort
+	 */
+	public String str_tri(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "tri";
+		else
+			return "sort";
 	}
 
 	/**
@@ -5951,6 +5966,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteCouleur", (String)docClasse.get("contexteCouleur_stored_string"));
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteIconeGroupe", (String)docClasse.get("contexteIconeGroupe_stored_string"));
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteIconeNom", (String)docClasse.get("contexteIconeNom_stored_string"));
+									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteRows", (Integer)docClasse.get("contexteRows_stored_int"));
 
 									String entiteOperationIdPATCH = regexLangue(classeLangueNom, "(classe)?ApiOperationIdPATCH", classeCommentaire, "patch" + classeNomSimple);
 									if(entiteOperationIdPATCH != null)
@@ -7118,6 +7134,10 @@ public class IndexerClasse extends RegarderClasseBase {
 			contexteIconeNom = regex("^(contexte)?IconeNom:\\s*(.*)", classeCommentaire);
 			if(contexteIconeNom != null)
 				indexerStockerSolr(classeDoc, "contexteIconeNom", contexteIconeNom); 
+
+			String contexteRowsStr = regex("^(contexte)?Rows:\\s*(.*)", classeCommentaire);
+			if(NumberUtils.isParsable(contexteRowsStr))
+				contexteRows = indexerStockerSolr(classeDoc, "contexteRows", Integer.parseInt(contexteRowsStr)); 
 
 			for(String langueNom : toutesLangues) {
 

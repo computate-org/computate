@@ -1005,6 +1005,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				ToutEcrivain auteurPageClasse = null;
 				ToutEcrivain auteurPageCss = null;
 				ToutEcrivain auteurPageJs = null;
+				ToutEcrivain auteurWebsocket = null;
 
 				if(classePageFichierGen != null)
 					auteurPageGenClasse = ToutEcrivain.create(classePageFichierGen);
@@ -1018,6 +1019,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					classePageFichierJs.getParentFile().mkdirs();
 					auteurPageJs = ToutEcrivain.create(classePageFichierJs);
 				}
+
+				auteurWebsocket = ToutEcrivain.create();
 	
 				ToutEcrivain wRecherche = ToutEcrivain.create();
 				ToutEcrivain wPOST = ToutEcrivain.create();
@@ -1663,6 +1666,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								auteurPageJs.l();
 								auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, str_Filtres(langueNom), "($", str_formulaireFiltres(langueNom), ") {");
 								auteurPageJs.tl(1, "var ", str_filtres(langueNom), " = [];");
+								if(contexteRows != null) {
+									auteurPageJs.l();
+									auteurPageJs.tl(1, str_filtres(langueNom), ".push({ name: 'rows', value: ", contexteRows, " });");
+								}
 								auteurPageJs.s(wRecherche);
 								if(classeTrisVar != null) {
 									wRecherche.l();
@@ -1789,6 +1796,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												auteurPageJs.tl(0, "}");
 											}
 											else if(entiteAttribuer) {
+
 												auteurPageJs.l();
 												auteurPageJs.tl(0, "function ", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($", str_formulaireFiltres(langueNom), ", $list) {");
 												auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
@@ -1838,28 +1846,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												if(entiteAttribuerTrisVar != null) {
 													for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
 														auteurPageJs.tl(3, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
-														auteurPageJs.tl(3, "if(", entiteAttribuerTriVar, ") {");
-														auteurPageJs.tl(4, "$sort = $('<span>').attr('class', 'w3-text-grey ').attr('style', 'padding-right: 8px; ');");
-														auteurPageJs.tl(4, "$sortText = $('<span>').attr('class', '').text(", entiteAttribuerTriVar, ");");
-														auteurPageJs.tl(4, "var $iDown = $('<i>').attr('class', 'fad fa-caret-square-down w3-tiny ').attr('onclick', '');");
-														auteurPageJs.tl(4, "var $iUp = $('<i>').attr('class', 'fad fa-caret-square-up w3-tiny ').attr('onclick', '');");
-														auteurPageJs.tl(4, "var $iDelete = $('<i>').attr('class', 'fad fa-minus-square w3-tiny ').attr('onclick', '');");
-														auteurPageJs.tl(4, "var $iRight = $('<i>').attr('class', 'fad fa-caret-square-right w3-tiny ').attr('onclick', '');");
-														auteurPageJs.tl(4, "$supUp = $('<sup>').attr('class', 'w3-tiny ');");
-														auteurPageJs.tl(4, "$subDown = $('<sub>').attr('class', 'w3-tiny ');");
-														auteurPageJs.tl(4, "$supDelete = $('<sup>').attr('class', 'w3-tiny ');");
-														auteurPageJs.tl(4, "$subRight = $('<sub>').attr('class', 'w3-tiny ');");
-														auteurPageJs.tl(4, "$supUp.append($iUp);");
-														auteurPageJs.tl(4, "$subDown.append($iDown);");
-														auteurPageJs.tl(4, "$supDelete.append($iDelete);");
-														auteurPageJs.tl(4, "$subRight.append($iRight);");
-														auteurPageJs.tl(4, "$sort.append($supUp);");
-														auteurPageJs.tl(4, "$sort.append($subDown);");
-														auteurPageJs.tl(4, "$sort.append($sortText);");
-														auteurPageJs.tl(4, "$sort.append($supDelete);");
-														auteurPageJs.tl(4, "$sort.append($subRight);");
-														auteurPageJs.tl(4, "$li.append($sort);");
-														auteurPageJs.tl(3, "}");
+													}
+													String entiteAttribuerTriVarAncien = null;
+													Integer k = 3;
+													for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
+														if(entiteAttribuerTriVarAncien != null)
+															k = 4;
+
+														auteurPageJs.l();
+														if(entiteAttribuerTriVarAncien != null)
+															auteurPageJs.tl(3, "if(", entiteAttribuerTriVarAncien, ") {");
+														auteurPageJs.tl(k, "$sort = $('<span>').attr('class', 'w3-text-grey ').attr('style', 'padding-right: 8px; ');");
+														auteurPageJs.tl(k, "var $sortInput = $('<input>')");
+														auteurPageJs.tl(k, "$sortInput.attr('class', 'w3-tiny ');");
+														auteurPageJs.tl(k, "$sortInput.attr('style', 'width: 4em; ');");
+														auteurPageJs.tl(k, "$sortInput.attr('id', \"", str_attribuer(langueNom), "_\" + o['pk'] + \"_", str_tri(langueNom), "_", entiteAttribuerTriVar, "\");");
+														auteurPageJs.tl(k, "$sortInput.attr('value', ", entiteAttribuerTriVar, ").attr('onchange', ");
+														auteurPageJs.tl(k + 1, "\"", entiteAttribuerOperationIdPATCH, "Vals([{ name: 'fq', value: 'pk:\" + o['pk'] + \"' }], { ['set", StringUtils.capitalize(entiteAttribuerTriVar), "']: $(this).val() ? $(this).val() : null }\"");
+														auteurPageJs.tl(k + 2, "+ \", function() { \"");
+														auteurPageJs.tl(k + 2, "+ \"}\"");
+														auteurPageJs.tl(k + 2, "+ \", function() { ", str_ajouterErreur(langueNom), "($('#", str_attribuer(langueNom), "_\" + o['pk'] + \"_", str_tri(langueNom), "_", entiteAttribuerTriVar, "')); }\"");
+														auteurPageJs.tl(k + 2, "+ \" ); \"); ");
+														auteurPageJs.tl(k, "$sort.append($sortInput);");
+														auteurPageJs.tl(k, "$li.append($sort);");
+														if(entiteAttribuerTriVarAncien != null)
+															auteurPageJs.tl(3, "}");
+
+														entiteAttribuerTriVarAncien = entiteAttribuerTriVar;
 													}
 												}
 												auteurPageJs.tl(3, "$li.append($input);");
@@ -1870,6 +1883,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												auteurPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
 												auteurPageJs.tl(1, entiteAttribuerOperationIdRecherche, "($", str_formulaireFiltres(langueNom), ", success, error);");
 												auteurPageJs.tl(0, "}");
+
+												auteurWebsocket.l();
+												auteurWebsocket.tl(2, "eventBus.registerHandler('websocket", entiteAttribuerNomSimple, "', function (error, message) {");
+//												auteurWebsocket.tl(3, "var json = JSON.parse(message['body']);");
+//												auteurWebsocket.tl(3, "var id = json['id'];");
+//												auteurWebsocket.tl(3, str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($(this).val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "'));");
+												auteurWebsocket.tl(3, "$('.", str_suggere(langueNom), entiteVarCapitalise, "').trigger('oninput');");
+												auteurWebsocket.tl(2, "});");
 											}
 										}
 										rechercheSolr.setStart(i.intValue() + rechercheLignes);
@@ -2505,10 +2526,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(2).s("} p.").gl("div");
 					tl(1, "}");
 
+					auteurWebsocket.flushClose();
 					auteurPageJs.l();
 					auteurPageJs.tl(0, "function websocket", classeNomSimple, "() {");
 					auteurPageJs.tl(1, "var eventBus = new EventBus('/eventbus');");
 					auteurPageJs.tl(1, "eventBus.onopen = function () {");
+					auteurPageJs.l();
 					auteurPageJs.tl(2, "eventBus.registerHandler('websocket", classeNomSimple, "', function (error, message) {");
 					auteurPageJs.tl(3, "var json = JSON.parse(message['body']);");
 					auteurPageJs.tl(3, "var id = json['id'];");
@@ -2538,6 +2561,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "if(numPATCH < numFound)");
 					auteurPageJs.tl(4, "$('.w3-content').append($box);");
 					auteurPageJs.tl(2, "});");
+					auteurPageJs.s(auteurWebsocket);
 					auteurPageJs.tl(1, "}");
 					auteurPageJs.tl(0, "}");
 				}

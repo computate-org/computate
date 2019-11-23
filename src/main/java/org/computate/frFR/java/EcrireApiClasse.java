@@ -1330,7 +1330,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(9, classePartsRequetePatch.nomSimple(langueNom), " ", str_requetePatch(langueNom), " = new ", classePartsRequetePatch.nomSimple(langueNom), "();");
 						tl(9, str_requetePatch(langueNom), ".setRows(", str_liste(langueNom), classeNomSimple, ".getRows());");
-						tl(9, str_requetePatch(langueNom), ".setNumFound(", str_liste(langueNom), classeNomSimple, ".getQueryResponse().getResults().getNumFound());");
+						tl(9, str_requetePatch(langueNom), ".setNumFound(Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ".getQueryResponse()).map(QueryResponse::getResults).map(SolrDocumentList::getNumFound).orElse(new Long(", str_liste(langueNom), classeNomSimple, ".size())));");
 						tl(9, str_requetePatch(langueNom), ".", str_initLoin(langueNom), classePartsRequetePatch.nomSimple(langueNom), "(", str_requeteSite(langueNom), ");");
 						tl(9, "WorkerExecutor ", str_executeurTravailleur(langueNom), " = ", str_siteContexte(langueNom), ".get", str_ExecuteurTravailleur(langueNom), "();");
 						tl(9, str_executeurTravailleur(langueNom), ".executeBlocking(");
