@@ -1931,6 +1931,16 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_classApiMethodMethod
+	 */
+	public String str_classeApiMethodeMethode(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "classeApiMethodeMethode";
+		else
+			return "classApiMethodMethod";
+	}
+
+	/**
 	 * Var.enUS: str_sort
 	 */
 	public String str_tri(String langueNom) {
