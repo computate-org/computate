@@ -3998,7 +3998,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					int tIndex = 0;
 					Boolean resultat = false;
 			
-					if(entiteHtml) {
+					if(entiteHtml && classeVarClePrimaire != null) {
 	
 //						String classeApiMethodeMethode = "PATCH";
 			
@@ -4019,7 +4019,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							t(tIndex + 6).dal("type", "hidden");
 							t(tIndex + 6).dal("name", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVar));
 							t(tIndex + 6).dal("class", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVar), " ");
-							t(tIndex + 6).l(".a(\"value\", ", classeVarClePrimaire == null ? "pk" : classeVarClePrimaire, ")");
+							t(tIndex + 6).l(".a(\"value\", ", classeVarClePrimaire, ")");
 							t(tIndex + 6).dfgl();
 							t(tIndex + 4).l("} ", classePrefixe, "g(\"span\");");
 			//				t(tIndex + 4).s("{ ", classePrefixe, "e(\"form\")").da("action", classeApiUri).da("id", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise).da("style", "display: inline-block; width: 100%; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
@@ -4078,11 +4078,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
 			
 								if("array".equals(entiteAttribuerTypeJson))
-									t(tIndex + 10).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", ", classeVarClePrimaire == null ? "pk" : classeVarClePrimaire, ", \"\\\" ] }");
+									t(tIndex + 10).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", ", classeVarClePrimaire, ", \"\\\" ] }");
 								else
-									t(tIndex + 10).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", ", classeVarClePrimaire == null ? "pk" : classeVarClePrimaire, ", \"\\\" }");
+									t(tIndex + 10).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", ", classeVarClePrimaire, ", \"\\\" }");
 			
-								s(", function() { patch", classeNomSimple, "Vals([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire == null ? "pk" : classeVarClePrimaire, ", \"' }], {}");
+								s(", function() { patch", classeNomSimple, "Vals([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], {}");
 			
 								s(", function() { ");
 								s(str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "').val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"')); ");
@@ -4102,8 +4102,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 							}
 							else if("LocalDate".equals(entiteNomSimple)) {
-								tl(tIndex + 6, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
-								l();
 								if(entiteNomAffichage != null) {
 									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
 									t(tIndex + 7).s(classePrefixe, "e(\"label\")").s(".a(\"for\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
@@ -4116,16 +4114,16 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 9).dal("class", "w3-input w3-border datepicker ");
 								t(tIndex + 9).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 9).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
-								t(tIndex + 9).l(".a(\"id\", \", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+								t(tIndex + 9).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 9).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 								if(entiteDescription != null)
 									t(tIndex + 9).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
-								tl(tIndex + 9, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_ddDashMMDashyyyy(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(val))");
+								tl(tIndex + 9, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_ddDashMMDashyyyy(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
 								t(tIndex + 9).s(".a(\"onchange\", \"");
 									s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 									s("if(t) { ");
 										s("var s = t.format('MM/DD/YYYY'); ");
-										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=\\\"pk\\\"]').val() }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
+										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
 									s("} ");
 								l("\")");
 								tl(tIndex + 9, ".fg();");
@@ -4133,8 +4131,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 							}
 							else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
-								tl(tIndex + 6, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
-								l();
 								if(entiteNomAffichage != null) {
 									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
 									t(tIndex + 7).s(classePrefixe, "e(\"label\")").s(".a(\"for\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
@@ -4147,24 +4143,22 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 9).dal("class", "w3-input w3-border datepicker ");
 								t(tIndex + 9).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 9).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
-								t(tIndex + 9).l(".a(\"id\", \", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+								t(tIndex + 9).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 9).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 								if(entiteDescription != null)
 									t(tIndex + 9).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
-								tl(tIndex + 9, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(val))");
+								tl(tIndex + 9, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
 								t(tIndex + 9).s(".a(\"onchange\", \"");
 									s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 									s("if(t) { ");
 										s("var s = t.format('MM/DD/YYYY'); ");
-										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=\\\"pk\\\"]').val() }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
+										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
 									s("} ");
 								l("\")");
 								tl(tIndex + 9, ".fg();");
 								t(tIndex + 9).l("} ", classePrefixe, "g(\"div\");");
 							}
 							else if("LocalTime".equals(entiteNomSimple)) {
-								tl(tIndex + 6, entiteNomSimpleComplet, " val = o.get", entiteVarCapitalise, "();");
-								l();
 								if(entiteNomAffichage != null) {
 									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
 									t(tIndex + 7).s(classePrefixe, "e(\"label\")").s(".a(\"for\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
@@ -4176,16 +4170,16 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 9).dal("type", "text");
 								t(tIndex + 9).dal("class", "w3-input w3-border timepicker ");
 								t(tIndex + 9).dal("placeholder", "HH:MM AM");
-								t(tIndex + 9).l(".a(\"id\", \", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+								t(tIndex + 9).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 9).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 								if(entiteDescription != null)
 									t(tIndex + 9).da("title", entiteDescription + " (h'h'mm)");
-								tl(tIndex + 9, ".a(\"value\", val == null ? \"\" : DateTimeFormatter.ofPattern(\"h:mm a\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(val))");
+								tl(tIndex + 9, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"h:mm a\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
 								t(tIndex + 9).s(".a(\"onchange\", \"");
 									s("var t = parseTime(this.value); ");
 									s("if(t) { ");
 										s("var s = dateFormat(t, 'HH MM'); ");
-										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $(\\\"#", classeNomSimple, "Form :input[name='pk']\\\").val() }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
+										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
 									s("} ");
 								l("\")");
 								tl(tIndex + 9, ".fg();");
@@ -4213,7 +4207,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 10).s(classePrefixe).a("name", entiteVar).l(";");
 								t(tIndex + 9).l("}");
 								t(tIndex + 9).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 10).s(classePrefixe).a("onchange", "patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=\"pk\"]').val() }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ").l(";");
+									t(tIndex + 10).s(classePrefixe).s("a(\"onchange\", \"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")").l(";");
 								t(tIndex + 9).l("}");
 								tl(tIndex + 9, ";");
 				
@@ -4257,7 +4251,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 9).l("}");
 								t(tIndex + 9).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
 									t(tIndex + 10).s(classePrefixe).a("onclick", str_enleverLueur(langueNom), "($(this)); ").l(";");
-									t(tIndex + 10).s(classePrefixe).a("onchange", "patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire == null ? "pk" : classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ").l(";");
+									t(tIndex + 10).s(classePrefixe).s("a(\"onchange\", \"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")").l(";");
 								t(tIndex + 9).l("}");
 				
 								if(entiteMultiligne) {
@@ -4283,7 +4277,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 9).s("{ ", classePrefixe, "e(\"button\")").l();
 									t(tIndex + 10).dal("tabindex", "-1");
 									t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
-									t(tIndex + 9).l(".a(\"onclick\", \"", str_enleverLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); $('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "').val(null); patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire == null ? "pk" : classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")");
+									t(tIndex + 9).l(".a(\"onclick\", \"", str_enleverLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); $('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "').val(null); patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")");
 									t(tIndex + 10).dfl();
 									t(tIndex + 10).s(classePrefixe, "e(\"i\")").da("class", "far fa-eraser ").df().dgl("i");
 									t(tIndex + 9).l("} ", classePrefixe, "g(\"button\");");

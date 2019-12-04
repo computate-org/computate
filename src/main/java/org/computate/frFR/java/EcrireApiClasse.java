@@ -1887,6 +1887,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "page", str_DocumentSolr(langueNom), ".setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
 							tl(3, "page.setPage", str_DocumentSolr(langueNom), "(page", str_DocumentSolr(langueNom), ");");
 							tl(3, "page.setW(w);");
+							tl(3, str_requeteSite(langueNom), ".setW(w);");
 							if(!classePageSimple)
 								tl(3, "page.set", str_Liste(langueNom), "", classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ");");
 							tl(3, "page.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), ");");
@@ -1941,6 +1942,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "page", str_DocumentSolr(langueNom), ".setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
 							tl(3, "page.setPage", str_DocumentSolr(langueNom), "(page", str_DocumentSolr(langueNom), ");");
 							tl(3, "page.setW(w);");
+							tl(3, str_requeteSite(langueNom), ".setW(w);");
 							tl(3, "page.", str_initLoin(langueNom), "", classePageNomSimpleMethode, "(", str_requeteSite(langueNom), ");");
 							tl(3, "page.html();");
 						}

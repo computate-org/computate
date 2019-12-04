@@ -1998,6 +1998,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			
 										{ t(4 + tab).be("div").da("class", "w3-container ").dfl();
 											tl(5+ tab, classeNomSimple, " o = new ", classeNomSimple, "();");
+//											tl(5+ tab, "o.", str_initLoin(langueNom), str_PourClasse(langueNom), "(", str_requeteSite(langueNom), "_);");
+											tl(5+ tab, "o.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
 											if("PATCH".equals(classeApiMethodeMethode)) {
 												l();
 												t(5 + tab).l("// ", str_FormulaireFiltres(langueNom), " ", classeApiMethodeMethode);
