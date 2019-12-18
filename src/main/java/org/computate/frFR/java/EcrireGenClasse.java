@@ -4001,27 +4001,179 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					if(entiteHtml && classeVarClePrimaire != null) {
 	
 //						String classeApiMethodeMethode = "PATCH";
-			
-						l();
-						tl(1, "public void htm", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
 						String classePrefixe = "";
 						if(classeEstBase) {
 							tl(2, classeNomSimple, " s = (", classeNomSimple, ")this;");
 							classePrefixe = "s.";
 						}
 			
+						l();
+						tl(1, "public void input", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
+			
+						if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
+							if(entiteAttribuer) {
+								t(tIndex + 2).s(classePrefixe, "e(\"i\")").da("class", "far fa-search w3-xxlarge w3-cell w3-cell-middle ").df().dgl("i");
+								t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
+								t(tIndex + 4).dal("type", "text");
+				
+								if(entiteNomAffichage != null) {
+									t(tIndex + 4).dal("placeholder", entiteNomAffichage);
+								}
+								if(entiteDescription != null) {
+									t(tIndex + 4).dal("title", entiteDescription);
+								}
+				
+								t(tIndex + 4).dal("class", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", str_suggere(langueNom), entiteVarCapitalise, " w3-input w3-border w3-cell w3-cell-middle ");
+								t(tIndex + 4).dal("name", "set", entiteVarCapitalise);
+								t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+								t(tIndex + 4).dal("autocomplete", "off");
+								t(tIndex + 4).l(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? ", str_rechercher(langueNom), entiteAttribuerNomSimple, str_Filtres(langueNom), "($('#", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "')) : [{'name':'fq','value':'", entiteAttribuerVar, ":\", ", classeVarClePrimaire, ", \"'}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"'), \", ", classeVarClePrimaire, ", \"); \")");
+			
+								t(tIndex + 3).dfgl();
+								l();
+							}
+							else if("LocalDate".equals(entiteNomSimple)) {
+								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
+								t(tIndex + 3).dal("type", "text");
+								t(tIndex + 3).dal("class", "w3-input w3-border datepicker ");
+								t(tIndex + 3).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
+								t(tIndex + 3).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
+								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+								t(tIndex + 3).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
+								if(entiteDescription != null)
+									t(tIndex + 3).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
+								tl(tIndex + 3, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_ddDashMMDashyyyy(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
+								t(tIndex + 3).s(".a(\"onchange\", \"");
+									s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
+									s("if(t) { ");
+										s("var s = t.format('MM/DD/YYYY'); ");
+										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
+									s("} ");
+								l("\")");
+								tl(tIndex + 3, ".fg();");
+							}
+							else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
+								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
+								t(tIndex + 3).dal("type", "text");
+								t(tIndex + 3).dal("class", "w3-input w3-border datepicker ");
+								t(tIndex + 3).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
+								t(tIndex + 3).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
+								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+								t(tIndex + 3).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
+								if(entiteDescription != null)
+									t(tIndex + 3).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
+								tl(tIndex + 3, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
+								t(tIndex + 3).s(".a(\"onchange\", \"");
+									s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
+									s("if(t) { ");
+										s("var s = t.format('MM/DD/YYYY'); ");
+										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
+									s("} ");
+								l("\")");
+								tl(tIndex + 3, ".fg();");
+							}
+							else if("LocalTime".equals(entiteNomSimple)) {
+								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
+								t(tIndex + 3).dal("type", "text");
+								t(tIndex + 3).dal("class", "w3-input w3-border timepicker ");
+								t(tIndex + 3).dal("placeholder", "HH:MM AM");
+								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+								t(tIndex + 3).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
+								if(entiteDescription != null)
+									t(tIndex + 3).da("title", entiteDescription + " (h'h'mm)");
+								tl(tIndex + 3, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"h:mm a\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
+								t(tIndex + 3).s(".a(\"onchange\", \"");
+									s("var t = parseTime(this.value); ");
+									s("if(t) { ");
+										s("var s = dateFormat(t, 'HH MM'); ");
+										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
+									s("} ");
+								l("\")");
+								tl(tIndex + 3, ".fg();");
+							}
+							else if("Boolean".equals(entiteNomSimple)) {
+								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
+								t(tIndex + 3).dal("type", "checkbox");
+								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+								t(tIndex + 3).da("value", "true").l(";");
+				
+								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
+									t(tIndex + 4).s(classePrefixe).a("class", "set", entiteVarCapitalise).l(";");
+									t(tIndex + 4).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
+								t(tIndex + 3).l("} else {");
+									t(tIndex + 4).s(classePrefixe).a("class", str_valeur(langueNom), entiteVarCapitalise).l(";");
+									t(tIndex + 4).s(classePrefixe).a("name", entiteVar).l(";");
+								t(tIndex + 3).l("}");
+								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
+									t(tIndex + 4).s(classePrefixe).s("a(\"onchange\", \"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")").l(";");
+								t(tIndex + 3).l("}");
+								tl(tIndex + 3, ";");
+				
+								tl(tIndex + 3, "if(get", entiteVarCapitalise, "() != null && get", entiteVarCapitalise, "())");
+								t(tIndex + 4).s(classePrefixe).a("checked", "checked").l(";");
+								t(tIndex + 2).s(classePrefixe).fgl();
+								l();
+							}
+							else {
+								if(entiteMultiligne)
+									t(tIndex + 2).s(classePrefixe, "e(\"textarea\")").l();
+								else {
+									t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
+									t(tIndex + 3).dal("type", "text");
+								}
+				
+								if(entiteNomAffichage != null) {
+									t(tIndex + 3).dal("placeholder", entiteNomAffichage);
+								}
+								if(entiteDescription != null) {
+									t(tIndex + 3).dal("title", entiteDescription);
+								}
+								t(tIndex + 3).s(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").l(";");
+
+								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
+									t(tIndex + 4).s(classePrefixe).a("class", "set", entiteVarCapitalise, " w3-input w3-border ").l(";");
+									t(tIndex + 4).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
+								t(tIndex + 3).l("} else {");
+									t(tIndex + 4).s(classePrefixe).a("class", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border ").l(";");
+									t(tIndex + 4).s(classePrefixe).a("name", entiteVar).l(";");
+								t(tIndex + 3).l("}");
+								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
+									t(tIndex + 4).s(classePrefixe).a("onclick", str_enleverLueur(langueNom), "($(this)); ").l(";");
+									t(tIndex + 4).s(classePrefixe).s("a(\"onchange\", \"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")").l(";");
+								t(tIndex + 3).l("}");
+				
+								if(entiteMultiligne) {
+									t(tIndex + 2).s("f()");
+									s(".sx(str", entiteVarCapitalise, "())");
+								}
+								else {
+									tl(tIndex + 3, "a(\"value\", str", entiteVarCapitalise, "())");
+								}
+				
+								if(entiteMultiligne)
+									dgl("textarea");
+								else
+									t(tIndex + 2).dfgl();
+				
+								l();
+							}
+						}
+						tl(1, "}");  
+			
+						l();
+						tl(1, "public void htm", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
 						t(2).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
 						if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
 			
 							t(tIndex + 3).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-padding ").dfl();
-							t(tIndex + 4).s("{ ", classePrefixe, "e(\"span\")").da("id", "form", classeNomSimple, entiteVarCapitalise).dfl();
-							t(tIndex + 5).s(classePrefixe, "e(\"input\")").l();
-							t(tIndex + 6).dal("type", "hidden");
-							t(tIndex + 6).dal("name", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVar));
-							t(tIndex + 6).dal("class", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVar), " ");
-							t(tIndex + 6).l(".a(\"value\", ", classeVarClePrimaire, ")");
-							t(tIndex + 6).dfgl();
-							t(tIndex + 4).l("} ", classePrefixe, "g(\"span\");");
+//							t(tIndex + 4).s("{ ", classePrefixe, "e(\"span\")").da("id", "form", classeNomSimple, entiteVarCapitalise).dfl();
+//							t(tIndex + 5).s(classePrefixe, "e(\"input\")").l();
+//							t(tIndex + 6).dal("type", "hidden");
+//							t(tIndex + 6).dal("name", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVar));
+//							t(tIndex + 6).dal("class", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVar), " ");
+//							t(tIndex + 6).l(".a(\"value\", ", classeVarClePrimaire, ")");
+//							t(tIndex + 6).dfgl();
+//							t(tIndex + 4).l("} ", classePrefixe, "g(\"span\");");
 			//				t(tIndex + 4).s("{ ", classePrefixe, "e(\"form\")").da("action", classeApiUri).da("id", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise).da("style", "display: inline-block; width: 100%; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
 							t(tIndex + 4).s("{ ", classePrefixe, "e(\"div\")").da("id", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise).dfl();
 							t(tIndex + 5).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-card ").dfl();
@@ -4046,26 +4198,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 8).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();
 								l();
 				
-								t(tIndex + 8).s(classePrefixe, "e(\"i\")").da("class", "far fa-search w3-xxlarge w3-cell w3-cell-middle ").df().dgl("i");
-								t(tIndex + 9).s(classePrefixe, "e(\"input\")").l();
-								t(tIndex + 10).dal("type", "text");
-				
-								if(entiteNomAffichage != null) {
-									t(tIndex + 10).dal("placeholder", entiteNomAffichage);
-								}
-								if(entiteDescription != null) {
-									t(tIndex + 10).dal("title", entiteDescription);
-								}
-				
-								t(tIndex + 10).dal("class", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", str_suggere(langueNom), entiteVarCapitalise, " w3-input w3-border w3-cell w3-cell-middle ");
-								t(tIndex + 10).dal("name", "set", entiteVarCapitalise);
-								t(tIndex + 10).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-								t(tIndex + 10).dal("autocomplete", "off");
-								t(tIndex + 10).l(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($(this).val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"')); \")");
-			
-								t(tIndex + 9).dfgl();
-				
-								l();
+								t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
 								t(tIndex + 8).l("} ", classePrefixe, "g(\"div\");");
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 								t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
@@ -4084,11 +4217,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			
 								s(", function() { patch", classeNomSimple, "Vals([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], {}");
 			
-								s(", function() { ");
-								s(str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "').val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"')); ");
-								s("var $e = $('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "'); $e.html($e.val()); ");
-								s("}");
-								s(", function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "')); }); ");
+//								s(", function() { ");
+//								s(str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "').val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"')); ");
+//								s("var $e = $('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "'); $e.html($e.val()); ");
+//								s("}");
+//								s(", function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "')); }");
+								s("); ");
 			
 								s("}, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "')); });");
 			
@@ -4109,25 +4243,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								}
 								t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row  ").dfl();
 								t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
-								t(tIndex + 8).s(classePrefixe, "e(\"input\")").l();
-								t(tIndex + 9).dal("type", "text");
-								t(tIndex + 9).dal("class", "w3-input w3-border datepicker ");
-								t(tIndex + 9).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
-								t(tIndex + 9).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
-								t(tIndex + 9).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-								t(tIndex + 9).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
-								if(entiteDescription != null)
-									t(tIndex + 9).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
-								tl(tIndex + 9, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_ddDashMMDashyyyy(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
-								t(tIndex + 9).s(".a(\"onchange\", \"");
-									s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
-									s("if(t) { ");
-										s("var s = t.format('MM/DD/YYYY'); ");
-										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
-									s("} ");
-								l("\")");
-								tl(tIndex + 9, ".fg();");
-			
+								t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 							}
 							else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
@@ -4138,24 +4254,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								}
 								t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-padding ").dfl();
 								t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
-								t(tIndex + 8).s(classePrefixe, "e(\"input\")").l();
-								t(tIndex + 9).dal("type", "text");
-								t(tIndex + 9).dal("class", "w3-input w3-border datepicker ");
-								t(tIndex + 9).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
-								t(tIndex + 9).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
-								t(tIndex + 9).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-								t(tIndex + 9).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
-								if(entiteDescription != null)
-									t(tIndex + 9).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
-								tl(tIndex + 9, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
-								t(tIndex + 9).s(".a(\"onchange\", \"");
-									s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
-									s("if(t) { ");
-										s("var s = t.format('MM/DD/YYYY'); ");
-										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
-									s("} ");
-								l("\")");
-								tl(tIndex + 9, ".fg();");
+								t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
 								t(tIndex + 9).l("} ", classePrefixe, "g(\"div\");");
 							}
 							else if("LocalTime".equals(entiteNomSimple)) {
@@ -4166,23 +4265,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								}
 								t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-padding ").dfl();
 								t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
-								t(tIndex + 8).s(classePrefixe, "e(\"input\")").l();
-								t(tIndex + 9).dal("type", "text");
-								t(tIndex + 9).dal("class", "w3-input w3-border timepicker ");
-								t(tIndex + 9).dal("placeholder", "HH:MM AM");
-								t(tIndex + 9).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-								t(tIndex + 9).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
-								if(entiteDescription != null)
-									t(tIndex + 9).da("title", entiteDescription + " (h'h'mm)");
-								tl(tIndex + 9, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"h:mm a\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
-								t(tIndex + 9).s(".a(\"onchange\", \"");
-									s("var t = parseTime(this.value); ");
-									s("if(t) { ");
-										s("var s = dateFormat(t, 'HH MM'); ");
-										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
-									s("} ");
-								l("\")");
-								tl(tIndex + 9, ".fg();");
+								t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 							}
 							else if("Boolean".equals(entiteNomSimple)) {
@@ -4194,27 +4277,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-padding ").dfl();
 								t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
 								l();
-								t(tIndex + 8).s(classePrefixe, "e(\"input\")").l();
-								t(tIndex + 9).dal("type", "checkbox");
-								t(tIndex + 9).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-								t(tIndex + 9).da("value", "true").l(";");
-				
-								t(tIndex + 9).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 10).s(classePrefixe).a("class", "set", entiteVarCapitalise).l(";");
-									t(tIndex + 10).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
-								t(tIndex + 9).l("} else {");
-									t(tIndex + 10).s(classePrefixe).a("class", str_valeur(langueNom), entiteVarCapitalise).l(";");
-									t(tIndex + 10).s(classePrefixe).a("name", entiteVar).l(";");
-								t(tIndex + 9).l("}");
-								t(tIndex + 9).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 10).s(classePrefixe).s("a(\"onchange\", \"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")").l(";");
-								t(tIndex + 9).l("}");
-								tl(tIndex + 9, ";");
-				
-								tl(tIndex + 9, "if(get", entiteVarCapitalise, "() != null && get", entiteVarCapitalise, "())");
-								t(tIndex + 10).s(classePrefixe).a("checked", "checked").l(";");
-								t(tIndex + 8).s(classePrefixe).fgl();
-								l();
+								t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 							}
 							else {
@@ -4227,47 +4290,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
 								l();
 				
-								if(entiteMultiligne)
-									t(tIndex + 8).s(classePrefixe, "e(\"textarea\")").l();
-								else {
-									t(tIndex + 8).s(classePrefixe, "e(\"input\")").l();
-									t(tIndex + 9).dal("type", "text");
-								}
-				
-								if(entiteNomAffichage != null) {
-									t(tIndex + 9).dal("placeholder", entiteNomAffichage);
-								}
-								if(entiteDescription != null) {
-									t(tIndex + 9).dal("title", entiteDescription);
-								}
-								t(tIndex + 9).s(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").l(";");
-
-								t(tIndex + 9).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 10).s(classePrefixe).a("class", "set", entiteVarCapitalise, " w3-input w3-border ").l(";");
-									t(tIndex + 10).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
-								t(tIndex + 9).l("} else {");
-									t(tIndex + 10).s(classePrefixe).a("class", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border ").l(";");
-									t(tIndex + 10).s(classePrefixe).a("name", entiteVar).l(";");
-								t(tIndex + 9).l("}");
-								t(tIndex + 9).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 10).s(classePrefixe).a("onclick", str_enleverLueur(langueNom), "($(this)); ").l(";");
-									t(tIndex + 10).s(classePrefixe).s("a(\"onchange\", \"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")").l(";");
-								t(tIndex + 9).l("}");
-				
-								if(entiteMultiligne) {
-									t(tIndex + 8).s("f()");
-									s(".sx(str", entiteVarCapitalise, "())");
-								}
-								else {
-									tl(tIndex + 9, "a(\"value\", str", entiteVarCapitalise, "())");
-								}
-				
-								if(entiteMultiligne)
-									dgl("textarea");
-								else
-									t(tIndex + 8).dfgl();
-				
-								l();
+								t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 							}
 							if(!entiteAttribuer && entiteModifier && !"Boolean".equals(entiteNomSimple)) {

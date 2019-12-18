@@ -893,6 +893,26 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_requestHeaders
+	 */
+	public String str_requeteEnTetes(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "requeteEnTetes";
+		else
+			return "requestHeaders";
+	}
+
+	/**
+	 * Var.enUS: str_RequestHeaders
+	 */
+	public String str_RequeteEnTetes(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "RequeteEnTetes";
+		else
+			return "RequestHeaders";
+	}
+
+	/**
 	 * Var.enUS: str_siteContext
 	 */
 	public String str_siteContexte(String langueNom) {
@@ -1498,6 +1518,16 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "requete";
 		else
 			return "request";
+	}
+
+	/**
+	 * Var.enUS: str_PatchRequest
+	 */
+	public String str_RequetePatch(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "RequetePatch";
+		else
+			return "PatchRequest";
 	}
 
 	/**
@@ -6889,6 +6919,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.AsyncResult", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Handler", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.buffer.Buffer", classeLangueNom));
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.CaseInsensitiveHeaders", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.OperationResponse", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.CompositeFuture", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.http.client.utils.URLEncodedUtils", classeLangueNom));
