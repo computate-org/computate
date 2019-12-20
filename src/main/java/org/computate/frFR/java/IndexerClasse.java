@@ -4169,6 +4169,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityRefresh
 	 * r: entiteMultiligne
 	 * r.enUS: entityMultiline
+	 * r: entiteSignature
+	 * r.enUS: entitySignature
 	 * r: entiteCles
 	 * r.enUS: entityKeys
 	 * r: entiteAttribuerNomCanonique
@@ -5868,10 +5870,11 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteRechercher", regexTrouve("^(entite)?Rechercher:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteAjouter", regexTrouve("^(entite)?Ajouter:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteSupprimer", regexTrouve("^(entite)?Supprimer:\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteDefinir", regexTrouve("^(entite)?Definir:\\s*(true)$", methodeCommentaire));
+						Boolean entiteDefinir = indexerStockerSolr(entiteDoc, "entiteDefinir", regexTrouve("^(entite)?Definir:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteModifier", !regexTrouve("^(entite)?Modifier:\\s*(false)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteRecharger", regexTrouve("^(entite)?Recharger:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^(entite)?Multiligne:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSignature", regexTrouve("^(entite)?Signature:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^(entite)?Cles:\\s*(true)$", methodeCommentaire));
 
 						String entiteLangue = regex("^(entite)?Langue:\\s*(.*)$", methodeCommentaire);
@@ -5888,7 +5891,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteEnumVarDescription", regexLangue(classeLangueNom, "(entite)?EnumVarDescription", methodeCommentaire));
 
 						Boolean entiteHighlighting = indexerStockerSolr(entiteDoc, "entiteHighlighting", regexTrouve("^(entite)?Highlighting:\\s*(true)$", methodeCommentaire));
-						Boolean entiteHtml = regexTrouve("^(entite)?Html:\\s*(true)$", methodeCommentaire);
+						Boolean entiteHtml = entiteDefinir || regexTrouve("^(entite)?Html:\\s*(true)$", methodeCommentaire);
 
 						{ 
 							String str = regex("^(entite)?HtmlColonne:\\s*(.*)$", methodeCommentaire);

@@ -818,6 +818,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	Boolean entiteMultiligne;
 
 	/**
+	 * Var.enUS: entitySignature
+	 */
+	Boolean entiteSignature;
+
+	/**
 	 * Var.enUS: entityDisplayName
 	 */
 	String entiteNomAffichage;
@@ -2635,6 +2640,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	 * r.enUS: entityRefresh
 	 * r: entiteMultiligne
 	 * r.enUS: entityMultiLine
+	 * r: entiteSignature
+	 * r.enUS: entitySignature
 	 * r: entiteCles
 	 * r.enUS: entityKeys
 	 * r: entiteAttribuerNomCanonique
@@ -2892,6 +2899,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			Boolean entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");
 			Boolean entiteRecharger = (Boolean)doc.get("entiteRecharger_stored_boolean");
 			Boolean entiteMultiligne = (Boolean)doc.get("entiteMultiligne_stored_boolean");
+			Boolean entiteSignature = (Boolean)doc.get("entiteSignature_stored_boolean");
 			Boolean entiteCles = (Boolean)doc.get("entiteCles_stored_boolean");
 			Boolean entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
 			Boolean entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
@@ -4113,6 +4121,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 4).s(classePrefixe).a("checked", "checked").l(";");
 								t(tIndex + 2).s(classePrefixe).fgl();
 								l();
+							}
+							else if(BooleanUtils.isTrue(entiteSignature)) {
+								t(tIndex + 2).s(classePrefixe, "e(\"div\").a(\"id\", \"\").f().g(\"div\")").l();
+
 							}
 							else {
 								if(entiteMultiligne)
