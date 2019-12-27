@@ -771,6 +771,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								entiteModifier = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteModifier_stored_boolean"));
 								entiteDefinir = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteDefinir_stored_boolean"));
 								entiteAttribuer = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteAttribuer_stored_boolean"));
+								entiteSignature = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSignature_stored_boolean"));
 								entiteSuggere = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean"));
 								entiteListeTypeJson = (String)entiteDocumentSolr.get("entiteListeTypeJson_stored_string");
 								entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
@@ -804,10 +805,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									}
 								}
 								if(entiteAttribuer) {
-									wJsInit.tl(2, "tl(1, ", "\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":\", ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "(), \"'}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), \", ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "(), \"); \"", ");");
+									wJsInit.tl(2, "tl(1, ", "\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk); \"", ");");
 //									wWebsocket.tl(2, "tl(2, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {});\");");
 									wPks.tl(2, "tl(4, \"if(c == '", entiteAttribuerNomSimple, "')\");");
 									wPks.tl(2, "tl(5, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});\");");
+								}
+								if(entiteSignature) {
+									wJsInit.tl(2, "tl(1, ", "\"window['input", classeNomSimple, "' + pk + '", entiteVar, "'] = $('#input", classeNomSimple, "' + pk + '", entiteVar, "'); \"", ");");
+									wJsInit.tl(2, "tl(1, ", "\"window['input", classeNomSimple, "' + pk + '", entiteVar, "'].jSignature({'height':200}); \"", ");");
 								}
 							}
 //							wWebsocket.tl(2, "tl(2, \"", "await patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {});\");");
@@ -1614,6 +1619,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						}
 					}
 					tl(2, "l(\"$(document).ready(function() {\");");
+					tl(2, "tl(1, \"var pk = \", ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "(), \";\");");
 					s(wJsInit);
 					tl(2, "tl(1, ", q("websocket", classeNomSimple, "(async function(", str_requetePatch(langueNom), ") {"), ");");
 					s(wWebsocket);

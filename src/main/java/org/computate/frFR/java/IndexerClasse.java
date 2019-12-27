@@ -1933,6 +1933,36 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: str_See
 	 */
+	public String str_Vider(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Vider";
+		else
+			return "Clear";
+	}
+
+	/**
+	 * Var.enUS: str_See
+	 */
+	public String str_Valider(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Accepter";
+		else
+			return "Accept";
+	}
+
+	/**
+	 * Var.enUS: str_See
+	 */
+	public String str_ValiderLaSignature(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Accepter la signature";
+		else
+			return "Accept the signature";
+	}
+
+	/**
+	 * Var.enUS: str_See
+	 */
 	public String str_voir(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "voir";

@@ -4123,7 +4123,48 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								l();
 							}
 							else if(BooleanUtils.isTrue(entiteSignature)) {
-								t(tIndex + 2).s(classePrefixe, "e(\"div\").a(\"id\", \"\").f().g(\"div\")").l();
+								t(tIndex + 2).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureDiv1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
+
+								t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"id\", \"input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+								t(tIndex + 4).s(classePrefixe, "a(\"style\", \"border: 1px solid black; display: \", StringUtils.isBlank(", entiteVar, ") ? \"block\" : \"none\", \"; \");").l();
+								t(tIndex + 3).s(classePrefixe, "f().g(\"div\");").l();
+
+								t(tIndex + 3).s(classePrefixe, "e(\"img\").a(\"id\", \"signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+								t(tIndex + 4).s(classePrefixe, "a(\"src\", ", entiteVar, ");").l();
+								t(tIndex + 4).s(classePrefixe, "a(\"style\", \"border: 1px solid black; padding: 10px; display: \", StringUtils.isBlank(", entiteVar, ") ? \"none\" : \"block\", \"; \");").l();
+								t(tIndex + 3).s(classePrefixe, "fg();").l();
+
+								t(tIndex + 2).s(classePrefixe, "g(\"div\");").l();
+								t(tIndex + 2).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureDiv2", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
+
+								t(tIndex + 3).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Vider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+								t(tIndex + 4).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
+								t(tIndex + 4).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"$('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').show(); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"$('#signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').hide(); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"", str_enleverLueur(langueNom), "($('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe).s("s(\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', null); \")").l(";");
+								t(tIndex + 5).s(classePrefixe, "s(\"if($('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')) { ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"window['input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "'].jSignature('reset'); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\" } else { ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"window['input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "'] = $('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "');", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"window['input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "'].jSignature({'height':200}); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\" } ", "\");").l();
+								t(tIndex + 4).s(classePrefixe, "s(\"\\\"",  "\");").l();
+								t(tIndex + 4).s(classePrefixe, "f().sx(\"", str_Vider(langueNom), "\");").l();
+								t(tIndex + 3).s(classePrefixe, "g(\"button\");").l();
+
+								t(tIndex + 3).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Vider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+								t(tIndex + 4).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
+								t(tIndex + 4).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"var datapair = window['input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "'].jSignature('getData', 'svgbase64'); ", "\"); ").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"var src = 'data:' + datapair[0] + ',' + datapair[1]; \");").l();
+								t(tIndex + 5).s(classePrefixe).s("s(\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', src); \")").l(";");
+								t(tIndex + 4).s(classePrefixe, "s(\"\\\"",  "\");").l();
+								t(tIndex + 4).s(classePrefixe, "f().sx(\"", str_ValiderLaSignature(langueNom), "\");").l();
+								t(tIndex + 3).s(classePrefixe, "g(\"button\");").l();
+
+								t(tIndex + 2).s(classePrefixe, "g(\"div\");").l();
 
 							}
 							else {
