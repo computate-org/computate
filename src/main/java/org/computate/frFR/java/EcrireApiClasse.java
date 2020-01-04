@@ -2056,10 +2056,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 	
 			s(wApiEntites.toString());
-
-			ToutEcrivain wVarIndexe = ToutEcrivain.create();
-			ToutEcrivain wVarRecherche = ToutEcrivain.create();
-			ToutEcrivain wVarSuggere = ToutEcrivain.create();
 			{
 				SolrQuery rechercheSolr = new SolrQuery();   
 				rechercheSolr.setQuery("*:*");
@@ -2082,21 +2078,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							entiteTexte = (Boolean)entiteDocumentSolr.get("entiteTexte_stored_boolean");
 							entiteLangue = (String)entiteDocumentSolr.get("entiteLangue_stored_string");
 							entiteSuggere = (Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean");
-
-							if(classeIndexe) {
-								if(entiteIndexe) {
-									wVarIndexe.tl(3, "case \"", entiteVar, "\":");
-									wVarIndexe.tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
-								}
-								if(entiteTexte && entiteLangue != null) {
-									wVarRecherche.tl(3, "case \"", entiteVar, "\":");
-									wVarRecherche.tl(4, "return \"", entiteVar, "_text_" + entiteLangue, "\";");
-								}
-								if(entiteSuggere) {
-									wVarSuggere.tl(3, "case \"", entiteVar, "\":");
-									wVarSuggere.tl(4, "return \"", entiteVar, "_suggested", "\";");
-								}
-							}
 						}
 						rechercheSolr.setStart(i.intValue() + rechercheLignes);
 						rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -2104,34 +2085,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 				}
 			}
-
-			l();
-			tl(1, "public String var", str_Indexe(langueNom), "", classeNomSimple, "(String ", str_entite(langueNom), "Var) {");
-			tl(2, "switch(", str_entite(langueNom), "Var) {");
-			s(wVarIndexe);
-			tl(3, "default:");
-			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
-			tl(2, "}");
-			tl(1, "}");
-
-			l();
-			tl(1, "public String var", str_Recherche(langueNom), "", classeNomSimple, "(String ", str_entite(langueNom), "Var) {");
-			tl(2, "switch(", str_entite(langueNom), "Var) {");
-			s(wVarRecherche);
-			s(wVarSuggere);
-			tl(3, "default:");
-			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
-			tl(2, "}");
-			tl(1, "}");
-
-			l();
-			tl(1, "public String varSuggere", classeNomSimple, "(String ", str_entite(langueNom), "Var) {");
-			tl(2, "switch(", str_entite(langueNom), "Var) {");
-			s(wVarSuggere);
-			tl(3, "default:");
-			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
-			tl(2, "}");
-			tl(1, "}");
 			l();
 			tl(1, "// Partagé //");
 			l();
@@ -2351,6 +2304,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "if(", classeVarCleUnique, " != null) {");
 			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"(", classeVarCleUnique, ":\" + ClientUtils.escapeQueryChars(id) + \" OR ", classeVarId, "_indexed_string:\" + ClientUtils.escapeQueryChars(id) + \")\");");
 			tl(3, "}");
+			if(classeRoleSession) {
+				l();
+				tl(3, "List<String> roles = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
+				tl(3, "if(");
+				tl(5, "!CollectionUtils.containsAny(", str_requeteSite(langueNom), ".getUserResourceRoles(), roles)");
+				tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(langueNom), ".getUserRealmRoles(), roles)");
+				tl(5, ") {");
+				tl(4, str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"sessionId_indexed_string:\" + ClientUtils.escapeQueryChars(", str_requeteSite(langueNom), ".getSessionId()));");
+				tl(3, "}");
+			}
 			l();
 			tl(3, "", str_operationRequete(langueNom), ".getParams().getJsonObject(\"query\").forEach(param", str_Requete(langueNom), " -> {");
 			tl(4, "String ", str_entite(langueNom), "Var = null;");
@@ -2369,7 +2332,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 			tl(7, "case \"q\":");
 			tl(8, "", str_entite(langueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(langueNom), ", \":\"));");
-			tl(8, "var", str_Indexe(langueNom), " = \"*\".equals(", str_entite(langueNom), "Var) ? ", str_entite(langueNom), "Var : var", str_Recherche(langueNom), "", classeNomSimple, "(", str_entite(langueNom), "Var);");
+			tl(8, "var", str_Indexe(langueNom), " = \"*\".equals(", str_entite(langueNom), "Var) ? ", str_entite(langueNom), "Var : ", classeNomSimple, ".var", str_Recherche(langueNom), "", classeNomSimple, "(", str_entite(langueNom), "Var);");
 			tl(8, "", str_valeur(langueNom), "", str_Indexe(langueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(langueNom), ", \":\")), \"UTF-8\");");
 			tl(8, "", str_valeur(langueNom), "", str_Indexe(langueNom), " = StringUtils.isEmpty(", str_valeur(langueNom), "", str_Indexe(langueNom), ") ? \"*\" : ", str_valeur(langueNom), "", str_Indexe(langueNom), ";");
 //			tl(8, "if(StringUtils.isEmpty(", str_valeur(langueNom), "", str_Indexe(langueNom), ")) {");
@@ -2388,20 +2351,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(7, "case \"fq\":");
 			tl(8, "", str_entite(langueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(langueNom), ", \":\"));");
 			tl(8, "", str_valeur(langueNom), "", str_Indexe(langueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(langueNom), ", \":\")), \"UTF-8\");");
-			tl(8, "var", str_Indexe(langueNom), " = var", str_Indexe(langueNom), "", classeNomSimple, "(", str_entite(langueNom), "Var);");
+			tl(8, "var", str_Indexe(langueNom), " = ", classeNomSimple, ".var", str_Indexe(langueNom), classeNomSimple, "(", str_entite(langueNom), "Var);");
 			tl(8, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(var", str_Indexe(langueNom), " + \":\" + ClientUtils.escapeQueryChars(", str_valeur(langueNom), "", str_Indexe(langueNom), "));");
 			tl(8, "break;");
 	
 			tl(7, "case \"sort\":");
 			tl(8, "", str_entite(langueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(langueNom), ", \" \"));");
 			tl(8, "", str_valeur(langueNom), "", str_Tri(langueNom), " = StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(langueNom), ", \" \"));");
-			tl(8, "var", str_Indexe(langueNom), " = var", str_Indexe(langueNom), "", classeNomSimple, "(", str_entite(langueNom), "Var);");
+			tl(8, "var", str_Indexe(langueNom), " = ", classeNomSimple, ".var", str_Indexe(langueNom), classeNomSimple, "(", str_entite(langueNom), "Var);");
 			tl(8, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(var", str_Indexe(langueNom), ", ORDER.valueOf(", str_valeur(langueNom), "", str_Tri(langueNom), "));");
 			tl(8, "break;");
 //	
 //			tl(7, "case \"fl\":");
 //			tl(8, "", str_entite(langueNom), "Var = StringUtils.trim((String)param", str_Objet(langueNom), ");");
-//			tl(8, "var", str_Indexe(langueNom), " = var", str_Indexe(langueNom), "", classeNomSimple, "(", str_entite(langueNom), "Var);");
+//			tl(8, "var", str_Indexe(langueNom), " = ", classeNomSimple, ".var", str_Indexe(langueNom), classeNomSimple, "(", str_entite(langueNom), "Var);");
 //			tl(8, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addField(var", str_Indexe(langueNom), ");");
 //			tl(8, "break;");
 	

@@ -522,8 +522,20 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeApi = BooleanUtils.isTrue((Boolean)doc.get("classeApi_stored_boolean"));
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
 					classePageSimple = BooleanUtils.isTrue((Boolean)doc.get("classePageSimple_stored_boolean"));
+					classeRoleSession = (Boolean)doc.get("classeRoleSession_stored_boolean");
 					classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouves_stored_boolean"));
-					classeRoles = (List<String>)doc.get("classeRoles_stored_strings");
+					List<String> classeRolesTemp = (List<String>)doc.get("classeRoles_stored_strings");
+					List<String> classeRolesLangue = (List<String>)doc.get("classeRolesLangue_stored_strings");
+					classeRoles = new ArrayList<>();
+					if(classeRolesTemp != null) {
+						for(Integer j = 0; j < classeRolesTemp.size(); j++) {
+							String classeRole = classeRolesTemp.get(j);
+							String classeRoleLangue = classeRolesLangue.get(j);
+							if(langueNom.equals(classeRoleLangue))
+								classeRoles.add(classeRole);
+						}
+					}
+
 					classeTrisVar = (List<String>)doc.get("classeTrisVar_" + langueNom + "_stored_strings");
 					classeTrisOrdre = (List<String>)doc.get("classeTrisOrdre_stored_strings");
 					classeFiltresTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeFiltresTrouves_stored_boolean"));

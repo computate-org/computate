@@ -8,6 +8,7 @@ import java.io.StringWriter;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
 
@@ -20,9 +21,13 @@ public class ToutEcrivain {
 	 * r: ToutEcrivain
 	 * r.enUS: AllWriter
 	 */
-	public static ToutEcrivain create() throws FileNotFoundException {
+	public static ToutEcrivain create() {
 		ToutEcrivain o = new ToutEcrivain();
-		o.initDeepForClass();
+		try {
+			o.initDeepForClass();
+		} catch (FileNotFoundException e) {
+			ExceptionUtils.rethrow(e);
+		}
 		return o;
 	}
 
@@ -30,10 +35,14 @@ public class ToutEcrivain {
 	 * r: ToutEcrivain
 	 * r.enUS: AllWriter
 	 */
-	public static ToutEcrivain create(File file) throws FileNotFoundException {
+	public static ToutEcrivain create(File file) {
 		ToutEcrivain o = new ToutEcrivain();
 		o.setFile(file);
-		o.initDeepForClass();
+		try {
+			o.initDeepForClass();
+		} catch (FileNotFoundException e) {
+			ExceptionUtils.rethrow(e);
+		}
 		return o;
 	}
 

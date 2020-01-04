@@ -25,6 +25,8 @@ import org.slf4j.LoggerFactory;
 public class ConfigSite { 
 
 	protected final Logger log = LoggerFactory.getLogger(getClass());
+
+	Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$\\\\|]");
 	
 	public ConfigSite() {
 	}
@@ -946,20 +948,30 @@ public class ConfigSite {
 				String texteRegex = m.group(1);
 				String texteRecherche = m.group(2);
 				String texteRemplacement = m.group(4);
+				String motifRemplacment = StringUtils.replaceEach(texteRemplacement
+						, new String[] {"$"}
+						, new String[] {"\\$"}
+						);
 				if(texteRecherche != null && texteRemplacement != null) {
 					String motifRegex = null;
 
 					if("egex".equals(texteRegex))
 						motifRegex = texteRecherche;
 					else
-						motifRegex = Pattern.quote(texteRecherche);
+//						motifRegex = Pattern.quote(texteRecherche);
+//						motifRegex = texteRecherche.replaceAll("[\\W]", "\\\\$0");
+						motifRegex = StringUtils.replaceEach(texteRecherche
+								, new String[] {"<",">","{","}","[","]","(",")",".","^","$","|","*","?","+","\\"}
+								, new String[] {"\\<","\\>","\\{","\\}","\\[","\\]","\\(","\\)","\\.","\\^","\\$","\\|","\\*","\\?","\\+","\\\\"}
+								);
 
+					System.out.println(motifRegex);
 					Matcher m2 = Pattern.compile(motifRegex, Pattern.MULTILINE).matcher(codeSourceLangue);
 					boolean trouve2 = m2.find();
 					StringBuffer sortie2 = new StringBuffer();
 					
 					while(trouve2) {
-						m2.appendReplacement(sortie2, texteRemplacement);
+						m2.appendReplacement(sortie2, motifRemplacment);
 						trouve2 = m2.find();
 					}
 					m2.appendTail(sortie2);

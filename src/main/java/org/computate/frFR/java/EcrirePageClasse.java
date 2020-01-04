@@ -811,8 +811,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wPks.tl(2, "tl(5, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});\");");
 								}
 								if(entiteSignature) {
-									wJsInit.tl(2, "tl(1, ", "\"window['input", classeNomSimple, "' + pk + '", entiteVar, "'] = $('#input", classeNomSimple, "' + pk + '", entiteVar, "'); \"", ");");
-									wJsInit.tl(2, "tl(1, ", "\"window['input", classeNomSimple, "' + pk + '", entiteVar, "'].jSignature({'height':200}); \"", ");");
+									wJsInit.tl(2, "tl(1, ", "\"$('#input", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}); \"", ");");
 								}
 							}
 //							wWebsocket.tl(2, "tl(2, \"", "await patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {});\");");

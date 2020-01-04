@@ -296,6 +296,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected Boolean classePage;
 
 	/**
+	 * Var.enUS: classRoleSession
+	 */
+	protected Boolean classeRoleSession;
+
+	/**
 	 * Var.enUS: classRolesFound
 	 */
 	protected Boolean classeRolesTrouves;
@@ -976,6 +981,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityNumberStack
 	 */
 	protected Stack<Integer> methodeNumeroPile = new Stack<Integer>();
+
+	ToutEcrivain wVarIndexe = ToutEcrivain.create();
+	ToutEcrivain wVarRecherche = ToutEcrivain.create();
+	ToutEcrivain wVarSuggere = ToutEcrivain.create();
 	
 	/** 
 	 * r: wInitLoin
@@ -3892,7 +3901,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					else
 						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"h:mm a\", Locale.US));");
 				}
-
+				else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".setScale(2).toString();");
+				}
 				else if(VAL_nomCanoniqueString.equals(entiteNomCanonique))
 					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ";");
 				else
@@ -4011,12 +4022,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //						String classeApiMethodeMethode = "PATCH";
 						String classePrefixe = "";
 						if(classeEstBase) {
-							tl(2, classeNomSimple, " s = (", classeNomSimple, ")this;");
 							classePrefixe = "s.";
 						}
 			
 						l();
 						tl(1, "public void input", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
+						tl(2, classeNomSimple, " s = (", classeNomSimple, ")this;");
 			
 						if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
 							if(entiteAttribuer) {
@@ -4145,10 +4156,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 5).s(classePrefixe, "s(\"", str_enleverLueur(langueNom), "($('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')); ", "\");").l();
 								t(tIndex + 5).s(classePrefixe).s("s(\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', null); \")").l(";");
 								t(tIndex + 5).s(classePrefixe, "s(\"if($('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')) { ", "\");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"window['input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "'].jSignature('reset'); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"$('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('reset'); ", "\");").l();
 								t(tIndex + 5).s(classePrefixe, "s(\" } else { ", "\");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"window['input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "'] = $('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "');", "\");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"window['input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "'].jSignature({'height':200}); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"$('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature({'height':200}); ", "\");").l();
 								t(tIndex + 5).s(classePrefixe, "s(\" } ", "\");").l();
 								t(tIndex + 4).s(classePrefixe, "s(\"\\\"",  "\");").l();
 								t(tIndex + 4).s(classePrefixe, "f().sx(\"", str_Vider(langueNom), "\");").l();
@@ -4157,7 +4167,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Vider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
 								t(tIndex + 4).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
 								t(tIndex + 4).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"var datapair = window['input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "'].jSignature('getData', 'svgbase64'); ", "\"); ").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"var datapair = $('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('getData', 'svgbase64'); ", "\"); ").l();
 								t(tIndex + 5).s(classePrefixe, "s(\"var src = 'data:' + datapair[0] + ',' + datapair[1]; \");").l();
 								t(tIndex + 5).s(classePrefixe).s("s(\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', src); \")").l(";");
 								t(tIndex + 4).s(classePrefixe, "s(\"\\\"",  "\");").l();
@@ -4215,6 +4225,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			
 						l();
 						tl(1, "public void htm", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
+						tl(2, classeNomSimple, " s = (", classeNomSimple, ")this;");
 						t(2).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
 						if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
 			
@@ -4568,6 +4579,21 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					}
 				}
 				tl(2, "}");
+			}
+
+			if(classeIndexe) {
+				if(entiteIndexe) {
+					wVarIndexe.tl(3, "case \"", entiteVar, "\":");
+					wVarIndexe.tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
+				}
+				if(entiteTexte && entiteLangue != null) {
+					wVarRecherche.tl(3, "case \"", entiteVar, "\":");
+					wVarRecherche.tl(4, "return \"", entiteVar, "_text_" + entiteLangue, "\";");
+				}
+				if(entiteSuggere) {
+					wVarSuggere.tl(3, "case \"", entiteVar, "\":");
+					wVarSuggere.tl(4, "return \"", entiteVar, "_suggested", "\";");
+				}
 			}
 	
 			/////////////////
@@ -5406,6 +5432,46 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "}");
 				tl(1, "}");
 			}
+
+			/////////
+			// var //
+			/////////
+			l();
+			tl(1, "public static String var", str_Indexe(langueNom), classeNomSimple, "(String ", str_entite(langueNom), "Var) {");
+			tl(2, "switch(", str_entite(langueNom), "Var) {");
+			s(wVarIndexe);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", str_Indexe(langueNom), classeNomSimpleSuperGenerique, "(", str_entite(langueNom), "Var);");
+			tl(2, "}");
+			tl(1, "}");
+
+			l();
+			tl(1, "public static String var", str_Recherche(langueNom), classeNomSimple, "(String ", str_entite(langueNom), "Var) {");
+			tl(2, "switch(", str_entite(langueNom), "Var) {");
+			s(wVarRecherche);
+			s(wVarSuggere);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", str_Recherche(langueNom), classeNomSimpleSuperGenerique, "(", str_entite(langueNom), "Var);");
+			tl(2, "}");
+			tl(1, "}");
+
+			l();
+			tl(1, "public static String var", str_Suggere(langueNom), classeNomSimple, "(String ", str_entite(langueNom), "Var) {");
+			tl(2, "switch(", str_entite(langueNom), "Var) {");
+			s(wVarSuggere);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", str_Suggere(langueNom), classeNomSimpleSuperGenerique, "(", str_entite(langueNom), "Var);");
+			tl(2, "}");
+			tl(1, "}");
 		}
 
 		/////////////////

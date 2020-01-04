@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.lang3.ArrayUtils;
@@ -5132,6 +5133,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeValsTrouves = classeValsRecherche.find();
 			}
 
+			Boolean classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^(classe)?RoleSession:\\s*(true)$", classeCommentaire) || classeModele);
 			Matcher classeRolesRecherche = Pattern.compile("^(classe)?Role\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeRolesTrouves = classeRolesRecherche.find();
 			boolean classeRolesTrouvesActuel = classeRolesTrouves;
@@ -6966,6 +6968,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.net.URLDecoder", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, ZonedDateTime.class.getCanonicalName(), classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, SimpleOrderedMap.class.getCanonicalName(), classeLangueNom));
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom));
 
 				classePartsGenApiAjouter(classePartsListeRecherche);
 				classePartsGenApiAjouter(classePartsToutEcrivain);
