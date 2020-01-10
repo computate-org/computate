@@ -982,9 +982,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected Stack<Integer> methodeNumeroPile = new Stack<Integer>();
 
-	ToutEcrivain wVarIndexe = ToutEcrivain.create();
-	ToutEcrivain wVarRecherche = ToutEcrivain.create();
-	ToutEcrivain wVarSuggere = ToutEcrivain.create();
+	ToutEcrivain wVarIndexe;
+	ToutEcrivain wVarRecherche;
+	ToutEcrivain wVarSuggere;
 	
 	/** 
 	 * r: wInitLoin
@@ -1054,6 +1054,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		wHashCode = ToutEcrivain.create();
 		wToString = ToutEcrivain.create();
 		wEquals = ToutEcrivain.create();
+		wVarIndexe = ToutEcrivain.create();
+		wVarRecherche = ToutEcrivain.create();
+		wVarSuggere = ToutEcrivain.create();
 	}
 
 	/**

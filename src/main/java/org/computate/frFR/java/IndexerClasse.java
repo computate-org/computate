@@ -1642,6 +1642,26 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_UserResourceRoles
+	 */
+	public String str_UtilisateurRolesRessource(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurRolesRessource";
+		else
+			return "UserResourceRoles";
+	}
+
+	/**
+	 * Var.enUS: str_UserRealmRoles
+	 */
+	public String str_UtilisateurRolesRoyaume(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurRolesRoyaume";
+		else
+			return "UserRealmRoles";
+	}
+
+	/**
 	 * Var.enUS: str_Line
 	 */
 	public String str_Ligne(String langueNom) {

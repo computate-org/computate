@@ -2308,8 +2308,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				l();
 				tl(3, "List<String> roles = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
 				tl(3, "if(");
-				tl(5, "!CollectionUtils.containsAny(", str_requeteSite(langueNom), ".getUserResourceRoles(), roles)");
-				tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(langueNom), ".getUserRealmRoles(), roles)");
+				tl(5, "!CollectionUtils.containsAny(", str_requeteSite(langueNom), ".get", str_UtilisateurRolesRessource(langueNom), "(), roles)");
+				tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(langueNom), ".get", str_UtilisateurRolesRoyaume(langueNom), "(), roles)");
 				tl(5, ") {");
 				tl(4, str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"sessionId_indexed_string:\" + ClientUtils.escapeQueryChars(", str_requeteSite(langueNom), ".getSessionId()));");
 				tl(3, "}");
