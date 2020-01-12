@@ -666,7 +666,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				classeVarH1 = (String)classeDoc.get("classeVarH1" + "_" + langueNom + "_stored_string");
 				classeVarH2 = (String)classeDoc.get("classeVarH2" + "_" + langueNom + "_stored_string");
 				classeVarH3 = (String)classeDoc.get("classeVarH3" + "_" + langueNom + "_stored_string");
-				classeVarUrl = (String)classeDoc.get("classeVarUrl" + "_" + langueNom + "_stored_string");
+				classeVarUrlId = (String)classeDoc.get("classeVarUrlId" + "_" + langueNom + "_stored_string");
+				classeVarUrlPk = (String)classeDoc.get("classeVarUrlPk" + "_" + langueNom + "_stored_string");
 				classeVarSuggere = (String)classeDoc.get("classeVarSuggere" + "_" + langueNom + "_stored_string");
 			
 				File classePageFichierGen = null;
@@ -1292,8 +1293,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								auteurPageJs.tl(1, "if(success == null) {");
 								auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
 								auteurPageJs.tl(3, str_ajouterLueur(langueNom), "($", str_formulaireValeurs(langueNom), ".next('button'));");
-								if(classeVarUrl != null) {
-									auteurPageJs.tl(3, "var url = data['", classeVarUrl, "'];");
+								if(classeVarUrlPk != null) {
+									auteurPageJs.tl(3, "var url = data['", classeVarUrlPk, "'];");
 									auteurPageJs.tl(3, "if(url)");
 									auteurPageJs.tl(4, "window.location.href = url;");
 								}
@@ -1464,7 +1465,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											entiteSuggere = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean"));
 											entiteAttribuerNomSimple = (String)entiteDocumentSolr.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 											entiteAttribuerVar = (String)entiteDocumentSolr.get("entiteAttribuerVar_" + langueNom + "_stored_string");
-											entiteAttribuerVarUrl = (String)entiteDocumentSolr.get("entiteAttribuerVarUrl_" + langueNom + "_stored_string");
+											entiteAttribuerVarUrlId = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlId_" + langueNom + "_stored_string");
+											entiteAttribuerVarUrlPk = (String)entiteDocumentSolr.get("entiteAttribuerVarUrlPk_" + langueNom + "_stored_string");
 											entiteAttribuerVarTitre = (String)entiteDocumentSolr.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
 											entiteAttribuerVarDescription = (String)entiteDocumentSolr.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
 											entiteAttribuerVarImageUrl = (String)entiteDocumentSolr.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
@@ -1489,7 +1491,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													auteurPageJs.s("o['", classeVarTitre, "']");
 												auteurPageJs.l(");");
 												auteurPageJs.tl(3, "var $li = $('<li>');");
-												auteurPageJs.tl(3, "var $a = $('<a>').attr('href', o['", classeVarUrl, "']);");
+												auteurPageJs.tl(3, "var $a = $('<a>').attr('href', o['", classeVarUrlPk, "']);");
 												auteurPageJs.tl(3, "$a.append($i);");
 												auteurPageJs.tl(3, "$a.append($span);");
 												auteurPageJs.tl(3, "$li.append($a);");
@@ -1513,8 +1515,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													auteurPageJs.s("o['", entiteAttribuerVarTitre, "']");
 												auteurPageJs.l(");");
 
-												if(entiteAttribuerVarUrl != null)
-													auteurPageJs.tl(3, "var $a = $('<a>').attr('id', o['", classeVarClePrimaire, "']).attr('href', o['", entiteAttribuerVarUrl, "'] + '#' + ", classeVarClePrimaire, ");");
+												if(entiteAttribuerVarUrlPk != null)
+													auteurPageJs.tl(3, "var $a = $('<a>').attr('id', o['", classeVarClePrimaire, "']).attr('href', o['", entiteAttribuerVarUrlPk, "'] + '#' + ", classeVarClePrimaire, ");");
 												else
 													auteurPageJs.tl(3, "var $a = $('<span>');");
 

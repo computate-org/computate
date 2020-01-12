@@ -471,9 +471,14 @@ public class EcrireGenClasse extends EcrireClasse {
 	String entiteAttribuerVar;
 
 	/**
-	 * Var.enUS: entityAttributeVarUrl
+	 * Var.enUS: entityAttributeVarUrlId
 	 */
-	String entiteAttribuerVarUrl;
+	String entiteAttribuerVarUrlId;
+
+	/**
+	 * Var.enUS: entityAttributeVarUrlPk
+	 */
+	String entiteAttribuerVarUrlPk;
 
 	/**
 	 * Var.enUS: entityAttributeVarId
@@ -674,7 +679,9 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected String classeVarSuggere;
 
-	protected String classeVarUrl;
+	protected String classeVarUrlId;
+
+	protected String classeVarUrlPk;
 
 	protected String classeVarH1;
 
@@ -2660,8 +2667,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	 * r.enUS: entityAttributeCanonicalName
 	 * r: entiteAttribuerNomSimple
 	 * r.enUS: entityAttributeSimpleName
-	 * r: entiteAttribuerVarUrl
-	 * r.enUS: entityAttributeVarUrl
+	 * r: entiteAttribuerVarUrlId
+	 * r.enUS: entityAttributeVarUrlId
+	 * r: entiteAttribuerVarUrlPk
+	 * r.enUS: entityAttributeVarUrlPk
 	 * r: entiteAttribuerVarId
 	 * r.enUS: entityAttributeVarId
 	 * r: entiteAttribuerVarTitre
@@ -2901,7 +2910,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			String entiteAttribuerNomCanonique = (String)doc.get("entiteAttribuerNomCanonique_" + langueNom + "_stored_string");
 			String entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 			String entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
-			String entiteAttribuerVarUrl = (String)doc.get("entiteAttribuerVarUrl_" + langueNom + "_stored_string");
+			String entiteAttribuerVarUrlId = (String)doc.get("entiteAttribuerVarUrlId_" + langueNom + "_stored_string");
+			String entiteAttribuerVarUrlPk = (String)doc.get("entiteAttribuerVarUrlPk_" + langueNom + "_stored_string");
 			String entiteAttribuerVarId = (String)doc.get("entiteAttribuerVarId_" + langueNom + "_stored_string");
 			String entiteAttribuerVarTitre = (String)doc.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
 			String entiteAttribuerVarDescription = (String)doc.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
@@ -4170,8 +4180,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Vider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
 								t(tIndex + 4).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
 								t(tIndex + 4).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"var datapair = $('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('getData', 'svgbase64'); ", "\"); ").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"var src = 'data:' + datapair[0] + ',' + datapair[1]; \");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"var src = $('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('getData', 'default'); ", "\"); ").l();
 								t(tIndex + 5).s(classePrefixe).s("s(\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', src); \")").l(";");
 								t(tIndex + 4).s(classePrefixe, "s(\"\\\"",  "\");").l();
 								t(tIndex + 4).s(classePrefixe, "f().sx(\"", str_ValiderLaSignature(langueNom), "\");").l();

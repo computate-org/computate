@@ -2311,7 +2311,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "!CollectionUtils.containsAny(", str_requeteSite(langueNom), ".get", str_UtilisateurRolesRessource(langueNom), "(), roles)");
 				tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(langueNom), ".get", str_UtilisateurRolesRoyaume(langueNom), "(), roles)");
 				tl(5, ") {");
-				tl(4, str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"sessionId_indexed_string:\" + ClientUtils.escapeQueryChars(", str_requeteSite(langueNom), ".getSessionId()));");
+				tl(4, str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"sessionId_indexed_string:\" + ClientUtils.escapeQueryChars(Optional.ofNullable(", str_requeteSite(langueNom), ".getSessionId()).orElse(\"-----\")));");
 				tl(3, "}");
 			}
 			l();
