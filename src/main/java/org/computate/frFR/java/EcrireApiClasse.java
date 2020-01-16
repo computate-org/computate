@@ -2409,7 +2409,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "if(", str_definir(langueNom), "Async.succeeded()) {");
 			tl(5, "try {");
 			tl(6, "for(JsonArray definition : ", str_definir(langueNom), "Async.result().getResults()) {");
-			tl(7, "o.", str_definir(langueNom), "", str_PourClasse(langueNom), "(definition.getString(0), definition.getString(1));");
+			tl(7, "try {");
+			tl(8, "o.", str_definir(langueNom), "", str_PourClasse(langueNom), "(definition.getString(0), definition.getString(1));");
+			tl(7, "} catch(Exception e) {");
+			tl(8, "LOGGER.error(e);");
+			tl(7, "}");
 			tl(6, "}");
 			tl(6, str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture());");
 			tl(5, "} catch(Exception e) {");
