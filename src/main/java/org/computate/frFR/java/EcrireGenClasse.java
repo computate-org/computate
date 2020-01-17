@@ -6,8 +6,10 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -435,6 +437,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wPageGet;
 
 	protected ToutEcrivain wHashCode;
+
+	protected ToutEcrivain wRequetePatch;
 
 	protected ToutEcrivain wToString;
 
@@ -1058,6 +1062,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wApiGenererPatch = ToutEcrivain.create();
 		wPageHtmlSingulier = ToutEcrivain.create();
 		wPageGet = ToutEcrivain.create();
+		wRequetePatch = ToutEcrivain.create();
 		wHashCode = ToutEcrivain.create();
 		wToString = ToutEcrivain.create();
 		wEquals = ToutEcrivain.create();
@@ -3390,9 +3395,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(StringUtils.equals(entiteNomCanonique, Timestamp.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())))).truncatedTo(ChronoUnit.MILLIS);");
 				// TODO: ctate until vertx fixes bug. 
-				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+//				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3447,18 +3452,18 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			// Setter ZonedDateTime //
 			if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Instant o) {");
-				tl(2, "this.", entiteVar, " = ZonedDateTime.from(o);");
+				tl(2, "this.", entiteVar, " = ZonedDateTime.from(o).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = ZonedDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
+				tl(2, "this.", entiteVar, " = ZonedDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone()))).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
-				tl(2, "this.", entiteVar, " = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone()));");
+				tl(2, "this.", entiteVar, " = ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3467,18 +3472,18 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			// Setter LocalDateTime //
 			if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Instant o) {");
-				tl(2, "this.", entiteVar, " = LocalDateTime.from(o);");
+				tl(2, "this.", entiteVar, " = LocalDateTime.from(o).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
+				tl(2, "this.", entiteVar, " = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
-				tl(2, "this.", entiteVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone()));");
+				tl(2, "this.", entiteVar, " = LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -4055,6 +4060,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 4).dal("title", entiteDescription);
 								}
 				
+//								t(tIndex + 3).s(classePrefixe).s(".a(\"class\", \"", "set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 								t(tIndex + 4).dal("class", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", str_suggere(langueNom), entiteVarCapitalise, " w3-input w3-border w3-cell w3-cell-middle ");
 								t(tIndex + 4).dal("name", "set", entiteVarCapitalise);
 								t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
@@ -4067,7 +4073,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if("LocalDate".equals(entiteNomSimple)) {
 								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 3).dal("type", "text");
-								t(tIndex + 3).dal("class", "w3-input w3-border datepicker ");
+								t(tIndex + 3).s(classePrefixe).s("a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 								t(tIndex + 3).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 3).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
@@ -4087,7 +4093,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
 								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 3).dal("type", "text");
-								t(tIndex + 3).dal("class", "w3-input w3-border datepicker ");
+								t(tIndex + 3).s(classePrefixe).s("a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 								t(tIndex + 3).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 3).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
@@ -4107,7 +4113,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if("LocalTime".equals(entiteNomSimple)) {
 								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 3).dal("type", "text");
-								t(tIndex + 3).dal("class", "w3-input w3-border timepicker ");
+								t(tIndex + 3).s(classePrefixe).s("a(\"class\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 								t(tIndex + 3).dal("placeholder", "HH:MM AM");
 								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 3).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
@@ -4130,10 +4136,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).da("value", "true").l(";");
 				
 								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 4).s(classePrefixe).a("class", "set", entiteVarCapitalise).l(";");
+									t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 									t(tIndex + 4).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
 								t(tIndex + 3).l("} else {");
-									t(tIndex + 4).s(classePrefixe).a("class", str_valeur(langueNom), entiteVarCapitalise).l(";");
+									t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 									t(tIndex + 4).s(classePrefixe).a("name", entiteVar).l(";");
 								t(tIndex + 3).l("}");
 								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
@@ -4149,7 +4155,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if(BooleanUtils.isTrue(entiteSignature)) {
 								t(tIndex + 2).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureDiv1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
 
-								t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"id\", \"input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+								t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
 								t(tIndex + 4).s(classePrefixe, "a(\"style\", \"border: 1px solid black; display: \", StringUtils.isBlank(", entiteVar, ") ? \"block\" : \"none\", \"; \");").l();
 								t(tIndex + 3).s(classePrefixe, "f().g(\"div\");").l();
 
@@ -4164,14 +4170,14 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Vider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
 								t(tIndex + 4).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
 								t(tIndex + 4).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"$('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').show(); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').show(); ", "\");").l();
 								t(tIndex + 5).s(classePrefixe, "s(\"$('#signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').hide(); ", "\");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"", str_enleverLueur(langueNom), "($('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"", str_enleverLueur(langueNom), "($('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')); ", "\");").l();
 								t(tIndex + 5).s(classePrefixe).s("s(\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', null); \")").l(";");
-								t(tIndex + 5).s(classePrefixe, "s(\"if($('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')) { ", "\");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"$('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('reset'); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"if($('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')) { ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('reset'); ", "\");").l();
 								t(tIndex + 5).s(classePrefixe, "s(\" } else { ", "\");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"$('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature({'height':200}); ", "\");").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature({'height':200}); ", "\");").l();
 								t(tIndex + 5).s(classePrefixe, "s(\" } ", "\");").l();
 								t(tIndex + 4).s(classePrefixe, "s(\"\\\"",  "\");").l();
 								t(tIndex + 4).s(classePrefixe, "f().sx(\"", str_Vider(langueNom), "\");").l();
@@ -4180,7 +4186,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Vider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
 								t(tIndex + 4).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
 								t(tIndex + 4).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\"var src = $('#input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('getData', 'default'); ", "\"); ").l();
+								t(tIndex + 5).s(classePrefixe, "s(\"var src = $('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('getData', 'default'); ", "\"); ").l();
 								t(tIndex + 5).s(classePrefixe).s("s(\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', src); \")").l(";");
 								t(tIndex + 4).s(classePrefixe, "s(\"\\\"",  "\");").l();
 								t(tIndex + 4).s(classePrefixe, "f().sx(\"", str_ValiderLaSignature(langueNom), "\");").l();
@@ -4206,10 +4212,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").l(";");
 
 								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 4).s(classePrefixe).a("class", "set", entiteVarCapitalise, " w3-input w3-border ").l(";");
+									t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 									t(tIndex + 4).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
 								t(tIndex + 3).l("} else {");
-									t(tIndex + 4).s(classePrefixe).a("class", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border ").l(";");
+									t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 									t(tIndex + 4).s(classePrefixe).a("name", entiteVar).l(";");
 								t(tIndex + 3).l("}");
 								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
@@ -4863,6 +4869,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}	
 	
 			if(entiteDefinir || entiteAttribuer) {
+		
+				//////////////////
+				// requetePatch //
+				//////////////////
+		
+				wRequetePatch.tl(3, "if(!Objects.equals(", entiteVar, ", original.get", entiteVarCapitalise, "()))");
+				wRequetePatch.tl(4, str_requetePatch(langueNom), ".addVars(\"", entiteVar, "\");");
 		
 				//////////////
 				// hashCode //
@@ -5643,6 +5656,25 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //			}
 //			tl(1, "}");
 //		}	
+
+		//////////////////
+		// requetePatch //
+		//////////////////
+		l(); 
+		tl(1, "//////////////////");
+		tl(1, "// ", str_requetePatch(langueNom), " //");
+		tl(1, "//////////////////");
+		l();
+		tl(1, "public void ", str_requetePatch(langueNom), classeNomSimple, "() {");
+		tl(2, str_RequetePatch(langueNom), " ", str_requetePatch(langueNom), " = Optional.ofNullable(", str_requeteSite(langueNom), "_).map(", classePartsRequeteSite.nomSimple(langueNom), "::get", str_RequetePatch(langueNom), "_).orElse(null);");
+		tl(2, classeNomSimple, " original = (", classeNomSimple, ")Optional.ofNullable(", str_requetePatch(langueNom), ").map(", str_RequetePatch(langueNom), "::getOriginal).orElse(null);");
+		tl(2, "if(original != null) {");
+		s(wRequetePatch.toString());
+		if(BooleanUtils.isTrue(classeEtendBase)) {
+			tl(3, "super.", str_requetePatch(langueNom), classeNomSimpleSuperGenerique, "();");
+		}
+		tl(2, "}");
+		tl(1, "}");
 
 		//////////////
 		// hashCode //

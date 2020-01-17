@@ -1366,6 +1366,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(11, str_requetePatch(langueNom), ".setRows(", str_liste(langueNom), classeNomSimple, ".getRows());");
 						tl(11, str_requetePatch(langueNom), ".setNumFound(Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ".getQueryResponse()).map(QueryResponse::getResults).map(SolrDocumentList::getNumFound).orElse(new Long(", str_liste(langueNom), classeNomSimple, ".size())));");
 						tl(11, str_requetePatch(langueNom), ".", str_initLoin(langueNom), classePartsRequetePatch.nomSimple(langueNom), "(", str_requeteSite(langueNom), ");");
+						tl(11, "if(", str_liste(langueNom), classeNomSimple, ".size() == 1) {");
+						tl(12, classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, ".get(0);");
+						tl(12, str_requetePatch(langueNom), ".setPk(o.getPk());");
+						tl(12, str_requetePatch(langueNom), ".setOriginal(o);");
+						tl(11, "}");
 						tl(11, str_requeteSite(langueNom), ".set", str_RequetePatch(langueNom), "_(", str_requetePatch(langueNom), ");");
 						tl(11, "WorkerExecutor ", str_executeurTravailleur(langueNom), " = ", str_siteContexte(langueNom), ".get", str_ExecuteurTravailleur(langueNom), "();");
 						tl(11, str_executeurTravailleur(langueNom), ".executeBlocking(");
@@ -1697,11 +1702,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, "});");
 						tl(2, "CompositeFuture.all(futures).setHandler( a -> {");
 						tl(3, "if(a.succeeded()) {");
-						tl(4, "if(", str_requetePatch(langueNom), ".getNumFound() == 1 && ", str_liste(langueNom), classeNomSimple, ".size() == 1) {");
-						tl(5, classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, ".get(0);");
-						tl(5, str_requetePatch(langueNom), ".setPk(o.getPk());");
-						tl(5, str_requetePatch(langueNom), classeNomSimple, "(o);");
-						tl(4, "}");
 						tl(4, str_requetePatch(langueNom), ".setNumPATCH(", str_requetePatch(langueNom), ".getNumPATCH() + ", str_liste(langueNom), classeNomSimple, ".size());");
 						tl(4, "if(", str_liste(langueNom), classeNomSimple, ".next(dt)) {");
 						tl(5, str_requeteSite(langueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requetePatch(langueNom), ").toString());");
@@ -1721,6 +1721,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "List<Long> pks = ", str_requetePatch(langueNom), ".getPks();");
 						tl(3, "List<String> classes = ", str_requetePatch(langueNom), ".getClasses();");
 						s(wPks);
+						tl(3, "o.", str_requetePatch(langueNom), classeNomSimple, "();");
 						tl(2, "}");
 						tl(1, "}");
 						l();
@@ -2196,6 +2197,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(8, "JsonArray ", str_creer(langueNom), "", str_Ligne(langueNom), " = ", str_creer(langueNom), "Async.result().getResults().stream().findFirst().orElseGet(() -> null);");
 			tl(8, "Long ", classeVarClePrimaire, "", str_Utilisateur(langueNom), " = ", str_creer(langueNom), "", str_Ligne(langueNom), ".getLong(0);");
 			tl(8, classePartsUtilisateurSite.nomSimple(langueNom), " ", str_utilisateurSite(langueNom), " = new ", classePartsUtilisateurSite.nomSimple(langueNom), "();");
+			tl(8, "", str_utilisateurSite(langueNom), ".set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), ");");
 			tl(8, "", str_utilisateurSite(langueNom), ".set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, "", str_Utilisateur(langueNom), ");");
 			l();
 			tl(8, "", str_connexionSql(langueNom), ".queryWithParams(");
@@ -2234,6 +2236,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(6, "} else {");
 			tl(7, "Long ", classeVarClePrimaire, "", str_Utilisateur(langueNom), " = ", str_utilisateur(langueNom), "", str_Valeurs(langueNom), ".getLong(0);");
 			tl(7, classePartsUtilisateurSite.nomSimple(langueNom), " ", str_utilisateurSite(langueNom), " = new ", classePartsUtilisateurSite.nomSimple(langueNom), "();");
+			tl(8, "", str_utilisateurSite(langueNom), ".set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), ");");
 			tl(7, "", str_utilisateurSite(langueNom), ".set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, "", str_Utilisateur(langueNom), ");");
 			l();
 			tl(7, "", str_connexionSql(langueNom), ".queryWithParams(");
