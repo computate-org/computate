@@ -1366,12 +1366,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(11, str_requetePatch(langueNom), ".setRows(", str_liste(langueNom), classeNomSimple, ".getRows());");
 						tl(11, str_requetePatch(langueNom), ".setNumFound(Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ".getQueryResponse()).map(QueryResponse::getResults).map(SolrDocumentList::getNumFound).orElse(new Long(", str_liste(langueNom), classeNomSimple, ".size())));");
 						tl(11, str_requetePatch(langueNom), ".", str_initLoin(langueNom), classePartsRequetePatch.nomSimple(langueNom), "(", str_requeteSite(langueNom), ");");
+						tl(11, str_requeteSite(langueNom), ".set", str_RequetePatch(langueNom), "_(", str_requetePatch(langueNom), ");");
 						tl(11, "if(", str_liste(langueNom), classeNomSimple, ".size() == 1) {");
 						tl(12, classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, ".get(0);");
 						tl(12, str_requetePatch(langueNom), ".setPk(o.getPk());");
 						tl(12, str_requetePatch(langueNom), ".setOriginal(o);");
+						tl(12, str_requetePatch(langueNom), classeNomSimple, "(o);");
 						tl(11, "}");
-						tl(11, str_requeteSite(langueNom), ".set", str_RequetePatch(langueNom), "_(", str_requetePatch(langueNom), ");");
 						tl(11, "WorkerExecutor ", str_executeurTravailleur(langueNom), " = ", str_siteContexte(langueNom), ".get", str_ExecuteurTravailleur(langueNom), "();");
 						tl(11, str_executeurTravailleur(langueNom), ".executeBlocking(");
 						tl(12, "blockingCodeHandler -> {");
@@ -1721,7 +1722,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "List<Long> pks = ", str_requetePatch(langueNom), ".getPks();");
 						tl(3, "List<String> classes = ", str_requetePatch(langueNom), ".getClasses();");
 						s(wPks);
-						tl(3, "o.", str_requetePatch(langueNom), classeNomSimple, "();");
 						tl(2, "}");
 						tl(1, "}");
 						l();
@@ -1738,6 +1738,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(9, str_indexer(langueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", d -> {");
 						tl(10, "if(d.succeeded()) {");
 						tl(11, str_requetePatch(langueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
+						tl(11, StringUtils.uncapitalize(classeNomSimple), ".", str_requetePatch(langueNom), classeNomSimple, "();");
 						tl(11, "future.complete(o);");
 						tl(11, str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture(d.result()));");
 						tl(10, "} else {");
