@@ -816,10 +816,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wJsInit.tl(2, "tl(1, ", "\"$('#input", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}); \"", ");");
 								}
 								if(entiteDefinir || entiteAttribuer) {
-									wWebsocketInput.tl(1, "if(vals.includes('", entiteVar, "'))\") {");
-									wWebsocketInput.tl(2, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').val(...);");
-									wWebsocketInput.tl(2, "$('.val", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').text(...);");
-									wWebsocketInput.tl(1, "}");
+									wWebsocketInput.tl(3, "if(vars.includes('", entiteVar, "')) {");
+									wWebsocketInput.tl(4, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').val(o['", entiteVar, "']);");
+									wWebsocketInput.tl(4, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').text(o['", entiteVar, "']);");
+									wWebsocketInput.tl(3, "}");
 								}
 							}
 							rechercheSolr.setStart(i.intValue() + rechercheLignes);
@@ -830,18 +830,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						wWebsocket.tl(1, "var pk = ", str_requetePatch(langueNom), "['pk'];");
 						wWebsocket.tl(1, "var pks = ", str_requetePatch(langueNom), "['pks'];");
 						wWebsocket.tl(1, "var classes = ", str_requetePatch(langueNom), "['classes'];");
-						wWebsocket.tl(1, "var vals = ", str_requetePatch(langueNom), "['vals'];");
+						wWebsocket.tl(1, "var vars = ", str_requetePatch(langueNom), "['vars'];");
+						wWebsocket.tl(1, "var empty = ", str_requetePatch(langueNom), "['empty'];");
 						wWebsocket.l();
+						wWebsocket.tl(1, "if(pk != null) {");
+						wWebsocket.tl(2, str_rechercher(langueNom), classeNomSimple, "Vals([ {name: 'fq', value: '", classeVarClePrimaire, ":' + pk} ], function( data, textStatus, jQxhr ) {");
+						wWebsocket.tl(3, "var o = data['list'][0];");
 						wWebsocket.s(wWebsocketInput);
-						wWebsocket.l();
-						wWebsocket.tl(1, "if(pks) {");
-						wWebsocket.tl(2, "for(i=0; i < pks.length; i++) {");
-						wWebsocket.tl(3, "var pk2 = pks[i];");
-						wWebsocket.tl(3, "var c = classes[i];");
-						wWebsocket.tl(3, "await window['patch' + c + 'Vals']( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + pk2} ], {});");
-						wWebsocket.tl(2, "}");
+						wWebsocket.tl(2, "});");
 						wWebsocket.tl(1, "}");
-						wWebsocket.tl(1, "await patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + pk} ], {});");
+						wWebsocket.l();
+						wWebsocket.tl(1, "if(!empty) {");
+						wWebsocket.tl(2, "if(pks) {");
+						wWebsocket.tl(3, "for(i=0; i < pks.length; i++) {");
+						wWebsocket.tl(4, "var pk2 = pks[i];");
+						wWebsocket.tl(4, "var c = classes[i];");
+						wWebsocket.tl(4, "await window['patch' + c + 'Vals']( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + pk2} ], {});");
+						wWebsocket.tl(3, "}");
+						wWebsocket.tl(2, "}");
+						wWebsocket.tl(2, "await patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + pk} ], {});");
+						wWebsocket.tl(1, "}");
 
 						if(resultatFormPOST)
 							wFormPOST.t(2).bgl("div");
@@ -1614,7 +1622,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												auteurPageJs.tl(0, "}");
 
 												auteurWebsocket.l();
-												auteurWebsocket.tl(2, "eventBus.registerHandler('websocket", entiteAttribuerNomSimple, "', function (error, message) {");
+												auteurWebsocket.tl(2, "window.eventBus.registerHandler('websocket", entiteAttribuerNomSimple, "', function (error, message) {");
 //												auteurWebsocket.tl(3, "var json = JSON.parse(message['body']);");
 //												auteurWebsocket.tl(3, "var id = json['id'];");
 //												auteurWebsocket.tl(3, str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($(this).val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "'));");
@@ -1631,9 +1639,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						}
 					}
 					tl(2, "l(\"$(document).ready(function() {\");");
+					tl(2, "tl(1, \"window.eventBus = new EventBus('/eventbus');\");");
 					tl(2, "tl(1, \"var pk = \", ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "(), \";\");");
 					s(wJsInit);
-					tl(2, "tl(1, ", q("websocket", classeNomSimple, "(websocket", classeNomSimple, "Inner(", str_requetePatch(langueNom), "));"), ");");
+					tl(2, "tl(1, ", q("websocket", classeNomSimple, "(websocket", classeNomSimple, "Inner);"), ");");
 //					s(wWebsocket);
 //					tl(2, "tl(1, ", q("});"), ");");
 					tl(2, "l(\"});\");");
@@ -2267,10 +2276,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurWebsocket.flushClose();
 					auteurPageJs.l();
 					auteurPageJs.tl(0, "async function websocket", classeNomSimple, "(success) {");
-					auteurPageJs.tl(1, "var eventBus = new EventBus('/eventbus');");
-					auteurPageJs.tl(1, "eventBus.onopen = function () {");
+					auteurPageJs.tl(1, "window.eventBus.onopen = function () {");
 					auteurPageJs.l();
-					auteurPageJs.tl(2, "eventBus.registerHandler('websocket", classeNomSimple, "', function (error, message) {");
+					auteurPageJs.tl(2, "window.eventBus.registerHandler('websocket", classeNomSimple, "', function (error, message) {");
 					auteurPageJs.tl(3, "var json = JSON.parse(message['body']);");
 					auteurPageJs.tl(3, "var id = json['id'];");
 					auteurPageJs.tl(3, "var pk = json['pk'];");
@@ -2310,7 +2318,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(1, "}");
 					auteurPageJs.tl(0, "}");
 
-					auteurPageJs.tl(0, "async function websocket", classeNomSimple, "Inner(success) {");
+					auteurPageJs.tl(0, "async function websocket", classeNomSimple, "Inner(", str_requetePatch(langueNom), ") {");
 					auteurPageJs.s(wWebsocket);
 					auteurPageJs.tl(0, "}");
 				}

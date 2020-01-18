@@ -4073,7 +4073,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if("LocalDate".equals(entiteNomSimple)) {
 								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 3).dal("type", "text");
-								t(tIndex + 3).s(classePrefixe).s("a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+								t(tIndex + 3).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
 								t(tIndex + 3).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 3).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
@@ -4093,7 +4093,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
 								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 3).dal("type", "text");
-								t(tIndex + 3).s(classePrefixe).s("a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+								t(tIndex + 3).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
 								t(tIndex + 3).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 3).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
