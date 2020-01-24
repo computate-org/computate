@@ -807,13 +807,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									}
 								}
 								if(entiteAttribuer) {
-									wJsInit.tl(2, "tl(1, ", "\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk); \"", ");");
+									wJsInit.tl(2, "tl(2, ", "\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk); \"", ");");
 //									wWebsocket.tl(2, "tl(2, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {});\");");
 									wPks.tl(2, "tl(4, \"if(c == '", entiteAttribuerNomSimple, "')\");");
 									wPks.tl(2, "tl(5, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});\");");
 								}
 								if(entiteSignature) {
-									wJsInit.tl(2, "tl(1, ", "\"$('#input", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}); \"", ");");
+									wJsInit.tl(2, "tl(2, ", "\"$('#input", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}); \"", ");");
 								}
 								if(entiteDefinir || entiteAttribuer) {
 									wWebsocketInput.tl(3, "if(vars.includes('", entiteVar, "')) {");
@@ -1640,8 +1640,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 					tl(2, "l(\"$(document).ready(function() {\");");
 					tl(2, "tl(1, \"window.eventBus = new EventBus('/eventbus');\");");
-					tl(2, "tl(1, \"var pk = \", ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "(), \";\");");
+					tl(2, "tl(1, \"var pk = \", Optional.ofNullable(", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "()).map(l -> l.toString()).orElse(\"null\"), \";\");");
+					tl(2, "tl(1, \"if(pk != null) {\");");
 					s(wJsInit);
+					tl(2, "tl(1, \"}\");");
 					tl(2, "tl(1, ", q("websocket", classeNomSimple, "(websocket", classeNomSimple, "Inner);"), ");");
 //					s(wWebsocket);
 //					tl(2, "tl(1, ", q("});"), ");");
@@ -2284,7 +2286,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "var pk = json['pk'];");
 					auteurPageJs.tl(3, "var pks = json['pks'];");
 					auteurPageJs.tl(3, "var empty = json['empty'];");
-					auteurPageJs.tl(3, "if(!empty) {");
+//					auteurPageJs.tl(3, "if(!empty) {");
 					auteurPageJs.tl(4, "var numFound = json['numFound'];");
 					auteurPageJs.tl(4, "var numPATCH = json['numPATCH'];");
 					auteurPageJs.tl(4, "var percent = Math.floor( numPATCH / numFound * 100 ) + '%';");
@@ -2312,7 +2314,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(4, "$('.w3-content').append($box);");
 					auteurPageJs.tl(4, "if(success)");
 					auteurPageJs.tl(5, "success(json);");
-					auteurPageJs.tl(3, "}");
+//					auteurPageJs.tl(3, "}");
 					auteurPageJs.tl(2, "});");
 					auteurPageJs.s(auteurWebsocket);
 					auteurPageJs.tl(1, "}");

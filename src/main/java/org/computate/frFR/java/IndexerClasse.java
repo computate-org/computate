@@ -5162,7 +5162,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeValsTrouves = classeValsRecherche.find();
 			}
 
-			Boolean classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^(classe)?RoleSession:\\s*(true)$", classeCommentaire) || classeModele);
+			Boolean classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^(classe)?RoleSession:\\s*(true)$", classeCommentaire));
 			Matcher classeRolesRecherche = Pattern.compile("^(classe)?Role\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeRolesTrouves = classeRolesRecherche.find();
 			boolean classeRolesTrouvesActuel = classeRolesTrouves;
@@ -7227,6 +7227,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, StringUtils.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Map.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, List.class.getCanonicalName(), classeLangueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Optional.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePartsMiseEnPage.nomCanonique(classeLangueNom), classeLangueNom));
 					
 							for(ClasseParts classePartGenPage : classePartsGenPage.values()) {

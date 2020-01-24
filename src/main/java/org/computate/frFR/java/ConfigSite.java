@@ -965,7 +965,6 @@ public class ConfigSite {
 								, new String[] {"\\<","\\>","\\{","\\}","\\[","\\]","\\(","\\)","\\.","\\^","\\$","\\|","\\*","\\?","\\+","\\\\"}
 								);
 
-					System.out.println(motifRegex);
 					Matcher m2 = Pattern.compile(motifRegex, Pattern.MULTILINE).matcher(codeSourceLangue);
 					boolean trouve2 = m2.find();
 					StringBuffer sortie2 = new StringBuffer();

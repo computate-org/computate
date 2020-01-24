@@ -4113,7 +4113,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if("LocalTime".equals(entiteNomSimple)) {
 								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 3).dal("type", "text");
-								t(tIndex + 3).s(classePrefixe).s("a(\"class\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+								t(tIndex + 3).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
 								t(tIndex + 3).dal("placeholder", "HH:MM AM");
 								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 3).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
@@ -4160,7 +4160,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "f().g(\"div\");").l();
 
 								t(tIndex + 3).s(classePrefixe, "e(\"img\").a(\"id\", \"signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
-								t(tIndex + 4).s(classePrefixe, "a(\"src\", ", entiteVar, ");").l();
+								t(tIndex + 4).s(classePrefixe, "a(\"src\", StringUtils.isBlank(", entiteVar, ") ? \"data:image/png;base64,\" : ", entiteVar, ").a(\"alt\", \"\");").l();
 								t(tIndex + 4).s(classePrefixe, "a(\"style\", \"border: 1px solid black; padding: 10px; display: \", StringUtils.isBlank(", entiteVar, ") ? \"none\" : \"block\", \"; \");").l();
 								t(tIndex + 3).s(classePrefixe, "fg();").l();
 
@@ -4183,7 +4183,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 4).s(classePrefixe, "f().sx(\"", str_Vider(langueNom), "\");").l();
 								t(tIndex + 3).s(classePrefixe, "g(\"button\");").l();
 
-								t(tIndex + 3).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Vider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+								t(tIndex + 3).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Valider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
 								t(tIndex + 4).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
 								t(tIndex + 4).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
 								t(tIndex + 5).s(classePrefixe, "s(\"var src = $('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('getData', 'default'); ", "\"); ").l();
@@ -5657,24 +5657,26 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //			tl(1, "}");
 //		}	
 
-		//////////////////
-		// requetePatch //
-		//////////////////
-		l(); 
-		tl(1, "//////////////////");
-		tl(1, "// ", str_requetePatch(langueNom), " //");
-		tl(1, "//////////////////");
-		l();
-		tl(1, "public void ", str_requetePatch(langueNom), classeNomSimple, "() {");
-		tl(2, str_RequetePatch(langueNom), " ", str_requetePatch(langueNom), " = Optional.ofNullable(", str_requeteSite(langueNom), "_).map(", classePartsRequeteSite.nomSimple(langueNom), "::get", str_RequetePatch(langueNom), "_).orElse(null);");
-		tl(2, classeNomSimple, " original = (", classeNomSimple, ")Optional.ofNullable(", str_requetePatch(langueNom), ").map(", str_RequetePatch(langueNom), "::getOriginal).orElse(null);");
-		tl(2, "if(original != null) {");
-		s(wRequetePatch.toString());
-		if(BooleanUtils.isTrue(classeEtendBase)) {
-			tl(3, "super.", str_requetePatch(langueNom), classeNomSimpleSuperGenerique, "();");
+		if(classeContientRequeteSite) {
+			//////////////////
+			// requetePatch //
+			//////////////////
+			l(); 
+			tl(1, "//////////////////");
+			tl(1, "// ", str_requetePatch(langueNom), " //");
+			tl(1, "//////////////////");
+			l();
+			tl(1, "public void ", str_requetePatch(langueNom), classeNomSimple, "() {");
+			tl(2, str_RequetePatch(langueNom), " ", str_requetePatch(langueNom), " = Optional.ofNullable(", str_requeteSite(langueNom), "_).map(", classePartsRequeteSite.nomSimple(langueNom), "::get", str_RequetePatch(langueNom), "_).orElse(null);");
+			tl(2, classeNomSimple, " original = (", classeNomSimple, ")Optional.ofNullable(", str_requetePatch(langueNom), ").map(", str_RequetePatch(langueNom), "::getOriginal).orElse(null);");
+			tl(2, "if(original != null) {");
+			s(wRequetePatch.toString());
+			if(BooleanUtils.isTrue(classeEtendBase)) {
+				tl(3, "super.", str_requetePatch(langueNom), classeNomSimpleSuperGenerique, "();");
+			}
+			tl(2, "}");
+			tl(1, "}");
 		}
-		tl(2, "}");
-		tl(1, "}");
 
 		//////////////
 		// hashCode //
