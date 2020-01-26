@@ -192,9 +192,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	ClasseParts classePartsUtilisateurSite;
 	/**
-	 * Var.enUS: classPartsPatchRequest
+	 * Var.enUS: classPartsApiRequest
 	 */
-	ClasseParts classePartsRequetePatch;
+	ClasseParts classePartsRequeteApi;
 	/**
 	 * Var.enUS: classPartsCluster
 	 */
@@ -1524,23 +1524,23 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
-	 * Var.enUS: str_PatchRequest
+	 * Var.enUS: str_ApiRequest
 	 */
-	public String str_RequetePatch(String langueNom) {
+	public String str_RequeteApi(String langueNom) {
 		if ("frFR".equals(langueNom))
-			return "RequetePatch";
+			return "RequeteApi";
 		else
-			return "PatchRequest";
+			return "ApiRequest";
 	}
 
 	/**
-	 * Var.enUS: str_patchRequest
+	 * Var.enUS: str_apiRequest
 	 */
-	public String str_requetePatch(String langueNom) {
+	public String str_requeteApi(String langueNom) {
 		if ("frFR".equals(langueNom))
-			return "requetePatch";
+			return "requeteApi";
 		else
-			return "patchRequest";
+			return "apiRequest";
 	}
 
 	/**
@@ -3120,7 +3120,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
-	 * Var.enUS: classPartsPatchRequest
+	 * Var.enUS: classPartsApiRequest
 	 * Param1.var.enUS: domainPackageName
 	 * Param2.var.enUS: classLanguageName
 	 * r: classeLangueNom
@@ -3129,11 +3129,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
 	 * r.enUS: domainPackageName
-	 * r: RequetePatch
-	 * r.enUS: PatchRequest
+	 * r: RequeteApi
+	 * r.enUS: ApiRequest
 	 */
-	protected ClasseParts classePartsRequetePatch(String nomEnsembleDomaine, String classeLangueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, "RequetePatch", classeLangueNom);
+	protected ClasseParts classePartsRequeteApi(String nomEnsembleDomaine, String classeLangueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "RequeteApi", classeLangueNom);
 	}
 
 	/**
@@ -3822,8 +3822,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classPartsSiteConfig
 	 * r: classePartsUtilisateurSite
 	 * r.enUS: classPartsSiteUser
-	 * r: classePartsRequetePatch
-	 * r.enUS: classPartsPatchRequest
+	 * r: classePartsRequeteApi
+	 * r.enUS: classPartsApiRequest
 	 * r: classePartsCluster
 	 * r.enUS: classPartsCluster
 	 * r: classePartsResultatRecherche
@@ -4803,6 +4803,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarModifie = null;
 		String classeVarCree = null;
 		String classeVarClePrimaire = null;
+		String classeVarInheritClePrimaire = null;
+		String classeVarSauvegardes = null;
 		String classeVarCleUnique = null;
 
 		String classeNomCanoniqueSuper = Object.class.getCanonicalName();
@@ -4966,7 +4968,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsSiteContexte = classePartsSiteContexte(nomEnsembleDomaine, classeLangueNom);
 		classePartsConfigSite = classePartsConfigSite(nomEnsembleDomaine, classeLangueNom);
 		classePartsUtilisateurSite = classePartsUtilisateurSite(nomEnsembleDomaine, classeLangueNom);
-		classePartsRequetePatch = classePartsRequetePatch(nomEnsembleDomaine, classeLangueNom);
+		classePartsRequeteApi = classePartsRequeteApi(nomEnsembleDomaine, classeLangueNom);
 		classePartsCluster = classePartsCluster(nomEnsembleDomaine, classeLangueNom);
 		classePartsResultatRecherche = classePartsResultatRecherche(nomEnsembleDomaine, classeLangueNom);
 		classePartsToutEcrivain = classePartsToutEcrivain(nomEnsembleDomaine, classeLangueNom);
@@ -5133,7 +5135,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom));
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Set", classeLangueNom));
 		}
-		classePartsGenAjouter(classePartsRequetePatch);
+		classePartsGenAjouter(classePartsRequeteApi);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Optional.class.getCanonicalName(), classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonArray", classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.text.StringEscapeUtils", classeLangueNom));
@@ -5907,6 +5909,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteContientRequeteSite", entiteClasseParts != null && entiteClasseParts.documentSolr != null && (Boolean)entiteClasseParts.documentSolr.get("classeContientRequeteSite_stored_boolean"));
 						indexerStockerSolr(entiteDoc, "entiteExact", regexTrouve("^(entite)?Exact:\\s*(true)$", methodeCommentaire));
 						Boolean entiteClePrimaire = indexerStockerSolr(entiteDoc, "entiteClePrimaire", regexTrouve("^(entite)?ClePrimaire:\\s*(true)$", methodeCommentaire));
+						Boolean entiteInheritClePrimaire = indexerStockerSolr(entiteDoc, "entiteInheritClePrimaire", regexTrouve("^(entite)?InheritClePrimaire:\\s*(true)$", methodeCommentaire));
+						Boolean entiteSauvegardes = indexerStockerSolr(entiteDoc, "entiteSauvegardes", regexTrouve("^(entite)?Sauvegardes:\\s*(true)$", methodeCommentaire));
 						Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^(entite)?CleUnique:\\s*(true)$", methodeCommentaire));
 						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^(entite)?Crypte:\\s*(true)$", methodeCommentaire));
 						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^(entite)?Suggere:\\s*(true)$", methodeCommentaire));
@@ -6489,6 +6493,12 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteClePrimaire) {
 							classeVarClePrimaire = stockerSolr(classeLangueNom, classeDoc, "classeVarClePrimaire", entiteVar);
 						}
+						if(entiteInheritClePrimaire) {
+							classeVarInheritClePrimaire = stockerSolr(classeLangueNom, classeDoc, "classeVarInheritClePrimaire", entiteVar);
+						}
+						if(entiteSauvegardes) {
+							classeVarSauvegardes = stockerSolr(classeLangueNom, classeDoc, "classeVarSauvegardes", entiteVar);
+						}
 						if(entiteCleUnique) {
 							classeVarCleUnique = stockerSolr(classeLangueNom, classeDoc, "classeVarCleUnique", entiteVar);
 						}
@@ -6552,6 +6562,12 @@ public class IndexerClasse extends RegarderClasseBase {
 								}
 								if(entiteClePrimaire) {
 									stockerSolr(langueNom, classeDoc, "classeVarClePrimaire", entiteVarLangue);
+								}
+								if(entiteInheritClePrimaire) {
+									stockerSolr(langueNom, classeDoc, "classeVarInheritClePrimaire", entiteVarLangue);
+								}
+								if(entiteSauvegardes) {
+									stockerSolr(langueNom, classeDoc, "classeVarSauvegardes", entiteVarLangue);
 								}
 								if(entiteCleUnique) {
 									stockerSolr(langueNom, classeDoc, "classeVarCleUnique", entiteVarLangue);
@@ -6812,6 +6828,34 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
+		if(classeVarInheritClePrimaire == null && classeSuperDoc != null) {
+			classeVarInheritClePrimaire = (String)classeSuperDoc.get("classeVarInheritClePrimaire_" + classeLangueNom + "_stored_string");
+			if(classeVarInheritClePrimaire != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarInheritClePrimaire", classeVarInheritClePrimaire);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarInheritClePrimaireLangue = (String)classeSuperDoc.get("classeVarInheritClePrimaire_" + langueNom + "_stored_string");
+						if(classeVarInheritClePrimaireLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarInheritClePrimaire", classeVarInheritClePrimaireLangue);
+						}
+					}
+				}
+			}
+		}
+		if(classeVarSauvegardes == null && classeSuperDoc != null) {
+			classeVarSauvegardes = (String)classeSuperDoc.get("classeVarSauvegardes_" + classeLangueNom + "_stored_string");
+			if(classeVarSauvegardes != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarSauvegardes", classeVarSauvegardes);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarSauvegardesLangue = (String)classeSuperDoc.get("classeVarSauvegardes_" + langueNom + "_stored_string");
+						if(classeVarSauvegardesLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarSauvegardes", classeVarSauvegardesLangue);
+						}
+					}
+				}
+			}
+		}
 		if(classeVarCleUnique == null && classeSuperDoc != null) {
 			classeVarCleUnique = (String)classeSuperDoc.get("classeVarCleUnique_" + classeLangueNom + "_stored_string");
 			if(classeVarCleUnique != null) {
@@ -6952,7 +6996,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(classePartsRequeteSite);
 				classePartsGenApiAjouter(classePartsSiteContexte);
 				classePartsGenApiAjouter(classePartsUtilisateurSite);
-				classePartsGenApiAjouter(classePartsRequetePatch);
+				classePartsGenApiAjouter(classePartsRequeteApi);
 				classePartsGenApiAjouter(classePartsResultatRecherche);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.WorkerExecutor", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", classeLangueNom));

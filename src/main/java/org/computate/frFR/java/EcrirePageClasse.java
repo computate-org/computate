@@ -827,11 +827,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							rechercheListe = rechercheReponse.getResults();
 						}
 
-						wWebsocket.tl(1, "var pk = ", str_requetePatch(langueNom), "['pk'];");
-						wWebsocket.tl(1, "var pks = ", str_requetePatch(langueNom), "['pks'];");
-						wWebsocket.tl(1, "var classes = ", str_requetePatch(langueNom), "['classes'];");
-						wWebsocket.tl(1, "var vars = ", str_requetePatch(langueNom), "['vars'];");
-						wWebsocket.tl(1, "var empty = ", str_requetePatch(langueNom), "['empty'];");
+						wWebsocket.tl(1, "var pk = ", str_requeteApi(langueNom), "['pk'];");
+						wWebsocket.tl(1, "var pks = ", str_requeteApi(langueNom), "['pks'];");
+						wWebsocket.tl(1, "var classes = ", str_requeteApi(langueNom), "['classes'];");
+						wWebsocket.tl(1, "var vars = ", str_requeteApi(langueNom), "['vars'];");
+						wWebsocket.tl(1, "var empty = ", str_requeteApi(langueNom), "['empty'];");
 						wWebsocket.l();
 						wWebsocket.tl(1, "if(pk != null) {");
 						wWebsocket.tl(2, str_rechercher(langueNom), classeNomSimple, "Vals([ {name: 'fq', value: '", classeVarClePrimaire, ":' + pk} ], function( data, textStatus, jQxhr ) {");
@@ -2320,7 +2320,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(1, "}");
 					auteurPageJs.tl(0, "}");
 
-					auteurPageJs.tl(0, "async function websocket", classeNomSimple, "Inner(", str_requetePatch(langueNom), ") {");
+					auteurPageJs.tl(0, "async function websocket", classeNomSimple, "Inner(", str_requeteApi(langueNom), ") {");
 					auteurPageJs.s(wWebsocket);
 					auteurPageJs.tl(0, "}");
 				}

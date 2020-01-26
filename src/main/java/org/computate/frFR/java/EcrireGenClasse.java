@@ -168,6 +168,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeVarClePrimaire;
 
 	/**
+	 */
+	protected String classeVarSauvegardes;
+
+	/**
 	 * Var.enUS: classVarId
 	 */
 	protected String classeVarId;
@@ -438,7 +442,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected ToutEcrivain wHashCode;
 
-	protected ToutEcrivain wRequetePatch;
+	protected ToutEcrivain wRequeteApi;
 
 	protected ToutEcrivain wToString;
 
@@ -1062,7 +1066,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wApiGenererPatch = ToutEcrivain.create();
 		wPageHtmlSingulier = ToutEcrivain.create();
 		wPageGet = ToutEcrivain.create();
-		wRequetePatch = ToutEcrivain.create();
+		wRequeteApi = ToutEcrivain.create();
 		wHashCode = ToutEcrivain.create();
 		wToString = ToutEcrivain.create();
 		wEquals = ToutEcrivain.create();
@@ -4729,11 +4733,20 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					else {
 						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
 						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
-						tl(4, "if(", entiteVar, " != null)");
-						if(StringUtils.contains(entiteSolrNomCanonique, "<"))
-							tl(5, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
-						else
+						if(StringUtils.contains(entiteSolrNomCanonique, "<")) {
+							if(entiteCouverture) {
+								tl(4, "if(", entiteVar, " != null)");
+								tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+							}
+							else {
+								tl(4, "if(", entiteVar, " != null)");
+								tl(5, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
+							}
+						}
+						else {
+							tl(4, "if(", entiteVar, " != null)");
 							tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+						}
 						tl(3, "}");
 					}
 	
@@ -4776,11 +4789,20 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				}
 				else {
 					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
-					tl(2, "if(", entiteVar, " != null)");
-					if(StringUtils.contains(entiteSolrNomCanonique, "<"))
-						tl(3, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
-					else
+					if(StringUtils.contains(entiteSolrNomCanonique, "<")) {
+						if(entiteCouverture) {
+							tl(2, "if(", entiteVar, " != null)");
+							tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+						}
+						else {
+							tl(2, "if(", entiteVar, " != null)");
+							tl(3, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
+						}
+					}
+					else {
+						tl(2, "if(", entiteVar, " != null)");
 						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+					}
 				}
 
 			}
@@ -4871,11 +4893,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(entiteDefinir || entiteAttribuer) {
 		
 				//////////////////
-				// requetePatch //
+				// requeteApi //
 				//////////////////
 		
-				wRequetePatch.tl(3, "if(!Objects.equals(", entiteVar, ", original.get", entiteVarCapitalise, "()))");
-				wRequetePatch.tl(4, str_requetePatch(langueNom), ".addVars(\"", entiteVar, "\");");
+				wRequeteApi.tl(3, "if(!Objects.equals(", entiteVar, ", original.get", entiteVarCapitalise, "()))");
+				wRequeteApi.tl(4, str_requeteApi(langueNom), ".addVars(\"", entiteVar, "\");");
 		
 				//////////////
 				// hashCode //
@@ -5659,20 +5681,20 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 		if(classeContientRequeteSite) {
 			//////////////////
-			// requetePatch //
+			// requeteApi //
 			//////////////////
 			l(); 
 			tl(1, "//////////////////");
-			tl(1, "// ", str_requetePatch(langueNom), " //");
+			tl(1, "// ", str_requeteApi(langueNom), " //");
 			tl(1, "//////////////////");
 			l();
-			tl(1, "public void ", str_requetePatch(langueNom), classeNomSimple, "() {");
-			tl(2, str_RequetePatch(langueNom), " ", str_requetePatch(langueNom), " = Optional.ofNullable(", str_requeteSite(langueNom), "_).map(", classePartsRequeteSite.nomSimple(langueNom), "::get", str_RequetePatch(langueNom), "_).orElse(null);");
-			tl(2, classeNomSimple, " original = (", classeNomSimple, ")Optional.ofNullable(", str_requetePatch(langueNom), ").map(", str_RequetePatch(langueNom), "::getOriginal).orElse(null);");
+			tl(1, "public void ", str_requeteApi(langueNom), classeNomSimple, "() {");
+			tl(2, str_RequeteApi(langueNom), " ", str_requeteApi(langueNom), " = Optional.ofNullable(", str_requeteSite(langueNom), "_).map(", classePartsRequeteSite.nomSimple(langueNom), "::get", str_RequeteApi(langueNom), "_).orElse(null);");
+			tl(2, classeNomSimple, " original = (", classeNomSimple, ")Optional.ofNullable(", str_requeteApi(langueNom), ").map(", str_RequeteApi(langueNom), "::getOriginal).orElse(null);");
 			tl(2, "if(original != null) {");
-			s(wRequetePatch.toString());
+			s(wRequeteApi.toString());
 			if(BooleanUtils.isTrue(classeEtendBase)) {
-				tl(3, "super.", str_requetePatch(langueNom), classeNomSimpleSuperGenerique, "();");
+				tl(3, "super.", str_requeteApi(langueNom), classeNomSimpleSuperGenerique, "();");
 			}
 			tl(2, "}");
 			tl(1, "}");
