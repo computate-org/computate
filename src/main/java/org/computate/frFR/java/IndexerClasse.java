@@ -50,6 +50,8 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.apache.solr.common.util.SimpleOrderedMap;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.thoughtworks.qdox.model.JavaAnnotation;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaConstructor;
@@ -1283,6 +1285,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "OperationRequest";
 	}
 
+	public String str_vider(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "vider";
+		else
+			return "clear";
+	}
+
 	/**
 	 * Var.enUS: str_Request
 	 */
@@ -1421,6 +1430,20 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "Remplacer ";
 		else
 			return "Replace ";
+	}
+
+	public String str_Dupliquer_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Dupliquer ";
+		else
+			return "Duplicate ";
+	}
+
+	public String str_Dupliquer_des_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Dupliquer des ";
+		else
+			return "Duplicate the ";
 	}
 
 	/**
@@ -5142,6 +5165,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonIgnore", classeLangueNom));
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonSerialize.class.getCanonicalName(), classeLangueNom));
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, ToStringSerializer.class.getCanonicalName(), classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberFormat.class.getCanonicalName(), classeLangueNom));
@@ -7115,6 +7140,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(StringUtils.contains(classeApiMethode, "POST")
 								|| StringUtils.contains(classeApiMethode, str_Recherche(langueNom))
 								|| StringUtils.contains(classeApiMethode, "PATCH")
+								|| StringUtils.contains(classeApiMethode, "PUT")
 								) {
 							if(StringUtils.isBlank(classeApiMotCleMethode))
 								classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");

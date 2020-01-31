@@ -13,8 +13,6 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
-import io.vertx.core.json.JsonObject;
-
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WriteApiClass
  * 
@@ -1743,7 +1741,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	//					tl(2, "return future;");
 	//					tl(1, "}");
 					}
-					if(classeApiMethode.contains("PATCH") || classeApiMethode.contains("PUT")) {
+					if(classeApiMethode.contains("PATCH")) {
 						l();
 						tl(1, "public void ", str_liste(langueNom), classeApiMethode, classeNomSimple, "(", classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), ", ", classePartsListeRecherche.nomSimple(langueNom), "<", classeNomSimple, "> ", str_liste(langueNom), classeNomSimple, classeApiMethode.contains("PATCH") ? ", String dt" : "", ", Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(langueNom), ") {");
 						tl(2, "List<Future> futures = new ArrayList<>();");
@@ -1775,28 +1773,55 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 					if(classeApiMethode.contains("PUT")) {
 						l();
-						tl(1, "public void ", str_liste(langueNom), classeApiMethode, classeNomSimple, "(", classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), ", JsonArray jsonArray, Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(langueNom), ") {");
+						tl(1, "public void ", str_liste(langueNom), classeApiMethode, classeNomSimple, "(", classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), ", ", classePartsListeRecherche.nomSimple(langueNom), "<", classeNomSimple, "> ", str_liste(langueNom), classeNomSimple, classeApiMethode.contains("PATCH") ? ", String dt" : "", ", Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(langueNom), ") {");
 						tl(2, "List<Future> futures = new ArrayList<>();");
-						tl(2, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = ", str_requeteApi(langueNom), ".get", str_RequeteSite(langueNom), "_();");
-						tl(2, "jsonArray.forEach(o -> {");
-						tl(3, "JsonObject jsonObject = (JsonObject)o;");
-						tl(3, "futures.add(");
-						tl(4, "future", classeApiMethode, classeNomSimple, "(", str_requeteSite(langueNom), ", jsonObject, a -> {");
-						tl(5, "if(a.succeeded()) {");
+						tl(2, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = ", str_liste(langueNom), classeNomSimple, ".get", str_RequeteSite(langueNom), "_();");
+						tl(2, "JsonArray jsonArray = Optional.ofNullable(", str_requeteSite(langueNom), ".get", str_ObjetJson(langueNom), "()).map(o -> o.getJsonArray(\"list\")).orElse(new JsonArray());");
+						tl(2, "if(jsonArray.size() == 0) {");
+						tl(3, str_liste(langueNom), classeNomSimple, ".getList().forEach(o -> {");
+						tl(4, "futures.add(");
+						tl(5, "future", classeApiMethode, classeNomSimple, "(", classeApiMethode.contains("PATCH") ? "o" : (str_requeteSite(langueNom) + ", JsonObject.mapFrom(o)"), ", a -> {");
+						tl(6, "if(a.succeeded()) {");
+						tl(6, "} else {");
+						tl(7, str_erreur(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", a);");
+						tl(6, "}");
+						tl(5, "})");
+						tl(4, ");");
+						tl(3, "});");
+						tl(3, "CompositeFuture.all(futures).setHandler( a -> {");
+						tl(4, "if(a.succeeded()) {");
+						tl(5, str_requeteApi(langueNom), ".setNumPATCH(", str_requeteApi(langueNom), ".getNumPATCH() + ", str_liste(langueNom), classeNomSimple, ".size());");
+						tl(5, "if(", str_liste(langueNom), classeNomSimple, ".next(", classeApiMethode.contains("PATCH") ? "dt" : "" , ")) {");
+						tl(6, str_requeteSite(langueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(langueNom), ").toString());");
+						tl(6, str_liste(langueNom), classeApiMethode, classeNomSimple, "(", str_requeteApi(langueNom), ", ", str_liste(langueNom), "", classeNomSimple, classeApiMethode.contains("PATCH") ? ", dt" : "", ", ", str_gestionnaireEvenements(langueNom), ");");
 						tl(5, "} else {");
-						tl(6, str_erreur(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", a);");
+						tl(6, str_reponse(langueNom), "200", classeApiMethode, classeNomSimple, "(", str_requeteApi(langueNom), ", ", str_gestionnaireEvenements(langueNom), ");");
 						tl(5, "}");
-						tl(4, "})");
-						tl(3, ");");
-						tl(2, "});");
-						tl(2, "CompositeFuture.all(futures).setHandler( a -> {");
-						tl(3, "if(a.succeeded()) {");
-						tl(4, str_requeteApi(langueNom), ".setNumPATCH(", str_requeteApi(langueNom), ".getNumPATCH() + jsonArray.size());");
-						tl(4, str_reponse(langueNom), "200", classeApiMethode, classeNomSimple, "(", str_requeteApi(langueNom), ", ", str_gestionnaireEvenements(langueNom), ");");
-						tl(3, "} else {");
-						tl(4, str_erreur(langueNom), classeNomSimple, "(", str_requeteApi(langueNom), ".get", str_RequeteSite(langueNom), "_(), ", str_gestionnaireEvenements(langueNom), ", a);");
-						tl(3, "}");
-						tl(2, "});");
+						tl(4, "} else {");
+						tl(5, str_erreur(langueNom), classeNomSimple, "(", str_liste(langueNom), "", classeNomSimple, ".get", str_RequeteSite(langueNom), "_(), ", str_gestionnaireEvenements(langueNom), ", a);");
+						tl(4, "}");
+						tl(3, "});");
+						tl(2, "} else {");
+						tl(3, "jsonArray.forEach(o -> {");
+						tl(4, "JsonObject jsonObject = (JsonObject)o;");
+						tl(4, "futures.add(");
+						tl(5, "future", classeApiMethode, classeNomSimple, "(", str_requeteSite(langueNom), ", jsonObject, a -> {");
+						tl(6, "if(a.succeeded()) {");
+						tl(6, "} else {");
+						tl(7, str_erreur(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", a);");
+						tl(6, "}");
+						tl(5, "})");
+						tl(4, ");");
+						tl(3, "});");
+						tl(3, "CompositeFuture.all(futures).setHandler( a -> {");
+						tl(4, "if(a.succeeded()) {");
+						tl(5, str_requeteApi(langueNom), ".setNumPATCH(", str_requeteApi(langueNom), ".getNumPATCH() + jsonArray.size());");
+						tl(5, str_reponse(langueNom), "200", classeApiMethode, classeNomSimple, "(", str_requeteApi(langueNom), ", ", str_gestionnaireEvenements(langueNom), ");");
+						tl(4, "} else {");
+						tl(5, str_erreur(langueNom), classeNomSimple, "(", str_requeteApi(langueNom), ".get", str_RequeteSite(langueNom), "_(), ", str_gestionnaireEvenements(langueNom), ", a);");
+						tl(4, "}");
+						tl(3, "});");
+						tl(2, "}");
 						tl(1, "}");
 					}
 					if(classeApiMethode.contains("PATCH")) {
@@ -1842,6 +1867,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classeApiMethode.contains("PUT")) {
 						l();
 						tl(1, "public Future<", classeNomSimple, "> future", classeApiMethode, classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), ", JsonObject jsonObject,  Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(langueNom), ") {");
+						tl(2, "jsonObject.put(\"", str_sauvegardes(langueNom), "\", Optional.ofNullable(jsonObject.getJsonArray(\"", str_sauvegardes(langueNom), "\")).orElse(new JsonArray()));");
+						tl(2, "JsonObject jsonPatch = Optional.ofNullable(", str_requeteSite(langueNom), ".get", str_ObjetJson(langueNom), "()).map(o -> o.getJsonObject(\"patch\")).orElse(new JsonObject());");
+						tl(2, "jsonPatch.stream().forEach(o -> {");
+						tl(3, "jsonObject.put(o.getKey(), o.getValue());");
+						tl(3, "jsonObject.getJsonArray(\"", str_sauvegardes(langueNom), "\").add(o.getKey());");
+						tl(2, "});");
 						tl(2, "Future<", classeNomSimple, "> future = Future.future();");
 						tl(2, "try {");
 						tl(3, str_creer(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ", a -> {");
@@ -1933,7 +1964,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "Long pk = ", str_requeteSite(langueNom), ".get", str_Requete(langueNom), "Pk();");
 						l();
 						tl(3, "", str_connexionSql(langueNom), ".queryWithParams(");
-						tl(5, "", classePartsSiteContexte.nomSimple(langueNom), ".SQL_vider");
+						tl(5, "", classePartsSiteContexte.nomSimple(langueNom), ".SQL_", str_vider(langueNom));
 						tl(5, ", new JsonArray(Arrays.asList(pk, ", classeNomSimple, ".class.getCanonicalName(), pk, pk, pk))");
 						tl(5, ", remplacerAsync");
 						tl(3, "-> {");

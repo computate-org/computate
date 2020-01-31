@@ -34,6 +34,9 @@ import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
@@ -948,9 +951,19 @@ public class EcrireGenClasse extends EcrireClasse {
 	Integer rechercheLignePOST;
 
 	/**
+	 * Var.enUS: searchRowPUT
+	 */
+	Integer rechercheLignePUT;
+
+	/**
 	 * Var.enUS: searchRowActualPOST
 	 */
 	Integer rechercheLigneActuelPOST;
+
+	/**
+	 * Var.enUS: searchRowActualPUT
+	 */
+	Integer rechercheLigneActuelPUT;
 
 	/**
 	 * Var.enUS: searchRowPATCH
@@ -2941,6 +2954,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			entiteAttribuerContexteCouleur = (String)doc.get("entiteAttribuerContexteCouleur_stored_string");
 			entiteAttribuerContexteIconeGroupe = (String)doc.get("entiteAttribuerContexteIconeGroupe_stored_string");
 			entiteAttribuerContexteIconeNom = (String)doc.get("entiteAttribuerContexteIconeNom_stored_string");
+			entiteAttribuerPageUri = (String)doc.get("entiteAttribuerPageUri_" + langueNom + "_stored_string");
+			entiteTypeJson = (String)doc.get("entiteTypeJson_stored_string");
 	
 			String entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
 			String entiteHtmlTooltip = (String)doc.get("entiteHtmlTooltip_" + langueNom + "_stored_string");
@@ -3186,6 +3201,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			if(entiteIgnorer)
 				tl(1, "@JsonIgnore");
+			else if(!"java.lang.String".equals(entiteNomCanonique) && "string".equals(entiteTypeJson))
+				tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
 			t(1, "protected ", entiteNomSimpleComplet, " ", entiteVar);
 			if(!entiteCouverture) {
 				if("java.util.List".equals(entiteNomCanonique)) {
@@ -4267,7 +4284,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							if(entiteAttribuer) {
 								if(entiteNomAffichage != null) {
 									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();
-									t(tIndex + 7).s("{ ", classePrefixe, "e(\"a\")").da("href", entiteAttribuerPageUri).da("class", "w3-cell w3-btn w3-center h4 w3-block h4 w3-", entiteAttribuerContexteCouleur, " w3-hover-", entiteAttribuerContexteCouleur, " ").dfl();
+									t(tIndex + 7).s("{ ", classePrefixe, "e(\"a\")").s(".a(\"href\", \"", entiteAttribuerPageUri, "?fq=", entiteAttribuerVar, ":\", ", classeVarClePrimaire, ")").da("class", "w3-cell w3-btn w3-center h4 w3-block h4 w3-", entiteAttribuerContexteCouleur, " w3-hover-", entiteAttribuerContexteCouleur, " ").dfl();
 									if(entiteAttribuerContexteIconeGroupe != null && entiteAttribuerContexteIconeNom != null)
 										t(tIndex + 8).s(classePrefixe, "e(\"i\")").da("class", "fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " w3-padding-small ").df().dgl("i");
 									t(tIndex + 8).sxqscl(entiteNomAffichage);
