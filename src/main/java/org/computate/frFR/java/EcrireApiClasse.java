@@ -1827,7 +1827,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classeApiMethode.contains("PATCH")) {
 						l();
 						tl(1, "public Future<", classeNomSimple, "> future", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o,  Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(langueNom), ") {");
-						tl(2, "Future<", classeNomSimple, "> future = Future.future();");
+						tl(2, "Promise<", classeNomSimple, "> promise = Promise.promise();");
 						tl(2, "try {");
 						tl(3, "sql", classeApiMethode, classeNomSimple, "(o, a -> {");
 						tl(4, "if(a.succeeded()) {");
@@ -1840,7 +1840,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(10, "if(d.succeeded()) {");
 						tl(11, str_requeteApi(langueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
 						tl(11, StringUtils.uncapitalize(classeNomSimple), ".", str_requeteApi(langueNom), classeNomSimple, "();");
-						tl(11, "future.complete(o);");
+						tl(11, "promise.complete(o);");
 						tl(11, str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture(d.result()));");
 						tl(10, "} else {");
 						tl(11, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(d.cause()));");
@@ -1858,7 +1858,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
 						tl(4, "}");
 						tl(3, "});");
-						tl(3, "return future;");
+						tl(3, "return promise.future();");
 						tl(2, "} catch(Exception e) {");
 						tl(3, "return Future.failedFuture(e);");
 						tl(2, "}");

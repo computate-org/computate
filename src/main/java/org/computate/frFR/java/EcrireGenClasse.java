@@ -4151,26 +4151,38 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								tl(tIndex + 3, ".fg();");
 							}
 							else if("Boolean".equals(entiteNomSimple)) {
-								t(tIndex + 2).s(classePrefixe, "e(\"input\")").l();
-								t(tIndex + 3).dal("type", "checkbox");
-								t(tIndex + 3).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-								t(tIndex + 3).da("value", "true").l(";");
+								t(tIndex + 2).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
+								t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
+								t(tIndex + 4).dal("type", "checkbox");
+								t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+								t(tIndex + 4).da("value", "true").l(";");
+								t(tIndex + 2).l("} else {");
+								t(tIndex + 3).s(classePrefixe, "e(\"select\")").l();
+								t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\");");
+								t(tIndex + 2).l("}");
 				
-								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
-									t(tIndex + 4).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
-								t(tIndex + 3).l("} else {");
-									t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
-									t(tIndex + 4).s(classePrefixe).a("name", entiteVar).l(";");
-								t(tIndex + 3).l("}");
-								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 4).s(classePrefixe).s("a(\"onchange\", \"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")").l(";");
-								t(tIndex + 3).l("}");
-								tl(tIndex + 3, ";");
+								t(tIndex + 2).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
+									t(tIndex + 3).s(classePrefixe).s("a(\"class\", \"set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+									t(tIndex + 3).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
+								t(tIndex + 2).l("} else {");
+									t(tIndex + 3).s(classePrefixe).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+									t(tIndex + 3).s(classePrefixe).a("name", entiteVar).l(";");
+								t(tIndex + 2).l("}");
+								t(tIndex + 2).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
+									t(tIndex + 3).s(classePrefixe).s("a(\"onchange\", \"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")").l(";");
+								t(tIndex + 2).l("}");
 				
+								t(tIndex + 2).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
 								tl(tIndex + 3, "if(get", entiteVarCapitalise, "() != null && get", entiteVarCapitalise, "())");
 								t(tIndex + 4).s(classePrefixe).a("checked", "checked").l(";");
-								t(tIndex + 2).s(classePrefixe).fgl();
+								t(tIndex + 3).s(classePrefixe).fgl();
+								t(tIndex + 2).l("} else {");
+								t(tIndex + 3).s(classePrefixe, "f();").l();
+								t(tIndex + 3).s(classePrefixe, "e(\"option\").a(\"value\", \"\").a(\"selected\", \"selected\").f().g(\"option\");").l();
+								t(tIndex + 3).s(classePrefixe, "e(\"option\").a(\"value\", \"true\").f().sx(\"true\").g(\"option\");").l();
+								t(tIndex + 3).s(classePrefixe, "e(\"option\").a(\"value\", \"false\").f().sx(\"false\").g(\"option\");").l();
+								t(tIndex + 3).s(classePrefixe, "g(\"select\");").l();
+								t(tIndex + 2).l("}");
 								l();
 							}
 							else if(BooleanUtils.isTrue(entiteSignature)) {
@@ -4286,7 +4298,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();
 									t(tIndex + 7).s("{ ", classePrefixe, "e(\"a\")").s(".a(\"href\", \"", entiteAttribuerPageUri, "?fq=", entiteAttribuerVar, ":\", ", classeVarClePrimaire, ")").da("class", "w3-cell w3-btn w3-center h4 w3-block h4 w3-", entiteAttribuerContexteCouleur, " w3-hover-", entiteAttribuerContexteCouleur, " ").dfl();
 									if(entiteAttribuerContexteIconeGroupe != null && entiteAttribuerContexteIconeNom != null)
-										t(tIndex + 8).s(classePrefixe, "e(\"i\")").da("class", "fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " w3-padding-small ").df().dgl("i");
+										t(tIndex + 8).s(classePrefixe, "e(\"i\")").da("class", "fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " ").df().dgl("i");
 									t(tIndex + 8).sxqscl(entiteNomAffichage);
 									t(tIndex + 7).l("} ", classePrefixe, "g(\"a\");");
 									t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");

@@ -7073,6 +7073,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.LocalTime", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.sql.Timestamp", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Future", classeLangueNom));
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Promise", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.CaseInsensitiveHeaders", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.AsyncResult", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Handler", classeLangueNom));
