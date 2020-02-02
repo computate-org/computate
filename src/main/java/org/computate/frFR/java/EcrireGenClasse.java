@@ -4443,7 +4443,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row  ").dfl();
 								t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
 								t(tIndex + 8).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-rest ").dfl();
-								t(tIndex + 9).s(classePrefixe, "e(\"span\")").df().s(".sx(str", entiteVarCapitalise, "())").dgl("span");
+								if(StringUtils.equals(classeVarClePrimaire, entiteVar) && classeVarUrlPk != null) {
+									t(tIndex + 9).s(classePrefixe, "e(\"a\").a(\"href\", ", classeVarUrlPk, ")").df().s(".sx(str", entiteVarCapitalise, "())").dgl("a");
+								} else if(StringUtils.equals(classeVarId, entiteVar) && classeVarUrlId != null) {
+									t(tIndex + 9).s(classePrefixe, "e(\"a\").a(\"href\", ", classeVarUrlId, ")").df().s(".sx(str", entiteVarCapitalise, "())").dgl("a");
+								} else {
+									t(tIndex + 9).s(classePrefixe, "e(\"span\")").df().s(".sx(str", entiteVarCapitalise, "())").dgl("span");
+								}
 								t(tIndex + 8).l("} ", classePrefixe, "g(\"div\");");
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 								t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");

@@ -2225,27 +2225,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "**/");
 					tl(1, "public static void html", str_Suggere(langueNom), classeGenPageNomSimple, "(", classePartsMiseEnPage.nomSimple(langueNom), " p, String id) {");
 
-					t(2).s("{ p.").e("div").da("class", "w3-cell-row ").dfl();
-
-					// voir tous //
-					t(3).s("{ p.").e("div").da("class", "").dfl();
-					t(4).s("{ p.").e("a").da("href", classePageUriMethode).da("class", "").dfl();
-					if(contexteIconeGroupe != null && contexteIconeNom != null)
-						t(5).s("p.").e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ").df().dgl("i");
-					t(5).s("p.").sxqscl(str_voir(langueNom), " ", contexteTousNom);
-					t(4).s("} p.").gl("a");
-					t(3).s("} p.").gl("div");
-
 					// recharger tous //
-					t(3).s("{ p.").e("div").da("class", "").dfl();
-					t(4).s("{ p.").e("a").s(".a(\"id\", \"", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id)").da("href", classePageUriMethode).da("class", "");
+					t(2).s("{ p.").e("div").da("class", "").dfl();
+					t(3).s("{ p.").e("a").s(".a(\"id\", \"", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id)").da("href", classePageUriMethode).da("class", "");
 					s(".a(\"onclick\", \"patch", classeNomSimple, "Vals([], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }); return false; \")");
 					dfl();
-					t(5).s("p.").e("i").da("class", "fas fa-sync-alt ").df().dgl("i");
-					t(5).s("p.").sxqscl(str_recharger(langueNom), " ", contexteTousNom);
-					t(4).s("} p.").gl("a");
-					t(3).s("} p.").gl("div");
-
+					t(4).s("p.").e("i").da("class", "fas fa-sync-alt ").df().dgl("i");
+					t(4).s("p.").sxqscl(str_recharger(langueNom), " ", contexteTousNom);
+					t(3).s("} p.").gl("a");
 					t(2).s("} p.").gl("div");
 
 					t(2).s("{ p.").e("div").da("class", "w3-cell-row ").dfl();
@@ -2283,6 +2270,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(4).s("} p.").gl("ul");
 					t(3).s("} p.").gl("div");
 					t(2).s("} p.").gl("div");
+
+					// voir tous //
+					t(2).s("{ p.").e("div").da("class", "").dfl();
+					t(3).s("{ p.").e("a").da("href", classePageUriMethode).da("class", "").dfl();
+					if(contexteIconeGroupe != null && contexteIconeNom != null)
+						t(4).s("p.").e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ").df().dgl("i");
+					t(4).s("p.").sxqscl(str_voir(langueNom), " ", contexteTousNom);
+					t(3).s("} p.").gl("a");
+					t(2).s("} p.").gl("div");
+
 					tl(1, "}");
 
 					auteurWebsocket.flushClose();

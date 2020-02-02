@@ -1416,11 +1416,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(11, ");");
 						tl(11, str_reponse(langueNom), "200", classeApiMethode, classeNomSimple, "(", str_requeteApi(langueNom), ", ", str_gestionnaireEvenements(langueNom), ");");
 						tl(10, "} else {");
-						tl(11, str_erreur(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", c);");
+						tl(11, str_erreur(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", d);");
 						tl(10, "}");
 						tl(9, "});");
 						tl(8, "} else {");
-						tl(9, str_erreur(langueNom), "", classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", b);");
+						tl(9, str_erreur(langueNom), "", classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", c);");
 						tl(8, "}");
 						tl(7, "});");
 						tl(6, "} else {");
@@ -1653,11 +1653,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(11, ");");
 						tl(11, str_reponse(langueNom), "200", classeApiMethode, classeNomSimple, "(", str_requeteApi(langueNom), ", ", str_gestionnaireEvenements(langueNom), ");");
 						tl(10, "} else {");
-						tl(11, str_erreur(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", c);");
+						tl(11, str_erreur(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", d);");
 						tl(10, "}");
 						tl(9, "});");
 						tl(8, "} else {");
-						tl(9, str_erreur(langueNom), "", classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", b);");
+						tl(9, str_erreur(langueNom), "", classeNomSimple, "(", str_requeteSite(langueNom), ", ", str_gestionnaireEvenements(langueNom), ", c);");
 						tl(8, "}");
 						tl(7, "});");
 						tl(6, "} else {");
