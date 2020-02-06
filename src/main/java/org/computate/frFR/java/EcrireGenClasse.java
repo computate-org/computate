@@ -4086,7 +4086,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 4).dal("name", "set", entiteVarCapitalise);
 								t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 4).dal("autocomplete", "off");
-								t(tIndex + 4).l(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? ", str_rechercher(langueNom), entiteAttribuerNomSimple, str_Filtres(langueNom), "($('#", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "')) : [{'name':'fq','value':'", entiteAttribuerVar, ":\", ", classeVarClePrimaire, ", \"'}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"'), \", ", classeVarClePrimaire, ", \"); \")");
+								t(tIndex + 4).l(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? ", str_rechercher(langueNom), entiteAttribuerNomSimple, str_Filtres(langueNom), "($('#", str_suggere(langueNom), "\", ", str_classeApiMethodeMethode(langueNom), ", \"", classeNomSimple, entiteVarCapitalise, "')) : [{'name':'fq','value':'", entiteAttribuerVar, ":\", ", classeVarClePrimaire, ", \"'}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"'), \", ", classeVarClePrimaire, ", \"); \")");
 			
 								t(tIndex + 3).dfgl();
 								l();
@@ -4290,7 +4290,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //							t(tIndex + 6).dfgl();
 //							t(tIndex + 4).l("} ", classePrefixe, "g(\"span\");");
 			//				t(tIndex + 4).s("{ ", classePrefixe, "e(\"form\")").da("action", classeApiUri).da("id", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise).da("style", "display: inline-block; width: 100%; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
-							t(tIndex + 4).s("{ ", classePrefixe, "e(\"div\")").da("id", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise).dfl();
+							t(tIndex + 4).s("{ ", classePrefixe, "e(\"div\")").s(".a(\"id\", \"", str_suggere(langueNom), "\", ", str_classeApiMethodeMethode(langueNom), ", \"", classeNomSimple, entiteVarCapitalise, "\")").dfl();
 							t(tIndex + 5).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-card ").dfl();
 			
 							if(entiteAttribuer) {

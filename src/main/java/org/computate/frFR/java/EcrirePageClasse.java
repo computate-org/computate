@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -1327,10 +1328,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								auteurPageJs.s(", error");
 							}
 							else if(methodePUT) {
-								auteurPageJs.s("$", str_formulaireValeurs(langueNom), ", success, error");
+								auteurPageJs.s("$", str_formulaireValeurs(langueNom), ", ", classeVarClePrimaire, ", success, error");
 							}
 							else if(methodePATCH)
-								auteurPageJs.s("$", str_formulaireFiltres(langueNom), ", $", str_formulaireValeurs(langueNom), ", success, error");
+								auteurPageJs.s("$", str_formulaireFiltres(langueNom), ", $", str_formulaireValeurs(langueNom), ", ", classeVarClePrimaire, ", success, error");
 							else if(methodeRecherche) {
 								auteurPageJs.s("$", str_formulaireFiltres(langueNom), "");
 								auteurPageJs.s(", success");
@@ -1382,10 +1383,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							}
 		
 							if(methodePATCH) {
-								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals($.deparam(window.location.search ? window.location.search.substring(1) : window.location.search), vals, success, error);");
+								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", classeVarClePrimaire, " == null ? $.deparam(window.location.search ? window.location.search.substring(1) : window.location.search) : [{name:'fq', value:'", classeVarClePrimaire, ":' + ", classeVarClePrimaire, "}], vals, success, error);");
 							}
 							else if(methodePUT) {
-								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals($.deparam(window.location.search ? window.location.search.substring(1) : window.location.search), vals, success, error);");
+								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", classeVarClePrimaire, " == null ? $.deparam(window.location.search ? window.location.search.substring(1) : window.location.search) : [{name:'fq', value:'", classeVarClePrimaire, ":' + ", classeVarClePrimaire, "}], vals, success, error);");
 							}
 							else if(methodeRecherche) {
 								auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", str_filtres(langueNom), ", success, error);");
@@ -1474,8 +1475,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								auteurPageJs.tl(2, ", dataType: 'json'");
 								auteurPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
 								auteurPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
-								if(methodePATCH || methodePOST || methodePUT) {
+								if(methodePATCH || methodePOST) {
 									auteurPageJs.tl(2, ", data: JSON.stringify(vals)");
+								}
+								if(methodePUT) {
+									auteurPageJs.tl(2, ", data: JSON.stringify({patch: vals})");
 								}
 								auteurPageJs.tl(2, ", success: success");
 								auteurPageJs.tl(2, ", error: error");
@@ -2112,9 +2116,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													if("POST".equals(classeApiMethodeMethode))
 														tl(7 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
 													else if("PATCH".equals(classeApiMethodeMethode))
-														tl(7 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), function() {}, function() {}); \")");
+														tl(7 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \", function() {}, function() {}); \")");
 													else if("PUT".equals(classeApiMethodeMethode))
-														tl(7 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "')); \")");
+														tl(7 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \"); \")");
 													else if(tab > 0)
 														tl(7 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")");
 													else
