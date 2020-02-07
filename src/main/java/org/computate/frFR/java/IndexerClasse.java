@@ -827,6 +827,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "SiteConfig";
 	}
 
+	public String str_configSite(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "configSite";
+		else
+			return "siteConfig";
+	}
+
 	/**
 	 * Var.enUS: str_search
 	 */
@@ -935,6 +942,20 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "SiteContexte";
 		else
 			return "SiteContext";
+	}
+
+	public String str_MailDe(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "MailDe";
+		else
+			return "EmailFrom";
+	}
+
+	public String str_MailAdmin(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "MailAdmin";
+		else
+			return "EmailAdmin";
 	}
 
 	/**
@@ -7024,6 +7045,8 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(classePartsRequeteApi);
 				classePartsGenApiAjouter(classePartsResultatRecherche);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.WorkerExecutor", classeLangueNom));
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.mail.MailClient", classeLangueNom));
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.mail.MailMessage", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collections", classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Map", classeLangueNom));
