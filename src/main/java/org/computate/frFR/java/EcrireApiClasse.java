@@ -1233,7 +1233,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(", classePartsSiteContexte.nomSimple(langueNom), " ", str_siteContexte(langueNom), ") {");
 			tl(2, "this.", str_siteContexte(langueNom), " = ", str_siteContexte(langueNom), ";");
-			tl(2, classeNomSimpleGenApiService, " service = ", classeNomSimpleGenApiService, ".", str_creer(langueNom), "Proxy(", str_siteContexte(langueNom), ".getVertx(), SERVICE_ADDRESS);");
+//			tl(2, classeNomSimpleGenApiService, " service = ", classeNomSimpleGenApiService, ".", str_creer(langueNom), "Proxy(", str_siteContexte(langueNom), ".getVertx(), SERVICE_ADDRESS);");
 			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
@@ -2367,11 +2367,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, classePartsSiteContexte.nomSimple(langueNom), " ", str_siteContexte(langueNom), " = ", str_requeteSite(langueNom), ".get", str_SiteContexte(langueNom), "_();");
 			tl(2, "MailClient mailClient = ", str_siteContexte(langueNom), ".getMailClient();");
 			tl(2, "MailMessage message = new MailMessage();");
-			tl(2, "message.setFrom(siteConfig.get", str_MailDe(langueNom), "());");
-			tl(2, "message.setTo(siteConfig.get", str_MailAdmin(langueNom), "());");
+			tl(2, "message.setFrom(", str_configSite(langueNom), ".get", str_MailDe(langueNom), "());");
+			tl(2, "message.setTo(", str_configSite(langueNom), ".get", str_MailAdmin(langueNom), "());");
 			tl(2, "message.setText(ExceptionUtils.getStackTrace(e));");
-			tl(2, "message.setSubject(String.format(", str_configSite(langueNom), ".getSiteBaseUrl() + \" \" + e.getMessage()));");
-			tl(2, "WorkerExecutor workerExecutor = ", str_siteContexte(langueNom), ".getWorkerExecutor();");
+			tl(2, "message.setSubject(String.format(", str_configSite(langueNom), ".get", str_SiteUrlBase(langueNom), "() + \" \" + e.getMessage()));");
+			tl(2, "WorkerExecutor workerExecutor = ", str_siteContexte(langueNom), ".get", str_ExecuteurTravailleur(langueNom), "();");
 			tl(2, "workerExecutor.executeBlocking(");
 			tl(3, "blockingCodeHandler -> {");
 			tl(4, "mailClient.sendMail(message, result -> {");

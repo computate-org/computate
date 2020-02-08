@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -4874,7 +4875,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 				tl(tBase + 2, "case \"", entiteVar, "\":");
 				tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
-				tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var), ", classeVarClePrimaire, "));");
+
+				if(entiteNomSimple.equals("LocalDate"))
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", DateTimeFormatter.ofPattern(\"MM/dd/yyyy\").format(DateTimeFormatter.ofPattern(\"yyyy-MM-dd\").parse(jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var))), ", classeVarClePrimaire, "));");
+				else
+					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var), ", classeVarClePrimaire, "));");
+
 				tl(tBase + 3, "break;");
 			}	
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {

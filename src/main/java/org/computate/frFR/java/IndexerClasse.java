@@ -958,6 +958,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "EmailAdmin";
 	}
 
+	public String str_SiteUrlBase(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "SiteUrlBase";
+		else
+			return "SiteBaseUrl";
+	}
+
 	/**
 	 * Var.enUS: str_ConfigPath
 	 */
@@ -6229,7 +6236,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueDate, VAL_nomCanoniqueZonedDateTime)) {
 							entiteNomSimpleVertxJson = "String";
-							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueInstant;
+							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneId", classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneOffset", classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDateTime", classeLangueNom));
@@ -6237,19 +6244,21 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, ChronoUnit.class.getCanonicalName(), classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom));
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.Instant", classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom));
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalDate)) {
 							entiteNomSimpleVertxJson = "String";
-							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueInstant;
+							entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneId", classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneOffset", classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDate", classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, ChronoUnit.class.getCanonicalName(), classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom));
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.Instant", classeLangueNom));
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom));
