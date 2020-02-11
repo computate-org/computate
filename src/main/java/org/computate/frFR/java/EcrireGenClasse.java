@@ -3204,6 +3204,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "@JsonIgnore");
 			else if(!"java.lang.String".equals(entiteNomCanonique) && "string".equals(entiteTypeJson))
 				tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
+			else if("Long".equals(entiteNomSimpleGenerique)
+					|| "Double".equals(entiteNomSimpleGenerique)
+					|| "Integer".equals(entiteNomSimpleGenerique)
+					)
+				tl(1, "@JsonSerialize(contentUsing = ToStringSerializer.class)");
 			t(1, "protected ", entiteNomSimpleComplet, " ", entiteVar);
 			if(!entiteCouverture) {
 				if("java.util.List".equals(entiteNomCanonique)) {

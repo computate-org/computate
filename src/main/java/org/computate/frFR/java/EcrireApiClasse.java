@@ -1291,6 +1291,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(18, "if(a.succeeded()) {");
 						tl(19, "", str_connexionSql(langueNom), ".close(i -> {");
 						tl(20, "if(a.succeeded()) {");
+						tl(21, str_requeteApi(langueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
+						tl(21, StringUtils.uncapitalize(classeNomSimple), ".", str_requeteApi(langueNom), classeNomSimple, "();");
 						tl(21, str_requeteSite(langueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(langueNom), ").toString());");
 						tl(21, "", str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture(g.result()));");
 						tl(20, "} else {");
@@ -1902,7 +1904,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "jsonObject.put(o.getKey(), o.getValue());");
 						tl(3, "jsonObject.getJsonArray(\"", str_sauvegardes(langueNom), "\").add(o.getKey());");
 						tl(2, "});");
-						tl(2, "Future<", classeNomSimple, "> future = Future.future();");
+						tl(2, "Promise<", classeNomSimple, "> promise = Promise.promise();");
 						tl(2, "try {");
 						tl(3, str_creer(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ", a -> {");
 						tl(4, "if(a.succeeded()) {");
@@ -1917,7 +1919,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(12, "if(e.succeeded()) {");
 						tl(13, str_requeteApi(langueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
 						tl(13, StringUtils.uncapitalize(classeNomSimple), ".", str_requeteApi(langueNom), classeNomSimple, "();");
-						tl(13, "future.complete(", StringUtils.uncapitalize(classeNomSimple), ");");
+						tl(13, "promise.complete(", StringUtils.uncapitalize(classeNomSimple), ");");
 						tl(13, str_gestionnaireEvenements(langueNom), ".handle(Future.succeededFuture(e.result()));");
 						tl(12, "} else {");
 						tl(13, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(e.cause()));");
@@ -1939,7 +1941,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
 						tl(4, "}");
 						tl(3, "});");
-						tl(3, "return future;");
+						tl(3, "return promise.future();");
 						tl(2, "} catch(Exception e) {");
 						tl(3, "return Future.failedFuture(e);");
 						tl(2, "}");
