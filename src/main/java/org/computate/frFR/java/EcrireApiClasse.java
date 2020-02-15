@@ -2767,7 +2767,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "try {");
 			tl(3, "o.", str_initLoin(classeLangueNom), "", str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 			tl(3, "o.", str_indexer(classeLangueNom), "", str_PourClasse(classeLangueNom), "();");
-			tl(3, "if(!", str_requeteSite(classeLangueNom), ".get", str_RequeteApi(classeLangueNom), "_().getEmpty()) {");
+			tl(3, "if(BooleanUtils.isFalse(Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteApi(classeLangueNom), "_()).map(", classePartsRequeteApi.nomSimple(classeLangueNom), "::getEmpty).orElse(null))) {");
+			tl(4, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), "2 = ", str_generer(classeLangueNom), "", classePartsRequeteSite.nomSimple(classeLangueNom), "", str_Pour(classeLangueNom), "", classeNomSimple, "(", str_siteContexte(classeLangueNom), ", ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "(), new JsonObject());");
+			tl(4, str_requeteSite(classeLangueNom), "2.set", str_ConnexionSql(classeLangueNom), "(", str_requeteSite(classeLangueNom), ".get", str_ConnexionSql(classeLangueNom), "());");
 			tl(4, str_ListeRecherche(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", str_ListeRecherche(classeLangueNom), "<", classeNomSimple, ">();");
 			tl(4, str_listeRecherche(classeLangueNom), ".set", str_Peupler(classeLangueNom), "(true);");
 			tl(4, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
@@ -2775,14 +2777,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_modifie(classeLangueNom), "_indexed_date:[\" + DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(", str_requeteSite(classeLangueNom), ".get", str_RequeteApi(classeLangueNom), "_().get", str_Cree(classeLangueNom), "()", ".toInstant(), ZoneId.of(\"UTC\"))) + \" TO *]\");");
 			s(wIndexerFacetAdd);
 			tl(4, str_listeRecherche(classeLangueNom), ".setRows(1000);");
-			tl(4, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), str_ListeRecherche(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
+			tl(4, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), str_ListeRecherche(classeLangueNom), "(", str_requeteSite(classeLangueNom), "2);");
 			tl(4, "List<Future> futures = new ArrayList<>();");
 			s(wIndexerFacetFor);
 			l();
 			tl(4, "CompositeFuture.all(futures).setHandler(a -> {");
 			tl(5, "if(a.succeeded()) {");
 			tl(6, "LOGGER.info(\"", str_Recharger(classeLangueNom), " ", str_relations(classeLangueNom), " ", str_a_réussi(classeLangueNom), ". \");");
-			tl(6, classeNomSimpleGenApiServiceImpl, " service = new ", classeNomSimpleGenApiServiceImpl, "(", str_requeteSite(classeLangueNom), ".get", str_SiteContexte(classeLangueNom), "_());");
+			tl(6, classeNomSimpleGenApiServiceImpl, " service = new ", classeNomSimpleGenApiServiceImpl, "(", str_requeteSite(classeLangueNom), "2.get", str_SiteContexte(classeLangueNom), "_());");
 			tl(6, "List<Future> futures2 = new ArrayList<>();");
 			tl(6, "for(", classeNomSimple, " o2 : ", str_listeRecherche(classeLangueNom), ".getList()) {");
 			tl(7, "futures2.add(");
@@ -2803,12 +2805,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(8, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
 			tl(7, "} else {");
 			tl(8, "LOGGER.error(\"", str_Recharger(classeLangueNom), " ", str_relations(classeLangueNom), " ", str_a_échoué(classeLangueNom), ". \", b.cause());");
-			tl(8, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", b);");
+			tl(8, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), "2, ", str_gestionnaireEvenements(classeLangueNom), ", b);");
 			tl(7, "}");
 			tl(6, "});");
 			tl(5, "} else {");
 			tl(6, "LOGGER.error(\"", str_Recharger(classeLangueNom), " ", str_relations(classeLangueNom), " ", str_a_échoué(classeLangueNom), ". \", a.cause());");
-			tl(6, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", a);");
+			tl(6, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), "2, ", str_gestionnaireEvenements(classeLangueNom), ", a);");
 			tl(5, "}");
 			tl(4, "});");
 
