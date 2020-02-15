@@ -360,6 +360,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected ToutEcrivain wIndexer;
 
+	protected ToutEcrivain wIndexerFacetAdd;
+
+	protected ToutEcrivain wIndexerFacetFor;
+
 	/**
 	 * Var.enUS: wText
 	 */
@@ -1062,6 +1066,8 @@ public class EcrireGenClasse extends EcrireClasse {
 		wInitLoin = ToutEcrivain.create();
 		wRequeteSite = ToutEcrivain.create();
 		wIndexer = ToutEcrivain.create();
+		wIndexerFacetAdd = ToutEcrivain.create();
+		wIndexerFacetFor = ToutEcrivain.create();
 		wTexte = ToutEcrivain.create();
 		wObtenir = ToutEcrivain.create();
 		wAttribuer = ToutEcrivain.create();
@@ -2932,6 +2938,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			Boolean entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
 			String entiteAttribuerNomCanonique = (String)doc.get("entiteAttribuerNomCanonique_" + langueNom + "_stored_string");
 			String entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
+			String entiteAttribuerNomCanoniqueGenApiServiceImpl = (String)doc.get("entiteAttribuerNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
+			String entiteAttribuerNomSimpleGenApiServiceImpl = (String)doc.get("entiteAttribuerNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
 			String entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
 			String entiteAttribuerVarUrlId = (String)doc.get("entiteAttribuerVarUrlId_" + langueNom + "_stored_string");
 			String entiteAttribuerVarUrlPk = (String)doc.get("entiteAttribuerVarUrlPk_" + langueNom + "_stored_string");
@@ -4658,6 +4666,55 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					wVarSuggere.tl(4, "return \"", entiteVar, "_suggested", "\";");
 				}
 			}
+
+			if(entiteAttribuer) {
+
+				wIndexerFacetAdd.tl(4, str_listeRecherche(langueNom), ".add(\"json.facet\", \"{", entiteVar, ":{terms:{field:", entiteVar, "_indexed_longs, limit:1000}}}\");");
+
+				if(entiteListeTypeJson == null) {
+					wIndexerFacetFor.l();
+					wIndexerFacetFor.tl(4, "{");
+					wIndexerFacetFor.tl(5, entiteAttribuerNomSimple, " o2 = new ", entiteAttribuerNomSimple, "();");
+					wIndexerFacetFor.tl(5, entiteAttribuerNomSimple, StringUtils.capitalize(langueNom), "GenApiServiceImpl service = new ", entiteAttribuerNomSimple, StringUtils.capitalize(langueNom), "GenApiServiceImpl(", str_requeteSite(langueNom), ".get", str_SiteContexte(langueNom), "_());");
+					wIndexerFacetFor.tl(5, "Long ", classeVarClePrimaire, " = o.get", entiteVarCapitalise, "();");
+					wIndexerFacetFor.l();
+					wIndexerFacetFor.tl(5, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+					wIndexerFacetFor.tl(5, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), ");");
+					wIndexerFacetFor.tl(5, "futures.add(");
+					wIndexerFacetFor.tl(6, "service.futurePATCH", entiteAttribuerNomSimple, "(o2, a -> {");
+					wIndexerFacetFor.tl(7, "if(a.succeeded()) {");
+					wIndexerFacetFor.tl(8, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
+					wIndexerFacetFor.tl(7, "} else {");
+					wIndexerFacetFor.tl(8, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "));");
+					wIndexerFacetFor.tl(8, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
+					wIndexerFacetFor.tl(7, "}");
+					wIndexerFacetFor.tl(6, "})");
+					wIndexerFacetFor.tl(5, ");");
+					wIndexerFacetFor.tl(4, "}");
+				}
+				else {
+					wIndexerFacetFor.l();
+					wIndexerFacetFor.tl(4, "{");
+					wIndexerFacetFor.tl(5, entiteAttribuerNomSimpleGenApiServiceImpl, " service = new ", entiteAttribuerNomSimpleGenApiServiceImpl, "(", str_requeteSite(langueNom), ".get", str_SiteContexte(langueNom), "_());");
+					wIndexerFacetFor.tl(5, "for(Long ", classeVarClePrimaire, " : o.get", entiteVarCapitalise, "()) {");
+					wIndexerFacetFor.tl(6, entiteAttribuerNomSimple, " o2 = new ", entiteAttribuerNomSimple, "();");
+					wIndexerFacetFor.l();
+					wIndexerFacetFor.tl(6, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+					wIndexerFacetFor.tl(6, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), ");");
+					wIndexerFacetFor.tl(6, "futures.add(");
+					wIndexerFacetFor.tl(7, "service.futurePATCH", entiteAttribuerNomSimple, "(o2, a -> {");
+					wIndexerFacetFor.tl(8, "if(a.succeeded()) {");
+					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
+					wIndexerFacetFor.tl(8, "} else {");
+					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "));");
+					wIndexerFacetFor.tl(9, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
+					wIndexerFacetFor.tl(8, "}");
+					wIndexerFacetFor.tl(7, "})");
+					wIndexerFacetFor.tl(6, ");");
+					wIndexerFacetFor.tl(5, "}");
+					wIndexerFacetFor.tl(4, "}");
+				}
+			}
 	
 			/////////////////
 			// codeObtenir //
@@ -5736,8 +5793,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			l();
 			tl(1, "public void ", str_requeteApi(langueNom), classeNomSimple, "() {");
 			tl(2, str_RequeteApi(langueNom), " ", str_requeteApi(langueNom), " = Optional.ofNullable(", str_requeteSite(langueNom), "_).map(", classePartsRequeteSite.nomSimple(langueNom), "::get", str_RequeteApi(langueNom), "_).orElse(null);");
-			tl(2, classeNomSimple, " original = (", classeNomSimple, ")Optional.ofNullable(", str_requeteApi(langueNom), ").map(", str_RequeteApi(langueNom), "::getOriginal).orElse(null);");
-			tl(2, "if(original != null) {");
+			tl(2, "Object o = Optional.ofNullable(", str_requeteApi(langueNom), ").map(", str_RequeteApi(langueNom), "::getOriginal).orElse(null);");
+			tl(2, "if(o != null && o instanceof ", classeNomSimple, ") {");
+			tl(3, classeNomSimple, " original = (", classeNomSimple, ")o;");
 			s(wRequeteApi.toString());
 			if(BooleanUtils.isTrue(classeEtendBase)) {
 				tl(3, "super.", str_requeteApi(langueNom), classeNomSimpleSuperGenerique, "();");

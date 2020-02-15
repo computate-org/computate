@@ -1056,6 +1056,16 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
+	 * Var.enUS: str_searchList
+	 */
+	public String str_listeRecherche(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "listeRecherche";
+		else
+			return "searchList";
+	}
+
+	/**
 	 * Var.enUS: str_Width
 	 */
 	public String str_Largeur(String langueNom) {
@@ -1230,6 +1240,20 @@ public class IndexerClasse extends RegarderClasseBase {
 			return " : ";
 		else
 			return ": ";
+	}
+
+	public String str_relations(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "relations";
+		else
+			return "relations";
+	}
+
+	public String str_Recharger(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Recharger";
+		else
+			return "Refresh";
 	}
 
 	public String str_recharger(String langueNom) {
@@ -1922,6 +1946,55 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "NomFamille";
 		else
 			return "LastName";
+	}
+
+	public String str_Cree(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Cree";
+		else
+			return "Created";
+	}
+
+	public String str_cree(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "cree";
+		else
+			return "created";
+	}
+
+	public String str_modifie(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "modifie";
+		else
+			return "modified";
+	}
+
+	public String str_debut(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "debut";
+		else
+			return "start";
+	}
+
+	public String str_rechargé(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "rechargé";
+		else
+			return "refreshed";
+	}
+
+	public String str_a_réussi(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "a réussi";
+		else
+			return "succeeded";
+	}
+
+	public String str_a_échoué(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "a échoué";
+		else
+			return "failed";
 	}
 
 	/**
@@ -6092,6 +6165,11 @@ public class IndexerClasse extends RegarderClasseBase {
 							if(listeRechercheClasse.size() > 0) {
 								SolrDocument docClasse = listeRechercheClasse.get(0);
 								String entiteAttribuerNomCanonique = (String)docClasse.get("classeNomCanonique_" + classeLangueNom + "_stored_string");
+								String entiteAttribuerNomCanoniqueGenApiServiceImpl = (String)docClasse.get("classeNomCanoniqueGenApiServiceImpl_" + classeLangueNom + "_stored_string");
+								String entiteAttribuerNomSimpleGenApiServiceImpl = (String)docClasse.get("classeNomSimpleGenApiServiceImpl_" + classeLangueNom + "_stored_string");
+
+								indexerStockerListeSolr(classeLangueNom, classeDoc, "classeImportationsGenApi", entiteAttribuerNomCanoniqueGenApiServiceImpl);
+								indexerStockerListeSolr(classeLangueNom, classeDoc, "classeImportationsGenApi", entiteAttribuerNomCanonique);
 
 								SolrQuery rechercheSolrVar = new SolrQuery();   
 								rechercheSolrVar.setQuery("*:*");
@@ -6109,6 +6187,8 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(entiteDoc, "entiteAttribuer", true);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimple", entiteAttribuerNomSimple);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanonique);
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanoniqueGenApiServiceImpl", entiteAttribuerNomCanoniqueGenApiServiceImpl);
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimpleGenApiServiceImpl", entiteAttribuerNomSimpleGenApiServiceImpl);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVar);
 									for(String val : Optional.ofNullable((List<String>)docClasse.get("classeTrisVar_" + classeLangueNom + "_stored_strings")).orElse(Collections.emptyList()))
 										indexerStockerListeSolr(classeLangueNom, entiteDoc, "entiteAttribuerTrisVar", val);
@@ -6154,11 +6234,18 @@ public class IndexerClasse extends RegarderClasseBase {
 										for(String langueNom : classeAutresLangues) {  
 											String entiteAttribuerNomCanoniqueLangue = (String)docEntite.get("classeNomCanonique_" + langueNom + "_stored_string");
 											String entiteAttribuerNomSimpleLangue = (String)docEntite.get("classeNomSimple_" + langueNom + "_stored_string");
+											String entiteAttribuerNomCanoniqueGenApiServiceImplLangue = (String)docClasse.get("classeNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
+											String entiteAttribuerNomSimpleGenApiServiceImplLangue = (String)docClasse.get("classeNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
 											String entiteAttribuerVarLangue = (String)docEntite.get("entiteVar_" + langueNom + "_stored_string");
 											String classeNomSimpleLangue = (String)Optional.ofNullable(classeDoc.get("classeNomSimple_" + langueNom + "_stored_string")).map(SolrInputField::getValue).orElse(null);
+
+											indexerStockerListeSolr(langueNom, classeDoc, "classeImportationsGenApi", entiteAttribuerNomCanoniqueGenApiServiceImplLangue);
+											indexerStockerListeSolr(langueNom, classeDoc, "classeImportationsGenApi", entiteAttribuerNomCanoniqueLangue);
 	
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomSimple", entiteAttribuerNomSimpleLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanoniqueLangue);
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomSimpleGenApiServiceImpl", entiteAttribuerNomSimpleGenApiServiceImplLangue);
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomCanoniqueGenApiServiceImpl", entiteAttribuerNomCanoniqueGenApiServiceImplLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVarLangue);
 											for(String val : Optional.ofNullable((List<String>)docClasse.get("classeTrisVar_" + langueNom + "_stored_strings")).orElse(Collections.emptyList()))
 												indexerStockerListeSolr(langueNom, entiteDoc, "entiteAttribuerTrisVar", val);

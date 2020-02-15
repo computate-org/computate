@@ -856,18 +856,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						wWebsocket.s(wWebsocketInput);
 						wWebsocket.tl(2, "});");
 						wWebsocket.tl(1, "}");
-						wWebsocket.l();
-						wWebsocket.tl(1, "if(!empty) {");
-						wWebsocket.tl(2, "if(pks) {");
-						wWebsocket.tl(3, "for(i=0; i < pks.length; i++) {");
-						wWebsocket.tl(4, "var pk2 = pks[i];");
-						wWebsocket.tl(4, "var c = classes[i];");
-						wWebsocket.tl(4, "await window['patch' + c + 'Vals']( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + pk2} ], {});");
-						wWebsocket.tl(3, "}");
-						wWebsocket.tl(2, "}");
-						wWebsocket.tl(2, "if(pk)");
-						wWebsocket.tl(3, "await patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + pk} ], {});");
-						wWebsocket.tl(1, "}");
+//						wWebsocket.l();
+//						wWebsocket.tl(1, "if(!empty) {");
+//						wWebsocket.tl(2, "if(pks) {");
+//						wWebsocket.tl(3, "for(i=0; i < pks.length; i++) {");
+//						wWebsocket.tl(4, "var pk2 = pks[i];");
+//						wWebsocket.tl(4, "var c = classes[i];");
+//						wWebsocket.tl(4, "await window['patch' + c + 'Vals']( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + pk2} ], {});");
+//						wWebsocket.tl(3, "}");
+//						wWebsocket.tl(2, "}");
+//						wWebsocket.tl(2, "if(pk)");
+//						wWebsocket.tl(3, "await patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + pk} ], {});");
+//						wWebsocket.tl(1, "}");
 
 						if(resultatFormPOST)
 							wFormPOST.t(2).bgl("div");
@@ -1225,7 +1225,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								if(entiteIndexe) {
 		
 									wRecherche.l();
-									wRecherche.tl(1, "var ", str_filtre(langueNom), entiteVarCapitalise, " = $", str_formulaireFiltres(langueNom), ".find('.", str_valeur(langueNom), entiteVarCapitalise, "')", jsVal, ";");
+									if("Boolean".equals(entiteNomSimple)) {
+										wRecherche.tl(1, "var $", str_filtre(langueNom), entiteVarCapitalise, "Checkbox = $", str_formulaireFiltres(langueNom), ".find('input.", str_valeur(langueNom), entiteVarCapitalise, "[type = \"checkbox\"]');");
+										wRecherche.tl(1, "var $", str_filtre(langueNom), entiteVarCapitalise, "Select = $", str_formulaireFiltres(langueNom), ".find('select.", str_valeur(langueNom), entiteVarCapitalise, "');");
+										wRecherche.tl(1, "var ", str_filtre(langueNom), entiteVarCapitalise, " = $", str_filtre(langueNom), entiteVarCapitalise, "Select.length ? $", str_filtre(langueNom), entiteVarCapitalise, "Select.val() : $", str_filtre(langueNom), entiteVarCapitalise, "Checkbox.prop('checked');");
+
+										wRecherche.tl(1, "var ", str_filtre(langueNom), entiteVarCapitalise, "SelectVal = $", str_formulaireFiltres(langueNom), ".find('select.", str_filtre(langueNom), entiteVarCapitalise, "').val();");
+										wRecherche.tl(1, "var ", str_filtre(langueNom), entiteVarCapitalise, " = null;");
+										wRecherche.tl(1, "if(", str_filtre(langueNom), entiteVarCapitalise, "SelectVal !== '')");
+										wRecherche.tl(2, str_filtre(langueNom), entiteVarCapitalise, " = ", str_filtre(langueNom), entiteVarCapitalise, "SelectVal == 'true';");
+									}
+									else {
+										wRecherche.tl(1, "var ", str_filtre(langueNom), entiteVarCapitalise, " = $", str_formulaireFiltres(langueNom), ".find('.", str_valeur(langueNom), entiteVarCapitalise, "')", jsVal, ";");
+									}
 
 									if("Boolean".equals(entiteNomSimple))
 										wRecherche.tl(1, "if(", str_filtre(langueNom), entiteVarCapitalise, " != null && ", str_filtre(langueNom), entiteVarCapitalise, " === true)");
@@ -1270,7 +1282,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wPATCH.l();
 
 									wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", str_formulaireFiltres(langueNom), ".find('.remove", entiteVarCapitalise, "').val() === 'true';");
-									wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : $", str_formulaireValeurs(langueNom), ".find('.set", entiteVarCapitalise, "')", jsVal, ";");
+
+									if("Boolean".equals(entiteNomSimple)) {
+										wPATCH.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, "SelectVal = $", str_formulaireValeurs(langueNom), ".find('select.set", entiteVarCapitalise, "').val();");
+										wPATCH.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = null;");
+										wPATCH.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, "SelectVal !== '')");
+										wPATCH.tl(2, str_valeur(langueNom), entiteVarCapitalise, " = ", str_valeur(langueNom), entiteVarCapitalise, "SelectVal == 'true';");
+										wPATCH.tl(1, "set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : ", str_valeur(langueNom), entiteVarCapitalise, ";");
+									}
+									else {
+										wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : $", str_formulaireValeurs(langueNom), ".find('.set", entiteVarCapitalise, "')", jsVal, ";");
+									}
+
 									wPATCH.tl(1, "if(remove", entiteVarCapitalise, " || set", entiteVarCapitalise, " != null && set", entiteVarCapitalise, " !== '')");
 									wPATCH.tl(2, "vals['set", entiteVarCapitalise, "'] = ", valPrefixe, "set", entiteVarCapitalise, valSuffixe, ";");
 									wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.add", entiteVarCapitalise, "')", jsVal, ";");
@@ -1279,7 +1302,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.remove", entiteVarCapitalise, "')", jsVal, ";");
 									wPATCH.tl(1, "if(remove", entiteVarCapitalise, " != null && remove", entiteVarCapitalise, " !== '')");
 									wPATCH.tl(2, "vals['remove", entiteVarCapitalise, "'] = ", valPrefixe, "remove", entiteVarCapitalise, valSuffixe, ";");
-								}
+								} 
 							}
 							rechercheSolr.setStart(i.intValue() + rechercheLignes);
 							rechercheReponse = clientSolrComputate.query(rechercheSolr);
@@ -1582,7 +1605,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												auteurPageJs.tl(3, "$a.append($i);");
 												auteurPageJs.tl(3, "$a.append($span);");
 												auteurPageJs.tl(3, "var val = o['", entiteAttribuerVar, "'];");
-												auteurPageJs.tl(3, "var checked = Array.isArray(val) ? val.includes(", classeVarClePrimaire, ") : val == ", classeVarClePrimaire, ";");
+												auteurPageJs.tl(3, "var checked = Array.isArray(val) ? val.includes(", classeVarClePrimaire, ".toString()) : val == ", classeVarClePrimaire, ";");
 												auteurPageJs.tl(3, "var $input = $('<input>');");
 												auteurPageJs.tl(3, "$input.attr('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarClePrimaire, " + '_", entiteAttribuerVar, "_' + o['", classeVarClePrimaire, "']);");
 												auteurPageJs.tl(3, "$input.attr('value', o['", classeVarClePrimaire, "']);");
