@@ -2687,8 +2687,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 			tl(3, "});");
 			if(classeVarCree != null) {
-				tl(3, "if(", str_liste(classeLangueNom), str_Recherche(classeLangueNom), ".getSorts().size() == 0)");
-				tl(4, str_liste(classeLangueNom), str_Recherche(classeLangueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
+				tl(3, "if(", str_liste(classeLangueNom), str_Recherche(classeLangueNom), ".getSorts().size() == 0) {");
+				if(classeTrisVar.size() > 0) {
+					for(int i = 0; i < classeTrisVar.size(); i++) {
+						String classeTriVar = classeTrisVar.get(i);
+						String classeTriOrdre = classeTrisOrdre.get(i);
+						String classeTriSuffixeType = classeTrisSuffixeType.get(i);
+						tl(4, str_liste(classeLangueNom), str_Recherche(classeLangueNom), ".addSort(\"", classeTriVar, "_indexed", classeTriSuffixeType, "\", ORDER.", classeTriOrdre, ");");
+					}
+				}
+				else {
+					tl(4, str_liste(classeLangueNom), str_Recherche(classeLangueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
+				}
+				tl(3, "}");
 			}
 			tl(3, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".", str_initLoin(classeLangueNom), "", str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 			tl(3, "", str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), "));");

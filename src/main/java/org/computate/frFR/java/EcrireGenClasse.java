@@ -838,6 +838,8 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	List<String> classeTrisOrdre;
 
+	List<String> classeTrisSuffixeType;
+
 	List<String> entiteAttribuerTrisVar;
 
 	/**

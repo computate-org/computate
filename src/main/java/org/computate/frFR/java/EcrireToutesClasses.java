@@ -539,6 +539,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 
 					classeTrisVar = (List<String>)doc.get("classeTrisVar_" + langueNom + "_stored_strings");
 					classeTrisOrdre = (List<String>)doc.get("classeTrisOrdre_stored_strings");
+					classeTrisSuffixeType = (List<String>)doc.get("classeTrisSuffixeType_stored_strings");
 					classeFiltresTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeFiltresTrouves_stored_boolean"));
 					classeFiltres = (List<String>)doc.get("classeFiltres_stored_strings");
 					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_" + langueNom + "_stored_strings");

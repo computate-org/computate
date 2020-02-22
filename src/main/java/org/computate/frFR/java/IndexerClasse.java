@@ -5578,7 +5578,6 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 
 				clientSolrComputate.add(champDoc); 
-				clientSolrComputate.commit(true, true);
 			}
 			else if(membreQdox instanceof JavaConstructor) { 
 				SolrInputDocument constructeurDoc = classeDocClone.deepCopy();
@@ -7754,11 +7753,14 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
+		clientSolrComputate.commit(true, true);
 
 		indexerStockerSolr(classeDoc, "classeTrisTrouves", classeTrisTrouves); 
 		for(Integer i = 0; i < classeTrisOrdre.size(); i++) {
 			String classeTriOrdre = classeTrisOrdre.get(i);
 			String classeTriVar = classeTrisVar.get(i);
+			String classeTriSuffixeType = Optional.ofNullable(clientSolrComputate.getById(classeCheminAbsolu + "." + classeTriVar)).map(d -> (String)d.get("entiteSuffixeType_stored_string")).orElse(null);
+			indexerStockerListeSolr(classeDoc, "classeTrisSuffixeType", classeTriSuffixeType); 
 			indexerStockerListeSolr(classeDoc, "classeTrisOrdre", classeTriOrdre); 
 			indexerStockerListeSolr(classeLangueNom, classeDoc, "classeTrisVar", classeTriVar); 
 			List<String> classeEntiteVars = (List<String>)classeDoc.get("classeEntiteVars_" + classeLangueNom + "_stored_strings").getValue();
@@ -7770,7 +7772,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					indexerStockerListeSolr(langueNom, classeDoc, "classeTrisVar", classeTriVarLangue); 
 				}
 			}
-		}
+		} 
 
 		indexerStockerSolr(classeDoc, "classePage", classePage);
 
