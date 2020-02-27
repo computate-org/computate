@@ -2688,7 +2688,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "});");
 			if(classeVarCree != null) {
 				tl(3, "if(", str_liste(classeLangueNom), str_Recherche(classeLangueNom), ".getSorts().size() == 0) {");
-				if(classeTrisVar.size() > 0) {
+				if(classeTrisVar != null && classeTrisVar.size() > 0) {
 					for(int i = 0; i < classeTrisVar.size(); i++) {
 						String classeTriVar = classeTrisVar.get(i);
 						String classeTriOrdre = classeTrisOrdre.get(i);

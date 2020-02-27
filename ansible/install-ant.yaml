@@ -1,0 +1,74 @@
+# Be sure to install python on the host before running the playbook. 
+# sudo yum install -y python2 python3
+# sudo alternatives --set python /usr/bin/python2
+# sudo pip2 install pyum
+# sudo pip3 install pyum
+---
+- name: Install ant and ivy binaries. 
+  hosts: "{{ target }}"
+  vars:
+    APP_NAME: ant
+    APP_SRC: /usr/local/src/ant
+    APP_OPT: /opt/ant
+    APP_REPO: https://github.com/apache/ant.git
+    APP_VERSION: 1.10.7
+    APP_TAG: rel/1.10.7
+    APP_BINARY: /opt/ant/bin/ant
+    APP_BINARY_LINK: /usr/bin/ant
+    JAVA_HOME: /usr/lib/jvm/java-1.8.0-openjdk
+  tasks:
+    - name: get the username running the deploy
+      become: false
+      local_action: command whoami
+      register: USER_NAME
+      when: USER_NAME is not defined
+    - name: Install {{APP_NAME}} dependencies. 
+      package:
+        name: [git,java-1.8.0-openjdk-devel]
+      become: yes
+    - name: Create the {{APP_NAME}} source directory {{APP_SRC}}. 
+      file:
+        name: "{{APP_SRC}}"
+        state: directory
+        owner: "{{USER_NAME}}"
+        group: "{{USER_NAME}}"
+      become: yes
+    - name: Create the {{APP_NAME}} installation directory {{APP_OPT}}. 
+      file:
+        name: "{{APP_OPT}}"
+        state: directory
+        owner: "{{USER_NAME}}"
+        group: "{{USER_NAME}}"
+      become: yes
+    - name: Clone the {{APP_NAME}} source code. 
+      git:
+        repo: "{{APP_REPO}}"
+        dest: "{{APP_SRC}}"
+        version: "{{APP_TAG}}"
+    - name: Check if {{APP_NAME}} source build directory exists. 
+      stat:
+        path: "{{APP_OPT}}/bin"
+      register: APP_SRC_BUILD_DIR
+    - name: Boostrap the default {{APP_NAME}} application. 
+      shell: (JAVA_HOME={{JAVA_HOME}} ./bootstrap.sh)
+      args:
+        chdir: "{{APP_SRC}}"
+      when: APP_SRC_BUILD_DIR.stat.exists == false
+    - name: Bootstrap the {{APP_NAME}} source code. 
+      shell: (JAVA_HOME={{JAVA_HOME}} bootstrap/bin/ant -f fetch.xml -Ddest=optional)
+      args:
+        chdir: "{{APP_SRC}}"
+      when: APP_SRC_BUILD_DIR.stat.exists == false
+    - name: Build the {{APP_NAME}} application. 
+      shell: (JAVA_HOME={{JAVA_HOME}} ./build.sh -Ddist.dir={{APP_OPT}} dist)
+      args:
+        chdir: "{{APP_SRC}}"
+      when: APP_SRC_BUILD_DIR.stat.exists == false
+    - name: Create the {{APP_NAME}} binary symbolic link. 
+      file:
+        src: "{{APP_BINARY}}"
+        dest: "{{APP_BINARY_LINK}}"
+        state: link
+      become: yes
+...
+

@@ -5,3 +5,5 @@ config/cp.txt
 .settings
 /target/
 /bin/
+**/*.swp
+**/*.retry
