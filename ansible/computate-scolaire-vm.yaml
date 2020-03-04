@@ -1,25 +1,18 @@
 ---
 - name: Configure a libvirt virtual machine to run the computate-scolaire project with demo data. 
   hosts: "{{ target }}"
+  gather_facts: no
   tasks: 
-    - name: get the username running the deploy
-      become: false
-      local_action: command whoami
-      register: host_username
     - name: Download the Centos 8 ISO. 
       get_url:
         url: http://mirrors.xmission.com/centos/8.1.1911/isos/x86_64/CentOS-8.1.1911-x86_64-dvd1.iso
         dest: /usr/local/src/CentOS-8.1.1911-x86_64-dvd1.iso
-        #owner: "{{ host_username.stdout }}"
-        #group: "{{ host_username.stdout }}"
         #checksum: "sha256:3ee3f4ea1538e026fff763e2b284a6f20b259d91d1ad5688f5783a67d279423b"
       become: yes
     - name: Download the computate-scolaire centos8-kickstart.cfg
       get_url:
         url: https://raw.githubusercontent.com/computate/computate-scolaire/master/ansible/centos8-kickstart.cfg
         dest: /usr/local/src/centos8-kickstart.cfg
-        #owner: "{{ host_username.stdout }}"
-        #group: "{{ host_username.stdout }}"
       become: yes
     - name: Check if RHTE-computate-demo.qcow2 exists
       stat:

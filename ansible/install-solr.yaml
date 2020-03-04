@@ -1,0 +1,139 @@
+# Be sure to install python on the host before running the playbook. 
+# sudo yum install -y python2 python3
+# sudo alternatives --set python /usr/bin/python2
+# sudo pip2 install pyum
+# sudo pip3 install pyum
+---
+- name: Install solr as a service on the target. 
+  hosts: "{{ target }}"
+  gather_facts: no
+  vars:
+    APP_NAME: solr
+    APP_SRC: "/usr/local/src/{{APP_NAME}}"
+    APP_OPT: "/opt/{{APP_NAME}}"
+    APP_DATA: "{{APP_OPT}}/data"
+    APP_CONF: "{{APP_OPT}}/conf/zoo.cfg"
+    APP_SYSTEMD: "/usr/lib/systemd/system/{{APP_NAME}}.service"
+    APP_SERVICE: "{{APP_NAME}}"
+    APP_REPO: "https://github.com/apache/lucene-solr.git"
+    APP_VERSION: 8.4.1
+    APP_TAG: "releases/lucene-solr/{{APP_VERSION}}"
+    APP_PORT: 10383
+    SOLR_CONFIG: computate
+    COMPUTATE_REPO: https://github.com/computate/computate.git
+    COMPUTATE_SRC: /usr/local/src/computate
+    ZOOKEEPER_HOSTNAME: localhost
+    ZOOKEEPER_CLIENT_PORT: 10281
+    ZOOKEEPER_ADMIN_PORT: 10280
+    JAVA_HOME: /usr/lib/jvm/java-1.8.0-openjdk
+  tasks:
+    - name: Install {{APP_NAME}} dependencies. 
+      package:
+        name: [git,java-1.8.0-openjdk-devel]
+      become: yes
+    - name: Create the {{APP_NAME}} source directory {{APP_SRC}}. 
+      file:
+        name: "{{APP_SRC}}"
+        state: directory
+        owner: "{{USER_NAME}}"
+        group: "{{USER_NAME}}"
+      become: yes
+    - name: Clone the {{APP_NAME}} source code. 
+      git:
+        repo: "{{APP_REPO}}"
+        dest: "{{APP_SRC}}"
+        version: "{{APP_TAG}}"
+        depth: 1
+    - name: Create the computate source directory {{COMPUTATE_SRC}}. 
+      file:
+        name: "{{COMPUTATE_SRC}}"
+        state: directory
+        owner: "{{USER_NAME}}"
+        group: "{{USER_NAME}}"
+      become: yes
+    - name: Clone the computate source code. 
+      git:
+        repo: "{{COMPUTATE_REPO}}"
+        dest: "{{COMPUTATE_SRC}}"
+    - name: Bootstrap the {{APP_NAME}} source code. 
+      shell: (JAVA_HOME={{JAVA_HOME}} ant ivy-bootstrap)
+      args:
+        chdir: "{{APP_SRC}}/solr"
+        creates: "~/.ant/lib/ivy-2.4.0.jar"
+    - name: Build the {{APP_NAME}} application. 
+      shell: (JAVA_HOME={{JAVA_HOME}} ant package)
+      args:
+        chdir: "{{APP_SRC}}/solr"
+        creates: "{{APP_SRC}}/{{APP_NAME}}/build/{{APP_NAME}}-{{APP_VERSION}}-SNAPSHOT"
+    - name: Create the {{APP_NAME}} install directory {{APP_OPT}}. 
+      file:
+        name: "{{APP_OPT}}"
+        state: directory
+        owner: "{{USER_NAME}}"
+        group: "{{USER_NAME}}"
+      become: yes
+    - name: Install {{APP_NAME}} into the {{APP_OPT}} install directory. 
+      shell: mv {{APP_SRC}}/{{APP_NAME}}/build/{{APP_NAME}}-{{APP_VERSION}}-SNAPSHOT/* {{APP_OPT}}
+      args:
+        creates: "{{APP_OPT}}/bin"
+    - name: Create the {{APP_NAME}} data directory {{APP_DATA}}. 
+      file:
+        name: "{{APP_DATA}}"
+        state: directory
+    - name: Copy the solr.xml to the data directory {{APP_DATA}}. 
+      copy:
+        src: "{{APP_OPT}}/server/solr/solr.xml"
+        dest: "{{APP_DATA}}/solr.xml"
+        remote_src: yes
+    - name: Delete the example directory {{APP_OPT}}/example. 
+      file:
+        name: "{{APP_OPT}}/example"
+        state: absent
+    - name: Link the computate configset into {{APP_NAME}}. 
+      file:
+        src: "{{COMPUTATE_SRC}}/config/solr/server/solr/configsets/computate"
+        dest: "{{APP_OPT}}/server/solr/configsets/computate"
+        state: link
+    - name: Find the {{APP_NAME}} binaries in {{APP_OPT}}/bin. 
+      find:
+        paths: "{{APP_OPT}}/bin"
+        recurse: no
+      register: BIN_FILES
+    - name: Make the {{APP_NAME}} binaries executable in {{APP_OPT}}/bin. 
+      file:
+        dest: "{{item.path}}"
+        mode: a+x
+      with_items:
+        - "{{BIN_FILES.files}}"
+    - name: Create the {{APP_NAME}} systemd service {{APP_SYSTEMD}}. 
+      copy:
+        dest: "{{APP_SYSTEMD}}"
+        content: |
+          [Unit]
+          Description=An open source search engine. 
+          After=network.target
+
+          [Service]
+          Type=forking
+          User={{USER_NAME}}
+          Group={{USER_NAME}}
+          WorkingDirectory={{APP_OPT}}
+          ExecStart={{APP_OPT}}/bin/solr -c -s {{APP_OPT}} -h localhost -p {{APP_PORT}} -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}
+          LimitNOFILE=10000
+          Restart=on-failure
+
+          [Install]
+          WantedBy=multi-user.target
+      become: yes
+    - name: Reload the services. 
+      systemd:
+        daemon_reload: yes
+      become: yes
+    - name: Start and enable the {{APP_NAME}} service. 
+      service:
+        name: "{{APP_SERVICE}}"
+        enabled: yes
+        state: started
+      become: yes
+...
+

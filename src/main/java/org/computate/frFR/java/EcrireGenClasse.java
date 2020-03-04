@@ -35,6 +35,8 @@ import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
@@ -3219,6 +3221,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					|| "Integer".equals(entiteNomSimpleGenerique)
 					)
 				tl(1, "@JsonSerialize(contentUsing = ToStringSerializer.class)");
+			tl(1, "@JsonInclude(Include.NON_NULL)");
 			t(1, "protected ", entiteNomSimpleComplet, " ", entiteVar);
 			if(!entiteCouverture) {
 				if("java.util.List".equals(entiteNomCanonique)) {

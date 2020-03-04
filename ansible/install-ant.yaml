@@ -6,6 +6,7 @@
 ---
 - name: Install ant and ivy binaries. 
   hosts: "{{ target }}"
+  gather_facts: no
   vars:
     APP_NAME: ant
     APP_SRC: /usr/local/src/ant
@@ -17,11 +18,6 @@
     APP_BINARY_LINK: /usr/bin/ant
     JAVA_HOME: /usr/lib/jvm/java-1.8.0-openjdk
   tasks:
-    - name: get the username running the deploy
-      become: false
-      local_action: command whoami
-      register: USER_NAME
-      when: USER_NAME is not defined
     - name: Install {{APP_NAME}} dependencies. 
       package:
         name: [git,java-1.8.0-openjdk-devel]
@@ -31,7 +27,6 @@
         name: "{{APP_SRC}}"
         state: directory
         owner: "{{USER_NAME}}"
-        group: "{{USER_NAME}}"
       become: yes
     - name: Create the {{APP_NAME}} installation directory {{APP_OPT}}. 
       file:
@@ -45,25 +40,21 @@
         repo: "{{APP_REPO}}"
         dest: "{{APP_SRC}}"
         version: "{{APP_TAG}}"
-    - name: Check if {{APP_NAME}} source build directory exists. 
-      stat:
-        path: "{{APP_OPT}}/bin"
-      register: APP_SRC_BUILD_DIR
     - name: Boostrap the default {{APP_NAME}} application. 
       shell: (JAVA_HOME={{JAVA_HOME}} ./bootstrap.sh)
       args:
         chdir: "{{APP_SRC}}"
-      when: APP_SRC_BUILD_DIR.stat.exists == false
+        creates: "{{APP_SRC}}/bootstrap/bin/ant"
     - name: Bootstrap the {{APP_NAME}} source code. 
       shell: (JAVA_HOME={{JAVA_HOME}} bootstrap/bin/ant -f fetch.xml -Ddest=optional)
       args:
         chdir: "{{APP_SRC}}"
-      when: APP_SRC_BUILD_DIR.stat.exists == false
+        creates: "{{APP_SRC}}/lib/optional/NetRexxC.jar"
     - name: Build the {{APP_NAME}} application. 
       shell: (JAVA_HOME={{JAVA_HOME}} ./build.sh -Ddist.dir={{APP_OPT}} dist)
       args:
         chdir: "{{APP_SRC}}"
-      when: APP_SRC_BUILD_DIR.stat.exists == false
+        creates: "{{APP_BINARY}}"
     - name: Create the {{APP_NAME}} binary symbolic link. 
       file:
         src: "{{APP_BINARY}}"

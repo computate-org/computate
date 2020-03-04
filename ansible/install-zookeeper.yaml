@@ -6,6 +6,7 @@
 ---
 - name: Install zookeeper as a service on the target. 
   hosts: "{{ target }}"
+  gather_facts: no
   vars:
     APP_NAME: zookeeper
     APP_SRC: /usr/local/src/zookeeper
@@ -20,15 +21,9 @@
     APP_CLIENT_PORT: 10281
     APP_ADMIN_PORT: 10280
   tasks:
-    - name: Get the username running the deploy. 
-      become: false
-      local_action: command whoami
-      register: USER_NAME
-      when: USER_NAME is not defined
     - name: Install {{APP_NAME}} dependencies. 
       package:
         name: [git,java-1.8.0-openjdk-devel]
-#        name: [gettext,tar,zip,unzip,hostname,nmap-ncat,java-1.8.0-openjdk,lsof,maven,autoreconf,automake,cppunit-devel,libtool]
       become: yes
     - name: Create the {{APP_NAME}} source directory {{APP_SRC}}. 
       file:
@@ -58,19 +53,10 @@
       shell: mv {{APP_SRC}}/build/{{APP_NAME}}-{{APP_VERSION}}-/* {{APP_OPT}}
       args:
         creates: "{{APP_OPT}}/bin"
-    - name: Check if the {{APP_NAME}} data directory exists. 
-      stat:
-        path: "{{APP_DATA}}"
-      register: APP_DATA_DIR
     - name: Create the {{APP_NAME}} install directory {{APP_OPT}}. 
       file:
         name: "{{APP_OPT}}"
         state: directory
-      when: APP_DATA_DIR.stat.exists == false
-    - name: Check if the {{APP_NAME}} config file exists. 
-      stat:
-        path: "{{APP_CONF}}"
-      register: APP_CONFIG_FILE
     - name: Create the {{APP_NAME}} config file {{APP_CONF}}. 
       copy:
         dest: "{{APP_CONF}}"
