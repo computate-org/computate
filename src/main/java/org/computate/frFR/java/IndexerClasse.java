@@ -1145,6 +1145,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "filter";
 	}
 
+	public String str_Colonne(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Colonne";
+		else
+			return "Column";
+	}
+
 	/**
 	 * Var.enUS: str_filters
 	 */

@@ -721,6 +721,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				ToutEcrivain wPUT = ToutEcrivain.create();
 				ToutEcrivain wPATCH = ToutEcrivain.create();
 				ToutEcrivain wSuggere = ToutEcrivain.create();
+				ToutEcrivain wGetters = ToutEcrivain.create();
 				ToutEcrivain wTh = ToutEcrivain.create();
 				ToutEcrivain wTd = ToutEcrivain.create();
 				ToutEcrivain wFormRecherche = ToutEcrivain.create();
@@ -1157,24 +1158,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										jsVal = ".prop('checked')";
 									}
 		
-									wTh.tl(6, "e(\"th\").f().sx(", q(entiteNomAffichage), ").g(\"th\");");
+									wGetters.l();
+									wGetters.tl(1, "public Boolean get", str_Colonne(langueNom), entiteVarCapitalise, "() {");
+									wGetters.tl(2, "return true;");
+									wGetters.tl(1, "}");
+
+									wTh.tl(6, "if(get", str_Colonne(langueNom), entiteVarCapitalise, "()) {");
+									wTh.tl(7, "e(\"th\").f().sx(", q(entiteNomAffichage), ").g(\"th\");");
+									wTh.tl(6, "}");
 		
-									wTd.tl(7, "{ e(\"td\").f();");
-									wTd.tl(8, "{ e(\"a\").a(\"href\", uri).f();");
+									wTd.tl(7, "if(get", str_Colonne(langueNom), entiteVarCapitalise, "()) {");
+									wTd.tl(8, "{ e(\"td\").f();");
+									wTd.tl(9, "{ e(\"a\").a(\"href\", uri).f();");
 									if(contexteIconeGroupe != null && contexteIconeNom != null && BooleanUtils.isTrue(entiteVarTitre))
-										wTd.t(9).e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ").df().dgl("i");
-									wTd.tl(9, "{ e(\"span\").f();");
-									wTd.tl(10, "sx(o.str", entiteVarCapitalise, "());");
-									wTd.tl(9, "} g(\"span\");");
-									wTd.tl(8, "} g(\"a\");");
+										wTd.t(10).e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ").df().dgl("i");
+									wTd.tl(10, "{ e(\"span\").f();");
+									wTd.tl(11, "sx(o.str", entiteVarCapitalise, "());");
+									wTd.tl(10, "} g(\"span\");");
+									wTd.tl(9, "} g(\"a\");");
 									if(entiteHighlighting) {
-										wTd.tl(8, "if(highlightList != null) {");
-										wTd.t(9).be("div").da("class", "site-highlight ").dfl();
-											wTd.t(10).sscl("StringUtils.join(highlightList, \" ... \")");
-										wTd.t(9).bgl("div");
-										wTd.tl(8, "}");
+										wTd.tl(9, "if(highlightList != null) {");
+										wTd.t(10).be("div").da("class", "site-highlight ").dfl();
+											wTd.t(11).sscl("StringUtils.join(highlightList, \" ... \")");
+										wTd.t(10).bgl("div");
+										wTd.tl(9, "}");
 									}
-									wTd.tl(7, "} g(\"td\");");
+									wTd.tl(8, "} g(\"td\");");
+									wTd.tl(7, "}");
 								}
 							}
 							rechercheSolr.setStart(i.intValue() + rechercheLignes);
@@ -2059,6 +2069,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		
 					t(2).gl("div");
 					tl(1, "}");
+					s(wGetters);
 					l();
 					tl(1, "public void htmlBodyForms", classeGenPageNomSimple, "() {");
 					if(!classePageSimple) {
