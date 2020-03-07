@@ -2581,20 +2581,21 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "OperationRequest ", str_operationRequete(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "();");
 			tl(3, "String ", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), "Str = ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
 			tl(3, "String[] ", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), " = ", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), "Str == null ? null : ", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), "Str.split(", q(",\\s*"), ");");
-			tl(3, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, ">();");
-			tl(3, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".set", str_Peupler(classeLangueNom), "(", str_peupler(classeLangueNom), ");");
-			tl(3, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(", str_stocker(classeLangueNom), ");");
-			tl(3, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".setQuery(\"*:*\");");
-			tl(3, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".setC(", classeNomSimple, ".class);");
+			tl(3, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, ">();");
+			tl(3, "", str_listeRecherche(classeLangueNom), ".set", str_Peupler(classeLangueNom), "(", str_peupler(classeLangueNom), ");");
+			tl(3, "", str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(", str_stocker(classeLangueNom), ");");
+			tl(3, "", str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
+			tl(3, "", str_listeRecherche(classeLangueNom), ".setC(", classeNomSimple, ".class);");
 			tl(3, "if(", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), " != null)");
-			tl(4, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".addFields(", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), ");");
+			tl(4, "", str_listeRecherche(classeLangueNom), ".addFields(", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), ");");
 //			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_archive(langueNom), "_indexed_boolean\", ORDER.asc);");
 //			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_supprime(langueNom), "_indexed_boolean\", ORDER.asc);");
 //			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_classeNomsCanoniques(langueNom), "_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
 //			if(classeFiltresTrouves && classeFiltres.contains("utilisateurId"))
 //				tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_utilisateur(langueNom), "Id_indexed_string:\" + ClientUtils.escapeQueryChars(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "Id()));");
 			if(classeVarModifie != null)
-				tl(3, str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".set(\"json.facet\", \"{max_", classeVarModifie, ":'max(", classeVarModifie, "_indexed_date)'}\");");
+				tl(3, str_listeRecherche(classeLangueNom), ".add(\"json.facet\", \"{max_", classeVarModifie, ":'max(", classeVarModifie, "_indexed_date)'}\");");
+			s(wFacets);
 //			tl(3, classePartsUtilisateurSite.nomSimple(langueNom), " ", str_utilisateurSite(langueNom), " = ", str_requeteSite(langueNom), ".get", classePartsUtilisateurSite.nomSimple(langueNom), "();");
 //			tl(3, "if(", str_utilisateurSite(langueNom), " != null && !", str_utilisateurSite(langueNom), ".get", str_VoirSupprime(langueNom), "())");
 //			tl(4, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_supprime(langueNom), "_indexed_boolean:false\");");
@@ -2603,7 +2604,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(3, "String id = ", str_operationRequete(classeLangueNom), ".getParams().getJsonObject(\"path\").getString(\"id\");");
 			tl(3, "if(", classeVarCleUnique, " != null) {");
-			tl(4, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".addFilterQuery(\"(", classeVarCleUnique, ":\" + ClientUtils.escapeQueryChars(id) + \" OR ", classeVarId, "_indexed_string:\" + ClientUtils.escapeQueryChars(id) + \")\");");
+			tl(4, "", str_listeRecherche(classeLangueNom), ".addFilterQuery(\"(", classeVarCleUnique, ":\" + ClientUtils.escapeQueryChars(id) + \" OR ", classeVarId, "_indexed_string:\" + ClientUtils.escapeQueryChars(id) + \")\");");
 			tl(3, "}");
 			if(classeRoleSession) {
 				l();
@@ -2612,7 +2613,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "!CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roles)");
 				tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRoyaume(classeLangueNom), "(), roles)");
 				tl(5, ") {");
-				tl(4, str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".addFilterQuery(\"sessionId_indexed_string:\" + ClientUtils.escapeQueryChars(Optional.ofNullable(", str_requeteSite(classeLangueNom), ".getSessionId()).orElse(\"-----\")));");
+				tl(4, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"sessionId_indexed_string:\" + ClientUtils.escapeQueryChars(Optional.ofNullable(", str_requeteSite(classeLangueNom), ".getSessionId()).orElse(\"-----\")));");
 				tl(3, "}");
 			}
 			l();
@@ -2640,12 +2641,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			tl(9, "", str_valeur(langueNom), "", str_Indexe(langueNom), " = ", str_entite(langueNom), "Var;");
 //			tl(9, "", str_entite(langueNom), "Var = \"*\";");
 //			tl(8, "}");
-			tl(8, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".setQuery(var", str_Indexe(classeLangueNom), " + \":\" + (\"*\".equals(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), ") ? ", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " : ClientUtils.escapeQueryChars(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), ")));");
+			tl(8, "", str_listeRecherche(classeLangueNom), ".setQuery(var", str_Indexe(classeLangueNom), " + \":\" + (\"*\".equals(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), ") ? ", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " : ClientUtils.escapeQueryChars(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), ")));");
 			tl(8, "if(!\"*\".equals(", str_entite(classeLangueNom), "Var)) {");
-			tl(9, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".setHighlight(true);");
-			tl(9, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".setHighlightSnippets(3);");
-			tl(9, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".addHighlightField(var", str_Indexe(classeLangueNom), ");");
-			tl(9, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".setParam(\"hl.encoder\", \"html\");");
+			tl(9, "", str_listeRecherche(classeLangueNom), ".setHighlight(true);");
+			tl(9, "", str_listeRecherche(classeLangueNom), ".setHighlightSnippets(3);");
+			tl(9, "", str_listeRecherche(classeLangueNom), ".addHighlightField(var", str_Indexe(classeLangueNom), ");");
+			tl(9, "", str_listeRecherche(classeLangueNom), ".setParam(\"hl.encoder\", \"html\");");
 			tl(8, "}");
 			tl(8, "break;");
 	
@@ -2653,14 +2654,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(8, "", str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
 			tl(8, "", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
 			tl(8, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
-			tl(8, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".addFilterQuery(var", str_Indexe(classeLangueNom), " + \":\" + ClientUtils.escapeQueryChars(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), "));");
+			tl(8, "", str_listeRecherche(classeLangueNom), ".addFilterQuery(var", str_Indexe(classeLangueNom), " + \":\" + ClientUtils.escapeQueryChars(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), "));");
 			tl(8, "break;");
 	
 			tl(7, "case \"sort\":");
 			tl(8, "", str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \" \"));");
 			tl(8, "", str_valeur(classeLangueNom), "", str_Tri(classeLangueNom), " = StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \" \"));");
 			tl(8, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
-			tl(8, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".addSort(var", str_Indexe(classeLangueNom), ", ORDER.valueOf(", str_valeur(classeLangueNom), "", str_Tri(classeLangueNom), "));");
+			tl(8, "", str_listeRecherche(classeLangueNom), ".addSort(var", str_Indexe(classeLangueNom), ", ORDER.valueOf(", str_valeur(classeLangueNom), "", str_Tri(classeLangueNom), "));");
 			tl(8, "break;");
 //	
 //			tl(7, "case \"fl\":");
@@ -2671,12 +2672,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 			tl(7, "case \"start\":");
 			tl(8, "", str_recherche(classeLangueNom), "", str_Debut(classeLangueNom), " = (Integer)param", str_Objet(classeLangueNom), ";");
-			tl(8, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".setStart(", str_recherche(classeLangueNom), "", str_Debut(classeLangueNom), ");");
+			tl(8, "", str_listeRecherche(classeLangueNom), ".setStart(", str_recherche(classeLangueNom), "", str_Debut(classeLangueNom), ");");
 			tl(8, "break;");
 	
 			tl(7, "case \"rows\":");
 			tl(8, "", str_recherche(classeLangueNom), "Num = (Integer)param", str_Objet(classeLangueNom), ";");
-			tl(8, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".setRows(", str_recherche(classeLangueNom), "Num);");
+			tl(8, "", str_listeRecherche(classeLangueNom), ".setRows(", str_recherche(classeLangueNom), "Num);");
 			tl(8, "break;");
 	
 			tl(6, "}");
@@ -2687,22 +2688,22 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 			tl(3, "});");
 			if(classeVarCree != null) {
-				tl(3, "if(", str_liste(classeLangueNom), str_Recherche(classeLangueNom), ".getSorts().size() == 0) {");
+				tl(3, "if(", str_listeRecherche(classeLangueNom), ".getSorts().size() == 0) {");
 				if(classeTrisVar != null && classeTrisVar.size() > 0) {
 					for(int i = 0; i < classeTrisVar.size(); i++) {
 						String classeTriVar = classeTrisVar.get(i);
 						String classeTriOrdre = classeTrisOrdre.get(i);
 						String classeTriSuffixeType = classeTrisSuffixeType.get(i);
-						tl(4, str_liste(classeLangueNom), str_Recherche(classeLangueNom), ".addSort(\"", classeTriVar, "_indexed", classeTriSuffixeType, "\", ORDER.", classeTriOrdre, ");");
+						tl(4, str_listeRecherche(classeLangueNom), ".addSort(\"", classeTriVar, "_indexed", classeTriSuffixeType, "\", ORDER.", classeTriOrdre, ");");
 					}
 				}
 				else {
-					tl(4, str_liste(classeLangueNom), str_Recherche(classeLangueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
+					tl(4, str_listeRecherche(classeLangueNom), ".addSort(\"", classeVarCree, "_indexed_date\", ORDER.desc);");
 				}
 				tl(3, "}");
 			}
-			tl(3, "", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), ".", str_initLoin(classeLangueNom), "", str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
-			tl(3, "", str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_liste(classeLangueNom), "", str_Recherche(classeLangueNom), "));");
+			tl(3, "", str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), "", str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
+			tl(3, "", str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_listeRecherche(classeLangueNom), "));");
 			tl(2, "} catch(Exception e) {");
 			tl(3, "", str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(e));");
 			tl(2, "}");

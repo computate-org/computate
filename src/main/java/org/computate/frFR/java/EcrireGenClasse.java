@@ -6,27 +6,23 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
@@ -34,11 +30,6 @@ import org.apache.commons.text.translate.EntityArrays;
 import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
@@ -361,6 +352,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: wIndex
 	 */
 	protected ToutEcrivain wIndexer;
+
+	protected ToutEcrivain wFacets;
 
 	protected ToutEcrivain wIndexerFacetAdd;
 
@@ -1070,6 +1063,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wInitLoin = ToutEcrivain.create();
 		wRequeteSite = ToutEcrivain.create();
 		wIndexer = ToutEcrivain.create();
+		wFacets = ToutEcrivain.create();
 		wIndexerFacetAdd = ToutEcrivain.create();
 		wIndexerFacetFor = ToutEcrivain.create();
 		wTexte = ToutEcrivain.create();
@@ -2912,7 +2906,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		Boolean entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
 		Boolean entiteInitialise = (Boolean)doc.get("entiteInitialise_stored_boolean");
 		Boolean entiteInitLoin = (Boolean)doc.get("entiteInitLoin_stored_boolean");
+		Boolean entiteFacetsTrouves = Optional.ofNullable((Boolean)doc.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
 		List<String> methodeExceptionsNomSimpleComplet = (List<String>)doc.get("methodeExceptionsNomSimpleComplet_stored_strings");
+		List<String> entiteFacets = Optional.ofNullable((List<String>)doc.get("entiteFacets_stored_strings")).orElse(Arrays.asList());
 
 		if(entiteNomCanonique != null) {
 	//		String entiteVarCleUniqueActuel = (String)doc.get("entiteVarCleUnique_stored_string");
@@ -4669,6 +4665,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				if(entiteSuggere) {
 					wVarSuggere.tl(3, "case \"", entiteVar, "\":");
 					wVarSuggere.tl(4, "return \"", entiteVar, "_suggested", "\";");
+				}
+			}
+
+			if(entiteFacetsTrouves) {
+				for(String entiteFacet : entiteFacets) {
+					wFacets.tl(3, str_listeRecherche(langueNom), ".add(\"json.facet\", \"{", entiteFacet, "_", entiteVar, ":'", entiteFacet, "(", entiteVar, "_indexed", entiteSuffixeType, ")'}\");");
 				}
 			}
 

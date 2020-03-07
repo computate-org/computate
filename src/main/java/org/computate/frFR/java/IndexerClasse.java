@@ -16,6 +16,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -5958,6 +5959,17 @@ public class IndexerClasse extends RegarderClasseBase {
 							}
 							indexerStockerSolr(entiteDoc, "entiteMotsClesTrouves", entiteMotsClesTrouves); 
 
+							Matcher entiteFacetsRecherche = Pattern.compile("^(entite)?Facet:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(methodeCommentaire);
+							boolean entiteFacetsTrouves = entiteFacetsRecherche.find();
+							boolean entiteFacetsTrouvesActuel = entiteFacetsTrouves;
+							while(entiteFacetsTrouvesActuel) {
+								String entiteFacetValeur = entiteFacetsRecherche.group(2);
+								indexerStockerListeSolr(entiteDoc, "entiteFacets", entiteFacetValeur);
+								entiteFacetsTrouves = true;
+								entiteFacetsTrouvesActuel = entiteFacetsRecherche.find();
+							}
+							indexerStockerSolr(entiteDoc, "entiteFacetsTrouves", entiteFacetsTrouves); 
+
 							String sqlString = regex("^(entite)?Sql:\\s*(.*)$", methodeCommentaire, 2);
 							if(NumberUtils.isCreatable(sqlString)) {
 								Integer sqlInteger = Integer.parseInt(sqlString);
@@ -7428,6 +7440,12 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, List.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Optional.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePartsMiseEnPage.nomCanonique(classeLangueNom), classeLangueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, SimpleOrderedMap.class.getCanonicalName(), classeLangueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Collectors.class.getCanonicalName(), classeLangueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, QueryResponse.class.getCanonicalName(), classeLangueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, BigDecimal.class.getCanonicalName(), classeLangueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom));
 					
 							for(ClasseParts classePartGenPage : classePartsGenPage.values()) {
 //								if(classePartGenPage.langueNom == null || classePartGenPage.langueNom.equals(langueNom))
