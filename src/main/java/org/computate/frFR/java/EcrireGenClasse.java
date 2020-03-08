@@ -4670,7 +4670,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 			if(entiteFacetsTrouves) {
 				for(String entiteFacet : entiteFacets) {
-					wFacets.tl(3, str_listeRecherche(langueNom), ".add(\"json.facet\", \"{", entiteFacet, "_", entiteVar, ":'", entiteFacet, "(", entiteVar, "_indexed", entiteSuffixeType, ")'}\");");
+					if("terms".equals(entiteFacet))
+						wFacets.tl(3, str_listeRecherche(langueNom), ".add(\"json.facet\", \"{", entiteFacet, "_", entiteVar, ":{terms:{field:", entiteVar, "_indexed", entiteSuffixeType, "}}}\");");
+					else
+						wFacets.tl(3, str_listeRecherche(langueNom), ".add(\"json.facet\", \"{", entiteFacet, "_", entiteVar, ":'", entiteFacet, "(", entiteVar, "_indexed", entiteSuffixeType, ")'}\");");
 				}
 			}
 

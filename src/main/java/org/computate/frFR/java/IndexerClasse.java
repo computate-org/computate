@@ -768,6 +768,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "define";
 	}
 
+	public String str_Definir(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Definir";
+		else
+			return "Define";
+	}
+
 	/**
 	 * Var.enUS: str_siteRequest
 	 */
@@ -1924,6 +1931,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "utilisateurSite";
 		else
 			return "siteUser";
+	}
+
+	public String str_UtilisateurSite(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurSite";
+		else
+			return "SiteUser";
 	}
 
 	/**
@@ -7233,6 +7247,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, SimpleOrderedMap.class.getCanonicalName(), classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom));
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, BooleanUtils.class.getCanonicalName(), classeLangueNom));
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsUtilisateurSite.nomCanonique(classeLangueNom) + StringUtils.capitalize(classeLangueNom) + "GenApiServiceImpl", classeLangueNom));
 
 				classePartsGenApiAjouter(classePartsListeRecherche);
 				classePartsGenApiAjouter(classePartsToutEcrivain);
