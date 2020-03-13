@@ -314,6 +314,16 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected List<String> classeRoles;
 
 	/**
+	 * Var.enUS: classRoleReadsFound
+	 */
+	protected Boolean classeRoleReadsTrouves;
+
+	/**
+	 * Var.enUS: classRoleReads
+	 */
+	protected List<String> classeRoleReads;
+
+	/**
 	 * Var.enUS: classFiltersFound
 	 */
 	protected Boolean classeFiltresTrouves;

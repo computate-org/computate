@@ -785,6 +785,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "siteRequest";
 	}
 
+	public String str_roles_requis(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "rôles requis : ";
+		else
+			return "roles required: ";
+	}
+
 	/**
 	 * Var.enUS: str_SiteRequest
 	 */
@@ -957,6 +964,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "MailDe";
 		else
 			return "EmailFrom";
+	}
+
+	public String str_Mail(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Mail";
+		else
+			return "Email";
 	}
 
 	public String str_MailAdmin(String langueNom) {
@@ -1968,6 +1982,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "NomFamille";
 		else
 			return "LastName";
+	}
+
+	public String str_NomComplet(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "NomComplet";
+		else
+			return "CompleteName";
 	}
 
 	public String str_Cree(String langueNom) {
@@ -5315,6 +5336,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 
 			Boolean classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^(classe)?RoleSession:\\s*(true)$", classeCommentaire));
+
 			Matcher classeRolesRecherche = Pattern.compile("^(classe)?Role\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeRolesTrouves = classeRolesRecherche.find();
 			boolean classeRolesTrouvesActuel = classeRolesTrouves;
@@ -5328,12 +5350,25 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 			indexerStockerSolr(classeDoc, "classeRolesTrouves", classeRolesTrouves); 
 
+			Matcher classeRoleReadsRecherche = Pattern.compile("^(classe)?RoleRead\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			boolean classeRoleReadsTrouves = classeRoleReadsRecherche.find();
+			boolean classeRoleReadsTrouvesActuel = classeRoleReadsTrouves;
+			while(classeRoleReadsTrouvesActuel) {
+				String classeRoleReadValeur = classeRoleReadsRecherche.group(3);
+				String classeRoleReadLangue = classeRoleReadsRecherche.group(2);
+				stockerListeSolr(classeDoc, "classeRoleReads", classeRoleReadValeur);
+				stockerListeSolr(classeDoc, "classeRoleReadsLangue", classeRoleReadLangue);
+				classeRoleReadsTrouves = true;
+				classeRoleReadsTrouvesActuel = classeRoleReadsRecherche.find();
+			}
+			indexerStockerSolr(classeDoc, "classeRoleReadsTrouves", classeRoleReadsTrouves); 
+
 			Matcher classeFiltresRecherche = Pattern.compile("^(classe)?Filtre\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeFiltresTrouves = classeFiltresRecherche.find();
 			boolean classeFiltresTrouvesActuel = classeFiltresTrouves;
 			while(classeFiltresTrouvesActuel) {
 				String classeFiltreValeur = classeFiltresRecherche.group(3);
-				String classeFiltreLangue = classeRolesRecherche.group(2);
+				String classeFiltreLangue = classeFiltresRecherche.group(2);
 				stockerListeSolr(classeDoc, "classeFiltres", classeFiltreValeur);
 				stockerListeSolr(classeDoc, "classeFiltresLangue", classeFiltreLangue);
 				classeFiltresTrouves = true;
