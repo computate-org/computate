@@ -524,6 +524,14 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
 					classePageSimple = BooleanUtils.isTrue((Boolean)doc.get("classePageSimple_stored_boolean"));
 					classeRoleSession = (Boolean)doc.get("classeRoleSession_stored_boolean");
+					classeRoleUtilisateur = (Boolean)doc.get("classeRoleUtilisateur_stored_boolean");
+
+					classeSessionEcrire = (Boolean)doc.get("classeSessionEcrire_stored_boolean");
+					classeUtilisateurEcrire = (Boolean)doc.get("classeUtilisateurEcrire_stored_boolean");
+					classePublicEcrire = (Boolean)doc.get("classePublicEcrire_stored_boolean");
+					classeSessionLire = (Boolean)doc.get("classeSessionLire_stored_boolean");
+					classeUtilisateurLire = (Boolean)doc.get("classeUtilisateurLire_stored_boolean");
+					classePublicLire = (Boolean)doc.get("classePublicLire_stored_boolean");
 
 					classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouves_stored_boolean"));
 					List<String> classeRolesTemp = (List<String>)doc.get("classeRoles_stored_strings");

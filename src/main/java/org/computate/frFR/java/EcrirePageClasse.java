@@ -1662,7 +1662,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												auteurPageJs.tl(3, "if(checked)");
 												auteurPageJs.tl(4, "$input.attr('checked', 'checked');");
 												auteurPageJs.tl(3, "var $li = $('<li>');");
-												if(entiteAttribuerTrisVar != null) {
+												if("Double".equals(entiteNomSimple) && entiteAttribuerTrisVar != null) {
 													for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
 														auteurPageJs.tl(3, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
 													}

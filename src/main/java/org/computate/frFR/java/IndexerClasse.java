@@ -1747,6 +1747,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "User";
 	}
 
+	public String str_Cle(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Cle";
+		else
+			return "Key";
+	}
+
 	/**
 	 * Var.enUS: str_UserResourceRoles
 	 */
@@ -5316,7 +5323,13 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), classeLangueNom));
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberFormat.class.getCanonicalName(), classeLangueNom));
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom));
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom));
 
+		Boolean classeRoleSession = false;
+		Boolean classeRoleUtilisateur = false;
+		Boolean classeRolesTrouves = false;
+		
 		if(classeCommentaire != null) {
 
 			Matcher classeValsRecherche = Pattern.compile("^(classe)?Val(:([^:\n]+):)?\\.(\\w+)\\.([^:\n]+):(.*)", Pattern.MULTILINE).matcher(classeCommentaire);
@@ -5335,10 +5348,11 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeValsTrouves = classeValsRecherche.find();
 			}
 
-			Boolean classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^(classe)?RoleSession:\\s*(true)$", classeCommentaire));
+			classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^(classe)?RoleSession:\\s*(true)$", classeCommentaire));
+			classeRoleUtilisateur = indexerStockerSolr(classeDoc, "classeRoleUtilisateur", regexTrouve("^(classe)?RoleUtilisateur:\\s*(true)$", classeCommentaire));
 
 			Matcher classeRolesRecherche = Pattern.compile("^(classe)?Role\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
-			boolean classeRolesTrouves = classeRolesRecherche.find();
+			classeRolesTrouves = classeRolesRecherche.find();
 			boolean classeRolesTrouvesActuel = classeRolesTrouves;
 			while(classeRolesTrouvesActuel) {
 				String classeRoleValeur = classeRolesRecherche.group(3);
@@ -5362,6 +5376,15 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeRoleReadsTrouvesActuel = classeRoleReadsRecherche.find();
 			}
 			indexerStockerSolr(classeDoc, "classeRoleReadsTrouves", classeRoleReadsTrouves); 
+
+			if(langueNom.equals(classeLangueNom)) {
+				indexerStockerSolr(classeDoc, "classeSessionEcrire", BooleanUtils.isTrue(classeRoleSession));
+				indexerStockerSolr(classeDoc, "classeUtilisateurEcrire", BooleanUtils.isTrue(classeRoleUtilisateur));
+				indexerStockerSolr(classeDoc, "classePublicEcrire", !classeRolesTrouves);
+				indexerStockerSolr(classeDoc, "classeSessionLire", !classeRolesTrouves || BooleanUtils.isTrue(classeRoleSession));
+				indexerStockerSolr(classeDoc, "classeUtilisateurLire", !classeRolesTrouves || BooleanUtils.isTrue(classeRoleUtilisateur));
+				indexerStockerSolr(classeDoc, "classePublicLire", !classeRolesTrouves);
+			}
 
 			Matcher classeFiltresRecherche = Pattern.compile("^(classe)?Filtre\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeFiltresTrouves = classeFiltresRecherche.find();
@@ -7349,6 +7372,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							indexerStockerSolr(langueNom, classeDoc, "classeApiTypeMedia200" + classeApiMethode, classeApiTypeMedia200Methode);
 						indexerStockerSolr(langueNom, classeDoc, "classeApiMotCle" + classeApiMethode, classeApiMotCleMethode);
 						indexerStockerSolr(langueNom, classeDoc, "classeApiUri" + classeApiMethode, classeApiUriMethode);
+
 						if(classePageNomSimpleMethode != null) {
 							String classePageLangueNom = null;
 
