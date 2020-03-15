@@ -1972,10 +1972,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 		}
 
-		if(classeRoleReadsTrouves) {
+		if(classeRoleReadsTrouves || classeRolesTrouves) {
 			l();
-			tl(1, "List<String> ROLES = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
-			tl(1, "List<String> ROLE_READS = Arrays.asList(\"", StringUtils.join(classeRoleReads, "\", \""), "\");");
+			tl(1, "public static final List<String> ROLES = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
+			tl(1, "public static final List<String> ROLE_READS = Arrays.asList(\"", StringUtils.join(classeRoleReads, "\", \""), "\");");
 		}
 		
 		//////////////
@@ -4116,10 +4116,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(2, classeNomSimple, " s = (", classeNomSimple, ")this;");
 			
 						if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
+
 							if(classeUtilisateurEcrire && classeSessionEcrire) {
 								t(tIndex + 2).s(classePrefixe, "if(").l();
 								t(tIndex + 4).s(classePrefixe, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
-								t(tIndex + 4).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()").l();
+								t(tIndex + 4).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
 								t(tIndex + 2).s(classePrefixe, ") {").l();
 							}
 							else if(classeUtilisateurEcrire) {
@@ -4344,7 +4345,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				
 								l();
 							}
-							t(tIndex + 2).s(classePrefixe, "} else {").l();
+
+							t(tIndex + 2).s("} else {").l();
 							if(classeUtilisateurEcrire && classeSessionEcrire) {
 								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 							}
@@ -4371,9 +4373,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else {
 								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 							}
-							t(tIndex + 2).s(classePrefixe, "}").l();
+							t(tIndex + 2).s("}").l();
 						}
 						tl(1, "}");  
+
+						/////////
+						// htm //
+						/////////
 			
 						l();
 						tl(1, "public void htm", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
@@ -4422,14 +4428,42 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
 								t(tIndex + 8).s("{ ", classePrefixe, "e(\"ul\")").da("class", "w3-ul w3-hoverable ").s(".a(\"id\", \"list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ")").dfl();
 								t(tIndex + 8).l("} ", classePrefixe, "g(\"ul\");");
-								t(tIndex + 8).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();
-								t(tIndex + 9).s(classePrefixe, "e(\"button\")").l();
-								t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
+
+
+								if(classeUtilisateurEcrire && classeSessionEcrire) {
+									t(tIndex + 8).s(classePrefixe, "if(").l();
+									t(tIndex + 10).s(classePrefixe, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
+									t(tIndex + 10).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
+									t(tIndex + 8).s(classePrefixe, ") {").l();
+								}
+								else if(classeUtilisateurEcrire) {
+									if(classeRolesTrouves || classeRoleReadsTrouves) {
+										tl(tIndex + 8, "if(");
+										tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+										tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+	//									tl(tIndex + 10, "|| !CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLE_READS)");
+	//									tl(tIndex + 10, "|| !CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
+										tl(tIndex + 10, ") {");
+									}
+									else {
+										t(tIndex + 8).s(classePrefixe, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
+									}
+								}
+								else if(classeSessionEcrire) {
+									t(tIndex + 8).s(classePrefixe, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
+								}
+								else {
+									t(tIndex + 8).s(classePrefixe, "{").l();
+								}
+
+								t(tIndex + 9).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();
+								t(tIndex + 10).s(classePrefixe, "e(\"button\")").l();
+								t(tIndex + 11).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
 			
 								if("array".equals(entiteAttribuerTypeJson))
-									t(tIndex + 10).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", ", classeVarClePrimaire, ", \"\\\" ] }");
+									t(tIndex + 11).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", ", classeVarClePrimaire, ", \"\\\" ] }");
 								else
-									t(tIndex + 10).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", ", classeVarClePrimaire, ", \"\\\" }");
+									t(tIndex + 11).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", ", classeVarClePrimaire, ", \"\\\" }");
 			
 								s(", function() { patch", classeNomSimple, "Vals([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], {}");
 			
@@ -4446,9 +4480,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								s("\")");
 								l();
 			
-								t(tIndex + 10).df().dsxq(str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom).l();
-								t(tIndex + 9).dgl("button");
-								t(tIndex + 8).l("} ", classePrefixe, "g(\"div\");");
+								t(tIndex + 11).df().dsxq(str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom).l();
+								t(tIndex + 10).dgl("button");
+								t(tIndex + 9).l("} ", classePrefixe, "g(\"div\");");
+
+								t(tIndex + 8).s("}").l();
+
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 							}
 							else if("LocalDate".equals(entiteNomSimple)) {
@@ -4510,18 +4547,48 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 							}
 							if(!entiteAttribuer && entiteModifier && !"Boolean".equals(entiteNomSimple)) {
+
+								if(classeUtilisateurEcrire && classeSessionEcrire) {
+									t(tIndex + 7).s(classePrefixe, "if(").l();
+									t(tIndex + 9).s(classePrefixe, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
+									t(tIndex + 9).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
+									t(tIndex + 7).s(classePrefixe, ") {").l();
+								}
+								else if(classeUtilisateurEcrire) {
+									if(classeRolesTrouves || classeRoleReadsTrouves) {
+										tl(tIndex + 7, "if(");
+										tl(tIndex + 9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+										tl(tIndex + 9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+	//									tl(tIndex + 9, "|| !CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLE_READS)");
+	//									tl(tIndex + 9, "|| !CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
+										tl(tIndex + 9, ") {");
+									}
+									else {
+										t(tIndex + 7).s(classePrefixe, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
+									}
+								}
+								else if(classeSessionEcrire) {
+									t(tIndex + 7).s(classePrefixe, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
+								}
+								else {
+									t(tIndex + 7).s(classePrefixe, "{").l();
+								}
 			
-								t(tIndex + 7).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 8).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
-									t(tIndex + 9).s("{ ", classePrefixe, "e(\"button\")").l();
-									t(tIndex + 10).dal("tabindex", "-1");
-									t(tIndex + 10).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
-									t(tIndex + 9).l(".a(\"onclick\", \"", str_enleverLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); $('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "').val(null); patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")");
-									t(tIndex + 10).dfl();
-									t(tIndex + 10).s(classePrefixe, "e(\"i\")").da("class", "far fa-eraser ").df().dgl("i");
-									t(tIndex + 9).l("} ", classePrefixe, "g(\"button\");");
-									t(tIndex + 8).l("} ", classePrefixe, "g(\"div\");");
-								t(tIndex + 7).l("}");
+								t(tIndex + 8).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
+
+									t(tIndex + 9).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
+									t(tIndex + 10).s("{ ", classePrefixe, "e(\"button\")").l();
+									t(tIndex + 11).dal("tabindex", "-1");
+									t(tIndex + 11).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
+									t(tIndex + 10).l(".a(\"onclick\", \"", str_enleverLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); $('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "').val(null); patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")");
+									t(tIndex + 11).dfl();
+									t(tIndex + 11).s(classePrefixe, "e(\"i\")").da("class", "far fa-eraser ").df().dgl("i");
+									t(tIndex + 10).l("} ", classePrefixe, "g(\"button\");");
+									t(tIndex + 9).l("} ", classePrefixe, "g(\"div\");");
+
+								t(tIndex + 8).l("}");
+
+								t(tIndex + 7).s("}").l();
 							}
 			
 							t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
