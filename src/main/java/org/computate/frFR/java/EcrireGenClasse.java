@@ -4346,12 +4346,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								l();
 							}
 
-							t(tIndex + 2).s("} else {").l();
 							if(classeUtilisateurEcrire && classeSessionEcrire) {
+								t(tIndex + 2).s("} else {").l();
 								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 							}
 							else if(classeUtilisateurEcrire) {
 								if(classeRolesTrouves || classeRoleReadsTrouves) {
+									t(tIndex + 2).s("} else {").l();
 									tl(tIndex + 3, "if(");
 									tl(tIndex + 5, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 									tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -4364,10 +4365,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									tl(tIndex + 3, "}");
 								}
 								else {
+									t(tIndex + 2).s("} else {").l();
 									t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 								}
 							}
 							else if(classeSessionEcrire) {
+								t(tIndex + 2).s("} else {").l();
 								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 							}
 							else {

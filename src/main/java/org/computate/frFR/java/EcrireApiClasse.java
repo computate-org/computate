@@ -2674,7 +2674,41 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(1, "}");
 			l();
 			tl(1, "public Boolean ", str_utilisateur(classeLangueNom), classeNomSimple, str_Definir(classeLangueNom), "(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", JsonObject jsonObject, Boolean patch) {");
-			tl(2, "return true;");
+			tl(2, "if(patch) {");
+			tl(3, "return jsonObject.getString(\"setCustomerProfileId\") == null;");
+			tl(2, "} else {");
+			tl(3, "return jsonObject.getString(\"customerProfileId\") == null;");
+			tl(2, "}");
+			tl(1, "}");
+			l();
+			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "Q(", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ", String ", str_entite(classeLangueNom), "Var, String ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", String ", "var", str_Indexe(classeLangueNom), ") {");
+			tl(2, str_listeRecherche(classeLangueNom), ".setQuery(var", str_Indexe(classeLangueNom), " + \":\" + (\"*\".equals(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), ") ? ", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " : ClientUtils.escapeQueryChars(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), ")));");
+			tl(2, "if(!\"*\".equals(", str_entite(classeLangueNom), "Var)) {");
+			tl(3, str_listeRecherche(classeLangueNom), ".setHighlight(true);");
+			tl(3, str_listeRecherche(classeLangueNom), ".setHighlightSnippets(3);");
+			tl(3, str_listeRecherche(classeLangueNom), ".addHighlightField(var", str_Indexe(classeLangueNom), ");");
+			tl(3, str_listeRecherche(classeLangueNom), ".setParam(\"hl.encoder\", \"html\");");
+			tl(2, "}");
+			tl(1, "}");
+			l();
+			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "Fq(", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ", String ", str_entite(classeLangueNom), "Var, String ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", String ", "var", str_Indexe(classeLangueNom), ") {");
+			tl(2, str_listeRecherche(classeLangueNom), ".addFilterQuery(var", str_Indexe(classeLangueNom), " + \":\" + ClientUtils.escapeQueryChars(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), "));");
+			tl(1, "}");
+			l();
+			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "Sort(", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ", String ", str_entite(classeLangueNom), "Var, String ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", String ", "var", str_Indexe(classeLangueNom), ") {");
+			tl(2, str_listeRecherche(classeLangueNom), ".addSort(var", str_Indexe(classeLangueNom), ", ORDER.valueOf(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), "));");
+			tl(1, "}");
+			l();
+			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "Rows(", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ", Integer ", str_valeur(classeLangueNom), "Rows) {");
+			tl(2, str_listeRecherche(classeLangueNom), ".setRows(", str_valeur(classeLangueNom), "Rows);");
+			tl(1, "}");
+			l();
+			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "Start(", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ", Integer ", str_valeur(classeLangueNom), "Start) {");
+			tl(2, str_listeRecherche(classeLangueNom), ".setStart(", str_valeur(classeLangueNom), "Start);");
+			tl(1, "}");
+			l();
+			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "Var(", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ", String var, String ", str_valeur(classeLangueNom), ") {");
+			tl(2, str_listeRecherche(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_().get", str_Requete(classeLangueNom), "Vars().put(var, ", str_valeur(classeLangueNom), ");");
 			tl(1, "}");
 			l();
 			tl(1, "public void ", str_recherche(classeLangueNom), "", classeNomSimple, "(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", Boolean ", str_peupler(classeLangueNom), ", Boolean ", str_stocker(classeLangueNom), ", String ", str_classeApiUriMethode(classeLangueNom), ", Handler<AsyncResult<", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, ">>> ", str_gestionnaireEvenements(classeLangueNom), ") {");
@@ -2683,15 +2717,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "String ", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), "Str = ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
 			tl(3, "String[] ", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), " = ", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), "Str == null ? null : ", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), "Str.split(", q(",\\s*"), ");");
 			tl(3, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, ">();");
-			tl(3, "", str_listeRecherche(classeLangueNom), ".set", str_Peupler(classeLangueNom), "(", str_peupler(classeLangueNom), ");");
-			tl(3, "", str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(", str_stocker(classeLangueNom), ");");
-			tl(3, "", str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
-			tl(3, "", str_listeRecherche(classeLangueNom), ".setC(", classeNomSimple, ".class);");
+			tl(3, str_listeRecherche(classeLangueNom), ".set", str_Peupler(classeLangueNom), "(", str_peupler(classeLangueNom), ");");
+			tl(3, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(", str_stocker(classeLangueNom), ");");
+			tl(3, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
+			tl(3, str_listeRecherche(classeLangueNom), ".setC(", classeNomSimple, ".class);");
+			tl(3, str_listeRecherche(classeLangueNom), ".set", str_RequeteSite(classeLangueNom), "_(", str_requeteSite(classeLangueNom), ");");
 			tl(3, "if(", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), " != null)");
-			tl(4, "", str_listeRecherche(classeLangueNom), ".addFields(", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), ");");
-//			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_archive(langueNom), "_indexed_boolean\", ORDER.asc);");
-//			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_supprime(langueNom), "_indexed_boolean\", ORDER.asc);");
-//			tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_classeNomsCanoniques(langueNom), "_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
+			tl(4, str_listeRecherche(classeLangueNom), ".addFields(", str_entite(classeLangueNom), "", str_Liste(classeLangueNom), ");");
+//			tl(3, str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_archive(langueNom), "_indexed_boolean\", ORDER.asc);");
+//			tl(3, str_liste(langueNom), "", str_Recherche(langueNom), ".addSort(\"", str_supprime(langueNom), "_indexed_boolean\", ORDER.asc);");
+//			tl(3, str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_classeNomsCanoniques(langueNom), "_indexed_strings:\" + ClientUtils.escapeQueryChars(", q(classeNomCanonique), "));");
 //			if(classeFiltresTrouves && classeFiltres.contains("utilisateurId"))
 //				tl(3, "", str_liste(langueNom), "", str_Recherche(langueNom), ".addFilterQuery(\"", str_utilisateur(langueNom), "Id_indexed_string:\" + ClientUtils.escapeQueryChars(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "Id()));");
 			if(classeVarModifie != null)
@@ -2728,8 +2763,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "String ", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " = null;");
 			tl(4, "String var", str_Indexe(classeLangueNom), " = null;");
 			tl(4, "String ", str_valeur(classeLangueNom), "", str_Tri(classeLangueNom), " = null;");
-			tl(4, "Integer ", str_recherche(classeLangueNom), "", str_Debut(classeLangueNom), " = null;");
-			tl(4, "Integer ", str_recherche(classeLangueNom), "Num = null;");
+			tl(4, "Integer ", str_valeur(classeLangueNom), "Start = null;");
+			tl(4, "Integer ", str_valeur(classeLangueNom), "Rows = null;");
 			tl(4, "String param", str_Nom(classeLangueNom), " = param", str_Requete(classeLangueNom), ".getKey();");
 			tl(4, "Object param", str_Valeurs(classeLangueNom), "", str_Objet(classeLangueNom), " = param", str_Requete(classeLangueNom), ".getValue();");
 			tl(4, "JsonArray param", str_Objets(classeLangueNom), " = param", str_Valeurs(classeLangueNom), "", str_Objet(classeLangueNom), " instanceof JsonArray ? (JsonArray)param", str_Valeurs(classeLangueNom), "", str_Objet(classeLangueNom), " : new JsonArray().add(param", str_Valeurs(classeLangueNom), "", str_Objet(classeLangueNom), ");");
@@ -2743,31 +2778,25 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(8, "var", str_Indexe(classeLangueNom), " = \"*\".equals(", str_entite(classeLangueNom), "Var) ? ", str_entite(classeLangueNom), "Var : ", classeNomSimple, ".var", str_Recherche(classeLangueNom), "", classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
 			tl(8, "", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
 			tl(8, "", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " = StringUtils.isEmpty(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), ") ? \"*\" : ", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), ";");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Q(", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
 //			tl(8, "if(StringUtils.isEmpty(", str_valeur(langueNom), "", str_Indexe(langueNom), ")) {");
 //			tl(9, "", str_valeur(langueNom), "", str_Indexe(langueNom), " = ", str_entite(langueNom), "Var;");
 //			tl(9, "", str_entite(langueNom), "Var = \"*\";");
 //			tl(8, "}");
-			tl(8, "", str_listeRecherche(classeLangueNom), ".setQuery(var", str_Indexe(classeLangueNom), " + \":\" + (\"*\".equals(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), ") ? ", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " : ClientUtils.escapeQueryChars(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), ")));");
-			tl(8, "if(!\"*\".equals(", str_entite(classeLangueNom), "Var)) {");
-			tl(9, "", str_listeRecherche(classeLangueNom), ".setHighlight(true);");
-			tl(9, "", str_listeRecherche(classeLangueNom), ".setHighlightSnippets(3);");
-			tl(9, "", str_listeRecherche(classeLangueNom), ".addHighlightField(var", str_Indexe(classeLangueNom), ");");
-			tl(9, "", str_listeRecherche(classeLangueNom), ".setParam(\"hl.encoder\", \"html\");");
-			tl(8, "}");
 			tl(8, "break;");
 	
 			tl(7, "case \"fq\":");
-			tl(8, "", str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
-			tl(8, "", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
+			tl(8, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
+			tl(8, str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
 			tl(8, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
-			tl(8, "", str_listeRecherche(classeLangueNom), ".addFilterQuery(var", str_Indexe(classeLangueNom), " + \":\" + ClientUtils.escapeQueryChars(", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), "));");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Fq(", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
 			tl(8, "break;");
 	
 			tl(7, "case \"sort\":");
-			tl(8, "", str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \" \"));");
-			tl(8, "", str_valeur(classeLangueNom), "", str_Tri(classeLangueNom), " = StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \" \"));");
+			tl(8, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \" \"));");
+			tl(8, str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " = StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \" \"));");
 			tl(8, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
-			tl(8, "", str_listeRecherche(classeLangueNom), ".addSort(var", str_Indexe(classeLangueNom), ", ORDER.valueOf(", str_valeur(classeLangueNom), "", str_Tri(classeLangueNom), "));");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Sort(", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
 			tl(8, "break;");
 //	
 //			tl(7, "case \"fl\":");
@@ -2777,13 +2806,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			tl(8, "break;");
 	
 			tl(7, "case \"start\":");
-			tl(8, "", str_recherche(classeLangueNom), "", str_Debut(classeLangueNom), " = (Integer)param", str_Objet(classeLangueNom), ";");
-			tl(8, "", str_listeRecherche(classeLangueNom), ".setStart(", str_recherche(classeLangueNom), "", str_Debut(classeLangueNom), ");");
+			tl(8, str_valeur(classeLangueNom), "Start = (Integer)param", str_Objet(classeLangueNom), ";");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Start(", str_listeRecherche(classeLangueNom), ", ", str_valeur(classeLangueNom), "Start);");
 			tl(8, "break;");
 	
 			tl(7, "case \"rows\":");
-			tl(8, "", str_recherche(classeLangueNom), "Num = (Integer)param", str_Objet(classeLangueNom), ";");
-			tl(8, "", str_listeRecherche(classeLangueNom), ".setRows(", str_recherche(classeLangueNom), "Num);");
+			tl(8, str_valeur(classeLangueNom), "Rows = (Integer)param", str_Objet(classeLangueNom), ";");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Rows(", str_listeRecherche(classeLangueNom), ", ", str_valeur(classeLangueNom), "Rows);");
+			tl(8, "break;");
+	
+			tl(7, "case \"var\":");
+			tl(8, "", str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
+			tl(8, "", str_valeur(classeLangueNom), "", str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Var(", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ");");
 			tl(8, "break;");
 	
 			tl(6, "}");

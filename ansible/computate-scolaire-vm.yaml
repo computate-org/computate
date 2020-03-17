@@ -1,8 +1,25 @@
+# Example: 
+# ansible-playbook computate-scolaire-vm.yaml -i inventories/computate/hosts -u $USER --extra-vars "target=tower1" --vault-id @prompt
 ---
 - name: Configure a libvirt virtual machine to run the computate-scolaire project with demo data. 
   hosts: "{{ target }}"
-  gather_facts: no
+  vars_files: 
+    - vars.yaml
+  vars:
+    VIRT_PACKAGES: 
+      - "libvirt"
+#      - "virt-manager"
   tasks: 
+    - name: Ensure Operating System Requirements
+      fail: 
+        msg: "The {{inventory_hostname}} host with operating system {{ansible_distribution}} did not meet the required operating systems: {{SUPPORTED_DISTROS}}"
+      when: >
+        ansible_distribution not in SUPPORTED_DISTROS
+    - name: Install virt packages
+      package: 
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ VIRT_PACKAGES }}"
     - name: Download the Centos 8 ISO. 
       get_url:
         url: http://mirrors.xmission.com/centos/8.1.1911/isos/x86_64/CentOS-8.1.1911-x86_64-dvd1.iso
