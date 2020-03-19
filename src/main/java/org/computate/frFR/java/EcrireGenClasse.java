@@ -4374,7 +4374,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 							}
 							else {
-								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
+//								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 							}
 							t(tIndex + 2).s("}").l();
 						}
@@ -4847,7 +4847,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					wIndexerFacetFor.tl(5, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
 					wIndexerFacetFor.tl(5, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
 					wIndexerFacetFor.tl(5, "futures.add(");
-					wIndexerFacetFor.tl(6, "service.futurePATCH", entiteAttribuerNomSimple, "(o2, a -> {");
+					wIndexerFacetFor.tl(6, "service.patch", entiteAttribuerNomSimple, "Future(o2, a -> {");
 					wIndexerFacetFor.tl(7, "if(a.succeeded()) {");
 					wIndexerFacetFor.tl(8, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
 					wIndexerFacetFor.tl(7, "} else {");
@@ -4868,7 +4868,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					wIndexerFacetFor.tl(6, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
 					wIndexerFacetFor.tl(6, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
 					wIndexerFacetFor.tl(6, "futures.add(");
-					wIndexerFacetFor.tl(7, "service.futurePATCH", entiteAttribuerNomSimple, "(o2, a -> {");
+					wIndexerFacetFor.tl(7, "service.patch", entiteAttribuerNomSimple, "Future(o2, a -> {");
 					wIndexerFacetFor.tl(8, "if(a.succeeded()) {");
 					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
 					wIndexerFacetFor.tl(8, "} else {");

@@ -709,6 +709,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "put";
 	}
 
+	public String str_Indexer(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Indexer";
+		else
+			return "Index";
+	}
+
 	/**
 	 * Var.enUS: str_index
 	 */
