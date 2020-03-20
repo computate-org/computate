@@ -1,0 +1,10 @@
+APP_NAME: ant
+APP_SRC: /usr/local/src/ant
+APP_OPT: /opt/ant
+APP_REPO: https://github.com/apache/ant.git
+APP_VERSION: 1.10.7
+APP_TAG: rel/1.10.7
+APP_BINARY: /opt/ant/bin/ant
+APP_BINARY_LINK: /usr/bin/ant
+JAVA_HOME: /usr/lib/jvm/java-1.8.0-openjdk
+

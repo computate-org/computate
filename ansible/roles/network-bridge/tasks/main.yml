@@ -1,0 +1,4 @@
+- name: Bring the old network ethernet connection down ({{NETWORK_ETHERNET_CONNECTION}}). 
+  nmcli: 
+   conn_name: "{{NETWORK_ETHERNET_CONNECTION}}" 
+   state: absent

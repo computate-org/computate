@@ -1,0 +1,15 @@
+[Unit]
+Description=An open source centralized cluster manager. 
+After=network.target
+
+[Service]
+Type=simple
+User={{USER_NAME}}
+Group={{USER_NAME}}
+WorkingDirectory={{APP_OPT}}
+ExecStart={{APP_OPT}}/bin/zkServer.sh start-foreground
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
