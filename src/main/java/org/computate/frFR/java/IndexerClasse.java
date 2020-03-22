@@ -44,6 +44,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.text.WordUtils;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
@@ -4973,6 +4974,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		List<String> classeInitLoinExceptions = new ArrayList<String>(); 
 		String classeVarSuggere = null;
+		String classeVarTexte = null;
 		String classeVarUrlId = null;
 		String classeVarUrlPk = null;
 		String classeVarId = null;
@@ -6153,10 +6155,10 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteVarCree = indexerStockerSolr(entiteDoc, "entiteVarCree", regexTrouve("^(entite)?VarCree:\\s*(true)$", methodeCommentaire));
 						Boolean entiteSauvegarde = indexerStockerSolr(entiteDoc, "entiteSauvegarde", regexTrouve("^(entite)?Sauvegarde:\\s*(true)$", methodeCommentaire));
 						Boolean entiteIncremente = indexerStockerSolr(entiteDoc, "entiteIncremente", regexTrouve("^(entite)?Incremente:\\s*(true)$", methodeCommentaire));
-						Boolean entiteIndexe = indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^(entite)?Indexe:\\s*(true)$", methodeCommentaire) || entiteCleUnique || entiteCrypte || entiteSuggere || entiteClePrimaire || entiteIncremente);
-						Boolean entiteStocke = indexerStockerSolr(entiteDoc, "entiteStocke", regexTrouve("^(entite)?Stocke:\\s*(true)$", methodeCommentaire));
 						Boolean entiteTexte = indexerStockerSolr(entiteDoc, "entiteTexte", regexTrouve("^(entite)?Texte:\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(entiteDoc, "entiteIndexeOuStocke", entiteCleUnique || entiteCrypte || entiteSuggere || entiteIndexe || entiteStocke || entiteIncremente || entiteTexte);
+						Boolean entiteIndexe = indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^(entite)?Indexe:\\s*(true)$", methodeCommentaire) || entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteClePrimaire || entiteIncremente);
+						Boolean entiteStocke = indexerStockerSolr(entiteDoc, "entiteStocke", regexTrouve("^(entite)?Stocke:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteIndexeOuStocke", entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteIndexe || entiteStocke || entiteIncremente || entiteTexte);
 						indexerStockerSolr(entiteDoc, "entiteIgnorer", regexTrouve("^(entite)?Ignorer:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteDeclarer", regexTrouve("^(entite)?Declarer:\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteRechercher", regexTrouve("^(entite)?Rechercher:\\s*(true)$", methodeCommentaire));
@@ -6293,6 +6295,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									for(String val : Optional.ofNullable((List<String>)docClasse.get("classeTrisVar_" + classeLangueNom + "_stored_strings")).orElse(Collections.emptyList()))
 										indexerStockerListeSolr(classeLangueNom, entiteDoc, "entiteAttribuerTrisVar", val);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + classeLangueNom + "_stored_strings"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarTexte", (String)docClasse.get("classeVarTexte_" + classeLangueNom + "_stored_strings"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlId", (String)docClasse.get("classeVarUrlId_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarUrlPk", (String)docClasse.get("classeVarUrlPk_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarId", (String)docClasse.get("classeVarId_" + classeLangueNom + "_stored_string"));
@@ -6350,6 +6353,7 @@ public class IndexerClasse extends RegarderClasseBase {
 											for(String val : Optional.ofNullable((List<String>)docClasse.get("classeTrisVar_" + langueNom + "_stored_strings")).orElse(Collections.emptyList()))
 												indexerStockerListeSolr(langueNom, entiteDoc, "entiteAttribuerTrisVar", val);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarTexte", (String)docClasse.get("classeVarTexte_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlId", (String)docClasse.get("classeVarUrlId_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarUrlPk", (String)docClasse.get("classeVarUrlPk_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarId", (String)docClasse.get("classeVarId_" + langueNom + "_stored_string"));
@@ -6747,6 +6751,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteSuggere) {
 							classeVarSuggere = stockerSolr(classeLangueNom, classeDoc, "classeVarSuggere", entiteVar);
 						}
+						if(entiteTexte) {
+							classeVarTexte = stockerSolr(classeLangueNom, classeDoc, "classeVarTexte", entiteVar);
+						}
 						if(entiteVarUrlId) {
 							classeVarUrlId = stockerSolr(classeLangueNom, classeDoc, "classeVarUrlId", entiteVar);
 						}
@@ -6801,6 +6808,9 @@ public class IndexerClasse extends RegarderClasseBase {
 								indexerStockerListeSolr(langueNom, classeDoc, "classeEntiteVars", entiteVarLangue);
 								if(entiteSuggere) {
 									stockerSolr(langueNom, classeDoc, "classeVarSuggere", entiteVarLangue);
+								}
+								if(entiteTexte) {
+									stockerSolr(langueNom, classeDoc, "classeVarTexte", entiteVarLangue);
 								}
 								if(entiteClePrimaire) {
 									stockerSolr(langueNom, classeDoc, "classeVarClePrimaire", entiteVarLangue);
@@ -7051,6 +7061,20 @@ public class IndexerClasse extends RegarderClasseBase {
 						String classeVarSuggereLangue = (String)classeSuperDoc.get("classeVarSuggere_" + langueNom + "_stored_string");
 						if(classeVarSuggereLangue != null) {
 							stockerSolr(langueNom, classeDoc, "classeVarSuggere", classeVarSuggereLangue);
+						}
+					}
+				}
+			}
+		}
+		if(classeVarTexte == null && classeSuperDoc != null) {
+			classeVarTexte = (String)classeSuperDoc.get("classeVarTexte_" + classeLangueNom + "_stored_string");
+			if(classeVarTexte != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarTexte", classeVarTexte);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarTexteLangue = (String)classeSuperDoc.get("classeVarTexte_" + langueNom + "_stored_string");
+						if(classeVarTexteLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarTexte", classeVarTexteLangue);
 						}
 					}
 				}
@@ -7530,6 +7554,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom));
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Objects.class.getCanonicalName(), classeLangueNom));
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, SortClause.class.getCanonicalName(), classeLangueNom));
 					
 							for(ClasseParts classePartGenPage : classePartsGenPage.values()) {
 //								if(classePartGenPage.langueNom == null || classePartGenPage.langueNom.equals(langueNom))

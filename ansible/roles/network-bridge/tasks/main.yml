@@ -1,4 +1,25 @@
-- name: Bring the old network ethernet connection down ({{NETWORK_ETHERNET_CONNECTION}}). 
+- name: Delete the old network ethernet connection ({{NETWORK_ETHERNET_CONNECTION}}). 
   nmcli: 
    conn_name: "{{NETWORK_ETHERNET_CONNECTION}}" 
    state: absent
+- name: Bring up a new bridge connection ({{NETWORK_BRIDGE_CONNECTION}}). 
+  nmcli: 
+    type: bridge-slave
+    conn_name: "{{NETWORK_BRIDGE_CONNECTION}}" 
+    ifname: "{{NETWORK_BRIDGE_DEVICE}}"
+    ipv4.address: "{{NETWORK_IP_ADDRESS}}"
+    ipv4.gateway: "{{NETWORK_GATEWAY}}"
+    dns4: "{{NETWORK_DNS}}"
+    state: present
+- name: Bring up a new bridge-slave connection ({{NETWORK_BRIDGE_SLAVE_CONNECTION}}). 
+  nmcli: 
+    type: bridge-slave
+    conn_name: "{{NETWORK_BRIDGE_SLAVE_CONNECTION}}" 
+    ifname: "{{NETWORK_ETHERNET_DEVICE}}"
+    master: "{{NETWORK_BRIDGE_CONNECTION}}"
+    state: present
+- name: Restart the network service. 
+  service: 
+    name: network
+    state: restarted
+

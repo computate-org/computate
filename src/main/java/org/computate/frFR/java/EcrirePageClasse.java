@@ -1899,7 +1899,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 					t(4).be("div").dfl();
 					tl(5, "Long num = ", str_liste(langueNom), classeNomSimple, ".getQueryResponse().getResults().getNumFound();");
-					tl(5, "String query = StringUtils.replace(", str_liste(langueNom), classeNomSimple, ".getQuery(), \"_suggested\", \"\");");
+					tl(5, "String q = ", str_liste(langueNom), classeNomSimple, ".getQuery();");
+					tl(5, "String query = StringUtils.substringBefore(q, \"_\") + \":\" + StringUtils.substringAfter(q, \":\");");
 					tl(5, "Integer rows1 = ", str_liste(langueNom), classeNomSimple, ".getRows();");
 					tl(5, "Integer start1 = ", str_liste(langueNom), classeNomSimple, ".getStart();");
 					tl(5, "Integer start2 = start1 - rows1;");
@@ -1907,11 +1908,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(5, "Integer rows2 = rows1 / 2;");
 					tl(5, "Integer rows3 = rows1 * 2;");
 					tl(5, "start2 = start2 < 0 ? 0 : start2;");
+					tl(5, "StringBuilder fqs = new StringBuilder();");
+					tl(5, "for(String fq : ", str_liste(langueNom), classeNomSimple, ".getFilterQueries()) {");
+					tl(6, "if(!StringUtils.startsWithAny(fq, \"", str_classeNomsCanoniques(langueNom), "_\", \"", str_archive(langueNom), "_\", \"", str_supprime(langueNom), "_\"))");
+					tl(7, "fqs.append(\"&fq=\").append(StringUtils.substringBefore(fq, \"_\")).append(\":\").append(StringUtils.substringAfter(fq, \":\"));");
+					tl(5, "}");
+					tl(5, "StringBuilder sorts = new StringBuilder();");
+					tl(5, "for(SortClause sort : ", str_liste(langueNom), classeNomSimple, ".getSorts()) {");
+					tl(6, "sorts.append(\"&sort=\").append(StringUtils.substringBefore(sort.getItem(), \"_\")).append(\" \").append(sort.getOrder().name());");
+					tl(5, "}");
 					l();
 					tl(5, "if(start1 == 0) {");
 					t(6).e("i").da("class", "fas fa-arrow-square-left w3-opacity ").df().dgl("i");
 					tl(5, "} else {");
-					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, \"&start=\", start2, \"&rows=\", rows1).f();");
+					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start2, \"&rows=\", rows1).f();");
 					t(7).e("i").da("class", "fas fa-arrow-square-left ").df().dgl("i");
 					t(6).bgl("a");
 					tl(5, "}");
@@ -1919,19 +1929,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(5, "if(rows1 <= 1) {");
 					t(6).e("i").da("class", "fas fa-minus-square w3-opacity ").df().dgl("i");
 					tl(5, "} else {");
-					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, \"&start=\", start1, \"&rows=\", rows2).f();");
+					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start1, \"&rows=\", rows2).f();");
 					t(7).e("i").da("class", "fas fa-minus-square ").df().dgl("i");
 					t(6).bgl("a");
 					tl(5, "}");
 					l();
-					tl(5, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, \"&start=\", start1, \"&rows=\", rows3).f();");
+					tl(5, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start1, \"&rows=\", rows3).f();");
 					t(6).e("i").da("class", "fas fa-plus-square ").df().dgl("i");
 					t(5).bgl("a");
 					l();
 					tl(5, "if(start3 >= num) {");
 					t(6).e("i").da("class", "fas fa-arrow-square-right w3-opacity ").df().dgl("i");
 					tl(5, "} else {");
-					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, \"&start=\", start3, \"&rows=\", rows1).f();");
+					tl(6, "{ e(\"a\").a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start3, \"&rows=\", rows1).f();");
 					t(7).e("i").da("class", "fas fa-arrow-square-right ").df().dgl("i");
 					t(6).bgl("a");
 					tl(5, "}");
@@ -2001,21 +2011,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										t(6).dal("name", entiteVar);
 										t(6).da("id", str_recherche(langueNom), entiteVarCapitalise).l(";");
 										tl(5, str_operationRequete(langueNom), ".getParams().getJsonObject(\"query\").forEach(param", str_Requete(langueNom), " -> {");
-										tl(6, "String entiteVar = null;");
-										tl(6, "String ", str_valeurs(langueNom), str_Indexe(langueNom), " = null;");
+										tl(6, "String ", str_entite(langueNom), "Var = null;");
+										tl(6, "String ", str_valeur(langueNom), str_Indexe(langueNom), " = null;");
 										tl(6, "String param", str_Nom(langueNom), " = param", str_Requete(langueNom), ".getKey();");
 										tl(6, "Object param", str_ValeursObjet(langueNom), " = param", str_Requete(langueNom), ".getValue();");
 										tl(6, "JsonArray param", str_Objets(langueNom), " = param", str_ValeursObjet(langueNom), " instanceof JsonArray ? (JsonArray)param", str_ValeursObjet(langueNom), " : new JsonArray().add(param", str_ValeursObjet(langueNom), ");");
 										l();
 										tl(6, "try {");
 										tl(7, "for(Object param", str_Objet(langueNom), " : param", str_Objets(langueNom), ") {");
-										tl(8, "switch(paramNom) {");
+										tl(8, "switch(param", str_Nom(langueNom), ") {");
 								
 										tl(9, "case \"q\":");
-										tl(10, "entiteVar = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(langueNom), ", \":\"));");
+										tl(10, str_entite(langueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(langueNom), ", \":\"));");
 										tl(10, str_valeur(langueNom), str_Indexe(langueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(langueNom), ", \":\")), \"UTF-8\");");
 
-										tl(10, "if(\"", entiteVar, "\".equals(entiteVar))");
+										tl(10, "if(\"", entiteVar, "\".equals(", str_entite(langueNom), "Var))");
 										tl(11, "a(\"value\", URLDecoder.decode(", str_valeur(langueNom), str_Indexe(langueNom), ", \"UTF-8\"));");
 										tl(8, "}");
 										tl(7, "}");
@@ -2030,6 +2040,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 										t(5).be("button").l();
 										t(6).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
+//										tl(6, ".a(\"onclick\", \"window.location.href = '", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start2, \"&rows=\", rows1, \"'; \") ");
 										t(6).dfl();
 										t(6).e("i").da("class", "fas fa-search ").df().dgl("i");
 										t(5).bgl("button");
@@ -2173,7 +2184,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 							String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 			
-							if("application/json".equals(classeApiTypeMediaMethode) && !"GET".equals(classeApiMethodeMethode)) {
+							if("application/json".equals(classeApiTypeMediaMethode) && (classeApiMethodeMethode.equals("PATCH") || classeApiMethodeMethode.equals("POST") || classeApiMethodeMethode.equals("PUT"))) {
 								Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("POST") || classeApiMethodeMethode.contains("PUT") ? 0 : 1;
 								String methodeTitreFiltres = null;
 								String methodeTitreValeurs = null;
@@ -2198,11 +2209,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								l();
 								if(tab > 0)
 									tl(3, "if(", str_liste(langueNom), classeNomSimple, " != null && ", str_liste(langueNom), classeNomSimple, ".size() == 1) {");
-								t(3 + tab).e("button").l();
+								t(3 + tab).be("button").l();
 								t(4 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
 								t(4 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').show(); ");
-								t(4 + tab).df().dsxq(methodeTitreValeurs).l();
-								t(3 + tab).dgl("button");
+								t(4 + tab).dfl();
+
+									if(classeApiMethodeMethode.contains("POST"))
+										t(4 + tab).e("i").da("class", "fas fa-file-plus ").df().dgl("i");
+									else if(classeApiMethodeMethode.contains("PATCH"))
+										t(4 + tab).e("i").da("class", "fas fa-edit ").df().dgl("i");
+									else if(classeApiMethodeMethode.contains("PUT"))
+										t(4 + tab).e("i").da("class", "fas fa-copy ").df().dgl("i");
+
+									t(4 + tab).sxqscl(methodeTitreValeurs);
+								t(3 + tab).bgl("button");
 								{ t(3 + tab).be("div").da("id", classeApiOperationIdMethode, str_Modale(langueNom)).da("class", "w3-modal w3-padding-32 ").dfl();
 									{ t(4 + tab).be("div").da("class", "w3-modal-content ").dfl();
 										{ t(5 + tab).be("div").da("class", "w3-card-4 ").dfl();
@@ -2345,8 +2365,27 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(1, " * r.", langueNom2, ": \"", str_suggere(langueNom2), "List", classeNomSimple2, "\"");
 					}
 					tl(1, "**/");
-					tl(1, "public static void html", str_Suggere(langueNom), classeGenPageNomSimple, "(", classePartsMiseEnPage.nomSimple(langueNom), " p, String id) {");
+					tl(1, "public static void html", str_Suggere(langueNom), classeGenPageNomSimple, "(", classePartsMiseEnPage.nomSimple(langueNom), " p, String id, ", str_ListeRecherche(langueNom), "<", classeNomSimple, "> ", str_liste(langueNom), classeNomSimple, ") {");
 					tl(2, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_ = p.get", str_RequeteSite(langueNom), "_();");
+					tl(2, "String q = Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getQuery()).orElse(\"*:*\");");
+					tl(2, "String query = StringUtils.substringBefore(q, \"_\") + \":\" + StringUtils.substringAfter(q, \":\");");
+					tl(2, "Integer rows1 = Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getRows()).orElse(10);");
+					tl(2, "Integer start1 = Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getStart()).orElse(1);");
+					tl(2, "Integer start2 = start1 - rows1;");
+					tl(2, "Integer start3 = start1 + rows1;");
+					tl(2, "Integer rows2 = rows1 / 2;");
+					tl(2, "Integer rows3 = rows1 * 2;");
+					tl(2, "start2 = start2 < 0 ? 0 : start2;");
+					tl(2, "StringBuilder fqs = new StringBuilder();");
+					tl(2, "for(String fq : Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getFilterQueries()).orElse(new String[0])) {");
+					tl(3, "if(!StringUtils.startsWithAny(fq, \"", str_classeNomsCanoniques(langueNom), "_\", \"", str_archive(langueNom), "_\", \"", str_supprime(langueNom), "_\"))");
+					tl(4, "fqs.append(\"&fq=\").append(StringUtils.substringBefore(fq, \"_\")).append(\":\").append(StringUtils.substringAfter(fq, \":\"));");
+					tl(2, "}");
+					tl(2, "StringBuilder sorts = new StringBuilder();");
+					tl(2, "for(SortClause sort : Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ".getSorts()).orElse(Arrays.asList())) {");
+					tl(3, "sorts.append(\"&sort=\").append(StringUtils.substringBefore(sort.getItem(), \"_\")).append(\" \").append(sort.getOrder().name());");
+					tl(2, "}");
+					l();
 
 					tl(2, "if(");
 					tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", classeGenPageNomSimple, ".ROLES)");
@@ -2391,6 +2430,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(4).dal("autocomplete", "off");
 					t(4).s(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, StringUtils.capitalize(classeVarSuggere), "( [ { 'name': 'q', 'value': '", classeVarSuggere, ":' + $(this).val() } ], $('#", str_suggere(langueNom), "List", classeNomSimple, "\", id, \"'), \", p.get", str_RequeteSite(langueNom), "_().get", str_Requete(langueNom), "", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")").l();
 					t(4).dfgl();
+					t(4).be("button").l();
+					t(5).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
+					tl(5, ".a(\"onclick\", \"window.location.href = '", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start2, \"&rows=\", rows1, \"'; \") ");
+					t(5).dfl();
+					t(5).e("i").da("class", "fas fa-search ").df().dgl("i");
+					t(4).bgl("button");
 	
 					l();
 					t(2).s("} p.").gl("div");

@@ -1338,9 +1338,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(9, classeApiOperationIdMethode, str_Reponse(classeLangueNom), "(", StringUtils.uncapitalize(classeNomSimple), ", d -> {");
 						tl(10, "if(d.succeeded()) {");
 						tl(11, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(d.result()));");
-						tl(11, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " %s ", str_a_réussi(classeLangueNom), ". \"));");
+						tl(11, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " ", str_a_réussi(classeLangueNom), ". \"));");
 						tl(10, "} else {");
-						tl(11, "LOGGER.error(String.format(\"", classeApiOperationIdMethode, " %s ", str_a_échoué(classeLangueNom), ". \", d.cause()));");
+						tl(11, "LOGGER.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", d.cause()));");
 						tl(11, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", d);");
 						tl(10, "}");
 						tl(9, "});");

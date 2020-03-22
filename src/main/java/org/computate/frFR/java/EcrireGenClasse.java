@@ -4387,7 +4387,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						l();
 						tl(1, "public void htm", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
 						tl(2, classeNomSimple, " s = (", classeNomSimple, ")this;");
-						t(2).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
+						t(2).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-cell-top w3-center w3-mobile ").dfl();
 						if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
 			
 							t(tIndex + 3).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-padding ").dfl();
@@ -4718,7 +4718,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", ", entiteVar, ");");
 					}
 				}
-				if(entiteTexte && entiteLangue != null) {
+				if(entiteTexte) {
+					if(entiteLangue == null)
+						entiteLangue = langueNom;
 					if("frFR".equals(entiteLangue) || "esES".equals(entiteLangue)) {
 						if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
 							tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
