@@ -2246,6 +2246,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "suggest";
 	}
 
+	public String str_texte(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "texte";
+		else
+			return "text";
+	}
+
 	/**
 	 * Var.enUS: str_Suggere
 	 */

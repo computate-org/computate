@@ -712,6 +712,8 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected String classeVarSuggere;
 
+	protected String classeVarTexte;
+
 	protected String classeVarUrlId;
 
 	protected String classeVarUrlPk;

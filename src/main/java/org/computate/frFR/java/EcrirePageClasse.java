@@ -682,6 +682,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				classeVarUrlId = (String)classeDoc.get("classeVarUrlId" + "_" + langueNom + "_stored_string");
 				classeVarUrlPk = (String)classeDoc.get("classeVarUrlPk" + "_" + langueNom + "_stored_string");
 				classeVarSuggere = (String)classeDoc.get("classeVarSuggere" + "_" + langueNom + "_stored_string");
+				classeVarTexte = (String)classeDoc.get("classeVarTexte" + "_" + langueNom + "_stored_string");
 			
 				File classePageFichierGen = null;
 				File classePageFichier = null;
@@ -828,7 +829,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									}
 								}
 								if(entiteAttribuer) {
-									wJsInit.tl(2, "tl(2, ", "\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk); \"", ");");
+									wJsInit.tl(2, "if(");
+									wJsInit.tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+									wJsInit.tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+									wJsInit.tl(4, ") {");
+									wJsInit.tl(3, "tl(2, ", "\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, true); \"", ");");
+									wJsInit.tl(2, "} else {");
+									wJsInit.tl(3, "tl(2, ", "\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, false); \"", ");");
+									wJsInit.tl(2, "}");
 //									wWebsocket.tl(2, "tl(2, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {});\");");
 									wPks.tl(2, "tl(4, \"if(c == '", entiteAttribuerNomSimple, "')\");");
 									wPks.tl(2, "tl(5, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});\");");
@@ -1633,7 +1641,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											else if(entiteAttribuer) {
 
 												auteurPageJs.l();
-												auteurPageJs.tl(0, "function ", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "(", str_filtres(langueNom), ", $list, ", classeVarClePrimaire, " = null) {");
+												auteurPageJs.tl(0, "function ", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "(", str_filtres(langueNom), ", $list, ", classeVarClePrimaire, " = null, ", str_attribuer(langueNom), "=true) {");
 												auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
 												auteurPageJs.tl(2, "$list.empty();");
 												auteurPageJs.tl(2, "$.each(data['list'], function(i, o) {");
@@ -1707,7 +1715,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 														entiteAttribuerTriVarAncien = entiteAttribuerTriVar;
 													}
 												}
-												auteurPageJs.tl(3, "$li.append($input);");
+												auteurPageJs.tl(3, "if(", str_attribuer(langueNom), ")");
+												auteurPageJs.tl(4, "$li.append($input);");
 												auteurPageJs.tl(3, "$li.append($a);");
 												auteurPageJs.tl(3, "$list.append($li);");
 												auteurPageJs.tl(2, "});");
@@ -1898,23 +1907,54 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(3).e("div").da("class", "").dfl();
 
 					t(4).be("div").dfl();
+					tl(5, "JsonObject queryParams = Optional.ofNullable(", str_operationRequete(langueNom), ").map(OperationRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
 					tl(5, "Long num = ", str_liste(langueNom), classeNomSimple, ".getQueryResponse().getResults().getNumFound();");
-					tl(5, "String q = ", str_liste(langueNom), classeNomSimple, ".getQuery();");
-					tl(5, "String query = StringUtils.substringBefore(q, \"_\") + \":\" + StringUtils.substringAfter(q, \":\");");
-					tl(5, "Integer rows1 = ", str_liste(langueNom), classeNomSimple, ".getRows();");
-					tl(5, "Integer start1 = ", str_liste(langueNom), classeNomSimple, ".getStart();");
+					tl(5, "String q = \"*:*\";");
+					tl(5, "String query1 = \"", classeVarTexte, "\";");
+					tl(5, "String query2 = \"\";");
+					tl(5, "String query = \"*:*\";");
+					tl(5, "for(String param", str_Nom(langueNom), " : queryParams.fieldNames()) {");
+					tl(6, "String ", str_entite(langueNom), "Var = null;");
+					tl(6, "String ", str_valeur(langueNom), str_Indexe(langueNom), " = null;");
+					tl(6, "Object param", str_ValeursObjet(langueNom), " = queryParams.getValue(param", str_Nom(langueNom), ");");
+					tl(6, "JsonArray param", str_Objets(langueNom), " = param", str_ValeursObjet(langueNom), " instanceof JsonArray ? (JsonArray)param", str_ValeursObjet(langueNom), " : new JsonArray().add(param", str_ValeursObjet(langueNom), ");");
+					l();
+					tl(6, "try {");
+					tl(7, "for(Object param", str_Objet(langueNom), " : param", str_Objets(langueNom), ") {");
+					tl(8, "switch(param", str_Nom(langueNom), ") {");
+			
+					tl(9, "case \"q\":");
+					tl(10, "q = (String)param", str_Objet(langueNom), ";");
+					tl(10, str_entite(langueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(langueNom), ", \":\"));");
+					tl(10, str_valeur(langueNom), str_Indexe(langueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(langueNom), ", \":\")), \"UTF-8\");");
+					tl(10, "query1 = ", str_entite(langueNom), "Var.equals(\"*\") ? query1 : ", str_entite(langueNom), "Var;");
+					tl(10, "query2 = ", str_valeur(langueNom), str_Indexe(langueNom), ";");
+					tl(10, "query = query1 + \":\" + query2;");
+					tl(8, "}");
+					tl(7, "}");
+					tl(6, "} catch(Exception e) {");
+					tl(7, "ExceptionUtils.rethrow(e);");
+					tl(6, "}");
+					tl(5, "}");
+					l();
+					tl(5, "Integer rows1 = Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getRows()).orElse(10);");
+					tl(5, "Integer start1 = Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getStart()).orElse(1);");
 					tl(5, "Integer start2 = start1 - rows1;");
 					tl(5, "Integer start3 = start1 + rows1;");
 					tl(5, "Integer rows2 = rows1 / 2;");
 					tl(5, "Integer rows3 = rows1 * 2;");
 					tl(5, "start2 = start2 < 0 ? 0 : start2;");
 					tl(5, "StringBuilder fqs = new StringBuilder();");
-					tl(5, "for(String fq : ", str_liste(langueNom), classeNomSimple, ".getFilterQueries()) {");
-					tl(6, "if(!StringUtils.startsWithAny(fq, \"", str_classeNomsCanoniques(langueNom), "_\", \"", str_archive(langueNom), "_\", \"", str_supprime(langueNom), "_\"))");
-					tl(7, "fqs.append(\"&fq=\").append(StringUtils.substringBefore(fq, \"_\")).append(\":\").append(StringUtils.substringAfter(fq, \":\"));");
+					tl(5, "for(String fq : Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getFilterQueries()).orElse(new String[0])) {");
+					tl(6, "if(!StringUtils.contains(fq, \"(\")) {");
+					tl(7, "String fq1 = StringUtils.substringBefore(fq, \"_\");");
+					tl(7, "String fq2 = StringUtils.substringAfter(fq, \":\");");
+					tl(7, "if(!StringUtils.startsWithAny(fq, \"", str_classeNomsCanoniques(langueNom), "_\", \"", str_archive(langueNom), "_\", \"", str_supprime(langueNom), "_\", \"sessionId\", \"", str_utilisateur(langueNom), str_Cle(langueNom), "s\"))");
+					tl(8, "fqs.append(\"&fq=\").append(fq1).append(\":\").append(fq2);");
+					tl(6, "}");
 					tl(5, "}");
 					tl(5, "StringBuilder sorts = new StringBuilder();");
-					tl(5, "for(SortClause sort : ", str_liste(langueNom), classeNomSimple, ".getSorts()) {");
+					tl(5, "for(SortClause sort : Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getSorts()).orElse(Arrays.asList())) {");
 					tl(6, "sorts.append(\"&sort=\").append(StringUtils.substringBefore(sort.getItem(), \"_\")).append(\" \").append(sort.getOrder().name());");
 					tl(5, "}");
 					l();
@@ -1951,110 +1991,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 					tl(4, "table1", classeGenPageNomSimple, "();");
 					tl(2, "}");
-		
-					{
-						// Formulaires de recherche
-						SolrQuery rechercheSolr = new SolrQuery();   
-						rechercheSolr.setQuery("*:*");
-						rechercheSolr.setRows(1000000);
-						String fqClassesSuperEtMoi = "(" + entiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
-						rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
-						rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-						rechercheSolr.addFilterQuery("entiteTexte_indexed_boolean:true");
-						QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
-						SolrDocumentList rechercheListe = rechercheReponse.getResults();
-						Integer rechercheLignes = rechercheSolr.getRows();
-						Integer rechercheLigne = -1;
-						Integer rechercheLigneActuel;
-			
-						if(rechercheListe.size() > 0) {
-							for(Long i = rechercheListe.getStart(); i < rechercheListe.getNumFound(); i+=rechercheLignes) {
-								for(Integer j = 0; j < rechercheListe.size(); j++) {
-									SolrDocument entiteDocumentSolr = rechercheListe.get(j);
-									String entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + langueNom + "_stored_string");
-									String entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + langueNom + "_stored_string");
-									String entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
-									String entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
-									String entiteLangue = (String)entiteDocumentSolr.get("entiteLangue_stored_string");
-									Boolean entiteSuggere = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteSuggere_stored_boolean"));
-
-									if(entiteLangue == null || StringUtils.equals(entiteLangue, langueNom)) {
-										l();
-										t(2).be("div").da("class", "").dfl();
-										t(3).be("form")
-											.da("id", classeNomSimple, "Form")
-											.da("style", "display: inline-block; width: 100%; ")
-											.da("method", "GET")
-											.da("action", classePageUriMethode)
-											.da("onsubmit", "event.preventDefault(); " + str_rechercher(langueNom) + "($('#" + str_recherche(langueNom) + entiteVarCapitalise + "')); return false; ")
-											.dfl();
-										t(4).be("div").da("class", "w3-bar ").dfl();
-	//									t(5).e("label").da("for", "recherche", entiteVarCapitalise).da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
-										t(5).e("input").dal("type", "text");
-										if(contexteTousNom != null) {
-											if(entiteNomAffichage != null) {
-												t(6).dal("placeholder", contexteRechercherTousNomPar + entiteNomAffichage);
-											}
-											else {
-												t(6).dal("placeholder", contexteRechercherTousNom);
-											}
-										}
-
-										if(entiteNomAffichage != null) {
-											t(6).dal("title", entiteDescription);
-										}
-										else {
-											t(6).dal("title", entiteDescription);
-										}
-
-										t(6).dal("class", str_recherche(langueNom), entiteVarCapitalise, " w3-input w3-border w3-bar-item ");
-										t(6).dal("name", entiteVar);
-										t(6).da("id", str_recherche(langueNom), entiteVarCapitalise).l(";");
-										tl(5, str_operationRequete(langueNom), ".getParams().getJsonObject(\"query\").forEach(param", str_Requete(langueNom), " -> {");
-										tl(6, "String ", str_entite(langueNom), "Var = null;");
-										tl(6, "String ", str_valeur(langueNom), str_Indexe(langueNom), " = null;");
-										tl(6, "String param", str_Nom(langueNom), " = param", str_Requete(langueNom), ".getKey();");
-										tl(6, "Object param", str_ValeursObjet(langueNom), " = param", str_Requete(langueNom), ".getValue();");
-										tl(6, "JsonArray param", str_Objets(langueNom), " = param", str_ValeursObjet(langueNom), " instanceof JsonArray ? (JsonArray)param", str_ValeursObjet(langueNom), " : new JsonArray().add(param", str_ValeursObjet(langueNom), ");");
-										l();
-										tl(6, "try {");
-										tl(7, "for(Object param", str_Objet(langueNom), " : param", str_Objets(langueNom), ") {");
-										tl(8, "switch(param", str_Nom(langueNom), ") {");
-								
-										tl(9, "case \"q\":");
-										tl(10, str_entite(langueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(langueNom), ", \":\"));");
-										tl(10, str_valeur(langueNom), str_Indexe(langueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(langueNom), ", \":\")), \"UTF-8\");");
-
-										tl(10, "if(\"", entiteVar, "\".equals(", str_entite(langueNom), "Var))");
-										tl(11, "a(\"value\", URLDecoder.decode(", str_valeur(langueNom), str_Indexe(langueNom), ", \"UTF-8\"));");
-										tl(8, "}");
-										tl(7, "}");
-										tl(6, "} catch(Exception e) {");
-										tl(7, "ExceptionUtils.rethrow(e);");
-										tl(6, "}");
-										tl(5, "});");
-										t(5).fgl();
-					//					if("Page".equals(classeApiMethodeMethode)) {
-					//						wForm.t(tIndex + 5).dal("onchange", "patch", classeNomSimple, "($('#", classeNomSimple, "Form'), $('#", entiteVar, "Form')); ");
-					//					}
-	
-										t(5).be("button").l();
-										t(6).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
-//										tl(6, ".a(\"onclick\", \"window.location.href = '", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start2, \"&rows=\", rows1, \"'; \") ");
-										t(6).dfl();
-										t(6).e("i").da("class", "fas fa-search ").df().dgl("i");
-										t(5).bgl("button");
-										t(4).bgl("div");
-										t(3).bgl("form");
-										t(2).bgl("div");
-									}
-								}
-								rechercheSolr.setStart(i.intValue() + rechercheLignes);
-								rechercheReponse = clientSolrComputate.query(rechercheSolr);
-								rechercheListe = rechercheReponse.getResults();
-							}
-						}
-					}
 
 					// singulier part 2
 					l();
@@ -2093,7 +2029,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					// formulaires
 					if(!classePageSimple) {
 						tl(2, "htmlBodyForms", classeGenPageNomSimple, "();");
-						tl(2, "html", str_Suggere(langueNom), classeGenPageNomSimple, "(this, null);");
 					}
 		
 					t(2).gl("div");
@@ -2184,7 +2119,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 							String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 			
-							if("application/json".equals(classeApiTypeMediaMethode) && (classeApiMethodeMethode.equals("PATCH") || classeApiMethodeMethode.equals("POST") || classeApiMethodeMethode.equals("PUT"))) {
+							if("application/json".equals(classeApiTypeMediaMethode) && (classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("PUT"))) {
 								Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("POST") || classeApiMethodeMethode.contains("PUT") ? 0 : 1;
 								String methodeTitreFiltres = null;
 								String methodeTitreValeurs = null;
@@ -2311,6 +2246,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						t(3).gl("div");
 
 						t(2).s("}").l();
+						tl(2, "html", str_Suggere(langueNom), classeGenPageNomSimple, "(this, null, ", str_liste(langueNom), classeNomSimple, ");");
 					}
 				}
 				tl(1, "}");
@@ -2326,6 +2262,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						String contexteNomAdjectifPluriel2 = (String)classeDoc.get("contexteNomAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
 						String classePageUriMethode2 = (String)classeDoc.get("classeApiUri" + str_PageRecherche(langueNom2) + "_" + langueNom2 + "_stored_string");
 						String classeVarSuggere2 = (String)classeDoc.get("classeVarSuggere" + "_" + langueNom2 + "_stored_string");
+						String classeVarTexte2 = (String)classeDoc.get("classeVarTexte" + "_" + langueNom2 + "_stored_string");
 
 						tl(1, " * Var.", langueNom2, ": html", str_Suggere(langueNom2), classeGenPageNomSimple2);
 						tl(1, " * r: \"", classePageUriMethode, "\"");
@@ -2355,10 +2292,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(1, " * r.", langueNom2, ": ", str_recharger(langueNom2), classeGenPageNomSimple2, "");
 						tl(1, " * r: ", str_ajouterErreur(langueNom), "");
 						tl(1, " * r.", langueNom2, ": ", str_ajouterErreur(langueNom2), "");
-						tl(1, " * r: ", str_suggere(langueNom), classeNomSimple, StringUtils.capitalize(classeVarSuggere), "");
-						tl(1, " * r.", langueNom2, ": ", str_suggere(langueNom2), classeNomSimple2, StringUtils.capitalize(classeVarSuggere2), "");
+						tl(1, " * r: ", str_suggere(langueNom), classeNomSimple, StringUtils.capitalize(classeVarSuggere));
+						tl(1, " * r.", langueNom2, ": ", str_suggere(langueNom2), classeNomSimple2, StringUtils.capitalize(classeVarSuggere2));
+						tl(1, " * r: ", str_texte(langueNom), classeNomSimple, StringUtils.capitalize(classeVarTexte));
+						tl(1, " * r.", langueNom2, ": ", str_texte(langueNom2), classeNomSimple2, StringUtils.capitalize(classeVarTexte2));
 						tl(1, " * r: ", "'", classeVarSuggere, ":'", "");
 						tl(1, " * r.", langueNom2, ": ", "'", classeVarSuggere2, ":'", "");
+						tl(1, " * r: ", "'", classeVarTexte, ":'", "");
+						tl(1, " * r.", langueNom2, ": ", "'", classeVarTexte2, ":'", "");
 						tl(1, " * r: ", "'#", str_suggere(langueNom), "List", classeNomSimple, "'", "");
 						tl(1, " * r.", langueNom2, ": ", "'#", str_suggere(langueNom2), "List", classeNomSimple2, "'", "");
 						tl(1, " * r: \"", str_suggere(langueNom), "List", classeNomSimple, "\"");
@@ -2367,94 +2308,130 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "**/");
 					tl(1, "public static void html", str_Suggere(langueNom), classeGenPageNomSimple, "(", classePartsMiseEnPage.nomSimple(langueNom), " p, String id, ", str_ListeRecherche(langueNom), "<", classeNomSimple, "> ", str_liste(langueNom), classeNomSimple, ") {");
 					tl(2, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_ = p.get", str_RequeteSite(langueNom), "_();");
-					tl(2, "String q = Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getQuery()).orElse(\"*:*\");");
-					tl(2, "String query = StringUtils.substringBefore(q, \"_\") + \":\" + StringUtils.substringAfter(q, \":\");");
-					tl(2, "Integer rows1 = Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getRows()).orElse(10);");
-					tl(2, "Integer start1 = Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getStart()).orElse(1);");
-					tl(2, "Integer start2 = start1 - rows1;");
-					tl(2, "Integer start3 = start1 + rows1;");
-					tl(2, "Integer rows2 = rows1 / 2;");
-					tl(2, "Integer rows3 = rows1 * 2;");
-					tl(2, "start2 = start2 < 0 ? 0 : start2;");
-					tl(2, "StringBuilder fqs = new StringBuilder();");
-					tl(2, "for(String fq : Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getFilterQueries()).orElse(new String[0])) {");
-					tl(3, "if(!StringUtils.startsWithAny(fq, \"", str_classeNomsCanoniques(langueNom), "_\", \"", str_archive(langueNom), "_\", \"", str_supprime(langueNom), "_\"))");
-					tl(4, "fqs.append(\"&fq=\").append(StringUtils.substringBefore(fq, \"_\")).append(\":\").append(StringUtils.substringAfter(fq, \":\"));");
-					tl(2, "}");
-					tl(2, "StringBuilder sorts = new StringBuilder();");
-					tl(2, "for(SortClause sort : Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ".getSorts()).orElse(Arrays.asList())) {");
-					tl(3, "sorts.append(\"&sort=\").append(StringUtils.substringBefore(sort.getItem(), \"_\")).append(\" \").append(sort.getOrder().name());");
-					tl(2, "}");
+					tl(2, "try {");
+					tl(3, "OperationRequest ", str_operationRequete(langueNom), " = ", str_requeteSite(langueNom), "_.get", str_OperationRequete(langueNom), "();");
+					tl(3, "JsonObject queryParams = Optional.ofNullable(", str_operationRequete(langueNom), ").map(OperationRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
+					tl(3, "String q = \"*:*\";");
+					tl(3, "String query1 = \"", classeVarTexte, "\";");
+					tl(3, "String query2 = \"\";");
+					tl(3, "for(String param", str_Nom(langueNom), " : queryParams.fieldNames()) {");
+					tl(4, "String ", str_entite(langueNom), "Var = null;");
+					tl(4, "String ", str_valeur(langueNom), str_Indexe(langueNom), " = null;");
+					tl(4, "Object param", str_ValeursObjet(langueNom), " = queryParams.getValue(param", str_Nom(langueNom), ");");
+					tl(4, "JsonArray param", str_Objets(langueNom), " = param", str_ValeursObjet(langueNom), " instanceof JsonArray ? (JsonArray)param", str_ValeursObjet(langueNom), " : new JsonArray().add(param", str_ValeursObjet(langueNom), ");");
+					l();
+					tl(4, "try {");
+					tl(5, "for(Object param", str_Objet(langueNom), " : param", str_Objets(langueNom), ") {");
+					tl(6, "switch(param", str_Nom(langueNom), ") {");
+			
+					tl(7, "case \"q\":");
+					tl(8, "q = (String)param", str_Objet(langueNom), ";");
+					tl(8, str_entite(langueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(langueNom), ", \":\"));");
+					tl(8, str_valeur(langueNom), str_Indexe(langueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(langueNom), ", \":\")), \"UTF-8\");");
+					tl(8, "query1 = ", str_entite(langueNom), "Var.equals(\"*\") ? query1 : ", str_entite(langueNom), "Var;");
+					tl(8, "query2 = ", str_valeur(langueNom), str_Indexe(langueNom), ".equals(\"*\") ? \"\" : ", str_valeur(langueNom), str_Indexe(langueNom), ";");
+					tl(6, "}");
+					tl(5, "}");
+					tl(4, "} catch(Exception e) {");
+					tl(5, "ExceptionUtils.rethrow(e);");
+					tl(4, "}");
+					tl(3, "}");
+					l();
+					tl(3, "Integer rows1 = Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getRows()).orElse(10);");
+					tl(3, "Integer start1 = Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getStart()).orElse(1);");
+					tl(3, "Integer start2 = start1 - rows1;");
+					tl(3, "Integer start3 = start1 + rows1;");
+					tl(3, "Integer rows2 = rows1 / 2;");
+					tl(3, "Integer rows3 = rows1 * 2;");
+					tl(3, "start2 = start2 < 0 ? 0 : start2;");
+					tl(3, "StringBuilder fqs = new StringBuilder();");
+					tl(3, "for(String fq : Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getFilterQueries()).orElse(new String[0])) {");
+					tl(4, "if(!StringUtils.contains(fq, \"(\")) {");
+					tl(5, "String fq1 = StringUtils.substringBefore(fq, \"_\");");
+					tl(5, "String fq2 = StringUtils.substringAfter(fq, \":\");");
+					tl(5, "if(!StringUtils.startsWithAny(fq, \"", str_classeNomsCanoniques(langueNom), "_\", \"", str_archive(langueNom), "_\", \"", str_supprime(langueNom), "_\", \"sessionId\", \"", str_utilisateur(langueNom), str_Cle(langueNom), "s\"))");
+					tl(6, "fqs.append(\"&fq=\").append(fq1).append(\":\").append(fq2);");
+					tl(4, "}");
+					tl(3, "}");
+					tl(3, "StringBuilder sorts = new StringBuilder();");
+					tl(3, "for(SortClause sort : Optional.ofNullable(", str_liste(langueNom), classeNomSimple, ").map(l -> l.getSorts()).orElse(Arrays.asList())) {");
+					tl(4, "sorts.append(\"&sort=\").append(StringUtils.substringBefore(sort.getItem(), \"_\")).append(\" \").append(sort.getOrder().name());");
+					tl(3, "}");
 					l();
 
-					tl(2, "if(");
-					tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", classeGenPageNomSimple, ".ROLES)");
-					tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ", classeGenPageNomSimple, ".ROLES)");
-					tl(4, ") {");
+					tl(3, "if(");
+					tl(5, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", classeGenPageNomSimple, ".ROLES)");
+					tl(5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ", classeGenPageNomSimple, ".ROLES)");
+					tl(5, ") {");
 
 					// recharger tous //
-					t(3).s("{ p.").e("div").da("class", "").dfl();
-					t(4).s("{ p.").e("button").s(".a(\"id\", \"", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id)").da("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
+					t(4).s("if(", str_liste(langueNom), classeNomSimple, " == null) {").l();
+					t(5).s("{ p.").e("div").da("class", "").dfl();
+					t(6).s("{ p.").e("button").s(".a(\"id\", \"", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id)").da("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
 					s(".a(\"onclick\", \"patch", classeNomSimple, "Vals([], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }); \")");
 					dfl();
-					t(5).s("p.").e("i").da("class", "fas fa-sync-alt ").df().dgl("i");
-					t(5).s("p.").sxqscl(str_recharger(langueNom), " ", contexteTousNom);
-					t(4).s("} p.").gl("button");
-					t(3).s("} p.").gl("div");
+					t(7).s("p.").e("i").da("class", "fas fa-sync-alt ").df().dgl("i");
+					t(7).s("p.").sxqscl(str_recharger(langueNom), " ", contexteTousNom);
+					t(6).s("} p.").gl("button");
+					t(5).s("} p.").gl("div");
+					t(4).s("}").l();
 
-					t(2).s("}").l();
+					t(3).s("}").l();
 
-					t(2).s("{ p.").e("div").da("class", "w3-cell-row ").dfl();
-					t(3).s("{ p.").e("div").da("class", "w3-cell ").dfl();
-					t(4).s("{ p.").e("span").dfl();
-					t(5).s("p.").sxqscl(str_rechercher(langueNom), " ", contexteNomAdjectifPluriel, str_deuxPoints(langueNom));
-					t(4).s("} p.").gl("span");
+					t(3).s("{ p.").e("div").da("class", "w3-cell-row ").dfl();
+					t(4).s("{ p.").e("div").da("class", "w3-cell ").dfl();
+					t(5).s("{ p.").e("span").dfl();
+					t(6).s("p.").sxqscl(str_rechercher(langueNom), " ", contexteNomAdjectifPluriel, str_deuxPoints(langueNom));
+					t(5).s("} p.").gl("span");
+					t(4).s("} p.").gl("div");
 					t(3).s("} p.").gl("div");
-					t(2).s("} p.").gl("div");
-					t(2).s("{ p.").e("div").da("class", "w3-bar ").dfl();
+					t(3).s("{ p.").e("div").da("class", "w3-bar ").dfl();
 					l();
 	
-					t(3).s("{ p.").e("span").da("class", "w3-bar-item w3-padding-small ").dfl();
-					t(4).s("p.").e("i").da("class", "far fa-search w3-xlarge w3-cell w3-cell-middle ").df().dgl("i");
-					t(3).s("} p.").gl("span");
-					t(3).s("p.").e("input").l();
-					t(4).dal("type", "text");
+					t(4).s("p.").e("input").l();
+					t(5).dal("type", "text");
 	
 					if(contexteRechercherTousNom != null) {
-						t(4).dal("placeholder", contexteRechercherTousNom);
+						t(5).dal("placeholder", contexteRechercherTousNom);
 					}
 	
-					t(4).dal("class", str_suggere(langueNom), classeNomSimple, " w3-input w3-border w3-bar-item w3-padding-small ");
-					t(4).dal("name", str_suggere(langueNom), classeNomSimple);
-					t(4).s(".a(\"id\", \"", str_suggere(langueNom), classeNomSimple, "\", id)").l();
-					t(4).dal("autocomplete", "off");
-					t(4).s(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, StringUtils.capitalize(classeVarSuggere), "( [ { 'name': 'q', 'value': '", classeVarSuggere, ":' + $(this).val() } ], $('#", str_suggere(langueNom), "List", classeNomSimple, "\", id, \"'), \", p.get", str_RequeteSite(langueNom), "_().get", str_Requete(langueNom), "", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")").l();
-					t(4).dfgl();
-					t(4).be("button").l();
+					t(5).dal("class", str_suggere(langueNom), classeNomSimple, " w3-input w3-border w3-bar-item ");
+					t(5).dal("name", str_suggere(langueNom), classeNomSimple);
+					t(5).s(".a(\"id\", \"", str_suggere(langueNom), classeNomSimple, "\", id)").l();
+					t(5).dal("autocomplete", "off");
+					t(5).s(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, StringUtils.capitalize(classeVarSuggere), "( [ { 'name': 'q', 'value': '", classeVarSuggere, ":' + $(this).val() } ], $('#", str_suggere(langueNom), "List", classeNomSimple, "\", id, \"'), \", p.get", str_RequeteSite(langueNom), "_().get", str_Requete(langueNom), "", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")").l();
+					tl(5, ".a(\"onkeyup\", \"if (event.keyCode === 13) { event.preventDefault(); window.location.href = '", classePageUriMethode + "?q=\", query1, \":' + encodeURIComponent(this.value) + '\", fqs, sorts, \"&start=\", start2, \"&rows=\", rows1, \"'; }\"); ");
+					t(4).s("if(", str_liste(langueNom), classeNomSimple, " != null)").l();
+					t(5).l("p.a(\"value\", query2);");
+					t(4).s("p.").fgl();
+					t(4).s("{ p.").e("button").l();
 					t(5).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
-					tl(5, ".a(\"onclick\", \"window.location.href = '", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start2, \"&rows=\", rows1, \"'; \") ");
+					tl(5, ".a(\"onclick\", \"window.location.href = '", classePageUriMethode + "?q=\", query1, \":' + encodeURIComponent(this.previousElementSibling.value) + '\", fqs, sorts, \"&start=\", start2, \"&rows=\", rows1, \"'; \") ");
 					t(5).dfl();
-					t(5).e("i").da("class", "fas fa-search ").df().dgl("i");
-					t(4).bgl("button");
+					t(5).s("p.").e("i").da("class", "fas fa-search ").df().dgl("i");
+					t(4).s("} p.").gl("button");
 	
 					l();
-					t(2).s("} p.").gl("div");
-					t(2).s("{ p.").e("div").da("class", "w3-cell-row ").dfl();
-					t(3).s("{ p.").e("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
-					t(4).s("{ p.").e("ul").da("class", "w3-ul w3-hoverable ").s(".a(\"id\", \"", str_suggere(langueNom), "List", classeNomSimple, "\", id)").dfl();
-					t(4).s("} p.").gl("ul");
 					t(3).s("} p.").gl("div");
-					t(2).s("} p.").gl("div");
+					t(3).s("{ p.").e("div").da("class", "w3-cell-row ").dfl();
+					t(4).s("{ p.").e("div").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
+					t(5).s("{ p.").e("ul").da("class", "w3-ul w3-hoverable ").s(".a(\"id\", \"", str_suggere(langueNom), "List", classeNomSimple, "\", id)").dfl();
+					t(5).s("} p.").gl("ul");
+					t(4).s("} p.").gl("div");
+					t(3).s("} p.").gl("div");
 
 					// voir tous //
-					t(2).s("{ p.").e("div").da("class", "").dfl();
-					t(3).s("{ p.").e("a").da("href", classePageUriMethode).da("class", "").dfl();
+					t(3).s("{ p.").e("div").da("class", "").dfl();
+					t(4).s("{ p.").e("a").da("href", classePageUriMethode).da("class", "").dfl();
 					if(contexteIconeGroupe != null && contexteIconeNom != null)
-						t(4).s("p.").e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ").df().dgl("i");
-					t(4).s("p.").sxqscl(str_voir(langueNom), " ", contexteTousNom);
-					t(3).s("} p.").gl("a");
-					t(2).s("} p.").gl("div");
+						t(5).s("p.").e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ").df().dgl("i");
+					t(5).s("p.").sxqscl(str_voir(langueNom), " ", contexteTousNom);
+					t(4).s("} p.").gl("a");
+					t(3).s("} p.").gl("div");
 
+					tl(2, "} catch(Exception e) {");
+					tl(3, "ExceptionUtils.rethrow(e);");
+					tl(2, "}");
 					tl(1, "}");
 
 					auteurWebsocket.flushClose();

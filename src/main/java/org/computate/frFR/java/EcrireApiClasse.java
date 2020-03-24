@@ -2078,10 +2078,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "", str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(new OperationResponse(200, \"OK\", buffer, ", str_requeteEnTetes(classeLangueNom), ")));");
 					}
 					else if(classeApiMethode.contains("PUT")) {
-						tl(3, "", str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(OperationResponse.completedWithJson(JsonObject.mapFrom(", str_requeteApi(classeLangueNom), "))));");
+						tl(3, "", str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(OperationResponse.completedWithJson(Buffer.buffer(JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").encodePrettily()))));");
 					}
 					else {
-						tl(3, "", str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(OperationResponse.completedWithJson(Optional.ofNullable(json).orElse(new JsonObject()))));");
+						tl(3, "", str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(OperationResponse.completedWithJson(Buffer.buffer(Optional.ofNullable(json).orElse(new JsonObject()).encodePrettily()))));");
 					}
 	
 					tl(2, "} catch(Exception e) {");
