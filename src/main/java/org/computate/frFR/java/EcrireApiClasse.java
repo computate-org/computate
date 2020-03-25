@@ -1288,20 +1288,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") && (
 								BooleanUtils.isNotTrue(classeRoleSession) 
 								&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
-								&& ( classeRoles.size() > 0 || classeRoleReads.size() > 0)
+								&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
 							)
 							) {
 						l();
 						tl(3, "List<String> roles = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
 						if(StringUtils.containsAny(classeApiMethode, "GET", str_Recherche(classeLangueNom))) {
-							tl(3, "List<String> roleReads = Arrays.asList(\"", StringUtils.join(classeRoleReads, "\", \""), "\");");
+							tl(3, "List<String> roleLires = Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\");");
 						}
 						tl(3, "if(");
 						tl(5, "!CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roles)");
 						tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRoyaume(classeLangueNom), "(), roles)");
 						if(StringUtils.containsAny(classeApiMethode, "GET", str_Recherche(classeLangueNom))) {
-							tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roleReads)");
-							tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRoyaume(classeLangueNom), "(), roleReads)");
+							tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roleLires)");
+							tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRoyaume(classeLangueNom), "(), roleLires)");
 						}
 						tl(5, ") {");
 						tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(");
@@ -2542,12 +2542,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 				l();
 				tl(3, "List<String> roles = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
-//				tl(3, "List<String> roleReads = Arrays.asList(\"", StringUtils.join(classeRoleReads, "\", \""), "\");");
+//				tl(3, "List<String> roleLires = Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\");");
 				tl(3, "if(");
 				tl(5, "!CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roles)");
 				tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRoyaume(classeLangueNom), "(), roles)");
-//				tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roleReads)");
-//				tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRoyaume(classeLangueNom), "(), roleReads)");
+//				tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roleLires)");
+//				tl(5, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRoyaume(classeLangueNom), "(), roleLires)");
 				tl(5, ") {");
 				tl(4, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"sessionId_indexed_string:\" + ClientUtils.escapeQueryChars(Optional.ofNullable(", str_requeteSite(classeLangueNom), ".getSessionId()).orElse(\"-----\"))");
 				tl(6, "+ \" OR ", str_utilisateur(classeLangueNom), str_Cle(classeLangueNom), "s_indexed_longs:\" + Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), str_Cle(classeLangueNom), "()).orElse(0L));");

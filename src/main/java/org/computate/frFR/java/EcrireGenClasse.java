@@ -326,14 +326,14 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected List<String> classeRoles;
 
 	/**
-	 * Var.enUS: classRoleReadsFound
+	 * Var.enUS: classRoleLiresFound
 	 */
-	protected Boolean classeRoleReadsTrouves;
+	protected Boolean classeRoleLiresTrouves;
 
 	/**
-	 * Var.enUS: classRoleReads
+	 * Var.enUS: classRoleLires
 	 */
-	protected List<String> classeRoleReads;
+	protected List<String> classeRoleLires;
 
 	/**
 	 * Var.enUS: classFiltersFound
@@ -1877,7 +1877,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		}
 		l("/**\t");
 		ecrireCommentairePart(classeCommentaire, 0); 
-		tl(0, " * <br/><a href=\"", urlSolrComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">Trouver la classe ", entiteVar, " dans Solr</a>");
+		tl(0, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">Trouver la classe ", entiteVar, " dans Solr</a>");
 		tl(0, " * <br/>");
 		l(" **/");  
 		s("public abstract class ", classeNomSimpleGen);
@@ -1974,10 +1974,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 		}
 
-		if(classeRoleReadsTrouves || classeRolesTrouves) {
+		if(classeRoleLiresTrouves || classeRolesTrouves) {
 			l();
 			tl(1, "public static final List<String> ROLES = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
-			tl(1, "public static final List<String> ROLE_READS = Arrays.asList(\"", StringUtils.join(classeRoleReads, "\", \""), "\");");
+			tl(1, "public static final List<String> ROLE_READS = Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\");");
 		}
 		
 		//////////////
@@ -3304,7 +3304,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 	
 			// Lien vers Solr //
-			tl(1, " * <br/><a href=\"", urlSolrComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">Trouver l'entité ", entiteVar, " dans Solr</a>");
+			tl(1, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">Trouver l'entité ", entiteVar, " dans Solr</a>");
 			tl(1, " * <br/>");
 	
 			if(entiteCouverture) {
@@ -4126,7 +4126,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 2).s(classePrefixe, ") {").l();
 							}
 							else if(classeUtilisateurEcrire) {
-								if(classeRolesTrouves || classeRoleReadsTrouves) {
+								if(classeRolesTrouves || classeRoleLiresTrouves) {
 									tl(tIndex + 2, "if(");
 									tl(tIndex + 4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 									tl(tIndex + 4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -4353,12 +4353,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 							}
 							else if(classeUtilisateurEcrire) {
-								if(classeRolesTrouves || classeRoleReadsTrouves) {
+								if(classeRolesTrouves || classeRoleLiresTrouves) {
 									t(tIndex + 2).s("} else {").l();
 									tl(tIndex + 3, "if(");
 									tl(tIndex + 5, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 									tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-									if(classeRoleReadsTrouves) {
+									if(classeRoleLiresTrouves) {
 										tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLE_READS)");
 										tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
 									}
@@ -4442,7 +4442,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 8).s(classePrefixe, ") {").l();
 								}
 								else if(classeUtilisateurEcrire) {
-									if(classeRolesTrouves || classeRoleReadsTrouves) {
+									if(classeRolesTrouves || classeRoleLiresTrouves) {
 										tl(tIndex + 8, "if(");
 										tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 										tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -4560,7 +4560,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 7).s(classePrefixe, ") {").l();
 								}
 								else if(classeUtilisateurEcrire) {
-									if(classeRolesTrouves || classeRoleReadsTrouves) {
+									if(classeRolesTrouves || classeRoleLiresTrouves) {
 										tl(tIndex + 7, "if(");
 										tl(tIndex + 9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 										tl(tIndex + 9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -5953,25 +5953,30 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //		}	
 
 		if(classeContientRequeteSite) {
-			//////////////////
-			// requeteApi //
-			//////////////////
-			l(); 
-			tl(1, "//////////////////");
-			tl(1, "// ", str_requeteApi(langueNom), " //");
-			tl(1, "//////////////////");
-			l();
-			tl(1, "public void ", str_requeteApi(langueNom), classeNomSimple, "() {");
-			tl(2, str_RequeteApi(langueNom), " ", str_requeteApi(langueNom), " = Optional.ofNullable(", str_requeteSite(langueNom), "_).map(", classePartsRequeteSite.nomSimple(langueNom), "::get", str_RequeteApi(langueNom), "_).orElse(null);");
-			tl(2, "Object o = Optional.ofNullable(", str_requeteApi(langueNom), ").map(", str_RequeteApi(langueNom), "::getOriginal).orElse(null);");
-			tl(2, "if(o != null && o instanceof ", classeNomSimple, ") {");
-			tl(3, classeNomSimple, " original = (", classeNomSimple, ")o;");
-			s(wRequeteApi.toString());
-			if(BooleanUtils.isTrue(classeEtendBase)) {
-				tl(3, "super.", str_requeteApi(langueNom), classeNomSimpleSuperGenerique, "();");
+			if(classePartsRequeteSite != null) {
+				//////////////////
+				// requeteApi //
+				//////////////////
+				l(); 
+				tl(1, "//////////////////");
+				tl(1, "// ", str_requeteApi(langueNom), " //");
+				tl(1, "//////////////////");
+				l();
+				tl(1, "public void ", str_requeteApi(langueNom), classeNomSimple, "() {");
+				tl(2, str_RequeteApi(langueNom), " ", str_requeteApi(langueNom), " = Optional.ofNullable(", str_requeteSite(langueNom), "_).map(", classePartsRequeteSite.nomSimple(langueNom), "::get", str_RequeteApi(langueNom), "_).orElse(null);");
+				tl(2, "Object o = Optional.ofNullable(", str_requeteApi(langueNom), ").map(", str_RequeteApi(langueNom), "::getOriginal).orElse(null);");
+				tl(2, "if(o != null && o instanceof ", classeNomSimple, ") {");
+				tl(3, classeNomSimple, " original = (", classeNomSimple, ")o;");
+				s(wRequeteApi.toString());
+				if(BooleanUtils.isTrue(classeEtendBase)) {
+					tl(3, "super.", str_requeteApi(langueNom), classeNomSimpleSuperGenerique, "();");
+				}
+				tl(2, "}");
+				tl(1, "}");
 			}
-			tl(2, "}");
-			tl(1, "}");
+			else {
+				System.err.println(String.format("%s %s %s %s %s. ", str_classe(langueNom), str_RequeteSite(langueNom), str_manquante(langueNom), str_dans(langueNom), cheminSrcMainJava));
+			}
 		}
 
 		//////////////

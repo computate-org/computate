@@ -29,7 +29,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */ 
 	@Override protected void _appliChemin() throws Exception {
 		if(appliChemin == null) {
-			appliChemin = System.getenv("appliChemin"); 
+			appliChemin = System.getenv(str_appliChemin(langueNom)); 
 			if(appliChemin == null)
 				appliChemin = args[0]; 
 		}
@@ -42,7 +42,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */ 
 	@Override protected void _appliCheminVertx() throws Exception {
 		if(appliCheminVertx == null) {
-			appliCheminVertx = System.getenv("appliCheminVertx"); 
+			appliCheminVertx = System.getenv(str_appliChemin(langueNom) + "Vertx"); 
 		}
 	}
 
@@ -57,7 +57,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _classeCheminAbsolu() throws Exception {
 		if(classeCheminAbsolu == null) {
-			classeCheminAbsolu = System.getenv("classeCheminAbsolu"); 
+			classeCheminAbsolu = System.getenv(str_classeCheminAbsolu(langueNom)); 
 			if(classeCheminAbsolu == null)
 				classeCheminAbsolu = args[1];
 		}
@@ -84,7 +84,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _appliChemins() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String appliCheminLangue = config.getString(appliNom + ".appliChemin_" + langueNom); 
+			String appliCheminLangue = config.getString(appliNom + "." + str_appliChemin(langueNom) + "_" + langueNom); 
 			if(StringUtils.isEmpty(appliCheminLangue)) {
 				appliChemins.put(langueNom, appliChemin);
 			}
@@ -113,7 +113,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _appliCheminsVertx() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String appliCheminVertxLangue = config.getString(appliNom + ".appliCheminVertx_" + langueNom); 
+			String appliCheminVertxLangue = config.getString(appliNom + "." + str_appliChemin(langueNom) + "Vertx_" + langueNom); 
 			if(StringUtils.isEmpty(appliCheminVertxLangue)) {
 				appliCheminsVertx.put(langueNom, appliCheminVertx);
 			}

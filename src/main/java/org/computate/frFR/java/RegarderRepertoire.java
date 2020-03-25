@@ -22,6 +22,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
@@ -127,6 +129,7 @@ public class RegarderRepertoire {
 	 * Var.enUS: configuration
 	 */
 	protected INIConfiguration configuration;
+	protected String langueNom;
 	/**
 	 * Var.enUS: appName
 	 */
@@ -139,6 +142,34 @@ public class RegarderRepertoire {
 	 * Var.enUS: appComputatePath
 	 */
 	protected String appliComputateChemin;
+
+	public static String str_appliNom(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "appliNom";
+		else
+			return "appName";
+	}
+
+	public static String str_appliChemin(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "appliChemin";
+		else
+			return "appPath";
+	}
+
+	public static String str_appliComputateChemin(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "appliComputateChemin";
+		else
+			return "appComputatePath";
+	}
+
+	public static String str_cheminsRelatifsARegarder(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "cheminsRelatifsARegarder";
+		else
+			return "relativePathsToWatch";
+	}
 
 	 /**
 	 * r: appliNom
@@ -174,10 +205,12 @@ public class RegarderRepertoire {
 	 */
 	public static void main(String[] args) throws Exception { 
 		Logger log = org.slf4j.LoggerFactory.getLogger(RegarderRepertoire.class);
-		String appliNom = System.getenv("appliNom");
-		String appliChemin = System.getenv("appliChemin");
-		String appliComputateChemin = System.getenv("appliComputateChemin");
+		String lang = Optional.ofNullable(System.getenv("lang")).orElse("frFR");
+		String appliNom = System.getenv(str_appliNom(lang));
+		String appliChemin = System.getenv(str_appliChemin(lang));
+		String appliComputateChemin = System.getenv(str_appliComputateChemin(lang));
 		RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
+		regarderRepertoire.langueNom = lang;
 		regarderRepertoire.appliNom = appliNom;
 		regarderRepertoire.appliChemin = appliChemin;
 		regarderRepertoire.appliComputateChemin = appliComputateChemin;
@@ -254,7 +287,7 @@ public class RegarderRepertoire {
 	public void initialiserRegarderRepertoire() throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
 //		executeur.setStreamHandler(gestionnaireFluxPompe);
-		String[] cheminsRelatifsARegarder = configuration.getStringArray(StringUtils.replace(appliNom, ".", "..") + ".cheminsRelatifsARegarder");
+		String[] cheminsRelatifsARegarder = configuration.getStringArray(StringUtils.replace(appliNom, ".", "..") + "." + str_cheminsRelatifsARegarder(langueNom));
 		for(String cheminRelatifARegarder : cheminsRelatifsARegarder) {
 			String cheminARegarder = appliChemin + "/" + cheminRelatifARegarder;
 			cheminsARegarder.add(cheminARegarder);

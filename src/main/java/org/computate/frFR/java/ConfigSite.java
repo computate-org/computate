@@ -31,6 +31,106 @@ public class ConfigSite {
 	public ConfigSite() {
 	}
 
+	public String str_appliNom(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "appliNom";
+		else
+			return "appName";
+	}
+
+	public String str_appliChemin(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "appliChemin";
+		else
+			return "appPath";
+	}
+
+	public String str_classeCheminAbsolu(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "classeCheminAbsolu";
+		else
+			return "classAbsolutePath";
+	}
+
+	public String str_nomDomaine(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "str_nomDomaine";
+		else
+			return "domainName";
+	}
+
+	public String str_autresLangues(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "autresLangues";
+		else
+			return "otherLanguages";
+	}
+
+	public String str_siteUrlBase(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "siteUrlBase";
+		else
+			return "siteBaseUrl";
+	}
+
+	public String str_nomEnsembleDomaine(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "nomEnsembleDomaine";
+		else
+			return "domainPackageName";
+	}
+
+	public String str_nomFichierConfig(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "nomFichierConfig";
+		else
+			return "configFileName";
+	}
+
+	public String str_solrUrl(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "solrUrl";
+		else
+			return "solrUrl";
+	}
+
+	public String str_siteCrypte(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "siteCrypte";
+		else
+			return "siteEncrypted";
+	}
+
+	public String str_siteEcrireMethodes(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "siteEcrireMethodes";
+		else
+			return "siteWriteMethods";
+	}
+
+	public String str_ecrireApi(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ecrireApi";
+		else
+			return "writeApi";
+	}
+
+	/**
+	 * Var.enUS: languageName
+	 * enUS: The configured language name for this app. 
+	 */
+	public String langueNom;
+	/**	
+	 * Var.enUS: _languageName
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: appliNom
+	 * r.enUS: appName
+	 **/ 
+	protected void _langueNom() throws Exception {
+		langueNom = System.getenv("lang");
+	} 
+
 	/**	
 	 * Var.enUS: appName
 	 * frFR: Le nom de l'lappli. 
@@ -44,7 +144,7 @@ public class ConfigSite {
 	 **/ 
 	protected void _appliNom() throws Exception {
 		if(appliNom == null)
-			appliNom = System.getenv("appliNom"); 
+			appliNom = System.getenv(str_appliNom(langueNom)); 
 	}
 
 	/**	
@@ -60,7 +160,7 @@ public class ConfigSite {
 	 **/ 
 	protected void _appliChemin() throws Exception {
 		if(appliChemin == null)
-			appliChemin = System.getenv("appliChemin"); 
+			appliChemin = System.getenv(str_appliChemin(langueNom)); 
 	} 
 
 	/**	
@@ -76,7 +176,7 @@ public class ConfigSite {
 	 **/ 
 	protected void _appliCheminVertx() throws Exception {
 		if(appliCheminVertx == null)
-			appliCheminVertx = System.getenv("appliCheminVertx"); 
+			appliCheminVertx = System.getenv(str_appliChemin(langueNom) + "Vertx"); 
 	} 
 
 	/**
@@ -204,22 +304,6 @@ public class ConfigSite {
 	}
 
 	/**
-	 * Var.enUS: languageName
-	 * enUS: The configured language name for this app. 
-	 */
-	public String langueNom;
-	/**	
-	 * Var.enUS: _languageName
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/ 
-	protected void _langueNom() throws Exception {
-		langueNom = config.getString(StringUtils.replace(appliNom, ".", "..") + ".langueNom");
-	} 
-
-	/**
 	 * Var.enUS: languageActualName
 	 * enUS: The actual language of the code. 
 	 * enUS: If the languageName is configured as "tout", then the languageActualName would be "frFR". 
@@ -256,7 +340,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _autresLangues() throws Exception {
-		autresLangues = config.getStringArray(StringUtils.replace(appliNom, ".", "..") + ".autresLangues");
+		autresLangues = config.getStringArray(StringUtils.replace(appliNom, ".", "..") + "." + str_autresLangues(langueNom));
 	}
 
 	/**
@@ -318,7 +402,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _nomDomaine() throws Exception {
-		nomDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomDomaine");
+		nomDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_nomDomaine(langueNom));
 	}
 
 	/**
@@ -336,7 +420,7 @@ public class ConfigSite {
 	 * r.enUS: siteBaseUrl
 	 **/  
 	protected void _siteUrlBase() throws Exception {
-		siteUrlBase = config.getString(StringUtils.replace(appliNom, ".", "..") + ".siteUrlBase");
+		siteUrlBase = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_siteUrlBase(langueNom));
 	}
 	
 	/**
@@ -356,7 +440,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/  
 	protected void _nomEnsembleDomaine() throws Exception {
-		nomEnsembleDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomEnsembleDomaine");
+		nomEnsembleDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_nomEnsembleDomaine(langueNom));
 		if(StringUtils.isEmpty(nomEnsembleDomaine)) {
 			String[] partis = StringUtils.split(nomDomaine, ".");
 			ArrayUtils.reverse(partis);
@@ -377,143 +461,144 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _nomFichierConfig() throws Exception {
-		nomFichierConfig = config.getString(StringUtils.replace(appliNom, ".", "..") + ".nomFichierConfig", appliNom + ".config");
+		nomFichierConfig = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_nomFichierConfig(langueNom), appliNom + ".config");
 	}
-
-	/**
-	 * Var.enUS: mavenVersion
-	 * enUS: The version of maven being used. 
-	 */
-	public String versionMaven;
-	/**	
-	 * Var.enUS: _mavenVersion
-	 * r: versionMaven
-	 * r.enUS: mavenVersion
-	 **/ 
-	protected void _versionMaven() throws Exception {
-		versionMaven = config.getString("maven.versionMaven", "3.5.3");
-	}
-
-	/**
-	 * Var.enUS: zookeeperVersion
-	 * enUS: The version of Zookeeper being used. 
-	 */
-	public String versionZookeeper;
-	/**	
-	 * Var.enUS: _zookeeperVersion
-	 * r: versionZookeeper
-	 * r.enUS: zookeeperVersion
-	 **/ 
-	protected void _versionZookeeper() throws Exception {
-		versionZookeeper = config.getString("maven.versionZookeeper", "3.5.4");
-	}
-
-	/**
-	 * Var.enUS: zookeeperPortPrefix
-	 * enUS: The port prefix for zookeeper (default is "102"). 
-	 */
-	public String prefixePortZookeeper;
-	/**	
-	 * Var.enUS: _zookeeperPortPrefix
-	 * r: prefixePortZookeeper
-	 * r.enUS: zookeeperPortPrefix
-	 **/ 
-	protected void _prefixePortZookeeper() throws Exception {
-		prefixePortZookeeper = config.getString("zookeeper.prefixePortZookeeper", "102");
-	}
-
-	/**
-	 * Var.enUS: zookeeperClientPort
-	 * enUS: The Zookeeper client port (default is "10281"). 
-	 */
-	public String portClientZookeeper;
-	/**	
-	 * Var.enUS: _zookeeperClientPort
-	 * r: portClientZookeeper
-	 * r.enUS: zookeeperClientPort
-	 * r: prefixePortZookeeper
-	 * r.enUS: zookeeperPortPrefix
-	 **/ 
-	protected void _portClientZookeeper() throws Exception {
-		portClientZookeeper = config.getString("zookeeper.portClientZookeeper", prefixePortZookeeper + "81");
-	}
-
-	/**
-	 * Var.enUS: zookeeperAdminPort
-	 * enUS: The Zookeeper admin port (default is "10280"). 
-	 */
-	public String portAdminZookeeper;
-	/**	
-	 * Var.enUS: _zookeeperAdminPort
-	 * r: portAdminZookeeper
-	 * r.enUS: zookeeperAdminPort
-	 * r: prefixePortZookeeper
-	 * r.enUS: zookeeperPortPrefix
-	 **/ 
-	protected void _portAdminZookeeper() throws Exception {
-		portAdminZookeeper = config.getString("zookeeper.portAdminZookeeper", prefixePortZookeeper + "80");
-	}
-
-	/**
-	 * Var.enUS: solrVersion
-	 * enUS: The version of Solr being used. 
-	 */
-	public String versionSolr;
-	/**	
-	 * Var.enUS: _solrVersion
-	 * r: versionSolr
-	 * r.enUS: solrVersion
-	 **/ 
-	protected void _versionSolr() throws Exception {
-		versionSolr = config.getString("solr.versionSolr", "7.1.0");
-	}
-
-	/**
-	 * Var.enUS: solrPortPrefix
-	 * enUS: The port prefix for Solr (default is "103"). 
-	 */
-	public String prefixePortSolr;
-	/**	
-	 * Var.enUS: _solrPortPrefix
-	 * r: prefixePortSolr
-	 * r.enUS: solrPortPrefix
-	 **/ 
-	protected void _prefixePortSolr() throws Exception {
-		prefixePortSolr = config.getString("solr.prefixePortSolr", "103");
-	}
-
-	/**
-	 * Var.enUS: solrPort
-	 * enUS: The Solr web port (default is "10383"). 
-	 */ 
-	public String portSolr;
-	/**	
-	 * Var.enUS: _solrPort
-	 * r: portSolr
-	 * r.enUS: solrPort
-	 * r: prefixePortSolr
-	 * r.enUS: solrPortPrefix
-	 **/ 
-	protected void _portSolr() throws Exception {
-		portSolr = config.getString("solr.portSolr", prefixePortSolr + "83");
-	}
+//
+//	/**
+//	 * Var.enUS: mavenVersion
+//	 * enUS: The version of maven being used. 
+//	 */
+//	public String versionMaven;
+//	/**	
+//	 * Var.enUS: _mavenVersion
+//	 * r: versionMaven
+//	 * r.enUS: mavenVersion
+//	 **/ 
+//	protected void _versionMaven() throws Exception {
+//		versionMaven = config.getString("maven.versionMaven", "3.5.3");
+//	}
+//
+//	/**
+//	 * Var.enUS: zookeeperVersion
+//	 * enUS: The version of Zookeeper being used. 
+//	 */
+//	public String versionZookeeper;
+//	/**	
+//	 * Var.enUS: _zookeeperVersion
+//	 * r: versionZookeeper
+//	 * r.enUS: zookeeperVersion
+//	 **/ 
+//	protected void _versionZookeeper() throws Exception {
+//		versionZookeeper = config.getString("maven.versionZookeeper", "3.5.4");
+//	}
+//
+//	/**
+//	 * Var.enUS: zookeeperPortPrefix
+//	 * enUS: The port prefix for zookeeper (default is "102"). 
+//	 */
+//	public String prefixePortZookeeper;
+//	/**	
+//	 * Var.enUS: _zookeeperPortPrefix
+//	 * r: prefixePortZookeeper
+//	 * r.enUS: zookeeperPortPrefix
+//	 **/ 
+//	protected void _prefixePortZookeeper() throws Exception {
+//		prefixePortZookeeper = config.getString("zookeeper.prefixePortZookeeper", "102");
+//	}
+//
+//	/**
+//	 * Var.enUS: zookeeperClientPort
+//	 * enUS: The Zookeeper client port (default is "10281"). 
+//	 */
+//	public String portClientZookeeper;
+//	/**	
+//	 * Var.enUS: _zookeeperClientPort
+//	 * r: portClientZookeeper
+//	 * r.enUS: zookeeperClientPort
+//	 * r: prefixePortZookeeper
+//	 * r.enUS: zookeeperPortPrefix
+//	 **/ 
+//	protected void _portClientZookeeper() throws Exception {
+//		portClientZookeeper = config.getString("zookeeper.portClientZookeeper", prefixePortZookeeper + "81");
+//	}
+//
+//	/**
+//	 * Var.enUS: zookeeperAdminPort
+//	 * enUS: The Zookeeper admin port (default is "10280"). 
+//	 */
+//	public String portAdminZookeeper;
+//	/**	
+//	 * Var.enUS: _zookeeperAdminPort
+//	 * r: portAdminZookeeper
+//	 * r.enUS: zookeeperAdminPort
+//	 * r: prefixePortZookeeper
+//	 * r.enUS: zookeeperPortPrefix
+//	 **/ 
+//	protected void _portAdminZookeeper() throws Exception {
+//		portAdminZookeeper = config.getString("zookeeper.portAdminZookeeper", prefixePortZookeeper + "80");
+//	}
+//
+//	/**
+//	 * Var.enUS: solrVersion
+//	 * enUS: The version of Solr being used. 
+//	 */
+//	public String versionSolr;
+//	/**	
+//	 * Var.enUS: _solrVersion
+//	 * r: versionSolr
+//	 * r.enUS: solrVersion
+//	 **/ 
+//	protected void _versionSolr() throws Exception {
+//		versionSolr = config.getString("solr.versionSolr", "7.1.0");
+//	}
+//
+//	/**
+//	 * Var.enUS: solrPortPrefix
+//	 * enUS: The port prefix for Solr (default is "103"). 
+//	 */
+//	public String prefixePortSolr;
+//	/**	
+//	 * Var.enUS: _solrPortPrefix
+//	 * r: prefixePortSolr
+//	 * r.enUS: solrPortPrefix
+//	 **/ 
+//	protected void _prefixePortSolr() throws Exception {
+//		prefixePortSolr = config.getString("solr.prefixePortSolr", "103");
+//	}
+//
+//	/**
+//	 * Var.enUS: solrPort
+//	 * enUS: The Solr web port (default is "10383"). 
+//	 */ 
+//	public String portSolr;
+//	/**	
+//	 * Var.enUS: _solrPort
+//	 * r: portSolr
+//	 * r.enUS: solrPort
+//	 * r: prefixePortSolr
+//	 * r.enUS: solrPortPrefix
+//	 **/ 
+//	protected void _portSolr() throws Exception {
+//		portSolr = config.getString("solr.portSolr", prefixePortSolr + "83");
+//	}
 
 	/**
 	 * Var.enUS: solrUrlComputate
 	 * enUS: The Solr web URL for the "computate" index. 
 	 */ 
-	public String urlSolrComputate;
+	public String solrUrlComputate;
 	/**	
 	 * Var.enUS: _solrUrlComputate
-	 * r: urlSolrComputate
+	 * r: solrUrlComputate
 	 * r.enUS: solrUrlComputate
-	 * r: urlSolr
+	 * r: solrUrl
 	 * r.enUS: solrUrl
 	 * r: portSolr
 	 * r.enUS: solrPort
 	 **/ 
-	protected void _urlSolrComputate() throws Exception {
-		urlSolrComputate = config.getString("solr.urlSolr", "http://localhost:" + portSolr + "/solr/computate");
+	protected void _solrUrlComputate() throws Exception {
+//		solrUrlComputate = config.getString("solr.solrUrl", "http://localhost:" + portSolr + "/solr/computate");
+		solrUrlComputate = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_solrUrl(langueNom) + "Computate");
 	}
 
 	/**
@@ -525,11 +610,11 @@ public class ConfigSite {
 	 * Var.enUS: _solrClientComputate
 	 * r: clientSolrComputate
 	 * r.enUS: solrClientComputate
-	 * r: urlSolrComputate
+	 * r: solrUrlComputate
 	 * r.enUS: solrUrlComputate
 	 **/ 
 	protected void _clientSolrComputate() throws Exception {
-		clientSolrComputate = new HttpSolrClient.Builder(urlSolrComputate).build();
+		clientSolrComputate = new HttpSolrClient.Builder(solrUrlComputate).build();
 	}
 
 	/**
@@ -594,7 +679,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _siteCrypte() throws Exception {
-		siteCrypte = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + ".siteCrypte", false);
+		siteCrypte = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_siteCrypte(langueNom), false);
 	}
 
 	/**
@@ -609,7 +694,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/ 
 	protected void _siteEcrireMethodes() throws Exception {
-		List<String> o = config.getList(String.class, StringUtils.replace(appliNom, ".", "..") + ".siteEcrireMethodes");
+		List<String> o = config.getList(String.class, StringUtils.replace(appliNom, ".", "..") + "." + str_siteEcrireMethodes(langueNom));
 		if(o != null)
 			siteEcrireMethodes.addAll(o);
 	}
@@ -626,7 +711,7 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/  
 	protected void _ecrireApi() throws Exception {
-		ecrireApi = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + ".ecrireApi", true);
+		ecrireApi = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_ecrireApi(langueNom), true);
 	}
 
 	/**	
@@ -675,7 +760,7 @@ public class ConfigSite {
 	 * r.enUS: solrPortPrefix
 	 * r: portSolr
 	 * r.enUS: solrPort
-	 * r: urlSolrComputate
+	 * r: solrUrlComputate
 	 * r.enUS: solrUrlComputate
 	 * r: clientSolrComputate
 	 * r.enUS: solrClientComputate
@@ -701,6 +786,7 @@ public class ConfigSite {
 	 * r.enUS: siteBaseUrl
 	 **/ 
 	public void initConfigSite() throws Exception {
+		_langueNom();
 		_appliNom();
 		_appliChemin();
 		_appliCheminVertx();
@@ -711,7 +797,6 @@ public class ConfigSite {
 		_fichierConfig();
 		_configurations();
 		_config();
-		_langueNom();
 		_langueNomActuel();
 		_autresLangues();
 		_toutesLangues();
@@ -721,15 +806,15 @@ public class ConfigSite {
 		_nomDomaine();
 		_nomEnsembleDomaine();
 		_nomFichierConfig();
-		_versionMaven();
-		_versionZookeeper();
-		_prefixePortZookeeper();
-		_portClientZookeeper();
-		_portAdminZookeeper();
-		_versionSolr();
-		_prefixePortSolr();
-		_portSolr();
-		_urlSolrComputate();
+//		_versionMaven();
+//		_versionZookeeper();
+//		_prefixePortZookeeper();
+//		_portClientZookeeper();
+//		_portAdminZookeeper();
+//		_versionSolr();
+//		_prefixePortSolr();
+//		_portSolr();
+		_solrUrlComputate();
 		_clientSolrComputate();
 		_cheminsSource();
 		_toutCheminsSource();

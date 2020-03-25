@@ -546,16 +546,16 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 						}
 					}
 
-					classeRoleReadsTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRoleReadsTrouves_stored_boolean"));
-					List<String> classeRoleReadsTemp = (List<String>)doc.get("classeRoleReads_stored_strings");
-					List<String> classeRoleReadsLangue = (List<String>)doc.get("classeRoleReadsLangue_stored_strings");
-					classeRoleReads = new ArrayList<>();
-					if(classeRoleReadsTemp != null) {
-						for(Integer j = 0; j < classeRoleReadsTemp.size(); j++) {
-							String classeRoleRead = classeRoleReadsTemp.get(j);
-							String classeRoleReadLangue = classeRoleReadsLangue.get(j);
-							if(langueNom.equals(classeRoleReadLangue))
-								classeRoleReads.add(classeRoleRead);
+					classeRoleLiresTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRoleLiresTrouves_stored_boolean"));
+					List<String> classeRoleLiresTemp = (List<String>)doc.get("classeRoleLires_stored_strings");
+					List<String> classeRoleLiresLangue = (List<String>)doc.get("classeRoleLiresLangue_stored_strings");
+					classeRoleLires = new ArrayList<>();
+					if(classeRoleLiresTemp != null) {
+						for(Integer j = 0; j < classeRoleLiresTemp.size(); j++) {
+							String classeRoleLire = classeRoleLiresTemp.get(j);
+							String classeRoleLireLangue = classeRoleLiresLangue.get(j);
+							if(langueNom.equals(classeRoleLireLangue))
+								classeRoleLires.add(classeRoleLire);
 						}
 					}
 
