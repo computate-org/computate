@@ -861,6 +861,8 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	List<String> entiteAttribuerTrisVar;
 
+	List<String> entiteAttribuerTrisSuffixeType;
+
 	/**
 	 * Var.enUS: entityMultiline
 	 */
@@ -2020,40 +2022,40 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			
 			l();
 			if(contexteUnNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_UnNom = ", q(contexteUnNom), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_UnNom(langueNom), " = ", q(contexteUnNom), ";");
 			
 			if(contexteCe != null)
-				tl(1, "public static final String ", classeNomSimple, "_Ce = ", q(contexteCe), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_Ce(langueNom), " = ", q(contexteCe), ";");
 			
 			if(contexteCeNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_CeNom = ", q(contexteCeNom), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_CeNom(langueNom), " = ", q(contexteCeNom), ";");
 			
 			if(contexteUn != null)
-				tl(1, "public static final String ", classeNomSimple, "_Un = ", q(contexteUn), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_Un(langueNom), " = ", q(contexteUn), ";");
 			
 			if(contexteLeNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_LeNom = ", q(contexteLeNom), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_LeNom(langueNom), " = ", q(contexteLeNom), ";");
 			
 			if(contexteNomSingulier != null)
-				tl(1, "public static final String ", classeNomSimple, "_NomSingulier = ", q(contexteNomSingulier), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_NomSingulier(langueNom), " = ", q(contexteNomSingulier), ";");
 			
 			if(contexteNomPluriel != null)
-				tl(1, "public static final String ", classeNomSimple, "_NomPluriel = ", q(contexteNomPluriel), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_NomPluriel(langueNom), " = ", q(contexteNomPluriel), ";");
 			
 			if(contexteNomActuel != null)
-				tl(1, "public static final String ", classeNomSimple, "_NomActuel = ", q(contexteNomActuel), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_NomActuel(langueNom), " = ", q(contexteNomActuel), ";");
 			
 			if(contexteTous != null)
-				tl(1, "public static final String ", classeNomSimple, "_Tous = ", q(contexteTous), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_Tous(langueNom), " = ", q(contexteTous), ";");
 			
 			if(contexteTousNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_TousNom = ", q(contexteTousNom), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_TousNom(langueNom), " = ", q(contexteTousNom), ";");
 			
 			if(contexteRechercherTousNomPar != null)
-				tl(1, "public static final String ", classeNomSimple, "_RechercherTousNomPar = ", q(contexteRechercherTousNomPar), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_RechercherTousNomPar(langueNom), " = ", q(contexteRechercherTousNomPar), ";");
 			
 			if(contexteRechercherTousNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_RechercherTousNom = ", q(contexteRechercherTousNom), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_RechercherTousNom(langueNom), " = ", q(contexteRechercherTousNom), ";");
 			
 			if(contexteH1 != null)
 				tl(1, "public static final String ", classeNomSimple, "_H1 = ", q(contexteH1), ";");
@@ -2065,49 +2067,49 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "public static final String ", classeNomSimple, "_H3 = ", q(contexteH3), ";");
 			
 			if(contexteTitre != null)
-				tl(1, "public static final String ", classeNomSimple, "_Titre = ", q(contexteTitre), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_Titre(langueNom), " = ", q(contexteTitre), ";");
 			
 			if(contexteLesNoms != null)
-				tl(1, "public static final String ", classeNomSimple, "_LesNoms = ", q(contexteLesNoms), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_LesNoms(langueNom), " = ", q(contexteLesNoms), ";");
 			
 			if(contexteAucunNomTrouve != null)
-				tl(1, "public static final String ", classeNomSimple, "_AucunNomTrouve = ", q(contexteAucunNomTrouve), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_AucunNomTrouve(langueNom), " = ", q(contexteAucunNomTrouve), ";");
 			
 			if(contexteNomVar != null)
-				tl(1, "public static final String ", classeNomSimple, "_NomVar = ", q(contexteNomVar), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_NomVar(langueNom), " = ", q(contexteNomVar), ";");
 			
 			if(contexteDeNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_DeNom = ", q(contexteDeNom), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_DeNom(langueNom), " = ", q(contexteDeNom), ";");
 			
 			if(contexteAdjectif != null)
-				tl(1, "public static final String ", classeNomSimple, "_Adjectif = ", q(contexteAdjectif), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_Adjectif(langueNom), " = ", q(contexteAdjectif), ";");
 			
 			if(contexteAdjectifPluriel != null)
-				tl(1, "public static final String ", classeNomSimple, "_AdjectifPluriel = ", q(contexteAdjectifPluriel), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_AdjectifPluriel(langueNom), " = ", q(contexteAdjectifPluriel), ";");
 			
 			if(contexteAdjectifVar != null)
-				tl(1, "public static final String ", classeNomSimple, "_AdjectifVar = ", q(contexteAdjectifVar), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_AdjectifVar(langueNom), " = ", q(contexteAdjectifVar), ";");
 			
 			if(contexteUnNomAdjectif != null)
-				tl(1, "public static final String ", classeNomSimple, "_UnNomAdjectif = ", q(contexteUnNomAdjectif), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_UnNomAdjectif(langueNom), " = ", q(contexteUnNomAdjectif), ";");
 			
 			if(contexteNomAdjectifSingulier != null)
-				tl(1, "public static final String ", classeNomSimple, "_NomAdjectifSingulier = ", q(contexteNomAdjectifSingulier), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_NomAdjectifSingulier(langueNom), " = ", q(contexteNomAdjectifSingulier), ";");
 			
 			if(contexteNomAdjectifPluriel != null)
-				tl(1, "public static final String ", classeNomSimple, "_NomAdjectifPluriel = ", q(contexteNomAdjectifPluriel), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_NomAdjectifPluriel(langueNom), " = ", q(contexteNomAdjectifPluriel), ";");
 			
 			if(contexteCouleur != null)
-				tl(1, "public static final String ", classeNomSimple, "_Couleur = ", q(contexteCouleur), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_Couleur(langueNom), " = ", q(contexteCouleur), ";");
 			
 			if(contexteIconeGroupe != null)
-				tl(1, "public static final String ", classeNomSimple, "_IconeGroupe = ", q(contexteIconeGroupe), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_IconeGroupe(langueNom), " = ", q(contexteIconeGroupe), ";");
 			
 			if(contexteIconeNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_IconeNom = ", q(contexteIconeNom), ";");
+				tl(1, "public static final String ", classeNomSimple, "_", str_IconeNom(langueNom), " = ", q(contexteIconeNom), ";");
 			
 			if(contexteRows != null)
-				tl(1, "public static final Integer ", classeNomSimple, "_Rows = ", contexteRows, ";");
+				tl(1, "public static final Integer ", classeNomSimple, "_", str_Lignes(langueNom), " = ", contexteRows, ";");
 		}
 
 		for(String classePageMethode : classeApiMethodes) {
@@ -4640,11 +4642,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 			for(String classeEcrireMethode : new String[] { "htmlBody" }) {
 				if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
-					if(classePartsPagePart == null)
-						throw new Exception("Ajouter une classe avec le commentaire: MotCle: classeNomSimplePagePart");
-					if(entiteNomSimpleCompletGenerique == null && "htmlBody".equals(classeEcrireMethode) && entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
+					if(entiteNomSimpleCompletGenerique == null && "htmlBody".equals(classeEcrireMethode)) {
 						tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "(", entiteNomSimpleComplet, " o) {");
-						if(entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique)) {
+						if(classePartsPagePart != null && entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique(langueNom))) {
 							// do stuff here. 
 							if(!entiteValsEcrivain.getEmpty()) {
 								s(entiteValsEcrivain);
@@ -4848,18 +4848,20 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					wIndexerFacetFor.tl(5, entiteAttribuerNomSimple, StringUtils.capitalize(langueNom), "GenApiServiceImpl service = new ", entiteAttribuerNomSimple, StringUtils.capitalize(langueNom), "GenApiServiceImpl(", str_requeteSite(langueNom), "2.get", str_SiteContexte(langueNom), "_());");
 					wIndexerFacetFor.tl(5, "Long ", classeVarClePrimaire, " = o.get", entiteVarCapitalise, "();");
 					wIndexerFacetFor.l();
-					wIndexerFacetFor.tl(5, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
-					wIndexerFacetFor.tl(5, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
-					wIndexerFacetFor.tl(5, "futures.add(");
-					wIndexerFacetFor.tl(6, "service.patch", entiteAttribuerNomSimple, "Future(o2, a -> {");
-					wIndexerFacetFor.tl(7, "if(a.succeeded()) {");
-					wIndexerFacetFor.tl(8, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
-					wIndexerFacetFor.tl(7, "} else {");
-					wIndexerFacetFor.tl(8, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "));");
-					wIndexerFacetFor.tl(8, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
-					wIndexerFacetFor.tl(7, "}");
-					wIndexerFacetFor.tl(6, "})");
-					wIndexerFacetFor.tl(5, ");");
+					wIndexerFacetFor.tl(5, "if(", classeVarClePrimaire, " != null) {");
+					wIndexerFacetFor.tl(6, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+					wIndexerFacetFor.tl(6, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
+					wIndexerFacetFor.tl(6, "futures.add(");
+					wIndexerFacetFor.tl(7, "service.patch", entiteAttribuerNomSimple, "Future(o2, a -> {");
+					wIndexerFacetFor.tl(8, "if(a.succeeded()) {");
+					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
+					wIndexerFacetFor.tl(8, "} else {");
+					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "));");
+					wIndexerFacetFor.tl(9, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
+					wIndexerFacetFor.tl(8, "}");
+					wIndexerFacetFor.tl(7, "})");
+					wIndexerFacetFor.tl(6, ");");
+					wIndexerFacetFor.tl(5, "}");
 					wIndexerFacetFor.tl(4, "}");
 				}
 				else {

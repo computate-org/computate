@@ -1615,6 +1615,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												entiteAttribuerTypeJson = (String)entiteDocumentSolr.get("entiteAttribuerTypeJson_stored_string");
 												entiteAttribuerContexteIconeNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeNom_stored_string");
 												entiteAttribuerTrisVar = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisVar_" + langueNom + "_stored_strings");
+												entiteAttribuerTrisSuffixeType = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisSuffixeType_stored_strings");
 					
 												if(entiteSuggere) {
 													auteurPageJs.l();
@@ -1683,7 +1684,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													auteurPageJs.tl(3, "if(checked)");
 													auteurPageJs.tl(4, "$input.attr('checked', 'checked');");
 													auteurPageJs.tl(3, "var $li = $('<li>');");
-													if("Double".equals(entiteNomSimple) && entiteAttribuerTrisVar != null) {
+													if(entiteAttribuerTrisVar != null && entiteAttribuerTrisSuffixeType != null && entiteAttribuerTrisSuffixeType.size() > 0 && "_double".equals(entiteAttribuerTrisSuffixeType.get(0))) {
 														for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
 															auteurPageJs.tl(3, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
 														}
@@ -2366,7 +2367,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(5, ") {");
 	
 						// recharger tous //
-						t(4).s("if(", str_liste(langueNom), classeNomSimple, " == null) {").l();
+//						t(4).s("if(", str_liste(langueNom), classeNomSimple, " == null) {").l();
 						t(5).s("{ p.").e("div").da("class", "").dfl();
 						t(6).s("{ p.").e("button").s(".a(\"id\", \"", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id)").da("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
 						s(".a(\"onclick\", \"patch", classeNomSimple, "Vals([], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }); \")");
@@ -2375,7 +2376,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						t(7).s("p.").sxqscl(str_recharger(langueNom), " ", contexteTousNom);
 						t(6).s("} p.").gl("button");
 						t(5).s("} p.").gl("div");
-						t(4).s("}").l();
+//						t(4).s("}").l();
 	
 						t(3).s("}").l();
 	

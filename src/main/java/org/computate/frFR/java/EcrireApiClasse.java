@@ -197,8 +197,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: AllWriter
 	 * r: classePageNomCanoniqueMethode
 	 * r.enUS: classPageCanonicalNameMethod
-	 * r: documentSolr
-	 * r.enUS: solrDocument
+	 * r: DocumentSolr
+	 * r.enUS: SolrDocument
 	 * r: classeLangueNom
 	 * r.enUS: classLanguageName
 	 * r: langueNom
@@ -220,7 +220,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l();
 			if(classePartsSiteContexte == null)
 				throw new Exception("Ajouter une classe avec le commentaire: MotCle: classeNomSimpleSiteContexte");
-			auteurGenApiService.l("import ", classePartsSiteContexte.documentSolr.get("classeNomCanonique_" + classeLangueNom + "_stored_string"), ";");
+			auteurGenApiService.l("import ", classePartsSiteContexte.getDocumentSolr().get("classeNomCanonique_" + classeLangueNom + "_stored_string"), ";");
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
 			auteurGenApiService.l("import io.vertx.ext.web.api.generator.WebApiServiceGen;");
@@ -237,7 +237,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l(" * ", str_Traduire(classeLangueNom), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueGenApiServiceLangue = (String)classeDoc.get("classeNomCanoniqueGenApiService_" + langueNom + "_stored_string");
-				auteurGenApiService.l(" * ", str_classeNomCanonique(classeLangueNom), ".", langueNom, ": ", classeNomCanoniqueGenApiServiceLangue);
+				auteurGenApiService.l(" * ", str_NomCanonique(classeLangueNom), ".", langueNom, ": ", classeNomCanoniqueGenApiServiceLangue);
 			}
 			auteurGenApiService.l(" * Gen: false");
 			auteurGenApiService.l(" **/");
@@ -307,8 +307,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: canonicalName
 	 * r: nomSimple
 	 * r.enUS: simpleName
-	 * r: documentSolr
-	 * r.enUS: solrDocument
+	 * r: DocumentSolr
+	 * r.enUS: SolrDocument
 	 * r: langueNom
 	 * r.enUS: languageName
 	 * 
@@ -320,14 +320,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 		if(auteurApiServiceImpl != null) {
 			auteurApiServiceImpl.l("package ", classeNomEnsemble, ";");
 			auteurApiServiceImpl.l();
-			auteurApiServiceImpl.l("import ", classePartsSiteContexte.documentSolr.get("classeNomCanonique_" + classeLangueNom + "_stored_string"), ";");
+			auteurApiServiceImpl.l("import ", classePartsSiteContexte.getDocumentSolr().get("classeNomCanonique_" + classeLangueNom + "_stored_string"), ";");
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurApiServiceImpl.l();
 			auteurApiServiceImpl.l("/**");
 			auteurApiServiceImpl.l(" * ", str_Traduire(classeLangueNom), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueApiServiceImplLangue = (String)classeDoc.get("classeNomCanoniqueApiServiceImpl_" + langueNom + "_stored_string");
-				l(" * ", str_classeNomCanonique(classeLangueNom), ".", langueNom, ": ", classeNomCanoniqueApiServiceImplLangue);
+				l(" * ", str_NomCanonique(classeLangueNom), ".", langueNom, ": ", classeNomCanoniqueApiServiceImplLangue);
 			}
 			auteurApiServiceImpl.l(" **/");
 			auteurApiServiceImpl.l("public class ", classeNomSimpleApiServiceImpl, " extends ", classeNomSimpleGenApiServiceImpl, " {");
@@ -1228,7 +1228,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l(" * ", str_Traduire(classeLangueNom), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueGenApiServiceImplLangue = (String)classeDoc.get("classeNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
-				l(" * ", str_classeNomCanonique(classeLangueNom), ".", langueNom, ": ", classeNomCanoniqueGenApiServiceImplLangue);
+				l(" * ", str_NomCanonique(classeLangueNom), ".", langueNom, ": ", classeNomCanoniqueGenApiServiceImplLangue);
 			}
 			l(" **/");
 			s("public class ", classeNomSimpleGenApiServiceImpl);
@@ -1970,6 +1970,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classeApiMethode.contains(str_Recherche(classeLangueNom))) {
 						if(classePageNomCanoniqueMethode != null) {
 							tl(3, "Buffer buffer = Buffer.buffer();");
+							if(classePartsToutEcrivain == null)
+								throw new RuntimeException(String.format("%s %s %s %s %s. ", str_classe(classeLangueNom), str_ToutEcrivain(classeLangueNom), str_manquante(classeLangueNom), str_dans(classeLangueNom), cheminSrcMainJava));
 							t(3, classePartsToutEcrivain.nomSimple(classeLangueNom), " w = ", classePartsToutEcrivain.nomSimple(classeLangueNom), ".", str_creer(classeLangueNom), "(");
 							s("", str_liste(classeLangueNom), "", classeNomSimple, ".get", str_RequeteSite(classeLangueNom), "_()");
 							l(", buffer);");
