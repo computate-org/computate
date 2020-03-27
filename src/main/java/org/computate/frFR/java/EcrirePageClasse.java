@@ -1661,7 +1661,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													auteurPageJs.tl(3, "$a.append($i);");
 													auteurPageJs.tl(3, "$a.append($span);");
 													auteurPageJs.tl(3, "var val = o['", entiteAttribuerVar, "'];");
-													auteurPageJs.tl(3, "var checked = Array.isArray(val) ? val.includes(", classeVarClePrimaire, ".toString()) : val == ", classeVarClePrimaire, ";");
+													auteurPageJs.tl(3, "var checked = pk == null ? false : Array.isArray(val) ? val.includes(", classeVarClePrimaire, ".toString()) : val == ", classeVarClePrimaire, ";");
 													auteurPageJs.tl(3, "var $input = $('<input>');");
 													auteurPageJs.tl(3, "$input.attr('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeVarClePrimaire, " + '_", entiteAttribuerVar, "_' + o['", classeVarClePrimaire, "']);");
 													auteurPageJs.tl(3, "$input.attr('value', o['", classeVarClePrimaire, "']);");

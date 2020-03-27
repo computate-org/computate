@@ -4164,7 +4164,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 5).dal("name", "set", entiteVarCapitalise);
 								t(tIndex + 5).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 5).dal("autocomplete", "off");
-								t(tIndex + 5).l(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? ", str_rechercher(langueNom), entiteAttribuerNomSimple, str_Filtres(langueNom), "($('#", str_suggere(langueNom), "\", ", str_classeApiMethodeMethode(langueNom), ", \"", classeNomSimple, entiteVarCapitalise, "')) : [{'name':'fq','value':'", entiteAttribuerVar, ":\", ", classeVarClePrimaire, ", \"'}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"'), \", ", classeVarClePrimaire, ", \"); \")");
+								t(tIndex + 5).s(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? ", str_rechercher(langueNom), entiteAttribuerNomSimple, str_Filtres(langueNom), "($('#", str_suggere(langueNom), "\", ", str_classeApiMethodeMethode(langueNom), ", \"", classeNomSimple, entiteVarCapitalise, "')) : [");
+								s("\", ", classeVarClePrimaire, " == null ? \"\" : \"{'name':'fq','value':'", entiteAttribuerVar, ":\" + ", classeVarClePrimaire, " + \"'}\", \"");
+								s("], $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"'), \", ", classeVarClePrimaire, ", \"); \")");
+								l();
 			
 								t(tIndex + 4).dfgl();
 								l();
