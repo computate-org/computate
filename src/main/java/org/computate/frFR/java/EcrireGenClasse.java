@@ -4127,13 +4127,17 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 4).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
 								t(tIndex + 2).s(classePrefixe, ") {").l();
 							}
+							else if(classePublicLire) {
+								tl(tIndex + 2, "if(");
+								tl(tIndex + 4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+								tl(tIndex + 4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+								tl(tIndex + 4, ") {");
+							}
 							else if(classeUtilisateurEcrire) {
 								if(classeRolesTrouves || classeRoleLiresTrouves) {
 									tl(tIndex + 2, "if(");
 									tl(tIndex + 4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 									tl(tIndex + 4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-//									tl(tIndex + 4, "|| !CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLE_READS)");
-//									tl(tIndex + 4, "|| !CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
 									tl(tIndex + 4, ") {");
 								}
 								else {
@@ -4353,7 +4357,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								l();
 							}
 
-							if(classeUtilisateurEcrire && classeSessionEcrire) {
+							if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
 								t(tIndex + 2).s("} else {").l();
 								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 							}
@@ -4446,13 +4450,17 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 10).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
 									t(tIndex + 8).s(classePrefixe, ") {").l();
 								}
+								else if(classePublicLire) {
+									tl(tIndex + 8, "if(");
+									tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+									tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+									tl(tIndex + 10, ") {");
+								}
 								else if(classeUtilisateurEcrire) {
 									if(classeRolesTrouves || classeRoleLiresTrouves) {
 										tl(tIndex + 8, "if(");
 										tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 										tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-	//									tl(tIndex + 10, "|| !CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLE_READS)");
-	//									tl(tIndex + 10, "|| !CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
 										tl(tIndex + 10, ") {");
 									}
 									else {
@@ -4564,13 +4572,17 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 9).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
 									t(tIndex + 7).s(classePrefixe, ") {").l();
 								}
+								else if(classePublicLire) {
+									tl(tIndex + 8, "if(");
+									tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+									tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+									tl(tIndex + 10, ") {");
+								}
 								else if(classeUtilisateurEcrire) {
 									if(classeRolesTrouves || classeRoleLiresTrouves) {
 										tl(tIndex + 7, "if(");
 										tl(tIndex + 9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 										tl(tIndex + 9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-	//									tl(tIndex + 9, "|| !CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLE_READS)");
-	//									tl(tIndex + 9, "|| !CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
 										tl(tIndex + 9, ") {");
 									}
 									else {
@@ -5767,7 +5779,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			s(wVarIndexe);
 			tl(3, "default:");
 			if(classeEstBase)
-				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
+//				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
+				tl(4, "return null;");
 			else
 				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", str_Indexe(langueNom), classeNomSimpleSuperGenerique, "(", str_entite(langueNom), "Var);");
 			tl(2, "}");
@@ -5780,7 +5793,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			s(wVarSuggere);
 			tl(3, "default:");
 			if(classeEstBase)
-				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
+//				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
+				tl(4, "return null;");
 			else
 				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", str_Recherche(langueNom), classeNomSimpleSuperGenerique, "(", str_entite(langueNom), "Var);");
 			tl(2, "}");
@@ -5792,7 +5806,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			s(wVarSuggere);
 			tl(3, "default:");
 			if(classeEstBase)
-				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
+//				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(langueNom), "Var));");
+				tl(4, "return null;");
 			else
 				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", str_Suggere(langueNom), classeNomSimpleSuperGenerique, "(", str_entite(langueNom), "Var);");
 			tl(2, "}");

@@ -2528,6 +2528,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "RoleRead";
 	}
 
+	public String str_PublicLire(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "PublicLire";
+		else
+			return "PublicRead";
+	}
+
 	public String str_Filtre(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "Filtre";
@@ -5982,6 +5989,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 
+		Boolean classePublicLire = false;
 		Boolean classeRoleSession = false;
 		Boolean classeRoleUtilisateur = false;
 		Boolean classeRolesTrouves = false;
@@ -6004,6 +6012,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeValsTrouves = classeValsRecherche.find();
 			}
 
+			classePublicLire = indexerStockerSolr(classeDoc, "classePublicLire", regexTrouve("^" + str_PublicLire(classeLangueNom) + ":\\s*(true)$", classeCommentaire));
 			classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^" + str_RoleSession(classeLangueNom) + ":\\s*(true)$", classeCommentaire));
 			classeRoleUtilisateur = indexerStockerSolr(classeDoc, "classeRoleUtilisateur", regexTrouve("^" + str_RoleUtilisateur(classeLangueNom) + ":\\s*(true)$", classeCommentaire));
 
@@ -6037,8 +6046,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			indexerStockerSolr(classeDoc, "classeUtilisateurEcrire", BooleanUtils.isTrue(classeRoleUtilisateur));
 			indexerStockerSolr(classeDoc, "classePublicEcrire", !classeRolesTrouves);
 			indexerStockerSolr(classeDoc, "classeSessionLire", !classeRolesTrouves || BooleanUtils.isTrue(classeRoleSession));
-			indexerStockerSolr(classeDoc, "classeUtilisateurLire", !classeRolesTrouves || BooleanUtils.isTrue(classeRoleUtilisateur));
-			indexerStockerSolr(classeDoc, "classePublicLire", !classeRolesTrouves);
+			indexerStockerSolr(classeDoc, "classeUtilisateurLire", !classeRolesTrouves || BooleanUtils.isTrue(classeRoleUtilisateur) || BooleanUtils.isTrue(classePublicLire));
 
 			Matcher classeFiltresRecherche = Pattern.compile("^" + str_Filtre(classeLangueNom) + "\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			boolean classeFiltresTrouves = classeFiltresRecherche.find();
