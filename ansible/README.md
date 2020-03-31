@@ -1,4 +1,25 @@
 
+# Install Ansible 
+
+```bash
+sudo yum install -y ansible
+```
+
+# Install the computate project
+
+```bash
+sudo install -d -o $USER -g $USER /usr/local/src/computate
+git clone git@github.com:computate/computate.git /usr/local/src/computate
+```
+
+# Install a FreeIPA Server
+
+```bash
+sudo install -d -o $USER -g $USER /usr/local/src/ansible-freeipa
+git clone https://github.com/freeipa/ansible-freeipa.git /usr/local/src/ansible-freeipa
+
+```
+
 # computate-ansible
 sudo install -d -o $USER -g $USER /usr/local/src/computate-ansible
 git clone git@github.com:computate/computate-ansible.git /usr/local/src/computate-ansible/
