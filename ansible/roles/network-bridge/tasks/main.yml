@@ -1,14 +1,20 @@
+# This requires a suggested change that nas not been merged yet to this file: 
+# /usr/lib/python2.7/site-packages/ansible/modules/net_tools/nmcli.py
+# Here is the pull request: 
+# https://github.com/ansible/ansible/pull/58115/files
+
 - name: Delete the old network ethernet connection ({{NETWORK_ETHERNET_CONNECTION}}). 
   nmcli: 
    conn_name: "{{NETWORK_ETHERNET_CONNECTION}}" 
    state: absent
 - name: Bring up a new bridge connection ({{NETWORK_BRIDGE_CONNECTION}}). 
   nmcli: 
-    type: bridge-slave
+    type: bridge
+    mac: "{{NETWORK_BRIDGE_MAC}}" 
     conn_name: "{{NETWORK_BRIDGE_CONNECTION}}" 
     ifname: "{{NETWORK_BRIDGE_DEVICE}}"
-    ipv4.address: "{{NETWORK_IP_ADDRESS}}"
-    ipv4.gateway: "{{NETWORK_GATEWAY}}"
+    ip4: "{{NETWORK_IP_ADDRESS}}"
+    gw4: "{{NETWORK_GATEWAY}}"
     dns4: "{{NETWORK_DNS}}"
     state: present
 - name: Bring up a new bridge-slave connection ({{NETWORK_BRIDGE_SLAVE_CONNECTION}}). 
@@ -22,4 +28,5 @@
   service: 
     name: network
     state: restarted
+  become: true
 

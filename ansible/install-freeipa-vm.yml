@@ -1,0 +1,55 @@
+# Example: 
+# ansible-playbook computate-scolaire-vm.yaml -i inventories/computate/hosts -u $USER --extra-vars "target=tower1" --vault-id @prompt
+---
+- name: Configure a libvirt virtual machine to run the computate-scolaire project with demo data. 
+  vars_files: 
+    - vars.yaml
+  vars:
+    target: libvirt_server
+    VIRT_PACKAGES: 
+      - "libvirt"
+  hosts: "{{ target }}"
+  tasks: 
+    - name: Ensure Operating System Requirements
+      fail: 
+        msg: "The {{inventory_hostname}} host with operating system {{ansible_distribution}} did not meet the required operating systems: {{SUPPORTED_DISTROS}}"
+      when: >
+        ansible_distribution not in SUPPORTED_DISTROS
+    - name: Install virt packages
+      package: 
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ VIRT_PACKAGES }}"
+    - name: Download the Centos 8 ISO. 
+      get_url:
+        url: http://mirrors.xmission.com/centos/8.1.1911/isos/x86_64/CentOS-8.1.1911-x86_64-dvd1.iso
+        dest: /usr/local/src/CentOS-8.1.1911-x86_64-dvd1.iso
+        checksum: "sha256:3ee3f4ea1538e026fff763e2b284a6f20b259d91d1ad5688f5783a67d279423b"
+      become: yes
+    - name: Download the computate-scolaire centos8-kickstart.cfg
+      get_url:
+        url: https://raw.githubusercontent.com/computate/computate/master/ansible/centos8-kickstart.cfg
+        dest: /usr/local/src/centos8-kickstart.cfg
+      become: yes
+    - name: Check if RHTE-computate-demo.qcow2 exists
+      stat:
+        path: /var/lib/libvirt/images/RHTE-computate-demo.qcow2
+      register: qcow2_exists
+    - name: Create RHTE-computate-demo.qcow2
+      command: qemu-img create -f qcow2 /var/lib/libvirt/images/RHTE-computate-demo.qcow2 4000G
+      become: yes
+      when: qcow2_exists.stat.exists == false
+    - name: Check if RHTE-computate-demo virtual machine exists. 
+      virt:
+        name: RHTE-computate-demo
+        command: get_xml
+        uri: qemu:///system
+      register: vm_exists
+      ignore_errors: true
+      become: yes
+    - name: Install the RHTE-computate-demo virtual machine. 
+      command: virt-install --location /usr/local/src/CentOS-8.1.1911-x86_64-dvd1.iso -n RHTE-computate-demo --memory=4000 --vcpus=2 --cpu mode=host-model --machine=pc --disk path=/var/lib/libvirt/images/RHTE-computate-demo.qcow2,device=disk,bus=virtio --features eoi=on,hap=on --rng=random,rate_bytes=6000,rate_period=300 --channel unix,target_type=virtio,name=org.qemu.guest_agent.0 --video qxl --memballoon virtio --accelerate --network network=default --initrd-inject /usr/local/src/centos8-kickstart.cfg -x "ks=file:/centos8-kickstart.cfg"
+      become: yes
+      when: vm_exists is failed
+...
+

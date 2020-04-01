@@ -10,6 +10,19 @@ sudo yum install -y ansible
 ```bash
 sudo install -d -o $USER -g $USER /usr/local/src/computate
 git clone git@github.com:computate/computate.git /usr/local/src/computate
+
+install -d /usr/local/src/computate/ansible/inventories/tower2/host_vars/tower2
+ansible-vault create /usr/local/src/computate/ansible/inventories/tower2/host_vars/tower2/vault
+ansible-playbook install-freeipa-vm.yml -i inventories/tower2/hosts --vault-id @prompt
+
+```
+
+# Install Libvirt Server
+
+# Install Bridge Network
+
+```bash
+ansible-playbook install-bridge-network.yml -e @/usr/local/src/computate/ansible/inventories/tower2/host_vars/tower2/vault --vault-id @prompt
 ```
 
 # Install a FreeIPA Server
@@ -17,7 +30,12 @@ git clone git@github.com:computate/computate.git /usr/local/src/computate
 ```bash
 sudo install -d -o $USER -g $USER /usr/local/src/ansible-freeipa
 git clone https://github.com/freeipa/ansible-freeipa.git /usr/local/src/ansible-freeipa
-
+install -d ~/.ansible/roles
+ln -s /usr/local/src/ansible-freeipa/roles/* ~/.ansible/roles/
+install -d ~/.ansible/plugins/modules
+ln -s /usr/local/src/ansible-freeipa/plugins/modules/*.py ~/.ansible/plugins/modules/
+install -d ~/.ansible/plugins/module_utils
+ln -s /usr/local/src/ansible-freeipa/plugins/module_utils/*.py ~/.ansible/plugins/module_utils/
 ```
 
 # computate-ansible
