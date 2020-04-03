@@ -1,0 +1,7 @@
+---
+- name: Install a recent PostgreSQL database
+  hosts: "{{ target }}"
+  gather_facts: no
+  roles:
+    - computate_postgres
+

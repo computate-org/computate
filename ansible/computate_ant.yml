@@ -1,7 +1,9 @@
 ---
 - name: Install ant and ivy binaries. 
+  gather_facts: false
+  vars: 
+    target: computate_ant
   hosts: "{{ target }}"
-  gather_facts: no
   roles: 
-    - ant
+    - computate_ant
 

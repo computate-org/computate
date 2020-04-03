@@ -24,9 +24,4 @@
     ifname: "{{NETWORK_ETHERNET_DEVICE}}"
     master: "{{NETWORK_BRIDGE_CONNECTION}}"
     state: present
-- name: Restart the network service. 
-  service: 
-    name: network
-    state: restarted
-  become: true
 

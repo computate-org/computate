@@ -1,8 +1,8 @@
 
-# Install Ansible 
+# Install Ansible and dnf for python3 supported package management. 
 
 ```bash
-sudo yum install -y ansible
+sudo yum install -y ansible dnf
 ```
 
 # Install the computate project
@@ -17,13 +17,35 @@ ansible-playbook install-freeipa-vm.yml -i inventories/tower2/hosts --vault-id @
 
 ```
 
-# Install Libvirt Server
-
-# Install Bridge Network
+# Setup computer the computate way. 
 
 ```bash
-ansible-playbook install-bridge-network.yml -e @/usr/local/src/computate/ansible/inventories/tower2/host_vars/tower2/vault --vault-id @prompt
+ansible-playbook computate-setup-computer.yml -i /usr/local/src/computate/ansible/inventories/$USER-$HOSTNAME/hosts --vault-id @prompt
 ```
+
+# Install computate-zookeeper on OpenShift
+
+```bash
+ansible-playbook install-computate-zookeeper.yml -i /usr/local/src/computate/ansible/inventories/$USER-$HOSTNAME/hosts --vault-id @prompt
+```
+
+# Install solr-operator
+
+```bash
+ansible-playbook install-solr-operator-src.yml -i /usr/local/src/computate/ansible/inventories/$USER-$HOSTNAME/hosts --vault-id @prompt
+```
+
+# Install postgres-operator
+
+```bash
+ansible-vault create inventories/$USER-$HOSTNAME/host_vars/$HOSTNAME/vault
+ansible-vault edit inventories/$USER-$HOSTNAME/host_vars/$HOSTNAME/vault
+ansible-playbook install-postgres-operator-src.yml -i inventories/$USER-$HOSTNAME/hosts --vault-id @prompt
+ansible-playbook install-postgres-operator.yml -i /usr/local/src/computate/ansible/inventories/$USER-postgres-operator/hosts -e /usr/local/src/computate/ansible/inventories/$USER-postgres-operator/host_vars/postgres-operator/vault --vault-id @prompt --tags=install
+```
+
+
+# Install Libvirt Server
 
 # Install a FreeIPA Server
 
@@ -64,3 +86,11 @@ ansible-playbook install-zookeeper.yaml -i inventories/computate/hosts -u demo -
 # Install solr
 cd /usr/local/src/computate/ansible
 ansible-playbook install-solr.yaml -i inventories/computate/hosts -u demo --extra-vars "target=RHTE-computate-demo" --vault-id @prompt
+
+# Install Bridge Network
+
+the nmcli ansible module is actually broken, so this one doesn't work very well. 
+
+```bash
+ansible-playbook install-bridge-network.yml -e @/usr/local/src/computate/ansible/inventories/tower2/host_vars/tower2/vault --vault-id @prompt
+```

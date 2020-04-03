@@ -1,0 +1,9 @@
+---
+- name: Install the computate-zookeeper pod on OpenShift
+  gather_facts: no
+  vars:
+    target: computate_zookeeper_src
+  hosts: "{{ target }}"
+  roles: 
+    - computate-zookeeper
+

@@ -1,0 +1,8 @@
+POSTGRES_NAME: postgres
+POSTGRES_SRC: "/usr/local/src/{{POSTGRES_NAME}}"
+POSTGRES_REPO: https://gitlab.kitware.com/postgres/postgres.git
+POSTGRES_VERSION: 3.14.5
+POSTGRES_TAG: "v{{POSTGRES_VERSION}}"
+POSTGRES_BINARY: "{{POSTGRES_OPT}}/bin/{{POSTGRES_NAME}}"
+target: computate_postgres
+

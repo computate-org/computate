@@ -1,0 +1,6 @@
+---
+- name: Update packages
+  command: yum update -y
+  become: true
+  warn: false
+

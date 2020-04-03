@@ -1,0 +1,9 @@
+---
+- name: Setup computer the computate way
+  gather_facts: false
+  vars:
+    target: computate_setup_computer
+  hosts: "{{target}}"
+  roles: 
+    - computate-setup-computer
+

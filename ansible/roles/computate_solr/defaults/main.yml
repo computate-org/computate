@@ -1,0 +1,20 @@
+SOLR_NAME: solr
+SOLR_SRC: "/usr/local/src/{{SOLR_NAME}}"
+SOLR_OPT: "/opt/{{SOLR_NAME}}"
+SOLR_DATA: "{{SOLR_OPT}}/data"
+SOLR_CONF: "{{SOLR_OPT}}/conf/zoo.cfg"
+SOLR_SYSTEMD: "/usr/lib/systemd/system/{{SOLR_NAME}}.service"
+SOLR_SERVICE: "{{SOLR_NAME}}"
+SOLR_REPO: "https://github.com/apache/lucene-solr.git"
+SOLR_VERSION: 8.4.1
+SOLR_TAG: "releases/lucene-solr/{{SOLR_VERSION}}"
+SOLR_PORT: 10383
+SOLR_CONFIG: computate
+COMPUTATE_REPO: https://github.com/computate/computate.git
+COMPUTATE_SRC: /usr/local/src/computate
+ZOOKEEPER_HOSTNAME: localhost
+ZOOKEEPER_CLIENT_PORT: 10281
+ZOOKEEPER_ADMIN_PORT: 10280
+JAVA_HOME: /usr/lib/jvm/java-1.8.0-openjdk
+target: computate_solr
+

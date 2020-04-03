@@ -1,0 +1,6 @@
+SOLR_OPERATOR_NAME: solr-operator
+SOLR_OPERATOR_SRC: "/usr/local/src/{{SOLR_OPERATOR_NAME}}"
+SOLR_OPERATOR_REPO: https://github.com/bloomberg/solr-operator.git
+SOLR_OPERATOR_VERSION: 0.2.3
+SOLR_OPERATOR_TAG: "v{{SOLR_OPERATOR_VERSION}}"
+

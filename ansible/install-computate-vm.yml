@@ -1,14 +1,15 @@
 # Example: 
-# ansible-playbook computate-scolaire-vm.yaml -i inventories/computate/hosts -u $USER --extra-vars "target=tower1" --vault-id @prompt
+# ansible-playbook install-computate-vm.yml -i inventories/$USER-$HOSTNAME/hosts -u $USER --vault-id @prompt
 ---
 - name: Configure a libvirt virtual machine to run the computate-scolaire project with demo data. 
-  hosts: "{{ target }}"
-  vars_files: 
-    - vars.yaml
   vars:
+    target: computate_vm
     VIRT_PACKAGES: 
       - "libvirt"
 #      - "virt-manager"
+  hosts: "{{ target }}"
+  vars_files: 
+    - vars.yaml
   tasks: 
     - name: Ensure Operating System Requirements
       fail: 
@@ -28,7 +29,7 @@
       become: yes
     - name: Download the computate-scolaire centos8-kickstart.cfg
       get_url:
-        url: https://raw.githubusercontent.com/computate/computate-scolaire/master/ansible/centos8-kickstart.cfg
+        url: https://raw.githubusercontent.com/computate/computate/master/ansible/centos8-kickstart.cfg
         dest: /usr/local/src/centos8-kickstart.cfg
       become: yes
     - name: Check if RHTE-computate-demo.qcow2 exists

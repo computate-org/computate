@@ -1,0 +1,14 @@
+ZOOKEEPER_NAME: zookeeper
+ZOOKEEPER_SRC: /usr/local/src/zookeeper
+ZOOKEEPER_OPT: /opt/zookeeper
+ZOOKEEPER_DATA: /opt/zookeeper/data
+ZOOKEEPER_CONF: /opt/zookeeper/conf/zoo.cfg
+ZOOKEEPER_SYSTEMD: "/usr/lib/systemd/system/{{ZOOKEEPER_NAME}}.service"
+ZOOKEEPER_SERVICE: "{{ZOOKEEPER_NAME}}"
+ZOOKEEPER_REPO: https://github.com/apache/zookeeper.git
+ZOOKEEPER_VERSION: 3.6.0
+ZOOKEEPER_TAG: "release-{{ZOOKEEPER_VERSION}}"
+ZOOKEEPER_CLIENT_PORT: 10281
+ZOOKEEPER_ADMIN_PORT: 10280
+target: computate_zookeeper
+

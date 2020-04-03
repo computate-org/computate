@@ -1,0 +1,48 @@
+- name: Create a directory for the solr-operator
+  file: 
+    state: directory
+    name: "{{SOLR_OPERATOR_SRC}}"
+    owner: "{{USER_NAME}}"
+  become: true
+- name: Clone the solr-operator git repository
+  git: 
+    repo: "{{SOLR_OPERATOR_REPO}}"
+    dest: "{{SOLR_OPERATOR_SRC}}"
+    version: "{{SOLR_OPERATOR_TAG}}"
+- name: Install python3
+  package: 
+    name: "python3"
+    state: latest
+  become: true
+- name: Install python pip depencencies
+  package: 
+    name: "python3-pip"
+    state: latest
+  become: true
+- name: Upgrade python pip dependencies
+  pip: 
+    name: pip
+    state: latest
+    executable: pip3
+  become: true
+- name: Install openshift python dependencies
+  pip: 
+    name: openshift
+    state: latest
+    executable: pip3
+  become: true
+- name: Install crd dependencies to openshift
+  openshift_raw: 
+    state: present
+    host: "{{SOLR_OPERATOR_HOST}}"
+    api_key: "{{SOLR_OPERATOR_TOKEN}}"
+    namespace: "{{SOLR_OPERATOR_NAMESPACE}}"
+    src: "{{SOLR_OPERATOR_SRC}}/example/dependencies/crds.yaml"
+- name: Install operator dependencies to openshift
+  openshift_raw: 
+    state: present
+    host: "{{SOLR_OPERATOR_HOST}}"
+    api_key: "{{SOLR_OPERATOR_TOKEN}}"
+    namespace: "{{SOLR_OPERATOR_NAMESPACE}}"
+    src: "{{SOLR_OPERATOR_SRC}}/example/dependencies/operators.yaml"
+

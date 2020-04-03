@@ -1,0 +1,7 @@
+---
+- name: Install solr as a service on the target. 
+  gather_facts: no
+  hosts: "{{ target }}"
+  roles:
+    - computate_solr
+

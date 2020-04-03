@@ -1,0 +1,9 @@
+---
+- name: Install the postgres-operator. 
+  gather_facts: no
+  vars:
+    target: postgres_operator_src
+  hosts: "{{ target }}"
+  roles: 
+    - postgres-operator-src
+

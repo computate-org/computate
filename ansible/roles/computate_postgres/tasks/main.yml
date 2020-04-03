@@ -1,0 +1,32 @@
+- name: Install {{CMAKE_NAME}} development dependencies
+  package:
+    name: ["@Development tools",docbook-dtds,docbook-simple,docbook-slides,docbook-style-dsssl,docbook-style-xsl,docbook-utils,docbook-utils-pdf]
+  become: yes
+- name: Create the {{CMAKE_NAME}} source directory {{CMAKE_SRC}}
+  file:
+    name: "{{CMAKE_SRC}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+  become: yes
+- name: Create the {{CMAKE_NAME}} installation directory {{CMAKE_OPT}}
+  file:
+    name: "{{CMAKE_OPT}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Clone the {{CMAKE_NAME}} source code
+  git:
+    repo: "{{CMAKE_REPO}}"
+    dest: "{{CMAKE_SRC}}"
+    version: "{{CMAKE_TAG}}"
+- name: Boostrap the {{CMAKE_NAME}} application
+  shell: ./bootstrap
+  args:
+    chdir: "{{CMAKE_SRC}}"
+    creates: "{{CMAKE_SRC}}/bootstrap"
+- name: Compiles the {{CMAKE_NAME}} application
+  shell: make
+  args:
+    chdir: "{{CMAKE_SRC}}"
+

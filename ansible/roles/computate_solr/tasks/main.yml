@@ -1,0 +1,109 @@
+- name: Install {{SOLR_NAME}} dependencies. 
+  package:
+    name: [git,java-1.8.0-openjdk-devel]
+  become: yes
+- name: Create the {{SOLR_NAME}} source directory {{SOLR_SRC}}. 
+  file:
+    name: "{{SOLR_SRC}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Clone the {{SOLR_NAME}} source code. 
+  git:
+    repo: "{{SOLR_REPO}}"
+    dest: "{{SOLR_SRC}}"
+    version: "{{SOLR_TAG}}"
+    depth: 1
+- name: Create the computate source directory {{COMPUTATE_SRC}}. 
+  file:
+    name: "{{COMPUTATE_SRC}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Clone the computate source code. 
+  git:
+    repo: "{{COMPUTATE_REPO}}"
+    dest: "{{COMPUTATE_SRC}}"
+- name: Bootstrap the {{SOLR_NAME}} source code. 
+  shell: (JAVA_HOME={{JAVA_HOME}} ant ivy-bootstrap)
+  args:
+    chdir: "{{SOLR_SRC}}/solr"
+    creates: "~/.ant/lib/ivy-2.4.0.jar"
+- name: Build the {{SOLR_NAME}} application. 
+  shell: (JAVA_HOME={{JAVA_HOME}} ant package)
+  args:
+    chdir: "{{SOLR_SRC}}/solr"
+    creates: "{{SOLR_SRC}}/{{SOLR_NAME}}/build/{{SOLR_NAME}}-{{SOLR_VERSION}}-SNAPSHOT"
+- name: Create the {{SOLR_NAME}} install directory {{SOLR_OPT}}. 
+  file:
+    name: "{{SOLR_OPT}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Install {{SOLR_NAME}} into the {{SOLR_OPT}} install directory. 
+  shell: mv {{SOLR_SRC}}/{{SOLR_NAME}}/build/{{SOLR_NAME}}-{{SOLR_VERSION}}-SNAPSHOT/* {{SOLR_OPT}}
+  args:
+    creates: "{{SOLR_OPT}}/bin"
+- name: Create the {{SOLR_NAME}} data directory {{SOLR_DATA}}. 
+  file:
+    name: "{{SOLR_DATA}}"
+    state: directory
+- name: Copy the solr.xml to the data directory {{SOLR_DATA}}. 
+  copy:
+    src: "{{SOLR_OPT}}/server/solr/solr.xml"
+    dest: "{{SOLR_DATA}}/solr.xml"
+    remote_src: yes
+- name: Delete the example directory {{SOLR_OPT}}/example. 
+  file:
+    name: "{{SOLR_OPT}}/example"
+    state: absent
+- name: Link the computate configset into {{SOLR_NAME}}. 
+  file:
+    src: "{{COMPUTATE_SRC}}/config/solr/server/solr/configsets/computate"
+    dest: "{{SOLR_OPT}}/server/solr/configsets/computate"
+    state: link
+- name: Find the {{SOLR_NAME}} binaries in {{SOLR_OPT}}/bin. 
+  find:
+    paths: "{{SOLR_OPT}}/bin"
+    recurse: no
+  register: BIN_FILES
+- name: Make the {{SOLR_NAME}} binaries executable in {{SOLR_OPT}}/bin. 
+  file:
+    dest: "{{item.path}}"
+    mode: a+x
+  with_items:
+    - "{{BIN_FILES.files}}"
+- name: Create the {{SOLR_NAME}} systemd service {{SOLR_SYSTEMD}}. 
+  copy:
+    dest: "{{SOLR_SYSTEMD}}"
+    content: |
+      [Unit]
+      Description=An open source search engine. 
+      After=network.target
+
+      [Service]
+      Type=forking
+      User={{USER_NAME}}
+      Group={{USER_NAME}}
+      WorkingDirectory={{SOLR_OPT}}
+      ExecStart={{SOLR_OPT}}/bin/solr -c -s {{SOLR_OPT}} -h localhost -p {{SOLR_PORT}} -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}
+      LimitNOFILE=10000
+      Restart=on-failure
+
+      [Install]
+      WantedBy=multi-user.target
+  become: yes
+- name: Reload the services. 
+  systemd:
+    daemon_reload: yes
+  become: yes
+- name: Start and enable the {{SOLR_NAME}} service. 
+  service:
+    name: "{{SOLR_SERVICE}}"
+    enabled: yes
+    state: started
+  become: yes
+

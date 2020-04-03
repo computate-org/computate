@@ -48,7 +48,7 @@
       ignore_errors: true
       become: yes
     - name: Install the RHTE-computate-demo virtual machine. 
-      command: virt-install --location /usr/local/src/CentOS-8.1.1911-x86_64-dvd1.iso -n RHTE-computate-demo --memory=4000 --vcpus=2 --cpu mode=host-model --machine=pc --disk path=/var/lib/libvirt/images/RHTE-computate-demo.qcow2,device=disk,bus=virtio --features eoi=on,hap=on --rng=random,rate_bytes=6000,rate_period=300 --channel unix,target_type=virtio,name=org.qemu.guest_agent.0 --video qxl --memballoon virtio --accelerate --network network=default --initrd-inject /usr/local/src/centos8-kickstart.cfg -x "ks=file:/centos8-kickstart.cfg"
+      command: virt-install --location /usr/local/src/CentOS-8.1.1911-x86_64-dvd1.iso -n RHTE-computate-demo --memory=4000 --vcpus=2 --cpu mode=host-model --machine=pc --disk path=/var/lib/libvirt/images/RHTE-computate-demo.qcow2,device=disk,bus=virtio --features eoi=on,hap=on --rng=random,rate_bytes=6000,rate_period=300 --channel unix,target_type=virtio,name=org.qemu.guest_agent.0 --video qxl --memballoon virtio --accelerate --network bridge={{NETWORK_BRIDGE_CONNECTION}},mac=52:54:00:00:01:01 --initrd-inject /usr/local/src/centos8-kickstart.cfg -x "ks=file:/centos8-kickstart.cfg"
       become: yes
       when: vm_exists is failed
 ...
