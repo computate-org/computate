@@ -1,0 +1,22 @@
+[Unit]
+Description=An open source search engine. 
+After=network.target
+
+[Service]
+Type=forking
+User={{USER_NAME}}
+Group={{USER_NAME}}
+WorkingDirectory={{SOLR_OPT}}
+ExecStart={{SOLR_OPT}}/bin/solr -c -s {{SOLR_OPT}} -h localhost -p {{SOLR_PORT}} -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}
+LimitAS=infinity
+LimitRSS=infinity
+LimitCORE=infinity
+LimitNOFILE=65000
+LimitNPROC=65000
+LimitNOFILE=infinity
+LimitMEMLOCK=infinity
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+

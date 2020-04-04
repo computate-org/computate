@@ -37,30 +37,13 @@
     name: "{{ZOOKEEPER_OPT}}"
     state: directory
 - name: Create the {{ZOOKEEPER_NAME}} config file {{ZOOKEEPER_CONF}}. 
-  copy:
+  template:
+    src: zookeeper_config.j2
     dest: "{{ZOOKEEPER_CONF}}"
-    content: |
-      dataDir={{ZOOKEEPER_DATA}}
-      clientPort={{ZOOKEEPER_CLIENT_PORT}}
-      admin.serverPort={{ZOOKEEPER_CLIENT_PORT}}
 - name: Create the {{ZOOKEEPER_NAME}} systemd service {{ZOOKEEPER_SYSTEMD}}. 
-  copy:
+  template:
+    src: zookeeper_service.j2
     dest: "{{ZOOKEEPER_SYSTEMD}}"
-    content: |
-      [Unit]
-      Description=An open source centralized cluster manager. 
-      After=network.target
-
-      [Service]
-      Type=simple
-      User={{USER_NAME}}
-      Group={{USER_NAME}}
-      WorkingDirectory={{ZOOKEEPER_OPT}}
-      ExecStart={{ZOOKEEPER_OPT}}/bin/zkServer.sh start-foreground
-      Restart=on-failure
-
-      [Install]
-      WantedBy=multi-user.target
   become: yes
 - name: Reload the services. 
   systemd:
@@ -70,6 +53,6 @@
   service:
     name: "{{ZOOKEEPER_SERVICE}}"
     enabled: yes
-    state: started
+    state: restarted
   become: yes
 

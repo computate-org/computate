@@ -51,10 +51,10 @@
   file:
     name: "{{SOLR_DATA}}"
     state: directory
-- name: Copy the solr.xml to the data directory {{SOLR_DATA}}. 
+- name: Copy the solr.xml to the {{SOLR_NAME}} directory {{SOLR_DATA}}. 
   copy:
     src: "{{SOLR_OPT}}/server/solr/solr.xml"
-    dest: "{{SOLR_DATA}}/solr.xml"
+    dest: "{{SOLR_OPT}}/solr.xml"
     remote_src: yes
 - name: Delete the example directory {{SOLR_OPT}}/example. 
   file:
@@ -76,25 +76,43 @@
     mode: a+x
   with_items:
     - "{{BIN_FILES.files}}"
+- name: Set sysctl File Limits
+  template:
+    src: 50-fs.conf.j2
+    dest: /etc/sysctl.d/50-fs.conf
+  become: yes
+- name: Set sysctl Soft File Limits
+  pam_limits:
+    domain: "{{USER_NAME}}"
+    limit_type: soft
+    limit_item: nofile
+    value: 65000
+  become: yes
+- name: Set sysctl Hard File Limits
+  pam_limits:
+    domain: "{{USER_NAME}}"
+    limit_type: soft
+    limit_item: nofile
+    value: 65000
+  become: yes
+- name: Set sysctl Soft Process Limits
+  pam_limits:
+    domain: "{{USER_NAME}}"
+    limit_type: soft
+    limit_item: nproc
+    value: 65000
+  become: yes
+- name: Set sysctl Hard Process Limits
+  pam_limits:
+    domain: "{{USER_NAME}}"
+    limit_type: soft
+    limit_item: nproc
+    value: 65000
+  become: yes
 - name: Create the {{SOLR_NAME}} systemd service {{SOLR_SYSTEMD}}. 
-  copy:
+  template:
+    src: solr_service.j2
     dest: "{{SOLR_SYSTEMD}}"
-    content: |
-      [Unit]
-      Description=An open source search engine. 
-      After=network.target
-
-      [Service]
-      Type=forking
-      User={{USER_NAME}}
-      Group={{USER_NAME}}
-      WorkingDirectory={{SOLR_OPT}}
-      ExecStart={{SOLR_OPT}}/bin/solr -c -s {{SOLR_OPT}} -h localhost -p {{SOLR_PORT}} -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}
-      LimitNOFILE=10000
-      Restart=on-failure
-
-      [Install]
-      WantedBy=multi-user.target
   become: yes
 - name: Reload the services. 
   systemd:
@@ -104,6 +122,9 @@
   service:
     name: "{{SOLR_SERVICE}}"
     enabled: yes
-    state: started
+    state: restarted
   become: yes
-
+- name: Upload computate configset to zookeeper
+  shell: "{{SOLR_OPT}}/bin/solr zk upconfig -n computate -d {{SOLR_OPT}}/server/solr/configsets/computate -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}"
+- name: Create computate collection in solr
+  shell: "{{SOLR_OPT}}/bin/solr create_collection -c computate -n computate"

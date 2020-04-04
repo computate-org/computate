@@ -6,8 +6,8 @@ After=network.target
 Type=simple
 User={{USER_NAME}}
 Group={{USER_NAME}}
-WorkingDirectory={{APP_OPT}}
-ExecStart={{APP_OPT}}/bin/zkServer.sh start-foreground
+WorkingDirectory={{ZOOKEEPER_OPT}}
+ExecStart={{ZOOKEEPER_OPT}}/bin/zkServer.sh start-foreground
 Restart=on-failure
 
 [Install]
