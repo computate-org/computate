@@ -3,7 +3,7 @@
   gather_facts: no
   vars:
     target: computate_zookeeper_src
-  hosts: "{{ target }}"
+  hosts: localhost
   roles: 
-    - computate-zookeeper
+    - computate_zookeeper_openshift
 
