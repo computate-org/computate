@@ -1,0 +1,55 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    deploymentConfig: computate-zookeeper
+  strategy:
+    activeDeadlineSeconds: 21600
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        application: computate-zookeeper
+        deploymentConfig: computate-zookeeper
+      name: computate-zookeeper
+    spec:
+      containers:
+        - image: school/computate-zookeeper-image-stream
+          imagePullPolicy: Always
+          name: computate-zookeeper
+          ports:
+            - containerPort: 8080
+              name: client-port
+              protocol: TCP
+            - containerPort: 8081
+              name: admin-port
+              protocol: TCP
+          resources:
+            limits:
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /opt/zookeeper/data
+              name: computate-zookeeper-data-volume
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: computate-zookeeper-data-volume
+          persistentVolumeClaim:
+            claimName: computate-zookeeper-persistent-volume-claim
+  test: false
+  triggers:
+    - type: ConfigChange
+
