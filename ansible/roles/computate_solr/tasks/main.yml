@@ -76,6 +76,17 @@
     mode: a+x
   with_items:
     - "{{BIN_FILES.files}}"
+- name: Find the {{SOLR_NAME}} cloud scripts in {{SOLR_OPT}}/server/scripts/cloud-scripts. 
+  find:
+    paths: "{{SOLR_OPT}}/server/scripts/cloud-scripts"
+    recurse: no
+  register: CLOUD_SCRIPTS
+- name: Make the {{SOLR_NAME}} cloud scripts executable in {{SOLR_OPT}}/server/scripts/cloud-scripts. 
+  file:
+    dest: "{{item.path}}"
+    mode: a+x
+  with_items:
+    - "{{CLOUD_SCRIPTS.files}}"
 - name: Set sysctl File Limits
   template:
     src: 50-fs.conf.j2
@@ -126,5 +137,13 @@
   become: yes
 - name: Upload computate configset to zookeeper
   shell: "{{SOLR_OPT}}/bin/solr zk upconfig -n computate -d {{SOLR_OPT}}/server/solr/configsets/computate -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}"
+
+- name: Setup the {{SOLR_NAME}} security configuration
+  template:
+    src: security.json.j2
+    dest: "{{SOLR_OPT}}/server/solr/security.json"
+- name: Upload security configuration to zookeeper
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd putfile /security.json {{SOLR_OPT}}/server/solr/security.json"
+
 - name: Create computate collection in solr
   shell: "{{SOLR_OPT}}/bin/solr create_collection -c computate -n computate"

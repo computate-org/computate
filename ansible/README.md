@@ -1,4 +1,12 @@
 
+# Install prerequisites
+
+```bash
+sudo yum install -y ansible python3 python3-pip
+sudo pip install pip
+sudo pip install openshift kubernetes
+```
+
 # Install Ansible and dnf for python3 supported package management. 
 
 ```bash
