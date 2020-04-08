@@ -1,0 +1,60 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    app: computate-scolaire
+    deploymentconfig: computate-scolaire
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        app: computate-scolaire
+        deploymentconfig: computate-scolaire
+    spec:
+      containers:
+        - image: >-
+            docker-registry.default.svc:5000/school/computate-scolaire@sha256:d63de715bef6a0ecd3c0c3300a37037535cb6641d58a64275c78775eb871f614
+          imagePullPolicy: Always
+          name: computate-scolaire
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+            - containerPort: 8778
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - computate-scolaire
+        from:
+          kind: ImageStreamTag
+          name: 'computate-scolaire:latest'
+          namespace: school
+      type: ImageChange
+    - type: ConfigChange
+
