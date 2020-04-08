@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{COMPUTATE_SOLR_VOLUME_SIZE}}
+  storageClassName: gp2-encrypted
+

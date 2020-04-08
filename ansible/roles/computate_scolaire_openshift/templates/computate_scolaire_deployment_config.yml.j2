@@ -1,7 +1,7 @@
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 spec:
-  replicas: 1
+  replicas: 2
   revisionHistoryLimit: 10
   selector:
     app: computate-scolaire
@@ -32,19 +32,149 @@ spec:
           name: computate-scolaire
           ports:
             - containerPort: 8080
+              name: http
               protocol: TCP
-            - containerPort: 8443
+            - containerPort: 8081
+              name: cluster
+              protocol: TCP
+            - containerPort: 9779
+              name: prometheus
               protocol: TCP
             - containerPort: 8778
+              name: jolokia
               protocol: TCP
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /opt/keystore
+              name: volume-keystore
+              readOnly: true
+          env:
+            - name: authRealm
+              valueFrom:
+                secretKeyRef:
+                  key: authRealm
+                  name: computate-scolaire-secret
+            - name: authResource
+              valueFrom:
+                secretKeyRef:
+                  key: authResource
+                  name: computate-scolaire-secret
+            - name: authSecret
+              valueFrom:
+                secretKeyRef:
+                  key: authSecret
+                  name: computate-scolaire-secret
+            - name: authUrl
+              valueFrom:
+                secretKeyRef:
+                  key: authUrl
+                  name: computate-scolaire-secret
+            - name: emailAuth
+              valueFrom:
+                secretKeyRef:
+                  key: emailAuth
+                  name: computate-scolaire-secret
+            - name: emailFrom
+              valueFrom:
+                secretKeyRef:
+                  key: emailFrom
+                  name: computate-scolaire-secret
+            - name: emailHost
+              valueFrom:
+                secretKeyRef:
+                  key: emailHost
+                  name: computate-scolaire-secret
+            - name: emailPassword
+              valueFrom:
+                secretKeyRef:
+                  key: emailPassword
+                  name: computate-scolaire-secret
+            - name: emailPort
+              valueFrom:
+                secretKeyRef:
+                  key: emailPort
+                  name: computate-scolaire-secret
+            - name: emailSsl
+              valueFrom:
+                secretKeyRef:
+                  key: emailSsl
+                  name: computate-scolaire-secret
+            - name: emailUsername
+              valueFrom:
+                secretKeyRef:
+                  key: emailUsername
+                  name: computate-scolaire-secret
+            - name: jdbcPassword
+              valueFrom:
+                secretKeyRef:
+                  key: jdbcPassword
+                  name: computate-scolaire-secret
+            - name: jdbcUrl
+              valueFrom:
+                secretKeyRef:
+                  key: jdbcUrl
+                  name: computate-scolaire-secret
+            - name: jdbcUsername
+              valueFrom:
+                secretKeyRef:
+                  key: jdbcUsername
+                  name: computate-scolaire-secret
+            - name: sslAlias
+              valueFrom:
+                secretKeyRef:
+                  key: sslAlias
+                  name: computate-scolaire-secret
+            - name: sslJksPassword
+              valueFrom:
+                secretKeyRef:
+                  key: sslJksPassword
+                  name: computate-scolaire-secret
+            - name: sslJksPath
+              valueFrom:
+                secretKeyRef:
+                  key: sslJksPath
+                  name: computate-scolaire-secret
+            - name: sslKeystorePath
+              valueFrom:
+                secretKeyRef:
+                  key: sslKeystorePath
+                  name: computate-scolaire-secret
+            - name: clusterPort
+              value: "8081"
+            - name: zookeeperHostName
+              value: "computate-zookeeper.{{COMPUTATE_ZOOKEEPER_NAMESPACE}}.svc"
+            - name: zookeeperPort
+              value: "{{COMPUTATE_ZOOKEEPER_PORT}}"
+            - name: solrHostName
+              value: "computate-solr.{{COMPUTATE_SOLR_NAMESPACE}}.svc"
+            - name: solrPort
+              value: "{{COMPUTATE_SOLR_PORT}}"
+            - name: solrUrl
+              value: "http://computate-solr.{{COMPUTATE_SOLR_NAMESPACE}}.svc:{{COMPUTATE_SOLR_PORT}}/solr/{{COMPUTATE_SCOLAIRE_SOLR_COLLECTION}}"
+            - name: siteHostName
+              value: "{{COMPUTATE_SCOLAIRE_SITE_HOST_NAME}}"
+            - name: sitePort
+              value: "{{COMPUTATE_SCOLAIRE_SITE_PORT}}"
+            - name: siteBaseUrl
+              value: "{{COMPUTATE_SCOLAIRE_SITE_BASE_URL}}"
+            - name: numberExecutors
+              value: "{{COMPUTATE_SCOLAIRE_NUMBER_EXECUTORS}}"
+            - name: siteZone
+              value: "{{COMPUTATE_SCOLAIRE_SITE_ZONE}}"
+            - name: JAVA_MAIN_CLASS
+              value: "{{JAVA_MAIN_CLASS}}"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: volume-keystore
+          secret:
+            defaultMode: 420
+            secretName: computate-scolaire-keystore
   test: false
   triggers:
     - imageChangeParams:

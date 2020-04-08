@@ -22,4 +22,12 @@
     api_key: "{{COMPUTATE_SOLR_TOKEN}}"
     namespace: "{{COMPUTATE_SOLR_NAMESPACE}}"
     definition: "{{ lookup('template', 'computate_solr_deployment_config.yml.j2') }}"
+- name: Install computate-solr service on OpenShift
+  k8s: 
+    state: present
+    name: computate-solr
+    host: "{{COMPUTATE_SOLR_HOST}}"
+    api_key: "{{COMPUTATE_SOLR_TOKEN}}"
+    namespace: "{{COMPUTATE_SOLR_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_solr_service.yml.j2') }}"
 

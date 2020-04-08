@@ -38,4 +38,20 @@
     api_key: "{{COMPUTATE_SCOLAIRE_TOKEN}}"
     namespace: "{{COMPUTATE_SCOLAIRE_NAMESPACE}}"
     definition: "{{ lookup('template', 'computate_scolaire_deployment_config.yml.j2') }}"
+- name: Install computate-scolaire service on OpenShift
+  k8s: 
+    state: present
+    name: computate-scolaire
+    host: "{{COMPUTATE_SCOLAIRE_HOST}}"
+    api_key: "{{COMPUTATE_SCOLAIRE_TOKEN}}"
+    namespace: "{{COMPUTATE_SCOLAIRE_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_scolaire_service.yml.j2') }}"
+- name: Install computate-scolaire route on OpenShift
+  k8s: 
+    state: present
+    name: computate-scolaire
+    host: "{{COMPUTATE_SCOLAIRE_HOST}}"
+    api_key: "{{COMPUTATE_SCOLAIRE_TOKEN}}"
+    namespace: "{{COMPUTATE_SCOLAIRE_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_scolaire_route.yml.j2') }}"
 
