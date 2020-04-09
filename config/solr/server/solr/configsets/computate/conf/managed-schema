@@ -568,5 +568,5 @@
     <dynamicField name="*_stored_location" type="location" stored="true" indexed="false" sortMissingLast="true"/>
     <dynamicField name="*_stored_phonetic_en" type="phonetic_en" indexed="false" multiValued="true" stored="true" sortMissingLast="true"/>
     <dynamicField name="*_incremented_int" type="pint" indexed="true" stored="true" sortMissingLast="true"/>
-    <dynamicField name="*_incremented_long" type="long" indexed="true" stored="true" sortMissingLast="true"/>
+    <dynamicField name="*_incremented_long" type="plong" indexed="true" stored="true" sortMissingLast="true"/>
 </schema>
