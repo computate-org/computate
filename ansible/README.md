@@ -1,4 +1,21 @@
 
+# Install prerequisites
+
+Create a Red Hat account at https://developers.redhat.com/
+
+```bash
+sudo yum install -y ansible python3 python3-pip docker
+sudo pip install pip
+sudo pip install openshift kubernetes
+sudo systemctl start docker
+sudo systemctl enable docker
+
+oc new-app https://github.com/computate/computate-scolaire.git --image-stream redhat-openjdk18-openshift:1.5
+
+oc create secret generic keystore-properties --from-file=keystore.properties=/usr/local/src/computate-scolaire/config/keystore.properties
+oc create secret generic keystore-properties --from-file=server.jks=/home/ctate/computate.org/server.jks
+```
+
 # Install Ansible and dnf for python3 supported package management. 
 
 ```bash

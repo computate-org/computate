@@ -1,0 +1,65 @@
+- name: Install sso secret on OpenShift
+  k8s: 
+    state: present
+    name: sso-secret
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_secret.yml.j2') }}"
+- name: Install sso keystore secret on OpenShift
+  k8s: 
+    state: present
+    name: sso-keystore
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_keystore.yml.j2') }}"
+- name: Install sso persistent volume claim on OpenShift
+  k8s: 
+    state: present
+    name: sso-postgresql
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_persistent_volume_claim.yml.j2') }}"
+- name: Install sso-postgresql deployment config on OpenShift
+  k8s: 
+    state: present
+    name: sso-postgresql
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_postgres_deployment_config.yml.j2') }}"
+- name: Install sso-postgresql service on OpenShift
+  k8s: 
+    state: present
+    name: sso-postgresql
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_postgres_service.yml.j2') }}"
+- name: Install sso deployment config on OpenShift
+  k8s: 
+    state: present
+    name: sso
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_deployment_config.yml.j2') }}"
+- name: Install sso service on OpenShift
+  k8s: 
+    state: present
+    name: sso
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_service.yml.j2') }}"
+- name: Install sso route on OpenShift
+  k8s: 
+    state: present
+    name: sso
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_route.yml.j2') }}"
+

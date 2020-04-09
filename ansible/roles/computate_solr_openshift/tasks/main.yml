@@ -1,0 +1,33 @@
+- name: Install computate-solr image stream on OpenShift
+  k8s: 
+    state: present
+    name: computate-solr-image-stream
+    host: "{{COMPUTATE_SOLR_HOST}}"
+    api_key: "{{COMPUTATE_SOLR_TOKEN}}"
+    namespace: "{{COMPUTATE_SOLR_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_solr_image_stream.yml.j2') }}"
+- name: Install computate-solr persistent volume claim on OpenShift
+  k8s: 
+    state: present
+    name: computate-solr-persistent-volume-claim
+    host: "{{COMPUTATE_SOLR_HOST}}"
+    api_key: "{{COMPUTATE_SOLR_TOKEN}}"
+    namespace: "{{COMPUTATE_SOLR_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_solr_persistent_volume_claim.yml.j2') }}"
+- name: Install computate-solr deployment config on OpenShift
+  k8s: 
+    state: present
+    name: computate-solr
+    host: "{{COMPUTATE_SOLR_HOST}}"
+    api_key: "{{COMPUTATE_SOLR_TOKEN}}"
+    namespace: "{{COMPUTATE_SOLR_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_solr_deployment_config.yml.j2') }}"
+- name: Install computate-solr service on OpenShift
+  k8s: 
+    state: present
+    name: computate-solr
+    host: "{{COMPUTATE_SOLR_HOST}}"
+    api_key: "{{COMPUTATE_SOLR_TOKEN}}"
+    namespace: "{{COMPUTATE_SOLR_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_solr_service.yml.j2') }}"
+
