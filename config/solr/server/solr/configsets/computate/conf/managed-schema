@@ -530,12 +530,12 @@
     </fieldType>
 
     <dynamicField name="*_suggested" type="suggest" indexed="true" stored="true" sortMissingLast="true"/>
-    <dynamicField name="*_encrypted" type="pstring" indexed="false" stored="true" sortMissingLast="true"/>
-    <dynamicField name="*_encrypteds" type="pstring" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
+    <dynamicField name="*_encrypted" type="string" indexed="false" stored="true" sortMissingLast="true"/>
+    <dynamicField name="*_encrypteds" type="string" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_indexed_int" type="pint" indexed="true" stored="false" sortMissingLast="true"/>
     <dynamicField name="*_indexed_ints" type="pints" indexed="true" stored="false" multiValued="true" sortMissingLast="true"/>
-    <dynamicField name="*_indexed_string" type="pstring" indexed="true" stored="false" sortMissingLast="true"/>
-    <dynamicField name="*_indexed_strings" type="pstrings" indexed="true" stored="false" multiValued="true" sortMissingLast="true"/>
+    <dynamicField name="*_indexed_string" type="string" indexed="true" stored="false" sortMissingLast="true"/>
+    <dynamicField name="*_indexed_strings" type="strings" indexed="true" stored="false" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_indexed_long" type="plong" indexed="true" stored="false" sortMissingLast="true"/>
     <dynamicField name="*_indexed_longs" type="plongs" indexed="true" stored="false" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_indexed_boolean" type="pboolean" indexed="true" stored="false" sortMissingLast="true"/>
@@ -553,8 +553,8 @@
     <dynamicField name="*_text_frFR" type="text_fr" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_stored_int" type="pint" indexed="false" stored="true" sortMissingLast="true"/>
     <dynamicField name="*_stored_ints" type="pints" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
-    <dynamicField name="*_stored_string" type="pstring" indexed="false" stored="true" sortMissingLast="true"/>
-    <dynamicField name="*_stored_strings" type="pstrings" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
+    <dynamicField name="*_stored_string" type="string" indexed="false" stored="true" sortMissingLast="true"/>
+    <dynamicField name="*_stored_strings" type="strings" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_stored_long" type="plong" indexed="false" stored="true" sortMissingLast="true"/>
     <dynamicField name="*_stored_longs" type="plongs" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_stored_boolean" type="pboolean" indexed="false" stored="true" sortMissingLast="true"/>
