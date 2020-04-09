@@ -528,12 +528,6 @@
             <filter class="solr.LowerCaseFilterFactory"/>
         </analyzer>
     </fieldType>
-    <fieldType name="phonetic_en" stored="false" indexed="true" class="solr.TextField">
-        <analyzer>
-            <tokenizer class="solr.StandardTokenizerFactory"/>
-            <filter class="solr.DoubleMetaphoneFilterFactory" inject="false"/>
-        </analyzer>
-    </fieldType>
 
     <dynamicField name="*_suggested" type="suggest" indexed="true" stored="true" sortMissingLast="true"/>
     <dynamicField name="*_encrypted" type="pstring" indexed="false" stored="true" sortMissingLast="true"/>
