@@ -25,26 +25,28 @@ spec:
       containers:
         - env:
             - name: DB_SERVICE_PREFIX_MAPPING
-              value: redhat-sso-postgres=DB
+              value: sso-postgresql=DB
+            - name: SSO_DC_NAME
+              value: sso
             - name: DB_JNDI
               value: 'java:jboss/datasources/KeycloakDS'
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
                   key: DB_USERNAME
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: DB_PASSWORD
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: DB_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: DB_DATABASE
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: TX_DATABASE_PREFIX_MAPPING
-              value: redhat-sso-postgres=DB
+              value: sso-postgresql=DB
             - name: JGROUPS_PING_PROTOCOL
               value: openshift.DNS_PING
             - name: OPENSHIFT_DNS_PING_SERVICE_NAME
@@ -59,14 +61,14 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: HTTPS_NAME
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: HTTPS_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: HTTPS_PASSWORD
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: JGROUPS_ENCRYPT_SECRET
-              value: redhat-sso-keystore
+              value: sso-keystore
             - name: JGROUPS_ENCRYPT_KEYSTORE_DIR
               value: /etc/sso-secret-volume
             - name: JGROUPS_ENCRYPT_KEYSTORE
@@ -75,42 +77,42 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: JGROUPS_ENCRYPT_NAME
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: JGROUPS_ENCRYPT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: JGROUPS_ENCRYPT_PASSWORD
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: JGROUPS_CLUSTER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: JGROUPS_CLUSTER_PASSWORD
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: SSO_ADMIN_USERNAME
               valueFrom:
                 secretKeyRef:
                   key: SSO_ADMIN_USERNAME
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: SSO_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: SSO_ADMIN_PASSWORD
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: SSO_REALM
               valueFrom:
                 secretKeyRef:
                   key: SSO_REALM
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: SSO_SERVICE_USERNAME
               valueFrom:
                 secretKeyRef:
                   key: SSO_SERVICE_USERNAME
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: SSO_SERVICE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: SSO_SERVICE_PASSWORD
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: SSO_TRUSTSTORE
               value: keystore.jks
             - name: SSO_TRUSTSTORE_DIR
@@ -119,7 +121,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: SSO_TRUSTSTORE_PASSWORD
-                  name: redhat-sso-secret
+                  name: sso-secret
           image: >-
             docker-registry.default.svc:5000/openshift/redhat-sso73-openshift@sha256:03a700a5b1716248771624d80fdfc93eaf4b2e258857a87823b9c4a6c956e109
           imagePullPolicy: Always
@@ -182,15 +184,15 @@ spec:
         - name: eap-keystore-volume
           secret:
             defaultMode: 420
-            secretName: redhat-sso-keystore
+            secretName: sso-keystore
         - name: eap-jgroups-keystore-volume
           secret:
             defaultMode: 420
-            secretName: redhat-sso-keystore
+            secretName: sso-keystore
         - name: volume-k1mol
           secret:
             defaultMode: 420
-            secretName: redhat-sso-keystore
+            secretName: sso-keystore
   test: false
   triggers:
     - imageChangeParams:

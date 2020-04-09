@@ -4,7 +4,7 @@ spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
-    deploymentConfig: redhat-sso-postgres
+    deploymentConfig: sso-postgresql
   strategy:
     activeDeadlineSeconds: 21600
     recreateParams:
@@ -19,8 +19,8 @@ spec:
       labels:
         app: sso73
         application: sso
-        deploymentConfig: redhat-sso-postgres
-      name: redhat-sso-postgres
+        deploymentConfig: sso-postgresql
+      name: sso-postgresql
     spec:
       containers:
         - env:
@@ -28,17 +28,17 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: DB_USERNAME
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: DB_PASSWORD
-                  name: redhat-sso-secret
+                  name: sso-secret
             - name: POSTGRESQL_DATABASE
               valueFrom:
                 secretKeyRef:
                   key: DB_DATABASE
-                  name: redhat-sso-secret
+                  name: sso-secret
           image: >-
             docker-registry.default.svc:5000/openshift/postgresql@sha256:0cf19c73fb1ed0784a5092edd42ce662d7328dac529f56b6bfc3d85b24552ed4
           imagePullPolicy: Always
@@ -50,7 +50,7 @@ spec:
             tcpSocket:
               port: 5432
             timeoutSeconds: 1
-          name: redhat-sso-postgres
+          name: sso-postgresql
           ports:
             - containerPort: 5432
               protocol: TCP
@@ -73,22 +73,22 @@ spec:
           terminationMessagePolicy: File
           volumeMounts:
             - mountPath: /var/lib/pgsql/data
-              name: redhat-sso-postgres-pvol
+              name: sso-postgresql-pvol
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 60
       volumes:
-        - name: redhat-sso-postgres-pvol
+        - name: sso-postgresql-pvol
           persistentVolumeClaim:
-            claimName: redhat-sso-postgres
+            claimName: sso-postgresql
   test: false
   triggers:
     - imageChangeParams:
         automatic: true
         containerNames:
-          - redhat-sso-postgres
+          - sso-postgresql
         from:
           kind: ImageStreamTag
           name: 'postgresql:9.5'
