@@ -538,8 +538,8 @@
     <dynamicField name="*_indexed_strings" type="strings" indexed="true" stored="false" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_indexed_long" type="plong" indexed="true" stored="false" sortMissingLast="true"/>
     <dynamicField name="*_indexed_longs" type="plongs" indexed="true" stored="false" multiValued="true" sortMissingLast="true"/>
-    <dynamicField name="*_indexed_boolean" type="pboolean" indexed="true" stored="false" sortMissingLast="true"/>
-    <dynamicField name="*_indexed_booleans" type="pbooleans" indexed="true" stored="false" multiValued="true" sortMissingLast="true"/>
+    <dynamicField name="*_indexed_boolean" type="boolean" indexed="true" stored="false" sortMissingLast="true"/>
+    <dynamicField name="*_indexed_booleans" type="booleans" indexed="true" stored="false" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_indexed_float" type="pfloat" indexed="true" stored="false" sortMissingLast="true"/>
     <dynamicField name="*_indexed_floats" type="pfloats" indexed="true" stored="false" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_indexed_double" type="pdouble" indexed="true" stored="false" sortMissingLast="true"/>
@@ -557,8 +557,8 @@
     <dynamicField name="*_stored_strings" type="strings" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_stored_long" type="plong" indexed="false" stored="true" sortMissingLast="true"/>
     <dynamicField name="*_stored_longs" type="plongs" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
-    <dynamicField name="*_stored_boolean" type="pboolean" indexed="false" stored="true" sortMissingLast="true"/>
-    <dynamicField name="*_stored_booleans" type="pbooleans" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
+    <dynamicField name="*_stored_boolean" type="boolean" indexed="false" stored="true" sortMissingLast="true"/>
+    <dynamicField name="*_stored_booleans" type="booleans" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_stored_float" type="pfloat" indexed="false" stored="true" sortMissingLast="true"/>
     <dynamicField name="*_stored_floats" type="pfloats" indexed="false" stored="true" multiValued="true" sortMissingLast="true"/>
     <dynamicField name="*_stored_double" type="pdouble" indexed="false" stored="true" sortMissingLast="true"/>
