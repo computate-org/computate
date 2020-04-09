@@ -1,33 +1,65 @@
+- name: Install redhat-sso secret on OpenShift
+  k8s: 
+    state: present
+    name: redhat-sso-secret
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_secret.yml.j2') }}"
 - name: Install redhat-sso keystore secret on OpenShift
   k8s: 
     state: present
     name: redhat-sso-keystore
-    host: "{{REDHAT_SSO_HOST}}"
-    api_key: "{{REDHAT_SSO_TOKEN}}"
-    namespace: "{{REDHAT_SSO_NAMESPACE}}"
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
     definition: "{{ lookup('template', 'redhat_sso_keystore.yml.j2') }}"
 - name: Install redhat-sso persistent volume claim on OpenShift
   k8s: 
     state: present
-    name: redhat-sso-persistent-volume-claim
-    host: "{{REDHAT_SSO_HOST}}"
-    api_key: "{{REDHAT_SSO_TOKEN}}"
-    namespace: "{{REDHAT_SSO_NAMESPACE}}"
+    name: redhat-sso-postgres
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
     definition: "{{ lookup('template', 'redhat_sso_persistent_volume_claim.yml.j2') }}"
+- name: Install redhat-sso-postgres deployment config on OpenShift
+  k8s: 
+    state: present
+    name: redhat-sso-postgres
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_postgres_deployment_config.yml.j2') }}"
+- name: Install redhat-sso-postgres service on OpenShift
+  k8s: 
+    state: present
+    name: redhat-sso-postgres
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_postgres_service.yml.j2') }}"
 - name: Install redhat-sso deployment config on OpenShift
   k8s: 
     state: present
     name: redhat-sso
-    host: "{{REDHAT_SSO_HOST}}"
-    api_key: "{{REDHAT_SSO_TOKEN}}"
-    namespace: "{{REDHAT_SSO_NAMESPACE}}"
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
     definition: "{{ lookup('template', 'redhat_sso_deployment_config.yml.j2') }}"
 - name: Install redhat-sso service on OpenShift
   k8s: 
     state: present
     name: redhat-sso
-    host: "{{REDHAT_SSO_HOST}}"
-    api_key: "{{REDHAT_SSO_TOKEN}}"
-    namespace: "{{REDHAT_SSO_NAMESPACE}}"
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
     definition: "{{ lookup('template', 'redhat_sso_service.yml.j2') }}"
+- name: Install redhat-sso route on OpenShift
+  k8s: 
+    state: present
+    name: redhat-sso
+    host: "{{SSO_HOST}}"
+    api_key: "{{SSO_TOKEN}}"
+    namespace: "{{SSO_NAMESPACE}}"
+    definition: "{{ lookup('template', 'redhat_sso_route.yml.j2') }}"
 

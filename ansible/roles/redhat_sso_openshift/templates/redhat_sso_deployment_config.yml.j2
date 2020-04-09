@@ -25,17 +25,26 @@ spec:
       containers:
         - env:
             - name: DB_SERVICE_PREFIX_MAPPING
-              value: sso-postgresql=DB
+              value: redhat-sso-postgres=DB
             - name: DB_JNDI
               value: 'java:jboss/datasources/KeycloakDS'
             - name: DB_USERNAME
-              value: userMX0
+              valueFrom:
+                secretKeyRef:
+                  key: DB_USERNAME
+                  name: redhat-sso-secret
             - name: DB_PASSWORD
-              value: MXAF03Ht
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PASSWORD
+                  name: redhat-sso-secret
             - name: DB_DATABASE
-              value: root
+              valueFrom:
+                secretKeyRef:
+                  key: DB_DATABASE
+                  name: redhat-sso-secret
             - name: TX_DATABASE_PREFIX_MAPPING
-              value: sso-postgresql=DB
+              value: redhat-sso-postgres=DB
             - name: JGROUPS_PING_PROTOCOL
               value: openshift.DNS_PING
             - name: OPENSHIFT_DNS_PING_SERVICE_NAME
@@ -47,9 +56,15 @@ spec:
             - name: HTTPS_KEYSTORE
               value: keystore.jks
             - name: HTTPS_NAME
-              value: computate.org
+              valueFrom:
+                secretKeyRef:
+                  key: HTTPS_NAME
+                  name: redhat-sso-secret
             - name: HTTPS_PASSWORD
-              value: T@wgf77q~=3t^KtY
+              valueFrom:
+                secretKeyRef:
+                  key: HTTPS_PASSWORD
+                  name: redhat-sso-secret
             - name: JGROUPS_ENCRYPT_SECRET
               value: redhat-sso-keystore
             - name: JGROUPS_ENCRYPT_KEYSTORE_DIR
@@ -57,27 +72,54 @@ spec:
             - name: JGROUPS_ENCRYPT_KEYSTORE
               value: jgroups.jceks
             - name: JGROUPS_ENCRYPT_NAME
-              value: computate.org
+              valueFrom:
+                secretKeyRef:
+                  key: JGROUPS_ENCRYPT_NAME
+                  name: redhat-sso-secret
             - name: JGROUPS_ENCRYPT_PASSWORD
-              value: T@wgf77q~=3t^KtY
+              valueFrom:
+                secretKeyRef:
+                  key: JGROUPS_ENCRYPT_PASSWORD
+                  name: redhat-sso-secret
             - name: JGROUPS_CLUSTER_PASSWORD
-              value: 4xENQjOh
+              valueFrom:
+                secretKeyRef:
+                  key: JGROUPS_CLUSTER_PASSWORD
+                  name: redhat-sso-secret
             - name: SSO_ADMIN_USERNAME
-              value: keycloak-admin
+              valueFrom:
+                secretKeyRef:
+                  key: SSO_ADMIN_USERNAME
+                  name: redhat-sso-secret
             - name: SSO_ADMIN_PASSWORD
-              value: QE7Zdcn3~>gGaSuQ
+              valueFrom:
+                secretKeyRef:
+                  key: SSO_ADMIN_PASSWORD
+                  name: redhat-sso-secret
             - name: SSO_REALM
-              value: COMPUTATE.ORG
+              valueFrom:
+                secretKeyRef:
+                  key: SSO_REALM
+                  name: redhat-sso-secret
             - name: SSO_SERVICE_USERNAME
-              value: computate
+              valueFrom:
+                secretKeyRef:
+                  key: SSO_SERVICE_USERNAME
+                  name: redhat-sso-secret
             - name: SSO_SERVICE_PASSWORD
-              value: bVc0vbpz
+              valueFrom:
+                secretKeyRef:
+                  key: SSO_SERVICE_PASSWORD
+                  name: redhat-sso-secret
             - name: SSO_TRUSTSTORE
               value: keystore.jks
             - name: SSO_TRUSTSTORE_DIR
               value: /etc/sso-secret-volume
             - name: SSO_TRUSTSTORE_PASSWORD
-              value: T@wgf77q~=3t^KtY
+              valueFrom:
+                secretKeyRef:
+                  key: SSO_TRUSTSTORE_PASSWORD
+                  name: redhat-sso-secret
           image: >-
             docker-registry.default.svc:5000/openshift/redhat-sso73-openshift@sha256:03a700a5b1716248771624d80fdfc93eaf4b2e258857a87823b9c4a6c956e109
           imagePullPolicy: Always
