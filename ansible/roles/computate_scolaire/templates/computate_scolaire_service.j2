@@ -3,7 +3,7 @@ Description=Watch the computate app and generate Java code when the Java source 
 After=network.target
 
 [Service]
-Type=forking
+Type=simple
 User={{USER_NAME}}
 Group={{USER_NAME}}
 WorkingDirectory={{COMPUTATE_SCOLAIRE_SRC}}

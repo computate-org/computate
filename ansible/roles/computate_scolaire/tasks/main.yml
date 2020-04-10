@@ -18,10 +18,15 @@
     src: computate_scolaire_service.j2
     dest: "{{COMPUTATE_SCOLAIRE_SYSTEMD}}"
   become: yes
+- name: Create the {{COMPUTATE_SCOLAIRE_NAME}} default frFR config. 
+  template:
+    src: computate_scolaire_frFR_config.config.j2
+    dest: "{{COMPUTATE_SCOLAIRE_SRC}}/config/computate-scolaire-frFR.config"
+  become: yes
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} enUS config. 
   template:
-    src: computate-scolaire-config-enUS.config.j2
-    dest: "{{COMPUTATE_SCOLAIRE_CONFIG_enUS}}"
+    src: computate_scolaire_config_enUS.config.j2
+    dest: "{{COMPUTATE_SCOLAIRE_SRC}}/config/computate-scolaire-enUS.config"
   become: yes
 - name: Reload the services. 
   systemd:

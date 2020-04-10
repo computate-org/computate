@@ -141,6 +141,8 @@ spec:
                 secretKeyRef:
                   key: sslKeystorePath
                   name: computate-scolaire-secret
+            - name: openshiftService
+              value: "computate-scolaire"
             - name: clusterPort
               value: "8081"
             - name: zookeeperHostName
