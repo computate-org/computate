@@ -35,8 +35,6 @@ spec:
         - env:
             - name: ZK_HOSTNAME
               value: computate-zookeeper.{{COMPUTATE_ZOOKEEPER_NAMESPACE}}.svc
-          image: >-
-            docker.io/computate/computate-solr@sha256:023dcac554e11c6a077670c2e218a3f8af979e40b0744a6a466c526248baac55
           imagePullPolicy: Always
           name: computate-solr
           ports:
@@ -51,7 +49,7 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
-            - mountPath: /opt/solr/data
+            - mountPath: /srv/solr/data
               name: computate-solr-data-volume
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -70,7 +68,7 @@ spec:
           - computate-solr
         from:
           kind: ImageStreamTag
-          name: 'computate-solr-image-stream:latest'
+          name: 'computate-solr-image-stream:8.4.1.5'
           namespace: school
       type: ImageChange
     - type: ConfigChange
