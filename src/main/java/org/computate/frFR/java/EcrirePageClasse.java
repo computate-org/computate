@@ -148,7 +148,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		Boolean resultat = false;
 
 		if(entiteHtml) {
-			if("Recherche".equals(classeApiMethodeMethode)) {
+			if(str_Recherche(langueNom).equals(classeApiMethodeMethode)) {
 				rechercheLigneActuelRecherche = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
 				if(rechercheLigneRecherche != rechercheLigneActuelRecherche) {
 					if(rechercheLigneRecherche != -1)
@@ -168,13 +168,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					resultat = true;
 				}
 			}
-			else if("PUT".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPUT = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
-				if(rechercheLignePUT != rechercheLigneActuelPUT) {
-					if(rechercheLignePUT != -1)
+			else if("PUTImport".equals(classeApiMethodeMethode)) {
+				rechercheLigneActuelPUTImport = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				if(rechercheLignePUTImport != rechercheLigneActuelPUTImport) {
+					if(rechercheLignePUTImport != -1)
 						wForm.t(2).bgl("div");
 					wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
-					rechercheLignePUT = rechercheLigneActuelPUT;
+					rechercheLignePUTImport = rechercheLigneActuelPUTImport;
+					resultat = true;
+				}
+			}
+			else if(str_PUTFusion(langueNom).equals(classeApiMethodeMethode)) {
+				rechercheLigneActuelPUTFusion = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				if(rechercheLignePUTFusion != rechercheLigneActuelPUTFusion) {
+					if(rechercheLignePUTFusion != -1)
+						wForm.t(2).bgl("div");
+					wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
+					rechercheLignePUTFusion = rechercheLigneActuelPUTFusion;
+					resultat = true;
+				}
+			}
+			else if(str_PUTCopie(langueNom).equals(classeApiMethodeMethode)) {
+				rechercheLigneActuelPUTCopie = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				if(rechercheLignePUTCopie != rechercheLigneActuelPUTCopie) {
+					if(rechercheLignePUTCopie != -1)
+						wForm.t(2).bgl("div");
+					wForm.t(2).be("div").da("class", "w3-cell-row ").dfl();
+					rechercheLignePUTCopie = rechercheLigneActuelPUTCopie;
 					resultat = true;
 				}
 			}
@@ -722,7 +742,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		
 					ToutEcrivain wRecherche = ToutEcrivain.create();
 					ToutEcrivain wPOST = ToutEcrivain.create();
-					ToutEcrivain wPUT = ToutEcrivain.create();
+					ToutEcrivain wPUTImport = ToutEcrivain.create();
+					ToutEcrivain wPUTFusion = ToutEcrivain.create();
+					ToutEcrivain wPUTCopie = ToutEcrivain.create();
 					ToutEcrivain wPATCH = ToutEcrivain.create();
 					ToutEcrivain wSuggere = ToutEcrivain.create();
 					ToutEcrivain wGetters = ToutEcrivain.create();
@@ -731,7 +753,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					ToutEcrivain wFoot = ToutEcrivain.create();
 					ToutEcrivain wFormRecherche = ToutEcrivain.create();
 					ToutEcrivain wFormPOST = ToutEcrivain.create();
-					ToutEcrivain wFormPUT = ToutEcrivain.create();
+					ToutEcrivain wFormPUTImport = ToutEcrivain.create();
+					ToutEcrivain wFormPUTFusion = ToutEcrivain.create();
+					ToutEcrivain wFormPUTCopie = ToutEcrivain.create();
 					ToutEcrivain wFormPage = ToutEcrivain.create();
 					ToutEcrivain wFormPATCH = ToutEcrivain.create();
 					ToutEcrivain wEntites = ToutEcrivain.create();
@@ -758,7 +782,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 						rechercheLigneRecherche = -1;
 						rechercheLignePOST = -1;
-						rechercheLignePUT = -1;
+						rechercheLignePUTImport = -1;
+						rechercheLignePUTFusion = -1;
+						rechercheLignePUTCopie = -1;
 						rechercheLignePATCH = -1;
 						rechercheLignePage = -1;
 	
@@ -766,7 +792,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		
 						if(rechercheListe.size() > 0) {
 							Boolean resultatFormPOST = false; 
-							Boolean resultatFormPUT = false; 
+							Boolean resultatFormPUTImport = false; 
+							Boolean resultatFormPUTFusion = false; 
+							Boolean resultatFormPUTCopie = false; 
 							Boolean resultatFormPage = false; 
 							Boolean resultatFormPATCH = false; 
 							Boolean resultatFormRecherche = false; 
@@ -819,13 +847,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												resultatFormPage = true;
 										}
 										if(entiteDefinir || entiteAttribuer) {
-											if(ecrireFormEntite(langueNom, wFormPUT, "PUT"))
-												resultatFormPUT = true;
+//											if(ecrireFormEntite(langueNom, wFormPUTImport, "PUTImport"))
+//												resultatFormPUTImport = true;
+//											if(ecrireFormEntite(langueNom, wFormPUTFusion, str_PUTFusion(langueNom)))
+//												resultatFormPUTFusion = true;
+											if(ecrireFormEntite(langueNom, wFormPUTCopie, str_PUTCopie(langueNom)))
+												resultatFormPUTCopie = true;
 											if(ecrireFormEntite(langueNom, wFormPATCH, "PATCH"))
 												resultatFormPATCH = true;
 										}
 										if(entiteIndexe) {
-											if(ecrireFormEntite(langueNom, wFormRecherche, "Recherche"))
+											if(ecrireFormEntite(langueNom, wFormRecherche, str_Recherche(langueNom)))
 												resultatFormRecherche = true;
 										}
 									}
@@ -884,8 +916,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 							if(resultatFormPOST)
 								wFormPOST.t(2).bgl("div");
-							if(resultatFormPUT)
-								wFormPUT.t(2).bgl("div");
+							if(resultatFormPUTImport)
+								wFormPUTImport.t(2).bgl("div");
+							if(resultatFormPUTFusion)
+								wFormPUTFusion.t(2).bgl("div");
+							if(resultatFormPUTCopie)
+								wFormPUTCopie.t(2).bgl("div");
 							if(resultatFormPage)
 								wFormPage.t(2).bgl("div");
 							if(resultatFormPATCH)
@@ -1327,21 +1363,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										wPOST.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, " != null && ", str_valeur(langueNom), entiteVarCapitalise, " !== '')");
 										wPOST.tl(2, "vals['", entiteVar, "'] = ", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, ";");
 			
-										wPUT.l();
+										wPUTCopie.l();
 										if(entiteAttribuer)
-											wPUT.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('input.", str_valeur(langueNom), entiteVarCapitalise, ":checked')", jsVal, ";");
+											wPUTCopie.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('input.", str_valeur(langueNom), entiteVarCapitalise, ":checked')", jsVal, ";");
 										else
-											wPUT.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.", str_valeur(langueNom), entiteVarCapitalise, "')", jsVal, ";");
-										wPUT.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, " != null && ", str_valeur(langueNom), entiteVarCapitalise, " !== '')");
+											wPUTCopie.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.", str_valeur(langueNom), entiteVarCapitalise, "')", jsVal, ";");
+										wPUTCopie.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, " != null && ", str_valeur(langueNom), entiteVarCapitalise, " !== '')");
 										if(entiteAttribuer) {
 											if(entiteListeTypeJson == null) {
-												wPUT.tl(2, "vals['", entiteVar, "'] = ", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, ";");
+												wPUTCopie.tl(2, "vals['", entiteVar, "'] = ", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, ";");
 											}
 											else {
-												wPUT.tl(2, "vals['", entiteVar, "'] = [", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, "];");
+												wPUTCopie.tl(2, "vals['", entiteVar, "'] = [", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, "];");
 											}
 										} else {
-											wPUT.tl(2, "vals['", entiteVar, "'] = ", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, ";");
+											wPUTCopie.tl(2, "vals['", entiteVar, "'] = ", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, ";");
 										}
 			
 										wPATCH.l();
@@ -1403,7 +1439,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							if("application/json".equals(classeApiTypeMediaMethode)) {
 								Boolean methodePOST = classeApiMethodeMethode.equals("POST");
 								Boolean methodeGET = classeApiMethode.contains("GET");
-								Boolean methodePUT = classeApiMethodeMethode.equals("PUT");
+								Boolean methodePUTImport = classeApiMethode.equals("PUTImport");
+								Boolean methodePUTFusion = classeApiMethode.equals(str_PUTFusion(langueNom));
+								Boolean methodePUTCopie = classeApiMethode.equals(str_PUTCopie(langueNom));
 								Boolean methodePATCH = classeApiMethodeMethode.equals("PATCH");
 								Boolean methodeDELETE = classeApiMethodeMethode.equals("DELETE");
 								Boolean methodeRecherche = classeApiMethode.contains(str_Recherche(langueNom));
@@ -1429,7 +1467,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									auteurPageJs.s(", success");
 									auteurPageJs.s(", error");
 								}
-								else if(methodePUT) {
+								else if(methodePUTImport) {
+									auteurPageJs.s("$", str_formulaireValeurs(langueNom), ", ", classeVarClePrimaire, ", success, error");
+								}
+								else if(methodePUTFusion) {
+									auteurPageJs.s("$", str_formulaireValeurs(langueNom), ", ", classeVarClePrimaire, ", success, error");
+								}
+								else if(methodePUTCopie) {
 									auteurPageJs.s("$", str_formulaireValeurs(langueNom), ", ", classeVarClePrimaire, ", success, error");
 								}
 								else if(methodePATCH)
@@ -1463,9 +1507,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									auteurPageJs.s(wPOST);
 									auteurPageJs.l();
 								}
-								else if(methodePUT) {
+								else if(methodePUTImport) {
+									auteurPageJs.tl(1, "var json = $", str_formulaireValeurs(langueNom), ".find('.", "PUTImport", "_", str_liste(langueNom), "').val();");
+									auteurPageJs.tl(1, "if(json != null && json !== '')");
+									auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), success, error);");
+								}
+								else if(methodePUTFusion) {
+									auteurPageJs.tl(1, "var json = $", str_formulaireValeurs(langueNom), ".find('.", str_PUTFusion(langueNom), "_", str_liste(langueNom), "').val();");
+									auteurPageJs.tl(1, "if(json != null && json !== '')");
+									auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), success, error);");
+								}
+								else if(methodePUTCopie) {
 									auteurPageJs.tl(1, "var vals = {};");
-									auteurPageJs.s(wPUT);
+									auteurPageJs.s(wPUTCopie);
 									auteurPageJs.l();
 								}
 								else if(methodePATCH) {
@@ -1487,7 +1541,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								if(methodePATCH) {
 									auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", classeVarClePrimaire, " == null ? $.deparam(window.location.search ? window.location.search.substring(1) : window.location.search) : [{name:'fq', value:'", classeVarClePrimaire, ":' + ", classeVarClePrimaire, "}], vals, success, error);");
 								}
-								else if(methodePUT) {
+								else if(methodePUTImport) {
+								}
+								else if(methodePUTFusion) {
+								}
+								else if(methodePUTCopie) {
 									auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", classeVarClePrimaire, " == null ? $.deparam(window.location.search ? window.location.search.substring(1) : window.location.search) : [{name:'fq', value:'", classeVarClePrimaire, ":' + ", classeVarClePrimaire, "}], vals, success, error);");
 								}
 								else if(methodeRecherche) {
@@ -1496,7 +1554,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								else {
 									auteurPageJs.tl(1, "$.ajax({");
 				
-									if(methodeGET || methodeDELETE || methodePUT)
+									if(methodeGET || methodeDELETE || methodePUTCopie)
 										auteurPageJs.tl(2, "url: '", StringUtils.replace(classeApiUriMethode, "{id}", "' + id"));
 									else if(methodePATCH || methodeRecherche)
 										auteurPageJs.tl(2, "url: '", classeApiUriMethode, "?' + $.param(", str_filtres(langueNom), ")");
@@ -1563,11 +1621,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									auteurPageJs.tl(1, "$.ajax({");
 									auteurPageJs.tl(2, "url: '", classeApiUriMethode, "?' + $.param(", str_filtres(langueNom), ")");
 								}
-								if(methodePATCH || methodePUT) {
+								if(methodePATCH || methodePUTCopie) {
 									auteurPageJs.l();
 									auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(", str_filtres(langueNom), ", vals, success, error) {");
 									auteurPageJs.tl(1, "$.ajax({");
 									auteurPageJs.tl(2, "url: '", classeApiUriMethode, "?' + $.param(", str_filtres(langueNom), ")");
+								}
+								if(methodePUTImport || methodePUTFusion) {
+									auteurPageJs.l();
+									auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(json, success, error) {");
+									auteurPageJs.tl(1, "$.ajax({");
+									auteurPageJs.tl(2, "url: '", classeApiUriMethode, "'");
 								}
 								if(methodePOST) {
 									auteurPageJs.l();
@@ -1575,15 +1639,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									auteurPageJs.tl(1, "$.ajax({");
 									auteurPageJs.tl(2, "url: '", classeApiUriMethode, "'");
 								}
-								if(methodePATCH || methodePUT || methodePOST || methodeRecherche) {
+								if(methodePATCH || methodePUTCopie || methodePUTImport || methodePUTFusion || methodePOST || methodeRecherche) {
 									auteurPageJs.tl(2, ", dataType: 'json'");
 									auteurPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
 									auteurPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
 									if(methodePATCH || methodePOST) {
 										auteurPageJs.tl(2, ", data: JSON.stringify(vals)");
 									}
-									if(methodePUT) {
+									if(methodePUTCopie) {
 										auteurPageJs.tl(2, ", data: JSON.stringify({patch: vals})");
+									}
+									if(methodePUTImport || methodePUTFusion) {
+										auteurPageJs.tl(2, ", data: JSON.stringify(json)");
 									}
 									auteurPageJs.tl(2, ", success: success");
 									auteurPageJs.tl(2, ", error: error");
@@ -1774,6 +1841,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							}
 						}
 						tl(2, "l(\"$(document).ready(function() {\");");
+						tl(2, "tl(1, \"document.onkeydown = function(evt) {\");");
+						tl(2, "tl(2, \"evt = evt || window.event;\");");
+						tl(2, "tl(2, \"var isEscape = false;\");");
+						tl(2, "tl(2, \"if ('key' in evt) {\");");
+						tl(2, "tl(3, \"isEscape = (evt.key === 'Escape' || evt.key === 'Esc');\");");
+						tl(2, "tl(2, \"} else {\");");
+						tl(2, "tl(3, \"isEscape = (evt.keyCode === 27);\");");
+						tl(2, "tl(2, \"}\");");
+						tl(2, "tl(2, \"if (isEscape) {\");");
+						tl(2, "tl(3, \"$('.w3-modal:visible').hide();\");");
+						tl(2, "tl(2, \"}\");");
+						tl(2, "tl(1, \"};\");");
 						tl(2, "tl(1, \"window.eventBus = new EventBus('/eventbus');\");");
 						tl(2, "tl(1, \"var pk = \", Optional.ofNullable(", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "()).map(l -> l.toString()).orElse(\"null\"), \";\");");
 						tl(2, "tl(1, \"if(pk != null) {\");");
@@ -1793,8 +1872,98 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						s(wFormPOST);
 						tl(1, "}");
 						l();
-						tl(1, "public void htmlFormPUT", classeNomSimple, "(", classeNomSimple, " o) {");
-						s(wFormPUT);
+						tl(1, "public void htmlFormPUTImport", classeNomSimple, "(", classeNomSimple, " o) {");
+
+						if(classeUtilisateurEcrire && classeSessionEcrire) {
+							t(2).s("if(").l();
+							t(4).s(str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
+							t(4).s("|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
+							t(2).s(") {").l();
+						}
+						else if(classePublicLire) {
+							tl(2, "if(");
+							tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+							tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+							tl(4, ") {");
+						}
+						else if(classeUtilisateurEcrire) {
+							if(classeRolesTrouves || classeRoleLiresTrouves) {
+								tl(2, "if(");
+								tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+								tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+								tl(4, ") {");
+							}
+							else {
+								t(2).s("if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
+							}
+						}
+						else if(classeSessionEcrire) {
+							t(2).s("if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
+						}
+						else {
+							t(2).s("{").l();
+						}
+
+						t(3).be("div").da("class", "w3-cell-row ").dfl();
+						t(4).s("e(\"textarea\")").l();
+						t(5).s(".a(\"class\", \"", "PUTImport", "_", str_liste(langueNom), "\")").l("");
+						t(5).s(".a(\"placeholder\", \"{ \\\"", str_liste(langueNom), "\\\": [ { \\\"pk\\\": ... , \\\"", str_sauvegardes(langueNom), "\\\": [ ... ] }, ... ] }\")").l();
+						t(5).s(";").l();
+						t(5).s("f();").l();
+						t(4).s("g(\"textarea\");").l();
+						t(3).bgl("div");
+
+						t(2).s("}").l();
+
+						tl(1, "}");
+						l();
+						tl(1, "public void htmlForm", str_PUTFusion(langueNom), classeNomSimple, "(", classeNomSimple, " o) {");
+
+						if(classeUtilisateurEcrire && classeSessionEcrire) {
+							t(2).s("if(").l();
+							t(4).s(str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
+							t(4).s("|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
+							t(2).s(") {").l();
+						}
+						else if(classePublicLire) {
+							tl(2, "if(");
+							tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+							tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+							tl(4, ") {");
+						}
+						else if(classeUtilisateurEcrire) {
+							if(classeRolesTrouves || classeRoleLiresTrouves) {
+								tl(2, "if(");
+								tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+								tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+								tl(4, ") {");
+							}
+							else {
+								t(2).s("if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
+							}
+						}
+						else if(classeSessionEcrire) {
+							t(2).s("if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
+						}
+						else {
+							t(2).s("{").l();
+						}
+
+						t(3).be("div").da("class", "w3-cell-row ").dfl();
+						t(4).s("e(\"textarea\")").l();
+						t(5).s(".a(\"class\", \"", str_PUTFusion(langueNom), "_", str_liste(langueNom), "\")").l();
+						t(5).s(".a(\"placeholder\", \"{ \\\"", str_liste(langueNom), "\\\": [ { \\\"pk\\\": ... , \\\"", str_sauvegardes(langueNom), "\\\": [ ... ] }, ... ] }\")").l();
+						t(5).s(";").l();
+						t(5).s("f();").l();
+						t(4).s("g(\"textarea\");").l();
+						t(3).bgl("div");
+
+						t(2).s("}").l();
+
+						tl(1, "}");
+						l();
+						tl(1, "public void htmlForm", str_PUTCopie(langueNom), classeNomSimple, "(", classeNomSimple, " o) {");
+						s(wFormPUTCopie);
 						tl(1, "}");
 						l();
 						tl(1, "public void htmlFormPATCH", classeNomSimple, "(", classeNomSimple, " o) {");
@@ -2147,7 +2316,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 								String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 				
-								if("application/json".equals(classeApiTypeMediaMethode) && (classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals("PUT"))) {
+								if("application/json".equals(classeApiTypeMediaMethode) && (classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(str_PUTCopie(langueNom)) || classeApiMethode.equals(str_PUTFusion(langueNom)) || classeApiMethode.equals("PUTImport"))) {
 									Integer tab = classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("POST") || classeApiMethodeMethode.contains("PUT") ? 0 : 1;
 									String methodeTitreFiltres = null;
 									String methodeTitreValeurs = null;
@@ -2155,17 +2324,25 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									if("POST".equals(classeApiMethodeMethode)) {
 										methodeTitreValeurs = str_Creer_(langueNom) + contexteUnNom;
 									}
-									else if("PUT".equals(classeApiMethodeMethode)) {
-										methodeTitreFiltres = str_Rechercher_des_(langueNom) + contexteUnNom;
-										methodeTitreValeurs = str_Dupliquer_des_(langueNom) + contexteNomPluriel;
+									else if("PUTImport".equals(classeApiMethode)) {
+										methodeTitreFiltres = str_Rechercher_(langueNom) + contexteUnNom;
+										methodeTitreValeurs = str_Importer_(langueNom) + contexteNomPluriel;
+									}
+									else if(str_PUTFusion(langueNom).equals(classeApiMethode)) {
+										methodeTitreFiltres = str_Rechercher_(langueNom) + contexteUnNom;
+										methodeTitreValeurs = str_Fusionner_(langueNom) + contexteNomPluriel;
+									}
+									else if(str_PUTCopie(langueNom).equals(classeApiMethode)) {
+										methodeTitreFiltres = str_Rechercher_(langueNom) + contexteUnNom;
+										methodeTitreValeurs = str_Dupliquer_(langueNom) + contexteNomPluriel;
 									}
 									else if("PATCH".equals(classeApiMethodeMethode)) {
-										methodeTitreFiltres = str_Rechercher_des_(langueNom) + contexteUnNom;
+										methodeTitreFiltres = str_Rechercher_(langueNom) + contexteUnNom;
 										methodeTitreValeurs = str_Modifier_des_(langueNom) + contexteNomPluriel;
 									}
 									else if("DELETE".equals(classeApiMethodeMethode)) {
-										methodeTitreFiltres = str_Rechercher_des_(langueNom) + contexteUnNom;
-										methodeTitreValeurs = str_Supprimer_des_(langueNom) + contexteNomPluriel;
+										methodeTitreFiltres = str_Rechercher_(langueNom) + contexteUnNom;
+										methodeTitreValeurs = str_Supprimer_(langueNom) + contexteNomPluriel;
 									}
 				
 				
@@ -2181,7 +2358,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											t(4 + tab).e("i").da("class", "fas fa-file-plus ").df().dgl("i");
 										else if(classeApiMethodeMethode.contains("PATCH"))
 											t(4 + tab).e("i").da("class", "fas fa-edit ").df().dgl("i");
-										else if(classeApiMethodeMethode.contains("PUT"))
+										else if(classeApiMethode.contains("PUTImport"))
+											t(4 + tab).e("i").da("class", "fas fa-file-import ").df().dgl("i");
+										else if(classeApiMethode.contains(str_PUTFusion(langueNom)))
+											t(4 + tab).e("i").da("class", "fas fa-code-merge ").df().dgl("i");
+										else if(classeApiMethode.contains(str_PUTCopie(langueNom)))
 											t(4 + tab).e("i").da("class", "fas fa-copy ").df().dgl("i");
 	
 										t(4 + tab).sxqscl(methodeTitreValeurs);
@@ -2198,7 +2379,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													tl(7+ tab, classeNomSimple, " o = new ", classeNomSimple, "();");
 		//											tl(7+ tab, "o.", str_initLoin(langueNom), str_PourClasse(langueNom), "(", str_requeteSite(langueNom), "_);");
 													tl(7+ tab, "o.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
-													if("PATCH".equals(classeApiMethodeMethode) || "PUT".equals(classeApiMethodeMethode)) {
+													if("PATCH".equals(classeApiMethodeMethode) || str_PUTFusion(langueNom).equals(classeApiMethodeMethode) || str_PUTCopie(langueNom).equals(classeApiMethodeMethode) || "PUTImport".equals(classeApiMethodeMethode)) {
 														l();
 														t(7 + tab).l("// ", str_FormulaireValeurs(classePageLangueNom), " ", classeApiMethodeMethode);
 														{ t(7 + tab).be("form").da("action", classeApiUri).da("id", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom)).da("onsubmit", "event.preventDefault(); return false; ").dfl();
@@ -2217,7 +2398,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 														else if("PATCH".equals(classeApiMethodeMethode))
 //															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \", function() {}, function() {}); \")");
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(null, $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \", function() {}, function() {}); \")");
-														else if("PUT".equals(classeApiMethodeMethode))
+														else if("PUTImport".equals(classeApiMethode))
+															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \"); \")");
+														else if(str_PUTFusion(langueNom).equals(classeApiMethode))
+															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \"); \")");
+														else if(str_PUTCopie(langueNom).equals(classeApiMethode))
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \"); \")");
 														else if(tab > 0)
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")");
@@ -2235,8 +2420,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					
 														if("DELETE".equals(classeApiMethodeMethode))
 															tl(8 + tab, "htmlFormPATCH", classeNomSimple, "(o);");
-														else if("PUT".equals(classeApiMethodeMethode))
-															tl(8 + tab, "htmlFormPUT", classeNomSimple, "(o);");
+														else if("PUTImport".equals(classeApiMethode))
+															tl(8 + tab, "htmlFormPUTImport", classeNomSimple, "(o);");
+														else if(str_PUTFusion(langueNom).equals(classeApiMethode))
+															tl(8 + tab, "htmlForm", str_PUTFusion(langueNom), classeNomSimple, "(o);");
+														else if(str_PUTCopie(langueNom).equals(classeApiMethode))
+															tl(8 + tab, "htmlForm", str_PUTCopie(langueNom), classeNomSimple, "(o);");
 														else
 															tl(8 + tab, "htmlForm", classeApiMethodeMethode, classeNomSimple, "(o);");
 					
@@ -2251,7 +2440,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
 														else if("PATCH".equals(classeApiMethodeMethode))
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), function() {}, function() {}); \")");
-														else if("PUT".equals(classeApiMethodeMethode))
+														else if("PUTImport".equals(classeApiMethode))
+															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
+														else if(str_PUTFusion(langueNom).equals(classeApiMethode))
+															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
+														else if(str_PUTCopie(langueNom).equals(classeApiMethode))
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \", $('#", classeApiOperationIdMethode, "Form')); \")");
 														else if(tab > 0)
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")");
