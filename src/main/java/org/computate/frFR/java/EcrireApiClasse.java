@@ -2031,8 +2031,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "if(fls.size() > 0) {");
 							tl(5, "Set<String> fieldNames = new HashSet<String>();");
 							tl(5, "fieldNames.addAll(json2.fieldNames());");
-							tl(5, "if(fls.size() == 1 && fls.get(0).equals(\"", str_sauvegardes(classeLangueNom), "\")) {");
-							tl(6, "fls.addAll(json2.getJsonArray(\"", str_sauvegardes(classeLangueNom), "\").stream().map(s -> s.toString()).collect(Collectors.toList()));");
+							tl(5, "if(fls.size() == 1 && fls.stream().findFirst().orElse(null).equals(\"", str_sauvegardes(classeLangueNom), "\")) {");
+							tl(6, "fieldNames.removeAll(json2.getJsonArray(\"", str_sauvegardes(classeLangueNom), "\").stream().map(s -> s.toString()).collect(Collectors.toList()));");
+							tl(5, "}");
+							tl(5, "else if(fls.size() >= 1) {");
+							tl(6, "fieldNames.removeAll(fls);");
 							tl(5, "}");
 							tl(5, "for(String fieldName : fieldNames) {");
 							tl(6, "if(!fls.contains(fieldName))");

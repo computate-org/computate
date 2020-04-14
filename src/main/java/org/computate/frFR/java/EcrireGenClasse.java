@@ -4926,6 +4926,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(4, "o", classeNomSimple, ".add", entiteVarCapitalise, "((", entiteNomSimpleCompletGenerique, ")val);");
 				else
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+				tl(4, "if(!", str_sauvegardes(langueNom), classeNomSimple, ".contains(var))");
+				tl(5, str_sauvegardes(langueNom), classeNomSimple, ".add(var);");
 				tl(4, "return val;");
 			}	
 	
@@ -4943,7 +4945,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					}
 					else {
 						tl(4, "set", entiteVarCapitalise, "(val);");
-						tl(4, "", str_sauvegardes(langueNom), "", classeNomSimple, ".add(var);");
+						tl(4, str_sauvegardes(langueNom), classeNomSimple, ".add(var);");
 					}
 					tl(4, "return val;");
 			}	
@@ -5196,7 +5198,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				else {
 					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
 						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-						tl(tBase + 4, classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, "> r = new ", classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, ">();");
+						tl(tBase + 4, classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), " = new ", classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, ">();");
 						tl(tBase + 4, str_listeRecherche(langueNom), ".setQuery(\"*:*\");");
 						tl(tBase + 4, str_listeRecherche(langueNom), ".set", str_Stocker(langueNom), "(true);");
 						tl(tBase + 4, str_listeRecherche(langueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
