@@ -1873,93 +1873,27 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(1, "}");
 						l();
 						tl(1, "public void htmlFormPUTImport", classeNomSimple, "(", classeNomSimple, " o) {");
-
-						if(classeUtilisateurEcrire && classeSessionEcrire) {
-							t(2).s("if(").l();
-							t(4).s(str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
-							t(4).s("|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
-							t(2).s(") {").l();
-						}
-						else if(classePublicLire) {
-							tl(2, "if(");
-							tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-							tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-							tl(4, ") {");
-						}
-						else if(classeUtilisateurEcrire) {
-							if(classeRolesTrouves || classeRoleLiresTrouves) {
-								tl(2, "if(");
-								tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-								tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-								tl(4, ") {");
-							}
-							else {
-								t(2).s("if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
-							}
-						}
-						else if(classeSessionEcrire) {
-							t(2).s("if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
-						}
-						else {
-							t(2).s("{").l();
-						}
-
-						t(3).be("div").da("class", "w3-cell-row ").dfl();
-						t(4).s("e(\"textarea\")").l();
-						t(5).s(".a(\"class\", \"", "PUTImport", "_", str_liste(langueNom), "\")").l("");
-						t(5).s(".a(\"placeholder\", \"{ \\\"", str_liste(langueNom), "\\\": [ { \\\"pk\\\": ... , \\\"", str_sauvegardes(langueNom), "\\\": [ ... ] }, ... ] }\")").l();
-						t(5).s(";").l();
-						t(5).s("f();").l();
-						t(4).s("g(\"textarea\");").l();
-						t(3).bgl("div");
-
-						t(2).s("}").l();
-
+						t(2).be("div").da("class", "w3-cell-row ").dfl();
+						t(3).s("e(\"textarea\")").l();
+						t(4).s(".a(\"class\", \"", "PUTImport", "_", str_liste(langueNom), " w3-input w3-border \")").l("");
+						t(4).s(".a(\"style\", \"height: 400px; \")").l();
+						t(4).s(".a(\"placeholder\", \"{ \\\"", str_liste(langueNom), "\\\": [ { \\\"pk\\\": ... , \\\"", str_sauvegardes(langueNom), "\\\": [ ... ] }, ... ] }\")").l();
+						t(4).s(";").l();
+						t(4).s("f();").l();
+						t(3).s("g(\"textarea\");").l();
+						t(2).bgl("div");
 						tl(1, "}");
 						l();
 						tl(1, "public void htmlForm", str_PUTFusion(langueNom), classeNomSimple, "(", classeNomSimple, " o) {");
-
-						if(classeUtilisateurEcrire && classeSessionEcrire) {
-							t(2).s("if(").l();
-							t(4).s(str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
-							t(4).s("|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
-							t(2).s(") {").l();
-						}
-						else if(classePublicLire) {
-							tl(2, "if(");
-							tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-							tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-							tl(4, ") {");
-						}
-						else if(classeUtilisateurEcrire) {
-							if(classeRolesTrouves || classeRoleLiresTrouves) {
-								tl(2, "if(");
-								tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-								tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-								tl(4, ") {");
-							}
-							else {
-								t(2).s("if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
-							}
-						}
-						else if(classeSessionEcrire) {
-							t(2).s("if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
-						}
-						else {
-							t(2).s("{").l();
-						}
-
-						t(3).be("div").da("class", "w3-cell-row ").dfl();
-						t(4).s("e(\"textarea\")").l();
-						t(5).s(".a(\"class\", \"", str_PUTFusion(langueNom), "_", str_liste(langueNom), "\")").l();
-						t(5).s(".a(\"placeholder\", \"{ \\\"", str_liste(langueNom), "\\\": [ { \\\"pk\\\": ... , \\\"", str_sauvegardes(langueNom), "\\\": [ ... ] }, ... ] }\")").l();
-						t(5).s(";").l();
-						t(5).s("f();").l();
-						t(4).s("g(\"textarea\");").l();
-						t(3).bgl("div");
-
-						t(2).s("}").l();
-
+						t(2).be("div").da("class", "w3-cell-row ").dfl();
+						t(3).s("e(\"textarea\")").l();
+						t(4).s(".a(\"class\", \"", str_PUTFusion(langueNom), "_", str_liste(langueNom), " w3-input w3-border \")").l();
+						t(4).s(".a(\"style\", \"height: 400px; \")").l();
+						t(4).s(".a(\"placeholder\", \"{ \\\"", str_liste(langueNom), "\\\": [ { \\\"pk\\\": ... , \\\"", str_sauvegardes(langueNom), "\\\": [ ... ] }, ... ] }\")").l();
+						t(4).s(";").l();
+						t(4).s("f();").l();
+						t(3).s("g(\"textarea\");").l();
+						t(2).bgl("div");
 						tl(1, "}");
 						l();
 						tl(1, "public void htmlForm", str_PUTCopie(langueNom), classeNomSimple, "(", classeNomSimple, " o) {");
