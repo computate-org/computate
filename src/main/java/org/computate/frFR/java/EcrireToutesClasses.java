@@ -673,7 +673,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					if(classeApi) {
 //						ecrireApiEnsembleInfo(langueNom);
 						ecrireGenApiService(langueNom);
-						ecrireGenApiServiceImpl(langueNom);
+						ecrireGenApiServiceImpl1(langueNom);
+						ecrireGenApiServiceImpl2(langueNom);
 						ecrireApiServiceImpl(langueNom);
 					}
 				}
