@@ -1838,16 +1838,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(4, "if(a.succeeded()) {");
 					tl(5, str_utilisateur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", b -> {");
 					tl(6, "if(b.succeeded()) {");
-					if(classeApiMethode.contains("POST") || classeApiMethode.contains("PUT") || classeApiMethode.contains("PATCH")) {
+
+					if(classeApiMethode.contains("POST")) {
+
 						tl(7, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(7, str_requeteApi(classeLangueNom), ".setRows(1);");
 						tl(7, str_requeteApi(classeLangueNom), ".setNumFound(1L);");
 						tl(7, str_requeteApi(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsRequeteApi.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 						tl(7, str_requeteSite(classeLangueNom), ".set", str_RequeteApi(classeLangueNom), "_(", str_requeteApi(classeLangueNom), ");");
-					}
 
-					if(classeApiMethode.contains("POST")) {
-						tl(7, classeApiOperationIdMethode, "Future(", str_requeteSite(classeLangueNom), ", c -> {");
+						tl(7, classeApiOperationIdMethode, "Future(", str_requeteSite(classeLangueNom), ", false, c -> {");
 						tl(8, "if(c.succeeded()) {");
 						tl(9, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = c.result();");
 						tl(9, str_requeteApi(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
@@ -1872,6 +1872,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(9, str_recherche(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", false, true, ", "null", ", d -> {");
 						tl(10, "if(d.succeeded()) {");
 						tl(11, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_liste(classeLangueNom), classeNomSimple, " = d.result();");
+
+						tl(11, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
+						tl(11, str_requeteApi(classeLangueNom), ".setRows(", str_liste(classeLangueNom), classeNomSimple, ".getRows());");
+						tl(11, str_requeteApi(classeLangueNom), ".setNumFound(", str_liste(classeLangueNom), classeNomSimple, ".getQueryResponse().getResults().getNumFound());");
+						tl(11, str_requeteApi(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsRequeteApi.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
+						tl(11, str_requeteSite(classeLangueNom), ".set", str_RequeteApi(classeLangueNom), "_(", str_requeteApi(classeLangueNom), ");");
+
 						if(classeVarModifie == null) {
 							tl(11, "String dt = DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(ZonedDateTime.now().toInstant(), ZoneId.of(\"UTC\")).minusNanos(1000));");
 						}
@@ -1979,13 +1986,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(9, str_recherche(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", false, true, ", "null", ", d -> {");
 						tl(10, "if(d.succeeded()) {");
 						tl(11, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_liste(classeLangueNom), classeNomSimple, " = d.result();");
+
+						tl(11, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
+						tl(11, str_requeteApi(classeLangueNom), ".setRows(", str_liste(classeLangueNom), classeNomSimple, ".getRows());");
+						tl(11, str_requeteApi(classeLangueNom), ".setNumFound(", str_liste(classeLangueNom), classeNomSimple, ".getQueryResponse().getResults().getNumFound());");
+						tl(11, str_requeteApi(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsRequeteApi.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
+						tl(11, str_requeteSite(classeLangueNom), ".set", str_RequeteApi(classeLangueNom), "_(", str_requeteApi(classeLangueNom), ");");
+
 						tl(11, "WorkerExecutor ", str_executeurTravailleur(classeLangueNom), " = ", str_siteContexte(classeLangueNom), ".get", str_ExecuteurTravailleur(classeLangueNom), "();");
 						tl(11, str_executeurTravailleur(classeLangueNom), ".executeBlocking(");
 						tl(12, "blockingCodeHandler -> {");
 						tl(13, "sql", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", e -> {");
 						tl(14, "if(e.succeeded()) {");
 						tl(15, "try {");
-						tl(16, str_liste(classeLangueNom), classeApiMethode, classeNomSimple, "(", str_requeteApi(classeLangueNom), ", ", str_liste(classeLangueNom), "", classeNomSimple, classeApiMethode.contains("PATCH") ? ", dt" : "", ", f -> {");
+						tl(16, str_liste(classeLangueNom), classeApiMethode, classeNomSimple, "(", str_requeteApi(classeLangueNom), ", ", str_liste(classeLangueNom), classeNomSimple, classeApiMethode.contains("PATCH") ? ", dt" : "", ", f -> {");
 						tl(17, "if(f.succeeded()) {");
 						tl(18, classeApiOperationIdMethode, str_Reponse(classeLangueNom), "(", str_liste(classeLangueNom), classeNomSimple, ", g -> {");
 						tl(19, "if(g.succeeded()) {");
@@ -2030,6 +2044,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(11, "sql", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", d -> {");
 						tl(12, "if(d.succeeded()) {");
 						tl(13, "try {");
+
+						tl(14, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
+						tl(14, "JsonArray jsonArray = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_ObjetJson(classeLangueNom), "()).map(o -> o.getJsonArray(\"list\")).orElse(new JsonArray());");
+						tl(14, str_requeteApi(classeLangueNom), ".setRows(jsonArray.size());");
+						tl(14, str_requeteApi(classeLangueNom), ".setNumFound(new Integer(jsonArray.size()).longValue());");
+						tl(14, str_requeteApi(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsRequeteApi.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
+						tl(14, str_requeteSite(classeLangueNom), ".set", str_RequeteApi(classeLangueNom), "_(", str_requeteApi(classeLangueNom), ");");
+
 						tl(14, str_liste(classeLangueNom), classeApiMethode, classeNomSimple, "(", str_requeteApi(classeLangueNom), ", ", str_requeteSite(classeLangueNom), ", e -> {");
 						tl(15, "if(e.succeeded()) {");
 						tl(16, classeApiOperationIdMethode, str_Reponse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", f -> {");
@@ -2086,7 +2108,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = ", str_liste(classeLangueNom), classeNomSimple, ".get", str_RequeteSite(classeLangueNom), "_();");
 						tl(2, str_liste(classeLangueNom), classeNomSimple, ".getList().forEach(o -> {");
 						tl(3, "futures.add(");
-						tl(4, classeApiOperationIdMethode, "Future(", classeApiMethode.contains("PATCH") ? "o" : (str_requeteSite(classeLangueNom) + ", JsonObject.mapFrom(o)"), ", a -> {");
+						tl(4, classeApiOperationIdMethode, "Future(", classeApiMethode.contains("PATCH") ? "o" : (str_requeteSite(classeLangueNom) + ", JsonObject.mapFrom(o)"), ", false, a -> {");
 						tl(5, "if(a.succeeded()) {");
 						tl(7, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = a.result();");
 						tl(7, str_requeteApi(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
@@ -2174,7 +2196,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(4, "}");
 						tl(4, str_requeteSite(classeLangueNom), "2.set", str_ObjetJson(classeLangueNom), "(json2);");
 						tl(4, "futures.add(");
-						tl(5, "patch", classeNomSimple, "Future(o, a -> {");
+						tl(5, "patch", classeNomSimple, "Future(o, ", classeApiMethode.equals("PUTImport"), ", a -> {");
 						tl(6, "if(a.succeeded()) {");
 						tl(7, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = a.result();");
 						tl(7, str_requeteApi(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
@@ -2185,7 +2207,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(4, ");");
 						tl(3, "} else {");
 						tl(4, "futures.add(");
-						tl(5, "post", classeNomSimple, "Future(", str_requeteSite(classeLangueNom), "2, a -> {");
+						tl(5, "post", classeNomSimple, "Future(", str_requeteSite(classeLangueNom), "2, ", classeApiMethode.equals("PUTImport"), ", a -> {");
 						tl(6, "if(a.succeeded()) {");
 						tl(7, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = a.result();");
 						tl(7, str_requeteApi(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
@@ -2214,11 +2236,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						t(1, "public Future<", classeNomSimple, "> ", classeApiOperationIdMethode, "Future(");
 						if(StringUtils.contains(classeApiMethode, "POST"))
-							s(classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom));
+							s(classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", Boolean inheritPk");
 						else if(StringUtils.contains(classeApiMethode, "PUT"))
 							s(classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", JsonObject jsonObject");
 						else if(StringUtils.contains(classeApiMethode, "PATCH"))
-							s(classeNomSimple, " o");
+							s(classeNomSimple, " o, Boolean inheritPk");
 						else
 							s(classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple));
 						l(", Handler<AsyncResult<", classeNomSimple, ">> ", str_gestionnaireEvenements(classeLangueNom), ") {");
@@ -2233,7 +2255,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, str_creer(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", a -> {");
 							tl(4, "if(a.succeeded()) {");
 							tl(5, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = a.result();");
-							tl(5, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", false, b -> {");
+							tl(5, "sql", classeApiMethode, classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", inheritPk, b -> {");
 							tl(6, "if(b.succeeded()) {");
 							tl(7, str_definir(classeLangueNom), str_Indexer(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", c -> {");
 							tl(8, "if(c.succeeded()) {");
@@ -2296,7 +2318,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "});");
 						}
 						else if(classeApiMethode.contains("PATCH")) {
-							tl(3, "sql", classeApiMethode, classeNomSimple, "(o, false, a -> {");
+							tl(3, "sql", classeApiMethode, classeNomSimple, "(o, inheritPk, a -> {");
 							tl(4, "if(a.succeeded()) {");
 							tl(5, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = a.result();");
 							tl(5, str_definir(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ", b -> {");
@@ -2410,7 +2432,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, "}");
 						tl(1, "}");
 					}
-					if(classeApiMethode.contains("PUT")) {
+					if(classeApiMethode.equals(str_PUTCopie(classeLangueNom))) {
 						l();
 						tl(1, "public void sql", classeApiMethode, classeNomSimple, "(", classeNomSimple, " o, JsonObject jsonObject, Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(classeLangueNom), ") {");
 						tl(2, "try {");
@@ -3303,7 +3325,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(6, "List<Future> futures2 = new ArrayList<>();");
 			tl(6, "for(", classeNomSimple, " o2 : ", str_listeRecherche(classeLangueNom), ".getList()) {");
 			tl(7, "futures2.add(");
-			tl(8, "service.patch", classeNomSimple, "Future(o2, b -> {");
+			tl(8, "service.patch", classeNomSimple, "Future(o2, false, b -> {");
 			tl(9, "if(b.succeeded()) {");
 			tl(10, "LOGGER.info(String.format(\"", classeNomSimple, " %s ", str_rechargé(classeLangueNom), ". \", o2.get", StringUtils.capitalize(classeVarClePrimaire), "()));");
 			tl(9, "} else {");

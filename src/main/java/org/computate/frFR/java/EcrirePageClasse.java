@@ -2626,7 +2626,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(4, "$margin.append($card);");
 						auteurPageJs.tl(4, "$('.box-' + id).remove();");
 						auteurPageJs.tl(4, "if(numPATCH < numFound)");
-						auteurPageJs.tl(4, "$('.w3-content').append($box);");
+						auteurPageJs.tl(4, "$('.top-box').append($box);");
 						auteurPageJs.tl(4, "if(success)");
 						auteurPageJs.tl(5, "success(json);");
 	//					auteurPageJs.tl(3, "}");
