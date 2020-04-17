@@ -2935,6 +2935,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		String entiteNomCanonique = (String)doc.get("entiteNomCanonique_" + langueNom + "_stored_string");
 		String entiteNomCanoniqueGenerique = (String)doc.get("entiteNomCanoniqueGenerique_" + langueNom + "_stored_string");
 		String entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
+		String entiteNomSimpleGenerique = (String)doc.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
 		String entiteNomSimpleCompletGenerique = (String)doc.get("entiteNomSimpleCompletGenerique_" + langueNom + "_stored_string");
 		String entiteNomSimple = (String)doc.get("entiteNomSimple_" + langueNom + "_stored_string");
 		String entiteCommentaire = (String)doc.get("entiteCommentaire_" + langueNom + "_stored_string");
@@ -4350,7 +4351,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									s(".sx(str", entiteVarCapitalise, "())");
 								}
 								else {
-									tl(tIndex + 4, "a(\"value\", str", entiteVarCapitalise, "())");
+									t(tIndex + 4).s(classePrefixe).s("a(\"value\", str", entiteVarCapitalise, "())").l();
 								}
 				
 								if(entiteMultiligne)
@@ -5114,100 +5115,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	//		}
 	//		if(entiteAttribuer)
 	//			tl(1, "public static final String ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, " = \"", entiteAttribuerVar, "\";");
-	
-			////////////////////////
-			// codeApiGenererPost //
-			////////////////////////
-			o = wApiGenererPost;
-	
-			Integer tBase = 3;
-	//		if(classeRolesTrouves) {
-	//			tBase = 6;
-	//		}
-	//		else {
-	//			tBase = 4;
-	//		}
-			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
-				tl(tBase + 2, "case \"", entiteVar, "\":");
-				tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
-
-				if(entiteNomSimple.equals("LocalDate"))
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", DateTimeFormatter.ofPattern(\"MM/dd/yyyy\").format(DateTimeFormatter.ofPattern(\"yyyy-MM-dd\").parse(jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var))), ", classeVarClePrimaire, "));");
-				else
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var), ", classeVarClePrimaire, "));");
-
-				tl(tBase + 3, "break;");
-			}	
-			if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
-				tl(tBase + 2, "case \"", entiteVar, "\":");
-				if(entiteListeTypeJson == null) {
-					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-						tl(tBase + 3, "{");
-						tl(tBase + 4, "Long l = Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var));");
-						tl(tBase + 4, classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), " = new ", classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, ">();");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".setQuery(\"*:*\");");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".set", str_Stocker(langueNom), "(true);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".", str_initLoin(langueNom), classePartsListeRecherche.nomSimple(langueNom), "(", str_requeteSite(langueNom), ");");
-						tl(tBase + 4, "l = Optional.ofNullable(", str_listeRecherche(langueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
-						tl(tBase + 4, "if(l != null) {");
-						tl(tBase + 5, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 5, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var))));");
-						tl(tBase + 4, "}");
-						tl(tBase + 3, "}");
-					}
-					else {
-						tl(tBase + 3, "{");
-						tl(tBase + 4, "Long l = Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var));");
-						tl(tBase + 4, classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), " = new ", classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, ">();");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".setQuery(\"*:*\");");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".set", str_Stocker(langueNom), "(true);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".", str_initLoin(langueNom), classePartsListeRecherche.nomSimple(langueNom), "(", str_requeteSite(langueNom), ");");
-						tl(tBase + 4, "l = Optional.ofNullable(", str_listeRecherche(langueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
-						tl(tBase + 4, "if(l != null) {");
-						tl(tBase + 5, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 5, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", l, \"", entiteVar, "\", ", classeVarClePrimaire, "));");
-						tl(tBase + 4, "}");
-						tl(tBase + 3, "}");
-					}
-				}
-				else {
-					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-						tl(tBase + 4, classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), " = new ", classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, ">();");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".setQuery(\"*:*\");");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".set", str_Stocker(langueNom), "(true);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".", str_initLoin(langueNom), classePartsListeRecherche.nomSimple(langueNom), "(", str_requeteSite(langueNom), ");");
-						tl(tBase + 4, "l = Optional.ofNullable(", str_listeRecherche(langueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
-						tl(tBase + 4, "if(l != null) {");
-						tl(tBase + 5, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 5, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", l));");
-						tl(tBase + 4, "}");
-						tl(tBase + 3, "}");
-					}
-					else {
-						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-						tl(tBase + 4, classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), " = new ", classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, ">();");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".setQuery(\"*:*\");");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".set", str_Stocker(langueNom), "(true);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
-						tl(tBase + 4, str_listeRecherche(langueNom), ".", str_initLoin(langueNom), classePartsListeRecherche.nomSimple(langueNom), "(", str_requeteSite(langueNom), ");");
-						tl(tBase + 4, "l = Optional.ofNullable(", str_listeRecherche(langueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
-						tl(tBase + 4, "if(l != null) {");
-						tl(tBase + 5, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 5, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", l, \"", entiteVar, "\", ", classeVarClePrimaire, "));");
-						tl(tBase + 4, "}");
-						tl(tBase + 3, "}");
-					}
-				}
-				tl(tBase + 3, "break;");
-			}	
 //	
 //			/////////////////////////////
 //			// codeApiGenererPutImport //
@@ -5269,51 +5176,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //				}
 //				tl(tBase + 3, "break;");
 //			}	
-	
-			////////////////////////////
-			// codeApiGenererPutCopie //
-			////////////////////////////
-			o = wApiGenererPutCopie;
-
-			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
-				tl(tBase + 2, "case \"", entiteVar, "\":");
-				tl(tBase + 3, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
-
-				if(entiteNomSimple.equals("LocalDate"))
-					tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", DateTimeFormatter.ofPattern(\"MM/dd/yyyy\").format(DateTimeFormatter.ofPattern(\"yyyy-MM-dd\").parse(jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var))), ", classeVarClePrimaire, "));");
-				else
-					tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var), ", classeVarClePrimaire, "));");
-
-				tl(tBase + 3, "break;");
-			}	
-			if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
-				tl(tBase + 2, "case \"", entiteVar, "\":");
-				if(entiteListeTypeJson == null) {
-					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-						tl(tBase + 3, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var))));");
-					}
-					else {
-						tl(tBase + 3, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var)), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
-					}
-				}
-				else {
-					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-						tl(tBase + 4, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 4, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", l));");
-						tl(tBase + 3, "}");
-					}
-					else {
-						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-						tl(tBase + 4, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 4, "putSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", l, \"", entiteVar, "\", ", classeVarClePrimaire, "));");
-						tl(tBase + 3, "}");
-					}
-				}
-				tl(tBase + 3, "break;");
-			}	
 //	
 //			/////////////////////////////
 //			// codeApiGenererPutFusion //
