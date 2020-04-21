@@ -2163,6 +2163,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "refreshed";
 	}
 
+	public String str_a_démarré(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "a démarré";
+		else
+			return "started";
+	}
+
 	public String str_a_réussi(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "a réussi";
@@ -2600,6 +2607,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "ApiMethode";
 		else
 			return "ApiMethod";
+	}
+
+	public String str_apiMethode(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "apiMethode";
+		else
+			return "apiMethod";
 	}
 
 	public String str_Couleur(String langueNom) {
