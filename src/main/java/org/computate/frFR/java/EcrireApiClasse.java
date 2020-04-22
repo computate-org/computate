@@ -1931,7 +1931,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				String classePageNomSimpleMethode = (String)classeDoc.get("classePageNomSimple" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classeApiTypeMedia200Methode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				if(classePageLangueNom == null || classePageLangueNom.equals(classeLangueNom)) {
 					l();
@@ -2279,17 +2279,31 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(8, "}");
 						tl(7, "});");
 					}
+					else {
+						tl(7, classeApiOperationIdMethode, str_Reponse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", c -> {");
+						tl(8, "if(c.succeeded()) {");
+						tl(9, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(c.result()));");
+						tl(9, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " ", str_a_réussi(classeLangueNom), ". \"));");
+						tl(8, "} else {");
+						tl(9, "LOGGER.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", c.cause()));");
+						tl(9, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", c);");
+						tl(8, "}");
+						tl(7, "});");
+					}
 
 					tl(6, "} else {");
+					tl(7, "LOGGER.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", b.cause()));");
 					tl(7, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", b);");
 					tl(6, "}");
 					tl(5, "});");
 					tl(4, "} else {");
+					tl(5, "LOGGER.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", a.cause()));");
 					tl(5, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", a);");
 					tl(4, "}");
 					tl(3, "});");
-					tl(2, "} catch(Exception e) {");
-					tl(3, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", Future.failedFuture(e));");
+					tl(2, "} catch(Exception ex) {");
+					tl(3, "LOGGER.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", ex));");
+					tl(3, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", Future.failedFuture(ex));");
 					tl(2, "}");
 					tl(1, "}");
 					l();
@@ -2367,73 +2381,78 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(1, "public void ", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, "(", classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(classeLangueNom), ") {");
 						tl(2, "List<Future> futures = new ArrayList<>();");
 						tl(2, "JsonArray jsonArray = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_ObjetJson(classeLangueNom), "()).map(o -> o.getJsonArray(\"list\")).orElse(new JsonArray());");
-						tl(2, "jsonArray.forEach(obj -> {");
-						tl(3, "JsonObject json = (JsonObject)obj;");
+						tl(2, "try {");
+						tl(3, "jsonArray.forEach(obj -> {");
+						tl(4, "JsonObject json = (JsonObject)obj;");
 						if(classeApiMethode.equals(str_PUTFusion(classeLangueNom)) || classeApiMethode.equals("PUTImport")) {
 							l();
-							tl(3, "json.put(\"", classeVarInheritClePrimaire, "\", json.getValue(\"", classeVarClePrimaire, "\"));");
+							tl(4, "json.put(\"", classeVarInheritClePrimaire, "\", json.getValue(\"", classeVarClePrimaire, "\"));");
 						}
 						l();
-						tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), "2 = ", str_generer(classeLangueNom), "", classePartsRequeteSite.nomSimple(classeLangueNom), "", str_Pour(classeLangueNom), "", classeNomSimple, "(", str_siteContexte(classeLangueNom), ", ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "(), json);");
-						tl(3, str_requeteSite(classeLangueNom), "2.set", str_ConnexionSql(classeLangueNom), "(", str_requeteSite(classeLangueNom), ".get", str_ConnexionSql(classeLangueNom), "());");
+						tl(4, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), "2 = ", str_generer(classeLangueNom), "", classePartsRequeteSite.nomSimple(classeLangueNom), "", str_Pour(classeLangueNom), "", classeNomSimple, "(", str_siteContexte(classeLangueNom), ", ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "(), json);");
+						tl(4, str_requeteSite(classeLangueNom), "2.set", str_ConnexionSql(classeLangueNom), "(", str_requeteSite(classeLangueNom), ".get", str_ConnexionSql(classeLangueNom), "());");
 						l();
-						tl(3, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, ">();");
-						tl(3, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
-						tl(3, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
-						tl(3, str_listeRecherche(classeLangueNom), ".setC(", classeNomSimple, ".class);");
-						tl(3, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire : classeVarClePrimaire, "_indexed_long:\" + json.getString(\"", classeVarClePrimaire, "\"));");
-						tl(3, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), "2);");
+						tl(4, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, ">();");
+						tl(4, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
+						tl(4, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
+						tl(4, str_listeRecherche(classeLangueNom), ".setC(", classeNomSimple, ".class);");
+						tl(4, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire : classeVarClePrimaire, "_indexed_long:\" + json.getString(\"", classeVarClePrimaire, "\"));");
+						tl(4, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), "2);");
 						l();
-						tl(3, "if(", str_listeRecherche(classeLangueNom), ".size() == 1) {");
-						tl(4, classeNomSimple, " o = ", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null);");
-						tl(4, "JsonObject json2 = new JsonObject();");
-						tl(4, "for(String f : json.fieldNames()) {");
-						tl(5, "json2.put(\"set\" + StringUtils.capitalize(f), json.getValue(f));");
-						tl(4, "}");
-						tl(4, "if(o != null) {");
-						tl(5, "for(String f : o.get", str_Sauvegardes(classeLangueNom), "()) {");
-						tl(6, "if(!json.fieldNames().contains(f))");
-						tl(7, "json2.putNull(\"set\" + StringUtils.capitalize(f));");
+						tl(4, "if(", str_listeRecherche(classeLangueNom), ".size() == 1) {");
+						tl(5, classeNomSimple, " o = ", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null);");
+						tl(5, "JsonObject json2 = new JsonObject();");
+						tl(5, "for(String f : json.fieldNames()) {");
+						tl(6, "json2.put(\"set\" + StringUtils.capitalize(f), json.getValue(f));");
 						tl(5, "}");
-						tl(5, str_requeteSite(classeLangueNom), "2.set", str_ObjetJson(classeLangueNom), "(json2);");
+						tl(5, "if(o != null) {");
+						tl(6, "for(String f : Optional.ofNullable(o.get", str_Sauvegardes(classeLangueNom), "()).orElse(Arrays.asList())) {");
+						tl(7, "if(!json.fieldNames().contains(f))");
+						tl(8, "json2.putNull(\"set\" + StringUtils.capitalize(f));");
+						tl(6, "}");
+						tl(6, str_requeteSite(classeLangueNom), "2.set", str_ObjetJson(classeLangueNom), "(json2);");
+						tl(6, "futures.add(");
+						tl(7, "patch", classeNomSimple, "Future(o, ", classeApiMethode.equals("PUTImport"), ", a -> {");
+						tl(8, "if(a.succeeded()) {");
+						tl(9, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = a.result();");
+//						tl(9, str_requeteApi(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
+						tl(9, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + 1);");
+						tl(9, str_requeteSite(classeLangueNom), "2.getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
+						tl(8, "} else {");
+						tl(9, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), "2, ", str_gestionnaireEvenements(classeLangueNom), ", a);");
+						tl(8, "}");
+						tl(7, "})");
+						tl(6, ");");
+						tl(5, "}");
+						tl(4, "} else {");
 						tl(5, "futures.add(");
-						tl(6, "patch", classeNomSimple, "Future(o, ", classeApiMethode.equals("PUTImport"), ", a -> {");
+						tl(6, "post", classeNomSimple, "Future(", str_requeteSite(classeLangueNom), "2, ", classeApiMethode.equals("PUTImport"), ", a -> {");
 						tl(7, "if(a.succeeded()) {");
 						tl(8, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = a.result();");
-//						tl(8, str_requeteApi(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
-						tl(8, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + 1);");
-						tl(8, str_requeteSite(classeLangueNom), "2.getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
+						tl(8, str_requeteApi(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
 						tl(7, "} else {");
 						tl(8, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), "2, ", str_gestionnaireEvenements(classeLangueNom), ", a);");
 						tl(7, "}");
 						tl(6, "})");
 						tl(5, ");");
 						tl(4, "}");
-						tl(3, "} else {");
-						tl(4, "futures.add(");
-						tl(5, "post", classeNomSimple, "Future(", str_requeteSite(classeLangueNom), "2, ", classeApiMethode.equals("PUTImport"), ", a -> {");
-						tl(6, "if(a.succeeded()) {");
-						tl(7, classeNomSimple, " ", StringUtils.uncapitalize(classeNomSimple), " = a.result();");
-						tl(7, str_requeteApi(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
-						tl(6, "} else {");
-						tl(7, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), "2, ", str_gestionnaireEvenements(classeLangueNom), ", a);");
-						tl(6, "}");
-						tl(5, "})");
-						tl(4, ");");
-						tl(3, "}");
-						tl(2, "});");
-						tl(2, "CompositeFuture.all(futures).setHandler( a -> {");
-						tl(3, "if(a.succeeded()) {");
-//						tl(4, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + jsonArray.size());");
-						tl(7, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + 1);");
-						tl(7, str_requeteSite(classeLangueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
-						tl(4, str_reponse(classeLangueNom), "200", classeApiMethode, classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ");");
-//						tl(4, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + 1);");
-//						tl(4, str_requeteSite(classeLangueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
-						tl(3, "} else {");
-						tl(4, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteApi(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_(), ", str_gestionnaireEvenements(classeLangueNom), ", a);");
-						tl(3, "}");
-						tl(2, "});");
+						tl(3, "});");
+						tl(3, "CompositeFuture.all(futures).setHandler( a -> {");
+						tl(4, "if(a.succeeded()) {");
+//						tl(5, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + jsonArray.size());");
+						tl(8, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + 1);");
+						tl(8, str_requeteSite(classeLangueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
+						tl(5, str_reponse(classeLangueNom), "200", classeApiMethode, classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ");");
+//						tl(5, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + 1);");
+//						tl(5, str_requeteSite(classeLangueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
+						tl(4, "} else {");
+						tl(5, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteApi(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_(), ", str_gestionnaireEvenements(classeLangueNom), ", a);");
+						tl(4, "}");
+						tl(3, "});");
+						tl(2, "} catch(Exception ex) {");
+						tl(3, "LOGGER.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", ex));");
+						tl(3, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", null, Future.failedFuture(ex));");
+						tl(2, "}");
 						tl(1, "}");
 					}
 
@@ -2698,47 +2717,80 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							type = classePartsRequeteSite.nomSimple(classeLangueNom);
 							var = str_requeteSite(classeLangueNom);
 						}
-						else {
+						else if(classeApiMethode.contains("GET") || classeApiMethode.contains(str_Recherche(classeLangueNom))) {
 							type = classePartsListeRecherche.nomSimple(classeLangueNom) + "<" + classeNomSimple + ">";
 							var = str_liste(classeLangueNom) + classeNomSimple;
+						}
+						else {
+							type = classePartsRequeteSite.nomSimple(classeLangueNom);
+							var = str_requeteSite(classeLangueNom);
 						}
 
 						t(1, "public void ", classeApiOperationIdMethode, str_Reponse(classeLangueNom), "(");
 						s(type, " ", var);
 						l(", Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(classeLangueNom), ") {");
-						if(!(classeApiMethode.contains("PATCH") || classeApiMethode.equals("PUTImport") || classeApiMethode.equals(str_PUTFusion(classeLangueNom)) || classeApiMethode.equals(str_PUTCopie(classeLangueNom))))
+						if(classeApiMethode.contains("POST") || classeApiMethode.contains("GET") || classeApiMethode.contains(str_Recherche(classeLangueNom)))
 							tl(2, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = ", var, ".get", str_RequeteSite(classeLangueNom), "_();");
-						tl(2, str_reponse(classeLangueNom), "200", classeApiMethode, classeNomSimple, "(", var, ", a -> {");
-						tl(3, "if(a.succeeded()) {");
-						tl(4, "SQLConnection ", str_connexionSql(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_ConnexionSql(classeLangueNom), "();");
-						tl(4, str_connexionSql(classeLangueNom), ".commit(b -> {");
-						tl(5, "if(b.succeeded()) {");
-						tl(6, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " sql commit. \"));");
-						tl(6, str_connexionSql(classeLangueNom), ".close(c -> {");
-						tl(7, "if(c.succeeded()) {");
-						tl(8, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " sql close. \"));");
+
+						tl(2, "try {");
+						if("text/html".equals(classeApiTypeMedia200Methode)) {
+							tl(3, "Buffer buffer = Buffer.buffer();");
+							if(classePartsToutEcrivain == null)
+								throw new RuntimeException(String.format("%s %s %s %s %s. ", str_classe(classeLangueNom), str_ToutEcrivain(classeLangueNom), str_manquante(classeLangueNom), str_dans(classeLangueNom), cheminSrcMainJava));
+							tl(3, classePartsToutEcrivain.nomSimple(classeLangueNom), " w = ", classePartsToutEcrivain.nomSimple(classeLangueNom), ".", str_creer(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", buffer);");
+							tl(3, str_requeteSite(classeLangueNom), ".setW(w);");
+//							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
+//							tl(3, "SolrDocument page", str_DocumentSolr(classeLangueNom), " = new SolrDocument();");
+//							tl(3, "CaseInsensitiveHeaders ", str_requeteEnTetes(classeLangueNom), " = new CaseInsensitiveHeaders();");
+//							tl(3, str_requeteSite(classeLangueNom), ".set", str_RequeteEnTetes(classeLangueNom), "(", str_requeteEnTetes(classeLangueNom), ");");
+//							l();
+//							tl(3, "page", str_DocumentSolr(classeLangueNom), ".setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
+//							tl(3, "page.setPage", str_DocumentSolr(classeLangueNom), "(page", str_DocumentSolr(classeLangueNom), ");");
+//							tl(3, "page.setW(w);");
+//							tl(3, "if(", str_liste(classeLangueNom), classeNomSimple, ".size() == 1)");
+//							tl(4, str_requeteSite(classeLangueNom), ".set", str_Requete(classeLangueNom), StringUtils.capitalize(classeVarClePrimaire), "(", str_liste(classeLangueNom), classeNomSimple, ".get(0).get", StringUtils.capitalize(classeVarClePrimaire), "()", ");");
+//							if(!classePageSimple)
+//								tl(3, "page.set", str_Liste(classeLangueNom), "", classeNomSimple, "(", str_liste(classeLangueNom), "", classeNomSimple, ");");
+//							tl(3, "page.set", str_RequeteSite(classeLangueNom), "_(", str_requeteSite(classeLangueNom), ");");
+//							tl(3, "page.", str_initLoin(classeLangueNom), "", classePageNomSimpleMethode, "(", str_requeteSite(classeLangueNom), ");");
+//							tl(3, "page.html();");
+						}
+
+						tl(3, str_reponse(classeLangueNom), "200", classeApiMethode, classeNomSimple, "(", var, ", a -> {");
+						tl(4, "if(a.succeeded()) {");
+						tl(5, "SQLConnection ", str_connexionSql(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_ConnexionSql(classeLangueNom), "();");
+						tl(5, str_connexionSql(classeLangueNom), ".commit(b -> {");
+						tl(6, "if(b.succeeded()) {");
+						tl(7, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " sql commit. \"));");
+						tl(7, str_connexionSql(classeLangueNom), ".close(c -> {");
+						tl(8, "if(c.succeeded()) {");
+						tl(9, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " sql close. \"));");
 						if(StringUtils.contains(classeApiMethode, "POST")) {
-							tl(8, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = ", str_requeteApi(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
-							tl(8, StringUtils.uncapitalize(classeNomSimple), ".", str_requeteApi(classeLangueNom), classeNomSimple, "();");
-							tl(8, str_requeteSite(classeLangueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
+							tl(9, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = ", str_requeteApi(classeLangueNom), classeNomSimple, "(", StringUtils.uncapitalize(classeNomSimple), ");");
+							tl(9, StringUtils.uncapitalize(classeNomSimple), ".", str_requeteApi(classeLangueNom), classeNomSimple, "();");
+							tl(9, str_requeteSite(classeLangueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
 						}
 //						if(StringUtils.containsAny(classeApiMethode, "PUT", "PATCH")) {
-//							tl(8, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_RequeteApi(classeLangueNom), "_();");
-//							tl(8, str_requeteSite(classeLangueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
+//							tl(9, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_RequeteApi(classeLangueNom), "_();");
+//							tl(9, str_requeteSite(classeLangueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
 //						}
-						tl(8, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(a.result()));");
-						tl(7, "} else {");
-						tl(8, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", c);");
-						tl(7, "}");
-						tl(6, "});");
-						tl(5, "} else {");
-						tl(6, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", b);");
-						tl(5, "}");
-						tl(4, "});");
-						tl(3, "} else {");
-						tl(4, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", a);");
-						tl(3, "}");
-						tl(2, "});");
+						tl(9, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(a.result()));");
+						tl(8, "} else {");
+						tl(9, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", c);");
+						tl(8, "}");
+						tl(7, "});");
+						tl(6, "} else {");
+						tl(7, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", b);");
+						tl(6, "}");
+						tl(5, "});");
+						tl(4, "} else {");
+						tl(5, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", a);");
+						tl(4, "}");
+						tl(3, "});");
+						tl(2, "} catch(Exception ex) {");
+						tl(3, "LOGGER.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", ex));");
+						tl(3, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", null, Future.failedFuture(ex));");
+						tl(2, "}");
 						tl(1, "}");
 					}
 
@@ -2755,8 +2807,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						s(classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom));
 					else if(classeApiMethode.contains("PATCH"))
 						s(classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom));
-					else
+					else if(classeApiMethode.contains("GET") || classeApiMethode.contains(str_Recherche(classeLangueNom)))
 						s(classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_liste(classeLangueNom), "", classeNomSimple);
+					else
+						s(classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom));
 	
 					l(", Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(classeLangueNom), ") {");
 	
@@ -3323,6 +3377,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, str_listeRecherche(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_().get", str_Requete(classeLangueNom), "Vars().put(var, ", str_valeur(classeLangueNom), ");");
 			tl(1, "}");
 			l();
+			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "Uri(String uri, String ", str_apiMethode(classeLangueNom), ", ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ") {");
+			tl(1, "}");
+			l();
 			tl(1, "public void ", str_recherche(classeLangueNom), "", classeNomSimple, "(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", Boolean ", str_peupler(classeLangueNom), ", Boolean ", str_stocker(classeLangueNom), ", String uri, String ", str_apiMethode(classeLangueNom), ", Handler<AsyncResult<", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, ">>> ", str_gestionnaireEvenements(classeLangueNom), ") {");
 			tl(2, "try {");
 			tl(3, "OperationRequest ", str_operationRequete(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "();");
@@ -3418,6 +3475,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 			tl(6, "}");
 			tl(5, "}");
+			tl(5, str_recherche(classeLangueNom), classeNomSimple, "Uri(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ");");
 			tl(4, "} catch(Exception e) {");
 			tl(5, "", str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(e));");
 			tl(4, "}");

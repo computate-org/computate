@@ -991,6 +991,21 @@ public class ConfigSite {
 		return resultats;
 	}    
 
+	protected ArrayList<String> regexLangueListe(String langueNom, String nomChampRegex, String commentaire) throws Exception {
+		ArrayList<String> resultats = new ArrayList<String>();
+		String o = null;
+		if(nomChampRegex != null && commentaire != null) {
+			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
+			boolean trouve = m.find();
+			while(trouve) {
+				o = m.group(m.groupCount());
+				resultats.add(o); 
+				trouve = m.find();
+			}
+		}
+		return resultats;
+	}
+
 	/**
 	 * Var.enUS: regexReplaceAll
 	 * Param1.var.enUS: comment

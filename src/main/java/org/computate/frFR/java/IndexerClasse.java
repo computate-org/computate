@@ -8116,8 +8116,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 						String classePageNomSimpleMethode = regexLangue(langueNom, "^" + str_Page(classeLangueNom) + "" + classeApiMethode, classeCommentaire);
 						String classePageSuperNomSimpleMethode = regexLangue(langueNom, "^" + str_PageSuper(classeLangueNom) + "" + classeApiMethode, classeCommentaire);
-						String classeApiTypeMedia200Methode = regexLangue(langueNom, "^(classe)?ApiTypeMedia200" + classeApiMethode, classeCommentaire, classePageNomSimpleMethode == null ? "application/json" : "text/html");
-						String classeApiMotCleMethode = regexLangue(langueNom, "(classe)?ApiMotCle" + classeApiMethode, classeCommentaire);
+						String classeApiTypeMedia200Methode = regexLangue(langueNom, "^ApiTypeMedia200" + classeApiMethode, classeCommentaire, classePageNomSimpleMethode == null ? "application/json" : "text/html");
+						String classeApiMotCleMethode = regexLangue(langueNom, "^ApiMotCle" + classeApiMethode, classeCommentaire);
 						if(StringUtils.contains(classeApiMethode, "POST")
 								|| StringUtils.contains(classeApiMethode, str_Recherche(langueNom))
 								|| StringUtils.contains(classeApiMethode, "PATCH")
