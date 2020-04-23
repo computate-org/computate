@@ -928,9 +928,48 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "SearchPage";
 	}
 
-	/**
-	 * Var.enUS: str_Search
-	 */
+	public String str_PUTFusion(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "PUTFusion";
+		else
+			return "PUTMerge";
+	}
+
+	public String str_Fusion(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Fusion";
+		else
+			return "Merge";
+	}
+
+	public String str_fusion(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "fusion";
+		else
+			return "merge";
+	}
+
+	public String str_PUTCopie(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "PUTCopie";
+		else
+			return "PUTCopy";
+	}
+
+	public String str_Copie(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Copie";
+		else
+			return "Copy";
+	}
+
+	public String str_copie(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "copie";
+		else
+			return "copy";
+	}
+
 	public String str_Recherche(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "Recherche";
@@ -1573,11 +1612,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: str_Search_the_
 	 */
-	public String str_Rechercher_des_(String langueNom) {
+	public String str_Rechercher_(String langueNom) {
 		if("frFR".equals(langueNom))
-			return "Rechercher des ";
+			return "Rechercher ";
 		else
-			return "Search the ";
+			return "Search ";
 	}
 
 	/**
@@ -1597,11 +1636,18 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "Duplicate ";
 	}
 
-	public String str_Dupliquer_des_(String langueNom) {
+	public String str_Fusionner_(String langueNom) {
 		if("frFR".equals(langueNom))
-			return "Dupliquer des ";
+			return "Fusionner ";
 		else
-			return "Duplicate the ";
+			return "Merge ";
+	}
+
+	public String str_Importer_(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Importer ";
+		else
+			return "Import ";
 	}
 
 	/**
@@ -1609,19 +1655,19 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	public String str_Modifier_des_(String langueNom) {
 		if("frFR".equals(langueNom))
-			return "Modifier des ";
+			return "Modifier ";
 		else
-			return "Modify the ";
+			return "Modify ";
 	}
 
 	/**
 	 * Var.enUS: str_Delete_the_
 	 */
-	public String str_Supprimer_des_(String langueNom) {
+	public String str_Supprimer_(String langueNom) {
 		if("frFR".equals(langueNom))
-			return "Supprimer des ";
+			return "Supprimer ";
 		else
-			return "Delete the ";
+			return "Delete ";
 	}
 
 	/**
@@ -2117,6 +2163,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "refreshed";
 	}
 
+	public String str_a_démarré(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "a démarré";
+		else
+			return "started";
+	}
+
 	public String str_a_réussi(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "a réussi";
@@ -2554,6 +2607,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "ApiMethode";
 		else
 			return "ApiMethod";
+	}
+
+	public String str_apiMethode(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "apiMethode";
+		else
+			return "apiMethod";
 	}
 
 	public String str_Couleur(String langueNom) {
@@ -5790,7 +5850,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					}
 				}
 				for(JavaClass cImplements : classeQdox.getImplementedInterfaces()) {
-					ClasseParts classePartsImplements = ClasseParts.initClasseParts(this, cImplements, langueNom);
+					ClasseParts classePartsImplements = ClasseParts.initClasseParts(this, cImplements, classeLangueNom);
 					indexerStockerListeSolr(langueNom, classeDoc, "classeImplementsNomSimpleComplet", classePartsImplements.nomSimpleComplet(langueNom));
 				}
 //			}
@@ -8056,8 +8116,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 						String classePageNomSimpleMethode = regexLangue(langueNom, "^" + str_Page(classeLangueNom) + "" + classeApiMethode, classeCommentaire);
 						String classePageSuperNomSimpleMethode = regexLangue(langueNom, "^" + str_PageSuper(classeLangueNom) + "" + classeApiMethode, classeCommentaire);
-						String classeApiTypeMedia200Methode = regexLangue(langueNom, "^(classe)?ApiTypeMedia200" + classeApiMethode, classeCommentaire, classePageNomSimpleMethode == null ? "application/json" : "text/html");
-						String classeApiMotCleMethode = regexLangue(langueNom, "(classe)?ApiMotCle" + classeApiMethode, classeCommentaire);
+						String classeApiTypeMedia200Methode = regexLangue(langueNom, "^ApiTypeMedia200" + classeApiMethode, classeCommentaire, classePageNomSimpleMethode == null ? "application/json" : "text/html");
+						String classeApiMotCleMethode = regexLangue(langueNom, "^ApiMotCle" + classeApiMethode, classeCommentaire);
 						if(StringUtils.contains(classeApiMethode, "POST")
 								|| StringUtils.contains(classeApiMethode, str_Recherche(langueNom))
 								|| StringUtils.contains(classeApiMethode, "PATCH")
@@ -8065,8 +8125,16 @@ public class IndexerClasse extends RegarderClasseBase {
 								) {
 							if(StringUtils.isBlank(classeApiMotCleMethode))
 								classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
-							if(StringUtils.isBlank(classeApiUriMethode))
-								classeApiUriMethode = classeApiUri;
+							if(StringUtils.isBlank(classeApiUriMethode)) {
+								if("PUTImport".equals(classeApiMethode))
+									classeApiUriMethode = classeApiUri + "/" + "import";
+								else if(str_PUTCopie(langueNom).equals(classeApiMethode))
+									classeApiUriMethode = classeApiUri + "/" + str_copie(langueNom);
+								else if(str_PUTFusion(langueNom).equals(classeApiMethode))
+									classeApiUriMethode = classeApiUri + "/" + str_fusion(langueNom);
+								else
+									classeApiUriMethode = classeApiUri;
+							}
 						}
 						else {
 							if(StringUtils.isBlank(classeApiMotCleMethode))

@@ -159,10 +159,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String classeCommentaire;
 
-	/**
-	 * Var.enUS: classVarPrimaryKey
-	 */
 	protected String classeVarClePrimaire;
+
+	protected String classeVarInheritClePrimaire;
 
 	/**
 	 */
@@ -438,10 +437,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected ToutEcrivain wApiGenererPost;
 
-	/**
-	 * Var.enUS: wApiGeneratePut
-	 */
-	protected ToutEcrivain wApiGenererPut;
+	protected ToutEcrivain wApiGenererPutImport;
+
+	protected ToutEcrivain wApiGenererPutCopie;
+
+	protected ToutEcrivain wApiGenererPutFusion;
 
 	/**
 	 * Var.enUS: wApiGeneratePatch
@@ -978,20 +978,22 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	Integer rechercheLignePOST;
 
-	/**
-	 * Var.enUS: searchRowPUT
-	 */
-	Integer rechercheLignePUT;
+	Integer rechercheLignePUTImport;
+
+	Integer rechercheLignePUTCopie;
+
+	Integer rechercheLignePUTFusion;
 
 	/**
 	 * Var.enUS: searchRowActualPOST
 	 */
 	Integer rechercheLigneActuelPOST;
 
-	/**
-	 * Var.enUS: searchRowActualPUT
-	 */
-	Integer rechercheLigneActuelPUT;
+	Integer rechercheLigneActuelPUTImport;
+
+	Integer rechercheLigneActuelPUTCopie;
+
+	Integer rechercheLigneActuelPUTFusion;
 
 	/**
 	 * Var.enUS: searchRowPATCH
@@ -1106,7 +1108,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		wApiGet = ToutEcrivain.create();
 		wApiGenererGet = ToutEcrivain.create();
 		wApiGenererPost = ToutEcrivain.create();
-		wApiGenererPut = ToutEcrivain.create();
+		wApiGenererPutImport = ToutEcrivain.create();
+		wApiGenererPutCopie = ToutEcrivain.create();
+		wApiGenererPutFusion = ToutEcrivain.create();
 		wApiGenererPatch = ToutEcrivain.create();
 		wPageHtmlSingulier = ToutEcrivain.create();
 		wPageGet = ToutEcrivain.create();
@@ -2931,6 +2935,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		String entiteNomCanonique = (String)doc.get("entiteNomCanonique_" + langueNom + "_stored_string");
 		String entiteNomCanoniqueGenerique = (String)doc.get("entiteNomCanoniqueGenerique_" + langueNom + "_stored_string");
 		String entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
+		String entiteNomSimpleGenerique = (String)doc.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
 		String entiteNomSimpleCompletGenerique = (String)doc.get("entiteNomSimpleCompletGenerique_" + langueNom + "_stored_string");
 		String entiteNomSimple = (String)doc.get("entiteNomSimple_" + langueNom + "_stored_string");
 		String entiteCommentaire = (String)doc.get("entiteCommentaire_" + langueNom + "_stored_string");
@@ -4125,6 +4130,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 2).s(classePrefixe, "if(").l();
 								t(tIndex + 4).s(classePrefixe, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
 								t(tIndex + 4).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
+								t(tIndex + 4).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)").l();
+								t(tIndex + 4).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)").l();
 								t(tIndex + 2).s(classePrefixe, ") {").l();
 							}
 							else if(classePublicLire) {
@@ -4168,7 +4175,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 5).dal("name", "set", entiteVarCapitalise);
 								t(tIndex + 5).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 5).dal("autocomplete", "off");
-								t(tIndex + 5).s(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? ", str_rechercher(langueNom), entiteAttribuerNomSimple, str_Filtres(langueNom), "($('#", str_suggere(langueNom), "\", ", str_classeApiMethodeMethode(langueNom), ", \"", classeNomSimple, entiteVarCapitalise, "')) : [");
+								t(tIndex + 5).s(".a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? ", str_rechercher(langueNom), entiteAttribuerNomSimple, str_Filtres(langueNom), "($(this.parentElement)) : [");
 								s("\", ", classeVarClePrimaire, " == null ? \"\" : \"{'name':'fq','value':'", entiteAttribuerVar, ":\" + ", classeVarClePrimaire, " + \"'}\", \"");
 								s("], $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"'), \", ", classeVarClePrimaire, ", \"); \")");
 								l();
@@ -4346,7 +4353,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									s(".sx(str", entiteVarCapitalise, "())");
 								}
 								else {
-									tl(tIndex + 4, "a(\"value\", str", entiteVarCapitalise, "())");
+									t(tIndex + 4).s(classePrefixe).s("a(\"value\", str", entiteVarCapitalise, "())").l();
 								}
 				
 								if(entiteMultiligne)
@@ -4448,6 +4455,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 8).s(classePrefixe, "if(").l();
 									t(tIndex + 10).s(classePrefixe, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
 									t(tIndex + 10).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
+									t(tIndex + 10).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)").l();
+									t(tIndex + 10).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)").l();
 									t(tIndex + 8).s(classePrefixe, ") {").l();
 								}
 								else if(classePublicLire) {
@@ -4570,6 +4579,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 7).s(classePrefixe, "if(").l();
 									t(tIndex + 9).s(classePrefixe, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
 									t(tIndex + 9).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
+									t(tIndex + 9).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)").l();
+									t(tIndex + 9).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)").l();
 									t(tIndex + 7).s(classePrefixe, ") {").l();
 								}
 								else if(classePublicLire) {
@@ -4867,7 +4878,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					wIndexerFacetFor.tl(6, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
 					wIndexerFacetFor.tl(6, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
 					wIndexerFacetFor.tl(6, "futures.add(");
-					wIndexerFacetFor.tl(7, "service.patch", entiteAttribuerNomSimple, "Future(o2, a -> {");
+					wIndexerFacetFor.tl(7, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
 					wIndexerFacetFor.tl(8, "if(a.succeeded()) {");
 					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
 					wIndexerFacetFor.tl(8, "} else {");
@@ -4889,7 +4900,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					wIndexerFacetFor.tl(6, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
 					wIndexerFacetFor.tl(6, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
 					wIndexerFacetFor.tl(6, "futures.add(");
-					wIndexerFacetFor.tl(7, "service.patch", entiteAttribuerNomSimple, "Future(o2, a -> {");
+					wIndexerFacetFor.tl(7, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
 					wIndexerFacetFor.tl(8, "if(a.succeeded()) {");
 					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
 					wIndexerFacetFor.tl(8, "} else {");
@@ -4922,6 +4933,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(4, "o", classeNomSimple, ".add", entiteVarCapitalise, "((", entiteNomSimpleCompletGenerique, ")val);");
 				else
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+				tl(4, "if(!", str_sauvegardes(langueNom), classeNomSimple, ".contains(var))");
+				tl(5, str_sauvegardes(langueNom), classeNomSimple, ".add(var);");
 				tl(4, "return val;");
 			}	
 	
@@ -4939,7 +4952,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					}
 					else {
 						tl(4, "set", entiteVarCapitalise, "(val);");
-						tl(4, "", str_sauvegardes(langueNom), "", classeNomSimple, ".add(var);");
+						tl(4, str_sauvegardes(langueNom), classeNomSimple, ".add(var);");
 					}
 					tl(4, "return val;");
 			}	
@@ -5108,77 +5121,112 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	//		}
 	//		if(entiteAttribuer)
 	//			tl(1, "public static final String ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, " = \"", entiteAttribuerVar, "\";");
-	
-			////////////////////////
-			// codeApiGenererPost //
-			////////////////////////
-			o = wApiGenererPost;
-	
-			Integer tBase = 3;
-	//		if(classeRolesTrouves) {
-	//			tBase = 6;
-	//		}
-	//		else {
-	//			tBase = 4;
-	//		}
-			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
-				tl(tBase + 2, "case \"", entiteVar, "\":");
-				tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
-
-				if(entiteNomSimple.equals("LocalDate"))
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", DateTimeFormatter.ofPattern(\"MM/dd/yyyy\").format(DateTimeFormatter.ofPattern(\"yyyy-MM-dd\").parse(jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var))), ", classeVarClePrimaire, "));");
-				else
-					tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var), ", classeVarClePrimaire, "));");
-
-				tl(tBase + 3, "break;");
-			}	
-			if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
-				tl(tBase + 2, "case \"", entiteVar, "\":");
-				if(entiteListeTypeJson == null) {
-					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-						tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var))));");
-					}
-					else {
-						tl(tBase + 3, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 3, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var)), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
-					}
-				}
-				else {
-					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-						tl(tBase + 4, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 4, "postSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", l));");
-						tl(tBase + 3, "}");
-					}
-					else {
-						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-						tl(tBase + 4, "postSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
-						tl(tBase + 4, "postSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", l, \"", entiteVar, "\", ", classeVarClePrimaire, "));");
-						tl(tBase + 3, "}");
-					}
-				}
-				tl(tBase + 3, "break;");
-			}	
-	
-			///////////////////////
-			// codeApiGenererPut //
-			///////////////////////
-			o = wApiGenererPut;
-	
-			tBase = 0;
-			if(classeRolesTrouves) {
-				tBase = 6;
-			}
-			else {
-				tBase = 4;
-			}
-			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
-				tl(tBase + 6, "case \"", entiteVar, "\":");
-				tl(tBase + 7, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
-				tl(tBase + 7, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", requeteJson.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var), putPk));");
-				tl(tBase + 7, "break;");
-			}	
+//	
+//			/////////////////////////////
+//			// codeApiGenererPutImport //
+//			/////////////////////////////
+//			o = wApiGenererPutImport;
+//
+//			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
+//				tl(tBase + 2, "case \"", entiteVar, "\":");
+//				tl(tBase + 3, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
+//
+//				if(entiteNomSimple.equals("LocalDate"))
+//					tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", DateTimeFormatter.ofPattern(\"MM/dd/yyyy\").format(DateTimeFormatter.ofPattern(\"yyyy-MM-dd\").parse(jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var))), ", classeVarClePrimaire, "));");
+//				else
+//					tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var), ", classeVarClePrimaire, "));");
+//
+//				tl(tBase + 3, "break;");
+//			}	
+//			if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
+//				tl(tBase + 2, "case \"", entiteVar, "\":");
+//				if(entiteListeTypeJson == null) {
+//					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+//						tl(tBase + 3, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
+//						tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var))));");
+//					}
+//					else {
+//						tl(tBase + 3, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
+//						tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var)), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+//					}
+//				}
+//				else {
+//					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+//						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+//						tl(tBase + 4, classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), " = new ", classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, ">();");
+//						tl(tBase + 4, str_listeRecherche(langueNom), ".setQuery(\"*:*\");");
+//						tl(tBase + 4, str_listeRecherche(langueNom), ".set", str_Stocker(langueNom), "(true);");
+//						tl(tBase + 4, str_listeRecherche(langueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+//						tl(tBase + 4, str_listeRecherche(langueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
+//						tl(tBase + 4, str_listeRecherche(langueNom), ".", str_initLoin(langueNom), classePartsListeRecherche.nomSimple(langueNom), "(", str_requeteSite(langueNom), ");");
+//						tl(tBase + 4, "if(", str_listeRecherche(langueNom), ".size() == 1) {");
+//						tl(tBase + 5, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
+//						tl(tBase + 5, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", ", str_listeRecherche(langueNom), ".get(0).getPk()));");
+//						tl(tBase + 4, "}");
+//						tl(tBase + 3, "}");
+//					}
+//					else {
+//						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+//						tl(tBase + 4, classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), " = new ", classePartsListeRecherche.nomSimple(langueNom), "<", entiteAttribuerNomSimple, ">();");
+//						tl(tBase + 4, str_listeRecherche(langueNom), ".setQuery(\"*:*\");");
+//						tl(tBase + 4, str_listeRecherche(langueNom), ".set", str_Stocker(langueNom), "(true);");
+//						tl(tBase + 4, str_listeRecherche(langueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+//						tl(tBase + 4, str_listeRecherche(langueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
+//						tl(tBase + 4, str_listeRecherche(langueNom), ".", str_initLoin(langueNom), classePartsListeRecherche.nomSimple(langueNom), "(", str_requeteSite(langueNom), ");");
+//						tl(tBase + 4, "if(", str_listeRecherche(langueNom), ".size() == 1) {");
+//						tl(tBase + 5, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
+//						tl(tBase + 5, "putSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", ", str_listeRecherche(langueNom), ".get(0).getPk(), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+//						tl(tBase + 4, "}");
+//						tl(tBase + 3, "}");
+//					}
+//				}
+//				tl(tBase + 3, "break;");
+//			}	
+//	
+//			/////////////////////////////
+//			// codeApiGenererPutFusion //
+//			/////////////////////////////
+//			o = wApiGenererPutFusion;
+//
+//			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
+//				tl(tBase + 2, "case \"", entiteVar, "\":");
+//				tl(tBase + 3, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_setD);");
+//
+//				if(entiteNomSimple.equals("LocalDate"))
+//					tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", DateTimeFormatter.ofPattern(\"MM/dd/yyyy\").format(DateTimeFormatter.ofPattern(\"yyyy-MM-dd\").parse(jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var))), ", classeVarClePrimaire, "));");
+//				else
+//					tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(langueNom), "Var), ", classeVarClePrimaire, "));");
+//
+//				tl(tBase + 3, "break;");
+//			}	
+//			if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
+//				tl(tBase + 2, "case \"", entiteVar, "\":");
+//				if(entiteListeTypeJson == null) {
+//					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+//						tl(tBase + 3, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
+//						tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var))));");
+//					}
+//					else {
+//						tl(tBase + 3, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
+//						tl(tBase + 3, "putSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", Long.parseLong(jsonObject.getString(", str_entite(langueNom), "Var)), \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+//					}
+//				}
+//				else {
+//					if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+//						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+//						tl(tBase + 4, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
+//						tl(tBase + 4, "putSqlParams.addAll(Arrays.asList(\"", entiteVar, "\", ", classeVarClePrimaire, ", \"", entiteAttribuerVar, "\", l));");
+//						tl(tBase + 3, "}");
+//					}
+//					else {
+//						tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(langueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+//						tl(tBase + 4, "putSql.append(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_addA);");
+//						tl(tBase + 4, "putSqlParams.addAll(Arrays.asList(\"", entiteAttribuerVar, "\", l, \"", entiteVar, "\", ", classeVarClePrimaire, "));");
+//						tl(tBase + 3, "}");
+//					}
+//				}
+//				tl(tBase + 3, "break;");
+//			}	
 	
 			if(entiteDefinir || entiteAttribuer) {
 		
