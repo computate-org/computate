@@ -1964,7 +1964,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
 						tl(3, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " ", str_a_démarré(classeLangueNom), ". \"));");
 					if(
-							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") && (
+							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") 
+								&& !(classeRoleSession || classeRoleUtilisateur)
+								&& (
 								classeRoles.size() > 0
 							)
 							|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") && (
@@ -3402,7 +3404,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "", str_listeRecherche(classeLangueNom), ".addFilterQuery(\"(", classeVarCleUnique, ":\" + ClientUtils.escapeQueryChars(id) + \" OR ", classeVarId, "_indexed_string:\" + ClientUtils.escapeQueryChars(id) + \")\");");
 			tl(3, "}");
 			if(classeRoleSession || classeRoleUtilisateur) {
-
 				l();
 				tl(3, "List<String> roles = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
 				tl(3, "if(");
