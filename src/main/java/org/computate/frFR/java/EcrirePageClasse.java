@@ -2379,7 +2379,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 														else if(str_PUTFusion(langueNom).equals(classeApiMethode))
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
 														else if(str_PUTCopie(langueNom).equals(classeApiMethode))
-															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \", $('#", classeApiOperationIdMethode, "Form')); \")");
+															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", StringUtils.uncapitalize(classeNomSimple), " == null ? \"null\" : ", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")");
 														else if(tab > 0)
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")");
 														else
