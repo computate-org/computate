@@ -1919,9 +1919,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //						}	
 		}
 		s(" {\n");
-		if(classeSauvegarde) {
-			tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimple, ".class);");
-		}
+//		if(classeSauvegarde) {
+		tl(1, "protected static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimple, ".class);");
+//		}
 		List<String> classeValsVar = (List<String>)doc.get("classeValsVar_stored_strings");
 		List<String> classeValsLangue = (List<String>)doc.get("classeValsLangue_stored_strings");
 		List<String> classeValsValeur = (List<String>)doc.get("classeValsValeur_stored_strings");
@@ -4406,7 +4406,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(1, "public void htm", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
 						tl(2, classeNomSimple, " s = (", classeNomSimple, ")this;");
 						t(2).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-cell-top w3-center w3-mobile ").dfl();
-						if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
+						if(entiteHtml && (entiteDefinir || entiteAttribuer)) {
 			
 							t(tIndex + 3).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-padding ").dfl();
 //							t(tIndex + 4).s("{ ", classePrefixe, "e(\"span\")").da("id", "form", classeNomSimple, entiteVarCapitalise).dfl();

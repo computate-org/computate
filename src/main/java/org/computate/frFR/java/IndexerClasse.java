@@ -1837,14 +1837,53 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "error";
 	}
 
-	/**
-	 * Var.enUS: str_user
-	 */
 	public String str_utilisateur(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "utilisateur";
 		else
 			return "user";
+	}
+
+	public String str_utilisateurId(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateurId";
+		else
+			return "userId";
+	}
+
+	public String str_utilisateurCle(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateurCle";
+		else
+			return "userKey";
+	}
+
+	public String str_sessionId(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "sessionId";
+		else
+			return "sessionId";
+	}
+
+	public String str_UtilisateurId(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurId";
+		else
+			return "UserId";
+	}
+
+	public String str_UtilisateurCle(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurCle";
+		else
+			return "UserKey";
+	}
+
+	public String str_SessionId(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "SessionId";
+		else
+			return "SessionId";
 	}
 
 	/**
@@ -6048,6 +6087,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberFormat.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.Logger", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.LoggerFactory", classeLangueNom), classeLangueNom);
 
 		Boolean classePublicLire = false;
 		Boolean classeRoleSession = false;
@@ -8072,7 +8113,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				if(classePartsUtilisateurSite == null)
 					System.err.println(String.format("%s %s %s %s %s. ", str_classe(classeLangueNom), str_UtilisateurSite(classeLangueNom), str_manquante(classeLangueNom), str_dans(classeLangueNom), cheminSrcMainJava));
 				else
-					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsUtilisateurSite.nomCanonique(classeLangueNom) + StringUtils.capitalize(classeLangueNom) + "GenApiServiceImpl", classeLangueNom), classeLangueNom);
+					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsUtilisateurSite.nomCanonique(classeLangueNom) + StringUtils.capitalize(classeLangueNom) + "ApiServiceImpl", classeLangueNom), classeLangueNom);
 
 				classePartsGenApiAjouter(classePartsListeRecherche, classeLangueNom);
 				classePartsGenApiAjouter(classePartsToutEcrivain, classeLangueNom);
