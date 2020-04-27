@@ -1851,6 +1851,20 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "userId";
 	}
 
+	public String str_UtilisateurCles(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurCles";
+		else
+			return "UserKeys";
+	}
+
+	public String str_utilisateurCles(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateurCles";
+		else
+			return "userKeys";
+	}
+
 	public String str_utilisateurCle(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "utilisateurCle";
