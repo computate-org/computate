@@ -881,6 +881,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										wWebsocketInput.tl(3, "if(vars.includes('", entiteVar, "')) {");
 										wWebsocketInput.tl(4, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').val(o['", entiteVar, "']);");
 										wWebsocketInput.tl(4, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').text(o['", entiteVar, "']);");
+										wWebsocketInput.tl(4, str_ajouterLueur(langueNom), "($('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
 										wWebsocketInput.tl(3, "}");
 									}
 								}

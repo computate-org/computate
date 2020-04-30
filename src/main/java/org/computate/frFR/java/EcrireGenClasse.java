@@ -3518,11 +3518,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
-				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
-				tl(2, "this.", entiteVar, " = o.toInstant().atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toLocalDate();");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
-				tl(2, "return (", classeNomSimple, ")this;");
-				tl(1, "}");
+				if(classeContientRequeteSite) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
+					tl(2, "this.", entiteVar, " = o.toInstant().atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toLocalDate();");
+					tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
+				}
 			}
 	
 			// Setter ZonedDateTime //
