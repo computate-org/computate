@@ -1357,12 +1357,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										}
 			
 										wPOST.l();
-										if(entiteAttribuer)
-											wPOST.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('input.", str_valeur(langueNom), entiteVarCapitalise, ":checked')", jsVal, ";");
-										else
+										if(entiteAttribuer) {
+											if(entiteListeTypeJson == null) {
+												wPOST.tl(2, "vals['", entiteVar, "'] = [", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, "];");
+												wPOST.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, " != null && ", str_valeur(langueNom), entiteVarCapitalise, " !== '')");
+												wPOST.tl(2, "vals['", entiteVar, "'] = ", str_valeur(langueNom), entiteVarCapitalise, ";");
+											}
+											else {
+												wPOST.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = [];");
+												wPOST.tl(1, "$", str_formulaireValeurs(langueNom), ".find('input.", str_valeur(langueNom), entiteVarCapitalise, ":checked').each(function(index) {");
+												wPOST.tl(2, str_valeur(langueNom), entiteVarCapitalise, ".push($(this)", jsVal, ");");
+												wPOST.tl(1, "});");
+												wPOST.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, ".length > 0)");
+												wPOST.tl(2, "vals['", entiteVar, "'] = ", str_valeur(langueNom), entiteVarCapitalise, ";");
+											}
+										}
+										else {
 											wPOST.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.", str_valeur(langueNom), entiteVarCapitalise, "')", jsVal, ";");
-										wPOST.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, " != null && ", str_valeur(langueNom), entiteVarCapitalise, " !== '')");
-										wPOST.tl(2, "vals['", entiteVar, "'] = ", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, ";");
+											wPOST.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, " != null && ", str_valeur(langueNom), entiteVarCapitalise, " !== '')");
+											wPOST.tl(2, "vals['", entiteVar, "'] = ", str_valeur(langueNom), entiteVarCapitalise, ";");
+										}
 			
 										wPUTCopie.l();
 										if(entiteAttribuer)
