@@ -2813,15 +2813,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "SQLConnection ", str_connexionSql(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_ConnexionSql(classeLangueNom), "();");
 						tl(5, str_connexionSql(classeLangueNom), ".commit(b -> {");
 						tl(6, "if(b.succeeded()) {");
-						tl(7, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " sql commit. \"));");
+//						tl(7, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " sql commit. \"));");
 						tl(7, str_connexionSql(classeLangueNom), ".close(c -> {");
 						tl(8, "if(c.succeeded()) {");
-						tl(9, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " sql close. \"));");
-						if(StringUtils.containsAny(classeApiMethode, "PUT", "PATCH")) {
-							tl(9, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_RequeteApi(classeLangueNom), "_();");
-							tl(9, "if(", str_requeteApi(classeLangueNom), " != null)");
-							tl(10, str_requeteSite(classeLangueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
-						}
+//						tl(9, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " sql close. \"));");
+//						if(StringUtils.containsAny(classeApiMethode, "PUT", "PATCH")) {
+//							tl(9, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_RequeteApi(classeLangueNom), "_();");
+//							tl(9, "if(", str_requeteApi(classeLangueNom), " != null)");
+//							tl(10, str_requeteSite(classeLangueNom), ".getVertx().eventBus().publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
+//						}
 						tl(9, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(a.result()));");
 						tl(8, "} else {");
 						tl(9, str_erreur(classeLangueNom), "", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", c);");
@@ -3610,7 +3610,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "try {");
 			tl(3, "o.", str_initLoin(classeLangueNom), "", str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 			tl(3, "o.", str_indexer(classeLangueNom), "", str_PourClasse(classeLangueNom), "();");
-			tl(3, "if(BooleanUtils.isFalse(Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteApi(classeLangueNom), "_()).map(", classePartsRequeteApi.nomSimple(classeLangueNom), "::getEmpty).orElse(null))) {");
+			tl(3, "if(BooleanUtils.isFalse(Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteApi(classeLangueNom), "_()).map(", classePartsRequeteApi.nomSimple(classeLangueNom), "::getEmpty).orElse(true))) {");
 			tl(4, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), "2 = ", str_generer(classeLangueNom), "", classePartsRequeteSite.nomSimple(classeLangueNom), "", str_Pour(classeLangueNom), "", classeNomSimple, "(", str_siteContexte(classeLangueNom), ", ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "(), new JsonObject());");
 			tl(4, str_requeteSite(classeLangueNom), "2.set", str_ConnexionSql(classeLangueNom), "(", str_requeteSite(classeLangueNom), ".get", str_ConnexionSql(classeLangueNom), "());");
 			tl(4, str_ListeRecherche(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", str_ListeRecherche(classeLangueNom), "<", classeNomSimple, ">();");

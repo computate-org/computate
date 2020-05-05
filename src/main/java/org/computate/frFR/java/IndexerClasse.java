@@ -38,7 +38,6 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -53,6 +52,8 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.apache.solr.common.util.SimpleOrderedMap;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.thoughtworks.qdox.model.JavaAnnotation;
@@ -6092,7 +6093,11 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonIgnore", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonFormat.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonSerialize.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonDeserialize.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonInclude", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonInclude.Include", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, ToStringSerializer.class.getCanonicalName(), classeLangueNom), classeLangueNom);

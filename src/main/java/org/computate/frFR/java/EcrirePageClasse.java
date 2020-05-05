@@ -879,8 +879,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									}
 									if(entiteDefinir || entiteAttribuer) {
 										wWebsocketInput.tl(3, "if(vars.includes('", entiteVar, "')) {");
-										wWebsocketInput.tl(4, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').val(o['", entiteVar, "']);");
-										wWebsocketInput.tl(4, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').text(o['", entiteVar, "']);");
+										wWebsocketInput.tl(4, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+										wWebsocketInput.tl(5, "if(o['", entiteVar, "'] !== $(this).val())");
+										wWebsocketInput.tl(6, "$(this).val(o['", entiteVar, "']);");
+										wWebsocketInput.tl(4, "});");
+										wWebsocketInput.tl(4, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+										wWebsocketInput.tl(5, "if(o['", entiteVar, "'] !== $(this).text())");
+										wWebsocketInput.tl(6, "$(this).text(o['", entiteVar, "']);");
+										wWebsocketInput.tl(4, "});");
 										wWebsocketInput.tl(4, str_ajouterLueur(langueNom), "($('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
 										wWebsocketInput.tl(3, "}");
 									}

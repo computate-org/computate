@@ -31,6 +31,8 @@ import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
@@ -3250,6 +3252,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			if(entiteIgnorer)
 				tl(1, "@JsonIgnore");
+			else if("LocalDate".equals(entiteNomSimple)) {
+				tl(1, "@JsonDeserialize(using = LocalDateDeserializer.class)");
+				tl(1, "@JsonSerialize(using = LocalDateSerializer.class)");
+				tl(1, "@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = \"MM/dd/yyyy\")");
+			}
 			else if(!"java.lang.String".equals(entiteNomCanonique) && "string".equals(entiteTypeJson))
 				tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
 			else if("Long".equals(entiteNomSimpleGenerique)

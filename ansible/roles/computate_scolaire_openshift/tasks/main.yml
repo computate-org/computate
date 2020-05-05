@@ -1,3 +1,4 @@
+---
 - name: Install computate-solr image stream on OpenShift
   k8s: 
     state: present
