@@ -38,7 +38,6 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -53,6 +52,8 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.apache.solr.common.util.SimpleOrderedMap;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.thoughtworks.qdox.model.JavaAnnotation;
@@ -1837,14 +1838,67 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "error";
 	}
 
-	/**
-	 * Var.enUS: str_user
-	 */
 	public String str_utilisateur(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "utilisateur";
 		else
 			return "user";
+	}
+
+	public String str_utilisateurId(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateurId";
+		else
+			return "userId";
+	}
+
+	public String str_UtilisateurCles(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurCles";
+		else
+			return "UserKeys";
+	}
+
+	public String str_utilisateurCles(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateurCles";
+		else
+			return "userKeys";
+	}
+
+	public String str_utilisateurCle(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateurCle";
+		else
+			return "userKey";
+	}
+
+	public String str_sessionId(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "sessionId";
+		else
+			return "sessionId";
+	}
+
+	public String str_UtilisateurId(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurId";
+		else
+			return "UserId";
+	}
+
+	public String str_UtilisateurCle(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurCle";
+		else
+			return "UserKey";
+	}
+
+	public String str_SessionId(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "SessionId";
+		else
+			return "SessionId";
 	}
 
 	/**
@@ -6039,7 +6093,11 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonIgnore", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonFormat.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonSerialize.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonDeserialize.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonInclude", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonInclude.Include", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, ToStringSerializer.class.getCanonicalName(), classeLangueNom), classeLangueNom);
@@ -6048,6 +6106,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberFormat.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.Logger", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.LoggerFactory", classeLangueNom), classeLangueNom);
 
 		Boolean classePublicLire = false;
 		Boolean classeRoleSession = false;
@@ -8072,7 +8132,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				if(classePartsUtilisateurSite == null)
 					System.err.println(String.format("%s %s %s %s %s. ", str_classe(classeLangueNom), str_UtilisateurSite(classeLangueNom), str_manquante(classeLangueNom), str_dans(classeLangueNom), cheminSrcMainJava));
 				else
-					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsUtilisateurSite.nomCanonique(classeLangueNom) + StringUtils.capitalize(classeLangueNom) + "GenApiServiceImpl", classeLangueNom), classeLangueNom);
+					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsUtilisateurSite.nomCanonique(classeLangueNom) + StringUtils.capitalize(classeLangueNom) + "ApiServiceImpl", classeLangueNom), classeLangueNom);
 
 				classePartsGenApiAjouter(classePartsListeRecherche, classeLangueNom);
 				classePartsGenApiAjouter(classePartsToutEcrivain, classeLangueNom);

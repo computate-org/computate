@@ -31,6 +31,8 @@ import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
  * enUS: For retrieving a Java class from Solr and writing the Java class to a file for each language. 
@@ -435,6 +437,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * Var.enUS: wApiGeneratePost
 	 */
+	protected ToutEcrivain wApiAvantPost;
+
 	protected ToutEcrivain wApiGenererPost;
 
 	protected ToutEcrivain wApiGenererPutImport;
@@ -443,9 +447,8 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected ToutEcrivain wApiGenererPutFusion;
 
-	/**
-	 * Var.enUS: wApiGeneratePatch
-	 */
+	protected ToutEcrivain wApiAvantPatch;
+
 	protected ToutEcrivain wApiGenererPatch;
 
 	/**
@@ -1107,10 +1110,12 @@ public class EcrireGenClasse extends EcrireClasse {
 		wPageEntites = ToutEcrivain.create();
 		wApiGet = ToutEcrivain.create();
 		wApiGenererGet = ToutEcrivain.create();
+		wApiAvantPost = ToutEcrivain.create();
 		wApiGenererPost = ToutEcrivain.create();
 		wApiGenererPutImport = ToutEcrivain.create();
 		wApiGenererPutCopie = ToutEcrivain.create();
 		wApiGenererPutFusion = ToutEcrivain.create();
+		wApiAvantPatch = ToutEcrivain.create();
 		wApiGenererPatch = ToutEcrivain.create();
 		wPageHtmlSingulier = ToutEcrivain.create();
 		wPageGet = ToutEcrivain.create();
@@ -1919,9 +1924,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //						}	
 		}
 		s(" {\n");
-		if(classeSauvegarde) {
-			tl(1, "private static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimple, ".class);");
-		}
+//		if(classeSauvegarde) {
+		tl(1, "protected static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimple, ".class);");
+//		}
 		List<String> classeValsVar = (List<String>)doc.get("classeValsVar_stored_strings");
 		List<String> classeValsLangue = (List<String>)doc.get("classeValsLangue_stored_strings");
 		List<String> classeValsValeur = (List<String>)doc.get("classeValsValeur_stored_strings");
@@ -3247,6 +3252,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			if(entiteIgnorer)
 				tl(1, "@JsonIgnore");
+			else if("LocalDate".equals(entiteNomSimple)) {
+				tl(1, "@JsonDeserialize(using = LocalDateDeserializer.class)");
+				tl(1, "@JsonSerialize(using = LocalDateSerializer.class)");
+				tl(1, "@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = \"MM/dd/yyyy\")");
+			}
 			else if(!"java.lang.String".equals(entiteNomCanonique) && "string".equals(entiteTypeJson))
 				tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
 			else if("Long".equals(entiteNomSimpleGenerique)
@@ -3515,11 +3525,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
-				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
-				tl(2, "this.", entiteVar, " = o.toInstant().atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toLocalDate();");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
-				tl(2, "return (", classeNomSimple, ")this;");
-				tl(1, "}");
+				if(classeContientRequeteSite) {
+					tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Date o) {");
+					tl(2, "this.", entiteVar, " = o.toInstant().atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toLocalDate();");
+					tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
+					tl(2, "return (", classeNomSimple, ")this;");
+					tl(1, "}");
+				}
 			}
 	
 			// Setter ZonedDateTime //
@@ -4281,12 +4293,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureDiv1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
 
 								t(tIndex + 4).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
-								t(tIndex + 5).s(classePrefixe, "a(\"style\", \"border: 1px solid black; display: \", StringUtils.isBlank(", entiteVar, ") ? \"block\" : \"none\", \"; \");").l();
+								t(tIndex + 5).s(classePrefixe, "a(\"style\", \"display: \", StringUtils.isBlank(", entiteVar, ") ? \"block\" : \"none\", \"; \");").l();
 								t(tIndex + 4).s(classePrefixe, "f().g(\"div\");").l();
 
 								t(tIndex + 4).s(classePrefixe, "e(\"img\").a(\"id\", \"signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
 								t(tIndex + 5).s(classePrefixe, "a(\"src\", StringUtils.isBlank(", entiteVar, ") ? \"data:image/png;base64,\" : ", entiteVar, ").a(\"alt\", \"\");").l();
-								t(tIndex + 5).s(classePrefixe, "a(\"style\", \"border: 1px solid black; padding: 10px; display: \", StringUtils.isBlank(", entiteVar, ") ? \"none\" : \"block\", \"; \");").l();
+								t(tIndex + 5).s(classePrefixe, "a(\"style\", \"padding: 10px; display: \", StringUtils.isBlank(", entiteVar, ") ? \"none\" : \"block\", \"; \");").l();
 								t(tIndex + 4).s(classePrefixe, "fg();").l();
 
 								t(tIndex + 3).s(classePrefixe, "g(\"div\");").l();
@@ -4406,7 +4418,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(1, "public void htm", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
 						tl(2, classeNomSimple, " s = (", classeNomSimple, ")this;");
 						t(2).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-cell-top w3-center w3-mobile ").dfl();
-						if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
+						if(entiteHtml && (entiteDefinir || entiteAttribuer)) {
 			
 							t(tIndex + 3).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-padding ").dfl();
 //							t(tIndex + 4).s("{ ", classePrefixe, "e(\"span\")").da("id", "form", classeNomSimple, entiteVarCapitalise).dfl();
@@ -4870,23 +4882,43 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				if(entiteListeTypeJson == null) {
 					wIndexerFacetFor.l();
 					wIndexerFacetFor.tl(4, "{");
-					wIndexerFacetFor.tl(5, entiteAttribuerNomSimple, " o2 = new ", entiteAttribuerNomSimple, "();");
-					wIndexerFacetFor.tl(5, entiteAttribuerNomSimple, StringUtils.capitalize(langueNom), "GenApiServiceImpl service = new ", entiteAttribuerNomSimple, StringUtils.capitalize(langueNom), "GenApiServiceImpl(", str_requeteSite(langueNom), "2.get", str_SiteContexte(langueNom), "_());");
 					wIndexerFacetFor.tl(5, "Long ", classeVarClePrimaire, " = o.get", entiteVarCapitalise, "();");
-					wIndexerFacetFor.l();
+					wIndexerFacetFor.tl(5, str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), "2 = new ", str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, ">();");
 					wIndexerFacetFor.tl(5, "if(", classeVarClePrimaire, " != null) {");
-					wIndexerFacetFor.tl(6, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
-					wIndexerFacetFor.tl(6, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
-					wIndexerFacetFor.tl(6, "futures.add(");
-					wIndexerFacetFor.tl(7, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
-					wIndexerFacetFor.tl(8, "if(a.succeeded()) {");
-					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
-					wIndexerFacetFor.tl(8, "} else {");
-					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "));");
-					wIndexerFacetFor.tl(9, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
-					wIndexerFacetFor.tl(8, "}");
-					wIndexerFacetFor.tl(7, "})");
-					wIndexerFacetFor.tl(6, ");");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.set", str_Stocker(langueNom), "(true);");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setQuery(\"*:*\");");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setC(", entiteAttribuerNomSimple, ".class);");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.addFilterQuery(\"", classeVarClePrimaire, "_indexed_long:\" + ", classeVarClePrimaire, ");");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setRows(1);");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.", str_initLoin(langueNom), str_ListeRecherche(langueNom), "(", str_requeteSite(langueNom), "2);");
+					wIndexerFacetFor.tl(5, "}");
+					wIndexerFacetFor.tl(5, entiteAttribuerNomSimple, " o2 = ", str_listeRecherche(langueNom), "2.getList().stream().findFirst().orElse(null);");
+					wIndexerFacetFor.l();
+					wIndexerFacetFor.tl(5, "if(o2 != null) {");
+					wIndexerFacetFor.tl(6, entiteAttribuerNomSimple, StringUtils.capitalize(langueNom), "GenApiServiceImpl service = new ", entiteAttribuerNomSimple, StringUtils.capitalize(langueNom), "GenApiServiceImpl(", str_requeteSite(langueNom), "2.get", str_SiteContexte(langueNom), "_());");
+					wIndexerFacetFor.l();
+					wIndexerFacetFor.tl(6, classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), " = new ", classePartsRequeteApi.nomSimple(langueNom), "();");
+					wIndexerFacetFor.tl(6, str_requeteApi(langueNom), ".setRows(1);");
+					wIndexerFacetFor.tl(6, str_requeteApi(langueNom), ".setNumFound(1L);");
+					wIndexerFacetFor.tl(6, str_requeteApi(langueNom), ".setNumPATCH(0L);");
+					wIndexerFacetFor.tl(6, str_requeteApi(langueNom), ".", str_initLoin(langueNom), classePartsRequeteApi.nomSimple(langueNom), "(", str_requeteSite(langueNom), "2);");
+					wIndexerFacetFor.tl(6, str_requeteSite(langueNom), "2.set", str_RequeteApi(langueNom), "_(", str_requeteApi(langueNom), ");");
+					wIndexerFacetFor.tl(6, str_requeteSite(langueNom), "2.getVertx().eventBus().publish(\"websocket", entiteAttribuerNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(langueNom), ").toString());");
+					wIndexerFacetFor.l();
+					wIndexerFacetFor.tl(6, "if(", classeVarClePrimaire, " != null) {");
+					wIndexerFacetFor.tl(7, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+					wIndexerFacetFor.tl(7, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
+					wIndexerFacetFor.tl(7, "futures.add(");
+					wIndexerFacetFor.tl(8, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
+					wIndexerFacetFor.tl(9, "if(a.succeeded()) {");
+					wIndexerFacetFor.tl(10, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
+					wIndexerFacetFor.tl(9, "} else {");
+					wIndexerFacetFor.tl(10, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "));");
+					wIndexerFacetFor.tl(10, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
+					wIndexerFacetFor.tl(9, "}");
+					wIndexerFacetFor.tl(8, "})");
+					wIndexerFacetFor.tl(7, ");");
+					wIndexerFacetFor.tl(6, "}");
 					wIndexerFacetFor.tl(5, "}");
 					wIndexerFacetFor.tl(4, "}");
 				}
@@ -4895,20 +4927,39 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					wIndexerFacetFor.tl(4, "{");
 					wIndexerFacetFor.tl(5, entiteAttribuerNomSimpleGenApiServiceImpl, " service = new ", entiteAttribuerNomSimpleGenApiServiceImpl, "(", str_requeteSite(langueNom), "2.get", str_SiteContexte(langueNom), "_());");
 					wIndexerFacetFor.tl(5, "for(Long ", classeVarClePrimaire, " : o.get", entiteVarCapitalise, "()) {");
-					wIndexerFacetFor.tl(6, entiteAttribuerNomSimple, " o2 = new ", entiteAttribuerNomSimple, "();");
+					wIndexerFacetFor.tl(5, str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), "2 = new ", str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, ">();");
+					wIndexerFacetFor.tl(5, "if(", classeVarClePrimaire, " != null) {");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.set", str_Stocker(langueNom), "(true);");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setQuery(\"*:*\");");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setC(", entiteAttribuerNomSimple, ".class);");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.addFilterQuery(\"", classeVarClePrimaire, "_indexed_long:\" + ", classeVarClePrimaire, ");");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setRows(1);");
+					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.", str_initLoin(langueNom), str_ListeRecherche(langueNom), "(", str_requeteSite(langueNom), "2);");
+					wIndexerFacetFor.tl(5, "}");
+					wIndexerFacetFor.tl(5, entiteAttribuerNomSimple, " o2 = ", str_listeRecherche(langueNom), "2.getList().stream().findFirst().orElse(null);");
 					wIndexerFacetFor.l();
-					wIndexerFacetFor.tl(6, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
-					wIndexerFacetFor.tl(6, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
-					wIndexerFacetFor.tl(6, "futures.add(");
-					wIndexerFacetFor.tl(7, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
-					wIndexerFacetFor.tl(8, "if(a.succeeded()) {");
-					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
-					wIndexerFacetFor.tl(8, "} else {");
-					wIndexerFacetFor.tl(9, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "));");
-					wIndexerFacetFor.tl(9, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
-					wIndexerFacetFor.tl(8, "}");
-					wIndexerFacetFor.tl(7, "})");
-					wIndexerFacetFor.tl(6, ");");
+					wIndexerFacetFor.tl(6, "if(o2 != null) {");
+					wIndexerFacetFor.tl(7, classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), " = new ", classePartsRequeteApi.nomSimple(langueNom), "();");
+					wIndexerFacetFor.tl(7, str_requeteApi(langueNom), ".setRows(1);");
+					wIndexerFacetFor.tl(7, str_requeteApi(langueNom), ".setNumFound(1l);");
+					wIndexerFacetFor.tl(7, str_requeteApi(langueNom), ".setNumPATCH(0L);");
+					wIndexerFacetFor.tl(7, str_requeteApi(langueNom), ".", str_initLoin(langueNom), classePartsRequeteApi.nomSimple(langueNom), "(", str_requeteSite(langueNom), "2);");
+					wIndexerFacetFor.tl(7, str_requeteSite(langueNom), "2.set", str_RequeteApi(langueNom), "_(", str_requeteApi(langueNom), ");");
+					wIndexerFacetFor.tl(7, str_requeteSite(langueNom), "2.getVertx().eventBus().publish(\"websocket", entiteAttribuerNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(langueNom), ").toString());");
+					wIndexerFacetFor.l();
+					wIndexerFacetFor.tl(7, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+					wIndexerFacetFor.tl(7, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
+					wIndexerFacetFor.tl(7, "futures.add(");
+					wIndexerFacetFor.tl(8, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
+					wIndexerFacetFor.tl(9, "if(a.succeeded()) {");
+					wIndexerFacetFor.tl(10, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "));");
+					wIndexerFacetFor.tl(9, "} else {");
+					wIndexerFacetFor.tl(10, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "));");
+					wIndexerFacetFor.tl(10, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
+					wIndexerFacetFor.tl(9, "}");
+					wIndexerFacetFor.tl(8, "})");
+					wIndexerFacetFor.tl(7, ");");
+					wIndexerFacetFor.tl(6, "}");
 					wIndexerFacetFor.tl(5, "}");
 					wIndexerFacetFor.tl(4, "}");
 				}
