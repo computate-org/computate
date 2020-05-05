@@ -1,0 +1,7 @@
+---
+- name: Install the computate-solr podman project on the target. 
+  gather_facts: no
+  hosts: "{{ target }}"
+  roles:
+    - computate_solr_podman
+

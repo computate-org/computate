@@ -1,4 +1,10 @@
 
+[computate_solr_podman]
+tower2
+
+[computate_bluejeans]
+tower2
+
 [computate_vm]
 tower2
 

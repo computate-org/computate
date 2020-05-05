@@ -1,0 +1,163 @@
+- name: Install {{COMPUTATE_SOLR_NAME}} dependencies. 
+  package:
+    name: [git]
+  become: yes
+- name: Create the {{COMPUTATE_SOLR_NAME}} source directory {{COMPUTATE_SOLR_SRC}}. 
+  file:
+    name: "{{COMPUTATE_SOLR_SRC}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Check for the computate-solr Dockerfile
+  stat: 
+    path: "{{COMPUTATE_SOLR_SRC}}/Dockerfile"
+  register: solr_dockerfile
+- name: Clone the computate-solr source code
+  git:
+    repo: "{{COMPUTATE_SOLR_REPO}}"
+    dest: "{{COMPUTATE_SOLR_SRC}}"
+    version: "{{COMPUTATE_SOLR_TAG}}"
+    key_file: "/home/{{USER_NAME}}/.ssh/id_rsa"
+    accept_hostkey: yes
+  when: solr_build.stat.exists == False
+
+
+
+- name: Create the computate source directory {{COMPUTATE_SRC}}
+  file:
+    name: "{{COMPUTATE_SRC}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Check for the computate pom.xml
+  stat: 
+    path: "{{COMPUTATE_SRC}}/pom.xml"
+  register: computate_pom
+- name: Clone the computate source code
+  git:
+    repo: "{{COMPUTATE_REPO}}"
+    dest: "{{COMPUTATE_SRC}}"
+  when: computate_pom.stat.exists == False
+- name: Bootstrap the solr source code
+  shell: (JAVA_HOME={{JAVA_HOME}} ant ivy-bootstrap)
+  args:
+    chdir: "{{COMPUTATE_SOLR_SRC}}/solr"
+    creates: "~/.ant/lib/ivy-2.4.0.jar"
+- name: Build the {{COMPUTATE_SOLR_NAME}} application. 
+  shell: (JAVA_HOME={{JAVA_HOME}} ant package)
+  args:
+    chdir: "{{COMPUTATE_SOLR_SRC}}/solr"
+    creates: "{{COMPUTATE_SOLR_SRC}}/{{COMPUTATE_SOLR_NAME}}/build/{{COMPUTATE_SOLR_NAME}}-{{COMPUTATE_SOLR_VERSION}}-SNAPSHOT"
+- name: Create the {{COMPUTATE_SOLR_NAME}} install directory {{COMPUTATE_SOLR_OPT}}. 
+  file:
+    name: "{{COMPUTATE_SOLR_OPT}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Install {{COMPUTATE_SOLR_NAME}} into the {{COMPUTATE_SOLR_OPT}} install directory. 
+  shell: mv {{COMPUTATE_SOLR_SRC}}/{{COMPUTATE_SOLR_NAME}}/build/{{COMPUTATE_SOLR_NAME}}-{{COMPUTATE_SOLR_VERSION}}-SNAPSHOT/* {{COMPUTATE_SOLR_OPT}}
+  args:
+    creates: "{{COMPUTATE_SOLR_OPT}}/bin"
+- name: Create the {{COMPUTATE_SOLR_NAME}} data directory {{COMPUTATE_SOLR_DATA}}. 
+  file:
+    name: "{{COMPUTATE_SOLR_DATA}}"
+    state: directory
+- name: Copy the solr.xml to the {{COMPUTATE_SOLR_NAME}} directory {{COMPUTATE_SOLR_DATA}}. 
+  copy:
+    src: "{{COMPUTATE_SOLR_OPT}}/server/solr/solr.xml"
+    dest: "{{COMPUTATE_SOLR_OPT}}/solr.xml"
+    remote_src: yes
+- name: Delete the example directory {{COMPUTATE_SOLR_OPT}}/example. 
+  file:
+    name: "{{COMPUTATE_SOLR_OPT}}/example"
+    state: absent
+- name: Link the computate configset into {{COMPUTATE_SOLR_NAME}}. 
+  file:
+    src: "{{COMPUTATE_SRC}}/config/solr/server/solr/configsets/computate"
+    dest: "{{COMPUTATE_SOLR_OPT}}/server/solr/configsets/computate"
+    state: link
+- name: Find the {{COMPUTATE_SOLR_NAME}} binaries in {{COMPUTATE_SOLR_OPT}}/bin. 
+  find:
+    paths: "{{COMPUTATE_SOLR_OPT}}/bin"
+    recurse: no
+  register: BIN_FILES
+- name: Make the {{COMPUTATE_SOLR_NAME}} binaries executable in {{COMPUTATE_SOLR_OPT}}/bin. 
+  file:
+    dest: "{{item.path}}"
+    mode: a+x
+  with_items:
+    - "{{BIN_FILES.files}}"
+- name: Find the {{COMPUTATE_SOLR_NAME}} cloud scripts in {{COMPUTATE_SOLR_OPT}}/server/scripts/cloud-scripts. 
+  find:
+    paths: "{{COMPUTATE_SOLR_OPT}}/server/scripts/cloud-scripts"
+    recurse: no
+  register: CLOUD_SCRIPTS
+- name: Make the {{COMPUTATE_SOLR_NAME}} cloud scripts executable in {{COMPUTATE_SOLR_OPT}}/server/scripts/cloud-scripts. 
+  file:
+    dest: "{{item.path}}"
+    mode: a+x
+  with_items:
+    - "{{CLOUD_SCRIPTS.files}}"
+- name: Set sysctl File Limits
+  template:
+    src: 50-fs.conf.j2
+    dest: /etc/sysctl.d/50-fs.conf
+  become: yes
+- name: Set sysctl Soft File Limits
+  pam_limits:
+    domain: "{{USER_NAME}}"
+    limit_type: soft
+    limit_item: nofile
+    value: 65000
+  become: yes
+- name: Set sysctl Hard File Limits
+  pam_limits:
+    domain: "{{USER_NAME}}"
+    limit_type: soft
+    limit_item: nofile
+    value: 65000
+  become: yes
+- name: Set sysctl Soft Process Limits
+  pam_limits:
+    domain: "{{USER_NAME}}"
+    limit_type: soft
+    limit_item: nproc
+    value: 65000
+  become: yes
+- name: Set sysctl Hard Process Limits
+  pam_limits:
+    domain: "{{USER_NAME}}"
+    limit_type: soft
+    limit_item: nproc
+    value: 65000
+  become: yes
+- name: Create the {{COMPUTATE_SOLR_NAME}} systemd service {{COMPUTATE_SOLR_SYSTEMD}}. 
+  template:
+    src: solr_service.j2
+    dest: "{{COMPUTATE_SOLR_SYSTEMD}}"
+  become: yes
+- name: Reload the services. 
+  systemd:
+    daemon_reload: yes
+  become: yes
+- name: Start and enable the {{COMPUTATE_SOLR_NAME}} service. 
+  service:
+    name: "{{COMPUTATE_SOLR_SERVICE}}"
+    enabled: yes
+    state: restarted
+  become: yes
+- name: Upload computate configset to zookeeper
+  shell: "{{COMPUTATE_SOLR_OPT}}/bin/solr zk upconfig -n computate -d {{COMPUTATE_SOLR_OPT}}/server/solr/configsets/computate -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}"
+
+- name: Setup the solr security configuration
+  template:
+    src: computate_solr_security.json.j2
+    dest: "{{COMPUTATE_SOLR_OPT}}/server/solr/security.json"
+- name: Upload security configuration to zookeeper
+  shell: "{{COMPUTATE_SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd putfile /security.json {{COMPUTATE_SOLR_OPT}}/server/solr/security.json"
+
+- name: Create computate collection in solr
+  shell: "(COMPUTATE_SOLR_AUTH_TYPE=basic COMPUTATE_SOLR_AUTHENTICATION_OPTS='-Dbasicauth={{COMPUTATE_COMPUTATE_SOLR_COMPUTATE_SOLRJ_USER}}:{{COMPUTATE_COMPUTATE_SOLR_COMPUTATE_SOLRJ_PASSWORD}}' {{COMPUTATE_SOLR_OPT}}/bin/solr create_collection -c computate -n computate)"

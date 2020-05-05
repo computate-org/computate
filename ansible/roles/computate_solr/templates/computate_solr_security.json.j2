@@ -3,7 +3,7 @@
     "blockUnknown": true,
     "class": "solr.BasicAuthPlugin",
     "credentials": {
-      "{{COMPUTATE_SOLR_SOLRJ_USER}}": "{{ '{{COMPUTATE_SOLR_SOLRJ_PASSWORD}}' | password_hash('sha256', '{{COMPUTATE_SOLR_SALT}}') }}"
+      "{{COMPUTATE_SOLR_SOLRJ_USER}}": "{{ COMPUTATE_SOLR_HASH }}"
     },
     "realm": "Solr users",
     "forwardCredentials": false
