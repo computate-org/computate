@@ -8159,9 +8159,10 @@ public class IndexerClasse extends RegarderClasseBase {
 						else
 							classeApiMethodeMethode = "GET";
 		
-						indexerStockerSolr(langueNom, classeDoc, "classeApiMethode" + classeApiMethode, regex("^" + str_ApiMethode(classeLangueNom) + "" + classeApiMethode + "." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiMethodeMethode));
+						indexerStockerSolr(langueNom, classeDoc, "classeApiMethode" + classeApiMethode, regex("^" + str_ApiMethode(classeLangueNom) + classeApiMethode + "." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiMethodeMethode));
 		
 						String classeApiUriMethode = regexLangue(langueNom, "(classe)?ApiUri" + classeApiMethode + "." + langueNom, classeCommentaire);
+						Boolean classeRoleUtilisateurMethode = indexerStockerSolr(langueNom, classeDoc, "classeRoleUtilisateur" + classeApiMethode, regexTrouve("^" + str_RoleUtilisateur(classeLangueNom) + classeApiMethode + "\\." + langueNom + ":\\s*(true)$", classeCommentaire));
 		
 						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode, "ApiOperationId" + classeApiMethode + "." + langueNom, classeCommentaire, StringUtils.lowerCase(classeApiMethode) + classeNomSimpleLangue);
 						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Requete", "ApiOperationId" + classeApiMethode + "Requete" + "." + langueNom, classeCommentaire, classeApiMethode + classeNomSimpleLangue + str_Requete(langueNom));

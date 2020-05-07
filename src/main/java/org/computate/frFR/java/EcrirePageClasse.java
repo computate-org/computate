@@ -1,11 +1,9 @@
 package org.computate.frFR.java;
 
 import java.io.File;
-import java.math.BigDecimal;
-import java.math.MathContext;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -47,6 +45,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * Var.enUS: classAttributeSimpleNamePages
 	 */
 	protected List<String> classeAttribuerNomSimplePages;
+
+	protected List<String> classePageCheminsGen = new ArrayList<>();
 
 	/**
 	 * Var.enUS: pageCodeClassStart
@@ -667,7 +667,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				String classePageNomCanonique = (String)classeDoc.get("classePageNomCanonique" + classePageMethode  + "_" + langueNom + "_stored_string");
 				classeAttribuerNomSimplePages = (List<String>)classeDoc.get("classeAttribuerNomSimplePages_" + langueNom + "_stored_strings");
 		
-				if(classePageCheminGen != null && StringUtils.equals(classePageLangueNom, langueNom)) {
+				if(!classePageCheminsGen.contains(classePageCheminGen) && classePageCheminGen != null && StringUtils.equals(classePageLangueNom, langueNom)) {
+					classePageCheminsGen.add(classePageCheminGen);
 	
 					contexteImageLargeur = (Integer)classeDoc.get("contexteImageLargeur" + "_" + langueNom + "_stored_int");
 					contexteImageHauteur = (Integer)classeDoc.get("contexteImageHauteur" + "_" + langueNom + "_stored_int");
