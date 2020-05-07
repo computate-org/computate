@@ -1,11 +1,23 @@
 
+[computate_solr_podman]
+tower2
+
+[computate_bluejeans]
+tower2
+
 [computate_vm]
 tower2
 
-[computate_zookeeper_src]
+[computate_ant]
 tower2
 
-[computate_zookeeper_src]
+[computate_scolaire]
+tower2
+
+[computate_zookeeper]
+tower2
+
+[computate_solr]
 tower2
 
 [solr_operator_src]

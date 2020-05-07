@@ -3,19 +3,21 @@
     "blockUnknown": true,
     "class": "solr.BasicAuthPlugin",
     "credentials": {
-      "computate": ""
+      "{{COMPUTATE_SOLR_SOLRJ_USER}}": "{{ COMPUTATE_SOLR_HASH }}"
     },
-    "realm": "Solr Users",
+    "realm": "Solr users",
     "forwardCredentials": false
   },
   "authorization": {
     "class": "solr.RuleBasedAuthorizationPlugin",
-    "permissions": [{
-      "name": "security-edit",
-      "role": "SiteAdmin"
-    }],
+    "permissions": [
+      {
+        "name": "security-edit",
+        "role": "admin"
+      }
+    ],
     "user-role": {
-      "computate": "SiteAdmin"
+      "{{COMPUTATE_SOLR_SOLRJ_USER}}": "admin"
     }
   }
 }

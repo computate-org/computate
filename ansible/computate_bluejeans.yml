@@ -1,0 +1,7 @@
+---
+- name: Install BlueJeans meeting application. 
+  gather_facts: no
+  hosts: "{{ target }}"
+  roles:
+    - computate_bluejeans
+

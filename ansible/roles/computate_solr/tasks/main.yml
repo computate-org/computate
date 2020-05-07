@@ -9,24 +9,34 @@
     owner: "{{USER_NAME}}"
     group: "{{USER_NAME}}"
   become: yes
-- name: Clone the {{SOLR_NAME}} source code. 
+- name: Check for the solr build.xml
+  stat: 
+    path: "{{SOLR_SRC}}/build.xml"
+  register: solr_build
+- name: Clone the solr source code
   git:
     repo: "{{SOLR_REPO}}"
     dest: "{{SOLR_SRC}}"
     version: "{{SOLR_TAG}}"
     depth: 1
-- name: Create the computate source directory {{COMPUTATE_SRC}}. 
+  when: solr_build.stat.exists == False
+- name: Create the computate source directory {{COMPUTATE_SRC}}
   file:
     name: "{{COMPUTATE_SRC}}"
     state: directory
     owner: "{{USER_NAME}}"
     group: "{{USER_NAME}}"
   become: yes
-- name: Clone the computate source code. 
+- name: Check for the computate pom.xml
+  stat: 
+    path: "{{COMPUTATE_SRC}}/pom.xml"
+  register: computate_pom
+- name: Clone the computate source code
   git:
     repo: "{{COMPUTATE_REPO}}"
     dest: "{{COMPUTATE_SRC}}"
-- name: Bootstrap the {{SOLR_NAME}} source code. 
+  when: computate_pom.stat.exists == False
+- name: Bootstrap the solr source code
   shell: (JAVA_HOME={{JAVA_HOME}} ant ivy-bootstrap)
   args:
     chdir: "{{SOLR_SRC}}/solr"
@@ -138,12 +148,12 @@
 - name: Upload computate configset to zookeeper
   shell: "{{SOLR_OPT}}/bin/solr zk upconfig -n computate -d {{SOLR_OPT}}/server/solr/configsets/computate -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}"
 
-- name: Setup the {{SOLR_NAME}} security configuration
+- name: Setup the solr security configuration
   template:
-    src: security.json.j2
+    src: computate_solr_security.json.j2
     dest: "{{SOLR_OPT}}/server/solr/security.json"
 - name: Upload security configuration to zookeeper
   shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd putfile /security.json {{SOLR_OPT}}/server/solr/security.json"
 
 - name: Create computate collection in solr
-  shell: "{{SOLR_OPT}}/bin/solr create_collection -c computate -n computate"
+  shell: "(SOLR_AUTH_TYPE=basic SOLR_AUTHENTICATION_OPTS='-Dbasicauth={{COMPUTATE_SOLR_SOLRJ_USER}}:{{COMPUTATE_SOLR_SOLRJ_PASSWORD}}' {{SOLR_OPT}}/bin/solr create_collection -c computate -n computate)"

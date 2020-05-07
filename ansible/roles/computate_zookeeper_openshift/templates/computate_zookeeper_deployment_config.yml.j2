@@ -32,9 +32,7 @@ spec:
       name: computate-zookeeper
     spec:
       containers:
-        - image: >-
-            docker.io/computate/computate-zookeeper@sha256:ba1f6f8d092f6ec8eb5cbeb02628acf8fdeab12511ff8b7abb53efa93915fa12
-          imagePullPolicy: Always
+        - imagePullPolicy: Always
           name: computate-zookeeper
           ports:
             - containerPort: 8080

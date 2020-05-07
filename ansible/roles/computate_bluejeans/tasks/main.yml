@@ -1,0 +1,7 @@
+---
+- name: Install BlueJeans package
+  package: 
+    name: "https://swdl.bluejeans.com/desktop-app/linux/{{BLUEJEANS_VERSION}}/BlueJeans.rpm"
+    state: present
+  become: true
+

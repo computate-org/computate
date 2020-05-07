@@ -1,7 +1,7 @@
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 spec:
-  replicas: 2
+  replicas: 1
   revisionHistoryLimit: 10
   selector:
     app: computate-scolaire
@@ -163,6 +163,8 @@ spec:
                 secretKeyRef:
                   key: sslKeystorePath
                   name: computate-scolaire-secret
+            - name: openshiftService
+              value: "computate-scolaire"
             - name: clusterPort
               value: "8081"
             - name: zookeeperHostName
@@ -183,6 +185,8 @@ spec:
               value: "{{COMPUTATE_SCOLAIRE_SITE_BASE_URL}}"
             - name: numberExecutors
               value: "{{COMPUTATE_SCOLAIRE_NUMBER_EXECUTORS}}"
+            - name: staticBaseUrl
+              value: "{{COMPUTATE_SCOLAIRE_STATIC_BASE_URL}}"
             - name: siteZone
               value: "{{COMPUTATE_SCOLAIRE_SITE_ZONE}}"
             - name: JAVA_MAIN_CLASS

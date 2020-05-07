@@ -1,0 +1,41 @@
+#- name: Install {{COMPUTATE_SCOLAIRE_NAME}} dependencies
+#  package:
+#    name: [git,java-1.8.0-openjdk-devel]
+#  become: yes
+- name: Create the {{COMPUTATE_SCOLAIRE_NAME}} source directory {{COMPUTATE_SCOLAIRE_SRC}}
+  file:
+    name: "{{COMPUTATE_SCOLAIRE_SRC}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Clone the {{COMPUTATE_SCOLAIRE_NAME}} source code
+  git:
+    repo: "{{COMPUTATE_SCOLAIRE_REPO}}"
+    dest: "{{COMPUTATE_SCOLAIRE_SRC}}"
+- name: Create the {{COMPUTATE_SCOLAIRE_NAME}} systemd service {{COMPUTATE_SCOLAIRE_SYSTEMD}}. 
+  template:
+    src: computate_scolaire_service.j2
+    dest: "{{COMPUTATE_SCOLAIRE_SYSTEMD}}"
+  become: yes
+- name: Create the {{COMPUTATE_SCOLAIRE_NAME}} default frFR config. 
+  template:
+    src: computate_scolaire_frFR_config.config.j2
+    dest: "{{COMPUTATE_SCOLAIRE_SRC}}/config/computate-scolaire-frFR.config"
+  become: yes
+- name: Create the {{COMPUTATE_SCOLAIRE_NAME}} enUS config. 
+  template:
+    src: computate_scolaire_config_enUS.config.j2
+    dest: "{{COMPUTATE_SCOLAIRE_SRC}}/config/computate-scolaire-enUS.config"
+  become: yes
+- name: Reload the services. 
+  systemd:
+    daemon_reload: yes
+  become: yes
+- name: Start and enable the {{COMPUTATE_SCOLAIRE_NAME}} service. 
+  service:
+    name: "{{COMPUTATE_SCOLAIRE_SERVICE}}"
+    enabled: yes
+    state: restarted
+  become: yes
+

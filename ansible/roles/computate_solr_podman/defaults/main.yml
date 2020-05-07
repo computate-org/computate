@@ -1,0 +1,5 @@
+COMPUTATE_SOLR_SRC: "/usr/local/src/{{SOLR_NAME}}"
+COMPUTATE_SOLR_REPO: "git@github.com:computate/computate-solr.git"
+COMPUTATE_SOLR_TAG: "master"
+target: computate_solr
+
