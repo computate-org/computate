@@ -1,0 +1,7 @@
+---
+- name: Backup the computate-scolaire API. 
+  hosts: localhost
+  connection: local
+  roles: 
+    - computate_scolaire_backup
+
