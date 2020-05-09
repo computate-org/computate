@@ -220,7 +220,7 @@ public class RegarderRepertoire {
 		regarderRepertoire.cheminSrcGenJava = appliChemin + "/src/gen/java";
 		regarderRepertoire.cheminsBin.add(appliChemin + "/src/main/resources");
 
-		regarderRepertoire.configChemin = appliChemin + "/config/" + appliNom + "-" + lang + ".config";
+		regarderRepertoire.configChemin = appliChemin + "/config/" + appliNom + ".config";
 		regarderRepertoire.fichierConfig = new File(regarderRepertoire.configChemin);
 		Configurations configurations = new Configurations();
 		regarderRepertoire.configuration = configurations.ini(regarderRepertoire.fichierConfig);
