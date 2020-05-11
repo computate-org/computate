@@ -1,72 +1,72 @@
 ---
-- name: Backup the computate-scolaire school data. 
-  hosts: localhost
-  connection: local
-  roles: 
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: school, DATA_URI: /api/school }
-- name: Backup the computate-scolaire year data. 
-  hosts: localhost
-  connection: local
-  roles: 
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: year, DATA_URI: /api/year }
-- name: Backup the computate-scolaire season data. 
-  hosts: localhost
-  connection: local
-  roles: 
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: season, DATA_URI: /api/season }
-- name: Backup the computate-scolaire session data.
-  hosts: localhost
-  connection: local
-  roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: session, DATA_URI: /api/session }
-- name: Backup the computate-scolaire age data.
-  hosts: localhost
-  connection: local
-  roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: age, DATA_URI: /api/age }
-- name: Backup the computate-scolaire block data.
-  hosts: localhost
-  connection: local
-  roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: block, DATA_URI: /api/block }
-- name: Backup the computate-scolaire child data.
-  hosts: localhost
-  connection: local
-  roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: child, DATA_URI: /api/admin/child }
-- name: Backup the computate-scolaire mom data.
-  hosts: localhost
-  connection: local
-  roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: mom, DATA_URI: /api/admin/mom }
-- name: Backup the computate-scolaire dad data.
-  hosts: localhost
-  connection: local
-  roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: dad, DATA_URI: /api/admin/dad }
-- name: Backup the computate-scolaire guardian data.
-  hosts: localhost
-  connection: local
-  roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: guardian, DATA_URI: /api/admin/guardian }
-- name: Backup the computate-scolaire enrollment data.
-  hosts: localhost
-  connection: local
-  roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: enrollment, DATA_URI: /api/admin/enrollment }
-- name: Backup the computate-scolaire payment data.
-  hosts: localhost
-  connection: local
-  roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: payment, DATA_URI: /api/payment }
 - name: Backup the computate-scolaire page-design data.
   hosts: localhost
   connection: local
   roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: page-design, DATA_URI: /api/admin/page-design }
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: page-design, DATA_URI: /api/admin/page-design, DATA_ROWS: 100 }
 - name: Backup the computate-scolaire html-part data.
   hosts: localhost
   connection: local
   roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part }
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire school data. 
+  hosts: localhost
+  connection: local
+  roles: 
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: school, DATA_URI: /api/school, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire year data. 
+  hosts: localhost
+  connection: local
+  roles: 
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: year, DATA_URI: /api/year, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire season data. 
+  hosts: localhost
+  connection: local
+  roles: 
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: season, DATA_URI: /api/season, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire session data.
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: session, DATA_URI: /api/session, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire age data.
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: age, DATA_URI: /api/age, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire block data.
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: block, DATA_URI: /api/block, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire child data.
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: child, DATA_URI: /api/admin/child, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire mom data.
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: mom, DATA_URI: /api/admin/mom, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire dad data.
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: dad, DATA_URI: /api/admin/dad, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire guardian data.
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: guardian, DATA_URI: /api/admin/guardian, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire enrollment data.
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: enrollment, DATA_URI: /api/admin/enrollment, DATA_ROWS: 25 }
+- name: Backup the computate-scolaire payment data.
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: payment, DATA_URI: /api/payment, DATA_ROWS: 100 }
 
