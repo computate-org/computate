@@ -7069,12 +7069,14 @@ public class IndexerClasse extends RegarderClasseBase {
 									{
 										List<String> listeVal = Optional.ofNullable((List<String>)docClasse.get("classeTrisVar_" + classeLangueNom + "_stored_strings")).orElse(Collections.emptyList());
 										List<String> listeSuffixeType = Optional.ofNullable((List<String>)docClasse.get("classeTrisSuffixeType_stored_strings")).orElse(Collections.emptyList());
-										for(int i = 0; i < listeVal.size(); i++) {
-											String var = listeVal.get(i);
-											String suffixeType = listeSuffixeType.get(i);
-											indexerStockerListeSolr(classeLangueNom, entiteDoc, "entiteAttribuerTrisVar", var);
-											indexerStockerListeSolr(entiteDoc, "entiteAttribuerTrisSuffixeType", suffixeType);
-											
+										if(listeVal.size() == listeSuffixeType.size()) {
+											for(int i = 0; i < listeVal.size(); i++) {
+												String var = listeVal.get(i);
+												String suffixeType = listeSuffixeType.get(i);
+												indexerStockerListeSolr(classeLangueNom, entiteDoc, "entiteAttribuerTrisVar", var);
+												indexerStockerListeSolr(entiteDoc, "entiteAttribuerTrisSuffixeType", suffixeType);
+												
+											}
 										}
 									}
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + classeLangueNom + "_stored_strings"));
@@ -7136,10 +7138,11 @@ public class IndexerClasse extends RegarderClasseBase {
 											{
 												List<String> listeVal = Optional.ofNullable((List<String>)docClasse.get("classeTrisVar_" + langueNom + "_stored_strings")).orElse(Collections.emptyList());
 												List<String> listeSuffixeType = Optional.ofNullable((List<String>)docClasse.get("classeTrisSuffixeType_stored_strings")).orElse(Collections.emptyList());
-												for(int i = 0; i < listeVal.size(); i++) {
-													String var = listeVal.get(i);
-													String suffixeType = listeSuffixeType.get(i);
-													indexerStockerListeSolr(langueNom, entiteDoc, "entiteAttribuerTrisVar", var);
+												if(listeVal.size() == listeSuffixeType.size()) {
+													for(int i = 0; i < listeVal.size(); i++) {
+														String var = listeVal.get(i);
+														indexerStockerListeSolr(langueNom, entiteDoc, "entiteAttribuerTrisVar", var);
+													}
 												}
 											}
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarSuggere", (String)docClasse.get("classeVarSuggere_" + langueNom + "_stored_string"));
