@@ -8,7 +8,7 @@
   hosts: localhost
   connection: local
   roles:
-    - { role: computate_scolaire_backup, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part, DATA_ROWS: 100 }
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part, DATA_ROWS: 50 }
 - name: Backup the computate-scolaire school data. 
   hosts: localhost
   connection: local
