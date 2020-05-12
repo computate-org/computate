@@ -4411,6 +4411,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							}
 							t(tIndex + 2).s("}").l();
 						}
+						else if(!entiteModifier) {
+							t(tIndex + 2).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
+						}
 						tl(1, "}");  
 
 						/////////
@@ -4550,7 +4553,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-padding ").dfl();
 								t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
 								t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
-								t(tIndex + 9).l("} ", classePrefixe, "g(\"div\");");
+								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
 							}
 							else if("LocalTime".equals(entiteNomSimple)) {
 								if(entiteNomAffichage != null) {
@@ -4996,12 +4999,14 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 					tl(3, "case \"", entiteVar, "\":");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
-						tl(4, "add", entiteVarCapitalise, "(val);");
+						tl(4, "if(val != null)");
+						tl(5, "add", entiteVarCapitalise, "(val);");
 						tl(4, "if(!", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(var))");
 						tl(5, "", str_sauvegardes(langueNom), "", classeNomSimple, ".add(var);");
 					}
 					else {
-						tl(4, "set", entiteVarCapitalise, "(val);");
+						tl(4, "if(val != null)");
+						tl(5, "set", entiteVarCapitalise, "(val);");
 						tl(4, str_sauvegardes(langueNom), classeNomSimple, ".add(var);");
 					}
 					tl(4, "return val;");

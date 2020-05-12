@@ -2676,8 +2676,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						}
 						tl(3, "}");
 						l();
-						tl(3, "patchSql.append(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_modifier(classeLangueNom), ");");
-						tl(3, "patchSqlParams.addAll(Arrays.asList(pk, ", q(classeNomCanonique), "));");
 						tl(3, "for(String ", str_methodeNom(classeLangueNom), " : ", str_methodeNoms(classeLangueNom), ") {");
 						tl(4, "switch(", str_methodeNom(classeLangueNom), ") {");
 						s(wApiGenererPatch.toString());
@@ -3590,7 +3588,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
 			tl(3, "", str_connexionSql(classeLangueNom), ".queryWithParams(");
 			tl(5, "", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_definir(classeLangueNom), "");
-			tl(5, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, ", ", classeVarClePrimaire, ", ", classeVarClePrimaire, "))");
+			tl(5, ", new JsonArray(Arrays.asList(", classeVarClePrimaire, ", ", classeVarClePrimaire, "))");
 			tl(5, ", ", str_definir(classeLangueNom), "Async");
 			tl(3, "-> {");
 			tl(4, "if(", str_definir(classeLangueNom), "Async.succeeded()) {");
