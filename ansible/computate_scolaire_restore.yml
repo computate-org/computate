@@ -9,64 +9,69 @@
   connection: local
   roles:
     - { role: computate_scolaire_restore, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part }
-#- name: Restore the computate-scolaire school data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles: 
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: school, DATA_URI: /api/school }
-#- name: Restore the computate-scolaire year data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles: 
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: year, DATA_URI: /api/year }
-#- name: Restore the computate-scolaire season data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles: 
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: season, DATA_URI: /api/season }
-#- name: Restore the computate-scolaire session data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles:
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: session, DATA_URI: /api/session }
-#- name: Restore the computate-scolaire age data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles:
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: age, DATA_URI: /api/age }
-#- name: Restore the computate-scolaire block data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles:
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: block, DATA_URI: /api/block }
-#- name: Restore the computate-scolaire child data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles:
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: child, DATA_URI: /api/child }
-#- name: Restore the computate-scolaire mom data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles:
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: mom, DATA_URI: /api/mom }
-#- name: Restore the computate-scolaire dad data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles:
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: dad, DATA_URI: /api/dad }
-#- name: Restore the computate-scolaire guardian data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles:
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: guardian, DATA_URI: /api/guardian }
-#- name: Restore the computate-scolaire enrollment data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles:
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: enrollment, DATA_URI: /api/enrollment }
-#- name: Restore the computate-scolaire payment data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
-#  hosts: localhost
-#  connection: local
-#  roles:
-#    - { role: computate_scolaire_restore, DATA_NAME_VAR: payment, DATA_URI: /api/payment }
+- name: Restore the computate-scolaire page-design data again to resolve parent links in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: page-design, DATA_URI: /api/page-design }
+- name: Restore the computate-scolaire school data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles: 
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: school, DATA_URI: /api/school }
+- name: Restore the computate-scolaire year data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles: 
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: year, DATA_URI: /api/year }
+- name: Restore the computate-scolaire season data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles: 
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: season, DATA_URI: /api/season }
+- name: Restore the computate-scolaire session data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: session, DATA_URI: /api/session }
+- name: Restore the computate-scolaire age data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: age, DATA_URI: /api/age }
+- name: Restore the computate-scolaire block data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: block, DATA_URI: /api/block }
+- name: Restore the computate-scolaire child data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: child, DATA_URI: /api/child }
+- name: Restore the computate-scolaire mom data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: mom, DATA_URI: /api/mom }
+- name: Restore the computate-scolaire dad data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: dad, DATA_URI: /api/dad }
+- name: Restore the computate-scolaire guardian data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: guardian, DATA_URI: /api/guardian }
+- name: Restore the computate-scolaire enrollment data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: enrollment, DATA_URI: /api/enrollment }
+- name: Restore the computate-scolaire payment data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR}}
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: payment, DATA_URI: /api/payment }
 

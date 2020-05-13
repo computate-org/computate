@@ -130,20 +130,30 @@ spec:
                 secretKeyRef:
                   key: emailUsername
                   name: computate-scolaire-secret
-            - name: jdbcPassword
+            - name: jdbcHost
               valueFrom:
                 secretKeyRef:
-                  key: jdbcPassword
+                  key: jdbcHost
                   name: computate-scolaire-secret
-            - name: jdbcUrl
+            - name: jdbcPort
               valueFrom:
                 secretKeyRef:
-                  key: jdbcUrl
+                  key: jdbcPort
+                  name: computate-scolaire-secret
+            - name: jdbcDatabase
+              valueFrom:
+                secretKeyRef:
+                  key: jdbcDatabase
                   name: computate-scolaire-secret
             - name: jdbcUsername
               valueFrom:
                 secretKeyRef:
                   key: jdbcUsername
+                  name: computate-scolaire-secret
+            - name: jdbcPassword
+              valueFrom:
+                secretKeyRef:
+                  key: jdbcPassword
                   name: computate-scolaire-secret
             - name: sslAlias
               valueFrom:

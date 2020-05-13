@@ -6080,8 +6080,6 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(classePartsSiteContexte, classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.Logger", classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.LoggerFactory", classeLangueNom), classeLangueNom);
-			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.sql.SQLClient", classeLangueNom), classeLangueNom);
-			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.sql.SQLConnection", classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Set", classeLangueNom), classeLangueNom);
@@ -8102,8 +8100,10 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.validation.ParameterTypeValidator", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.validation.ValidationException", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory", classeLangueNom), classeLangueNom);
-				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.sql.SQLClient", classeLangueNom), classeLangueNom);
-				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.sql.SQLConnection", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.PgPool", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.sqlclient.Transaction", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.sqlclient.Tuple", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.sqlclient.Row", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonArray", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDateTime", classeLangueNom), classeLangueNom);
@@ -8123,7 +8123,6 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.http.NameValuePair", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.OperationRequest", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.oauth2.KeycloakHelper", classeLangueNom), classeLangueNom);
-				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.sql.SQLConnection", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Optional", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Stream", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.net.URLDecoder", classeLangueNom), classeLangueNom);
