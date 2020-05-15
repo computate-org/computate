@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -3481,9 +3482,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(StringUtils.equals(entiteNomCanonique, Timestamp.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())))).truncatedTo(ChronoUnit.MILLIS);");
-				// TODO: ctate until vertx fixes bug. 
-//				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3503,9 +3502,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(StringUtils.equals(entiteNomCanonique, LocalTime.class.getCanonicalName())) {
 				tl(1, "/** Example: 01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				// TODO: ctate until vertx fixes bug. 
 				tl(2, "try {");
-				tl(3, "this.", entiteVar, " = LocalTime.parse(o, DateTimeFormatter.ofPattern(\"HH mm\"));");
+				tl(3, "this.", entiteVar, " = LocalTime.parse(o, DateTimeFormatter.ofPattern(\"HH:mm\"));");
 				tl(3, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "} catch(Exception e) {");
 				tl(2, "}");
@@ -3522,9 +3520,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				// TODO: ctate until vertx fixes bug. 
-				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ofPattern(\"MM/dd/yyyy\"));");
-//				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3763,9 +3759,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ofPattern(\"MM/dd/yyyy\"));");
-				// TODO: ctate until vertx fixes bug. 
-//					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -3980,32 +3974,16 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				l();
 				tl(1, "public String str", entiteVarCapitalise, "() {");
 				if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
-					if("frFR".equals(langueNom))
-//						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz\", Locale.FRANCE));");
-					else
-//						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d, yyyy h:mm:ss a zz\", Locale.US));");
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")));");
 				}
 				else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
-					if("frFR".equals(langueNom))
-//						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss zz\", Locale.FRANCE));");
-					else
-//						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d, yyyy h:mm:ss a zz\", Locale.US));");
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")));");
 				}
 				else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
-					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy\", Locale.FRANCE));");
-					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy\", Locale.US));");
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")));");
 				}
 				else if(VAL_nomCanoniqueLocalTime.equals(entiteNomCanonique)) {
-					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"H'h'mm\", Locale.FRANCE));");
-					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"h:mm a\", Locale.US));");
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"", str_HAposhAposmm(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")));");
 				}
 				else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
 					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".setScale(2).toString();");
@@ -4022,25 +4000,16 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				l();
 				tl(1, "public String json", entiteVarCapitalise, "() {");
 				if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
-					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
-					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ISO_DATE_TIME);");
 				}
 				else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
-					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE d MMM yyyy H'h'mm:ss.SSS zz VV\", Locale.FRANCE));");
-					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"EEE MMM d yyyy h:mm:ss.SSS a zz VV\", Locale.US));");
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ISO_DATE_TIME);");
 				}
 				else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
-					if("frFR".equals(langueNom))
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.FRANCE));");
-					else
-						tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"MM/dd/yyyy\", Locale.US));");
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ISO_DATE);");
 				}
 				else if(VAL_nomCanoniqueLocalTime.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"HH mm\", Locale.US));");
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ISO_TIME);");
 				}
 
 				else if(VAL_nomCanoniqueString.equals(entiteNomCanonique))
@@ -4208,11 +4177,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 4).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 								if(entiteDescription != null)
 									t(tIndex + 4).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
-								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_ddDashMMDashyyyy(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
+								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ISO_LOCAL_DATE.format(", entiteVar, "))");
 								t(tIndex + 4).s(".a(\"onchange\", \"");
 									s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 									s("if(t) { ");
-										s("var s = t.format('MM/DD/YYYY'); ");
+										s("var s = t.format('YYYY-MM-DD'); ");
 										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
 									s("} ");
 								l("\")");
@@ -4222,17 +4191,17 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 4).dal("type", "text");
 								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
-								t(tIndex + 4).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
-								t(tIndex + 4).dal("data-timeformat", str_DDDashMMDashYYYY(langueNom));
+								t(tIndex + 4).dal("placeholder", str_DDDashMMDashYYYY_HHColonMM(langueNom));
+								t(tIndex + 4).dal("data-timeformat", str_DDDashMMDashYYYY_HHColonMM(langueNom));
 								t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 4).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 								if(entiteDescription != null)
 									t(tIndex + 4).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
-								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"dd/MM/yyyy\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
+								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(", entiteVar, "))");
 								t(tIndex + 4).s(".a(\"onchange\", \"");
 									s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 									s("if(t) { ");
-										s("var s = t.format('MM/DD/YYYY'); ");
+										s("var s = t.format('YYYY-MM-DD HH:MM'); ");
 										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
 									s("} ");
 								l("\")");
@@ -4242,16 +4211,16 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 4).dal("type", "text");
 								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
-								t(tIndex + 4).dal("placeholder", "HH:MM AM");
+								t(tIndex + 4).dal("placeholder", str_HHColonMM(langueNom));
 								t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 4).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 								if(entiteDescription != null)
-									t(tIndex + 4).da("title", entiteDescription + " (h'h'mm)");
-								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"h:mm a\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")).format(", entiteVar, "))");
+									t(tIndex + 4).da("title", entiteDescription + " (", str_HAposhAposmm(langueNom), ")");
+								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(", entiteVar, "))");
 								t(tIndex + 4).s(".a(\"onchange\", \"");
 									s("var t = parseTime(this.value); ");
 									s("if(t) { ");
-										s("var s = dateFormat(t, 'HH MM'); ");
+										s("var s = dateFormat(t, 'HH:MM'); ");
 										s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
 									s("} ");
 								l("\")");
@@ -4801,7 +4770,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"HH mm\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
+						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"HH:mm\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
@@ -4834,7 +4803,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(ZonedDateTime.ofInstant(", entiteVar, ".toInstant(), ZoneId.of(\"UTC\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"HH mm\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
+						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"HH:mm\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
@@ -4885,85 +4854,42 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 				wIndexerFacetAdd.tl(4, str_listeRecherche(langueNom), ".add(\"json.facet\", \"{", entiteVar, ":{terms:{field:", entiteVar, "_indexed_longs, limit:1000}}}\");");
 
-				if(entiteListeTypeJson == null) {
-					wIndexerFacetFor.l();
-					wIndexerFacetFor.tl(5, "if(\"", entiteAttribuerNomSimple, "\".equals(", str_classeNomSimple(langueNom), "2) && ", classeVarClePrimaire, "2 != null) {");
-					wIndexerFacetFor.tl(6, str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), "2 = new ", str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, ">();");
-					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.set", str_Stocker(langueNom), "(true);");
-					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setQuery(\"*:*\");");
-					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setC(", entiteAttribuerNomSimple, ".class);");
-					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.addFilterQuery(\"", classeVarClePrimaire, "_indexed_long:\" + ", classeVarClePrimaire, "2);");
-					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setRows(1);");
-					wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.", str_initLoin(langueNom), str_ListeRecherche(langueNom), "(", str_requeteSite(langueNom), "2);");
-					wIndexerFacetFor.tl(6, entiteAttribuerNomSimple, " o2 = ", str_listeRecherche(langueNom), "2.getList().stream().findFirst().orElse(null);");
-					wIndexerFacetFor.l();
-					wIndexerFacetFor.tl(6, "if(o2 != null) {");
-					wIndexerFacetFor.tl(7, entiteAttribuerNomSimple, StringUtils.capitalize(langueNom), "GenApiServiceImpl service = new ", entiteAttribuerNomSimple, StringUtils.capitalize(langueNom), "GenApiServiceImpl(", str_requeteSite(langueNom), "2.get", str_SiteContexte(langueNom), "_());");
-					wIndexerFacetFor.l();
-					wIndexerFacetFor.tl(7, classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), "2 = new ", classePartsRequeteApi.nomSimple(langueNom), "();");
-					wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setRows(1);");
-					wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setNumFound(1L);");
-					wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setNumPATCH(0L);");
-					wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.", str_initLoin(langueNom), classePartsRequeteApi.nomSimple(langueNom), "(", str_requeteSite(langueNom), "2);");
-					wIndexerFacetFor.tl(7, str_requeteSite(langueNom), "2.set", str_RequeteApi(langueNom), "_(", str_requeteApi(langueNom), "2);");
-					wIndexerFacetFor.tl(7, str_requeteSite(langueNom), "2.getVertx().eventBus().publish(\"websocket", entiteAttribuerNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(langueNom), "2).toString());");
-					wIndexerFacetFor.l();
-					wIndexerFacetFor.tl(7, "if(", classeVarClePrimaire, "2 != null) {");
-					wIndexerFacetFor.tl(8, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, "2);");
-					wIndexerFacetFor.tl(8, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
-					wIndexerFacetFor.tl(8, "futures.add(");
-					wIndexerFacetFor.tl(9, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
-					wIndexerFacetFor.tl(10, "if(a.succeeded()) {");
-					wIndexerFacetFor.tl(11, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "2));");
-					wIndexerFacetFor.tl(10, "} else {");
-					wIndexerFacetFor.tl(11, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "2));");
-					wIndexerFacetFor.tl(11, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
-					wIndexerFacetFor.tl(10, "}");
-					wIndexerFacetFor.tl(9, "})");
-					wIndexerFacetFor.tl(8, ");");
-					wIndexerFacetFor.tl(7, "}");
-					wIndexerFacetFor.tl(6, "}");
-					wIndexerFacetFor.tl(5, "}");
-				}
-				else {
-					wIndexerFacetFor.l();
-					wIndexerFacetFor.tl(5, "if(\"", entiteAttribuerNomSimple, "\".equals(", str_classeNomSimple(langueNom), "2) && ", classeVarClePrimaire, "2 != null) {");
-					wIndexerFacetFor.tl(6, entiteAttribuerNomSimpleGenApiServiceImpl, " service = new ", entiteAttribuerNomSimpleGenApiServiceImpl, "(", str_requeteSite(langueNom), "2.get", str_SiteContexte(langueNom), "_());");
-					wIndexerFacetFor.tl(6, str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), "2 = new ", str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, ">();");
-					wIndexerFacetFor.tl(6, "if(", classeVarClePrimaire, "2 != null) {");
-					wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.set", str_Stocker(langueNom), "(true);");
-					wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.setQuery(\"*:*\");");
-					wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.setC(", entiteAttribuerNomSimple, ".class);");
-					wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.addFilterQuery(\"", classeVarClePrimaire, "_indexed_long:\" + ", classeVarClePrimaire, "2);");
-					wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.setRows(1);");
-					wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.", str_initLoin(langueNom), str_ListeRecherche(langueNom), "(", str_requeteSite(langueNom), "2);");
-					wIndexerFacetFor.tl(7, entiteAttribuerNomSimple, " o2 = ", str_listeRecherche(langueNom), "2.getList().stream().findFirst().orElse(null);");
-					wIndexerFacetFor.l();
-					wIndexerFacetFor.tl(7, "if(o2 != null) {");
-					wIndexerFacetFor.tl(8, classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), "2 = new ", classePartsRequeteApi.nomSimple(langueNom), "();");
-					wIndexerFacetFor.tl(8, str_requeteApi(langueNom), "2.setRows(1);");
-					wIndexerFacetFor.tl(8, str_requeteApi(langueNom), "2.setNumFound(1l);");
-					wIndexerFacetFor.tl(8, str_requeteApi(langueNom), "2.setNumPATCH(0L);");
-					wIndexerFacetFor.tl(8, str_requeteApi(langueNom), "2.", str_initLoin(langueNom), classePartsRequeteApi.nomSimple(langueNom), "(", str_requeteSite(langueNom), "2);");
-					wIndexerFacetFor.tl(8, str_requeteSite(langueNom), "2.set", str_RequeteApi(langueNom), "_(", str_requeteApi(langueNom), "2);");
-					wIndexerFacetFor.tl(8, str_requeteSite(langueNom), "2.getVertx().eventBus().publish(\"websocket", entiteAttribuerNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(langueNom), "2).toString());");
-					wIndexerFacetFor.l();
-					wIndexerFacetFor.tl(8, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, "2);");
-					wIndexerFacetFor.tl(8, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
-					wIndexerFacetFor.tl(8, "futures.add(");
-					wIndexerFacetFor.tl(9, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
-					wIndexerFacetFor.tl(10, "if(a.succeeded()) {");
-					wIndexerFacetFor.tl(11, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "2));");
-					wIndexerFacetFor.tl(10, "} else {");
-					wIndexerFacetFor.tl(11, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "2));");
-					wIndexerFacetFor.tl(11, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
-					wIndexerFacetFor.tl(10, "}");
-					wIndexerFacetFor.tl(9, "})");
-					wIndexerFacetFor.tl(8, ");");
-					wIndexerFacetFor.tl(7, "}");
-					wIndexerFacetFor.tl(6, "}");
-					wIndexerFacetFor.tl(5, "}");
-				}
+				wIndexerFacetFor.l();
+				wIndexerFacetFor.tl(5, "if(\"", entiteAttribuerNomSimple, "\".equals(", str_classeNomSimple(langueNom), "2) && ", classeVarClePrimaire, "2 != null) {");
+				wIndexerFacetFor.tl(6, str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), "2 = new ", str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, ">();");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.set", str_Stocker(langueNom), "(true);");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setQuery(\"*:*\");");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setC(", entiteAttribuerNomSimple, ".class);");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.addFilterQuery(\"", classeVarClePrimaire, "_indexed_long:\" + ", classeVarClePrimaire, "2);");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setRows(1);");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.", str_initLoin(langueNom), str_ListeRecherche(langueNom), "(", str_requeteSite(langueNom), ");");
+				wIndexerFacetFor.tl(6, entiteAttribuerNomSimple, " o2 = ", str_listeRecherche(langueNom), "2.getList().stream().findFirst().orElse(null);");
+				wIndexerFacetFor.l();
+				wIndexerFacetFor.tl(6, "if(o2 != null) {");
+				wIndexerFacetFor.tl(7, entiteAttribuerNomSimpleGenApiServiceImpl, " service = new ", entiteAttribuerNomSimpleGenApiServiceImpl, "(", str_requeteSite(langueNom), ".get", str_SiteContexte(langueNom), "_());");
+				wIndexerFacetFor.tl(7, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "2 = ", str_generer(langueNom), classePartsRequeteSite.nomSimple(langueNom), str_Pour(langueNom), classeNomSimple, "(", str_siteContexte(langueNom), ", ", str_requeteSite(langueNom), ".get", str_OperationRequete(langueNom), "(), new JsonObject());");
+				wIndexerFacetFor.tl(7, classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), "2 = new ", classePartsRequeteApi.nomSimple(langueNom), "();");
+				wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setRows(1);");
+				wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setNumFound(1l);");
+				wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setNumPATCH(0L);");
+				wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.", str_initLoin(langueNom), classePartsRequeteApi.nomSimple(langueNom), "(", str_requeteSite(langueNom), "2);");
+				wIndexerFacetFor.tl(7, str_requeteSite(langueNom), "2.set", str_RequeteApi(langueNom), "_(", str_requeteApi(langueNom), "2);");
+				wIndexerFacetFor.tl(7, str_requeteSite(langueNom), "2.getVertx().eventBus().publish(\"websocket", entiteAttribuerNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(langueNom), "2).toString());");
+				wIndexerFacetFor.l();
+				wIndexerFacetFor.tl(7, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, "2);");
+				wIndexerFacetFor.tl(7, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
+				wIndexerFacetFor.tl(7, "futures.add(");
+				wIndexerFacetFor.tl(8, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
+				wIndexerFacetFor.tl(9, "if(a.succeeded()) {");
+//				wIndexerFacetFor.tl(10, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "2));");
+				wIndexerFacetFor.tl(9, "} else {");
+				wIndexerFacetFor.tl(10, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "2));");
+				wIndexerFacetFor.tl(10, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
+				wIndexerFacetFor.tl(9, "}");
+				wIndexerFacetFor.tl(8, "})");
+				wIndexerFacetFor.tl(7, ");");
+				wIndexerFacetFor.tl(6, "}");
+				wIndexerFacetFor.tl(5, "}");
 				classesNomSimpleFacetFor.add(entiteAttribuerNomSimple);
 			}
 	

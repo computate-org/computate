@@ -136,10 +136,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: Search
 	 * r: valeur
 	 * r.enUS: value
-	 * r: DD-MM-YYYY
-	 * r.enUS: MM/DD/YYYY
-	 * r: dd-MM-yyyy
-	 * r.enUS: MM/dd/yyyy
 	 * r: "suggere"
 	 * r.enUS: "suggest"
 	 */
@@ -568,12 +564,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: entitySimpleNameComplete
 	 * r: methodeTitre
 	 * r.enUS: methodTitle
-	 * r: DD-MM-YYYY
-	 * r.enUS: MM-DD-YYYY
-	 * r: dd/MM/yyyy
-	 * r.enUS: MM/dd/yyyy
-	 * r: h'h'mm
-	 * r.enUS: h:mm a
 	 * r: fr-FR
 	 * r.enUS: en-US
 	 * r: contexteIconeClassesCss

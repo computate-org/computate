@@ -1798,6 +1798,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "generate";
 	}
 
+	public String str_Connexion(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Connexion";
+		else
+			return "Connection";
+	}
+
 	/**
 	 * Var.enUS: str_SqlConnection
 	 */
@@ -1816,6 +1823,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "reponse";
 		else
 			return "response";
+	}
+
+	public String str_Fermer(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Fermer";
+		else
+			return "Close";
 	}
 
 	/**
@@ -2514,24 +2528,6 @@ public class IndexerClasse extends RegarderClasseBase {
 
 	/**
 	 */
-	public String str_MMSlashddSlashyyyy(String langueNom) {
-		if ("frFR".equals(langueNom))
-			return "MM/dd/yyyy";
-		else
-			return "MM/dd/yyyy";
-	}
-
-	/**
-	 */
-	public String str_MMSlashDDSlashYYYY(String langueNom) {
-		if ("frFR".equals(langueNom))
-			return "MM/DD/YYYY";
-		else
-			return "MM/DD/YYYY";
-	}
-
-	/**
-	 */
 	public String str_DDDashMMDashYYYY(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "DD-MM-YYYY";
@@ -2541,11 +2537,65 @@ public class IndexerClasse extends RegarderClasseBase {
 
 	/**
 	 */
+	public String str_DDDashMMDashYYYY_HHColonMM(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "DD-MM-YYYY HH:MM";
+		else
+			return "MM/DD/YYYY HH:MM AM";
+	}
+
+	/**
+	 */
+	public String str_HHColonMM(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "HH:MM";
+		else
+			return "HH:MM AM";
+	}
+
+	/**
+	 */
 	public String str_ddDashMMDashyyyy(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "dd-MM-yyyy";
 		else
 			return "MM/dd/yyyy";
+	}
+
+	/**
+	 */
+	public String str_HAposhAposmm(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "H'h'mm";
+		else
+			return "h:mm a";
+	}
+
+	/**
+	 */
+	public String str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "EEE d MMM yyyy H'h'mm:ss zz VV";
+		else
+			return "EEE d MMM yyyy H:mm:ss a zz";
+	}
+
+	/**
+	 */
+	public String str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "EEE d MMM yyyy H'h'mm:ss a zz";
+		else
+			return "EEE MMM d, yyyy H:mm:ss a zz";
+	}
+
+	/**
+	 */
+	public String str_EEE_d_MMM_yyyy(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "EEE d MMM yyyy";
+		else
+			return "EEE MMM d, yyyy";
 	}
 
 	/**
@@ -8102,6 +8152,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.PgPool", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.sqlclient.Transaction", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.sqlclient.SqlConnection", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.sqlclient.Tuple", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.sqlclient.Row", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonArray", classeLangueNom), classeLangueNom);
