@@ -1,4 +1,7 @@
 
+ansible-playbook computate_scolaire_openshift.yml -i inventories/ctate-call-for-code-2020/hosts --vault-id @prompt
+ansible-playbook computate_scolaire_restore.yml -i inventories/ctate-laptop/hosts --vault-id @prompt
+
 # Install prerequisites
 
 Create a Red Hat account at https://developers.redhat.com/
