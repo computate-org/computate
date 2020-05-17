@@ -3482,7 +3482,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(StringUtils.equals(entiteNomCanonique, Timestamp.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+				tl(2, "this.", entiteVar, " = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME)));");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3492,7 +3492,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(StringUtils.equals(entiteNomCanonique, Date.class.getCanonicalName())) {
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.of(\"Z\")).toInstant());");
+				tl(2, "this.", entiteVar, " = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).atZone(ZoneId.of(\"Z\")).toInstant());");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3520,7 +3520,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+				tl(2, "this.", entiteVar, " = LocalDate.parse(o, DateTimeFormatter.ISO_DATE);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3542,7 +3542,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = ZonedDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone()))).truncatedTo(ChronoUnit.MILLIS);");
+				tl(2, "this.", entiteVar, " = ZonedDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone()))).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3562,7 +3562,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "}");
 				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).truncatedTo(ChronoUnit.MILLIS);");
+				tl(2, "this.", entiteVar, " = LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3723,7 +3723,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME)));");
+					tl(2, entiteNomSimpleCompletGenerique, " p = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME)));");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -3741,7 +3741,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
+					tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant());");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -3759,7 +3759,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ISO_OFFSET_DATE);");
+					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ISO_DATE);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -3782,7 +3782,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = ZonedDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
+					tl(2, entiteNomSimpleCompletGenerique, " p = ZonedDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -3805,7 +3805,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(1, "}");
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDateTime.parse(o, DateTimeFormatter.ISO_OFFSET_DATE_TIME);");
+					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -4715,19 +4715,19 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", ", entiteVar, ");");
 					}
 					else if(entiteNomSimple.equals("Timestamp")) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, "));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(", entiteVar, "));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
+						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", ", entiteVar, ");");
