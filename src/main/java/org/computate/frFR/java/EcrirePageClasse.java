@@ -869,14 +869,41 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										wJsInit.tl(2, "tl(2, ", "\"$('#input", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}); \"", ");");
 									}
 									if(entiteDefinir || entiteAttribuer) {
+										if("LocalDate".equals(entiteNomSimple)) {
+											wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
+											wWebsocketInput.tl(3, "if(val != null) {");
+											wWebsocketInput.tl(4, "var t = moment(val, 'yyyy-MM-dd');");
+											wWebsocketInput.tl(4, "if(t)");
+											wWebsocketInput.tl(5, "val = t.format('", str_DDDashMMDashYYYY(classePageLangueNom), "');");
+											wWebsocketInput.tl(3, "}");
+										}
+										else if("LocalDateTime".equals(entiteNomSimple)) {
+											wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
+											wWebsocketInput.tl(3, "if(val != null) {");
+											wWebsocketInput.tl(4, "var t = moment(val, 'yyyy-MM-dd');");
+											wWebsocketInput.tl(4, "if(t)");
+											wWebsocketInput.tl(5, "val = t.format('", str_DDDashMMDashYYYY_HHColonMM(classePageLangueNom), "');");
+											wWebsocketInput.tl(3, "}");
+										}
+										else if("LocalTime".equals(entiteNomSimple)) {
+											wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
+											wWebsocketInput.tl(3, "if(val != null) {");
+											wWebsocketInput.tl(4, "var t = moment(val, 'HH:mm');");
+											wWebsocketInput.tl(4, "if(t)");
+											wWebsocketInput.tl(5, "val = t.format('", str_HAposhAposmm(classePageLangueNom), "');");
+											wWebsocketInput.tl(3, "}");
+										}
+										else {
+											wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
+										}
 										wWebsocketInput.tl(3, "if(vars.includes('", entiteVar, "')) {");
 										wWebsocketInput.tl(4, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-										wWebsocketInput.tl(5, "if(o['", entiteVar, "'] !== $(this).val())");
-										wWebsocketInput.tl(6, "$(this).val(o['", entiteVar, "']);");
+										wWebsocketInput.tl(5, "if(val !== $(this).val())");
+										wWebsocketInput.tl(6, "$(this).val(val);");
 										wWebsocketInput.tl(4, "});");
 										wWebsocketInput.tl(4, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-										wWebsocketInput.tl(5, "if(o['", entiteVar, "'] !== $(this).text())");
-										wWebsocketInput.tl(6, "$(this).text(o['", entiteVar, "']);");
+										wWebsocketInput.tl(5, "if(val !== $(this).text())");
+										wWebsocketInput.tl(6, "$(this).text(val);");
 										wWebsocketInput.tl(4, "});");
 										wWebsocketInput.tl(4, str_ajouterLueur(langueNom), "($('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
 										wWebsocketInput.tl(3, "}");

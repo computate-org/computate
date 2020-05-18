@@ -3503,7 +3503,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "/** Example: 01:00 **/");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(String o) {");
 				tl(2, "try {");
-				tl(3, "this.", entiteVar, " = LocalTime.parse(o, DateTimeFormatter.ofPattern(\"HH:mm\"));");
+				tl(3, "this.", entiteVar, " = LocalTime.parse(o, DateTimeFormatter.ISO_TIME);");
 				tl(3, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "} catch(Exception e) {");
 				tl(2, "}");
@@ -4177,7 +4177,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 4).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 								if(entiteDescription != null)
 									t(tIndex + 4).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
-								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ISO_LOCAL_DATE.format(", entiteVar, "))");
+								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_ddDashMMDashyyyy(langueNom), "\").format(", entiteVar, "))");
 								t(tIndex + 4).s(".a(\"onchange\", \"");
 									s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 									s("if(t) { ");
@@ -4197,7 +4197,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 4).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 								if(entiteDescription != null)
 									t(tIndex + 4).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
-								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(", entiteVar, "))");
+								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV(langueNom), "\").format(", entiteVar, "))");
 								t(tIndex + 4).s(".a(\"onchange\", \"");
 									s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 									s("if(t) { ");
@@ -4216,7 +4216,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 4).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
 								if(entiteDescription != null)
 									t(tIndex + 4).da("title", entiteDescription + " (", str_HAposhAposmm(langueNom), ")");
-								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(", entiteVar, "))");
+								tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_HAposhAposmm(langueNom), "\").format(", entiteVar, "))");
 								t(tIndex + 4).s(".a(\"onchange\", \"");
 									s("var t = parseTime(this.value); ");
 									s("if(t) { ");

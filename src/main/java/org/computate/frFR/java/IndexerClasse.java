@@ -2550,7 +2550,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		if ("frFR".equals(langueNom))
 			return "HH:MM";
 		else
-			return "HH:MM AM";
+			return "HH:MM A";
 	}
 
 	/**
