@@ -866,7 +866,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										wPks.tl(2, "tl(5, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});\");");
 									}
 									if(entiteSignature) {
-										wJsInit.tl(2, "tl(2, ", "\"$('#input", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}); \"", ");");
+										wJsInit.tl(2, "tl(2, ", "\"$('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}); \"", ").bind('change', function(e){ patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + pk }], 'set", entiteVarCapitalise, "', $('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default')); });");
 									}
 									if(entiteDefinir || entiteAttribuer) {
 										if("LocalDate".equals(entiteNomSimple)) {
@@ -1748,6 +1748,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												entiteAttribuerContexteIconeNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeNom_stored_string");
 												entiteAttribuerTrisVar = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisVar_" + langueNom + "_stored_strings");
 												entiteAttribuerTrisSuffixeType = (List<String>)entiteDocumentSolr.get("entiteAttribuerTrisSuffixeType_stored_strings");
+												entiteAttribuerContexteUnNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
+												entiteAttribuerContexteNomPluriel = (String)entiteDocumentSolr.get("entiteAttribuerContexteNomPluriel_" + langueNom + "_stored_string");
 					
 												if(entiteSuggere) {
 													auteurPageJs.l();
@@ -1868,6 +1870,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	//												auteurWebsocket.tl(3, "var id = json['id'];");
 	//												auteurWebsocket.tl(3, str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($(this).val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "'));");
 													auteurWebsocket.tl(3, "$('#Page_", entiteVar, "').trigger('oninput');");
+													auteurWebsocket.tl(3, "$('#Page_", entiteVar, "_", str_ajouter(langueNom), "').text('", str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom, "');");
+													auteurWebsocket.tl(3, "$('#Page_", entiteVar, "_", str_ajouter(langueNom), "').removeClass('w3-disabled');");
+													auteurWebsocket.tl(3, "$('#Page_", entiteVar, "_", str_ajouter(langueNom), "').attr('disabled', false);");
 													auteurWebsocket.tl(2, "});");
 												}
 											}

@@ -4154,7 +4154,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 5).dal("title", entiteDescription);
 								}
 				
-//								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"", "set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+//								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"", "set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 								t(tIndex + 5).dal("class", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", str_suggere(langueNom), entiteVarCapitalise, " w3-input w3-border w3-cell w3-cell-middle ");
 								t(tIndex + 5).dal("name", "set", entiteVarCapitalise);
 								t(tIndex + 5).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
@@ -4170,7 +4170,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if("LocalDate".equals(entiteNomSimple)) {
 								t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 4).dal("type", "text");
-								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
+								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
 								t(tIndex + 4).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
 								t(tIndex + 4).dal("data-timeformat", str_ddDashMMDashyyyy(langueNom));
 								t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
@@ -4190,7 +4190,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
 								t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 4).dal("type", "text");
-								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
+								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
 								t(tIndex + 4).dal("placeholder", str_DDDashMMDashYYYY_HHColonMM(langueNom));
 								t(tIndex + 4).dal("data-timeformat", str_ddDashMMDashyyyy(langueNom));
 								t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
@@ -4210,7 +4210,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if("LocalTime".equals(entiteNomSimple)) {
 								t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
 								t(tIndex + 4).dal("type", "text");
-								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
+								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
 								t(tIndex + 4).dal("placeholder", str_HHColonMM(langueNom));
 								t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
 								t(tIndex + 4).dal("onclick", str_enleverLueur(langueNom), "($(this)); ");
@@ -4238,10 +4238,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).l("}");
 				
 								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+									t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 									t(tIndex + 4).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
 								t(tIndex + 3).l("} else {");
-									t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+									t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 									t(tIndex + 4).s(classePrefixe).a("name", entiteVar).l(";");
 								t(tIndex + 3).l("}");
 								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
@@ -4262,7 +4262,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								l();
 							}
 							else if(BooleanUtils.isTrue(entiteSignature)) {
-								t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureDiv1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
+								t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"class\", \"signatureDiv1", classeNomSimple, "_", entiteVar, "\").a(\"id\", \"signatureDiv1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
 
 								t(tIndex + 4).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
 								t(tIndex + 5).s(classePrefixe, "a(\"style\", \"display: \", StringUtils.isBlank(", entiteVar, ") ? \"block\" : \"none\", \"; \");").l();
@@ -4291,15 +4291,15 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 5).s(classePrefixe, "s(\"\\\"",  "\");").l();
 								t(tIndex + 5).s(classePrefixe, "f().sx(\"", str_Vider(langueNom), "\");").l();
 								t(tIndex + 4).s(classePrefixe, "g(\"button\");").l();
-
-								t(tIndex + 4).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Valider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
-								t(tIndex + 5).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
-								t(tIndex + 5).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
-								t(tIndex + 6).s(classePrefixe, "s(\"var src = $('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('getData', 'default'); ", "\"); ").l();
-								t(tIndex + 6).s(classePrefixe).s("s(\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', src); \")").l(";");
-								t(tIndex + 5).s(classePrefixe, "s(\"\\\"",  "\");").l();
-								t(tIndex + 5).s(classePrefixe, "f().sx(\"", str_ValiderLaSignature(langueNom), "\");").l();
-								t(tIndex + 4).s(classePrefixe, "g(\"button\");").l();
+//
+//								t(tIndex + 4).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Valider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+//								t(tIndex + 5).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
+//								t(tIndex + 5).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
+//								t(tIndex + 6).s(classePrefixe, "s(\"var src = $('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('getData', 'default'); ", "\"); ").l();
+//								t(tIndex + 6).s(classePrefixe).s("s(\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', src); \")").l(";");
+//								t(tIndex + 5).s(classePrefixe, "s(\"\\\"",  "\");").l();
+//								t(tIndex + 5).s(classePrefixe, "f().sx(\"", str_ValiderLaSignature(langueNom), "\");").l();
+//								t(tIndex + 4).s(classePrefixe, "g(\"button\");").l();
 
 								t(tIndex + 3).s(classePrefixe, "g(\"div\");").l();
 
@@ -4321,10 +4321,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 4).s(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").l(";");
 
 								t(tIndex + 4).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 5).s(classePrefixe).s("a(\"class\", \"set", entiteVarCapitalise, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+									t(tIndex + 5).s(classePrefixe).s("a(\"class\", \"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 									t(tIndex + 5).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
 								t(tIndex + 4).l("} else {");
-									t(tIndex + 5).s(classePrefixe).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+									t(tIndex + 5).s(classePrefixe).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
 									t(tIndex + 5).s(classePrefixe).a("name", entiteVar).l(";");
 								t(tIndex + 4).l("}");
 								t(tIndex + 4).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
@@ -4473,24 +4473,14 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 9).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();
 								t(tIndex + 10).s(classePrefixe, "e(\"button\")").l();
 								t(tIndex + 11).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
+								t(tIndex + 11).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "_", str_ajouter(langueNom), "\")");
 			
 								if("array".equals(entiteAttribuerTypeJson))
-									t(tIndex + 11).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", ", classeVarClePrimaire, ", \"\\\" ] }");
+									t(tIndex + 11).s(".a(\"onclick\", \"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", ", classeVarClePrimaire, ", \"\\\" ] }");
 								else
-									t(tIndex + 11).s(".a(\"onclick\", \"post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", ", classeVarClePrimaire, ", \"\\\" }");
-			
-								s(", function() { patch", classeNomSimple, "Vals([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], {}");
-			
-//								s(", function() { ");
-//								s(str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($('#' + ($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "').val() ? '", str_suggere(langueNom), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"')); ");
-//								s("var $e = $('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "'); $e.html($e.val()); ");
-//								s("}");
-//								s(", function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "')); }");
-								s("); ");
-			
-								s("}, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "')); });");
-			
-			
+									t(tIndex + 11).s(".a(\"onclick\", \"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", ", classeVarClePrimaire, ", \"\\\" }");
+								s(", function() {}");
+								s(", function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "')); });");
 								s("\")");
 								l();
 			

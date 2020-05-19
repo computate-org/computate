@@ -2399,6 +2399,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "classApiUriMethod";
 	}
 
+	public String str_Envoi(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Envoi";
+		else
+			return "Sending";
+	}
+
 	/**
 	 * Var.enUS: str_classApiMethodMethod
 	 */

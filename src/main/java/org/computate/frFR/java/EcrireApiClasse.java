@@ -2946,7 +2946,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "if(o.get", str_UtilisateurCle(classeLangueNom), "() == null && ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "() != null) {");
 						tl(4, "futures.add(Future.future(a -> {");
 						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
-						tl(4, ", Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurCle(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "())");
+						tl(4, ", Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurCle(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "().toString())");
 						tl(7, ", b");
 						tl(5, "-> {");
 						tl(6, "if(b.succeeded())");
@@ -3030,7 +3030,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "if(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "() != null) {");
 						tl(4, "futures.add(Future.future(a -> {");
 						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
-						tl(4, ", Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurCle(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "())");
+						tl(4, ", Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurCle(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "().toString())");
 						tl(7, ", b");
 						tl(5, "-> {");
 						tl(6, "if(b.succeeded())");
