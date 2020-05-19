@@ -872,7 +872,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										if("LocalDate".equals(entiteNomSimple)) {
 											wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
 											wWebsocketInput.tl(3, "if(val != null) {");
-											wWebsocketInput.tl(4, "var t = moment(val, 'yyyy-MM-dd');");
+											wWebsocketInput.tl(4, "var t = moment(val, 'YYYY-MM-DD');");
 											wWebsocketInput.tl(4, "if(t)");
 											wWebsocketInput.tl(5, "val = t.format('", str_DDDashMMDashYYYY(classePageLangueNom), "');");
 											wWebsocketInput.tl(3, "}");
@@ -880,9 +880,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										else if("LocalDateTime".equals(entiteNomSimple)) {
 											wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
 											wWebsocketInput.tl(3, "if(val != null) {");
-											wWebsocketInput.tl(4, "var t = moment(val, 'yyyy-MM-dd');");
+											wWebsocketInput.tl(4, "var t = moment(val, 'YYYY-MM-DD');");
 											wWebsocketInput.tl(4, "if(t)");
-											wWebsocketInput.tl(5, "val = t.format('", str_DDDashMMDashYYYY_HHColonMM(classePageLangueNom), "');");
+											wWebsocketInput.tl(5, "val = t.format('", str_DDDashMMDashYYYY(classePageLangueNom), "');");
 											wWebsocketInput.tl(3, "}");
 										}
 										else if("LocalTime".equals(entiteNomSimple)) {
