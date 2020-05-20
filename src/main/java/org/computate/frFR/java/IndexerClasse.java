@@ -852,9 +852,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "SiteRequest";
 	}
 
-	/**
-	 * Var.enUS: str_before
-	 */
+	public String str_Avant(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Avant";
+		else
+			return "Before";
+	}
+
 	public String str_avant(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "avant";
