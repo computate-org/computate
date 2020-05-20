@@ -866,7 +866,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										wPks.tl(2, "tl(5, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});\");");
 									}
 									if(entiteSignature) {
-										wJsInit.tl(2, "tl(2, ", "\"$('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}); \"", ").bind('change', function(e){ patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + pk }], 'set", entiteVarCapitalise, "', $('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default')); });");
+										wJsInit.tl(2, "tl(2, ", "\"$('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}).bind('change', function(e){ patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + pk }], 'set", entiteVarCapitalise, "', $('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default')); }); \"", ");");
 									}
 									if(entiteDefinir || entiteAttribuer) {
 										if("LocalDate".equals(entiteNomSimple)) {
