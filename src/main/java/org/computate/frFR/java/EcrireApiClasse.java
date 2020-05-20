@@ -1434,7 +1434,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, "if(l2 != null && o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
-											tl(tBase + 9, ", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", ", q(entiteAttribuerVar), ", l2)");
+											tl(tBase + 9, ", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
 											tl(tBase + 9, ", b");
 											tl(tBase + 7, "-> {");
 											tl(tBase + 8, "if(b.succeeded())");
@@ -1586,7 +1586,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, "if(l2 != null && o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
-											tl(tBase + 9, ", Tuple.of(", q(entiteAttribuerVar), ", l2", ", ", q(entiteVar), ", ", classeVarClePrimaire, ")");
+											tl(tBase + 9, ", Tuple.of(l2", ", ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
 											tl(tBase + 9, ", b");
 											tl(tBase + 7, "-> {");
 											tl(tBase + 8, "if(b.succeeded())");
@@ -1690,7 +1690,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
-											tl(tBase + 9, ", Tuple.of(", q(entiteVar), ", ", classeVarClePrimaire, ", ", q(entiteAttribuerVar), ", l2)");
+											tl(tBase + 9, ", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
 											tl(tBase + 9, ", b");
 											tl(tBase + 7, "-> {");
 											tl(tBase + 8, "if(b.succeeded())");
@@ -1722,7 +1722,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
-											tl(tBase + 9, ", Tuple.of(", q(entiteAttribuerVar), ", l2", ", ", q(entiteVar), ", ", classeVarClePrimaire, ")");
+											tl(tBase + 9, ", Tuple.of(l2", ", ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
 											tl(tBase + 9, ", b");
 											tl(tBase + 7, "-> {");
 											tl(tBase + 8, "if(b.succeeded())");
