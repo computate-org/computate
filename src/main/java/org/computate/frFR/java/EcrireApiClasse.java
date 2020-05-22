@@ -2671,6 +2671,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							l();
 							tl(4, "json.put(\"", classeVarInheritClePrimaire, "\", json.getValue(\"", classeVarClePrimaire, "\"));");
 						}
+						if(classeApiMethode.equals("PUTImport")) {
+							l();
+							tl(4, "json.put(\"", str_cree(classeLangueNom), "\", json.getValue(\"", str_cree(classeLangueNom), "\"));");
+						}
 						l();
 						tl(4, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), "2 = ", str_generer(classeLangueNom), classePartsRequeteSite.nomSimple(classeLangueNom), str_Pour(classeLangueNom), classeNomSimple, "(", str_siteContexte(classeLangueNom), ", ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "(), json);");
 						tl(4, str_requeteSite(classeLangueNom), "2.set", str_RequeteApi(classeLangueNom), "_(", str_requeteApi(classeLangueNom), ");");
@@ -3278,6 +3282,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "if(fls.size() == 1 && fls.stream().findFirst().orElse(null).equals(\"", str_sauvegardes(classeLangueNom), "\")) {");
 							tl(6, "fieldNames.removeAll(Optional.ofNullable(json2.getJsonArray(\"", str_sauvegardes(classeLangueNom), "\")).orElse(new JsonArray()).stream().map(s -> s.toString()).collect(Collectors.toList()));");
 							tl(6, "fieldNames.remove(\"", classeVarClePrimaire, "\");");
+							tl(6, "fieldNames.remove(\"", str_cree(classeLangueNom), "\");");
 							tl(5, "}");
 							tl(5, "else if(fls.size() >= 1) {");
 							tl(6, "fieldNames.removeAll(fls);");
@@ -3433,19 +3438,25 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(2, "try {");
 				tl(3, "Transaction tx = ", str_requeteSite(classeLangueNom), ".getTx();");
 				tl(3, "String ", str_utilisateur(classeLangueNom), "Id = ", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "Id();");
+				tl(3, "ZonedDateTime ", str_cree(classeLangueNom), " = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_ObjetJson(classeLangueNom), "()).map(j -> j.getString(\"", str_cree(classeLangueNom), "\")).map(s -> ZonedDateTime.parse(s, DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.of(", str_requeteSite(classeLangueNom), ".get", str_ConfigSite(classeLangueNom), "_().getSiteZone())))).orElse(ZonedDateTime.now(ZoneId.of(", str_requeteSite(classeLangueNom), ".get", str_ConfigSite(classeLangueNom), "_().getSiteZone())));");
 				l();
 				tl(3, "tx.preparedQuery(");
 				tl(5, classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_creer(classeLangueNom));
-				tl(5, ", Tuple.of(", classeNomSimple, ".class.getCanonicalName(), ", str_utilisateur(classeLangueNom), "Id)");
+				tl(5, ", Tuple.of(", classeNomSimple, ".class.getCanonicalName(), ", str_utilisateur(classeLangueNom), "Id, ", str_cree(classeLangueNom), ".toOffsetDateTime())");
 				tl(5, ", Collectors.toList()");
 				tl(5, ", ", str_creer(classeLangueNom), "Async");
 				tl(3, "-> {");
-				tl(4, "Row ", str_creer(classeLangueNom), str_Ligne(classeLangueNom), " = ", str_creer(classeLangueNom), "Async.result().value().stream().findFirst().orElseGet(() -> null);");
-				tl(4, "Long ", classeVarClePrimaire, " = ", str_creer(classeLangueNom), str_Ligne(classeLangueNom), ".getLong(0);");
-				tl(4, classeNomSimple, " o = new ", classeNomSimple, "();");
-				tl(4, "o.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
-				tl(4, "o.set", str_RequeteSite(classeLangueNom), "_(", str_requeteSite(classeLangueNom), ");");
-				tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(o));");
+				tl(4, "if(", str_creer(classeLangueNom), "Async.succeeded()) {");
+				tl(5, "Row ", str_creer(classeLangueNom), str_Ligne(classeLangueNom), " = ", str_creer(classeLangueNom), "Async.result().value().stream().findFirst().orElseGet(() -> null);");
+				tl(5, "Long ", classeVarClePrimaire, " = ", str_creer(classeLangueNom), str_Ligne(classeLangueNom), ".getLong(0);");
+				tl(5, classeNomSimple, " o = new ", classeNomSimple, "();");
+				tl(5, "o.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+				tl(5, "o.set", str_RequeteSite(classeLangueNom), "_(", str_requeteSite(classeLangueNom), ");");
+				tl(5, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(o));");
+				tl(4, "} else {");
+				tl(5, "LOGGER.error(String.format(\"", str_creer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", ", str_creer(classeLangueNom), "Async.cause()));");
+				tl(5, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(", str_creer(classeLangueNom), "Async.cause()));");
+				tl(4, "}");
 				tl(3, "});");
 				tl(2, "} catch(Exception e) {");
 				tl(3, "LOGGER.error(String.format(\"", str_creer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", e));");
