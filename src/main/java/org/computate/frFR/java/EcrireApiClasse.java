@@ -770,6 +770,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + classeLangueNom + "_stored_string");
 							entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + classeLangueNom + "_stored_string");
 							entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
+							entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");
 							entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
 							entiteIndexe = (Boolean)doc.get("entiteIndexe_stored_boolean");
 							entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
