@@ -80,6 +80,13 @@ public class ConfigSite {
 			return "domainPackageName";
 	}
 
+	public String str_fichier(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "fichier";
+		else
+			return "file";
+	}
+
 	public String str_nomFichierConfig(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "nomFichierConfig";

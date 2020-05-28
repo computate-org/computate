@@ -1427,6 +1427,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "to";
 	}
 
+	public String str_Télécharger_image(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Télécharger image";
+		else
+			return "Upload image";
+	}
+
 	/**
 	 * Var.enUS: str_value
 	 */
@@ -7016,6 +7023,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteEnumNomSimple", regexLangue(classeLangueNom, "^" + str_EnumNomSimple(classeLangueNom) + "", methodeCommentaire));
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteEnumVar", regexLangue(classeLangueNom, "^EnumVar", methodeCommentaire));
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteEnumVarDescription", regexLangue(classeLangueNom, "^" + str_EnumVarDescription(classeLangueNom) + "", methodeCommentaire));
+						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteImageBase64Url", regexLangue(classeLangueNom, "^ImageBase64Url", methodeCommentaire));
 
 						Boolean entiteHighlighting = indexerStockerSolr(entiteDoc, "entiteHighlighting", regexTrouve("^Highlighting:\\s*(true)$", methodeCommentaire));
 						Boolean entiteHtml = entiteDefinir || regexTrouve("^Html:\\s*(true)$", methodeCommentaire);
@@ -7079,6 +7087,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								indexerStockerSolr(langueNom, entiteDoc, "entiteHtmlTooltip", regexLangue(langueNom, "^HtmlTooltip", methodeCommentaire));
 								indexerStockerSolrRegex(langueNom, entiteDoc, "entiteVarApi", "VarApi", methodeCommentaire);
 								indexerStockerSolr(langueNom, entiteDoc, "entiteEnumVar", regexLangue(langueNom, "^EnumVar", methodeCommentaire));
+								indexerStockerSolr(langueNom, entiteDoc, "entiteImageBase64Url", regexLangue(langueNom, "^ImageBase64Url", methodeCommentaire));
 							}
 						}
 

@@ -549,6 +549,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	Boolean entiteDefinir;
 
+	String entiteImageBase64Url;
+
 	/**
 	 * Var.enUS: entityCanonicalName
 	 */
@@ -2999,6 +3001,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			Boolean entiteRecharger = (Boolean)doc.get("entiteRecharger_stored_boolean");
 			Boolean entiteMultiligne = (Boolean)doc.get("entiteMultiligne_stored_boolean");
 			Boolean entiteSignature = (Boolean)doc.get("entiteSignature_stored_boolean");
+			String entiteImageBase64Url = (String)doc.get("entiteImageBase64Url_" + langueNom + "_stored_string");
 			Boolean entiteCles = (Boolean)doc.get("entiteCles_stored_boolean");
 			Boolean entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
 			Boolean entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
@@ -3929,7 +3932,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			//////////
 			// htm //
 			//////////
-			if(entiteNomSimple != null && entiteSolrNomCanonique != null) {
+			if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
 	
 				//////////
 				// solr //
@@ -4260,6 +4263,23 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 4).s(classePrefixe, "g(\"select\");").l();
 								t(tIndex + 3).l("}");
 								l();
+							}
+							else if(entiteImageBase64Url != null) {
+								t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"class\", \"imageBase64Div1", classeNomSimple, "_", entiteVar, "\").a(\"id\", \"imageBase64Div1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
+
+								t(tIndex + 4).s(classePrefixe, "e(\"h5\").f().sx(\"", str_Télécharger_image(langueNom), "\").g(\"h5\"); ").l();
+								t(tIndex + 4).s(classePrefixe, "e(\"form\").a(\"method\", \"POST\").a(\"enctype\", \"multipart/form-data\").a(\"action\", \"", entiteImageBase64Url, "\").a(\"class\", \"\").f();").l();
+								t(tIndex + 4).s(classePrefixe, "e(\"input\").a(\"type\", \"hidden\").a(\"name\", \"", classeVarClePrimaire, "\").a(\"value\", ", classeVarClePrimaire, ").fg(); ").l();
+								t(tIndex + 4).s(classePrefixe, "e(\"input\").a(\"type\", \"hidden\").a(\"name\", \"", str_classeNomSimple(langueNom), "\").a(\"value\", \"", classeNomSimple, "\").fg(); ").l();
+								t(tIndex + 4).s(classePrefixe, "e(\"input\").a(\"name\", \"", str_fichier(langueNom), "\").a(\"type\", \"file\").a(\"onchange\", \"$.ajax({ type: 'POST', enctype: 'multipart/form-data', url: '", entiteImageBase64Url, "', data: new FormData(this.form), processData: false, contentType: false}); \").fg(); ").l();
+								t(tIndex + 4).s(classePrefixe, "g(\"form\");").l();
+
+								t(tIndex + 4).s(classePrefixe, "e(\"img\").a(\"id\", \"imageBase64Img", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+								t(tIndex + 5).s(classePrefixe, "a(\"class\", \"img", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-image ").l("\");");
+								t(tIndex + 5).s(classePrefixe, "a(\"src\", StringUtils.isBlank(", entiteVar, ") ? \"data:image/png;base64,\" : ", entiteVar, ").a(\"alt\", \"\");").l();
+								t(tIndex + 4).s(classePrefixe, "fg();").l();
+
+								t(tIndex + 3).s(classePrefixe, "g(\"div\");").l();
 							}
 							else if(BooleanUtils.isTrue(entiteSignature)) {
 								t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"class\", \"signatureDiv1", classeNomSimple, "_", entiteVar, "\").a(\"id\", \"signatureDiv1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
