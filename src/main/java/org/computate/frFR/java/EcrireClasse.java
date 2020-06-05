@@ -75,7 +75,7 @@ public class EcrireClasse extends IndexerClasse {
 			for(int j = 0; j < parts.length; j++) { 
 				String ligne = parts[j];
 				if(j == 0) {
-					l(tabulationsStr, "/**\t");
+					l(tabulationsStr, "/**");
 					break;
 				}
 			}
@@ -100,7 +100,7 @@ public class EcrireClasse extends IndexerClasse {
 			String[] parts = StringUtils.split(commentaire, "\n");
 			for(int j = 0; j < parts.length; j++) { 
 				String ligne = parts[j];
-				l(tabulationsStr, " *\t", ligne);
+				l(tabulationsStr, " * ", ligne);
 			}
 		} 
 	}
@@ -391,7 +391,7 @@ public class EcrireClasse extends IndexerClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */   
-	public void ecrireClasse(String classeCheminAbsolu, String langueNom, QueryResponse reponseRecherche) throws Exception { 
+	public void ecrireClasse(String classeCheminAbsolu, String classeLangueNom, QueryResponse reponseRecherche) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults(); 
 
 		if(listeRecherche.size() > 0) {
@@ -410,7 +410,6 @@ public class EcrireClasse extends IndexerClasse {
 			List<String> classeParamsTypeNom = null;  
 			List<String> classeSuperParamsTypeNom = null;  
 			List<String> classeImplementsNomSimpleCompletListe = null;  
-			Boolean classeEtendGen = null;
 	
 			for(int i = 0; i < listeRecherche.size(); i++) { 
 				SolrDocument doc = listeRecherche.get(i); 
@@ -418,25 +417,38 @@ public class EcrireClasse extends IndexerClasse {
 				if(partNumero == null)
 					partNumero = 2;
 				if(partNumero.equals(1)) {
-					classeCheminRepertoire = (String)doc.get("classeCheminRepertoire_" + langueNom + "_stored_string");
-					classeChemin = (String)doc.get("classeChemin_" + langueNom + "_stored_string"); 
+					classeCheminRepertoire = (String)doc.get("classeCheminRepertoire_" + classeLangueNom + "_stored_string");
+					classeChemin = (String)doc.get("classeChemin_" + classeLangueNom + "_stored_string"); 
 					classeCheminAbsolu = (String)doc.get("classeCheminAbsolu_stored_string"); 
 					if(StringUtils.equals(classeChemin, classeCheminAbsolu))
 						break;
 					classeRepertoire = new File(classeCheminRepertoire);
 					classeRepertoire.mkdirs();
 					classeFichier = new File(classeChemin);
-					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
-					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
-					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stored_string");
-					classeNomSimpleSuperGenerique = (String)doc.get("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
-					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
-					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
-					classeImportations = (List<String>)doc.get("classeImportations_" + langueNom + "_stored_strings");
+					classeNomSimple = (String)doc.get("classeNomSimple_" + classeLangueNom + "_stored_string");
+					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + classeLangueNom + "_stored_string");
+					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + classeLangueNom + "_stored_string");
+					classeNomSimpleSuperGenerique = (String)doc.get("classeNomSimpleSuperGenerique_" + classeLangueNom + "_stored_string");
+					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + classeLangueNom + "_stored_string");
+					classeCommentaire = (String)doc.get("classeCommentaire_" + classeLangueNom + "_stored_string");
+					classeImportations = (List<String>)doc.get("classeImportations_" + classeLangueNom + "_stored_strings");
 					classeParamsTypeNom = (List<String>)doc.get("classeParamsTypeNom_stored_strings");
 					classeSuperParamsTypeNom = (List<String>)doc.get("classeSuperParamsTypeNom_stored_strings");
-					classeImplementsNomSimpleCompletListe = (List<String>)doc.get("classeImplementsNomSimpleComplet_" + langueNom + "_stored_strings");
-					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
+					classeImplementsNomSimpleCompletListe = (List<String>)doc.get("classeImplementsNomSimpleComplet_" + classeLangueNom + "_stored_strings");
+					Boolean classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
+					Boolean classeModele = (Boolean)doc.get("classeModele_stored_boolean");
+					Boolean classeTraduire = (Boolean)doc.get("classeTraduire_stored_boolean");
+					Boolean classeInitLoin = (Boolean)doc.get("classeInitLoin_stored_boolean");
+					Boolean classeApi = (Boolean)doc.get("classeApi_stored_boolean");
+					Boolean classePage = (Boolean)doc.get("classePage_stored_boolean");
+					Boolean classePageSimple = (Boolean)doc.get("classePageSimple_stored_boolean");
+					Boolean classeSauvegarde = (Boolean)doc.get("classeSauvegarde_stored_boolean");
+					Boolean classePublicLire = (Boolean)doc.get("classePublicLire_stored_boolean");
+					Boolean classeRoleSession = (Boolean)doc.get("classeRoleSession_stored_boolean");
+					Boolean classeRoleUtilisateur = (Boolean)doc.get("classeRoleUtilisateur_stored_boolean");
+					String contexteCouleur = (String)doc.get("contexteCouleur_stored_string");
+					String contexteIconeGroupe = (String)doc.get("contexteIconeGroupe_stored_string");
+					String contexteIconeNom = (String)doc.get("contexteIconeNom_stored_string");
 
 					auteurClasse = ToutEcrivain.create(classeFichier);
 					o = auteurClasse;
@@ -449,7 +461,66 @@ public class EcrireClasse extends IndexerClasse {
 						} 
 						l();  
 					}
-					ecrireCommentaire(classeCommentaire, 0); 
+
+					StringBuilder c = new StringBuilder();
+					if(!classeTraduire)
+						c.append(str_Traduire(classeLangueNom)).append(": ").append(classeTraduire).append("\n");
+					if(!classeInitLoin)
+						c.append(str_InitLoin(classeLangueNom)).append(": ").append(classeInitLoin).append("\n");
+					if(classeModele)
+						c.append(str_Modele(classeLangueNom)).append(": ").append(classeModele).append("\n");
+					if(classeApi)
+						c.append(str_Api(classeLangueNom)).append(": ").append(classeApi).append("\n");
+					if(classePage)
+						c.append(str_Page(classeLangueNom)).append(": ").append(classePage).append("\n");
+					if(classePageSimple)
+						c.append(str_PageSimple(classeLangueNom)).append(": ").append(classePageSimple).append("\n");
+					if(classeSauvegarde)
+						c.append(str_Sauvegarde(classeLangueNom)).append(": ").append(classeSauvegarde).append("\n");
+					if(classePublicLire)
+						c.append(str_PublicLire(classeLangueNom)).append(": ").append(classePublicLire).append("\n");
+					if(classeRoleSession)
+						c.append(str_RoleSession(classeLangueNom)).append(": ").append(classeRoleSession).append("\n");
+					if(classeRoleUtilisateur)
+						c.append(str_RoleUtilisateur(classeLangueNom)).append(": ").append(classeRoleUtilisateur).append("\n");
+					if(contexteCouleur != null)
+						c.append(str_Couleur(classeLangueNom)).append(": ").append(contexteCouleur).append("\n");
+					if(contexteIconeGroupe != null)
+						c.append(str_IconeGroupe(classeLangueNom)).append(": ").append(contexteIconeGroupe).append("\n");
+					if(contexteIconeNom != null)
+						c.append(str_IconeNom(classeLangueNom)).append(": ").append(contexteIconeNom).append("\n");
+					if(StringUtils.isNotBlank(classeCommentaire))
+						c.append("\n").append(classeCommentaire);
+
+					for(String langueNom : toutesLangues) {
+						String classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
+						String classeApiTag = (String)doc.get("classeApiTag_" + langueNom + "_stored_string");
+						String contexteUnNom = (String)doc.get("contexteUnNom_" + langueNom + "_stored_string");
+						List<String> classeRoles = (List<String>)doc.get("classeRoles_stored_strings");
+						List<String> classeRolesLangue = (List<String>)doc.get("classeRolesLangue_stored_strings");
+
+						c.append("\n");
+						if(classeRoles != null) {
+							for(Integer j=0; j < classeRoles.size(); j++) {
+								String classeRole = classeRoles.get(j);
+								String classeRoleLangue = classeRolesLangue.get(j);
+								if(classeRoleLangue.equals(langueNom))
+									c.append(str_Role(classeLangueNom)).append(".").append(langueNom).append(": ").append(classeRole).append("\n");
+							}
+						}
+						if(StringUtils.isNotBlank(classeApiUri))
+							c.append(str_ApiUri(classeLangueNom)).append(".").append(langueNom).append(": ").append(classeApiUri).append("\n");
+						if(StringUtils.isNotBlank(classeApiTag))
+							c.append(str_ApiTag(classeLangueNom)).append(".").append(langueNom).append(": ").append(classeApiTag).append("\n");
+						if(StringUtils.isNotBlank(contexteUnNom))
+							c.append(str_UnNom(classeLangueNom)).append(".").append(langueNom).append(": ").append(contexteUnNom).append("\n");
+						if(!langueNom.equals(classeLangueNom)) {
+							String classeNomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
+							c.append(str_NomCanonique(classeLangueNom)).append(": ").append(classeNomCanonique).append("\n");
+						}
+					}
+
+					ecrireCommentaire(c.toString(), 0); 
 					s("public ");
 					if(BooleanUtils.isTrue((Boolean)doc.get("classeEstAbstrait_stored_boolean")))
 						s("abstract ");
@@ -508,10 +579,10 @@ public class EcrireClasse extends IndexerClasse {
 					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
 	
 					if(BooleanUtils.isTrue(partEstChamp)) {
-						String champCommentaire = (String)doc.get("champCommentaire_" + langueNom + "_stored_string");
-						String champVar = (String)doc.get("champVar_" + langueNom + "_stored_string");
-						String champNomSimpleComplet = (String)doc.get("champNomSimpleComplet_" + langueNom + "_stored_string");
-						String champCodeSource = (String)doc.get("champCodeSource_" + langueNom + "_stored_string");
+						String champCommentaire = (String)doc.get("champCommentaire_" + classeLangueNom + "_stored_string");
+						String champVar = (String)doc.get("champVar_" + classeLangueNom + "_stored_string");
+						String champNomSimpleComplet = (String)doc.get("champNomSimpleComplet_" + classeLangueNom + "_stored_string");
+						String champCodeSource = (String)doc.get("champCodeSource_" + classeLangueNom + "_stored_string");
 						Boolean champTraduire = (Boolean)doc.get("champTraduire_stored_boolean");
 
 						if(champTraduire) {
@@ -540,11 +611,11 @@ public class EcrireClasse extends IndexerClasse {
 						}
 					}     
 					else if(BooleanUtils.isTrue(partEstConstructeur)) {
-						String constructeurCodeSource = (String)doc.get("constructeurCodeSource_" + langueNom + "_stored_string");
-						String constructeurCommentaire = (String)doc.get("constructeurCommentaire_" + langueNom + "_stored_string");
+						String constructeurCodeSource = (String)doc.get("constructeurCodeSource_" + classeLangueNom + "_stored_string");
+						String constructeurCommentaire = (String)doc.get("constructeurCommentaire_" + classeLangueNom + "_stored_string");
 						List<String> constructeurExceptionsNomSimpleComplet = (List<String>)doc.get("constructeurExceptionsNomSimpleComplet_stored_strings");
-						List<String> constructeurAnnotationsNomSimpleCompletListe = (List<String>)doc.get("constructeurAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings");
-						List<String> constructeurAnnotationsBlocCodeListe = (List<String>)doc.get("constructeurAnnotationsBlocCode_" + langueNom + "_stored_strings");
+						List<String> constructeurAnnotationsNomSimpleCompletListe = (List<String>)doc.get("constructeurAnnotationsNomSimpleComplet_" + classeLangueNom + "_stored_strings");
+						List<String> constructeurAnnotationsBlocCodeListe = (List<String>)doc.get("constructeurAnnotationsBlocCode_" + classeLangueNom + "_stored_strings");
 
 						l(""); 
 						ecrireCommentaire(constructeurCommentaire, 1);
@@ -573,8 +644,8 @@ public class EcrireClasse extends IndexerClasse {
 
 						s(classeNomSimple);
 						s("(");
-						List<String> constructeurParamsNomSimpleComplet = (List<String>)doc.get("constructeurParamsNomSimpleComplet_" + langueNom + "_stored_strings"); 
-						List<String> constructeurParamsVar = (List<String>)doc.get("constructeurParamsVar_" + langueNom + "_stored_strings");
+						List<String> constructeurParamsNomSimpleComplet = (List<String>)doc.get("constructeurParamsNomSimpleComplet_" + classeLangueNom + "_stored_strings"); 
+						List<String> constructeurParamsVar = (List<String>)doc.get("constructeurParamsVar_" + classeLangueNom + "_stored_strings");
 						List<Boolean> constructeurParamsArgsVariables = (List<Boolean>)doc.get("constructeurParamsArgsVariables_stored_booleans");
 						if(constructeurParamsNomSimpleComplet != null && constructeurParamsVar != null && constructeurParamsNomSimpleComplet.size() == constructeurParamsVar.size()) {
 							for(int j = 0; j < constructeurParamsVar.size(); j++) {
@@ -608,13 +679,13 @@ public class EcrireClasse extends IndexerClasse {
 						l("}");
 					} 
 					else if(BooleanUtils.isTrue(partEstMethode)) {
-						String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
-						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + langueNom + "_stored_string");
-						String methodeCommentaire = (String)doc.get("methodeCommentaire_" + langueNom + "_stored_string");
+						String methodeVar = (String)doc.get("methodeVar_" + classeLangueNom + "_stored_string");
+						String methodeCodeSource = (String)doc.get("methodeCodeSource_" + classeLangueNom + "_stored_string");
+						String methodeCommentaire = (String)doc.get("methodeCommentaire_" + classeLangueNom + "_stored_string");
 						List<String> methodeExceptionsNomSimpleComplet = (List<String>)doc.get("methodeExceptionsNomSimpleComplet_stored_strings");
 						List<String> methodeParamsTypeNom = (List<String>)doc.get("methodeParamsTypeNom_stored_strings");
-						List<String> methodeAnnotationsNomSimpleCompletListe = (List<String>)doc.get("methodeAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings");
-						List<String> methodeAnnotationsBlocCodeListe = (List<String>)doc.get("methodeAnnotationsBlocCode_" + langueNom + "_stored_strings");
+						List<String> methodeAnnotationsNomSimpleCompletListe = (List<String>)doc.get("methodeAnnotationsNomSimpleComplet_" + classeLangueNom + "_stored_strings");
+						List<String> methodeAnnotationsBlocCodeListe = (List<String>)doc.get("methodeAnnotationsBlocCode_" + classeLangueNom + "_stored_strings");
 
 						l(""); 
 						ecrireCommentaire(methodeCommentaire, 1);
@@ -656,12 +727,12 @@ public class EcrireClasse extends IndexerClasse {
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstVide_stored_boolean")))
 							s("void ");
 						else
-							s((String)doc.get("methodeRetourNomSimpleComplet_" + langueNom + "_stored_string"));
+							s((String)doc.get("methodeRetourNomSimpleComplet_" + classeLangueNom + "_stored_string"));
 						s(" ");
 						s(methodeVar);
 						s("(");
-						List<String> methodeParamsNomSimpleComplet = (List<String>)doc.get("methodeParamsNomSimpleComplet_" + langueNom + "_stored_strings"); 
-						List<String> methodeParamsVar = (List<String>)doc.get("methodeParamsVar_" + langueNom + "_stored_strings");
+						List<String> methodeParamsNomSimpleComplet = (List<String>)doc.get("methodeParamsNomSimpleComplet_" + classeLangueNom + "_stored_strings"); 
+						List<String> methodeParamsVar = (List<String>)doc.get("methodeParamsVar_" + classeLangueNom + "_stored_strings");
 						List<Boolean> methodeParamsArgsVariables = (List<Boolean>)doc.get("methodeParamsArgsVariables_stored_booleans");
 						if(methodeParamsNomSimpleComplet != null && methodeParamsVar != null && methodeParamsNomSimpleComplet.size() == methodeParamsVar.size()) {
 							for(int j = 0; j < methodeParamsVar.size(); j++) {
@@ -700,16 +771,16 @@ public class EcrireClasse extends IndexerClasse {
 						}
 					} 
 					else if(BooleanUtils.isTrue(partEstEntite)) {
-						String entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
-						String entiteVarParam = (String)doc.get("entiteVarParam_" + langueNom + "_stored_string");
-						String entiteCodeSource = (String)doc.get("entiteCodeSource_" + langueNom + "_stored_string");
-						String entiteCommentaire = (String)doc.get("entiteCommentaire_" + langueNom + "_stored_string");
-						String entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
+						String entiteVar = (String)doc.get("entiteVar_" + classeLangueNom + "_stored_string");
+						String entiteVarParam = (String)doc.get("entiteVarParam_" + classeLangueNom + "_stored_string");
+						String entiteCodeSource = (String)doc.get("entiteCodeSource_" + classeLangueNom + "_stored_string");
+						String entiteCommentaire = (String)doc.get("entiteCommentaire_" + classeLangueNom + "_stored_string");
+						String entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + classeLangueNom + "_stored_string");
 						Boolean entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
 						List<String> entiteExceptionsNomSimpleComplet = (List<String>)doc.get("entiteExceptionsNomSimpleComplet_stored_strings");
 						List<String> entiteParamsTypeNom = (List<String>)doc.get("entiteParamsTypeNom_stored_strings");
-						List<String> entiteAnnotationsNomSimpleCompletListe = (List<String>)doc.get("entiteAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings");
-						List<String> entiteAnnotationsBlocCodeListe = (List<String>)doc.get("entiteAnnotationsBlocCode_" + langueNom + "_stored_strings");
+						List<String> entiteAnnotationsNomSimpleCompletListe = (List<String>)doc.get("entiteAnnotationsNomSimpleComplet_" + classeLangueNom + "_stored_strings");
+						List<String> entiteAnnotationsBlocCodeListe = (List<String>)doc.get("entiteAnnotationsBlocCode_" + classeLangueNom + "_stored_strings");
 
 						l(""); 
 						ecrireCommentaire(entiteCommentaire, 1);
@@ -725,7 +796,7 @@ public class EcrireClasse extends IndexerClasse {
 						s(entiteVar);
 
 						if(BooleanUtils.isTrue(entiteCouverture))
-							s("(", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVarParam);
+							s("(", classePartsCouverture.nomSimple(classeLangueNom), "<", entiteNomSimpleComplet, "> ", entiteVarParam);
 						else
 							s("(", entiteNomSimpleComplet, " ", entiteVarParam);
 						s(")");

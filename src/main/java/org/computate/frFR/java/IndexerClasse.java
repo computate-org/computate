@@ -2640,6 +2640,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "InitDeep";
 	}
 
+	public String str_Api(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Api";
+		else
+			return "Api";
+	}
+
 	public String str_Modele(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "Modele";
@@ -2680,6 +2687,20 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "RoleSession";
 		else
 			return "RoleSession";
+	}
+
+	public String str_ApiTag(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ApiTag";
+		else
+			return "ApiTag";
+	}
+
+	public String str_ApiUri(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ApiUri";
+		else
+			return "ApiUri";
 	}
 
 	public String str_RoleUtilisateur(String langueNom) {
@@ -5954,10 +5975,10 @@ public class IndexerClasse extends RegarderClasseBase {
 				ClasseParts classePartsSuperLangue = null;
 	
 				if(classeEtendGen) {
-					classePartsSuperLangue = ClasseParts.initClasseParts(this, classeNomCanoniqueLangue + "Gen", langueNom);
+					classePartsSuperLangue = ClasseParts.initClasseParts(this, classeNomCanoniqueLangue + "Gen", classeLangueNom);
 				}
 				else if(classeQdoxSuper != null) {
-					classePartsSuperLangue = ClasseParts.initClasseParts(this, classeQdoxSuper, langueNom);
+					classePartsSuperLangue = ClasseParts.initClasseParts(this, classeQdoxSuper, classeLangueNom);
 				}
 	
 				if(classePartsSuperLangue != null) {
@@ -5966,7 +5987,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					indexerStockerSolr(langueNom, classeDoc, "classeNomCanoniqueCompletSuper", classePartsSuperLangue.nomCanoniqueComplet(langueNom));
 					indexerStockerSolr(langueNom, classeDoc, "classeNomSimpleCompletSuper", classePartsSuperLangue.nomSimpleComplet(langueNom));
 					if(StringUtils.isNotEmpty(classeNomCompletSuperGenerique)) {
-						ClasseParts classePartsSuperGeneriqueLangue = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, langueNom);
+						ClasseParts classePartsSuperGeneriqueLangue = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, classeLangueNom);
 						indexerStockerSolr(langueNom, classeDoc, "classeNomCanoniqueSuperGenerique", classePartsSuperGeneriqueLangue.nomCanoniqueComplet(langueNom));
 						indexerStockerSolr(langueNom, classeDoc, "classeNomSimpleSuperGenerique", classePartsSuperGeneriqueLangue.nomSimpleComplet(langueNom));
 					}
@@ -7801,7 +7822,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						for(JavaClass methodeExceptionQdox : methodeExceptionsQdox) { 
-							ClasseParts methodeExceptionClasseParts = ClasseParts.initClasseParts(this, methodeExceptionQdox.getCanonicalName(), langueNom);
+							ClasseParts methodeExceptionClasseParts = ClasseParts.initClasseParts(this, methodeExceptionQdox.getCanonicalName(), classeLangueNom);
 							stockerListeSolr(methodeDoc, "methodeExceptionsNomSimpleComplet", methodeExceptionClasseParts.nomSimpleComplet(classeLangueNom));
 							if(classeTraduire) {
 								for(String langueNom : classeAutresLangues) {  
