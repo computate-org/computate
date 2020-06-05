@@ -1,0 +1,47 @@
+#- name: Install {{COMPUTATE_MEDICALE_NAME}} dependencies
+#  package:
+#    name: [git,java-1.8.0-openjdk-devel]
+#  become: yes
+- name: Create the {{COMPUTATE_MEDICALE_NAME}} source directory {{COMPUTATE_MEDICALE_SRC}}
+  file:
+    name: "{{COMPUTATE_MEDICALE_SRC}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Clone the {{COMPUTATE_MEDICALE_NAME}} source code
+  git:
+    repo: "{{COMPUTATE_MEDICALE_REPO}}"
+    dest: "{{COMPUTATE_MEDICALE_SRC}}"
+- name: Create the {{COMPUTATE_MEDICALE_NAME}} systemd service {{COMPUTATE_MEDICALE_SYSTEMD}}. 
+  template:
+    src: computate_medicale_service.j2
+    dest: "{{COMPUTATE_MEDICALE_SYSTEMD}}"
+  become: yes
+- name: Create the {{COMPUTATE_MEDICALE_NAME}} config dir. 
+  file:
+    name: "{{COMPUTATE_MEDICALE_SRC}}/config"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+- name: Create the {{COMPUTATE_MEDICALE_NAME}} default frFR config. 
+  template:
+    src: computate_medicale_config_frFR.config.j2
+    dest: "{{COMPUTATE_MEDICALE_SRC}}/config/computate-medicale.config"
+  become: yes
+- name: Create the {{COMPUTATE_MEDICALE_NAME}} enUS config. 
+  template:
+    src: computate_medicale_config_enUS.config.j2
+    dest: "{{COMPUTATE_MEDICALE_SRC}}/config/computate-medicale-enUS.config"
+  become: yes
+- name: Reload the services. 
+  systemd:
+    daemon_reload: yes
+  become: yes
+- name: Start and enable the {{COMPUTATE_MEDICALE_NAME}} service. 
+  service:
+    name: "{{COMPUTATE_MEDICALE_SERVICE}}"
+    enabled: yes
+    state: restarted
+  become: yes
+

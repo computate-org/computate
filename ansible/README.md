@@ -1,4 +1,31 @@
 
+# Troubleshooting
+
+If you run into the following error regarding libselinux-python, it means that ansible is not configured to use the right python binaries for the system: 
+
+```bash
+TASK [computate_medicale : Create the computate-medicale systemd service /usr/lib/systemd/system/regarder-computate-medicale.service.] ***
+fatal: [tower2]: FAILED! => {"changed": false, "checksum": "f3bd8010a4e40b12ff20df7db2ad88be82d29abf", "msg": "Aborting, target uses selinux but python bindings (libselinux-python) aren't installed!"}
+```
+
+If you are running an older operating system like CentOS7 or RHEL7 which uses Python 2 as the system python, you'll want to make sure ansible is configured for python2 in /etc/ansible/ansible.cfg: 
+
+```ini
+
+[defaults]
+interpreter_python=/usr/bin/python
+```
+
+If you are running a newer operating system like CentOS8 or RHEL8 which uses Python 3 as the system python, you'll want to make sure ansible is configured for python3 in /etc/ansible/ansible.cfg: 
+
+```ini
+
+[defaults]
+interpreter_python=/usr/bin/python3
+```
+
+# Running Playboooks
+
 ansible-playbook computate_scolaire_openshift.yml -i inventories/ctate-call-for-code-2020/hosts --vault-id @prompt
 ansible-playbook computate_scolaire_restore.yml -i inventories/ctate-laptop/hosts --vault-id @prompt
 
