@@ -1,4 +1,7 @@
 
+[computate_postgres]
+tower2
+
 [computate_solr_podman]
 tower2
 

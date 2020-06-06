@@ -44,4 +44,32 @@
     enabled: yes
     state: restarted
   become: yes
+- name: Create frFR database user
+  postgresql_user: 
+    name: "{{COMPUTATE_SCOLAIRE_DB_USER_FRFR}}"
+    password: "{{COMPUTATE_SCOLAIRE_DB_PASSWORD_FRFR}}"
+    login_unix_socket: /tmp
+  become: true
+  become_user: postgres
+- name: Create frFR database
+  postgresql_db: 
+    name: "{{COMPUTATE_SCOLAIRE_DB_NAME_FRFR}}"
+    owner: "{{COMPUTATE_SCOLAIRE_DB_USER_FRFR}}"
+    login_unix_socket: /tmp
+  become: true
+  become_user: postgres
+- name: Create enUS database user
+  postgresql_user: 
+    name: "{{COMPUTATE_SCOLAIRE_DB_USER_ENUS}}"
+    password: "{{COMPUTATE_SCOLAIRE_DB_PASSWORD_ENUS}}"
+    login_unix_socket: /tmp
+  become: true
+  become_user: postgres
+- name: Create enUS database
+  postgresql_db: 
+    name: "{{COMPUTATE_SCOLAIRE_DB_NAME_ENUS}}"
+    owner: "{{COMPUTATE_SCOLAIRE_DB_USER_ENUS}}"
+    login_unix_socket: /tmp
+  become: true
+  become_user: postgres
 
