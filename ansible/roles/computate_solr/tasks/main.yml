@@ -148,12 +148,14 @@
 - name: Upload computate configset to zookeeper
   shell: "{{SOLR_OPT}}/bin/solr zk upconfig -n computate -d {{SOLR_OPT}}/server/solr/configsets/computate -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}"
 
-- name: Setup the solr security configuration
-  template:
-    src: computate_solr_security.json.j2
-    dest: "{{SOLR_OPT}}/server/solr/security.json"
-- name: Upload security configuration to zookeeper
-  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd putfile /security.json {{SOLR_OPT}}/server/solr/security.json"
-
+#- name: Setup the solr security configuration
+#  template:
+#    src: computate_solr_security.json.j2
+#    dest: "{{SOLR_OPT}}/server/solr/security.json"
+#- name: Upload security configuration to zookeeper
+#  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd putfile /security.json {{SOLR_OPT}}/server/solr/security.json"
+#
+#- name: Create computate collection in solr
+#  shell: "(SOLR_AUTH_TYPE=basic SOLR_AUTHENTICATION_OPTS='-Dbasicauth={{COMPUTATE_SOLR_SOLRJ_USER}}:{{COMPUTATE_SOLR_SOLRJ_PASSWORD}}' {{SOLR_OPT}}/bin/solr create_collection -c computate -n computate)"
 - name: Create computate collection in solr
-  shell: "(SOLR_AUTH_TYPE=basic SOLR_AUTHENTICATION_OPTS='-Dbasicauth={{COMPUTATE_SOLR_SOLRJ_USER}}:{{COMPUTATE_SOLR_SOLRJ_PASSWORD}}' {{SOLR_OPT}}/bin/solr create_collection -c computate -n computate)"
+  shell: "{{SOLR_OPT}}/bin/solr create_collection -c computate -n computate"
