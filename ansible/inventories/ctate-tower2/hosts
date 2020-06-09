@@ -26,6 +26,9 @@ tower2
 [computate_solr]
 tower2
 
+[computate_silk]
+tower2
+
 [solr_operator_src]
 tower2
 

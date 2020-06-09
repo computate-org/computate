@@ -1,6 +1,6 @@
 - name: Install {{SOLR_NAME}} dependencies. 
   package:
-    name: [git,java-1.8.0-openjdk-devel]
+    name: [git,java-1.8.0-openjdk-devel,npm]
   become: yes
 - name: Create the {{SOLR_NAME}} source directory {{SOLR_SRC}}. 
   file:
@@ -145,8 +145,14 @@
     enabled: yes
     state: restarted
   become: yes
+- name: Check for existing solr configset computate
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /configs/computate"
+  ignore_errors: yes
+  register: SOLR_CONFIGSET_EXISTS
+  changed_when: false
 - name: Upload computate configset to zookeeper
   shell: "{{SOLR_OPT}}/bin/solr zk upconfig -n computate -d {{SOLR_OPT}}/server/solr/configsets/computate -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}"
+  when: SOLR_CONFIGSET_EXISTS.rc != 0
 
 #- name: Setup the solr security configuration
 #  template:
@@ -157,5 +163,11 @@
 #
 #- name: Create computate collection in solr
 #  shell: "(SOLR_AUTH_TYPE=basic SOLR_AUTHENTICATION_OPTS='-Dbasicauth={{COMPUTATE_SOLR_SOLRJ_USER}}:{{COMPUTATE_SOLR_SOLRJ_PASSWORD}}' {{SOLR_OPT}}/bin/solr create_collection -c computate -n computate)"
+- name: Check for existing solr collection computate
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /collections/computate"
+  ignore_errors: yes
+  register: SOLR_COLLECTION_EXISTS
+  changed_when: false
 - name: Create computate collection in solr
   shell: "{{SOLR_OPT}}/bin/solr create_collection -c computate -n computate"
+  when: SOLR_COLLECTION_EXISTS.rc != 0

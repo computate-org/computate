@@ -1,0 +1,15 @@
+[Unit]
+Description=An open source search engine. 
+After=network.target
+
+[Service]
+Type=simple
+User={{USER_NAME}}
+Group={{USER_NAME}}
+WorkingDirectory={{SILK_OPT}}
+ExecStart=/usr/bin/npm run server
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+

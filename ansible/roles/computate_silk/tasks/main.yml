@@ -1,0 +1,92 @@
+- name: Install {{SILK_NAME}} dependencies. 
+  package:
+    name: [git,npm]
+  become: yes
+- name: Install bower binary
+  shell: sudo npm install -g bower
+  args:
+    creates: "/usr/bin/bower"
+  become: yes
+- name: Install grunt binary
+  shell: sudo npm install -g grunt
+  args:
+    creates: "/usr/bin/grunt"
+  become: yes
+- name: Create the {{SILK_NAME}} source directory {{SILK_SRC}}. 
+  file:
+    name: "{{SILK_SRC}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Check for the silk package.json
+  stat: 
+    path: "{{SILK_SRC}}/package.json"
+  register: silk_src
+- name: Clone the silk source code
+  git:
+    repo: "{{SILK_REPO}}"
+    dest: "{{SILK_SRC}}"
+    version: "{{SILK_TAG}}"
+  when: silk_src.stat.exists == False
+- name: npm install the silk source code
+  shell: npm install
+  args:
+    chdir: "{{SILK_SRC}}"
+    creates: "{{SILK_SRC}}/node_modules"
+- name: bower install the silk source code
+  shell: bower install
+  args:
+    chdir: "{{SILK_SRC}}"
+    creates: "{{SILK_SRC}}/src/kibana/bower_components"
+- name: grunt build the silk source code
+  shell: grunt build
+  args:
+    chdir: "{{SILK_SRC}}"
+    creates: "{{SILK_SRC}}/build"
+- name: copy FileSaver.js into the expected location
+  shell: cp {{SILK_SRC}}/src/kibana/bower_components/FileSaver/dist/FileSaver.js {{SILK_SRC}}/src/kibana/bower_components/FileSaver/FileSaver.js
+  args:
+    creates: "{{SILK_SRC}}/src/kibana/bower_components/FileSaver/FileSaver.js"
+- name: Create the {{SILK_NAME}} install directory {{SILK_OPT}}. 
+  file:
+    name: "{{SILK_OPT}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Install {{SILK_NAME}} into the {{SILK_OPT}} install directory. 
+  shell: rsync -r {{SILK_SRC}}/ {{SILK_OPT}}/
+  args:
+    creates: "{{SILK_OPT}}/src/server/bin/kibana.sh"
+- name: Create the {{SILK_NAME}} systemd service {{SILK_SYSTEMD}}. 
+  template:
+    src: silk_service.j2
+    dest: "{{SILK_SYSTEMD}}"
+  become: yes
+- name: Reload the services. 
+  systemd:
+    daemon_reload: yes
+  become: yes
+- name: Start and enable the {{SILK_NAME}} service. 
+  service:
+    name: "{{SILK_SERVICE}}"
+    enabled: yes
+    state: restarted
+  become: yes
+- name: Check for existing silk configset {{SILK_CONFIGSET}}
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /configs/{{SILK_CONFIGSET}}"
+  ignore_errors: yes
+  register: SILK_CONFIGSET_EXISTS
+  changed_when: false
+- name: Upload {{SILK_CONFIGSET}} configset to zookeeper
+  shell: "{{SOLR_OPT}}/bin/solr zk upconfig -n {{SILK_CONFIGSET}} -d {{SOLR_OPT}}/server/solr/configsets/{{SILK_CONFIGSET}} -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}"
+  when: SILK_CONFIGSET_EXISTS.rc != 0
+- name: Check for existing silk collection {{SILK_COLLECTION}}
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /collections/{{SILK_COLLECTION}}"
+  ignore_errors: yes
+  register: SILK_COLLECTION_EXISTS
+  changed_when: false
+- name: Create {{SILK_COLLECTION}} collection in silk
+  shell: "{{SOLR_OPT}}/bin/solr create_collection -c {{SILK_CONFIGSET}} -n {{SILK_COLLECTION}}"
+  when: SILK_COLLECTION_EXISTS.rc != 0
