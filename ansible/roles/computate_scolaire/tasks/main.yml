@@ -88,10 +88,17 @@
 - name: Create collection in solr enUS
   shell: "{{SOLR_OPT}}/bin/solr create_collection -n computate -c {{COMPUTATE_SCOLAIRE_SOLR_COLLECTION_ENUS}}"
   when: SOLR_COLLECTION_EXISTS_ENUS.rc != 0
+- name: Create the keystore directory {{SSL_KEYSTORE_PATH}}
+  file:
+    name: "{{SSL_KEYSTORE_PATH}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} keystore properties {{SSL_KEYSTORE_PATH}}/{{SSL_PROPERTIES_FILENAME}}
   template:
     src: computate_scolaire_keystore.properties.j2
-    dest: "{{SSL_KEYSTORE_PATH}}/{{SSL_PROPERTIES_FILENAME}}"
+    dest: "{{SSL_KEYSTORE_PATH}}/{{COMPUTATE_SCOLAIRE_SSL_PROPERTIES_FILENAME}}"
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} keystore jks {{SSL_JKS_PATH}}
   template:
     src: computate_scolaire_keystore.jks.j2
