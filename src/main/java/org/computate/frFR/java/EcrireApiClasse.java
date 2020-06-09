@@ -3443,7 +3443,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				l();
 				tl(3, "tx.preparedQuery(");
 				tl(5, classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_creer(classeLangueNom));
-				tl(5, ", Tuple.of(", classeNomSimple, ".class.getCanonicalName(), ", str_utilisateur(classeLangueNom), "Id, ", str_cree(classeLangueNom), ".toOffsetDateTime())");
+				tl(5, ", Tuple.of(", classeNomSimple, ".class.getCanonicalName(), ", str_utilisateur(classeLangueNom), "Id)");
 				tl(5, ", Collectors.toList()");
 				tl(5, ", ", str_creer(classeLangueNom), "Async");
 				tl(3, "-> {");
