@@ -1,4 +1,7 @@
 
+[computate_postgres]
+tower2
+
 [computate_solr_podman]
 tower2
 
@@ -9,6 +12,9 @@ tower2
 tower2
 
 [computate_ant]
+tower2
+
+[computate_medicale]
 tower2
 
 [computate_scolaire]

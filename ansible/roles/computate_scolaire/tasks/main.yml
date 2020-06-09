@@ -18,10 +18,16 @@
     src: computate_scolaire_service.j2
     dest: "{{COMPUTATE_SCOLAIRE_SYSTEMD}}"
   become: yes
+- name: Create the {{COMPUTATE_MEDICALE_NAME}} config dir.
+  file: 
+    name: "{{COMPUTATE_SCOLAIRE_SRC}}/config"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} default frFR config. 
   template:
     src: computate_scolaire_frFR_config.config.j2
-    dest: "{{COMPUTATE_SCOLAIRE_SRC}}/config/computate-scolaire-frFR.config"
+    dest: "{{COMPUTATE_SCOLAIRE_SRC}}/config/computate-scolaire.config"
   become: yes
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} enUS config. 
   template:
@@ -38,4 +44,48 @@
     enabled: yes
     state: restarted
   become: yes
+- name: Create frFR database user
+  postgresql_user: 
+    name: "{{COMPUTATE_SCOLAIRE_DB_USER_FRFR}}"
+    password: "{{COMPUTATE_SCOLAIRE_DB_PASSWORD_FRFR}}"
+    login_unix_socket: /tmp
+  become: true
+  become_user: postgres
+- name: Create frFR database
+  postgresql_db: 
+    name: "{{COMPUTATE_SCOLAIRE_DB_NAME_FRFR}}"
+    owner: "{{COMPUTATE_SCOLAIRE_DB_USER_FRFR}}"
+    login_unix_socket: /tmp
+  become: true
+  become_user: postgres
+- name: Create enUS database user
+  postgresql_user: 
+    name: "{{COMPUTATE_SCOLAIRE_DB_USER_ENUS}}"
+    password: "{{COMPUTATE_SCOLAIRE_DB_PASSWORD_ENUS}}"
+    login_unix_socket: /tmp
+  become: true
+  become_user: postgres
+- name: Create enUS database
+  postgresql_db: 
+    name: "{{COMPUTATE_SCOLAIRE_DB_NAME_ENUS}}"
+    owner: "{{COMPUTATE_SCOLAIRE_DB_USER_ENUS}}"
+    login_unix_socket: /tmp
+  become: true
+  become_user: postgres
+- name: Check for existing solr collection frFR
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /collections/{{COMPUTATE_SCOLAIRE_SOLR_COLLECTION_FRFR}}"
+  ignore_errors: yes
+  register: SOLR_COLLECTION_EXISTS_FRFR
+  changed_when: false
+- name: Create collection in solr frFR
+  shell: "{{SOLR_OPT}}/bin/solr create_collection -n computate -c {{COMPUTATE_SCOLAIRE_SOLR_COLLECTION_FRFR}}"
+  when: SOLR_COLLECTION_EXISTS_FRFR.rc != 0
+- name: Check for existing solr collection enUS
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /collections/{{COMPUTATE_SCOLAIRE_SOLR_COLLECTION_ENUS}}"
+  ignore_errors: yes
+  register: SOLR_COLLECTION_EXISTS_ENUS
+  changed_when: false
+- name: Create collection in solr enUS
+  shell: "{{SOLR_OPT}}/bin/solr create_collection -n computate -c {{COMPUTATE_SCOLAIRE_SOLR_COLLECTION_ENUS}}"
+  when: SOLR_COLLECTION_EXISTS_ENUS.rc != 0
 
