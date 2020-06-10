@@ -28,11 +28,15 @@
   template:
     src: computate_medicale_config_frFR.config.j2
     dest: "{{COMPUTATE_MEDICALE_SRC}}/config/computate-medicale.config"
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
   become: yes
 - name: Create the {{COMPUTATE_MEDICALE_NAME}} enUS config. 
   template:
     src: computate_medicale_config_enUS.config.j2
     dest: "{{COMPUTATE_MEDICALE_SRC}}/config/computate-medicale-enUS.config"
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
   become: yes
 - name: Reload the services. 
   systemd:
@@ -49,29 +53,64 @@
     name: "{{COMPUTATE_MEDICALE_DB_USER_FRFR}}"
     password: "{{COMPUTATE_MEDICALE_DB_PASSWORD_FRFR}}"
     login_unix_socket: /tmp
+    login_user: "{{POSTGRES_BECOME_USER}}"
+    db: postgres
   become: true
-  become_user: postgres
+  become_user: "{{POSTGRES_BECOME_USER}}"
 - name: Create frFR database
   postgresql_db:
     name: "{{COMPUTATE_MEDICALE_DB_NAME_FRFR}}"
     owner: "{{COMPUTATE_MEDICALE_DB_USER_FRFR}}"
     login_unix_socket: /tmp
+    login_user: "{{POSTGRES_BECOME_USER}}"
+    db: postgres
   become: true
-  become_user: postgres
+  become_user: "{{POSTGRES_BECOME_USER}}"
+- name: Grant frFR user access to database
+  postgresql_pg_hba:
+    dest: "{{POSTGRES_HBA_CONF}}"
+    contype: host
+    users: "{{COMPUTATE_MEDICALE_DB_USER_FRFR}}"
+    source: "{{POSTGRES_HOST_NAME}}"
+    databases: "{{COMPUTATE_MEDICALE_DB_NAME_FRFR}}"
+    method: trust
+    create: true
+  become: true
+  become_user: "{{POSTGRES_BECOME_USER}}"
 - name: Create enUS database user
   postgresql_user:
     name: "{{COMPUTATE_MEDICALE_DB_USER_ENUS}}"
     password: "{{COMPUTATE_MEDICALE_DB_PASSWORD_ENUS}}"
     login_unix_socket: /tmp
+    login_user: "{{POSTGRES_BECOME_USER}}"
+    db: postgres
   become: true
-  become_user: postgres
+  become_user: "{{POSTGRES_BECOME_USER}}"
 - name: Create enUS database
   postgresql_db:
     name: "{{COMPUTATE_MEDICALE_DB_NAME_ENUS}}"
     owner: "{{COMPUTATE_MEDICALE_DB_USER_ENUS}}"
     login_unix_socket: /tmp
+    login_user: "{{POSTGRES_BECOME_USER}}"
+    db: postgres
   become: true
-  become_user: postgres
+  become_user: "{{POSTGRES_BECOME_USER}}"
+- name: Grant enUS user access to database
+  postgresql_pg_hba:
+    dest: "{{POSTGRES_HBA_CONF}}"
+    contype: host
+    users: "{{COMPUTATE_MEDICALE_DB_USER_ENUS}}"
+    source: "{{POSTGRES_HOST_NAME}}"
+    databases: "{{COMPUTATE_MEDICALE_DB_NAME_ENUS}}"
+    method: trust
+    create: true
+  become: true
+  become_user: "{{POSTGRES_BECOME_USER}}"
+- name: Restart the postgresql service. 
+  service:
+    name: "{{POSTGRES_SERVICE}}"
+    state: restarted
+  become: yes
 - name: Check for existing solr collection frFR
   shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /collections/{{COMPUTATE_MEDICALE_SOLR_COLLECTION_FRFR}}"
   ignore_errors: yes
