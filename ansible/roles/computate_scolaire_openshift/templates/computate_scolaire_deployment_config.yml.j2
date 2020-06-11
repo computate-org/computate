@@ -32,9 +32,7 @@ spec:
         deploymentconfig: computate-scolaire
     spec:
       containers:
-        - image: >-
-            docker-registry.default.svc:5000/school/computate-scolaire@sha256:d63de715bef6a0ecd3c0c3300a37037535cb6641d58a64275c78775eb871f614
-          imagePullPolicy: Always
+        - imagePullPolicy: Always
           name: computate-scolaire
           ports:
             - containerPort: 8080
@@ -228,7 +226,7 @@ spec:
         from:
           kind: ImageStreamTag
           name: 'computate-scolaire:latest'
-          namespace: school
+          namespace: {{COMPUTATE_SCOLAIRE_NAMESPACE}}
       type: ImageChange
     - type: ConfigChange
 
