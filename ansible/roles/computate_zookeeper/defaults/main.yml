@@ -9,6 +9,5 @@ ZOOKEEPER_REPO: https://github.com/apache/zookeeper.git
 ZOOKEEPER_VERSION: 3.6.0
 ZOOKEEPER_TAG: "release-{{ZOOKEEPER_VERSION}}"
 ZOOKEEPER_CLIENT_PORT: 10281
-ZOOKEEPER_ADMIN_PORT: 10280
 target: computate_zookeeper
 

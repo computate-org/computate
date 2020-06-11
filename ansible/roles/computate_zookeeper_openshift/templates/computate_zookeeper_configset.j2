@@ -1,0 +1,9 @@
+piVersion: v1
+data:
+  zoo.cfg: |
+    tickTime=2000
+    dataDir={{ZOOKEEPER_DATA}}
+    clientPort={{ZOOKEEPER_CLIENT_PORT}}
+    admin.enableServer=false
+kind: ConfigMap
+

@@ -50,16 +50,22 @@ spec:
           terminationMessagePolicy: File
           volumeMounts:
             - mountPath: /opt/zookeeper/data
-              name: computate-zookeeper-data-volume
+              name: volume-computate-zookeeper-data
+            - mountPath: /opt/zookeeper/conf
+              name: volume-computate-zookeeper-conf
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: computate-zookeeper-data-volume
+        - name: volume-computate-zookeeper-data
           persistentVolumeClaim:
             claimName: computate-zookeeper-persistent-volume-claim
+        - configMap:
+            defaultMode: 440
+            name: computate-zookeeper-configset
+          name: volume-computate-zookeeper-conf
   test: false
   triggers:
     - imageChangeParams:
