@@ -6,6 +6,14 @@
     api_key: "{{COMPUTATE_ZOOKEEPER_TOKEN}}"
     namespace: "{{COMPUTATE_ZOOKEEPER_NAMESPACE}}"
     definition: "{{ lookup('template', 'computate_zookeeper_image_stream.yml.j2') }}"
+- name: Install computate-zookeeper configmap
+  k8s: 
+    state: present
+    name: computate-zookeeper-configmap
+    host: "{{COMPUTATE_ZOOKEEPER_HOST}}"
+    api_key: "{{COMPUTATE_ZOOKEEPER_TOKEN}}"
+    namespace: "{{COMPUTATE_ZOOKEEPER_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_zookeeper_configmap.j2') }}"
 - name: Install computate-zookeeper persistent volume claim on OpenShift
   k8s: 
     state: present
