@@ -7183,6 +7183,19 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerContexteUnNom", (String)docClasse.get("contexteUnNom_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerContextePluriel", (String)docClasse.get("contextePluriel_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerUtilisateurEcrire", (Boolean)docClasse.get("classeUtilisateurEcrire_stored_boolean"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerSessionEcrire", (Boolean)docClasse.get("classeSessionEcrire_stored_boolean"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerPublicLire", (Boolean)docClasse.get("classePublicLire_stored_boolean"));
+									List<String> entiteClasseRoles = (List<String>)docClasse.get("classeRoles_stored_strings");
+									List<String> entiteClasseRolesLangue = (List<String>)docClasse.get("classeRolesLangue_stored_strings");
+									if(entiteClasseRoles != null && entiteClasseRoles.size() > 0) {
+										for(int i = 0; i < entiteClasseRoles.size(); i++) {
+											String entiteClasseRole = entiteClasseRoles.get(i);
+											String entiteClasseRoleLangue = entiteClasseRolesLangue.get(i);
+											indexerStockerListeSolr(classeLangueNom, entiteDoc, "entiteAttribuerClasseRoles", entiteClasseRole);
+											indexerStockerListeSolr(classeLangueNom, entiteDoc, "entiteAttribuerClasseRolesLangue", entiteClasseRoleLangue);
+										}
+									}
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteCouleur", (String)docClasse.get("contexteCouleur_stored_string"));
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteIconeGroupe", (String)docClasse.get("contexteIconeGroupe_stored_string"));
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteIconeNom", (String)docClasse.get("contexteIconeNom_stored_string"));

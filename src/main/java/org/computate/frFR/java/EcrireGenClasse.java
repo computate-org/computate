@@ -2995,6 +2995,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			String entiteAttribuerVarTitre = (String)doc.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
 			String entiteAttribuerVarDescription = (String)doc.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
 			String entiteAttribuerVarImageUrl = (String)doc.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
+			Boolean entiteAttribuerUtilisateurEcrire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerUtilisateurEcrire_stored_boolean"));
+			Boolean entiteAttribuerSessionEcrire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerSessionEcrire_stored_boolean"));
+			Boolean entiteAttribuerPublicLire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerPublicLire_stored_boolean"));
+			List<String> entiteAttribuerClasseRoles = (List<String>)doc.get("entiteAttribuerClasseRoles_stored_strings");
+			List<String> entiteAttribuerClasseRolesLangue = (List<String>)doc.get("entiteAttribuerClasseRolesLangue_stored_strings");
 			Boolean entiteAjouter = (Boolean)doc.get("entiteAjouter_stored_boolean");
 			Boolean entiteSupprimer = (Boolean)doc.get("entiteSupprimer_stored_boolean");
 			Boolean entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");
@@ -4458,7 +4463,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 8).l("} ", classePrefixe, "g(\"ul\");");
 
 
-								if(classeUtilisateurEcrire && classeSessionEcrire) {
+								if(entiteAttribuerUtilisateurEcrire && entiteAttribuerSessionEcrire) {
 									t(tIndex + 8).s(classePrefixe, "if(").l();
 									t(tIndex + 10).s(classePrefixe, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
 									t(tIndex + 10).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
@@ -4466,13 +4471,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 10).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)").l();
 									t(tIndex + 8).s(classePrefixe, ") {").l();
 								}
-								else if(classePublicLire) {
-									tl(tIndex + 8, "if(");
-									tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-									tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-									tl(tIndex + 10, ") {");
-								}
-								else if(classeUtilisateurEcrire) {
+								else if(entiteAttribuerUtilisateurEcrire) {
 									if(classeRolesTrouves || classeRoleLiresTrouves) {
 										tl(tIndex + 8, "if(");
 										tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
@@ -4483,7 +4482,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 										t(tIndex + 8).s(classePrefixe, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
 									}
 								}
-								else if(classeSessionEcrire) {
+								else if(entiteAttribuerSessionEcrire) {
 									t(tIndex + 8).s(classePrefixe, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
 								}
 								else {
