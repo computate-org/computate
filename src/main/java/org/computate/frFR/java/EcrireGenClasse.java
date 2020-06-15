@@ -2988,6 +2988,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			String entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 			String entiteAttribuerNomCanoniqueGenApiServiceImpl = (String)doc.get("entiteAttribuerNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
 			String entiteAttribuerNomSimpleGenApiServiceImpl = (String)doc.get("entiteAttribuerNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
+			String entiteAttribuerNomSimpleApiServiceImpl = (String)doc.get("entiteAttribuerNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
 			String entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
 			String entiteAttribuerVarUrlId = (String)doc.get("entiteAttribuerVarUrlId_" + langueNom + "_stored_string");
 			String entiteAttribuerVarUrlPk = (String)doc.get("entiteAttribuerVarUrlPk_" + langueNom + "_stored_string");
@@ -3280,18 +3281,18 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			t(1, "protected ", entiteNomSimpleComplet, " ", entiteVar);
 			if(!entiteCouverture) {
 				if("java.util.List".equals(entiteNomCanonique)) {
-					s(" = new java.util.ArrayList<");
-					s(entiteNomCanoniqueGenerique);
+					s(" = new ArrayList<");
+					s(entiteNomSimpleGenerique);
 					s(">()");
 				}
 				else if("java.util.Map".equals(entiteNomCanonique)) {
-					s(" = new java.util.HashMap<");
-					s(entiteNomCanoniqueGenerique);
+					s(" = new HashMap<");
+					s(entiteNomSimpleGenerique);
 					s(">()");
 				}
 				else if("java.util.Set".equals(entiteNomCanonique)) {
-					s(" = new java.util.HashSet<");
-					s(entiteNomCanoniqueGenerique);
+					s(" = new HashSet<");
+					s(entiteNomSimpleGenerique);
 					s(">()");
 				}
 				else {
@@ -4464,18 +4465,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 
 								if(entiteAttribuerUtilisateurEcrire && entiteAttribuerSessionEcrire) {
-									t(tIndex + 8).s(classePrefixe, "if(").l();
-									t(tIndex + 10).s(classePrefixe, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
-									t(tIndex + 10).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
-									t(tIndex + 10).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)").l();
-									t(tIndex + 10).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)").l();
-									t(tIndex + 8).s(classePrefixe, ") {").l();
+									t(tIndex + 8).s(classePrefixe, "{").l();
 								}
 								else if(entiteAttribuerUtilisateurEcrire) {
-									if(classeRolesTrouves || classeRoleLiresTrouves) {
+									if(entiteAttribuerClasseRoles != null && entiteAttribuerClasseRoles.size() > 0) {
 										tl(tIndex + 8, "if(");
-										tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-										tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+										tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
+										tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
 										tl(tIndex + 10, ") {");
 									}
 									else {
@@ -4486,7 +4482,15 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 8).s(classePrefixe, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
 								}
 								else {
-									t(tIndex + 8).s(classePrefixe, "{").l();
+									if(classeRolesTrouves || classeRoleLiresTrouves) {
+										tl(tIndex + 8, "if(");
+										tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
+										tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
+										tl(tIndex + 10, ") {");
+									}
+									else {
+										t(tIndex + 8).s(classePrefixe, "{").l();
+									}
 								}
 
 								t(tIndex + 9).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();

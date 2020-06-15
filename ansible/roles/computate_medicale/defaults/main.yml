@@ -1,11 +1,118 @@
+
+# The name of this application. 
 COMPUTATE_MEDICALE_NAME: computate-medicale
+# The default source code directory for the computate application which helps generate and translate most the code. 
 COMPUTATE_SRC: "/usr/local/src/computate"
+# The default source code directory for the computate-medicale project. 
 COMPUTATE_MEDICALE_SRC: "/usr/local/src/{{COMPUTATE_MEDICALE_NAME}}"
+# The default language of the computate-medicale project code which is French in France. 
 COMPUTATE_MEDICALE_LANG: "frFR"
+# The default config file for the computate-medicale project. 
 COMPUTATE_MEDICALE_CONFIG: "{{COMPUTATE_MEDICALE_SRC}}/config/{{COMPUTATE_MEDICALE_NAME}}.config"
+# The US English config file for the computate-medicale project. 
 COMPUTATE_MEDICALE_CONFIG_enUS: "{{COMPUTATE_MEDICALE_SRC}}/config/{{COMPUTATE_MEDICALE_NAME}}-enUS.config"
+# The systemd service name for computate-medicale that generates and translates most of the code. 
 COMPUTATE_MEDICALE_SERVICE: "regarder-{{COMPUTATE_MEDICALE_NAME}}"
+# The systemd service file for computate-medicale that generates and translates most of the code. 
 COMPUTATE_MEDICALE_SYSTEMD: "/usr/lib/systemd/system/{{COMPUTATE_MEDICALE_SERVICE}}.service"
+# The main git repository for the computate-medicale project. 
 COMPUTATE_MEDICALE_REPO: "https://github.com/computate/{{COMPUTATE_MEDICALE_NAME}}.git"
+# The target ansible inventory group for the computate-medicale project to setup your own hosts under this name to deploy the application to. 
 target: computate_medicale
 
+# Add to an ansible-vault the username of your user on your computer (echo $HOSTNAME). 
+USER_NAME: "..."
+# Add to an ansible-vault the password of your user on your computer to become root for configuring the applications. 
+USER_PASSWORD: "..."
+# Setup the ansible user when running the playbook as your user. 
+ansible_user: "{{USER_NAME}}"
+# Setup the ansible sudo password as your password when running the playbook. 
+ansible_sudo_pass: "{{USER_PASSWORD}}"
+# Setup the ansible password for elevated privileges as your password when running the playbook. 
+ansible_become_pass: "{{USER_PASSWORD}}"
+# Setup the ansible password for ssh as your password when running the playbook. 
+ansible_ssh_pass: "{{USER_PASSWORD}}"
+
+# Setup the decryption password for decrypting other secrets in the playbook. 
+VAULT_PASSWORD: "{{USER_PASSWORD}}"
+
+# The default port that zookeeper runs to manage the cluster. 
+COMPUTATE_ZOOKEEPER_PORT: 2181
+# The default hostname for zookeeper cluster manager. 
+COMPUTATE_ZOOKEEPER_HOSTNAME: "localhost"
+
+COMPUTATE_SOLR_HOSTNAME: "localhost"
+COMPUTATE_SOLR_PORT: 10383
+COMPUTATE_SOLR_VOLUME_SIZE: 2Gi
+
+POSTGRES_HOST_NAME: "localhost"
+POSTGRES_BECOME_USER: "postgres"
+POSTGRES_HBA_CONF: "/var/lib/pgsql/data/pg_hba.conf"
+POSTGRES_SERVICE: "postgresql"
+
+ZOOKEEPER_CLIENT_PORT: 2181
+
+SOLR_OPT: /opt/solr
+COMPUTATE_SOLR_HOST_NAME: localhost
+
+COMPUTATE_MEDICALE_STATIC_BASE_URL: "https://example.neocities.org"
+COMPUTATE_MEDICALE_NUMBER_EXECUTORS: 5
+COMPUTATE_MEDICALE_SSL_PROPERTIES_FILENAME: computate-medicale-keystore.properties
+
+COMPUTATE_MEDICALE_DOMAIN_NAME_FRFR: "example.com"
+COMPUTATE_MEDICALE_SITE_HOST_NAME_FRFR: "medicale-dev.{{COMPUTATE_MEDICALE_DOMAIN_NAME_FRFR}}"
+COMPUTATE_MEDICALE_SITE_PORT_FRFR: "10580"
+COMPUTATE_MEDICALE_SITE_BASE_URL_FRFR: "https://{{COMPUTATE_MEDICALE_SITE_HOST_NAME_FRFR}}:{{COMPUTATE_MEDICALE_SITE_PORT_FRFR}}"
+COMPUTATE_MEDICALE_SOLR_COLLECTION_FRFR: "medicale"
+COMPUTATE_MEDICALE_SITE_ZONE_FRFR: "France/Paris"
+COMPUTATE_MEDICALE_DB_HOST_NAME_FRFR: "localhost"
+COMPUTATE_MEDICALE_DB_USER_FRFR: computate
+COMPUTATE_MEDICALE_DB_NAME_FRFR: medicale
+COMPUTATE_MEDICALE_DB_PASSWORD_FRFR: "..."
+COMPUTATE_MEDICALE_JAVA_MAIN_CLASS_FRFR: org.computate.medicale.frFR.vertx.AppliVertx
+COMPUTATE_MEDICALE_BACKUP_DIR_FRFR: /usr/local/src/computate-medicale-static/data/frFR
+COMPUTATE_MEDICALE_RESTORE_DIR_FRFR: /home/ctate/backup/medicale-dev/frFR
+
+COMPUTATE_MEDICALE_DOMAIN_NAME_ENUS: "example.com"
+COMPUTATE_MEDICALE_SITE_HOST_NAME_ENUS: "medicale-dev.{{COMPUTATE_MEDICALE_DOMAIN_NAME_ENUS}}"
+COMPUTATE_MEDICALE_SITE_PORT_ENUS: "10581"
+COMPUTATE_MEDICALE_SITE_BASE_URL_ENUS: "https://{{COMPUTATE_MEDICALE_SITE_HOST_NAME_ENUS}}:{{COMPUTATE_MEDICALE_SITE_PORT_ENUS}}"
+COMPUTATE_MEDICALE_SOLR_COLLECTION_ENUS: "medical"
+COMPUTATE_MEDICALE_SITE_ZONE_ENUS: "America/Denver"
+COMPUTATE_MEDICALE_DB_HOST_NAME_ENUS: "localhost"
+COMPUTATE_MEDICALE_DB_USER_ENUS: computate
+COMPUTATE_MEDICALE_DB_NAME_ENUS: medical
+COMPUTATE_MEDICALE_DB_PASSWORD_ENUS: "..."
+COMPUTATE_MEDICALE_JAVA_MAIN_CLASS_ENUS: org.computate.medicale.enUS.vertx.AppVertx
+COMPUTATE_MEDICALE_BACKUP_DIR_ENUS: /usr/local/src/computate-medicale-static/data/enUS
+COMPUTATE_MEDICALE_RESTORE_DIR_ENUS: /home/ctate/backup/medicale-dev/enUS
+
+EMAIL_HOST: smtp.example.com
+EMAIL_PORT: 465
+EMAIL_FROM: "..."
+EMAIL_SSL: true
+EMAIL_AUTH: true
+EMAIL_USERNAME: "..."
+EMAIL_PASSWORD: "..."
+
+AUTH_REALM: EXAMPLE.COM
+AUTH_RESOURCE: example.com
+AUTH_SECRET: "..."
+AUTH_URL: https://sso.example.com/auth
+
+SSL_ALIAS: "{{COMPUTATE_MEDICALE_DOMAIN_NAME_FRFR}}"
+SSL_KEYSTORE_PATH: /opt/keystore
+SSL_PROPERTIES_FILENAME: computate-medicale-keystore.properties
+SSL_JKS_FILENAME: "{{SSL_ALIAS}}.jks"
+SSL_JKS_PATH: "{{SSL_KEYSTORE_PATH}}/{{SSL_JKS_FILENAME}}"
+SSL_CRT_FILENAME: "{{SSL_ALIAS}}.crt"
+SSL_CRT_PATH: "{{SSL_KEYSTORE_PATH}}/{{SSL_CRT_FILENAME}}"
+SSL_KEY_FILENAME: "{{SSL_ALIAS}}.key"
+SSL_KEY_PATH: "{{SSL_KEYSTORE_PATH}}/{{SSL_KEY_FILENAME}}"
+SSL_P12_PASSWORD: "..."
+SSL_JKS_PASSWORD: "{{SSL_P12_PASSWORD}}"
+
+SSO_SITE_HOST_NAME: "sso.example.com"
+
+SSL_JKS_BASE64: "..."
+SSL_JCEKS_BASE64: "..."

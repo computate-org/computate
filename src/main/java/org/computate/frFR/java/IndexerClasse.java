@@ -6193,6 +6193,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, NumberFormat.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, ArrayList.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.Logger", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.LoggerFactory", classeLangueNom), classeLangueNom);
 
@@ -7132,6 +7133,9 @@ public class IndexerClasse extends RegarderClasseBase {
 								String entiteAttribuerNomCanonique = (String)docClasse.get("classeNomCanonique_" + classeLangueNom + "_stored_string");
 								String entiteAttribuerNomCanoniqueGenApiServiceImpl = (String)docClasse.get("classeNomCanoniqueGenApiServiceImpl_" + classeLangueNom + "_stored_string");
 								String entiteAttribuerNomSimpleGenApiServiceImpl = (String)docClasse.get("classeNomSimpleGenApiServiceImpl_" + classeLangueNom + "_stored_string");
+								String entiteAttribuerNomSimpleApiServiceImpl = (String)docClasse.get("classeNomSimpleApiServiceImpl_" + classeLangueNom + "_stored_string");
+
+								classePartsGenAjouter(ClasseParts.initClasseParts(this, entiteAttribuerNomCanonique, classeLangueNom), classeLangueNom);
 
 								indexerStockerListeSolr(classeLangueNom, classeDoc, "classeImportationsGenApi", entiteAttribuerNomCanoniqueGenApiServiceImpl);
 								indexerStockerListeSolr(classeLangueNom, classeDoc, "classeImportationsGenApi", entiteAttribuerNomCanonique);
@@ -7154,6 +7158,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanonique);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomCanoniqueGenApiServiceImpl", entiteAttribuerNomCanoniqueGenApiServiceImpl);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimpleGenApiServiceImpl", entiteAttribuerNomSimpleGenApiServiceImpl);
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerNomSimpleApiServiceImpl", entiteAttribuerNomSimpleApiServiceImpl);
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVar);
 									{
 										List<String> listeVal = Optional.ofNullable((List<String>)docClasse.get("classeTrisVar_" + classeLangueNom + "_stored_strings")).orElse(Collections.emptyList());
@@ -7183,17 +7188,17 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerContexteUnNom", (String)docClasse.get("contexteUnNom_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerContextePluriel", (String)docClasse.get("contextePluriel_" + classeLangueNom + "_stored_string"));
-									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerUtilisateurEcrire", (Boolean)docClasse.get("classeUtilisateurEcrire_stored_boolean"));
-									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerSessionEcrire", (Boolean)docClasse.get("classeSessionEcrire_stored_boolean"));
-									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerPublicLire", (Boolean)docClasse.get("classePublicLire_stored_boolean"));
+									indexerStockerSolr(entiteDoc, "entiteAttribuerUtilisateurEcrire", (Boolean)docClasse.get("classeUtilisateurEcrire_stored_boolean"));
+									indexerStockerSolr(entiteDoc, "entiteAttribuerSessionEcrire", (Boolean)docClasse.get("classeSessionEcrire_stored_boolean"));
+									indexerStockerSolr(entiteDoc, "entiteAttribuerPublicLire", (Boolean)docClasse.get("classePublicLire_stored_boolean"));
 									List<String> entiteClasseRoles = (List<String>)docClasse.get("classeRoles_stored_strings");
 									List<String> entiteClasseRolesLangue = (List<String>)docClasse.get("classeRolesLangue_stored_strings");
 									if(entiteClasseRoles != null && entiteClasseRoles.size() > 0) {
 										for(int i = 0; i < entiteClasseRoles.size(); i++) {
 											String entiteClasseRole = entiteClasseRoles.get(i);
 											String entiteClasseRoleLangue = entiteClasseRolesLangue.get(i);
-											indexerStockerListeSolr(classeLangueNom, entiteDoc, "entiteAttribuerClasseRoles", entiteClasseRole);
-											indexerStockerListeSolr(classeLangueNom, entiteDoc, "entiteAttribuerClasseRolesLangue", entiteClasseRoleLangue);
+											indexerStockerListeSolr(entiteDoc, "entiteAttribuerClasseRoles", entiteClasseRole);
+											indexerStockerListeSolr(entiteDoc, "entiteAttribuerClasseRolesLangue", entiteClasseRoleLangue);
 										}
 									}
 									indexerStockerSolr(entiteDoc, "entiteAttribuerContexteCouleur", (String)docClasse.get("contexteCouleur_stored_string"));
@@ -7226,6 +7231,7 @@ public class IndexerClasse extends RegarderClasseBase {
 											String entiteAttribuerNomSimpleLangue = (String)docEntite.get("classeNomSimple_" + langueNom + "_stored_string");
 											String entiteAttribuerNomCanoniqueGenApiServiceImplLangue = (String)docClasse.get("classeNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
 											String entiteAttribuerNomSimpleGenApiServiceImplLangue = (String)docClasse.get("classeNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
+											String entiteAttribuerNomSimpleApiServiceImplLangue = (String)docClasse.get("classeNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
 											String entiteAttribuerVarLangue = (String)docEntite.get("entiteVar_" + langueNom + "_stored_string");
 											String classeNomSimpleLangue = (String)Optional.ofNullable(classeDoc.get("classeNomSimple_" + langueNom + "_stored_string")).map(SolrInputField::getValue).orElse(null);
 
@@ -7235,6 +7241,7 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomSimple", entiteAttribuerNomSimpleLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomCanonique", entiteAttribuerNomCanoniqueLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomSimpleGenApiServiceImpl", entiteAttribuerNomSimpleGenApiServiceImplLangue);
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomSimpleApiServiceImpl", entiteAttribuerNomSimpleApiServiceImplLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerNomCanoniqueGenApiServiceImpl", entiteAttribuerNomCanoniqueGenApiServiceImplLangue);
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVar", entiteAttribuerVarLangue);
 											{
