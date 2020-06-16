@@ -899,9 +899,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										}
 										wWebsocketInput.tl(3, "if(vars.includes('", entiteVar, "')) {");
 										if(entiteImageBase64Url != null) {
+											wWebsocketInput.tl(4, "if(val === undefined)");
+											wWebsocketInput.tl(5, "val = null;");
 											wWebsocketInput.tl(4, "$('.img", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
 											wWebsocketInput.tl(5, "if(val !== $(this).attr('src'))");
 											wWebsocketInput.tl(6, "$(this).attr('src', val);");
+											wWebsocketInput.tl(4, "});");
+										}
+										if(entiteSignature) {
+											wWebsocketInput.tl(4, "if(val === undefined)");
+											wWebsocketInput.tl(5, "val = null;");
+											wWebsocketInput.tl(4, "$('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+											wWebsocketInput.tl(5, "if(val !== $('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src'))");
+											wWebsocketInput.tl(6, "$('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src', val == null ? 'data:image/png;base64,' : val);");
+											wWebsocketInput.tl(5, str_ajouterLueur(langueNom), "($('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
 											wWebsocketInput.tl(4, "});");
 										}
 										wWebsocketInput.tl(4, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");

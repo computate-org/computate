@@ -4288,13 +4288,14 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 3).s(classePrefixe, "g(\"div\");").l();
 							}
 							else if(BooleanUtils.isTrue(entiteSignature)) {
-								t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"class\", \"signatureDiv1", classeNomSimple, "_", entiteVar, "\").a(\"id\", \"signatureDiv1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
+								t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"class\", \"signatureDiv1", classeNomSimple, "_", entiteVar, " signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, "\").a(\"id\", \"signatureDiv1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
 
 								t(tIndex + 4).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
 								t(tIndex + 5).s(classePrefixe, "a(\"style\", \"display: \", StringUtils.isBlank(", entiteVar, ") ? \"block\" : \"none\", \"; \");").l();
 								t(tIndex + 4).s(classePrefixe, "f().g(\"div\");").l();
 
 								t(tIndex + 4).s(classePrefixe, "e(\"img\").a(\"id\", \"signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+								t(tIndex + 5).s(classePrefixe, "a(\"class\", \"signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \");").l();
 								t(tIndex + 5).s(classePrefixe, "a(\"src\", StringUtils.isBlank(", entiteVar, ") ? \"data:image/png;base64,\" : ", entiteVar, ").a(\"alt\", \"\");").l();
 								t(tIndex + 5).s(classePrefixe, "a(\"style\", \"padding: 10px; display: \", StringUtils.isBlank(", entiteVar, ") ? \"none\" : \"block\", \"; \");").l();
 								t(tIndex + 4).s(classePrefixe, "fg();").l();
