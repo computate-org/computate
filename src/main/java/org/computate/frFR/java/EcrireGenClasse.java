@@ -1611,12 +1611,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	public void genCodeSauvegardes(String langueNom) throws Exception {
 		o = wSauvegardes;
 		if(classeSauvegarde) {
-			l(); 
-			tl(1, "/////////////////");
-			tl(1, "// ", str_sauvegardes(langueNom), " //");
-			tl(1, "/////////////////");
-			tl(0);
-			tl(1, "protected List<String> ", str_sauvegardes(langueNom), "", classeNomSimple, " = new ArrayList<String>();");
+//			l(); 
+//			tl(1, "/////////////////");
+//			tl(1, "// ", str_sauvegardes(langueNom), " //");
+//			tl(1, "/////////////////");
+//			tl(0);
+//			tl(1, "protected List<String> ", str_sauvegardes(langueNom), " = new ArrayList<String>();");
 //			t(1);
 //			if(!classeNomSimple.equals("Cluster"))
 //				s("@Override ");
@@ -1642,7 +1642,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //			tl(4, "String chemin = (String)objets[0];");
 //			tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
 //			tl(4, "definirPourClasse(chemin, valeur);");
-//			tl(4, "", str_sauvegardes(langueNom), "", classeNomSimple, ".add(chemin);");
+//			tl(4, "", str_sauvegardes(langueNom), ".add(chemin);");
 //			tl(3, "}");
 //			tl(2, "}");
 //			tl(1, "}");
@@ -4926,8 +4926,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(4, "o", classeNomSimple, ".add", entiteVarCapitalise, "((", entiteNomSimpleCompletGenerique, ")val);");
 				else
 					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
-				tl(4, "if(!", str_sauvegardes(langueNom), classeNomSimple, ".contains(var))");
-				tl(5, str_sauvegardes(langueNom), classeNomSimple, ".add(var);");
+				tl(4, "if(!", str_sauvegardes(langueNom), ".contains(var))");
+				tl(5, str_sauvegardes(langueNom), ".add(var);");
 				tl(4, "return val;");
 			}	
 	
@@ -4941,13 +4941,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 						tl(4, "if(val != null)");
 						tl(5, "add", entiteVarCapitalise, "(val);");
-						tl(4, "if(!", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(var))");
-						tl(5, "", str_sauvegardes(langueNom), "", classeNomSimple, ".add(var);");
+						tl(4, "if(!", str_sauvegardes(langueNom), ".contains(var))");
+						tl(5, "", str_sauvegardes(langueNom), ".add(var);");
 					}
 					else {
 						tl(4, "if(val != null)");
 						tl(5, "set", entiteVarCapitalise, "(val);");
-						tl(4, str_sauvegardes(langueNom), classeNomSimple, ".add(var);");
+						tl(4, str_sauvegardes(langueNom), ".add(var);");
 					}
 					tl(4, "return val;");
 			}	
@@ -4986,13 +4986,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(0);
 	
 					if(entiteSuggere) {
-						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(3, "if(", str_sauvegardes(langueNom), ".contains(\"", entiteVar, "\")) {");
 						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_suggested", "\");");
 						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 						tl(3, "}");
 					}
 //					else if(entiteIncremente) {
-//						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+//						tl(3, "if(", str_sauvegardes(langueNom), ".contains(\"", entiteVar, "\")) {");
 //						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_incremented", "\");");
 //						tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 //						tl(3, "}");
@@ -5007,7 +5007,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					}
 					else if(entiteCrypte) {
-						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(3, "if(", str_sauvegardes(langueNom), ".contains(\"", entiteVar, "\")) {");
 						if(siteCrypte)
 							tl(4, entiteSolrNomSimple, " ", entiteVar, " = requeteSite.decrypterStr((", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_encrypted", entiteSuffixeType, "\"));");
 						else
@@ -5024,7 +5024,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 					}
 					else {
-						tl(3, "if(", str_sauvegardes(langueNom), "", classeNomSimple, ".contains(\"", entiteVar, "\")) {");
+						tl(3, "if(", str_sauvegardes(langueNom), ".contains(\"", entiteVar, "\")) {");
 						tl(4, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
 						if(StringUtils.contains(entiteSolrNomCanonique, "<")) {
 							if(entiteCouverture) {
@@ -5523,14 +5523,14 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(1, "}");
 		}
 
-		if(classeSauvegarde) {
-			l(); 
-			tl(1, "/////////////////");
-			tl(1, "// ", str_sauvegardes(langueNom), " //");
-			tl(1, "/////////////////");
-			tl(0);
-			tl(1, "protected List<String> ", str_sauvegardes(langueNom), "", classeNomSimple, " = new ArrayList<String>();");
-		}
+//		if(classeSauvegarde) {
+//			l(); 
+//			tl(1, "/////////////////");
+//			tl(1, "// ", str_sauvegardes(langueNom), " //");
+//			tl(1, "/////////////////");
+//			tl(0);
+//			tl(1, "protected List<String> ", str_sauvegardes(langueNom), " = new ArrayList<String>();");
+//		}
 
 		/////////////////
 		// codePeupler //
@@ -5551,8 +5551,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(1, "}");
 			tl(1, "public void ", str_peupler(langueNom), classeNomSimple, "(SolrDocument solrDocument) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
-			tl(2, "", str_sauvegardes(langueNom), "", classeNomSimple, " = (List<String>)solrDocument.get(\"", str_sauvegardes(langueNom), "", classeNomSimple, "_stored_strings\");");
-			tl(2, "if(", str_sauvegardes(langueNom), "", classeNomSimple, " != null) {");
+			tl(2, "", str_sauvegardes(langueNom), " = (List<String>)solrDocument.get(\"", str_sauvegardes(langueNom), "_stored_strings\");");
+			tl(2, "if(", str_sauvegardes(langueNom), " != null) {");
 			s(wPeupler.toString());
 			tl(2, "}");
 			if(BooleanUtils.isTrue(classeEtendBase)) {
@@ -5675,11 +5675,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 			tl(0);
 			tl(1, "public void ", str_indexer(langueNom), classeNomSimple, "(SolrInputDocument document) {");
-			if(classeSauvegarde) {
-				tl(2, "if(", str_sauvegardes(langueNom), "", classeNomSimple, " != null)");
-				tl(3, "document.addField(\"", str_sauvegardes(langueNom), "", classeNomSimple, "_stored_strings\", ", str_sauvegardes(langueNom), "", classeNomSimple, ");");
-				l();
-			}
 			s(wIndexer.toString());
 			if(classeEtendBase && !classeEstBase) {
 				tl(2, "super.", str_indexer(langueNom), "", classeNomSimpleSuperGenerique, "(document);");
@@ -5888,7 +5883,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 ////						else
 ////							tl(4, "String valeur = (String)objets[1];");
 ////						tl(4, "", str_definir(langueNom), "(chemin, valeur);");
-////						tl(4, "", str_sauvegardes(langueNom), "", classeNomSimple, ".add(chemin);");
+////						tl(4, "", str_sauvegardes(langueNom), ".add(chemin);");
 ////						tl(3, "}");
 ////						tl(2, "}");
 //			tl(0);
