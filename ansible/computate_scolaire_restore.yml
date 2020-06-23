@@ -1,4 +1,9 @@
 ---
+- name: Sign in to the application through the SSO server
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_login }
 - name: Restore the computate-scolaire page-design data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR_ENUS}}
   hosts: localhost
   connection: local

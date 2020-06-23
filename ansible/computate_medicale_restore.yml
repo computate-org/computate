@@ -1,4 +1,9 @@
 ---
+- name: Sign in to the application through the SSO server
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: computate_scolaire_login }
 - name: Restore the computate-medicale page-design data in {{COMPUTATE_MEDICALE_RESTORE_DIR}}
   hosts: localhost
   connection: local
