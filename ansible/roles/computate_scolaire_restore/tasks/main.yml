@@ -4,8 +4,8 @@
 # Postgres Pod: 
 # psql school -c 'delete from a; delete from d; delete from c;'
 ---
-- name: Decrypt and import the {{DATA_NAME_VAR}} data
-  shell: "export VAULT_PASSWORD='{{VAULT_PASSWORD}}' && cat '{{item}}' | ansible-vault decrypt --vault-password-file '/usr/local/src/computate/ansible/bin/echo-vault-password.sh' | curl -X PUT -H 'Authorization: Bearer {{(AUTH_TOKEN.stdout | from_json).access_token}}' -H 'Content-Type: application/json' -d @- '{{COMPUTATE_SCOLAIRE_SITE_BASE_URL_ENUS}}{{DATA_URI}}/import?var=refresh:false' && sleep 5"
+- name: For each file
+  include_tasks: computate_scolaire_restore.yml
   with_fileglob: 
     - "{{COMPUTATE_SCOLAIRE_RESTORE_DIR_ENUS}}/{{DATA_NAME_VAR}}*"
 
