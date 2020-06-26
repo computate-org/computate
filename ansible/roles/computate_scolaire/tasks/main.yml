@@ -18,7 +18,7 @@
     src: computate_scolaire_service.j2
     dest: "{{COMPUTATE_SCOLAIRE_SYSTEMD}}"
   become: yes
-- name: Create the {{COMPUTATE_MEDICALE_NAME}} config dir.
+- name: Create the {{COMPUTATE_SCOLAIRE_NAME}} config dir.
   file: 
     name: "{{COMPUTATE_SCOLAIRE_SRC}}/config"
     state: directory

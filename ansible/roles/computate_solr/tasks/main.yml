@@ -151,7 +151,7 @@
   register: SOLR_CONFIGSET_EXISTS
   changed_when: false
 - name: Upload computate configset to zookeeper
-  shell: "{{SOLR_OPT}}/bin/solr zk upconfig -n computate -d {{SOLR_OPT}}/server/solr/configsets/computate -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}}"
+  shell: "{{SOLR_OPT}}/bin/solr zk upconfig -n computate -d {{SOLR_OPT}}/server/solr/configsets/computate -z {{ZOOKEEPER_HOST_NAME}}:{{ZOOKEEPER_CLIENT_PORT}}"
   when: SOLR_CONFIGSET_EXISTS.rc != 0
 
 #- name: Setup the solr security configuration
@@ -159,7 +159,7 @@
 #    src: computate_solr_security.json.j2
 #    dest: "{{SOLR_OPT}}/server/solr/security.json"
 #- name: Upload security configuration to zookeeper
-#  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd putfile /security.json {{SOLR_OPT}}/server/solr/security.json"
+#  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -z {{ZOOKEEPER_HOST_NAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd putfile /security.json {{SOLR_OPT}}/server/solr/security.json"
 #
 #- name: Create computate collection in solr
 #  shell: "(SOLR_AUTH_TYPE=basic SOLR_AUTHENTICATION_OPTS='-Dbasicauth={{SOLR_SOLRJ_USER}}:{{SOLR_SOLRJ_PASSWORD}}' {{SOLR_OPT}}/bin/solr create_collection -c computate -n computate)"

@@ -10,7 +10,7 @@ SILK_PORT: 5601
 SILK_CONFIGSET: silkconfig
 SILK_COLLECTION: silkconfig
 SOLR_OPT: "/opt/solr"
-ZOOKEEPER_HOSTNAME: localhost
+ZOOKEEPER_HOST_NAME: localhost
 ZOOKEEPER_CLIENT_PORT: 2181
 target: computate_silk
 

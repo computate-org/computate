@@ -12,7 +12,7 @@ SOLR_PORT: 8983
 SOLR_CONFIG: computate
 COMPUTATE_REPO: https://github.com/computate/computate.git
 COMPUTATE_SRC: /usr/local/src/computate
-ZOOKEEPER_HOSTNAME: localhost
+ZOOKEEPER_HOST_NAME: localhost
 ZOOKEEPER_CLIENT_PORT: 2181
 JAVA_HOME: /usr/lib/jvm/java-1.8.0-openjdk
 target: computate_solr
