@@ -1,4 +1,4 @@
-- name: Install {{COMPUTATE_POSTGRES_NAME}} development dependencies
+- name: Install {{POSTGRES_NAME}} development dependencies
   package:
     name: [postgresql-server]
   become: yes
@@ -7,9 +7,9 @@
   args: 
     creates: /var/lib/pgsql/data/pg_hba.conf
   become: yes
-- name: Start and enable the {{COMPUTATE_POSTGRES_NAME}} service.
+- name: Start and enable the {{POSTGRES_NAME}} service.
   service:
-    name: "{{COMPUTATE_POSTGRES_SERVICE}}"
+    name: "{{POSTGRES_SERVICE}}"
     enabled: yes
     state: started
   become: yes
