@@ -35,11 +35,8 @@ spec:
         - imagePullPolicy: Always
           name: computate-zookeeper
           ports:
-            - containerPort: 8080
+            - containerPort: {{ZOOKEEPER_PORT}}
               name: client-port
-              protocol: TCP
-            - containerPort: 8081
-              name: admin-port
               protocol: TCP
           resources:
             limits:
