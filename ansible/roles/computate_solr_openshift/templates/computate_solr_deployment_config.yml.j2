@@ -34,11 +34,11 @@ spec:
       containers:
         - env:
             - name: ZK_HOSTNAME
-              value: computate-zookeeper.{{ZOOKEEPER_NAMESPACE}}.svc
+              value: {{ZOOKEEPER_HOST_NAME}}
           imagePullPolicy: Always
           name: computate-solr
           ports:
-            - containerPort: 8080
+            - containerPort: {{SOLR_PORT}}
               name: solr-port
               protocol: TCP
           resources:

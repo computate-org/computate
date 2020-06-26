@@ -112,7 +112,7 @@
     state: restarted
   become: yes
 - name: Check for existing solr collection frFR
-  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /collections/{{COMPUTATE_MEDICALE_SOLR_COLLECTION_FRFR}}"
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_PORT}} -cmd ls /collections/{{COMPUTATE_MEDICALE_SOLR_COLLECTION_FRFR}}"
   ignore_errors: yes
   register: SOLR_COLLECTION_EXISTS_FRFR
   changed_when: false
@@ -120,7 +120,7 @@
   shell: "{{SOLR_OPT}}/bin/solr create_collection -n computate -c {{COMPUTATE_MEDICALE_SOLR_COLLECTION_FRFR}}"
   when: SOLR_COLLECTION_EXISTS_FRFR.rc != 0
 - name: Check for existing solr collection enUS
-  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /collections/{{COMPUTATE_MEDICALE_SOLR_COLLECTION_ENUS}}"
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_PORT}} -cmd ls /collections/{{COMPUTATE_MEDICALE_SOLR_COLLECTION_ENUS}}"
   ignore_errors: yes
   register: SOLR_COLLECTION_EXISTS_ENUS
   changed_when: false

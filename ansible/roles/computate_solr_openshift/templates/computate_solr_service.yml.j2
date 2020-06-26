@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 spec:
   ports:
-    - name: 8080-tcp
-      port: 8080
+    - name: 8983-tcp
+      port: 8983
       protocol: TCP
-      targetPort: 8080
+      targetPort: 8983
   selector:
     app: computate-solr
     deploymentconfig: computate-solr

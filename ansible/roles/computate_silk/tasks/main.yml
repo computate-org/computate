@@ -75,15 +75,15 @@
     state: restarted
   become: yes
 - name: Check for existing silk configset {{SILK_CONFIGSET}}
-  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost {{ZOOKEEPER_HOST_NAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /configs/{{SILK_CONFIGSET}}"
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost {{ZOOKEEPER_HOST_NAME}}:{{ZOOKEEPER_PORT}} -cmd ls /configs/{{SILK_CONFIGSET}}"
   ignore_errors: yes
   register: SILK_CONFIGSET_EXISTS
   changed_when: false
 - name: Upload {{SILK_CONFIGSET}} configset to zookeeper
-  shell: "{{SOLR_OPT}}/bin/solr zk upconfig -n {{SILK_CONFIGSET}} -d {{SOLR_OPT}}/server/solr/configsets/{{SILK_CONFIGSET}} -z {{ZOOKEEPER_HOST_NAME}}:{{ZOOKEEPER_CLIENT_PORT}}"
+  shell: "{{SOLR_OPT}}/bin/solr zk upconfig -n {{SILK_CONFIGSET}} -d {{SOLR_OPT}}/server/solr/configsets/{{SILK_CONFIGSET}} -z {{ZOOKEEPER_HOST_NAME}}:{{ZOOKEEPER_PORT}}"
   when: SILK_CONFIGSET_EXISTS.rc != 0
 - name: Check for existing silk collection {{SILK_COLLECTION}}
-  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost {{ZOOKEEPER_HOST_NAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /collections/{{SILK_COLLECTION}}"
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost {{ZOOKEEPER_HOST_NAME}}:{{ZOOKEEPER_PORT}} -cmd ls /collections/{{SILK_COLLECTION}}"
   ignore_errors: yes
   register: SILK_COLLECTION_EXISTS
   changed_when: false
