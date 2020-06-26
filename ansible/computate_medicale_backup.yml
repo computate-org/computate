@@ -18,7 +18,7 @@
   hosts: localhost
   connection: local
   roles: 
-    - { role: computate_medicale_backup, DATA_NAME_VAR: school, DATA_URI: /api/clinic, DATA_ROWS: 100 }
+    - { role: computate_medicale_backup, DATA_NAME_VAR: clinic, DATA_URI: /api/clinic, DATA_ROWS: 100 }
 - name: Backup the computate-medicale patient data.
   hosts: localhost
   connection: local
