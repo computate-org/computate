@@ -162,7 +162,7 @@
 #  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -z {{ZOOKEEPER_HOSTNAME}}:{{ZOOKEEPER_CLIENT_PORT}} -cmd putfile /security.json {{SOLR_OPT}}/server/solr/security.json"
 #
 #- name: Create computate collection in solr
-#  shell: "(SOLR_AUTH_TYPE=basic SOLR_AUTHENTICATION_OPTS='-Dbasicauth={{COMPUTATE_SOLR_SOLRJ_USER}}:{{COMPUTATE_SOLR_SOLRJ_PASSWORD}}' {{SOLR_OPT}}/bin/solr create_collection -c computate -n computate)"
+#  shell: "(SOLR_AUTH_TYPE=basic SOLR_AUTHENTICATION_OPTS='-Dbasicauth={{SOLR_SOLRJ_USER}}:{{SOLR_SOLRJ_PASSWORD}}' {{SOLR_OPT}}/bin/solr create_collection -c computate -n computate)"
 - name: Check for existing solr collection computate
   shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_CLIENT_PORT}} -cmd ls /collections/computate"
   ignore_errors: yes

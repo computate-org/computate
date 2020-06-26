@@ -36,24 +36,28 @@ ansible_ssh_pass: "{{USER_PASSWORD}}"
 # Setup the decryption password for decrypting other secrets in the playbook. 
 VAULT_PASSWORD: "{{USER_PASSWORD}}"
 
-# The default port that zookeeper runs to manage the cluster. 
-COMPUTATE_ZOOKEEPER_PORT: 2181
-# The default hostname for zookeeper cluster manager. 
-COMPUTATE_ZOOKEEPER_HOSTNAME: "localhost"
+# The default hostname for the Zookeeper cluster manager. 
+ZOOKEEPER_HOSTNAME: "localhost"
+# The default port that Zookeeper runs to manage the cluster. 
+ZOOKEEPER_PORT: 2181
 
-COMPUTATE_SOLR_HOSTNAME: "localhost"
-COMPUTATE_SOLR_PORT: 10383
-COMPUTATE_SOLR_VOLUME_SIZE: 2Gi
+# The default hostname for the Solr search engine. 
+SOLR_HOSTNAME: "localhost"
+# The default port that Solr runs. 
+SOLR_PORT: 8983
 
+# The default hostname for the PostreSQL database. 
 POSTGRES_HOST_NAME: "localhost"
+# The default username that the PostgreSQL server runs with. 
 POSTGRES_BECOME_USER: "postgres"
+# The default path to the PostgreSQL hba file to manage user permissions. 
 POSTGRES_HBA_CONF: "/var/lib/pgsql/data/pg_hba.conf"
+# The default PostgreSQL service name. 
 POSTGRES_SERVICE: "postgresql"
 
-ZOOKEEPER_CLIENT_PORT: 2181
-
+# 
 SOLR_OPT: /opt/solr
-COMPUTATE_SOLR_HOST_NAME: localhost
+SOLR_HOST_NAME: localhost
 
 COMPUTATE_MEDICALE_STATIC_BASE_URL: "https://example.neocities.org"
 COMPUTATE_MEDICALE_NUMBER_EXECUTORS: 5

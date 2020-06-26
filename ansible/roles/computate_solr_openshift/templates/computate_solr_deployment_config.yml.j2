@@ -34,7 +34,7 @@ spec:
       containers:
         - env:
             - name: ZK_HOSTNAME
-              value: computate-zookeeper.{{COMPUTATE_ZOOKEEPER_NAMESPACE}}.svc
+              value: computate-zookeeper.{{ZOOKEEPER_NAMESPACE}}.svc
           imagePullPolicy: Always
           name: computate-solr
           ports:
@@ -69,7 +69,7 @@ spec:
         from:
           kind: ImageStreamTag
           name: 'computate-solr-image-stream:latest'
-          namespace: {{COMPUTATE_SOLR_NAMESPACE}}
+          namespace: {{SOLR_NAMESPACE}}
       type: ImageChange
     - type: ConfigChange
 

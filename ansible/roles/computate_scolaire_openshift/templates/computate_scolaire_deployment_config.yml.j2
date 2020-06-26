@@ -184,15 +184,15 @@ spec:
             - name: clusterPort
               value: "8081"
             - name: zookeeperHostName
-              value: "computate-zookeeper.{{COMPUTATE_ZOOKEEPER_NAMESPACE}}.svc"
+              value: "computate-zookeeper.{{ZOOKEEPER_NAMESPACE}}.svc"
             - name: zookeeperPort
-              value: "{{COMPUTATE_ZOOKEEPER_PORT}}"
+              value: "{{ZOOKEEPER_PORT}}"
             - name: solrHostName
-              value: "computate-solr.{{COMPUTATE_SOLR_NAMESPACE}}.svc"
+              value: "computate-solr.{{SOLR_NAMESPACE}}.svc"
             - name: solrPort
-              value: "{{COMPUTATE_SOLR_PORT}}"
+              value: "{{SOLR_PORT}}"
             - name: solrUrl
-              value: "http://computate-solr.{{COMPUTATE_SOLR_NAMESPACE}}.svc:{{COMPUTATE_SOLR_PORT}}/solr/{{COMPUTATE_SCOLAIRE_SOLR_COLLECTION}}"
+              value: "http://computate-solr.{{SOLR_NAMESPACE}}.svc:{{SOLR_PORT}}/solr/{{COMPUTATE_SCOLAIRE_SOLR_COLLECTION}}"
             - name: siteHostName
               value: "{{COMPUTATE_SCOLAIRE_SITE_HOST_NAME}}"
             - name: sitePort
