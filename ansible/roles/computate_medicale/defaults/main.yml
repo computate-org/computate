@@ -87,9 +87,9 @@ COMPUTATE_MEDICALE_NUMBER_EXECUTORS: 5
 # The properties file where the SSL/TLS encryption is configured. 
 COMPUTATE_MEDICALE_SSL_PROPERTIES_FILENAME: computate-medicale-keystore.properties
 
-#####################################################
-# computate-medicale French in France configuration #
-#####################################################
+################################################
+# computate-medicale French in France defaults #
+################################################
 
 # The domain name of the site. 
 COMPUTATE_MEDICALE_DOMAIN_NAME_FRFR: "example.com"
@@ -118,9 +118,9 @@ COMPUTATE_MEDICALE_BACKUP_DIR_FRFR: /usr/local/src/computate-medicale-static/dat
 # The restore directory of the site. 
 COMPUTATE_MEDICALE_RESTORE_DIR_FRFR: /home/ctate/backup/medicale-dev/frFR
 
-######################################################
-# computate-medicale English in the US configuration #
-######################################################
+#################################################
+# computate-medicale English in the US defaults #
+#################################################
 
 # The domain name of the site. 
 COMPUTATE_MEDICALE_DOMAIN_NAME_ENUS: "example.com"
@@ -149,9 +149,9 @@ COMPUTATE_MEDICALE_BACKUP_DIR_ENUS: /usr/local/src/computate-medicale-static/dat
 # The restore directory of the site. 
 COMPUTATE_MEDICALE_RESTORE_DIR_ENUS: /home/ctate/backup/medicale-dev/enUS
 
-######################
-# SMTP configuration #
-######################
+#################
+# SMTP defaults #
+#################
 
 # The email SMTP host name. 
 EMAIL_HOST_NAME: smtp.example.com
@@ -167,9 +167,9 @@ EMAIL_AUTH: true
 EMAIL_USER: "..."
 EMAIL_PASSWORD: "..."
 
-############################################
-# OpenID Connect auth server configuration #
-############################################
+#######################################
+# OpenID Connect auth server defaults #
+#######################################
 
 # The Single Sign On host name. 
 SSO_SITE_HOST_NAME: "sso.example.com"
@@ -182,9 +182,9 @@ AUTH_SECRET: "..."
 # The Auth URL. 
 AUTH_URL: https://sso.example.com/auth
 
-#########################
-# SSL/TLS configuration #
-#########################
+####################
+# SSL/TLS defaults #
+####################
 
 # The keystore alias. 
 SSL_ALIAS: "{{COMPUTATE_MEDICALE_DOMAIN_NAME_FRFR}}"
