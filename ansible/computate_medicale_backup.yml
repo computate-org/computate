@@ -8,25 +8,25 @@
   hosts: localhost
   connection: local
   roles:
-    - { role: computate_medicale_backup, DATA_NAME_VAR: page-design, DATA_URI: /api/admin/page-design, DATA_ROWS: 100 }
+    - { role: computate_medicale_backup, DATA_NAME_VAR: page-design, DATA_URI: /api/admin/page-design, DATA_ROWS: 500 }
 - name: Backup the computate-medicale html-part data.
   hosts: localhost
   connection: local
   roles:
-    - { role: computate_medicale_backup, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part, DATA_ROWS: 50 }
+    - { role: computate_medicale_backup, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part, DATA_ROWS: 500 }
 - name: Backup the computate-medicale clinic data. 
   hosts: localhost
   connection: local
   roles: 
-    - { role: computate_medicale_backup, DATA_NAME_VAR: clinic, DATA_URI: /api/clinic, DATA_ROWS: 100 }
+    - { role: computate_medicale_backup, DATA_NAME_VAR: clinic, DATA_URI: /api/clinic, DATA_ROWS: 500 }
 - name: Backup the computate-medicale patient data.
   hosts: localhost
   connection: local
   roles:
-    - { role: computate_medicale_backup, DATA_NAME_VAR: patient, DATA_URI: /api/admin/patient, DATA_ROWS: 100 }
+    - { role: computate_medicale_backup, DATA_NAME_VAR: patient, DATA_URI: /api/admin/patient, DATA_ROWS: 500 }
 - name: Backup the computate-medicale enrollment data.
   hosts: localhost
   connection: local
   roles:
-    - { role: computate_medicale_backup, DATA_NAME_VAR: enrollment, DATA_URI: /api/admin/enrollment, DATA_ROWS: 25 }
+    - { role: computate_medicale_backup, DATA_NAME_VAR: enrollment, DATA_URI: /api/admin/enrollment, DATA_ROWS: 500 }
 
