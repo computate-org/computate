@@ -74,6 +74,11 @@
     enabled: yes
     state: restarted
   become: yes
+- name: Link the silkconfig configset into solr. 
+  file:
+    src: "{{SILK_OPT}}/{{SILK_CONFIGSET}}"
+    dest: "{{SOLR_OPT}}/server/solr/configsets/{{SILK_CONFIGSET}}"
+    state: link
 - name: Check for existing silk configset {{SILK_CONFIGSET}}
   shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost {{ZOOKEEPER_HOST_NAME}}:{{ZOOKEEPER_PORT}} -cmd ls /configs/{{SILK_CONFIGSET}}"
   ignore_errors: yes
