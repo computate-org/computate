@@ -1,4 +1,25 @@
 
+[computate_certbot]
+tower2
+
+[computate_scolaire_refresh]
+tower2
+
+[computate_scolaire_backup]
+tower2
+
+[computate_scolaire_restore]
+tower2
+
+[computate_medicale_refresh]
+tower2
+
+[computate_medicale_backup]
+tower2
+
+[computate_medicale_restore]
+tower2
+
 [computate_postgres]
 tower2
 

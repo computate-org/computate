@@ -1,26 +1,26 @@
 ---
 - name: Refresh the computate-medicale page-design data
-  hosts: localhost
+  hosts: "{{ target }}"
   connection: local
   roles:
     - { role: computate_medicale_refresh, DATA_NAME_VAR: page-design, DATA_URI: /api/page-design }
 - name: Refresh the computate-medicale html-part data
-  hosts: localhost
+  hosts: "{{ target }}"
   connection: local
   roles:
     - { role: computate_medicale_refresh, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part }
 - name: Refresh the computate-medicale clinic data
-  hosts: localhost
+  hosts: "{{ target }}"
   connection: local
   roles: 
     - { role: computate_medicale_refresh, DATA_NAME_VAR: clinic, DATA_URI: /api/clinic }
 - name: Refresh the computate-medicale patient data
-  hosts: localhost
+  hosts: "{{ target }}"
   connection: local
   roles:
     - { role: computate_medicale_refresh, DATA_NAME_VAR: patient, DATA_URI: /api/patient }
 - name: Refresh the computate-medicale enrollment data
-  hosts: localhost
+  hosts: "{{ target }}"
   connection: local
   roles:
     - { role: computate_medicale_refresh, DATA_NAME_VAR: enrollment, DATA_URI: /api/enrollment }

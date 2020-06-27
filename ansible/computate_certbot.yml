@@ -1,7 +1,7 @@
 ---
 - name: Generate keystore and other files based on certificate and key from certbot
   gather_facts: no
-  hosts: localhost
+  hosts: "{{target}}"
   connection: local
   roles: 
     - computate_certbot

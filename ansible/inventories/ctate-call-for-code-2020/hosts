@@ -1,3 +1,21 @@
 
 localhost
 
+[computate_scolaire_refresh]
+localhost
+
+[computate_scolaire_backup]
+localhost
+
+[computate_scolaire_restore]
+localhost
+
+[computate_medicale_refresh]
+localhost
+
+[computate_medicale_backup]
+localhost
+
+[computate_medicale_restore]
+localhost
+
