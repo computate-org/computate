@@ -55,4 +55,9 @@
     api_key: "{{COMPUTATE_MEDICALE_TOKEN}}"
     namespace: "{{COMPUTATE_MEDICALE_NAMESPACE}}"
     definition: "{{ lookup('template', 'computate_medicale_route.yml.j2') }}"
-
+- name: Create Solr collection
+  shell: "oc login {{COMPUTATE_MEDICALE_HOST}} --token={{REDHAT_OPENSHIFT_TOKEN}} && oc exec $(oc get pod -l app=computate-solr -o jsonpath='{.items[0].metadata.name}') -n medical -- /opt/solr/bin/solr create_collection -c site -n computate || true"
+  register: create_collection
+- name: Print create_collection command
+  debug:
+    var: create_collection
