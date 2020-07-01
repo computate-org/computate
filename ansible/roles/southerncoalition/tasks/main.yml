@@ -1,0 +1,110 @@
+#- name: Install {{SOUTHERNCOALITION_NAME}} dependencies
+#  package:
+#    name: [git,java-1.8.0-openjdk-devel]
+#  become: yes
+- name: Create the {{SOUTHERNCOALITION_NAME}} source directory {{SOUTHERNCOALITION_SRC}}
+  file:
+    name: "{{SOUTHERNCOALITION_SRC}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Check for the {{SOTHERNCOALITION_NAME}} pom.xml
+  stat:
+    path: "{{SOUTHERNCOALITION_SRC}}/pom.xml"
+  register: pom_xml
+- name: Clone the {{SOUTHERNCOALITION_NAME}} source code
+  git:
+    repo: "{{SOUTHERNCOALITION_REPO}}"
+    dest: "{{SOUTHERNCOALITION_SRC}}"
+  when: pom_xml.stat.exists == False
+- name: Create the {{SOUTHERNCOALITION_NAME}} systemd service {{SOUTHERNCOALITION_SYSTEMD}}. 
+  template:
+    src: southerncoalition_service.j2
+    dest: "{{SOUTHERNCOALITION_SYSTEMD}}"
+  become: yes
+- name: Create the {{SOUTHERNCOALITION_NAME}} config dir. 
+  file:
+    name: "{{SOUTHERNCOALITION_SRC}}/config"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+- name: Create the {{SOUTHERNCOALITION_NAME}} enUS config. 
+  template:
+    src: southerncoalition_config_enUS.config.j2
+    dest: "{{SOUTHERNCOALITION_SRC}}/config/southerncoalition-enUS.config"
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Reload the services. 
+  systemd:
+    daemon_reload: yes
+  become: yes
+- name: Start and enable the {{SOUTHERNCOALITION_NAME}} service. 
+  service:
+    name: "{{SOUTHERNCOALITION_SERVICE}}"
+    enabled: yes
+    state: restarted
+  become: yes
+- name: Create enUS database user
+  postgresql_user:
+    name: "{{SOUTHERNCOALITION_DB_USER_ENUS}}"
+    password: "{{SOUTHERNCOALITION_DB_PASSWORD_ENUS}}"
+    login_unix_socket: /tmp
+    login_user: "{{POSTGRES_BECOME_USER}}"
+    db: postgres
+  become: true
+  become_user: "{{POSTGRES_BECOME_USER}}"
+- name: Create enUS database
+  postgresql_db:
+    name: "{{SOUTHERNCOALITION_DB_NAME_ENUS}}"
+    owner: "{{SOUTHERNCOALITION_DB_USER_ENUS}}"
+    login_unix_socket: /tmp
+    login_user: "{{POSTGRES_BECOME_USER}}"
+    db: postgres
+  become: true
+  become_user: "{{POSTGRES_BECOME_USER}}"
+#- name: Grant enUS user access to database
+#  postgresql_pg_hba:
+#    dest: "{{POSTGRES_HBA_CONF}}"
+#    contype: host
+#    users: "{{SOUTHERNCOALITION_DB_USER_ENUS}}"
+#    source: "{{POSTGRES_HOST_NAME}}"
+#    databases: "{{SOUTHERNCOALITION_DB_NAME_ENUS}}"
+#    method: trust
+#    create: true
+#  become: true
+#  become_user: "{{POSTGRES_BECOME_USER}}"
+- name: Restart the postgresql service. 
+  service:
+    name: "{{POSTGRES_SERVICE}}"
+    state: restarted
+  become: yes
+- name: Check for existing solr collection enUS
+  shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_PORT}} -cmd ls /collections/{{SOUTHERNCOALITION_SOLR_COLLECTION_ENUS}}"
+  ignore_errors: yes
+  register: SOLR_COLLECTION_EXISTS_ENUS
+  changed_when: false
+- name: Create collection in solr enUS
+  shell: "{{SOLR_OPT}}/bin/solr create_collection -n computate -c {{SOUTHERNCOALITION_SOLR_COLLECTION_ENUS}}"
+  when: SOLR_COLLECTION_EXISTS_ENUS.rc != 0
+- name: Create the keystore directory {{SSL_KEYSTORE_PATH}}
+  file:
+    name: "{{SSL_KEYSTORE_PATH}}"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Create the {{SOUTHERNCOALITION_NAME}} keystore properties {{SSL_KEYSTORE_PATH}}/{{SSL_PROPERTIES_FILENAME}}
+  template:
+    src: southerncoalition_keystore.properties.j2
+    dest: "{{SSL_KEYSTORE_PATH}}/{{SOUTHERNCOALITION_SSL_PROPERTIES_FILENAME}}"
+- name: Create the {{SOUTHERNCOALITION_NAME}} keystore jks {{SSL_JKS_PATH}}
+  template:
+    src: southerncoalition_keystore.jks.j2
+    dest: "{{SSL_JKS_PATH}}"
+- name: Build the source code in {{SOUTHERNCOALITION_SRC}}
+  shell: "mvn clean install"
+  args: 
+    chdir: "{{SOUTHERNCOALITION_SRC}}"
+

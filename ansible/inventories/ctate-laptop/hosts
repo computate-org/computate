@@ -1,24 +1,34 @@
 
-localhost
+[southerncoalition]
+ctate.remote.csb
+
+[southerncoalition_backup]
+ctate.remote.csb
+
+[southerncoalition_restore]
+ctate.remote.csb
+
+[southerncoalition_refresh]
+ctate.remote.csb
 
 [computate_scolaire_refresh]
-localhost
+ctate.remote.csb
 
 [computate_scolaire_backup]
-localhost
+ctate.remote.csb
 
 [computate_certbot]
-localhost
+ctate.remote.csb
 
 [computate_scolaire_restore]
-localhost
+ctate.remote.csb
 
 [computate_medicale_refresh]
-localhost
+ctate.remote.csb
 
 [computate_medicale_backup]
-localhost
+ctate.remote.csb
 
 [computate_medicale_restore]
-localhost
+ctate.remote.csb
 

@@ -1,0 +1,63 @@
+---
+- name: Install computate-solr image stream on OpenShift
+  k8s: 
+    state: present
+    name: southerncoalition
+    host: "{{SOUTHERNCOALITION_HOST}}"
+    api_key: "{{SOUTHERNCOALITION_TOKEN}}"
+    namespace: "{{SOUTHERNCOALITION_NAMESPACE}}"
+    definition: "{{ lookup('template', 'southerncoalition_image_stream.yml.j2') }}"
+- name: Install southerncoalition secret on OpenShift
+  k8s: 
+    state: present
+    name: southerncoalition-secret
+    host: "{{SOUTHERNCOALITION_HOST}}"
+    api_key: "{{SOUTHERNCOALITION_TOKEN}}"
+    namespace: "{{SOUTHERNCOALITION_NAMESPACE}}"
+    definition: "{{ lookup('template', 'southerncoalition_secret.j2') }}"
+- name: Install southerncoalition keystore secrets on OpenShift
+  k8s: 
+    state: present
+    name: southerncoalition-keystore
+    host: "{{SOUTHERNCOALITION_HOST}}"
+    api_key: "{{SOUTHERNCOALITION_TOKEN}}"
+    namespace: "{{SOUTHERNCOALITION_NAMESPACE}}"
+    definition: "{{ lookup('template', 'southerncoalition_keystore.j2') }}"
+- name: Install southerncoalition build config on OpenShift
+  k8s: 
+    state: present
+    name: southerncoalition
+    host: "{{SOUTHERNCOALITION_HOST}}"
+    api_key: "{{SOUTHERNCOALITION_TOKEN}}"
+    namespace: "{{SOUTHERNCOALITION_NAMESPACE}}"
+    definition: "{{ lookup('template', 'southerncoalition_build_config.yml.j2') }}"
+- name: Install southerncoalition deployment config on OpenShift
+  k8s: 
+    state: present
+    name: southerncoalition
+    host: "{{SOUTHERNCOALITION_HOST}}"
+    api_key: "{{SOUTHERNCOALITION_TOKEN}}"
+    namespace: "{{SOUTHERNCOALITION_NAMESPACE}}"
+    definition: "{{ lookup('template', 'southerncoalition_deployment_config.yml.j2') }}"
+- name: Install southerncoalition service on OpenShift
+  k8s: 
+    state: present
+    name: southerncoalition
+    host: "{{SOUTHERNCOALITION_HOST}}"
+    api_key: "{{SOUTHERNCOALITION_TOKEN}}"
+    namespace: "{{SOUTHERNCOALITION_NAMESPACE}}"
+    definition: "{{ lookup('template', 'southerncoalition_service.yml.j2') }}"
+- name: Install southerncoalition route on OpenShift
+  k8s: 
+    state: present
+    name: southerncoalition
+    host: "{{SOUTHERNCOALITION_HOST}}"
+    api_key: "{{SOUTHERNCOALITION_TOKEN}}"
+    namespace: "{{SOUTHERNCOALITION_NAMESPACE}}"
+    definition: "{{ lookup('template', 'southerncoalition_route.yml.j2') }}"
+- name: Create Solr collection
+  shell: "oc login {{SOUTHERNCOALITION_HOST}} --token={{REDHAT_OPENSHIFT_TOKEN}} && oc exec $(oc get pod -l app=computate-solr -o jsonpath='{.items[0].metadata.name}') -n southerncoalition -- /opt/solr/bin/solr create_collection -c site -n computate || true"
+  register: create_collection
+- name: Print create_collection command
+  debug:
+    var: create_collection

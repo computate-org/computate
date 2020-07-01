@@ -3,7 +3,7 @@
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_login }
+    - { role: computate_medicale_login }
 - name: Backup the computate-medicale page-design data.
   hosts: "{{ target }}"
   connection: local
