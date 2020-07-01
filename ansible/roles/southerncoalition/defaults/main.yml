@@ -16,7 +16,7 @@ SOUTHERNCOALITION_CONFIG: "{{SOUTHERNCOALITION_SRC}}/config/{{SOUTHERNCOALITION_
 # The US English config file for the southerncoalition project. 
 SOUTHERNCOALITION_CONFIG_enUS: "{{SOUTHERNCOALITION_SRC}}/config/{{SOUTHERNCOALITION_NAME}}-enUS.config"
 # The systemd service name for southerncoalition that generates and translates most of the code. 
-SOUTHERNCOALITION_SERVICE: "regarder-{{SOUTHERNCOALITION_NAME}}"
+SOUTHERNCOALITION_SERVICE: "watch-{{SOUTHERNCOALITION_NAME}}"
 # The systemd service file for southerncoalition that generates and translates most of the code. 
 SOUTHERNCOALITION_SYSTEMD: "/usr/lib/systemd/system/{{SOUTHERNCOALITION_SERVICE}}.service"
 # The main git repository for the southerncoalition project. 
