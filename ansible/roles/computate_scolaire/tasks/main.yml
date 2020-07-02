@@ -26,7 +26,7 @@
     group: "{{USER_NAME}}"
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} default frFR config. 
   template:
-    src: computate_scolaire_frFR_config.config.j2
+    src: computate_scolaire_config_frFR.config.j2
     dest: "{{COMPUTATE_SCOLAIRE_SRC}}/config/computate-scolaire.config"
     owner: "{{USER_NAME}}"
     group: "{{USER_NAME}}"
@@ -75,7 +75,6 @@
     databases: "{{COMPUTATE_SCOLAIRE_DB_NAME_FRFR}}"
     method: trust
     create: true
-    owner: postgres
   become: true
   become_user: "{{POSTGRES_BECOME_USER}}"
 - name: Create enUS database user
