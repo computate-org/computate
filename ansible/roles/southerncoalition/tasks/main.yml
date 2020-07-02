@@ -32,7 +32,7 @@
 - name: Create the {{SOUTHERNCOALITION_NAME}} enUS config. 
   template:
     src: southerncoalition_config_enUS.config.j2
-    dest: "{{SOUTHERNCOALITION_SRC}}/config/southerncoalition-enUS.config"
+    dest: "{{SOUTHERNCOALITION_SRC}}/config/southerncoalition.config"
     owner: "{{USER_NAME}}"
     group: "{{USER_NAME}}"
   become: yes

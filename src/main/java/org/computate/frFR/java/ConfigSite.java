@@ -689,6 +689,16 @@ public class ConfigSite {
 		siteCrypte = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_siteCrypte(langueNom), false);
 	}
 
+	public Boolean customerProfileId1;
+	protected void _customerProfileId1() throws Exception {
+		customerProfileId1 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId1", false);
+	}
+
+	public Boolean customerProfileId2;
+	protected void _customerProfileId2() throws Exception {
+		customerProfileId2 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId2", false);
+	}
+
 	/**
 	 * Var.enUS: siteWriteMethods
 	 */ 
@@ -827,6 +837,8 @@ public class ConfigSite {
 		_toutCheminsSource();
 		_nomsMethodeTest();
 		_siteCrypte();
+		_customerProfileId1();
+		_customerProfileId2();
 		_siteEcrireMethodes();
 		_ecrireApi();
 	}

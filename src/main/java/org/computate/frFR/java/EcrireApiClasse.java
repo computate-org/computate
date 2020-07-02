@@ -3751,7 +3751,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(12, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_Prenom(classeLangueNom), "\", ", str_principalJson(classeLangueNom), ".getString(\"given_name\"));");
 			tl(12, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_NomFamille(classeLangueNom), "\", ", str_principalJson(classeLangueNom), ".getString(\"family_name\"));");
 			tl(12, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_NomComplet(classeLangueNom), "\", ", str_principalJson(classeLangueNom), ".getString(\"name\"));");
-			tl(12, "jsonObject.put(\"setCustomerProfileId\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId()).orElse(null));");
+			if(customerProfileId1)
+				tl(12, "jsonObject.put(\"setCustomerProfileId1\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId1()).orElse(null));");
+			if(customerProfileId2)
+				tl(12, "jsonObject.put(\"setCustomerProfileId2\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId2()).orElse(null));");
 			tl(12, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), "Id\", ", str_principalJson(classeLangueNom), ".getString(\"sub\"));");
 			tl(12, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_Mail(classeLangueNom), "\", ", str_principalJson(classeLangueNom), ".getString(\"email\"));");
 			tl(12, "Boolean ", str_definir(classeLangueNom), " = ", str_utilisateur(classeLangueNom), classeNomSimple, str_Definir(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", jsonObject, true);");
@@ -3850,9 +3853,25 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "public Boolean ", str_utilisateur(classeLangueNom), classeNomSimple, str_Definir(classeLangueNom), "(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", JsonObject jsonObject, Boolean patch) {");
 			tl(2, "if(patch) {");
-			tl(3, "return jsonObject.getString(\"setCustomerProfileId\") == null;");
+			if(customerProfileId1) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId1\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId2) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId2\") == null)");
+				tl(4, "return true;");
+			}
+			tl(3, "return false;");
 			tl(2, "} else {");
-			tl(3, "return jsonObject.getString(\"customerProfileId\") == null;");
+			if(customerProfileId1) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId1\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId2) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId2\") == null)");
+				tl(4, "return true;");
+			}
+			tl(3, "return false;");
 			tl(2, "}");
 			tl(1, "}");
 			l();

@@ -150,6 +150,13 @@ public class RegarderRepertoire {
 			return "appName";
 	}
 
+	public static String str_Regarder(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Regarder";
+		else
+			return "Watch";
+	}
+
 	public static String str_appliChemin(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "appliChemin";
@@ -329,7 +336,7 @@ public class RegarderRepertoire {
 		for(String cheminARegarder : cheminsARegarder) {
 			try {
 				chemins.add(enregistrerTout(Paths.get(cheminARegarder)));
-				log.info("Regarder: {}", cheminARegarder);
+				log.info("{}: {}", str_Regarder(cheminARegarder), cheminARegarder);
 			} catch (IOException e) { 
 				log.error("Erreur à ajouter chemin pour regarder.", e);
 			}

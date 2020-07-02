@@ -78,17 +78,40 @@ spec:
                   key: authUrl
                   name: computate-scolaire-secret
 
-            - name: authorizeApiLoginId
+            - name: authorizeApiLoginId1
               valueFrom:
                 secretKeyRef:
-                  key: authorizeApiLoginId
+                  key: authorizeApiLoginId1
                   name: computate-scolaire-secret
-            - name: authorizeTransactionKey
+            - name: authorizeTransactionKey1
               valueFrom:
                 secretKeyRef:
-                  key: authorizeTransactionKey
+                  key: authorizeTransactionKey1
+                  name: computate-scolaire-secret
+            - name: schoolLocation1
+              valueFrom:
+                secretKeyRef:
+                  key: schoolLocation1
                   name: computate-scolaire-secret
             - name: authorizeEnvironment
+
+            - name: authorizeApiLoginId2
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeApiLoginId2
+                  name: computate-scolaire-secret
+            - name: authorizeTransactionKey2
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeTransactionKey2
+                  name: computate-scolaire-secret
+            - name: schoolLocation2
+              valueFrom:
+                secretKeyRef:
+                  key: schoolLocation2
+                  name: computate-scolaire-secret
+            - name: authorizeEnvironment
+
               valueFrom:
                 secretKeyRef:
                   key: authorizeEnvironment
