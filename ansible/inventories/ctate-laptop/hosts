@@ -11,6 +11,18 @@ ctate.remote.csb
 [southerncoalition_refresh]
 ctate.remote.csb
 
+[opendatapolicing]
+ctate.remote.csb
+
+[opendatapolicing_backup]
+ctate.remote.csb
+
+[opendatapolicing_restore]
+ctate.remote.csb
+
+[opendatapolicing_refresh]
+ctate.remote.csb
+
 [computate_scolaire_refresh]
 ctate.remote.csb
 
