@@ -1,0 +1,7 @@
+---
+- name: Install the opendatapolicing source code and watch service on the target. 
+  gather_facts: no
+  hosts: "{{ target }}"
+  roles:
+    - opendatapolicing
+
