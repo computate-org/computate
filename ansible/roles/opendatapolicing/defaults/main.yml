@@ -1,0 +1,183 @@
+
+######################################
+# opendatapolicing system defaults #
+######################################
+
+# The name of this application. 
+OPENDATAPOLICING_NAME: opendatapolicing
+# The default source code directory for the computate application which helps generate and translate most the code. 
+COMPUTATE_SRC: "/usr/local/src/computate"
+# The default source code directory for the opendatapolicing project. 
+OPENDATAPOLICING_SRC: "/usr/local/src/{{OPENDATAPOLICING_NAME}}"
+# The default language of the opendatapolicing project code which is French in France. 
+OPENDATAPOLICING_LANG: "enUS"
+# The default config file for the opendatapolicing project. 
+OPENDATAPOLICING_CONFIG: "{{OPENDATAPOLICING_SRC}}/config/{{OPENDATAPOLICING_NAME}}.config"
+# The US English config file for the opendatapolicing project. 
+OPENDATAPOLICING_CONFIG_enUS: "{{OPENDATAPOLICING_SRC}}/config/{{OPENDATAPOLICING_NAME}}-enUS.config"
+# The systemd service name for opendatapolicing that generates and translates most of the code. 
+OPENDATAPOLICING_SERVICE: "watch-{{OPENDATAPOLICING_NAME}}"
+# The systemd service file for opendatapolicing that generates and translates most of the code. 
+OPENDATAPOLICING_SYSTEMD: "/usr/lib/systemd/system/{{OPENDATAPOLICING_SERVICE}}.service"
+# The main git repository for the opendatapolicing project. 
+OPENDATAPOLICING_REPO: "https://github.com/computate/{{OPENDATAPOLICING_NAME}}.git"
+# The target ansible inventory group for the opendatapolicing project to setup your own hosts under this name to deploy the application to. 
+target: opendatapolicing
+
+####################
+# Ansible defaults #
+####################
+
+# Add to an ansible-vault the username of your user on your computer (echo $HOSTNAME). 
+USER_NAME: "..."
+# Add to an ansible-vault the password of your user on your computer to become root for configuring the applications. 
+USER_PASSWORD: "..."
+# Setup the ansible user when running the playbook as your user. 
+ansible_user: "{{USER_NAME}}"
+# Setup the ansible sudo password as your password when running the playbook. 
+ansible_sudo_pass: "{{USER_PASSWORD}}"
+# Setup the ansible password for elevated privileges as your password when running the playbook. 
+ansible_become_pass: "{{USER_PASSWORD}}"
+# Setup the ansible password for ssh as your password when running the playbook. 
+ansible_ssh_pass: "{{USER_PASSWORD}}"
+# Setup the decryption password for decrypting other secrets in the playbook. 
+VAULT_PASSWORD: "{{USER_PASSWORD}}"
+
+######################
+# Zookeeper defaults #
+######################
+
+# The default hostname for the Zookeeper cluster manager. 
+ZOOKEEPER_HOST_NAME: "localhost"
+# The default port that Zookeeper runs to manage the cluster. 
+ZOOKEEPER_PORT: 2181
+
+#################
+# Solr defaults #
+#################
+
+# The installation directory of Solr. 
+SOLR_OPT: /opt/solr
+# The default hostname for the Solr search engine. 
+SOLR_HOST_NAME: localhost
+# The default port that Solr runs. 
+SOLR_PORT: 8983
+
+#######################
+# PostgreSQL defaults #
+#######################
+
+# The default hostname for the PostreSQL database. 
+POSTGRES_HOST_NAME: "localhost"
+# The default username that the PostgreSQL server runs with. 
+POSTGRES_BECOME_USER: "postgres"
+# The default path to the PostgreSQL hba file to manage user permissions. 
+POSTGRES_HBA_CONF: "/var/lib/pgsql/data/pg_hba.conf"
+# The default PostgreSQL service name. 
+POSTGRES_SERVICE: "postgresql"
+
+#####################################
+# opendatapolicing global defaults #
+#####################################
+
+# The base URL where the static files will point to.  
+OPENDATAPOLICING_STATIC_BASE_URL: "https://example.neocities.org"
+# The number of background worker executors that may run. 
+OPENDATAPOLICING_NUMBER_EXECUTORS: 5
+# The properties file where the SSL/TLS encryption is configured. 
+OPENDATAPOLICING_SSL_PROPERTIES_FILENAME: opendatapolicing-keystore.properties
+
+#################################################
+# opendatapolicing English in the US defaults #
+#################################################
+
+# The domain name of the site. 
+OPENDATAPOLICING_DOMAIN_NAME_ENUS: "example.com"
+# The host name of the site. 
+OPENDATAPOLICING_SITE_HOST_NAME_ENUS: "opendatapolicing-dev.{{OPENDATAPOLICING_DOMAIN_NAME_ENUS}}"
+# The port of the site. 
+OPENDATAPOLICING_SITE_PORT_ENUS: "10581"
+# The base URL of the site. 
+OPENDATAPOLICING_SITE_BASE_URL_ENUS: "https://{{OPENDATAPOLICING_SITE_HOST_NAME_ENUS}}:{{OPENDATAPOLICING_SITE_PORT_ENUS}}"
+# The Solr collection of the site. 
+OPENDATAPOLICING_SOLR_COLLECTION_ENUS: "opendatapolicing"
+# The timezone of the site. 
+OPENDATAPOLICING_SITE_ZONE_ENUS: "America/Denver"
+# The PostgreSQL database host name of the site. 
+OPENDATAPOLICING_DB_HOST_NAME_ENUS: "localhost"
+# The PostgreSQL database user name of the site. 
+OPENDATAPOLICING_DB_USER_ENUS: computate
+# The PostgreSQL database password of the site. 
+OPENDATAPOLICING_DB_PASSWORD_ENUS: "..."
+# The PostgreSQL database name of the site. 
+OPENDATAPOLICING_DB_NAME_ENUS: opendatapolicing
+# The Java main class of the site. 
+OPENDATAPOLICING_JAVA_MAIN_CLASS_ENUS: com.opendatapolicing.enUS.vertx.AppVertx
+# The backup directory of the site. 
+OPENDATAPOLICING_BACKUP_DIR_ENUS: /usr/local/src/opendatapolicing-static/data/enUS
+# The restore directory of the site. 
+OPENDATAPOLICING_RESTORE_DIR_ENUS: /home/ctate/backup/opendatapolicing-dev/enUS
+
+#################
+# SMTP defaults #
+#################
+
+# The email SMTP host name. 
+EMAIL_HOST_NAME: smtp.example.com
+# The email SMTP port. 
+EMAIL_PORT: 465
+# The email SMTP from email address. 
+EMAIL_FROM: "..."
+# Whether email SMTP SSL/TLS encryption is enabled. 
+EMAIL_SSL: true
+# Whether email SMTP username password authentication is enabled. 
+EMAIL_AUTH: true
+# The email SMTP username. 
+EMAIL_USER: "..."
+EMAIL_PASSWORD: "..."
+
+#######################################
+# OpenID Connect auth server defaults #
+#######################################
+
+# The Single Sign On host name. 
+SSO_SITE_HOST_NAME: "sso.example.com"
+# The Auth realm. 
+AUTH_REALM: EXAMPLE.COM
+# The Auth client or resource. 
+AUTH_RESOURCE: example.com
+# The Auth secret. 
+AUTH_SECRET: "..."
+# The Auth URL. 
+AUTH_URL: https://sso.example.com/auth
+
+####################
+# SSL/TLS defaults #
+####################
+
+# The keystore alias. 
+SSL_ALIAS: "{{OPENDATAPOLICING_DOMAIN_NAME_ENUS}}"
+# The keystore directory. 
+SSL_KEYSTORE_PATH: /opt/keystore
+# The keystore properties filename. 
+SSL_PROPERTIES_FILENAME: "{{OPENDATAPOLICING_SSL_PROPERTIES_FILENAME}}"
+# The keystore filename. 
+SSL_JKS_FILENAME: "{{SSL_ALIAS}}.jks"
+# The keystore path. 
+SSL_JKS_PATH: "{{SSL_KEYSTORE_PATH}}/{{SSL_JKS_FILENAME}}"
+# The certificate filename. 
+SSL_CRT_FILENAME: "{{SSL_ALIAS}}.crt"
+# The certificate path. 
+SSL_CRT_PATH: "{{SSL_KEYSTORE_PATH}}/{{SSL_CRT_FILENAME}}"
+# The private key filename. 
+SSL_KEY_FILENAME: "{{SSL_ALIAS}}.key"
+# The private key path. 
+SSL_KEY_PATH: "{{SSL_KEYSTORE_PATH}}/{{SSL_KEY_FILENAME}}"
+# The p12 file password. 
+SSL_P12_PASSWORD: "..."
+# The keystore file password. 
+SSL_JKS_PASSWORD: "{{SSL_P12_PASSWORD}}"
+# The keystore file base64 encoded (base64 -w 0 /opt/keystore/computate.org.jks). 
+SSL_JKS_BASE64: "..."
+# The jceks file base64 encoded (base64 -w 0 /opt/keystore/computate.org.jceks). 
+SSL_JCEKS_BASE64: "..."

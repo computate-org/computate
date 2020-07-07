@@ -1,0 +1,29 @@
+---
+- name: Restore the opendatapolicing page-design data in {{COMPUTATE_MEDICALE_RESTORE_DIR}}
+  hosts: "{{ target }}"
+  connection: local
+  roles:
+    - { role: opendatapolicing_restore, DATA_NAME_VAR: page-design, DATA_URI: /api/page-design }
+- name: Restore the opendatapolicing html-part data in {{COMPUTATE_MEDICALE_RESTORE_DIR}}
+  hosts: "{{ target }}"
+  connection: local
+  roles:
+    - { role: opendatapolicing_restore, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part }
+- name: Restore the opendatapolicing page-design data again to resolve parent links in {{COMPUTATE_MEDICALE_RESTORE_DIR}}
+  hosts: "{{ target }}"
+  connection: local
+  roles:
+    - { role: opendatapolicing_restore, DATA_NAME_VAR: page-design, DATA_URI: /api/page-design }
+
+
+- name: Refresh the opendatapolicing page-design data
+  hosts: "{{ target }}"
+  connection: local
+  roles:
+    - { role: opendatapolicing_refresh, DATA_NAME_VAR: page-design, DATA_URI: /api/page-design }
+- name: Refresh the opendatapolicing html-part data
+  hosts: "{{ target }}"
+  connection: local
+  roles:
+    - { role: opendatapolicing_refresh, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part }
+

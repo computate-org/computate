@@ -1,0 +1,63 @@
+---
+- name: Install computate-solr image stream on OpenShift
+  k8s: 
+    state: present
+    name: opendatapolicing
+    host: "{{OPENDATAPOLICING_HOST}}"
+    api_key: "{{OPENDATAPOLICING_TOKEN}}"
+    namespace: "{{OPENDATAPOLICING_NAMESPACE}}"
+    definition: "{{ lookup('template', 'opendatapolicing_image_stream.yml.j2') }}"
+- name: Install opendatapolicing secret on OpenShift
+  k8s: 
+    state: present
+    name: opendatapolicing-secret
+    host: "{{OPENDATAPOLICING_HOST}}"
+    api_key: "{{OPENDATAPOLICING_TOKEN}}"
+    namespace: "{{OPENDATAPOLICING_NAMESPACE}}"
+    definition: "{{ lookup('template', 'opendatapolicing_secret.j2') }}"
+- name: Install opendatapolicing keystore secrets on OpenShift
+  k8s: 
+    state: present
+    name: opendatapolicing-keystore
+    host: "{{OPENDATAPOLICING_HOST}}"
+    api_key: "{{OPENDATAPOLICING_TOKEN}}"
+    namespace: "{{OPENDATAPOLICING_NAMESPACE}}"
+    definition: "{{ lookup('template', 'opendatapolicing_keystore.j2') }}"
+- name: Install opendatapolicing build config on OpenShift
+  k8s: 
+    state: present
+    name: opendatapolicing
+    host: "{{OPENDATAPOLICING_HOST}}"
+    api_key: "{{OPENDATAPOLICING_TOKEN}}"
+    namespace: "{{OPENDATAPOLICING_NAMESPACE}}"
+    definition: "{{ lookup('template', 'opendatapolicing_build_config.yml.j2') }}"
+- name: Install opendatapolicing deployment config on OpenShift
+  k8s: 
+    state: present
+    name: opendatapolicing
+    host: "{{OPENDATAPOLICING_HOST}}"
+    api_key: "{{OPENDATAPOLICING_TOKEN}}"
+    namespace: "{{OPENDATAPOLICING_NAMESPACE}}"
+    definition: "{{ lookup('template', 'opendatapolicing_deployment_config.yml.j2') }}"
+- name: Install opendatapolicing service on OpenShift
+  k8s: 
+    state: present
+    name: opendatapolicing
+    host: "{{OPENDATAPOLICING_HOST}}"
+    api_key: "{{OPENDATAPOLICING_TOKEN}}"
+    namespace: "{{OPENDATAPOLICING_NAMESPACE}}"
+    definition: "{{ lookup('template', 'opendatapolicing_service.yml.j2') }}"
+- name: Install opendatapolicing route on OpenShift
+  k8s: 
+    state: present
+    name: opendatapolicing
+    host: "{{OPENDATAPOLICING_HOST}}"
+    api_key: "{{OPENDATAPOLICING_TOKEN}}"
+    namespace: "{{OPENDATAPOLICING_NAMESPACE}}"
+    definition: "{{ lookup('template', 'opendatapolicing_route.yml.j2') }}"
+- name: Create Solr collection
+  shell: "oc login {{OPENDATAPOLICING_HOST}} --token={{REDHAT_OPENSHIFT_TOKEN}} && oc exec $(oc get pod -l app=computate-solr -o jsonpath='{.items[0].metadata.name}') -n opendatapolicing -- /opt/solr/bin/solr create_collection -c site -n computate || true"
+  register: create_collection
+- name: Print create_collection command
+  debug:
+    var: create_collection
