@@ -6,8 +6,8 @@ ZOOKEEPER_CONF: /opt/zookeeper/conf/zoo.cfg
 ZOOKEEPER_SYSTEMD: "/usr/lib/systemd/system/{{ZOOKEEPER_NAME}}.service"
 ZOOKEEPER_SERVICE: "{{ZOOKEEPER_NAME}}"
 ZOOKEEPER_REPO: https://github.com/apache/zookeeper.git
-ZOOKEEPER_VERSION: 3.6.1-1
-ZOOKEEPER_TAG: "release-3.6.1-1"
+ZOOKEEPER_VERSION: 3.6.1
+ZOOKEEPER_TAG: "release-{{ZOOKEEPER_VERSION}}"
 ZOOKEEPER_PORT: 2181
 target: computate_zookeeper
 
