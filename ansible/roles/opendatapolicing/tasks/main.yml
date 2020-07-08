@@ -9,7 +9,7 @@
     owner: "{{USER_NAME}}"
     group: "{{USER_NAME}}"
   become: yes
-- name: Check for the {{SOTHERNCOALITION_NAME}} pom.xml
+- name: Check for the {{OPENDATAPOLICING_NAME}} pom.xml
   stat:
     path: "{{OPENDATAPOLICING_SRC}}/pom.xml"
   register: pom_xml
