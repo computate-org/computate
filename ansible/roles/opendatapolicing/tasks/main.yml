@@ -100,9 +100,7 @@
     src: opendatapolicing_keystore.properties.j2
     dest: "{{SSL_KEYSTORE_PATH}}/{{OPENDATAPOLICING_SSL_PROPERTIES_FILENAME}}"
 - name: Create the {{OPENDATAPOLICING_NAME}} keystore jks {{SSL_JKS_PATH}}
-  template:
-    src: opendatapolicing_keystore.jks.j2
-    dest: "{{SSL_JKS_PATH}}"
+  shell: echo {{SSL_JKS_BASE64}} | base64 -d > {{SSL_JKS_PATH}}
 - name: Build the source code in {{OPENDATAPOLICING_SRC}}
   shell: "mvn clean install"
   args: 

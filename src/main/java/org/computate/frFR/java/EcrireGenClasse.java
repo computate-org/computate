@@ -1894,7 +1894,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		}
 		l("/**\t");
 		ecrireCommentairePart(classeCommentaire, 0); 
-		tl(0, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">Trouver la classe ", entiteVar, " dans Solr</a>");
+		tl(0, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">", str_Trouver_la_classe_(langueNom), entiteVar, str__dans_Solr(langueNom), ". </a>");
 		tl(0, " * <br/>");
 		l(" **/");  
 		s("public abstract class ", classeNomSimpleGen);
@@ -2592,10 +2592,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	 * r.enUS: writerGenClass
 	 * r: ligneCommentaire
 	 * r.enUS: commentLine
-	 * r: "L'entité « "
-	 * r.enUS: "The entity \\" "
-	 * r: " »"
-	 * r.enUS: " \\""
 	 * r: " est défini comme null avant d'être initialisé. "
 	 * r.enUS: " is defined as null before being initialized. "
 	 * r: " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. "
@@ -3238,7 +3234,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 			t(1, "/**");
 			t(1);
-				s("L'entité « ", entiteVar, " »");
+				s(str_L_entité_(langueNom), entiteVar);
 			l();
 	
 			if(entiteCommentaire != null) {
@@ -3309,7 +3305,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			l();
 			t(1, "/**");
 			t(1);
-			s("<br/>", "L'entité « ", entiteVar, " »");
+			s("<br/>", str_L_entité_(langueNom), entiteVar);
 			l();
 	
 			if(entiteCommentaire != null) {
@@ -3327,21 +3323,21 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 	
 			if(entiteCouverture) {
-				tl(1, " * ", " est défini comme null avant d'être initialisé. ");
+				tl(1, " * ", str__est_défini_comme_null_avant_d_être_initialisé__(langueNom));
 			}
 			else {
-				tl(1, " * ", "Il est construit avant d'être initialisé avec le constructeur par défaut ", entiteNomSimpleComplet, "(). ");
+				tl(1, " * ", str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut_(langueNom), entiteNomSimpleComplet, "(). ");
 			}
 	
 			// Lien vers Solr //
-			tl(1, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">Trouver l'entité ", entiteVar, " dans Solr</a>");
+			tl(1, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", str_Trouver_l_entité_(langueNom), entiteVar, str__dans_Solr(langueNom), "</a>");
 			tl(1, " * <br/>");
 	
 			if(entiteCouverture) {
-				tl(1, " * @param ", entiteVarParam, " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. ");
+				tl(1, " * @param ", entiteVarParam, str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__(langueNom));
 			}
 			else {
-				tl(1, " * @param ", entiteVar, " est l'entité déjà construit. ");
+				tl(1, " * @param ", entiteVar, str__est_l_entité_déjà_construit__(langueNom));
 			}
 	//		if(methodeExceptionsNomSimpleComplet != null && methodeExceptionsNomSimpleComplet.size() > 0) {
 	//

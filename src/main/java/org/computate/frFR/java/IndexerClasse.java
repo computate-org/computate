@@ -2816,6 +2816,62 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "ImageHeight";
 	}
 
+	public String str_Trouver_la_classe_(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Trouver la classe ";
+		else
+			return "Find the class ";
+	}
+
+	public String str_Trouver_l_entité_(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Trouver l'entité ";
+		else
+			return "Find the entity ";
+	}
+
+	public String str__dans_Solr(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return " dans Solr";
+		else
+			return " in Solr";
+	}
+
+	public String str__est_défini_comme_null_avant_d_être_initialisé__(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return " est défini comme null avant d'être initialisé. ";
+		else
+			return " is defined as null before being initialized. ";
+	}
+
+	public String str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut_(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Il est construit avant d'être initialisé avec le constructeur par défaut ";
+		else
+			return " It is constructed before being initialized with the constructor by default ";
+	}
+
+	public String str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. ";
+		else
+			return " is for wrapping a value to assign to this entity during initialization. ";
+	}
+
+	public String str__est_l_entité_déjà_construit__(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return " est l'entité déjà construit. ";
+		else
+			return " is the entity already constructed. ";
+	}
+
+	public String str_L_entité_(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return " L'entité ";
+		else
+			return " The entity ";
+	}
+
 	public String str_UnNom(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "UnNom";
