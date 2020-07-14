@@ -1,6 +1,6 @@
 # Before doing a restore, you may want to clear the database and search engine of the destination: 
 # Solr Pod: 
-# curl -X POST -d '<delete><query>*:*</query></delete>' http://localhost:8080/solr/school/update?commitWithin=1000&overwrite=true&wt=xml
+# curl -X POST -d '<delete><query>*:*</query></delete>' http://localhost:8983/solr/school/update?commitWithin=1000&overwrite=true&wt=xml
 # Postgres Pod: 
 # psql school -c 'delete from a; delete from d; delete from c;'
 ---
@@ -8,5 +8,5 @@
   shell: curl -X POST -u "{{AUTH_RESOURCE}}:{{AUTH_SECRET}}" -d "grant_type=client_credentials" "{{AUTH_URL}}/realms/{{AUTH_REALM}}/protocol/openid-connect/token"
   register: AUTH_TOKEN
 - name: Decrypt and import the {{DATA_NAME_VAR}} data
-  shell: "export VAULT_PASSWORD='{{VAULT_PASSWORD}}' && cat '{{item}}' | ansible-vault decrypt --vault-password-file '/usr/local/src/computate/ansible/bin/echo-vault-password.sh' | curl -X PUT -H 'Authorization: Bearer {{(AUTH_TOKEN.stdout | from_json).access_token}}' -H 'Content-Type: application/json' -d @- '{{COMPUTATE_SCOLAIRE_SITE_BASE_URL_ENUS}}{{DATA_URI}}/import?var=refresh:false' && sleep 5"
+  shell: "export VAULT_PASSWORD='{{VAULT_PASSWORD}}' && cat '{{item}}' | ansible-vault decrypt --vault-password-file '/usr/local/src/computate/ansible/bin/echo-vault-password.sh' | curl -X PUT -H 'Authorization: Bearer {{(AUTH_TOKEN.stdout | from_json).access_token}}' -H 'Content-Type: application/json' -d @- '{{COMPUTATE_SCOLAIRE_SITE_BASE_URL_ENUS}}{{DATA_URI}}/import?var=refresh:false' && sleep {{SLEEP}}"
 

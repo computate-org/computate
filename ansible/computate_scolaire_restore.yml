@@ -68,7 +68,7 @@
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_restore, DATA_NAME_VAR: enrollment, DATA_URI: /api/enrollment }
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: enrollment, DATA_URI: /api/enrollment, SLEEP: 10 }
 - name: Restore the computate-scolaire payment data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR_ENUS}}
   hosts: "{{ target }}"
   connection: local

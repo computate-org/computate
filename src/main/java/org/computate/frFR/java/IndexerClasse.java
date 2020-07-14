@@ -8801,7 +8801,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					}
 				}
 	
-				contexteTitre = regexLangue(langueNom, "^" + str_Titre(classeLangueNom) + "", classeCommentaire);
+				contexteTitre = regexLangue(langueNom, "^" + str_Titre(classeLangueNom) + "", classeCommentaire, contexteNomPluriel);
 				if(contexteTitre != null)
 					indexerStockerSolr(langueNom, classeDoc, "contexteTitre", contexteTitre); 
 	

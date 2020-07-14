@@ -1,6 +1,6 @@
 # Before doing a restore, you may want to clear the database and search engine of the destination: 
 # Solr Pod: 
-# curl -X POST -d '<delete><query>*:*</query></delete>' http://localhost:8080/solr/school/update?commitWithin=1000&overwrite=true&wt=xml
+# curl -X POST -d '<delete><query>*:*</query></delete>' http://localhost:8983/solr/school/update?commitWithin=1000&overwrite=true&wt=xml
 # Postgres Pod: 
 # psql school -c 'delete from a; delete from d; delete from c;'
 ---
