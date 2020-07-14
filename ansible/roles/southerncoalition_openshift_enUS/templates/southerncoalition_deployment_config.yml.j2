@@ -78,27 +78,6 @@ spec:
                   key: authUrl
                   name: southerncoalition-secret
 
-            - name: authorizeApiLoginId
-              valueFrom:
-                secretKeyRef:
-                  key: authorizeApiLoginId
-                  name: southerncoalition-secret
-            - name: authorizeTransactionKey
-              valueFrom:
-                secretKeyRef:
-                  key: authorizeTransactionKey
-                  name: southerncoalition-secret
-            - name: authorizeEnvironment
-              valueFrom:
-                secretKeyRef:
-                  key: authorizeEnvironment
-                  name: southerncoalition-secret
-            - name: authorizeUrl
-              valueFrom:
-                secretKeyRef:
-                  key: authorizeUrl
-                  name: southerncoalition-secret
-
             - name: emailAuth
               valueFrom:
                 secretKeyRef:
