@@ -2947,6 +2947,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		String entiteNomSimple = (String)doc.get("entiteNomSimple_" + langueNom + "_stored_string");
 		String entiteCommentaire = (String)doc.get("entiteCommentaire_" + langueNom + "_stored_string");
 		String entiteVarParam = (String)doc.get("entiteVarParam_" + langueNom + "_stored_string");
+		String entiteAttribuerTypeJson = (String)doc.get("entiteAttribuerTypeJson_stored_string");
 		Boolean entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
 		Boolean entiteInitialise = (Boolean)doc.get("entiteInitialise_stored_boolean");
 		Boolean entiteInitLoin = (Boolean)doc.get("entiteInitLoin_stored_boolean");
