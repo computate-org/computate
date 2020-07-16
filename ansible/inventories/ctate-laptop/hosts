@@ -26,16 +26,19 @@ ctate.remote.csb
 [computate_scolaire]
 ctate.remote.csb
 
+[computate_scolaire_login]
+ctate.remote.csb
+
 [computate_scolaire_refresh]
 ctate.remote.csb
 
 [computate_scolaire_backup]
 ctate.remote.csb
 
-[computate_certbot]
+[computate_scolaire_restore]
 ctate.remote.csb
 
-[computate_scolaire_restore]
+[computate_certbot]
 ctate.remote.csb
 
 [computate_medicale_refresh]
