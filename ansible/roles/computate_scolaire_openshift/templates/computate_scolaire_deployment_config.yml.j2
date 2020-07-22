@@ -127,6 +127,11 @@ spec:
                 secretKeyRef:
                   key: emailAuth
                   name: computate-scolaire-secret
+            - name: emailAdmin
+              valueFrom:
+                secretKeyRef:
+                  key: emailAdmin
+                  name: computate-scolaire-secret
             - name: emailFrom
               valueFrom:
                 secretKeyRef:

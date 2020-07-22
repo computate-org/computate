@@ -4144,6 +4144,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							else if(classeSessionEcrire) {
 								t(tIndex + 2).s(classePrefixe, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
 							}
+							else if(classeRolesTrouves || classeRoleLiresTrouves) {
+								tl(tIndex + 2, "if(");
+								tl(tIndex + 4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+								tl(tIndex + 4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+								tl(tIndex + 4, ") {");
+							}
 							else {
 								t(tIndex + 2).s(classePrefixe, "{").l();
 							}
@@ -4399,6 +4405,19 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								t(tIndex + 2).s("} else {").l();
 								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 							}
+							else if(classeRolesTrouves || classeRoleLiresTrouves) {
+								t(tIndex + 2).s("} else {").l();
+								tl(tIndex + 3, "if(");
+								tl(tIndex + 5, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+								tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+								if(classeRoleLiresTrouves) {
+									tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLE_READS)");
+									tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
+								}
+								tl(tIndex + 4, ") {");
+								t(tIndex + 4).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
+								tl(tIndex + 3, "}");
+							}
 							else {
 //								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
 							}
@@ -4581,14 +4600,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									t(tIndex + 9).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)").l();
 									t(tIndex + 7).s(classePrefixe, ") {").l();
 								}
-								else if(classePublicLire) {
-									tl(tIndex + 8, "if(");
-									tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-									tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-									tl(tIndex + 10, ") {");
-								}
 								else if(classeUtilisateurEcrire) {
-									if(classeRolesTrouves || classeRoleLiresTrouves) {
+									if(classeRolesTrouves) {
 										tl(tIndex + 7, "if(");
 										tl(tIndex + 9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 										tl(tIndex + 9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -4600,6 +4613,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								}
 								else if(classeSessionEcrire) {
 									t(tIndex + 7).s(classePrefixe, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
+								}
+								else if(classeRolesTrouves) {
+									tl(tIndex + 7, "if(");
+									tl(tIndex + 9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+									tl(tIndex + 9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+									tl(tIndex + 9, ") {");
 								}
 								else {
 									t(tIndex + 7).s(classePrefixe, "{").l();
