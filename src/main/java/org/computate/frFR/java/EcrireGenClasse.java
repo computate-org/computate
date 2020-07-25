@@ -3468,17 +3468,17 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //				tl(2, "o = StringUtils.remove(o, \"$\");");
 				tl(2, "o = StringUtils.removeAll(o, \"[^\\\\d\\\\.]\");");
 				tl(2, "if(NumberUtils.isParsable(o))");
-				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2);");
+				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.CEILING);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Double o) {");
-				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2);");
+				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.CEILING);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " set", entiteVarCapitalise, "(Integer o) {");
-				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2);");
+				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.CEILING);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -3647,13 +3647,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
 					tl(3, "Double o = objets.getDouble(i);");
-					tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o, MathContext.DECIMAL64).setScale(2));");
+					tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.CEILING));");
 					tl(2, "}");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, "if(NumberUtils.isParsable(o)) {");
-					tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o, MathContext.DECIMAL64).setScale(2);");
+					tl(3, entiteNomSimpleCompletGenerique, " p = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.CEILING);");
 					tl(3, "add", entiteVarCapitalise, "(p);");
 					tl(2, "}");
 					tl(2, "return (", classeNomSimple, ")this;");
@@ -3992,7 +3992,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"", str_HAposhAposmm(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")));");
 				}
 				else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".setScale(2).toString();");
+					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".setScale(2, RoundingMode.CEILING).toString();");
 				}
 				else if(VAL_nomCanoniqueString.equals(entiteNomCanonique))
 					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ";");

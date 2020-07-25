@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.Normalizer;
 import java.text.NumberFormat;
@@ -1530,6 +1531,20 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "ValeursObjet";
 		else
 			return "ObjectValues";
+	}
+
+	public String str_objetTexte(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "objetTexte";
+		else
+			return "objectText";
+	}
+
+	public String str_objetSuggere(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "objetSuggere";
+		else
+			return "objectSuggest";
 	}
 
 	/**
@@ -6254,6 +6269,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, HashMap.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.Logger", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.LoggerFactory", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 
 		Boolean classePublicLire = false;
 		Boolean classeRoleSession = false;
@@ -7712,10 +7728,10 @@ public class IndexerClasse extends RegarderClasseBase {
 						if(entiteCleUnique) {
 							classeVarCleUnique = stockerSolr(classeLangueNom, classeDoc, "classeVarCleUnique", entiteVar);
 						}
-						if(entiteSuggere) {
+						if(entiteSuggere && entiteVar.equals(str_objetSuggere(classeLangueNom))) {
 							classeVarSuggere = stockerSolr(classeLangueNom, classeDoc, "classeVarSuggere", entiteVar);
 						}
-						if(entiteTexte) {
+						if(entiteTexte && entiteVar.equals(str_objetTexte(classeLangueNom))) {
 							classeVarTexte = stockerSolr(classeLangueNom, classeDoc, "classeVarTexte", entiteVar);
 						}
 						if(entiteVarUrlId) {
@@ -7770,10 +7786,10 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteVarLangue = indexerStockerSolr(langueNom, entiteDoc, "entiteVar", entiteVarLangue == null ? entiteVar : entiteVarLangue);
 								indexerStockerSolr(langueNom, entiteDoc, "entiteVarCapitalise", StringUtils.capitalize(entiteVarLangue));
 								indexerStockerListeSolr(langueNom, classeDoc, "classeEntiteVars", entiteVarLangue);
-								if(entiteSuggere) {
+								if(entiteSuggere && entiteVarLangue.equals(str_objetSuggere(langueNom))) {
 									stockerSolr(langueNom, classeDoc, "classeVarSuggere", entiteVarLangue);
 								}
-								if(entiteTexte) {
+								if(entiteTexte && entiteVarLangue.equals(str_objetTexte(langueNom))) {
 									stockerSolr(langueNom, classeDoc, "classeVarTexte", entiteVarLangue);
 								}
 								if(entiteClePrimaire) {
@@ -8247,6 +8263,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrDocument", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collection", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.math.BigDecimal", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Date", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneId", classeLangueNom), classeLangueNom);
@@ -8531,6 +8548,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, QueryResponse.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, BigDecimal.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Objects.class.getCanonicalName(), classeLangueNom), classeLangueNom);
