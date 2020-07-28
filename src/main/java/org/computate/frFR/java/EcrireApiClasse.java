@@ -3894,10 +3894,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "Q(String uri, String ", str_apiMethode(classeLangueNom), ", ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ", String ", str_entite(classeLangueNom), "Var, String ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", String ", "var", str_Indexe(classeLangueNom), ") {");
 			tl(2, str_listeRecherche(classeLangueNom), ".setQuery(var", str_Indexe(classeLangueNom), " + \":\" + (\"*\".equals(", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ") ? ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " : ClientUtils.escapeQueryChars(", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ")));");
 			tl(2, "if(!\"*\".equals(", str_entite(classeLangueNom), "Var)) {");
-			tl(3, str_listeRecherche(classeLangueNom), ".setHighlight(true);");
-			tl(3, str_listeRecherche(classeLangueNom), ".setHighlightSnippets(3);");
-			tl(3, str_listeRecherche(classeLangueNom), ".addHighlightField(var", str_Indexe(classeLangueNom), ");");
-			tl(3, str_listeRecherche(classeLangueNom), ".setParam(\"hl.encoder\", \"html\");");
+//			tl(3, str_listeRecherche(classeLangueNom), ".setHighlight(true);");
+//			tl(3, str_listeRecherche(classeLangueNom), ".setHighlightSnippets(3);");
+//			tl(3, str_listeRecherche(classeLangueNom), ".addHighlightField(var", str_Indexe(classeLangueNom), ");");
+//			tl(3, str_listeRecherche(classeLangueNom), ".setParam(\"hl.encoder\", \"html\");");
 			tl(2, "}");
 			tl(1, "}");
 			l();
@@ -4072,7 +4072,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 			tl(3, "});");
 			if(classeVarCree != null) {
-				tl(3, "if(", str_listeRecherche(classeLangueNom), ".getSorts().size() == 0) {");
+				tl(3, "if(\"*\".equals(", str_listeRecherche(classeLangueNom), ".getQuery()) && ", str_listeRecherche(classeLangueNom), ".getSorts().size() == 0) {");
 				if(classeTrisVar != null && classeTrisVar.size() > 0) {
 					for(int i = 0; i < classeTrisVar.size(); i++) {
 						String classeTriVar = classeTrisVar.get(i);
