@@ -1070,6 +1070,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 										tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1101,6 +1103,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 										tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1133,6 +1137,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 										tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1163,6 +1169,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 										tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1310,6 +1318,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1344,6 +1354,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 6, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1371,6 +1383,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						
 											tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
 											tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, str_Valeurs(classeLangueNom), " = jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), ");");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2 = new ", entiteNomSimpleVertxJson, "();");
 											tl(tBase + 3, "if(set", entiteVarCapitalise, str_Valeurs(classeLangueNom), " != null) {");
 											tl(tBase + 4, "for(Integer i = 0; i <  set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".size(); i++) {");
 											tl(tBase + 5, "Long l = Long.parseLong(set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".get", entiteListeNomSimpleVertxJson, "(i));");
@@ -1379,9 +1392,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 6, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
+											tl(tBase + 6, "if(l2 != null)");
+											tl(tBase + 7, "set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2.add(l2);");
 											tl(tBase + 6, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
@@ -1404,7 +1421,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 3, "}");
 											tl(tBase + 3, "if(o.get", entiteVarCapitalise, "() != null) {");
 											tl(tBase + 4, "for(Long l :  o.get", entiteVarCapitalise, "()) {");
-											tl(tBase + 5, "if(l != null && (set", entiteVarCapitalise, str_Valeurs(classeLangueNom), " == null || !set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".contains(l))) {");
+											tl(tBase + 5, "if(l != null && (set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2 == null || !set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2.contains(l))) {");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
 											tl(tBase + 9, ", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l, ", q(entiteAttribuerVar), ")");
@@ -1429,6 +1446,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1462,6 +1481,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1496,6 +1517,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 6, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1523,6 +1546,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						
 											tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
 											tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, str_Valeurs(classeLangueNom), " = jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), ");");
+											tl(tBase + 3, entiteNomSimpleVertxJson, " set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2 = new ", entiteNomSimpleVertxJson, "();");
 											tl(tBase + 3, "if(set", entiteVarCapitalise, str_Valeurs(classeLangueNom), " != null) {");
 											tl(tBase + 4, "for(Integer i = 0; i <  set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".size(); i++) {");
 											tl(tBase + 5, "Long l = Long.parseLong(set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".get", entiteListeNomSimpleVertxJson, "(i));");
@@ -1531,9 +1555,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 6, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 6, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
+											tl(tBase + 6, "if(l2 != null)");
+											tl(tBase + 7, "set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2.add(l2);");
 											tl(tBase + 6, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
@@ -1556,7 +1584,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 3, "}");
 											tl(tBase + 3, "if(o.get", entiteVarCapitalise, "() != null) {");
 											tl(tBase + 4, "for(Long l :  o.get", entiteVarCapitalise, "()) {");
-											tl(tBase + 5, "if(l != null && (set", entiteVarCapitalise, str_Valeurs(classeLangueNom), " == null || !set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".contains(l))) {");
+											tl(tBase + 5, "if(l != null && (set", entiteVarCapitalise, str_Valeurs(classeLangueNom), " == null || !set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2.contains(l))) {");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
 											tl(tBase + 9, ", Tuple.of(l, ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
@@ -1581,6 +1609,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1617,6 +1647,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1649,6 +1681,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1684,6 +1718,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -1716,6 +1752,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setC(", entiteAttribuerNomSimple, ".class);");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
@@ -2271,6 +2309,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
 						s(", body");
 					l(");");
+					tl(2, str_requeteSite(classeLangueNom), ".set", str_RequeteUri(classeLangueNom), "(", q(classeApiUriMethode), ");");
+					tl(2, str_requeteSite(classeLangueNom), ".set", str_RequeteMethode(classeLangueNom), "(", q(classeApiMethode), ");");
 					tl(2, "try {");
 					if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
 						tl(3, "LOGGER.info(String.format(\"", classeApiOperationIdMethode, " ", str_a_démarré(classeLangueNom), ". \"));");
@@ -2689,6 +2729,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(4, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 						tl(4, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 						tl(4, str_listeRecherche(classeLangueNom), ".setC(", classeNomSimple, ".class);");
+						tl(4, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_supprime(classeLangueNom), "_indexed_boolean:false\");");
+						tl(4, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 						tl(4, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire : classeVarClePrimaire, "_indexed_long:\" + json.getString(\"", classeVarClePrimaire, "\"));");
 						tl(4, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), "2);");
 						l();
@@ -3482,16 +3524,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "public void ", str_erreur(classeLangueNom), classeNomSimple, "(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(classeLangueNom), ", AsyncResult<?> ", str_resultat(classeLangueNom), "Async) {");
 			tl(2, "Throwable e = ", str_resultat(classeLangueNom), "Async.cause();");
+			tl(2, "JsonObject json = new JsonObject()");
+			tl(4, ".put(\"", str_erreur(classeLangueNom), "\", new JsonObject()");
+			tl(4, ".put(\"message\", Optional.ofNullable(e).map(Throwable::getMessage).orElse(null))");
+			tl(4, ".put(\"", str_utilisateurNom(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurNom(classeLangueNom), "())");
+			tl(4, ".put(\"", str_utilisateurNomComplet(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurNomComplet(classeLangueNom), "())");
+			tl(4, ".put(\"", str_requeteUri(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_RequeteUri(classeLangueNom), "())");
+			tl(4, ".put(\"", str_requeteMethode(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_RequeteMethode(classeLangueNom), "())");
+			tl(4, ".put(\"params\", ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "().getParams())");
+			tl(4, ");");
 			tl(2, "ExceptionUtils.printRootCauseStackTrace(e);");
 			tl(2, "OperationResponse ", str_reponse(classeLangueNom), "Operation = new OperationResponse(400, \"BAD REQUEST\", ");
-			tl(3, "Buffer.buffer().appendString(");
-			tl(4, "new JsonObject() {{");
-			tl(5, "put(\"", str_erreur(classeLangueNom), "\", new JsonObject()");
-			tl(6, ".put(\"message\", Optional.ofNullable(e).map(Throwable::getMessage).orElse(null))");
-			tl(5, ");");
-			tl(4, "}}.encodePrettily()");
-			tl(3, ")");
-			tl(3, ", new CaseInsensitiveHeaders()");
+			tl(4, "Buffer.buffer().appendString(json.encodePrettily())");
+			tl(4, ", new CaseInsensitiveHeaders().add(\"Content-Type\", \"application/json\")");
 			tl(2, ");");
 	
 			tl(2, classePartsConfigSite.nomSimple(classeLangueNom), " ", str_configSite(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_ConfigSite(classeLangueNom), "_();");
@@ -3501,7 +3546,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "message.setFrom(", str_configSite(classeLangueNom), ".get", str_MailDe(classeLangueNom), "());");
 			tl(2, "message.setTo(", str_configSite(classeLangueNom), ".get", str_MailAdmin(classeLangueNom), "());");
 			tl(2, "if(e != null)");
-			tl(3, "message.setText(ExceptionUtils.getStackTrace(e));");
+			tl(3, "message.setText(String.format(\"%s\\n\\n%s\", json.encodePrettily(), ExceptionUtils.getStackTrace(e)));");
 			tl(2, "message.setSubject(String.format(", str_configSite(classeLangueNom), ".get", str_SiteUrlBase(classeLangueNom), "() + \" \" + Optional.ofNullable(e).map(Throwable::getMessage).orElse(null)));");
 			tl(2, "WorkerExecutor workerExecutor = ", str_siteContexte(classeLangueNom), ".get", str_ExecuteurTravailleur(classeLangueNom), "();");
 			tl(2, "workerExecutor.executeBlocking(");
@@ -4114,6 +4159,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(7, "try {");
 			tl(8, "o.", str_definir(classeLangueNom), str_PourClasse(classeLangueNom), "(definition.getString(0), definition.getString(1));");
 			tl(7, "} catch(Exception e) {");
+			tl(8, "LOGGER.error(String.format(\"", str_definir(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", e));");
 			tl(8, "LOGGER.error(e);");
 			tl(7, "}");
 			tl(6, "}");

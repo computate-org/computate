@@ -4380,7 +4380,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 							if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
 								t(tIndex + 2).s("} else {").l();
-								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
+								t(tIndex + 3).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
 							}
 							else if(classeUtilisateurEcrire) {
 								if(classeRolesTrouves || classeRoleLiresTrouves) {
@@ -4393,17 +4393,17 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 										tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
 									}
 									tl(tIndex + 5, ") {");
-									t(tIndex + 4).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
+									t(tIndex + 4).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
 									tl(tIndex + 3, "}");
 								}
 								else {
 									t(tIndex + 2).s("} else {").l();
-									t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
+									t(tIndex + 3).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
 								}
 							}
 							else if(classeSessionEcrire) {
 								t(tIndex + 2).s("} else {").l();
-								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
+								t(tIndex + 3).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
 							}
 							else if(classeRolesTrouves || classeRoleLiresTrouves) {
 								t(tIndex + 2).s("} else {").l();
@@ -4415,7 +4415,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 									tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
 								}
 								tl(tIndex + 4, ") {");
-								t(tIndex + 4).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
+								t(tIndex + 4).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
 								tl(tIndex + 3, "}");
 							}
 							else {
@@ -4424,7 +4424,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							t(tIndex + 2).s("}").l();
 						}
 						else if(!entiteModifier) {
-							t(tIndex + 2).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
+							t(tIndex + 2).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
 						}
 						tl(1, "}");  
 
@@ -4666,7 +4666,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								} else if(StringUtils.equals(classeVarId, entiteVar) && classeVarUrlId != null) {
 									t(tIndex + 9).s(classePrefixe, "e(\"a\").a(\"href\", ", classeVarUrlId, ")").df().s(".sx(str", entiteVarCapitalise, "())").dgl("a");
 								} else {
-									t(tIndex + 9).s(classePrefixe, "e(\"span\")").df().s(".sx(str", entiteVarCapitalise, "())").dgl("span");
+									t(tIndex + 9).s(classePrefixe, "e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(str", entiteVarCapitalise, "())").l(".g(\"span\");");
 								}
 								t(tIndex + 8).l("} ", classePrefixe, "g(\"div\");");
 								t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
@@ -5133,7 +5133,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	//		if(entiteAttribuer)
 	//			tl(1, "public static final String ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, " = \"", entiteAttribuerVar, "\";");
 	
-			if(entiteDefinir || entiteAttribuer) {
+			if(entiteDefinir || entiteAttribuer || entiteIndexe || entiteStocke) {
 		
 				//////////////////
 				// requeteApi //

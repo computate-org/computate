@@ -1965,6 +1965,74 @@ public class IndexerClasse extends RegarderClasseBase {
 	/**
 	 * Var.enUS: str_User
 	 */
+	public String str_utilisateurNomComplet(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateurNomComplet";
+		else
+			return "userFullName";
+	}
+
+	public String str_requeteUri(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "requeteUri";
+		else
+			return "requestUri";
+	}
+
+	public String str_requeteMethode(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "requeteMethode";
+		else
+			return "requestMethod";
+	}
+
+	public String str_RequeteUri(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "RequeteUri";
+		else
+			return "RequestUri";
+	}
+
+	public String str_RequeteMethode(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "RequeteMethode";
+		else
+			return "RequestMethod";
+	}
+
+	/**
+	 * Var.enUS: str_User
+	 */
+	public String str_utilisateurNom(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "utilisateurNom";
+		else
+			return "userName";
+	}
+
+	/**
+	 * Var.enUS: str_User
+	 */
+	public String str_UtilisateurNomComplet(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurNomComplet";
+		else
+			return "UserFullName";
+	}
+
+	/**
+	 * Var.enUS: str_User
+	 */
+	public String str_UtilisateurNom(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "UtilisateurNom";
+		else
+			return "UserName";
+	}
+
+	/**
+	 * Var.enUS: str_User
+	 */
 	public String str_Utilisateur(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "Utilisateur";
@@ -7257,7 +7325,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarH2", (String)docClasse.get("classeVarH2_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarH3", (String)docClasse.get("classeVarH3_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerApiUri", (String)docClasse.get("classeApiUri_" + classeLangueNom + "_stored_string"));
-									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerApiUri" + str_Recherche(classeLangueNom) + "Page", (String)docClasse.get("classeApiUri" + str_Recherche(classeLangueNom) + "Page_" + classeLangueNom + "_stored_string"));
+									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerPageUri", (String)docClasse.get("classeApiUri" + str_PageRecherche(classeLangueNom) + "_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + classeLangueNom + "_stored_string"));
 									indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerContexteUnNom", (String)docClasse.get("contexteUnNom_" + classeLangueNom + "_stored_string"));
@@ -7338,7 +7406,7 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarH2", (String)docClasse.get("classeVarH2_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarH3", (String)docClasse.get("classeVarH3_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerApiUri", (String)docClasse.get("classeApiUri_" + langueNom + "_stored_string"));
-											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerPageUri", (String)docClasse.get("classeApiUri" + str_Recherche(langueNom) + "Page_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerPageUri", (String)docClasse.get("classeApiUri" + str_PageRecherche(langueNom) + "_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerContexteUnNom", (String)docClasse.get("contexteUnNom_" + langueNom + "_stored_string"));
