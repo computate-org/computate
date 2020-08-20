@@ -1,0 +1,11 @@
+# Before doing a restore, you may want to clear the database and search engine of the destination: 
+# Solr Pod: 
+# curl -X POST -d '<delete><query>*:*</query></delete>' http://localhost:8983/solr/site/update?commitWithin=1000&overwrite=true&wt=xml
+# Postgres Pod: 
+# psql school -c 'delete from a; delete from d; delete from c;'
+---
+- name: For each file
+  include_tasks: southerncoalition_restore.yml
+  with_fileglob: 
+    - "{{SOUTHERNCOALITION_RESTORE_DIR_ENUS}}/{{DATA_NAME_VAR}}*"
+
