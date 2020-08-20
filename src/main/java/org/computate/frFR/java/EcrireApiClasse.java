@@ -1641,6 +1641,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(tBase + 2, "case \"set", entiteVarCapitalise, "\":");
 										if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
 											tl(tBase + 3, "{");
+											tl(tBase + 4, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
 											tl(tBase + 4, "Long l = o2.get", entiteVarCapitalise, "();");
 											tl(tBase + 4, "if(l != null) {");
 											tl(tBase + 5, classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, ">();");
@@ -1653,7 +1654,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(tBase + 5, "if(l2 != null && !l2.equals(o.get", StringUtils.capitalize(entiteVar), "())) {");
-											tl(tBase + 6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
 											tl(tBase + 9, ", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
@@ -1675,6 +1675,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										}
 										else {
 											tl(tBase + 3, "{");
+											tl(tBase + 4, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
 											tl(tBase + 4, "Long l = o2.get", entiteVarCapitalise, "();");
 											tl(tBase + 4, "if(l != null && !l.equals(o.get", StringUtils.capitalize(entiteVar), "())) {");
 											tl(tBase + 5, classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, ">();");
@@ -1687,7 +1688,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(tBase + 5, "if(l2 != null) {");
-											tl(tBase + 6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
 											tl(tBase + 9, ", Tuple.of(l2", ", ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
@@ -1712,6 +1712,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(tBase + 2, "case \"remove", entiteVarCapitalise, "\":");
 										if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
 											tl(tBase + 3, "{");
+											tl(tBase + 4, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
 											tl(tBase + 4, "Long l = o2.get", entiteVarCapitalise, "();");
 											tl(tBase + 4, "if(l != null) {");
 											tl(tBase + 5, classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, ">();");
@@ -1723,8 +1724,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
-											tl(tBase + 5, "if(l2 != null && l2.equals(o.get", StringUtils.capitalize(entiteVar), "())) {");
-											tl(tBase + 6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
+											tl(tBase + 5, "if(l2 != null) {");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
 											tl(tBase + 9, ", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
@@ -1746,6 +1746,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										}
 										else {
 											tl(tBase + 3, "{");
+											tl(tBase + 4, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
 											tl(tBase + 4, "Long l = o2.get", entiteVarCapitalise, "();");
 											tl(tBase + 4, "if(l != null) {");
 											tl(tBase + 5, classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, ">();");
@@ -1757,8 +1758,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "\" : \"", classeVarClePrimaire, "\") + \"_indexed_long:\" + l);");
 											tl(tBase + 5, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 											tl(tBase + 5, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
-											tl(tBase + 5, "if(l2 != null && l2.equals(o.get", StringUtils.capitalize(entiteVar), "())) {");
-											tl(tBase + 6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
+											tl(tBase + 5, "if(l2 != null) {");
 											tl(tBase + 6, "futures.add(Future.future(a -> {");
 											tl(tBase + 7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
 											tl(tBase + 9, ", Tuple.of(l2", ", ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");

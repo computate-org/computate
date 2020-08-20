@@ -977,11 +977,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	//				wEntites.l();
 	//				wEntites.tl(1, "@Override protected void _pageH1(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 	//				if(classeVarTitre != null) {
-	//					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null && ", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarTitre), "() != null)");
-	//					wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarTitre), "()", ");");
-	//					wEntites.tl(2, "else if(", StringUtils.uncapitalize(classeNomSimple), " != null)");
+	//					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), "_ != null && ", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarTitre), "() != null)");
+	//					wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarTitre), "()", ");");
+	//					wEntites.tl(2, "else if(", StringUtils.uncapitalize(classeNomSimple), "_ != null)");
 	//				} else {
-	//					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null)");
+	//					wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), "_ != null)");
 	//				}
 	//				if(contexteH1 != null)
 	//					wEntites.tl(3, "c.o(", q(contexteH1), ");");
@@ -1000,8 +1000,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wEntites.l();
 					wEntites.tl(1, "@Override protected void _pageH1(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					if(classeVarH1 != null) {
-						wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null && ", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarTitre), "() != null)");
-						wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarTitre), "()", ");");
+						wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), "_ != null && ", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarTitre), "() != null)");
+						wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarTitre), "()", ");");
 						if(contexteH1 != null) {
 							wEntites.tl(2, "else");
 							wEntites.tl(3, "c.o(", q(contexteH1), ");");
@@ -1016,8 +1016,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wEntites.l();
 					wEntites.tl(1, "@Override protected void _pageH2(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					if(classeVarH2 != null) {
-						wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null && ", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarTitre), "() != null)");
-						wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarTitre), "()", ");");
+						wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), "_ != null && ", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarTitre), "() != null)");
+						wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarTitre), "()", ");");
 						if(contexteH2 != null) {
 							wEntites.tl(2, "else");
 							wEntites.tl(3, "c.o(", q(contexteH2), ");");
@@ -1030,8 +1030,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wEntites.l();
 					wEntites.tl(1, "@Override protected void _pageH3(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					if(classeVarH3 != null) {
-						wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null && ", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarTitre), "() != null)");
-						wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarTitre), "()", ");");
+						wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), "_ != null && ", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarTitre), "() != null)");
+						wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarTitre), "()", ");");
 						if(contexteH3 != null) {
 							wEntites.tl(2, "else");
 							wEntites.tl(3, "c.o(", q(contexteH3), ");");
@@ -1044,11 +1044,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wEntites.l();
 					wEntites.tl(1, "@Override protected void _page", str_Titre(langueNom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 					if(classeVarTitre != null) {
-						wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null && ", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarTitre), "() != null)");
-						wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarTitre), "()", ");");
-						wEntites.tl(2, "else if(", StringUtils.uncapitalize(classeNomSimple), " != null)");
+						wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), "_ != null && ", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarTitre), "() != null)");
+						wEntites.tl(3, "c.o(", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarTitre), "()", ");");
+						wEntites.tl(2, "else if(", StringUtils.uncapitalize(classeNomSimple), "_ != null)");
 					} else {
-						wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null)");
+						wEntites.tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), "_ != null)");
 					}
 					wEntites.tl(3, "c.o(", q(contexteTitre), ");");
 					if(!classePageSimple) {
@@ -1144,7 +1144,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(1, "}");
 					}
 					l();
-					tl(1, "protected void _", StringUtils.uncapitalize(classeNomSimple), "(", "", classePartsCouverture.nomSimple(langueNom), "<", classeNomSimple, "> c", ") {");
+					tl(1, "protected void _", StringUtils.uncapitalize(classeNomSimple), "_(", "", classePartsCouverture.nomSimple(langueNom), "<", classeNomSimple, "> c", ") {");
 					if(classePageSimple) {
 						tl(2, "c.o(new ", classeNomSimple, "());");
 					} else {
@@ -2018,7 +2018,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						}
 						if(classeMethodeVars.contains("htmlBody")) {
 							l();
-							tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), " != null)");
+							tl(2, "if(", StringUtils.uncapitalize(classeNomSimple), "_ != null)");
 							tl(3, StringUtils.uncapitalize(classeNomSimple), ".htmlBody();");
 						}
 						l();
@@ -2392,14 +2392,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 														if("POST".equals(classeApiMethodeMethode))
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
 														else if("PATCH".equals(classeApiMethodeMethode))
-//															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \", function() {}, function() {}); \")");
-															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(null, $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \", function() {}, function() {}); \")");
+//															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \", function() {}, function() {}); \")");
+															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(null, $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \", function() {}, function() {}); \")");
 														else if("PUTImport".equals(classeApiMethode))
-															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \"); \")");
+															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \"); \")");
 														else if(str_PUTFusion(langueNom).equals(classeApiMethode))
-															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \"); \")");
+															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \"); \")");
 														else if(str_PUTCopie(langueNom).equals(classeApiMethode))
-															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), ").map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \"); \")");
+															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\"), \"); \")");
 														else if(tab > 0)
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")");
 														else
@@ -2441,7 +2441,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 														else if(str_PUTFusion(langueNom).equals(classeApiMethode))
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \")");
 														else if(str_PUTCopie(langueNom).equals(classeApiMethode))
-															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", StringUtils.uncapitalize(classeNomSimple), " == null ? \"null\" : ", StringUtils.uncapitalize(classeNomSimple), ".get", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")");
+															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", StringUtils.uncapitalize(classeNomSimple), "_ == null ? \"null\" : ", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")");
 														else if(tab > 0)
 															tl(8 + tab, ".a(\"onclick\", \"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"); \")");
 														else

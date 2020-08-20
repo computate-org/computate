@@ -74,4 +74,9 @@
   connection: local
   roles:
     - { role: computate_scolaire_restore, DATA_NAME_VAR: payment, DATA_URI: /api/payment }
+- name: Restore the computate-scolaire receipt data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR_ENUS}}
+  hosts: "{{ target }}"
+  connection: local
+  roles:
+    - { role: computate_scolaire_restore, DATA_NAME_VAR: receipt, DATA_URI: /api/receipt }
 

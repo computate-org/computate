@@ -4938,10 +4938,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			o = wAttribuer;
 			if((classeEtendBase || classeEstBase) && entiteAttribuer) {
 				tl(3, "case \"", entiteVar, "\":");
-				if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()))
+				if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 					tl(4, "o", classeNomSimple, ".add", entiteVarCapitalise, "((", entiteNomSimpleCompletGenerique, ")val);");
-				else
-					tl(4, "o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+				} else {
+					tl(4, "if(o", classeNomSimple, ".get", entiteVarCapitalise, "() == null)");
+					tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+				}
 				tl(4, "if(!", str_sauvegardes(langueNom), ".contains(var))");
 				tl(5, str_sauvegardes(langueNom), ".add(var);");
 				tl(4, "return val;");

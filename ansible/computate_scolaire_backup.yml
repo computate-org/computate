@@ -74,4 +74,9 @@
   connection: local
   roles:
     - { role: computate_scolaire_backup, DATA_NAME_VAR: payment, DATA_URI: /api/payment, DATA_ROWS: 100 }
+- name: Backup the computate-scolaire receipt data.
+  hosts: "{{ target }}"
+  connection: local
+  roles:
+    - { role: computate_scolaire_backup, DATA_NAME_VAR: receipt, DATA_URI: /api/receipt, DATA_ROWS: 100 }
 
