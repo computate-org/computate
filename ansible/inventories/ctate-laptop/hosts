@@ -1,52 +1,52 @@
 
 [southerncoalition]
-ctate.remote.csb
+ctate
 
 [southerncoalition_backup]
-ctate.remote.csb
+ctate
 
 [southerncoalition_restore]
-ctate.remote.csb
+ctate
 
 [southerncoalition_refresh]
-ctate.remote.csb
+ctate
 
 [opendatapolicing]
-ctate.remote.csb
+ctate
 
 [opendatapolicing_backup]
-ctate.remote.csb
+ctate
 
 [opendatapolicing_restore]
-ctate.remote.csb
+ctate
 
 [opendatapolicing_refresh]
-ctate.remote.csb
+ctate
 
 [computate_scolaire]
-ctate.remote.csb
+ctate
 
 [computate_scolaire_login]
-ctate.remote.csb
+ctate
 
 [computate_scolaire_refresh]
-ctate.remote.csb
+ctate
 
 [computate_scolaire_backup]
-ctate.remote.csb
+ctate
 
 [computate_scolaire_restore]
-ctate.remote.csb
+ctate
 
 [computate_certbot]
-ctate.remote.csb
+ctate
 
 [computate_medicale_refresh]
-ctate.remote.csb
+ctate
 
 [computate_medicale_backup]
-ctate.remote.csb
+ctate
 
 [computate_medicale_restore]
-ctate.remote.csb
+ctate
 
