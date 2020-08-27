@@ -3,6 +3,7 @@ GITHUB_ORG: "..."
 GITHUB_TOKEN: "..."
 GITHUB_REPO: computate-org-school
 REPO_PATH: "/usr/local/src/{{ GITHUB_REPO }}"
+TEAM_ID: "..."
 
 ZOOKEEPER_PORT: 2181
 ZOOKEEPER_HOST_NAME: "localhost"
@@ -12,7 +13,7 @@ SOLR_PORT: 8983
 SOLR_OPT: /opt/solr
 
 POSTGRES_HOST_NAME: "localhost"
-POSTGRES_BECOME_USER: "ctate"
+POSTGRES_BECOME_USER: "pgsql"
 POSTGRES_HBA_CONF: "/opt/pgsql/pg_hba.conf"
 POSTGRES_SERVICE: "pgsql"
 
