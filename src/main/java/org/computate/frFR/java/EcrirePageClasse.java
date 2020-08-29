@@ -1442,8 +1442,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											wPATCH.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('input.", str_valeur(langueNom), entiteVarCapitalise, ":checked')", jsVal, ";");
 										else
 											wPATCH.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.", str_valeur(langueNom), entiteVarCapitalise, "')", jsVal, ";");
-										wPATCH.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, " != null && ", str_valeur(langueNom), entiteVarCapitalise, " !== '')");
 										if(entiteAttribuer) {
+											wPATCH.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, " != null && ", str_valeur(langueNom), entiteVarCapitalise, " !== '')");
 											if(entiteListeTypeJson == null) {
 												wPATCH.tl(2, "vals['set", entiteVarCapitalise, "'] = ", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, ";");
 											}
@@ -1452,12 +1452,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											}
 										} else {
 		
-											wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", str_formulaireFiltres(langueNom), ".find('.remove", entiteVarCapitalise, "').val() === 'true';");
+											wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.remove", entiteVarCapitalise, "').val() === 'true';");
 		
 											if("Boolean".equals(entiteNomSimple)) {
 												wPATCH.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, "SelectVal = $", str_formulaireValeurs(langueNom), ".find('select.set", entiteVarCapitalise, "').val();");
 												wPATCH.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = null;");
-												wPATCH.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, "SelectVal !== '')");
+												wPATCH.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, "SelectVal != null && ", str_valeur(langueNom), entiteVarCapitalise, "SelectVal !== '')");
 												wPATCH.tl(2, str_valeur(langueNom), entiteVarCapitalise, " = ", str_valeur(langueNom), entiteVarCapitalise, "SelectVal == 'true';");
 												wPATCH.tl(1, "set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : ", str_valeur(langueNom), entiteVarCapitalise, ";");
 											}
@@ -2371,21 +2371,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													t(7 + tab).e("h2").da("class", "w3-padding ").df().dsxq(methodeTitreValeurs).dgl("h2");
 												} t(6 + tab).bgl("header");
 					
-												{ t(6 + tab).be("div").da("class", "w3-container ").dfl();
+												{ t(6 + tab).be("div").da("class", "w3-container ").da("id", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom)).dfl();
 													tl(7+ tab, classeNomSimple, " o = new ", classeNomSimple, "();");
 		//											tl(7+ tab, "o.", str_initLoin(langueNom), str_PourClasse(langueNom), "(", str_requeteSite(langueNom), "_);");
 													tl(7+ tab, "o.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
 													if("PATCH".equals(classeApiMethodeMethode) || str_PUTFusion(langueNom).equals(classeApiMethodeMethode) || str_PUTCopie(langueNom).equals(classeApiMethodeMethode) || "PUTImport".equals(classeApiMethodeMethode)) {
 														l();
-														t(7 + tab).l("// ", str_FormulaireValeurs(classePageLangueNom), " ", classeApiMethodeMethode);
-														{ t(7 + tab).be("form").da("action", classeApiUri).da("id", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom)).da("onsubmit", "event.preventDefault(); return false; ").dfl();
 					
 														if("DELETE".equals(classeApiMethodeMethode))
-															tl(8 + tab, "htmlFormPATCH", classeNomSimple, "(o);");
+															tl(7 + tab, "htmlFormPATCH", classeNomSimple, "(o);");
 														else
-															tl(8 + tab, "htmlForm", classeApiMethodeMethode, classeNomSimple, "(o);");
+															tl(7 + tab, "htmlForm", classeApiMethodeMethode, classeNomSimple, "(o);");
 					
-														} t(7 + tab).bgl("form");
 														t(7 + tab).e("button").l();
 														t(8 + tab).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " ");
 						

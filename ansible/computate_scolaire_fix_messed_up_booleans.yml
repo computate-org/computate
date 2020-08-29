@@ -1,0 +1,12 @@
+---
+- name: Fix messed up booleans
+  hosts: computate_scolaire_restore
+  connection: local
+  vars: 
+    enrollments: "{{ lookup('file', '/home/ctate/backup/littleorchardpreschool.us/messed-up-booleans.json') | from_json }}"
+  tasks: 
+    - name: loop through enrollments
+      debug: 
+        msg: "pk: "
+      loop: "{{ enrollments.list }}"
+
