@@ -19,11 +19,11 @@
   connection: local
   roles:
     - { role: southerncoalition_backup, DATA_NAME_VAR: state, DATA_URI: /api/state, DATA_ROWS: 500 }
-- name: Backup the southerncoalition county data.
+- name: Backup the southerncoalition agency data.
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: southerncoalition_backup, DATA_NAME_VAR: county, DATA_URI: /api/county, DATA_ROWS: 500 }
+    - { role: southerncoalition_backup, DATA_NAME_VAR: agency, DATA_URI: /api/agency, DATA_ROWS: 500 }
 - name: Backup the southerncoalition reportcard data.
   hosts: "{{ target }}"
   connection: local

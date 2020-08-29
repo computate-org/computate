@@ -2,7 +2,7 @@
 # Solr Pod: 
 # curl -X POST -d '<delete><query>*:*</query></delete>' http://localhost:8983/solr/site/update?commitWithin=1000&overwrite=true&wt=xml
 # Postgres Pod: 
-# psql school -c 'delete from a; delete from d; delete from c;'
+# psql southerncoalition -c 'delete from a; delete from d; delete from c;'
 ---
 - name: For each file
   include_tasks: southerncoalition_restore.yml
