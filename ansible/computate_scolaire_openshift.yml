@@ -1,8 +1,0 @@
----
-- name: Install the computate-scolaire pod on OpenShift
-  gather_facts: no
-  hosts: localhost
-  connection: local
-  roles: 
-    - computate_scolaire_openshift
-
