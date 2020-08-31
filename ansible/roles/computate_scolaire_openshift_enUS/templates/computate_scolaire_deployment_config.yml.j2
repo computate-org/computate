@@ -1,0 +1,260 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    app: computate-scolaire
+    deploymentconfig: computate-scolaire
+#  strategy:
+#    activeDeadlineSeconds: 21600
+#    resources: {}
+#    rollingParams:
+#      intervalSeconds: 1
+#      maxSurge: 25%
+#      maxUnavailable: 25%
+#      timeoutSeconds: 600
+#      updatePeriodSeconds: 1
+#    type: Rolling
+  strategy:
+    activeDeadlineSeconds: 21600
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        app: computate-scolaire
+        deploymentconfig: computate-scolaire
+    spec:
+      containers:
+        - imagePullPolicy: Always
+          name: computate-scolaire
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 8081
+              name: cluster
+              protocol: TCP
+            - containerPort: 9779
+              name: prometheus
+              protocol: TCP
+            - containerPort: 8778
+              name: jolokia
+              protocol: TCP
+          resources:
+            limits:
+              memory: 1.3Gi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /opt/keystore
+              name: volume-keystore
+              readOnly: true
+          env:
+            - name: authRealm
+              valueFrom:
+                secretKeyRef:
+                  key: authRealm
+                  name: computate-scolaire-secret
+            - name: authResource
+              valueFrom:
+                secretKeyRef:
+                  key: authResource
+                  name: computate-scolaire-secret
+            - name: authSecret
+              valueFrom:
+                secretKeyRef:
+                  key: authSecret
+                  name: computate-scolaire-secret
+            - name: authUrl
+              valueFrom:
+                secretKeyRef:
+                  key: authUrl
+                  name: computate-scolaire-secret
+
+            - name: authorizeApiLoginId1
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeApiLoginId1
+                  name: computate-scolaire-secret
+            - name: authorizeTransactionKey1
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeTransactionKey1
+                  name: computate-scolaire-secret
+            - name: schoolLocation1
+              valueFrom:
+                secretKeyRef:
+                  key: schoolLocation1
+                  name: computate-scolaire-secret
+            - name: authorizeEnvironment
+
+            - name: authorizeApiLoginId2
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeApiLoginId2
+                  name: computate-scolaire-secret
+            - name: authorizeTransactionKey2
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeTransactionKey2
+                  name: computate-scolaire-secret
+            - name: schoolLocation2
+              valueFrom:
+                secretKeyRef:
+                  key: schoolLocation2
+                  name: computate-scolaire-secret
+            - name: authorizeEnvironment
+
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeEnvironment
+                  name: computate-scolaire-secret
+            - name: authorizeUrl
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeUrl
+                  name: computate-scolaire-secret
+
+            - name: emailAuth
+              valueFrom:
+                secretKeyRef:
+                  key: emailAuth
+                  name: computate-scolaire-secret
+            - name: emailAdmin
+              valueFrom:
+                secretKeyRef:
+                  key: emailAdmin
+                  name: computate-scolaire-secret
+            - name: emailFrom
+              valueFrom:
+                secretKeyRef:
+                  key: emailFrom
+                  name: computate-scolaire-secret
+            - name: emailHost
+              valueFrom:
+                secretKeyRef:
+                  key: emailHost
+                  name: computate-scolaire-secret
+            - name: emailPassword
+              valueFrom:
+                secretKeyRef:
+                  key: emailPassword
+                  name: computate-scolaire-secret
+            - name: emailPort
+              valueFrom:
+                secretKeyRef:
+                  key: emailPort
+                  name: computate-scolaire-secret
+            - name: emailSsl
+              valueFrom:
+                secretKeyRef:
+                  key: emailSsl
+                  name: computate-scolaire-secret
+            - name: emailUsername
+              valueFrom:
+                secretKeyRef:
+                  key: emailUsername
+                  name: computate-scolaire-secret
+            - name: jdbcHost
+              valueFrom:
+                secretKeyRef:
+                  key: jdbcHost
+                  name: computate-scolaire-secret
+            - name: jdbcPort
+              valueFrom:
+                secretKeyRef:
+                  key: jdbcPort
+                  name: computate-scolaire-secret
+            - name: jdbcDatabase
+              valueFrom:
+                secretKeyRef:
+                  key: jdbcDatabase
+                  name: computate-scolaire-secret
+            - name: jdbcUsername
+              valueFrom:
+                secretKeyRef:
+                  key: jdbcUsername
+                  name: computate-scolaire-secret
+            - name: jdbcPassword
+              valueFrom:
+                secretKeyRef:
+                  key: jdbcPassword
+                  name: computate-scolaire-secret
+            - name: sslAlias
+              valueFrom:
+                secretKeyRef:
+                  key: sslAlias
+                  name: computate-scolaire-secret
+            - name: sslJksPassword
+              valueFrom:
+                secretKeyRef:
+                  key: sslJksPassword
+                  name: computate-scolaire-secret
+            - name: sslJksPath
+              valueFrom:
+                secretKeyRef:
+                  key: sslJksPath
+                  name: computate-scolaire-secret
+            - name: sslKeystorePath
+              valueFrom:
+                secretKeyRef:
+                  key: sslKeystorePath
+                  name: computate-scolaire-secret
+            - name: openshiftService
+              value: "computate-scolaire"
+            - name: clusterPort
+              value: "8081"
+            - name: zookeeperHostName
+              value: "computate-zookeeper.{{ZOOKEEPER_NAMESPACE}}.svc"
+            - name: zookeeperPort
+              value: "{{ZOOKEEPER_PORT}}"
+            - name: solrHostName
+              value: "computate-solr.{{SOLR_NAMESPACE}}.svc"
+            - name: solrPort
+              value: "{{SOLR_PORT}}"
+            - name: solrUrl
+              value: "http://computate-solr.{{SOLR_NAMESPACE}}.svc:{{SOLR_PORT}}/solr/{{COMPUTATE_SCOLAIRE_SOLR_COLLECTION}}"
+            - name: siteHostName
+              value: "{{COMPUTATE_SCOLAIRE_SITE_HOST_NAME}}"
+            - name: sitePort
+              value: "{{COMPUTATE_SCOLAIRE_SITE_PORT}}"
+            - name: siteBaseUrl
+              value: "{{COMPUTATE_SCOLAIRE_SITE_BASE_URL_ENUS}}"
+            - name: numberExecutors
+              value: "{{COMPUTATE_SCOLAIRE_NUMBER_EXECUTORS}}"
+            - name: staticBaseUrl
+              value: "{{COMPUTATE_SCOLAIRE_STATIC_BASE_URL}}"
+            - name: siteZone
+              value: "{{COMPUTATE_SCOLAIRE_SITE_ZONE_ENUS}}"
+            - name: JAVA_MAIN_CLASS
+              value: "{{COMPUTATE_SCOLAIRE_JAVA_MAIN_CLASS_ENUS}}"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: volume-keystore
+          secret:
+            defaultMode: 420
+            secretName: computate-scolaire-keystore
+  test: false
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - computate-scolaire
+        from:
+          kind: ImageStreamTag
+          name: 'computate-scolaire:latest'
+          namespace: {{COMPUTATE_SCOLAIRE_NAMESPACE}}
+      type: ImageChange
+    - type: ConfigChange
+
