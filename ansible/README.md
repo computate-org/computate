@@ -40,7 +40,7 @@ sudo pip install openshift kubernetes
 sudo systemctl start docker
 sudo systemctl enable docker
 
-oc new-app https://github.com/computate/computate-scolaire.git --image-stream redhat-openjdk18-openshift:1.5
+oc new-app https://github.com/computate-org/computate-scolaire.git --image-stream redhat-openjdk18-openshift:1.5
 
 oc create secret generic keystore-properties --from-file=keystore.properties=/usr/local/src/computate-scolaire/config/keystore.properties
 oc create secret generic keystore-properties --from-file=server.jks=/home/ctate/computate.org/server.jks
@@ -56,7 +56,7 @@ sudo yum install -y ansible dnf
 
 ```bash
 sudo install -d -o $USER -g $USER /usr/local/src/computate
-git clone git@github.com:computate/computate.git /usr/local/src/computate
+git clone git@github.com:computate-org/computate.git /usr/local/src/computate
 
 install -d /usr/local/src/computate/ansible/inventories/tower2/host_vars/tower2
 ansible-vault create /usr/local/src/computate/ansible/inventories/tower2/host_vars/tower2/vault
