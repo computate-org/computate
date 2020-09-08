@@ -3,70 +3,70 @@
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: page-design, DATA_URI: /api/page-design }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: page-design, DATA_URI: /api/page-design }
 - name: Refresh the computate-scolaire html-part data
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: html-part, DATA_URI: /api/html-part }
 - name: Refresh the computate-scolaire school data
   hosts: "{{ target }}"
   connection: local
   roles: 
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: school, DATA_URI: /api/school }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: school, DATA_URI: /api/school }
 - name: Refresh the computate-scolaire year data
   hosts: "{{ target }}"
   connection: local
   roles: 
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: year, DATA_URI: /api/year }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: year, DATA_URI: /api/year }
 - name: Refresh the computate-scolaire season data
   hosts: "{{ target }}"
   connection: local
   roles: 
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: season, DATA_URI: /api/season }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: season, DATA_URI: /api/season }
 - name: Refresh the computate-scolaire session data
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: session, DATA_URI: /api/session }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: session, DATA_URI: /api/session }
 - name: Refresh the computate-scolaire age data
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: age, DATA_URI: /api/age }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: age, DATA_URI: /api/age }
 - name: Refresh the computate-scolaire block data
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: block, DATA_URI: /api/block }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: block, DATA_URI: /api/block }
 - name: Refresh the computate-scolaire child data
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: child, DATA_URI: /api/child }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: child, DATA_URI: /api/child }
 - name: Refresh the computate-scolaire mom data
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: mom, DATA_URI: /api/mom }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: mom, DATA_URI: /api/mom }
 - name: Refresh the computate-scolaire dad data
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: dad, DATA_URI: /api/dad }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: dad, DATA_URI: /api/dad }
 - name: Refresh the computate-scolaire guardian data
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: guardian, DATA_URI: /api/guardian }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: guardian, DATA_URI: /api/guardian }
 - name: Refresh the computate-scolaire enrollment data
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: enrollment, DATA_URI: /api/enrollment }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: enrollment, DATA_URI: /api/enrollment }
 - name: Refresh the computate-scolaire payment data
   hosts: "{{ target }}"
   connection: local
   roles:
-    - { role: computate_scolaire_refresh, DATA_NAME_VAR: payment, DATA_URI: /api/payment }
+    - { role: computate_scolaire_refresh_enUS, DATA_NAME_VAR: payment, DATA_URI: /api/payment }
 
