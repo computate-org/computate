@@ -1,6 +1,9 @@
 
 localhost
 
+[computate_certbot]
+localhost
+
 [computate_scolaire_refresh]
 localhost
 
