@@ -20,7 +20,7 @@ SOUTHERNCOALITION_SERVICE: "watch-{{SOUTHERNCOALITION_NAME}}"
 # The systemd service file for southerncoalition that generates and translates most of the code. 
 SOUTHERNCOALITION_SYSTEMD: "/usr/lib/systemd/system/{{SOUTHERNCOALITION_SERVICE}}.service"
 # The main git repository for the southerncoalition project. 
-SOUTHERNCOALITION_REPO: "git@github.com:computate/southerncoalition-ansible.git"
+SOUTHERNCOALITION_REPO: "git@github.com:Southern-Coalition-Team-19/southerncoalition.git"
 # The target ansible inventory group for the southerncoalition project to setup your own hosts under this name to deploy the application to. 
 target: southerncoalition
 
