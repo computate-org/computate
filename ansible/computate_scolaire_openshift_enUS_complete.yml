@@ -8,5 +8,5 @@
     - postgres_openshift
     - computate_zookeeper_openshift
     - computate_solr_openshift
-    - computate_scolaire_openshift
+    - computate_scolaire_openshift_enUS
 

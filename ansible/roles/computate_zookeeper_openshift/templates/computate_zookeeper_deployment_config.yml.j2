@@ -61,7 +61,7 @@ spec:
             claimName: computate-zookeeper-persistent-volume-claim
         - configMap:
             defaultMode: 440
-            name: computate-zookeeper-configmap
+            name: computate-zookeeper
           name: volume-computate-zookeeper-conf
   test: false
   triggers:
@@ -71,7 +71,7 @@ spec:
           - computate-zookeeper
         from:
           kind: ImageStreamTag
-          name: 'computate-zookeeper-image-stream:latest'
+          name: 'computate-zookeeper:latest'
           namespace: {{ZOOKEEPER_NAMESPACE}}
       type: ImageChange
     - type: ConfigChange

@@ -10,7 +10,7 @@ SOLR_VERSION: 8.4.1
 SOLR_TAG: "releases/lucene-solr/{{SOLR_VERSION}}"
 SOLR_PORT: 8983
 SOLR_CONFIG: computate
-COMPUTATE_REPO: https://github.com/computate/computate.git
+COMPUTATE_REPO: https://github.com/computate-org/computate.git
 COMPUTATE_SRC: /usr/local/src/computate
 ZOOKEEPER_HOST_NAME: localhost
 ZOOKEEPER_PORT: 2181

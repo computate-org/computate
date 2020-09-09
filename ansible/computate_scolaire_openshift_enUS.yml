@@ -4,5 +4,5 @@
   hosts: localhost
   connection: local
   roles: 
-    - computate_scolaire_openshift
+    - computate_scolaire_openshift_enUS
 

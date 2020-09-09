@@ -1,7 +1,7 @@
 - name: Install computate-zookeeper image stream on OpenShift
   k8s: 
     state: present
-    name: computate-zookeeper-image-stream
+    name: computate-zookeeper
     host: "{{ZOOKEEPER_HOST}}"
     api_key: "{{ZOOKEEPER_TOKEN}}"
     namespace: "{{ZOOKEEPER_NAMESPACE}}"
@@ -9,7 +9,7 @@
 - name: Install computate-zookeeper configmap
   k8s: 
     state: present
-    name: computate-zookeeper-configmap
+    name: computate-zookeeper
     host: "{{ZOOKEEPER_HOST}}"
     api_key: "{{ZOOKEEPER_TOKEN}}"
     namespace: "{{ZOOKEEPER_NAMESPACE}}"
