@@ -4,6 +4,15 @@ localhost
 [computate_certbot]
 localhost
 
+[computate_postgres]
+localhost
+
+[computate_zookeeper]
+localhost
+
+[computate_solr]
+localhost
+
 [computate_scolaire_refresh]
 localhost
 
@@ -11,6 +20,9 @@ localhost
 localhost
 
 [computate_scolaire_restore]
+localhost
+
+[computate_medicale_login]
 localhost
 
 [computate_medicale_refresh]
