@@ -3531,7 +3531,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, ".put(\"", str_utilisateurNomComplet(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurNomComplet(classeLangueNom), "())");
 			tl(4, ".put(\"", str_requeteUri(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_RequeteUri(classeLangueNom), "())");
 			tl(4, ".put(\"", str_requeteMethode(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_RequeteMethode(classeLangueNom), "())");
-			tl(4, ".put(\"params\", ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "().getParams())");
+			tl(4, ".put(\"params\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "()).map(o -> o.getParams()).orElse(null))");
 			tl(4, ");");
 			tl(2, "ExceptionUtils.printRootCauseStackTrace(e);");
 			tl(2, "OperationResponse ", str_reponse(classeLangueNom), "Operation = new OperationResponse(400, \"BAD REQUEST\", ");

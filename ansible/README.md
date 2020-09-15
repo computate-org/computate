@@ -40,7 +40,7 @@ sudo pip install openshift kubernetes
 sudo systemctl start docker
 sudo systemctl enable docker
 
-oc new-app https://github.com/computate-org/computate-scolaire.git --image-stream redhat-openjdk18-openshift:1.5
+oc new-app https://github.com/computate-org/computate-scolaire.git --image-stream java:latest
 
 oc create secret generic keystore-properties --from-file=keystore.properties=/usr/local/src/computate-scolaire/config/keystore.properties
 oc create secret generic keystore-properties --from-file=server.jks=/home/ctate/computate.org/server.jks
