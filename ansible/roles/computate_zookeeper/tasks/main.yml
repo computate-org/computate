@@ -1,7 +1,7 @@
-#- name: Install {{ZOOKEEPER_NAME}} dependencies. 
-#  package:
-#    name: [git,java-1.8.0-openjdk-devel,maven]
-#  become: yes
+- name: Install {{ZOOKEEPER_NAME}} dependencies. 
+  package:
+    name: [git,java-latest-openjdk-devel,java-latest-openjdk,maven]
+  become: yes
 - name: Create the {{ZOOKEEPER_NAME}} source directory {{ZOOKEEPER_SRC}}. 
   file:
     name: "{{ZOOKEEPER_SRC}}"

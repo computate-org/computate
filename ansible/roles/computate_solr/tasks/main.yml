@@ -1,6 +1,6 @@
 - name: Install {{SOLR_NAME}} dependencies. 
   package:
-    name: [git,java-1.8.0-openjdk-devel,npm]
+    name: [git,java-latest-openjdk-devel,java-latest-openjdk,npm]
   become: yes
 - name: Create the {{SOLR_NAME}} source directory {{SOLR_SRC}}. 
   file:

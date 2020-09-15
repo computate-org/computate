@@ -1,7 +1,7 @@
-#- name: Install {{COMPUTATE_MEDICALE_NAME}} dependencies
-#  package:
-#    name: [git,java-1.8.0-openjdk-devel]
-#  become: yes
+- name: Install {{COMPUTATE_MEDICALE_NAME}} dependencies
+  package:
+    name: [git,java-latest-openjdk-devel,java-latest-openjdk]
+  become: yes
 - name: Create the {{COMPUTATE_MEDICALE_NAME}} source directory {{COMPUTATE_MEDICALE_SRC}}
   file:
     name: "{{COMPUTATE_MEDICALE_SRC}}"

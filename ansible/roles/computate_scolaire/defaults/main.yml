@@ -15,7 +15,7 @@ SOLR_OPT: /opt/solr
 POSTGRES_HOST_NAME: "localhost"
 POSTGRES_BECOME_USER: "pgsql"
 POSTGRES_HBA_CONF: "/opt/pgsql/pg_hba.conf"
-POSTGRES_SERVICE: "pgsql"
+POSTGRES_SERVICE: "postgresql"
 
 COMPUTATE_CERTBOT_DOMAIN_NAME: heytate.com
 
