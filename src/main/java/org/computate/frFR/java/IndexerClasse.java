@@ -8982,7 +8982,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		clientSolrComputate.add(classeDoc);
 		clientSolrComputate.commit(true, true);
-		String qSupprimer = concat("classeCheminAbsolu_indexed_string", ":\"", classeChemin, "\" AND (modifiee_indexed_date:[* TO ", modifiee.minusMillis(1).toString(), "] OR (*:* AND -modifiee_indexed_date[* TO *]))");
+		String qSupprimer = concat("classeCheminAbsolu_indexed_string", ":\"", classeChemin, "\" AND modifiee_indexed_date:[* TO ", modifiee.minusMillis(1).toString(), "]");
 		clientSolrComputate.deleteByQuery(qSupprimer);
 		clientSolrComputate.commit(true, true); 
 		return classeDoc;
