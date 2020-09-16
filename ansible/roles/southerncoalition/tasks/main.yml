@@ -34,13 +34,13 @@
   connection: local
   stat:
     path: "{{SOUTHERNCOALITION_SRC}}-static/css"
-  register: pom_xml
+  register: static_css
 - name: Clone the {{SOUTHERNCOALITION_NAME}}-static source code
   connection: local
   git:
     repo: "{{ SOUTHERNCOALITION_REPO | replace('.git', '-static.git') }}"
     dest: "{{ SOUTHERNCOALITION_SRC }}-static"
-  when: pom_xml.stat.exists == False
+  when: static_css.stat.exists == False
 - name: Create the {{SOUTHERNCOALITION_NAME}} systemd service {{SOUTHERNCOALITION_SYSTEMD}}. 
   connection: local
   template:

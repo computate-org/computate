@@ -1,7 +1,8 @@
-#- name: Install {{OPENDATAPOLICING_NAME}} dependencies
-#  package:
-#    name: [git,java-1.8.0-openjdk-devel]
-#  become: yes
+- name: Install {{SOUTHERNCOALITION_NAME}} dependencies
+  connection: local
+  package:
+    name: [git,java-latest-openjdk-devel,java-latest-openjdk]
+  become: yes
 - name: Create the {{OPENDATAPOLICING_NAME}} source directory {{OPENDATAPOLICING_SRC}}
   file:
     name: "{{OPENDATAPOLICING_SRC}}"
@@ -18,6 +19,25 @@
     repo: "{{OPENDATAPOLICING_REPO}}"
     dest: "{{OPENDATAPOLICING_SRC}}"
   when: pom_xml.stat.exists == False
+- name: Create the {{OPENDATAPOLICING_NAME}}-static source directory {{OPENDATAPOLICING_SRC}}-static
+  connection: local
+  file:
+    name: "{{OPENDATAPOLICING_SRC}}-static"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Check for the {{OPENDATAPOLICING_NAME}}-static css dir
+  connection: local
+  stat:
+    path: "{{OPENDATAPOLICING_SRC}}-static/css"
+  register: static_css
+- name: Clone the {{OPENDATAPOLICING_NAME}}-static source code
+  connection: local
+  git:
+    repo: "{{ OPENDATAPOLICING_REPO | replace('.git', '-static.git') }}"
+    dest: "{{ OPENDATAPOLICING_SRC }}-static"
+  when: static_css.stat.exists == False
 - name: Create the {{OPENDATAPOLICING_NAME}} systemd service {{OPENDATAPOLICING_SYSTEMD}}. 
   template:
     src: opendatapolicing_service.j2

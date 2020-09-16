@@ -1,30 +1,61 @@
 - name: Install {{COMPUTATE_SCOLAIRE_NAME}} dependencies
+  connection: local
   package:
     name: [git,java-latest-openjdk-devel,java-latest-openjdk]
   become: yes
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} source directory {{COMPUTATE_SCOLAIRE_SRC}}
+  connection: local
   file:
     name: "{{COMPUTATE_SCOLAIRE_SRC}}"
     state: directory
     owner: "{{USER_NAME}}"
     group: "{{USER_NAME}}"
   become: yes
+- name: Check for the {{COMPUTATE_SCOLAIRE_NAME}} pom.xml
+  connection: local
+  stat:
+    path: "{{COMPUTATE_SCOLAIRE_SRC}}/pom.xml"
+  register: pom_xml
 - name: Clone the {{COMPUTATE_SCOLAIRE_NAME}} source code
+  connection: local
   git:
     repo: "{{COMPUTATE_SCOLAIRE_REPO}}"
     dest: "{{COMPUTATE_SCOLAIRE_SRC}}"
+  when: pom_xml.stat.exists == False
+- name: Create the {{COMPUTATE_SCOLAIRE_NAME}}-static source directory {{COMPUTATE_SCOLAIRE_SRC}}-static
+  connection: local
+  file:
+    name: "{{COMPUTATE_SCOLAIRE_SRC}}-static"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Check for the {{COMPUTATE_SCOLAIRE_NAME}}-static css dir
+  connection: local
+  stat:
+    path: "{{COMPUTATE_SCOLAIRE_SRC}}-static/css"
+  register: static_css
+- name: Clone the {{COMPUTATE_SCOLAIRE_NAME}}-static source code
+  connection: local
+  git:
+    repo: "{{ COMPUTATE_SCOLAIRE_REPO | replace('.git', '-static.git') }}"
+    dest: "{{ COMPUTATE_SCOLAIRE_SRC }}-static"
+  when: static_css.stat.exists == False
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} systemd service {{COMPUTATE_SCOLAIRE_SYSTEMD}}. 
+  connection: local
   template:
     src: computate_scolaire_service.j2
     dest: "{{COMPUTATE_SCOLAIRE_SYSTEMD}}"
   become: yes
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} config dir.
+  connection: local
   file: 
     name: "{{COMPUTATE_SCOLAIRE_SRC}}/config"
     state: directory
     owner: "{{USER_NAME}}"
     group: "{{USER_NAME}}"
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} default frFR config. 
+  connection: local
   template:
     src: computate_scolaire_config_frFR.config.j2
     dest: "{{COMPUTATE_SCOLAIRE_SRC}}/config/computate-scolaire.config"
@@ -32,6 +63,7 @@
     group: "{{USER_NAME}}"
   become: yes
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} enUS config. 
+  connection: local
   template:
     src: computate_scolaire_config_enUS.config.j2
     dest: "{{COMPUTATE_SCOLAIRE_SRC}}/config/computate-scolaire-enUS.config"
@@ -39,16 +71,19 @@
     group: "{{USER_NAME}}"
   become: yes
 - name: Reload the services. 
+  connection: local
   systemd:
     daemon_reload: yes
   become: yes
 - name: Start and enable the {{COMPUTATE_SCOLAIRE_NAME}} service. 
+  connection: local
   service:
     name: "{{COMPUTATE_SCOLAIRE_SERVICE}}"
     enabled: yes
     state: restarted
   become: yes
 - name: Create frFR database user
+  connection: local
   postgresql_user: 
     name: "{{COMPUTATE_SCOLAIRE_DB_USER_FRFR}}"
     password: "{{COMPUTATE_SCOLAIRE_DB_PASSWORD_FRFR}}"
@@ -58,6 +93,7 @@
   become: true
   become_user: "{{POSTGRES_BECOME_USER}}"
 - name: Create frFR database
+  connection: local
   postgresql_db: 
     name: "{{COMPUTATE_SCOLAIRE_DB_NAME_FRFR}}"
     owner: "{{COMPUTATE_SCOLAIRE_DB_USER_FRFR}}"
@@ -67,6 +103,7 @@
   become: true
   become_user: "{{POSTGRES_BECOME_USER}}"
 - name: Grant frFR user access to database
+  connection: local
   postgresql_pg_hba:
     dest: "{{POSTGRES_HBA_CONF}}"
     contype: host
@@ -78,6 +115,7 @@
   become: true
   become_user: "{{POSTGRES_BECOME_USER}}"
 - name: Create enUS database user
+  connection: local
   postgresql_user: 
     name: "{{COMPUTATE_SCOLAIRE_DB_USER_ENUS}}"
     password: "{{COMPUTATE_SCOLAIRE_DB_PASSWORD_ENUS}}"
@@ -87,6 +125,7 @@
   become: true
   become_user: "{{POSTGRES_BECOME_USER}}"
 - name: Create enUS database
+  connection: local
   postgresql_db: 
     name: "{{COMPUTATE_SCOLAIRE_DB_NAME_ENUS}}"
     owner: "{{COMPUTATE_SCOLAIRE_DB_USER_ENUS}}"
@@ -96,6 +135,7 @@
   become: true
   become_user: "{{POSTGRES_BECOME_USER}}"
 - name: Grant enUS user access to database
+  connection: local
   postgresql_pg_hba:
     dest: "{{POSTGRES_HBA_CONF}}"
     contype: host
@@ -107,27 +147,33 @@
   become: true
   become_user: "{{POSTGRES_BECOME_USER}}"
 - name: Restart the postgresql service. 
+  connection: local
   service:
     name: "{{POSTGRES_SERVICE}}"
     state: restarted
   become: yes
 - name: Check for existing solr collection frFR
+  connection: local
   shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_PORT}} -cmd ls /collections/{{COMPUTATE_SCOLAIRE_SOLR_COLLECTION_FRFR}}"
   ignore_errors: yes
   register: SOLR_COLLECTION_EXISTS_FRFR
   changed_when: false
 - name: Create collection in solr frFR
+  connection: local
   shell: "{{SOLR_OPT}}/bin/solr create_collection -n computate -c {{COMPUTATE_SCOLAIRE_SOLR_COLLECTION_FRFR}}"
   when: SOLR_COLLECTION_EXISTS_FRFR.rc != 0
 - name: Check for existing solr collection enUS
+  connection: local
   shell: "{{SOLR_OPT}}/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:{{ZOOKEEPER_PORT}} -cmd ls /collections/{{COMPUTATE_SCOLAIRE_SOLR_COLLECTION_ENUS}}"
   ignore_errors: yes
   register: SOLR_COLLECTION_EXISTS_ENUS
   changed_when: false
 - name: Create collection in solr enUS
+  connection: local
   shell: "{{SOLR_OPT}}/bin/solr create_collection -n computate -c {{COMPUTATE_SCOLAIRE_SOLR_COLLECTION_ENUS}}"
   when: SOLR_COLLECTION_EXISTS_ENUS.rc != 0
 - name: Create the keystore directory {{SSL_KEYSTORE_PATH}}
+  connection: local
   file:
     name: "{{SSL_KEYSTORE_PATH}}"
     state: directory
@@ -135,9 +181,12 @@
     group: "{{USER_NAME}}"
   become: yes
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} keystore properties {{SSL_KEYSTORE_PATH}}/{{SSL_PROPERTIES_FILENAME}}
+  connection: local
   shell: echo {{SSL_JKS_BASE64}} | base64 -d > {{SSL_JKS_PATH}}
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} keystore jks {{SSL_JKS_PATH}}
+  connection: local
   template:
     src: computate_scolaire_keystore.jks.j2
     dest: "{{SSL_JKS_PATH}}"
-
+- name: Create the {{COMPUTATE_SCOLAIRE_NAME}} keystore jks {{SSL_JKS_PATH}}
+  shell: echo {{SSL_JKS_BASE64}} | base64 -d > {{SSL_JKS_PATH}}
