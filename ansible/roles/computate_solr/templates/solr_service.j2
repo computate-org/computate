@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
+TimeoutSec=120
 User={{USER_NAME}}
 Group={{USER_NAME}}
 WorkingDirectory={{SOLR_OPT}}
