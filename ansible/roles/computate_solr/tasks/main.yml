@@ -112,7 +112,7 @@
 - name: Set sysctl Hard File Limits
   pam_limits:
     domain: "{{USER_NAME}}"
-    limit_type: soft
+    limit_type: hard
     limit_item: nofile
     value: 65000
   become: yes
@@ -126,7 +126,7 @@
 - name: Set sysctl Hard Process Limits
   pam_limits:
     domain: "{{USER_NAME}}"
-    limit_type: soft
+    limit_type: hard
     limit_item: nproc
     value: 65000
   become: yes
