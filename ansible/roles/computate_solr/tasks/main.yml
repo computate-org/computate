@@ -102,12 +102,10 @@
     src: 50-fs.conf.j2
     dest: /etc/sysctl.d/50-fs.conf
   become: yes
-- name: Set sysctl Soft File Limits
-  pam_limits:
-    domain: "{{USER_NAME}}"
-    limit_type: soft
-    limit_item: nofile
-    value: "65000"
+- name: Configure pam login limits
+  lineinfile:
+    path: /etc/pam.d/login
+    line: "session    required     pam_limits.so"
   become: yes
 - name: Set sysctl Hard File Limits
   pam_limits:
@@ -116,17 +114,24 @@
     limit_item: nofile
     value: "65000"
   become: yes
-- name: Set sysctl Soft Process Limits
+- name: Set sysctl Soft File Limits
   pam_limits:
     domain: "{{USER_NAME}}"
     limit_type: soft
-    limit_item: nproc
+    limit_item: nofile
     value: "65000"
   become: yes
 - name: Set sysctl Hard Process Limits
   pam_limits:
     domain: "{{USER_NAME}}"
     limit_type: hard
+    limit_item: nproc
+    value: "65000"
+  become: yes
+- name: Set sysctl Soft Process Limits
+  pam_limits:
+    domain: "{{USER_NAME}}"
+    limit_type: soft
     limit_item: nproc
     value: "65000"
   become: yes
