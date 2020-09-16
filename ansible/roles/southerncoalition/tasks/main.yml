@@ -22,6 +22,25 @@
     repo: "{{SOUTHERNCOALITION_REPO}}"
     dest: "{{SOUTHERNCOALITION_SRC}}"
   when: pom_xml.stat.exists == False
+- name: Create the {{SOUTHERNCOALITION_NAME}}-static source directory {{SOUTHERNCOALITION_SRC}}-static
+  connection: local
+  file:
+    name: "{{SOUTHERNCOALITION_SRC}}-static"
+    state: directory
+    owner: "{{USER_NAME}}"
+    group: "{{USER_NAME}}"
+  become: yes
+- name: Check for the {{SOUTHERNCOALITION_NAME}}-static css dir
+  connection: local
+  stat:
+    path: "{{SOUTHERNCOALITION_SRC}}-static/css"
+  register: pom_xml
+- name: Clone the {{SOUTHERNCOALITION_NAME}}-static source code
+  connection: local
+  git:
+    repo: "{{ SOUTHERNCOALITION_REPO | replace('.git', '-static.git' }}"
+    dest: "{{ SOUTHERNCOALITION_SRC }}-static"
+  when: pom_xml.stat.exists == False
 - name: Create the {{SOUTHERNCOALITION_NAME}} systemd service {{SOUTHERNCOALITION_SYSTEMD}}. 
   connection: local
   template:
