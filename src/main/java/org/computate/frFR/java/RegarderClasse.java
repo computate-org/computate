@@ -103,9 +103,9 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r.enUS: classLanguageName
 	 */   
 	public static void regarderClasse(RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
-		System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile() && regarderClasse.classeCheminAbsolu.endsWith(".java")) {
+			System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
 			SolrInputDocument classeDoc = new SolrInputDocument();
 //			classeDoc.addField("id", regarderClasse.classeCheminAbsolu);  
 			regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, classeLangueNom);
