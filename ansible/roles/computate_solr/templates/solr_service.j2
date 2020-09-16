@@ -4,18 +4,12 @@ After=network.target
 
 [Service]
 Type=simple
-TimeoutSec=120
 User={{USER_NAME}}
 Group={{USER_NAME}}
 WorkingDirectory={{SOLR_OPT}}
 ExecStart={{SOLR_OPT}}/bin/solr start -f -c -s {{SOLR_OPT}} -h localhost -p {{SOLR_PORT}} -z {{ZOOKEEPER_HOST_NAME}}:{{ZOOKEEPER_PORT}}
-LimitAS=infinity
-LimitRSS=infinity
-LimitCORE=infinity
 LimitNOFILE=65000
 LimitNPROC=65000
-LimitNOFILE=infinity
-LimitMEMLOCK=infinity
 Restart=on-failure
 
 [Install]
