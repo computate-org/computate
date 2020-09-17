@@ -87,7 +87,7 @@ COMPUTATE_SCOLAIRE_SITE_PORT_FRFR: "10480"
 # The base URL of the site. 
 COMPUTATE_SCOLAIRE_SITE_BASE_URL_FRFR: "https://{{ COMPUTATE_SCOLAIRE_SITE_HOST_NAME_FRFR }}:{{ COMPUTATE_SCOLAIRE_SITE_PORT_FRFR }}"
 # The Solr collection of the site. 
-COMPUTATE_SCOLAIRE_SOLR_COLLECTION_FRFR: "school"
+COMPUTATE_SCOLAIRE_SOLR_COLLECTION_FRFR: "ecole"
 # The timezone of the site. 
 COMPUTATE_SCOLAIRE_SITE_ZONE_FRFR: "America/Denver"
 # The PostgreSQL database host name of the site. 
@@ -97,7 +97,7 @@ COMPUTATE_SCOLAIRE_DB_USER_FRFR: "..."
 # The PostgreSQL database password of the site. 
 COMPUTATE_SCOLAIRE_DB_PASSWORD_FRFR: "..."
 # The PostgreSQL database name of the site. 
-COMPUTATE_SCOLAIRE_DB_NAME_FRFR: school
+COMPUTATE_SCOLAIRE_DB_NAME_FRFR: ecole
 # The Java main class of the site. 
 COMPUTATE_SCOLAIRE_JAVA_MAIN_CLASS_FRFR: org.computate.scolaire.frFR.vertx.AppVertx
 # The backup directory of the site. 
