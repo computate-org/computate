@@ -1,22 +1,9 @@
 
 ####################
-# Ansible defaults #
+# Certbot defaults #
 ####################
 
-# Add to an ansible-vault the username of your user on your computer (echo $HOSTNAME). 
-USER_NAME: "..."
-# Add to an ansible-vault the password of your user on your computer to become root for configuring the applications. 
-USER_PASSWORD: "..."
-# Setup the ansible user when running the playbook as your user. 
-ansible_user: "{{USER_NAME}}"
-# Setup the ansible sudo password as your password when running the playbook. 
-ansible_sudo_pass: "{{USER_PASSWORD}}"
-# Setup the ansible password for elevated privileges as your password when running the playbook. 
-ansible_become_pass: "{{USER_PASSWORD}}"
-# Setup the ansible password for ssh as your password when running the playbook. 
-ansible_ssh_pass: "{{USER_PASSWORD}}"
-# Setup the decryption password for decrypting other secrets in the playbook. 
-VAULT_PASSWORD: "{{USER_PASSWORD}}"
+COMPUTATE_CERTBOT_DOMAIN_NAME: "..."
 
 ######################
 # OpenShift defaults #
@@ -59,7 +46,7 @@ SOLR_TOKEN: "{{REDHAT_OPENSHIFT_TOKEN}}"
 # The Solr OpenShift namespace where Solr be deployed. 
 SOLR_NAMESPACE: "{{REDHAT_OPENSHIFT_NAMESPACE}}"
 # The Solr volume size for Solr files. 
-SOLR_VOLUME_SIZE: 1Gi
+SOLR_VOLUME_SIZE: 2Gi
 # The default hostname for the Solr search engine. 
 SOLR_HOST_NAME: "computate-solr.{{SOLR_NAMESPACE}}.svc"
 
@@ -90,6 +77,12 @@ POSTGRES_DB_PASSWORD: "..."
 # southerncoalition global defaults #
 #####################################
 
+# The southerncoalition OpenShift base URL where southerncoalition will be deployed. 
+SOUTHERNCOALITION_HOST: "{{ REDHAT_OPENSHIFT_HOST }}"
+# The southerncoalition OpenShift secret token to grant access to OpenShift (https://api.pro-us-east-1.openshift.com/oauth/token/request). 
+SOUTHERNCOALITION_TOKEN: "{{ REDHAT_OPENSHIFT_TOKEN }}"
+# The southerncoalition OpenShift namespace where southerncoalition be deployed. 
+SOUTHERNCOALITION_NAMESPACE: "{{ REDHAT_OPENSHIFT_NAMESPACE }}"
 # The base URL where the static files will point to.  
 SOUTHERNCOALITION_STATIC_BASE_URL: "https://example.neocities.org"
 # The number of background worker executors that may run. 
@@ -97,9 +90,9 @@ SOUTHERNCOALITION_NUMBER_EXECUTORS: 5
 # The properties file where the SSL/TLS encryption is configured. 
 SOUTHERNCOALITION_SSL_PROPERTIES_FILENAME: southerncoalition-keystore.properties
 
-#################################################
-# southerncoalition English in the US defaults #
-#################################################
+#########################################
+# southerncoalition US English defaults #
+#########################################
 
 # The domain name of the site. 
 SOUTHERNCOALITION_DOMAIN_NAME_ENUS: "example.com"
