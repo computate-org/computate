@@ -99,7 +99,7 @@ COMPUTATE_SCOLAIRE_DB_PASSWORD_FRFR: "..."
 # The PostgreSQL database name of the site. 
 COMPUTATE_SCOLAIRE_DB_NAME_FRFR: ecole
 # The Java main class of the site. 
-COMPUTATE_SCOLAIRE_JAVA_MAIN_CLASS_FRFR: org.computate.scolaire.frFR.vertx.AppVertx
+COMPUTATE_SCOLAIRE_JAVA_MAIN_CLASS_FRFR: org.computate.scolaire.frFR.vertx.AppliVertx
 # The backup directory of the site. 
 COMPUTATE_SCOLAIRE_BACKUP_DIR_FRFR: /usr/local/src/computate-scolaire-static/data/frFR
 # The restore directory of the site. 
