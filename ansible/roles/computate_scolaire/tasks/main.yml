@@ -184,9 +184,4 @@
   connection: local
   shell: echo {{SSL_JKS_BASE64}} | base64 -d > {{SSL_JKS_PATH}}
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} keystore jks {{SSL_JKS_PATH}}
-  connection: local
-  template:
-    src: computate_scolaire_keystore.jks.j2
-    dest: "{{SSL_JKS_PATH}}"
-- name: Create the {{COMPUTATE_SCOLAIRE_NAME}} keystore jks {{SSL_JKS_PATH}}
   shell: echo {{SSL_JKS_BASE64}} | base64 -d > {{SSL_JKS_PATH}}
