@@ -36,12 +36,12 @@ emailPassword={{EMAIL_PASSWORD}}
 emailFrom={{EMAIL_FROM}}
 emailAdmin={{EMAIL_FROM}}
 
-authorizeEnvironment={{AUTHORIZE_NET_ENVIRONMENT}}
-authorizeUrl={{AUTHORIZE_NET_URL}}
+authorizeEnvironment={{AUTHORIZE_NET_ENVIRONMENT | default('')}}
+authorizeUrl={{AUTHORIZE_NET_URL | default('')}}
 
-authorizeApiLoginId1={{AUTHORIZE_NET_API_LOGIN_ID1}}
-authorizeTransactionKey1={{AUTHORIZE_NET_TRANSACTION_KEY1}}
-schoolLocation1={{COMPUTATE_SCOLAIRE_SCHOOL_LOCATION1}}
-authorizeApiLoginId2={{AUTHORIZE_NET_API_LOGIN_ID2}}
-authorizeTransactionKey2={{AUTHORIZE_NET_TRANSACTION_KEY2}}
-schoolLocation2={{COMPUTATE_SCOLAIRE_SCHOOL_LOCATION2}}
+authorizeApiLoginId1={{AUTHORIZE_NET_API_LOGIN_ID1 | default('')}}
+authorizeTransactionKey1={{AUTHORIZE_NET_TRANSACTION_KEY1 | default('')}}
+schoolLocation1={{COMPUTATE_SCOLAIRE_SCHOOL_LOCATION1 | default('')}}
+authorizeApiLoginId2={{AUTHORIZE_NET_API_LOGIN_ID2 | default('')}}
+authorizeTransactionKey2={{AUTHORIZE_NET_TRANSACTION_KEY2 | default('')}}
+schoolLocation2={{COMPUTATE_SCOLAIRE_SCHOOL_LOCATION2 | default('')}}
