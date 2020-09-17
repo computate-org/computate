@@ -184,7 +184,7 @@
   connection: local
   template:
     src: computate_scolaire_keystore.properties.j2
-    dest: "{{SSL_KEYSTORE_PATH}}/{{SOUTHERNCOALITION_SSL_PROPERTIES_FILENAME}}"
+    dest: "{{SSL_KEYSTORE_PATH}}/{{COMPUTATE_SCOLAIRE_SSL_PROPERTIES_FILENAME}}"
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} keystore jks {{SSL_JKS_PATH}}
   shell: echo {{SSL_JKS_BASE64}} | base64 -d > {{SSL_JKS_PATH}}
 - name: Build the source code in /usr/local/src/computate
