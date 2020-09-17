@@ -185,3 +185,13 @@
   shell: echo {{SSL_JKS_BASE64}} | base64 -d > {{SSL_JKS_PATH}}
 - name: Create the {{COMPUTATE_SCOLAIRE_NAME}} keystore jks {{SSL_JKS_PATH}}
   shell: echo {{SSL_JKS_BASE64}} | base64 -d > {{SSL_JKS_PATH}}
+- name: Build the source code in /usr/local/src/computate
+  connection: local
+  shell: "mvn clean install"
+  args: 
+    chdir: "/usr/local/src/computate"
+- name: Build the source code in {{COMPUTATE_SCOLAIRE_SRC}}
+  connection: local
+  shell: "mvn clean install"
+  args: 
+    chdir: "{{COMPUTATE_SCOLAIRE_SRC}}"
