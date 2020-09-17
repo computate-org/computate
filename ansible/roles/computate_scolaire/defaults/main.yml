@@ -193,9 +193,9 @@ SSL_KEY_PATH: "{{SSL_KEYSTORE_PATH}}/{{SSL_KEY_FILENAME}}"
 SSL_P12_PASSWORD: "..."
 # The keystore file password. 
 SSL_JKS_PASSWORD: "{{SSL_P12_PASSWORD}}"
-# The keystore file base64 encoded (base64 -w 0 /opt/keystore/computate.org.jks). 
+# The keystore file base64 encoded (base64 -w 0 /opt/keystore/heytate.com.jks). 
 SSL_JKS_BASE64: "..."
-# The jceks file base64 encoded (base64 -w 0 /opt/keystore/computate.org.jceks). 
+# The jceks file base64 encoded (base64 -w 0 /opt/keystore/heytate.com.jceks). 
 SSL_JCEKS_BASE64: "..."
 
 ####################
