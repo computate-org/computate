@@ -26,7 +26,7 @@ COMPUTATE_SCOLAIRE_SERVICE: "watch-{{COMPUTATE_SCOLAIRE_NAME}}"
 # The systemd service file for computate-scolaire that generates and translates most of the code. 
 COMPUTATE_SCOLAIRE_SYSTEMD: "/usr/lib/systemd/system/{{COMPUTATE_SCOLAIRE_SERVICE}}.service"
 # The main git repository for the computate-scolaire project. 
-COMPUTATE_SCOLAIRE_REPO: "git@github.com:Southern-Coalition-Team-19/computate-scolaire.git"
+COMPUTATE_SCOLAIRE_REPO: "git@github.com:computate-org/{{ COMPUTATE_SCOLAIRE_NAME }}.git"
 # The target ansible inventory group for the computate-scolaire project to setup your own hosts under this name to deploy the application to. 
 target: computate_scolaire
 
