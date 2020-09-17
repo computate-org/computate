@@ -1,7 +1,13 @@
 
-######################################
+####################
+# Certbot defaults #
+####################
+
+COMPUTATE_CERTBOT_DOMAIN_NAME: "..."
+
+#####################################
 # southerncoalition system defaults #
-######################################
+#####################################
 
 # The name of this application. 
 SOUTHERNCOALITION_NAME: southerncoalition
@@ -9,7 +15,7 @@ SOUTHERNCOALITION_NAME: southerncoalition
 COMPUTATE_SRC: "/usr/local/src/computate"
 # The default source code directory for the southerncoalition project. 
 SOUTHERNCOALITION_SRC: "/usr/local/src/{{SOUTHERNCOALITION_NAME}}"
-# The default language of the southerncoalition project code which is French in France. 
+# The default language of the southerncoalition project code which is US English. 
 SOUTHERNCOALITION_LANG: "enUS"
 # The default config file for the southerncoalition project. 
 SOUTHERNCOALITION_CONFIG: "{{SOUTHERNCOALITION_SRC}}/config/{{SOUTHERNCOALITION_NAME}}.config"
@@ -23,25 +29,6 @@ SOUTHERNCOALITION_SYSTEMD: "/usr/lib/systemd/system/{{SOUTHERNCOALITION_SERVICE}
 SOUTHERNCOALITION_REPO: "git@github.com:Southern-Coalition-Team-19/southerncoalition.git"
 # The target ansible inventory group for the southerncoalition project to setup your own hosts under this name to deploy the application to. 
 target: southerncoalition
-
-####################
-# Ansible defaults #
-####################
-
-# Add to an ansible-vault the username of your user on your computer (echo $HOSTNAME). 
-USER_NAME: "..."
-# Add to an ansible-vault the password of your user on your computer to become root for configuring the applications. 
-USER_PASSWORD: "..."
-# Setup the ansible user when running the playbook as your user. 
-ansible_user: "{{USER_NAME}}"
-# Setup the ansible sudo password as your password when running the playbook. 
-ansible_sudo_pass: "{{USER_PASSWORD}}"
-# Setup the ansible password for elevated privileges as your password when running the playbook. 
-ansible_become_pass: "{{USER_PASSWORD}}"
-# Setup the ansible password for ssh as your password when running the playbook. 
-ansible_ssh_pass: "{{USER_PASSWORD}}"
-# Setup the decryption password for decrypting other secrets in the playbook. 
-VAULT_PASSWORD: "{{USER_PASSWORD}}"
 
 ######################
 # Zookeeper defaults #
@@ -140,8 +127,6 @@ EMAIL_PASSWORD: "..."
 # OpenID Connect auth server defaults #
 #######################################
 
-# The Single Sign On host name. 
-SSO_SITE_HOST_NAME: "sso.example.com"
 # The Auth realm. 
 AUTH_REALM: EXAMPLE.COM
 # The Auth client or resource. 
@@ -181,3 +166,22 @@ SSL_JKS_PASSWORD: "{{SSL_P12_PASSWORD}}"
 SSL_JKS_BASE64: "..."
 # The jceks file base64 encoded (base64 -w 0 /opt/keystore/computate.org.jceks). 
 SSL_JCEKS_BASE64: "..."
+
+####################
+# Ansible defaults #
+####################
+
+# Add to an ansible-vault the username of your user on your computer (echo $HOSTNAME). 
+USER_NAME: "..."
+# Add to an ansible-vault the password of your user on your computer to become root for configuring the applications. 
+USER_PASSWORD: "..."
+# Setup the ansible user when running the playbook as your user. 
+ansible_user: "{{USER_NAME}}"
+# Setup the ansible sudo password as your password when running the playbook. 
+ansible_sudo_pass: "{{USER_PASSWORD}}"
+# Setup the ansible password for elevated privileges as your password when running the playbook. 
+ansible_become_pass: "{{USER_PASSWORD}}"
+# Setup the ansible password for ssh as your password when running the playbook. 
+ansible_ssh_pass: "{{USER_PASSWORD}}"
+# Setup the decryption password for decrypting other secrets in the playbook. 
+VAULT_PASSWORD: "{{USER_PASSWORD}}"
