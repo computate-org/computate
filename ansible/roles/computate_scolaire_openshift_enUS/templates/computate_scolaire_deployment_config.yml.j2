@@ -49,7 +49,7 @@ spec:
               protocol: TCP
           resources:
             limits:
-              memory: 1.3Gi
+              memory: 2Gi
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
@@ -227,12 +227,16 @@ spec:
               value: "{{COMPUTATE_SCOLAIRE_SITE_PORT}}"
             - name: siteBaseUrl
               value: "{{COMPUTATE_SCOLAIRE_SITE_BASE_URL_ENUS}}"
+            - name: siteInstances
+              value: "{{COMPUTATE_SCOLAIRE_SITE_INSTANCES}}"
             - name: numberExecutors
               value: "{{COMPUTATE_SCOLAIRE_NUMBER_EXECUTORS}}"
             - name: staticBaseUrl
               value: "{{COMPUTATE_SCOLAIRE_STATIC_BASE_URL}}"
             - name: siteZone
               value: "{{COMPUTATE_SCOLAIRE_SITE_ZONE_ENUS}}"
+            - name: jdbcMaxPoolSize
+              value: "{{COMPUTATE_SCOLAIRE_JDBC_MAX_POOL_SIZE}}"
             - name: JAVA_MAIN_CLASS
               value: "{{COMPUTATE_SCOLAIRE_JAVA_MAIN_CLASS_ENUS}}"
       dnsPolicy: ClusterFirst

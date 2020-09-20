@@ -17,6 +17,7 @@
     definition: "{{ lookup('template', 'computate_medicale_secret.j2') }}"
 - name: Install computate-medicale keystore secrets on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: computate-medicale-keystore
     host: "{{COMPUTATE_MEDICALE_HOST}}"
@@ -25,6 +26,7 @@
     definition: "{{ lookup('template', 'computate_medicale_keystore.j2') }}"
 - name: Install computate-medicale build config on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: computate-medicale
     host: "{{COMPUTATE_MEDICALE_HOST}}"
@@ -33,6 +35,7 @@
     definition: "{{ lookup('template', 'computate_medicale_build_config.yml.j2') }}"
 - name: Install computate-medicale deployment config on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: computate-medicale
     host: "{{COMPUTATE_MEDICALE_HOST}}"
@@ -41,6 +44,7 @@
     definition: "{{ lookup('template', 'computate_medicale_deployment_config.yml.j2') }}"
 - name: Install computate-medicale service on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: computate-medicale
     host: "{{COMPUTATE_MEDICALE_HOST}}"
@@ -49,6 +53,7 @@
     definition: "{{ lookup('template', 'computate_medicale_service.yml.j2') }}"
 - name: Install computate-medicale route on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: computate-medicale
     host: "{{COMPUTATE_MEDICALE_HOST}}"
@@ -56,7 +61,7 @@
     namespace: "{{COMPUTATE_MEDICALE_NAMESPACE}}"
     definition: "{{ lookup('template', 'computate_medicale_route.yml.j2') }}"
 - name: Create Solr collection
-  shell: "oc login {{COMPUTATE_MEDICALE_HOST}} --token={{REDHAT_OPENSHIFT_TOKEN}} && oc exec $(oc get pod -l app=computate-solr -o jsonpath='{.items[0].metadata.name}') -n medical -- /opt/solr/bin/solr create_collection -c site -n computate || true"
+  shell: "oc login {{COMPUTATE_MEDICALE_HOST}} --token={{REDHAT_OPENSHIFT_TOKEN}} && oc exec $(oc get pod -l app=computate-solr -o jsonpath='{.items[0].metadata.name}') -n {{ REDHAT_OPENSHIFT_NAMESPACE }} -- /opt/solr/bin/solr create_collection -c {{ COMPUTATE_MEDICALE_SOLR_COLLECTION }} -n computate || true"
   register: create_collection
 - name: Print create_collection command
   debug:

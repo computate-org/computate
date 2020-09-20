@@ -10,7 +10,7 @@ spec:
   postCommit: {}
   resources:
     limits:
-      memory: 1Gi
+      memory: 2Gi
   runPolicy: Serial
   source:
     git:
@@ -24,7 +24,7 @@ spec:
     sourceStrategy:
       from:
         kind: ImageStreamTag
-        name: 'java:latest'
+        name: 'java:8'
         namespace: openshift
     type: Source
   successfulBuildsHistoryLimit: 5

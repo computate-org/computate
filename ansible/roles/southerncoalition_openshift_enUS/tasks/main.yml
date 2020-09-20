@@ -1,6 +1,7 @@
 ---
 - name: Install southerncoalition image stream on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: southerncoalition
     host: "{{SOUTHERNCOALITION_HOST}}"
@@ -9,6 +10,7 @@
     definition: "{{ lookup('template', 'southerncoalition_image_stream.yml.j2') }}"
 - name: Install southerncoalition secret on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: southerncoalition-secret
     host: "{{SOUTHERNCOALITION_HOST}}"
@@ -17,6 +19,7 @@
     definition: "{{ lookup('template', 'southerncoalition_secret.j2') }}"
 - name: Install southerncoalition keystore secrets on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: southerncoalition-keystore
     host: "{{SOUTHERNCOALITION_HOST}}"
@@ -25,6 +28,7 @@
     definition: "{{ lookup('template', 'southerncoalition_keystore.j2') }}"
 - name: Install southerncoalition build config on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: southerncoalition
     host: "{{SOUTHERNCOALITION_HOST}}"
@@ -33,6 +37,7 @@
     definition: "{{ lookup('template', 'southerncoalition_build_config.yml.j2') }}"
 - name: Install southerncoalition deployment config on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: southerncoalition
     host: "{{SOUTHERNCOALITION_HOST}}"
@@ -41,6 +46,7 @@
     definition: "{{ lookup('template', 'southerncoalition_deployment_config.yml.j2') }}"
 - name: Install southerncoalition service on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: southerncoalition
     host: "{{SOUTHERNCOALITION_HOST}}"
@@ -49,6 +55,7 @@
     definition: "{{ lookup('template', 'southerncoalition_service.yml.j2') }}"
 - name: Install southerncoalition route on OpenShift
   k8s: 
+    validate_certs: false
     state: present
     name: southerncoalition
     host: "{{SOUTHERNCOALITION_HOST}}"
