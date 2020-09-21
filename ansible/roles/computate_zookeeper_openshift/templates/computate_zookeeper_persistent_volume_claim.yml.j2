@@ -6,5 +6,5 @@ spec:
   resources:
     requests:
       storage: {{ZOOKEEPER_VOLUME_SIZE}}
-  storageClassName: gp2
+  storageClassName: "{{ OPENSHIFT_STORAGE_CLASS_NAME }}"
 
