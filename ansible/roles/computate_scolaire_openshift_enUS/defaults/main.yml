@@ -11,6 +11,8 @@ REDHAT_OPENSHIFT_HOST: "..."
 REDHAT_OPENSHIFT_TOKEN: "..."
 # The OpenShift namespace where applications will be deployed. 
 REDHAT_OPENSHIFT_NAMESPACE: school
+# The Default OpenShift storage class to use for persistent volume claims. 
+REDHAT_OPENSHIFT_STORAGE_CLASS_NAME: gp2
 
 ######################
 # Zookeeper defaults #
@@ -87,8 +89,6 @@ COMPUTATE_SCOLAIRE_NAMESPACE: "{{ REDHAT_OPENSHIFT_NAMESPACE }}"
 COMPUTATE_SCOLAIRE_STATIC_BASE_URL: "https://computate.neocities.org/scolaire"
 # The number of background worker executors that may run. 
 COMPUTATE_SCOLAIRE_NUMBER_EXECUTORS: 5
-# The properties file where the SSL/TLS encryption is configured. 
-SSL_PROPERTIES_FILENAME: computate-scolaire-keystore.properties
 
 ##########################################
 # computate-scolaire US English defaults #
@@ -137,6 +137,8 @@ EMAIL_HOST_NAME: smtp.example.com
 EMAIL_PORT: 465
 # The email SMTP from email address. 
 EMAIL_FROM: "..."
+# The admin email addresses that will receive error messages from the application. 
+EMAIL_ADMIN: "{{ EMAIL_FROM }}"
 # Whether email SMTP SSL/TLS encryption is enabled. 
 EMAIL_SSL: true
 # Whether email SMTP username password authentication is enabled. 
@@ -150,11 +152,11 @@ EMAIL_PASSWORD: "..."
 ####################
 
 # The keystore alias. 
-SSL_ALIAS: "{{SOUTHERNCOALITION_DOMAIN_NAME_FRFR}}"
+SSL_ALIAS: "{{COMPUTATE_SCOLAIRE_DOMAIN_NAME_FRFR}}"
 # The keystore directory. 
 SSL_KEYSTORE_PATH: /opt/keystore
-# The keystore properties filename. 
-SSL_PROPERTIES_FILENAME: "{{SOUTHERNCOALITION_SSL_PROPERTIES_FILENAME}}"
+# The properties file where the SSL/TLS encryption is configured. 
+SSL_PROPERTIES_FILENAME: computate-scolaire-keystore.properties
 # The keystore filename. 
 SSL_JKS_FILENAME: "{{SSL_ALIAS}}.jks"
 # The keystore path. 

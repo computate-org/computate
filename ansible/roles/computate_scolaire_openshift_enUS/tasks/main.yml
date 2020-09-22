@@ -63,7 +63,7 @@
     namespace: "{{COMPUTATE_SCOLAIRE_NAMESPACE}}"
     definition: "{{ lookup('template', 'computate_scolaire_route.yml.j2') }}"
 - name: Create Solr collection
-  shell: "oc login {{COMPUTATE_SCOLAIRE_HOST}} --token={{REDHAT_OPENSHIFT_TOKEN}} && oc exec $(oc get pod -l app=computate-solr -o jsonpath='{.items[0].metadata.name}') -n {{ REDHAT_OPENSHIFT_NAMESPACE }} -- /opt/solr/bin/solr create_collection -c {{ COMPUTATE_SCOLAIRE_SOLR_COLLECTION }} -n computate || true"
+  shell: "oc login --insecure-skip-tls-verify {{COMPUTATE_SCOLAIRE_HOST}} --token={{REDHAT_OPENSHIFT_TOKEN}} && oc exec --insecure-skip-tls-verify $(oc get pod --insecure-skip-tls-verify -l app=computate-solr -o jsonpath='{.items[0].metadata.name}') -n {{ REDHAT_OPENSHIFT_NAMESPACE }} -- /opt/solr/bin/solr create_collection -c {{ COMPUTATE_SCOLAIRE_SOLR_COLLECTION }} -n computate || true"
   register: create_collection
 - name: Print create_collection command
   debug:
