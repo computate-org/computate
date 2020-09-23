@@ -1,22 +1,22 @@
 ---
-#- name: Install Ansible Tower persistent volume on OpenShift
-#  k8s: 
-#    validate_certs: false
-#    state: present
-#    name: "{{ REDHAT_ANSIBLE_TOWER_VOLUME_NAME }}"
-#    host: "{{ REDHAT_ANSIBLE_TOWER_HOST }}"
-#    api_key: "{{ REDHAT_ANSIBLE_TOWER_TOKEN }}"
-#    namespace: "{{ REDHAT_ANSIBLE_TOWER_NAMESPACE }}"
-#    definition: "{{ lookup('template', 'redhat_ansible_tower_persistent_volume.yml.j2') }}"
-#- name: Install Ansible Tower persistent volume claim on OpenShift
-#  k8s: 
-#    validate_certs: false
-#    state: present
-#    name: "{{ REDHAT_ANSIBLE_TOWER_VOLUME_NAME }}"
-#    host: "{{ REDHAT_ANSIBLE_TOWER_HOST }}"
-#    api_key: "{{ REDHAT_ANSIBLE_TOWER_TOKEN }}"
-#    namespace: "{{ REDHAT_ANSIBLE_TOWER_NAMESPACE }}"
-#    definition: "{{ lookup('template', 'redhat_ansible_tower_persistent_volume_claim.yml.j2') }}"
+- name: Install Ansible Tower persistent volume on OpenShift
+  k8s: 
+    validate_certs: false
+    state: present
+    name: "{{ REDHAT_ANSIBLE_TOWER_VOLUME_NAME }}"
+    host: "{{ REDHAT_ANSIBLE_TOWER_HOST }}"
+    api_key: "{{ REDHAT_ANSIBLE_TOWER_TOKEN }}"
+    namespace: "{{ REDHAT_ANSIBLE_TOWER_NAMESPACE }}"
+    definition: "{{ lookup('template', 'redhat_ansible_tower_persistent_volume.yml.j2') }}"
+- name: Install Ansible Tower persistent volume claim on OpenShift
+  k8s: 
+    validate_certs: false
+    state: present
+    name: "{{ REDHAT_ANSIBLE_TOWER_VOLUME_NAME }}"
+    host: "{{ REDHAT_ANSIBLE_TOWER_HOST }}"
+    api_key: "{{ REDHAT_ANSIBLE_TOWER_TOKEN }}"
+    namespace: "{{ REDHAT_ANSIBLE_TOWER_NAMESPACE }}"
+    definition: "{{ lookup('template', 'redhat_ansible_tower_persistent_volume_claim.yml.j2') }}"
 - name: Download Ansible Tower installation setup files
   get_url:
     url: "https://releases.ansible.com/ansible-tower/setup_openshift/ansible-tower-openshift-setup-{{ REDHAT_ANSIBLE_TOWER_VERSION }}.tar.gz"
