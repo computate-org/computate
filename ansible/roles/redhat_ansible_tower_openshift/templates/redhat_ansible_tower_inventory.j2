@@ -35,7 +35,7 @@ pg_sslmode='prefer'  # set to 'verify-full' for client-side enforced SSL
 # =====================
 
 openshift_host='{{ REDHAT_ANSIBLE_TOWER_HOST }}'
-openshift_skip_tls_verify=false
+openshift_skip_tls_verify=true
 openshift_project='{{ REDHAT_ANSIBLE_TOWER_NAMESPACE }}'
 openshift_token='{{ REDHAT_ANSIBLE_TOWER_TOKEN }}'
 openshift_user='{{ REDHAT_OPENSHIFT_USER }}'

@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
+metadata:
+  name: "{{ REDHAT_ANSIBLE_TOWER_VOLUME_NAME }}"
 spec:
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: {{ REDHAT_ANSIBLE_TOWER_VOLUME_SIZE }}
-  storageClassName: "{{ REDHAT_OPENSHIFT_STORAGE_CLASS_NAME }}"
+      storage: "{{ REDHAT_ANSIBLE_TOWER_VOLUME_SIZE }}"
