@@ -5,6 +5,8 @@
 
 COMPUTATE_CERTBOT_DOMAIN_NAME: "..."
 
+# The OpenShift version. 
+REDHAT_OPENSHIFT_VERSION: 4.4.3
 # The OpenShift base URL where applications will be deployed. 
 REDHAT_OPENSHIFT_HOST: "..."
 # The OpenShift secret token to grant access to OpenShift (https://api.pro-us-east-1.openshift.com/oauth/token/request). 
