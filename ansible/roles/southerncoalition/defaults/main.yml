@@ -99,7 +99,7 @@ SOUTHERNCOALITION_DB_PASSWORD_ENUS: "..."
 # The PostgreSQL database name of the site. 
 SOUTHERNCOALITION_DB_NAME_ENUS: southerncoalition
 # The Java main class of the site. 
-SOUTHERNCOALITION_JAVA_MAIN_CLASS_ENUS: org.southerncoalition.enUS.vertx.AppVertx
+SOUTHERNCOALITION_JAVA_MAIN_CLASS_ENUS: org.southerncoalition.enus.vertx.AppVertx
 # The backup directory of the site. 
 SOUTHERNCOALITION_BACKUP_DIR_ENUS: /usr/local/src/southerncoalition-static/data/enUS
 # The restore directory of the site. 
