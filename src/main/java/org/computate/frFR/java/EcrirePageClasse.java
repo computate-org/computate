@@ -2263,7 +2263,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(3, classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, ".getList().get(i);");
 						tl(3, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
 						tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
-						tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : q(classePageUriMethode, "/") + " + o.get", StringUtils.capitalize(classeVarClePrimaire), "()", ";");
+						tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
 						tl(3, "{ e(\"tr\").f();");
 						s(wTd);
 						tl(3, "} g(\"tr\");");
