@@ -801,6 +801,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
 									entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
 									entiteHtmlLigne = (Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int");
+									entiteHtmlCellule = (Integer)entiteDocumentSolr.get("entiteHtmlCellule_stored_int");
 									entiteCouverture = (Boolean)entiteDocumentSolr.get("entiteCouverture_stored_boolean");
 									entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
 									entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
@@ -832,13 +833,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									entiteImageBase64Url = (String)entiteDocumentSolr.get("entiteImageBase64Url_" + langueNom + "_stored_string");
 		
 									if(entiteHtml) {
-										if(entiteHtmlLigne != null) {
+										if(entiteHtmlCellule != null) {
 											if(ecrireFormEntite(langueNom, wFormPOST, "POST"))
 												resultatFormPOST = true;
 											if(ecrireFormEntite(langueNom, wFormPage, "Page"))
 												resultatFormPage = true;
 										}
-										if(entiteDefinir || entiteAttribuer) {
+										if(entiteHtmlLigne != null && (entiteDefinir || entiteAttribuer)) {
 //											if(ecrireFormEntite(langueNom, wFormPUTImport, "PUTImport"))
 //												resultatFormPUTImport = true;
 //											if(ecrireFormEntite(langueNom, wFormPUTFusion, str_PUTFusion(langueNom)))
