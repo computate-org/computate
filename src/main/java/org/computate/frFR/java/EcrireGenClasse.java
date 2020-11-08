@@ -366,6 +366,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wStaticSet;
 	protected ToutEcrivain wStaticSolr;
 	protected ToutEcrivain wStaticSolrStr;
+	protected ToutEcrivain wStaticSolrFq;
 
 	/**
 	 * Var.enUS: wSiteRequest
@@ -1099,6 +1100,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wStaticSet = ToutEcrivain.create();
 		wStaticSolr = ToutEcrivain.create();
 		wStaticSolrStr = ToutEcrivain.create();
+		wStaticSolrFq = ToutEcrivain.create();
 		wRequeteSite = ToutEcrivain.create();
 		wIndexer = ToutEcrivain.create();
 		wFacets = ToutEcrivain.create();
@@ -4003,41 +4005,78 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				}
 			}
 
-			l();
-			if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
-				tl(1, "public static ", entiteSolrNomSimple, " staticSolr", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, ", entiteNomSimpleComplet, " o) {");
-				if(entiteNomSimple.equals("Timestamp")) {
-					tl(2, "return o == null ? null : Date.from(o.toInstant());");
-				}
-				else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-					tl(2, "return o == null ? null : Date.from(o.toInstant());");
-				}
-				else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
-					tl(2, "return o == null ? null : o.format(DateTimeFormatter.ISO_LOCAL_TIME);");
-				}
-				else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-					tl(2, "return o == null ? null : Date.from(o.atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
-				}
-				else if(entiteNomSimple.toString().equals("LocalDate")) {
-					tl(2, "return o == null ? null : Date.from(o.atStartOfDay(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
-				}
-				else if(entiteNomSimple.toString().equals("BigDecimal")) {
-					tl(2, "return o == null ? null : o.doubleValue();");
-				}
-				else if("java.util.List".equals(entiteNomCanonique)) {
-					tl(2, "return o;");
-				}
-				else if("java.util.Set".equals(entiteNomCanonique) || "java.util.HashSet".equals(entiteNomCanonique)) {
-					tl(2, "return new ArrayList<>(o);");
+			if(entiteSolrNomSimple != null) {
+				l();
+				if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
+					tl(1, "public static ", entiteSolrNomSimple, " staticSolr", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, ", entiteNomSimpleComplet, " o) {");
+					if(entiteNomSimple.equals("Timestamp")) {
+						tl(2, "return o == null ? null : Date.from(o.toInstant());");
+					}
+					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
+						tl(2, "return o == null ? null : Date.from(o.toInstant());");
+					}
+					else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
+						tl(2, "return o == null ? null : o.format(DateTimeFormatter.ISO_LOCAL_TIME);");
+					}
+					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
+						tl(2, "return o == null ? null : Date.from(o.atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
+					}
+					else if(entiteNomSimple.toString().equals("LocalDate")) {
+						tl(2, "return o == null ? null : Date.from(o.atStartOfDay(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
+					}
+					else if(entiteNomSimple.toString().equals("BigDecimal")) {
+						tl(2, "return o == null ? null : o.doubleValue();");
+					}
+					else if("java.util.List".equals(entiteNomCanonique)) {
+						tl(2, "return o;");
+					}
+					else if("java.util.Set".equals(entiteNomCanonique) || "java.util.HashSet".equals(entiteNomCanonique)) {
+						tl(2, "return new ArrayList<>(o);");
+					}
+					else {
+						tl(2, "return o;");
+					}
+					tl(1, "}");
 				}
 				else {
-					tl(2, "return o;");
+					tl(1, "public static Object staticSolr", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, ", entiteNomSimpleComplet, " o) {");
+					tl(2, "return null;");
+					tl(1, "}");
 				}
-				tl(1, "}");
-			}
-			else {
-				tl(1, "public static String staticSolr", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, ", entiteNomSimpleComplet, " o) {");
-				tl(2, "return null;");
+	
+				l();
+				if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
+					tl(1, "public static String staticSolrStr", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, ", entiteSolrNomSimple, " o) {");
+					if(entiteNomSimple.equals("Timestamp")) {
+						tl(2, "return \"\\\"\" + DateTimeFormatter.ISO_DATE_TIME.format(o.toInstant().atOffset(ZoneOffset.UTC)) + \"\\\"\";");
+					}
+					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
+						tl(2, "return \"\\\"\" + DateTimeFormatter.ISO_DATE_TIME.format(o.toInstant().atOffset(ZoneOffset.UTC)) + \"\\\"\";");
+					}
+					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
+						tl(2, "return \"\\\"\" + DateTimeFormatter.ISO_DATE_TIME.format(o.toInstant().atOffset(ZoneOffset.UTC)) + \"\\\"\";");
+					}
+					else if(entiteNomSimple.toString().equals("LocalDate")) {
+		//				tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toInstant().atZone(ZoneId.of(\"Z\"))));");
+						tl(2, "return \"\\\"\" + DateTimeFormatter.ISO_DATE_TIME.format(o.toInstant().atOffset(ZoneOffset.UTC)) + \"\\\"\";");
+					}
+					else if(entiteSolrNomCanonique.toString().equals("String")) {
+						tl(3, "return o;");
+					}
+					else {
+						tl(3, "return o == null ? null : o.toString();");
+					}
+					tl(1, "}");
+				}
+				else {
+					tl(1, "public static String staticSolrStr", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, Object o) {");
+					tl(2, "return null;");
+					tl(1, "}");
+				}
+	
+				l();
+				tl(1, "public static String staticSolrFq", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
+				tl(2, "return ", classeNomSimple, ".staticSolrStr", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, ", classeNomSimple, ".staticSolr", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, o)));");
 				tl(1, "}");
 			}
 
@@ -4783,26 +4822,36 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				}
 			}
 
-			///////////////
-			// staticSet //
-			///////////////
+			if(entiteSolrNomSimple != null) {
 
-			wStaticSet.tl(2, "case \"", entiteVar, "\":");
-			wStaticSet.tl(3, "return ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, o);");
-
-			////////////////
-			// staticSolr //
-			////////////////
-
-			wStaticSolr.tl(2, "case \"", entiteVar, "\":");
-			wStaticSolr.tl(3, "return ", classeNomSimple, ".staticSolr", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, (", entiteNomSimpleComplet, ")o);");
-
-			///////////////////
-			// staticSolrStr //
-			///////////////////
-
-			wStaticSolrStr.tl(2, "case \"", entiteVar, "\":");
-			wStaticSolrStr.tl(3, "return ", classeNomSimple, ".staticSolr", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, o));");
+				///////////////
+				// staticSet //
+				///////////////
+	
+				wStaticSet.tl(2, "case \"", entiteVar, "\":");
+				wStaticSet.tl(3, "return ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, o);");
+	
+				////////////////
+				// staticSolr //
+				////////////////
+	
+				wStaticSolr.tl(2, "case \"", entiteVar, "\":");
+				wStaticSolr.tl(3, "return ", classeNomSimple, ".staticSolr", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, (", entiteNomSimpleComplet, ")o);");
+	
+				///////////////////
+				// staticSolrStr //
+				///////////////////
+	
+				wStaticSolrStr.tl(2, "case \"", entiteVar, "\":");
+				wStaticSolrStr.tl(3, "return ", classeNomSimple, ".staticSolrStr", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, (", entiteSolrNomSimple == null ? "Object" : entiteSolrNomSimple, ")o);");
+	
+				//////////////////
+				// staticSolrFq //
+				//////////////////
+	
+				wStaticSolrFq.tl(2, "case \"", entiteVar, "\":");
+				wStaticSolrFq.tl(3, "return ", classeNomSimple, ".staticSolrFq", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, o);");
+			}
 	
 			////////////////////
 			// codeIninitLoin //
@@ -4842,10 +4891,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				}
 				if(entiteSuggere) {
 					// suggere
-					if(entiteNomSimple.equals("Chaine")) {
-						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", ", entiteVar, ");");
-					}
-					else if(entiteNomSimple.equals("Timestamp")) {
+					if(entiteNomSimple.equals("Timestamp")) {
 						tl(3, "document.addField(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
@@ -5650,12 +5696,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(1, "///////////////////");
 			tl(0);
 			t(1);
-			s("public static Object staticSolrStr", str_PourClasse(langueNom), "(String ", str_entite(langueNom), "Var, ", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o)");
+			s("public static String staticSolrStr", str_PourClasse(langueNom), "(String ", str_entite(langueNom), "Var, ", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, Object o)");
 			l(" {");
 			tl(2, "return staticSolrStr", classeNomSimple, "(", str_entite(langueNom), "Var,  ", str_requeteSite(langueNom), "_, o);");
 			tl(1, "}");
 			t(1);
-			s("public static Object staticSolrStr", classeNomSimple, "(String ", str_entite(langueNom), "Var, ", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o)");
+			s("public static String staticSolrStr", classeNomSimple, "(String ", str_entite(langueNom), "Var, ", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, Object o)");
 			l(" {");
 			tl(2, "switch(", str_entite(langueNom), "Var) {");
 			s(wStaticSolrStr.toString());
@@ -5665,6 +5711,31 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(4, "return null;");
 			else
 				tl(4, "return ", classeNomSimpleSuperGenerique, ".staticSolrStr", classeNomSimpleSuperGenerique, "(", str_entite(langueNom), "Var,  ", str_requeteSite(langueNom), "_, o);");
+
+			tl(2, "}");
+			tl(1, "}");
+
+			l(); 
+			tl(1, "//////////////////");
+			tl(1, "// staticSolrFq //");
+			tl(1, "//////////////////");
+			tl(0);
+			t(1);
+			s("public static String staticSolrFq", str_PourClasse(langueNom), "(String ", str_entite(langueNom), "Var, ", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o)");
+			l(" {");
+			tl(2, "return staticSolrFq", classeNomSimple, "(", str_entite(langueNom), "Var,  ", str_requeteSite(langueNom), "_, o);");
+			tl(1, "}");
+			t(1);
+			s("public static String staticSolrFq", classeNomSimple, "(String ", str_entite(langueNom), "Var, ", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o)");
+			l(" {");
+			tl(2, "switch(", str_entite(langueNom), "Var) {");
+			s(wStaticSolrFq.toString());
+			tl(3, "default:");
+
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".staticSolrFq", classeNomSimpleSuperGenerique, "(", str_entite(langueNom), "Var,  ", str_requeteSite(langueNom), "_, o);");
 
 			tl(2, "}");
 			tl(1, "}");

@@ -3949,7 +3949,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "Fq(String uri, String ", str_apiMethode(classeLangueNom), ", ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ", String ", str_entite(classeLangueNom), "Var, String ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", String var", str_Indexe(classeLangueNom), ") {");
 			tl(2, "if(var", str_Indexe(classeLangueNom), " == null)");
 			tl(3, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(classeLangueNom), "Var));");
-			tl(2, str_listeRecherche(classeLangueNom), ".addFilterQuery(var", str_Indexe(classeLangueNom), " + \":\" + ", classeNomSimple, ".staticSolrStr", str_PourClasse(classeLangueNom), "(", str_entite(classeLangueNom), "Var, ", str_listeRecherche(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_(), ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), "));");
+			tl(2, "if(StringUtils.startsWith(", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", \"[\")) {");
+			tl(3, "String[] parts = StringUtils.split(StringUtils.substringBefore(StringUtils.substringAfter(", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", \"[\"), \"]\"), \" TO \")");
+			tl(3, "if(parts.length != 2)");
+			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" invalid range query. \", ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), "));");
+			tl(2, "}");
+			tl(2, str_listeRecherche(classeLangueNom), ".addFilterQuery(var", str_Indexe(classeLangueNom), " + \":\" + ", classeNomSimple, ".staticSolrFq", str_PourClasse(classeLangueNom), "(", str_entite(classeLangueNom), "Var, ", str_listeRecherche(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_(), ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), "));");
 			tl(1, "}");
 			l();
 			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "Sort(String uri, String ", str_apiMethode(classeLangueNom), ", ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ", String ", str_entite(classeLangueNom), "Var, String ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", String ", "var", str_Indexe(classeLangueNom), ") {");
