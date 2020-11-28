@@ -40,6 +40,7 @@ import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -2750,6 +2751,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "Page";
 		else
 			return "Page";
+	}
+
+	public String str_TypeContenu(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "TypeContenu";
+		else
+			return "ContentType";
 	}
 
 	public String str_PageSimple(String langueNom) {
@@ -6205,6 +6213,14 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + str_PageSimple(classeLangueNom) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + str_Sauvegarde(classeLangueNom) + ":\\s*(true)$", classeCommentaire) || classeModele);
 
+		String classeTypeContenu = regex("^" + str_TypeContenu(classeLangueNom) + ":\\s*(.*)", classeCommentaire);
+		if(StringUtils.isNotBlank(classeTypeContenu))
+			indexerStockerSolr(classeDoc, "classeTypeContenu", classeTypeContenu);
+		else 
+			classeTypeContenu = null;
+
+		indexerStockerSolr(classeLangueNom, classeDoc, "classeNomAffichage", regexLangue(classeLangueNom, "^" + str_NomAffichage(classeLangueNom) + "", classeCommentaire));
+
 //		indexerStockerSolr(classeDoc, "appliChemin", appliChemin);
 
 		String classeNomSimpleApiEnsembleInfo;
@@ -6271,6 +6287,8 @@ public class IndexerClasse extends RegarderClasseBase {
 				indexerStockerSolr(langueNom, classeDoc, "classeNomSimpleApi", classeNomSimpleApiLangue); 
 				indexerStockerSolr(langueNom, classeDoc, "classeNomSimplePage", classeNomSimplePageLangue); 
 				indexerStockerSolr(langueNom, classeDoc, "classeNomSimpleGenPage", classeNomSimpleGenPageLangue); 
+
+				indexerStockerSolr(langueNom, classeDoc, "classeNomAffichage", regexLangue(langueNom, "^" + str_NomAffichage(classeLangueNom) + "", classeCommentaire));
 	
 				if(classeApi) {
 
@@ -8047,7 +8065,14 @@ public class IndexerClasse extends RegarderClasseBase {
 							methodeCodeSource = "\n\t\treturn \"" + StringUtils.replace(StringUtils.replace(methodeString, "\\", "\\\\"), "\"", "\\\"") + "\";\n\t";
 							indexerStockerSolr(classeLangueNom, methodeDoc, "methodeString", methodeString); 
 						}
+						if(classeTypeContenu != null) {
+							methodeCodeSource = RegExUtils.replaceAll(StringUtils.trim(methodeCodeSource), "(?m)^//", "");
+							if(StringUtils.isNotBlank(methodeCodeSource))
+								methodeCodeSource += "\n";
+						}
+
 						stockerSolr(classeLangueNom, methodeDoc, "methodeCodeSource", methodeCodeSource);
+						indexerStockerSolr(classeLangueNom, methodeDoc, "methodeNomAffichage", regexLangue(classeLangueNom, "^" + str_NomAffichage(classeLangueNom) + "", methodeCommentaire));
 
 						if(classeTraduire) {
 							for(String langueNom : classeAutresLangues) {  
@@ -8063,6 +8088,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								}
 								stockerSolr(langueNom, methodeDoc, "methodeCodeSource", methodeCodeSourceLangue);
 								stockerRegexCommentaires(langueNom, methodeDoc, "methodeCommentaire", methodeCommentaire);
+								indexerStockerSolr(langueNom, methodeDoc, "methodeNomAffichage", regexLangue(langueNom, "^" + str_NomAffichage(classeLangueNom) + "", methodeCommentaire));
 							} 
 						}
 

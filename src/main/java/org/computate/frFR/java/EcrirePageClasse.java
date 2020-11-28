@@ -1460,15 +1460,72 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												wPATCH.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = null;");
 												wPATCH.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, "SelectVal != null && ", str_valeur(langueNom), entiteVarCapitalise, "SelectVal !== '')");
 												wPATCH.tl(2, str_valeur(langueNom), entiteVarCapitalise, " = ", str_valeur(langueNom), entiteVarCapitalise, "SelectVal == 'true';");
-												wPATCH.tl(1, "set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : ", str_valeur(langueNom), entiteVarCapitalise, ";");
+												wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : ", str_valeur(langueNom), entiteVarCapitalise, ";");
+												wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.add", entiteVarCapitalise, "')", jsVal, ";");
 											}
+											else if("LocalDate".equals(entiteNomSimple)) {
+												wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : $", str_formulaireValeurs(langueNom), ".find('.set", entiteVarCapitalise, "')", jsVal, ";");
+												wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.add", entiteVarCapitalise, "')", jsVal, ";");
+												wPATCH.tl(1, "var setMoment = set", entiteVarCapitalise, valSuffixe, " ? moment(", valPrefixe, "set", entiteVarCapitalise, valSuffixe, ", '", str_DDDashMMDashYYYY(langueNom), "') : null; ");
+												wPATCH.tl(1, "var addMoment = add", entiteVarCapitalise, valSuffixe, " ? moment(", valPrefixe, "add", entiteVarCapitalise, valSuffixe, ", '", str_DDDashMMDashYYYY(langueNom), "') : null; ");
+												wPATCH.tl(1, "if(setMoment) { ");
+													wPATCH.tl(2, "var s = setMoment.format('YYYY-MM-DD'); ");
+													wPATCH.tl(2, "set", entiteVarCapitalise, " = s;");
+												wPATCH.tl(1, "} ");
+												wPATCH.tl(1, "if(addMoment) { ");
+													wPATCH.tl(2, "var s = addMoment.format('YYYY-MM-DD'); ");
+													wPATCH.tl(2, "add", entiteVarCapitalise, " = s;");
+												wPATCH.tl(1, "} ");
+											}
+//												else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
+//													t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
+//													t(tIndex + 5).dal("type", "text");
+//													t(tIndex + 5).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
+//													t(tIndex + 5).dal("placeholder", str_DDDashMMDashYYYY_HHColonMM(langueNom));
+//													t(tIndex + 5).dal("data-timeformat", str_ddDashMMDashyyyy(langueNom));
+//													t(tIndex + 5).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+//													if(entiteDescription != null)
+//														t(tIndex + 5).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
+//													tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV(langueNom), "\").format(", entiteVar, "));");
+//													t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
+//													t(tIndex + 4).l("a(\"onclick\", \"", str_enleverLueur(langueNom), "($(this)); \");");
+//													t(tIndex + 4).s("a(\"onchange\", \"");
+//														s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
+//														s("if(t) { ");
+//															s("var s = t.format('YYYY-MM-DD'); ");
+//															s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
+//														s("} ");
+//													l("\");");
+//													t(tIndex + 3).l("}");
+//													tl(tIndex + 3, "fg();");
+//												}
+//												else if("LocalTime".equals(entiteNomSimple)) {
+//													t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
+//													t(tIndex + 5).dal("type", "text");
+//													t(tIndex + 5).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
+//													t(tIndex + 5).dal("placeholder", str_HHColonMM(langueNom));
+//													t(tIndex + 5).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
+//													if(entiteDescription != null)
+//														t(tIndex + 5).da("title", entiteDescription + " (", str_HAposhAposmm(langueNom), ")");
+//													tl(tIndex + 5, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_HAposhAposmm(langueNom), "\").format(", entiteVar, "));");
+//													t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
+//													t(tIndex + 4).l("a(\"onclick\", \"", str_enleverLueur(langueNom), "($(this)); \");");
+//													t(tIndex + 4).s("a(\"onchange\", \"");
+//														s("var t = moment(this.value, '", str_HAposhAposmm(langueNom), "'); ");
+//														s("if(t) { ");
+//															s("var s = t.format('HH:mm'); ");
+//															s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
+//														s("} ");
+//													l("\");");
+//													t(tIndex + 3).l("}");
+//													tl(tIndex + 3, "fg();");
+//												}
 											else {
 												wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : $", str_formulaireValeurs(langueNom), ".find('.set", entiteVarCapitalise, "')", jsVal, ";");
+												wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.add", entiteVarCapitalise, "')", jsVal, ";");
 											}
-		
 											wPATCH.tl(1, "if(remove", entiteVarCapitalise, " || set", entiteVarCapitalise, " != null && set", entiteVarCapitalise, " !== '')");
 											wPATCH.tl(2, "vals['set", entiteVarCapitalise, "'] = ", valPrefixe, "set", entiteVarCapitalise, valSuffixe, ";");
-											wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.add", entiteVarCapitalise, "')", jsVal, ";");
 											wPATCH.tl(1, "if(add", entiteVarCapitalise, " != null && add", entiteVarCapitalise, " !== '')");
 											wPATCH.tl(2, "vals['add", entiteVarCapitalise, "'] = ", valPrefixe, "add", entiteVarCapitalise, valSuffixe, ";");
 											wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", str_formulaireValeurs(langueNom), ".find('.remove", entiteVarCapitalise, "')", jsVal, ";");
