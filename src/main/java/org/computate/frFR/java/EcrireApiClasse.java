@@ -1131,7 +1131,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								}
 								else {
 									if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-										tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+										tl(tBase + 3, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
 										tl(tBase + 4, "if(l != null) {");
 										tl(tBase + 5, classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, ">();");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
@@ -1163,7 +1163,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(tBase + 3, "}");
 									}
 									else {
-										tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+										tl(tBase + 3, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
 										tl(tBase + 4, "if(l != null) {");
 										tl(tBase + 5, classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", entiteAttribuerNomSimple, ">();");
 										tl(tBase + 5, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
@@ -1259,7 +1259,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								}
 								else {
 									if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-										tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+										tl(tBase + 3, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
 										tl(tBase + 4, "futures.add(Future.future(a -> {");
 										tl(tBase + 5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
 										tl(tBase + 7, ", Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l, \"", entiteAttribuerVar, "\")");
@@ -1278,7 +1278,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(tBase + 3, "}");
 									}
 									else {
-										tl(tBase + 3, "for(Long l : jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+										tl(tBase + 3, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
 										tl(tBase + 4, "futures.add(Future.future(a -> {");
 										tl(tBase + 5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
 										tl(tBase + 7, ", Tuple.of(l, \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\")");
@@ -2859,7 +2859,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "jsonObject.put(\"", str_sauvegardes(classeLangueNom), "\", Optional.ofNullable(jsonObject.getJsonArray(\"", str_sauvegardes(classeLangueNom), "\")).orElse(new JsonArray()));");
 							tl(3, "JsonObject jsonPatch = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_ObjetJson(classeLangueNom), "()).map(o -> o.getJsonObject(\"patch\")).orElse(new JsonObject());");
 							tl(3, "jsonPatch.stream().forEach(o -> {");
-							tl(4, "jsonObject.put(o.getKey(), o.getValue());");
+							tl(4, "if(o.getValue() == null)");
+							tl(5, "jsonObject.remove(o.getKey());");
+							tl(4, "else");
+							tl(5, "jsonObject.put(o.getKey(), o.getValue());");
 							tl(4, "jsonObject.getJsonArray(\"", str_sauvegardes(classeLangueNom), "\").add(o.getKey());");
 							tl(3, "});");
 							l();
@@ -3950,7 +3953,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "if(var", str_Indexe(classeLangueNom), " == null)");
 			tl(3, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", str_nest_pas_une_entite_indexe(langueNom), ". \", ", str_entite(classeLangueNom), "Var));");
 			tl(2, "if(StringUtils.startsWith(", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", \"[\")) {");
-			tl(3, "String[] fqs = StringUtils.split(StringUtils.substringBefore(StringUtils.substringAfter(", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", \"[\"), \"]\"), \" TO \");");
+			tl(3, "String[] fqs = StringUtils.substringBefore(StringUtils.substringAfter(", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", \"[\"), \"]\").split(\" TO \");");
 			tl(3, "if(fqs.length != 2)");
 			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" invalid range query. \", ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), "));");
 			tl(3, "String fq1 = fqs[0].equals(\"*\") ? fqs[0] : ", classeNomSimple, ".staticSolrFq", str_PourClasse(classeLangueNom), "(", str_entite(classeLangueNom), "Var, ", str_listeRecherche(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_(), fqs[0]);");
