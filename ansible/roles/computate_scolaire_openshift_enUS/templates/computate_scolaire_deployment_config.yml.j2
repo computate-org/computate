@@ -49,7 +49,7 @@ spec:
               protocol: TCP
           resources:
             limits:
-              memory: 2Gi
+              memory: 1.5Gi
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
@@ -109,6 +109,36 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: schoolLocation2
+                  name: computate-scolaire-secret
+            - name: authorizeApiLoginId3
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeApiLoginId3
+                  name: computate-scolaire-secret
+            - name: authorizeTransactionKey3
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeTransactionKey3
+                  name: computate-scolaire-secret
+            - name: schoolLocation3
+              valueFrom:
+                secretKeyRef:
+                  key: schoolLocation3
+                  name: computate-scolaire-secret
+            - name: authorizeApiLoginId4
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeApiLoginId4
+                  name: computate-scolaire-secret
+            - name: authorizeTransactionKey4
+              valueFrom:
+                secretKeyRef:
+                  key: authorizeTransactionKey4
+                  name: computate-scolaire-secret
+            - name: schoolLocation4
+              valueFrom:
+                secretKeyRef:
+                  key: schoolLocation4
                   name: computate-scolaire-secret
             - name: authorizeEnvironment
 

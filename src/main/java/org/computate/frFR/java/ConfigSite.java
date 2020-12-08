@@ -699,6 +699,46 @@ public class ConfigSite {
 		customerProfileId2 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId2", false);
 	}
 
+	public Boolean customerProfileId3;
+	protected void _customerProfileId3() throws Exception {
+		customerProfileId3 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId3", false);
+	}
+
+	public Boolean customerProfileId4;
+	protected void _customerProfileId4() throws Exception {
+		customerProfileId4 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId4", false);
+	}
+
+	public Boolean customerProfileId5;
+	protected void _customerProfileId5() throws Exception {
+		customerProfileId5 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId5", false);
+	}
+
+	public Boolean customerProfileId6;
+	protected void _customerProfileId6() throws Exception {
+		customerProfileId6 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId6", false);
+	}
+
+	public Boolean customerProfileId7;
+	protected void _customerProfileId7() throws Exception {
+		customerProfileId7 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId7", false);
+	}
+
+	public Boolean customerProfileId8;
+	protected void _customerProfileId8() throws Exception {
+		customerProfileId8 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId8", false);
+	}
+
+	public Boolean customerProfileId9;
+	protected void _customerProfileId9() throws Exception {
+		customerProfileId9 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId9", false);
+	}
+
+	public Boolean customerProfileId10;
+	protected void _customerProfileId10() throws Exception {
+		customerProfileId10 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId10", false);
+	}
+
 	/**
 	 * Var.enUS: siteWriteMethods
 	 */ 
@@ -839,6 +879,14 @@ public class ConfigSite {
 		_siteCrypte();
 		_customerProfileId1();
 		_customerProfileId2();
+		_customerProfileId3();
+		_customerProfileId4();
+		_customerProfileId5();
+		_customerProfileId6();
+		_customerProfileId7();
+		_customerProfileId8();
+		_customerProfileId9();
+		_customerProfileId10();
 		_siteEcrireMethodes();
 		_ecrireApi();
 	}

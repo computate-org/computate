@@ -3819,6 +3819,22 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(12, "jsonObject.put(\"setCustomerProfileId1\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId1()).orElse(null));");
 			if(customerProfileId2)
 				tl(12, "jsonObject.put(\"setCustomerProfileId2\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId2()).orElse(null));");
+			if(customerProfileId3)
+				tl(12, "jsonObject.put(\"setCustomerProfileId3\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId3()).orElse(null));");
+			if(customerProfileId4)
+				tl(12, "jsonObject.put(\"setCustomerProfileId4\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId4()).orElse(null));");
+			if(customerProfileId5)
+				tl(12, "jsonObject.put(\"setCustomerProfileId5\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId5()).orElse(null));");
+			if(customerProfileId6)
+				tl(12, "jsonObject.put(\"setCustomerProfileId6\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId6()).orElse(null));");
+			if(customerProfileId7)
+				tl(12, "jsonObject.put(\"setCustomerProfileId7\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId7()).orElse(null));");
+			if(customerProfileId8)
+				tl(12, "jsonObject.put(\"setCustomerProfileId8\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId8()).orElse(null));");
+			if(customerProfileId9)
+				tl(12, "jsonObject.put(\"setCustomerProfileId9\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId9()).orElse(null));");
+			if(customerProfileId10)
+				tl(12, "jsonObject.put(\"setCustomerProfileId10\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId10()).orElse(null));");
 			tl(12, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), "Id\", ", str_principalJson(classeLangueNom), ".getString(\"sub\"));");
 			tl(12, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_Mail(classeLangueNom), "\", ", str_principalJson(classeLangueNom), ".getString(\"email\"));");
 			tl(12, "Boolean ", str_definir(classeLangueNom), " = ", str_utilisateur(classeLangueNom), classeNomSimple, str_Definir(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", jsonObject, true);");
@@ -3925,6 +3941,38 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, "if(jsonObject.getString(\"setCustomerProfileId2\") == null)");
 				tl(4, "return true;");
 			}
+			if(customerProfileId3) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId3\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId4) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId4\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId5) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId5\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId6) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId6\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId7) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId7\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId8) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId8\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId9) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId9\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId10) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId10\") == null)");
+				tl(4, "return true;");
+			}
 			tl(3, "return false;");
 			tl(2, "} else {");
 			if(customerProfileId1) {
@@ -3933,6 +3981,38 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 			if(customerProfileId2) {
 				tl(3, "if(jsonObject.getString(\"setCustomerProfileId2\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId3) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId3\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId4) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId4\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId5) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId5\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId6) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId6\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId7) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId7\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId8) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId8\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId9) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId9\") == null)");
+				tl(4, "return true;");
+			}
+			if(customerProfileId10) {
+				tl(3, "if(jsonObject.getString(\"setCustomerProfileId10\") == null)");
 				tl(4, "return true;");
 			}
 			tl(3, "return false;");
