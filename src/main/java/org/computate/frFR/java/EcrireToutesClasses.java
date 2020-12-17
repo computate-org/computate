@@ -616,7 +616,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 							classeFichierGenApiServiceImpl.getParentFile().mkdirs();
 							auteurGenApiServiceImpl = ToutEcrivain.create(classeFichierGenApiServiceImpl);
 						}
-						if(classeFichierApiServiceImpl != null && !classeFichierApiServiceImpl.exists()) {
+						if(classeFichierApiServiceImpl != null && (!classeFichierApiServiceImpl.exists() || classeFichierApiServiceImpl.length() == 0)) {
 							classeFichierApiServiceImpl.getParentFile().mkdirs();
 							auteurApiServiceImpl = ToutEcrivain.create(classeFichierApiServiceImpl);
 						}

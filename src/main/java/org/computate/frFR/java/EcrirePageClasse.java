@@ -1436,7 +1436,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											wPUTCopie.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, str_Vider(langueNom), " = $", str_formulaireValeurs(langueNom), ".find('input.", entiteVar, "_", str_vider(langueNom), ":checked').val();");
 											wPUTCopie.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, str_Vider(langueNom), " != null && ", str_valeur(langueNom), entiteVarCapitalise, str_Vider(langueNom), ")");
 											wPUTCopie.tl(2, "vals['", entiteVar, "'] = null;");
-											wPUTCopie.tl(1, "else if(", str_valeur(langueNom), entiteVarCapitalise, str_Vider(langueNom), " != null && ", str_valeur(langueNom), entiteVarCapitalise, str_Vider(langueNom), ")");
+											wPUTCopie.tl(1, "else if(", str_valeur(langueNom), entiteVarCapitalise, " != null && ", str_valeur(langueNom), entiteVarCapitalise, ")");
 											if(entiteListeTypeJson == null) {
 												wPUTCopie.tl(2, "vals['", entiteVar, "'] = ", valPrefixe, str_valeur(langueNom), entiteVarCapitalise, valSuffixe, ";");
 											}
