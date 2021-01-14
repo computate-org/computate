@@ -1,0 +1,46 @@
+- name: Install computate-zookeeper image stream on OpenShift
+  k8s: 
+    validate_certs: false
+    state: present
+    name: computate-zookeeper
+    host: "{{ZOOKEEPER_HOST}}"
+    api_key: "{{ZOOKEEPER_TOKEN}}"
+    namespace: "{{ZOOKEEPER_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_zookeeper_image_stream.yml.j2') }}"
+- name: Install computate-zookeeper configmap
+  k8s: 
+    validate_certs: false
+    state: present
+    name: computate-zookeeper
+    host: "{{ZOOKEEPER_HOST}}"
+    api_key: "{{ZOOKEEPER_TOKEN}}"
+    namespace: "{{ZOOKEEPER_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_zookeeper_configmap.j2') }}"
+- name: Install computate-zookeeper persistent volume claim on OpenShift
+  k8s: 
+    validate_certs: false
+    state: present
+    name: computate-zookeeper-persistent-volume-claim
+    host: "{{ZOOKEEPER_HOST}}"
+    api_key: "{{ZOOKEEPER_TOKEN}}"
+    namespace: "{{ZOOKEEPER_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_zookeeper_persistent_volume_claim.yml.j2') }}"
+- name: Install computate-zookeeper deployment config on OpenShift
+  k8s: 
+    validate_certs: false
+    state: present
+    name: computate-zookeeper
+    host: "{{ZOOKEEPER_HOST}}"
+    api_key: "{{ZOOKEEPER_TOKEN}}"
+    namespace: "{{ZOOKEEPER_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_zookeeper_deployment_config.yml.j2') }}"
+- name: Install computate-zookeeper service on OpenShift
+  k8s: 
+    validate_certs: false
+    state: present
+    name: computate-zookeeper
+    host: "{{ZOOKEEPER_HOST}}"
+    api_key: "{{ZOOKEEPER_TOKEN}}"
+    namespace: "{{ZOOKEEPER_NAMESPACE}}"
+    definition: "{{ lookup('template', 'computate_zookeeper_service.yml.j2') }}"
+

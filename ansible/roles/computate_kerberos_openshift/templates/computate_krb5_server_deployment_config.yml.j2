@@ -1,0 +1,118 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    app: krb5-server
+    deploymentconfig: krb5-server
+  strategy:
+    activeDeadlineSeconds: 21600
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: krb5-server
+        application: krb5-server
+        deploymentconfig: krb5-server
+      name: krb5-server
+    spec:
+      containers:
+        - imagePullPolicy: Always
+          name: kadmin
+          ports:
+            - containerPort: 8888
+              protocol: TCP
+            - containerPort: 8888
+              protocol: UCP
+          resources:
+            limits:
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: share
+          env:
+            - name: RUN_MODE
+              value: kadmin
+            - name: KRB5_KDC
+              valueFrom:
+                secretKeyRef:
+                  key: authRealm
+                  name: krb5-server-secret
+            - name: KRB5_REALM
+              valueFrom:
+                secretKeyRef:
+                  key: authRealm
+                  name: krb5-server-secret
+        - imagePullPolicy: Always
+          name: kdc
+          ports:
+            - containerPort: 8749
+              protocol: TCP
+            - containerPort: 8749
+              protocol: UCP
+            - containerPort: 8464
+              protocol: UCP
+          resources:
+            limits:
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: share
+          env:
+            - name: RUN_MODE
+              value: kdc
+            - name: KRB5_KDC
+              valueFrom:
+                secretKeyRef:
+                  key: authRealm
+                  name: krb5-server-secret
+            - name: KRB5_REALM
+              valueFrom:
+                secretKeyRef:
+                  key: authRealm
+                  name: krb5-server-secret
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - emptyDir: 
+            medium: Memory
+          name: share
+        - emptyDir: 
+          name: kdc-config
+        - emptyDir: 
+          name: krb5-config
+  test: false
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - kdc
+          - kadmin
+        from:
+          kind: ImageStreamTag
+          name: ':latest'
+          namespace: {{KERBEROS_NAMESPACE}}
+      type: ImageChange
+    - type: ConfigChange
+

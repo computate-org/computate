@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,8 +30,8 @@ import org.apache.commons.text.translate.EntityArrays;
 import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
@@ -40,6 +39,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * frFR: Pour récupérer une classe Java de Solr et écrire la classe Java dans un fichier pour chaque langue. 
  */  
 public class EcrireGenClasse extends EcrireClasse { 
+
+	protected static final Logger LOGGER = LoggerFactory.getLogger(EcrireClasse.class);
 
 	public static final String[] HTML_ELEMENTS = new String[] { "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code", "br", "dd", "dt" };
 
@@ -500,10 +501,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	Boolean entiteAttribuer;
 
-	/**
-	 * Var.enUS: entityAttributeSimpleName
-	 */
 	String entiteAttribuerNomSimple;
+
+	Boolean entiteAttribuerUtilisateurEcrire;
+	Boolean entiteAttribuerSessionEcrire;
+	Boolean entiteAttribuerPublicLire;
+	List<String> entiteAttribuerClasseRoles;
+	List<String> entiteAttribuerClasseRolesLangue;
 
 	/**
 	 * Var.enUS: entityAttributeVar
@@ -1315,9 +1319,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
 			tl(4, "o = ", str_obtenir(langueNom), classeNomSimple, "(v);");
-			tl(3, "else if(o instanceof Cluster) {");
-			tl(4, "Cluster cluster = (Cluster)o;");
-			tl(4, "o = cluster.", str_obtenir(langueNom), str_PourClasse(langueNom), "(v);");
+			tl(3, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
+			tl(4, classePartsCluster.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
+			tl(4, "o = ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), ".", str_obtenir(langueNom), str_PourClasse(langueNom), "(v);");
 			tl(3, "}");
 			tl(2, "}");
 			tl(2, "return o;");
@@ -1377,9 +1381,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
 			tl(4, "o = ", str_attribuer(langueNom), classeNomSimple + "(v, val);");
-			tl(3, "else if(o instanceof Cluster) {");
-			tl(4, "Cluster cluster = (Cluster)o;");
-			tl(4, "o = cluster.", str_attribuer(langueNom), str_PourClasse(langueNom), "(v, val);");
+			tl(3, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
+			tl(4, classePartsCluster.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
+			tl(4, "o = ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), ".", str_attribuer(langueNom), str_PourClasse(langueNom), "(v, val);");
 			tl(3, "}");
 			tl(2, "}");
 			tl(2, "return o != null;");
@@ -2374,7 +2378,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				if(StringUtils.isBlank(methodeValLangue))
 					methodeValLangue = langueNom;
 				methodeValVarLangue = methodeValVar + methodeValLangue;
-				methodeValCode = methodeValsCode.get(j);
+				methodeValCode = methodeValsCode == null ? "" : methodeValsCode.get(j);
 				methodeValValeur = methodeValsValeur.get(j);
 
 				Integer xmlPart = 0;
@@ -4847,9 +4851,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						}
 						tl(1, "}");
 						tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "() {");
-						tl(2, entiteVar, ".htmlAvant();");
+						tl(2, entiteVar, ".html", str_Avant(langueNom), "();");
 						tl(2, classeEcrireMethode, entiteVarCapitalise, "(", entiteVar, ");");
-						tl(2, entiteVar, ".htmlApres();");
+						tl(2, entiteVar, ".html", str_Apres(langueNom), "();");
 						tl(1, "}");
 					}
 				}
@@ -5811,9 +5815,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(3, "for(String v : vars) {");
 			tl(4, "if(o == null)");
 			tl(5, "o = ", str_definir(langueNom), "", classeNomSimple, "(v, val);");
-			tl(4, "else if(o instanceof Cluster) {");
-			tl(5, "Cluster cluster = (Cluster)o;");
-			tl(5, "o = cluster.", str_definir(langueNom), str_PourClasse(langueNom), "(v, val);");
+			tl(4, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
+			tl(5, classePartsCluster.nomSimple(langueNom), " o", classePartsCluster.nomSimple(langueNom), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
+			tl(5, "o = o", classePartsCluster.nomSimple(langueNom), ".", str_definir(langueNom), str_PourClasse(langueNom), "(v, val);");
 			tl(4, "}");
 			tl(3, "}");
 			tl(2, "}");

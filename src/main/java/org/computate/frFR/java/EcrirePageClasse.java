@@ -2382,6 +2382,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							t(4).bgl("button");
 							tl(3, "}");
 	
+							tl(2, "}");
+							tl(2, "if(");
+							tl(4, "", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "().contains(\"SiteAdmin\")");
+							tl(4, "|| ", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "().contains(\"SiteAdmin\")");
+							tl(4, ") {");
+	
+	
 							for(String classeApiMethode : classeApiMethodes) {
 								String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
 								String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");

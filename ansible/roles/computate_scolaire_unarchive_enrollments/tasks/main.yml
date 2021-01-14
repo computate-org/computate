@@ -1,0 +1,6 @@
+---
+- name: For each file
+  include_tasks: computate_scolaire_unarchive_enrollments.yml
+  with_fileglob: 
+    - "{{COMPUTATE_SCOLAIRE_RESTORE_DIR_ENUS}}/{{DATA_NAME_VAR}}*"
+

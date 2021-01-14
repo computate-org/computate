@@ -1,0 +1,15 @@
+---
+- name: "JSON_LIST {{ item }}"
+  set_fact:
+    JSON_LIST: "{{ lookup('file','{{ item }}') | from_json | json_query(query) }}"
+  vars:
+    query: "list[?archived && (yearKey=='107103' || yearKey=='93326' || yearKey=='93324')].{pk: pk, archived: archived, yearKey: yearKey}"
+  ignore_errors: true
+#- debug:
+#    var: JSON_LIST
+- name: For each file
+  include_tasks: computate_scolaire_unarchive_enrollment.yml
+  loop: "{{ JSON_LIST }}"
+  loop_control:
+    loop_var: JSON
+

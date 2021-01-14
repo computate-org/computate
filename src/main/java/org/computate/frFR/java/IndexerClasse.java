@@ -869,6 +869,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "before";
 	}
 
+	public String str_Apres(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Apres";
+		else
+			return "After";
+	}
+
 	/**
 	 * Var.enUS: str_after
 	 */
@@ -6325,8 +6332,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		if(classeSauvegarde) {
 			classePartsGenAjouter(classePartsSiteContexte, classeLangueNom);
-			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.Logger", classeLangueNom), classeLangueNom);
-			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.logging.LoggerFactory", classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Set", classeLangueNom), classeLangueNom);
