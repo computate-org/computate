@@ -1882,7 +1882,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													auteurPageJs.l(");");
 	
 													if(entiteAttribuerVarUrlPk != null)
-														auteurPageJs.tl(3, "var $a = $('<a>').attr('id', o['", classeVarClePrimaire, "']).attr('href', o['", entiteAttribuerVarUrlPk, "'] + '#' + ", classeVarClePrimaire, ");");
+														auteurPageJs.tl(3, "var $a = $('<a>').attr('id', o['", classeVarClePrimaire, "']).attr('href', o['", entiteAttribuerVarUrlPk, "']);");
 													else
 														auteurPageJs.tl(3, "var $a = $('<span>');");
 	

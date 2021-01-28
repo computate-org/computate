@@ -4532,23 +4532,17 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 								l();
 							}
 
-							if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
+							if(entiteAttribuer) {
+								t(tIndex + 2).s("} else {").l();
+							}
+							else if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
 								t(tIndex + 2).s("} else {").l();
 								t(tIndex + 3).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
 							}
 							else if(classeUtilisateurEcrire) {
 								if(classeRolesTrouves || classeRoleLiresTrouves) {
 									t(tIndex + 2).s("} else {").l();
-									tl(tIndex + 3, "if(");
-									tl(tIndex + 5, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-									tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-									if(classeRoleLiresTrouves) {
-										tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLE_READS)");
-										tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
-									}
-									tl(tIndex + 5, ") {");
 									t(tIndex + 4).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
-									tl(tIndex + 3, "}");
 								}
 								else {
 									t(tIndex + 2).s("} else {").l();
