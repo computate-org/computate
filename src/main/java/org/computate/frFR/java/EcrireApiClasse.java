@@ -4376,12 +4376,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 				tl(3, "}");
 			}
+			tl(3, str_recherche(classeLangueNom), classeNomSimple, "2(", str_requeteSite(classeLangueNom), ", ", str_peupler(classeLangueNom), ", ", str_stocker(classeLangueNom), ", ", str_modifier(classeLangueNom), ", uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ");");
 			tl(3, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 			tl(3, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_listeRecherche(classeLangueNom), "));");
 			tl(2, "} catch(Exception e) {");
 			tl(3, "LOGGER.error(String.format(\"", str_recherche(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", e));");
 			tl(3, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(e));");
 			tl(2, "}");
+			tl(1, "}");
+			tl(1, "public void ", str_recherche(classeLangueNom), classeNomSimple, "2(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", Boolean ", str_peupler(classeLangueNom), ", Boolean ", str_stocker(classeLangueNom), ", Boolean ", str_modifier(classeLangueNom), ", String uri, String ", str_apiMethode(classeLangueNom), ", ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), ") {");
 			tl(1, "}");
 			l();
 			/////////////

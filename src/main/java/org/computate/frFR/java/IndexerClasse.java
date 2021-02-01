@@ -48,6 +48,7 @@ import org.apache.commons.text.WordUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -9013,8 +9014,8 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		clientSolrComputate.add(classeDoc);
 		clientSolrComputate.commit(true, true);
-		String qSupprimer = concat("classeCheminAbsolu_indexed_string", ":\"", classeChemin, "\" AND modifiee_indexed_date:[* TO ", modifiee.minusMillis(1).toString(), "]");
-		clientSolrComputate.deleteByQuery(qSupprimer);
+		String qSupprimer = concat("classeCheminAbsolu_indexed_string", ":\"", classeChemin, "\" AND (modifiee_indexed_date:[* TO ", modifiee.minusMillis(1).toString(), "] OR (*:* AND -modifiee_indexed_date:[* TO *]))");
+		UpdateResponse d = clientSolrComputate.deleteByQuery(qSupprimer);
 		clientSolrComputate.commit(true, true); 
 		return classeDoc;
 	}
