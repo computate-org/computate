@@ -2173,7 +2173,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						t(3).bgl("h1");
 	
 	//					t(3).e("div").da("class", "w3-padding-16 w3-card-4 w3-light-grey ").dfl();
-						t(3).e("div").da("class", "").dfl();
+						t(3).be("div").da("class", "").dfl();
 	
 						t(4).be("div").dfl();
 						tl(5, "JsonObject queryParams = Optional.ofNullable(", str_operationRequete(langueNom), ").map(OperationRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
@@ -2259,6 +2259,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						t(4).bgl("div");
 	
 						tl(4, "table1", classeGenPageNomSimple, "();");
+						t(3).bgl("div");
 						tl(2, "}");
 	
 						// singulier part 2
@@ -2300,7 +2301,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							tl(2, "htmlBodyForms", classeGenPageNomSimple, "();");
 						}
 			
-						t(2).gl("div");
 						tl(1, "}");
 						l();
 						tl(1, "public void table1", classeGenPageNomSimple, "() {");
