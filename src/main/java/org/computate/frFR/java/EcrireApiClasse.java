@@ -1049,9 +1049,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir) && BooleanUtils.isTrue(entiteModifier)) {
 								tl(5, "case \"", entiteVar, "\":");
 								tl(6, "futures.add(Future.future(a -> {");
-								tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
+								tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
 				
-								tl(9, ", Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", Optional.ofNullable(jsonObject.getValue(", str_entite(classeLangueNom), "Var)).map(s -> s.toString()).orElse(null))");
+								tl(9, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", Optional.ofNullable(jsonObject.getValue(", str_entite(classeLangueNom), "Var)).map(s -> s.toString()).orElse(null))");
 
 								tl(9, ", b");
 								tl(7, "-> {");
@@ -1082,8 +1082,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 										tl(8, "if(l2 != null) {");
 										tl(9, "futures.add(Future.future(a -> {");
-										tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-										tl(12,", Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l2, \"", entiteAttribuerVar, "\")");
+										tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+										tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l2, \"", entiteAttribuerVar, "\")");
 										tl(12,", b");
 										tl(10, "-> {");
 										tl(11, "if(b.succeeded())");
@@ -1115,8 +1115,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 										tl(8, "if(l2 != null) {");
 										tl(9, "futures.add(Future.future(a -> {");
-										tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-										tl(12,", Tuple.of(l2, \"", entiteAttribuerVar, "\", ",  classeVarClePrimaire, ", \"", entiteVar, "\")");
+										tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+										tl(12,".execute(Tuple.of(l2, \"", entiteAttribuerVar, "\", ",  classeVarClePrimaire, ", \"", entiteVar, "\")");
 										tl(12,", b");
 										tl(10, "-> {");
 										tl(11, "if(b.succeeded())");
@@ -1149,8 +1149,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 										tl(8, "if(l2 != null) {");
 										tl(9, "futures.add(Future.future(a -> {");
-										tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-										tl(12,", Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l2, \"", entiteAttribuerVar, "\")");
+										tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+										tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l2, \"", entiteAttribuerVar, "\")");
 										tl(12,", b");
 										tl(10, "-> {");
 										tl(11, "if(b.succeeded())");
@@ -1181,8 +1181,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 										tl(8, "if(l2 != null) {");
 										tl(9, "futures.add(Future.future(a -> {");
-										tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-										tl(12,", Tuple.of(l2, \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\")");
+										tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+										tl(12,".execute(Tuple.of(l2, \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\")");
 										tl(12,", b");
 										tl(10, "-> {");
 										tl(11, "if(b.succeeded())");
@@ -1211,9 +1211,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir) && BooleanUtils.isTrue(entiteModifier)) {
 								tl(5, "case \"", entiteVar, "\":");
 								tl(6, "futures.add(Future.future(a -> {");
-								tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
+								tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
 	
-								tl(9, ", Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", Optional.ofNullable(jsonObject.getValue(", str_entite(classeLangueNom), "Var)).map(s -> s.toString()).orElse(null))");
+								tl(9, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", Optional.ofNullable(jsonObject.getValue(", str_entite(classeLangueNom), "Var)).map(s -> s.toString()).orElse(null))");
 
 								tl(9, ", b");
 								tl(7, "-> {");
@@ -1233,8 +1233,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(7, "{");
 										tl(6, "Long l = Long.parseLong(jsonObject.getString(", str_entite(classeLangueNom), "Var));");
 										tl(6, "futures.add(Future.future(a -> {");
-										tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-										tl(9, ", Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l, \"", entiteAttribuerVar, "\")");
+										tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+										tl(9, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l, \"", entiteAttribuerVar, "\")");
 										tl(9, ", b");
 										tl(7, "-> {");
 										tl(8, "if(b.succeeded())");
@@ -1249,8 +1249,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(7, "{");
 										tl(6, "Long l = Long.parseLong(jsonObject.getString(", str_entite(classeLangueNom), "Var));");
 										tl(6, "futures.add(Future.future(a -> {");
-										tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-										tl(9, ", Tuple.of(l, \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\")");
+										tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+										tl(9, ".execute(Tuple.of(l, \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\")");
 										tl(9, ", b");
 										tl(7, "-> {");
 										tl(8, "if(b.succeeded())");
@@ -1266,8 +1266,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
 										tl(6, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
 										tl(7, "futures.add(Future.future(a -> {");
-										tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-										tl(10, ", Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l, \"", entiteAttribuerVar, "\")");
+										tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+										tl(10, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l, \"", entiteAttribuerVar, "\")");
 										tl(10, ", b");
 										tl(8, "-> {");
 										tl(9, "if(b.succeeded())");
@@ -1285,8 +1285,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									else {
 										tl(6, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
 										tl(7, "futures.add(Future.future(a -> {");
-										tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-										tl(10, ", Tuple.of(l, \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\")");
+										tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+										tl(10, ".execute(Tuple.of(l, \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\")");
 										tl(10, ", b");
 										tl(8, "-> {");
 										tl(9, "if(b.succeeded())");
@@ -1341,8 +1341,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(8, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-											tl(12,", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+											tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1388,8 +1388,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(9, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(9, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-											tl(12,", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+											tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1439,8 +1439,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(10, "set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2.add(l2);");
 											tl(9, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-											tl(12,", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+											tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1461,8 +1461,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(7, "for(Long l :  o.get", entiteVarCapitalise, "()) {");
 											tl(8, "if(l != null && (set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2 == null || !set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2.contains(l))) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
-											tl(12,", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l, ", q(entiteAttribuerVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA)");
+											tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l, ", q(entiteAttribuerVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1502,8 +1502,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(8, "if(l2 != null && o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
-											tl(12,", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA)");
+											tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1548,8 +1548,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(8, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-											tl(12,", Tuple.of(l2, ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+											tl(12,".execute(Tuple.of(l2, ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1595,8 +1595,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(9, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(9, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-											tl(12,", Tuple.of(l2, ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+											tl(12,".execute(Tuple.of(l2, ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1646,8 +1646,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(10, "set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2.add(l2);");
 											tl(9, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-											tl(12,", Tuple.of(l2, ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+											tl(12,".execute(Tuple.of(l2, ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1668,8 +1668,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(7, "for(Long l :  o.get", entiteVarCapitalise, "()) {");
 											tl(8, "if(l != null && (set", entiteVarCapitalise, str_Valeurs(classeLangueNom), " == null || !set", entiteVarCapitalise, str_Valeurs(classeLangueNom), "2.contains(l))) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
-											tl(12,", Tuple.of(l, ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA)");
+											tl(12,".execute(Tuple.of(l, ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1709,8 +1709,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(8, "if(l2 != null && o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
-											tl(12,", Tuple.of(l2", ", ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA)");
+											tl(12,".execute(Tuple.of(l2", ", ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1759,8 +1759,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(8, "if(l2 != null && !l2.equals(o.get", StringUtils.capitalize(entiteVar), "())) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-											tl(12,", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+											tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1804,8 +1804,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(8, "if(l2 != null) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA");
-											tl(12,", Tuple.of(l2", ", ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+											tl(12,".execute(Tuple.of(l2", ", ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1852,8 +1852,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(8, "if(l2 != null) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
-											tl(12,", Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA)");
+											tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", ", q(entiteVar), ", l2, ", q(entiteAttribuerVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1897,8 +1897,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
 											tl(8, "if(l2 != null) {");
 											tl(9, "futures.add(Future.future(a -> {");
-											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA");
-											tl(12,", Tuple.of(l2", ", ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
+											tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeA)");
+											tl(12,".execute(Tuple.of(l2", ", ", q(entiteAttribuerVar), ", ", classeVarClePrimaire, ", ", q(entiteVar), ")");
 											tl(12,", b");
 											tl(10, "-> {");
 											tl(11, "if(b.succeeded())");
@@ -1934,8 +1934,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(6, "jsonObject.getJsonArray(", str_methodeNom(classeLangueNom), ").forEach((v) -> {");
 										tl(7, "o2.add", entiteVarCapitalise, "((", entiteListeNomSimpleVertxJson, ")v);");
 										tl(7, "futures.add(Future.future(a -> {");
-										tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
-										tl(10, ", Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", o2.json", entiteVarCapitalise, "())");
+										tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
+										tl(10, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", o2.json", entiteVarCapitalise, "())");
 										tl(10, ", b");
 										tl(8, "-> {");
 										tl(9, "if(b.succeeded())");
@@ -1951,8 +1951,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(5, "case \"set", entiteVarCapitalise, "\":");
 										tl(6, "if(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), ") == null) {");
 										tl(7, "futures.add(Future.future(a -> {");
-										tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeD");
-										tl(10, ", Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\")");
+										tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_removeD)");
+										tl(10, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\")");
 										tl(10, ", b");
 										tl(8, "-> {");
 										tl(9, "if(b.succeeded())");
@@ -1964,8 +1964,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(6, "} else {");
 										tl(7, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), "));");
 										tl(7, "futures.add(Future.future(a -> {");
-										tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
-										tl(10, ", Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", o2.json", entiteVarCapitalise, "())");
+										tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
+										tl(10, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", o2.json", entiteVarCapitalise, "())");
 										tl(10, ", b");
 										tl(8, "-> {");
 										tl(9, "if(b.succeeded())");
@@ -3135,8 +3135,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(3, "if(o.get", str_UtilisateurId(classeLangueNom), "() == null && ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "() != null) {");
 						tl(4, "futures.add(Future.future(a -> {");
-						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
-						tl(7, ", Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurId(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "())");
+						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
+						tl(7, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurId(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "())");
 						tl(7, ", b");
 						tl(5, "-> {");
 						tl(6, "if(b.succeeded())");
@@ -3148,8 +3148,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "}");
 						tl(3, "if(o.get", str_UtilisateurCle(classeLangueNom), "() == null && ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "() != null) {");
 						tl(4, "futures.add(Future.future(a -> {");
-						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
-						tl(4, ", Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurCle(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "().toString())");
+						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
+						tl(4, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurCle(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "().toString())");
 						tl(7, ", b");
 						tl(5, "-> {");
 						tl(6, "if(b.succeeded())");
@@ -3206,8 +3206,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(3, "if(", str_requeteSite(classeLangueNom), ".get", str_SessionId(classeLangueNom), "() != null) {");
 						tl(4, "futures.add(Future.future(a -> {");
-						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
-						tl(4, ", Tuple.of(", classeVarClePrimaire, ", \"", str_sessionId(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_SessionId(classeLangueNom), "())");
+						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
+						tl(4, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", str_sessionId(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_SessionId(classeLangueNom), "())");
 						tl(7, ", b");
 						tl(5, "-> {");
 						tl(6, "if(b.succeeded())");
@@ -3219,8 +3219,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "}");
 						tl(3, "if(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "() != null) {");
 						tl(4, "futures.add(Future.future(a -> {");
-						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
-						tl(4, ", Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurId(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "())");
+						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
+						tl(4, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurId(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "())");
 						tl(7, ", b");
 						tl(5, "-> {");
 						tl(6, "if(b.succeeded())");
@@ -3232,8 +3232,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "}");
 						tl(3, "if(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "() != null) {");
 						tl(4, "futures.add(Future.future(a -> {");
-						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD");
-						tl(4, ", Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurCle(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "().toString())");
+						tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
+						tl(4, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurCle(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "().toString())");
 						tl(7, ", b");
 						tl(5, "-> {");
 						tl(6, "if(b.succeeded())");
@@ -3649,10 +3649,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(3, "String ", str_utilisateur(classeLangueNom), "Id = ", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "Id();");
 				tl(3, "ZonedDateTime ", str_cree(classeLangueNom), " = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_ObjetJson(classeLangueNom), "()).map(j -> j.getString(\"", str_cree(classeLangueNom), "\")).map(s -> ZonedDateTime.parse(s, DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.of(", str_requeteSite(classeLangueNom), ".get", str_ConfigSite(classeLangueNom), "_().getSiteZone())))).orElse(ZonedDateTime.now(ZoneId.of(", str_requeteSite(classeLangueNom), ".get", str_ConfigSite(classeLangueNom), "_().getSiteZone())));");
 				l();
-				tl(3, "tx.preparedQuery(");
-				tl(5, classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_creer(classeLangueNom));
-				tl(5, ", Tuple.of(", classeNomSimple, ".class.getCanonicalName(), ", str_utilisateur(classeLangueNom), "Id, ", str_cree(classeLangueNom), ".toOffsetDateTime())");
-				tl(5, ", Collectors.toList()");
+				tl(3, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_creer(classeLangueNom), ")");
+				tl(5, ".collecting(Collectors.toList())");
+				tl(5, ".execute(Tuple.of(", classeNomSimple, ".class.getCanonicalName(), ", str_utilisateur(classeLangueNom), "Id, ", str_cree(classeLangueNom), ".toOffsetDateTime())");
 				tl(5, ", ", str_creer(classeLangueNom), "Async");
 				tl(3, "-> {");
 				tl(4, "if(", str_creer(classeLangueNom), "Async.succeeded()) {");
@@ -3876,10 +3875,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(6, "sqlTransaction", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", b -> {");
 			tl(7, "if(b.succeeded()) {");
 			tl(8, "Transaction tx = ", str_requeteSite(classeLangueNom), ".getTx();");
-			tl(8, "tx.preparedQuery(");
-			tl(10, classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_selectC");
-			tl(10, ", Tuple.of(", q(classePartsUtilisateurSite.nomCanonique(classeLangueNom)), ", ", str_utilisateur(classeLangueNom), "Id)");
-			tl(10, ", Collectors.toList()");
+			tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_selectC)");
+			tl(10, ".collecting(Collectors.toList())");
+			tl(10, ".execute(Tuple.of(", q(classePartsUtilisateurSite.nomCanonique(classeLangueNom)), ", ", str_utilisateur(classeLangueNom), "Id)");
 			tl(10, ", selectCAsync");
 			tl(8, "-> {");
 			tl(9, "if(selectCAsync.succeeded()) {");
@@ -4395,10 +4393,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = o.get", str_RequeteSite(classeLangueNom), "_();");
 			tl(3, "Transaction tx = ", str_requeteSite(classeLangueNom), ".getTx();");
 			tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
-			tl(3, "tx.preparedQuery(");
-			tl(5, classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_definir(classeLangueNom));
-			tl(5, ", Tuple.of(", classeVarClePrimaire, ")");
-			tl(5, ", Collectors.toList()");
+			tl(3, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_definir(classeLangueNom), ")");
+			tl(5, ".collecting(Collectors.toList())");
+			tl(5, ".execute(Tuple.of(", classeVarClePrimaire, ")");
 			tl(5, ", ", str_definir(classeLangueNom), "Async");
 			tl(3, "-> {");
 			tl(4, "if(", str_definir(classeLangueNom), "Async.succeeded()) {");
@@ -4435,10 +4432,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = o.get", str_RequeteSite(classeLangueNom), "_();");
 			tl(3, "Transaction tx = ", str_requeteSite(classeLangueNom), ".getTx();");
 			tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
-			tl(3, "tx.preparedQuery(");
-			tl(5, classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_attribuer(classeLangueNom));
-			tl(5, ", Tuple.of(", classeVarClePrimaire, ", ", classeVarClePrimaire, ")");
-			tl(5, ", Collectors.toList()");
+			tl(3, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_attribuer(classeLangueNom), ")");
+			tl(5, ".collecting(Collectors.toList())");
+			tl(5, ".execute(Tuple.of(", classeVarClePrimaire, ", ", classeVarClePrimaire, ")");
 			tl(5, ", ", str_attribuer(classeLangueNom), "Async");
 			tl(3, "-> {");
 			tl(4, "try {");
