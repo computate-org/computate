@@ -2368,7 +2368,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
 							tl(4, ") {");
 	
-							t(3).e("div").da("class", "w3-margin-top ").dfl();
 							l();
 	
 							// refraîchir 1 //
@@ -2541,7 +2540,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										tl(3, "}");
 								}
 							}
-							t(3).gl("div");
 	
 							t(2).s("}").l();
 							tl(2, "html", str_Suggere(langueNom), classeGenPageNomSimple, "(this, null, ", str_liste(langueNom), classeNomSimple, ");");

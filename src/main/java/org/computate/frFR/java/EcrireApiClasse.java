@@ -2484,7 +2484,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(8, ".put(\"errorCode\", \"401\")");
 						tl(8, ".put(\"errorMessage\", \"", str_roles_requis(classeLangueNom), "\" + String.join(\", \", roles))");
 						tl(8, ".encodePrettily()");
-						tl(7, "), new CaseInsensitiveHeaders()");
+						tl(7, "), MultiMap.caseInsensitiveMultiMap()");
 						tl(5, ")");
 						tl(4, "));");
 						tl(3, "} else {");
@@ -3363,7 +3363,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, str_requeteSite(classeLangueNom), ".setW(w);");
 //							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
 //							tl(3, "SolrDocument page", str_DocumentSolr(classeLangueNom), " = new SolrDocument();");
-//							tl(3, "CaseInsensitiveHeaders ", str_requeteEnTetes(classeLangueNom), " = new CaseInsensitiveHeaders();");
+//							tl(3, "MultiMap ", str_requeteEnTetes(classeLangueNom), " = MultiMap.caseInsensitiveMultiMap();");
 //							tl(3, str_requeteSite(classeLangueNom), ".set", str_RequeteEnTetes(classeLangueNom), "(", str_requeteEnTetes(classeLangueNom), ");");
 //							l();
 //							tl(3, "page", str_DocumentSolr(classeLangueNom), ".setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
@@ -3447,7 +3447,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
 //							tl(3, "page.setPageUrl(\"", siteUrlBase, classeApiUri, "\");");
 							tl(3, "SolrDocument page", str_DocumentSolr(classeLangueNom), " = new SolrDocument();");
-							tl(3, "CaseInsensitiveHeaders ", str_requeteEnTetes(classeLangueNom), " = new CaseInsensitiveHeaders();");
+							tl(3, "MultiMap ", str_requeteEnTetes(classeLangueNom), " = MultiMap.caseInsensitiveMultiMap();");
 							tl(3, str_requeteSite(classeLangueNom), ".set", str_RequeteEnTetes(classeLangueNom), "(", str_requeteEnTetes(classeLangueNom), ");");
 							l();
 							tl(3, "page", str_DocumentSolr(classeLangueNom), ".setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
@@ -3515,7 +3515,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //							tl(3, "page.setPageUrl(\"", siteUrlBase, classeApiUri, "\");");
 							tl(3, "SolrDocument page", str_DocumentSolr(classeLangueNom), " = new SolrDocument();");
 							tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = ", str_liste(classeLangueNom), classeNomSimple, ".get", str_RequeteSite(classeLangueNom), "_();");
-							tl(3, "CaseInsensitiveHeaders ", str_requeteEnTetes(classeLangueNom), " = new CaseInsensitiveHeaders();");
+							tl(3, "MultiMap ", str_requeteEnTetes(classeLangueNom), " = MultiMap.caseInsensitiveMultiMap();");
 							tl(3, str_requeteSite(classeLangueNom), ".set", str_RequeteEnTetes(classeLangueNom), "(", str_requeteEnTetes(classeLangueNom), ");");
 							l();
 							tl(3, "page", str_DocumentSolr(classeLangueNom), ".setField(", q("pageUri_frFR_stored_string"), ", ", q(classeApiUriMethode), ");");
@@ -3687,7 +3687,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "ExceptionUtils.printRootCauseStackTrace(e);");
 			tl(2, "OperationResponse ", str_reponse(classeLangueNom), "Operation = new OperationResponse(400, \"BAD REQUEST\", ");
 			tl(4, "Buffer.buffer().appendString(json.encodePrettily())");
-			tl(4, ", new CaseInsensitiveHeaders().add(\"Content-Type\", \"application/json\")");
+			tl(4, ", MultiMap.caseInsensitiveMultiMap().add(\"Content-Type\", \"application/json\")");
 			tl(2, ");");
 	
 			tl(2, classePartsConfigSite.nomSimple(classeLangueNom), " ", str_configSite(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_ConfigSite(classeLangueNom), "_();");
@@ -3887,7 +3887,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(11, "if(", str_utilisateur(classeLangueNom), str_Valeurs(classeLangueNom), " == null) {");
 //					tl(4, str_entite(langueNom), str_Valeur(langueNom), " = Optional.ofNullable(", str_documentSolr(langueNom), ".getFieldValues(", q(", str_entite(langueNom), "Var, "_stored", ", str_entite(langueNom), "SuffixeType), ")).map(Collection<Object>::stream).orElseGet(Stream::empty).findFirst().orElse(null);");
 			tl(12, "JsonObject ", str_utilisateur(classeLangueNom), "Vertx = ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "().getUser();");
-			tl(12, "JsonObject ", str_principalJson(classeLangueNom), " = KeycloakHelper.parseToken(", str_utilisateur(classeLangueNom), "Vertx.getString(\"access_token\"));");
+			tl(12, "OAuth2TokenImpl token = new OAuth2TokenImpl(", str_siteContexte(classeLangueNom), ".getAuthProvider(), ", str_utilisateur(classeLangueNom), "Vertx);");
+			tl(12, "JsonObject ", str_principalJson(classeLangueNom), " = token.accessToken();");
 			l();
 			tl(12, "JsonObject jsonObject = new JsonObject();");
 			tl(12, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_Nom(classeLangueNom), "\", ", str_principalJson(classeLangueNom), ".getString(\"preferred_username\"));");
@@ -3956,7 +3957,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(12, classePartsUtilisateurSite.nomSimple(classeLangueNom), " ", str_utilisateurSite(classeLangueNom), "1 = ", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null);");
 			l();
 			tl(12, "JsonObject ", str_utilisateur(classeLangueNom), "Vertx = ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "().getUser();");
-			tl(12, "JsonObject ", str_principalJson(classeLangueNom), " = KeycloakHelper.parseToken(", str_utilisateur(classeLangueNom), "Vertx.getString(\"access_token\"));");
+			tl(12, "OAuth2TokenImpl token = new OAuth2TokenImpl(", str_siteContexte(classeLangueNom), ".getAuthProvider(), ", str_utilisateur(classeLangueNom), "Vertx);");
+			tl(12, "JsonObject ", str_principalJson(classeLangueNom), " = token.accessToken();");
 			l();
 			tl(12, "JsonObject jsonObject = new JsonObject();");
 			tl(12, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_Nom(classeLangueNom), "\", ", str_principalJson(classeLangueNom), ".getString(\"preferred_username\"));");
