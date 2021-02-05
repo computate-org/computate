@@ -5843,7 +5843,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		/////////////////
 		// codePeupler //
 		/////////////////
-		if(classeIndexe || classeStocke) {
+		if(classeIndexe) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// ", str_peupler(langueNom), " //");
