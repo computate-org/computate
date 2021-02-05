@@ -5843,7 +5843,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		/////////////////
 		// codePeupler //
 		/////////////////
-		if(classeSauvegarde) {
+		if(classeIndexe || classeStocke) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// ", str_peupler(langueNom), " //");
@@ -5853,9 +5853,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(BooleanUtils.isTrue(classeEtendBase))
 				s("@Override ");
 			l("public void ", str_peupler(langueNom), str_PourClasse(langueNom), "(SolrDocument solrDocument) {");
-			if(classeSauvegarde) {
 			tl(2, str_peupler(langueNom), classeNomSimple, "(solrDocument);");
-			}
 			tl(1, "}");
 			tl(1, "public void ", str_peupler(langueNom), classeNomSimple, "(SolrDocument solrDocument) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
