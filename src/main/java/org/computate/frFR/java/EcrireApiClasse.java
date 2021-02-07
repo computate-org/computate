@@ -3131,6 +3131,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "JsonObject jsonObject = ", str_requeteSite(classeLangueNom), ".get", str_ObjetJson(classeLangueNom), "();");
 						tl(3, "Set<String> ", str_methodeNoms(classeLangueNom), " = jsonObject.fieldNames();");
 						tl(3, classeNomSimple, " o2 = new ", classeNomSimple, "();");
+						tl(3, "o2.set", str_RequeteSite(classeLangueNom), "_(", str_requeteSite(classeLangueNom), ");");
 						tl(3, "List<Future> futures = new ArrayList<>();");
 						l();
 						tl(3, "if(o.get", str_UtilisateurId(classeLangueNom), "() == null && ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "() != null) {");
