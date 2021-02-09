@@ -501,6 +501,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	Boolean entiteAttribuer;
 
 	String entiteAttribuerNomSimple;
+	String entiteAttribuerNomCanonique;
 
 	Boolean entiteAttribuerUtilisateurEcrire;
 	Boolean entiteAttribuerSessionEcrire;
@@ -5097,7 +5098,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			/////////////
 			o = wDefinir;
 			
-			if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
+			if(classeIndexe && BooleanUtils.isTrue(entiteDefinir)) {
 					tl(3, "case \"", entiteVar, "\":");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 						tl(4, "if(val != null)");

@@ -771,6 +771,14 @@ public class ConfigSite {
 		ecrireApi = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_ecrireApi(langueNom), true);
 	}
 
+	public Boolean sqlTables;
+	/**	
+	 * Var.enUS: _sqlTables
+	 **/  
+	protected void _sqlTables() throws Exception {
+		sqlTables = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "sqlTables", true);
+	}
+
 	/**	
 	 * Var.enUS: initSiteConfig
 	 * r: fichierConfig
@@ -889,6 +897,7 @@ public class ConfigSite {
 		_customerProfileId10();
 		_siteEcrireMethodes();
 		_ecrireApi();
+		_sqlTables();
 	}
 
 	/**
