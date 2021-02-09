@@ -512,7 +512,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 						classeInitLoinExceptions = new ArrayList<String>();
 					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
 					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
-					entiteClassesSuperEtMoiSansGen = (List<String>)doc.get("entiteClassesSuperEtMoiSansGen_stored_strings");
+					classeEntiteClassesSuperEtMoiSansGen = (List<String>)doc.get("entiteClassesSuperEtMoiSansGen_stored_strings");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
 					classeBaseEtendGen = (Boolean)doc.get("classeBaseEtendGen_stored_boolean");
 					classeEtendBase = (Boolean)doc.get("classeEtendBase_stored_boolean");

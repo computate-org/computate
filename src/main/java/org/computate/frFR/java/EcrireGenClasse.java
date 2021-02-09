@@ -221,9 +221,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected List<String> classeSuperParametreTypeNoms;
 
-	/**
-	 * Var.enUS: entitySuperClassesAndMeWithoutGen
-	 */
+	protected List<String> classeEntiteClassesSuperEtMoiSansGen;
+
 	protected List<String> entiteClassesSuperEtMoiSansGen;
 
 	/**
@@ -4185,51 +4184,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "return ", entiteVar, " == null ? \"\" : StringEscapeUtils.escapeHtml4(str", entiteVarCapitalise, "());");
 				tl(1, "}");
 	
-				if(entiteVarCapitalise != null && classeSauvegarde && entiteSolrNomCanonique != null) {
-//					l();
-//					tl(1, "public void htm", entiteVarCapitalise, "(", classePartsToutEcrivain.nomSimple(langueNom), " r, Boolean patch", str_Droits(langueNom), ") {");
-//					tl(2, "if(", classeVarClePrimaire, "!= null) {");
-//					tl(3, "r.s(\"<div id=\\\"patch", classeNomSimple, "\", str", StringUtils.capitalize(classeVarClePrimaire), "(), \"", entiteVarCapitalise, "\\\">\");");
-//					tl(3, "if(patch", str_Droits(langueNom), ") {");
-//					tl(4, "r.l();");
-//					tl(4, "r.l(\"	<script>//<![CDATA[\");");
-//					tl(4, "r.l(\"		function patch", classeNomSimple, "\", str", StringUtils.capitalize(classeVarClePrimaire), "(), \"", entiteVarCapitalise, "() {\");");
-//					tl(4, "r.l(\"			$.ajax({\");");
-//					tl(4, "r.l(\"				url: '", classeApiUri, "?fq=", classeVarClePrimaire, ":\", str", StringUtils.capitalize(classeVarClePrimaire), "(), \"',\");");
-//					tl(4, "r.l(\"				dataType: 'json',\");");
-//					tl(4, "r.l(\"				type: 'patch',\");");
-//					tl(4, "r.l(\"				contentType: 'application/json',\");");
-//					tl(4, "r.l(\"				processData: false,\");");
-//					tl(4, "r.l(\"				success: function( data, textStatus, jQxhr ) {\");");
-//					tl(4, "r.l(\"					\");");
-//					tl(4, "r.l(\"				},\");");
-//					tl(4, "r.l(\"				error: function( jqXhr, textStatus, errorThrown ) {\");");
-//					tl(4, "r.l(\"					\");");
-//					tl(4, "r.l(\"				},\");");
-//					tl(4, "r.l(\"				data: {\\\"set", entiteVarCapitalise, "\\\": this.value },\");");
-//					tl(4, "r.l(\"				\");");
-//					tl(4, "r.l(\"			});\");");
-//					tl(4, "r.l(\"		}\");");
-//					tl(4, "r.l(\"	//]]></script>\");");
-//					tl(4, "r.l(\"	<div class=\\\"\\\">\");");
-//					tl(4, "r.l(\"		<label class=\\\"w3-tooltip \\\">\");");
-//					tl(4, "r.l(\"			<span>\", StringEscapeUtils.escapeHtml4(nomAffichage", entiteVarCapitalise, "()), \"</span>\");");
-//					tl(4, "r.s(\"			<input\");"); {
-//						tl(7, "r.s(\" name=\\\"", entiteVar, "\\\"\");");
-//						tl(7, "r.s(\" value=\\\"\", htm", entiteVarCapitalise, "(), \"\\\");\");");
-//						tl(7, "r.s(\" onchange=\\\"\\\"\");");
-//						tl(7, "r.l(\"/>\");");
-//					}
-//					if(entiteHtmlTooltip != null)
-//						tl(4, "r.s(\"<span class=\\\"w3-text w3-tag site-tooltip \\\">", escapeJava(entiteHtmlTooltip), "</span>\");");
-//					tl(4, "r.l(\"		</label>\");");
-//					tl(4, "r.l(\"	</div>\");");
-//					tl(3, "} else {");
-//					tl(4, "r.s(htm", entiteVarCapitalise, "());");
-//					tl(3, "}");
-//					tl(3, "r.l(\"</div>\");");
-//					tl(2, "}");
-//					tl(1, "}");
+				if(entiteVarCapitalise != null && classeIndexe && entiteSolrNomCanonique != null) {
 		
 					int tIndex = 0;
 					Boolean resultat = false;
