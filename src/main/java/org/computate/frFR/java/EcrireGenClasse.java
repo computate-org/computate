@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -29,7 +30,6 @@ import org.apache.commons.text.translate.CharSequenceTranslator;
 import org.apache.commons.text.translate.EntityArrays;
 import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
@@ -407,6 +407,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected ToutEcrivain wAttribuer;
 
+	protected ToutEcrivain wAttribuerSql;
+
 	/**
 	 * Var.enUS: wPut
 	 */ 
@@ -436,6 +438,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: wDefine
 	 */
 	protected ToutEcrivain wDefinir;
+
+	protected ToutEcrivain wDefinirObjet;
 
 	protected ToutEcrivain wApiGet;
 
@@ -1120,12 +1124,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		wTexte = ToutEcrivain.create();
 		wObtenir = ToutEcrivain.create();
 		wAttribuer = ToutEcrivain.create();
+		wAttribuerSql = ToutEcrivain.create();
 		wPut = ToutEcrivain.create();
 		wPeupler = ToutEcrivain.create();
 		wStocker = ToutEcrivain.create();
 		wSauvegardes = ToutEcrivain.create();
 		wExiste = ToutEcrivain.create();
 		wDefinir = ToutEcrivain.create();
+		wDefinirObjet = ToutEcrivain.create();
 		wApiEntites = ToutEcrivain.create();
 		wPageEntites = ToutEcrivain.create();
 		wApiGet = ToutEcrivain.create();
@@ -1948,43 +1954,83 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			l();
 			l("/*");
 
-			SolrQuery rechercheSolr1 = new SolrQuery();
-			rechercheSolr1.setQuery("*:*");
-			rechercheSolr1.setRows(1000);
-			rechercheSolr1.addFilterQuery("appliNom_indexed_string:" + ClientUtils.escapeQueryChars(appliNom));
-			rechercheSolr1.addFilterQuery("partEstClasse_indexed_boolean:true");
-			rechercheSolr1.addFilterQuery("classeSauvegarde_indexed_boolean:true");
+			{
+				SolrQuery rechercheSolr1 = new SolrQuery();
+				rechercheSolr1.setQuery("*:*");
+				rechercheSolr1.setRows(1000);
+				rechercheSolr1.addFilterQuery("appliNom_indexed_string:" + ClientUtils.escapeQueryChars(appliNom));
+				rechercheSolr1.addFilterQuery("partEstClasse_indexed_boolean:true");
+				rechercheSolr1.addFilterQuery("classeSauvegarde_indexed_boolean:true");
+	
+				QueryResponse reponseRecherche1 = clientSolrComputate.query(rechercheSolr1);
+				SolrDocumentList listeRecherche1 = reponseRecherche1.getResults();
+				for(Integer i = 0; i < listeRecherche1.size(); i++) {
+					SolrDocument doc1 = listeRecherche1.get(i);
+	
+					List<String> classeEntiteClassesSuperEtMoiSansGen = (List<String>)doc1.get("entiteClassesSuperEtMoiSansGen_stored_strings");
+					String fqClassesSuperEtMoi = "(" + classeEntiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+	
+					SolrQuery rechercheSolr2 = new SolrQuery();   
+					rechercheSolr2.setQuery("*:*");
+					rechercheSolr2.setRows(1000);
+					rechercheSolr2.addFilterQuery("appliNom_indexed_string:" + ClientUtils.escapeQueryChars(appliNom));
+					rechercheSolr2.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
+					rechercheSolr2.addFilterQuery("partEstEntite_indexed_boolean:true");
+					rechercheSolr2.addFilterQuery("-entiteTypeJson_indexed_string:array");
+					rechercheSolr2.addFilterQuery("(entiteAttribuer_indexed_boolean:true OR entiteDefinir_indexed_boolean:true OR entiteClePrimaire_indexed_boolean:true)");
+	
+					QueryResponse reponseRecherche2 = clientSolrComputate.query(rechercheSolr2);
+					SolrDocumentList listeRecherche2 = reponseRecherche2.getResults();
+	
+					l("CREATE TABLE ", doc1.get("classeNomSimple_" + langueNom + "_stored_string"), "(");
+					for(Integer j = 0; j < listeRecherche2.size(); j++) {
+						SolrDocument doc2 = listeRecherche2.get(j);
+						t(1);
+						if(j > 0)
+							s(", ");
+						s(doc2.get("entiteVar_" + langueNom + "_stored_string"), " ", doc2.get("entiteTypeSql_stored_string"));
+						if("array".equals(doc2.get("entiteAttribuerTypeJson_stored_string")))
+							s(" references ", (String)doc2.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string"), "(pk)");
+						l();
+					}
+					tl(1, ");");
+				}
+			}
 
-			QueryResponse reponseRecherche1 = clientSolrComputate.query(rechercheSolr1);
-			SolrDocumentList listeRecherche1 = reponseRecherche1.getResults();
-			for(Integer i = 0; i < listeRecherche1.size(); i++) {
-				SolrDocument doc1 = listeRecherche1.get(i);
-
+			{
 				SolrQuery rechercheSolr2 = new SolrQuery();   
 				rechercheSolr2.setQuery("*:*");
 				rechercheSolr2.setRows(1000);
 				rechercheSolr2.addFilterQuery("appliNom_indexed_string:" + ClientUtils.escapeQueryChars(appliNom));
-				rechercheSolr2.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(doc1.get("classeNomCanonique_" + langueNom + "_stored_string").toString()));
 				rechercheSolr2.addFilterQuery("partEstEntite_indexed_boolean:true");
-				rechercheSolr2.addFilterQuery("-entiteTypeJson_indexed_string:array");
-				rechercheSolr2.addFilterQuery("(entiteAttribuer_indexed_boolean:true OR entiteDefinir_indexed_boolean:true)");
-
+				rechercheSolr2.addFilterQuery("entiteTypeJson_indexed_string:array");
+				rechercheSolr2.addFilterQuery("entiteAttribuerTypeJson_indexed_string:array");
+	
 				QueryResponse reponseRecherche2 = clientSolrComputate.query(rechercheSolr2);
 				SolrDocumentList listeRecherche2 = reponseRecherche2.getResults();
-
-				s("CREATE TABLE ", doc1.get("classeNomSimple_" + langueNom + "_stored_string"), "(");
+	
 				for(Integer j = 0; j < listeRecherche2.size(); j++) {
 					SolrDocument doc2 = listeRecherche2.get(j);
-					if(j > 0)
-						s(", ");
-					s(doc2.get("entiteTypeSql_stored_string"), " ", doc2.get("entiteVar_" + langueNom + "_stored_string"));
-				}
-				l(");");
+					String var = (String)doc2.get("entiteVar_" + langueNom + "_stored_string");
+					String varAttribuer = (String)doc2.get("entiteAttribuerVar_" + langueNom + "_stored_string");
 
+					if(var.compareTo(varAttribuer) < 0) {
+						String c1 = (String)doc2.get("classeNomSimple_" + langueNom + "_stored_string");
+						String c2 = (String)doc2.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
+
+						l("CREATE TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), "(pk bigserial primary key, pk1 bigint references ", c2, "(pk), pk2 bigint references ", c1, "(pk));");
+						tl(1, "CREATE TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), "(");
+						tl(1, "pk bigserial primary key");
+						tl(1, ", pk1 bigint references ", c2, "(pk)");
+						tl(1, ", pk2 bigint references ", c1, "(pk)");
+						tl(1, ");");
+					}
+				}
 			}
 			l("*/");
 			l();
 		}
+
 //		if(classeSauvegarde) {
 		tl(1, "protected static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimple, ".class);");
 //		}
@@ -5139,12 +5185,32 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(5, str_sauvegardes(langueNom), ".add(var);");
 				tl(4, "return val;");
 			}	
+
+			o = wAttribuerSql;
+			if((classeEtendBase || classeEstBase) && entiteAttribuer) {
+				if(!o.getEmpty())
+					o.s(" UNION ");
+				if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
+					if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
+						if("array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson))
+							o.s("SELECT pk1, pk2 from ", classeNomSimple, entiteVar, "_", entiteAttribuerNomSimple, entiteAttribuerVar, " where pk1=$1");
+						else
+							o.s("SELECT ", entiteAttribuerVar, " as pk1, ", classeVarClePrimaire, " as pk2 from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$1");
+					}
+					else {
+						if("array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson))
+							o.s("SELECT pk1, pk2 from ", entiteAttribuerNomSimple, entiteAttribuerVar, "_", classeNomSimple, entiteVar, " where pk2=$1");
+						else
+							o.s("SELECT ", classeVarClePrimaire, " as pk1, ", entiteAttribuerVar, " as pk2 from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$1");
+					}
+				}
+			}	
 	
 			/////////////
 			// ", str_definir(langueNom), " //
 			/////////////
+
 			o = wDefinir;
-			
 			if(classeIndexe && BooleanUtils.isTrue(entiteDefinir)) {
 					tl(3, "case \"", entiteVar, "\":");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
@@ -5156,6 +5222,27 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					else {
 						tl(4, "if(val != null)");
 						tl(5, "set", entiteVarCapitalise, "(val);");
+						tl(4, str_sauvegardes(langueNom), ".add(var);");
+					}
+					tl(4, "return val;");
+			}	
+
+			o = wDefinirObjet;
+			if(classeIndexe && BooleanUtils.isTrue(entiteDefinir)) {
+					tl(3, "case \"", entiteVar, "\":");
+					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
+						tl(4, "if(val instanceof ", entiteNomSimpleComplet, ")");
+						tl(5, "add", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+						tl(4, "if(!", str_sauvegardes(langueNom), ".contains(var))");
+						tl(5, "", str_sauvegardes(langueNom), ".add(var);");
+					}
+					else {
+						tl(4, "if(val instanceof ", entiteNomSimpleComplet, ")");
+						tl(5, "set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+						if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
+							tl(4, "else if(val instanceof OffsetDateTime)");
+							tl(5, "set", entiteVarCapitalise, "(((OffsetDateTime)val).atZoneSameInstant(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())));");
+						}
 						tl(4, str_sauvegardes(langueNom), ".add(var);");
 					}
 					tl(4, "return val;");
@@ -5667,6 +5754,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		wExiste.flushClose();
 		wSauvegardes.flushClose();
 		wDefinir.flushClose();
+		wDefinirObjet.flushClose();
 		wApiEntites.flushClose();
 		wPageEntites.flushClose();
 		wPageGet.flushClose();
@@ -5823,6 +5911,48 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(1, "public Object ", str_definir(langueNom), "", classeNomSimple, "(String var, String val) {");
 			tl(2, "switch(var) {");
 			s(wDefinir.toString());
+			tl(3, "default:");
+
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return super.", str_definir(langueNom), "", classeNomSimpleSuperGenerique, "(var, val);");
+
+			tl(2, "}");
+			tl(1, "}");
+			tl(0);
+			t(1);
+			if(!classeEstBase)
+				s("@Override ");
+			s("public boolean ", str_definir(langueNom), str_PourClasse(langueNom), "(String var, Object val)");
+			if(classeInitLoinExceptions.size() > 0) {
+				s(" throws ");
+				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+					String classeInitLoinException = classeInitLoinExceptions.get(i);
+					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+					if(i > 0)
+						s(", ");
+					s(classeInitLoinExceptionNomSimple);
+				}
+			}
+			l(" {");
+			tl(2, "String[] vars = StringUtils.split(var, \".\");");
+			tl(2, "Object o = null;");
+			tl(2, "if(val != null) {");
+			tl(3, "for(String v : vars) {");
+			tl(4, "if(o == null)");
+			tl(5, "o = ", str_definir(langueNom), "", classeNomSimple, "(v, val);");
+			tl(4, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
+			tl(5, classePartsCluster.nomSimple(langueNom), " o", classePartsCluster.nomSimple(langueNom), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
+			tl(5, "o = o", classePartsCluster.nomSimple(langueNom), ".", str_definir(langueNom), str_PourClasse(langueNom), "(v, val);");
+			tl(4, "}");
+			tl(3, "}");
+			tl(2, "}");
+			tl(2, "return o != null;");
+			tl(1, "}");
+			tl(1, "public Object ", str_definir(langueNom), "", classeNomSimple, "(String var, Object val) {");
+			tl(2, "switch(var) {");
+			s(wDefinirObjet.toString());
 			tl(3, "default:");
 
 			if(classeEstBase)

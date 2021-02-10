@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -7506,6 +7507,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.Instant", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom), classeLangueNom);
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, OffsetDateTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.time.format.DateTimeFormatter", classeLangueNom), classeLangueNom);
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.util.Locale", classeLangueNom), classeLangueNom);
 						}
@@ -7742,7 +7744,10 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteTypeSql = "date";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLong)) {
-							entiteTypeSql = "bigint";
+							if(entiteClePrimaire)
+								entiteTypeSql = "bigserial primary key";
+							else
+								entiteTypeSql = "bigint";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 							entiteTypeSql = "double";
