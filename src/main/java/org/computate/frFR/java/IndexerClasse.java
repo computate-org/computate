@@ -7796,7 +7796,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							stockerSolr(entiteDoc, "entiteListeTypeSql", entiteListeTypeSql);
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueString)) {
-							entiteTypeSql = "string";
+							entiteTypeSql = "text";
 						}
 						stockerSolr(entiteDoc, "entiteTypeSql", entiteTypeSql);
 
@@ -7881,7 +7881,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueString)) {
 							entiteTypeJson = "string";
 						}
-						stockerSolr(entiteDoc, "entiteTypeJson", entiteTypeJson);
+						indexerStockerSolr(entiteDoc, "entiteTypeJson", entiteTypeJson);
 						if(entiteFormatJson != null)
 							stockerSolr(entiteDoc, "entiteFormatJson", entiteFormatJson);
 

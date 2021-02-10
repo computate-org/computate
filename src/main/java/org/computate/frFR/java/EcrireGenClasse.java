@@ -28,8 +28,12 @@ import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
 import org.apache.commons.text.translate.EntityArrays;
 import org.apache.commons.text.translate.LookupTranslator;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -195,6 +199,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classImportsGen
 	 */
 	protected List<String> classeImportationsGen;
+
+	protected List<String> classeMotsCles;
 
 	/**
 	 * Var.enUS: classInitDeepExceptions
@@ -1938,6 +1944,47 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //						}	
 		}
 		s(" {\n");
+		if(classeMotsCles.contains(str_classeNomSimple(langueNom) + str_SiteContexte(langueNom))) {
+			l();
+			l("/*");
+
+			SolrQuery rechercheSolr1 = new SolrQuery();
+			rechercheSolr1.setQuery("*:*");
+			rechercheSolr1.setRows(1000);
+			rechercheSolr1.addFilterQuery("appliNom_indexed_string:" + ClientUtils.escapeQueryChars(appliNom));
+			rechercheSolr1.addFilterQuery("partEstClasse_indexed_boolean:true");
+			rechercheSolr1.addFilterQuery("classeSauvegarde_indexed_boolean:true");
+
+			QueryResponse reponseRecherche1 = clientSolrComputate.query(rechercheSolr1);
+			SolrDocumentList listeRecherche1 = reponseRecherche1.getResults();
+			for(Integer i = 0; i < listeRecherche1.size(); i++) {
+				SolrDocument doc1 = listeRecherche1.get(i);
+
+				SolrQuery rechercheSolr2 = new SolrQuery();   
+				rechercheSolr2.setQuery("*:*");
+				rechercheSolr2.setRows(1000);
+				rechercheSolr2.addFilterQuery("appliNom_indexed_string:" + ClientUtils.escapeQueryChars(appliNom));
+				rechercheSolr2.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(doc1.get("classeNomCanonique_" + langueNom + "_stored_string").toString()));
+				rechercheSolr2.addFilterQuery("partEstEntite_indexed_boolean:true");
+				rechercheSolr2.addFilterQuery("-entiteTypeJson_indexed_string:array");
+				rechercheSolr2.addFilterQuery("(entiteAttribuer_indexed_boolean:true OR entiteDefinir_indexed_boolean:true)");
+
+				QueryResponse reponseRecherche2 = clientSolrComputate.query(rechercheSolr2);
+				SolrDocumentList listeRecherche2 = reponseRecherche2.getResults();
+
+				s("CREATE TABLE ", doc1.get("classeNomSimple_" + langueNom + "_stored_string"), "(");
+				for(Integer j = 0; j < listeRecherche2.size(); j++) {
+					SolrDocument doc2 = listeRecherche2.get(j);
+					if(j > 0)
+						s(", ");
+					s(doc2.get("entiteTypeSql_stored_string"), " ", doc2.get("entiteVar_" + langueNom + "_stored_string"));
+				}
+				l(");");
+
+			}
+			l("*/");
+			l();
+		}
 //		if(classeSauvegarde) {
 		tl(1, "protected static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimple, ".class);");
 //		}

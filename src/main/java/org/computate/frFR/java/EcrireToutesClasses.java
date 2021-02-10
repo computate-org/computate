@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -488,6 +489,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeVarCree = (String)doc.get("classeVarCree_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
+					classeMotsCles = (List<String>)doc.get("classeMotsCles_stored_strings");
+					if(classeMotsCles == null)
+						classeMotsCles = Arrays.asList();
 					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
 					if(classeFichierGen.getAbsolutePath().equals("/usr/local/src/computate-scolaire/src/gen/java/org/computate/scolaire/enUS/design/DesignDisplayGenPageGen.java"))
 						System.out.println("ID " + classeFichierGen.getAbsolutePath() + ": " + doc.get("id") + classeImportationsGen);
