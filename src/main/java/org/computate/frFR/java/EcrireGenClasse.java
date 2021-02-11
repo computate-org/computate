@@ -410,6 +410,8 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected ToutEcrivain wAttribuerSql;
 
+	protected Integer wAttribuerSqlNum;
+
 	/**
 	 * Var.enUS: wPut
 	 */ 
@@ -1126,6 +1128,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wObtenir = ToutEcrivain.create();
 		wAttribuer = ToutEcrivain.create();
 		wAttribuerSql = ToutEcrivain.create();
+		wAttribuerSqlNum = 1;
 		wPut = ToutEcrivain.create();
 		wPeupler = ToutEcrivain.create();
 		wStocker = ToutEcrivain.create();
@@ -5190,21 +5193,22 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 			o = wAttribuerSql;
 			if((classeEtendBase || classeEstBase) && entiteAttribuer) {
-				if(!o.getEmpty())
-					o.s(" UNION ");
 				if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
+					if(!o.getEmpty())
+						o.s(" UNION ");
 					if(StringUtils.compare(entiteVar, entiteAttribuerVar) <= 0) {
 						if("array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson))
-							o.s("SELECT pk1, pk2 from ", classeNomSimple, entiteVar, "_", entiteAttribuerNomSimple, entiteAttribuerVar, " where pk1=$1");
+							o.s("SELECT pk1, pk2, '", entiteVar, "', '", entiteAttribuerVar, "' from ", classeNomSimple, entiteVar, "_", entiteAttribuerNomSimple, entiteAttribuerVar, " where pk1=$" + wAttribuerSqlNum);
 						else
-							o.s("SELECT ", entiteAttribuerVar, " as pk1, ", classeVarClePrimaire, " as pk2 from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$1");
+							o.s("SELECT ", entiteAttribuerVar, " as pk1, ", classeVarClePrimaire, " as pk2, '", entiteVar, "', '", entiteAttribuerVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
 					}
 					else {
 						if("array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson))
-							o.s("SELECT pk1, pk2 from ", entiteAttribuerNomSimple, entiteAttribuerVar, "_", classeNomSimple, entiteVar, " where pk2=$1");
+							o.s("SELECT pk1, pk2, '", entiteAttribuerVar, "', '", entiteVar, "' from ", entiteAttribuerNomSimple, entiteAttribuerVar, "_", classeNomSimple, entiteVar, " where pk2=$" + wAttribuerSqlNum);
 						else
-							o.s("SELECT ", classeVarClePrimaire, " as pk1, ", entiteAttribuerVar, " as pk2 from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$1");
+							o.s("SELECT ", classeVarClePrimaire, " as pk1, ", entiteAttribuerVar, " as pk2, '", entiteAttribuerVar, "', '", entiteVar, "' from ", entiteAttribuerNomSimple, " where ", entiteAttribuerVar, "=$" + wAttribuerSqlNum);
 					}
+					wAttribuerSqlNum++;
 				}
 			}	
 	

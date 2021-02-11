@@ -4195,7 +4195,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(7, "if(b.succeeded()) {");
 			tl(8, "Transaction tx = ", str_requeteSite(classeLangueNom), ".getTx();");
 			if(sqlTables) {
-				tl(8, "tx.preparedQuery(\"SELECT pk FROM ", classeNomSimple, " WHERE ", str_utilisateurId(classeLangueNom), "=$1\")");
+				tl(8, "tx.preparedQuery(\"SELECT pk FROM ", classePartsUtilisateurSite.nomSimple(classeLangueNom), " WHERE ", str_utilisateurId(classeLangueNom), "=$1\")");
 				tl(10, ".collecting(Collectors.toList())");
 				tl(10, ".execute(Tuple.of(", str_utilisateur(classeLangueNom), "Id)");
 			} else {
@@ -4778,7 +4778,17 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(3, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_attribuer(classeLangueNom), ")");
 				}
 				tl(5, ".collecting(Collectors.toList())");
-				tl(5, ".execute(Tuple.of(", classeVarClePrimaire, ", ", classeVarClePrimaire, ")");
+				if(sqlTables) {
+					t(5, ".execute(Tuple.of(");
+					for(Integer i = 1; i < wAttribuerSqlNum; i++) {
+						if(i > 1)
+							s(", ");
+						s(classeVarClePrimaire);
+					}
+					l(")");
+				} else {
+					tl(5, ".execute(Tuple.of(", classeVarClePrimaire, ", ", classeVarClePrimaire, ")");
+				}
 				tl(5, ", ", str_attribuer(classeLangueNom), "Async");
 				tl(3, "-> {");
 				tl(4, "try {");
