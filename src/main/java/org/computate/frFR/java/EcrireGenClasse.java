@@ -30,6 +30,7 @@ import org.apache.commons.text.translate.CharSequenceTranslator;
 import org.apache.commons.text.translate.EntityArrays;
 import org.apache.commons.text.translate.LookupTranslator;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
@@ -1961,6 +1962,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				rechercheSolr1.addFilterQuery("appliNom_indexed_string:" + ClientUtils.escapeQueryChars(appliNom));
 				rechercheSolr1.addFilterQuery("partEstClasse_indexed_boolean:true");
 				rechercheSolr1.addFilterQuery("classeSauvegarde_indexed_boolean:true");
+				rechercheSolr1.addSort("sqlSort_indexed_int", ORDER.asc);
 	
 				QueryResponse reponseRecherche1 = clientSolrComputate.query(rechercheSolr1);
 				SolrDocumentList listeRecherche1 = reponseRecherche1.getResults();
@@ -5212,7 +5214,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 			o = wDefinir;
 			if(classeIndexe && BooleanUtils.isTrue(entiteDefinir)) {
-					tl(3, "case \"", entiteVar, "\":");
+					tl(3, "case \"", entiteVar.toLowerCase(), "\":");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 						tl(4, "if(val != null)");
 						tl(5, "add", entiteVarCapitalise, "(val);");
@@ -5229,7 +5231,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 			o = wDefinirObjet;
 			if(classeIndexe && BooleanUtils.isTrue(entiteDefinir)) {
-					tl(3, "case \"", entiteVar, "\":");
+					tl(3, "case \"", entiteVar.toLowerCase(), "\":");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 						tl(4, "if(val instanceof ", entiteNomSimpleComplet, ")");
 						tl(5, "add", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
@@ -5909,7 +5911,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(2, "return o != null;");
 			tl(1, "}");
 			tl(1, "public Object ", str_definir(langueNom), "", classeNomSimple, "(String var, String val) {");
-			tl(2, "switch(var) {");
+			tl(2, "switch(var.toLowerCase()) {");
 			s(wDefinir.toString());
 			tl(3, "default:");
 
@@ -5951,7 +5953,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(2, "return o != null;");
 			tl(1, "}");
 			tl(1, "public Object ", str_definir(langueNom), "", classeNomSimple, "(String var, Object val) {");
-			tl(2, "switch(var) {");
+			tl(2, "switch(var.toLowerCase()) {");
 			s(wDefinirObjet.toString());
 			tl(3, "default:");
 
