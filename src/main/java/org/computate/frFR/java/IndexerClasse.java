@@ -1738,9 +1738,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "address";
 	}
 
-	/**
-	 * Var.enUS: str_eventHandler
-	 */
+	public String str_GestionnaireEvenements(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "GestionnaireEvenements";
+		else
+			return "EventHandler";
+	}
+
 	public String str_gestionnaireEvenements(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "gestionnaireEvenements";
