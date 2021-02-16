@@ -5196,8 +5196,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(4, "if(o", classeNomSimple, ".get", entiteVarCapitalise, "() == null)");
 					tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
 				}
-				tl(4, "if(!", str_sauvegardes(langueNom), ".contains(var))");
-				tl(5, str_sauvegardes(langueNom), ".add(var);");
+				tl(4, "if(!", str_sauvegardes(langueNom), ".contains(\"", entiteVar, "\"))");
+				tl(5, str_sauvegardes(langueNom), ".add(\"", entiteVar, "\");");
 				tl(4, "return val;");
 			}	
 
@@ -5320,13 +5320,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 						tl(4, "if(val != null)");
 						tl(5, "add", entiteVarCapitalise, "(val);");
-						tl(4, "if(!", str_sauvegardes(langueNom), ".contains(var))");
-						tl(5, "", str_sauvegardes(langueNom), ".add(var);");
+						tl(4, "if(!", str_sauvegardes(langueNom), ".contains(\"", entiteVar, "\"))");
+						tl(5, "", str_sauvegardes(langueNom), ".add(\"", entiteVar, "\");");
 					}
 					else {
 						tl(4, "if(val != null)");
 						tl(5, "set", entiteVarCapitalise, "(val);");
-						tl(4, str_sauvegardes(langueNom), ".add(var);");
+						tl(4, str_sauvegardes(langueNom), ".add(\"", entiteVar, "\");");
 					}
 					tl(4, "return val;");
 			}	
@@ -5337,8 +5337,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 						tl(4, "if(val instanceof ", entiteNomSimpleComplet, ")");
 						tl(5, "add", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
-						tl(4, "if(!", str_sauvegardes(langueNom), ".contains(var))");
-						tl(5, "", str_sauvegardes(langueNom), ".add(var);");
+						tl(4, "if(!", str_sauvegardes(langueNom), ".contains(\"", entiteVar, "\"))");
+						tl(5, "", str_sauvegardes(langueNom), ".add(\"", entiteVar, "\");");
 					}
 					else {
 						tl(4, "if(val instanceof ", entiteNomSimpleComplet, ")");
@@ -5347,7 +5347,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 							tl(4, "else if(val instanceof OffsetDateTime)");
 							tl(5, "set", entiteVarCapitalise, "(((OffsetDateTime)val).atZoneSameInstant(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())));");
 						}
-						tl(4, str_sauvegardes(langueNom), ".add(var);");
+						tl(4, str_sauvegardes(langueNom), ".add(\"", entiteVar, "\");");
 					}
 					tl(4, "return val;");
 			}	

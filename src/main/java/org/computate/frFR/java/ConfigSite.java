@@ -776,7 +776,7 @@ public class ConfigSite {
 	 * Var.enUS: _sqlTables
 	 **/  
 	protected void _sqlTables() throws Exception {
-		sqlTables = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "sqlTables", true);
+		sqlTables = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "sqlTables", false);
 	}
 
 	/**	

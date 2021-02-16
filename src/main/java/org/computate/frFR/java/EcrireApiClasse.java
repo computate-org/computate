@@ -4766,18 +4766,32 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "if(", str_definir(classeLangueNom), "Async.succeeded()) {");
 			tl(5, "try {");
 			tl(6, "for(Row definition : ", str_definir(classeLangueNom), "Async.result().value()) {");
-			tl(7, "for(Integer i = 0; i < definition.size(); i++) {");
-			tl(8, "String columnName = definition.getColumnName(i);");
-			tl(8, "Object columnValue = definition.getValue(i);");
-			tl(8, "if(!\"", classeVarClePrimaire, "\".equals(columnName)) {");
-			tl(9, "try {");
-			tl(10, "o.", str_definir(classeLangueNom), str_PourClasse(classeLangueNom), "(columnName, columnValue);");
-			tl(9, "} catch(Exception e) {");
-			tl(10, "LOGGER.error(String.format(\"", str_definir(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", e));");
-			tl(10, "LOGGER.error(e);");
-			tl(9, "}");
-			tl(8, "}");
-			tl(7, "}");
+			if(sqlTables) {
+				tl(7, "for(Integer i = 0; i < definition.size(); i++) {");
+				tl(8, "String columnName = definition.getColumnName(i);");
+				tl(8, "Object columnValue = definition.getValue(i);");
+				tl(8, "if(!\"", classeVarClePrimaire, "\".equals(columnName)) {");
+				tl(9, "try {");
+				tl(10, "o.", str_definir(classeLangueNom), str_PourClasse(classeLangueNom), "(columnName, columnValue);");
+				tl(9, "} catch(Exception e) {");
+				tl(10, "LOGGER.error(String.format(\"", str_definir(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", e));");
+				tl(10, "LOGGER.error(e);");
+				tl(9, "}");
+				tl(8, "}");
+				tl(7, "}");
+			} else {
+				tl(5, "try {");
+				tl(6, "for(Row definition : ", str_definir(classeLangueNom), "Async.result().value()) {");
+				tl(7, "try {");
+				tl(8, "o.", str_definir(classeLangueNom), str_PourClasse(classeLangueNom), "(definition.getString(0), definition.getString(1));");
+				tl(7, "} catch(Exception e) {");
+				tl(8, "LOGGER.error(String.format(\"", str_definir(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", e));");
+				tl(8, "LOGGER.error(e);");
+				tl(7, "}");
+				tl(6, "}");
+				tl(6, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
+				tl(5, "} catch(Exception e) {");
+			}
 			tl(6, "}");
 			tl(6, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
 			tl(5, "} catch(Exception e) {");
