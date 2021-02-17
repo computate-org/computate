@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
@@ -1058,7 +1059,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 									tl(6, "}");
 									tl(6, "bSql.append(\"", entiteVar, "=$\" + num);");
 									tl(6, "num++;");
-									tl(6, "bParams.add(o2.get", entiteVarCapitalise, "());");
+									tl(6, "bParams.add(o2.sql", entiteVarCapitalise, "());");
 								} else {
 									tl(6, "futures.add(Future.future(a -> {");
 									tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
@@ -1096,7 +1097,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(8, "if(l2 != null) {");
 										if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
 											// no list, no list, <
-//											tl(9, "I WAS RIGHT");
 											tl(9, "if(bParams.size() > 0) {");
 											tl(10, "bSql.append(\", \");");
 											tl(9, "}");
@@ -1105,7 +1105,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(9, "bParams.add(l2);");
 										} else if(sqlTables && !"array".equals(entiteTypeJson)) {
 											// no list, list, <
-//											tl(9, "I WAS WRONG");
 											tl(9, "if(bParams.size() > 0) {");
 											tl(10, "bSql.append(\", \");");
 											tl(9, "}");
@@ -2193,7 +2192,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "bSql.append(\", \");");
 											tl(7, "bSql.append(\"", entiteVar, "=$\" + num);");
 											tl(7, "num++;");
-											tl(7, "bParams.add(o2.get", entiteVarCapitalise, "());");
+											tl(7, "bParams.add(o2.sql", entiteVarCapitalise, "());");
 										} else {
 											tl(6, "if(jsonObject.get", entiteNomSimpleVertxJson, "(", str_methodeNom(classeLangueNom), ") == null) {");
 											tl(7, "futures.add(Future.future(a -> {");
@@ -4639,8 +4638,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			s(wFacets);
 			l();
 			tl(2, "String id = ", str_operationRequete(classeLangueNom), ".getParams().getJsonObject(\"path\").getString(\"id\");");
-			tl(2, "if(", classeVarCleUnique, " != null) {");
+			tl(2, "if(", classeVarCleUnique, " != null && NumberUtils.isCreatable(", classeVarCleUnique, ")) {");
 			tl(3, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"(", classeVarClePrimaire, "_indexed_long:\" + ClientUtils.escapeQueryChars(id) + \" OR ", classeVarId, "_indexed_string:\" + ClientUtils.escapeQueryChars(id) + \")\");");
+			tl(2, "} else if(", classeVarCleUnique, " != null) {");
+			tl(3, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", classeVarId, "_indexed_string:\" + ClientUtils.escapeQueryChars(id));");
 			tl(2, "}");
 			if(classeRoleSession || classeRoleUtilisateur) {
 				l();
@@ -4701,12 +4702,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			tl(7, "break;");
 	
 			tl(6, "case \"start\":");
-			tl(7, str_valeur(classeLangueNom), "Start = (Integer)param", str_Objet(classeLangueNom), ";");
+			tl(7, str_valeur(classeLangueNom), "Start = param", str_Objet(classeLangueNom), " instanceof Integer ? (Integer)param", str_Objet(classeLangueNom), " : Integer.parseInt(param", str_Objet(classeLangueNom), ".toString());");
 			tl(7, str_recherche(classeLangueNom), classeNomSimple, "Start(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_valeur(classeLangueNom), "Start);");
 			tl(7, "break;");
 	
 			tl(6, "case \"rows\":");
-			tl(7, str_valeur(classeLangueNom), "Rows = (Integer)param", str_Objet(classeLangueNom), ";");
+			tl(7, str_valeur(classeLangueNom), "Rows = param", str_Objet(classeLangueNom), " instanceof Integer ? (Integer)param", str_Objet(classeLangueNom), " : Integer.parseInt(param", str_Objet(classeLangueNom), ".toString());");
 			tl(7, str_recherche(classeLangueNom), classeNomSimple, "Rows(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_valeur(classeLangueNom), "Rows);");
 			tl(7, "break;");
 	

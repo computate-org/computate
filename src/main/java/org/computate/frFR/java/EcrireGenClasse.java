@@ -2032,8 +2032,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						String c1 = (String)doc2.get("classeNomSimple_" + langueNom + "_stored_string");
 						String c2 = (String)doc2.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 
-						l("CREATE TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), "(pk bigserial primary key, pk1 bigint references ", c2, "(pk), pk2 bigint references ", c1, "(pk));");
-						tl(1, "CREATE TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), "(");
+						l("CREATE TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), "(");
 						tl(1, "pk bigserial primary key");
 						tl(1, ", pk1 bigint references ", c2, "(pk)");
 						tl(1, ", pk2 bigint references ", c1, "(pk)");
@@ -4243,6 +4242,21 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				else
 					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".toString();");
 				tl(1, "}");
+	
+				/////////
+				// sql //
+				/////////
+				l();
+				if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
+					tl(1, "public OffsetDateTime sql", entiteVarCapitalise, "() {");
+					tl(2, "return ", entiteVar, " == null ? null : ", entiteVar, ".toOffsetDateTime();");
+					tl(1, "}");
+				}
+				else {
+					tl(1, "public ", entiteNomSimpleComplet, " sql", entiteVarCapitalise, "() {");
+					tl(2, "return ", entiteVar, ";");
+					tl(1, "}");
+				}
 	
 				//////////
 				// json //
