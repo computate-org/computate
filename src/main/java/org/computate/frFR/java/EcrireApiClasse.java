@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
@@ -3813,17 +3812,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "String ", str_tempsRecherche(classeLangueNom), " = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(", str_millisRecherche(classeLangueNom), "), TimeUnit.MILLISECONDS.toMillis(", str_millisRecherche(classeLangueNom), ") - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(", str_millisRecherche(classeLangueNom), ")));");
 							tl(3, "String ", str_tempsTransmission(classeLangueNom), " = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(", str_millisTransmission(classeLangueNom), "), TimeUnit.MILLISECONDS.toMillis(", str_millisTransmission(classeLangueNom), ") - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(", str_millisTransmission(classeLangueNom), ")));");
 							tl(3, "Exception exception", str_Recherche(classeLangueNom), " = ", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), ".getException();");
+							tl(3, "List<String> fls = ", str_liste(classeLangueNom), classeNomSimple, ".getFields();");
 							l();
 							tl(3, "JsonObject json = new JsonObject();");
 							tl(3, "json.put(", q(str_numCommence(classeLangueNom)), ", ", str_numCommence(classeLangueNom), ");");
 							tl(3, "json.put(", q(str_numTrouve(classeLangueNom)), ", ", str_numTrouve(classeLangueNom), ");");
 							tl(3, "json.put(", q(str_numRetourne(classeLangueNom)), ", ", str_numRetourne(classeLangueNom), ");");
-							tl(3, "json.put(", q(str_tempsRecherche(classeLangueNom)), ", ", str_tempsRecherche(classeLangueNom), ");");
-							tl(3, "json.put(", q(str_tempsTransmission(classeLangueNom)), ", ", str_tempsTransmission(classeLangueNom), ");");
+							tl(3, "if(fls.size() == 1 && fls.stream().findFirst().orElse(null).equals(\"", str_sauvegardes(classeLangueNom), "\")) {");
+							tl(4, "json.put(", q(str_tempsRecherche(classeLangueNom)), ", ", str_tempsRecherche(classeLangueNom), ");");
+							tl(4, "json.put(", q(str_tempsTransmission(classeLangueNom)), ", ", str_tempsTransmission(classeLangueNom), ");");
+							tl(3, "}");
 							tl(3, "JsonArray l = new JsonArray();");
 							tl(3, str_liste(classeLangueNom), classeNomSimple, ".getList().stream().forEach(o -> {");
 							tl(4, "JsonObject json2 = JsonObject.mapFrom(o);");
-							tl(4, "List<String> fls = ", str_liste(classeLangueNom), classeNomSimple, ".getFields();");
 							tl(4, "if(fls.size() > 0) {");
 							tl(5, "Set<String> fieldNames = new HashSet<String>();");
 							tl(5, "fieldNames.addAll(json2.fieldNames());");
@@ -3843,6 +3844,47 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "l.add(json2);");
 							tl(3, "});");
 							tl(3, "json.put(", q(str_liste(classeLangueNom)), ", l);");
+							tl(3, "NamedList<List<PivotField>> facetPivot = ", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), ".getFacetPivot();");
+							tl(3, "if(facetPivot != null) {");
+							tl(4, "JsonObject facetPivotJson = new JsonObject();");
+							tl(4, "json.put(\"facet_pivot\", facetPivotJson);");
+							tl(4, "Iterator<Entry<String, List<PivotField>>> facetPivotIterator = responseSearch.getFacetPivot().iterator();");
+							tl(4, "while(facetPivotIterator.hasNext()) {");
+							tl(5, "Entry<String, List<PivotField>> pivotEntry = facetPivotIterator.next();");
+							tl(5, "List<PivotField> pivotList = pivotEntry.getValue();");
+							tl(5, "String ", str_entite(classeLangueNom), str_Indexe(classeLangueNom), " = pivotEntry.getKey();");
+							tl(5, "String ", str_entite(classeLangueNom), "Var = StringUtils.substringBefore(", str_entite(classeLangueNom), str_Indexe(classeLangueNom), ", \"_indexed_\");");
+							tl(5, "JsonArray pivotArray = new JsonArray();");
+							tl(5, "facetPivotJson.put(entityVar, pivotArray);");
+							tl(5, "for(PivotField pivotField : pivotList) {");
+							tl(6, "JsonObject pivotJson = new JsonObject();");
+							tl(6, "pivotArray.add(pivotJson);");
+							tl(6, "pivotJson.put(\"field\", entityVar);");
+							tl(6, "pivotJson.put(\"value\", pivotField.getValue());");
+							tl(6, "pivotJson.put(\"count\", pivotField.getCount());");
+							tl(6, "List<RangeFacet> pivotRanges = pivotField.getFacetRanges();");
+							tl(6, "if(pivotRanges != null) {");
+							tl(7, "JsonObject rangeJson = new JsonObject();");
+							tl(7, "pivotJson.put(\"ranges\", rangeJson);");
+							tl(7, "for(RangeFacet rangeFacet : pivotRanges) {");
+							tl(8, "JsonObject rangeFacetJson = new JsonObject();");
+							tl(8, "String rangeFacetVar = StringUtils.substringBefore(rangeFacet.getName(), \"_indexed_\");");
+							tl(8, "rangeJson.put(rangeFacetVar, rangeFacetJson);");
+							tl(8, "JsonArray rangeFacetCountsList = new JsonArray();");
+							tl(8, "rangeFacetJson.put(\"counts\", rangeFacetCountsList);");
+							tl(8, "List<?> rangeFacetCounts = rangeFacet.getCounts();");
+							tl(8, "for(Integer i = 0; i < rangeFacetCounts.size(); i+= 1) {");
+							tl(9, "JsonObject countJson = new JsonObject();");
+							tl(9, "RangeFacet.Count count = (RangeFacet.Count)rangeFacetCounts.get(i);");
+							tl(9, "countJson.put(\"value\", count.getValue());");
+							tl(9, "countJson.put(\"count\", count.getCount());");
+							tl(9, "rangeFacetCountsList.add(countJson);");
+							tl(8, "}");
+							tl(7, "}");
+							tl(6, "}");
+							tl(5, "}");
+							tl(4, "}");
+							tl(3, "}");
 							tl(3, "if(exception", str_Recherche(classeLangueNom), " != null) {");
 							tl(4, "json.put(", q("exception", str_Recherche(classeLangueNom)), ", exception", str_Recherche(classeLangueNom), ".getMessage());");
 							tl(3, "}");
@@ -3926,6 +3968,406 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 				}
 			}
+		}
+	}
+
+	/** 
+	 * Var.enUS: writeGenApiServiceImpl
+	 * Param1.var.enUS: languageName
+	 * 
+	 * r: entiteNomSimpleVertxJson
+	 * r.enUS: entitySimpleNameVertxJson
+	 * r: entiteNomCanoniqueVertxJson
+	 * r.enUS: entityCanonicalNameVertxJson
+	 * r: classeCheminGenApiServiceImpl
+	 * r.enUS: classPathGenApiServiceImpl
+	 * r: classeCheminApiServiceImpl
+	 * r.enUS: classPathApiServiceImpl
+	 * r: classeCheminGenApiService
+	 * r.enUS: classPathGenApiService
+	 * r: entiteClassesSuperEtMoiSansGen
+	 * r.enUS: entitySuperClassesAndMeWithoutGen
+	 * r: partEstEntite
+	 * r.enUS: partIsEntity
+	 * r: classeNomCanonique
+	 * r.enUS: classCanonicalName
+	 * r: clientSolrComputate
+	 * r.enUS: solrClientComputate
+	 * r: rechercheListe
+	 * r.enUS: searchList
+	 * r: rechercheLignes
+	 * r.enUS: searchLines
+	 * r: rechercheSolr
+	 * r.enUS: solrSearch
+	 * r: entiteVarCapitalise
+	 * r.enUS: entityVarCapitalized
+	 * r: entiteAttribuerVar
+	 * r.enUS: entityAttributeVar
+	 * r: entiteAttribuer
+	 * r.enUS: entityAttribute
+	 * r: entiteDefinir
+	 * r.enUS: entityDefine
+	 * r: entiteSuffixeType
+	 * r.enUS: entityTypeSuffix
+	 * r: entiteIndexe
+	 * r.enUS: entityIndexed
+	 * r: entiteStocke
+	 * r.enUS: entityStored
+	 * r: entiteSolrNomCanonique
+	 * r.enUS: entitySolrCanonicalName
+	 * r: entiteSolrNomSimple
+	 * r.enUS: entitySolrSimpleName
+	 * r: entiteListeNomSimpleVertxJson
+	 * r.enUS: entityListSimpleNameVertxJson
+	 * r: entiteListeNomCanoniqueVertxJson
+	 * r.enUS: entityListCanonicalNameVertxJson
+	 * r: classeIndexe
+	 * r.enUS: classIndexed
+	 * r: entiteValeur
+	 * r.enUS: entityValue
+	 * r: entiteNumero
+	 * r.enUS: entityNumber
+	 * r: entiteStr
+	 * r.enUS: entityStr
+	 * r: classeSauvegarde
+	 * r.enUS: classSaved
+	 * r: requeteJson
+	 * r.enUS: requestJson
+	 * r: methodeNom
+	 * r.enUS: methodName
+	 * r: classePageNomCanoniqueMethode
+	 * r.enUS: classPageCanonicalNameMethod
+	 * r: classePageNomSimpleMethode
+	 * r.enUS: classPageSimpleNameMethod
+	 * r: classePageNomCanonique
+	 * r.enUS: classPageCanonicalName
+	 * r: classePageNomSimple
+	 * r.enUS: classPageSimpleName
+	 * r: classeApiTypeMedia
+	 * r.enUS: classApiMediaType
+	 * r: classePageLangueNom
+	 * r.enUS: classPageLanguageName
+	 * r: listeRecherche
+	 * r.enUS: searchList
+	 * r: "Recherche"
+	 * r.enUS: "Search"
+	 * r: "supprimer"
+	 * r.enUS: "delete"
+	 * r: creerLigne
+	 * r.enUS: createRow
+	 * r: definirAsync
+	 * r.enUS: defineAsync
+	 * r: definirPourClasse
+	 * r.enUS: defineForClass
+	 * r: initLoinPourClasse
+	 * r.enUS: initDeepForClass
+	 * r: indexerPourClasse
+	 * r.enUS: indexForClass
+	 * r: classePageSimple
+	 * r.enUS: classPageSimple
+	 * r: classeApiUriMethode
+	 * r.enUS: classApiUriMethod
+	 * r: reponseRecherche
+	 * r.enUS: searchResponse
+	 * r: millisRecherche
+	 * r.enUS: millisSearch
+	 * r: numCommence
+	 * r.enUS: numStart
+	 * r: numTrouve
+	 * r.enUS: numFound
+	 * r: numRetourne
+	 * r.enUS: numReturned
+	 * r: tempsRecherche
+	 * r.enUS: timeSearch
+	 * r: tempsTransmission
+	 * r.enUS: timeTransmission
+	 * r: exceptionRecherche
+	 * r.enUS: exceptionSearch
+	 * r: champNom
+	 * r.enUS: fieldName
+	 * r: entiteVarStocke
+	 * r.enUS: entityVarStored
+	 * r: pageDocumentSolr
+	 * r.enUS: pageSolrDocument
+	 * r: PageDocumentSolr
+	 * r.enUS: PageSolrDocument
+	 * r: wVarIndexe
+	 * r.enUS: wVarIndexed
+	 * r: wVarRecherche
+	 * r.enUS: wVarSearched
+	 * r: wVarSuggere
+	 * r.enUS: wVarSuggested
+	 * r: langueNomActuel
+	 * r.enUS: languageActualName
+	 * r: entiteTexte
+	 * r.enUS: entityText
+	 * r: entiteLangue
+	 * r.enUS: entityLanguage
+	 * r: entiteSuggere
+	 * r.enUS: entitySuggested
+	 * r: n'est pas une entité indexé.
+	 * r.enUS: is not an indexed entity.
+	 * r: entiteListeStr
+	 * r.enUS: entityListStr
+	 * r: entiteListe
+	 * r.enUS: entityList
+	 * r: classeVarCleUnique
+	 * r.enUS: classVarUniqueKey
+	 * r: classeNomsCanoniques
+	 * r.enUS: classCanonicalNames
+	 * r: valeurIndexe
+	 * r.enUS: valueIndexed
+	 * r: rechercheDebut
+	 * r.enUS: searchStart
+	 * r: valeurTri
+	 * r.enUS: valueSort
+	 * 
+	 * r: auteurGenApiServiceImpl
+	 * r.enUS: writerGenApiServiceImpl
+	 * r: auteurApiServiceImpl
+	 * r.enUS: writerApiServiceImpl
+	 * r: auteurGenApiService
+	 * r.enUS: writerGenApiService
+	 * 
+	 * r: wApiEntites
+	 * r.enUS: wApiEntities
+	 * r: classeNomSimple
+	 * r.enUS: classSimpleName
+	 * 
+	 * r: classeRolesTrouves
+	 * r.enUS: classRolesFound
+	 * r: classeRoles
+	 * r.enUS: classRoles
+	 * 
+	 * r: classeFiltresTrouves
+	 * r.enUS: classFiltersFound
+	 * r: classeFiltre
+	 * r.enUS: classFilter
+	 * 
+	 * r: wApiGenererGet
+	 * r.enUS: wApiGenerateGet
+	 * r: wApiGenererPatch
+	 * r.enUS: wApiGeneratePatch
+	 * r: classeCheminApiGen
+	 * r.enUS: classPathApiGen
+	 * r: entiteVar
+	 * r.enUS: entityVar
+	 * r: gestionnaireEvenements
+	 * r.enUS: eventHandler
+	 * r: classeVarClePrimaire
+	 * r.enUS: classVarPrimaryKey
+	 * r: wApiGenererPost
+	 * r.enUS: wApiGeneratePost
+	 * r: // Une méthode d'usine pour créer une instance et un proxy. 
+	 * r.enUS: // A factory method to create an instance and a proxy. 
+	 * r: creer
+	 * r.enUS: create
+	 * r: addresse
+	 * r.enUS: address
+	 * r: operationRequete
+	 * r.enUS: operationRequest
+	 * r: gestionnaireResultat
+	 * r.enUS: resultHandler
+	 * r: nomEnsembleDomaine
+	 * r.enUS: domainPackageName
+	 * r: classeImportationsGenApi
+	 * r.enUS: classImportsGenApi
+	 * r: classeCommentaire
+	 * r.enUS: classComment
+	 * r: ecrireCommentaire
+	 * r.enUS: writeComment
+	 * r: classeApiMethode
+	 * r.enUS: classApiMethod
+	 * r: classeApiOperationIdMethode
+	 * r.enUS: classApiOperationIdMethod
+	 * r: classeApiOperationId
+	 * r.enUS: classApiOperationId
+	 * r: classeDoc
+	 * r.enUS: classDoc
+	 * r: paramRequete
+	 * r.enUS: queryParam
+	 * r: paramObjet
+	 * r.enUS: paramObject
+	 * r: paramNom
+	 * r.enUS paramName
+	 * r: paramObjet
+	 * r.enUS: paramObject
+	 * r: paramValeursObjet
+	 * r.enUS: paramValuesObject
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 * r: requeteSite
+	 * r.enUS: siteRequest
+	 * r: RequeteSite
+	 * r.enUS: SiteRequest
+	 * r: classePageNomCanoniqueMethode
+	 * r.enUS: classPageCanonicalNameMethod
+	 * r: classePageNomSimpleMethode
+	 * r.enUS: classPageSimpleNameMethod
+	 * r: ConfigSite
+	 * r.enUS: SiteConfig
+	 * r: objetJson
+	 * r.enUS: jsonObject
+	 * r: ObjetJson
+	 * r.enUS: JsonObject
+	 * r: siteUrlBase
+	 * r.enUS: siteBaseUrl
+	 * r: classeApiUri
+	 * r.enUS: classApiUri
+	 * r: connexionSql
+	 * r.enUS: sqlConnection
+	 * r: reponseOperation
+	 * r.enUS: operationResponse
+	 * r: utilisateurValeur
+	 * r.enUS: userValue
+	 * r: utilisateurPk
+	 * r.enUS: userPk
+	 * r: UtilisateurId
+	 * r.enUS: UserId
+	 * r: utilisateurId
+	 * r.enUS: userId
+	 * 
+	 * r: resultatAsync
+	 * r.enUS: asyncResult
+	 * r: varIndexe
+	 * r.enUS: varIndexed
+	 * r: varRecherche
+	 * r.enUS: varSearched
+	 * r: varSuggere
+	 * r.enUS: varSuggested
+	 * r: entiteNomSimpleCompletGenerique
+	 * r.enUS: entitySimpleNameCompleteGeneric
+	 * r: entiteNomSimpleComplet
+	 * r.enUS: entitySimpleNameComplete
+	 * r: entiteNomCanoniqueComplet
+	 * r.enUS: entityCanonicalNameComplete
+	 * r: entiteNomSimpleGenerique
+	 * r.enUS: entitySimpleNameGeneric
+	 * r: entiteNomCanoniqueGenerique
+	 * r.enUS: entityCanonicalNameGeneric
+	 * r: entiteNomSimple
+	 * r.enUS: entitySimpleName
+	 * r: entiteNomCanonique
+	 * r.enUS: entityCanonicalName
+	 * r: ClientSql
+	 * r.enUS: SqlClient
+	 * r: clientSql
+	 * r.enUS: sqlClient
+	 * r: OperationRequete
+	 * r.enUS: OperationRequest
+	 * r: classePartsUtilisateurSite
+	 * r.enUS: classPartsSiteUser
+	 * r: classePartsRequeteApi
+	 * r.enUS: classPartsApiRequest
+	 * 
+	 * r: UtilisateurPrenom
+	 * r.enUS: UserFirstName
+	 * r: UtilisateurNomFamille
+	 * r.enUS: UserLastName
+	 * r: UtilisateurNom
+	 * r.enUS: UserName
+	 * r: UtilisateurId
+	 * r.enUS: UserId
+	 * r: UtilisateurSite
+	 * r.enUS: SiteUser
+	 * r: RequeteApi
+	 * r.enUS: ApiRequest
+	 * r: Utilisateur
+	 * r.enUS: User
+	 * r: utilisateur
+	 * r.enUS: user
+	 * r: Partagé
+	 * r.enUS: Shared
+	 * r: documentsSolr
+	 * r.enUS: solrDocuments
+	 * r: documentSolr
+	 * r.enUS: solrDocument
+	 * r: supprimer
+	 * r.enUS: delete
+	 * r: SQL_vider
+	 * r.enUS: SQL_clear
+	 * r: RequetePk
+	 * r.enUS: RequestPk
+	 * r: remplacer
+	 * r.enUS: replace
+	 * r: initLoin
+	 * r.enUS: initDeep
+	 * r: erreur
+	 * r.enUS: error
+	 * r: ListeRecherche
+	 * r.enUS: SearchList
+	 * r: liste
+	 * r.enUS: list
+	 * r: ConnexionSql
+	 * r.enUS: SqlConnection
+	 * r: generer
+	 * r.enUS: generate
+	 * r: "Pour"
+	 * r.enUS: "For"
+	 * r: Traduire
+	 * r.enUS: Translate
+	 * r: nomSimple
+	 * r.enUS: simpleName
+	 * r: SiteContexte
+	 * r.enUS: SiteContext
+	 * r: siteContexte
+	 * r.enUS: siteContext
+	 * r: Ecrire: 
+	 * r.enUS: Write: 
+	 * r: recherche
+	 * r.enUS: search
+	 * r: auteurApi
+	 * r.enUS: writerApi
+	 * r: classeNomEnsemble
+	 * r.enUS: classPackageName
+	 * r: langueNom
+	 * r.enUS: languageName
+	 * r: classeParts
+	 * r.enUS: classParts
+	 * r: nomCanonique
+	 * r.enUS: canonicalName
+	 * r: EnsembleInfo
+	 * r.enUS: PackageInfo
+	 * r: creer
+	 * r.enUS: create
+	 * r: reponse
+	 * r.enUS: response
+	 * r: Liste
+	 * r.enUS: List
+	 * r: definir
+	 * r.enUS: define
+	 * r: peupler
+	 * r.enUS: populate
+	 * r: stocker
+	 * r.enUS: store
+	 * r: Peupler
+	 * r.enUS: Populate
+	 * r: Stocker
+	 * r.enUS: Store
+	 * r: archive
+	 * r.enUS: archived
+	 * r: supprime
+	 * r.enUS: deleted
+	 * r: Archive
+	 * r.enUS: Archived
+	 * r: Supprime
+	 * r.enUS: Deleted
+	 * r: attribuer
+	 * r.enUS: attribute
+	 * r: indexer
+	 * r.enUS: index
+	 * 
+	 * r: classCanonicalNames_
+	 * r.enUS: classeNomsCanoniques_
+	 * r: archived_
+	 * r.enUS: archive_
+	 * r: deleted_
+	 * r.enUS: supprime_
+	 */ 
+	public void ecrireGenApiServiceImpl3(String classeLangueNom) throws Exception {
+		classeAutresLangues = ArrayUtils.removeAllOccurences(toutesLangues, classeLangueNom);
+
+		if(auteurGenApiServiceImpl != null) {
 			l();
 			tl(1, "// General //");
 			if(classeApiMethodes.contains("PATCH")) {
@@ -4709,6 +5151,53 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(6, "case \"rows\":");
 			tl(7, str_valeur(classeLangueNom), "Rows = param", str_Objet(classeLangueNom), " instanceof Integer ? (Integer)param", str_Objet(classeLangueNom), " : Integer.parseInt(param", str_Objet(classeLangueNom), ".toString());");
 			tl(7, str_recherche(classeLangueNom), classeNomSimple, "Rows(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_valeur(classeLangueNom), "Rows);");
+			tl(7, "break;");
+	
+			tl(6, "case \"facet\":");
+			tl(7, str_listeRecherche(classeLangueNom), ".add(\"facet\", ((Boolean)param", str_Objet(classeLangueNom), ").toString());");
+			tl(7, "break;");
+	
+			tl(6, "case \"facet.range.start\":");
+			tl(7, "String startMathStr = (String)param", str_Objet(classeLangueNom), ";");
+			tl(7, "Date start = DateMathParser.parseMath(null, startMathStr);");
+			tl(7, str_listeRecherche(classeLangueNom), ".add(\"facet.range.start\", start.toInstant().toString());");
+			tl(7, "break;");
+	
+			tl(6, "case \"facet.range.end\":");
+			tl(7, "String endMathStr = (String)param", str_Objet(classeLangueNom), ";");
+			tl(7, "Date end = DateMathParser.parseMath(null, endMathStr);");
+			tl(7, str_listeRecherche(classeLangueNom), ".add(\"facet.range.end\", end.toInstant().toString());");
+			tl(7, "break;");
+	
+			tl(6, "case \"facet.range.gap\":");
+			tl(7, "String gap = (String)param", str_Objet(classeLangueNom), ";");
+			tl(7, str_listeRecherche(classeLangueNom), ".add(\"facet.range.gap\", gap);");
+			tl(7, "break;");
+	
+			tl(6, "case \"facet.pivot\":");
+			tl(7, "Matcher mFacetPivot = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", str_Objet(classeLangueNom), ");");
+			tl(7, "boolean foundFacetPivot = mFacetPivot.find();");
+			tl(7, "if(foundFacetPivot) {");
+			tl(8, "String solrLocalParams = mFacetPivot.group(1);");
+			tl(8, "String[] ", str_entite(classeLangueNom), "Vars = mFacetPivot.group(2).trim().split(\",\");");
+			tl(8, "String[] vars", str_Indexe(classeLangueNom), " = new String[", str_entite(classeLangueNom), "Vars.length];");
+			tl(8, "for(Integer i = 0; i < ", str_entite(classeLangueNom), "Vars.length; i++) {");
+			tl(9, str_entite(classeLangueNom), "Var = ", str_entite(classeLangueNom), "Vars[i];");
+			tl(9, "vars", str_Indexe(classeLangueNom), "[i] = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), "", classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
+			tl(8, "}");
+			tl(8, str_listeRecherche(classeLangueNom), ".add(\"facet.pivot\", (solrLocalParams == null ? \"\" : solrLocalParams) + StringUtils.join(vars", str_Indexe(classeLangueNom), "));");
+			tl(7, "}");
+			tl(7, "break;");
+	
+			tl(6, "case \"facet.range\":");
+			tl(7, "Matcher mFacetRange = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", str_Objet(classeLangueNom), ");");
+			tl(7, "boolean foundFacetRange = mFacetRange.find();");
+			tl(7, "if(foundFacetRange) {");
+			tl(8, "String solrLocalParams = mFacetRange.group(1);");
+			tl(8, str_entite(classeLangueNom), "Var = mFacetRange.group(2).trim();");
+			tl(8, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), "", classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
+			tl(8, str_listeRecherche(classeLangueNom), ".add(\"facet.range\", (solrLocalParams == null ? \"\" : solrLocalParams) + var", str_Indexe(classeLangueNom), ");");
+			tl(7, "}");
 			tl(7, "break;");
 	
 			tl(6, "case \"var\":");

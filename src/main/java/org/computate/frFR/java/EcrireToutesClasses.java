@@ -681,6 +681,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 						ecrireGenApiService(langueNom);
 						ecrireGenApiServiceImpl1(langueNom);
 						ecrireGenApiServiceImpl2(langueNom);
+						ecrireGenApiServiceImpl3(langueNom);
 						ecrireApiServiceImpl(langueNom);
 					}
 				}
