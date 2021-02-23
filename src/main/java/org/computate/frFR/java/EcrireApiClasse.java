@@ -3851,38 +3851,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "Iterator<Entry<String, List<PivotField>>> facetPivotIterator = responseSearch.getFacetPivot().iterator();");
 							tl(4, "while(facetPivotIterator.hasNext()) {");
 							tl(5, "Entry<String, List<PivotField>> pivotEntry = facetPivotIterator.next();");
-							tl(5, "List<PivotField> pivotList = pivotEntry.getValue();");
-							tl(5, "String ", str_entite(classeLangueNom), str_Indexe(classeLangueNom), " = pivotEntry.getKey();");
-							tl(5, "String ", str_entite(classeLangueNom), "Var = StringUtils.substringBefore(", str_entite(classeLangueNom), str_Indexe(classeLangueNom), ", \"_indexed_\");");
-							tl(5, "JsonArray pivotArray = new JsonArray();");
-							tl(5, "facetPivotJson.put(entityVar, pivotArray);");
-							tl(5, "for(PivotField pivotField : pivotList) {");
-							tl(6, "JsonObject pivotJson = new JsonObject();");
-							tl(6, "pivotArray.add(pivotJson);");
-							tl(6, "pivotJson.put(\"field\", entityVar);");
-							tl(6, "pivotJson.put(\"value\", pivotField.getValue());");
-							tl(6, "pivotJson.put(\"count\", pivotField.getCount());");
-							tl(6, "List<RangeFacet> pivotRanges = pivotField.getFacetRanges();");
-							tl(6, "if(pivotRanges != null) {");
-							tl(7, "JsonObject rangeJson = new JsonObject();");
-							tl(7, "pivotJson.put(\"ranges\", rangeJson);");
-							tl(7, "for(RangeFacet rangeFacet : pivotRanges) {");
-							tl(8, "JsonObject rangeFacetJson = new JsonObject();");
-							tl(8, "String rangeFacetVar = StringUtils.substringBefore(rangeFacet.getName(), \"_indexed_\");");
-							tl(8, "rangeJson.put(rangeFacetVar, rangeFacetJson);");
-							tl(8, "JsonArray rangeFacetCountsList = new JsonArray();");
-							tl(8, "rangeFacetJson.put(\"counts\", rangeFacetCountsList);");
-							tl(8, "List<?> rangeFacetCounts = rangeFacet.getCounts();");
-							tl(8, "for(Integer i = 0; i < rangeFacetCounts.size(); i+= 1) {");
-							tl(9, "JsonObject countJson = new JsonObject();");
-							tl(9, "RangeFacet.Count count = (RangeFacet.Count)rangeFacetCounts.get(i);");
-							tl(9, "countJson.put(\"value\", count.getValue());");
-							tl(9, "countJson.put(\"count\", count.getCount());");
-							tl(9, "rangeFacetCountsList.add(countJson);");
-							tl(8, "}");
-							tl(7, "}");
-							tl(6, "}");
+							tl(5, "List<PivotField> pivotFields = pivotEntry.getValue();");
+							tl(5, "String[] vars", str_Indexe(classeLangueNom), " = pivotEntry.getKey().trim().split(\",\");");
+							tl(5, "String[] ", str_entite(classeLangueNom), "Vars = new String[vars", str_Indexe(classeLangueNom), ".length];");
+							tl(5, "for(Integer i = 0; i < ", str_entite(classeLangueNom), "Vars.length; i++) {");
+							tl(6, "String ", str_entite(classeLangueNom), str_Indexe(classeLangueNom), " = vars", str_Indexe(classeLangueNom), "[i];");
+							tl(6, str_entite(classeLangueNom), "Vars[i] = StringUtils.substringBefore(", str_entite(classeLangueNom), str_Indexe(classeLangueNom), ", \"_indexed_\");");
 							tl(5, "}");
+							tl(5, "JsonArray pivotArray = new JsonArray();");
+							tl(5, "facetPivotJson.put(StringUtils.join(", str_entite(classeLangueNom), "Vars, \",\"), pivotArray);");
+							tl(5, str_reponse(classeLangueNom), "Pivot", classeApiMethode, classeNomSimple, "(pivotFields, pivotArray);");
 							tl(4, "}");
 							tl(3, "}");
 							tl(3, "if(exception", str_Recherche(classeLangueNom), " != null) {");
@@ -3935,6 +3913,45 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(3, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(e));");
 					tl(2, "}");
 					tl(1, "}");
+					if(classeApiMethode.contains(str_Recherche(classeLangueNom)) && classePageNomCanoniqueMethode == null) {
+						tl(1, "public void ", str_reponse(classeLangueNom), "Pivot", classeApiMethode, classeNomSimple, "(List<PivotField> pivotFields, JsonArray pivotArray) {");
+						tl(2, "for(PivotField pivotField : pivotFields) {");
+						tl(3, "String ", str_entite(classeLangueNom), str_Indexe(classeLangueNom), " = pivotField.getField();");
+						tl(3, "String ", str_entite(classeLangueNom), "Var = StringUtils.substringBefore(", str_entite(classeLangueNom), str_Indexe(classeLangueNom), ", \"_indexed_\");");
+						tl(3, "JsonObject pivotJson = new JsonObject();");
+						tl(3, "pivotArray.add(pivotJson);");
+						tl(3, "pivotJson.put(\"field\", entityVar);");
+						tl(3, "pivotJson.put(\"value\", pivotField.getValue());");
+						tl(3, "pivotJson.put(\"count\", pivotField.getCount());");
+						tl(3, "List<RangeFacet> pivotRanges = pivotField.getFacetRanges();");
+						tl(3, "List<PivotField> pivotFields2 = pivotField.getPivot();");
+						tl(3, "if(pivotRanges != null) {");
+						tl(4, "JsonObject rangeJson = new JsonObject();");
+						tl(4, "pivotJson.put(\"ranges\", rangeJson);");
+						tl(4, "for(RangeFacet rangeFacet : pivotRanges) {");
+						tl(5, "JsonObject rangeFacetJson = new JsonObject();");
+						tl(5, "String rangeFacetVar = StringUtils.substringBefore(rangeFacet.getName(), \"_indexed_\");");
+						tl(5, "rangeJson.put(rangeFacetVar, rangeFacetJson);");
+						tl(5, "JsonArray rangeFacetCountsList = new JsonArray();");
+						tl(5, "rangeFacetJson.put(\"counts\", rangeFacetCountsList);");
+						tl(5, "List<?> rangeFacetCounts = rangeFacet.getCounts();");
+						tl(5, "for(Integer i = 0; i < rangeFacetCounts.size(); i+= 1) {");
+						tl(6, "JsonObject countJson = new JsonObject();");
+						tl(6, "RangeFacet.Count count = (RangeFacet.Count)rangeFacetCounts.get(i);");
+						tl(6, "countJson.put(\"value\", count.getValue());");
+						tl(6, "countJson.put(\"count\", count.getCount());");
+						tl(6, "rangeFacetCountsList.add(countJson);");
+						tl(5, "}");
+						tl(4, "}");
+						tl(3, "}");
+						tl(3, "if(pivotFields2 != null) {");
+						tl(4, "JsonArray pivotArray2 = new JsonArray();");
+						tl(4, "pivotJson.put(\"pivot\", pivotArray2);");
+						tl(4, str_reponse(classeLangueNom), "Pivot", classeApiMethode, classeNomSimple, "(pivotFields2, pivotArray2);");
+						tl(3, "}");
+						tl(2, "}");
+						tl(1, "}");
+					}
 				}
 			}
 	
@@ -5112,103 +5129,105 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "JsonArray param", str_Objets(classeLangueNom), " = param", str_Valeurs(classeLangueNom), str_Objet(classeLangueNom), " instanceof JsonArray ? (JsonArray)param", str_Valeurs(classeLangueNom), str_Objet(classeLangueNom), " : new JsonArray().add(param", str_Valeurs(classeLangueNom), str_Objet(classeLangueNom), ");");
 			l();
 			tl(3, "try {");
-			tl(4, "for(Object param", str_Objet(classeLangueNom), " : param", str_Objets(classeLangueNom), ") {");
-			tl(5, "switch(param", str_Nom(classeLangueNom), ") {");
 	
-			tl(6, "case \"q\":");
-			tl(7, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
-			tl(7, "var", str_Indexe(classeLangueNom), " = \"*\".equals(", str_entite(classeLangueNom), "Var) ? ", str_entite(classeLangueNom), "Var : ", classeNomSimple, ".var", str_Recherche(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
-			tl(7, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
-			tl(7, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = StringUtils.isEmpty(", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ") ? \"*\" : ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ";");
-			tl(7, str_recherche(classeLangueNom), classeNomSimple, "Q(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
-			tl(7, "break;");
-	
-			tl(6, "case \"fq\":");
-			tl(7, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
-			tl(7, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
-			tl(7, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
-			tl(7, str_recherche(classeLangueNom), classeNomSimple, "Fq(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
-			tl(7, "break;");
-	
-			tl(6, "case \"sort\":");
-			tl(7, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \" \"));");
-			tl(7, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \" \"));");
-			tl(7, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
-			tl(7, str_recherche(classeLangueNom), classeNomSimple, "Sort(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
-			tl(7, "break;");
-//	
-//			tl(6, "case \"fl\":");
-//			tl(7, str_entite(langueNom), "Var = StringUtils.trim((String)param", str_Objet(langueNom), ");");
-//			tl(7, "var", str_Indexe(langueNom), " = ", classeNomSimple, ".var", str_Indexe(langueNom), classeNomSimple, "(", str_entite(langueNom), "Var);");
-//			tl(7, str_liste(langueNom), str_Recherche(langueNom), ".addField(var", str_Indexe(langueNom), ");");
-//			tl(7, "break;");
-	
-			tl(6, "case \"start\":");
-			tl(7, str_valeur(classeLangueNom), "Start = param", str_Objet(classeLangueNom), " instanceof Integer ? (Integer)param", str_Objet(classeLangueNom), " : Integer.parseInt(param", str_Objet(classeLangueNom), ".toString());");
-			tl(7, str_recherche(classeLangueNom), classeNomSimple, "Start(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_valeur(classeLangueNom), "Start);");
-			tl(7, "break;");
-	
-			tl(6, "case \"rows\":");
-			tl(7, str_valeur(classeLangueNom), "Rows = param", str_Objet(classeLangueNom), " instanceof Integer ? (Integer)param", str_Objet(classeLangueNom), " : Integer.parseInt(param", str_Objet(classeLangueNom), ".toString());");
-			tl(7, str_recherche(classeLangueNom), classeNomSimple, "Rows(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_valeur(classeLangueNom), "Rows);");
-			tl(7, "break;");
-	
-			tl(6, "case \"facet\":");
-			tl(7, str_listeRecherche(classeLangueNom), ".add(\"facet\", ((Boolean)param", str_Objet(classeLangueNom), ").toString());");
-			tl(7, "break;");
-	
-			tl(6, "case \"facet.range.start\":");
-			tl(7, "String startMathStr = (String)param", str_Objet(classeLangueNom), ";");
-			tl(7, "Date start = DateMathParser.parseMath(null, startMathStr);");
-			tl(7, str_listeRecherche(classeLangueNom), ".add(\"facet.range.start\", start.toInstant().toString());");
-			tl(7, "break;");
-	
-			tl(6, "case \"facet.range.end\":");
-			tl(7, "String endMathStr = (String)param", str_Objet(classeLangueNom), ";");
-			tl(7, "Date end = DateMathParser.parseMath(null, endMathStr);");
-			tl(7, str_listeRecherche(classeLangueNom), ".add(\"facet.range.end\", end.toInstant().toString());");
-			tl(7, "break;");
-	
-			tl(6, "case \"facet.range.gap\":");
-			tl(7, "String gap = (String)param", str_Objet(classeLangueNom), ";");
-			tl(7, str_listeRecherche(classeLangueNom), ".add(\"facet.range.gap\", gap);");
-			tl(7, "break;");
-	
-			tl(6, "case \"facet.pivot\":");
-			tl(7, "Matcher mFacetPivot = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", str_Objet(classeLangueNom), ");");
-			tl(7, "boolean foundFacetPivot = mFacetPivot.find();");
-			tl(7, "if(foundFacetPivot) {");
-			tl(8, "String solrLocalParams = mFacetPivot.group(1);");
-			tl(8, "String[] ", str_entite(classeLangueNom), "Vars = mFacetPivot.group(2).trim().split(\",\");");
-			tl(8, "String[] vars", str_Indexe(classeLangueNom), " = new String[", str_entite(classeLangueNom), "Vars.length];");
-			tl(8, "for(Integer i = 0; i < ", str_entite(classeLangueNom), "Vars.length; i++) {");
-			tl(9, str_entite(classeLangueNom), "Var = ", str_entite(classeLangueNom), "Vars[i];");
-			tl(9, "vars", str_Indexe(classeLangueNom), "[i] = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), "", classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
-			tl(8, "}");
-			tl(8, str_listeRecherche(classeLangueNom), ".add(\"facet.pivot\", (solrLocalParams == null ? \"\" : solrLocalParams) + StringUtils.join(vars", str_Indexe(classeLangueNom), "));");
-			tl(7, "}");
-			tl(7, "break;");
-	
-			tl(6, "case \"facet.range\":");
-			tl(7, "Matcher mFacetRange = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", str_Objet(classeLangueNom), ");");
-			tl(7, "boolean foundFacetRange = mFacetRange.find();");
-			tl(7, "if(foundFacetRange) {");
-			tl(8, "String solrLocalParams = mFacetRange.group(1);");
-			tl(8, str_entite(classeLangueNom), "Var = mFacetRange.group(2).trim();");
-			tl(8, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), "", classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
-			tl(8, str_listeRecherche(classeLangueNom), ".add(\"facet.range\", (solrLocalParams == null ? \"\" : solrLocalParams) + var", str_Indexe(classeLangueNom), ");");
-			tl(7, "}");
-			tl(7, "break;");
-	
-			tl(6, "case \"var\":");
-			tl(7, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
-			tl(7, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
-			tl(7, str_recherche(classeLangueNom), classeNomSimple, "Var(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ");");
-			tl(7, "break;");
-	
+			tl(4, "if(\"facet.pivot\".equals(param", str_Nom(classeLangueNom), ")) {");
+			tl(5, "Matcher mFacetPivot = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher(StringUtils.join(param", str_Objets(classeLangueNom), ".getList().toArray(), \",\"));");
+			tl(5, "boolean foundFacetPivot = mFacetPivot.find();");
+			tl(5, "if(foundFacetPivot) {");
+			tl(6, "String solrLocalParams = mFacetPivot.group(1);");
+			tl(6, "String[] ", str_entite(classeLangueNom), "Vars = mFacetPivot.group(2).trim().split(\",\");");
+			tl(6, "String[] vars", str_Indexe(classeLangueNom), " = new String[", str_entite(classeLangueNom), "Vars.length];");
+			tl(6, "for(Integer i = 0; i < ", str_entite(classeLangueNom), "Vars.length; i++) {");
+			tl(7, str_entite(classeLangueNom), "Var = ", str_entite(classeLangueNom), "Vars[i];");
+			tl(7, "vars", str_Indexe(classeLangueNom), "[i] = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), "", classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
+			tl(6, "}");
+			tl(6, str_listeRecherche(classeLangueNom), ".add(\"facet.pivot\", (solrLocalParams == null ? \"\" : solrLocalParams) + StringUtils.join(vars", str_Indexe(classeLangueNom), ", \",\"));");
 			tl(5, "}");
+			tl(4, "} else {");
+
+			tl(5, "for(Object param", str_Objet(classeLangueNom), " : param", str_Objets(classeLangueNom), ") {");
+			tl(6, "switch(param", str_Nom(classeLangueNom), ") {");
+	
+			tl(7, "case \"q\":");
+			tl(8, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
+			tl(8, "var", str_Indexe(classeLangueNom), " = \"*\".equals(", str_entite(classeLangueNom), "Var) ? ", str_entite(classeLangueNom), "Var : ", classeNomSimple, ".var", str_Recherche(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
+			tl(8, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
+			tl(8, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = StringUtils.isEmpty(", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ") ? \"*\" : ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ";");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Q(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
+			tl(8, "break;");
+	
+			tl(7, "case \"fq\":");
+			tl(8, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
+			tl(8, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
+			tl(8, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Fq(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
+			tl(8, "break;");
+	
+			tl(7, "case \"sort\":");
+			tl(8, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \" \"));");
+			tl(8, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \" \"));");
+			tl(8, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Sort(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
+			tl(8, "break;");
+//	
+//			tl(7, "case \"fl\":");
+//			tl(8, str_entite(langueNom), "Var = StringUtils.trim((String)param", str_Objet(langueNom), ");");
+//			tl(8, "var", str_Indexe(langueNom), " = ", classeNomSimple, ".var", str_Indexe(langueNom), classeNomSimple, "(", str_entite(langueNom), "Var);");
+//			tl(8, str_liste(langueNom), str_Recherche(langueNom), ".addField(var", str_Indexe(langueNom), ");");
+//			tl(8, "break;");
+	
+			tl(7, "case \"start\":");
+			tl(8, str_valeur(classeLangueNom), "Start = param", str_Objet(classeLangueNom), " instanceof Integer ? (Integer)param", str_Objet(classeLangueNom), " : Integer.parseInt(param", str_Objet(classeLangueNom), ".toString());");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Start(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_valeur(classeLangueNom), "Start);");
+			tl(8, "break;");
+	
+			tl(7, "case \"rows\":");
+			tl(8, str_valeur(classeLangueNom), "Rows = param", str_Objet(classeLangueNom), " instanceof Integer ? (Integer)param", str_Objet(classeLangueNom), " : Integer.parseInt(param", str_Objet(classeLangueNom), ".toString());");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Rows(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_valeur(classeLangueNom), "Rows);");
+			tl(8, "break;");
+	
+			tl(7, "case \"facet\":");
+			tl(8, str_listeRecherche(classeLangueNom), ".add(\"facet\", ((Boolean)param", str_Objet(classeLangueNom), ").toString());");
+			tl(8, "break;");
+	
+			tl(7, "case \"facet.range.start\":");
+			tl(8, "String startMathStr = (String)param", str_Objet(classeLangueNom), ";");
+			tl(8, "Date start = DateMathParser.parseMath(null, startMathStr);");
+			tl(8, str_listeRecherche(classeLangueNom), ".add(\"facet.range.start\", start.toInstant().toString());");
+			tl(8, "break;");
+	
+			tl(7, "case \"facet.range.end\":");
+			tl(8, "String endMathStr = (String)param", str_Objet(classeLangueNom), ";");
+			tl(8, "Date end = DateMathParser.parseMath(null, endMathStr);");
+			tl(8, str_listeRecherche(classeLangueNom), ".add(\"facet.range.end\", end.toInstant().toString());");
+			tl(8, "break;");
+	
+			tl(7, "case \"facet.range.gap\":");
+			tl(8, "String gap = (String)param", str_Objet(classeLangueNom), ";");
+			tl(8, str_listeRecherche(classeLangueNom), ".add(\"facet.range.gap\", gap);");
+			tl(8, "break;");
+	
+			tl(7, "case \"facet.range\":");
+			tl(8, "Matcher mFacetRange = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", str_Objet(classeLangueNom), ");");
+			tl(8, "boolean foundFacetRange = mFacetRange.find();");
+			tl(8, "if(foundFacetRange) {");
+			tl(9, "String solrLocalParams = mFacetRange.group(1);");
+			tl(9, str_entite(classeLangueNom), "Var = mFacetRange.group(2).trim();");
+			tl(9, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), "", classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
+			tl(9, str_listeRecherche(classeLangueNom), ".add(\"facet.range\", (solrLocalParams == null ? \"\" : solrLocalParams) + var", str_Indexe(classeLangueNom), ");");
+			tl(8, "}");
+			tl(8, "break;");
+	
+			tl(7, "case \"var\":");
+			tl(8, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
+			tl(8, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
+			tl(8, str_recherche(classeLangueNom), classeNomSimple, "Var(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ");");
+			tl(8, "break;");
+	
+			tl(6, "}");
+			tl(5, "}");
+			tl(5, str_recherche(classeLangueNom), classeNomSimple, "Uri(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ");");
 			tl(4, "}");
-			tl(4, str_recherche(classeLangueNom), classeNomSimple, "Uri(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ");");
 			tl(3, "} catch(Exception e) {");
 			tl(4, "ExceptionUtils.rethrow(e);");
 			tl(3, "}");
