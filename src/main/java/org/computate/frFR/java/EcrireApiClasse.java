@@ -3845,6 +3845,24 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "});");
 							tl(3, "json.put(", q(str_liste(classeLangueNom)), ", l);");
 							l();
+							tl(3, "List<FacetField> facetFields = ", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), ".getFacetFields();");
+							tl(3, "if(facetFields != null) {");
+							tl(4, "JsonObject facetFieldsJson = new JsonObject();");
+							tl(4, "json.put(\"facet_fields\", facetFieldsJson);");
+							tl(4, "for(FacetField facetField : facetFields) {");
+							tl(5, "String facetFieldVar = StringUtils.substringBefore(facetField.getName(), \"_indexed_\");");
+							tl(5, "JsonArray facetFieldCountsArray = new JsonArray();");
+							tl(5, "facetFieldsJson.put(facetFieldVar, facetFieldCountsArray);");
+							tl(5, "List<FacetField.Count> facetFieldValues = facetField.getValues();");
+							tl(5, "for(Integer i = 0; i < facetFieldValues.size(); i+= 1) {");
+							tl(6, "JsonObject countJson = new JsonObject();");
+							tl(6, "FacetField.Count count = (FacetField.Count)facetFieldValues.get(i);");
+							tl(6, "countJson.put(count.getName(), count.getCount());");
+							tl(6, "facetFieldCountsArray.add(countJson);");
+							tl(5, "}");
+							tl(4, "}");
+							tl(3, "}");
+							l();
 							tl(3, "List<RangeFacet> facetRanges = ", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), ".getFacetRanges();");
 							tl(3, "if(facetRanges != null) {");
 							tl(4, "JsonObject rangeJson = new JsonObject();");
@@ -5238,6 +5256,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(9, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), "", classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
 			tl(9, str_listeRecherche(classeLangueNom), ".add(\"facet.range\", (solrLocalParams == null ? \"\" : solrLocalParams) + var", str_Indexe(classeLangueNom), ");");
 			tl(8, "}");
+			tl(8, "break;");
+	
+			tl(7, "case \"facet.field\":");
+			tl(8, str_entite(classeLangueNom), "Var = (String)param", str_Objet(classeLangueNom), ";");
+			tl(8, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
+			tl(8, "if(var", str_Indexe(classeLangueNom), " != null)");
+			tl(9, str_listeRecherche(classeLangueNom), ".addFacetField(var", str_Indexe(classeLangueNom), ");");
 			tl(8, "break;");
 	
 			tl(7, "case \"var\":");
