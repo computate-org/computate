@@ -7755,10 +7755,10 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteTypeSql = "bigint";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
-							entiteTypeSql = "double";
+							entiteTypeSql = "decimal";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
-							entiteTypeSql = "double";
+							entiteTypeSql = "double precision";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueFloat)) {
 							entiteTypeSql = "real";

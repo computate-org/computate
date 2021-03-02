@@ -2034,8 +2034,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 						l("CREATE TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), "(");
 						tl(1, "pk bigserial primary key");
-						tl(1, ", pk1 bigint references ", c2, "(pk)");
-						tl(1, ", pk2 bigint references ", c1, "(pk)");
+						tl(1, ", pk1 bigint references ", c1, "(pk)");
+						tl(1, ", pk2 bigint references ", c2, "(pk)");
 						tl(1, ");");
 					}
 				}
@@ -4281,14 +4281,14 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				else
 					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".toString();");
 				tl(1, "}");
-	
-				//////////////////
-				// nomAffichage //
-				//////////////////
-				l();
-				tl(1, "public String nomAffichage", entiteVarCapitalise, "() {");
-				tl(2, "return ", entiteNomAffichage == null ? "null" : "\"" + escapeJava(entiteNomAffichage) + "\"", ";");
-				tl(1, "}");
+//	
+//				//////////////////
+//				// nomAffichage //
+//				//////////////////
+//				l();
+//				tl(1, "public String nomAffichage", entiteVarCapitalise, "() {");
+//				tl(2, "return ", entiteNomAffichage == null ? "null" : "\"" + escapeJava(entiteNomAffichage) + "\"", ";");
+//				tl(1, "}");
 	
 				/////////////////
 				// htmTooltip //

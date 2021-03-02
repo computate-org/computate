@@ -1113,7 +1113,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										} else {
 											tl(9, "futures.add(Future.future(a -> {");
 											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-												tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+												tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2)\")");
 												tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", l2)");
 											} else {
 												tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
@@ -1174,7 +1174,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										} else {
 											tl(9, "futures.add(Future.future(a -> {");
 											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-												tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+												tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
 												tl(12,".execute(Tuple.of(l2, ", classeVarClePrimaire, ")");
 											} else {
 												tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
@@ -1215,7 +1215,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(9, "futures.add(Future.future(a -> {");
 										if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
 											// list, list, <
-											tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+											tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2)\")");
 											tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", l2)");
 										} else if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
 											// list, no list, <
@@ -1257,7 +1257,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(9, "futures.add(Future.future(a -> {");
 										if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
 											// list, list >
-											tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+											tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
 											tl(12,".execute(Tuple.of(l2, ", classeVarClePrimaire, ")");
 										} else if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
 											// list, no list, >
@@ -1294,114 +1294,183 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				
 							if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir) && BooleanUtils.isTrue(entiteModifier)) {
 								tl(5, "case \"", entiteVar, "\":");
-								tl(6, "futures.add(Future.future(a -> {");
-								tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
+								if(sqlTables) {
+									tl(6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", str_entite(classeLangueNom), "Var));");
+									tl(6, "if(bParams.size() > 0) {");
+									tl(7, "bSql.append(\", \");");
+									tl(6, "}");
+									tl(6, "bSql.append(\"", entiteVar, "=$\" + num);");
+									tl(6, "num++;");
+									tl(6, "bParams.add(o2.sql", entiteVarCapitalise, "());");
+								} else {
+									tl(6, "futures.add(Future.future(a -> {");
+									tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
+					
+									tl(9, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", Optional.ofNullable(jsonObject.getValue(", str_entite(classeLangueNom), "Var)).map(s -> s.toString()).orElse(null))");
 	
-								tl(9, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", Optional.ofNullable(jsonObject.getValue(", str_entite(classeLangueNom), "Var)).map(s -> s.toString()).orElse(null))");
-
-								tl(9, ", b");
-								tl(7, "-> {");
-								tl(8, "if(b.succeeded())");
-								tl(9, "a.handle(Future.succeededFuture());");
-								tl(8, "else");
-								tl(9, "a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
-								tl(7, "});");
-								tl(6, "}));");
-
+									tl(9, ", b");
+									tl(7, "-> {");
+									tl(8, "if(b.succeeded())");
+									tl(9, "a.handle(Future.succeededFuture());");
+									tl(8, "else");
+									tl(9, "a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
+									tl(7, "});");
+									tl(6, "}));");
+								}
+				
 								tl(6, "break;");
 							}	
 							if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
 								tl(5, "case \"", entiteVar, "\":");
 								if(entiteListeTypeJson == null) {
 									if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-										tl(7, "{");
-										tl(6, "Long l = Long.parseLong(jsonObject.getString(", str_entite(classeLangueNom), "Var));");
-										tl(6, "futures.add(Future.future(a -> {");
-										if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-											tl(7, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
-											tl(9,".execute(Tuple.of(", classeVarClePrimaire, ", l)");
+										tl(6, "{");
+										tl(7, "Long l = Long.parseLong(jsonObject.getString(", str_entite(classeLangueNom), "Var));");
+										tl(7, "if(l != null) {");
+										if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
+											// no list, no list, <
+											tl(8, "if(bParams.size() > 0) {");
+											tl(9, "bSql.append(\", \");");
+											tl(8, "}");
+											tl(8, "bSql.append(\"", entiteVar, "=$\" + num);");
+											tl(8, "num++;");
+											tl(8, "bParams.add(l);");
+										} else if(sqlTables && !"array".equals(entiteTypeJson)) {
+											// no list, list, <
+											tl(8, "if(bParams.size() > 0) {");
+											tl(9, "bSql.append(\", \");");
+											tl(8, "}");
+											tl(8, "bSql.append(\"", entiteVar, "=$\" + num);");
+											tl(8, "num++;");
+											tl(8, "bParams.add(l);");
 										} else {
-											tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
-											tl(9, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l, \"", entiteAttribuerVar, "\")");
+											tl(7, "futures.add(Future.future(a -> {");
+											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
+												tl(9, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2)\")");
+												tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", l)");
+											} else {
+												tl(9, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+												tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l, \"", entiteAttribuerVar, "\")");
+											}
+											tl(11,", b");
+											tl(9, "-> {");
+											tl(10, "if(b.succeeded())");
+											tl(11,"a.handle(Future.succeededFuture());");
+											tl(10, "else");
+											tl(11,"a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
+											tl(9, "});");
+											tl(8, "}));");
 										}
-										tl(9, ", b");
-										tl(7, "-> {");
-										tl(8, "if(b.succeeded())");
-										tl(9, "a.handle(Future.succeededFuture());");
-										tl(8, "else");
-										tl(9, "a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
-										tl(7, "});");
-										tl(6, "}));");
+										tl(7, "}");
 										tl(6, "}");
 									}
 									else {
-										tl(7, "{");
-										tl(6, "Long l = Long.parseLong(jsonObject.getString(", str_entite(classeLangueNom), "Var));");
-										tl(6, "futures.add(Future.future(a -> {");
-										if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-											tl(7, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
-											tl(9,".execute(Tuple.of(l, ", classeVarClePrimaire, ")");
+										tl(6, "{");
+										tl(7, "Long l = Long.parseLong(jsonObject.getString(", str_entite(classeLangueNom), "Var));");
+										tl(7, "if(l != null) {");
+										if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
+											// no list, no list, >
+											tl(8, "futures.add(Future.future(a -> {");
+											tl(9, "tx.preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE pk=$2\")");
+											tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", l)");
+											tl(11,", b");
+											tl(9, "-> {");
+											tl(10, "if(b.succeeded())");
+											tl(11,"a.handle(Future.succeededFuture());");
+											tl(10, "else");
+											tl(11,"a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
+											tl(9, "});");
+											tl(8, "}));");
+										} else if(sqlTables && !"array".equals(entiteTypeJson)) {
+											// no list, list, >
+											tl(8, "if(bParams.size() > 0) {");
+											tl(9, "bSql.append(\", \");");
+											tl(8, "}");
+											tl(8, "bSql.append(\"", entiteVar, "=$\" + num);");
+											tl(8, "num++;");
+											tl(8, "bParams.add(l);");
 										} else {
-											tl(7, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
-											tl(9, ".execute(Tuple.of(l, \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\")");
+											tl(8, "futures.add(Future.future(a -> {");
+											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
+												tl(9, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
+												tl(11,".execute(Tuple.of(l, ", classeVarClePrimaire, ")");
+											} else {
+												tl(9, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+												tl(11,".execute(Tuple.of(l, \"", entiteAttribuerVar, "\", ",  classeVarClePrimaire, ", \"", entiteVar, "\")");
+											}
+											tl(11,", b");
+											tl(9, "-> {");
+											tl(10, "if(b.succeeded())");
+											tl(11,"a.handle(Future.succeededFuture());");
+											tl(10, "else");
+											tl(11,"a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
+											tl(9, "});");
+											tl(8, "}));");
 										}
-										tl(9, ", b");
-										tl(7, "-> {");
-										tl(8, "if(b.succeeded())");
-										tl(9, "a.handle(Future.succeededFuture());");
-										tl(8, "else");
-										tl(9, "a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
-										tl(7, "});");
-										tl(6, "}));");
+										tl(7, "}");
 										tl(6, "}");
 									}
 								}
 								else {
 									if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-										tl(6, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-										tl(7, "futures.add(Future.future(a -> {");
+										tl(6, "{");
+										tl(7, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+										tl(8, "futures.add(Future.future(a -> {");
 										if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-											tl(8, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
-											tl(10,".execute(Tuple.of(", classeVarClePrimaire, ", l)");
+											// list, list, <
+											tl(9, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2)\")");
+											tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", l)");
+										} else if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
+											// list, no list, <
+											tl(9, "tx.preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE ", classeVarClePrimaire, "=$2\")");
+											tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", l)");
 										} else {
-											tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
-											tl(10, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l, \"", entiteAttribuerVar, "\")");
+											tl(9, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+											tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", \"", entiteVar, "\", l, \"", entiteAttribuerVar, "\")");
 										}
-										tl(10, ", b");
-										tl(8, "-> {");
-										tl(9, "if(b.succeeded())");
-										tl(10, "a.handle(Future.succeededFuture());");
-										tl(9, "else");
-										tl(10, "a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
-										tl(8, "});");
-										tl(7, "}));");
-										tl(7, "if(!pks.contains(l)) {");
-										tl(8, "pks.add(l);");
-										tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(11, ", b");
+										tl(9, "-> {");
+										tl(10, "if(b.succeeded())");
+										tl(11, "a.handle(Future.succeededFuture());");
+										tl(10, "else");
+										tl(11, "a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
+										tl(9, "});");
+										tl(8, "}));");
+										tl(8, "if(!pks.contains(l)) {");
+										tl(9, "pks.add(l);");
+										tl(9, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(8, "}");
 										tl(7, "}");
 										tl(6, "}");
 									}
 									else {
-										tl(6, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-										tl(7, "futures.add(Future.future(a -> {");
+										tl(6, "{");
+										tl(7, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
+										tl(8, "futures.add(Future.future(a -> {");
 										if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-											tl(8, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
-											tl(10,".execute(Tuple.of(l, ", classeVarClePrimaire, ")");
+											// list, list >
+											tl(9, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
+											tl(11,".execute(Tuple.of(l, ", classeVarClePrimaire, ")");
+										} else if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
+											// list, no list, >
+											tl(9, "tx.preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE ", classeVarClePrimaire, "=$2\")");
+											tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", l)");
 										} else {
-											tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
-											tl(10, ".execute(Tuple.of(l, \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\")");
+											tl(9, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+											tl(11,".execute(Tuple.of(l, \"", entiteAttribuerVar, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\")");
 										}
-										tl(10, ", b");
-										tl(8, "-> {");
-										tl(9, "if(b.succeeded())");
-										tl(10, "a.handle(Future.succeededFuture());");
-										tl(9, "else");
-										tl(10, "a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
-										tl(8, "});");
-										tl(7, "}));");
-										tl(7, "if(!pks.contains(l)) {");
-										tl(8, "pks.add(l);");
-										tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(11, ", b");
+										tl(9, "-> {");
+										tl(10, "if(b.succeeded())");
+										tl(11, "a.handle(Future.succeededFuture());");
+										tl(10, "else");
+										tl(11, "a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
+										tl(9, "});");
+										tl(8, "}));");
+										tl(8, "if(!pks.contains(l)) {");
+										tl(9, "pks.add(l);");
+										tl(9, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(8, "}");
 										tl(7, "}");
 										tl(6, "}");
 									}
@@ -1446,7 +1515,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
 											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-												tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+												tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2)\")");
 												tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", l2)");
 											} else if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
 												tl(10, "tx.preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE ", classeVarClePrimaire, "=$2\")");
@@ -1501,7 +1570,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(9, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
 											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-												tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+												tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2)\")");
 												tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", l2)");
 											} else if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
 												tl(10, "tx.preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE ", classeVarClePrimaire, "=$2\")");
@@ -1560,7 +1629,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(9, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
 											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-												tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+												tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2)\")");
 												tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", l2)");
 											} else if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
 												tl(10, "tx.preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE ", classeVarClePrimaire, "=$2\")");
@@ -1693,7 +1762,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
 											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-												tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+												tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
 												tl(12,".execute(Tuple.of(l2, ", classeVarClePrimaire, ")");
 											} else if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
 												tl(10, "tx.preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE ", classeVarClePrimaire, "=$2\")");
@@ -1748,7 +1817,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(9, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
 											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-												tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+												tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
 												tl(12,".execute(Tuple.of(l2, ", classeVarClePrimaire, ")");
 											} else if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
 												tl(10, "tx.preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE ", classeVarClePrimaire, "=$2\")");
@@ -1807,7 +1876,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(9, "if(l2 != null && !o.get", StringUtils.capitalize(entiteVar), "().contains(l2)) {");
 											tl(9, "futures.add(Future.future(a -> {");
 											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-												tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+												tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
 												tl(12,".execute(Tuple.of(l2, ", classeVarClePrimaire, ")");
 											} else if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
 												tl(10, "tx.preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE ", classeVarClePrimaire, "=$2\")");
@@ -1952,7 +2021,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											} else {
 												tl(9, "futures.add(Future.future(a -> {");
 												if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-													tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+													tl(10, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2)\")");
 													tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", l2)");
 												} else {
 													tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
@@ -2011,7 +2080,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											} else {
 												tl(9, "futures.add(Future.future(a -> {");
 												if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-													tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2) on conflict on constraint a_constraint do nothing\")");
+													tl(10, "tx.preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
 													tl(12,".execute(l2, Tuple.of(", classeVarClePrimaire, ")");
 												} else {
 													tl(10, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
@@ -3384,14 +3453,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "o2.set", str_RequeteSite(classeLangueNom), "_(", str_requeteSite(classeLangueNom), ");");
 						tl(3, "List<Future> futures = new ArrayList<>();");
 						l();
-						tl(3, "if(o.get", str_UtilisateurId(classeLangueNom), "() == null && ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "() != null) {");
-						if(sqlTables) {
-							tl(4, "if(bParams.size() > 0)");
-							tl(5, "bSql.append(\", \");");
-							tl(4, "bSql.append(\"", str_utilisateurId(classeLangueNom), "=$\" + num);");
-							tl(4, "num++;");
-							tl(4, "bParams.add(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "());");
-						} else {
+						if(!sqlTables) {
+							tl(3, "if(o.get", str_UtilisateurId(classeLangueNom), "() == null && ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "() != null) {");
 							tl(4, "futures.add(Future.future(a -> {");
 							tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
 							tl(7, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurId(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "())");
@@ -3403,8 +3466,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, "a.handle(Future.failedFuture(b.cause()));");
 							tl(5, "});");
 							tl(4, "}));");
+							tl(3, "}");
 						}
-						tl(3, "}");
 						tl(3, "if(o.get", str_UtilisateurCle(classeLangueNom), "() == null && ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "() != null) {");
 						if(sqlTables) {
 							tl(4, "if(bParams.size() > 0)");
@@ -3518,15 +3581,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "}));");
 						}
 						tl(3, "}");
-						tl(3, "if(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "() != null) {");
-						if(sqlTables) {
+						if(!sqlTables) {
+							tl(3, "if(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "() != null) {");
 							tl(4, "if(bParams.size() > 0) {");
 							tl(5, "bSql.append(\", \");");
 							tl(4, "}");
 							tl(4, "bSql.append(\"", str_utilisateurId(classeLangueNom), "=$\" + num);");
 							tl(4, "num++;");
 							tl(4, "bParams.add(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "());");
-						} else {
 							tl(4, "futures.add(Future.future(a -> {");
 							tl(5, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_setD)");
 							tl(4, ".execute(Tuple.of(", classeVarClePrimaire, ", \"", str_utilisateurId(classeLangueNom), "\", ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "())");
@@ -3538,8 +3600,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, "a.handle(Future.failedFuture(b.cause()));");
 							tl(5, "});");
 							tl(4, "}));");
+							tl(3, "}");
 						}
-						tl(3, "}");
 						tl(3, "if(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "() != null) {");
 						if(sqlTables) {
 							tl(4, "if(bParams.size() > 0) {");
@@ -3621,6 +3683,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "List<String> classes = Optional.ofNullable(", str_requeteApi(classeLangueNom), ").map(r -> r.getClasses()).orElse(new ArrayList<>());");
 						tl(3, "Transaction tx = ", str_requeteSite(classeLangueNom), ".getTx();");
 						tl(3, "Integer num = 1;");
+						if(sqlTables) {
+							tl(3, "StringBuilder bSql = new StringBuilder(\"UPDATE ", classeNomSimple, " SET \");");
+							tl(3, "List<Object> bParams = new ArrayList<Object>();");
+						}
+						tl(3, classeNomSimple, " o2 = new ", classeNomSimple, "();");
+						tl(3, "o2.set", str_RequeteSite(classeLangueNom), "_(", str_requeteSite(classeLangueNom), ");");
 						tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
 						tl(3, "List<Future> futures = new ArrayList<>();");
 						l();
@@ -4487,12 +4555,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(2, "try {");
 				tl(3, "Transaction tx = ", str_requeteSite(classeLangueNom), ".getTx();");
 				tl(3, "String ", str_utilisateur(classeLangueNom), "Id = ", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "Id();");
+				tl(3, "Long ", str_utilisateurCle(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "();");
 				tl(3, "ZonedDateTime ", str_cree(classeLangueNom), " = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_ObjetJson(classeLangueNom), "()).map(j -> j.getString(\"", str_cree(classeLangueNom), "\")).map(s -> ZonedDateTime.parse(s, DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.of(", str_requeteSite(classeLangueNom), ".get", str_ConfigSite(classeLangueNom), "_().getSiteZone())))).orElse(ZonedDateTime.now(ZoneId.of(", str_requeteSite(classeLangueNom), ".get", str_ConfigSite(classeLangueNom), "_().getSiteZone())));");
 				l();
 				if(sqlTables) {
-					tl(3, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, "(", str_cree(classeLangueNom), ") VALUES($1) RETURNING ", classeVarClePrimaire, "\")");
+					tl(3, "tx.preparedQuery(\"INSERT INTO ", classeNomSimple, "(", str_cree(classeLangueNom), ", ", str_utilisateurCle(classeLangueNom), ") VALUES($1, $2) RETURNING ", classeVarClePrimaire, "\")");
 					tl(5, ".collecting(Collectors.toList())");
-					tl(5,".execute(Tuple.of(", str_cree(classeLangueNom), ".toOffsetDateTime())");
+					tl(5,".execute(Tuple.of(", str_cree(classeLangueNom), ".toOffsetDateTime(), ", str_utilisateurCle(classeLangueNom), ")");
 				}
 				else {
 					tl(3, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_", str_creer(classeLangueNom), ")");
@@ -4713,8 +4782,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			/////////////////
 			tl(1, "public void ", str_utilisateur(classeLangueNom), classeNomSimple, "(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", Handler<AsyncResult<OperationResponse>> ", str_gestionnaireEvenements(classeLangueNom), ") {");
 			tl(2, "try {");
-			tl(3, "String ", str_utilisateur(classeLangueNom), "Id = ", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "Id();");
-			tl(3, "if(", str_utilisateur(classeLangueNom), "Id == null) {");
+			if(sqlTables) {
+				tl(3, "Long ", str_utilisateurCle(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "();");
+				tl(3, "if(", str_utilisateurCle(classeLangueNom), " == null) {");
+			} else {
+				tl(3, "String ", str_utilisateur(classeLangueNom), "Id = ", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "Id();");
+				tl(3, "if(", str_utilisateur(classeLangueNom), "Id == null) {");
+			}
 			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
 			tl(3, "} else {");
 			tl(4, "sql", str_Connexion(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", a -> {");
@@ -4723,9 +4797,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(7, "if(b.succeeded()) {");
 			tl(8, "Transaction tx = ", str_requeteSite(classeLangueNom), ".getTx();");
 			if(sqlTables) {
-				tl(8, "tx.preparedQuery(\"SELECT pk FROM ", classePartsUtilisateurSite.nomSimple(classeLangueNom), " WHERE ", str_utilisateurId(classeLangueNom), "=$1\")");
+				tl(8, "tx.preparedQuery(\"SELECT pk FROM ", classePartsUtilisateurSite.nomSimple(classeLangueNom), " WHERE ", str_utilisateurCle(classeLangueNom), "=$1\")");
 				tl(10, ".collecting(Collectors.toList())");
-				tl(10, ".execute(Tuple.of(", str_utilisateur(classeLangueNom), "Id)");
+				tl(10, ".execute(Tuple.of(", str_utilisateurCle(classeLangueNom), ")");
 			} else {
 				tl(8, "tx.preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_selectC)");
 				tl(10, ".collecting(Collectors.toList())");
@@ -4803,7 +4877,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(12, str_listeRecherche(classeLangueNom), ".setQuery(\"*:*\");");
 			tl(12, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
 			tl(12, str_listeRecherche(classeLangueNom), ".setC(", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class);");
-			tl(12, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_utilisateur(classeLangueNom), "Id_indexed_string:\" + ClientUtils.escapeQueryChars(", str_utilisateur(classeLangueNom), "Id));");
+			if(sqlTables)
+				tl(12, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_utilisateurCle(classeLangueNom), "_indexed_string:\" + ", str_utilisateurCle(classeLangueNom), ");");
+			else
+				tl(12, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_utilisateur(classeLangueNom), "Id_indexed_string:\" + ClientUtils.escapeQueryChars(", str_utilisateur(classeLangueNom), "Id));");
 			tl(12, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"pk_indexed_long:\" + ", classeVarClePrimaire, str_Utilisateur(classeLangueNom), ");");
 			tl(12, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 
