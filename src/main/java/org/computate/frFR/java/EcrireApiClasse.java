@@ -5284,7 +5284,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(10, "foundFq = mFq.find();");
 			tl(9, "}");
 			tl(9, "mFq.appendTail(sb);");
-			tl(9, str_listeRecherche(classeLangueNom), ".addFilterQuery(var", str_Indexe(classeLangueNom), " + \":\" + sb.toString());");
+			tl(9, str_listeRecherche(classeLangueNom), ".addFilterQuery(sb.toString());");
 			tl(8, "}");
 			tl(8, "break;");
 
