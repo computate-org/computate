@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  */  
 public class EcrireGenClasse extends EcrireClasse { 
 
-	protected static final Logger LOGGER = LoggerFactory.getLogger(EcrireClasse.class);
+	protected static final Logger LOG = LoggerFactory.getLogger(EcrireClasse.class);
 
 	public static final String[] HTML_ELEMENTS = new String[] { "div", "span", "a", "ul", "ol", "li", "p", "h1", "h2", "h3", "h4", "h5", "h6", "i", "table", "tbody", "thead", "tr", "td", "th", "pre", "code", "br", "dd", "dt" };
 
@@ -1541,7 +1541,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //			tl(3, "SQLClient clientSql = requeteSite_.getSiteContexte_().getClientSql();");
 //			tl(3, "clientSql.getConnection(ar -> {");
 //			tl(4, "if(ar.failed()) {");
-//			tl(5, "LOGGER.error(\"Impossible d'ouvrir une connexion à la base de données. \", ar.cause());");
+//			tl(5, "LOG.error(\"Impossible d'ouvrir une connexion à la base de données. \", ar.cause());");
 //			tl(5, "future.fail(ar.cause());");
 //			tl(4, "} else {");
 //			tl(5, "SQLConnection connexionSql = ar.result();");
@@ -2045,7 +2045,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		}
 
 //		if(classeSauvegarde) {
-		tl(1, "protected static final Logger LOGGER = LoggerFactory.getLogger(", classeNomSimple, ".class);");
+		tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimple, ".class);");
 //		}
 		List<String> classeValsVar = (List<String>)doc.get("classeValsVar_stored_strings");
 		List<String> classeValsLangue = (List<String>)doc.get("classeValsLangue_stored_strings");
@@ -5163,7 +5163,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				wIndexerFacetFor.l();
 				wIndexerFacetFor.tl(6, "if(o2 != null) {");
 				wIndexerFacetFor.tl(7, entiteAttribuerNomSimpleGenApiServiceImpl, " service = new ", entiteAttribuerNomSimpleGenApiServiceImpl, "(", str_requeteSite(langueNom), ".get", str_SiteContexte(langueNom), "_());");
-				wIndexerFacetFor.tl(7, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "2 = ", str_generer(langueNom), classePartsRequeteSite.nomSimple(langueNom), str_Pour(langueNom), classeNomSimple, "(", str_siteContexte(langueNom), ", ", str_requeteSite(langueNom), ".get", str_OperationRequete(langueNom), "(), new JsonObject());");
+				wIndexerFacetFor.tl(7, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "2 = ", str_generer(langueNom), classePartsRequeteSite.nomSimple(langueNom), str_Pour(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "(), ", str_siteContexte(langueNom), ", ", str_requeteSite(langueNom), ".get", str_RequeteService(langueNom), "(), new JsonObject());");
 				wIndexerFacetFor.tl(7, classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), "2 = new ", classePartsRequeteApi.nomSimple(langueNom), "();");
 				wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setRows(1);");
 				wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setNumFound(1l);");
@@ -5177,9 +5177,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				wIndexerFacetFor.tl(7, "futures.add(");
 				wIndexerFacetFor.tl(8, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
 				wIndexerFacetFor.tl(9, "if(a.succeeded()) {");
-//				wIndexerFacetFor.tl(10, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "2));");
+//				wIndexerFacetFor.tl(10, "LOG.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "2));");
 				wIndexerFacetFor.tl(9, "} else {");
-				wIndexerFacetFor.tl(10, "LOGGER.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "2));");
+				wIndexerFacetFor.tl(10, "LOG.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "2));");
 				wIndexerFacetFor.tl(10, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
 				wIndexerFacetFor.tl(9, "}");
 				wIndexerFacetFor.tl(8, "})");

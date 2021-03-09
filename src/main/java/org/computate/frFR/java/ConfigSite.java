@@ -122,6 +122,13 @@ public class ConfigSite {
 			return "writeApi";
 	}
 
+	public String str_roleLires(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "roleLires";
+		else
+			return "roleReads";
+	}
+
 	/**
 	 * Var.enUS: languageName
 	 * enUS: The configured language name for this app. 

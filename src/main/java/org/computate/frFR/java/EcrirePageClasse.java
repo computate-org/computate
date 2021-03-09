@@ -596,8 +596,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: "Search "
 	 * r: operationRequete
 	 * r.enUS: operationRequest
-	 * r: OperationRequete
-	 * r.enUS: OperationRequest
+	 * r: RequeteService
+	 * r.enUS: ServiceRequest
 	 * r: entiteAttribuerOperationIdPATCH
 	 * r.enUS: entityAttributeOperationIdPATCH
 	 * r: entiteAttribuerOperationIdRecherche
@@ -2100,8 +2100,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						l();
 					} else {
 						l();
-						tl(2, "OperationRequest ", str_operationRequete(langueNom), " = ", str_requeteSite(langueNom), "_.get", str_OperationRequete(langueNom), "();");
-						tl(2, "JsonObject params = ", str_operationRequete(langueNom), ".getParams();");
+						tl(2, "ServiceRequest ", str_requeteService(langueNom), " = ", str_requeteSite(langueNom), "_.get", str_RequeteService(langueNom), "();");
+						tl(2, "JsonObject params = ", str_requeteService(langueNom), ".getParams();");
 						tl(2, "if(", str_liste(langueNom), classeNomSimple, " == null || ", str_liste(langueNom), classeNomSimple, ".size() == 0) {");
 	//					t(3).l("// contexteAucunNomTrouve : ", contexteAucunNomTrouve);
 						l();
@@ -2176,7 +2176,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						t(3).be("div").da("class", "").dfl();
 	
 						t(4).be("div").dfl();
-						tl(5, "JsonObject queryParams = Optional.ofNullable(", str_operationRequete(langueNom), ").map(OperationRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
+						tl(5, "JsonObject queryParams = Optional.ofNullable(", str_requeteService(langueNom), ").map(ServiceRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
 						tl(5, "Long num = ", str_liste(langueNom), classeNomSimple, ".getQueryResponse().getResults().getNumFound();");
 						tl(5, "String q = \"*:*\";");
 						tl(5, "String query1 = \"", classeVarTexte, "\";");
@@ -2605,8 +2605,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(1, "public static void html", str_Suggere(langueNom), classeGenPageNomSimple, "(", classePartsMiseEnPage.nomSimple(langueNom), " p, String id, ", str_ListeRecherche(langueNom), "<", classeNomSimple, "> ", str_liste(langueNom), classeNomSimple, ") {");
 						tl(2, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_ = p.get", str_RequeteSite(langueNom), "_();");
 						tl(2, "try {");
-						tl(3, "OperationRequest ", str_operationRequete(langueNom), " = ", str_requeteSite(langueNom), "_.get", str_OperationRequete(langueNom), "();");
-						tl(3, "JsonObject queryParams = Optional.ofNullable(", str_operationRequete(langueNom), ").map(OperationRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
+						tl(3, "ServiceRequest ", str_requeteService(langueNom), " = ", str_requeteSite(langueNom), "_.get", str_RequeteService(langueNom), "();");
+						tl(3, "JsonObject queryParams = Optional.ofNullable(", str_requeteService(langueNom), ").map(ServiceRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
 						tl(3, "String q = \"*:*\";");
 						tl(3, "String query1 = \"", classeVarTexte, "\";");
 						tl(3, "String query2 = \"\";");
