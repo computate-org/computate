@@ -4794,14 +4794,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = ", str_generer(classeLangueNom), classePartsRequeteSite.nomSimple(classeLangueNom), str_Pour(classeLangueNom), classeNomSimple, "(null, ", str_siteContexte(classeLangueNom), ", ", str_requeteService(classeLangueNom), ");");
 			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_requeteSite(classeLangueNom), "));");
 			tl(3, "} else {");
-			tl(4, "User ", str_utilisateur(classeLangueNom), " = User.create(", str_utilisateur(classeLangueNom), "Json);");
-			tl(4, str_utilisateur(classeLangueNom), ".attributes().mergeIn(", str_utilisateur(classeLangueNom), "Json);");
-			tl(4, str_siteContexte(classeLangueNom), ".getAuthenticationProvider().userInfo(", str_utilisateur(classeLangueNom), ", a -> {");
+			tl(4, "User token = User.create(", str_utilisateur(classeLangueNom), "Json);");
+			tl(4, str_siteContexte(classeLangueNom), ".getAuthenticationProvider().authenticate(token.principal(), a -> {");
 			tl(5, "if(a.succeeded()) {");
-			tl(6, "JsonObject ", str_utilisateur(classeLangueNom), "Info = a.result();");
+			tl(6, "User ", str_utilisateur(classeLangueNom), " = a.result();");
 			tl(6, str_siteContexte(classeLangueNom), ".getAuthorizationProvider().getAuthorizations(", str_utilisateur(classeLangueNom), ", b -> {");
 			tl(7, "if(b.succeeded()) {");
-			tl(8, "String ", str_utilisateur(classeLangueNom), "Id = ", str_utilisateur(classeLangueNom), "Info.getString(\"sub\");");
+			tl(8, "JsonObject ", str_utilisateur(classeLangueNom), "Attributes = ", str_utilisateur(classeLangueNom), ".attributes();");
+			tl(8, "JsonObject accessToken = ", str_utilisateur(classeLangueNom), "Attributes.getJsonObject(\"accessToken\");");
+			tl(8, "String ", str_utilisateur(classeLangueNom), "Id = ", str_utilisateur(classeLangueNom), "Attributes.getString(\"sub\");");
 			tl(8, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = ", str_generer(classeLangueNom), classePartsRequeteSite.nomSimple(classeLangueNom), str_Pour(classeLangueNom), classeNomSimple, "(", str_utilisateur(classeLangueNom), ", ", str_siteContexte(classeLangueNom), ", ", str_requeteService(classeLangueNom), ");");
 			tl(8, "sql", str_Connexion(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", c -> {");
 			tl(9, "if(c.succeeded()) {");
@@ -4827,12 +4828,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(16, "JsonObject ", str_utilisateur(classeLangueNom), "Vertx = ", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getUser();");
 			l();
 			tl(16, "JsonObject jsonObject = new JsonObject();");
-			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_Nom(classeLangueNom), "\", ", str_utilisateur(classeLangueNom), "Info.getString(\"preferred_username\"));");
-			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_Prenom(classeLangueNom), "\", ", str_utilisateur(classeLangueNom), "Info.getString(\"given_name\"));");
-			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_NomFamille(classeLangueNom), "\", ", str_utilisateur(classeLangueNom), "Info.getString(\"family_name\"));");
-			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_NomComplet(classeLangueNom), "\", ", str_utilisateur(classeLangueNom), "Info.getString(\"name\"));");
-			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), "Id\", ", str_utilisateur(classeLangueNom), "Info.getString(\"sub\"));");
-			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_Mail(classeLangueNom), "\", ", str_utilisateur(classeLangueNom), "Info.getString(\"email\"));");
+			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_Nom(classeLangueNom), "\", accessToken.getString(\"preferred_username\"));");
+			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_Prenom(classeLangueNom), "\", accessToken.getString(\"given_name\"));");
+			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_NomFamille(classeLangueNom), "\", accessToken.getString(\"family_name\"));");
+			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_NomComplet(classeLangueNom), "\", accessToken.getString(\"name\"));");
+			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), "Id\", accessToken.getString(\"sub\"));");
+			tl(16, "jsonObject.put(\"", str_utilisateur(classeLangueNom), str_Mail(classeLangueNom), "\", accessToken.getString(\"email\"));");
 			tl(16, str_utilisateur(classeLangueNom), classeNomSimple, str_Definir(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", jsonObject, false);");
 			l();
 			tl(16, str_RequeteSite(classeLangueNom), StringUtils.capitalize(classeLangueNom), " ", str_requeteSite(classeLangueNom), "2 = new ", str_RequeteSite(classeLangueNom), StringUtils.capitalize(classeLangueNom), "();");
@@ -4861,11 +4862,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(20, str_utilisateur(classeLangueNom), "Service.", str_definir(classeLangueNom), str_Indexer(classeLangueNom), classePartsUtilisateurSite.nomSimple(classeLangueNom), "(", str_utilisateurSite(classeLangueNom), ", g -> {");
 			tl(21, "if(g.succeeded()) {");
 			tl(22, str_requeteSite(classeLangueNom), ".set", classePartsUtilisateurSite.nomSimple(classeLangueNom), "(", str_utilisateurSite(classeLangueNom), ");");
-			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), str_Nom(classeLangueNom), "(", str_utilisateur(classeLangueNom), "Info.getString(\"preferred_username\"));");
-			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), str_Prenom(classeLangueNom), "(", str_utilisateur(classeLangueNom), "Info.getString(\"given_name\"));");
-			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), str_NomFamille(classeLangueNom), "(", str_utilisateur(classeLangueNom), "Info.getString(\"family_name\"));");
-			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), str_Mail(classeLangueNom), "(", str_utilisateur(classeLangueNom), "Info.getString(\"email\"));");
-			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), "Id(", str_utilisateur(classeLangueNom), "Info.getString(\"sub\"));");
+			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), str_Nom(classeLangueNom), "(accessToken.getString(\"preferred_username\"));");
+			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), str_Prenom(classeLangueNom), "(accessToken.getString(\"given_name\"));");
+			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), str_NomFamille(classeLangueNom), "(accessToken.getString(\"family_name\"));");
+			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), str_Mail(classeLangueNom), "(accessToken.getString(\"email\"));");
+			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), "Id(accessToken.getString(\"sub\"));");
 			tl(22, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), str_Cle(classeLangueNom), "(", str_utilisateurSite(classeLangueNom), ".get", StringUtils.capitalize(classeVarClePrimaire), "());");
 			tl(22, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_requeteSite(classeLangueNom), "));");
 			tl(21, "} else {");
@@ -4897,10 +4898,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			tl(16, "OAuth2TokenImpl token = new OAuth2TokenImpl(", str_siteContexte(classeLangueNom), ".getAuthProvider(), ", str_utilisateur(classeLangueNom), "Vertx);");
 			l();
 			tl(16, "JsonObject jsonObject = new JsonObject();");
-			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_Nom(classeLangueNom), "\", ", str_utilisateur(classeLangueNom), "Info.getString(\"preferred_username\"));");
-			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_Prenom(classeLangueNom), "\", ", str_utilisateur(classeLangueNom), "Info.getString(\"given_name\"));");
-			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_NomFamille(classeLangueNom), "\", ", str_utilisateur(classeLangueNom), "Info.getString(\"family_name\"));");
-			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_NomComplet(classeLangueNom), "\", ", str_utilisateur(classeLangueNom), "Info.getString(\"name\"));");
+			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_Nom(classeLangueNom), "\", accessToken.getString(\"preferred_username\"));");
+			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_Prenom(classeLangueNom), "\", accessToken.getString(\"given_name\"));");
+			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_NomFamille(classeLangueNom), "\", accessToken.getString(\"family_name\"));");
+			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_NomComplet(classeLangueNom), "\", accessToken.getString(\"name\"));");
 			if(customerProfileId1)
 				tl(16, "jsonObject.put(\"setCustomerProfileId1\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId1()).orElse(null));");
 			if(customerProfileId2)
@@ -4921,8 +4922,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(16, "jsonObject.put(\"setCustomerProfileId9\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId9()).orElse(null));");
 			if(customerProfileId10)
 				tl(16, "jsonObject.put(\"setCustomerProfileId10\", Optional.ofNullable(", str_utilisateurSite(classeLangueNom), "1).map(u -> u.getCustomerProfileId10()).orElse(null));");
-			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), "Id\", ", str_utilisateur(classeLangueNom), "Info.getString(\"sub\"));");
-			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_Mail(classeLangueNom), "\", ", str_utilisateur(classeLangueNom), "Info.getString(\"email\"));");
+			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), "Id\", accessToken.getString(\"sub\"));");
+			tl(16, "jsonObject.put(\"set", str_Utilisateur(classeLangueNom), str_Mail(classeLangueNom), "\", accessToken.getString(\"email\"));");
 			tl(16, "Boolean ", str_definir(classeLangueNom), " = ", str_utilisateur(classeLangueNom), classeNomSimple, str_Definir(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", jsonObject, true);");
 			tl(16, "if(", str_definir(classeLangueNom), ") {");
 			tl(17, classePartsUtilisateurSite.nomSimple(classeLangueNom), " ", str_utilisateurSite(classeLangueNom), ";");
@@ -4987,7 +4988,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(17, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), str_Cle(classeLangueNom), "(", str_utilisateurSite(classeLangueNom), "1.get", StringUtils.capitalize(classeVarClePrimaire), "());");
 			tl(17, "sqlRollback", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", e -> {");
 			tl(18, "if(e.succeeded()) {");
-			tl(19, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
+			tl(19, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_requeteSite(classeLangueNom), "));");
 			tl(18, "} else {");
 			tl(19, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(e.cause()));");
 			tl(19, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", null, e);");
@@ -5020,8 +5021,24 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(7, "}");
 			tl(6, "});");
 			tl(5, "} else {");
-			tl(6, "LOG.error(String.format(\"", str_utilisateur(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", a.cause()));");
-			tl(6, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(a.cause()));");
+			tl(6, str_siteContexte(classeLangueNom), ".getAuthenticationProvider().refresh(token, b -> {");
+			tl(7, "if(b.succeeded()) {");
+			tl(8, "User ", str_utilisateur(classeLangueNom), " = b.result();");
+			tl(8, str_requeteService(classeLangueNom), ".setUser(", str_utilisateur(classeLangueNom), ".principal());");
+			tl(8, str_utilisateur(classeLangueNom), classeNomSimple, "(", str_requeteService(classeLangueNom), ", c -> {");
+			tl(9, "if(c.succeeded()) {");
+			tl(10, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = c.result();");
+			tl(10, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_requeteSite(classeLangueNom), "));");
+			tl(9, "} else {");
+			tl(10, "LOG.error(String.format(\"", str_utilisateur(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", c.cause()));");
+			tl(10, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(c.cause()));");
+			tl(9, "}");
+			tl(8, "});");
+			tl(7, "} else {");
+			tl(8, "LOG.error(String.format(\"", str_utilisateur(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", a.cause()));");
+			tl(8, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(a.cause()));");
+			tl(7, "}");
+			tl(6, "});");
 			tl(5, "}");
 			tl(4, "});");
 			tl(3, "}");
@@ -5267,7 +5284,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(3, "try {");
 	
-			tl(4, "if(\"facet.pivot\".equals(param", str_Nom(classeLangueNom), ")) {");
+			tl(4, "if(param", str_Valeurs(classeLangueNom), str_Objet(classeLangueNom), " != null && \"facet.pivot\".equals(param", str_Nom(classeLangueNom), ")) {");
 			tl(5, "Matcher mFacetPivot = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher(StringUtils.join(param", str_Objets(classeLangueNom), ".getList().toArray(), \",\"));");
 			tl(5, "boolean foundFacetPivot = mFacetPivot.find();");
 			tl(5, "if(foundFacetPivot) {");
@@ -5280,7 +5297,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(6, "}");
 			tl(6, str_listeRecherche(classeLangueNom), ".add(\"facet.pivot\", (solrLocalParams == null ? \"\" : solrLocalParams) + StringUtils.join(vars", str_Indexe(classeLangueNom), ", \",\"));");
 			tl(5, "}");
-			tl(4, "} else {");
+			tl(4, "} else if(param", str_Valeurs(classeLangueNom), str_Objet(classeLangueNom), " != null) {");
 
 			tl(5, "for(Object param", str_Objet(classeLangueNom), " : param", str_Objets(classeLangueNom), ") {");
 			tl(6, "switch(param", str_Nom(classeLangueNom), ") {");
