@@ -1923,11 +1923,13 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 			l();
 		}
-		l("/**\t");
-		ecrireCommentairePart(classeCommentaire, 0); 
-		tl(0, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">", str_Trouver_la_classe_(langueNom), entiteVar, str__dans_Solr(langueNom), ". </a>");
-		tl(0, " * <br/>");
-		l(" **/");  
+		if(!sqlTables) {
+			l("/**\t");
+			ecrireCommentairePart(classeCommentaire, 0); 
+			tl(0, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">", str_Trouver_la_classe_(langueNom), entiteVar, str__dans_Solr(langueNom), ". </a>");
+			tl(0, " * <br/>");
+			l(" **/");  
+		}
 		s("public abstract class ", classeNomSimpleGen);
 		if(classeParametreTypeNoms != null && classeParametreTypeNoms.size() > 0) {
 			s("<");
@@ -3348,33 +3350,34 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				}
 			}
 
-			t(1, "/**");
-			t(1);
-				s(str_L_entité_(langueNom), entiteVar);
-			l();
-	
-			if(entiteCommentaire != null) {
-				String[] lignes = entiteCommentaire.toString().split("\n");
-				for(int j = 0; j < lignes.length; j++) {
-					String ligne = lignes[j];
-					if(!StringUtils.isEmpty(ligne)) {
-						Boolean premier = j == 0;
-						Integer tabulations = StringUtils.countMatches(ligne, "\t");
-						if(!premier)
-							t(1 + tabulations, " *\t");
-						l(ligne.substring(tabulations));
+			if(!sqlTables) {
+				t(1, "/**");
+				t(1);
+					s(str_L_entité_(langueNom), entiteVar);
+				l();
+		
+				if(entiteCommentaire != null) {
+					String[] lignes = entiteCommentaire.toString().split("\n");
+					for(int j = 0; j < lignes.length; j++) {
+						String ligne = lignes[j];
+						if(!StringUtils.isEmpty(ligne)) {
+							Boolean premier = j == 0;
+							Integer tabulations = StringUtils.countMatches(ligne, "\t");
+							if(!premier)
+								t(1 + tabulations, " *\t");
+							l(ligne.substring(tabulations));
+						}
 					}
 				}
+		
+				if(entiteCouverture) {
+					tl(1, " *\t", " is defined as null before being initialized. ");
+				}
+				else {
+					tl(1, " *\t", "Il est construit avant d'être initialisé avec le constructeur par défaut ", entiteNomSimpleComplet, "(). ");
+				}
+				tl(1, " */");
 			}
-	
-			if(entiteCouverture) {
-				tl(1, " *\t", " is defined as null before being initialized. ");
-			}
-			else {
-				tl(1, " *\t", "Il est construit avant d'être initialisé avec le constructeur par défaut ", entiteNomSimpleComplet, "(). ");
-			}
-			tl(1, " */");
-	
 			if(entiteIgnorer)
 				tl(1, "@JsonIgnore");
 			else if("LocalDate".equals(entiteNomSimple)) {
@@ -3419,50 +3422,52 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			// Methode underscore //
 			l();
-			t(1, "/**");
-			t(1);
-			s("<br/>", str_L_entité_(langueNom), entiteVar);
-			l();
-	
-			if(entiteCommentaire != null) {
-				String[] lignes = entiteCommentaire.toString().split("\n");
-				for(int j = 0; j < lignes.length; j++) {
-					String ligne = lignes[j];
-					if(!StringUtils.isEmpty(ligne)) {
-						Boolean premier = j == 0;
-						Integer tabulations = StringUtils.countMatches(ligne, "\t");
-						if(!premier)
-							t(1 + tabulations, " *\t");
-						l(ligne.substring(tabulations));
+			if(!sqlTables) {
+				t(1, "/**");
+				t(1);
+				s("<br/>", str_L_entité_(langueNom), entiteVar);
+				l();
+		
+				if(entiteCommentaire != null) {
+					String[] lignes = entiteCommentaire.toString().split("\n");
+					for(int j = 0; j < lignes.length; j++) {
+						String ligne = lignes[j];
+						if(!StringUtils.isEmpty(ligne)) {
+							Boolean premier = j == 0;
+							Integer tabulations = StringUtils.countMatches(ligne, "\t");
+							if(!premier)
+								t(1 + tabulations, " *\t");
+							l(ligne.substring(tabulations));
+						}
 					}
 				}
+		
+				if(entiteCouverture) {
+					tl(1, " * ", str__est_défini_comme_null_avant_d_être_initialisé__(langueNom));
+				}
+				else {
+					tl(1, " * ", str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut_(langueNom), entiteNomSimpleComplet, "(). ");
+				}
+		
+				// Lien vers Solr //
+				tl(1, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", str_Trouver_l_entité_(langueNom), entiteVar, str__dans_Solr(langueNom), "</a>");
+				tl(1, " * <br/>");
+		
+				if(entiteCouverture) {
+					tl(1, " * @param ", entiteVarParam, str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__(langueNom));
+				}
+				else {
+					tl(1, " * @param ", entiteVar, str__est_l_entité_déjà_construit__(langueNom));
+				}
+		//		if(methodeExceptionsNomSimpleComplet != null && methodeExceptionsNomSimpleComplet.size() > 0) {
+		//
+		//			for(int i = 0; i < methodeExceptionsNomSimpleComplet.size(); i++) {
+		//				String methodeExceptionNomSimpleComplet = methodeExceptionsNomSimpleComplet.get(i);
+		//				tl(1, " * @throws ", methodeExceptionNomSimpleComplet);
+		//			}
+		//		}
+				tl(1, " **/");
 			}
-	
-			if(entiteCouverture) {
-				tl(1, " * ", str__est_défini_comme_null_avant_d_être_initialisé__(langueNom));
-			}
-			else {
-				tl(1, " * ", str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut_(langueNom), entiteNomSimpleComplet, "(). ");
-			}
-	
-			// Lien vers Solr //
-			tl(1, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", str_Trouver_l_entité_(langueNom), entiteVar, str__dans_Solr(langueNom), "</a>");
-			tl(1, " * <br/>");
-	
-			if(entiteCouverture) {
-				tl(1, " * @param ", entiteVarParam, str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__(langueNom));
-			}
-			else {
-				tl(1, " * @param ", entiteVar, str__est_l_entité_déjà_construit__(langueNom));
-			}
-	//		if(methodeExceptionsNomSimpleComplet != null && methodeExceptionsNomSimpleComplet.size() > 0) {
-	//
-	//			for(int i = 0; i < methodeExceptionsNomSimpleComplet.size(); i++) {
-	//				String methodeExceptionNomSimpleComplet = methodeExceptionsNomSimpleComplet.get(i);
-	//				tl(1, " * @throws ", methodeExceptionNomSimpleComplet);
-	//			}
-	//		}
-			tl(1, " **/");
 			t(1, "protected abstract void");
 			s(" _", entiteVar);
 			s("(");
@@ -3629,7 +3634,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			// Setter Timestamp //
 			if(StringUtils.equals(entiteNomCanonique, Timestamp.class.getCanonicalName())) {
-				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+				if(!sqlTables) {
+					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3642,7 +3649,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			// Setter Date //
 			if(StringUtils.equals(entiteNomCanonique, Date.class.getCanonicalName())) {
-				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+				if(!sqlTables) {
+					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3655,7 +3664,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			// Setter LocalTime //
 			if(StringUtils.equals(entiteNomCanonique, LocalTime.class.getCanonicalName())) {
-				tl(1, "/** Example: 01:00 **/");
+				if(!sqlTables) {
+					tl(1, "/** Example: 01:00 **/");
+				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3676,7 +3687,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "this.", entiteVar, " = o == null ? null : LocalDate.from(o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
-				tl(1, "/** Example: 2011-12-03+01:00 **/");
+				if(!sqlTables) {
+					tl(1, "/** Example: 2011-12-03+01:00 **/");
+				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3699,7 +3712,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "this.", entiteVar, " = o == null ? null : ZonedDateTime.from(o).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
-				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+				if(!sqlTables) {
+					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3720,7 +3735,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "this.", entiteVar, " = o == null ? null : LocalDateTime.from(o).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
-				tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+				if(!sqlTables) {
+					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3888,7 +3905,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
-					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					if(!sqlTables) {
+						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteNomSimpleCompletGenerique, " p = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME)));");
 					tl(2, "add", entiteVarCapitalise, "(p);");
@@ -3905,7 +3924,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
-					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					if(!sqlTables) {
+						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_ConfigSite(langueNom), "_().getSiteZone())).toInstant());");
 					tl(2, "add", entiteVarCapitalise, "(p);");
@@ -3922,7 +3943,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
-					tl(1, "/** Example: 2011-12-03+01:00 **/");
+					if(!sqlTables) {
+						tl(1, "/** Example: 2011-12-03+01:00 **/");
+					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDate.parse(o, DateTimeFormatter.ISO_DATE);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
@@ -3944,7 +3967,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
-					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					if(!sqlTables) {
+						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteNomSimpleCompletGenerique, " p = ZonedDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
@@ -3966,7 +3991,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
-					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					if(!sqlTables) {
+						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
+					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
@@ -6162,35 +6189,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(1, "}");
 		}
 		if(classeIndexe && classePartsRequeteSite != null) {
-			l(); 
-			tl(1, "/////////////");
-			tl(1, "// ", str_indexer(langueNom), " //");
-			tl(1, "/////////////");
-			tl(0);
-			tl(1, "public static void ", str_indexer(langueNom), "() {");
-			tl(2, "try {");
-			tl(3, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
-			tl(3, str_requeteSite(langueNom), ".", str_initLoin(langueNom), classePartsRequeteSite.nomSimple(langueNom), "();");
-			tl(3, classePartsSiteContexte.nomSimple(langueNom), " ", str_siteContexte(langueNom), " = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
-			tl(3, str_siteContexte(langueNom), ".get", classePartsConfigSite.nomSimple(langueNom), "().set", str_ConfigChemin(langueNom), "(", q(configChemin), ");");
-			tl(3, str_siteContexte(langueNom), ".", str_initLoin(langueNom), classePartsSiteContexte.nomSimple(langueNom), "();");
-			tl(3, str_requeteSite(langueNom), ".set", str_SiteContexte(langueNom), "_(", str_siteContexte(langueNom), ");");
-			tl(3, str_requeteSite(langueNom), ".set", str_ConfigSite(langueNom), "_(", str_siteContexte(langueNom), ".get", str_ConfigSite(langueNom), "());");
-			tl(3, "SolrQuery ", str_rechercheSolr(langueNom), " = new SolrQuery();");
-			tl(3, "", str_rechercheSolr(langueNom), ".setQuery(\"*:*\");");
-			tl(3, "", str_rechercheSolr(langueNom), ".setRows(1);");
-			tl(3, "", str_rechercheSolr(langueNom), ".addFilterQuery(\"id:\" + ClientUtils.escapeQueryChars(\"", classeNomCanonique, "\"));");
-			tl(3, "QueryResponse ", str_reponseRecherche(langueNom), " = ", str_requeteSite(langueNom), ".get", str_SiteContexte(langueNom), "_().get", str_ClientSolr(langueNom), "().query(", str_rechercheSolr(langueNom), ");");
-			tl(3, "if(", str_reponseRecherche(langueNom), ".getResults().size() > 0)");
-			tl(4, str_requeteSite(langueNom), ".set", str_DocumentSolr(langueNom), "(", str_reponseRecherche(langueNom), ".getResults().get(0));");
-			tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
-			tl(3, "o.", str_requeteSite(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ");");
-			tl(3, "o.", str_initLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ");");
-			tl(3, "o.", str_indexer(langueNom), classeNomSimple, "();");
-			tl(2, "} catch(Exception e) {");
-			tl(3, "ExceptionUtils.rethrow(e);");
-			tl(2, "}");
-			tl(1, "}");
 			tl(0);
 			if(classeEtendBase || classeEstBase) {
 				tl(0);
@@ -6240,26 +6238,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(0);
 			}
 			l("\t}");
-
-			if(StringUtils.isNotEmpty(classeVarCleUnique)) {
-				tl(0);
-				tl(1, "public void ", str_desindexer(langueNom), classeNomSimple, "() {");
-				tl(2, "try {");
-				tl(2, "", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), " = new ", classePartsRequeteSite.nomSimple(langueNom), "();");
-				tl(3, "", str_requeteSite(langueNom), ".", str_initLoin(langueNom), classePartsRequeteSite.nomSimple(langueNom), "();");
-				tl(3, classePartsSiteContexte.nomSimple(langueNom), " ", str_siteContexte(langueNom), " = new ", classePartsSiteContexte.nomSimple(langueNom), "();");
-				tl(3, "", str_siteContexte(langueNom), ".", str_initLoin(langueNom), classePartsSiteContexte.nomSimple(langueNom), "();");
-				tl(3, str_requeteSite(langueNom), ".set", str_SiteContexte(langueNom), "_(", str_siteContexte(langueNom), ");");
-				tl(3, str_requeteSite(langueNom), ".set", str_ConfigSite(langueNom), "_(", str_siteContexte(langueNom), ".get", str_ConfigSite(langueNom), "());");
-				tl(3, str_initLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ");");
-				tl(3, "SolrClient ", str_clientSolr(langueNom), " = ", str_siteContexte(langueNom), ".get", str_ClientSolr(langueNom), "();");
-				tl(3, str_clientSolr(langueNom), ".deleteById(", classeVarCleUnique, ".toString());");
-				tl(3, str_clientSolr(langueNom), ".commit(false, false, true);");
-				tl(2, "} catch(Exception e) {");
-				tl(3, "ExceptionUtils.rethrow(e);");
-				tl(2, "}");
-				tl(1, "}");
-			}
 
 			/////////
 			// var //

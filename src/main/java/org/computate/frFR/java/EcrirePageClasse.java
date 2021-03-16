@@ -595,7 +595,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r: "Rechercher "
 	 * r.enUS: "Search "
 	 * r: operationRequete
-	 * r.enUS: operationRequest
+	 * r.enUS: serviceRequest
 	 * r: RequeteService
 	 * r.enUS: ServiceRequest
 	 * r: entiteAttribuerOperationIdPATCH

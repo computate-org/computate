@@ -129,6 +129,27 @@ public class ConfigSite {
 			return "roleReads";
 	}
 
+	public String str_activer(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "activer";
+		else
+			return "enable";
+	}
+
+	public String str_Supprime(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Supprime";
+		else
+			return "Deleted";
+	}
+
+	public String str_Archive(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Archive";
+		else
+			return "Archived";
+	}
+
 	/**
 	 * Var.enUS: languageName
 	 * enUS: The configured language name for this app. 
@@ -786,6 +807,16 @@ public class ConfigSite {
 		sqlTables = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "sqlTables", false);
 	}
 
+	public Boolean activerSupprime;
+	protected void _activerSupprime() throws Exception {
+		activerSupprime = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_Supprime(langueNom), true);
+	}
+
+	public Boolean activerArchive;
+	protected void _activerArchive() throws Exception {
+		activerArchive = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_Archive(langueNom), true);
+	}
+
 	/**	
 	 * Var.enUS: initSiteConfig
 	 * r: fichierConfig
@@ -905,6 +936,8 @@ public class ConfigSite {
 		_siteEcrireMethodes();
 		_ecrireApi();
 		_sqlTables();
+		_activerSupprime();
+		_activerArchive();
 	}
 
 	/**

@@ -168,7 +168,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r: classeNomCanonique
 	 * r.enUS: classCanonicalName
 	 * r: operationRequete
-	 * r.enUS: operationRequest
+	 * r.enUS: serviceRequest
 	 * r: gestionnaireEvenements
 	 * r.enUS: eventHandler
 	 * r: gestionnaireResultat
@@ -535,7 +535,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r: addresse
 	 * r.enUS: address
 	 * r: operationRequete
-	 * r.enUS: operationRequest
+	 * r.enUS: serviceRequest
 	 * r: gestionnaireResultat
 	 * r.enUS: resultHandler
 	 * r: nomEnsembleDomaine
@@ -2500,7 +2500,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r: addresse
 	 * r.enUS: address
 	 * r: operationRequete
-	 * r.enUS: operationRequest
+	 * r.enUS: serviceRequest
 	 * r: gestionnaireResultat
 	 * r.enUS: resultHandler
 	 * r: nomEnsembleDomaine
@@ -4288,7 +4288,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r: addresse
 	 * r.enUS: address
 	 * r: operationRequete
-	 * r.enUS: operationRequest
+	 * r.enUS: serviceRequest
 	 * r: gestionnaireResultat
 	 * r.enUS: resultHandler
 	 * r: nomEnsembleDomaine
@@ -4681,7 +4681,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "SqlConnection ", str_connexionSql(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_ConnexionSql(classeLangueNom), "();");
 			l();
 			tl(3, "if(", str_connexionSql(classeLangueNom), " == null) {");
-			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
+			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(\"sqlTransaction", str_Fermer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ", connection should not be null. \"));");
 			tl(3, "} else {");
 			tl(4, "", str_connexionSql(classeLangueNom), ".begin(a -> {");
 			tl(5, "Transaction tx = a.result();");
@@ -4700,7 +4700,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "Transaction tx = ", str_requeteSite(classeLangueNom), ".getTx();");
 			l();
 			tl(3, "if(tx == null) {");
-			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
+			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(\"sqlCommit", str_Fermer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ", tx should not be null. \"));");
 			tl(3, "} else {");
 			tl(4, "tx.commit(a -> {");
 			tl(5, "if(a.succeeded()) {");
@@ -4726,7 +4726,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "Transaction tx = ", str_requeteSite(classeLangueNom), ".getTx();");
 			l();
 			tl(3, "if(tx == null) {");
-			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
+			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(\"sqlRollback", str_Fermer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ", tx should not be null. \"));");
 			tl(3, "} else {");
 			tl(4, "tx.rollback(a -> {");
 			tl(5, "if(a.succeeded()) {");
@@ -4752,11 +4752,17 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "SqlConnection ", str_connexionSql(classeLangueNom), " = ", str_requeteSite(classeLangueNom), ".get", str_ConnexionSql(classeLangueNom), "();");
 			l();
 			tl(3, "if(", str_connexionSql(classeLangueNom), " == null) {");
-			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
+			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(\"sql", str_Fermer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ", connection should not be null. \"));");
 			tl(3, "} else {");
-			tl(4, str_connexionSql(classeLangueNom), ".close();");
-			tl(4, str_requeteSite(classeLangueNom), ".set", str_ConnexionSql(classeLangueNom), "(null);");
-			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
+			tl(4, str_connexionSql(classeLangueNom), ".close(a -> {");
+			tl(5, "if(a.succeeded()) {");
+			tl(6, str_requeteSite(classeLangueNom), ".set", str_ConnexionSql(classeLangueNom), "(null);");
+			tl(6, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
+			tl(5, "} else {");
+			tl(6, "LOG.error(String.format(\"sql", str_Fermer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", a.cause()));");
+			tl(6, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(a.cause()));");
+			tl(5, "}");
+			tl(4, "});");
 			tl(3, "}");
 			tl(2, "} catch(Exception e) {");
 			tl(3, "LOG.error(String.format(\"sql", str_Fermer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), e);");
@@ -4795,7 +4801,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_requeteSite(classeLangueNom), "));");
 			tl(3, "} else {");
 			tl(4, "User token = User.create(", str_utilisateur(classeLangueNom), "Json);");
-			tl(4, str_siteContexte(classeLangueNom), ".getAuthenticationProvider().authenticate(token.principal(), a -> {");
+			tl(4, str_siteContexte(classeLangueNom), ".getOauth2AuthenticationProvider().authenticate(token.principal(), a -> {");
 			tl(5, "if(a.succeeded()) {");
 			tl(6, "User ", str_utilisateur(classeLangueNom), " = a.result();");
 			tl(6, str_siteContexte(classeLangueNom), ".getAuthorizationProvider().getAuthorizations(", str_utilisateur(classeLangueNom), ", b -> {");
@@ -5021,7 +5027,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(7, "}");
 			tl(6, "});");
 			tl(5, "} else {");
-			tl(6, str_siteContexte(classeLangueNom), ".getAuthenticationProvider().refresh(token, b -> {");
+			tl(6, str_siteContexte(classeLangueNom), ".getOauth2AuthenticationProvider().refresh(token, b -> {");
 			tl(7, "if(b.succeeded()) {");
 			tl(8, "User ", str_utilisateur(classeLangueNom), " = b.result();");
 			tl(8, str_requeteService(classeLangueNom), ".setUser(", str_utilisateur(classeLangueNom), ".principal());");
