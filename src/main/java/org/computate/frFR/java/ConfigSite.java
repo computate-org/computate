@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  */ 
 public class ConfigSite { 
 
-	protected final Logger log = LoggerFactory.getLogger(getClass());
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$\\\\|]");
 	
