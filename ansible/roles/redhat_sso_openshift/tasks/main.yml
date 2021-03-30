@@ -14,6 +14,8 @@
     api_key: "{{SSO_TOKEN}}"
     namespace: "{{SSO_NAMESPACE}}"
     definition: "{{ lookup('template', 'redhat_sso_keystore.yml.j2') }}"
+  tags:
+    - sso-keystore-secret
 - name: Install sso persistent volume claim on OpenShift
   k8s: 
     state: present
