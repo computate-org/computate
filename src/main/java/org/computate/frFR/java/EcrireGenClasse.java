@@ -153,6 +153,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String classeNomSimple;
 
+	protected String uncapitalizeClasseNomSimple;
+
 	/**
 	 * Var.enUS: classSuperCanonicalName
 	 */
@@ -3753,14 +3755,32 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 
 			if(!staticSet && !entiteNomSimpleComplet.contains("<DEV>")) {
-				if((StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()))) {
+				if((StringUtils.equalsAny(entiteNomSimple, "List", "ArrayList", "Stack"))) {
 					tl(1, "public static ", entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
-					tl(2, "return null;");
+					if("String".equals(entiteNomSimpleGenerique)) {
+						tl(2, "return o;");
+					} else if(StringUtils.equals(entiteNomCanonique, Long.class.getCanonicalName())) {
+						tl(2, "if(NumberUtils.isParsable(o))");
+						tl(3, "return Long.parseLong(o);");
+						tl(2, "return null;");
+						staticSet = true;
+					} else {
+						tl(2, "return null;");
+					}
 					tl(1, "}");
 				}
 				else {
 					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
-					tl(2, "return null;");
+					if("String".equals(entiteNomSimpleGenerique)) {
+						tl(2, "return o;");
+					} else if(StringUtils.equals(entiteNomCanonique, Long.class.getCanonicalName())) {
+						tl(2, "if(NumberUtils.isParsable(o))");
+						tl(3, "return Long.parseLong(o);");
+						tl(2, "return null;");
+						staticSet = true;
+					} else {
+						tl(2, "return null;");
+					}
 					tl(1, "}");
 				}
 			}
@@ -5154,7 +5174,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			if(classeIndexe) {
 				if(entiteIndexe) {
 					wVarIndexe.tl(3, "case \"", entiteVar, "\":");
-					wVarIndexe.tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
+					if(entiteSuggere)
+						wVarIndexe.tl(4, "return \"", entiteVar, "_suggested", "\";");
+					else if(entiteTexte && entiteLangue != null)
+						wVarIndexe.tl(4, "return \"", entiteVar, "_text_" + entiteLangue, "\";");
+					else
+						wVarIndexe.tl(4, "return \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
 				}
 				if(entiteTexte && entiteLangue != null) {
 					wVarRecherche.tl(3, "case \"", entiteVar, "\":");

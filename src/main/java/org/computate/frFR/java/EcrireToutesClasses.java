@@ -469,6 +469,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 
 					o = ToutEcrivain.create(classeFichierGen);
 					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
+					uncapitalizeClasseNomSimple = StringUtils.uncapitalize(classeNomSimple);
 					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
 					classeNomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
 					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");

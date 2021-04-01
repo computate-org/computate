@@ -237,6 +237,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	ClasseParts classePartsPagePart;
 
+	ClasseParts classePartsBaseApiServiceImpl;
+
 	/**
 	 * Var.enUS: CONTEXT_frFR_AMale
 	 */
@@ -1196,6 +1198,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "PagePart";
 		else
 			return "PagePart";
+	}
+
+	public String str_BaseApiServiceImpl(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "BaseApiServiceImpl";
+		else
+			return "BaseApiServiceImpl";
 	}
 
 	public String str_ResultatRecherche(String langueNom) {
@@ -4467,6 +4476,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		return classePartsPourNomSimple(nomEnsembleDomaine, str_PagePart(this.langueNomActuel), langueNom);
 	}
 
+	protected ClasseParts classePartsBaseApiServiceImpl(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, str_BaseApiServiceImpl(this.langueNomActuel), langueNom);
+	}
+
 	/**
 	 * Var.enUS: storeRegexComments
 	 * Param1.var.enUS: languageName
@@ -6190,6 +6203,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsCouverture = classePartsCouverture(nomEnsembleDomaine, classeLangueNom);
 		classePartsMiseEnPage = classePartsMiseEnPage(nomEnsembleDomaine, classeLangueNom);
 		classePartsPagePart = classePartsPagePart(nomEnsembleDomaine, classeLangueNom);
+		classePartsBaseApiServiceImpl = classePartsBaseApiServiceImpl(nomEnsembleDomaine, classeLangueNom);
 		classePartsRequeteSite = classePartsRequeteSite(nomEnsembleDomaine, classeLangueNom);
 
 		Boolean classeInitLoin = !regexTrouve("^" + str_InitLoin(classeLangueNom) + ":\\s*(false)$", classeCommentaire);
