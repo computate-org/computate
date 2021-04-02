@@ -122,6 +122,13 @@ public class ConfigSite {
 			return "writeApi";
 	}
 
+	public String str_ecrireCommentaire(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "ecrireCommentaire";
+		else
+			return "writeComments";
+	}
+
 	public String str_roleLires(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "roleLires";
@@ -799,10 +806,12 @@ public class ConfigSite {
 		ecrireApi = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_ecrireApi(langueNom), true);
 	}
 
+	public Boolean ecrireCommentaire;
+	protected void _ecrireCommentaire() throws Exception {
+		ecrireCommentaire = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_ecrireCommentaire(langueNom), true);
+	}
+
 	public Boolean sqlTables;
-	/**	
-	 * Var.enUS: _sqlTables
-	 **/  
 	protected void _sqlTables() throws Exception {
 		sqlTables = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "sqlTables", false);
 	}
@@ -935,6 +944,7 @@ public class ConfigSite {
 		_customerProfileId10();
 		_siteEcrireMethodes();
 		_ecrireApi();
+		_ecrireCommentaire();
 		_sqlTables();
 		_activerSupprime();
 		_activerArchive();

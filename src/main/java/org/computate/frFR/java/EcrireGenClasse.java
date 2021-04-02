@@ -1925,7 +1925,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 			l();
 		}
-		if(!sqlTables) {
+		if(ecrireCommentaire) {
 			l("/**\t");
 			ecrireCommentairePart(classeCommentaire, 0); 
 			tl(0, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">", str_Trouver_la_classe_(langueNom), entiteVar, str__dans_Solr(langueNom), ". </a>");
@@ -3352,7 +3352,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				}
 			}
 
-			if(!sqlTables) {
+			if(ecrireCommentaire) {
 				t(1, "/**");
 				t(1);
 					s(str_L_entité_(langueNom), entiteVar);
@@ -3424,7 +3424,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			// Methode underscore //
 			l();
-			if(!sqlTables) {
+			if(ecrireCommentaire) {
 				t(1, "/**");
 				t(1);
 				s("<br/>", str_L_entité_(langueNom), entiteVar);
@@ -3636,7 +3636,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			// Setter Timestamp //
 			if(StringUtils.equals(entiteNomCanonique, Timestamp.class.getCanonicalName())) {
-				if(!sqlTables) {
+				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
@@ -3651,7 +3651,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			// Setter Date //
 			if(StringUtils.equals(entiteNomCanonique, Date.class.getCanonicalName())) {
-				if(!sqlTables) {
+				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
@@ -3666,7 +3666,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	
 			// Setter LocalTime //
 			if(StringUtils.equals(entiteNomCanonique, LocalTime.class.getCanonicalName())) {
-				if(!sqlTables) {
+				if(ecrireCommentaire) {
 					tl(1, "/** Example: 01:00 **/");
 				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
@@ -3689,7 +3689,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "this.", entiteVar, " = o == null ? null : LocalDate.from(o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
-				if(!sqlTables) {
+				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03+01:00 **/");
 				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
@@ -3714,7 +3714,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "this.", entiteVar, " = o == null ? null : ZonedDateTime.from(o).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
-				if(!sqlTables) {
+				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
@@ -3737,7 +3737,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "this.", entiteVar, " = o == null ? null : LocalDateTime.from(o).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
-				if(!sqlTables) {
+				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				}
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
@@ -3925,7 +3925,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
-					if(!sqlTables) {
+					if(ecrireCommentaire) {
 						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
@@ -3944,7 +3944,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
-					if(!sqlTables) {
+					if(ecrireCommentaire) {
 						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
@@ -3963,7 +3963,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
-					if(!sqlTables) {
+					if(ecrireCommentaire) {
 						tl(1, "/** Example: 2011-12-03+01:00 **/");
 					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
@@ -3987,7 +3987,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
-					if(!sqlTables) {
+					if(ecrireCommentaire) {
 						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
@@ -4011,7 +4011,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
-					if(!sqlTables) {
+					if(ecrireCommentaire) {
 						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
@@ -5216,7 +5216,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				wIndexerFacetFor.tl(6, entiteAttribuerNomSimple, " o2 = ", str_listeRecherche(langueNom), "2.getList().stream().findFirst().orElse(null);");
 				wIndexerFacetFor.l();
 				wIndexerFacetFor.tl(6, "if(o2 != null) {");
-				wIndexerFacetFor.tl(7, entiteAttribuerNomSimpleGenApiServiceImpl, " service = new ", entiteAttribuerNomSimpleGenApiServiceImpl, "(", str_requeteSite(langueNom), ".get", str_SiteContexte(langueNom), "_());");
+				wIndexerFacetFor.tl(7, entiteAttribuerNomSimpleApiServiceImpl, " service = new ", entiteAttribuerNomSimpleApiServiceImpl, "(", str_requeteSite(langueNom), ".get", str_SiteContexte(langueNom), "_());");
 				wIndexerFacetFor.tl(7, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "2 = ", str_generer(langueNom), classePartsRequeteSite.nomSimple(langueNom), str_Pour(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "(), ", str_siteContexte(langueNom), ", ", str_requeteSite(langueNom), ".get", str_RequeteService(langueNom), "(), new JsonObject());");
 				wIndexerFacetFor.tl(7, classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), "2 = new ", classePartsRequeteApi.nomSimple(langueNom), "();");
 				wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setRows(1);");
@@ -5229,13 +5229,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				wIndexerFacetFor.tl(7, "o2.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, "2);");
 				wIndexerFacetFor.tl(7, "o2.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "2);");
 				wIndexerFacetFor.tl(7, "futures.add(");
-				wIndexerFacetFor.tl(8, "service.patch", entiteAttribuerNomSimple, "Future(o2, false, a -> {");
-				wIndexerFacetFor.tl(9, "if(a.succeeded()) {");
-//				wIndexerFacetFor.tl(10, "LOG.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_rechargé(langueNom), ". \", ", classeVarClePrimaire, "2));");
-				wIndexerFacetFor.tl(9, "} else {");
-				wIndexerFacetFor.tl(10, "LOG.info(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "2));");
-				wIndexerFacetFor.tl(10, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(a.cause()));");
-				wIndexerFacetFor.tl(9, "}");
+				wIndexerFacetFor.tl(8, "service.patch", entiteAttribuerNomSimple, "Future(o2, false).onFailure(ex -> {");
+				wIndexerFacetFor.tl(9, "LOG.error(String.format(\"", entiteAttribuerNomSimple, " %s ", str_a_échoué(langueNom), ". \", ", classeVarClePrimaire, "2), ex);");
+				wIndexerFacetFor.tl(9, str_gestionnaireEvenements(langueNom), ".handle(Future.failedFuture(ex));");
 				wIndexerFacetFor.tl(8, "})");
 				wIndexerFacetFor.tl(7, ");");
 				wIndexerFacetFor.tl(6, "}");
