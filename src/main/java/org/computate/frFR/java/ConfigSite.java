@@ -187,6 +187,13 @@ public class ConfigSite {
 			return "in";
 	}
 
+	public String str_MailVerticle(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "MailVerticle";
+		else
+			return "MailVerticle";
+	}
+
 	/**
 	 * Var.enUS: str_Wrap
 	 */
@@ -2326,6 +2333,13 @@ public class ConfigSite {
 			return "ApiUri";
 	}
 
+	public String str_Admin(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Admin";
+		else
+			return "Admin";
+	}
+
 	public String str_RoleUtilisateur(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "RoleUtilisateur";
@@ -3593,6 +3607,16 @@ public class ConfigSite {
 		activerSessionId = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_SessionId(langueNom), true);
 	}
 
+	public Boolean activerRoleAdmin;
+	protected void _activerRoleAdmin() throws Exception {
+		activerRoleAdmin = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_Role(langueNom) + str_Admin(langueNom), true);
+	}
+
+	public Boolean activerOpenIdConnect;
+	protected void _activerOpenIdConnect() throws Exception {
+		activerOpenIdConnect = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + "OpenIdConnect", true);
+	}
+
 	/**	
 	 * Var.enUS: initSiteConfig
 	 * r: fichierConfig
@@ -3717,6 +3741,8 @@ public class ConfigSite {
 		_activerArchive();
 		_activerUtilisateurCle();
 		_activerSessionId();
+		_activerRoleAdmin();
+		_activerOpenIdConnect();
 	}
 
 	/**

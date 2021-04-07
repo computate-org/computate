@@ -2746,12 +2746,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(3, "var numFound = parseInt(json['numFound']);");
 						auteurPageJs.tl(3, "var numPATCH = parseInt(json['numPATCH']);");
 						auteurPageJs.tl(3, "var percent = Math.floor( numPATCH / numFound * 100 ) + '%';");
-						auteurPageJs.tl(3, "var $box = $('<div>').attr('class', 'w3-display-topright w3-quarter box-' + id + ' ').attr('id', 'box-' + id).attr('data-numPATCH', numPATCH);");
+						auteurPageJs.tl(3, "var $box = $('<div>').attr('class', 'w3-quarter box-' + id + ' ').attr('id', 'box-' + id).attr('data-numPATCH', numPATCH);");
 						auteurPageJs.tl(3, "var $margin = $('<div>').attr('class', 'w3-margin ').attr('id', 'margin-' + id);");
 						auteurPageJs.tl(3, "var $card = $('<div>').attr('class', 'w3-card w3-white ').attr('id', 'card-' + id);");
 						auteurPageJs.tl(3, "var $header = $('<div>').attr('class', 'w3-container fa-", contexteCouleur, " ').attr('id', 'header-' + id);");
 						auteurPageJs.tl(3, "var $i = $('<i>').attr('class', 'fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " w3-margin-right ').attr('id', 'icon-' + id);");
-						auteurPageJs.tl(3, "var $headerSpan = $('<span>').attr('class', '').text('", str_modifier(langueNom), " ", contexteNomAdjectifPluriel, "');");
+						auteurPageJs.tl(3, "var $headerSpan = $('<span>').attr('class', '').text('", str_modifier(langueNom), " ", contexteNomAdjectifPluriel, "' + id);");
 						auteurPageJs.tl(3, "var $x = $('<span>').attr('class', 'w3-button w3-display-topright ').attr('onclick', '$(\"#card-' + id + '\").hide(); ').attr('id', 'x-' + id);");
 						auteurPageJs.tl(3, "var $body = $('<div>').attr('class', 'w3-container w3-padding ').attr('id', 'text-' + id);");
 						auteurPageJs.tl(3, "var $bar = $('<div>').attr('class', 'w3-light-gray ').attr('id', 'bar-' + id);");
@@ -2770,8 +2770,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.tl(4, "if(!$old_box.size()) {");
 						auteurPageJs.tl(5, "$('.top-box').append($box);");
 						auteurPageJs.tl(4, "} else if($old_box && $old_box.attr('data-numPATCH') < numFound) {");
-						auteurPageJs.tl(5, "$('.box-' + id).remove();");
-						auteurPageJs.tl(5, "$('.top-box').append($box);");
+						auteurPageJs.tl(5, "$('.box-' + id).html($margin);");
 						auteurPageJs.tl(4, "}");
 						auteurPageJs.tl(3, "} else {");
 						auteurPageJs.tl(4, "$('.box-' + id).remove();");

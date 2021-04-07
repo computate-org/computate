@@ -239,6 +239,8 @@ public class IndexerClasse extends RegarderClasseBase {
 
 	ClasseParts classePartsBaseApiServiceImpl;
 
+	ClasseParts classePartsMailVerticle;
+
 	/**
 	 * Var.enUS: CONTEXT_frFR_AMale
 	 */
@@ -1721,6 +1723,10 @@ public class IndexerClasse extends RegarderClasseBase {
 
 	protected ClasseParts classePartsBaseApiServiceImpl(String nomEnsembleDomaine, String langueNom) throws Exception {
 		return classePartsPourNomSimple(nomEnsembleDomaine, str_BaseApiServiceImpl(this.langueNomActuel), langueNom);
+	}
+
+	protected ClasseParts classePartsMailVerticle(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, str_MailVerticle(this.langueNomActuel), langueNom);
 	}
 
 	/**
@@ -3448,6 +3454,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsPagePart = classePartsPagePart(nomEnsembleDomaine, classeLangueNom);
 		classePartsBaseApiServiceImpl = classePartsBaseApiServiceImpl(nomEnsembleDomaine, classeLangueNom);
 		classePartsRequeteSite = classePartsRequeteSite(nomEnsembleDomaine, classeLangueNom);
+		classePartsMailVerticle = classePartsMailVerticle(nomEnsembleDomaine, classeLangueNom);
 
 		Boolean classeInitLoin = !regexTrouve("^" + str_InitLoin(classeLangueNom) + ":\\s*(false)$", classeCommentaire);
 		if(classeInitLoin)
@@ -5701,9 +5708,9 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(classePartsUtilisateurSite, classeLangueNom);
 				classePartsGenApiAjouter(classePartsRequeteApi, classeLangueNom);
 				classePartsGenApiAjouter(classePartsResultatRecherche, classeLangueNom);
+				classePartsGenApiAjouter(classePartsMailVerticle, classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.WorkerExecutor", classeLangueNom), classeLangueNom);
-				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.mail.MailClient", classeLangueNom), classeLangueNom);
-				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.mail.MailMessage", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.DeliveryOptions", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collections", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Map", classeLangueNom), classeLangueNom);
