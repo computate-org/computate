@@ -1,4 +1,4 @@
-package org.computate.frFR.java;    
+package org.computate.frFR.java;     
 
 import java.io.File;
 import java.util.ArrayList;
@@ -64,6 +64,13 @@ public class ConfigSite {
 			return "autresLangues";
 		else
 			return "otherLanguages";
+	}
+
+	public String str_SITE_URL_BASE(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "SITE_URL_BASE";
+		else
+			return "SITE_BASE_URL";
 	}
 
 	public String str_siteUrlBase(String langueNom) {
@@ -618,6 +625,13 @@ public class ConfigSite {
 			return "ConfigChemin";
 		else
 			return "ConfigPath";
+	}
+
+	public String str_routeur(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "routeur";
+		else
+			return "router";
 	}
 
 	/**
@@ -2842,6 +2856,13 @@ public class ConfigSite {
 			return "Signature";
 		else
 			return "Signature";
+	}
+
+	public String str_ConfigCles(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ConfigCles";
+		else
+			return "ConfigKeys";
 	}
 
 	public String str_Cles(String langueNom) {
