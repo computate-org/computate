@@ -423,9 +423,13 @@ public class ConfigSite {
 			return "Rights";
 	}
 
-	/**
-	 * Var.enUS: str_SiteConfig
-	 */
+	public String str_Config(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "Config";
+		else
+			return "Config";
+	}
+
 	public String str_ConfigSite(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "ConfigSite";
@@ -569,9 +573,20 @@ public class ConfigSite {
 			return "RequestHeaders";
 	}
 
-	/**
-	 * Var.enUS: str_siteContext
-	 */
+	public String str_SITE_ZONE(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "SITE_ZONE";
+		else
+			return "SITE_ZONE";
+	}
+
+	public String str_siteZone(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "siteZone";
+		else
+			return "siteZone";
+	}
+
 	public String str_siteContexte(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "siteContexte";

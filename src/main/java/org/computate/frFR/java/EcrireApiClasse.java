@@ -233,6 +233,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("import io.vertx.ext.web.api.service.ServiceResponse;");
 			auteurGenApiService.l("import io.vertx.core.WorkerExecutor;");
 			auteurGenApiService.l("import io.vertx.pgclient.PgPool;");
+			if(activerOpenIdConnect) {
+				auteurGenApiService.l("import io.vertx.ext.auth.oauth2.OAuth2Auth;");
+				auteurGenApiService.l("import io.vertx.ext.auth.authorization.AuthorizationProvider;");
+			}
 			auteurGenApiService.l();
 			auteurGenApiService.l("/**");
 			auteurGenApiService.l(" * ", str_Traduire(classeLangueNom), ": false");
@@ -249,18 +253,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
 
 			l();
-			tl(8, "EventBus eventBus;");
+			tl(8, "protected EventBus eventBus;");
 			l();
-			tl(8, "JsonObject config;");
+			tl(8, "protected JsonObject config;");
 			l();
-			tl(8, "WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ";");
+			tl(8, "protected WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ";");
 			l();
-			tl(8, "PgPool pgPool;");
+			tl(8, "protected PgPool pgPool;");
 			l();
-			tl(8, "SolrClient ", str_clientSolr(classeLangueNom), ";");
+			tl(8, "protected SolrClient ", str_clientSolr(classeLangueNom), ";");
 
-			auteurGenApiService.tl(1, "static void ", str_enregistrer(classeLangueNom), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, SolrClient ", str_clientSolr(classeLangueNom), ", Vertx vertx) {");
-			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(appliNom, "-", classeLangueNom, "-", classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientSolr(classeLangueNom), "));");
+			auteurGenApiService.tl(1, "static void ", str_enregistrer(classeLangueNom), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, SolrClient ", str_clientSolr(classeLangueNom), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", ", Vertx vertx) {");
+			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(appliNom, "-", classeLangueNom, "-", classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientSolr(classeLangueNom), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", "));");
 			auteurGenApiService.tl(1, "}");
 //			auteurGenApiService.l();
 ////			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
@@ -333,10 +337,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 		if(auteurApiServiceImpl != null) {
 			auteurApiServiceImpl.l("package ", classeNomEnsemble, ";");
 			auteurApiServiceImpl.l();
-			auteurApiServiceImpl.l("import ", classePartsSiteContexte.getDocumentSolr().get("classeNomCanonique_" + classeLangueNom + "_stored_string"), ";");
 			auteurApiServiceImpl.l("import org.apache.solr.client.solrj.SolrClient;");
 			auteurApiServiceImpl.l("import io.vertx.core.eventbus.EventBus;");
 			auteurApiServiceImpl.l("import io.vertx.core.WorkerExecutor;");
+			auteurApiServiceImpl.l("import io.vertx.core.json.JsonObject;");
 			auteurApiServiceImpl.l("import io.vertx.pgclient.PgPool;");
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurApiServiceImpl.l();
@@ -349,8 +353,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l(" **/");
 			auteurApiServiceImpl.l("public class ", classeNomSimpleApiServiceImpl, " extends ", classeNomSimpleGenApiServiceImpl, " {");
 			auteurApiServiceImpl.l();
-			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, SolrClient ", str_clientSolr(classeLangueNom), ") {");
-			auteurApiServiceImpl.tl(2, "super(eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientSolr(classeLangueNom), ");");
+			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, SolrClient ", str_clientSolr(classeLangueNom), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", ") {");
+			auteurApiServiceImpl.tl(2, "super(eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientSolr(classeLangueNom), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", ");");
 			auteurApiServiceImpl.tl(1, "}");
 			auteurApiServiceImpl.l("}");
 
@@ -2769,22 +2773,30 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "protected static final String SERVICE_ADDRESS = \"", classeNomSimpleApiServiceImpl, "\";");
 			l();
-			tl(1, "private EventBus eventBus;");
+			tl(1, "protected EventBus eventBus;");
 			l();
-			tl(1, "private JsonObject config;");
+			tl(1, "protected JsonObject config;");
 			l();
-			tl(1, "private WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ";");
+			tl(1, "protected WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ";");
 			l();
-			tl(1, "private PgPool pgPool;");
+			tl(1, "protected PgPool pgPool;");
 			l();
-			tl(1, "private SolrClient ", str_clientSolr(classeLangueNom), ";");
+			tl(1, "protected SolrClient ", str_clientSolr(classeLangueNom), ";");
+			if(activerOpenIdConnect) {
+				l();
+				tl(1, "protected OAuth2Auth oauth2AuthenticationProvider;");
+				l();
+				tl(1, "protected AuthorizationProvider authorizationProvider;");
+			}
 			l();
-			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, SolrClient ", str_clientSolr(classeLangueNom), ") {");
+			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, SolrClient ", str_clientSolr(classeLangueNom), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", ") {");
 			tl(2, "this.eventBus = eventBus;");
 			tl(2, "this.config = config;");
 			tl(2, "this.", str_executeurTravailleur(classeLangueNom), " = ", str_executeurTravailleur(classeLangueNom), ";");
 			tl(2, "this.pgPool = pgPool;");
 			tl(2, "this.", str_clientSolr(classeLangueNom), " = ", str_clientSolr(classeLangueNom), ";");
+			tl(2, "this.oauth2AuthenticationProvider = oauth2AuthenticationProvider;");
+			tl(2, "this.authorizationProvider = authorizationProvider;");
 			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
@@ -3083,7 +3095,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "});");
 					}
 					else if(classeApiMethode.equals(str_PUTFusion(classeLangueNom)) || classeApiMethode.equals("PUTImport")) {
-						tl(6, classeApiOperationIdMethode, str_Reponse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", c -> {");
+						tl(6, str_reponse(classeLangueNom), "200", classeApiMethode, classeNomSimple, "(", str_requeteSite(classeLangueNom), ", c -> {");
 						tl(7, "if(c.succeeded()) {");
 						tl(8, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(c.result()));");
 						tl(8, str_executeurTravailleur(classeLangueNom), ".executeBlocking(");
@@ -3099,21 +3111,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(11, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
 						tl(11, "vars", classeNomSimple, "(", str_requeteSite(classeLangueNom), ", d -> {");
 						tl(12, "if(d.succeeded()) {");
-						tl(13, str_liste(classeLangueNom), classeApiMethode, classeNomSimple, "(", str_requeteApi(classeLangueNom), ", ", str_requeteSite(classeLangueNom), ", e -> {");
-						tl(14, "if(e.succeeded()) {");
-						tl(15, classeApiOperationIdMethode, str_Reponse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", f -> {");
-						tl(16, "if(e.succeeded()) {");
-						tl(17, "LOG.info(String.format(\"", classeApiOperationIdMethode, " ", str_a_réussi(classeLangueNom), ". \"));");
-						tl(17, "blockingCodeHandler.handle(Future.succeededFuture(e.result()));");
-						tl(16, "} else {");
-						tl(17, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", f.cause()));");
-						tl(17, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", null, f);");
-						tl(16, "}");
-						tl(15, "});");
-						tl(14, "} else {");
-						tl(15, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", e.cause()));");
-						tl(15, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", null, e);");
-						tl(14, "}");
+						tl(13, str_liste(classeLangueNom), classeApiMethode, classeNomSimple, "(", str_requeteApi(classeLangueNom), ", ", str_requeteSite(classeLangueNom), ").onSuccess(e -> {");
+						tl(14, str_reponse(classeLangueNom), "200", classeApiMethode, classeNomSimple, "(", str_requeteSite(classeLangueNom), ", f -> {");
+						tl(15, "if(f.succeeded()) {");
+						tl(16, "LOG.info(String.format(\"", classeApiOperationIdMethode, " ", str_a_réussi(classeLangueNom), ". \"));");
+						tl(16, "blockingCodeHandler.handle(Future.succeededFuture(f.result()));");
+						tl(15, "} else {");
+						tl(16, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", f.cause()));");
+						tl(16, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", null, f);");
+						tl(15, "}");
+						tl(14, "});");
+						tl(13, "}).onFailure(ex -> {");
+						tl(14, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", ex));");
+						tl(14, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", null, Future.failedFuture(ex));");
 						tl(13, "});");
 						tl(12, "} else {");
 						tl(13, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \", d.cause()));");
@@ -3238,7 +3248,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 					else if(classeApiMethode.equals(str_PUTFusion(classeLangueNom)) || classeApiMethode.equals("PUTImport")) {
 						l();
-						tl(1, "public void ", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, "(", classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ", Handler<AsyncResult<ServiceResponse>> ", str_gestionnaireEvenements(classeLangueNom), ") {");
+						tl(1, "public Future<Void> ", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, "(", classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), ") {");
+						tl(2, "Promise<Void> promise = Promise.promise();");
 						tl(2, "List<Future> futures = new ArrayList<>();");
 						tl(2, "JsonArray jsonArray = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_ObjetJson(classeLangueNom), "()).map(o -> o.getJsonArray(\"list\")).orElse(new JsonArray());");
 						tl(2, "try {");
@@ -3283,7 +3294,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "futures.add(");
 						tl(7, "patch", classeNomSimple, "Future(o, ", classeApiMethode.equals("PUTImport"), ").onFailure(ex -> {");
 						tl(8, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", ex));");
-						tl(8, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), "2, ", str_gestionnaireEvenements(classeLangueNom), ", Future.failedFuture(ex));");
 						tl(7, "})");
 						tl(6, ");");
 						tl(5, "}");
@@ -3291,26 +3301,22 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "futures.add(");
 						tl(6, "post", classeNomSimple, "Future(", str_requeteSite(classeLangueNom), "2, ", classeApiMethode.equals("PUTImport"), ").onFailure(ex -> {");
 						tl(7, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", ex));");
-						tl(7, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), "2, ", str_gestionnaireEvenements(classeLangueNom), ", Future.failedFuture(ex));");
 						tl(6, "})");
 						tl(5, ");");
 						tl(4, "}");
 						tl(3, "});");
-						tl(3, "CompositeFuture.all(futures).onComplete( a -> {");
-						tl(4, "if(a.succeeded()) {");
-//						tl(5, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + jsonArray.size());");
-						tl(5, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + 1);");
-						tl(5, str_reponse(classeLangueNom), "200", classeApiMethode, classeNomSimple, "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ");");
-//						tl(5, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + 1);");
-						tl(4, "} else {");
-						tl(5, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", a.cause()));");
-						tl(5, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteApi(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_(), ", str_gestionnaireEvenements(classeLangueNom), ", a);");
-						tl(4, "}");
+						tl(3, "CompositeFuture.all(futures).onSuccess(a -> {");
+						tl(4, str_requeteApi(classeLangueNom), ".setNumPATCH(", str_requeteApi(classeLangueNom), ".getNumPATCH() + 1);");
+						tl(4, "promise.complete();");
+						tl(3, "}).onFailure(ex -> {");
+						tl(4, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", ex));");
+						tl(4, "promise.fail(ex);");
 						tl(3, "});");
 						tl(2, "} catch(Exception ex) {");
 						tl(3, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", ex));");
-						tl(3, str_erreur(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ", null, Future.failedFuture(ex));");
+						tl(3, "promise.fail(ex);");
 						tl(2, "}");
+						tl(2, "return promise.future();");
 						tl(1, "}");
 					}
 
@@ -3899,7 +3905,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					/////////////
 					// Reponse //
 					/////////////
-					{
+					if (!classeApiMethode.equals("PUTImport")){
 						String var;
 						String type;
 						if(classeApiMethode.contains("POST")) {
@@ -4744,6 +4750,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "public ", classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_generer(classeLangueNom), classePartsRequeteSite.nomSimple(classeLangueNom), str_Pour(classeLangueNom), classeNomSimple, "(User ", str_utilisateur(classeLangueNom), ", SolrClient ", str_clientSolr(classeLangueNom), ", ServiceRequest ", str_requeteService(classeLangueNom), ", JsonObject body) {");
 			tl(2, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = new ", classePartsRequeteSite.nomSimple(classeLangueNom), "();");
+			tl(2, str_requeteSite(classeLangueNom), ".set", str_ClientSolr(classeLangueNom), "(", str_clientSolr(classeLangueNom), ");");
 			tl(2, str_requeteSite(classeLangueNom), ".set", str_ObjetJson(classeLangueNom), "(body);");
 			tl(2, str_requeteSite(classeLangueNom), ".set", str_Utilisateur(classeLangueNom), "(", str_utilisateur(classeLangueNom), ");");
 			tl(2, str_requeteSite(classeLangueNom), ".setConfig(config);");
@@ -4767,10 +4774,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			if(activerOpenIdConnect) {
 				tBase = 5;
 				tl(4, "User token = User.create(", str_utilisateur(classeLangueNom), "Json);");
-				tl(4, str_siteContexte(classeLangueNom), ".getOauth2AuthenticationProvider().authenticate(token.principal(), a -> {");
+				tl(4, "oauth2AuthenticationProvider.authenticate(token.principal(), a -> {");
 				tl(5, "if(a.succeeded()) {");
 				tl(6, "User ", str_utilisateur(classeLangueNom), " = a.result();");
-				tl(6, str_siteContexte(classeLangueNom), ".getAuthorizationProvider().getAuthorizations(", str_utilisateur(classeLangueNom), ", b -> {");
+				tl(6, "authorizationProvider.getAuthorizations(", str_utilisateur(classeLangueNom), ", b -> {");
 				tl(7, "if(b.succeeded()) {");
 				tl(8, "try {");
 				tl(tBase + 4, "JsonObject ", str_utilisateur(classeLangueNom), "Attributes = ", str_utilisateur(classeLangueNom), ".attributes();");
@@ -4790,7 +4797,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(tBase + 4, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_utilisateur(classeLangueNom), "Id_indexed_string:\" + ClientUtils.escapeQueryChars(", str_utilisateur(classeLangueNom), "Id));");
 			tl(tBase + 4, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 			tl(tBase + 4, classePartsUtilisateurSite.nomSimple(classeLangueNom), " ", str_utilisateurSite(classeLangueNom), "1 = ", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null);");
-			tl(tBase + 4, classePartsUtilisateurSite.nomSimple(classeLangueNom), StringUtils.capitalize(classeLangueNom), "ApiServiceImpl ", str_utilisateur(classeLangueNom), "Service = new ", classePartsUtilisateurSite.nomSimple(classeLangueNom), StringUtils.capitalize(classeLangueNom), "ApiServiceImpl(eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientSolr(classeLangueNom), ");");
+			tl(tBase + 4, classePartsUtilisateurSite.nomSimple(classeLangueNom), StringUtils.capitalize(classeLangueNom), "ApiServiceImpl ", str_utilisateur(classeLangueNom), "Service = new ", classePartsUtilisateurSite.nomSimple(classeLangueNom), StringUtils.capitalize(classeLangueNom), "ApiServiceImpl(eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientSolr(classeLangueNom), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", ");");
 			l();
 			tl(tBase + 4, "if(", str_utilisateurSite(classeLangueNom), "1 == null) {");
 			tl(tBase + 5, "JsonObject jsonObject = new JsonObject();");
@@ -4901,23 +4908,21 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(7, "}");
 				tl(6, "});");
 				tl(5, "} else {");
-				tl(6, str_siteContexte(classeLangueNom), ".getOauth2AuthenticationProvider().refresh(token, b -> {");
-				tl(7, "if(b.succeeded()) {");
-				tl(8, "User ", str_utilisateur(classeLangueNom), " = b.result();");
-				tl(8, str_requeteService(classeLangueNom), ".setUser(", str_utilisateur(classeLangueNom), ".principal());");
-				tl(8, str_utilisateur(classeLangueNom), classeNomSimple, "(", str_requeteService(classeLangueNom), ", c -> {");
-				tl(9, "if(c.succeeded()) {");
-				tl(10, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = c.result();");
-				tl(10, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_requeteSite(classeLangueNom), "));");
-				tl(9, "} else {");
-				tl(10, "LOG.error(String.format(\"", str_utilisateur(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", c.cause()));");
-				tl(10, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(c.cause()));");
-				tl(9, "}");
-				tl(8, "});");
-				tl(7, "} else {");
-				tl(8, "LOG.error(String.format(\"", str_utilisateur(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", a.cause()));");
-				tl(8, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(a.cause()));");
-				tl(7, "}");
+				tl(6, "oauth2AuthenticationProvider.refresh(token).onSuccess(", str_utilisateur(classeLangueNom), " -> {");
+				tl(7, "User ", str_utilisateur(classeLangueNom), " = b.result();");
+				tl(7, str_requeteService(classeLangueNom), ".setUser(", str_utilisateur(classeLangueNom), ".principal());");
+				tl(7, str_utilisateur(classeLangueNom), classeNomSimple, "(", str_requeteService(classeLangueNom), ", c -> {");
+				tl(8, "if(c.succeeded()) {");
+				tl(9, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), " = c.result();");
+				tl(9, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_requeteSite(classeLangueNom), "));");
+				tl(8, "} else {");
+				tl(9, "LOG.error(String.format(\"", str_utilisateur(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", c.cause()));");
+				tl(9, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(c.cause()));");
+				tl(8, "}");
+				tl(7, "});");
+				tl(6, "}).onFailure(ex -> {");
+				tl(7, "LOG.error(String.format(\"", str_utilisateur(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \", a.cause()));");
+				tl(7, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(a.cause()));");
 				tl(6, "});");
 				tl(5, "}");
 				tl(4, "});");
@@ -5470,7 +5475,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, "CompositeFuture.all(futures).onComplete(a -> {");
 				tl(5, "if(a.succeeded()) {");
 	//			tl(6, "LOG.info(\"", str_Recharger(classeLangueNom), " ", str_relations(classeLangueNom), " ", str_a_réussi(classeLangueNom), ". \");");
-				tl(6, classeNomSimpleApiServiceImpl, " service = new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientSolr(classeLangueNom), ");");
+				tl(6, classeNomSimpleApiServiceImpl, " service = new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientSolr(classeLangueNom), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", ");");
 				tl(6, "List<Future> futures2 = new ArrayList<>();");
 				tl(6, "for(", classeNomSimple, " o2 : ", str_listeRecherche(classeLangueNom), ".getList()) {");
 				tl(7, classePartsRequeteSite.nomSimple(classeLangueNom), " ", str_requeteSite(classeLangueNom), "2 = ", str_generer(classeLangueNom), classePartsRequeteSite.nomSimple(classeLangueNom), str_Pour(classeLangueNom), classeNomSimple, "(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "(), ", str_clientSolr(classeLangueNom), ", ", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "(), new JsonObject());");

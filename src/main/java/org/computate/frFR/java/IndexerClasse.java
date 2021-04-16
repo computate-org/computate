@@ -3621,7 +3621,6 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(classePartsToutEcrivain, classeLangueNom);
 		}
 		if(classeSauvegarde) {
-			classePartsGenAjouter(classePartsSiteContexte, classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Set", classeLangueNom), classeLangueNom);
@@ -3652,6 +3651,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, LoggerFactory.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Map.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(classePartsConfigCles, classeLangueNom);
 
 		Boolean classePublicLire = false;
 		Boolean classeRoleSession = false;
@@ -5709,9 +5709,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 				classePartsGenApi.clear();
 		
-				classePartsGenApiAjouter(classePartsConfigSite, classeLangueNom);
 				classePartsGenApiAjouter(classePartsRequeteSite, classeLangueNom);
-				classePartsGenApiAjouter(classePartsSiteContexte, classeLangueNom);
 				classePartsGenApiAjouter(classePartsUtilisateurSite, classeLangueNom);
 				classePartsGenApiAjouter(classePartsRequeteApi, classeLangueNom);
 				classePartsGenApiAjouter(classePartsResultatRecherche, classeLangueNom);
@@ -5721,6 +5719,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.WorkerExecutor", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.EventBus", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.PgPool", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.authorization.AuthorizationProvider", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.DeliveryOptions", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collections", classeLangueNom), classeLangueNom);
@@ -6001,9 +6000,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							indexerStockerSolr(langueNom, classeDoc, "classePageLangueNom" + classeApiMethode, classePageLangueNom); 
 							classePage = true;
 					
-							classePartsGenPageAjouter(classePartsConfigSite, classeLangueNom);
 							classePartsGenPageAjouter(classePartsRequeteSite, classeLangueNom);
-							classePartsGenPageAjouter(classePartsSiteContexte, classeLangueNom);
 							classePartsGenPageAjouter(classePartsUtilisateurSite, classeLangueNom);
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", classeLangueNom), classeLangueNom);
 							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpServerRequest", classeLangueNom), classeLangueNom);
@@ -6326,7 +6323,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument, classeLangueNom);
 			classePartsGenAjouter(classePartsSolrClient, classeLangueNom);
-			classePartsGenAjouter(classePartsSiteContexte, classeLangueNom);
 			classePartsGenAjouter(classePartsSolrDocument, classeLangueNom);
 			classePartsGenAjouter(classePartsList, classeLangueNom);
 			classePartsGenAjouter(classePartsArrayList, classeLangueNom);
