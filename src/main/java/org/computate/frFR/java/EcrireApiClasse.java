@@ -4909,7 +4909,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(6, "});");
 				tl(5, "} else {");
 				tl(6, "oauth2AuthenticationProvider.refresh(token).onSuccess(", str_utilisateur(classeLangueNom), " -> {");
-				tl(7, "User ", str_utilisateur(classeLangueNom), " = b.result();");
 				tl(7, str_requeteService(classeLangueNom), ".setUser(", str_utilisateur(classeLangueNom), ".principal());");
 				tl(7, str_utilisateur(classeLangueNom), classeNomSimple, "(", str_requeteService(classeLangueNom), ", c -> {");
 				tl(8, "if(c.succeeded()) {");
