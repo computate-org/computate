@@ -4498,6 +4498,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteSignature", regexTrouve("^" + str_Signature(classeLangueNom) + ":\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^" + str_Cles(classeLangueNom) + ":\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteSetTrim", regexTrouve("^SetTrim:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSetLower", regexTrouve("^SetLower:\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSetUpper", regexTrouve("^SetUpper:\\s*(true)$", methodeCommentaire));
 
 						String entiteLangue = regex("^" + str_Langue(classeLangueNom) + ":\\s*(.*)$", methodeCommentaire);
 						if(entiteLangue != null)

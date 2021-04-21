@@ -2965,6 +2965,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			Boolean entiteIncremente = (Boolean)doc.get("entiteIncremente_stored_boolean");
 			Boolean entiteIgnorer = (Boolean)doc.get("entiteIgnorer_stored_boolean");
 			Boolean entiteSetTrim = (Boolean)doc.get("entiteSetTrim_stored_boolean");
+			Boolean entiteSetLower = (Boolean)doc.get("entiteSetLower_stored_boolean");
+			Boolean entiteSetUpper = (Boolean)doc.get("entiteSetUpper_stored_boolean");
 			Boolean entiteDeclarer = (Boolean)doc.get("entiteDeclarer_stored_boolean");
 			Boolean entiteRechercher = (Boolean)doc.get("entiteRechercher_stored_boolean");
 			Boolean entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
@@ -3379,8 +3381,16 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 
-				if(entiteSetTrim)
+				if(entiteSetTrim && entiteSetLower)
+					tl(2, "return StringUtils.trim(StringUtils.lowerCase(o));");
+				if(entiteSetTrim && entiteSetUpper)
+					tl(2, "return StringUtils.trim(StringUtils.upperCase(o));");
+				else if(entiteSetTrim)
 					tl(2, "return StringUtils.trim(o);");
+				else if(entiteSetLower)
+					tl(2, "return StringUtils.lowerCase(o);");
+				else if(entiteSetUpper)
+					tl(2, "return StringUtils.upperCase(o);");
 				else
 					tl(2, "return o;");
 
