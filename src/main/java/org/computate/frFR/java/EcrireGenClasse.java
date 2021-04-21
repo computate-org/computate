@@ -3383,7 +3383,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 
 				if(entiteSetTrim && entiteSetLower)
 					tl(2, "return StringUtils.trim(StringUtils.lowerCase(o));");
-				if(entiteSetTrim && entiteSetUpper)
+				else if(entiteSetTrim && entiteSetUpper)
 					tl(2, "return StringUtils.trim(StringUtils.upperCase(o));");
 				else if(entiteSetTrim)
 					tl(2, "return StringUtils.trim(o);");
