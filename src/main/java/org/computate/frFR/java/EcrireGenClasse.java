@@ -314,11 +314,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected Boolean classeRoleSession;
 
-	/**
-	 * Var.enUS: classRoleUser
-	 */
 	protected Boolean classeRoleUtilisateur;
-
+	protected Boolean classeRoleChacun;
 	protected Boolean classeSessionEcrire;
 	protected Boolean classeUtilisateurEcrire;
 	protected Boolean classePublicEcrire;
@@ -430,16 +427,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: wStore
 	 */
 	protected ToutEcrivain wStocker;
-
-	/**
-	 * Var.enUS: wExists
-	 */
-	protected ToutEcrivain wExiste;
-
-	/**
-	 * Var.enUS: wSaves
-	 */
-	protected ToutEcrivain wSauvegardes;
 
 	/**
 	 * Var.enUS: wDefine
@@ -1090,12 +1077,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: wPopulate
 	 * r: wStocker
 	 * r.enUS: wStore
-	 * r: wExiste
-	 * r.enUS: wExists
 	 * r: wDefinir
 	 * r.enUS: wDefine
-	 * r: wSauvegardes
-	 * r.enUS: wSaves
 	 * r: wSauvegarder
 	 * r.enUS: wSave
 	 * r: wApiGenererGet
@@ -1137,8 +1120,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		wPut = ToutEcrivain.create();
 		wPeupler = ToutEcrivain.create();
 		wStocker = ToutEcrivain.create();
-		wSauvegardes = ToutEcrivain.create();
-		wExiste = ToutEcrivain.create();
 		wDefinir = ToutEcrivain.create();
 		wDefinirObjet = ToutEcrivain.create();
 		wApiEntites = ToutEcrivain.create();
@@ -1489,96 +1470,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		}
 	}
 
-	/**
-	 * Var.enUS: genCodeExists
-	 * Param1.var.enUS: languageName
-	 * r: wExiste
-	 * r.enUS: wExists
-	 * r: classeNomSimple
-	 * r.enUS: classSimpleName
-	 * r: classeSauvegarde
-	 * r.enUS: classSaved
-	 * r: existePourClasse
-	 * r.enUS: existsForClass
-	 * r: getRequeteServeur
-	 * r.enUS: getServerRequest
-	 * r: utilisateurId
-	 * r.enUS: userId
-	 * r: nomCanonique
-	 * r.enUS: canonicalName
-	 * 
-	 * r: existe
-	 * r.enUS: exists
-	 */
-	public void genCodeExiste(String langueNom) throws Exception {
-		o = wExiste;
-		if(classeSauvegarde) {
-//			l(); 
-//			tl(1, "////////////");
-//			tl(1, "// existe //");
-//			tl(1, "////////////");
-//			tl(0);
-//			t(1);
-//			if(!classeNomSimple.equals("Cluster"))
-//				s("@Override ");
-//			l("public Boolean existePourClasse() {");
-//			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
-//			tl(2, "Long pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
-//			tl(2, "Boolean existe = existePourClasse(pk);");
-//			tl(2, "return existe;");
-//			tl(1, "}");
-//			t(1);
-//			if(!classeNomSimple.equals("Cluster"))
-//				s("@Override ");
-//			l("public Boolean existePourClasse(Long pk) {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite_.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
-//			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
-//			tl(2, "utilisateurId = requeteSite_.utilisateurId;");
-//			tl(2, "this.pk = pk;");
-//			tl(2, "String nomCanonique = getClass().getCanonicalName();");
-//			tl(2, "Boolean existe = false;");
-//			tl(2);
-//			tl(2, "if(pk == null) {");
-//			tl(3, "String sql = \"select pk from c where c.id_utilisateur=? and c.nom_canonique=?\";");
-//			tl(3, "SQLClient clientSql = requeteSite_.getSiteContexte_().getClientSql();");
-//			tl(3, "clientSql.getConnection(ar -> {");
-//			tl(4, "if(ar.failed()) {");
-//			tl(5, "LOG.error(\"Impossible d'ouvrir une connexion à la base de données. \", ar.cause());");
-//			tl(5, "future.fail(ar.cause());");
-//			tl(4, "} else {");
-//			tl(5, "SQLConnection connexionSql = ar.result();");
-//			tl(5, "connectionSql.queryWithParams(", classePartsSiteContexte.nomSimple(langueNom), ".SQL_existe, new JsonArray().add(pk)), chercher -> {");
-//			tl(6, "connexionSql.close();");
-//			tl(6, "if(chercher.succeeded()) {");
-//			tl(7, "JsonArray ligneDonnees = chercher.result().getResults().stream().findFirst().orElseGet(() -> null);");
-//			tl(7, "if(ligneDonnees != null) {");
-//			tl(8, "Long pkDonnees = ligneDonnees.getLong(0);");
-//			tl(8, "if(ligneDonnees != null && ligne) {");
-//			tl(9, "");
-//			tl(8, "}");
-//			tl(7, "}");
-//			tl(6, "}");
-//			tl(5, "});");
-//			tl(4, "}");
-//			tl(3, "});");
-////			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.id_utilisateur=*/, requeteSite_.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
-//			tl(7, "existe = resultats.size() > 0;");
-//			tl(7, "if(existe) {");
-//			tl(8, "pk = (Long)resultats.get(0)[0];");
-//			tl(8, "setPk(pk);");
-//			tl(7, "}");
-//			tl(2, "}");
-//			tl(2, "else {");
-//			tl(3, "String sql = \"select count(*) from objet where objet.pk=? and objet.id_utilisateur=? and objet.nom_canonique=?\";");
-//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select count(*) from objet where objet.pk=*/, pk /* and objet.id_utilisateur=*/, requeteSite_.utilisateurId /* and objet.nom_canonique=*/, nomCanonique);");
-//			tl(3, "existe = ((Long)resultats.get(0)[0]) > 0L;");
-//
-//			tl(2, "}");
-//			tl(2, "return existe;");
-//			tl(1, "}");
-		}
-	}
-
     /**
      * Traduire: false
      * Translator object for escaping Java.
@@ -1623,64 +1514,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
     public static final String escapeJava(final String input) {
         return org.computate.frFR.java.EcrireGenClasse.ESCAPE_JAVA.translate(input);
     }
-
-	/**
-	 * Var.enUS: genCodeSaves
-	 * Param1.var.enUS: languageName
-	 * r: wSauvegardes
-	 * r.enUS: wSaves
-	 * r: classeNomSimple
-	 * r.enUS: classSimpleName
-	 * r: classeSauvegarde
-	 * r.enUS: classSaved
-	 * 
-	 * r: definirPourClasse
-	 * r.enUS: defineForClass
-	 * r: sauvegardesPourClasse
-	 * r.enUS: savesForClass
-	 * r: sauvegardes
-	 * r.enUS: saves
-	 */
-	public void genCodeSauvegardes(String langueNom) throws Exception {
-		o = wSauvegardes;
-		if(classeSauvegarde) {
-//			l(); 
-//			tl(1, "/////////////////");
-//			tl(1, "// ", str_sauvegardes(langueNom), " //");
-//			tl(1, "/////////////////");
-//			tl(0);
-//			tl(1, "protected List<String> ", str_sauvegardes(langueNom), " = new ArrayList<String>();");
-//			t(1);
-//			if(!classeNomSimple.equals("Cluster"))
-//				s("@Override ");
-//			l("public void ", str_sauvegardes(langueNom), "PourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite) {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
-//			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
-//
-//			tl(2);
-//			tl(2, "if(pk != null) {");
-//			tl(3, "String sql = \"select cree, modifie from objet where objet.pk=?\";");
-//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*select cree, modifie from objet where objet.pk=*/, pk);");
-//			tl(3, "if(resultats.size() > 0) {");
-//			tl(4, "cree((Date)resultats.get(0)[0]);");
-//			tl(4, "modifie((Date)resultats.get(0)[1]);");
-//			tl(3, "}");
-//
-//			t(3, "sql = \"select chemin, valeur from p where p.pk_objet=? ");
-//			s("union select champ2, pk2::text from a where a.pk1=? ");
-//			s("union select champ1, pk1::text from a where a.pk2=? ");
-//			l("\";");
-//			tl(3, "resultats = coureur.query(sql, gestionnaireListe /*select chemin, valeur from p where p.pk_objet=*/, pk, pk, pk);");
-//			tl(3, "for(Object[] objets : resultats) {");
-//			tl(4, "String chemin = (String)objets[0];");
-//			tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
-//			tl(4, "definirPourClasse(chemin, valeur);");
-//			tl(4, "", str_sauvegardes(langueNom), ".add(chemin);");
-//			tl(3, "}");
-//			tl(2, "}");
-//			tl(1, "}");
-		}
-	}
 
 	/**
 	 * Var.enUS: genCodeClassBegin
@@ -1965,10 +1798,11 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 //						}	
 		}
 		s(" {\n");
-		if(classeMotsCles.contains(str_classeNomSimple(langueNom) + str_SiteContexte(langueNom))) {
+		if(classeMotsCles.contains(str_classeNomSimple(langueNom) + "Verticle")) {
+			ToutEcrivain auteurSqlDrop = ToutEcrivain.create();
+
 			l();
 			l("/*");
-
 			{
 				SolrQuery rechercheSolr1 = new SolrQuery();
 				rechercheSolr1.setQuery("*:*");
@@ -1998,7 +1832,9 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					QueryResponse reponseRecherche2 = clientSolrComputate.query(rechercheSolr2);
 					SolrDocumentList listeRecherche2 = reponseRecherche2.getResults();
 	
-					l("CREATE TABLE ", doc1.get("classeNomSimple_" + langueNom + "_stored_string"), "(");
+					String classeNomSimple = (String)doc1.get("classeNomSimple_" + langueNom + "_stored_string");
+					auteurSqlDrop.l("DROP TABLE ", classeNomSimple, " CASCADE;");
+					l("CREATE TABLE ", classeNomSimple, "(");
 					for(Integer j = 0; j < listeRecherche2.size(); j++) {
 						SolrDocument doc2 = listeRecherche2.get(j);
 						if(doc2.get("entiteAttribuerTypeJson_stored_string") != null && (((String)doc2.get("entiteVar_" + langueNom + "_stored_string")).compareTo((String)doc2.get("entiteAttribuerVar_" + langueNom + "_stored_string")) < 0 || "array".equals(doc2.get("entiteAttribuerTypeJson_stored_string"))) || doc2.get("entiteAttribuerTypeJson_stored_string") == null) {
@@ -2036,6 +1872,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 						String c1 = (String)doc2.get("classeNomSimple_" + langueNom + "_stored_string");
 						String c2 = (String)doc2.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 
+						auteurSqlDrop.l("DROP TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), " CASCADE;");
 						l("CREATE TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), "(");
 						tl(1, "pk bigserial primary key");
 						tl(1, ", pk1 bigint references ", c1, "(pk)");
@@ -2044,6 +1881,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					}
 				}
 			}
+			l();
+			s(auteurSqlDrop);
 			l("*/");
 			l();
 		}
@@ -3125,6 +2964,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			String entiteLangue = (String)doc.get("entiteLangue_stored_string");
 			Boolean entiteIncremente = (Boolean)doc.get("entiteIncremente_stored_boolean");
 			Boolean entiteIgnorer = (Boolean)doc.get("entiteIgnorer_stored_boolean");
+			Boolean entiteSetTrim = (Boolean)doc.get("entiteSetTrim_stored_boolean");
 			Boolean entiteDeclarer = (Boolean)doc.get("entiteDeclarer_stored_boolean");
 			Boolean entiteRechercher = (Boolean)doc.get("entiteRechercher_stored_boolean");
 			Boolean entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
@@ -3538,7 +3378,12 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
-				tl(2, "return o;");
+
+				if(entiteSetTrim)
+					tl(2, "return StringUtils.trim(o);");
+				else
+					tl(2, "return o;");
+
 				tl(1, "}");
 				staticSet = true;
 			}
@@ -5245,7 +5090,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				wIndexerFacetFor.l();
 				wIndexerFacetFor.tl(6, "if(o2 != null) {");
 				wIndexerFacetFor.tl(7, entiteAttribuerNomSimpleApiServiceImpl, " service = new ", entiteAttribuerNomSimpleApiServiceImpl, "(eventBus, config, ", str_executeurTravailleur(langueNom), ", pgPool, ", str_clientSolr(langueNom), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", ");");
-				wIndexerFacetFor.tl(7, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "2 = ", str_generer(langueNom), classePartsRequeteSite.nomSimple(langueNom), str_Pour(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "(), ", str_clientSolr(langueNom), ", ", str_requeteSite(langueNom), ".get", str_RequeteService(langueNom), "(), new JsonObject());");
+				wIndexerFacetFor.tl(7, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "2 = ", str_generer(langueNom), classePartsRequeteSite.nomSimple(langueNom), "(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "(), ", str_requeteSite(langueNom), ".get", str_RequeteService(langueNom), "(), new JsonObject());");
 				wIndexerFacetFor.tl(7, classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), "2 = new ", classePartsRequeteApi.nomSimple(langueNom), "();");
 				wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setRows(1);");
 				wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setNumFound(1l);");
@@ -5694,10 +5539,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	 * r.enUS: solrDocument
 	 * r: wSauvegarder
 	 * r.enUS: wSave
-	 * r: wExiste
-	 * r.enUS: wExists
-	 * r: wSauvegardes
-	 * r.enUS: wSaves
 	 * r: wApiEntites
 	 * r.enUS: wApiEntities
 	 * r: wApiGenererGet
@@ -5716,10 +5557,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 	 * r.enUS: wAttribute
 	 * r: wDefinir
 	 * r.enUS: wDefine
-	 * r: wExiste
-	 * r.enUS: wExists
-	 * r: wSauvegardes
-	 * r.enUS: wSaves
 	 * r: wSauvegarder
 	 * r.enUS: wSave
 	 * r: classeCheminGen
@@ -5947,8 +5784,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		wPut.flushClose();
 		wPeupler.flushClose();
 		wStocker.flushClose();
-		wExiste.flushClose();
-		wSauvegardes.flushClose();
 		wDefinir.flushClose();
 		wDefinirObjet.flushClose();
 		wApiEntites.flushClose();
@@ -6387,108 +6222,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				tl(1, "public void ", classeEcrireMethode, classeNomSimple, "() {");
 				s(classeEcrireEcrivains.get(i));
 				tl(1, "}");
-	//				tl(1, "public void ", siteEcrireMethode, "Avant() {");
-	//				tl(2, siteEcrireMethode, classeNomSimple, "Avant();");
-	//				if(BooleanUtils.isTrue(classeEtendBase)) {
-	//					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Avant();");
-	//				}
-	//				tl(1, "}");
-	//				tl(1, "public void ", siteEcrireMethode, "Milieu() {");
-	//				tl(2, siteEcrireMethode, classeNomSimple, "Milieu();");
-	//				if(BooleanUtils.isTrue(classeEtendBase)) {
-	//					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Milieu();");
-	//				}
-	//				tl(1, "}");
-	//				tl(1, "public void ", siteEcrireMethode, "Apres() {");
-	//				tl(2, siteEcrireMethode, classeNomSimple, "Apres();");
-	//				if(BooleanUtils.isTrue(classeEtendBase)) {
-	//					tl(2, "super.", siteEcrireMethode, classeNomSimpleSuperGenerique, "Apres();");
-	//				}
-	//				tl(1, "}");
-	//				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Avant() {");
-	////				s(wStocker.toString());
-	//				tl(1, "}");
-	//				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Milieu() {");
-	////				s(wStocker.toString());
-	//				tl(1, "}");
-	//				tl(1, "public void ", siteEcrireMethode, classeNomSimple, "Apres() {");
-	////				s(wStocker.toString());
-	//				tl(1, "}");
 			}
 		}
-
-//		s(wExiste.toString());
-
-		/////////////////////
-		// codeSauvegarder //
-		/////////////////////
-//		if(classeSauvegarde) {
-//			l(); 
-//			tl(1, "/////////////////");
-//			tl(1, "// sauvegarder //");
-//			tl(1, "/////////////////");
-//			tl(0);
-//			t(1);
-//			if(classeEtendBase)
-//				s("@Override ");
-//			l("public void sauvegarderPourClasse(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite_) {");
-//			tl(2, QueryRunner.class.getCanonicalName(), " coureur = new ", QueryRunner.class.getCanonicalName(), "(requeteSite.", classePartsSiteContexte.nomSimple(langueNom), ".sourceDonnees);");
-//			tl(2, ArrayListHandler.class.getCanonicalName(), " gestionnaireListe = new ", ArrayListHandler.class.getCanonicalName(), "();");
-//			tl(2, "String pkStr = requeteSite_.getRequeteServeur().getParam(\"pk\");");
-//			tl(2, "pk = ", StringUtils.class.getCanonicalName(), ".isNumeric(pkStr) ? Long.parseLong(pkStr) : null;");
-//			tl(2, "utilisateurId = requeteSite.utilisateurId;");
-//			tl(2, "String nomCanonique = getClass().getCanonicalName();");
-//			tl(2, "modifie = ", LocalDateTime.class.getCanonicalName(), ".now();");
-//			tl(2, Timestamp.class.getCanonicalName(), " horodatage = java.sql.Timestamp.valueOf(modifie);");
-//
-//			tl(2);
-//			tl(2, "if(pk == null) {");
-//			tl(3, "String sql = \"insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(?, ?, ?, ?) returning pk\";");
-//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.insert(sql, gestionnaireListe /*insert into objet(nom_canonique, id_utilisateur, cree, modifie) values(*/, nomCanonique, requeteSite.utilisateurId, horodatage, horodatage /*) returning pk, cree*/);");
-//			tl(3, "pk = (Long)resultats.get(0)[0];");
-//			tl(3, "cree = modifie;");
-//			tl(2, "}");
-//			tl(2, "else {");
-//			tl(3, "String sql = \"update objet set modifie=? where objet.pk=? and objet.id_utilisateur=? and objet.nom_canonique=? returning cree\";");
-//			tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sql, gestionnaireListe /*update objet set modifie=*/, horodatage /* where objet.pk=*/, pk /* and objet.id_utilisateur=*/, requeteSite.utilisateurId /* and objet.nom_canonique=*/, nomCanonique /* returning cree*/);");
-//			tl(3, "if(resultats.size() == 0)");
-//			t(4, "throw new Exception(\"");
-//			s("L'objet avec le pk \" + pk + \" et nom canonique \" + pk + \" pour utilisateur \" + requeteSite.utilisateurId + \" \" + requeteSite.utilisateurNom + \" n'existe pas dejà. ");
-//			l("\");");
-//			tl(3, "horodatage = (java.sql.Timestamp)resultats.get(0)[0];");
-//			tl(3, "cree = ", LocalDateTime.class.getCanonicalName(), ".from(horodatage.toLocalDateTime());");
-//			tl(2, "}");
-////						tl(0);
-////						tl(2, "{");
-////						tl(3, "String sqlSelectP = \"select chemin, valeur from p where p.pk_objet=?\";");
-////						tl(3, List.class.getCanonicalName(), "<Object[]> resultats = coureur.query(sqlSelectP, gestionnaireListe /*select chemin, valeur from p where p.pk_objet=*/, pk);");
-////						tl(3, "for(Object[] objets : resultats) {");
-////						tl(4, "String chemin = (String)objets[0];");
-////						if(coursCrypte)
-////							tl(4, "String valeur = requeteSite.decrypterStr((String)objets[1]);");
-////						else
-////							tl(4, "String valeur = (String)objets[1];");
-////						tl(4, "", str_definir(langueNom), "(chemin, valeur);");
-////						tl(4, "", str_sauvegardes(langueNom), ".add(chemin);");
-////						tl(3, "}");
-////						tl(2, "}");
-//			tl(0);
-////						tl(2, "{");
-//			tl(2, "String sqlInsertP = \"insert into p(chemin, valeur, pk_objet) values(?, ?, ?) on conflict(chemin, pk_objet) do update set valeur=? where p.chemin=? and p.pk_objet=?\";");
-//			tl(2, "String sqlInsertA = \"insert into a(champ1, pk1, champ2, pk2) values(?, ?, ?, ?) on conflict  do nothing\";");
-//			tl(2, "String sqlDeleteP = \"delete from p where chemin=? and pk_objet=?\";");
-//			tl(2, "String sqlDeleteA = \"delete from a where champ1=? and pk1=? and champ2=? and pk2=?\";");
-//			tl(2, "sauvegarder", classeNomSimple, "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
-////						tl(2, "}");
-//			tl(1, "}");
-//			tl(1, "public void sauvegarder", classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " requeteSite, String sqlInsertP, String sqlInsertA, String sqlDeleteP, String sqlDeleteA, ", ArrayListHandler.class.getCanonicalName(), " gestionnaireListe, ", QueryRunner.class.getCanonicalName(), " coureur) {");
-//			s(wSauvegarder.toString());
-//			if(classeEtendBase) {
-//				tl(0);
-//				tl(2, "super.sauvegarder", classeNomSimpleSuperGenerique + "(requeteSite, sqlInsertP, sqlInsertA, sqlDeleteP, sqlDeleteA, gestionnaireListe, coureur);");
-//			}
-//			tl(1, "}");
-//		}	
 
 		if(classeContientRequeteSite) {
 			if(classePartsRequeteSite != null) {

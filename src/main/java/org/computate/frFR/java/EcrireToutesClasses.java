@@ -533,6 +533,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classePageSimple = BooleanUtils.isTrue((Boolean)doc.get("classePageSimple_stored_boolean"));
 					classeRoleSession = (Boolean)doc.get("classeRoleSession_stored_boolean");
 					classeRoleUtilisateur = (Boolean)doc.get("classeRoleUtilisateur_stored_boolean");
+					classeRoleChacun = (Boolean)doc.get("classeRoleChacun_stored_boolean");
 
 					classeSessionEcrire = (Boolean)doc.get("classeSessionEcrire_stored_boolean");
 					classeUtilisateurEcrire = (Boolean)doc.get("classeUtilisateurEcrire_stored_boolean");
@@ -644,8 +645,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 						genCodeAttribuer(langueNom);
 						genCodePut(langueNom);
 						genCodePeupler(langueNom);
-						genCodeExiste(langueNom); 
-						genCodeSauvegardes(langueNom);
 						genCodeClasseDebut(langueNom);
 //					}
 					if(classeApi)

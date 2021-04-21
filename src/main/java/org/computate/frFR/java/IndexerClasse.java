@@ -237,6 +237,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	ClasseParts classePartsPagePart;
 
+	ClasseParts classePartsVerticle;
+
 	ClasseParts classePartsBaseApiServiceImpl;
 
 	ClasseParts classePartsMailVerticle;
@@ -1721,6 +1723,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	protected ClasseParts classePartsPagePart(String nomEnsembleDomaine, String langueNom) throws Exception {
 		return classePartsPourNomSimple(nomEnsembleDomaine, str_PagePart(this.langueNomActuel), langueNom);
+	}
+
+	protected ClasseParts classePartsVerticle(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "Verticle", langueNom);
 	}
 
 	protected ClasseParts classePartsBaseApiServiceImpl(String nomEnsembleDomaine, String langueNom) throws Exception {
@@ -3459,6 +3465,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsMiseEnPage = classePartsMiseEnPage(nomEnsembleDomaine, classeLangueNom);
 		classePartsPagePart = classePartsPagePart(nomEnsembleDomaine, classeLangueNom);
 		classePartsBaseApiServiceImpl = classePartsBaseApiServiceImpl(nomEnsembleDomaine, classeLangueNom);
+		classePartsVerticle = classePartsVerticle(nomEnsembleDomaine, classeLangueNom);
 		classePartsRequeteSite = classePartsRequeteSite(nomEnsembleDomaine, classeLangueNom);
 		classePartsMailVerticle = classePartsMailVerticle(nomEnsembleDomaine, classeLangueNom);
 		classePartsConfigCles = classePartsConfigCles(nomEnsembleDomaine, classeLangueNom);
@@ -3656,6 +3663,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classePublicLire = false;
 		Boolean classeRoleSession = false;
 		Boolean classeRoleUtilisateur = false;
+		Boolean classeRoleChacun = false;
 		Boolean classeRolesTrouves = false;
 		
 		if(classeCommentaire != null) {
@@ -3679,6 +3687,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePublicLire = indexerStockerSolr(classeDoc, "classePublicLire", regexTrouve("^" + str_PublicLire(classeLangueNom) + ":\\s*(true)$", classeCommentaire));
 			classeRoleSession = indexerStockerSolr(classeDoc, "classeRoleSession", regexTrouve("^" + str_RoleSession(classeLangueNom) + ":\\s*(true)$", classeCommentaire));
 			classeRoleUtilisateur = indexerStockerSolr(classeDoc, "classeRoleUtilisateur", regexTrouve("^" + str_RoleUtilisateur(classeLangueNom) + ":\\s*(true)$", classeCommentaire));
+			classeRoleChacun = indexerStockerSolr(classeDoc, "classeRoleChacun", regexTrouve("^" + str_RoleChacun(classeLangueNom) + ":\\s*(true)$", classeCommentaire));
 
 			Matcher classeRolesRecherche = Pattern.compile("^" + str_Role(classeLangueNom) + "\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			classeRolesTrouves = classeRolesRecherche.find();
@@ -4488,6 +4497,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteMultiligne", regexTrouve("^" + str_Multiligne(classeLangueNom) + ":\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteSignature", regexTrouve("^" + str_Signature(classeLangueNom) + ":\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteCles", regexTrouve("^" + str_Cles(classeLangueNom) + ":\\s*(true)$", methodeCommentaire));
+						indexerStockerSolr(entiteDoc, "entiteSetTrim", regexTrouve("^SetTrim:\\s*(true)$", methodeCommentaire));
 
 						String entiteLangue = regex("^" + str_Langue(classeLangueNom) + ":\\s*(.*)$", methodeCommentaire);
 						if(entiteLangue != null)
@@ -5715,6 +5725,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(classePartsResultatRecherche, classeLangueNom);
 				classePartsGenApiAjouter(classePartsMailVerticle, classeLangueNom);
 				classePartsGenApiAjouter(classePartsConfigCles, classeLangueNom);
+				classePartsGenApiAjouter(classePartsBaseApiServiceImpl, classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.client.solrj.SolrClient", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.WorkerExecutor", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.EventBus", classeLangueNom), classeLangueNom);

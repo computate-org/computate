@@ -2376,6 +2376,13 @@ public class ConfigSite {
 			return "RoleUser";
 	}
 
+	public String str_RoleChacun(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "RoleChacun";
+		else
+			return "RoleAll";
+	}
+
 	public String str_Role(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "Role";
