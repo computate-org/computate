@@ -101,6 +101,13 @@ public class ConfigSite {
 			return "configFileName";
 	}
 
+	public String str_URL_SOLR(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "URL_SOLR";
+		else
+			return "SOLR_URL";
+	}
+
 	public String str_solrUrl(String langueNom) {
 		if("frFR".equals(langueNom))
 			return "solrUrl";
@@ -647,6 +654,13 @@ public class ConfigSite {
 			return "routeur";
 		else
 			return "router";
+	}
+
+	public String str_clientWeb(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "clientWeb";
+		else
+			return "webClient";
 	}
 
 	/**

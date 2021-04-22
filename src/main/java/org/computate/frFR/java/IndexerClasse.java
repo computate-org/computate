@@ -5728,7 +5728,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(classePartsMailVerticle, classeLangueNom);
 				classePartsGenApiAjouter(classePartsConfigCles, classeLangueNom);
 				classePartsGenApiAjouter(classePartsBaseApiServiceImpl, classeLangueNom);
-				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.client.solrj.SolrClient", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.client.WebClient", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.WorkerExecutor", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.EventBus", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.PgPool", classeLangueNom), classeLangueNom);
@@ -5750,6 +5750,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.PrintWriter", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrDocumentList", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrDocument", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.solr.common.SolrInputDocument", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collection", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.math.BigDecimal", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);

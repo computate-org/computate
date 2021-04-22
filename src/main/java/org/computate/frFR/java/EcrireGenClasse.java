@@ -5099,7 +5099,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 				wIndexerFacetFor.tl(6, entiteAttribuerNomSimple, " o2 = ", str_listeRecherche(langueNom), "2.getList().stream().findFirst().orElse(null);");
 				wIndexerFacetFor.l();
 				wIndexerFacetFor.tl(6, "if(o2 != null) {");
-				wIndexerFacetFor.tl(7, entiteAttribuerNomSimpleApiServiceImpl, " service = new ", entiteAttribuerNomSimpleApiServiceImpl, "(eventBus, config, ", str_executeurTravailleur(langueNom), ", pgPool, ", str_clientSolr(langueNom), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", ");");
+				wIndexerFacetFor.tl(7, entiteAttribuerNomSimpleApiServiceImpl, " service = new ", entiteAttribuerNomSimpleApiServiceImpl, "(eventBus, config, ", str_executeurTravailleur(langueNom), ", pgPool, ", str_clientWeb(langueNom), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", ");");
 				wIndexerFacetFor.tl(7, classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "2 = ", str_generer(langueNom), classePartsRequeteSite.nomSimple(langueNom), "(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "(), ", str_requeteSite(langueNom), ".get", str_RequeteService(langueNom), "(), new JsonObject());");
 				wIndexerFacetFor.tl(7, classePartsRequeteApi.nomSimple(langueNom), " ", str_requeteApi(langueNom), "2 = new ", classePartsRequeteApi.nomSimple(langueNom), "();");
 				wIndexerFacetFor.tl(7, str_requeteApi(langueNom), "2.setRows(1);");
@@ -6083,46 +6083,6 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			tl(1, "}");
 		}
 		if(classeIndexe && classePartsRequeteSite != null) {
-			tl(0);
-			if(classeEtendBase || classeEstBase) {
-				tl(0);
-				t(1);
-				if(!classeEstBase)
-					s("@Override ");
-				l("public void ", str_indexer(langueNom), str_PourClasse(langueNom), "() {");
-				tl(2, str_indexer(langueNom), classeNomSimple, "();");
-				tl(1, "}");
-				tl(0);
-				t(1);
-				if(!classeEstBase)
-					s("@Override ");
-				l("public void ", str_indexer(langueNom), str_PourClasse(langueNom), "(SolrInputDocument document) {");
-				tl(2, str_indexer(langueNom), classeNomSimple, "(document);");
-				tl(1, "}");
-			}
-			l();
-			tl(1, "public void ", str_indexer(langueNom), classeNomSimple, "(SolrClient clientSolr) {");
-			tl(2, "try {");
-			tl(3, "SolrInputDocument document = new SolrInputDocument();");
-			tl(3, str_indexer(langueNom), classeNomSimple, "(document);");
-			tl(3, "clientSolr.add(document);");
-			tl(3, "clientSolr.commit(false, false, true);");
-			tl(2, "} catch(Exception e) {");
-			tl(3, "ExceptionUtils.rethrow(e);");
-			tl(2, "}");
-			l("\t}");
-			l();
-			tl(1, "public void ", str_indexer(langueNom), classeNomSimple, "() {");
-			tl(2, "try {");
-			tl(3, "SolrInputDocument document = new SolrInputDocument();");
-			tl(3, str_indexer(langueNom), classeNomSimple, "(document);");
-			tl(3, "SolrClient clientSolr = ", str_requeteSite(langueNom), "_.get", str_ClientSolr(langueNom), "();");
-			tl(3, "clientSolr.add(document);");
-			tl(3, "clientSolr.commit(false, false, true);");
-			tl(2, "} catch(Exception e) {");
-			tl(3, "ExceptionUtils.rethrow(e);");
-			tl(2, "}");
-			l("\t}");
 
 			tl(0);
 			tl(1, "public void ", str_indexer(langueNom), classeNomSimple, "(SolrInputDocument document) {");
