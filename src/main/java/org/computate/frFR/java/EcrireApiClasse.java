@@ -3378,7 +3378,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, uncapitalizeClasseNomSimple, ".", str_requeteApi(classeLangueNom), classeNomSimple, "();");
 							tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
 							tl(6, "}");
-							tl(6, "promise.complete(", uncapitalizeClasseNomSimple, ");");
+							tl(6, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
 							tl(5, "} else {");
 							tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", str_a_échoué(classeLangueNom), ". \", a.cause()));");
 							tl(6, "promise2.fail(a.cause());");
@@ -3463,7 +3463,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, uncapitalizeClasseNomSimple, ".", str_requeteApi(classeLangueNom), classeNomSimple, "();");
 							tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
 							tl(6, "}");
-							tl(6, "promise.complete(", uncapitalizeClasseNomSimple, ");");
+							tl(6, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
 							tl(5, "} else {");
 							tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", str_a_échoué(classeLangueNom), ". \", a.cause()));");
 							tl(6, "promise2.fail(a.cause());");
@@ -3532,7 +3532,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, uncapitalizeClasseNomSimple, ".", str_requeteApi(classeLangueNom), classeNomSimple, "();");
 							tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
 							tl(6, "}");
-							tl(6, "promise.complete(", uncapitalizeClasseNomSimple, ");");
+							tl(6, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
 							tl(5, "} else {");
 							tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", str_a_échoué(classeLangueNom), ". \", a.cause()));");
 							tl(6, "promise2.fail(a.cause());");
