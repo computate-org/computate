@@ -3363,6 +3363,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		Boolean classeEstBase = stockerSolr(classeDoc, "classeEstBase", !classeBaseEtendGen || StringUtils.isEmpty(classeNomCompletSuperGenerique) || StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
 		Boolean classeEtendBase = stockerSolr(classeDoc, "classeEtendBase", !classeEstBase && classeBaseEtendGen && !StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
+		Boolean classePromesse = false;
 		indexerStockerSolr(classeDoc, "classeBaseEtendGen", classeBaseEtendGen);
 		Boolean classeContientRequeteSite = false;
 		try {
@@ -4116,10 +4117,15 @@ public class IndexerClasse extends RegarderClasseBase {
 						JavaClass entiteClasseQdox = methodeParamsQdox.get(0).getJavaClass();
 						ClasseParts entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseQdox, classeLangueNom);
 						Boolean entiteCouverture = false;
+						Boolean entitePromesse = false;
 
 						if(classePartsCouverture == null)
 							throw new RuntimeException(String.format("%s %s %s %s %s. ", str_classe(classeLangueNom), str_Couverture(classeLangueNom), str_manquante(classeLangueNom), str_dans(classeLangueNom), cheminSrcMainJava));
-						if(entiteClasseParts.nomSimple(classeLangueNom).equals(classePartsCouverture.nomSimple(classeLangueNom))) {
+						if(StringUtils.equalsAny(entiteClasseParts.nomSimple(classeLangueNom), "Promise", classePartsCouverture.nomSimple(classeLangueNom))) {
+							if(StringUtils.equals(entiteClasseParts.nomSimple(classeLangueNom), "Promise")) {
+								entitePromesse = true;
+								classePromesse = true;
+							}
 							entiteClasseParts = ClasseParts.initClasseParts(this, entiteClasseParts.nomCanoniqueGenerique(classeLangueNom), classeLangueNom);
 							entiteCouverture = true;
 							classeContientCouverture = true;
@@ -4155,6 +4161,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							}
 						}
 
+						indexerStockerSolr(entiteDoc, "entitePromesse", entitePromesse);
 						indexerStockerSolr(entiteDoc, "entiteCouverture", entiteCouverture);
 						Boolean entiteInitialise = indexerStockerSolr(entiteDoc, "entiteInitialise", !entiteVar.endsWith("_") && BooleanUtils.isTrue(entiteClasseParts.getEtendGen()));
 
@@ -5729,6 +5736,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(classePartsConfigCles, classeLangueNom);
 				classePartsGenApiAjouter(classePartsBaseApiServiceImpl, classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.client.WebClient", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.WorkerExecutor", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.EventBus", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.PgPool", classeLangueNom), classeLangueNom);
@@ -6333,6 +6341,10 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^" + str_Indexe(classeLangueNom) + ":\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele || classePage);
 		Boolean classeImage = indexerStockerSolr(classeDoc, "classeImage", regexTrouve("^" + str_Image(classeLangueNom) + ":\\s*(true)$", classeCommentaire));
+
+		stockerSolr(classeDoc, "classePromesse", classePromesse);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Promise", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Future", classeLangueNom), classeLangueNom);
 
 		if(classeIndexe) {
 			classePartsGenAjouter(classePartsSolrInputDocument, classeLangueNom);

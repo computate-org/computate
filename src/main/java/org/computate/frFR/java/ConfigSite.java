@@ -181,6 +181,20 @@ public class ConfigSite {
 			return "alreadyInitialized";
 	}
 
+	public String str_promesse(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "promesse";
+		else
+			return "promise";
+	}
+
+	public String str_promesseLoin(String langueNom) {
+		if("frFR".equals(langueNom))
+			return "promesseLoin";
+		else
+			return "promiseDeep";
+	}
+
 	/**
 	 * Var.enUS: str_initDeep
 	 */
@@ -1387,6 +1401,13 @@ public class ConfigSite {
 			return "apiRequest";
 	}
 
+	public String str_suivant(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "suivant";
+		else
+			return "next";
+	}
+
 	/**
 	 * Var.enUS: str_methodName
 	 */
@@ -2374,6 +2395,20 @@ public class ConfigSite {
 			return "ApiUri";
 		else
 			return "ApiUri";
+	}
+
+	public String str_Future(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Future";
+		else
+			return "Future";
+	}
+
+	public String str_Promesse(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Promesse";
+		else
+			return "Promise";
 	}
 
 	public String str_Admin(String langueNom) {

@@ -249,6 +249,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected List<ToutEcrivain> classeEcrireEcrivains;
 
+	protected Boolean classePromesse;
+
 	/**
 	 * Var.enUS: classExtendsGen
 	 */
@@ -1190,59 +1192,99 @@ public class EcrireGenClasse extends EcrireClasse {
 			wInitLoin.tl(1, "//////////////");
 			wInitLoin.l(); 
 			wInitLoin.tl(1, "protected boolean ", str_dejaInitialise(langueNom), classeNomSimple, " = false;");
+
 			wInitLoin.l();
-			wInitLoin.t(1, "public ", classeNomSimple, " ", str_initLoin(langueNom), classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_)");
-			if(classeInitLoinExceptions.size() > 0) {
-				wInitLoin.s(" throws ");
-				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
-String classeInitLoinException = classeInitLoinExceptions.get(i);
-					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
-					if(i > 0)
-						wInitLoin.s(", ");
-					wInitLoin.s(classeInitLoinExceptionNomSimple);
+			if(classePromesse) {
+				wInitLoin.tl(1, "public Future<Void> ", str_promesseLoin(langueNom), classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_) {");
+				if(classeContientRequeteSite)
+					wInitLoin.tl(2, "set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
+				wInitLoin.tl(2, "if(!", str_dejaInitialise(langueNom), classeNomSimple, ") {");
+				wInitLoin.tl(3, str_dejaInitialise(langueNom), classeNomSimple, " = true;");
+				wInitLoin.tl(3, "return ", str_promesseLoin(langueNom), classeNomSimple, "();");
+				wInitLoin.tl(2, "} else {");
+				wInitLoin.tl(3, "return Future.succeededFuture();");
+				wInitLoin.tl(2, "}");
+				wInitLoin.tl(1, "}");
+			} else {
+				wInitLoin.t(1, "public ", classeNomSimple, " ", str_initLoin(langueNom), classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_)");
+				if(classeInitLoinExceptions.size() > 0) {
+					wInitLoin.s(" throws ");
+					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+	String classeInitLoinException = classeInitLoinExceptions.get(i);
+						String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+						if(i > 0)
+							wInitLoin.s(", ");
+						wInitLoin.s(classeInitLoinExceptionNomSimple);
+					}
 				}
+				wInitLoin.l(" {");
+	//						if(contient", classePartsRequeteSite.nomSimple(langueNom), " && !StringUtils.equals(classeNomSimple, "", classePartsRequeteSite.nomSimple(langueNom), ""))
+	//							tl(2, "((", classeNomSimple, ")this).setRequeteSite_(requeteSite);");
+				if(classeContientRequeteSite)
+					wInitLoin.tl(2, "set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
+				wInitLoin.tl(2, "if(!", str_dejaInitialise(langueNom), classeNomSimple, ") {");
+				wInitLoin.tl(3, str_dejaInitialise(langueNom), classeNomSimple, " = true;");
+				wInitLoin.tl(3, str_initLoin(langueNom), classeNomSimple, "();");
+				wInitLoin.tl(2, "}");
+				wInitLoin.tl(2, "return (", classeNomSimple, ")this;");
+				wInitLoin.tl(1, "}");
 			}
-			wInitLoin.l(" {");
-//						if(contient", classePartsRequeteSite.nomSimple(langueNom), " && !StringUtils.equals(classeNomSimple, "", classePartsRequeteSite.nomSimple(langueNom), ""))
-//							tl(2, "((", classeNomSimple, ")this).setRequeteSite_(requeteSite);");
-			if(classeContientRequeteSite)
-				wInitLoin.tl(2, "set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
-			wInitLoin.tl(2, "if(!", str_dejaInitialise(langueNom), classeNomSimple, ") {");
-			wInitLoin.tl(3, str_dejaInitialise(langueNom), classeNomSimple, " = true;");
-			wInitLoin.tl(3, str_initLoin(langueNom), classeNomSimple, "();");
-			wInitLoin.tl(2, "}");
-			wInitLoin.tl(2, "return (", classeNomSimple, ")this;");
-			wInitLoin.tl(1, "}");
+
+			if(classePromesse) {
+				wInitLoin.l();
+				wInitLoin.tl(1, "public Future<Void> ", str_promesseLoin(langueNom), classeNomSimple, "() {");
+				wInitLoin.tl(2, "Promise<Void> promise = Promise.promise();");
+				wInitLoin.tl(2, "Promise<Void> promise2 = Promise.promise();");
+				wInitLoin.tl(2, str_promesse(langueNom), classeNomSimple, "(promise2);");
+				wInitLoin.tl(2, "promise2.future().onSuccess(a -> {");
+				if(BooleanUtils.isTrue(classeEtendBase)) {
+					wInitLoin.tl(3, "super.", str_initLoin(langueNom), classeNomSimpleSuperGenerique, "(", str_requeteSite(langueNom), "_);");
+				}
+				wInitLoin.tl(3, "promise.complete();");
+				wInitLoin.tl(2, "}).onFailure(ex -> {");
+				wInitLoin.tl(3, "promise.fail(ex);");
+				wInitLoin.tl(2, "});");
+				wInitLoin.tl(2, "return promise.future();");
+				wInitLoin.tl(1, "}");
+			} else {
+				wInitLoin.l();
+				wInitLoin.t(1, "public void ", str_initLoin(langueNom), classeNomSimple, "()");
+				if(classeInitLoinExceptions.size() > 0) {
+					wInitLoin.s(" throws ");
+					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+						String classeInitLoinException = classeInitLoinExceptions.get(i);
+						String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+						if(i > 0)
+							wInitLoin.s(", ");
+						wInitLoin.s(classeInitLoinExceptionNomSimple);
+					}
+				}
+				wInitLoin.l(" {");
+				wInitLoin.tl(2, "init", classeNomSimple, "();");
+				if(BooleanUtils.isTrue(classeEtendBase)) 
+					wInitLoin.tl(2, "super.", str_initLoin(langueNom), classeNomSimpleSuperGenerique, "(", str_requeteSite(langueNom), "_);");
+				wInitLoin.tl(1, "}");
+			}
+
 			wInitLoin.l();
-			wInitLoin.t(1, "public void ", str_initLoin(langueNom), classeNomSimple, "()");
-			if(classeInitLoinExceptions.size() > 0) {
-				wInitLoin.s(" throws ");
-				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
-					String classeInitLoinException = classeInitLoinExceptions.get(i);
-					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
-					if(i > 0)
-						wInitLoin.s(", ");
-					wInitLoin.s(classeInitLoinExceptionNomSimple);
+			if(classePromesse) {
+				wInitLoin.tl(1, "public Future<Void> ", str_promesse(langueNom), classeNomSimple, "(Promise<Void> promise) {");
+				wInitLoin.tl(2, "Future.future(a -> {}).compose(a -> {");
+				wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
+			} else {
+				wInitLoin.t(1, "public void init", classeNomSimple, "()");
+				if(classeInitLoinExceptions.size() > 0) {
+					wInitLoin.s(" throws ");
+					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+						String classeInitLoinException = classeInitLoinExceptions.get(i);
+						String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+						if(i > 0)
+							wInitLoin.s(", ");
+						wInitLoin.s(classeInitLoinExceptionNomSimple);
+					}
 				}
+				wInitLoin.l(" {");
 			}
-			wInitLoin.l(" {");
-			wInitLoin.tl(2, "init", classeNomSimple, "();");
-			if(BooleanUtils.isTrue(classeEtendBase)) 
-				wInitLoin.tl(2, "super.", str_initLoin(langueNom), classeNomSimpleSuperGenerique, "(", str_requeteSite(langueNom), "_);");
-			wInitLoin.tl(1, "}");
-			wInitLoin.l();
-			wInitLoin.t(1, "public void init", classeNomSimple, "()");
-			if(classeInitLoinExceptions.size() > 0) {
-				wInitLoin.s(" throws ");
-				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
-					String classeInitLoinException = classeInitLoinExceptions.get(i);
-					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
-					if(i > 0)
-						wInitLoin.s(", ");
-					wInitLoin.s(classeInitLoinExceptionNomSimple);
-				}
-			}
-			wInitLoin.l(" {");
 		}
 	}
 
@@ -2935,6 +2977,7 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		String entiteVarParam = (String)doc.get("entiteVarParam_" + langueNom + "_stored_string");
 		String entiteAttribuerTypeJson = (String)doc.get("entiteAttribuerTypeJson_stored_string");
 		Boolean entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
+		Boolean entitePromesse = (Boolean)doc.get("entitePromesse_stored_boolean");
 		Boolean entiteInitialise = (Boolean)doc.get("entiteInitialise_stored_boolean");
 		Boolean entiteInitLoin = (Boolean)doc.get("entiteInitLoin_stored_boolean");
 		Boolean entiteFacetsTrouves = Optional.ofNullable((Boolean)doc.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
@@ -3343,7 +3386,10 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			t(1, "protected abstract void");
 			s(" _", entiteVar);
 			s("(");
-			if(entiteCouverture) {
+			if(entitePromesse) {
+				s("Promise<", entiteNomSimpleComplet, "> ", entiteVarParam);
+			}
+			else if(entiteCouverture) {
 				s(classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVarParam);
 			}
 			else {
@@ -3931,74 +3977,106 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 	
 			// Initialiser //
-			t(1, "protected ", classeNomSimple, " ", entiteVar, "Init()");
-			if(classeInitLoinExceptions.size() > 0) {
-				s(" throws ");
-				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
-					String classeInitLoinException = classeInitLoinExceptions.get(i);
-					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
-					if(i > 0)
-						s(", ");
-					s(classeInitLoinExceptionNomSimple);
-				}
-			}
-			l(" {");
-
-			if(entiteNomCanoniqueGenerique == null && entiteMethodesAvantVar != null && entiteMethodesAvantVar.size() > 0) {
-				tl(2, "if(", entiteVar, " != null) {");
-				for(int j = 0; j < entiteMethodesAvantVar.size(); j++) {
-					String entiteMethodeAvantVar = entiteMethodesAvantVar.get(j);
-					Boolean entiteMethodeAvantNomParam = entiteMethodesAvantNomParam.get(j);
-
-					t(3, "((", classeNomSimple, ")this).", entiteMethodeAvantVar, "(", entiteVar);
-					if(entiteMethodeAvantNomParam)
-						s(", \"", entiteVar, "\"");
-					l(");");
-				}
-				tl(2, "}");
-			}
-
-			tl(2, "if(!", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), ") {");
-			if(entiteCouverture) {
-				tl(3, "_", entiteVar, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ");");
-				tl(3, "if(", entiteVar, " == null)");
-				tl(4, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
-			}
-			else {
-				tl(3, "_", entiteVar, "(", entiteVar, ");");
-			}
-			tl(2, "}");
-
-			// initLoin
-
-//						if(initLoin && nomCanonique.enUS().startsWith(classe.nomEnsembleDomaine.enUS())) {
-			if(entiteInitLoin && entiteInitialise) {
+			if(entitePromesse) {
+				tl(1, "protected Future<", entiteNomSimple, "> ", entiteVar, str_Promesse(langueNom), "() {");
+				tl(2, "Promise<", entiteNomSimple, "> promise = Promise.promise();");
+	
+				tl(2, "if(!", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), ") {");
+				tl(3, "Promise<", entiteNomSimple, "> promise2 = Promise.promise();");
 				if(entiteCouverture) {
-					tl(2, "if(", entiteVar, " != null)");
-					tl(3, entiteVar, ".", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ");");
+					tl(3, "_", entiteVar, "(promise2);");
+					tl(3, "promise2.future().onSuccess(o -> {");
+					tl(4, "if(", entiteVar, " == null)");
+					tl(5, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
 				}
 				else {
-					tl(2, entiteVar, ".", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ");");
+					tl(3, "_", entiteVar, "(promise);");
+					tl(3, "promise.future().onSuccess(o -> {");
 				}
-			}
-
-			if(entiteNomCanoniqueGenerique == null && entiteMethodesApresVar != null && entiteMethodesApresVar.size() > 0) {
-				tl(2, "if(", entiteVar, " != null) {");
-				for(int j = 0; j < entiteMethodesApresVar.size(); j++) {
-					String entiteMethodeApresVisibilite = entiteMethodesApresVisibilite.get(j);
-					String entiteMethodeApresVar = entiteMethodesApresVar.get(j);
-					Boolean entiteMethodeApresNomParam = entiteMethodesApresNomParam.get(j);
-
-					t(3, "((", classeNomSimple, ")this).", entiteMethodeApresVar, "(", entiteVar);
-					if(entiteMethodeApresNomParam)
-						s(", \"", entiteVar, "\"");
-					l(");");
+				if(entiteInitLoin && entiteInitialise) {
+					if(entiteCouverture) {
+						tl(4, "if(", entiteVar, " != null)");
+						tl(5, entiteVar, ".", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ");");
+					}
+					else {
+						tl(4, entiteVar, ".", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ");");
+					}
+				}
+				tl(4, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
+				tl(4, "promise.complete(o);");
+				tl(3, "}).onFailure(ex -> {");
+				tl(4, "promise.fail(ex);");
+				tl(3, "});");
+				tl(2, "} else {");
+				tl(3, "promise.complete();");
+				tl(2, "}");
+				tl(2, "return promise.future();");
+			} else {
+				t(1, "protected ", classeNomSimple, " ", entiteVar, "Init()");
+				if(classeInitLoinExceptions.size() > 0) {
+					s(" throws ");
+					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+						String classeInitLoinException = classeInitLoinExceptions.get(i);
+						String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+						if(i > 0)
+							s(", ");
+						s(classeInitLoinExceptionNomSimple);
+					}
+				}
+				l(" {");
+	
+				if(entiteNomCanoniqueGenerique == null && entiteMethodesAvantVar != null && entiteMethodesAvantVar.size() > 0) {
+					tl(2, "if(", entiteVar, " != null) {");
+					for(int j = 0; j < entiteMethodesAvantVar.size(); j++) {
+						String entiteMethodeAvantVar = entiteMethodesAvantVar.get(j);
+						Boolean entiteMethodeAvantNomParam = entiteMethodesAvantNomParam.get(j);
+	
+						t(3, "((", classeNomSimple, ")this).", entiteMethodeAvantVar, "(", entiteVar);
+						if(entiteMethodeAvantNomParam)
+							s(", \"", entiteVar, "\"");
+						l(");");
+					}
+					tl(2, "}");
+				}
+	
+				tl(2, "if(!", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), ") {");
+				if(entiteCouverture) {
+					tl(3, "_", entiteVar, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ");");
+					tl(3, "if(", entiteVar, " == null)");
+					tl(4, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
+				}
+				else {
+					tl(3, "_", entiteVar, "(", entiteVar, ");");
 				}
 				tl(2, "}");
+				if(entiteInitLoin && entiteInitialise) {
+					if(entiteCouverture) {
+						tl(2, "if(", entiteVar, " != null)");
+						tl(3, entiteVar, ".", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ");");
+					}
+					else {
+						tl(2, entiteVar, ".", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ");");
+					}
+				}
+	
+				if(entiteNomCanoniqueGenerique == null && entiteMethodesApresVar != null && entiteMethodesApresVar.size() > 0) {
+					tl(2, "if(", entiteVar, " != null) {");
+					for(int j = 0; j < entiteMethodesApresVar.size(); j++) {
+						String entiteMethodeApresVisibilite = entiteMethodesApresVisibilite.get(j);
+						String entiteMethodeApresVar = entiteMethodesApresVar.get(j);
+						Boolean entiteMethodeApresNomParam = entiteMethodesApresNomParam.get(j);
+	
+						t(3, "((", classeNomSimple, ")this).", entiteMethodeApresVar, "(", entiteVar);
+						if(entiteMethodeApresNomParam)
+							s(", \"", entiteVar, "\"");
+						l(");");
+					}
+					tl(2, "}");
+				}
+	
+				tl(2, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
+				tl(2, "return (", classeNomSimple, ")this;");
 			}
-
-			tl(2, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
-			tl(2, "return (", classeNomSimple, ")this;");
 			tl(1, "}");
 
 			if(entiteMethodesApresVar != null) {
@@ -4905,11 +4983,26 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 			}
 	
 			////////////////////
-			// codeIninitLoin //
+			// codeInitLoin //
 			////////////////////
-//			if(entiteInitLoin) {
-			wInitLoin.tl(2, entiteVar, "Init();");
-//			}
+			if(entitePromesse) {
+				wInitLoin.tl(3, "promise2.complete();");
+				wInitLoin.tl(3, "return promise2.future();");
+				wInitLoin.tl(2, "}).compose(a -> {");
+				wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
+				wInitLoin.tl(3, entiteVar, str_Promesse(langueNom), "().onSuccess(", entiteVar, " -> {");
+				wInitLoin.tl(4, "promise2.complete();");
+				wInitLoin.tl(3, "}).onFailure(ex -> {");
+				wInitLoin.tl(4, "promise2.fail(ex);");
+				wInitLoin.tl(3, "});");
+				wInitLoin.tl(3, "return promise2.future();");
+				wInitLoin.tl(2, "}).compose(a -> {");
+				wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
+			} else if(classePromesse) {
+				wInitLoin.tl(3, entiteVar, "Init();");
+			} else {
+				wInitLoin.tl(2, entiteVar, "Init();");
+			}
 	
 	
 			/////////////////////
@@ -5701,26 +5794,42 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 		//////////////////
 		if(classeInitLoin && classePartsRequeteSite != null) {
 //			wInitLoin.tl(3, "", dejaInitialise(langueNom), "", classeNomSimple, " = true;");
+			if(classePromesse) {
+				wInitLoin.tl(3, "promise2.complete();");
+				wInitLoin.tl(3, "return promise2.future();");
+				wInitLoin.tl(2, "}).onSuccess(a -> {");
+				wInitLoin.tl(3, "promise.complete();");
+				wInitLoin.tl(2, "}).onFailure(ex -> {");
+				wInitLoin.tl(3, "promise.fail(ex);");
+				wInitLoin.tl(2, "});");
+				wInitLoin.tl(2, "return promise.future();");
+			}
 			wInitLoin.tl(1, "}");
 			if(classeInitLoin) {
 				wInitLoin.l();
 				wInitLoin.t(1);
 				if(classeEtendBase)
 					wInitLoin.s("@Override ");
-				wInitLoin.s("public void ", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_)");
-				if(classeInitLoinExceptions.size() > 0) {
-					wInitLoin.s(" throws ");
-					for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
-						String classeInitLoinException = classeInitLoinExceptions.get(i);
-						String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
-						if(i > 0)
-							wInitLoin.s(", ");
-						wInitLoin.s(classeInitLoinExceptionNomSimple);
+				if(classePromesse) {
+					wInitLoin.l("public Future<Void> ", str_promesseLoin(langueNom), str_PourClasse(langueNom), "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_) {");
+					wInitLoin.tl(2, "return ", str_promesseLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), "_);");
+					wInitLoin.tl(1, "}");  
+				} else {
+					wInitLoin.s("public void ", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_)");
+					if(classeInitLoinExceptions.size() > 0) {
+						wInitLoin.s(" throws ");
+						for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
+							String classeInitLoinException = classeInitLoinExceptions.get(i);
+							String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
+							if(i > 0)
+								wInitLoin.s(", ");
+							wInitLoin.s(classeInitLoinExceptionNomSimple);
+						}
 					}
+					wInitLoin.l(" {");
+					wInitLoin.tl(2, str_initLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), "_);");
+					wInitLoin.tl(1, "}");  
 				}
-				wInitLoin.l(" {");
-				wInitLoin.tl(2, str_initLoin(langueNom), classeNomSimple, "(", str_requeteSite(langueNom), "_);");
-				wInitLoin.tl(1, "}");  
 			}
 		}
 

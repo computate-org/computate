@@ -518,6 +518,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
 					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
 					classeEntiteClassesSuperEtMoiSansGen = (List<String>)doc.get("entiteClassesSuperEtMoiSansGen_stored_strings");
+					classePromesse = (Boolean)doc.get("classePromesse_stored_boolean");
 					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
 					classeBaseEtendGen = (Boolean)doc.get("classeBaseEtendGen_stored_boolean");
 					classeEtendBase = (Boolean)doc.get("classeEtendBase_stored_boolean");
