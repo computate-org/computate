@@ -3361,8 +3361,8 @@ public class IndexerClasse extends RegarderClasseBase {
 					classeBaseEtendGen = false;
 			}
 		}
-		Boolean classeEstBase = stockerSolr(classeDoc, "classeEstBase", !classeBaseEtendGen || StringUtils.isEmpty(classeNomCompletSuperGenerique) || StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
-		Boolean classeEtendBase = stockerSolr(classeDoc, "classeEtendBase", !classeEstBase && classeBaseEtendGen && !StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
+		Boolean classeEstBase = indexerStockerSolr(classeDoc, "classeEstBase", !classeBaseEtendGen || StringUtils.isEmpty(classeNomCompletSuperGenerique) || StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
+		Boolean classeEtendBase = indexerStockerSolr(classeDoc, "classeEtendBase", !classeEstBase && classeBaseEtendGen && !StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
 		Boolean classePromesse = false;
 		indexerStockerSolr(classeDoc, "classeBaseEtendGen", classeBaseEtendGen);
 		Boolean classeContientRequeteSite = false;
