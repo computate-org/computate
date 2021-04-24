@@ -1823,6 +1823,8 @@ String classeInitLoinException = classeInitLoinExceptions.get(i);
 					SolrQuery rechercheSolr2 = new SolrQuery();   
 					rechercheSolr2.setQuery("*:*");
 					rechercheSolr2.setRows(1000);
+					rechercheSolr2.addSort("classeEstBase_indexed_boolean", ORDER.desc);
+					rechercheSolr2.addSort("partNumero_indexed_int", ORDER.asc);
 					rechercheSolr2.addFilterQuery("appliNom_indexed_string:" + ClientUtils.escapeQueryChars(appliNom));
 					rechercheSolr2.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + fqClassesSuperEtMoi);
 					rechercheSolr2.addFilterQuery("partEstEntite_indexed_boolean:true");

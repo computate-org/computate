@@ -3265,7 +3265,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "Object jsonVal = json.getValue(f);");
 						tl(6, "if(jsonVal instanceof JsonArray) {");
 						tl(7, "JsonArray jsonVals = (JsonArray)jsonVal;");
-						tl(7, "Collection<?> vals = (Collection<?>)o2.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f);");
+						tl(7, "Collection<?> vals = (Collection<?>)o.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f);");
 						tl(7, "if(jsonVals.size() == vals.size()) {");
 						tl(8, "Boolean match = true;");
 						tl(8, "for(Object val : vals) {");
@@ -3273,10 +3273,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(10, "if(!jsonVals.contains(val.toString())) {");
 						tl(11, "match = false;");
 						tl(11, "break;");
-						tl(10, "} else {");
-						tl(11, "match = false;");
-						tl(11, "break;");
 						tl(10, "}");
+						tl(9, "} else {");
+						tl(10, "match = false;");
+						tl(10, "break;");
 						tl(9, "}");
 						tl(8, "}");
 						tl(8, "if(!match) {");
@@ -3288,7 +3288,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "}");
 						tl(6, "else {");
 						tl(7, "o2.", str_definir(classeLangueNom), str_PourClasse(classeLangueNom), "(f, jsonVal);");
-						tl(7, "if(!Objects.equals(o.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f), o2.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f)))");
+						tl(7, "if(!StringUtils.containsAny(f, \"", classeVarClePrimaire, "\", \"", str_cree(classeLangueNom), "\") && !Objects.equals(o.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f), o2.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f)))");
 						tl(8, "json2.put(\"set\" + StringUtils.capitalize(f), jsonVal);");
 						tl(6, "}");
 						tl(5, "}");
