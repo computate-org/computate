@@ -1238,9 +1238,14 @@ public class EcrireGenClasse extends EcrireClasse {
 				wInitLoin.tl(2, str_promesse(langueNom), classeNomSimple, "(promise2);");
 				wInitLoin.tl(2, "promise2.future().onSuccess(a -> {");
 				if(BooleanUtils.isTrue(classeEtendBase)) {
-					wInitLoin.tl(3, "super.", str_initLoin(langueNom), classeNomSimpleSuperGenerique, "(", str_requeteSite(langueNom), "_);");
+					wInitLoin.tl(3, "super.", str_promesseLoin(langueNom), classeNomSimpleSuperGenerique, "(", str_requeteSite(langueNom), "_).onSuccess(b -> {");
+					wInitLoin.tl(4, "promise.complete();");
+					wInitLoin.tl(3, "}).onFailure(ex -> {");
+					wInitLoin.tl(4, "promise.fail(ex);");
+					wInitLoin.tl(3, "});");
+				} else {
+					wInitLoin.tl(3, "promise.complete();");
 				}
-				wInitLoin.tl(3, "promise.complete();");
 				wInitLoin.tl(2, "}).onFailure(ex -> {");
 				wInitLoin.tl(3, "promise.fail(ex);");
 				wInitLoin.tl(2, "});");
@@ -3980,31 +3985,27 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Initialiser //
 			if(entitePromesse) {
-				tl(1, "protected Future<", entiteNomSimple, "> ", entiteVar, str_Promesse(langueNom), "() {");
-				tl(2, "Promise<", entiteNomSimple, "> promise = Promise.promise();");
+				tl(1, "protected Future<", entiteNomSimpleComplet, "> ", entiteVar, str_Promesse(langueNom), "() {");
+				tl(2, "Promise<", entiteNomSimpleComplet, "> promise = Promise.promise();");
 	
 				tl(2, "if(!", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), ") {");
-				tl(3, "Promise<", entiteNomSimple, "> promise2 = Promise.promise();");
-				if(entiteCouverture) {
-					tl(3, "_", entiteVar, "(promise2);");
-					tl(3, "promise2.future().onSuccess(o -> {");
-					tl(4, "if(", entiteVar, " == null)");
-					tl(5, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
-				}
-				else {
-					tl(3, "_", entiteVar, "(promise);");
-					tl(3, "promise.future().onSuccess(o -> {");
-				}
+				tl(3, "Promise<", entiteNomSimpleComplet, "> promise2 = Promise.promise();");
+				tl(3, "_", entiteVar, "(promise2);");
+				tl(3, "promise2.future().onSuccess(o -> {");
 				if(entiteInitLoin && entiteInitialise) {
-					if(entiteCouverture) {
-						tl(4, "if(", entiteVar, " != null)");
-						tl(5, entiteVar, ".", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ");");
-					}
-					else {
-						tl(4, entiteVar, ".", str_initLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ");");
-					}
+					tl(4, "if(o != null && ", entiteVar, " == null) {");
+					tl(5, entiteVar, ".", str_promesseLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ").onSuccess(a -> {");
+					tl(6, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
+					tl(6, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
+					tl(6, "promise.complete(o);");
+					tl(5, "}).onFailure(ex -> {");
+					tl(6, "promise.fail(ex);");
+					tl(5, "});");
+					tl(4, "} else {");
+					tl(5, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
+					tl(5, "promise.complete(o);");
+					tl(4, "}");
 				}
-				tl(4, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
 				tl(4, "promise.complete(o);");
 				tl(3, "}).onFailure(ex -> {");
 				tl(4, "promise.fail(ex);");

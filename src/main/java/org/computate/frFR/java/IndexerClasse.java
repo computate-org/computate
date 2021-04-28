@@ -3624,7 +3624,15 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
-		if(classeEtendBase || classeEstBase) {
+		if(classeEtendBase) {
+			if(classeNomSimpleSuperGenerique.equals(classePartsCluster.nomSimple(langueNom)))
+				classePromesse = true;
+			classePartsGenAjouter(classePartsCluster, classeLangueNom);
+			classePartsGenAjouter(classePartsToutEcrivain, classeLangueNom);
+		}
+		else if(classeEstBase) {
+			if(classeNomSimple.equals(classePartsCluster.nomSimple(langueNom)))
+				classePromesse = true;
 			classePartsGenAjouter(classePartsCluster, classeLangueNom);
 			classePartsGenAjouter(classePartsToutEcrivain, classeLangueNom);
 		}
