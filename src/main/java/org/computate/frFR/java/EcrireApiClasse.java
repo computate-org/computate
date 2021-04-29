@@ -1099,6 +1099,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				
 								tl(6, "break;");
 							}	
+
+
+
+
 							if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
 								tl(5, "case \"", entiteVar, "\":");
 								if(entiteListeTypeJson == null) {
@@ -1173,48 +1177,53 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										if(activerArchive)
 											tl(8, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", str_archive(classeLangueNom), "_indexed_boolean:false\");");
 										tl(8, str_listeRecherche(classeLangueNom), ".addFilterQuery((inheritPk ? \"", classeVarInheritClePrimaire, "_indexed_string:\" : \"", classeVarClePrimaire, "_indexed_long:\") + l);");
-										tl(8, str_listeRecherche(classeLangueNom), ".", str_promesseLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ").onSuccess(a -> {");
-										tl(9, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
-										tl(9, "if(l2 != null) {");
+										tl(8, str_listeRecherche(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsListeRecherche.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
+										tl(8, "Long l2 = Optional.ofNullable(", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null)).map(a -> a.getPk()).orElse(null);");
+										tl(8, "if(l2 != null) {");
 										if(sqlTables && !"array".equals(entiteAttribuerTypeJson)) {
 											// no list, no list, >
-											tl(10, "futures.add(");
-											tl(12, str_connexionSql(classeLangueNom), ".preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE pk=$2\")");
+											tl(9, "futures.add(Future.future(a -> {");
+											tl(10, str_connexionSql(classeLangueNom), ".preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE pk=$2\")");
 											tl(12,".execute(Tuple.of(", classeVarClePrimaire, ", l2)");
-											tl(12, ").onSuccess(b -> {");
-											tl(11,"a.handle(Future.succeededFuture());");
-											tl(10, "}).onFailure(ex -> {");
-											tl(11,"a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
-											tl(10, "}));");
+											tl(12,", b");
+											tl(10, "-> {");
+											tl(11, "if(b.succeeded())");
+											tl(12,"a.handle(Future.succeededFuture());");
+											tl(11, "else");
+											tl(12,"a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
+											tl(10, "});");
+											tl(9, "}));");
 										} else if(sqlTables && !"array".equals(entiteTypeJson)) {
 											// no list, list, >
-											tl(10, "if(bParams.size() > 0) {");
-											tl(11, "bSql.append(\", \");");
-											tl(10, "}");
-											tl(10, "bSql.append(\"", entiteVar, "=$\" + num);");
-											tl(10, "num++;");
-											tl(10, "bParams.add(l2);");
+											tl(9, "if(bParams.size() > 0) {");
+											tl(10, "bSql.append(\", \");");
+											tl(9, "}");
+											tl(9, "bSql.append(\"", entiteVar, "=$\" + num);");
+											tl(9, "num++;");
+											tl(9, "bParams.add(l2);");
 										} else {
-											tl(10, "futures.add(");
+											tl(9, "futures.add(Future.future(a -> {");
 											if(sqlTables && "array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-												tl(12, str_connexionSql(classeLangueNom), ".preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
+												tl(10, str_connexionSql(classeLangueNom), ".preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
 												tl(12,".execute(Tuple.of(l2, ", classeVarClePrimaire, ")");
 											} else {
-												tl(12, str_connexionSql(classeLangueNom), ".preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
+												tl(10, str_connexionSql(classeLangueNom), ".preparedQuery(", classePartsSiteContexte.nomSimple(classeLangueNom), ".SQL_addA)");
 												tl(12,".execute(Tuple.of(l2, \"", entiteAttribuerVar, "\", ",  classeVarClePrimaire, ", \"", entiteVar, "\")");
 											}
-											tl(12, ").onSuccess(b -> {");
-											tl(11,"a.handle(Future.succeededFuture());");
-											tl(10, "}).onFailure(ex -> {");
-											tl(11,"a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
-											tl(10, "}));");
+											tl(12,", b");
+											tl(10, "-> {");
+											tl(11, "if(b.succeeded())");
+											tl(12,"a.handle(Future.succeededFuture());");
+											tl(11, "else");
+											tl(12,"a.handle(Future.failedFuture(new Exception(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", b.cause())));");
+											tl(10, "});");
+											tl(9, "}));");
 										}
-										tl(10, "if(!pks.contains(l2)) {");
-										tl(11, "pks.add(l2);");
-										tl(11, "classes.add(\"", entiteAttribuerNomSimple, "\");");
-										tl(10, "}");
+										tl(9, "if(!pks.contains(l2)) {");
+										tl(10, "pks.add(l2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
 										tl(9, "}");
-										tl(8, "});");
+										tl(8, "}");
 										tl(7, "}");
 										tl(6, "}");
 									}
@@ -3926,7 +3935,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 	
 					if(classeApiMethode.contains("GET")) {
-						tl(3, "SolrDocumentList ", str_documentsSolr(classeLangueNom), " = ", str_liste(classeLangueNom), classeNomSimple, ".getSolrDocumentList();");
 						l();
 					}
 					if(classeApiMethode.contains(str_Recherche(classeLangueNom))) {
@@ -3958,7 +3966,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						}
 						else {
 							tl(3, "QueryResponse ", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), " = ", str_liste(classeLangueNom), classeNomSimple, ".getQueryResponse();");
-							tl(3, "SolrDocumentList ", str_documentsSolr(classeLangueNom), " = ", str_liste(classeLangueNom), classeNomSimple, ".getSolrDocumentList();");
 							tl(3, "Long ", str_millisRecherche(classeLangueNom), " = Long.valueOf(", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), ".getQTime());");
 							tl(3, "Long ", str_millisTransmission(classeLangueNom), " = ", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), ".getElapsedTime();");
 							tl(3, "Long ", str_numCommence(classeLangueNom), " = ", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), ".getResults().getStart();");
@@ -4489,8 +4496,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	 * r.enUS: user
 	 * r: Partagé
 	 * r.enUS: Shared
-	 * r: documentsSolr
-	 * r.enUS: solrDocuments
 	 * r: documentSolr
 	 * r.enUS: solrDocument
 	 * r: supprimer
