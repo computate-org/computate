@@ -5546,8 +5546,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			// codeApiChamps //
 			/////////////////
 			o = wApiEntites;
-	//		l();
-	//		tl(1, "public static final String ENTITE_VAR_", entiteVar, " = \"", entiteVar, "\";");
+			tl(1, "public static final String VAR_", entiteVar, " = \"", entiteVar, "\";");
 	//		if(classeIndexe) {
 	//			if(entiteIndexe)
 	//				tl(1, "public static final String ENTITE_VAR_INDEXE_", entiteVar, " = \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
@@ -6402,6 +6401,9 @@ public class EcrireGenClasse extends EcrireClasse {
 			l();
 			tl(1, "public static final String[] ", classeNomSimple, "Vals", " = new String[] { ", classeVals, " };");
 		}
+
+		l();
+		s(wApiEntites);
 
 		l("}"); 
 
