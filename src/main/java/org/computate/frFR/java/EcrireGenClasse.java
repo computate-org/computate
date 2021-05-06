@@ -1274,7 +1274,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			wInitLoin.l();
 			if(classePromesse) {
 				wInitLoin.tl(1, "public Future<Void> ", str_promesse(langueNom), classeNomSimple, "(Promise<Void> promise) {");
-				wInitLoin.tl(2, "Future.future(a -> {}).compose(a -> {");
+				wInitLoin.tl(2, "Future.future(a -> a.complete()).compose(a -> {");
 				wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
 			} else {
 				wInitLoin.t(1, "public void init", classeNomSimple, "()");
@@ -5485,7 +5485,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			/////////////////
 			o = wStocker;
 			if(entiteCrypte || entiteStocke || entiteCleUnique || entiteSuggere || entiteIncremente || entiteTexte) {
-				tl(0);
 
 //				if(entiteTexte) {
 //					if("frFR".equals(langueNom) || "esES".equals(langueNom))
@@ -5515,20 +5514,16 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
 				}
 				else {
-					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\");");
 					if(StringUtils.contains(entiteSolrNomCanonique, "<")) {
 						if(entiteCouverture) {
-							tl(2, "if(", entiteVar, " != null)");
-							tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+							tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(Optional.ofNullable(solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\")).map(v -> v.toString()).orElse(null));");
 						}
 						else {
-							tl(2, "if(", entiteVar, " != null)");
-							tl(3, "o", classeNomSimple, ".", entiteVar, ".addAll(", entiteVar, ");");
+							tl(2, "o", classeNomSimple, ".add", entiteVarCapitalise, "(Optional.ofNullable(solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\")).map(v -> v.toString()).orElse(null));");
 						}
 					}
 					else {
-						tl(2, "if(", entiteVar, " != null)");
-						tl(3, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+						tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(Optional.ofNullable(solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\")).map(v -> v.toString()).orElse(null));");
 					}
 				}
 
@@ -6258,6 +6253,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 			tl(1, "public void ", str_stocker(langueNom), classeNomSimple, "(SolrDocument solrDocument) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
+			l();
 			s(wStocker.toString());
 			if(BooleanUtils.isTrue(classeEtendBase)) {
 				tl(0);

@@ -1704,7 +1704,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
-											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, val).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
+											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1728,7 +1728,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
-											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, val).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
+											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -1742,7 +1742,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
-											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, val).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
+											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
@@ -5496,7 +5496,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "o.", str_promesseLoin(classeLangueNom), str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ").onSuccess(a -> {");
 			tl(4, "SolrInputDocument document = new SolrInputDocument();");
 			tl(4, "o.", str_indexer(classeLangueNom), classeNomSimple, "(document);");
-			tl(4, str_clientWeb(classeLangueNom), ".post(", classePartsConfigCles.nomSimple(classeLangueNom), ".", str_URL_SOLR(classeLangueNom), " + \"/update?commitWithin=10000&overwrite=true&wt=json\").sendBuffer(Buffer.buffer(document.jsonStr())).onSuccess(b -> {");
+			tl(4, "String solrHostName = ", str_requeteSite(classeLangueNom), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_HOST_NAME);");
+			tl(4, "Integer solrPort = ", str_requeteSite(classeLangueNom), ".getConfig().getInteger(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PORT);");
+			tl(4, "String solrCollection = ", str_requeteSite(classeLangueNom), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_COLLECTION);");
+			tl(4, "String solrRequestUri = String.format(\"/solr/%s/update%s\", solrCollection, \"?commitWithin=10000&overwrite=true&wt=json\");");
+			tl(4, str_clientWeb(classeLangueNom), ".post(solrPort, solrHostName, solrRequestUri).sendBuffer(Buffer.buffer(document.jsonStr())).onSuccess(b -> {");
 			tl(5, "promise.complete();");
 			tl(4, "}).onFailure(ex -> {");
 			tl(5, "LOG.error(String.format(\"", str_indexer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
