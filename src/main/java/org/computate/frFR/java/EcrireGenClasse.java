@@ -1276,6 +1276,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wInitLoin.tl(1, "public Future<Void> ", str_promesse(langueNom), classeNomSimple, "(Promise<Void> promise) {");
 				wInitLoin.tl(2, "Future.future(a -> a.complete()).compose(a -> {");
 				wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
+				wInitLoin.tl(3, "try {");
 			} else {
 				wInitLoin.t(1, "public void init", classeNomSimple, "()");
 				if(classeInitLoinExceptions.size() > 0) {
@@ -3340,7 +3341,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			tl(1, "@JsonIgnore");
 			t(1, "public ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVar, classePartsCouverture.nomSimple(langueNom));
-			l(" = new ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, ">().p(this).c(", entiteNomSimple, ".class).var(\"", entiteVar, "\").o(", entiteVar, ");");
+			l(" = new ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, ">().var(\"", entiteVar, "\").o(", entiteVar, ");");
 	
 			// Methode underscore //
 			l();
@@ -3994,8 +3995,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(3, "promise2.future().onSuccess(o -> {");
 				if(entiteInitLoin && entiteInitialise) {
 					tl(4, "if(o != null && ", entiteVar, " == null) {");
-					tl(5, entiteVar, ".", str_promesseLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ").onSuccess(a -> {");
-					tl(6, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
+					tl(5, "o.", str_promesseLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ").onSuccess(a -> {");
+					tl(6, "set", entiteVarCapitalise, "(o);");
 					tl(6, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
 					tl(6, "promise.complete(o);");
 					tl(5, "}).onFailure(ex -> {");
@@ -4006,7 +4007,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(5, "promise.complete(o);");
 					tl(4, "}");
 				}
-				tl(4, "promise.complete(o);");
+				else {
+					tl(4, "promise.complete(o);");
+				}
 				tl(3, "}).onFailure(ex -> {");
 				tl(4, "promise.fail(ex);");
 				tl(3, "});");
@@ -4047,6 +4050,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(3, "_", entiteVar, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ");");
 					tl(3, "if(", entiteVar, " == null)");
 					tl(4, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
+					tl(3, entiteVar, classePartsCouverture.nomSimple(langueNom), ".o(null);");
 				}
 				else {
 					tl(3, "_", entiteVar, "(", entiteVar, ");");
@@ -4989,7 +4993,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			// codeInitLoin //
 			////////////////////
 			if(entitePromesse) {
-				wInitLoin.tl(3, "promise2.complete();");
+				wInitLoin.tl(4, "promise2.complete();");
+				wInitLoin.tl(3, "} catch(Exception ex) {");
+				wInitLoin.tl(4, "promise2.fail(ex);");
+				wInitLoin.tl(3, "}");
 				wInitLoin.tl(3, "return promise2.future();");
 				wInitLoin.tl(2, "}).compose(a -> {");
 				wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
@@ -5001,10 +5008,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				wInitLoin.tl(3, "return promise2.future();");
 				wInitLoin.tl(2, "}).compose(a -> {");
 				wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
+				wInitLoin.tl(3, "try {");
 			} else if(classePromesse) {
-				wInitLoin.tl(3, entiteVar, "Init();");
+				wInitLoin.tl(4, entiteVar, "Init();");
 			} else {
-				wInitLoin.tl(2, entiteVar, "Init();");
+				wInitLoin.tl(4, entiteVar, "Init();");
 			}
 	
 	
@@ -5783,7 +5791,10 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(classeInitLoin && classePartsRequeteSite != null) {
 //			wInitLoin.tl(3, "", dejaInitialise(langueNom), "", classeNomSimple, " = true;");
 			if(classePromesse) {
-				wInitLoin.tl(3, "promise2.complete();");
+				wInitLoin.tl(4, "promise2.complete();");
+				wInitLoin.tl(3, "} catch(Exception ex) {");
+				wInitLoin.tl(4, "promise2.fail(ex);");
+				wInitLoin.tl(3, "}");
 				wInitLoin.tl(3, "return promise2.future();");
 				wInitLoin.tl(2, "}).onSuccess(a -> {");
 				wInitLoin.tl(3, "promise.complete();");
