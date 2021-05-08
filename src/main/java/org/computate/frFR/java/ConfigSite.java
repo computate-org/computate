@@ -1857,9 +1857,13 @@ public class ConfigSite {
 			return "SiteUser";
 	}
 
-	/**
-	 * Var.enUS: str_jsonPrincipal
-	 */
+	public String str_PrincipalJson(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "PrincipalJson";
+		else
+			return "JsonPrincipal";
+	}
+
 	public String str_principalJson(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "principalJson";

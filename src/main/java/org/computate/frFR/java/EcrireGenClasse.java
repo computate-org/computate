@@ -5203,7 +5203,13 @@ public class EcrireGenClasse extends EcrireClasse {
 				wIndexerFacetFor.tl(8, str_listeRecherche(langueNom), "2.", str_promesseLoin(langueNom), str_ListeRecherche(langueNom), "(", str_requeteSite(langueNom), ").onSuccess(b -> {");
 				wIndexerFacetFor.tl(9, entiteAttribuerNomSimple, " o2 = ", str_listeRecherche(langueNom), "2.getList().stream().findFirst().orElse(null);");
 				wIndexerFacetFor.tl(9, "if(o2 != null) {");
-				wIndexerFacetFor.tl(10, "eventBus.request(\"", appliNom, "-", langueNom, "-", entiteAttribuerNomSimple, "\", new JsonObject(), new DeliveryOptions().addHeader(\"action\", \"patch", entiteAttribuerNomSimple, "\")).onSuccess(c -> {");
+				wIndexerFacetFor.tl(10, "JsonObject params = new JsonObject();");
+				wIndexerFacetFor.tl(10, "params.put(\"body\", new JsonObject());");
+				wIndexerFacetFor.tl(10, "params.put(\"cookie\", new JsonObject());");
+				wIndexerFacetFor.tl(10, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + pk2)));");
+				wIndexerFacetFor.tl(10, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", str_requeteSite(langueNom), ".get", str_PrincipalJson(langueNom), "());");
+				wIndexerFacetFor.tl(10, "JsonObject json = new JsonObject().put(\"context\", context);");
+				wIndexerFacetFor.tl(10, "eventBus.request(\"", appliNom, "-", langueNom, "-", entiteAttribuerNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", entiteAttribuerNomSimple, "\")).onSuccess(c -> {");
 				wIndexerFacetFor.tl(11, "promise2.complete();");
 				wIndexerFacetFor.tl(10, "}).onFailure(ex -> {");
 				wIndexerFacetFor.tl(11, "promise2.fail(ex);");
