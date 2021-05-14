@@ -389,8 +389,6 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected ToutEcrivain wFacets;
 
-	protected ToutEcrivain wIndexerFacetAdd;
-
 	protected ToutEcrivain wIndexerFacetFor;
 
 	protected List<String> classesNomSimpleFacetFor;
@@ -1111,7 +1109,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		wRequeteSite = ToutEcrivain.create();
 		wIndexer = ToutEcrivain.create();
 		wFacets = ToutEcrivain.create();
-		wIndexerFacetAdd = ToutEcrivain.create();
 		wIndexerFacetFor = ToutEcrivain.create();
 		classesNomSimpleFacetFor = new ArrayList<>();
 		wTexte = ToutEcrivain.create();
@@ -5189,39 +5186,36 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 
 			if(entiteAttribuer && !classesNomSimpleFacetFor.contains(entiteAttribuerNomSimple)) {
-
-				wIndexerFacetAdd.tl(4, str_listeRecherche(langueNom), ".add(\"json.facet\", \"{", entiteVar, ":{terms:{field:", entiteVar, "_indexed_longs, limit:1000}}}\");");
-
 				wIndexerFacetFor.l();
-				wIndexerFacetFor.tl(6, "if(\"", entiteAttribuerNomSimple, "\".equals(", str_classeNomSimple(langueNom), "2) && ", classeVarClePrimaire, "2 != null) {");
-				wIndexerFacetFor.tl(7, str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), "2 = new ", str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, ">();");
-				wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.set", str_Stocker(langueNom), "(true);");
-				wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.setQuery(\"*:*\");");
-				wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.setC(", entiteAttribuerNomSimple, ".class);");
-				wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.addFilterQuery(\"", classeVarClePrimaire, "_indexed_long:\" + ", classeVarClePrimaire, "2);");
-				wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.setRows(1);");
-				wIndexerFacetFor.tl(7, "futures.add(Future.future(promise2 -> {");
-				wIndexerFacetFor.tl(8, str_listeRecherche(langueNom), "2.", str_promesseLoin(langueNom), str_ListeRecherche(langueNom), "(", str_requeteSite(langueNom), ").onSuccess(b -> {");
-				wIndexerFacetFor.tl(9, entiteAttribuerNomSimple, " o2 = ", str_listeRecherche(langueNom), "2.getList().stream().findFirst().orElse(null);");
-				wIndexerFacetFor.tl(9, "if(o2 != null) {");
-				wIndexerFacetFor.tl(10, "JsonObject params = new JsonObject();");
-				wIndexerFacetFor.tl(10, "params.put(\"body\", new JsonObject());");
-				wIndexerFacetFor.tl(10, "params.put(\"cookie\", new JsonObject());");
-				wIndexerFacetFor.tl(10, "params.put(\"path\", new JsonObject());");
-				wIndexerFacetFor.tl(10, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + pk2)));");
-				wIndexerFacetFor.tl(10, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", str_requeteSite(langueNom), ".get", str_PrincipalJson(langueNom), "());");
-				wIndexerFacetFor.tl(10, "JsonObject json = new JsonObject().put(\"context\", context);");
-				wIndexerFacetFor.tl(10, "eventBus.request(\"", appliNom, "-", langueNom, "-", entiteAttribuerNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", entiteAttribuerNomSimple, "\")).onSuccess(c -> {");
-				wIndexerFacetFor.tl(11, "promise2.complete();");
-				wIndexerFacetFor.tl(10, "}).onFailure(ex -> {");
-				wIndexerFacetFor.tl(11, "promise2.fail(ex);");
-				wIndexerFacetFor.tl(10, "});");
-				wIndexerFacetFor.tl(9, "}");
-				wIndexerFacetFor.tl(8, "}).onFailure(ex -> {");
-				wIndexerFacetFor.tl(9, "promise2.fail(ex);");
-				wIndexerFacetFor.tl(8, "});");
-				wIndexerFacetFor.tl(7, "}));");
-				wIndexerFacetFor.tl(6, "}");
+				wIndexerFacetFor.tl(5, "if(\"", entiteAttribuerNomSimple, "\".equals(", str_classeNomSimple(langueNom), "2) && ", classeVarClePrimaire, "2 != null) {");
+				wIndexerFacetFor.tl(6, str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, "> ", str_listeRecherche(langueNom), "2 = new ", str_ListeRecherche(langueNom), "<", entiteAttribuerNomSimple, ">();");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.set", str_Stocker(langueNom), "(true);");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setQuery(\"*:*\");");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setC(", entiteAttribuerNomSimple, ".class);");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.addFilterQuery(\"", classeVarClePrimaire, "_indexed_long:\" + ", classeVarClePrimaire, "2);");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setRows(1);");
+				wIndexerFacetFor.tl(6, "futures.add(Future.future(promise2 -> {");
+				wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.", str_promesseLoin(langueNom), str_ListeRecherche(langueNom), "(", str_requeteSite(langueNom), ").onSuccess(b -> {");
+				wIndexerFacetFor.tl(8, entiteAttribuerNomSimple, " o2 = ", str_listeRecherche(langueNom), "2.getList().stream().findFirst().orElse(null);");
+				wIndexerFacetFor.tl(8, "if(o2 != null) {");
+				wIndexerFacetFor.tl(9, "JsonObject params = new JsonObject();");
+				wIndexerFacetFor.tl(9, "params.put(\"body\", new JsonObject());");
+				wIndexerFacetFor.tl(9, "params.put(\"cookie\", new JsonObject());");
+				wIndexerFacetFor.tl(9, "params.put(\"path\", new JsonObject());");
+				wIndexerFacetFor.tl(9, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + pk2)));");
+				wIndexerFacetFor.tl(9, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", str_requeteSite(langueNom), ".get", str_PrincipalJson(langueNom), "());");
+				wIndexerFacetFor.tl(9, "JsonObject json = new JsonObject().put(\"context\", context);");
+				wIndexerFacetFor.tl(9, "eventBus.request(\"", appliNom, "-", langueNom, "-", entiteAttribuerNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", entiteAttribuerNomSimple, "\")).onSuccess(c -> {");
+				wIndexerFacetFor.tl(10, "promise2.complete();");
+				wIndexerFacetFor.tl(9, "}).onFailure(ex -> {");
+				wIndexerFacetFor.tl(10, "promise2.fail(ex);");
+				wIndexerFacetFor.tl(9, "});");
+				wIndexerFacetFor.tl(8, "}");
+				wIndexerFacetFor.tl(7, "}).onFailure(ex -> {");
+				wIndexerFacetFor.tl(8, "promise2.fail(ex);");
+				wIndexerFacetFor.tl(7, "});");
+				wIndexerFacetFor.tl(6, "}));");
+				wIndexerFacetFor.tl(5, "}");
 				classesNomSimpleFacetFor.add(entiteAttribuerNomSimple);
 			}
 	
