@@ -160,9 +160,15 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	public static final String VAL_nomCanoniqueVertxJsonObject = "io.vertx.core.json.JsonObject";
 
-	/**
-	 * Var.enUS: classPartsSolrInputDocument
-	 */
+	ClasseParts classePartsLocalTimeSerializer;
+	ClasseParts classePartsLocalTimeDeserializer;
+
+	ClasseParts classePartsLocalDateSerializer;
+	ClasseParts classePartsLocalDateDeserializer;
+
+	ClasseParts classePartsZonedDateTimeSerializer;
+	ClasseParts classePartsZonedDateTimeDeserializer;
+
 	ClasseParts classePartsSolrInputDocument;
 	/**
 	 * Var.enUS: classPartsSolrDocument
@@ -1739,6 +1745,30 @@ public class IndexerClasse extends RegarderClasseBase {
 
 	protected ClasseParts classePartsConfigCles(String nomEnsembleDomaine, String langueNom) throws Exception {
 		return classePartsPourNomSimple(nomEnsembleDomaine, str_ConfigCles(this.langueNomActuel), langueNom);
+	}
+
+	protected ClasseParts classePartsZonedDateTimeDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "ZonedDateTimeDeserializer", langueNom);
+	}
+
+	protected ClasseParts classePartsZonedDateTimeSerializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "ZonedDateTimeSerializer", langueNom);
+	}
+
+	protected ClasseParts classePartsLocalDateDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "LocalDateDeserializer", langueNom);
+	}
+
+	protected ClasseParts classePartsLocalDateSerializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "LocalDateSerializer", langueNom);
+	}
+
+	protected ClasseParts classePartsLocalTimeDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "LocalTimeDeserializer", langueNom);
+	}
+
+	protected ClasseParts classePartsLocalTimeSerializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, "LocalTimeSerializer", langueNom);
 	}
 
 	/**
@@ -3470,6 +3500,12 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsRequeteSite = classePartsRequeteSite(nomEnsembleDomaine, classeLangueNom);
 		classePartsMailVerticle = classePartsMailVerticle(nomEnsembleDomaine, classeLangueNom);
 		classePartsConfigCles = classePartsConfigCles(nomEnsembleDomaine, classeLangueNom);
+		classePartsLocalTimeDeserializer = classePartsLocalTimeDeserializer(nomEnsembleDomaine, classeLangueNom);
+		classePartsLocalTimeSerializer = classePartsLocalTimeSerializer(nomEnsembleDomaine, classeLangueNom);
+		classePartsLocalDateDeserializer = classePartsLocalDateDeserializer(nomEnsembleDomaine, classeLangueNom);
+		classePartsLocalDateSerializer = classePartsLocalDateSerializer(nomEnsembleDomaine, classeLangueNom);
+		classePartsZonedDateTimeDeserializer = classePartsZonedDateTimeDeserializer(nomEnsembleDomaine, classeLangueNom);
+		classePartsZonedDateTimeSerializer = classePartsZonedDateTimeSerializer(nomEnsembleDomaine, classeLangueNom);
 
 		Boolean classeInitLoin = !regexTrouve("^" + str_InitLoin(classeLangueNom) + ":\\s*(false)$", classeCommentaire);
 		if(classeInitLoin)
@@ -3647,12 +3683,24 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.text.StringEscapeUtils", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonProperty", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonIgnore", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonFormat.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonSerialize.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonDeserialize.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer", classeLangueNom), classeLangueNom);
-		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer", classeLangueNom), classeLangueNom);
+
+		if(classePartsLocalDateSerializer != null)
+			classePartsGenAjouter(classePartsLocalDateSerializer, classeLangueNom);
+
+		if(classePartsLocalDateDeserializer != null)
+			classePartsGenAjouter(classePartsLocalDateDeserializer, classeLangueNom);
+
+		if(classePartsZonedDateTimeSerializer != null)
+			classePartsGenAjouter(classePartsZonedDateTimeSerializer, classeLangueNom);
+
+		if(classePartsZonedDateTimeDeserializer != null)
+			classePartsGenAjouter(classePartsZonedDateTimeDeserializer, classeLangueNom);
+
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonInclude", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonInclude.Include", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, ToStringSerializer.class.getCanonicalName(), classeLangueNom), classeLangueNom);

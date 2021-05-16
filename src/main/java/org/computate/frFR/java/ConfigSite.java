@@ -1,4 +1,4 @@
-package org.computate.frFR.java;     
+package org.computate.frFR.java;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,154 +18,155 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * NomCanonique.enUS: org.computate.enUS.java.SiteConfig
- * enUS: Loads the properties in the application config file into specific fields. 
- * frFR: Charge les propriétés dans le fichier de config de l'application dans des champs spécifiques. 
- */ 
-public class ConfigSite { 
+ * NomCanonique.enUS: org.computate.enUS.java.SiteConfig enUS: Loads the
+ * properties in the application config file into specific fields. frFR: Charge
+ * les propriétés dans le fichier de config de l'application dans des champs
+ * spécifiques.
+ */
+public class ConfigSite {
 
 	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$\\\\|]");
-	
+
 	public ConfigSite() {
 	}
 
 	public String str_appliNom(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "appliNom";
 		else
 			return "appName";
 	}
 
 	public String str_appliChemin(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "appliChemin";
 		else
 			return "appPath";
 	}
 
 	public String str_classeCheminAbsolu(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "classeCheminAbsolu";
 		else
 			return "classAbsolutePath";
 	}
 
 	public String str_nomDomaine(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "str_nomDomaine";
 		else
 			return "domainName";
 	}
 
 	public String str_autresLangues(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "autresLangues";
 		else
 			return "otherLanguages";
 	}
 
 	public String str_SITE_URL_BASE(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "SITE_URL_BASE";
 		else
 			return "SITE_BASE_URL";
 	}
 
 	public String str_siteUrlBase(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "siteUrlBase";
 		else
 			return "siteBaseUrl";
 	}
 
 	public String str_nomEnsembleDomaine(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "nomEnsembleDomaine";
 		else
 			return "domainPackageName";
 	}
 
 	public String str_fichier(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "fichier";
 		else
 			return "file";
 	}
 
 	public String str_nomFichierConfig(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "nomFichierConfig";
 		else
 			return "configFileName";
 	}
 
 	public String str_URL_SOLR(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "URL_SOLR";
 		else
 			return "SOLR_URL";
 	}
 
 	public String str_solrUrl(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "solrUrl";
 		else
 			return "solrUrl";
 	}
 
 	public String str_siteCrypte(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "siteCrypte";
 		else
 			return "siteEncrypted";
 	}
 
 	public String str_siteEcrireMethodes(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "siteEcrireMethodes";
 		else
 			return "siteWriteMethods";
 	}
 
 	public String str_ecrireApi(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "ecrireApi";
 		else
 			return "writeApi";
 	}
 
 	public String str_ecrireCommentaire(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "ecrireCommentaire";
 		else
 			return "writeComments";
 	}
 
 	public String str_roleLires(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "roleLires";
 		else
 			return "roleReads";
 	}
 
 	public String str_activer(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "activer";
 		else
 			return "enable";
 	}
 
 	public String str_Supprime(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Supprime";
 		else
 			return "Deleted";
 	}
 
 	public String str_Archive(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Archive";
 		else
 			return "Archived";
@@ -175,21 +176,21 @@ public class ConfigSite {
 	 * Var.enUS: str_alreadyInitialized
 	 */
 	public String str_dejaInitialise(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "dejaInitialise";
 		else
 			return "alreadyInitialized";
 	}
 
 	public String str_promesse(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "promesse";
 		else
 			return "promise";
 	}
 
 	public String str_promesseLoin(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "promesseLoin";
 		else
 			return "promiseDeep";
@@ -199,7 +200,7 @@ public class ConfigSite {
 	 * Var.enUS: str_initDeep
 	 */
 	public String str_initLoin(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "initLoin";
 		else
 			return "initDeep";
@@ -209,14 +210,14 @@ public class ConfigSite {
 	 * Var.enUS: str_in
 	 */
 	public String str_dans(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "dans";
 		else
 			return "in";
 	}
 
 	public String str_MailVerticle(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "MailVerticle";
 		else
 			return "MailVerticle";
@@ -226,7 +227,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Wrap
 	 */
 	public String str_Couverture(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Couverture";
 		else
 			return "Wrap";
@@ -236,7 +237,7 @@ public class ConfigSite {
 	 * Var.enUS: str_class
 	 */
 	public String str_classe(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "classe";
 		else
 			return "class";
@@ -246,7 +247,7 @@ public class ConfigSite {
 	 * Var.enUS: str_manquante
 	 */
 	public String str_manquante(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "manquante";
 		else
 			return "missing";
@@ -256,7 +257,7 @@ public class ConfigSite {
 	 * Var.enUS: str_ForClass
 	 */
 	public String str_PourClasse(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "PourClasse";
 		else
 			return "ForClass";
@@ -266,7 +267,7 @@ public class ConfigSite {
 	 * Var.enUS: str_obtain
 	 */
 	public String str_obtenir(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "obtenir";
 		else
 			return "obtain";
@@ -276,7 +277,7 @@ public class ConfigSite {
 	 * Var.enUS: str_attribute
 	 */
 	public String str_attribuer(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "attribuer";
 		else
 			return "attribute";
@@ -286,14 +287,14 @@ public class ConfigSite {
 	 * Var.enUS: str_put
 	 */
 	public String str_put(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "put";
 		else
 			return "put";
 	}
 
 	public String str_Indexer(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Indexer";
 		else
 			return "Index";
@@ -303,7 +304,7 @@ public class ConfigSite {
 	 * Var.enUS: str_index
 	 */
 	public String str_indexer(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "indexer";
 		else
 			return "index";
@@ -313,7 +314,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Indexed
 	 */
 	public String str_Indexe(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Indexe";
 		else
 			return "Indexed";
@@ -323,7 +324,7 @@ public class ConfigSite {
 	 * Var.enUS: str_store
 	 */
 	public String str_stocker(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "stocker";
 		else
 			return "store";
@@ -333,7 +334,7 @@ public class ConfigSite {
 	 * Var.enUS: str_populate
 	 */
 	public String str_peupler(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "peupler";
 		else
 			return "populate";
@@ -343,7 +344,7 @@ public class ConfigSite {
 	 * Var.enUS: str_deconnexion
 	 */
 	public String str_deconnexion(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "deconnexion";
 		else
 			return "logout";
@@ -353,7 +354,7 @@ public class ConfigSite {
 	 * Var.enUS: str_de
 	 */
 	public String str_de(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "de";
 		else
 			return "of";
@@ -363,14 +364,14 @@ public class ConfigSite {
 	 * Var.enUS: str_define
 	 */
 	public String str_definir(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "definir";
 		else
 			return "define";
 	}
 
 	public String str_Definir(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Definir";
 		else
 			return "Define";
@@ -380,14 +381,14 @@ public class ConfigSite {
 	 * Var.enUS: str_siteRequest
 	 */
 	public String str_requeteSite(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "requeteSite";
 		else
 			return "siteRequest";
 	}
 
 	public String str_roles_requis(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "rôles requis : ";
 		else
 			return "roles required: ";
@@ -397,28 +398,28 @@ public class ConfigSite {
 	 * Var.enUS: str_SiteRequest
 	 */
 	public String str_RequeteSite(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "RequeteSite";
 		else
 			return "SiteRequest";
 	}
 
 	public String str_Avant(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Avant";
 		else
 			return "Before";
 	}
 
 	public String str_avant(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "avant";
 		else
 			return "before";
 	}
 
 	public String str_Apres(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Apres";
 		else
 			return "After";
@@ -428,7 +429,7 @@ public class ConfigSite {
 	 * Var.enUS: str_after
 	 */
 	public String str_apres(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "apres";
 		else
 			return "after";
@@ -438,28 +439,28 @@ public class ConfigSite {
 	 * Var.enUS: str_Rights
 	 */
 	public String str_Droits(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Droits";
 		else
 			return "Rights";
 	}
 
 	public String str_Config(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Config";
 		else
 			return "Config";
 	}
 
 	public String str_ConfigSite(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "ConfigSite";
 		else
 			return "SiteConfig";
 	}
 
 	public String str_configSite(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "configSite";
 		else
 			return "siteConfig";
@@ -469,7 +470,7 @@ public class ConfigSite {
 	 * Var.enUS: str_search
 	 */
 	public String str_rechercher(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "rechercher";
 		else
 			return "search";
@@ -479,7 +480,7 @@ public class ConfigSite {
 	 * Var.enUS: str_aSearch
 	 */
 	public String str_recherche(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "recherche";
 		else
 			return "aSearch";
@@ -489,56 +490,56 @@ public class ConfigSite {
 	 * Var.enUS: str_SearchPage
 	 */
 	public String str_PageRecherche(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "PageRecherche";
 		else
 			return "SearchPage";
 	}
 
 	public String str_PUTFusion(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "PUTFusion";
 		else
 			return "PUTMerge";
 	}
 
 	public String str_Fusion(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Fusion";
 		else
 			return "Merge";
 	}
 
 	public String str_fusion(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "fusion";
 		else
 			return "merge";
 	}
 
 	public String str_PUTCopie(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "PUTCopie";
 		else
 			return "PUTCopy";
 	}
 
 	public String str_Copie(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Copie";
 		else
 			return "Copy";
 	}
 
 	public String str_copie(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "copie";
 		else
 			return "copy";
 	}
 
 	public String str_Recherche(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Recherche";
 		else
 			return "Search";
@@ -548,7 +549,7 @@ public class ConfigSite {
 	 * Var.enUS: str_solrQuery
 	 */
 	public String str_rechercheSolr(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "rechercheSolr";
 		else
 			return "solrQuery";
@@ -558,7 +559,7 @@ public class ConfigSite {
 	 * Var.enUS: str_queryResponse
 	 */
 	public String str_reponseRecherche(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "reponseRecherche";
 		else
 			return "queryResponse";
@@ -568,7 +569,7 @@ public class ConfigSite {
 	 * Var.enUS: str_SolrDocument
 	 */
 	public String str_DocumentSolr(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "DocumentSolr";
 		else
 			return "SolrDocument";
@@ -578,7 +579,7 @@ public class ConfigSite {
 	 * Var.enUS: str_requestHeaders
 	 */
 	public String str_requeteEnTetes(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "requeteEnTetes";
 		else
 			return "requestHeaders";
@@ -588,28 +589,28 @@ public class ConfigSite {
 	 * Var.enUS: str_RequestHeaders
 	 */
 	public String str_RequeteEnTetes(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "RequeteEnTetes";
 		else
 			return "RequestHeaders";
 	}
 
 	public String str_SITE_ZONE(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "SITE_ZONE";
 		else
 			return "SITE_ZONE";
 	}
 
 	public String str_siteZone(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "siteZone";
 		else
 			return "siteZone";
 	}
 
 	public String str_siteContexte(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "siteContexte";
 		else
 			return "siteContext";
@@ -619,35 +620,35 @@ public class ConfigSite {
 	 * Var.enUS: str_SiteContext
 	 */
 	public String str_SiteContexte(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "SiteContexte";
 		else
 			return "SiteContext";
 	}
 
 	public String str_MailDe(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "MailDe";
 		else
 			return "EmailFrom";
 	}
 
 	public String str_Mail(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Mail";
 		else
 			return "Email";
 	}
 
 	public String str_MailAdmin(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "MailAdmin";
 		else
 			return "EmailAdmin";
 	}
 
 	public String str_SiteUrlBase(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "SiteUrlBase";
 		else
 			return "SiteBaseUrl";
@@ -657,21 +658,21 @@ public class ConfigSite {
 	 * Var.enUS: str_ConfigPath
 	 */
 	public String str_ConfigChemin(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "ConfigChemin";
 		else
 			return "ConfigPath";
 	}
 
 	public String str_routeur(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "routeur";
 		else
 			return "router";
 	}
 
 	public String str_clientWeb(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "clientWeb";
 		else
 			return "webClient";
@@ -681,7 +682,7 @@ public class ConfigSite {
 	 * Var.enUS: str_solrClient
 	 */
 	public String str_clientSolr(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "clientSolr";
 		else
 			return "solrClient";
@@ -691,7 +692,7 @@ public class ConfigSite {
 	 * Var.enUS: str_SolrClient
 	 */
 	public String str_ClientSolr(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "ClientSolr";
 		else
 			return "SolrClient";
@@ -701,7 +702,7 @@ public class ConfigSite {
 	 * Var.enUS: str_list
 	 */
 	public String str_liste(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "liste";
 		else
 			return "list";
@@ -711,7 +712,7 @@ public class ConfigSite {
 	 * Var.enUS: str_workerExecutor
 	 */
 	public String str_executeurTravailleur(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "executeurTravailleur";
 		else
 			return "workerExecutor";
@@ -721,7 +722,7 @@ public class ConfigSite {
 	 * Var.enUS: str_WorkerExecutor
 	 */
 	public String str_ExecuteurTravailleur(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "ExecuteurTravailleur";
 		else
 			return "WorkerExecutor";
@@ -731,7 +732,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Title
 	 */
 	public String str_Titre(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Titre";
 		else
 			return "Title";
@@ -741,42 +742,42 @@ public class ConfigSite {
 	 * Var.enUS: str_Translate
 	 */
 	public String str_Traduire(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Traduire";
 		else
 			return "Translate";
 	}
 
 	public String str_MiseEnPage(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "MiseEnPage";
 		else
 			return "PageLayout";
 	}
 
 	public String str_PagePart(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "PagePart";
 		else
 			return "PagePart";
 	}
 
 	public String str_BaseApiServiceImpl(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "BaseApiServiceImpl";
 		else
 			return "BaseApiServiceImpl";
 	}
 
 	public String str_ResultatRecherche(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "ResultatRecherche";
 		else
 			return "SearchResult";
 	}
 
 	public String str_ToutEcrivain(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "ToutEcrivain";
 		else
 			return "AllWriter";
@@ -786,7 +787,7 @@ public class ConfigSite {
 	 * Var.enUS: str_SearchList
 	 */
 	public String str_ListeRecherche(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "ListeRecherche";
 		else
 			return "SearchList";
@@ -796,7 +797,7 @@ public class ConfigSite {
 	 * Var.enUS: str_searchList
 	 */
 	public String str_listeRecherche(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "listeRecherche";
 		else
 			return "searchList";
@@ -806,7 +807,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Width
 	 */
 	public String str_Largeur(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Largeur";
 		else
 			return "Width";
@@ -816,7 +817,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Height
 	 */
 	public String str_Hauteur(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Hauteur";
 		else
 			return "Height";
@@ -826,7 +827,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Group
 	 */
 	public String str_Groupe(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Groupe";
 		else
 			return "Group";
@@ -836,7 +837,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Name
 	 */
 	public String str_Nom(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Nom";
 		else
 			return "Name";
@@ -846,7 +847,7 @@ public class ConfigSite {
 	 * Var.enUS: str_context
 	 */
 	public String str_contexte(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "contexte";
 		else
 			return "context";
@@ -856,7 +857,7 @@ public class ConfigSite {
 	 * Var.enUS: str_staticBaseUrl
 	 */
 	public String str_statiqueUrlBase(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "statiqueUrlBase";
 		else
 			return "staticBaseUrl";
@@ -866,7 +867,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Icon
 	 */
 	public String str_Icone(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Icone";
 		else
 			return "Icon";
@@ -876,14 +877,14 @@ public class ConfigSite {
 	 * Var.enUS: str_filter
 	 */
 	public String str_filtre(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "filtre";
 		else
 			return "filter";
 	}
 
 	public String str_Colonne(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Colonne";
 		else
 			return "Column";
@@ -893,7 +894,7 @@ public class ConfigSite {
 	 * Var.enUS: str_filters
 	 */
 	public String str_filtres(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "filtres";
 		else
 			return "filters";
@@ -903,7 +904,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Filters
 	 */
 	public String str_Filtres(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Filtres";
 		else
 			return "Filters";
@@ -913,7 +914,7 @@ public class ConfigSite {
 	 * Var.enUS: str_formFilters
 	 */
 	public String str_formulaireFiltres(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "formulaireFiltres";
 		else
 			return "formFilters";
@@ -923,7 +924,7 @@ public class ConfigSite {
 	 * Var.enUS: str_FormFilters
 	 */
 	public String str_FormulaireFiltres(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "FormulaireFiltres";
 		else
 			return "FormFilters";
@@ -933,7 +934,7 @@ public class ConfigSite {
 	 * Var.enUS: str_FormValues
 	 */
 	public String str_FormulaireValeurs(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "FormulaireValeurs";
 		else
 			return "FormValues";
@@ -943,7 +944,7 @@ public class ConfigSite {
 	 * Var.enUS: str_formValue
 	 */
 	public String str_formulaireValeur(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "formulaireValeur";
 		else
 			return "formValue";
@@ -953,7 +954,7 @@ public class ConfigSite {
 	 * Var.enUS: str_formValues
 	 */
 	public String str_formulaireValeurs(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "formulaireValeurs";
 		else
 			return "formValues";
@@ -963,7 +964,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Values
 	 */
 	public String str_Valeurs(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Valeurs";
 		else
 			return "Values";
@@ -973,56 +974,56 @@ public class ConfigSite {
 	 * Var.enUS: str_values
 	 */
 	public String str_valeurs(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "valeurs";
 		else
 			return "values";
 	}
 
 	public String str_deuxPoints(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return " : ";
 		else
 			return ": ";
 	}
 
 	public String str_relations(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "relations";
 		else
 			return "relations";
 	}
 
 	public String str_Recharger(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Recharger";
 		else
 			return "Refresh";
 	}
 
 	public String str_recharger(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "recharger";
 		else
 			return "refresh";
 	}
 
 	public String str_relier(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "relier";
 		else
 			return "relate";
 	}
 
 	public String str_a(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "a";
 		else
 			return "to";
 	}
 
 	public String str_Télécharger_image(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Télécharger image";
 		else
 			return "Upload image";
@@ -1032,7 +1033,7 @@ public class ConfigSite {
 	 * Var.enUS: str_value
 	 */
 	public String str_valeur(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "valeur";
 		else
 			return "value";
@@ -1042,7 +1043,7 @@ public class ConfigSite {
 	 * Var.enUS: str_glow
 	 */
 	public String str_lueur(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "lueur";
 		else
 			return "glow";
@@ -1052,7 +1053,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Error
 	 */
 	public String str_Erreur(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Erreur";
 		else
 			return "Error";
@@ -1062,7 +1063,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Success
 	 */
 	public String str_Succes(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Succes";
 		else
 			return "Success";
@@ -1072,7 +1073,7 @@ public class ConfigSite {
 	 * Var.enUS: str_serviceRequest
 	 */
 	public String str_requeteService(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "requeteService";
 		else
 			return "serviceRequest";
@@ -1082,14 +1083,14 @@ public class ConfigSite {
 	 * Var.enUS: str_ServiceRequest
 	 */
 	public String str_RequeteService(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "RequeteService";
 		else
 			return "ServiceRequest";
 	}
 
 	public String str_vider(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "vider";
 		else
 			return "clear";
@@ -1099,7 +1100,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Request
 	 */
 	public String str_Requete(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Requete";
 		else
 			return "Request";
@@ -1109,7 +1110,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Response
 	 */
 	public String str_Reponse(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Reponse";
 		else
 			return "Response";
@@ -1119,21 +1120,21 @@ public class ConfigSite {
 	 * Var.enUS: str_ObjectValues
 	 */
 	public String str_ValeursObjet(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "ValeursObjet";
 		else
 			return "ObjectValues";
 	}
 
 	public String str_objetTexte(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "objetTexte";
 		else
 			return "objectText";
 	}
 
 	public String str_objetSuggere(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "objetSuggere";
 		else
 			return "objectSuggest";
@@ -1143,7 +1144,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Object
 	 */
 	public String str_Objet(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Objet";
 		else
 			return "Object";
@@ -1153,7 +1154,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Objects
 	 */
 	public String str_Objets(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Objets";
 		else
 			return "Objects";
@@ -1163,7 +1164,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Method
 	 */
 	public String str_Methode(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Methode";
 		else
 			return "Method";
@@ -1173,7 +1174,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Modal
 	 */
 	public String str_Modale(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Modale";
 		else
 			return "Modal";
@@ -1183,7 +1184,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Short
 	 */
 	public String str_Court(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Court";
 		else
 			return "Short";
@@ -1193,7 +1194,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Write
 	 */
 	public String str_Ecrire(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Ecrire";
 		else
 			return "Write";
@@ -1203,7 +1204,7 @@ public class ConfigSite {
 	 * Var.enUS: str_contextIconCssClasses
 	 */
 	public String str_contexteIconeClassesCss(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "contexteIconeClassesCss";
 		else
 			return "contextIconCssClasses";
@@ -1213,7 +1214,7 @@ public class ConfigSite {
 	 * Var.enUS: str_register
 	 */
 	public String str_enregistrer(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "enregistrer";
 		else
 			return "register";
@@ -1223,7 +1224,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Create_
 	 */
 	public String str_Creer_(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Créer ";
 		else
 			return "Create ";
@@ -1233,7 +1234,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Search_the_
 	 */
 	public String str_Rechercher_(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Rechercher ";
 		else
 			return "Search ";
@@ -1243,28 +1244,28 @@ public class ConfigSite {
 	 * Var.enUS: str_Replace_
 	 */
 	public String str_Remplacer_(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Remplacer ";
 		else
 			return "Replace ";
 	}
 
 	public String str_Dupliquer_(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Dupliquer ";
 		else
 			return "Duplicate ";
 	}
 
 	public String str_Fusionner_(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Fusionner ";
 		else
 			return "Merge ";
 	}
 
 	public String str_Importer_(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Importer ";
 		else
 			return "Import ";
@@ -1274,7 +1275,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Modify_the_
 	 */
 	public String str_Modifier_des_(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Modifier ";
 		else
 			return "Modify ";
@@ -1284,7 +1285,7 @@ public class ConfigSite {
 	 * Var.enUS: str_Delete_the_
 	 */
 	public String str_Supprimer_(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "Supprimer ";
 		else
 			return "Delete ";
@@ -1294,7 +1295,7 @@ public class ConfigSite {
 	 * Var.enUS: str_is_not_an_indexed_entity
 	 */
 	public String str_nest_pas_une_entite_indexe(String langueNom) {
-		if("frFR".equals(langueNom))
+		if ("frFR".equals(langueNom))
 			return "n'est pas une entité indexé";
 		else
 			return "is not an indexed entity";
@@ -2576,7 +2577,8 @@ public class ConfigSite {
 			return " It is constructed before being initialized with the constructor by default ";
 	}
 
-	public String str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__(String langueNom) {
+	public String str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__(
+			String langueNom) {
 		if ("frFR".equals(langueNom))
 			return " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. ";
 		else
@@ -3025,131 +3027,111 @@ public class ConfigSite {
 	}
 
 	/**
-	 * Var.enUS: languageName
-	 * enUS: The configured language name for this app. 
+	 * Var.enUS: languageName enUS: The configured language name for this app.
 	 */
 	public String langueNom;
-	/**	
-	 * Var.enUS: _languageName
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/ 
-	protected void _langueNom() throws Exception {
-		langueNom = System.getenv("lang");
-	} 
-
-	/**	
-	 * Var.enUS: appName
-	 * frFR: Le nom de l'lappli. 
-	 * enUS: The name of the application. 
-	 **/ 
-	public String appliNom;
-	/**	
-	 * Var.enUS: _appName
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/ 
-	protected void _appliNom() throws Exception {
-		if(appliNom == null)
-			appliNom = System.getenv(str_appliNom(langueNom)); 
-	}
-
-	/**	
-	 * Var.enUS: appPath
-	 * frFR: Le chemin vers l'lappli. 
-	 * enUS: The path to the application. 
-	 * **/
-	public String appliChemin;
-	/**	
-	 * Var.enUS: _appPath
-	 * r: appliChemin
-	 * r.enUS: appPath
-	 **/ 
-	protected void _appliChemin() throws Exception {
-		if(appliChemin == null)
-			appliChemin = System.getenv(str_appliChemin(langueNom)); 
-	} 
-
-	/**	
-	 * Var.enUS: appPathVertx
-	 * frFR: Le chemin vers l'lappli. 
-	 * enUS: The path to the application. 
-	 * **/
-	public String appliCheminVertx;
-	/**	
-	 * Var.enUS: _appPathVertx
-	 * r: appliCheminVertx
-	 * r.enUS: appPathVertx
-	 **/ 
-	protected void _appliCheminVertx() throws Exception {
-		if(appliCheminVertx == null)
-			appliCheminVertx = System.getenv(str_appliChemin(langueNom) + "Vertx"); 
-	} 
 
 	/**
-	 * Var.enUS: srcMainJavaPath
-	 * enUS: The absolute path to the /src/main/java directory. 
+	 * Var.enUS: _languageName r: langueNom r.enUS: languageName r: appliNom r.enUS:
+	 * appName
+	 **/
+	protected void _langueNom() throws Exception {
+		langueNom = System.getenv("lang");
+	}
+
+	/**
+	 * Var.enUS: appName frFR: Le nom de l'lappli. enUS: The name of the
+	 * application.
+	 **/
+	public String appliNom;
+
+	/**
+	 * Var.enUS: _appName r: appliNom r.enUS: appName
+	 **/
+	protected void _appliNom() throws Exception {
+		if (appliNom == null)
+			appliNom = System.getenv(str_appliNom(langueNom));
+	}
+
+	/**
+	 * Var.enUS: appPath frFR: Le chemin vers l'lappli. enUS: The path to the
+	 * application.
+	 **/
+	public String appliChemin;
+
+	/**
+	 * Var.enUS: _appPath r: appliChemin r.enUS: appPath
+	 **/
+	protected void _appliChemin() throws Exception {
+		if (appliChemin == null)
+			appliChemin = System.getenv(str_appliChemin(langueNom));
+	}
+
+	/**
+	 * Var.enUS: appPathVertx frFR: Le chemin vers l'lappli. enUS: The path to the
+	 * application.
+	 **/
+	public String appliCheminVertx;
+
+	/**
+	 * Var.enUS: _appPathVertx r: appliCheminVertx r.enUS: appPathVertx
+	 **/
+	protected void _appliCheminVertx() throws Exception {
+		if (appliCheminVertx == null)
+			appliCheminVertx = System.getenv(str_appliChemin(langueNom) + "Vertx");
+	}
+
+	/**
+	 * Var.enUS: srcMainJavaPath enUS: The absolute path to the /src/main/java
+	 * directory.
 	 */
 	public String cheminSrcMainJava;
-	/**	
-	 * Var.enUS: _srcMainJavaPath
-	 * r: cheminSrcMainJava
-	 * r.enUS: srcMainJavaPath
-	 * r: appliChemin
-	 * r.enUS: appPath
-	 **/ 
+
+	/**
+	 * Var.enUS: _srcMainJavaPath r: cheminSrcMainJava r.enUS: srcMainJavaPath r:
+	 * appliChemin r.enUS: appPath
+	 **/
 	protected void _cheminSrcMainJava() throws Exception {
 		cheminSrcMainJava = appliChemin + "/src/main/java";
 	}
 
 	/**
-	 * Var.enUS: srcMainResourcesPath
-	 * enUS: The absolute path to the /src/main/resources directory. 
+	 * Var.enUS: srcMainResourcesPath enUS: The absolute path to the
+	 * /src/main/resources directory.
 	 */
 	public String cheminSrcMainResources;
-	/**	
-	 * Var.enUS: _srcMainResourcesPath
-	 * r: cheminSrcMainResources
-	 * r.enUS: srcMainResourcesPath
-	 * r: appliChemin
-	 * r.enUS: appPath
-	 **/ 
+
+	/**
+	 * Var.enUS: _srcMainResourcesPath r: cheminSrcMainResources r.enUS:
+	 * srcMainResourcesPath r: appliChemin r.enUS: appPath
+	 **/
 	protected void _cheminSrcMainResources() throws Exception {
 		cheminSrcMainResources = appliChemin + "/src/main/resources";
 	}
 
 	/**
-	 * Var.enUS: srcGenJavaPath
-	 * enUS: The absolute path to the /src/gen/java directory. 
+	 * Var.enUS: srcGenJavaPath enUS: The absolute path to the /src/gen/java
+	 * directory.
 	 */
 	public String cheminSrcGenJava;
-	/**	
-	 * Var.enUS: _srcGenJavaPath
-	 * r: cheminSrcGenJava
-	 * r.enUS: srcGenJavaPath
-	 * r: appliChemin
-	 * r.enUS: appPath
-	 **/ 
+
+	/**
+	 * Var.enUS: _srcGenJavaPath r: cheminSrcGenJava r.enUS: srcGenJavaPath r:
+	 * appliChemin r.enUS: appPath
+	 **/
 	protected void _cheminSrcGenJava() throws Exception {
 		cheminSrcGenJava = appliChemin + "/src/gen/java";
 	}
 
 	/**
-	 * Var.enUS: configPath
-	 * enUS: The absolute path to the app config file. 
+	 * Var.enUS: configPath enUS: The absolute path to the app config file.
 	 */
 	public String configChemin;
-	/**	
-	 * Var.enUS: _configPath
-	 * r: configChemin
-	 * r.enUS: configPath
-	 * r: appliChemin
-	 * r.enUS: appPath
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/ 
+
+	/**
+	 * Var.enUS: _configPath r: configChemin r.enUS: configPath r: appliChemin
+	 * r.enUS: appPath r: appliNom r.enUS: appName
+	 **/
 	protected void _configChemin() throws Exception {
 		configChemin = appliChemin + "/config/" + appliNom + ".config";
 	}
@@ -3177,180 +3159,151 @@ public class ConfigSite {
 //	}
 
 	/**
-	 * Var.enUS: configFile
-	 * enUS: The File Object for the app config file. 
+	 * Var.enUS: configFile enUS: The File Object for the app config file.
 	 */
 	public File fichierConfig;
-	/**	
-	 * Var.enUS: _configFile
-	 * r: fichierConfig
-	 * r.enUS: configFile
-	 * r: configChemin
+
+	/**
+	 * Var.enUS: _configFile r: fichierConfig r.enUS: configFile r: configChemin
 	 * r.enUS: configPath
-	 **/ 
+	 **/
 	protected void _fichierConfig() throws Exception {
 		fichierConfig = new File(configChemin);
 	}
 
 	/**
-	 * enUS: The Apache Commons Configurations object for reading config files. 
+	 * enUS: The Apache Commons Configurations object for reading config files.
 	 */
 	public Configurations configurations;
+
 	protected void _configurations() throws Exception {
 		configurations = new Configurations();
 	}
 
 	/**
-	 * The INI Configuration Object for the config file. 
+	 * The INI Configuration Object for the config file.
 	 */
 	public INIConfiguration config;
-	/**	
-	 * r: fichierConfig
-	 * r.enUS: configFile
-	 **/ 
+
+	/**
+	 * r: fichierConfig r.enUS: configFile
+	 **/
 	protected void _config() throws Exception {
 		config = configurations.ini(fichierConfig);
 	}
 
 	/**
-	 * Var.enUS: languageActualName
-	 * enUS: The actual language of the code. 
-	 * enUS: If the languageName is configured as "tout", then the languageActualName would be "frFR". 
+	 * Var.enUS: languageActualName enUS: The actual language of the code. enUS: If
+	 * the languageName is configured as "tout", then the languageActualName would
+	 * be "frFR".
 	 */
 	public String langueNomActuel;
-	/**	
-	 * Var.enUS: _languageActualName
-	 * r: langueNomActuel
-	 * r.enUS: languageActualName
-	 * r: langueNom
-	 * r.enUS: languageName
-	 **/ 
+
+	/**
+	 * Var.enUS: _languageActualName r: langueNomActuel r.enUS: languageActualName
+	 * r: langueNom r.enUS: languageName
+	 **/
 	protected void _langueNomActuel() throws Exception {
 //		if(StringUtils.equals(langueNom, "tout"))
 //			langueNomActuel = "frFR";
 //		else
-			langueNomActuel = langueNom;
-	} 
-
-	/**
-	 * Var.enUS: otherLanguages
-	 * enUS: Other languages supported by this app besides the actual language name. 
-	 */
-	public String[] autresLangues;
-	/**	
-	 * Var.enUS: _otherLanguages
-	 * r: autresLangues
-	 * r.enUS: otherLanguages
-	 * r: toutesLangues
-	 * r.enUS: allLanguages
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/ 
-	protected void _autresLangues() throws Exception {
-		autresLangues = config.getStringArray(StringUtils.replace(appliNom, ".", "..") + "." + str_autresLangues(langueNom));
+		langueNomActuel = langueNom;
 	}
 
 	/**
-	 * Var.enUS: allLanguages
-	 * enUS: All language names supported in this application. 
+	 * Var.enUS: otherLanguages enUS: Other languages supported by this app besides
+	 * the actual language name.
+	 */
+	public String[] autresLangues;
+
+	/**
+	 * Var.enUS: _otherLanguages r: autresLangues r.enUS: otherLanguages r:
+	 * toutesLangues r.enUS: allLanguages r: langueNom r.enUS: languageName r:
+	 * appliNom r.enUS: appName
+	 **/
+	protected void _autresLangues() throws Exception {
+		autresLangues = config
+				.getStringArray(StringUtils.replace(appliNom, ".", "..") + "." + str_autresLangues(langueNom));
+	}
+
+	/**
+	 * Var.enUS: allLanguages enUS: All language names supported in this
+	 * application.
 	 */
 	public String[] toutesLangues;
 
 	/**
-	 * Var.enUS:classOtherLanguages
-	 * enUS: Other language names supported in this application. 
+	 * Var.enUS:classOtherLanguages enUS: Other language names supported in this
+	 * application.
 	 */
 	public String[] classeAutresLangues;
 
-	/**	
-	 * Var.enUS: _allLanguages
-	 * r: toutesLangues
-	 * r.enUS: allLanguages
-	 * r: appliNom
-	 * r.enUS: appName
-	 * r: autresLangues
-	 * r.enUS: otherLanguages
-	 * r: langueNom
-	 * r.enUS: languageName
-	 **/ 
+	/**
+	 * Var.enUS: _allLanguages r: toutesLangues r.enUS: allLanguages r: appliNom
+	 * r.enUS: appName r: autresLangues r.enUS: otherLanguages r: langueNom r.enUS:
+	 * languageName
+	 **/
 	protected void _toutesLangues() throws Exception {
 		toutesLangues = ArrayUtils.add(ArrayUtils.addAll(autresLangues), langueNom);
 	}
 
 	/**
-	 * Var.enUS: languageIndexed
-	 * enUS: True if the languageName is an actual locale that can be indexed. 
-	 * enUS: If the languageName is configured as "tout", then that language would not be indexed. 
+	 * Var.enUS: languageIndexed enUS: True if the languageName is an actual locale
+	 * that can be indexed. enUS: If the languageName is configured as "tout", then
+	 * that language would not be indexed.
 	 */
 	public Boolean langueIndexe;
-	/**	
-	 * Var.enUS: _languageIndexed
-	 * r: langueIndexe
-	 * r.enUS: languageIndexed
-	 * r: toutesLangues
-	 * r.enUS: allLanguages
-	 * r: langueNom
-	 * r.enUS: languageName
-	 **/ 
+
+	/**
+	 * Var.enUS: _languageIndexed r: langueIndexe r.enUS: languageIndexed r:
+	 * toutesLangues r.enUS: allLanguages r: langueNom r.enUS: languageName
+	 **/
 	protected void _langueIndexe() throws Exception {
 		langueIndexe = ArrayUtils.contains(toutesLangues, langueNom);
 	}
 
 	/**
-	 * Var.enUS: domainName
-	 * enUS: The domain name of the website where this will be deployed (like "example.com"). 
+	 * Var.enUS: domainName enUS: The domain name of the website where this will be
+	 * deployed (like "example.com").
 	 */
 	public String nomDomaine;
-	/**	
-	 * Var.enUS: _domainName
-	 * r: nomDomaine
-	 * r.enUS: domainName
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/ 
+
+	/**
+	 * Var.enUS: _domainName r: nomDomaine r.enUS: domainName r: appliNom r.enUS:
+	 * appName
+	 **/
 	protected void _nomDomaine() throws Exception {
 		nomDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_nomDomaine(langueNom));
 	}
 
 	/**
-	 * Var.enUS: siteBaseUrl
-	 * enUS: The base URL to the site when deployed. 
+	 * Var.enUS: siteBaseUrl enUS: The base URL to the site when deployed.
 	 */
 	public String siteUrlBase;
-	/**	
-	 * Var.enUS: _siteBaseUrl
-	 * r: appliNom
-	 * r.enUS: appName
-	 * r: nomDomaine
-	 * r.enUS: domainName
-	 * r: siteUrlBase
-	 * r.enUS: siteBaseUrl
-	 **/  
+
+	/**
+	 * Var.enUS: _siteBaseUrl r: appliNom r.enUS: appName r: nomDomaine r.enUS:
+	 * domainName r: siteUrlBase r.enUS: siteBaseUrl
+	 **/
 	protected void _siteUrlBase() throws Exception {
 		siteUrlBase = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_siteUrlBase(langueNom));
 	}
-	
+
 	/**
-	 * Var.enUS: domainPackageName
-	 * enUS: The Java package name for the domain (example.com would have a package name of "com.example"). 
+	 * Var.enUS: domainPackageName enUS: The Java package name for the domain
+	 * (example.com would have a package name of "com.example").
 	 */
 	public String nomEnsembleDomaine;
-	/**	
-	 * Var.enUS: _domainPackageName
-	 * r: nomEnsembleDomaine
-	 * r.enUS: domainPackageName
-	 * r: nomDomaine
-	 * r.enUS: domainName
-	 * r: partis
-	 * r.enUS: parts
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/  
+
+	/**
+	 * Var.enUS: _domainPackageName r: nomEnsembleDomaine r.enUS: domainPackageName
+	 * r: nomDomaine r.enUS: domainName r: partis r.enUS: parts r: appliNom r.enUS:
+	 * appName
+	 **/
 	protected void _nomEnsembleDomaine() throws Exception {
-		nomEnsembleDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_nomEnsembleDomaine(langueNom));
-		if(StringUtils.isEmpty(nomEnsembleDomaine)) {
+		nomEnsembleDomaine = config
+				.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_nomEnsembleDomaine(langueNom));
+		if (StringUtils.isEmpty(nomEnsembleDomaine)) {
 			String[] partis = StringUtils.split(nomDomaine, ".");
 			ArrayUtils.reverse(partis);
 			nomEnsembleDomaine = StringUtils.join(partis, ".");
@@ -3358,19 +3311,25 @@ public class ConfigSite {
 	}
 
 	/**
-	 * Var.enUS: configFileName
-	 * enUS: The name of the config file which defaults to the appName followed by ".config". 
+	 * Var.enUS: configFileName enUS: The name of the config file which defaults to
+	 * the appName followed by ".config".
 	 */
 	public String nomFichierConfig;
-	/**	
-	 * Var.enUS: _configFileName
-	 * r: nomFichierConfig
-	 * r.enUS: configFileName
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/ 
+
+	/**
+	 * Var.enUS: _configFileName r: nomFichierConfig r.enUS: configFileName r:
+	 * appliNom r.enUS: appName
+	 **/
 	protected void _nomFichierConfig() throws Exception {
-		nomFichierConfig = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_nomFichierConfig(langueNom), appliNom + ".config");
+		nomFichierConfig = config.getString(
+				StringUtils.replace(appliNom, ".", "..") + "." + str_nomFichierConfig(langueNom), appliNom + ".config");
+	}
+
+	public String siteZone;
+
+	protected void _siteZone() throws Exception {
+		siteZone = config.getString(
+				StringUtils.replace(appliNom, ".", "..") + "." + str_siteZone(langueNom), appliNom + ".config");
 	}
 //
 //	/**
@@ -3492,169 +3451,176 @@ public class ConfigSite {
 //	}
 
 	/**
-	 * Var.enUS: solrUrlComputate
-	 * enUS: The Solr web URL for the "computate" index. 
-	 */ 
+	 * Var.enUS: solrUrlComputate enUS: The Solr web URL for the "computate" index.
+	 */
 	public String solrUrlComputate;
-	/**	
-	 * Var.enUS: _solrUrlComputate
-	 * r: solrUrlComputate
-	 * r.enUS: solrUrlComputate
-	 * r: solrUrl
-	 * r.enUS: solrUrl
-	 * r: portSolr
-	 * r.enUS: solrPort
-	 **/ 
+
+	/**
+	 * Var.enUS: _solrUrlComputate r: solrUrlComputate r.enUS: solrUrlComputate r:
+	 * solrUrl r.enUS: solrUrl r: portSolr r.enUS: solrPort
+	 **/
 	protected void _solrUrlComputate() throws Exception {
 //		solrUrlComputate = config.getString("solr.solrUrl", "http://localhost:" + portSolr + "/solr/computate");
-		solrUrlComputate = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_solrUrl(langueNom) + "Computate");
+		solrUrlComputate = config
+				.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_solrUrl(langueNom) + "Computate");
 	}
 
 	/**
-	 * Var.enUS: solrClientComputate
-	 * enUS: The Solrj client for the "computate" index. 
-	 */ 
+	 * Var.enUS: solrClientComputate enUS: The Solrj client for the "computate"
+	 * index.
+	 */
 	public SolrClient clientSolrComputate;
-	/**	
-	 * Var.enUS: _solrClientComputate
-	 * r: clientSolrComputate
-	 * r.enUS: solrClientComputate
-	 * r: solrUrlComputate
-	 * r.enUS: solrUrlComputate
-	 **/ 
+
+	/**
+	 * Var.enUS: _solrClientComputate r: clientSolrComputate r.enUS:
+	 * solrClientComputate r: solrUrlComputate r.enUS: solrUrlComputate
+	 **/
 	protected void _clientSolrComputate() throws Exception {
 		clientSolrComputate = new HttpSolrClient.Builder(solrUrlComputate).build();
 	}
 
 	/**
-	 * Var.enUS: sourcePaths
-	 * enUS: The absolute paths to source code directories in the app to watch for changes. 
-	 */ 
+	 * Var.enUS: sourcePaths enUS: The absolute paths to source code directories in
+	 * the app to watch for changes.
+	 */
 	public ArrayList<String> cheminsSource = new ArrayList<String>();
-	/**	
-	 * Var.enUS: _sourcePaths
-	 * r: cheminsSource
-	 * r.enUS: sourcePaths
-	 * r: cheminSrcMainJava
-	 * r.enUS: srcMainJavaPath
-	 * r: cheminSrcGenJava
-	 * r.enUS: srcGenJavaPath
-	 **/ 
+
+	/**
+	 * Var.enUS: _sourcePaths r: cheminsSource r.enUS: sourcePaths r:
+	 * cheminSrcMainJava r.enUS: srcMainJavaPath r: cheminSrcGenJava r.enUS:
+	 * srcGenJavaPath
+	 **/
 	protected void _cheminsSource() throws Exception {
 		cheminsSource.add(cheminSrcMainJava);
 		cheminsSource.add(cheminSrcGenJava);
 	}
 
 	/**
-	 * Var.enUS: allSourcePaths
-	 * enUS: The absolute paths to source code directories in all apps to watch for changes. 
-	 */ 
+	 * Var.enUS: allSourcePaths enUS: The absolute paths to source code directories
+	 * in all apps to watch for changes.
+	 */
 	public ArrayList<String> toutCheminsSource = new ArrayList<String>();
-	/**	
-	 * Var.enUS: _allSourcePaths
-	 * r: toutCheminsSource
-	 * r.enUS: allSourcePaths
-	 * r: cheminSrcMainJava
-	 * r.enUS: srcMainJavaPath
-	 * r: cheminSrcGenJava
-	 * r.enUS: srcGenJavaPath
-	 **/ 
+
+	/**
+	 * Var.enUS: _allSourcePaths r: toutCheminsSource r.enUS: allSourcePaths r:
+	 * cheminSrcMainJava r.enUS: srcMainJavaPath r: cheminSrcGenJava r.enUS:
+	 * srcGenJavaPath
+	 **/
 	protected void _toutCheminsSource() throws Exception {
 		toutCheminsSource.add(cheminSrcMainJava);
 		toutCheminsSource.add(cheminSrcGenJava);
 	}
 
 	/**
-	 * Var.enUS: testMethodNames
-	 * enUS: The names of methods that will be tested when a source file is updated. 
-	 */ 
+	 * Var.enUS: testMethodNames enUS: The names of methods that will be tested when
+	 * a source file is updated.
+	 */
 	public ArrayList<String> nomsMethodeTest = new ArrayList<String>();
-	/**	
+
+	/**
 	 * Var.enUS: _testMethodNames
-	 **/ 
+	 **/
 	protected void _nomsMethodeTest() throws Exception {
 	}
 
 	/**
-	 * Var.enUS: siteEncrypted
-	 * enUS: True if the data for the site should be encrypted. 
+	 * Var.enUS: siteEncrypted enUS: True if the data for the site should be
+	 * encrypted.
 	 */
 	public Boolean siteCrypte;
-	/**	
-	 * Var.enUS: _siteEncrypted
-	 * r: siteCrypte
-	 * r.enUS: siteEncrypted
-	 * r: appliNom
+
+	/**
+	 * Var.enUS: _siteEncrypted r: siteCrypte r.enUS: siteEncrypted r: appliNom
 	 * r.enUS: appName
-	 **/ 
+	 **/
 	protected void _siteCrypte() throws Exception {
-		siteCrypte = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_siteCrypte(langueNom), false);
+		siteCrypte = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_siteCrypte(langueNom),
+				false);
 	}
 
 	public Boolean customerProfileId1;
+
 	protected void _customerProfileId1() throws Exception {
-		customerProfileId1 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId1", false);
+		customerProfileId1 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId1",
+				false);
 	}
 
 	public Boolean customerProfileId2;
+
 	protected void _customerProfileId2() throws Exception {
-		customerProfileId2 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId2", false);
+		customerProfileId2 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId2",
+				false);
 	}
 
 	public Boolean customerProfileId3;
+
 	protected void _customerProfileId3() throws Exception {
-		customerProfileId3 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId3", false);
+		customerProfileId3 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId3",
+				false);
 	}
 
 	public Boolean customerProfileId4;
+
 	protected void _customerProfileId4() throws Exception {
-		customerProfileId4 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId4", false);
+		customerProfileId4 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId4",
+				false);
 	}
 
 	public Boolean customerProfileId5;
+
 	protected void _customerProfileId5() throws Exception {
-		customerProfileId5 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId5", false);
+		customerProfileId5 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId5",
+				false);
 	}
 
 	public Boolean customerProfileId6;
+
 	protected void _customerProfileId6() throws Exception {
-		customerProfileId6 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId6", false);
+		customerProfileId6 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId6",
+				false);
 	}
 
 	public Boolean customerProfileId7;
+
 	protected void _customerProfileId7() throws Exception {
-		customerProfileId7 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId7", false);
+		customerProfileId7 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId7",
+				false);
 	}
 
 	public Boolean customerProfileId8;
+
 	protected void _customerProfileId8() throws Exception {
-		customerProfileId8 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId8", false);
+		customerProfileId8 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId8",
+				false);
 	}
 
 	public Boolean customerProfileId9;
+
 	protected void _customerProfileId9() throws Exception {
-		customerProfileId9 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId9", false);
+		customerProfileId9 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId9",
+				false);
 	}
 
 	public Boolean customerProfileId10;
+
 	protected void _customerProfileId10() throws Exception {
-		customerProfileId10 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId10", false);
+		customerProfileId10 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId10",
+				false);
 	}
 
 	/**
 	 * Var.enUS: siteWriteMethods
-	 */ 
+	 */
 	public ArrayList<String> siteEcrireMethodes = new ArrayList<String>();
-	/**	
-	 * Var.enUS: _siteWriteMethods
-	 * r: siteEcrireMethodes
-	 * r.enUS: siteWriteMethods
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/ 
+
+	/**
+	 * Var.enUS: _siteWriteMethods r: siteEcrireMethodes r.enUS: siteWriteMethods r:
+	 * appliNom r.enUS: appName
+	 **/
 	protected void _siteEcrireMethodes() throws Exception {
-		List<String> o = config.getList(String.class, StringUtils.replace(appliNom, ".", "..") + "." + str_siteEcrireMethodes(langueNom));
-		if(o != null)
+		List<String> o = config.getList(String.class,
+				StringUtils.replace(appliNom, ".", "..") + "." + str_siteEcrireMethodes(langueNom));
+		if (o != null)
 			siteEcrireMethodes.addAll(o);
 	}
 
@@ -3662,128 +3628,94 @@ public class ConfigSite {
 	 * Var.enUS: writeApi
 	 */
 	public Boolean ecrireApi;
-	/**	
-	 * Var.enUS: _writeApi
-	 * r: ecrireApi
-	 * r.enUS: writeApi
-	 * r: appliNom
-	 * r.enUS: appName
-	 **/  
+
+	/**
+	 * Var.enUS: _writeApi r: ecrireApi r.enUS: writeApi r: appliNom r.enUS: appName
+	 **/
 	protected void _ecrireApi() throws Exception {
 		ecrireApi = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_ecrireApi(langueNom), true);
 	}
 
 	public Boolean ecrireCommentaire;
+
 	protected void _ecrireCommentaire() throws Exception {
-		ecrireCommentaire = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_ecrireCommentaire(langueNom), true);
+		ecrireCommentaire = config
+				.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_ecrireCommentaire(langueNom), true);
 	}
 
 	public Boolean sqlTables;
+
 	protected void _sqlTables() throws Exception {
 		sqlTables = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "sqlTables", false);
 	}
 
 	public Boolean activerSupprime;
+
 	protected void _activerSupprime() throws Exception {
-		activerSupprime = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_Supprime(langueNom), true);
+		activerSupprime = config.getBoolean(
+				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_Supprime(langueNom),
+				true);
 	}
 
 	public Boolean activerArchive;
+
 	protected void _activerArchive() throws Exception {
-		activerArchive = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_Archive(langueNom), true);
+		activerArchive = config.getBoolean(
+				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_Archive(langueNom), true);
 	}
 
 	public Boolean activerUtilisateurCle;
+
 	protected void _activerUtilisateurCle() throws Exception {
-		activerUtilisateurCle = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_UtilisateurCle(langueNom), true);
+		activerUtilisateurCle = config.getBoolean(
+				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_UtilisateurCle(langueNom),
+				true);
 	}
 
 	public Boolean activerSessionId;
+
 	protected void _activerSessionId() throws Exception {
-		activerSessionId = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_SessionId(langueNom), true);
+		activerSessionId = config.getBoolean(
+				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_SessionId(langueNom),
+				true);
 	}
 
 	public Boolean activerRoleAdmin;
+
 	protected void _activerRoleAdmin() throws Exception {
-		activerRoleAdmin = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_Role(langueNom) + str_Admin(langueNom), true);
+		activerRoleAdmin = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom)
+				+ str_Role(langueNom) + str_Admin(langueNom), true);
 	}
 
 	public Boolean activerOpenIdConnect;
+
 	protected void _activerOpenIdConnect() throws Exception {
-		activerOpenIdConnect = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + "OpenIdConnect", true);
+		activerOpenIdConnect = config.getBoolean(
+				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + "OpenIdConnect", true);
 	}
 
-	/**	
-	 * Var.enUS: initSiteConfig
-	 * r: fichierConfig
-	 * r.enUS: configFile
-	 * r: langueNomActuel
-	 * r.enUS: languageActualName
-	 * r: langueIndexe
-	 * r.enUS: languageIndexed
-	 * r: autresLangues
-	 * r.enUS: otherLanguages
-	 * r: toutesLangues
-	 * r.enUS: allLanguages
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: nomEnsembleDomaine
-	 * r.enUS: domainPackageName
-	 * r: nomDomaine
-	 * r.enUS: domainName
-	 * r: nomFichierConfig
-	 * r.enUS: configFileName
-	 * r: configChemin
-	 * r.enUS: configPath
-	 * r: configChemin
-	 * r.enUS: configPath
-	 * r: appliNom
-	 * r.enUS: appName
-	 * r: appliChemin
-	 * r.enUS: appPath
-	 * r: nomFichierConfig
-	 * r.enUS: configFileName
-	 * r: versionMaven
-	 * r.enUS: mavenVersion
-	 * r: versionZookeeper
-	 * r.enUS: zookeeperVersion
-	 * r: prefixePortZookeeper
-	 * r.enUS: zookeeperPortPrefix
-	 * r: portAdminZookeeper
-	 * r.enUS: zookeeperAdminPort
-	 * r: portClientZookeeper
-	 * r.enUS: zookeeperClientPort
-	 * r: versionSolr
-	 * r.enUS: solrVersion
-	 * r: prefixePortSolr
-	 * r.enUS: solrPortPrefix
-	 * r: portSolr
-	 * r.enUS: solrPort
-	 * r: solrUrlComputate
-	 * r.enUS: solrUrlComputate
-	 * r: clientSolrComputate
-	 * r.enUS: solrClientComputate
-	 * r: cheminsSource
-	 * r.enUS: sourcePaths
-	 * r: toutCheminsSource
-	 * r.enUS: allSourcePaths
-	 * r: cheminSrcMainJava
-	 * r.enUS: srcMainJavaPath
-	 * r: cheminSrcMainResources
-	 * r.enUS: srcMainResourcesPath
-	 * r: cheminSrcGenJava
-	 * r.enUS: srcGenJavaPath
-	 * r: nomsMethodeTest
-	 * r.enUS: testMethodNames
-	 * r: siteCrypte
-	 * r.enUS: siteEncrypted
-	 * r: siteEcrireMethodes
-	 * r.enUS: siteWriteMethods
-	 * r: ecrireApi
-	 * r.enUS: writeApi
-	 * r: siteUrlBase
-	 * r.enUS: siteBaseUrl
-	 **/ 
+	/**
+	 * Var.enUS: initSiteConfig r: fichierConfig r.enUS: configFile r:
+	 * langueNomActuel r.enUS: languageActualName r: langueIndexe r.enUS:
+	 * languageIndexed r: autresLangues r.enUS: otherLanguages r: toutesLangues
+	 * r.enUS: allLanguages r: langueNom r.enUS: languageName r: nomEnsembleDomaine
+	 * r.enUS: domainPackageName r: nomDomaine r.enUS: domainName r:
+	 * nomFichierConfig r.enUS: configFileName r: configChemin r.enUS: configPath r:
+	 * configChemin r.enUS: configPath r: appliNom r.enUS: appName r: appliChemin
+	 * r.enUS: appPath r: nomFichierConfig r.enUS: configFileName r: versionMaven
+	 * r.enUS: mavenVersion r: versionZookeeper r.enUS: zookeeperVersion r:
+	 * prefixePortZookeeper r.enUS: zookeeperPortPrefix r: portAdminZookeeper
+	 * r.enUS: zookeeperAdminPort r: portClientZookeeper r.enUS: zookeeperClientPort
+	 * r: versionSolr r.enUS: solrVersion r: prefixePortSolr r.enUS: solrPortPrefix
+	 * r: portSolr r.enUS: solrPort r: solrUrlComputate r.enUS: solrUrlComputate r:
+	 * clientSolrComputate r.enUS: solrClientComputate r: cheminsSource r.enUS:
+	 * sourcePaths r: toutCheminsSource r.enUS: allSourcePaths r: cheminSrcMainJava
+	 * r.enUS: srcMainJavaPath r: cheminSrcMainResources r.enUS:
+	 * srcMainResourcesPath r: cheminSrcGenJava r.enUS: srcGenJavaPath r:
+	 * nomsMethodeTest r.enUS: testMethodNames r: siteCrypte r.enUS: siteEncrypted
+	 * r: siteEcrireMethodes r.enUS: siteWriteMethods r: ecrireApi r.enUS: writeApi
+	 * r: siteUrlBase r.enUS: siteBaseUrl
+	 **/
 	public void initConfigSite() throws Exception {
 		_langueNom();
 		_appliNom();
@@ -3805,6 +3737,7 @@ public class ConfigSite {
 		_nomDomaine();
 		_nomEnsembleDomaine();
 		_nomFichierConfig();
+		_siteZone();
 //		_versionMaven();
 //		_versionZookeeper();
 //		_prefixePortZookeeper();
@@ -3842,181 +3775,131 @@ public class ConfigSite {
 	}
 
 	/**
-	 * Param1.var.enUS: pattern
-	 * Param2.var.enUS: text
-	 * r: motif
-	 * r.enUS: pattern
-	 * r: texte
-	 * r.enUS: text
+	 * Param1.var.enUS: pattern Param2.var.enUS: text r: motif r.enUS: pattern r:
+	 * texte r.enUS: text
 	 */
 	public String regex(String motif, String texte) {
 		String o = null;
-		if(motif != null && texte != null) {
+		if (motif != null && texte != null) {
 			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
 			boolean trouve = m.find();
-			if(trouve)
+			if (trouve)
 				o = m.group(m.groupCount());
 		}
 		return o;
 	}
-	
+
 	/**
-	 * Var.enUS: regexLanguage
-	 * Param1.var.enUS: languageName
-	 * Param2.var.enUS: fieldNameRegex
-	 * Param3.var.enUS: comment
-	 * r: nomChamp
-	 * r.enUS: fieldName
-	 * r: valeurChamp
-	 * r.enUS: fieldValue
-	 * r: commentaire
-	 * r.enUS: comment
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: regexLangue
-	 * r.enUS: regexLanguage
+	 * Var.enUS: regexLanguage Param1.var.enUS: languageName Param2.var.enUS:
+	 * fieldNameRegex Param3.var.enUS: comment r: nomChamp r.enUS: fieldName r:
+	 * valeurChamp r.enUS: fieldValue r: commentaire r.enUS: comment r: langueNom
+	 * r.enUS: languageName r: regexLangue r.enUS: regexLanguage
 	 */
 	protected String regexLangue(String langueNom, String nomChampRegex, String commentaire) throws Exception {
 		return regexLangue(langueNom, nomChampRegex, commentaire, null);
 	}
-	
+
 	/**
-	 * Var.enUS: regexLanguage
-	 * Param1.var.enUS: languageName
-	 * Param2.var.enUS: fieldNameRegex
-	 * Param3.var.enUS: comment
-	 * Param4.var.enUS: defaultValue
-	 * r: nomChamp
-	 * r.enUS: fieldName
-	 * r: valeurChamp
-	 * r.enUS: fieldValue
-	 * r: commentaire
-	 * r.enUS: comment
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: valeurDefaut
-	 * r.enUS: defaultValue
+	 * Var.enUS: regexLanguage Param1.var.enUS: languageName Param2.var.enUS:
+	 * fieldNameRegex Param3.var.enUS: comment Param4.var.enUS: defaultValue r:
+	 * nomChamp r.enUS: fieldName r: valeurChamp r.enUS: fieldValue r: commentaire
+	 * r.enUS: comment r: langueNom r.enUS: languageName r: valeurDefaut r.enUS:
+	 * defaultValue
 	 */
-	protected String regexLangue(String langueNom, String nomChampRegex, String commentaire, String valeurDefaut) throws Exception {
+	protected String regexLangue(String langueNom, String nomChampRegex, String commentaire, String valeurDefaut)
+			throws Exception {
 		String valeurChamp = null;
-		if(nomChampRegex != null && commentaire != null) {
-			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
-			if(m.find()) {
+		if (nomChampRegex != null && commentaire != null) {
+			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE)
+					.matcher(commentaire);
+			if (m.find()) {
 				valeurChamp = m.group(m.groupCount());
 			}
 		}
-		if(valeurChamp == null)
+		if (valeurChamp == null)
 			valeurChamp = valeurDefaut;
 		return valeurChamp;
 	}
 
 	/**
-	 * Param1.var.enUS: pattern
-	 * Param2.var.enUS: text
-	 * Param3.var.enUS: defaultValue
-	 * r: motif
-	 * r.enUS: pattern
-	 * r: texte
-	 * r.enUS: text
-	 * r: valeurDefaut
-	 * r.enUS: defaultValue
+	 * Param1.var.enUS: pattern Param2.var.enUS: text Param3.var.enUS: defaultValue
+	 * r: motif r.enUS: pattern r: texte r.enUS: text r: valeurDefaut r.enUS:
+	 * defaultValue
 	 */
 	public String regex(String motif, String texte, String valeurDefaut) {
 		String o = null;
-		if(motif != null && texte != null) {
+		if (motif != null && texte != null) {
 			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
 			boolean trouve = m.find();
-			if(trouve)
+			if (trouve)
 				o = m.group(m.groupCount());
 		}
-		if(StringUtils.isEmpty(o))
+		if (StringUtils.isEmpty(o))
 			return valeurDefaut;
 		else
 			return o;
 	}
 
-	/** 
-	 * Param1.var.enUS: pattern
-	 * Param2.var.enUS: text
-	 * Param3.var.enUS: group
-	 * r: motif
-	 * r.enUS: pattern
-	 * r: texte
-	 * r.enUS: text
-	 * r: groupe
-	 * r.enUS: group
-	 * r: trouve
+	/**
+	 * Param1.var.enUS: pattern Param2.var.enUS: text Param3.var.enUS: group r:
+	 * motif r.enUS: pattern r: texte r.enUS: text r: groupe r.enUS: group r: trouve
 	 * r.enUS: found
 	 */
 	public String regex(String motif, String texte, Integer groupe) {
 		String o = null;
-		if(motif != null && texte != null) {
+		if (motif != null && texte != null) {
 			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
 			boolean trouve = m.find();
-			if(trouve)
+			if (trouve)
 				o = m.group(groupe);
 		}
 		return o;
-	}  
+	}
 
-	/** 
-	 * Var.enUS: regexFound
-	 * Param1.var.enUS: pattern
-	 * Param2.var.enUS: text
-	 * r: motif
-	 * r.enUS: pattern
-	 * r: texte
-	 * r.enUS: text
-	 * r: trouve
-	 * r.enUS: found
+	/**
+	 * Var.enUS: regexFound Param1.var.enUS: pattern Param2.var.enUS: text r: motif
+	 * r.enUS: pattern r: texte r.enUS: text r: trouve r.enUS: found
 	 */
 	public boolean regexTrouve(String motif, String texte) {
 		boolean trouve = false;
-		if(motif != null && texte != null) {
+		if (motif != null && texte != null) {
 			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
 			trouve = m.find();
 		}
 		return trouve;
-	}  
+	}
 
 	/**
-	 * Var.enUS: regexList
-	 * Param1.var.enUS: pattern
-	 * Param2.var.enUS: text
-	 * Param3.var.enUS: group
-	 * r: motif
-	 * r.enUS: pattern
-	 * r: texte
-	 * r.enUS: text
-	 * r: resultats
-	 * r.enUS: results
-	 * r: trouve
-	 * r.enUS: found
+	 * Var.enUS: regexList Param1.var.enUS: pattern Param2.var.enUS: text
+	 * Param3.var.enUS: group r: motif r.enUS: pattern r: texte r.enUS: text r:
+	 * resultats r.enUS: results r: trouve r.enUS: found
 	 */
 	public ArrayList<String> regexListe(String motif, String texte) {
 		ArrayList<String> resultats = new ArrayList<String>();
 		String o = null;
-		if(motif != null && texte != null) {
+		if (motif != null && texte != null) {
 			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
 			boolean trouve = m.find();
-			while(trouve) {
+			while (trouve) {
 				o = m.group(m.groupCount());
-				resultats.add(o); 
+				resultats.add(o);
 				trouve = m.find();
 			}
 		}
 		return resultats;
-	}    
+	}
 
-	protected ArrayList<String> regexLangueListe(String langueNom, String nomChampRegex, String commentaire) throws Exception {
+	protected ArrayList<String> regexLangueListe(String langueNom, String nomChampRegex, String commentaire)
+			throws Exception {
 		ArrayList<String> resultats = new ArrayList<String>();
 		String o = null;
-		if(nomChampRegex != null && commentaire != null) {
-			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
+		if (nomChampRegex != null && commentaire != null) {
+			Matcher m = Pattern.compile("^" + nomChampRegex + "(." + langueNom + ")?:\\s*(.*)", Pattern.MULTILINE)
+					.matcher(commentaire);
 			boolean trouve = m.find();
-			while(trouve) {
+			while (trouve) {
 				o = m.group(m.groupCount());
-				resultats.add(o); 
+				resultats.add(o);
 				trouve = m.find();
 			}
 		}
@@ -4024,69 +3907,48 @@ public class ConfigSite {
 	}
 
 	/**
-	 * Var.enUS: regexReplaceAll
-	 * Param1.var.enUS: comment
-	 * Param2.var.enUS: sourceCode
-	 * Param3.var.enUS: languageName
-	 * r: commentaire
-	 * r.enUS: comment
-	 * r: codeSourceLangue
-	 * r.enUS: sourceCodeLanguage
-	 * r: codeSource
-	 * r.enUS: sourceCode
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: trouve2
-	 * r.enUS: found2
-	 * r: sortie2
-	 * r.enUS: end2
-	 * r: trouve
-	 * r.enUS: found
-	 * r: texteRechercheRemplacement
-	 * r.enUS: searchReplacementText
-	 * r: partisRechercheRemplacement
-	 * r.enUS: searchReplacementParts
-	 * r: texteRecherche
-	 * r.enUS: searchText
-	 * r: texteRemplacement
-	 * r.enUS: replacementText
-	 * r: motifRegex
-	 * r.enUS: patternRegex
-	 * r: texteRegex
-	 * r.enUS: textRegex
-	 */  
+	 * Var.enUS: regexReplaceAll Param1.var.enUS: comment Param2.var.enUS:
+	 * sourceCode Param3.var.enUS: languageName r: commentaire r.enUS: comment r:
+	 * codeSourceLangue r.enUS: sourceCodeLanguage r: codeSource r.enUS: sourceCode
+	 * r: langueNom r.enUS: languageName r: trouve2 r.enUS: found2 r: sortie2
+	 * r.enUS: end2 r: trouve r.enUS: found r: texteRechercheRemplacement r.enUS:
+	 * searchReplacementText r: partisRechercheRemplacement r.enUS:
+	 * searchReplacementParts r: texteRecherche r.enUS: searchText r:
+	 * texteRemplacement r.enUS: replacementText r: motifRegex r.enUS: patternRegex
+	 * r: texteRegex r.enUS: textRegex
+	 */
 	public String regexRemplacerTout(String commentaire, String codeSource, String langueNom) throws Exception {
 		String codeSourceLangue = codeSource;
-		if(!StringUtils.isEmpty(commentaire)) {
-			Matcher m = Pattern.compile("^[Rr](egex)?:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + langueNom + ":\\s*(.*)", Pattern.MULTILINE).matcher(commentaire);
+		if (!StringUtils.isEmpty(commentaire)) {
+			Matcher m = Pattern.compile("^[Rr](egex)?:\\s*(.*)((?!\\nr:)[\\s\\S])*?\\nr\\." + langueNom + ":\\s*(.*)",
+					Pattern.MULTILINE).matcher(commentaire);
 			boolean trouve = m.find();
-			
-			while(trouve) {
+
+			while (trouve) {
 				String texteRegex = m.group(1);
 				String texteRecherche = m.group(2);
 				String texteRemplacement = m.group(4);
-				String motifRemplacment = StringUtils.replaceEach(texteRemplacement
-						, new String[] {"$"}
-						, new String[] {"\\$"}
-						);
-				if(texteRecherche != null && texteRemplacement != null) {
+				String motifRemplacment = StringUtils.replaceEach(texteRemplacement, new String[] { "$" },
+						new String[] { "\\$" });
+				if (texteRecherche != null && texteRemplacement != null) {
 					String motifRegex = null;
 
-					if("egex".equals(texteRegex))
+					if ("egex".equals(texteRegex))
 						motifRegex = texteRecherche;
 					else
 //						motifRegex = Pattern.quote(texteRecherche);
 //						motifRegex = texteRecherche.replaceAll("[\\W]", "\\\\$0");
-						motifRegex = StringUtils.replaceEach(texteRecherche
-								, new String[] {"<",">","{","}","[","]","(",")",".","^","$","|","*","?","+","\\"}
-								, new String[] {"\\<","\\>","\\{","\\}","\\[","\\]","\\(","\\)","\\.","\\^","\\$","\\|","\\*","\\?","\\+","\\\\"}
-								);
+						motifRegex = StringUtils.replaceEach(texteRecherche,
+								new String[] { "<", ">", "{", "}", "[", "]", "(", ")", ".", "^", "$", "|", "*", "?",
+										"+", "\\" },
+								new String[] { "\\<", "\\>", "\\{", "\\}", "\\[", "\\]", "\\(", "\\)", "\\.", "\\^",
+										"\\$", "\\|", "\\*", "\\?", "\\+", "\\\\" });
 
 					Matcher m2 = Pattern.compile(motifRegex, Pattern.MULTILINE).matcher(codeSourceLangue);
 					boolean trouve2 = m2.find();
 					StringBuffer sortie2 = new StringBuffer();
-					
-					while(trouve2) {
+
+					while (trouve2) {
 						m2.appendReplacement(sortie2, motifRemplacment);
 						trouve2 = m2.find();
 					}
@@ -4101,14 +3963,10 @@ public class ConfigSite {
 	}
 
 	/**
-	 * Param1.var.enUS: values
-	 * r: valeurs
-	 * r.enUS: values
-	 * r: resultat
-	 * r.enUS: result
+	 * Param1.var.enUS: values r: valeurs r.enUS: values r: resultat r.enUS: result
 	 */
-	public String concat(String...valeurs) throws Exception { 
+	public String concat(String... valeurs) throws Exception {
 		String resultat = Stream.of(valeurs).collect(Collectors.joining());
 		return resultat;
-	}  
+	}
 }

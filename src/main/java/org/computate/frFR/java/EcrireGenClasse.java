@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,6 +40,8 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
@@ -3299,20 +3303,53 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(1, " */");
 			}
+
 			if(entiteIgnorer)
 				tl(1, "@JsonIgnore");
 			else if("LocalDate".equals(entiteNomSimple)) {
-				tl(1, "@JsonDeserialize(using = LocalDateDeserializer.class)");
-				tl(1, "@JsonSerialize(using = LocalDateSerializer.class)");
+				tl(1, "@JsonProperty");
+				tl(1, "@JsonDeserialize(using = ToStringSerializer.class)");
+				tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
 				tl(1, "@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = \"yyyy-MM-dd\")");
 			}
-			else if(!"java.lang.String".equals(entiteNomCanonique) && "string".equals(entiteTypeJson))
+			else if("LocalTime".equals(entiteNomSimple)) {
+				tl(1, "@JsonProperty");
+				tl(1, "@JsonDeserialize(using = ToStringSerializer.class)");
 				tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
-			else if("Long".equals(entiteNomSimpleGenerique)
+				tl(1, "@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = \"HH:mm:ss.SSS\")");
+			}
+			else if("ZonedDateTime".equals(entiteNomSimple)) {
+				tl(1, "@JsonProperty");
+
+				if(classePartsZonedDateTimeDeserializer == null)
+					tl(1, "@JsonDeserialize(using = ZonedDateTimeDeserializer.class)");
+				else
+					tl(1, "@JsonDeserialize(using = ", classePartsZonedDateTimeDeserializer.nomSimple(langueNom), ".class)");
+
+				if(classePartsZonedDateTimeSerializer == null)
+					tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
+				else
+					tl(1, "@JsonSerialize(using = ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".class)");
+
+				tl(1, "@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=\"yyyy-MM-dd'T'HH:mm:ss.SSS'['VV']'\")");
+			}
+			else if(!"java.lang.String".equals(entiteNomCanonique) && "string".equals(entiteTypeJson)) {
+				tl(1, "@JsonProperty");
+				tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
+			} else if("Long".equals(entiteNomSimpleGenerique) 
 					|| "Double".equals(entiteNomSimpleGenerique)
 					|| "Integer".equals(entiteNomSimpleGenerique)
-					)
+					) {
+				tl(1, "@JsonProperty");
+				tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
 				tl(1, "@JsonSerialize(contentUsing = ToStringSerializer.class)");
+			} else if(entiteNomSimpleGenerique != null) {
+				tl(1, "@JsonProperty");
+				tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
+			} else {
+				tl(1, "@JsonProperty");
+			}
+
 			tl(1, "@JsonInclude(Include.NON_NULL)");
 			t(1, "protected ", entiteNomSimpleComplet, " ", entiteVar);
 			if(!entiteCouverture) {
@@ -3464,6 +3501,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter List //
 			if((StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName())) && StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "Long l = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "if(l != null)");
@@ -3480,6 +3518,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Boolean //
 			if(StringUtils.equals(entiteNomCanonique, Boolean.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3492,6 +3531,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Integer //
 			if(StringUtils.equals(entiteNomCanonique, Integer.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3506,6 +3546,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Float //
 			if(StringUtils.equals(entiteNomCanonique, Float.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3520,6 +3561,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Double //
 			if(StringUtils.equals(entiteNomCanonique, Double.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3534,6 +3576,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter Long //
 			if(StringUtils.equals(entiteNomCanonique, Long.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3548,6 +3591,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter BigDecimal //
 			if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3558,10 +3602,12 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(3, "return new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
 				tl(2, "return null;");
 				tl(1, "}");
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Double o) {");
 				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Integer o) {");
 				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3574,6 +3620,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				}
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3589,6 +3636,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				}
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3604,6 +3652,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(ecrireCommentaire) {
 					tl(1, "/** Example: 01:00 **/");
 				}
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3620,6 +3669,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter LocalDate //
 			if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Instant o) {");
 				tl(2, "this.", entiteVar, " = o == null ? null : LocalDate.from(o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3627,6 +3677,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03+01:00 **/");
 				}
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3635,6 +3686,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "return o == null ? null : LocalDate.parse(o, DateTimeFormatter.ISO_DATE);");
 				tl(1, "}");
 				if(classeContientRequeteSite) {
+				tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
 					tl(2, "this.", entiteVar, " = o == null ? null : o.toInstant().atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_Config(langueNom), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", str_siteZone(langueNom), ")))).toLocalDate();");
 					tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3645,6 +3697,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter ZonedDateTime //
 			if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Instant o) {");
 				tl(2, "this.", entiteVar, " = o == null ? null : ZonedDateTime.from(o).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3652,13 +3705,18 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				}
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
-				tl(2, "return o == null ? null : Instant.parse(o).atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_Config(langueNom), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", str_SITE_ZONE(langueNom), "))).truncatedTo(ChronoUnit.MILLIS);");
+				tl(2, "if(StringUtils.endsWith(o, \"Z\"))");
+				tl(3, "return o == null ? null : Instant.parse(o).atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_Config(langueNom), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", str_SITE_ZONE(langueNom), "))).truncatedTo(ChronoUnit.MILLIS);");
+				tl(2, "else");
+				tl(3, "return o == null ? null : ZonedDateTime.parse(o, DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'['VV']'\")).truncatedTo(ChronoUnit.MILLIS);");
 				tl(1, "}");
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
 				tl(2, "this.", entiteVar, " = o == null ? null : ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(", str_requeteSite(langueNom), "_.get", str_Config(langueNom), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", str_SITE_ZONE(langueNom), "))).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3668,6 +3726,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Setter LocalDateTime //
 			if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Instant o) {");
 				tl(2, "this.", entiteVar, " = o == null ? null : LocalDateTime.from(o).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3675,6 +3734,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 				}
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, o);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3682,6 +3742,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "return o == null ? null : LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).truncatedTo(ChronoUnit.MILLIS);");
 				tl(1, "}");
+				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
 				tl(2, "this.", entiteVar, " = o == null ? null : LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(", str_requeteSite(langueNom), "_.get", str_Config(langueNom), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", str_SITE_ZONE(langueNom), "))).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
@@ -3736,6 +3797,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter String //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, String.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3747,6 +3809,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Boolean //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Boolean.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3763,6 +3826,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Integer //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Integer.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3781,6 +3845,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter BigDecimal //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3799,6 +3864,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Float //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Float.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3817,6 +3883,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Double //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Double.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3835,6 +3902,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Long //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3853,6 +3921,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Timestamp //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Timestamp.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3872,6 +3941,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter Date //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, Date.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3891,6 +3961,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter LocalDate //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDate.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3915,6 +3986,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter ZonedDateTime //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
@@ -3939,6 +4011,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 				// Setter LocalDateTime //
 				if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDateTime.class.getCanonicalName())) {
+					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
 					tl(2, "for(int i = 0; i < objets.size(); i++) {");
