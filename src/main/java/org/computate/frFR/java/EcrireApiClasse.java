@@ -3548,7 +3548,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "Long pk = o.getPk();");
 						l();
 						tl(6, "JsonObject params = new JsonObject();");
-						tl(6, "params.put(\"body\", ", str_requeteSite(classeLangueNom), ".getJsonObject());");
+						tl(6, "params.put(\"body\", ", str_requeteSite(classeLangueNom), ".getJsonObject().put(", classeNomSimple, ".VAR_pk, pk.toString()));");
 						tl(6, "params.put(\"path\", new JsonObject());");
 						tl(6, "params.put(\"cookie\", new JsonObject());");
 						tl(6, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + pk)));");
