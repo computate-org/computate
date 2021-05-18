@@ -4660,15 +4660,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "JsonObject rangeFacetJson = new JsonObject();");
 						tl(5, "String rangeFacetVar = StringUtils.substringBefore(rangeFacet.getName(), \"_indexed_\");");
 						tl(5, "rangeJson.put(rangeFacetVar, rangeFacetJson);");
-						tl(5, "JsonArray rangeFacetCountsList = new JsonArray();");
-						tl(5, "rangeFacetJson.put(\"counts\", rangeFacetCountsList);");
+						tl(5, "JsonObject rangeFacetCountsObject = new JsonObject();");
+						tl(5, "rangeFacetJson.put(\"counts\", rangeFacetCountsObject);");
 						tl(5, "List<?> rangeFacetCounts = rangeFacet.getCounts();");
 						tl(5, "for(Integer i = 0; i < rangeFacetCounts.size(); i+= 1) {");
-						tl(6, "JsonObject countJson = new JsonObject();");
 						tl(6, "RangeFacet.Count count = (RangeFacet.Count)rangeFacetCounts.get(i);");
-						tl(6, "countJson.put(\"value\", count.getValue());");
-						tl(6, "countJson.put(\"count\", count.getCount());");
-						tl(6, "rangeFacetCountsList.add(countJson);");
+						tl(6, "rangeFacetCountsObject.put(count.getValue(), count.getCount());");
 						tl(5, "}");
 						tl(4, "}");
 						tl(3, "}");
