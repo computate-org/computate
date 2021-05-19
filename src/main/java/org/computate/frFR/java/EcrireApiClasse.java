@@ -1116,6 +1116,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										// list, list, <
 										tl(7, "futures2.add(Future.future(promise2 -> {");
 										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
 										tl(9, "sql(", str_requeteSite(classeLangueNom), ").insertInto(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").values(pk, pk2).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
@@ -1129,6 +1133,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										// list, no list, <
 										tl(7, "futures2.add(Future.future(promise2 -> {");
 										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
 										tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
@@ -1142,6 +1150,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										// no list, list, <
 										tl(7, "futures1.add(Future.future(promise2 -> {");
 										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
 										tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", classeNomSimple, ".class, pk).set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, pk2).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
@@ -1155,6 +1167,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										// no list, no list, <
 										tl(7, "futures1.add(Future.future(promise2 -> {");
 										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
 										tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", classeNomSimple, ".class, pk).set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, pk2).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
@@ -1170,6 +1186,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										// list, list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
 										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
 										tl(9, "sql(", str_requeteSite(classeLangueNom), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").values(pk2, pk).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
@@ -1183,6 +1203,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										// list, no list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
 										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
 										tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
@@ -1196,6 +1220,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										// no list, list, >
 										tl(7, "futures1.add(Future.future(promise2 -> {");
 										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
 										tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", classeNomSimple, ".class, pk).set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, pk2).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
@@ -1209,6 +1237,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										// no list, no list, >
 										tl(7, "futures2.add(Future.future(promise2 -> {");
 										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
 										tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 										tl(10, "promise2.complete();");
 										tl(9, "}).onFailure(ex -> {");
@@ -1646,6 +1678,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").insertInto(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").values(pk, pk2).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1657,6 +1693,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(7, "}));");
 											tl(6, "});");
 											tl(6, "Optional.ofNullable(o.get", entiteVarCapitalise, "()).orElse(Arrays.asList()).stream().filter(oVal -> oVal != null && !set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".contains(oVal.toString())).forEach(pk2 -> {");
+											tl(7, "if(!pks.contains(pk2)) {");
+											tl(8, "pks.add(pk2);");
+											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(7, "}");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "sql(", str_requeteSite(classeLangueNom), ").deleteFrom(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").where(pk, pk2).onSuccess(a -> {");
 											tl(9, "promise2.complete();");
@@ -1670,6 +1710,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").insertInto(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").values(pk, pk2).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1684,6 +1728,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").insertInto(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").values(pk, pk2).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1696,6 +1744,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "});");
 											tl(5, "case \"remove", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getLong(", str_entite(classeLangueNom), "Var)).ifPresent(pk2 -> {");
+											tl(7, "if(!pks.contains(pk2)) {");
+											tl(8, "pks.add(pk2);");
+											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(7, "}");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "sql(", str_requeteSite(classeLangueNom), ").deleteFrom(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").where(pk, pk2).onSuccess(a -> {");
 											tl(9, "promise2.complete();");
@@ -1711,6 +1763,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1722,6 +1778,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(7, "}));");
 											tl(6, "});");
 											tl(6, "Optional.ofNullable(o.get", entiteVarCapitalise, "()).orElse(Arrays.asList()).stream().filter(oVal -> oVal != null && !set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".contains(oVal.toString())).forEach(pk2 -> {");
+											tl(7, "if(!pks.contains(pk2)) {");
+											tl(8, "pks.add(pk2);");
+											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(7, "}");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).setToNull(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk2).onSuccess(a -> {");
 											tl(9, "promise2.complete();");
@@ -1735,6 +1795,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1749,6 +1813,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1761,6 +1829,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "});");
 											tl(5, "case \"remove", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getLong(", str_entite(classeLangueNom), "Var)).ifPresent(pk2 -> {");
+											tl(7, "if(!pks.contains(pk2)) {");
+											tl(8, "pks.add(pk2);");
+											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(7, "}");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).setToNull(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk2).onSuccess(a -> {");
 											tl(9, "promise2.complete();");
@@ -1775,6 +1847,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures1.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", classeNomSimple, ".class, pk).set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, pk2).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1791,6 +1867,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures1.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", classeNomSimple, ".class, pk).set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, pk2).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1810,6 +1890,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").values(pk, pk2).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1821,6 +1905,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(7, "}));");
 											tl(6, "});");
 											tl(6, "Optional.ofNullable(o.get", entiteVarCapitalise, "()).orElse(Arrays.asList()).stream().filter(oVal -> oVal != null && !set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".contains(oVal.toString())).forEach(pk2 -> {");
+											tl(7, "if(!pks.contains(pk2)) {");
+											tl(8, "pks.add(pk2);");
+											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(7, "}");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "sql(", str_requeteSite(classeLangueNom), ").deleteFrom(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").where(pk2, pk).onSuccess(a -> {");
 											tl(9, "promise2.complete();");
@@ -1834,6 +1922,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").values(pk, pk2).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1848,6 +1940,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").values(pk, pk2).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1860,6 +1956,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "});");
 											tl(5, "case \"remove", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getLong(", str_entite(classeLangueNom), "Var)).ifPresent(pk2 -> {");
+											tl(7, "if(!pks.contains(pk2)) {");
+											tl(8, "pks.add(pk2);");
+											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(7, "}");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "sql(", str_requeteSite(classeLangueNom), ").deleteFrom(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").where(pk2, pk).onSuccess(a -> {");
 											tl(9, "promise2.complete();");
@@ -1875,6 +1975,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1886,6 +1990,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(7, "}));");
 											tl(6, "});");
 											tl(6, "Optional.ofNullable(o.get", entiteVarCapitalise, "()).orElse(Arrays.asList()).stream().filter(oVal -> oVal != null && !set", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".contains(oVal.toString())).forEach(pk2 -> {");
+											tl(7, "if(!pks.contains(pk2)) {");
+											tl(8, "pks.add(pk2);");
+											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(7, "}");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).setToNull(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk2).onSuccess(a -> {");
 											tl(9, "promise2.complete();");
@@ -1899,6 +2007,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1913,6 +2025,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1925,6 +2041,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "});");
 											tl(5, "case \"remove", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getLong(", str_entite(classeLangueNom), "Var)).ifPresent(pk2 -> {");
+											tl(7, "if(!pks.contains(pk2)) {");
+											tl(8, "pks.add(pk2);");
+											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(7, "}");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).setToNull(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk2).onSuccess(a -> {");
 											tl(9, "promise2.complete();");
@@ -1939,6 +2059,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures1.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", classeNomSimple, ".class, pk).set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, pk2).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
@@ -1955,6 +2079,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
 											tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, inheritPk).onSuccess(pk2 -> {");
+											tl(9, "if(!pks.contains(pk2)) {");
+											tl(10, "pks.add(pk2);");
+											tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(9, "}");
 											tl(9, "sql(", str_requeteSite(classeLangueNom), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
 											tl(10, "promise2.complete();");
 											tl(9, "}).onFailure(ex -> {");
