@@ -1,7 +1,0 @@
----
-- name: Install the computate_medicale source code and watch service on the target. 
-  gather_facts: no
-  hosts: "{{ target }}"
-  roles:
-    - computate_medicale
-

@@ -1,7 +1,0 @@
----
-- name: Install the latest cmake binary for building applications
-  hosts: "{{ target }}"
-  gather_facts: no
-  roles:
-    - computate_cmake
-

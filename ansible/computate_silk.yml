@@ -1,7 +1,0 @@
----
-- name: Install silk as a service on the target. 
-  gather_facts: no
-  hosts: "{{ target }}"
-  roles:
-    - computate_silk
-

@@ -1,8 +1,0 @@
----
-- name: Install the Postgres pod on OpenShift
-  gather_facts: no
-  hosts: localhost
-  connection: local
-  roles: 
-    - postgres_openshift
-

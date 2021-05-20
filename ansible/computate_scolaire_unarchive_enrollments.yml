@@ -1,7 +1,0 @@
----
-- name: Unarchive the computate-scolaire enrollment data in {{COMPUTATE_SCOLAIRE_RESTORE_DIR_ENUS}}
-  hosts: "{{ target }}"
-  connection: local
-  roles:
-    - { role: computate_scolaire_unarchive_enrollments, DATA_NAME_VAR: enrollment, DATA_URI: /api/admin/enrollment }
-

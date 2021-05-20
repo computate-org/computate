@@ -1,8 +1,0 @@
----
-- name: Install the computate-medicale pod on OpenShift
-  gather_facts: no
-  hosts: localhost
-  connection: local
-  roles: 
-    - computate_medicale_openshift_enUS
-
