@@ -1,5 +1,10 @@
 package com.thoughtworks.qdox.model.impl;
 
+///////////////////////////////////////////////////////////////////////////////
+// MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+///////////////////////////////////////////////////////////////////////////////
+
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -34,7 +39,17 @@ import com.thoughtworks.qdox.model.JavaConstructor;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaGenericDeclaration;
 import com.thoughtworks.qdox.model.JavaInitializer;
+
+///////////////////////////////////////////////////////////////////////////////
+// MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+///////////////////////////////////////////////////////////////////////////////
+
 import com.thoughtworks.qdox.model.JavaMember;
+
+///////////////////////////////////////////////////////////////////////////////
+// MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+///////////////////////////////////////////////////////////////////////////////
+
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaPackage;
 import com.thoughtworks.qdox.model.JavaParameterizedType;
@@ -793,11 +808,21 @@ public class DefaultJavaType implements JavaClass, JavaType, Serializable {
         return resolveRealClass().getMethodsBySignature( name, parameterTypes, superclasses, varArg );
     }
 
+
+///////////////////////////////////////////////////////////////////////////////
+// MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+///////////////////////////////////////////////////////////////////////////////
+
     /** {@inheritDoc} */
     public List<JavaMember> getMembers()
     {
         return resolveRealClass().getMembers();
     }
+
+///////////////////////////////////////////////////////////////////////////////
+// MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+///////////////////////////////////////////////////////////////////////////////
+
 
     /** {@inheritDoc} */
     public List<JavaField> getFields()
