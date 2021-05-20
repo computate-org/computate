@@ -1,8 +1,0 @@
----
-- name: Install the southerncoalition pod on OpenShift
-  gather_facts: no
-  hosts: localhost
-  connection: local
-  roles: 
-    - southerncoalition_openshift_enUS
-

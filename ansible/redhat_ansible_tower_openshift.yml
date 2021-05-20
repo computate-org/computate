@@ -1,7 +1,0 @@
----
-- name: Install Red Hat Ansible Tower on OpenShift
-  gather_facts: no
-  hosts: localhost
-  roles: 
-    - redhat_ansible_tower_openshift
-

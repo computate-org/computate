@@ -1,8 +1,0 @@
----
-- name: Install the Red Hat SSO pod on OpenShift
-  gather_facts: no
-  hosts: localhost
-  connection: local
-  roles: 
-    - redhat_sso_openshift
-

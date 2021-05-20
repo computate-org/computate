@@ -1,6 +1,0 @@
----
-- name: Configure bridge networking
-  hosts: localhost
-  roles: 
-    - network-bridge
-

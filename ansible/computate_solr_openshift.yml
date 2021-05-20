@@ -1,8 +1,0 @@
----
-- name: Install the computate-solr pod on OpenShift
-  gather_facts: no
-  hosts: localhost
-  connection: local
-  roles: 
-    - computate_solr_openshift
-

@@ -1,8 +1,0 @@
-CMAKE_NAME: cmake
-CMAKE_SRC: "/usr/local/src/{{CMAKE_NAME}}"
-CMAKE_REPO: https://gitlab.kitware.com/cmake/cmake.git
-CMAKE_VERSION: 3.14.5
-CMAKE_TAG: "v{{CMAKE_VERSION}}"
-CMAKE_BINARY: "{{CMAKE_OPT}}/bin/{{CMAKE_NAME}}"
-target: computate_cmake
-
