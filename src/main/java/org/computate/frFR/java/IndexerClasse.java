@@ -3667,7 +3667,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(classePartsToutEcrivain, classeLangueNom);
 		}
 		else if(classeEstBase) {
-			if(classeNomSimple.equals(classePartsCluster.nomSimple(langueNom)))
+			if(classePartsCluster != null && classeNomSimple.equals(classePartsCluster.nomSimple(langueNom)))
 				classePromesse = true;
 			classePartsGenAjouter(classePartsCluster, classeLangueNom);
 			classePartsGenAjouter(classePartsToutEcrivain, classeLangueNom);
