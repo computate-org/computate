@@ -218,7 +218,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("import io.vertx.codegen.annotations.ProxyGen;");
 			auteurGenApiService.l("import io.vertx.serviceproxy.ServiceBinder;");
 			auteurGenApiService.l("import io.vertx.core.AsyncResult;");
-			auteurGenApiService.l("import java.util.concurrent.Semaphore;");
+			if(activerSharedSemaphore) {
+				auteurGenApiService.l("import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreV2;");
+			} else {
+				auteurGenApiService.l("import java.util.concurrent.Semaphore;");
+			}
 			auteurGenApiService.l("import io.vertx.core.eventbus.EventBus;");
 			auteurGenApiService.l("import io.vertx.core.Handler;");
 			auteurGenApiService.l("import io.vertx.core.Vertx;");
@@ -249,7 +253,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			auteurGenApiService.tl(1, "// Une méthode d'usine pour créer une instance et un proxy. ");
 
 			l();
-			tl(8, "protected Semaphore semaphore;");
+			tl(8, "protected InterProcessSemaphoreV2 semaphore;");
+			if(activerSharedSemaphore) {
+				tl(8, "protected InterProcessSemaphoreV2 semaphore;");
+			} else {
+				tl(8, "protected Semaphore semaphore;");
+			}
 			l();
 			tl(8, "protected EventBus eventBus;");
 			l();
@@ -261,7 +270,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(8, "protected WebClient ", str_clientWeb(classeLangueNom), ";");
 
-			auteurGenApiService.tl(1, "static void ", str_enregistrer(classeLangueNom), "Service(Semaphore semaphore, EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, WebClient ", str_clientWeb(classeLangueNom), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", ", Vertx vertx) {");
+			auteurGenApiService.tl(1, "static void ", str_enregistrer(classeLangueNom), "Service(", activerSharedSemaphore ? "InterProcessSemaphoreV2" : "Semaphore", " semaphore, EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, WebClient ", str_clientWeb(classeLangueNom), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", ", Vertx vertx) {");
 			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(appliNom, "-", classeLangueNom, "-", classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(semaphore, eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientWeb(classeLangueNom), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", "));");
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
@@ -329,7 +338,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				auteurApiServiceImpl.l("import io.vertx.ext.auth.oauth2.OAuth2Auth;");
 			}
 			auteurApiServiceImpl.l("import io.vertx.ext.web.client.WebClient;");
-			auteurApiServiceImpl.l("import java.util.concurrent.Semaphore;");
+			if(activerSharedSemaphore) {
+				auteurGenApiService.l("import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreV2;");
+			} else {
+				auteurGenApiService.l("import java.util.concurrent.Semaphore;");
+			}
 			auteurApiServiceImpl.l("import io.vertx.core.eventbus.EventBus;");
 			auteurApiServiceImpl.l("import io.vertx.core.WorkerExecutor;");
 			auteurApiServiceImpl.l("import io.vertx.core.json.JsonObject;");
@@ -345,7 +358,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l(" **/");
 			auteurApiServiceImpl.l("public class ", classeNomSimpleApiServiceImpl, " extends ", classeNomSimpleGenApiServiceImpl, " {");
 			auteurApiServiceImpl.l();
-			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(Semaphore semaphore, EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, WebClient ", str_clientWeb(classeLangueNom), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", ") {");
+			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(", activerSharedSemaphore ? "InterProcessSemaphoreV2" : "Semaphore", " semaphore, EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, WebClient ", str_clientWeb(classeLangueNom), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", ") {");
 			auteurApiServiceImpl.tl(2, "super(semaphore, eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientWeb(classeLangueNom), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", ");");
 			auteurApiServiceImpl.tl(1, "}");
 			auteurApiServiceImpl.l("}");
@@ -3338,7 +3351,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
 			l();
-			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(Semaphore semaphore, EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, WebClient ", str_clientWeb(classeLangueNom), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", ") {");
+			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(", activerSharedSemaphore ? "InterProcessSemaphoreV2" : "Semaphore", " semaphore, EventBus eventBus, JsonObject config, WorkerExecutor ", str_executeurTravailleur(classeLangueNom), ", PgPool pgPool, WebClient ", str_clientWeb(classeLangueNom), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", ") {");
 			tl(2, "super(semaphore, eventBus, config, ", str_executeurTravailleur(classeLangueNom), ", pgPool, ", str_clientWeb(classeLangueNom), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", ");");
 			tl(1, "}");
 
@@ -3433,12 +3446,46 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, str_requeteApi(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsRequeteApi.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 						tl(5, str_requeteSite(classeLangueNom), ".set", str_RequeteApi(classeLangueNom), "_(", str_requeteApi(classeLangueNom), ");");
 						tl(5, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", str_requeteApi(classeLangueNom), ").toString());");
-
-						tl(5, classeApiOperationIdMethode, "Future(", str_requeteSite(classeLangueNom), ", false).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
-						tl(6, str_requeteApi(classeLangueNom), ".setPk(", uncapitalizeClasseNomSimple, ".getPk());");
-						tl(6, str_reponse(classeLangueNom), "200", classeApiMethode, classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(", str_reponse(classeLangueNom), " -> {");
-						tl(7, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_reponse(classeLangueNom), "));");
-						tl(7, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", str_a_réussi(classeLangueNom), ". \"));");
+						tl(5, str_executeurTravailleur(classeLangueNom), ".executeBlocking(blockingCodeHandler -> {");
+						tl(6, "try {");
+						tl(7, activerSharedSemaphore ? "Lease lease = " : "", "semaphore.acquire();");
+						tl(7, "try {");
+						tl(8, "JsonObject params = new JsonObject();");
+						tl(8, "params.put(\"body\", ", str_requeteSite(classeLangueNom), ".getJsonObject());");
+						tl(8, "params.put(\"path\", new JsonObject());");
+						tl(8, "params.put(\"cookie\", new JsonObject());");
+						tl(8, "params.put(\"header\", new JsonObject());");
+						tl(8, "params.put(\"form\", new JsonObject());");
+						tl(8, "params.put(\"query\", new JsonObject());");
+						tl(8, "JsonObject context = new JsonObject().put(\"params\", params);");
+						tl(8, "JsonObject json = new JsonObject().put(\"context\", context);");
+						tl(8, "eventBus.request(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
+						tl(9, "blockingCodeHandler.complete();");
+						tl(9, "semaphore.", activerSharedSemaphore ? "returnLease(lease)" : "release()", ";");
+						tl(8, "}).onFailure(ex -> {");
+						tl(9, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
+						tl(9, "blockingCodeHandler.fail(ex);");
+						tl(9, "semaphore.", activerSharedSemaphore ? "returnLease(lease)" : "release()", ";");
+						tl(8, "});");
+						tl(7, "} catch(Exception ex) {");
+						tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
+						tl(8, "blockingCodeHandler.fail(ex);");
+						tl(8, "semaphore.", activerSharedSemaphore ? "returnLease(lease)" : "release()", ";");
+						tl(7, "}");
+						tl(6, "} catch(Exception ex) {");
+						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
+						tl(7, "blockingCodeHandler.fail(ex);");
+						tl(6, "}");
+						tl(5, "}, false).onSuccess(a -> {");
+						tl(6, classeApiOperationIdMethode, "Future(", str_requeteSite(classeLangueNom), ", false).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
+						tl(7, str_requeteApi(classeLangueNom), ".setPk(", uncapitalizeClasseNomSimple, ".getPk());");
+						tl(7, str_reponse(classeLangueNom), "200", classeApiMethode, classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(", str_reponse(classeLangueNom), " -> {");
+						tl(8, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_reponse(classeLangueNom), "));");
+						tl(8, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", str_a_réussi(classeLangueNom), ". \"));");
+						tl(7, "}).onFailure(ex -> {");
+						tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
+						tl(8, str_erreur(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", ex);");
+						tl(7, "});");
 						tl(6, "}).onFailure(ex -> {");
 						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
 						tl(7, str_erreur(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", ", str_gestionnaireEvenements(classeLangueNom), ", ex);");
@@ -3536,7 +3583,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(", str_reponse(classeLangueNom), "));");
 						tl(6, str_executeurTravailleur(classeLangueNom), ".executeBlocking(blockingCodeHandler -> {");
 						tl(7, "try {");
-						tl(8, "semaphore.acquire();");
 						tl(8, str_rechercher(classeLangueNom), classeNomSimple, str_Liste(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", false, true, true, ", q(classeApiUriMethode), ", ", q(classeApiMethode), ").onSuccess(", str_liste(classeLangueNom), classeNomSimple, " -> {");
 						tl(9, classePartsRequeteApi.nomSimple(classeLangueNom), " ", str_requeteApi(classeLangueNom), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(9, str_requeteApi(classeLangueNom), ".setRows(", str_liste(classeLangueNom), classeNomSimple, ".getRows());");
@@ -3565,8 +3611,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
 						tl(8, "blockingCodeHandler.fail(ex);");
 						tl(7, "}");
-						tl(6, "}, resultHandler -> {");
-						tl(7, "semaphore.release();");
+						tl(6, "}, false, resultHandler -> {");
 						tl(6, "});");
 						tl(5, "}).onFailure(ex -> {");
 						tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
@@ -3654,25 +3699,37 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "futures.add(Future.future(promise1 -> {");
 						tl(4, str_executeurTravailleur(classeLangueNom), ".executeBlocking(blockingCodeHandler -> {");
 						tl(5, "try {");
-						tl(6, "semaphore.acquire();");
-						tl(6, "Long pk = o.getPk();");
+						tl(6, activerSharedSemaphore ? "Lease lease = " : "", "semaphore.acquire();");
+						tl(6, "try {");
+						tl(7, "Long pk = o.getPk();");
 						l();
-						tl(6, "JsonObject params = new JsonObject();");
-						tl(6, "params.put(\"body\", ", str_requeteSite(classeLangueNom), ".getJsonObject().put(", classeNomSimple, ".VAR_pk, pk.toString()));");
-						tl(6, "params.put(\"path\", new JsonObject());");
-						tl(6, "params.put(\"cookie\", new JsonObject());");
-						tl(6, "params.put(\"header\", new JsonObject());");
-						tl(6, "params.put(\"form\", new JsonObject());");
-						tl(6, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + pk)));");
-						tl(6, "JsonObject context = new JsonObject().put(\"params\", params);");
-						tl(6, "JsonObject json = new JsonObject().put(\"context\", context);");
-						tl(6, "eventBus.send(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\"));");
-						tl(6, "blockingCodeHandler.complete();");
+						tl(7, "JsonObject params = new JsonObject();");
+						tl(7, "params.put(\"body\", ", str_requeteSite(classeLangueNom), ".getJsonObject().put(", classeNomSimple, ".VAR_pk, pk.toString()));");
+						tl(7, "params.put(\"path\", new JsonObject());");
+						tl(7, "params.put(\"cookie\", new JsonObject());");
+						tl(7, "params.put(\"header\", new JsonObject());");
+						tl(7, "params.put(\"form\", new JsonObject());");
+						tl(7, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + pk)));");
+						tl(7, "JsonObject context = new JsonObject().put(\"params\", params);");
+						tl(7, "JsonObject json = new JsonObject().put(\"context\", context);");
+						tl(7, "eventBus.request(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
+						tl(8, "blockingCodeHandler.complete();");
+						tl(8, "semaphore.", activerSharedSemaphore ? "returnLease(lease)" : "release()", ";");
+						tl(7, "}).onFailure(ex -> {");
+						tl(8, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
+						tl(8, "blockingCodeHandler.fail(ex);");
+						tl(8, "semaphore.", activerSharedSemaphore ? "returnLease(lease)" : "release()", ";");
+						tl(7, "});");
+						tl(6, "} catch(Exception ex) {");
+						tl(7, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
+						tl(7, "blockingCodeHandler.fail(ex);");
+						tl(7, "semaphore.", activerSharedSemaphore ? "returnLease(lease)" : "release()", ";");
+						tl(6, "}");
 						tl(5, "} catch(Exception ex) {");
 						tl(6, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
 						tl(6, "blockingCodeHandler.fail(ex);");
 						tl(5, "}");
-						tl(4, "}).onSuccess(a -> {");
+						tl(4, "}, false).onSuccess(a -> {");
 						tl(5, "promise1.complete();");
 						tl(4, "}).onFailure(ex -> {");
 						tl(5, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
@@ -3752,24 +3809,35 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(4, "futures.add(Future.future(promise1 -> {");
 						tl(5, str_executeurTravailleur(classeLangueNom), ".executeBlocking(blockingCodeHandler -> {");
 						tl(6, "try {");
-						tl(7, "semaphore.acquire();");
-						l();
-						tl(7, "JsonObject params = new JsonObject();");
-						tl(7, "params.put(\"body\", obj);");
-						tl(7, "params.put(\"path\", new JsonObject());");
-						tl(7, "params.put(\"cookie\", new JsonObject());");
-						tl(7, "params.put(\"header\", new JsonObject());");
-						tl(7, "params.put(\"form\", new JsonObject());");
-						tl(7, "params.put(\"query\", new JsonObject());");
-						tl(7, "JsonObject context = new JsonObject().put(\"params\", params);");
-						tl(7, "JsonObject json = new JsonObject().put(\"context\", context);");
-						tl(7, "eventBus.send(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\"));");
-						tl(7, "blockingCodeHandler.complete();");
+						tl(7, activerSharedSemaphore ? "Lease lease = " : "", "semaphore.acquire();");
+						tl(7, "try {");
+						tl(8, "JsonObject params = new JsonObject();");
+						tl(8, "params.put(\"body\", obj);");
+						tl(8, "params.put(\"path\", new JsonObject());");
+						tl(8, "params.put(\"cookie\", new JsonObject());");
+						tl(8, "params.put(\"header\", new JsonObject());");
+						tl(8, "params.put(\"form\", new JsonObject());");
+						tl(8, "params.put(\"query\", new JsonObject());");
+						tl(8, "JsonObject context = new JsonObject().put(\"params\", params);");
+						tl(8, "JsonObject json = new JsonObject().put(\"context\", context);");
+						tl(8, "eventBus.request(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
+						tl(9, "blockingCodeHandler.complete();");
+						tl(9, "semaphore.", activerSharedSemaphore ? "returnLease(lease)" : "release()", ";");
+						tl(8, "}).onFailure(ex -> {");
+						tl(9, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
+						tl(9, "blockingCodeHandler.fail(ex);");
+						tl(9, "semaphore.", activerSharedSemaphore ? "returnLease(lease)" : "release()", ";");
+						tl(8, "});");
+						tl(7, "} catch(Exception ex) {");
+						tl(8, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
+						tl(8, "blockingCodeHandler.fail(ex);");
+						tl(8, "semaphore.", activerSharedSemaphore ? "returnLease(lease)" : "release()", ";");
+						tl(7, "}");
 						tl(6, "} catch(Exception ex) {");
 						tl(7, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
 						tl(7, "blockingCodeHandler.fail(ex);");
 						tl(6, "}");
-						tl(5, "}).onSuccess(a -> {");
+						tl(5, "}, false).onSuccess(a -> {");
 						tl(6, "promise1.complete();");
 						tl(5, "}).onFailure(ex -> {");
 						tl(6, "LOG.error(String.format(\"", str_liste(classeLangueNom), classeApiMethode, classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex);");
@@ -3810,6 +3878,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, str_requeteApi(classeLangueNom), ".setNumPATCH(0L);");
 						tl(2, str_requeteApi(classeLangueNom), ".", str_initLoin(classeLangueNom), classePartsRequeteApi.nomSimple(classeLangueNom), "(", str_requeteSite(classeLangueNom), ");");
 						tl(2, str_requeteSite(classeLangueNom), ".set", str_RequeteApi(classeLangueNom), "_(", str_requeteApi(classeLangueNom), ");");
+						tl(2, "if(Optional.ofNullable(", str_requeteService(classeLangueNom), ".getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getJsonArray(\"var\")).orElse(new JsonArray()).stream().filter(s -> \"", str_recharger(classeLangueNom), ":false\".equals(s)).count() > 0L) {");
+						tl(3, str_requeteSite(classeLangueNom), ".get", str_Requete(classeLangueNom), "Vars().put( \"", str_recharger(classeLangueNom), "\", \"false\" );");
+						tl(2, "}");
 						if(StringUtils.contains(classeApiMethode, "PATCH")) {
 							tl(2, "o.setPk(body.getString(", classeNomSimple, ".VAR_pk));");
 							tl(2, classeApiOperationIdMethode, "Future(o, false).onSuccess(a -> {");
@@ -3820,10 +3891,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						else {
 							tl(2, classeApiOperationIdMethode, "Future(", str_requeteSite(classeLangueNom), ", false).onSuccess(a -> {");
 						}
-						tl(3, "semaphore.release();");
-						tl(3, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
+						tl(3, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(new JsonObject().encodePrettily()))));");
 						tl(2, "}).onFailure(ex -> {");
-						tl(3, "semaphore.release();");
 						tl(3, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(ex));");
 						tl(2, "});");
 						tl(1, "}");
@@ -3843,6 +3912,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(classeApiMethode.equals(str_PUTFusion(classeLangueNom)) || classeApiMethode.equals("PUTImport")) {
 							tl(3, "body.put(\"", classeVarInheritClePrimaire, "\", body.getValue(\"", classeVarClePrimaire, "\"));");
 						}
+						tl(3, "if(Optional.ofNullable(", str_requeteService(classeLangueNom), ".getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getJsonArray(\"var\")).orElse(new JsonArray()).stream().filter(s -> \"", str_recharger(classeLangueNom), ":false\".equals(s)).count() > 0L) {");
+						tl(4, str_requeteSite(classeLangueNom), ".get", str_Requete(classeLangueNom), "Vars().put( \"", str_recharger(classeLangueNom), "\", \"false\" );");
+						tl(3, "}");
 						l();
 						tl(3, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", str_listeRecherche(classeLangueNom), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, ">();");
 						tl(3, str_listeRecherche(classeLangueNom), ".set", str_Stocker(classeLangueNom), "(true);");
@@ -3885,7 +3957,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(8, "}");
 						tl(7, "} else {");
 						tl(8, "o2.", str_definir(classeLangueNom), str_PourClasse(classeLangueNom), "(f, bodyVal);");
-						tl(8, "if(!StringUtils.containsAny(f, \"", classeVarClePrimaire, "\", \"", str_cree(classeLangueNom), "\") && !Objects.equals(o.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f), o2.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f)))");
+						tl(8, "if(!StringUtils.containsAny(f, \"", classeVarClePrimaire, "\", \"", str_cree(classeLangueNom), "\", \"set", str_Cree(classeLangueNom), "\") && !Objects.equals(o.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f), o2.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f)))");
 						tl(9, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
 						tl(7, "}");
 						tl(6, "}");
@@ -3896,35 +3968,33 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "if(body2.size() > 0) {");
 						tl(7, str_requeteSite(classeLangueNom), ".set", str_ObjetJson(classeLangueNom), "(body2);");
 						tl(7, "patch", classeNomSimple, "Future(o, ", classeApiMethode.equals("PUTImport"), ").onSuccess(b -> {");
-						tl(8, "semaphore.release();");
+						tl(8, "LOG.info(\"Import ", classeNomSimple, " {} ", str_a_réussi(classeLangueNom), ", ", str_modifie(classeLangueNom), " ", classeNomSimple, ". \", body.getValue(\"pk\"));");
 						tl(8, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
 						tl(7, "}).onFailure(ex -> {");
 						tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", str_a_échoué(classeLangueNom), ". \"), ex);");
 						tl(7, "});");
+						tl(6, "} else {");
+						tl(7, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
 						tl(6, "}");
 						tl(5, "} else {");
 						tl(6, "post", classeNomSimple, "Future(", str_requeteSite(classeLangueNom), ", ", classeApiMethode.equals("PUTImport"), ").onSuccess(b -> {");
-						tl(7, "semaphore.release();");
+						tl(7, "LOG.info(\"Import ", classeNomSimple, " {} ", str_a_réussi(classeLangueNom), ", ", str_créé_nouveau(classeLangueNom), " ", classeNomSimple, ". \", body.getValue(\"pk\"));");
 						tl(7, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture());");
 						tl(6, "}).onFailure(ex -> {");
 						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", str_a_échoué(classeLangueNom), ". \"), ex);");
-						tl(7, "semaphore.release();");
 						tl(7, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(ex));");
 						tl(6, "});");
 						tl(5, "}");
 						tl(4, "} catch(Exception ex) {");
 						tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", str_a_échoué(classeLangueNom), ". \"), ex);");
-						tl(5, "semaphore.release();");
 						tl(5, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(ex));");
 						tl(4, "}");
 						tl(3, "}).onFailure(ex -> {");
 						tl(4, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", str_a_échoué(classeLangueNom), ". \"), ex);");
-						tl(4, "semaphore.release();");
 						tl(4, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(ex));");
 						tl(3, "});");
 						tl(2, "} catch(Exception ex) {");
 						tl(3, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", str_a_échoué(classeLangueNom), ". \"), ex);");
-						tl(3, "semaphore.release();");
 						tl(3, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.failedFuture(ex));");
 						tl(2, "}");
 						tl(1, "}");

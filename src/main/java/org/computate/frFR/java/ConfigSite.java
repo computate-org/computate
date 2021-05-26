@@ -1955,6 +1955,21 @@ public class ConfigSite {
 			return "failed";
 	}
 
+
+	public String str_créé_nouveau(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "créé nouveau";
+		else
+			return "created new";
+	}
+
+	public String str_modifié(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "modifié";
+		else
+			return "modified";
+	}
+
 	/**
 	 * Var.enUS: str_Populate
 	 */
@@ -3694,6 +3709,13 @@ public class ConfigSite {
 				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + "OpenIdConnect", true);
 	}
 
+	public Boolean activerSharedSemaphore;
+
+	protected void _activerSharedSemaphore() throws Exception {
+		activerSharedSemaphore = config.getBoolean(
+				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + "SharedSemaphore", true);
+	}
+
 	/**
 	 * Var.enUS: initSiteConfig r: fichierConfig r.enUS: configFile r:
 	 * langueNomActuel r.enUS: languageActualName r: langueIndexe r.enUS:
@@ -3772,6 +3794,7 @@ public class ConfigSite {
 		_activerSessionId();
 		_activerRoleAdmin();
 		_activerOpenIdConnect();
+		_activerSharedSemaphore();
 	}
 
 	/**
