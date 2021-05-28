@@ -2578,6 +2578,13 @@ public class ConfigSite {
 			return " in Solr";
 	}
 
+	public String str_tempsRestant(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "tempsRestant";
+		else
+			return "timeRemaining";
+	}
+
 	public String str__est_défini_comme_null_avant_d_être_initialisé__(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return " est défini comme null avant d'être initialisé. ";
@@ -3709,13 +3716,6 @@ public class ConfigSite {
 				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + "OpenIdConnect", true);
 	}
 
-	public Boolean activerSharedSemaphore;
-
-	protected void _activerSharedSemaphore() throws Exception {
-		activerSharedSemaphore = config.getBoolean(
-				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + "SharedSemaphore", true);
-	}
-
 	/**
 	 * Var.enUS: initSiteConfig r: fichierConfig r.enUS: configFile r:
 	 * langueNomActuel r.enUS: languageActualName r: langueIndexe r.enUS:
@@ -3794,7 +3794,6 @@ public class ConfigSite {
 		_activerSessionId();
 		_activerRoleAdmin();
 		_activerOpenIdConnect();
-		_activerSharedSemaphore();
 	}
 
 	/**
