@@ -1938,34 +1938,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			l("*/");
 			l();
 		}
-		if(classeMotsCles.contains(str_classeNomSimple(langueNom) + str_ConfigSite(langueNom))) {
-			{
-				SolrQuery rechercheSolr1 = new SolrQuery();
-				rechercheSolr1.setQuery("*:*");
-				rechercheSolr1.setRows(1000);
-				rechercheSolr1.addFilterQuery("appliNom_indexed_string:" + ClientUtils.escapeQueryChars(appliNom));
-				rechercheSolr1.addFilterQuery("partEstEntite_indexed_boolean:true");
-				rechercheSolr1.addFilterQuery("classeNomCanonique_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePartsConfigSite.nomCanonique(langueNom)));
-				rechercheSolr1.addSort("sqlSort_indexed_int", ORDER.asc);
-	
-				QueryResponse reponseRecherche1 = clientSolrComputate.query(rechercheSolr1);
-				SolrDocumentList listeRecherche1 = reponseRecherche1.getResults();
-				System.out.println(rechercheSolr1);
-				for(Integer i = 0; i < listeRecherche1.size(); i++) {
-					SolrDocument doc1 = listeRecherche1.get(i);
-	
-					String entiteVar = (String)doc1.get("entiteVar_" + langueNom + "_stored_string");
-					String entiteDescription = (String)doc1.get("entiteDescription_" + langueNom + "_stored_string");
-					String entiteVarCapitalise = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(entiteVar), "_").toUpperCase();
-					l();
-					tl(1, "/**");
-					tl(1, " * ", entiteDescription);
-					tl(1, " **/");
-					tl(1, "public static final String ", entiteVarCapitalise, " = \"", entiteVar, "\";");
-				}
-			}
-			l();
-		}
 
 //		if(classeSauvegarde) {
 		tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimple, ".class);");
@@ -2894,8 +2866,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classRolesFound
 	 * r: wApiGenererPut
 	 * r.enUS: wApiGeneratePut
-	 * r: SiteContexte
-	 * r.enUS: SiteContext
 	 * r: wApiGenererPatch
 	 * r.enUS: wApiGeneratePatch
 	 * r: classeEtendGen
@@ -5831,8 +5801,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: unindex
 	 * r: ConfigSite
 	 * r.enUS: SiteConfig
-	 * r: SiteContexte
-	 * r.enUS: SiteContext
 	 * r: siteContexte
 	 * r.enUS: siteContext
 	 * r: RequeteSite

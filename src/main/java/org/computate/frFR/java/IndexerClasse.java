@@ -195,17 +195,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	ClasseParts classePartsHashSet;
 	/**
-	 * Var.enUS: classPartsSiteContext
-	 */
-	ClasseParts classePartsSiteContexte;
-	/**
 	 * Var.enUS: classPartsSiteRequest
 	 */ 
 	ClasseParts classePartsRequeteSite;
-	/**
-	 * Var.enUS: classPartsSiteConfig
-	 */
-	ClasseParts classePartsConfigSite;
 	/**
 	 * Var.enUS: classPartsSiteUser
 	 */
@@ -1562,40 +1554,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
-	 * Var.enUS: classPartsSiteContext
-	 * Param1.var.enUS: domainPackageName
-	 * Param2.var.enUS: classLanguageName
-	 * r: classeLangueNom
-	 * r.enUS: classLanguageName
-	 * r: classePartsPourNomSimple
-	 * r.enUS: classPartsForSimpleName
-	 * r: nomEnsembleDomaine
-	 * r.enUS: domainPackageName
-	 * r: SiteContexte
-	 * r.enUS: SiteContext
-	 */
-	protected ClasseParts classePartsSiteContexte(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, str_SiteContexte(this.langueNomActuel), langueNom);
-	}
-
-	/**
-	 * Var.enUS: classPartsSiteConfig
-	 * Param1.var.enUS: domainPackageName
-	 * Param2.var.enUS: classLanguageName
-	 * r: classeLangueNom
-	 * r.enUS: classLanguageName
-	 * r: classePartsPourNomSimple
-	 * r.enUS: classPartsForSimpleName
-	 * r: nomEnsembleDomaine
-	 * r.enUS: domainPackageName
-	 * r: ConfigSite
-	 * r.enUS: SiteConfig
-	 */
-	protected ClasseParts classePartsConfigSite(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, str_ConfigSite(this.langueNomActuel), langueNom);
-	}
-
-	/**
 	 * Var.enUS: classPartsSiteUser
 	 * Param1.var.enUS: domainPackageName
 	 * Param2.var.enUS: classLanguageName
@@ -2331,10 +2289,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classPartsGenPageAdd
 	 * r: classePartsGenApiAjouter
 	 * r.enUS: classPartsGenApiAdd
-	 * r: classePartsSiteContexte
-	 * r.enUS: classPartsSiteContext
-	 * r: classePartsConfigSite
-	 * r.enUS: classPartsSiteConfig
 	 * r: classePartsUtilisateurSite
 	 * r.enUS: classPartsSiteUser
 	 * r: classePartsRequeteApi
@@ -3484,8 +3438,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsTest = ClasseParts.initClasseParts(this, "org.junit.Test", classeLangueNom);
 		classePartsList = ClasseParts.initClasseParts(this, List.class.getCanonicalName(), classeLangueNom);
 		classePartsArrayList = ClasseParts.initClasseParts(this, ArrayList.class.getCanonicalName(), classeLangueNom);
-		classePartsSiteContexte = classePartsSiteContexte(nomEnsembleDomaine, classeLangueNom);
-		classePartsConfigSite = classePartsConfigSite(nomEnsembleDomaine, classeLangueNom);
 		classePartsUtilisateurSite = classePartsUtilisateurSite(nomEnsembleDomaine, classeLangueNom);
 		classePartsRequeteApi = classePartsRequeteApi(nomEnsembleDomaine, classeLangueNom);
 		classePartsCluster = classePartsCluster(nomEnsembleDomaine, classeLangueNom);
@@ -6453,7 +6405,6 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
-		clientSolrComputate.commit(true, true);
 
 		indexerStockerSolr(classeDoc, "classeTrisTrouves", classeTrisTrouves); 
 		for(Integer i = 0; i < classeTrisOrdre.size(); i++) {
@@ -6477,10 +6428,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "classePage", classePage);
 
 		clientSolrComputate.add(classeDoc);
-		clientSolrComputate.commit(true, true);
+		clientSolrComputate.commit(false, false, true);
 		String qSupprimer = concat("classeCheminAbsolu_indexed_string", ":\"", classeChemin, "\" AND (modifiee_indexed_date:[* TO ", modifiee.minusMillis(1).toString(), "] OR (*:* AND -modifiee_indexed_date:[* TO *]))");
 		UpdateResponse d = clientSolrComputate.deleteByQuery(qSupprimer);
-		clientSolrComputate.commit(true, true); 
+		clientSolrComputate.commit(false, false, true); 
 		return classeDoc;
 	}
 }

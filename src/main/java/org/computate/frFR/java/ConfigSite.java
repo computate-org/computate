@@ -3665,12 +3665,6 @@ public class ConfigSite {
 				.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_ecrireCommentaire(langueNom), true);
 	}
 
-	public Boolean sqlTables;
-
-	protected void _sqlTables() throws Exception {
-		sqlTables = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "sqlTables", false);
-	}
-
 	public Boolean activerSupprime;
 
 	protected void _activerSupprime() throws Exception {
@@ -3787,7 +3781,6 @@ public class ConfigSite {
 		_siteEcrireMethodes();
 		_ecrireApi();
 		_ecrireCommentaire();
-		_sqlTables();
 		_activerSupprime();
 		_activerArchive();
 		_activerUtilisateurCle();
