@@ -2744,7 +2744,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire + "_indexed_string" : classeVarClePrimaire + "_indexed_long", ":\" + ClientUtils.escapeQueryChars(body.getString(\"", classeVarClePrimaire, "\")));");
 						tl(3, str_listeRecherche(classeLangueNom), ".", str_promesseLoin(classeLangueNom), str_PourClasse(classeLangueNom), "(", str_requeteSite(classeLangueNom), ").onSuccess(a -> {");
 						tl(4, "try {");
-						tl(5, "if(", str_listeRecherche(classeLangueNom), ".size() == 1) {");
+						tl(5, "if(", str_listeRecherche(classeLangueNom), ".size() >= 1) {");
 						tl(6, classeNomSimple, " o = ", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null);");
 						tl(6, classeNomSimple, " o2 = new ", classeNomSimple, "();");
 						tl(6, "JsonObject body2 = new JsonObject();");
