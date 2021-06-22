@@ -2774,6 +2774,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(8, "}");
 						tl(7, "} else {");
 						tl(8, "o2.", str_definir(classeLangueNom), str_PourClasse(classeLangueNom), "(f, bodyVal);");
+						tl(8, "o2.", str_attribuer(classeLangueNom), str_PourClasse(classeLangueNom), "(f, bodyVal);");
 						tl(8, "if(!StringUtils.containsAny(f, \"", classeVarClePrimaire, "\", \"", str_cree(classeLangueNom), "\", \"set", str_Cree(classeLangueNom), "\") && !Objects.equals(o.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f), o2.", str_obtenir(classeLangueNom), str_PourClasse(classeLangueNom), "(f)))");
 						tl(9, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
 						tl(7, "}");

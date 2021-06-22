@@ -5281,7 +5281,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(4, "o", classeNomSimple, ".add", entiteVarCapitalise, "((", entiteNomSimpleCompletGenerique, ")val);");
 				} else {
 					tl(4, "if(o", classeNomSimple, ".get", entiteVarCapitalise, "() == null)");
-					tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+					tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val == null ? null : (NumberUtils.isCreatable(val.toString()) ? Long.parseLong(val.toString()) : -1L));");
 				}
 				tl(4, "if(!", str_sauvegardes(langueNom), ".contains(\"", entiteVar, "\"))");
 				tl(5, str_sauvegardes(langueNom), ".add(\"", entiteVar, "\");");
@@ -5428,8 +5428,15 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(5, "", str_sauvegardes(langueNom), ".add(\"", entiteVar, "\");");
 					}
 					else {
-						tl(4, "if(val instanceof ", entiteNomSimpleComplet, ")");
-						tl(5, "set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+						if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
+							tl(4, "if(val instanceof String)");
+							tl(5, "set", entiteVarCapitalise, "((String)val);");
+							tl(4, "else if(val instanceof Number)");
+							tl(5, "set", entiteVarCapitalise, "(new BigDecimal(((Number)val).doubleValue()));");
+						} else {
+							tl(4, "if(val instanceof ", entiteNomSimpleComplet, ")");
+							tl(5, "set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+						}
 						if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 							tl(4, "else if(val instanceof OffsetDateTime)");
 							tl(5, "set", entiteVarCapitalise, "(((OffsetDateTime)val).atZoneSameInstant(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_Config(langueNom), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", str_SITE_ZONE(langueNom), "))));");
