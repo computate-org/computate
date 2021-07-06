@@ -2333,6 +2333,13 @@ public class ConfigSite {
 			return "en-US";
 	}
 
+	public String str_Interne(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Interne";
+		else
+			return "Internal";
+	}
+
 	public String str_Contexte(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "Contexte";

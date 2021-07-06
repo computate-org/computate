@@ -5733,6 +5733,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			for(String langueNom : toutesLangues) {
 				String classeApiUri = indexerStockerSolrRegex(langueNom, classeDoc, "classeApiUri", "ApiUri", classeCommentaire);
 				String classeApiTag = indexerStockerSolrRegex(langueNom, classeDoc, "classeApiTag", "ApiTag", classeCommentaire);
+				Boolean classeApiInterne = indexerStockerSolr(classeDoc, "classeApiInterne", regexTrouve("^" + str_Contexte(classeLangueNom) + ": \\s*(true)$", classeCommentaire) || classePage);
 				String classeNomSimpleLangue = (String)classeDoc.get("classeNomSimple_" + langueNom + "_stored_string").getValue();
 
 				classePartsGenApi.clear();
