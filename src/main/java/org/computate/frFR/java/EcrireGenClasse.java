@@ -5246,10 +5246,15 @@ public class EcrireGenClasse extends EcrireClasse {
 				wIndexerFacetFor.tl(9, "params.put(\"cookie\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"path\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + pk2)));");
-				wIndexerFacetFor.tl(9, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", str_requeteSite(langueNom), ".get", str_PrincipalJson(langueNom), "());");
+				wIndexerFacetFor.tl(9, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(langueNom), ".get", str_Utilisateur(langueNom), "()).map(", str_utilisateur(langueNom), " -> ", str_utilisateur(langueNom), ".principal()).orElse(null));");
 				wIndexerFacetFor.tl(9, "JsonObject json = new JsonObject().put(\"context\", context);");
 				wIndexerFacetFor.tl(9, "eventBus.request(\"", appliNom, "-", langueNom, "-", entiteAttribuerNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", entiteAttribuerNomSimple, "\")).onSuccess(c -> {");
-				wIndexerFacetFor.tl(10, "promise2.complete();");
+				wIndexerFacetFor.tl(10, "JsonObject responseBody = (JsonObject)c.body();");
+				wIndexerFacetFor.tl(10, "Integer statusCode = responseBody.getInteger(\"statusCode\");");
+				wIndexerFacetFor.tl(10, "if(statusCode.equals(200))");
+				wIndexerFacetFor.tl(11, "promise2.complete();");
+				wIndexerFacetFor.tl(10, "else");
+				wIndexerFacetFor.tl(11, "promise2.fail(new RuntimeException(responseBody.getString(\"statusMessage\")));");
 				wIndexerFacetFor.tl(9, "}).onFailure(ex -> {");
 				wIndexerFacetFor.tl(10, "promise2.fail(ex);");
 				wIndexerFacetFor.tl(9, "});");
