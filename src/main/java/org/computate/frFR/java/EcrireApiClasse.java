@@ -4098,7 +4098,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "String fq2 = fqs[1].equals(\"*\") ? fqs[1] : ", classeNomSimple, ".staticSolrFq", str_PourClasse(classeLangueNom), "(", str_entite(classeLangueNom), "Var, ", str_listeRecherche(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_(), fqs[1]);");
 			tl(3, " return var", str_Indexe(classeLangueNom), " + \":[\" + fq1 + \" TO \" + fq2 + \"]\";");
 			tl(2, "} else {");
-			tl(3, "return var", str_Indexe(classeLangueNom), " + \":\" + ", classeNomSimple, ".staticSolrFq", str_PourClasse(classeLangueNom), "(", str_entite(classeLangueNom), "Var, ", str_listeRecherche(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_(), ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ");");
+			tl(3, "return var", str_Indexe(classeLangueNom), " + \":\" + ClientUtils.escapeQueryChars(", classeNomSimple, ".staticSolrFq", str_PourClasse(classeLangueNom), "(", str_entite(classeLangueNom), "Var, ", str_listeRecherche(classeLangueNom), ".get", str_RequeteSite(classeLangueNom), "_(), ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ")).replace(\"\\\\\", \"\\\\\\\\\");");
 			tl(2, "}");
 			tl(1, "}");
 			l();
