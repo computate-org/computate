@@ -2358,7 +2358,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "()).map(", str_utilisateur(classeLangueNom), " -> ", str_utilisateur(classeLangueNom), ".principal()).orElse(null));");
 							tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
 							tl(5, "eventBus.request(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
-							tl(6, "JsonObject responseBody = (JsonObject)a.body();");
+							tl(6, "JsonObject responseMessage = (JsonObject)a.body();");
+							tl(6, "JsonObject responseBody = new JsonObject(new String(Base64.getDecoder().decode(responseMessage.getString(\"payload\")), Charset.forName(\"UTF-8\")));");
 							tl(6, str_requeteApi(classeLangueNom), ".setPk(Long.parseLong(responseBody.getString(\"pk\")));");
 							tl(6, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(responseBody.encodePrettily()))));");
 							tl(6, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", str_a_réussi(classeLangueNom), ". \"));");
@@ -4551,12 +4552,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "()).map(", str_utilisateur(classeLangueNom), " -> ", str_utilisateur(classeLangueNom), ".principal()).orElse(null));");
 				tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
 				tl(5, "eventBus.request(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", classeNomSimple, "Future\")).onSuccess(c -> {");
-				tl(6, "JsonObject responseBody = (JsonObject)c.body();");
-				tl(6, "Integer statusCode = responseBody.getInteger(\"statusCode\");");
+				tl(6, "JsonObject responseMessage = (JsonObject)c.body();");
+				tl(6, "Integer statusCode = responseMessage.getInteger(\"statusCode\");");
 				tl(6, "if(statusCode.equals(200))");
 				tl(7, "promise.complete();");
 				tl(6, "else");
-				tl(7, "promise.fail(new RuntimeException(responseBody.getString(\"statusMessage\")));");
+				tl(7, "promise.fail(new RuntimeException(responseMessage.getString(\"statusMessage\")));");
 				tl(5, "}).onFailure(ex -> {");
 				tl(6, "LOG.error(\"", str_Recharger(classeLangueNom), " ", str_relations(classeLangueNom), " ", str_a_échoué(classeLangueNom), ". \", ex);");
 				tl(6, "promise.fail(ex);");
