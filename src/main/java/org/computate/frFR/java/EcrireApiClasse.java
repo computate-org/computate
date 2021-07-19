@@ -1402,6 +1402,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"addAll", entiteVarCapitalise, "\":");
 											tl(6, "JsonArray addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), " = Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray());");
 											tl(6, "addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
@@ -1421,6 +1422,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"add", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
@@ -1439,8 +1441,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"remove", entiteVarCapitalise, "\":");
-											tl(6, "Optional.ofNullable(jsonObject.getLong(", str_entite(classeLangueNom), "Var)).ifPresent(pk2 -> {");
+											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).map(val -> Long.parseLong(val)).ifPresent(pk2 -> {");
 											tl(7, "if(!pks.contains(pk2)) {");
 											tl(8, "pks.add(pk2);");
 											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1453,6 +1456,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 										} else if("array".equals(entiteTypeJson)) {
 											// list, no list, <
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
@@ -1487,6 +1491,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"addAll", entiteVarCapitalise, "\":");
 											tl(6, "JsonArray addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), " = Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray());");
 											tl(6, "addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
@@ -1506,6 +1511,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"add", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
@@ -1524,8 +1530,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"remove", entiteVarCapitalise, "\":");
-											tl(6, "Optional.ofNullable(jsonObject.getLong(", str_entite(classeLangueNom), "Var)).ifPresent(pk2 -> {");
+											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).map(val -> Long.parseLong(val)).ifPresent(pk2 -> {");
 											tl(7, "if(!pks.contains(pk2)) {");
 											tl(8, "pks.add(pk2);");
 											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1538,6 +1545,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 										} else if("array".equals(entiteAttribuerTypeJson)) {
 											// no list, list, <
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
@@ -1558,6 +1566,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 										} else {
 											// no list, no list, <
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
@@ -1578,6 +1587,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 										}
 									} else {
 										if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
@@ -1614,6 +1624,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"addAll", entiteVarCapitalise, "\":");
 											tl(6, "JsonArray addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), " = Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray());");
 											tl(6, "addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
@@ -1633,6 +1644,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"add", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
@@ -1651,8 +1663,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"remove", entiteVarCapitalise, "\":");
-											tl(6, "Optional.ofNullable(jsonObject.getLong(", str_entite(classeLangueNom), "Var)).ifPresent(pk2 -> {");
+											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).map(val -> Long.parseLong(val)).ifPresent(pk2 -> {");
 											tl(7, "if(!pks.contains(pk2)) {");
 											tl(8, "pks.add(pk2);");
 											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1665,6 +1678,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 										} else if("array".equals(entiteTypeJson)) {
 											// list, no list, >
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
@@ -1699,6 +1713,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"addAll", entiteVarCapitalise, "\":");
 											tl(6, "JsonArray addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), " = Optional.ofNullable(jsonObject.getJsonArray(", str_entite(classeLangueNom), "Var)).orElse(new JsonArray());");
 											tl(6, "addAll", entiteVarCapitalise, str_Valeurs(classeLangueNom), ".stream().map(oVal -> oVal.toString()).forEach(val -> {");
@@ -1718,6 +1733,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"add", entiteVarCapitalise, "\":");
 											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).ifPresent(val -> {");
 											tl(7, "futures2.add(Future.future(promise2 -> {");
@@ -1736,8 +1752,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 											tl(5, "case \"remove", entiteVarCapitalise, "\":");
-											tl(6, "Optional.ofNullable(jsonObject.getLong(", str_entite(classeLangueNom), "Var)).ifPresent(pk2 -> {");
+											tl(6, "Optional.ofNullable(jsonObject.getString(", str_entite(classeLangueNom), "Var)).map(val -> Long.parseLong(val)).ifPresent(pk2 -> {");
 											tl(7, "if(!pks.contains(pk2)) {");
 											tl(8, "pks.add(pk2);");
 											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
@@ -1750,6 +1767,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 										} else if("array".equals(entiteAttribuerTypeJson)) {
 											// no list, list, >
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
@@ -1770,6 +1788,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 										} else {
 											// no list, no list, >
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
@@ -1790,6 +1809,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "});");
 											tl(7, "}));");
 											tl(6, "});");
+											tl(6, "break;");
 										}
 									}
 								}
@@ -1812,6 +1832,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //										tl(8, "});");
 //										tl(7, "}));");
 //										tl(6, "});");
+//										tl(6, "break;");
 									}
 									else {
 						
@@ -1822,9 +1843,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(7, "bSql.append(", classeNomSimple, ".VAR_", entiteVar, " + \"=$\" + num);");
 										tl(7, "num++;");
 										tl(7, "bParams.add(o2.sql", entiteVarCapitalise, "());");
+										tl(6, "break;");
 									}
-						
-									tl(6, "break;");
 								}
 							}	
 						}
