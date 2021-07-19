@@ -3301,7 +3301,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				else
 					tl(1, "@JsonSerialize(using = ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".class)");
 
-				tl(1, "@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=\"yyyy-MM-dd'T'HH:mm:ss.SSS'['VV']'\")");
+				tl(1, "@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=\"yyyy-MM-dd'T'HH:mm:ss.SSSV'['VV']'\")");
 			}
 			else if(!"java.lang.String".equals(entiteNomCanonique) && "string".equals(entiteTypeJson)) {
 				tl(1, "@JsonProperty");
@@ -3684,7 +3684,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "if(StringUtils.endsWith(o, \"Z\"))");
 				tl(3, "return o == null ? null : Instant.parse(o).atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_Config(langueNom), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", str_SITE_ZONE(langueNom), "))).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "else");
-				tl(3, "return o == null ? null : ZonedDateTime.parse(o, DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'['VV']'\")).truncatedTo(ChronoUnit.MILLIS);");
+				tl(3, "return o == null ? null : ZonedDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).truncatedTo(ChronoUnit.MILLIS);");
 				tl(1, "}");
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
@@ -4049,6 +4049,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(4, "}");
 				}
 				else {
+					tl(4, "set", entiteVarCapitalise, "(o);");
+					tl(4, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
 					tl(4, "promise.complete(o);");
 				}
 				tl(3, "}).onFailure(ex -> {");
