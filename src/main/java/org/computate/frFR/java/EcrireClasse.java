@@ -1,12 +1,9 @@
 package org.computate.frFR.java;     
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Optional;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -443,7 +440,7 @@ public class EcrireClasse extends IndexerClasse {
 					Boolean classePage = (Boolean)doc.get("classePage_stored_boolean");
 					Boolean classePageSimple = (Boolean)doc.get("classePageSimple_stored_boolean");
 					Boolean classeSauvegarde = (Boolean)doc.get("classeSauvegarde_stored_boolean");
-					Boolean classePublicLire = (Boolean)doc.get("classePublicLire_stored_boolean");
+					Boolean classePublicLire = Optional.ofNullable((Boolean)doc.get("classePublicLire_stored_boolean")).orElse(false);
 					Boolean classeRoleSession = (Boolean)doc.get("classeRoleSession_stored_boolean");
 					Boolean classeRoleUtilisateur = (Boolean)doc.get("classeRoleUtilisateur_stored_boolean");
 					String contexteCouleur = (String)doc.get("contexteCouleur_stored_string");

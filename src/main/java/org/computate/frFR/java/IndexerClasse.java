@@ -1893,6 +1893,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			return "error";
 	}
 
+	public String str_AuthFournisseur(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "AuthFournisseur";
+		else
+			return "AuthProvider";
+	}
+
 	public String str_utilisateur(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "utilisateur";
@@ -8507,7 +8514,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				if(classePartsUtilisateurSite == null)
 					System.err.println(String.format("%s %s %s %s %s. ", str_classe(classeLangueNom), str_UtilisateurSite(classeLangueNom), str_manquante(classeLangueNom), str_dans(classeLangueNom), cheminSrcMainJava));
 				else
-					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsUtilisateurSite.nomCanonique(classeLangueNom) + StringUtils.capitalize(classeLangueNom) + "ApiServiceImpl", classeLangueNom), classeLangueNom);
+					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsUtilisateurSite.nomCanonique(langueNom) + StringUtils.capitalize(langueNom) + "ApiServiceImpl", langueNom), classeLangueNom);
 
 				classePartsGenApiAjouter(classePartsListeRecherche, classeLangueNom);
 				classePartsGenApiAjouter(classePartsToutEcrivain, classeLangueNom);

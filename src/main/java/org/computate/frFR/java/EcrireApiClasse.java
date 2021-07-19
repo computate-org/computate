@@ -4241,7 +4241,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(11, "if(", str_utilisateur(classeLangueNom), str_Valeurs(classeLangueNom), " == null) {");
 //					tl(4, str_entite(langueNom), str_Valeur(langueNom), " = Optional.ofNullable(", str_documentSolr(langueNom), ".getFieldValues(", q(", str_entite(langueNom), "Var, "_stored", ", str_entite(langueNom), "SuffixeType), ")).map(Collection<Object>::stream).orElseGet(Stream::empty).findFirst().orElse(null);");
 			tl(12, "JsonObject ", str_utilisateur(classeLangueNom), "Vertx = ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "().getUser();");
-			tl(12, "OAuth2TokenImpl token = new OAuth2TokenImpl(", str_siteContexte(classeLangueNom), ".getAuthProvider(), ", str_utilisateur(classeLangueNom), "Vertx);");
+			tl(12, "OAuth2TokenImpl token = new OAuth2TokenImpl(", str_siteContexte(classeLangueNom), ".get", str_AuthFournisseur(classeLangueNom), "(), ", str_utilisateur(classeLangueNom), "Vertx);");
 			tl(12, "JsonObject ", str_principalJson(classeLangueNom), " = token.accessToken();");
 			l();
 			tl(12, "JsonObject jsonObject = new JsonObject();");
@@ -4311,7 +4311,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(12, classePartsUtilisateurSite.nomSimple(classeLangueNom), " ", str_utilisateurSite(classeLangueNom), "1 = ", str_listeRecherche(classeLangueNom), ".getList().stream().findFirst().orElse(null);");
 			l();
 			tl(12, "JsonObject ", str_utilisateur(classeLangueNom), "Vertx = ", str_requeteSite(classeLangueNom), ".get", str_OperationRequete(classeLangueNom), "().getUser();");
-			tl(12, "OAuth2TokenImpl token = new OAuth2TokenImpl(", str_siteContexte(classeLangueNom), ".getAuthProvider(), ", str_utilisateur(classeLangueNom), "Vertx);");
+			tl(12, "OAuth2TokenImpl token = new OAuth2TokenImpl(", str_siteContexte(classeLangueNom), ".get", str_AuthFournisseur(classeLangueNom), "(), ", str_utilisateur(classeLangueNom), "Vertx);");
 			tl(12, "JsonObject ", str_principalJson(classeLangueNom), " = token.accessToken();");
 			l();
 			tl(12, "JsonObject jsonObject = new JsonObject();");
