@@ -5582,14 +5582,12 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				else {
 					if(StringUtils.contains(entiteSolrNomCanonique, "<")) {
-						if(entiteCouverture) {
-							tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(Optional.ofNullable(solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\")).map(v -> v.toString()).orElse(null));");
+						if(entitePromesse || entiteCouverture) {
+							tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(new ArrayList<>());");
 						}
-						else {
-							tl(2, "Optional.ofNullable((List<?>)solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\")).orElse(Arrays.asList()).stream().filter(v -> v != null).forEach(v -> {");
-							tl(3, "o", classeNomSimple, ".add", entiteVarCapitalise, "(v.toString());");
-							tl(2, "});");
-						}
+						tl(2, "Optional.ofNullable((List<?>)solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\")).orElse(Arrays.asList()).stream().filter(v -> v != null).forEach(v -> {");
+						tl(3, "o", classeNomSimple, ".add", entiteVarCapitalise, "(v.toString());");
+						tl(2, "});");
 					}
 					else {
 						tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(Optional.ofNullable(solrDocument.get(\"", entiteVar, "_stored", entiteSuffixeType, "\")).map(v -> v.toString()).orElse(null));");
