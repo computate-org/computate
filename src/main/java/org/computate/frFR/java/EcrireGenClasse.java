@@ -604,11 +604,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: entityVarParam
 	 */
 	protected String entiteVarParam;
-
-	/**
-	 * Var.enUS: entityWrap
-	 */
 	protected Boolean entiteCouverture;
+	protected Boolean entitePromesse;
 
 	/**
 	 * Var.enUS: entityInitialized
@@ -620,10 +617,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected Boolean entiteInitLoin;
 	
-	/**
-	 * Var.enUS: writerGenClass
-	 */
 	protected ToutEcrivain auteurGenClasse;
+	protected ToutEcrivain auteurPageGenClasse = null;
+	protected ToutEcrivain auteurPageClasse = null;
+	protected ToutEcrivain auteurPageCss = null;
+	protected ToutEcrivain auteurPageJs = null;
+	protected ToutEcrivain auteurPageHbs = null;
+	protected ToutEcrivain auteurWebsocket = null;
 
 	/**
 	 * Var.enUS: entityIndex
@@ -1064,6 +1064,100 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wVarIndexe;
 	ToutEcrivain wVarRecherche;
 	ToutEcrivain wVarSuggere;
+
+	private Boolean entiteFacetsTrouves;
+
+	private List<String> methodeExceptionsNomSimpleComplet;
+
+	private List<String> entiteFacets;
+
+	private Boolean entiteExact;
+
+	private Boolean entiteClePrimaire;
+
+	private Boolean entiteCleUnique;
+
+	private Boolean entiteCrypte;
+
+	private Boolean entiteSauvegarde;
+
+	private Boolean entiteIncremente;
+
+	private Boolean entiteIgnorer;
+
+	private Boolean entiteSetTrim;
+
+	private Boolean entiteSetLower;
+
+	private Boolean entiteSetUpper;
+
+	private Boolean entiteDeclarer;
+
+	private Boolean entiteRechercher;
+
+	private String entiteAttribuerNomCanoniqueGenApiServiceImpl;
+
+	private String entiteAttribuerNomSimpleGenApiServiceImpl;
+
+	private String entiteAttribuerNomSimpleApiServiceImpl;
+
+	private Boolean entiteAjouter;
+
+	private Boolean entiteSupprimer;
+
+	private Boolean entiteRecharger;
+
+	private Boolean entiteCles;
+
+	private Boolean entiteIndexeOuStocke;
+
+	private boolean entiteContientRequeteSite;
+
+	private String entiteHtmlTooltip;
+
+	private List<String> entiteMethodesAvantVisibilite;
+
+	private List<String> entiteMethodesAvantVar;
+
+	private List<String> entiteMethodesAvantParamVar;
+
+	private List<String> entiteMethodesAvantParamNomSimple;
+
+	private List<Boolean> entiteMethodesAvantEcrire;
+
+	private List<Boolean> entiteMethodesAvantNomParam;
+
+	private List<String> entiteMethodesApresVisibilite;
+
+	private List<String> entiteMethodesApresVar;
+
+	private List<String> entiteMethodesApresParamVar;
+
+	private List<String> entiteMethodesApresParamNomSimple;
+
+	private List<Boolean> entiteMethodesApresNomParam;
+
+	private List<Boolean> entiteMethodesApresEcrire;
+
+	private List<String> entiteEcrireMethodes;
+
+	private List<String> entiteValsVar;
+
+	private List<String> entiteValsLangue;
+
+	private List<String> entiteValsCode;
+
+	private List<String> entiteValsValeur;
+
+	private String classePageChemin;
+
+	private String classePageCheminCss;
+
+	private String classePageCheminGen;
+
+	private String classePageCheminHbs;
+
+	private String classePageCheminJs;
 	
 	/** 
 	 * r: wInitLoin
@@ -2136,6 +2230,48 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public static final Integer ", classeNomSimple, "_", str_Lignes(langueNom), " = ", contexteRows, ";");
 		}
 
+		if(classePage) {
+			classePageCheminGen = (String)classeDoc.get("classePageCheminGen"  + "_" + langueNom + "_stored_string");
+			classePageChemin = (String)classeDoc.get("classePageChemin"  + "_" + langueNom + "_stored_string");
+			classePageCheminCss = (String)classeDoc.get("classePageCheminCss"  + "_" + langueNom + "_stored_string");
+			classePageCheminJs = (String)classeDoc.get("classePageCheminJs"  + "_" + langueNom + "_stored_string");
+			classePageCheminHbs = (String)classeDoc.get("classePageCheminHbs"  + "_" + langueNom + "_stored_string");
+		
+			File classePageFichierGen = null;
+			File classePageFichier = null;
+			File classePageFichierCss = null;
+			File classePageFichierJs = null;
+			File classePageFichierHbs = null;
+
+			if(classePageCheminGen != null)
+				classePageFichierGen = new File(classePageCheminGen);
+			if(classePageChemin != null)
+				classePageFichier = new File(classePageChemin);
+			if(classePageCheminCss != null)
+				classePageFichierCss = new File(classePageCheminCss);
+			if(classePageCheminJs != null)
+				classePageFichierJs = new File(classePageCheminJs);
+			if(classePageCheminHbs != null)
+				classePageFichierHbs = new File(classePageCheminHbs);
+
+			if(classePageFichierGen != null)
+				auteurPageGenClasse = ToutEcrivain.create(classePageFichierGen);
+			if(classePageFichier != null && !classePageFichier.exists())
+				auteurPageClasse = ToutEcrivain.create(classePageFichier);
+			if(classePageFichierCss != null) {
+				classePageFichierCss.getParentFile().mkdirs();
+				auteurPageCss = ToutEcrivain.create(classePageFichierCss);
+			}
+			if(classePageFichierJs != null) {
+				classePageFichierJs.getParentFile().mkdirs();
+				auteurPageJs = ToutEcrivain.create(classePageFichierJs);
+			}
+			if(classePageFichierHbs != null) {
+				classePageFichierHbs.getParentFile().mkdirs();
+				auteurPageHbs = ToutEcrivain.create(classePageFichierHbs);
+			}
+		}
+
 		for(String classePageMethode : classeApiMethodes) {
 
 			String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
@@ -2943,85 +3079,82 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: define
 	 */   
 	public void genCodeEntite(String langueNom) throws Exception {
-		String entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
-		String entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
-		String entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + langueNom + "_stored_string");
-		String entiteAttribuerVarSuggere = (String)doc.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
-		String entiteNomCanonique = (String)doc.get("entiteNomCanonique_" + langueNom + "_stored_string");
-		String entiteNomCanoniqueGenerique = (String)doc.get("entiteNomCanoniqueGenerique_" + langueNom + "_stored_string");
-		String entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
-		String entiteNomSimpleGenerique = (String)doc.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
-		String entiteNomSimpleCompletGenerique = (String)doc.get("entiteNomSimpleCompletGenerique_" + langueNom + "_stored_string");
-		String entiteNomSimple = (String)doc.get("entiteNomSimple_" + langueNom + "_stored_string");
-		String entiteCommentaire = (String)doc.get("entiteCommentaire_" + langueNom + "_stored_string");
-		String entiteVarParam = (String)doc.get("entiteVarParam_" + langueNom + "_stored_string");
-		String entiteAttribuerTypeJson = (String)doc.get("entiteAttribuerTypeJson_stored_string");
-		Boolean entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
-		Boolean entitePromesse = (Boolean)doc.get("entitePromesse_stored_boolean");
-		Boolean entiteInitialise = (Boolean)doc.get("entiteInitialise_stored_boolean");
-		Boolean entiteInitLoin = (Boolean)doc.get("entiteInitLoin_stored_boolean");
-		Boolean entiteFacetsTrouves = Optional.ofNullable((Boolean)doc.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
-		List<String> methodeExceptionsNomSimpleComplet = (List<String>)doc.get("methodeExceptionsNomSimpleComplet_stored_strings");
-		List<String> entiteFacets = Optional.ofNullable((List<String>)doc.get("entiteFacets_stored_strings")).orElse(Arrays.asList());
+		entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
+		entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
+		entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + langueNom + "_stored_string");
+		entiteAttribuerVarSuggere = (String)doc.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
+		entiteNomCanonique = (String)doc.get("entiteNomCanonique_" + langueNom + "_stored_string");
+		entiteNomCanoniqueGenerique = (String)doc.get("entiteNomCanoniqueGenerique_" + langueNom + "_stored_string");
+		entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
+		entiteNomSimpleGenerique = (String)doc.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
+		entiteNomSimpleCompletGenerique = (String)doc.get("entiteNomSimpleCompletGenerique_" + langueNom + "_stored_string");
+		entiteNomSimple = (String)doc.get("entiteNomSimple_" + langueNom + "_stored_string");
+		entiteCommentaire = (String)doc.get("entiteCommentaire_" + langueNom + "_stored_string");
+		entiteVarParam = (String)doc.get("entiteVarParam_" + langueNom + "_stored_string");
+		entiteAttribuerTypeJson = (String)doc.get("entiteAttribuerTypeJson_stored_string");
+		entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
+		entitePromesse = (Boolean)doc.get("entitePromesse_stored_boolean");
+		entiteInitialise = (Boolean)doc.get("entiteInitialise_stored_boolean");
+		entiteInitLoin = (Boolean)doc.get("entiteInitLoin_stored_boolean");
+		entiteFacetsTrouves = Optional.ofNullable((Boolean)doc.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
+		methodeExceptionsNomSimpleComplet = (List<String>)doc.get("methodeExceptionsNomSimpleComplet_stored_strings");
+		entiteFacets = Optional.ofNullable((List<String>)doc.get("entiteFacets_stored_strings")).orElse(Arrays.asList());
 
 		if(entiteNomCanonique != null) {
-	//		String entiteVarCleUniqueActuel = (String)doc.get("entiteVarCleUnique_stored_string");
-	//		if(StringUtils.isNotEmpty(entiteVarCleUniqueActuel))
-	//			entiteVarCleUnique = entiteVarCleUniqueActuel;
-			String entiteSolrNomCanonique = (String)doc.get("entiteSolrNomCanonique_stored_string");
-			String entiteSolrNomSimple = (String)doc.get("entiteSolrNomSimple_stored_string");
-			String entiteNomSimpleVertxJson = (String)doc.get("entiteNomSimpleVertxJson_stored_string");
-			String entiteNomCanoniqueVertxJson = (String)doc.get("entiteNomCanoniqueVertxJson_stored_string");
-			String entiteListeNomSimpleVertxJson = (String)doc.get("entiteListeNomSimpleVertxJson_stored_string");
-			String entiteListeNomCanoniqueVertxJson = (String)doc.get("entiteListeNomCanoniqueVertxJson_stored_string");
-	
-			Boolean entiteExact = (Boolean)doc.get("entiteExact_stored_boolean");
-			Boolean entiteClePrimaire = (Boolean)doc.get("entiteClePrimaire_stored_boolean");
-			Boolean entiteCleUnique = (Boolean)doc.get("entiteCleUnique_stored_boolean");
-			Boolean entiteCrypte = (Boolean)doc.get("entiteCrypte_stored_boolean");
-			Boolean entiteSuggere = (Boolean)doc.get("entiteSuggere_stored_boolean");
-			Boolean entiteSauvegarde = (Boolean)doc.get("entiteSauvegarde_stored_boolean");
-			Boolean entiteIndexe = (Boolean)doc.get("entiteIndexe_stored_boolean");
-			Boolean entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
-			Boolean entiteTexte = (Boolean)doc.get("entiteTexte_stored_boolean");
-			String entiteLangue = (String)doc.get("entiteLangue_stored_string");
-			Boolean entiteIncremente = (Boolean)doc.get("entiteIncremente_stored_boolean");
-			Boolean entiteIgnorer = (Boolean)doc.get("entiteIgnorer_stored_boolean");
-			Boolean entiteSetTrim = (Boolean)doc.get("entiteSetTrim_stored_boolean");
-			Boolean entiteSetLower = (Boolean)doc.get("entiteSetLower_stored_boolean");
-			Boolean entiteSetUpper = (Boolean)doc.get("entiteSetUpper_stored_boolean");
-			Boolean entiteDeclarer = (Boolean)doc.get("entiteDeclarer_stored_boolean");
-			Boolean entiteRechercher = (Boolean)doc.get("entiteRechercher_stored_boolean");
-			Boolean entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
-			String entiteAttribuerNomCanonique = (String)doc.get("entiteAttribuerNomCanonique_" + langueNom + "_stored_string");
-			String entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
-			String entiteAttribuerNomCanoniqueGenApiServiceImpl = (String)doc.get("entiteAttribuerNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
-			String entiteAttribuerNomSimpleGenApiServiceImpl = (String)doc.get("entiteAttribuerNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
-			String entiteAttribuerNomSimpleApiServiceImpl = (String)doc.get("entiteAttribuerNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
-			String entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
-			String entiteAttribuerVarUrlId = (String)doc.get("entiteAttribuerVarUrlId_" + langueNom + "_stored_string");
-			String entiteAttribuerVarUrlPk = (String)doc.get("entiteAttribuerVarUrlPk_" + langueNom + "_stored_string");
-			String entiteAttribuerVarId = (String)doc.get("entiteAttribuerVarId_" + langueNom + "_stored_string");
-			String entiteAttribuerVarTitre = (String)doc.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
-			String entiteAttribuerVarDescription = (String)doc.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
-			String entiteAttribuerVarImageUrl = (String)doc.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
-			Boolean entiteAttribuerUtilisateurEcrire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerUtilisateurEcrire_stored_boolean"));
-			Boolean entiteAttribuerSessionEcrire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerSessionEcrire_stored_boolean"));
-			Boolean entiteAttribuerPublicLire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerPublicLire_stored_boolean"));
-			List<String> entiteAttribuerClasseRoles = (List<String>)doc.get("entiteAttribuerClasseRoles_stored_strings");
-			List<String> entiteAttribuerClasseRolesLangue = (List<String>)doc.get("entiteAttribuerClasseRolesLangue_stored_strings");
-			Boolean entiteAjouter = (Boolean)doc.get("entiteAjouter_stored_boolean");
-			Boolean entiteSupprimer = (Boolean)doc.get("entiteSupprimer_stored_boolean");
-			Boolean entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");
-			Boolean entiteRecharger = (Boolean)doc.get("entiteRecharger_stored_boolean");
-			Boolean entiteMultiligne = (Boolean)doc.get("entiteMultiligne_stored_boolean");
-			Boolean entiteSignature = (Boolean)doc.get("entiteSignature_stored_boolean");
-			String entiteImageBase64Url = (String)doc.get("entiteImageBase64Url_" + langueNom + "_stored_string");
-			Boolean entiteCles = (Boolean)doc.get("entiteCles_stored_boolean");
-			Boolean entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
-			Boolean entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
-			Boolean entiteContientRequeteSite = BooleanUtils.isTrue((Boolean)doc.get("entiteContientRequeteSite_stored_boolean"));
-			String entiteListeTypeJson = (String)doc.get("entiteListeTypeJson_stored_string");
+			entiteSolrNomCanonique = (String)doc.get("entiteSolrNomCanonique_stored_string");
+			entiteSolrNomSimple = (String)doc.get("entiteSolrNomSimple_stored_string");
+			entiteNomSimpleVertxJson = (String)doc.get("entiteNomSimpleVertxJson_stored_string");
+			entiteNomCanoniqueVertxJson = (String)doc.get("entiteNomCanoniqueVertxJson_stored_string");
+			entiteListeNomSimpleVertxJson = (String)doc.get("entiteListeNomSimpleVertxJson_stored_string");
+			entiteListeNomCanoniqueVertxJson = (String)doc.get("entiteListeNomCanoniqueVertxJson_stored_string");
+
+			entiteExact = (Boolean)doc.get("entiteExact_stored_boolean");
+			entiteClePrimaire = (Boolean)doc.get("entiteClePrimaire_stored_boolean");
+			entiteCleUnique = (Boolean)doc.get("entiteCleUnique_stored_boolean");
+			entiteCrypte = (Boolean)doc.get("entiteCrypte_stored_boolean");
+			entiteSuggere = (Boolean)doc.get("entiteSuggere_stored_boolean");
+			entiteSauvegarde = (Boolean)doc.get("entiteSauvegarde_stored_boolean");
+			entiteIndexe = (Boolean)doc.get("entiteIndexe_stored_boolean");
+			entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
+			entiteTexte = (Boolean)doc.get("entiteTexte_stored_boolean");
+			entiteLangue = (String)doc.get("entiteLangue_stored_string");
+			entiteIncremente = (Boolean)doc.get("entiteIncremente_stored_boolean");
+			entiteIgnorer = (Boolean)doc.get("entiteIgnorer_stored_boolean");
+			entiteSetTrim = (Boolean)doc.get("entiteSetTrim_stored_boolean");
+			entiteSetLower = (Boolean)doc.get("entiteSetLower_stored_boolean");
+			entiteSetUpper = (Boolean)doc.get("entiteSetUpper_stored_boolean");
+			entiteDeclarer = (Boolean)doc.get("entiteDeclarer_stored_boolean");
+			entiteRechercher = (Boolean)doc.get("entiteRechercher_stored_boolean");
+			entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
+			entiteAttribuerNomCanonique = (String)doc.get("entiteAttribuerNomCanonique_" + langueNom + "_stored_string");
+			entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
+			entiteAttribuerNomCanoniqueGenApiServiceImpl = (String)doc.get("entiteAttribuerNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
+			entiteAttribuerNomSimpleGenApiServiceImpl = (String)doc.get("entiteAttribuerNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
+			entiteAttribuerNomSimpleApiServiceImpl = (String)doc.get("entiteAttribuerNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
+			entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
+			entiteAttribuerVarUrlId = (String)doc.get("entiteAttribuerVarUrlId_" + langueNom + "_stored_string");
+			entiteAttribuerVarUrlPk = (String)doc.get("entiteAttribuerVarUrlPk_" + langueNom + "_stored_string");
+			entiteAttribuerVarId = (String)doc.get("entiteAttribuerVarId_" + langueNom + "_stored_string");
+			entiteAttribuerVarTitre = (String)doc.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
+			entiteAttribuerVarDescription = (String)doc.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
+			entiteAttribuerVarImageUrl = (String)doc.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
+			entiteAttribuerUtilisateurEcrire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerUtilisateurEcrire_stored_boolean"));
+			entiteAttribuerSessionEcrire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerSessionEcrire_stored_boolean"));
+			entiteAttribuerPublicLire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerPublicLire_stored_boolean"));
+			entiteAttribuerClasseRoles = (List<String>)doc.get("entiteAttribuerClasseRoles_stored_strings");
+			entiteAttribuerClasseRolesLangue = (List<String>)doc.get("entiteAttribuerClasseRolesLangue_stored_strings");
+			entiteAjouter = (Boolean)doc.get("entiteAjouter_stored_boolean");
+			entiteSupprimer = (Boolean)doc.get("entiteSupprimer_stored_boolean");
+			entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");
+			entiteRecharger = (Boolean)doc.get("entiteRecharger_stored_boolean");
+			entiteMultiligne = (Boolean)doc.get("entiteMultiligne_stored_boolean");
+			entiteSignature = (Boolean)doc.get("entiteSignature_stored_boolean");
+			entiteImageBase64Url = (String)doc.get("entiteImageBase64Url_" + langueNom + "_stored_string");
+			entiteCles = (Boolean)doc.get("entiteCles_stored_boolean");
+			entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
+			entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
+			entiteContientRequeteSite = BooleanUtils.isTrue((Boolean)doc.get("entiteContientRequeteSite_stored_boolean"));
+			entiteListeTypeJson = (String)doc.get("entiteListeTypeJson_stored_string");
 			entiteAttribuerContexteUnNom = (String)doc.get("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
 			entiteAttribuerContexteNomPluriel = (String)doc.get("entiteAttribuerContexteNomPluriel_" + langueNom + "_stored_string");
 			entiteAttribuerContexteCouleur = (String)doc.get("entiteAttribuerContexteCouleur_stored_string");
@@ -3030,27 +3163,27 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteAttribuerPageUri = (String)doc.get("entiteAttribuerPageUri_" + langueNom + "_stored_string");
 			entiteTypeJson = (String)doc.get("entiteTypeJson_stored_string");
 	
-			String entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
-			String entiteHtmlTooltip = (String)doc.get("entiteHtmlTooltip_" + langueNom + "_stored_string");
-			Boolean entiteHtml = (Boolean)doc.get("entiteHtml_stored_boolean");
+			entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
+			entiteHtmlTooltip = (String)doc.get("entiteHtmlTooltip_" + langueNom + "_stored_string");
+			entiteHtml = (Boolean)doc.get("entiteHtml_stored_boolean");
 
 			entiteClassesSuperEtMoiSansGen = (List<String>)doc.get("entiteClassesSuperEtMoiSansGen_stored_strings");
 	
-			List<String> entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
-			List<String> entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_" + langueNom + "_stored_strings");
-			List<String> entiteMethodesAvantParamVar = (List<String>)doc.get("entiteMethodesAvantParamVar_" + langueNom + "_stored_strings");
-			List<String> entiteMethodesAvantParamNomSimple = (List<String>)doc.get("entiteMethodesAvantParamNomSimple_" + langueNom + "_stored_strings");
-			List<Boolean> entiteMethodesAvantNomParam = (List<Boolean>)doc.get("entiteMethodesAvantNomParam_stored_booleans");
-			List<Boolean> entiteMethodesAvantEcrire = (List<Boolean>)doc.get("entiteMethodesAvantEcrire_stored_booleans");
+			entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
+			entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_" + langueNom + "_stored_strings");
+			entiteMethodesAvantParamVar = (List<String>)doc.get("entiteMethodesAvantParamVar_" + langueNom + "_stored_strings");
+			entiteMethodesAvantParamNomSimple = (List<String>)doc.get("entiteMethodesAvantParamNomSimple_" + langueNom + "_stored_strings");
+			entiteMethodesAvantNomParam = (List<Boolean>)doc.get("entiteMethodesAvantNomParam_stored_booleans");
+			entiteMethodesAvantEcrire = (List<Boolean>)doc.get("entiteMethodesAvantEcrire_stored_booleans");
 	
-			List<String> entiteMethodesApresVisibilite = (List<String>)doc.get("entiteMethodesApresVisibilite_stored_strings");
-			List<String> entiteMethodesApresVar = (List<String>)doc.get("entiteMethodesApresVar_" + langueNom + "_stored_strings");
-			List<String> entiteMethodesApresParamVar = (List<String>)doc.get("entiteMethodesApresParamVar_" + langueNom + "_stored_strings");
-			List<String> entiteMethodesApresParamNomSimple = (List<String>)doc.get("entiteMethodesApresParamNomSimple_" + langueNom + "_stored_strings");
-			List<Boolean> entiteMethodesApresNomParam = (List<Boolean>)doc.get("entiteMethodesApresNomParam_stored_booleans");
-			List<Boolean> entiteMethodesApresEcrire = (List<Boolean>)doc.get("entiteMethodesApresEcrire_stored_booleans");
+			entiteMethodesApresVisibilite = (List<String>)doc.get("entiteMethodesApresVisibilite_stored_strings");
+			entiteMethodesApresVar = (List<String>)doc.get("entiteMethodesApresVar_" + langueNom + "_stored_strings");
+			entiteMethodesApresParamVar = (List<String>)doc.get("entiteMethodesApresParamVar_" + langueNom + "_stored_strings");
+			entiteMethodesApresParamNomSimple = (List<String>)doc.get("entiteMethodesApresParamNomSimple_" + langueNom + "_stored_strings");
+			entiteMethodesApresNomParam = (List<Boolean>)doc.get("entiteMethodesApresNomParam_stored_booleans");
+			entiteMethodesApresEcrire = (List<Boolean>)doc.get("entiteMethodesApresEcrire_stored_booleans");
 
-			List<String> entiteEcrireMethodes = (List<String>)doc.get("entiteEcrireMethodes_stored_strings");
+			entiteEcrireMethodes = (List<String>)doc.get("entiteEcrireMethodes_stored_strings");
 			if(entiteEcrireMethodes == null)
 				entiteEcrireMethodes = new ArrayList<>();
 			if(classeEcrireMethodes != null) {
@@ -3080,10 +3213,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			l();
 
 			ToutEcrivain entiteValsEcrivain = ToutEcrivain.create();
-			List<String> entiteValsVar = (List<String>)doc.get("entiteValsVar_stored_strings");
-			List<String> entiteValsLangue = (List<String>)doc.get("entiteValsLangue_stored_strings");
-			List<String> entiteValsCode = (List<String>)doc.get("entiteValsCode_stored_strings");
-			List<String> entiteValsValeur = (List<String>)doc.get("entiteValsValeur_stored_strings");
+			entiteValsVar = (List<String>)doc.get("entiteValsVar_stored_strings");
+			entiteValsLangue = (List<String>)doc.get("entiteValsLangue_stored_strings");
+			entiteValsCode = (List<String>)doc.get("entiteValsCode_stored_strings");
+			entiteValsValeur = (List<String>)doc.get("entiteValsValeur_stored_strings");
 			if(entiteValsVar != null && entiteValsLangue != null && entiteValsValeur != null) {
 				String entiteValVarAncien = null;
 				Integer entiteValVarNumero = 0;
@@ -4378,594 +4511,8 @@ public class EcrireGenClasse extends EcrireClasse {
 							if(classeEstBase) {
 								classePrefixe = "s.";
 							}
-		
-							///////////
-							// input //
-							///////////
-				
-							l();
-							tl(1, "public void input", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
-							tl(2, classeNomSimple, " s = (", classeNomSimple, ")this;");
-				
-							if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
-	
-								if(classeUtilisateurEcrire && classeSessionEcrire) {
-									t(tIndex + 2).s(classePrefixe, "if(").l();
-									t(tIndex + 4).s(classePrefixe, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
-									t(tIndex + 4).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
-									t(tIndex + 4).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)").l();
-									t(tIndex + 4).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)").l();
-									t(tIndex + 2).s(classePrefixe, ") {").l();
-								}
-								else if(classePublicLire) {
-									tl(tIndex + 2, "if(");
-									tl(tIndex + 4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-									tl(tIndex + 4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-									tl(tIndex + 4, ") {");
-								}
-								else if(classeUtilisateurEcrire) {
-									if(classeRolesTrouves || classeRoleLiresTrouves) {
-										tl(tIndex + 2, "if(");
-										tl(tIndex + 4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-										tl(tIndex + 4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-										tl(tIndex + 4, ") {");
-									}
-									else {
-										t(tIndex + 2).s(classePrefixe, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
-									}
-								}
-								else if(classeSessionEcrire) {
-									t(tIndex + 2).s(classePrefixe, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
-								}
-								else if(classeRolesTrouves || classeRoleLiresTrouves) {
-									tl(tIndex + 2, "if(");
-									tl(tIndex + 4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-									tl(tIndex + 4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-									tl(tIndex + 4, ") {");
-								}
-								else {
-									t(tIndex + 2).s(classePrefixe, "{").l();
-								}
-	
-								if(entiteAttribuer) {
-									t(tIndex + 3).s(classePrefixe, "e(\"i\")").da("class", "far fa-search w3-xxlarge w3-cell w3-cell-middle ").df().dgl("i");
-	
-									t(tIndex + 3).l("if(\"", str_PUTCopie(langueNom), "\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 4).l(classePrefixe, "{ e(\"div\").f();");
-									t(tIndex + 5).s(classePrefixe, "e(\"input\")").l();
-									t(tIndex + 6).dal("type", "checkbox");
-									t(tIndex + 6).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "_", str_vider(langueNom), "\")");
-									t(tIndex + 6).l(".a(\"class\", \"", entiteVar, "_", str_vider(langueNom), " \")");
-									t(tIndex + 6).l(".fg();");
-									t(tIndex + 5).s(classePrefixe, "e(\"label\")").da("for", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "_", str_vider(langueNom)).df().dsxq(str_vider(langueNom)).dgl("label");
-									t(tIndex + 4).l(classePrefixe, "} g(\"div\");");
-									t(tIndex + 3).l("}");
-	
-									t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
-									t(tIndex + 4).dal("type", "text");
-					
-									if(entiteNomAffichage != null) {
-										t(tIndex + 4).dal("placeholder", entiteNomAffichage);
-									}
-									if(entiteDescription != null) {
-										t(tIndex + 4).dal("title", entiteDescription);
-									}
-					
-	//								t(tIndex + 4).s(classePrefixe).s(".a(\"class\", \"", "set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
-									t(tIndex + 4).dal("class", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", str_suggere(langueNom), entiteVarCapitalise, " w3-input w3-border w3-cell w3-cell-middle ");
-									t(tIndex + 4).dal("name", "set", entiteVarCapitalise);
-									t(tIndex + 4).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-									t(tIndex + 4).l(".a(\"autocomplete\", \"", "off\");");
-									t(tIndex + 4).s("a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
-									s("\", ", classeVarClePrimaire, " == null ? \"\" : \"{'name':'fq','value':'", entiteAttribuerVar, ":\" + ", classeVarClePrimaire, " + \"'}\", \"");
-									l("], $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ", \"'), \", ", classeVarClePrimaire, ", \"); \");");
-									l();
-				
-									t(tIndex + 4).fgl();
-									l();
-								}
-								else if("LocalDate".equals(entiteNomSimple)) {
-									t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
-									t(tIndex + 5).dal("type", "text");
-									t(tIndex + 5).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
-									t(tIndex + 5).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
-									t(tIndex + 5).dal("data-timeformat", str_ddDashMMDashyyyy(langueNom));
-									t(tIndex + 5).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-									if(entiteDescription != null)
-										t(tIndex + 5).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
-									tl(tIndex + 5, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_ddDashMMDashyyyy(langueNom), "\").format(", entiteVar, "));");
-									t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 4).l("a(\"onclick\", \"", str_enleverLueur(langueNom), "($(this)); \");");
-									t(tIndex + 4).s("a(\"onchange\", \"");
-										s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
-										s("if(t) { ");
-											s("var s = t.format('YYYY-MM-DD'); ");
-											s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
-										s("} ");
-									l("\");");
-									t(tIndex + 3).l("}");
-									tl(tIndex + 3, "fg();");
-								}
-								else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
-									t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
-									t(tIndex + 5).dal("type", "text");
-									t(tIndex + 5).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
-									t(tIndex + 5).dal("placeholder", str_DDDashMMDashYYYY_HHColonMM(langueNom));
-									t(tIndex + 5).dal("data-timeformat", str_ddDashMMDashyyyy(langueNom));
-									t(tIndex + 5).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-									if(entiteDescription != null)
-										t(tIndex + 5).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
-									tl(tIndex + 4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV(langueNom), "\").format(", entiteVar, "));");
-									t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 4).l("a(\"onclick\", \"", str_enleverLueur(langueNom), "($(this)); \");");
-									t(tIndex + 4).s("a(\"onchange\", \"");
-										s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
-										s("if(t) { ");
-											s("var s = t.format('YYYY-MM-DD'); ");
-											s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
-										s("} ");
-									l("\");");
-									t(tIndex + 3).l("}");
-									tl(tIndex + 3, "fg();");
-								}
-								else if("LocalTime".equals(entiteNomSimple)) {
-									t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
-									t(tIndex + 5).dal("type", "text");
-									t(tIndex + 5).s(classePrefixe).s(".a(\"class\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
-									t(tIndex + 5).dal("placeholder", str_HHColonMM(langueNom));
-									t(tIndex + 5).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-									if(entiteDescription != null)
-										t(tIndex + 5).da("title", entiteDescription + " (", str_HAposhAposmm(langueNom), ")");
-									tl(tIndex + 5, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_HAposhAposmm(langueNom), "\").format(", entiteVar, "));");
-									t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 4).l("a(\"onclick\", \"", str_enleverLueur(langueNom), "($(this)); \");");
-									t(tIndex + 4).s("a(\"onchange\", \"");
-										s("var t = moment(this.value, '", str_HAposhAposmm(langueNom), "'); ");
-										s("if(t) { ");
-											s("var s = t.format('HH:mm'); ");
-											s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); ");
-										s("} ");
-									l("\");");
-									t(tIndex + 3).l("}");
-									tl(tIndex + 3, "fg();");
-								}
-								else if("Boolean".equals(entiteNomSimple)) {
-									t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 4).s(classePrefixe, "e(\"input\")").l();
-									t(tIndex + 5).dal("type", "checkbox");
-									t(tIndex + 5).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")");
-									t(tIndex + 5).da("value", "true").l(";");
-									t(tIndex + 3).l("} else {");
-									t(tIndex + 4).s(classePrefixe, "e(\"select\")").l();
-									t(tIndex + 5).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\");");
-									t(tIndex + 3).l("}");
-					
-									t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-										t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
-										t(tIndex + 4).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
-									t(tIndex + 3).l("} else {");
-										t(tIndex + 4).s(classePrefixe).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
-										t(tIndex + 4).s(classePrefixe).a("name", entiteVar).l(";");
-									t(tIndex + 3).l("}");
-									t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-										t(tIndex + 4).s(classePrefixe).s("a(\"onchange\", \"patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")").l(";");
-									t(tIndex + 3).l("}");
-					
-									t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									tl(tIndex + 4, "if(get", entiteVarCapitalise, "() != null && get", entiteVarCapitalise, "())");
-									t(tIndex + 5).s(classePrefixe).a("checked", "checked").l(";");
-									t(tIndex + 4).s(classePrefixe).fgl();
-									t(tIndex + 3).l("} else {");
-									t(tIndex + 4).s(classePrefixe, "f();").l();
-									t(tIndex + 4).s(classePrefixe, "e(\"option\").a(\"value\", \"\").a(\"selected\", \"selected\").f().g(\"option\");").l();
-									t(tIndex + 4).s(classePrefixe, "e(\"option\").a(\"value\", \"true\").f().sx(\"true\").g(\"option\");").l();
-									t(tIndex + 4).s(classePrefixe, "e(\"option\").a(\"value\", \"false\").f().sx(\"false\").g(\"option\");").l();
-									t(tIndex + 4).s(classePrefixe, "g(\"select\");").l();
-									t(tIndex + 3).l("}");
-									l();
-								}
-								else if(entiteImageBase64Url != null) {
-									t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"class\", \"imageBase64Div1", classeNomSimple, "_", entiteVar, "\").a(\"id\", \"imageBase64Div1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
-	
-									t(tIndex + 4).s(classePrefixe, "e(\"h5\").f().sx(\"", str_Télécharger_image(langueNom), "\").g(\"h5\"); ").l();
-									t(tIndex + 4).s(classePrefixe, "e(\"form\").a(\"method\", \"POST\").a(\"enctype\", \"multipart/form-data\").a(\"action\", \"", entiteImageBase64Url, "\").a(\"class\", \"\").f();").l();
-									t(tIndex + 4).s(classePrefixe, "e(\"input\").a(\"type\", \"hidden\").a(\"name\", \"", classeVarClePrimaire, "\").a(\"value\", ", classeVarClePrimaire, ").fg(); ").l();
-									t(tIndex + 4).s(classePrefixe, "e(\"input\").a(\"type\", \"hidden\").a(\"name\", \"", str_classeNomSimple(langueNom), "\").a(\"value\", \"", classeNomSimple, "\").fg(); ").l();
-									t(tIndex + 4).s(classePrefixe, "e(\"input\").a(\"name\", \"", str_fichier(langueNom), "\").a(\"type\", \"file\").a(\"onchange\", \"$.ajax({ type: 'POST', enctype: 'multipart/form-data', url: '", entiteImageBase64Url, "', data: new FormData(this.form), processData: false, contentType: false}); \").fg(); ").l();
-									t(tIndex + 4).s(classePrefixe, "g(\"form\");").l();
-	
-									t(tIndex + 4).s(classePrefixe, "e(\"img\").a(\"id\", \"imageBase64Img", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
-									t(tIndex + 5).s(classePrefixe, "a(\"class\", \"img", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-image ").l("\");");
-									t(tIndex + 5).s(classePrefixe, "a(\"src\", StringUtils.isBlank(", entiteVar, ") ? \"data:image/png;base64,\" : ", entiteVar, ").a(\"alt\", \"\");").l();
-									t(tIndex + 4).s(classePrefixe, "fg();").l();
-	
-									t(tIndex + 3).s(classePrefixe, "g(\"div\");").l();
-								}
-								else if(BooleanUtils.isTrue(entiteSignature)) {
-									t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"class\", \"signatureDiv1", classeNomSimple, "_", entiteVar, " signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, "\").a(\"id\", \"signatureDiv1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
-	
-									t(tIndex + 4).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
-									t(tIndex + 5).s(classePrefixe, "a(\"style\", \"display: \", StringUtils.isBlank(", entiteVar, ") ? \"block\" : \"none\", \"; \");").l();
-									t(tIndex + 4).s(classePrefixe, "f().g(\"div\");").l();
-	
-									t(tIndex + 4).s(classePrefixe, "e(\"img\").a(\"id\", \"signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
-									t(tIndex + 5).s(classePrefixe, "a(\"class\", \"signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \");").l();
-									t(tIndex + 5).s(classePrefixe, "a(\"src\", StringUtils.isBlank(", entiteVar, ") ? \"data:image/png;base64,\" : ", entiteVar, ").a(\"alt\", \"\");").l();
-									t(tIndex + 5).s(classePrefixe, "a(\"style\", \"padding: 10px; display: \", StringUtils.isBlank(", entiteVar, ") ? \"none\" : \"block\", \"; \");").l();
-									t(tIndex + 4).s(classePrefixe, "fg();").l();
-	
-									t(tIndex + 3).s(classePrefixe, "g(\"div\");").l();
-									t(tIndex + 3).s(classePrefixe, "e(\"div\").a(\"id\", \"signatureDiv2", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
-	
-									t(tIndex + 4).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Vider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
-									t(tIndex + 5).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
-									t(tIndex + 5).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
-									t(tIndex + 6).s(classePrefixe, "s(\"$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').show(); ", "\");").l();
-									t(tIndex + 6).s(classePrefixe, "s(\"$('#signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').hide(); ", "\");").l();
-									t(tIndex + 6).s(classePrefixe, "s(\"", str_enleverLueur(langueNom), "($('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')); ", "\");").l();
-									t(tIndex + 6).s(classePrefixe).s("s(\"patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', null); \")").l(";");
-									t(tIndex + 6).s(classePrefixe, "s(\"if($('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')) { ", "\");").l();
-									t(tIndex + 6).s(classePrefixe, "s(\"$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('reset'); ", "\");").l();
-									t(tIndex + 6).s(classePrefixe, "s(\" } else { ", "\");").l();
-									t(tIndex + 6).s(classePrefixe, "s(\"$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature({'height':200}); ", "\");").l();
-									t(tIndex + 6).s(classePrefixe, "s(\" } ", "\");").l();
-									t(tIndex + 5).s(classePrefixe, "s(\"\\\"",  "\");").l();
-									t(tIndex + 5).s(classePrefixe, "f().sx(\"", str_Vider(langueNom), "\");").l();
-									t(tIndex + 4).s(classePrefixe, "g(\"button\");").l();
-	//
-	//								t(tIndex + 4).s(classePrefixe, "e(\"button\").a(\"id\", \"signatureButton", str_Valider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
-	//								t(tIndex + 5).s(classePrefixe, "a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
-	//								t(tIndex + 5).s(classePrefixe, "s(\" onclick=\", \"\\\"",  "\");").l();
-	//								t(tIndex + 6).s(classePrefixe, "s(\"var src = $('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('getData', 'default'); ", "\"); ").l();
-	//								t(tIndex + 6).s(classePrefixe).s("s(\"patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', src); \")").l(";");
-	//								t(tIndex + 5).s(classePrefixe, "s(\"\\\"",  "\");").l();
-	//								t(tIndex + 5).s(classePrefixe, "f().sx(\"", str_ValiderLaSignature(langueNom), "\");").l();
-	//								t(tIndex + 4).s(classePrefixe, "g(\"button\");").l();
-	
-									t(tIndex + 3).s(classePrefixe, "g(\"div\");").l();
-	
-								}
-								else {
-									if(entiteMultiligne)
-										t(tIndex + 3).s(classePrefixe, "e(\"textarea\")").l();
-									else {
-										t(tIndex + 3).s(classePrefixe, "e(\"input\")").l();
-										t(tIndex + 4).dal("type", "text");
-									}
-					
-									if(entiteNomAffichage != null) {
-										t(tIndex + 4).dal("placeholder", entiteNomAffichage);
-									}
-									if(entiteDescription != null) {
-										t(tIndex + 4).dal("title", entiteDescription);
-									}
-									t(tIndex + 4).s(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").l(";");
-	
-									t(tIndex + 4).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ") || \"PATCH\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-										t(tIndex + 5).s(classePrefixe).s("a(\"class\", \"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
-										t(tIndex + 5).s(classePrefixe).a("name", "set", entiteVarCapitalise).l(";");
-									t(tIndex + 4).l("} else {");
-										t(tIndex + 5).s(classePrefixe).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
-										t(tIndex + 5).s(classePrefixe).a("name", entiteVar).l(";");
-									t(tIndex + 4).l("}");
-									t(tIndex + 4).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-										t(tIndex + 5).s(classePrefixe).a("onclick", str_enleverLueur(langueNom), "($(this)); ").l(";");
-										t(tIndex + 5).s(classePrefixe).s("a(\"onchange\", \"patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")").l(";");
-									t(tIndex + 4).l("}");
-					
-									if(entiteMultiligne) {
-										t(tIndex + 3).s("f()");
-										s(".sx(str", entiteVarCapitalise, "())");
-									}
-									else {
-										t(tIndex + 4).s(classePrefixe).s("a(\"value\", str", entiteVarCapitalise, "())").l();
-									}
-					
-									if(entiteMultiligne)
-										dgl("textarea");
-									else
-										t(tIndex + 3).dfgl();
-					
-									l();
-								}
-	
-								if(entiteAttribuer) {
-									t(tIndex + 2).s("} else {").l();
-								}
-								else if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
-									t(tIndex + 2).s("} else {").l();
-									t(tIndex + 3).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
-								}
-								else if(classeUtilisateurEcrire) {
-									if(classeRolesTrouves || classeRoleLiresTrouves) {
-										t(tIndex + 2).s("} else {").l();
-										t(tIndex + 4).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
-									}
-									else {
-										t(tIndex + 2).s("} else {").l();
-										t(tIndex + 3).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
-									}
-								}
-								else if(classeSessionEcrire) {
-									t(tIndex + 2).s("} else {").l();
-									t(tIndex + 3).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
-								}
-								else if(classeRolesTrouves || classeRoleLiresTrouves) {
-									t(tIndex + 2).s("} else {").l();
-									tl(tIndex + 3, "if(");
-									tl(tIndex + 5, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-									tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-									if(classeRoleLiresTrouves) {
-										tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLE_READS)");
-										tl(tIndex + 5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
-									}
-									tl(tIndex + 4, ") {");
-									t(tIndex + 4).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
-									tl(tIndex + 3, "}");
-								}
-								else {
-	//								t(tIndex + 3).s(classePrefixe, "sx(htm", entiteVarCapitalise, "());").l();
-								}
-								t(tIndex + 2).s("}").l();
-							}
-							else if(!entiteModifier) {
-								t(tIndex + 2).s(classePrefixe).s("e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
-							}
-							tl(1, "}");  
-	
-							/////////
-							// htm //
-							/////////
-				
-							l();
-							tl(1, "public void htm", entiteVarCapitalise, "(String ", str_classeApiMethodeMethode(langueNom), ") {");
-							tl(2, classeNomSimple, " s = (", classeNomSimple, ")this;");
-							t(2).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-cell-top w3-center w3-mobile ").dfl();
-							if(entiteHtml && (entiteDefinir || entiteAttribuer)) {
-				
-								t(tIndex + 3).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-padding ").dfl();
-	//							t(tIndex + 4).s("{ ", classePrefixe, "e(\"span\")").da("id", "form", classeNomSimple, entiteVarCapitalise).dfl();
-	//							t(tIndex + 5).s(classePrefixe, "e(\"input\")").l();
-	//							t(tIndex + 6).dal("type", "hidden");
-	//							t(tIndex + 6).dal("name", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVar));
-	//							t(tIndex + 6).dal("class", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVar), " ");
-	//							t(tIndex + 6).l(".a(\"value\", ", classeVarClePrimaire, ")");
-	//							t(tIndex + 6).dfgl();
-	//							t(tIndex + 4).l("} ", classePrefixe, "g(\"span\");");
-				//				t(tIndex + 4).s("{ ", classePrefixe, "e(\"form\")").da("action", classeApiUri).da("id", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise).da("style", "display: inline-block; width: 100%; ").da("onsubmit", "event.preventDefault(); return false; ").dfl();
-								t(tIndex + 4).s("{ ", classePrefixe, "e(\"div\")").s(".a(\"id\", \"", str_suggere(langueNom), "\", ", str_classeApiMethodeMethode(langueNom), ", \"", classeNomSimple, entiteVarCapitalise, "\")").dfl();
-								t(tIndex + 5).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-card ").dfl();
-				
-								if(entiteAttribuer) {
-									if(entiteNomAffichage != null) {
-										t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();
-										t(tIndex + 7).s("{ ", classePrefixe, "e(\"a\")").s(".a(\"href\", \"", entiteAttribuerPageUri, "?fq=", entiteAttribuerVar, ":\", ", classeVarClePrimaire, ")").da("class", "w3-cell w3-btn w3-center h4 w3-block h4 w3-", entiteAttribuerContexteCouleur, " w3-hover-", entiteAttribuerContexteCouleur, " ").dfl();
-										if(entiteAttribuerContexteIconeGroupe != null && entiteAttribuerContexteIconeNom != null)
-											t(tIndex + 8).s(classePrefixe, "e(\"i\")").da("class", "fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " ").df().dgl("i");
-										t(tIndex + 8).sxqscl(entiteNomAffichage);
-										t(tIndex + 7).l("} ", classePrefixe, "g(\"a\");");
-										t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-									}
-									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();
-									t(tIndex + 7).s("{ ", classePrefixe, "e(\"h5\")").da("class", "w3-cell ").dfl();
-									t(tIndex + 8).sxqscl(str_relier(langueNom), " ", entiteListeTypeJson == null ? entiteAttribuerContexteUnNom : entiteAttribuerContexteNomPluriel, " ", str_a(langueNom), " ", contexteCeNom);
-									t(tIndex + 7).l("} ", classePrefixe, "g(\"h5\");");
-									t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-padding ").dfl();
-									t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
-									t(tIndex + 8).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();
-									l();
-					
-									t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
-									t(tIndex + 8).l("} ", classePrefixe, "g(\"div\");");
-									t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
-									t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-padding ").dfl();
-									t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
-									t(tIndex + 8).s("{ ", classePrefixe, "e(\"ul\")").da("class", "w3-ul w3-hoverable ").s(".a(\"id\", \"list", classeNomSimple, entiteVarCapitalise, "_\", ", str_classeApiMethodeMethode(langueNom), ")").dfl();
-									t(tIndex + 8).l("} ", classePrefixe, "g(\"ul\");");
-	
-	
-									if(entiteAttribuerUtilisateurEcrire && entiteAttribuerSessionEcrire) {
-										t(tIndex + 8).s(classePrefixe, "{").l();
-									}
-									else if(entiteAttribuerUtilisateurEcrire) {
-										if(entiteAttribuerClasseRoles != null && entiteAttribuerClasseRoles.size() > 0) {
-											tl(tIndex + 8, "if(");
-											tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
-											tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
-											tl(tIndex + 10, ") {");
-										}
-										else {
-											t(tIndex + 8).s(classePrefixe, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
-										}
-									}
-									else if(entiteAttribuerSessionEcrire) {
-										t(tIndex + 8).s(classePrefixe, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
-									}
-									else {
-										if(classeRolesTrouves || classeRoleLiresTrouves) {
-											tl(tIndex + 8, "if(");
-											tl(tIndex + 10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
-											tl(tIndex + 10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
-											tl(tIndex + 10, ") {");
-										}
-										else {
-											t(tIndex + 8).s(classePrefixe, "{").l();
-										}
-									}
-	
-									t(tIndex + 9).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-									t(tIndex + 10).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row ").dfl();
-									t(tIndex + 11).s(classePrefixe, "e(\"button\")").l();
-									t(tIndex + 12).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
-									t(tIndex + 12).l(".a(\"id\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "_", str_ajouter(langueNom), "\")");
-				
-									if("array".equals(entiteAttribuerTypeJson))
-										t(tIndex + 12).s(".a(\"onclick\", \"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", ", classeVarClePrimaire, ", \"\\\" ] }");
-									else
-										t(tIndex + 12).s(".a(\"onclick\", \"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", ", classeVarClePrimaire, ", \"\\\" }");
-									s(", function() {}");
-									s(", function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"", entiteVar, "')); });");
-									s("\")");
-									l();
-				
-									t(tIndex + 12).df().dsxq(str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom).l();
-									t(tIndex + 11).dgl("button");
-									t(tIndex + 10).l("} ", classePrefixe, "g(\"div\");");
-									t(tIndex + 9).s("}").l();
-	
-									t(tIndex + 8).s("}").l();
-	
-									t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
-								}
-								else if("LocalDate".equals(entiteNomSimple)) {
-									if(entiteNomAffichage != null) {
-										t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
-										t(tIndex + 7).s(classePrefixe, "e(\"label\")").s(".a(\"for\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
-										t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-									}
-									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row  ").dfl();
-									t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
-									t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
-									t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
-								}
-								else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
-									if(entiteNomAffichage != null) {
-										t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
-										t(tIndex + 7).s(classePrefixe, "e(\"label\")").s(".a(\"for\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
-										t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-									}
-									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-padding ").dfl();
-									t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
-									t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
-									t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
-								}
-								else if("LocalTime".equals(entiteNomSimple)) {
-									if(entiteNomAffichage != null) {
-										t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
-										t(tIndex + 7).s(classePrefixe, "e(\"label\")").s(".a(\"for\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
-										t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-									}
-									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-padding ").dfl();
-									t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
-									t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
-									t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
-								}
-								else if("Boolean".equals(entiteNomSimple)) {
-									if(entiteNomAffichage != null) {
-										t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
-										t(tIndex + 7).s(classePrefixe, "e(\"label\")").s(".a(\"for\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
-										t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-									}
-									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-padding ").dfl();
-									t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
-									l();
-									t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
-									t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
-								}
-								else {
-									if(entiteNomAffichage != null) {
-										t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
-										t(tIndex + 7).s(classePrefixe, "e(\"label\")").s(".a(\"for\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "\")").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
-										t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-									}
-									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-padding ").dfl();
-									t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
-									l();
-					
-									t(tIndex + 8).l("input", entiteVarCapitalise, "(", str_classeApiMethodeMethode(langueNom), ");");
-									t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
-								}
-								if(!entiteAttribuer && entiteModifier && !"Boolean".equals(entiteNomSimple)) {
-	
-									if(classeUtilisateurEcrire && classeSessionEcrire) {
-										t(tIndex + 7).s(classePrefixe, "if(").l();
-										t(tIndex + 9).s(classePrefixe, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
-										t(tIndex + 9).s(classePrefixe, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
-										t(tIndex + 9).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)").l();
-										t(tIndex + 9).s(classePrefixe, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)").l();
-										t(tIndex + 7).s(classePrefixe, ") {").l();
-									}
-									else if(classeUtilisateurEcrire) {
-										if(classeRolesTrouves) {
-											tl(tIndex + 7, "if(");
-											tl(tIndex + 9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-											tl(tIndex + 9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-											tl(tIndex + 9, ") {");
-										}
-										else {
-											t(tIndex + 7).s(classePrefixe, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
-										}
-									}
-									else if(classeSessionEcrire) {
-										t(tIndex + 7).s(classePrefixe, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
-									}
-									else if(classeRolesTrouves) {
-										tl(tIndex + 7, "if(");
-										tl(tIndex + 9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-										tl(tIndex + 9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-										tl(tIndex + 9, ") {");
-									}
-									else {
-										t(tIndex + 7).s(classePrefixe, "{").l();
-									}
-				
-									t(tIndex + 8).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-	
-										t(tIndex + 9).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell w3-left-align w3-cell-top ").dfl();
-										t(tIndex + 10).s("{ ", classePrefixe, "e(\"button\")").l();
-										t(tIndex + 11).dal("tabindex", "-1");
-										t(tIndex + 11).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
-										t(tIndex + 10).l(".a(\"onclick\", \"", str_enleverLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); $('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "').val(null); patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", str_ajouterLueur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", ", str_classeApiMethodeMethode(langueNom), ", \"_", entiteVar, "')); }); \")");
-										t(tIndex + 11).dfl();
-										t(tIndex + 11).s(classePrefixe, "e(\"i\")").da("class", "far fa-eraser ").df().dgl("i");
-										t(tIndex + 10).l("} ", classePrefixe, "g(\"button\");");
-										t(tIndex + 9).l("} ", classePrefixe, "g(\"div\");");
-	
-									t(tIndex + 8).l("}");
-	
-									t(tIndex + 7).s("}").l();
-								}
-				
-								t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-								t(tIndex + 5).l("} ", classePrefixe, "g(\"div\");");
-								t(tIndex + 4).l("} ", classePrefixe, "g(\"div\");");
-								t(tIndex + 3).l("} ", classePrefixe, "g(\"div\");");
-							}
-							else if(!(entiteAttribuer)) {
-				
-								t(tIndex + 3).l("if(\"Page\".equals(", str_classeApiMethodeMethode(langueNom), ")) {");
-					
-									t(tIndex + 4).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-padding ").dfl();
-									t(tIndex + 5).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-card ").dfl();
-					
-									if(entiteNomAffichage != null) {
-										t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row w3-", contexteCouleur, " ").dfl();
-										t(tIndex + 7).s(classePrefixe, "e(\"label\")").da("class", "").df().dsxq(entiteNomAffichage).dgl("label");
-										t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-									}
-									t(tIndex + 6).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell-row  ").dfl();
-									t(tIndex + 7).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-cell ").dfl();
-									t(tIndex + 8).s("{ ", classePrefixe, "e(\"div\")").da("class", "w3-rest ").dfl();
-									if(StringUtils.equals(classeVarClePrimaire, entiteVar) && classeVarUrlPk != null) {
-										t(tIndex + 9).s(classePrefixe, "e(\"a\").a(\"href\", ", classeVarUrlPk, ")").df().s(".sx(str", entiteVarCapitalise, "())").dgl("a");
-									} else if(StringUtils.equals(classeVarId, entiteVar) && classeVarUrlId != null) {
-										t(tIndex + 9).s(classePrefixe, "e(\"a\").a(\"href\", ", classeVarUrlId, ")").df().s(".sx(str", entiteVarCapitalise, "())").dgl("a");
-									} else {
-										t(tIndex + 9).s(classePrefixe, "e(\"span\").a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(str", entiteVarCapitalise, "())").l(".g(\"span\");");
-									}
-									t(tIndex + 8).l("} ", classePrefixe, "g(\"div\");");
-									t(tIndex + 7).l("} ", classePrefixe, "g(\"div\");");
-									t(tIndex + 6).l("} ", classePrefixe, "g(\"div\");");
-									t(tIndex + 5).l("} ", classePrefixe, "g(\"div\");");
-									t(tIndex + 4).l("} ", classePrefixe, "g(\"div\");");
-								t(tIndex + 3).l("}");
-							}
-				
-				//			if().da("class", objets).da("class", "w3-cell w3-cell-middle w3-center w3-mobile ").dfl();
-							t(2).l("} ", classePrefixe, "g(\"div\");");
-							tl(1, "}");  
+
+							genCodeEntiteHtm(langueNom);
 						}
 					}
 				}
@@ -5133,7 +4680,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				}
 	
-				if(entiteNomSimple != null && entiteIndexe && !entiteSuggere) {
+				if(entiteNomSimple != null && entiteIndexe && !entiteSuggere && !entiteCleUnique) {
 					// indexe
 					if(entiteNomSimple.equals("Chaine")) {
 						tl(3, "document.addField(\"", entiteVar, "_indexed", entiteSuffixeType, "\", ", entiteVar, ");");
@@ -5166,7 +4713,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				}
 	
-				if(entiteStocke) {
+				if(entiteStocke && !entiteCleUnique) {
 					// stocke
 					if(entiteNomSimple.equals("Chaine")) {
 						tl(3, "document.addField(\"", entiteVar, "_stored", entiteSuffixeType, "\", ", entiteVar, ");");
@@ -5204,7 +4751,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeIndexe) {
 				if(entiteIndexe) {
 					wVarIndexe.tl(3, "case \"", entiteVar, "\":");
-					if(entiteSuggere)
+					if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteCleUnique) {
+						wVarIndexe.tl(4, "return \"", classeVarCleUnique, "\";");
+					}
+					else if(entiteSuggere)
 						wVarIndexe.tl(4, "return \"", entiteVar, "_suggested", "\";");
 					else if(entiteTexte && entiteLangue != null)
 						wVarIndexe.tl(4, "return \"", entiteVar, "_text_" + entiteLangue, "\";");
@@ -5288,7 +4838,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(4, "o", classeNomSimple, ".add", entiteVarCapitalise, "((", entiteNomSimpleCompletGenerique, ")val);");
 				} else {
 					tl(4, "if(o", classeNomSimple, ".get", entiteVarCapitalise, "() == null)");
-					tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val == null ? null : (NumberUtils.isCreatable(val.toString()) ? Long.parseLong(val.toString()) : -1L));");
+					tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val == null ? null : (NumberUtils.isCreatable(val.toString()) ? Long.parseLong(val.toString()) : null));");
 				}
 				tl(4, "if(!", str_sauvegardes(langueNom), ".contains(\"", entiteVar, "\"))");
 				tl(5, str_sauvegardes(langueNom), ".add(\"", entiteVar, "\");");
@@ -5646,6 +5196,628 @@ public class EcrireGenClasse extends EcrireClasse {
 				entiteIndice++;
 			}
 		}
+	}
+
+	/////////
+	// htm //
+	/////////
+
+	public void genCodeEntiteHtm(String langueNom) throws Exception {
+		ToutEcrivain oAncien = o;
+		o = auteurPageHbs;
+
+		l();
+		tl(0, "{{#partial \"htm", entiteVarCapitalise, "\"}}");
+		tl(2, "<div class=\"w3-cell w3-cell-top w3-center w3-mobile \">");
+		if(entiteHtml && (entiteDefinir || entiteAttribuer)) {
+
+			tl(3, "<div class=\"w3-padding \">");
+			tl(4, "<div id=\"", str_suggere(langueNom), "{{", str_classeApiMethodeMethode(langueNom), "}}", classeNomSimple, entiteVarCapitalise, "\">");
+			tl(5, "<div class=\"w3-card \">");
+
+			if(entiteAttribuer) {
+				if(entiteNomAffichage != null) {
+					tl(6, "<div class=\"w3-cell-row \">");
+					tl(7, "<a href=\"", entiteAttribuerPageUri, "?fq=", entiteAttribuerVar, ":\", ", classeVarClePrimaire, "\" class=\"w3-cell w3-btn w3-center h4 w3-block h4 w3-", entiteAttribuerContexteCouleur, " w3-hover-", entiteAttribuerContexteCouleur, " \">");
+					if(entiteAttribuerContexteIconeGroupe != null && entiteAttribuerContexteIconeNom != null)
+						tl(8, "<i class=\"fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " \"></i>");
+					t(8).sxl(entiteNomAffichage);
+					tl(7, "</a>");
+					tl(6, "</div>");
+				}
+				tl(6, "<div class=\"w3-cell-row \">");
+				tl(7, "<h5 class=\"w3-cell \">");
+				t(8).sxl(str_relier(langueNom), " ", entiteListeTypeJson == null ? entiteAttribuerContexteUnNom : entiteAttribuerContexteNomPluriel, " ", str_a(langueNom), " ", contexteCeNom);
+				tl(7, "</h5>");
+				tl(6, "</div>");
+				tl(6, "<div class=\"w3-cell-row w3-padding \">");
+				tl(7, "<div class=\"w3-cell \">");
+				tl(8, "<div class=\"w3-cell-row \">");
+				l();
+
+				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(8, "</div>");
+				tl(7, "</div>");
+				tl(6, "</div>");
+				tl(6, "<div class=\"w3-cell-row w3-padding \">");
+				tl(7, "<div class=\"w3-cell w3-left-align w3-cell-top \">");
+				tl(8, "{ ", "<ul class\"w3-ul w3-hoverable \" id=\"list", classeNomSimple, entiteVarCapitalise, "_\", {{", str_classeApiMethodeMethode(langueNom), "}}\">");
+				tl(8, "} ", "g(\"ul\");");
+
+
+				if(entiteAttribuerUtilisateurEcrire && entiteAttribuerSessionEcrire) {
+					tl(8, "{").l();
+				}
+				else if(entiteAttribuerUtilisateurEcrire) {
+					if(entiteAttribuerClasseRoles != null && entiteAttribuerClasseRoles.size() > 0) {
+						tl(8, "if(");
+						tl(10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
+						tl(10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
+						tl(10, ") {");
+					}
+					else {
+						tl(8, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
+					}
+				}
+				else if(entiteAttribuerSessionEcrire) {
+					tl(8, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
+				}
+				else {
+					if(classeRolesTrouves || classeRoleLiresTrouves) {
+						tl(8, "if(");
+						tl(10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
+						tl(10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
+						tl(10, ") {");
+					}
+					else {
+						tl(8, "{").l();
+					}
+				}
+
+				tl(9, "if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+				tl(10, "<div class=\"w3-cell-row \">");
+				tl(11, "<button").l();
+				t(12).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " ");
+				tl(12, ".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "_", str_ajouter(langueNom), "\")");
+
+				if("array".equals(entiteAttribuerTypeJson))
+					tl(12, ".a(\"onclick\", \"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", ", classeVarClePrimaire, ", \"\\\" ] }");
+				else
+					tl(12, ".a(\"onclick\", \"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", ", classeVarClePrimaire, ", \"\\\" }");
+				s(", function() {}");
+				s(", function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"", entiteVar, "')); });");
+				s("\")");
+				l();
+
+				t(12).df().dsxq(str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom).l();
+				t(11).dgl("button");
+				tl(10, "</div>");
+				tl(9, "}").l();
+
+				tl(8, "}").l();
+
+				tl(7, "</div>");
+			}
+			else if("LocalDate".equals(entiteNomSimple)) {
+				if(entiteNomAffichage != null) {
+					tl(6, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(7, "<label for=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
+					tl(6, "</div>");
+				}
+				tl(6, "<div class=\"w3-cell-row  \">");
+				tl(7, "<div class=\"w3-cell \">");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(7, "</div>");
+			}
+			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
+				if(entiteNomAffichage != null) {
+					tl(6, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(7, "<label for=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
+					tl(6, "</div>");
+				}
+				tl(6, "<div class=\"w3-cell-row w3-padding \">");
+				tl(7, "<div class=\"w3-cell \">");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(7, "</div>");
+			}
+			else if("LocalTime".equals(entiteNomSimple)) {
+				if(entiteNomAffichage != null) {
+					tl(6, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(7, "<label for=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
+					tl(6, "</div>");
+				}
+				tl(6, "<div class=\"w3-cell-row w3-padding \">");
+				tl(7, "<div class=\"w3-cell \">");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(7, "</div>");
+			}
+			else if("Boolean".equals(entiteNomSimple)) {
+				if(entiteNomAffichage != null) {
+					tl(6, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(7, "<label for=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
+					tl(6, "</div>");
+				}
+				tl(6, "<div class=\"w3-cell-row w3-padding \">");
+				tl(7, "<div class=\"w3-cell \">");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(7, "</div>");
+			}
+			else {
+				if(entiteNomAffichage != null) {
+					tl(6, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(7, "<label for=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
+					tl(6, "</div>");
+				}
+				tl(6, "<div class=\"w3-cell-row w3-padding \">");
+				tl(7, "<div class=\"w3-cell \">");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(7, "</div>");
+			}
+			if(!entiteAttribuer && entiteModifier && !"Boolean".equals(entiteNomSimple)) {
+
+				if(classeUtilisateurEcrire && classeSessionEcrire) {
+					tl(7, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), "s, roles, ROLES, sessionId}}");
+//					tl(9, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())");
+//					tl(9, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())");
+//					tl(9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+//					tl(9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+//					tl(7, ") {");
+				}
+				else if(classeUtilisateurEcrire) {
+					if(classeRolesTrouves) {
+						tl(7, "{{#ifContainsAnyRoles roles, ROLES}}");
+//						tl(7, "if(");
+//						tl(9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+//						tl(9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+//						tl(9, ") {");
+					}
+					else {
+						tl(7, "{{#ifContainsKeys ", str_utilisateur(langueNom), str_Cle(langueNom), "s}}");
+//						tl(7, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {")
+					}
+				}
+				else if(classeSessionEcrire) {
+					tl(7, "{{#ifContainsSessionId sessionId}}");
+//					tl(7, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {");
+				}
+				else if(classeRolesTrouves) {
+					tl(7, "{{#ifContainsAnyRoles roles, ROLES}}");
+//					tl(7, "if(");
+//					tl(9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+//					tl(9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+//					tl(9, ") {");
+				}
+
+				tl(8, "{{#ifeq \"Page\"", str_classeApiMethodeMethode(langueNom), "}}");
+
+					tl(9, "<div class=\"w3-cell w3-left-align w3-cell-top \">");
+					tl(10, "<button");
+					tl(12, "tabindex=\"-1\"");
+					tl(12, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " \"");
+					tl(12, "onclick=\"", str_enleverLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); $('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "').val(null); patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); \"");
+					tl(12, ">");
+					tl(11, "<i class=\"far fa-eraser \"></i>");
+					tl(10, "</button>");
+					tl(9, "</div>");
+
+				tl(8, "{{/ifeq}}");
+
+				if(classeUtilisateurEcrire && classeSessionEcrire) {
+					tl(7, "{{/ifContainsKeysAnyRolesOrSessionId}}");
+				}
+				else if(classeUtilisateurEcrire) {
+					if(classeRolesTrouves) {
+						tl(7, "{{/ifContainsAnyRoles}}");
+					}
+					else {
+						tl(7, "{{#ifContainsKeys}}");
+					}
+				}
+				else if(classeSessionEcrire) {
+					tl(7, "{{#ifContainsSessionId}}");
+				}
+				else if(classeRolesTrouves) {
+					tl(7, "{{#ifContainsAnyRoles}}");
+				}
+			}
+
+			tl(6, "</div>");
+			tl(5, "</div>");
+			tl(4, "</div>");
+			tl(3, "</div>");
+		}
+		else if(!(entiteAttribuer)) {
+
+			tl(3, "if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+
+				tl(4, "<div class=\"w3-padding \">");
+				tl(5, "<div class=\"w3-card \">");
+
+				if(entiteNomAffichage != null) {
+					tl(6, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(7, "<label>", entiteNomAffichage, "</label>");
+					tl(6, "</div>");
+				}
+				tl(6, "<div class=\"w3-cell-row  \">");
+				tl(7, "<div class=\"w3-cell \">");
+				tl(8, "<div class=\"w3-rest \">");
+				if(StringUtils.equals(classeVarClePrimaire, entiteVar) && classeVarUrlPk != null) {
+					tl(9, "<a href=\"", classeVarUrlPk, "\">{{", uncapitalizeClasseNomSimple, ".", entiteVar, "}}</a>");
+				} else if(StringUtils.equals(classeVarId, entiteVar) && classeVarUrlId != null) {
+					tl(9, "<a.a(\"href\", ", classeVarUrlId, ")").df().s(".sx(str", entiteVarCapitalise, "())").dgl("a");
+				} else {
+					tl(9, "<span.a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(str", entiteVarCapitalise, "())").l(".g(\"span\");");
+				}
+				tl(8, "</div>");
+				tl(7, "</div>");
+				tl(6, "</div>");
+				tl(5, "</div>");
+				tl(4, "</div>");
+			tl(3, "}");
+		}
+
+		tl(2, "</div>");
+		tl(0, "{{/partial}}");  
+
+		///////////
+		// input //
+		///////////
+
+		l();
+		tl(0, "{{#partial \"input", entiteVarCapitalise, "\"}}");
+		if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
+
+			if(classeUtilisateurEcrire && classeSessionEcrire) {
+				tl(2, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), "s, roles, ROLES, sessionId}}");
+//				t(2).s("if(").l();
+//				t(4).s(str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
+//				t(4).s("|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
+//				t(4).s("|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)").l();
+//				t(4).s("|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)").l();
+//				t(2).s(") {").l();
+			}
+			else if(classePublicLire) {
+				tl(2, "{{#ifContainsAnyRoles roles, ROLES}}");
+//				tl(2, "if(");
+//				tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+//				tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+//				tl(4, ") {");
+			}
+			else if(classeUtilisateurEcrire) {
+				if(classeRolesTrouves || classeRoleLiresTrouves) {
+					tl(2, "{{#ifContainsAnyRoles roles, ROLES}}");
+//					tl(2, "if(");
+//					tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+//					tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+//					tl(4, ") {");
+				}
+				else {
+					tl(2, "{{#ifContainsKeys ", str_utilisateur(langueNom), str_Cle(langueNom), "s}}");
+//					t(2).s("if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
+				}
+			}
+			else if(classeSessionEcrire) {
+				tl(2, "{{#ifContainsSessionId sessionId}}");
+//				t(2).s("if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
+			}
+			else if(classeRolesTrouves || classeRoleLiresTrouves) {
+				tl(2, "{{#ifContainsAnyRoles roles, ROLES}}");
+//				tl(2, "if(");
+//				tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+//				tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+//				tl(4, ") {");
+			}
+			else {
+				t(2).s("{").l();
+			}
+
+			if(entiteAttribuer) {
+				tl(3, "<i").da("class", "far fa-search w3-xxlarge w3-cell w3-cell-middle ").df().dgl("i");
+
+				tl(3, "if(\"", str_PUTCopie(langueNom), "\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+				tl(4, "<div>");
+				tl(5, "<input");
+				tl(6, "type=\"checkbox\"");
+				tl(6, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_vider(langueNom), "\"");
+				tl(6, "class=\"", entiteVar, "_", str_vider(langueNom), " \"");
+				tl(6, ">");
+				tl(5, "<label for=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_vider(langueNom), ">", str_vider(langueNom), "</label>");
+				tl(4, "</div>");
+				tl(3, "}");
+
+				tl(3, "<input");
+				tl(5, "type=\"text\"");
+
+				if(entiteNomAffichage != null) {
+					tl(5, "placeholder", entiteNomAffichage);
+				}
+				if(entiteDescription != null) {
+					t(5).dal("title", entiteDescription);
+				}
+
+//								t(4).s(".a(\"class\", \"", "set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+				t(4).dal("class", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", str_suggere(langueNom), entiteVarCapitalise, " w3-input w3-border w3-cell w3-cell-middle ");
+				t(4).dal("name", "set", entiteVarCapitalise);
+				t(4).l(".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "\")");
+				t(4).l(".a(\"autocomplete\", \"", "off\");");
+				t(4).s("a(\"oninput\", \"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
+				s("\", ", classeVarClePrimaire, " == null ? \"\" : \"{'name':'fq','value':'", entiteAttribuerVar, ":\" + ", classeVarClePrimaire, " + \"'}\", \"");
+				l("], $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"'), \", ", classeVarClePrimaire, ", \"); \");");
+				l();
+
+				t(4).fgl();
+				l();
+			}
+			else if("LocalDate".equals(entiteNomSimple)) {
+				t(3).s("<input").l();
+				t(5).dal("type", "text");
+				t(5).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
+				t(5).dal("placeholder", str_DDDashMMDashYYYY(langueNom));
+				t(5).dal("data-timeformat", str_ddDashMMDashyyyy(langueNom));
+				t(5).l(".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "\")");
+				if(entiteDescription != null)
+					t(5).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
+				tl(5, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_ddDashMMDashyyyy(langueNom), "\").format(", entiteVar, "));");
+				t(3).l("if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+				t(4).l("a(\"onclick\", \"", str_enleverLueur(langueNom), "($(this)); \");");
+				t(4).s("a(\"onchange\", \"");
+					s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
+					s("if(t) { ");
+						s("var s = t.format('YYYY-MM-DD'); ");
+						s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); ");
+					s("} ");
+				l("\");");
+				t(3).l("}");
+				tl(3, "fg();");
+			}
+			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
+				t(3).s("<input").l();
+				t(5).dal("type", "text");
+				t(5).s(".a(\"class\", \"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
+				t(5).dal("placeholder", str_DDDashMMDashYYYY_HHColonMM(langueNom));
+				t(5).dal("data-timeformat", str_ddDashMMDashyyyy(langueNom));
+				t(5).l(".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "\")");
+				if(entiteDescription != null)
+					t(5).dal("title", entiteDescription + " (", str_DDDashMMDashYYYY(langueNom), ")");
+				tl(4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV(langueNom), "\").format(", entiteVar, "));");
+				t(3).l("if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+				t(4).l("a(\"onclick\", \"", str_enleverLueur(langueNom), "($(this)); \");");
+				t(4).s("a(\"onchange\", \"");
+					s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
+					s("if(t) { ");
+						s("var s = t.format('YYYY-MM-DD'); ");
+						s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); ");
+					s("} ");
+				l("\");");
+				t(3).l("}");
+				tl(3, "fg();");
+			}
+			else if("LocalTime".equals(entiteNomSimple)) {
+				t(3).s("<input").l();
+				t(5).dal("type", "text");
+				t(5).s(".a(\"class\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
+				t(5).dal("placeholder", str_HHColonMM(langueNom));
+				t(5).l(".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "\")");
+				if(entiteDescription != null)
+					t(5).da("title", entiteDescription + " (", str_HAposhAposmm(langueNom), ")");
+				tl(5, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_HAposhAposmm(langueNom), "\").format(", entiteVar, "));");
+				t(3).l("if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+				t(4).l("a(\"onclick\", \"", str_enleverLueur(langueNom), "($(this)); \");");
+				t(4).s("a(\"onchange\", \"");
+					s("var t = moment(this.value, '", str_HAposhAposmm(langueNom), "'); ");
+					s("if(t) { ");
+						s("var s = t.format('HH:mm'); ");
+						s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); ");
+					s("} ");
+				l("\");");
+				t(3).l("}");
+				tl(3, "fg();");
+			}
+			else if("Boolean".equals(entiteNomSimple)) {
+				t(3).l("if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+				t(4).s("<input").l();
+				t(5).dal("type", "checkbox");
+				t(5).l(".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "\")");
+				t(5).da("value", "true").l(";");
+				t(3).l("} else {");
+				t(4).s("<select").l();
+				t(5).l(".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "\");");
+				t(3).l("}");
+
+				t(3).l("if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}}) || \"PATCH\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+					t(4).s("a(\"class\", \"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+					t(4).a("name", "set", entiteVarCapitalise).l(";");
+				t(3).l("} else {");
+					t(4).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+					t(4).a("name", entiteVar).l(";");
+				t(3).l("}");
+				t(3).l("if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+					t(4).s("a(\"onchange\", \"patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); \")").l(";");
+				t(3).l("}");
+
+				t(3).l("if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+				tl(4, "if(get", entiteVarCapitalise, "() != null && get", entiteVarCapitalise, "())");
+				t(5).a("checked", "checked").l(";");
+				t(4).fgl();
+				t(3).l("} else {");
+				t(4).s("f();").l();
+				t(4).s("<option.a(\"value\", \"\").a(\"selected\", \"selected\").f().g(\"option\");").l();
+				t(4).s("<option.a(\"value\", \"true\").f().sx(\"true\").g(\"option\");").l();
+				t(4).s("<option.a(\"value\", \"false\").f().sx(\"false\").g(\"option\");").l();
+				t(4).s("g(\"select\");").l();
+				t(3).l("}");
+				l();
+			}
+			else if(entiteImageBase64Url != null) {
+				t(3).s("<div.a(\"class\", \"imageBase64Div1", classeNomSimple, "_", entiteVar, "\").a(\"id\", \"imageBase64Div1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
+
+				t(4).s("<h5.f().sx(\"", str_Télécharger_image(langueNom), "\").g(\"h5\"); ").l();
+				t(4).s("<form.a(\"method\", \"POST\").a(\"enctype\", \"multipart/form-data\").a(\"action\", \"", entiteImageBase64Url, "\").a(\"class\", \"\").f();").l();
+				t(4).s("<input.a(\"type\", \"hidden\").a(\"name\", \"", classeVarClePrimaire, "\").a(\"value\", ", classeVarClePrimaire, ").fg(); ").l();
+				t(4).s("<input.a(\"type\", \"hidden\").a(\"name\", \"", str_classeNomSimple(langueNom), "\").a(\"value\", \"", classeNomSimple, "\").fg(); ").l();
+				t(4).s("<input.a(\"name\", \"", str_fichier(langueNom), "\").a(\"type\", \"file\").a(\"onchange\", \"$.ajax({ type: 'POST', enctype: 'multipart/form-data', url: '", entiteImageBase64Url, "', data: new FormData(this.form), processData: false, contentType: false}); \").fg(); ").l();
+				t(4).s("g(\"form\");").l();
+
+				t(4).s("<img.a(\"id\", \"imageBase64Img", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+				t(5).s("a(\"class\", \"img", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-image ").l("\");");
+				t(5).s("a(\"src\", StringUtils.isBlank(", entiteVar, ") ? \"data:image/png;base64,\" : ", entiteVar, ").a(\"alt\", \"\");").l();
+				t(4).s("fg();").l();
+
+				t(3).s("g(\"div\");").l();
+			}
+			else if(BooleanUtils.isTrue(entiteSignature)) {
+				t(3).s("<div.a(\"class\", \"signatureDiv1", classeNomSimple, "_", entiteVar, " signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, "\").a(\"id\", \"signatureDiv1", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
+
+				t(4).s("<div.a(\"id\", \"signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+				t(5).s("a(\"style\", \"display: \", StringUtils.isBlank(", entiteVar, ") ? \"block\" : \"none\", \"; \");").l();
+				t(4).s("f().g(\"div\");").l();
+
+				t(4).s("<img.a(\"id\", \"signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+				t(5).s("a(\"class\", \"signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \");").l();
+				t(5).s("a(\"src\", StringUtils.isBlank(", entiteVar, ") ? \"data:image/png;base64,\" : ", entiteVar, ").a(\"alt\", \"\");").l();
+				t(5).s("a(\"style\", \"padding: 10px; display: \", StringUtils.isBlank(", entiteVar, ") ? \"none\" : \"block\", \"; \");").l();
+				t(4).s("fg();").l();
+
+				t(3).s("g(\"div\");").l();
+				t(3).s("<div.a(\"id\", \"signatureDiv2", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\").f();").l();
+
+				t(4).s("<button.a(\"id\", \"signatureButton", str_Vider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+				t(5).s("a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
+				t(5).s("s(\" onclick=\", \"\\\"",  "\");").l();
+				t(6).s("s(\"$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').show(); ", "\");").l();
+				t(6).s("s(\"$('#signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').hide(); ", "\");").l();
+				t(6).s("s(\"", str_enleverLueur(langueNom), "($('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')); ", "\");").l();
+				t(6).s("s(\"patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', null); \")").l(";");
+				t(6).s("s(\"if($('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')) { ", "\");").l();
+				t(6).s("s(\"$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('reset'); ", "\");").l();
+				t(6).s("s(\" } else { ", "\");").l();
+				t(6).s("s(\"$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature({'height':200}); ", "\");").l();
+				t(6).s("s(\" } ", "\");").l();
+				t(5).s("s(\"\\\"",  "\");").l();
+				t(5).s("f().sx(\"", str_Vider(langueNom), "\");").l();
+				t(4).s("g(\"button\");").l();
+//
+//								t(4).s("<button.a(\"id\", \"signatureButton", str_Valider(langueNom), classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "\");").l();
+//								t(5).s("a(\"class\", \"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \");").l();
+//								t(5).s("s(\" onclick=\", \"\\\"",  "\");").l();
+//								t(6).s("s(\"var src = $('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('getData', 'default'); ", "\"); ").l();
+//								t(6).s("s(\"patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', src); \")").l(";");
+//								t(5).s("s(\"\\\"",  "\");").l();
+//								t(5).s("f().sx(\"", str_ValiderLaSignature(langueNom), "\");").l();
+//								t(4).s("g(\"button\");").l();
+
+				t(3).s("g(\"div\");").l();
+
+			}
+			else {
+				if(entiteMultiligne)
+					t(3).s("<textarea").l();
+				else {
+					t(3).s("<input").l();
+					t(4).dal("type", "text");
+				}
+
+				if(entiteNomAffichage != null) {
+					t(4).dal("placeholder", entiteNomAffichage);
+				}
+				if(entiteDescription != null) {
+					t(4).dal("title", entiteDescription);
+				}
+				t(4).s(".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "\")").l(";");
+
+				t(4).l("if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}}) || \"PATCH\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+					t(5).s("a(\"class\", \"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+					t(5).a("name", "set", entiteVarCapitalise).l(";");
+				t(4).l("} else {");
+					t(5).s("a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
+					t(5).a("name", entiteVar).l(";");
+				t(4).l("}");
+				t(4).l("if(\"Page\".equals({{", str_classeApiMethodeMethode(langueNom), "}})) {");
+					t(5).a("onclick", str_enleverLueur(langueNom), "($(this)); ").l(";");
+					t(5).s("a(\"onchange\", \"patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); \")").l(";");
+				t(4).l("}");
+
+				if(entiteMultiligne) {
+					t(3).s("f()");
+					s(".sx(str", entiteVarCapitalise, "())");
+				}
+				else {
+					t(4).s("a(\"value\", str", entiteVarCapitalise, "())").l();
+				}
+
+				if(entiteMultiligne)
+					dgl("textarea");
+				else
+					t(3).dfgl();
+
+				l();
+			}
+
+			if(entiteAttribuer) {
+				t(2).s("} else {").l();
+			}
+			else if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
+				t(2).s("} else {").l();
+				t(3).s("<span.a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
+			}
+			else if(classeUtilisateurEcrire) {
+				if(classeRolesTrouves || classeRoleLiresTrouves) {
+					t(2).s("} else {").l();
+					t(4).s("<span.a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
+				}
+				else {
+					t(2).s("} else {").l();
+					t(3).s("<span.a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
+				}
+			}
+			else if(classeSessionEcrire) {
+				t(2).s("} else {").l();
+				t(3).s("<span.a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
+			}
+			else if(classeRolesTrouves || classeRoleLiresTrouves) {
+				t(2).s("} else {").l();
+				tl(3, "if(");
+				tl(5, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+				tl(5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+				if(classeRoleLiresTrouves) {
+					tl(5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLE_READS)");
+					tl(5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
+				}
+				tl(4, ") {");
+				t(4).s("<span.a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
+				tl(3, "}");
+			}
+			else {
+//								t(3).s("sx(htm", entiteVarCapitalise, "());").l();
+			}
+
+			if(classeUtilisateurEcrire && classeSessionEcrire) {
+				tl(2, "{{/ifContainsKeysAnyRolesOrSessionId}}");
+			}
+			else if(classePublicLire) {
+				tl(2, "{{/ifContainsAnyRoles}}");
+			}
+			else if(classeUtilisateurEcrire) {
+				if(classeRolesTrouves || classeRoleLiresTrouves) {
+					tl(2, "{{/ifContainsAnyRoles}}");
+				}
+				else {
+					tl(2, "{{/ifContainsKeys}}");
+				}
+			}
+			else if(classeSessionEcrire) {
+				tl(2, "{{/ifContainsSessionId}}");
+			}
+			else if(classeRolesTrouves || classeRoleLiresTrouves) {
+				tl(2, "{{/ifContainsAnyRoles}}");
+			}
+		}
+		else if(!entiteModifier) {
+			t(2).s("<span.a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()").s(".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
+		}
+		tl(0, "{{/partial}}");
+
+		o = oAncien;
 	}
 
 	/**

@@ -3473,6 +3473,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "Integer ", str_numRetourne(classeLangueNom), " = ", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), ".getResults().size();");
 							tl(3, "String ", str_tempsRecherche(classeLangueNom), " = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(", str_millisRecherche(classeLangueNom), "), TimeUnit.MILLISECONDS.toMillis(", str_millisRecherche(classeLangueNom), ") - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(", str_millisRecherche(classeLangueNom), ")));");
 							tl(3, "String ", str_tempsTransmission(classeLangueNom), " = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(", str_millisTransmission(classeLangueNom), "), TimeUnit.MILLISECONDS.toMillis(", str_millisTransmission(classeLangueNom), ") - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(", str_millisTransmission(classeLangueNom), ")));");
+							tl(3, "String ", str_marqueCurseurSuivante(classeLangueNom), " = ", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), ".getNextCursorMark();");
 							tl(3, "Exception exception", str_Recherche(classeLangueNom), " = ", str_reponse(classeLangueNom), str_Recherche(classeLangueNom), ".getException();");
 							tl(3, "List<String> fls = ", str_liste(classeLangueNom), classeNomSimple, ".getFields();");
 							l();
@@ -3483,6 +3484,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "if(fls.size() == 1 && fls.stream().findFirst().orElse(null).equals(\"", str_sauvegardes(classeLangueNom), "\")) {");
 							tl(4, "json.put(", q(str_tempsRecherche(classeLangueNom)), ", ", str_tempsRecherche(classeLangueNom), ");");
 							tl(4, "json.put(", q(str_tempsTransmission(classeLangueNom)), ", ", str_tempsTransmission(classeLangueNom), ");");
+							tl(3, "}");
+							tl(3, "if(", str_marqueCurseurSuivante(classeLangueNom), " != null) {");
+							tl(4, "json.put(", q(str_marqueCurseurSuivante(classeLangueNom)), ", ", str_marqueCurseurSuivante(classeLangueNom), ");");
 							tl(3, "}");
 							tl(3, "JsonArray l = new JsonArray();");
 							tl(3, str_liste(classeLangueNom), classeNomSimple, ".getList().stream().forEach(o -> {");
@@ -4267,6 +4271,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "String ", str_valeur(classeLangueNom), str_Tri(classeLangueNom), " = null;");
 			tl(4, "Integer ", str_valeur(classeLangueNom), "Start = null;");
 			tl(4, "Integer ", str_valeur(classeLangueNom), "Rows = null;");
+			tl(4, "String ", str_valeur(classeLangueNom), "CursorMark = null;");
 			tl(4, "String param", str_Nom(classeLangueNom), " = param", str_Requete(classeLangueNom), ".getKey();");
 			tl(4, "Object param", str_Valeurs(classeLangueNom), str_Objet(classeLangueNom), " = param", str_Requete(classeLangueNom), ".getValue();");
 			tl(4, "JsonArray param", str_Objets(classeLangueNom), " = param", str_Valeurs(classeLangueNom), str_Objet(classeLangueNom), " instanceof JsonArray ? (JsonArray)param", str_Valeurs(classeLangueNom), str_Objet(classeLangueNom), " : new JsonArray().add(param", str_Valeurs(classeLangueNom), str_Objet(classeLangueNom), ");");
@@ -4383,6 +4388,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(9, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
 			tl(9, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
 			tl(9, str_rechercher(classeLangueNom), classeNomSimple, "Var(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ");");
+			tl(9, "break;");
+	
+			tl(8, "case \"cursorMark\":");
+			tl(9, str_valeur(classeLangueNom), "CursorMark = (String)param", str_Objet(classeLangueNom), ";");
+			tl(9, str_listeRecherche(classeLangueNom), ".add(\"cursorMark\", (String)param", str_Objet(classeLangueNom), ");");
 			tl(9, "break;");
 	
 			tl(7, "}");

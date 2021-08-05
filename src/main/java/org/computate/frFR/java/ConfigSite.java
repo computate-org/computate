@@ -1801,6 +1801,13 @@ public class ConfigSite {
 			return "transmissionTime";
 	}
 
+	public String str_marqueCurseurSuivante(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "marqueCurseurSuivante";
+		else
+			return "nextCursorMark";
+	}
+
 	/**
 	 * Var.enUS: str_solrDocument
 	 */
