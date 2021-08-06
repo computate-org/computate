@@ -3907,6 +3907,9 @@ public class IndexerClasse extends RegarderClasseBase {
 					}
 				}
 			}
+			Boolean classeSuperPromesse = (Boolean)classeSuperDoc.get("classePromesse_stored_boolean");
+			if(classeSuperPromesse)
+				classePromesse = true;
 		}
 
 		if(classeDoc.getField("id") == null)
@@ -5751,6 +5754,8 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.EventBus", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.pgclient.PgPool", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.authorization.AuthorizationProvider", classeLangueNom), classeLangueNom);
+				if(classePage)
+					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.DeliveryOptions", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collections", classeLangueNom), classeLangueNom);
