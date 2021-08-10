@@ -650,9 +650,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 //					}
 					if(classeApi)
 						apiCodeClasseDebut(langueNom);
-					if(classePage)
-//						pageCodeClasseDebut(langueNom);
-						pageCodeClasse(langueNom);
 				} 
 				else {
 					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
@@ -677,6 +674,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 //					if(StringUtils.equals(classeLangueNom, langueNom)) {
 						genCodeClasseFin(langueNom);
 //					}
+					if(classePage) {
+						pageCodeClasse(langueNom);
+					}
 					if(classeApi) {
 //						ecrireApiEnsembleInfo(langueNom);
 						ecrireGenApiService(langueNom);

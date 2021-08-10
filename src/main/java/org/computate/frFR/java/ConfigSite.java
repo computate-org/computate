@@ -1446,6 +1446,13 @@ public class ConfigSite {
 			return "SqlConnection";
 	}
 
+	public String str_template(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "template";
+		else
+			return "template";
+	}
+
 	/**
 	 * Var.enUS: str_response
 	 */
@@ -1799,6 +1806,13 @@ public class ConfigSite {
 			return "tempsTransmission";
 		else
 			return "transmissionTime";
+	}
+
+	public String str_marqueCurseurSuivante(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "marqueCurseurSuivante";
+		else
+			return "nextCursorMark";
 	}
 
 	/**
