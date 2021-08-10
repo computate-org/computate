@@ -2374,7 +2374,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "params.put(\"cookie\", new JsonObject());");
 							tl(5, "params.put(\"header\", new JsonObject());");
 							tl(5, "params.put(\"form\", new JsonObject());");
-							tl(5, "params.put(\"query\", new JsonObject());");
+							tl(5, "JsonObject query = new JsonObject();");
+							tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
+							tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
+							tl(5, "if(softCommit)");
+							tl(6, "query.put(\"softCommit\", softCommit)");
+							tl(5, "if(commitWithin != null)");
+							tl(6, "query.put(\"commitWithin\", commitWithin)");
+							tl(5, "params.put(\"query\", query);");
 							tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "()).map(", str_utilisateur(classeLangueNom), " -> ", str_utilisateur(classeLangueNom), ".principal()).orElse(null));");
 							tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
 							tl(5, "eventBus.request(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
@@ -2389,7 +2396,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "});");
 						}
 						else if(classeApiMethode.contains("PATCH")) {
-							tl(5, str_requeteService(classeLangueNom), ".getParams().getJsonObject(\"query\").put(\"rows\", 100);");
+//							tl(5, str_requeteService(classeLangueNom), ".getParams().getJsonObject(\"query\").put(\"rows\", 100);");
 							tl(5, str_rechercher(classeLangueNom), classeNomSimple, str_Liste(classeLangueNom), "(", str_requeteSite(classeLangueNom), ", false, true, true, ", q(classeApiUriMethode), ", ", q(classeApiMethode), ").onSuccess(", str_liste(classeLangueNom), classeNomSimple, " -> {");
 							tl(6, "try {");
 							Integer tBase;
@@ -2669,7 +2676,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "params.put(\"cookie\", new JsonObject());");
 						tl(5, "params.put(\"header\", new JsonObject());");
 						tl(5, "params.put(\"form\", new JsonObject());");
-						tl(5, "params.put(\"query\", new JsonObject());");
+						tl(5, "JsonObject query = new JsonObject();");
+						tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
+						tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
+						tl(5, "if(softCommit)");
+						tl(6, "query.put(\"softCommit\", softCommit)");
+						tl(5, "if(commitWithin != null)");
+						tl(6, "query.put(\"commitWithin\", commitWithin)");
+						tl(5, "params.put(\"query\", query);");
 						tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "()).map(", str_utilisateur(classeLangueNom), " -> ", str_utilisateur(classeLangueNom), ".principal()).orElse(null));");
 						tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
 						tl(5, "eventBus.request(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
@@ -4521,7 +4535,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "String solrHostName = ", str_requeteSite(classeLangueNom), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_HOST_NAME);");
 			tl(4, "Integer solrPort = ", str_requeteSite(classeLangueNom), ".getConfig().getInteger(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PORT);");
 			tl(4, "String solrCollection = ", str_requeteSite(classeLangueNom), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_COLLECTION);");
-			tl(4, "String solrRequestUri = String.format(\"/solr/%s/update%s\", solrCollection, \"?softCommit=true&overwrite=true&wt=json\");");
+			tl(4, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
+			tl(4, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
+			tl(4, "String solrRequestUri = String.format(\"/solr/%s/update%s%s%s\", solrCollection, \"?overwrite=true&wt=json\", softCommit ? \"&softCommit=true\" : \"\", commitWithin != null ? (\"&commitWithin=\" + commitWithin) : \"\");");
 			tl(4, "JsonArray json = new JsonArray().add(new JsonObject(document.toMap(new HashMap<String, Object>())));");
 			tl(4, str_clientWeb(classeLangueNom), ".post(solrPort, solrHostName, solrRequestUri).putHeader(\"Content-Type\", \"application/json\").expect(ResponsePredicate.SC_OK).sendBuffer(json.toBuffer()).onSuccess(b -> {");
 			tl(5, "promise.complete();");
@@ -4568,7 +4584,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "params.put(\"header\", new JsonObject());");
 				tl(5, "params.put(\"form\", new JsonObject());");
 				tl(5, "params.put(\"path\", new JsonObject());");
-				tl(5, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + o.getPk())));");
+				tl(5, "JsonObject query = new JsonObject();");
+				tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
+				tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
+				tl(5, "if(softCommit)");
+				tl(6, "query.put(\"softCommit\", softCommit)");
+				tl(5, "if(commitWithin != null)");
+				tl(6, "query.put(\"commitWithin\", commitWithin)");
+				tl(5, "query.put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + o.getPk()));");
+				tl(5, "params.put(\"query\", query);");
 				tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "()).map(", str_utilisateur(classeLangueNom), " -> ", str_utilisateur(classeLangueNom), ".principal()).orElse(null));");
 				tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
 				tl(5, "eventBus.request(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", classeNomSimple, "Future\")).onSuccess(c -> {");
