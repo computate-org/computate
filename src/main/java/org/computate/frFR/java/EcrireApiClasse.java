@@ -2378,9 +2378,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
 							tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 							tl(5, "if(softCommit)");
-							tl(6, "query.put(\"softCommit\", softCommit);");
+							tl(6, "query.put(\"softCommit\", softCommit)");
 							tl(5, "if(commitWithin != null)");
-							tl(6, "query.put(\"commitWithin\", commitWithin);");
+							tl(6, "query.put(\"commitWithin\", commitWithin)");
 							tl(5, "params.put(\"query\", query);");
 							tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "()).map(", str_utilisateur(classeLangueNom), " -> ", str_utilisateur(classeLangueNom), ".principal()).orElse(null));");
 							tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
@@ -2680,9 +2680,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
 						tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 						tl(5, "if(softCommit)");
-						tl(6, "query.put(\"softCommit\", softCommit);");
+						tl(6, "query.put(\"softCommit\", softCommit)");
 						tl(5, "if(commitWithin != null)");
-						tl(6, "query.put(\"commitWithin\", commitWithin);");
+						tl(6, "query.put(\"commitWithin\", commitWithin)");
 						tl(5, "params.put(\"query\", query);");
 						tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "()).map(", str_utilisateur(classeLangueNom), " -> ", str_utilisateur(classeLangueNom), ".principal()).orElse(null));");
 						tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
@@ -4590,9 +4590,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
 				tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get(", str_RequeteService(classeLangueNom), ".getParams())).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 				tl(5, "if(softCommit)");
-				tl(6, "query.put(\"softCommit\", softCommit);");
+				tl(6, "query.put(\"softCommit\", softCommit)");
 				tl(5, "if(commitWithin != null)");
-				tl(6, "query.put(\"commitWithin\", commitWithin);");
+				tl(6, "query.put(\"commitWithin\", commitWithin)");
 				tl(5, "query.put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + o.getPk()));");
 				tl(5, "params.put(\"query\", query);");
 				tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "()).map(", str_utilisateur(classeLangueNom), " -> ", str_utilisateur(classeLangueNom), ".principal()).orElse(null));");
