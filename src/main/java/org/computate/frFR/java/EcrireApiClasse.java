@@ -3401,7 +3401,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					/////////////////
 					if(classePageNomCanoniqueMethode != null) {
 						tl(1, "public String ", str_template(classeLangueNom), classeApiMethode, classeNomSimple, "() {");
-						tl(2, "return ", classePartsConfigCles.nomSimple(classeLangueNom), ".TEMPLATE_PATH + \"/", classeNomSimple, str_Page(classeLangueNom), "\";");
+						tl(2, "return config.getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".TEMPLATE_PATH) + \"/", classeLangueNom, "/", classeNomSimple, str_Page(classeLangueNom), "\";");
 						t(1, "}");
 					}
 					l();
@@ -4568,39 +4568,43 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				s(wIndexerFacetFor);
 				tl(4, "}");
 				l();
-				tl(4, "CompositeFuture.all(futures).onSuccess(b -> {");
-				tl(5, "JsonObject params = new JsonObject();");
-				tl(5, "params.put(\"body\", new JsonObject());");
-				tl(5, "params.put(\"cookie\", new JsonObject());");
-				tl(5, "params.put(\"header\", new JsonObject());");
-				tl(5, "params.put(\"form\", new JsonObject());");
-				tl(5, "params.put(\"path\", new JsonObject());");
-				tl(5, "JsonObject query = new JsonObject();");
-				tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
-				tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
-				tl(5, "if(softCommit)");
-				tl(6, "query.put(\"softCommit\", softCommit);");
-				tl(5, "if(commitWithin != null)");
-				tl(6, "query.put(\"commitWithin\", commitWithin);");
-				tl(5, "query.put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + o.getPk()));");
-				tl(5, "params.put(\"query\", query);");
-				tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "()).map(", str_utilisateur(classeLangueNom), " -> ", str_utilisateur(classeLangueNom), ".principal()).orElse(null));");
-				tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
-				tl(5, "eventBus.request(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", classeNomSimple, "Future\")).onSuccess(c -> {");
-				tl(6, "JsonObject responseMessage = (JsonObject)c.body();");
-				tl(6, "Integer statusCode = responseMessage.getInteger(\"statusCode\");");
-				tl(6, "if(statusCode.equals(200))");
-				tl(7, "promise.complete();");
-				tl(6, "else");
-				tl(7, "promise.fail(new RuntimeException(responseMessage.getString(\"statusMessage\")));");
-				tl(5, "}).onFailure(ex -> {");
-				tl(6, "LOG.error(\"", str_Recharger(classeLangueNom), " ", str_relations(classeLangueNom), " ", str_a_échoué(classeLangueNom), ". \", ex);");
-				tl(6, "promise.fail(ex);");
-				tl(5, "});");
-				tl(4, "}).onFailure(ex -> {");
-				tl(5, "LOG.error(\"", str_Recharger(classeLangueNom), " ", str_relations(classeLangueNom), " ", str_a_échoué(classeLangueNom), ". \", ex);");
-				tl(5, "promise.fail(ex);");
-				tl(4, "});");
+				if(classePartsUtilisateurSite != null && classePartsUtilisateurSite.nomSimple(classeLangueNom).equals(classeNomSimple)) {
+					tl(4, "promise.complete();");
+				} else {
+					tl(4, "CompositeFuture.all(futures).onSuccess(b -> {");
+					tl(5, "JsonObject params = new JsonObject();");
+					tl(5, "params.put(\"body\", new JsonObject());");
+					tl(5, "params.put(\"cookie\", new JsonObject());");
+					tl(5, "params.put(\"header\", new JsonObject());");
+					tl(5, "params.put(\"form\", new JsonObject());");
+					tl(5, "params.put(\"path\", new JsonObject());");
+					tl(5, "JsonObject query = new JsonObject();");
+					tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
+					tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
+					tl(5, "if(softCommit)");
+					tl(6, "query.put(\"softCommit\", softCommit);");
+					tl(5, "if(commitWithin != null)");
+					tl(6, "query.put(\"commitWithin\", commitWithin);");
+					tl(5, "query.put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + o.getPk()));");
+					tl(5, "params.put(\"query\", query);");
+					tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), "()).map(", str_utilisateur(classeLangueNom), " -> ", str_utilisateur(classeLangueNom), ".principal()).orElse(null));");
+					tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
+					tl(5, "eventBus.request(\"", appliNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", classeNomSimple, "Future\")).onSuccess(c -> {");
+					tl(6, "JsonObject responseMessage = (JsonObject)c.body();");
+					tl(6, "Integer statusCode = responseMessage.getInteger(\"statusCode\");");
+					tl(6, "if(statusCode.equals(200))");
+					tl(7, "promise.complete();");
+					tl(6, "else");
+					tl(7, "promise.fail(new RuntimeException(responseMessage.getString(\"statusMessage\")));");
+					tl(5, "}).onFailure(ex -> {");
+					tl(6, "LOG.error(\"", str_Recharger(classeLangueNom), " ", str_relations(classeLangueNom), " ", str_a_échoué(classeLangueNom), ". \", ex);");
+					tl(6, "promise.fail(ex);");
+					tl(5, "});");
+					tl(4, "}).onFailure(ex -> {");
+					tl(5, "LOG.error(\"", str_Recharger(classeLangueNom), " ", str_relations(classeLangueNom), " ", str_a_échoué(classeLangueNom), ". \", ex);");
+					tl(5, "promise.fail(ex);");
+					tl(4, "});");
+				}
 	
 	
 				tl(3, "} else {");

@@ -944,9 +944,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 
 			wEntites.l();
-			if(classePageSuperNomSimple != null)
+			if(classePageSuperNomSimple != null) {
 				wEntites.tl(1, "@Override");
+			} else {
+				wEntites.tl(1, "/**");
+				wEntites.tl(1, " * ", str_Ignorer(langueNom), ": true");
+				wEntites.tl(1, "**/");
+			}
 			wEntites.tl(1, "protected void _promise", str_Avant(langueNom), "(Promise<Void> promise) {");
+			wEntites.tl(2, "promise.complete();");
 			wEntites.tl(1, "}");
 //	
 //				wEntites.l();
@@ -1067,9 +1073,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 
 			wEntites.l();
-			if(classePageSuperNomSimple != null)
+			if(classePageSuperNomSimple != null) {
 				wEntites.tl(1, "@Override");
+			} else {
+				wEntites.tl(1, "/**");
+				wEntites.tl(1, " * ", str_Ignorer(langueNom), ": true");
+				wEntites.tl(1, "**/");
+			}
 			wEntites.tl(1, "protected void _promise", str_Apres(langueNom), "(Promise<Void> promise) {");
+			wEntites.tl(2, "promise.complete();");
 			wEntites.tl(1, "}");
 	
 			if(auteurPageClasse != null) {
@@ -1126,6 +1138,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			if(classePageSuperNomSimple == null) {
 				l();
+				tl(1, "/**");
+				tl(1, " * ", str_Ignorer(langueNom), ": true");
+				tl(1, "**/");
 				tl(1, "protected void _", str_requeteSite(langueNom), "_(", "", classePartsCouverture.nomSimple(langueNom), "<", classePartsRequeteSite.nomSimple(langueNom), "> c", ") {");
 				tl(1, "}");
 			}
