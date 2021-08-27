@@ -182,6 +182,20 @@ public class ConfigSite {
 			return "alreadyInitialized";
 	}
 
+	public String str_Prochaine(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Prochaine";
+		else
+			return "Next";
+	}
+
+	public String str_Precedent(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Precedent";
+		else
+			return "Previous";
+	}
+
 	public String str_promesse(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "promesse";
@@ -1934,6 +1948,48 @@ public class ConfigSite {
 			return "modified";
 	}
 
+	public String str_dernier(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "dernier";
+		else
+			return "last";
+	}
+
+	public String str_Dernier(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Dernier";
+		else
+			return "Last";
+	}
+
+	public String str_premier(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "premier";
+		else
+			return "first";
+	}
+
+	public String str_Premier(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Premier";
+		else
+			return "First";
+	}
+
+	public String str_fin(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "fin";
+		else
+			return "end";
+	}
+
+	public String str_Fin(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Fin";
+		else
+			return "End";
+	}
+
 	public String str_debut(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "debut";
@@ -2389,6 +2445,20 @@ public class ConfigSite {
 			return "SuperPage";
 	}
 
+	public String str_pageActuel(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "pageActuel";
+		else
+			return "currentPage";
+	}
+
+	public String str_page(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "page";
+		else
+			return "page";
+	}
+
 	public String str_Page(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "Page";
@@ -2541,6 +2611,13 @@ public class ConfigSite {
 			return "IconeNom";
 		else
 			return "IconName";
+	}
+
+	public String str_lignes(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "lignes";
+		else
+			return "rows";
 	}
 
 	public String str_Lignes(String langueNom) {
