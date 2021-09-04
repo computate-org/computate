@@ -2416,7 +2416,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				// singulier part 2
 				l();
 //					tl(2, "{{# if ", str_liste(langueNom), classeNomSimple, "_ != null && ", str_liste(langueNom), classeNomSimple, "_.size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
-				tl(2, "{{# if ", str_liste(langueNom), classeNomSimple, "_ != null && ", str_liste(langueNom), classeNomSimple, "_.size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\")) {");
+				tl(2, "{{#if ", str_liste(langueNom), classeNomSimple, "_ != null && ", str_liste(langueNom), classeNomSimple, "_.size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\")) {");
 				tl(3, "{{#with ", str_liste(langueNom), classeNomSimple, "_[0]}}");
 				l();
 				t(3, "<div class=\"\">");
@@ -2424,41 +2424,42 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l();
 					tl(4, "{{#if ", classeVarClePrimaire, "}}");
 					tl(5, "<form action=\"", classeApiUri, "\" id=\"", classeNomSimple, "Form\" style=\"display: inline-block; width: 100%; \" onsubmit=\"event.preventDefault(); return false; \">");
+					tl(6, "<input");
+					tl(6, "name=\"", classeVarClePrimaire, "\"");
+					tl(6, "class=\"", str_valeur(langueNom), StringUtils.capitalize(classeVarClePrimaire), "\"");
+					tl(6, "type=\"hidden\"");
+					tl(6, "value=\"{{", classeVarClePrimaire, "}}\"");
+					tl(6, "/>");
 					tl(6, "<input").l();
-					tl(6).dal("name", classeVarClePrimaire);
-					tl(6).dal("class", str_valeur(langueNom), StringUtils.capitalize(classeVarClePrimaire));
-					tl(6).dal("type", "hidden");
-					tl(6, ".a(\"value\", o.get", StringUtils.capitalize(classeVarClePrimaire), "())");
-					tl(6).dfgl();
-					tl(6, "<input").l();
-					tl(6).dal("name", "focusId");
-					tl(6).dal("type", "hidden");
-					tl(6).dfgl();
-					tl(5).bgl("form");
-					tl(5, "htmlFormPage", classeNomSimple, "(o);");
+					tl(7, "name=\"focusId\"");
+					tl(7, "type=\"hidden\"");
+					tl(7, "/>");
+					tl(5, "</form>");
+					tl(5, "{{> htmlFormPage", classeNomSimple, "}}");
 					tl(4, "{{/if}}");
 				}
 				if(classeMethodeVars.contains("htmlBody")) {
 					l();
-					tl(4, "if(o}}");
-					tl(5, "o.htmlBody();");
+					tl(4, "{{#if o}}");
+					tl(5, "{{> htmlBody}}");
+					tl(4, "{{/if}}");
 				}
 				l();
-				tl(3).bgl("div").l();
-				tl(2, "}");
+				tl(3, "</div>");
+				tl(2, "{{/if}}");
 
 				// formulaires
 				if(!classePageSimple) {
-					tl(2, "htmlBodyForms", classeGenPageNomSimple, "();");
+					tl(2, "{{> htmlBodyForms", classeGenPageNomSimple, "}}");
 				}
 	
-				tl(1, "}");
+				tl(0, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"table1", classeGenPageNomSimple, "\"}}");
-				tl(2, "table class=\"w3-table w3-bordered w3-striped w3-border w3-hoverable \">");
-				tl(3, "table2", classeGenPageNomSimple, "();");
-				tl(2).bgl("table");
-				tl(1, "}");
+				tl(2, "<table class=\"w3-table w3-bordered w3-striped w3-border w3-hoverable \">");
+				tl(3, "{{> table2", classeGenPageNomSimple, "}}");
+				tl(2, "</table>");
+				tl(0, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"table2", classeGenPageNomSimple, "\"}}");
 				tl(2, "{{#block \"thead1", classeGenPageNomSimple, "\"}}");
@@ -2467,76 +2468,72 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"thead1", classeGenPageNomSimple, "\"}}");
-				tl(2, "thead class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-				tl(3, "thead2", classeGenPageNomSimple, "();");
-				tl(2).bgl("thead");
+				tl(2, "<thead class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(3, "{{> thead2", classeGenPageNomSimple, "}}");
+				tl(2, "</thead>");
 				tl(1, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"thead2", classeGenPageNomSimple, "\"}}");
-				tl(3, "tr>");
+				tl(3, "<tr>");
 				s(wTh);
-				tl(3).bgl("tr");
-				tl(1, "{{/partial}}");
+				tl(3, "</tr>");
+				tl(0, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"tbody1", classeGenPageNomSimple, "\"}}");
-				tl(2, "tbody>");
-				tl(3, "tbody2", classeGenPageNomSimple, "();");
-				tl(2).bgl("tbody");
-				tl(1, "{{/partial}}");
+				tl(2, "<tbody>");
+				tl(3, "{{> tbody2", classeGenPageNomSimple, "}}");
+				tl(2, "</tbody>");
+				tl(0, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"tbody2", classeGenPageNomSimple, "\"}}");
-				tl(2, "Map<String, Map<String, List<String>>> highlighting = ", str_liste(langueNom), classeNomSimple, "_.getQueryResponse().getHighlighting();");
-				tl(2, "for(int i = 0; i < ", str_liste(langueNom), classeNomSimple, "_.size(); i++) {");
-				tl(3, classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, "_.getList().get(i);");
-				tl(3, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
-				tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
-				tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
-				tl(3, "<tr>;");
+//				TODO
+//				tl(2, "Map<String, Map<String, List<String>>> highlighting = ", str_liste(langueNom), classeNomSimple, "_.getQueryResponse().getHighlighting();");
+				tl(2, "{{#each ", str_liste(langueNom), classeNomSimple, "_}}");
+//				TODO
+//				tl(3, classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, "_.getList().get(i);");
+//				tl(3, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
+//				tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
+//				tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
+				tl(3, "<tr>");
 				s(wTd);
-				tl(3, "} g(\"tr\");");
-				tl(2, "}");
+				tl(3, "</tr>");
+				tl(2, "{{/each}}");
 				tl(1, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"tfoot1", classeGenPageNomSimple, "\"}}");
-				tl(2, "tfoot class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-				tl(3, "tfoot2", classeGenPageNomSimple, "();");
-				tl(2).bgl("tfoot");
-				tl(1, "{{/partial}}");
+				tl(2, "<tfoot class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(3, "{{> tfoot2", classeGenPageNomSimple, "}}");
+				tl(2, "</tfoot>");
+				tl(0, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"tfoot2", classeGenPageNomSimple, "\"}}");
-				tl(2, "tr>");
-				tl(3, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", str_liste(langueNom), classeNomSimple, "_.getQueryResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(new SimpleOrderedMap());");
+				tl(2, "<tr>");
+//				TODO
+//				tl(3, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", str_liste(langueNom), classeNomSimple, "_.getQueryResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(new SimpleOrderedMap());");
 				s(wFoot);
-				tl(2).bgl("tr");
+				tl(2, "</tr>");
 				tl(1, "{{/partial}}");
 				s(wGetters);
 				l();
 				tl(0, "{{#partial \"htmlBodyForms", classeGenPageNomSimple, "\"}}");
 				if(!classePageSimple) {
 
-					tl(2, "{{# if ");
-					tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-					tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-					tl(4, ") {");
-
-					l();
+					tl(2, "{{#ifContainsAnyRoles roles, ROLES}}");
 
 					// refraîchir 1 //
-					tl(3, "{{# if ", str_liste(langueNom), classeNomSimple, "_ != null && ", str_liste(langueNom), classeNomSimple, "_.size() == 1) {");
-					tl(4, "button").l();
-					tl(5).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
-					tl(6).da("id", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple).l();
-					tl(6).s(" onclick=\"\"patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), "", StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }); return false; \">");
+					tl(3, "{{#if ", str_liste(langueNom), classeNomSimple, "_}}");
+					tl(3, "{{#eq ", str_liste(langueNom), classeNomSimple, "_.length 1}}");
+					tl(4, "<button");
+					tl(5, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " \"");
+					tl(6, "id=\"", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "\"");
+					tl(6, "onclick=\"patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), "", StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }); return false; \">");
 					tl(6, "<i class=\"fas fa-sync-alt \"></i>");
-					tl(5).sxqscl(str_recharger(langueNom), " ", contexteCeNom);
-					tl(4).bgl("button");
-					tl(3, "}");
+					tl(5, "{{", str_recharger(langueNom), " ", contexteCeNom, "}}");
+					tl(4, "</button>");
+					tl(3, "{{/eq}}");
 
-					tl(2, "}");
-					tl(2, "{{# if ");
-					tl(4, "", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "().contains(\"SiteAdmin\")");
-					tl(4, "|| ", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "().contains(\"SiteAdmin\")");
-					tl(4, ") {");
+					tl(2, "{{/ifContainsAnyRoles}}");
+					tl(2, "{{#ifContainsAnyRoles roles, [\"SiteAdmin\"]}}");
 
 
 					for(String classeApiMethode : classeApiMethodes) {
@@ -2577,10 +2574,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		
 							l();
 							if(tab > 0)
-								tl(3, "{{# if ", str_liste(langueNom), classeNomSimple, "_ != null && ", str_liste(langueNom), classeNomSimple, "_.size() == 1) {");
-							tl(3 + tab, "button").l();
-							tl(4 + tab).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
-							tl(4 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').show(); ");
+								tl(3, "{{#if ", str_liste(langueNom), classeNomSimple, "_ != null && ", str_liste(langueNom), classeNomSimple, "_.size() == 1) {");
+							tl(3 + tab, "<button");
+							tl(4 + tab, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " \"");
+							tl(4 + tab, "onclick=\"$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').show(); \"");
 							tl(4 + tab).dfl();
 
 								if(classeApiMethodeMethode.contains("POST"))
@@ -2594,109 +2591,104 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								else if(classeApiMethode.contains(str_PUTCopie(langueNom)))
 									tl(4 + tab, "<i class=\"fas fa-copy \"></i>");
 
-								tl(4 + tab).sxqscl(methodeTitreValeurs);
-							tl(3 + tab).bgl("button");
-							{ tl(3 + tab, "div id", classeApiOperationIdMethode, str_Modale(langueNom), " \" class=\"w3-modal w3-padding-32\">");
-								{ tl(4 + tab, "div class=\"w3-modal-content \">");
-									{ tl(5 + tab, "div class=\"w3-card-4 \">");
-										{ tl(6 + tab, "header class=\"w3-container w3-", contexteCouleur, "\">");
-											tl(7 + tab, "<span class=\"w3-button w3-display-topright \" onclick", "$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').hide(); ").df().dsxq("×").dgl("span");
-											tl(7 + tab, "<h2 class=\"w3-padding \"").df().dsxq(methodeTitreValeurs).dgl("h2");
-										} tl(6 + tab).bgl("header");
+								tl(4 + tab, "{{", methodeTitreValeurs, "}}");
+							tl(3 + tab, "</button>");
+							{ tl(3 + tab, "<div id=\"", classeApiOperationIdMethode, str_Modale(langueNom), " \" class=\"w3-modal w3-padding-32\">");
+								{ tl(4 + tab, "<div class=\"w3-modal-content \">");
+									{ tl(5 + tab, "<div class=\"w3-card-4 \">");
+										{ tl(6 + tab, "<header class=\"w3-container w3-", contexteCouleur, "\">");
+											tl(7 + tab, "<span class=\"w3-button w3-display-topright \" onclick=\"$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').hide(); >×</span>");
+											tl(7 + tab, "<h2 class=\"w3-padding \">", methodeTitreValeurs, "</h2>");
+										} tl(6 + tab, "</header>");
 			
-										{ tl(6 + tab, "div class=\"w3-container \" id", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom)).dfl();
-											tl(7+ tab, classeNomSimple, " o = new ", classeNomSimple, "();");
-//											tl(7+ tab, "o.", str_initLoin(langueNom), str_PourClasse(langueNom), "(", str_requeteSite(langueNom), "_);");
-											tl(7+ tab, "o.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
+										{ tl(6 + tab, "<div class=\"w3-container \" id=", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), ">");
+//											TODO
+//											tl(7+ tab, classeNomSimple, " o = new ", classeNomSimple, "();");
+////											tl(7+ tab, "o.", str_initLoin(langueNom), str_PourClasse(langueNom), "(", str_requeteSite(langueNom), "_);");
+//											tl(7+ tab, "o.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
 											if("PATCH".equals(classeApiMethodeMethode) || str_PUTFusion(langueNom).equals(classeApiMethodeMethode) || str_PUTCopie(langueNom).equals(classeApiMethodeMethode) || "PUTImport".equals(classeApiMethodeMethode)) {
 												l();
 			
 												if("DELETE".equals(classeApiMethodeMethode))
-													tl(7 + tab, "htmlFormPATCH", classeNomSimple, "(o);");
+													tl(7 + tab, "{{> htmlFormPATCH", classeNomSimple, " o}}");
 												else
-													tl(7 + tab, "htmlForm", classeApiMethodeMethode, classeNomSimple, "(o);");
+													tl(7 + tab, "{{> htmlForm", classeApiMethodeMethode, classeNomSimple, " o}}");
 			
 												tl(7 + tab, "<button").l();
-												tl(8 + tab).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " ");
+												tl(8 + tab, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " \"");
 				
 												if("POST".equals(classeApiMethodeMethode))
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
 												else if("PATCH".equals(classeApiMethodeMethode))
-//															tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\", \", function() {}, function() {}); \")");
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "(null, $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\", \", function() {}, function() {}); \")");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "(null, $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\", \", function() {}, function() {}); \")");
 												else if("PUTImport".equals(classeApiMethode))
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\", \"); \")");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\", \"); \")");
 												else if(str_PUTFusion(langueNom).equals(classeApiMethode))
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\", \"); \")");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\", \"); \")");
 												else if(str_PUTCopie(langueNom).equals(classeApiMethode))
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\", \"); \")");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), \", Optional.ofNullable(", StringUtils.uncapitalize(classeNomSimple), "_).map(", classeNomSimple, "::get", StringUtils.capitalize(classeVarClePrimaire), ").map(a -> a.toString()).orElse(\"null\", \"); \")");
 												else if(tab > 0)
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
 												else
-													tl(8 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
+													tl(8 + tab, "onclick=\"", classeApiOperationIdMethode, "\"");
 				
-												tl(8 + tab).df().dsxq(methodeTitreValeurs).l();
-												tl(7 + tab).dgl("button");
+												tl(8 + tab, ">{{", methodeTitreValeurs, "}}");
+												tl(7 + tab, "</button>");
 												l();
 											}
 											else {
 												l();
-												tl(7 + tab).l("// Form ", classeApiMethodeMethode);
-												{ tl(7 + tab, "div id", classeApiOperationIdMethode, "Form>");
+												{ tl(7 + tab, "<div id=\"", classeApiOperationIdMethode, "Form\">");
 			
 												if("DELETE".equals(classeApiMethodeMethode))
-													tl(8 + tab, "htmlFormPATCH", classeNomSimple, "(o);");
+													tl(8 + tab, "{{> htmlFormPATCH", classeNomSimple, " o}}");
 												else if("PUTImport".equals(classeApiMethode))
-													tl(8 + tab, "htmlFormPUTImport", classeNomSimple, "(o);");
+													tl(8 + tab, "{{> htmlFormPUTImport", classeNomSimple, " o}}");
 												else if(str_PUTFusion(langueNom).equals(classeApiMethode))
-													tl(8 + tab, "htmlForm", str_PUTFusion(langueNom), classeNomSimple, "(o);");
+													tl(8 + tab, "{{> htmlForm", str_PUTFusion(langueNom), classeNomSimple, " o}}");
 												else if(str_PUTCopie(langueNom).equals(classeApiMethode))
-													tl(8 + tab, "htmlForm", str_PUTCopie(langueNom), classeNomSimple, "(o);");
+													tl(8 + tab, "{{> htmlForm", str_PUTCopie(langueNom), classeNomSimple, " o}}");
 												else
-													tl(8 + tab, "htmlForm", classeApiMethodeMethode, classeNomSimple, "(o);");
+													tl(8 + tab, "{{> htmlForm", classeApiMethodeMethode, classeNomSimple, " o}}");
 			
-												} tl(7 + tab).bgl("div");
+												} tl(7 + tab, "</div>");
 												tl(7 + tab, "<button").l();
-												tl(8 + tab).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " ");
-				
-				//								tl(8 + tab, " onclick=\"\"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Form').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {}))); \"");
-				//								tl(8 + tab, " onclick=\"\"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Form').serializeObject())); \"");
-				
+												tl(8 + tab).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " \"");
 												if("POST".equals(classeApiMethodeMethode))
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
 												else if("PATCH".equals(classeApiMethodeMethode))
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), function() {}, function() {}); \"");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, str_FormulaireFiltres(langueNom), "'), $('#", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom), "'), function() {}, function() {}); \"");
 												else if("PUTImport".equals(classeApiMethode))
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
 												else if(str_PUTFusion(langueNom).equals(classeApiMethode))
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
 												else if(str_PUTCopie(langueNom).equals(classeApiMethode))
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", StringUtils.uncapitalize(classeNomSimple), "_ == null ? \"null\" : ", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", StringUtils.uncapitalize(classeNomSimple), "_ == null ? \"null\" : ", StringUtils.uncapitalize(classeNomSimple), "_.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
 												else if(tab > 0)
-													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
+													tl(8 + tab, "onclick=\"\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
 												else
-													tl(8 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
+													tl(8 + tab, "onclick=\"", classeApiOperationIdMethode, "(); \"");
 				
-												tl(8 + tab).df().dsxq(methodeTitreValeurs).l();
-												tl(7 + tab).dgl("button");
+												tl(8 + tab, ">{{", methodeTitreValeurs, "}}");
+												tl(7 + tab, "</button>");
 												l();
 											}
-										} tl(6 + tab).bgl("div");
-									} tl(5 + tab).bgl("div");
-								} tl(4 + tab).bgl("div");
-							} tl(3 + tab).bgl("div");
+										} tl(6 + tab, "</div>");
+									} tl(5 + tab, "</div>");
+								} tl(4 + tab, "</div>");
+							} tl(3 + tab, "</div>");
 		
 							l();
 							if(tab > 0)
-								tl(3, "}");
+								tl(3, "{{/if}}");
 						}
 					}
 
-					tl(2).s("}").l();
-					tl(2, "html", str_Suggere(langueNom), classeGenPageNomSimple, "(this, null, ", str_liste(langueNom), classeNomSimple, "_);");
+					tl(2, "{{/ifContainsAnyRoles}}");
+					tl(2, "{{> html", str_Suggere(langueNom), classeGenPageNomSimple, "(this, null, ", str_liste(langueNom), classeNomSimple, "_}}");
 				}
 			}
-			tl(1, "");
+			l();
 
 			if(!classePageSimple) {
 				l();
