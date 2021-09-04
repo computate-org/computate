@@ -214,7 +214,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 			}
 			
-			wForm.t(3).l("o.htm", entiteVarCapitalise, "(\"", classeApiMethodeMethode, "\");");
+			wForm.t(3).l("{{> htm", entiteVarCapitalise, " ", str_classeApiMethodeMethode(langueNom), "=\"", classeApiMethodeMethode, "\"}}");
 		}
 		return resultat;
 	}
@@ -2139,27 +2139,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"htmlFormPUTImport", classeNomSimple, "\"}}");
-				t(2).be("div class=\"w3-cell-row \">");
-				t(3).s("<textarea").l();
-				t(4).s(" class=\"\"", "PUTImport", "_", str_liste(langueNom), " w3-input w3-border \"").l("");
-				t(4).s(" style=\"\"height: 400px; \"").l();
-				t(4).s(" placeholder=\"\"{ \\\"", str_liste(langueNom), "\\\": [ { \\\"pk\\\": ... , \\\"", str_sauvegardes(langueNom), "\\\": [ ... ] }, ... ] }\"").l();
-				t(4).s(";").l();
-				t(4).s("f();").l();
-				t(3).s("g(\"textarea\");").l();
-				t(2).bgl("div");
+				tl(2, "<div class=\"w3-cell-row \">");
+				tl(3, "<textarea");
+				tl(4, "class=\"", "PUTImport_", str_liste(langueNom), " w3-input w3-border \"");
+				tl(4, "style=\"height: 400px; \"");
+				tl(4, "placeholder=\"{ '", str_liste(langueNom), "': [ { 'pk': ... , '", str_sauvegardes(langueNom), "': [ ... ] }, ... ] }\"");
+				tl(4, "></textarea>");
+				tl(2, "</div>");
 				tl(0, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"htmlForm", str_PUTFusion(langueNom), classeNomSimple, "\"}}");
-				t(2).be("div class=\"w3-cell-row \">");
-				t(3).s("<textarea").l();
-				t(4).s(" class=\"\"", str_PUTFusion(langueNom), "_", str_liste(langueNom), " w3-input w3-border \"").l();
-				t(4).s(" style=\"\"height: 400px; \"").l();
-				t(4).s(" placeholder=\"\"{ \\\"", str_liste(langueNom), "\\\": [ { \\\"pk\\\": ... , \\\"", str_sauvegardes(langueNom), "\\\": [ ... ] }, ... ] }\"").l();
-				t(4).s(";").l();
-				t(4).s("f();").l();
-				t(3).s("g(\"textarea\");").l();
-				t(2).bgl("div");
+				tl(2, "<div class=\"w3-cell-row \">");
+				tl(3, "<textarea");
+				tl(4, "class=\"", "PUT", str_PUTFusion(langueNom), "_", str_liste(langueNom), " w3-input w3-border \"");
+				tl(4, "style=\"height: 400px; \"");
+				tl(4, "placeholder=\"{ '", str_liste(langueNom), "': [ { 'pk': ... , '", str_sauvegardes(langueNom), "': [ ... ] }, ... ] }\"");
+				tl(4, "></textarea>");
+				tl(2, "</div>");
 				tl(0, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"htmlForm", str_PUTCopie(langueNom), classeNomSimple, "\"}}");
@@ -2175,7 +2171,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{/partial}}");
 			}
 			l();
-			t(0, "{{#partial \"htmlUrl", classeNomSimple, "\"}}");
+			tl(0, "{{#partial \"htmlUrl", classeNomSimple, "\"}}");
 			s(classePageUriMethode);
 			s("?q={{query.q}}");
 			s("&rows={{#if rows}}{{rows}}{{else}}{{pagination.", str_lignes(langueNom), "}}{{/eq}}");
@@ -2249,7 +2245,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				tl(2, "{{#if ", str_liste(langueNom), classeNomSimple, "_}}");
 
-				tl(3, "{{#eq ", str_liste(langueNom), classeNomSimple, "_.size() 1}}");
+				tl(3, "{{#eq ", str_liste(langueNom), classeNomSimple, "_.length 1}}");
 				tl(4, "{{#eq params.query.q \"*:*\"}}");
 
 				tl(5, "{{#with ", str_liste(langueNom), classeNomSimple, "_[0]}}");
@@ -2258,6 +2254,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(7, "<a href=\"{{> htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 				tl(8, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
 				tl(9, "<i class=\"", str_contexteIconeClassesCss(langueNom), " site-menu-icon \"></i>");
+				tl(8, "{{/if}}");
 				tl(8, "<span class=\"\">{{pageH1}}</span>");
 				tl(7, "</a>");
 				tl(6, "</h1>");
@@ -2290,54 +2287,110 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					tl(5, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
 //					t(4).e("span class=\" \"").df().dsxq(contexteNomPluriel).dgl("span");
 //					t(3).bgl("h1");
-				tl(3, "<h1>");
-				tl(4, "<a href=\"{{> htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-				tl(5, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
-				tl(6, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
-				tl(5, "{{/if}}");
-				tl(5, "<span class=\" \"").df().s("pageH1").dgl("span");
-				tl(4, "</a>");
-				tl(3, "</h1>");
+				tl(5, "<h1>");
+				tl(6, "<a href=\"{{> htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(7, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
+				tl(8, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
+				tl(7, "{{/if}}");
+				tl(7, "<span class=\"\">{{pageH1}}</span>");
+				tl(6, "</a>");
+				tl(5, "</h1>");
 
-//					tl(3, "<div class=\"w3-padding-16 w3-card-4 w3-light-grey \">");
-				tl(3, "<div class=\"\">");
+//					tl(5, "<div class=\"w3-padding-16 w3-card-4 w3-light-grey \">");
+				tl(5, "<div class=\"\">");
 
-				tl(4, "<div>");
+				tl(6, "<div>");
 				l();
-				tl(5, "{{#if pagination.page", str_Precedent(langueNom), "}}");
-				tl(6, "<a href=\"{{> htmlUrl", classeNomSimple, " fq=start}}\">");
-				t(7, "<i class=\"fas fa-arrow-square-left \"").df().dgl("i");
-				t(6, "</a>");
-				tl(5, "{{else}}");
-				t(6, "<i class=\"fas fa-arrow-square-left w3-opacity \"").df().dgl("i");
-				tl(5, "{{/if}}");
+				tl(7, "{{#if pagination.page", str_Precedent(langueNom), "}}");
+				tl(8, "<a href=\"{{> htmlUrl", classeNomSimple, " fq=start}}\">");
+				tl(9, "<i class=\"fas fa-arrow-square-left \"></i>");
+				tl(8, "</a>");
+				tl(8, "{{else}}");
+				tl(8, "<i class=\"fas fa-arrow-square-left w3-opacity \"></i>");
+				tl(7, "{{/if}}");
 				l();
-				tl(5, "if(rows1 <= 1) {");
-				t(6, "<i class=\"fas fa-minus-square w3-opacity \"").df().dgl("i");
-				tl(5, "} else {");
-				tl(6, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start1, \"&rows=\", rows2)>;");
-				t(7, "<i class=\"fas fa-minus-square \"").df().dgl("i");
-				t(6, "</a>");
-				tl(5, "}");
+				tl(7, "if(rows1 <= 1) {");
+				tl(8, "<i class=\"fas fa-minus-square w3-opacity \"></i>");
+				tl(7, "{{else}}");
+				tl(8, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start1, \"&rows=\", rows2)>;");
+				tl(9, "<i class=\"fas fa-minus-square \"></i>");
+				tl(8, "</a>");
+				tl(7, "{{/if}}");
 				l();
-				tl(5, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start1, \"&rows=\", rows3)>;");
-				t(6, "<i class=\"fas fa-plus-square \"").df().dgl("i");
-				t(5, "</a>");
+				tl(7, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start1, \"&rows=\", rows3)>;");
+				tl(8, "<i class=\"fas fa-plus-square \"></i>");
+				tl(7, "</a>");
 				l();
-				tl(5, "if(start3 >= num) {");
-				t(6, "<i class=\"fas fa-arrow-square-right w3-opacity \"").df().dgl("i");
-				tl(5, "} else {");
-				tl(6, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start3, \"&rows=\", rows1)>;");
-				t(7, "<i class=\"fas fa-arrow-square-right \"").df().dgl("i");
-				t(6, "</a>");
-				tl(5, "}");
+				tl(7, "{{#gte start3 num}}");
+				tl(8, "<i class=\"fas fa-arrow-square-right w3-opacity \"></i>");
+				tl(7, "{{else}}");
+				tl(8, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start3, \"&rows=\", rows1)>;");
+				tl(9, "<i class=\"fas fa-arrow-square-right \"></i>");
+				tl(8, "</a>");
+				tl(7, "{{/gte}}");
+				tl(7, "<span>(start1 + 1), \" - \", (start1 + rows1), \" ", str_de(langueNom), " \", num</span>");
+
+				tl(6, "</div>");
+
+				tl(6, "{{#block \"table1", classeGenPageNomSimple, "\"}}");
+				tl(5, "</div>");
+				tl(4, "{{/eq}}");
+				tl(3, "{{else}}");
+
+//					t(3).l("// contexteNomPluriel : plusiers ", contexteNomPluriel);
+//					t(3).be("h1>");
+//					tl(4, "if(", str_contexteIconeClassesCss(langueNom), " != null)");
+//					tl(5, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
+//					t(4).e("span class=\" \"").df().dsxq(contexteNomPluriel).dgl("span");
+//					t(3).bgl("h1");
+				tl(4, "<h1>");
+				tl(5, "<a href=\"{{> htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(6, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
+				tl(7, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
+				tl(6, "{{/if}}");
+				tl(6, "<span class=\"\">{{pageH1}}</span>");
+				tl(5, "</a>");
+				tl(4, "</h1>");
+
+//					tl(4, "<div class=\"w3-padding-16 w3-card-4 w3-light-grey \">");
+				tl(4, "<div class=\"\">");
+
+				tl(5, "<div>");
+				l();
+				tl(6, "{{#if pagination.page", str_Precedent(langueNom), "}}");
+				tl(7, "<a href=\"{{> htmlUrl", classeNomSimple, " fq=start}}\">");
+				tl(8, "<i class=\"fas fa-arrow-square-left \"></i>");
+				tl(7, "</a>");
+				tl(7, "{{else}}");
+				tl(7, "<i class=\"fas fa-arrow-square-left w3-opacity \"></i>");
+				tl(6, "{{/if}}");
+				l();
+				tl(6, "if(rows1 <= 1) {");
+				tl(7, "<i class=\"fas fa-minus-square w3-opacity \"></i>");
+				tl(6, "{{else}}");
+				tl(7, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start1, \"&rows=\", rows2)>;");
+				tl(8, "<i class=\"fas fa-minus-square \"></i>");
+				tl(7, "</a>");
+				tl(6, "{{/if}}");
+				l();
+				tl(6, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start1, \"&rows=\", rows3)>;");
+				tl(7, "<i class=\"fas fa-plus-square \"></i>");
+				tl(6, "</a>");
+				l();
+				tl(6, "{{#gte start3 num}}");
+				tl(7, "<i class=\"fas fa-arrow-square-right w3-opacity \"></i>");
+				tl(6, "{{else}}");
+				tl(7, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start3, \"&rows=\", rows1)>;");
+				tl(8, "<i class=\"fas fa-arrow-square-right \"></i>");
+				tl(7, "</a>");
+				tl(6, "{{/gte}}");
 				tl(6, "<span>(start1 + 1), \" - \", (start1 + rows1), \" ", str_de(langueNom), " \", num</span>");
 
-				t(4).bgl("div");
+				tl(5, "</div>");
 
-				tl(4, "{{#block \"table1", classeGenPageNomSimple, "}}");
-				t(3).bgl("div");
-				tl(4, "{{/eq}}");
+				tl(5, "{{#block \"table1", classeGenPageNomSimple, "\"}}");
+				tl(4, "</div>");
+				tl(3, "{{/eq}}");
 				tl(2, "{{else}}");
 				tl(3, "<h1>");
 				tl(4, "<a href=\"{{> htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
@@ -2358,33 +2411,32 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(5, "<span class=\"\">", contexteAucunNomTrouve, "</span>");
 				tl(4, "</span>");
 				tl(3, "</h2>");
-				tl(3, "{{/eq}}");
 				tl(2, "{{/if}}");
 
 				// singulier part 2
 				l();
 //					tl(2, "{{# if ", str_liste(langueNom), classeNomSimple, "_ != null && ", str_liste(langueNom), classeNomSimple, "_.size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\") && params.getJsonObject(\"query\").getJsonArray(\"fq\") == null) {");
 				tl(2, "{{# if ", str_liste(langueNom), classeNomSimple, "_ != null && ", str_liste(langueNom), classeNomSimple, "_.size() == 1 && params.getJsonObject(\"query\").getString(\"q\").equals(\"*:*\")) {");
-				t(3).l(classeNomSimple, " o = ", str_liste(langueNom), classeNomSimple, "_.first();");
+				tl(3, "{{#with ", str_liste(langueNom), classeNomSimple, "_[0]}}");
 				l();
-				t(3, "div class=\"\">");
+				t(3, "<div class=\"\">");
 				if(classeVarClePrimaire != null) {
 					l();
-					tl(4, "if(o.get", StringUtils.capitalize(classeVarClePrimaire), "() != null) {");
-					t(5, "form action", classeApiUri, " \" id", classeNomSimple, "Form style=\"display: inline-block; width: 100%; \" onsubmit=\"event.preventDefault(); return false; \">");
-					t(6, "<input").l();
-					t(6).dal("name", classeVarClePrimaire);
-					t(6).dal("class", str_valeur(langueNom), StringUtils.capitalize(classeVarClePrimaire));
-					t(6).dal("type", "hidden");
+					tl(4, "{{#if ", classeVarClePrimaire, "}}");
+					tl(5, "<form action=\"", classeApiUri, "\" id=\"", classeNomSimple, "Form\" style=\"display: inline-block; width: 100%; \" onsubmit=\"event.preventDefault(); return false; \">");
+					tl(6, "<input").l();
+					tl(6).dal("name", classeVarClePrimaire);
+					tl(6).dal("class", str_valeur(langueNom), StringUtils.capitalize(classeVarClePrimaire));
+					tl(6).dal("type", "hidden");
 					tl(6, ".a(\"value\", o.get", StringUtils.capitalize(classeVarClePrimaire), "())");
-					t(6).dfgl();
-					t(6, "<input").l();
-					t(6).dal("name", "focusId");
-					t(6).dal("type", "hidden");
-					t(6).dfgl();
-					t(5).bgl("form");
+					tl(6).dfgl();
+					tl(6, "<input").l();
+					tl(6).dal("name", "focusId");
+					tl(6).dal("type", "hidden");
+					tl(6).dfgl();
+					tl(5).bgl("form");
 					tl(5, "htmlFormPage", classeNomSimple, "(o);");
-					tl(4, "}");
+					tl(4, "{{/if}}");
 				}
 				if(classeMethodeVars.contains("htmlBody")) {
 					l();
@@ -2392,7 +2444,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(5, "o.htmlBody();");
 				}
 				l();
-				t(3).bgl("div").l();
+				tl(3).bgl("div").l();
 				tl(2, "}");
 
 				// formulaires
@@ -2403,9 +2455,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 				l();
 				tl(0, "{{#partial \"table1", classeGenPageNomSimple, "\"}}");
-				t(2, "table class=\"w3-table w3-bordered w3-striped w3-border w3-hoverable \">");
+				tl(2, "table class=\"w3-table w3-bordered w3-striped w3-border w3-hoverable \">");
 				tl(3, "table2", classeGenPageNomSimple, "();");
-				t(2).bgl("table");
+				tl(2).bgl("table");
 				tl(1, "}");
 				l();
 				tl(0, "{{#partial \"table2", classeGenPageNomSimple, "\"}}");
@@ -2415,21 +2467,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"thead1", classeGenPageNomSimple, "\"}}");
-				t(2, "thead class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(2, "thead class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 				tl(3, "thead2", classeGenPageNomSimple, "();");
-				t(2).bgl("thead");
+				tl(2).bgl("thead");
 				tl(1, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"thead2", classeGenPageNomSimple, "\"}}");
-				t(3, "tr>");
+				tl(3, "tr>");
 				s(wTh);
-				t(3).bgl("tr");
+				tl(3).bgl("tr");
 				tl(1, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"tbody1", classeGenPageNomSimple, "\"}}");
-				t(2, "tbody>");
+				tl(2, "tbody>");
 				tl(3, "tbody2", classeGenPageNomSimple, "();");
-				t(2).bgl("tbody");
+				tl(2).bgl("tbody");
 				tl(1, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"tbody2", classeGenPageNomSimple, "\"}}");
@@ -2446,16 +2498,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"tfoot1", classeGenPageNomSimple, "\"}}");
-				t(2, "tfoot class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(2, "tfoot class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 				tl(3, "tfoot2", classeGenPageNomSimple, "();");
-				t(2).bgl("tfoot");
+				tl(2).bgl("tfoot");
 				tl(1, "{{/partial}}");
 				l();
 				tl(0, "{{#partial \"tfoot2", classeGenPageNomSimple, "\"}}");
-				t(2, "tr>");
+				tl(2, "tr>");
 				tl(3, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", str_liste(langueNom), classeNomSimple, "_.getQueryResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(new SimpleOrderedMap());");
 				s(wFoot);
-				t(2).bgl("tr");
+				tl(2).bgl("tr");
 				tl(1, "{{/partial}}");
 				s(wGetters);
 				l();
@@ -2471,13 +2523,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 					// refraîchir 1 //
 					tl(3, "{{# if ", str_liste(langueNom), classeNomSimple, "_ != null && ", str_liste(langueNom), classeNomSimple, "_.size() == 1) {");
-					t(4, "button").l();
-					t(5).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
-					t(6).da("id", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple).l();
-					t(6).s(" onclick=\"\"patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), "", StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }); return false; \">");
-					t(6, "<i class=\"fas fa-sync-alt \"").df().dgl("i");
-					t(5).sxqscl(str_recharger(langueNom), " ", contexteCeNom);
-					t(4).bgl("button");
+					tl(4, "button").l();
+					tl(5).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
+					tl(6).da("id", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple).l();
+					tl(6).s(" onclick=\"\"patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), "", StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }); return false; \">");
+					tl(6, "<i class=\"fas fa-sync-alt \"></i>");
+					tl(5).sxqscl(str_recharger(langueNom), " ", contexteCeNom);
+					tl(4).bgl("button");
 					tl(3, "}");
 
 					tl(2, "}");
@@ -2526,33 +2578,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							l();
 							if(tab > 0)
 								tl(3, "{{# if ", str_liste(langueNom), classeNomSimple, "_ != null && ", str_liste(langueNom), classeNomSimple, "_.size() == 1) {");
-							t(3 + tab, "button").l();
-							t(4 + tab).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
-							t(4 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').show(); ");
-							t(4 + tab).dfl();
+							tl(3 + tab, "button").l();
+							tl(4 + tab).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
+							tl(4 + tab).dal("onclick", "$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').show(); ");
+							tl(4 + tab).dfl();
 
 								if(classeApiMethodeMethode.contains("POST"))
-									t(4 + tab, "<i class=\"fas fa-file-plus \"").df().dgl("i");
+									tl(4 + tab, "<i class=\"fas fa-file-plus \"></i>");
 								else if(classeApiMethodeMethode.contains("PATCH"))
-									t(4 + tab, "<i class=\"fas fa-edit \"").df().dgl("i");
+									tl(4 + tab, "<i class=\"fas fa-edit \"></i>");
 								else if(classeApiMethode.contains("PUTImport"))
-									t(4 + tab, "<i class=\"fas fa-file-import \"").df().dgl("i");
+									tl(4 + tab, "<i class=\"fas fa-file-import \"></i>");
 								else if(classeApiMethode.contains(str_PUTFusion(langueNom)))
-									t(4 + tab, "<i class=\"fas fa-code-merge \"").df().dgl("i");
+									tl(4 + tab, "<i class=\"fas fa-code-merge \"></i>");
 								else if(classeApiMethode.contains(str_PUTCopie(langueNom)))
-									t(4 + tab, "<i class=\"fas fa-copy \"").df().dgl("i");
+									tl(4 + tab, "<i class=\"fas fa-copy \"></i>");
 
-								t(4 + tab).sxqscl(methodeTitreValeurs);
-							t(3 + tab).bgl("button");
-							{ t(3 + tab, "div id", classeApiOperationIdMethode, str_Modale(langueNom), " \" class=\"w3-modal w3-padding-32\">");
-								{ t(4 + tab, "div class=\"w3-modal-content \">");
-									{ t(5 + tab, "div class=\"w3-card-4 \">");
-										{ t(6 + tab, "header class=\"w3-container w3-", contexteCouleur, "\">");
-											t(7 + tab, "<span class=\"w3-button w3-display-topright \" onclick", "$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').hide(); ").df().dsxq("×").dgl("span");
-											t(7 + tab, "<h2 class=\"w3-padding \"").df().dsxq(methodeTitreValeurs).dgl("h2");
-										} t(6 + tab).bgl("header");
+								tl(4 + tab).sxqscl(methodeTitreValeurs);
+							tl(3 + tab).bgl("button");
+							{ tl(3 + tab, "div id", classeApiOperationIdMethode, str_Modale(langueNom), " \" class=\"w3-modal w3-padding-32\">");
+								{ tl(4 + tab, "div class=\"w3-modal-content \">");
+									{ tl(5 + tab, "div class=\"w3-card-4 \">");
+										{ tl(6 + tab, "header class=\"w3-container w3-", contexteCouleur, "\">");
+											tl(7 + tab, "<span class=\"w3-button w3-display-topright \" onclick", "$('#", classeApiOperationIdMethode, str_Modale(langueNom), "').hide(); ").df().dsxq("×").dgl("span");
+											tl(7 + tab, "<h2 class=\"w3-padding \"").df().dsxq(methodeTitreValeurs).dgl("h2");
+										} tl(6 + tab).bgl("header");
 			
-										{ t(6 + tab, "div class=\"w3-container \" id", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom)).dfl();
+										{ tl(6 + tab, "div class=\"w3-container \" id", classeApiOperationIdMethode, str_FormulaireValeurs(classePageLangueNom)).dfl();
 											tl(7+ tab, classeNomSimple, " o = new ", classeNomSimple, "();");
 //											tl(7+ tab, "o.", str_initLoin(langueNom), str_PourClasse(langueNom), "(", str_requeteSite(langueNom), "_);");
 											tl(7+ tab, "o.set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
@@ -2564,8 +2616,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												else
 													tl(7 + tab, "htmlForm", classeApiMethodeMethode, classeNomSimple, "(o);");
 			
-												t(7 + tab, "<button").l();
-												t(8 + tab).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " ");
+												tl(7 + tab, "<button").l();
+												tl(8 + tab).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " ");
 				
 												if("POST".equals(classeApiMethodeMethode))
 													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
@@ -2581,16 +2633,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												else if(tab > 0)
 													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
 												else
-													t(8 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
+													tl(8 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
 				
-												t(8 + tab).df().dsxq(methodeTitreValeurs).l();
-												t(7 + tab).dgl("button");
+												tl(8 + tab).df().dsxq(methodeTitreValeurs).l();
+												tl(7 + tab).dgl("button");
 												l();
 											}
 											else {
 												l();
-												t(7 + tab).l("// Form ", classeApiMethodeMethode);
-												{ t(7 + tab, "div id", classeApiOperationIdMethode, "Form>");
+												tl(7 + tab).l("// Form ", classeApiMethodeMethode);
+												{ tl(7 + tab, "div id", classeApiOperationIdMethode, "Form>");
 			
 												if("DELETE".equals(classeApiMethodeMethode))
 													tl(8 + tab, "htmlFormPATCH", classeNomSimple, "(o);");
@@ -2603,9 +2655,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												else
 													tl(8 + tab, "htmlForm", classeApiMethodeMethode, classeNomSimple, "(o);");
 			
-												} t(7 + tab).bgl("div");
-												t(7 + tab, "<button").l();
-												t(8 + tab).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " ");
+												} tl(7 + tab).bgl("div");
+												tl(7 + tab, "<button").l();
+												tl(8 + tab).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " ");
 				
 				//								tl(8 + tab, " onclick=\"\"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Form').serializeArray().reduce(function(a, x) { a[x.name] = x.value; return a; }, {}))); \"");
 				//								tl(8 + tab, " onclick=\"\"alert(JSON.stringify($('#", classeApiOperationIdMethode, "Form').serializeObject())); \"");
@@ -2623,16 +2675,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												else if(tab > 0)
 													tl(8 + tab, " onclick=\"\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
 												else
-													t(8 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
+													tl(8 + tab).dal("onclick", classeApiOperationIdMethode, "(); ");
 				
-												t(8 + tab).df().dsxq(methodeTitreValeurs).l();
-												t(7 + tab).dgl("button");
+												tl(8 + tab).df().dsxq(methodeTitreValeurs).l();
+												tl(7 + tab).dgl("button");
 												l();
 											}
-										} t(6 + tab).bgl("div");
-									} t(5 + tab).bgl("div");
-								} t(4 + tab).bgl("div");
-							} t(3 + tab).bgl("div");
+										} tl(6 + tab).bgl("div");
+									} tl(5 + tab).bgl("div");
+								} tl(4 + tab).bgl("div");
+							} tl(3 + tab).bgl("div");
 		
 							l();
 							if(tab > 0)
@@ -2640,7 +2692,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						}
 					}
 
-					t(2).s("}").l();
+					tl(2).s("}").l();
 					tl(2, "html", str_Suggere(langueNom), classeGenPageNomSimple, "(this, null, ", str_liste(langueNom), classeNomSimple, "_);");
 				}
 			}
@@ -2766,7 +2818,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				t(6).s("{ p.", "<button").s(".a(\"id\", \"", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id) class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
 				s(" onclick=\"\"patch", classeNomSimple, "Vals([], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }); \"");
 				dfl();
-				t(7).s("p.", "<i class=\"fas fa-sync-alt \"").df().dgl("i");
+				t(7).s("p.", "<i class=\"fas fa-sync-alt \"></i>");
 				t(7).s("p.").sxqscl(str_recharger(langueNom), " ", contexteTousNom);
 				t(6).s("} p.").gl("button");
 				t(5).s("} p.").gl("div");
@@ -2804,7 +2856,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				t(5).dal("class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
 				tl(5, " onclick=\"\"window.location.href = '", classePageUriMethode + "?q=\", query1, \":' + encodeURIComponent(this.previousElementSibling.value) + '\", fqs, sorts, \"&start=\", start2, \"&rows=\", rows1, \"'; \" ");
 				t(5).dfl();
-				t(5).s("p.", "<i class=\"fas fa-search \"").df().dgl("i");
+				t(5).s("p.", "<i class=\"fas fa-search \"></i>");
 				t(4).s("} p.").gl("button");
 
 				l();
@@ -2820,7 +2872,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				t(3).s("{ p.", "<div class=\"\">");
 				t(4).s("{ p.", "<a href", classePageUriMethode, " \" class=\">");
 				if(contexteIconeGroupe != null && contexteIconeNom != null)
-					t(5).s("p.", "<i class=\"fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ").df().dgl("i");
+					t(5).s("p.", "<i class=\"fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ></i>");
 				t(5).s("p.").sxqscl(str_voir(langueNom), " ", contexteTousNom);
 				t(4).s("} p.").gl("a");
 				t(3).s("} p.").gl("div");
@@ -3620,7 +3672,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //									wTd.tl(5, "<td>;");
 //									wTd.tl(6, "<a href=\"{{uri}}\")>");
 //									if(contexteIconeGroupe != null && contexteIconeNom != null && BooleanUtils.isTrue(entiteVarTitre))
-//										wTd.tl(7, "<i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ").df().dgl("i");
+//										wTd.tl(7, "<i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ></i>");
 //									wTd.tl(7, "<span>;");
 //									wTd.tl(8, "sx(o.str", entiteVarCapitalise, "());");
 //									wTd.tl(7, "} g(\"span\");");
@@ -4583,30 +4635,30 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					tl(5, "}");
 //					l();
 //					tl(5, "if(start1 == 0) {");
-//					t(6).e("i class=\"fas fa-arrow-square-left w3-opacity \"").df().dgl("i");
+//					t(6).e("i class=\"fas fa-arrow-square-left w3-opacity \"></i>");
 //					tl(5, "} else {");
 //					tl(6, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start2, \"&rows=\", rows1)>;");
-//					t(7).e("i class=\"fas fa-arrow-square-left \"").df().dgl("i");
+//					t(7).e("i class=\"fas fa-arrow-square-left \"></i>");
 //					t(6, "</a>");
 //					tl(5, "}");
 //					l();
 //					tl(5, "if(rows1 <= 1) {");
-//					t(6).e("i class=\"fas fa-minus-square w3-opacity \"").df().dgl("i");
+//					t(6).e("i class=\"fas fa-minus-square w3-opacity \"></i>");
 //					tl(5, "} else {");
 //					tl(6, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start1, \"&rows=\", rows2)>;");
-//					t(7).e("i class=\"fas fa-minus-square \"").df().dgl("i");
+//					t(7).e("i class=\"fas fa-minus-square \"></i>");
 //					t(6, "</a>");
 //					tl(5, "}");
 //					l();
 //					tl(5, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start1, \"&rows=\", rows3)>;");
-//					t(6).e("i class=\"fas fa-plus-square \"").df().dgl("i");
+//					t(6).e("i class=\"fas fa-plus-square \"></i>");
 //					t(5, "</a>");
 //					l();
 //					tl(5, "if(start3 >= num) {");
-//					t(6).e("i class=\"fas fa-arrow-square-right w3-opacity \"").df().dgl("i");
+//					t(6).e("i class=\"fas fa-arrow-square-right w3-opacity \"></i>");
 //					tl(5, "} else {");
 //					tl(6, "<a.a(\"href\", \"", classePageUriMethode + "?q=\", query, fqs, sorts, \"&start=\", start3, \"&rows=\", rows1)>;");
-//					t(7).e("i class=\"fas fa-arrow-square-right \"").df().dgl("i");
+//					t(7).e("i class=\"fas fa-arrow-square-right \"></i>");
 //					t(6, "</a>");
 //					tl(5, "}");
 //					tl(6, "<span>(start1 + 1), \" - \", (start1 + rows1), \" ", str_de(langueNom), " \", num</span>");
@@ -4731,7 +4783,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //						t(5).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
 //						t(6).da("id", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple).l();
 //						t(6).s(" onclick=\"\"patch", classeNomSimple, "Vals( [ {name: 'fq', value: '", classeVarClePrimaire, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), "", StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }); return false; \">");
-//						t(6).e("i class=\"fas fa-sync-alt \"").df().dgl("i");
+//						t(6).e("i class=\"fas fa-sync-alt \"></i>");
 //						t(5).sxqscl(str_recharger(langueNom), " ", contexteCeNom);
 //						t(4).bgl("button");
 //						tl(3, "}");
@@ -4788,15 +4840,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //								t(4 + tab).dfl();
 //
 //									if(classeApiMethodeMethode.contains("POST"))
-//										t(4 + tab).e("i class=\"fas fa-file-plus \"").df().dgl("i");
+//										t(4 + tab).e("i class=\"fas fa-file-plus \"></i>");
 //									else if(classeApiMethodeMethode.contains("PATCH"))
-//										t(4 + tab).e("i class=\"fas fa-edit \"").df().dgl("i");
+//										t(4 + tab).e("i class=\"fas fa-edit \"></i>");
 //									else if(classeApiMethode.contains("PUTImport"))
-//										t(4 + tab).e("i class=\"fas fa-file-import \"").df().dgl("i");
+//										t(4 + tab).e("i class=\"fas fa-file-import \"></i>");
 //									else if(classeApiMethode.contains(str_PUTFusion(langueNom)))
-//										t(4 + tab).e("i class=\"fas fa-code-merge \"").df().dgl("i");
+//										t(4 + tab).e("i class=\"fas fa-code-merge \"></i>");
 //									else if(classeApiMethode.contains(str_PUTCopie(langueNom)))
-//										t(4 + tab).e("i class=\"fas fa-copy \"").df().dgl("i");
+//										t(4 + tab).e("i class=\"fas fa-copy \"></i>");
 //
 //									t(4 + tab).sxqscl(methodeTitreValeurs);
 //								t(3 + tab).bgl("button");
@@ -5022,7 +5074,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					t(6).s("{ p.").e("button").s(".a(\"id\", \"", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id)").da("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " ");
 //					s(" onclick=\"\"patch", classeNomSimple, "Vals([], {}, function() { ", str_ajouterLueur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }, function() { ", str_ajouterErreur(langueNom), "($('#", str_recharger(langueNom), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "\", id, \"')); }); \"");
 //					dfl();
-//					t(7).s("p.").e("i class=\"fas fa-sync-alt \"").df().dgl("i");
+//					t(7).s("p.").e("i class=\"fas fa-sync-alt \"></i>");
 //					t(7).s("p.").sxqscl(str_recharger(langueNom), " ", contexteTousNom);
 //					t(6).s("} p.").gl("button");
 //					t(5).s("} p.").gl("div");
@@ -5060,7 +5112,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					t(5).dal("class", "w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " ");
 //					tl(5, " onclick=\"\"window.location.href = '", classePageUriMethode + "?q=\", query1, \":' + encodeURIComponent(this.previousElementSibling.value) + '\", fqs, sorts, \"&start=\", start2, \"&rows=\", rows1, \"'; \" ");
 //					t(5).dfl();
-//					t(5).s("p.").e("i class=\"fas fa-search \"").df().dgl("i");
+//					t(5).s("p.").e("i class=\"fas fa-search \"></i>");
 //					t(4).s("} p.").gl("button");
 //	
 //					l();
@@ -5076,7 +5128,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					t(3).s("{ p.").e("div class=\"\">");
 //					t(4).s("{ p.").e("a").da("href", classePageUriMethode).da("class", ">");
 //					if(contexteIconeGroupe != null && contexteIconeNom != null)
-//						t(5).s("p.").e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ").df().dgl("i");
+//						t(5).s("p.").e("i").da("class", "fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ></i>");
 //					t(5).s("p.").sxqscl(str_voir(langueNom), " ", contexteTousNom);
 //					t(4).s("} p.").gl("a");
 //					t(3).s("} p.").gl("div");

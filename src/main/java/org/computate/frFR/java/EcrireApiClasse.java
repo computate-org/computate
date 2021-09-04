@@ -4290,11 +4290,21 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(7, "switch(param", str_Nom(classeLangueNom), ") {");
 	
 			tl(8, "case \"q\":");
-			tl(9, str_entite(classeLangueNom), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", str_Objet(classeLangueNom), ", \":\"));");
-			tl(9, "var", str_Indexe(classeLangueNom), " = \"*\".equals(", str_entite(classeLangueNom), "Var) ? ", str_entite(classeLangueNom), "Var : ", classeNomSimple, ".var", str_Recherche(classeLangueNom), classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
-			tl(9, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", str_Objet(classeLangueNom), ", \":\")), \"UTF-8\");");
-			tl(9, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = StringUtils.isEmpty(", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ") ? \"*\" : ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ";");
-			tl(9, str_rechercher(classeLangueNom), classeNomSimple, "Q(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
+			tl(9, "Matcher mQ = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|\\\\^|$)))\").matcher((String)param", str_Objet(classeLangueNom), ");");
+			tl(9, "boolean foundQ = mQ.find();");
+			tl(9, "if(foundQ) {");
+			tl(10, "StringBuffer sb = new StringBuffer();");
+			tl(10, "while(foundQ) {");
+			tl(11, str_entite(classeLangueNom), "Var = mQ.group(1).trim();");
+			tl(11, str_valeur(classeLangueNom), str_Indexe(classeLangueNom), " = mQ.group(2).trim();");
+			tl(11, "var", str_Indexe(classeLangueNom), " = ", classeNomSimple, ".var", str_Indexe(classeLangueNom), "", classeNomSimple, "(", str_entite(classeLangueNom), "Var);");
+			tl(11, "String ", str_entite(classeLangueNom), "Q = ", str_rechercher(classeLangueNom), classeNomSimple, "Fq(uri, ", str_apiMethode(classeLangueNom), ", ", str_listeRecherche(classeLangueNom), ", ", str_entite(classeLangueNom), "Var, ", str_valeur(classeLangueNom), str_Indexe(classeLangueNom), ", ", "var", str_Indexe(classeLangueNom), ");");
+			tl(11, "mQ.appendReplacement(sb, ", str_entite(classeLangueNom), "Q);");
+			tl(11, "foundQ = mQ.find();");
+			tl(10, "}");
+			tl(10, "mQ.appendTail(sb);");
+			tl(10, str_listeRecherche(classeLangueNom), ".setQuery(sb.toString());");
+			tl(9, "}");
 			tl(9, "break;");
 	
 			tl(8, "case \"fq\":");

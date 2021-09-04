@@ -5232,7 +5232,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(8, "<div class=\"w3-cell-row \">");
 				l();
 
-				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
 				tl(8, "</div>");
 				tl(7, "</div>");
 				tl(6, "</div>");
@@ -5326,7 +5326,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(6, "<div class=\"w3-cell-row  \">");
 				tl(7, "<div class=\"w3-cell \">");
-				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
 				tl(7, "</div>");
 			}
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
@@ -5337,7 +5337,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(6, "<div class=\"w3-cell-row w3-padding \">");
 				tl(7, "<div class=\"w3-cell \">");
-				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
 				tl(7, "</div>");
 			}
 			else if("LocalTime".equals(entiteNomSimple)) {
@@ -5348,7 +5348,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(6, "<div class=\"w3-cell-row w3-padding \">");
 				tl(7, "<div class=\"w3-cell \">");
-				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
 				tl(7, "</div>");
 			}
 			else if("Boolean".equals(entiteNomSimple)) {
@@ -5359,7 +5359,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(6, "<div class=\"w3-cell-row w3-padding \">");
 				tl(7, "<div class=\"w3-cell \">");
-				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
 				tl(7, "</div>");
 			}
 			else {
@@ -5370,13 +5370,13 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(6, "<div class=\"w3-cell-row w3-padding \">");
 				tl(7, "<div class=\"w3-cell \">");
-				tl(8, "{{#block \"input", entiteVarCapitalise, "}}{{/block}}");
+				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
 				tl(7, "</div>");
 			}
 			if(!entiteAttribuer && entiteModifier && !"Boolean".equals(entiteNomSimple)) {
 
 				if(classeUtilisateurEcrire && classeSessionEcrire) {
-					tl(7, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), "s, roles, ROLES, sessionId}}");
+					tl(7, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), "s roles ROLES sessionId}}");
 //					tl(9, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())");
 //					tl(9, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())");
 //					tl(9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
@@ -5385,7 +5385,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				else if(classeUtilisateurEcrire) {
 					if(classeRolesTrouves) {
-						tl(7, "{{#ifContainsAnyRoles roles, ROLES}}");
+						tl(7, "{{#ifContainsAnyRoles roles ROLES}}");
 //						tl(7, "if(");
 //						tl(9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 //						tl(9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -5401,7 +5401,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //					tl(7, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {");
 				}
 				else if(classeRolesTrouves) {
-					tl(7, "{{#ifContainsAnyRoles roles, ROLES}}");
+					tl(7, "{{#ifContainsAnyRoles roles ROLES}}");
 //					tl(7, "if(");
 //					tl(9, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 //					tl(9, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -5488,7 +5488,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
 
 			if(classeUtilisateurEcrire && classeSessionEcrire) {
-				tl(2, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), "s, roles, ROLES, sessionId}}");
+				tl(2, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), "s roles ROLES sessionId}}");
 //				t(2, "if(").l();
 //				t(4, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
 //				t(4, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
@@ -5497,7 +5497,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //				t(2, ") {").l();
 			}
 			else if(classePublicLire) {
-				tl(2, "{{#ifContainsAnyRoles roles, ROLES}}");
+				tl(2, "{{#ifContainsAnyRoles roles ROLES}}");
 //				tl(2, "if(");
 //				tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 //				tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -5505,7 +5505,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if(classeUtilisateurEcrire) {
 				if(classeRolesTrouves || classeRoleLiresTrouves) {
-					tl(2, "{{#ifContainsAnyRoles roles, ROLES}}");
+					tl(2, "{{#ifContainsAnyRoles roles ROLES}}");
 //					tl(2, "if(");
 //					tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 //					tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -5521,7 +5521,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //				t(2, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
 			}
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
-				tl(2, "{{#ifContainsAnyRoles roles, ROLES}}");
+				tl(2, "{{#ifContainsAnyRoles roles ROLES}}");
 //				tl(2, "if(");
 //				tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 //				tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -5747,11 +5747,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(4, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 
-				tl(4).l("{{#eq \"Page\" {{", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(4).l("{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
 					tl(5, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border ");
 					tl(5, "name=\"set", entiteVarCapitalise, "\"");
 				tl(4).l("{{else}}");
-				tl(4).l("{{#eq \"PATCH\" {{", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(4).l("{{#eq \"PATCH\" ", str_classeApiMethodeMethode(langueNom), "}}");
 				tl(5, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border ");
 				tl(5, "name=\"set", entiteVarCapitalise, "\"");
 				tl(4).l("{{else}}");
@@ -5759,7 +5759,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(5, "name=\"", entiteVar, "\"");
 				tl(4).l("{{/eq}}");
 				tl(4).l("{{/eq}}");
-				tl(4).l("{{#eq \"Page\" {{", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(4).l("{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
 					tl(5, "onclick=\"", str_enleverLueur(langueNom), "($(this)); \"");
 					tl(5, "onchange=\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); \"");
 				tl(4).l("{{/eq}}");
