@@ -5243,7 +5243,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 
 				if(entiteAttribuerUtilisateurEcrire && entiteAttribuerSessionEcrire) {
-//					tl(8, "{").l();
+//					tl(8, "{");
 				}
 				else if(entiteAttribuerUtilisateurEcrire) {
 					if(entiteAttribuerClasseRoles != null && entiteAttribuerClasseRoles.size() > 0) {
@@ -5255,12 +5255,12 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else {
 						tl(8, "{{#ifContainsKeys ", str_utilisateur(langueNom), str_Cle(langueNom), "s}}");
-//						tl(8, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
+//						tl(8, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {", );
 					}
 				}
 				else if(entiteAttribuerSessionEcrire) {
 					tl(8, "{{#ifContainsSessionId sessionId}}");
-//					tl(8, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
+//					tl(8, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {", );
 				}
 				else {
 					if(classeRolesTrouves || classeRoleLiresTrouves) {
@@ -5271,29 +5271,29 @@ public class EcrireGenClasse extends EcrireClasse {
 //						tl(10, ") {");
 					}
 					else {
-//						tl(8, "{").l();
+//						tl(8, "{");
 					}
 				}
 
 				tl(9, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
 				tl(10, "<div class=\"w3-cell-row \">");
-				tl(11, "<button").l();
+				tl(11, "<button");
 				tl(12, " class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " \"");
 				tl(12, " id=\", {{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_ajouter(langueNom), "\"");
 
 				if("array".equals(entiteAttribuerTypeJson))
-					t(12, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"\", ", classeVarClePrimaire, ", \"\\\" ] }");
+					t(12, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"{{", classeVarClePrimaire, "}}\\\" ] }");
 				else
-					t(12, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"\", ", classeVarClePrimaire, ", \"\\\" }");
+					t(12, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"{{", classeVarClePrimaire, "}}\\\" }");
 				s(", function() {}");
-				s(", function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"", entiteVar, "')); });");
+				s(", function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}", entiteVar, "')); });");
 				s("\"");
 				l();
 
 				tl(12, ">", str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom);
 				tl(11, "</button>");
 				tl(10, "</div>");
-				tl(9, "{{/eq}}").l();
+				tl(9, "{{/eq}}");
 
 				if(entiteAttribuerUtilisateurEcrire && entiteAttribuerSessionEcrire) {
 				}
@@ -5414,7 +5414,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(10, "<button");
 					tl(12, "tabindex=\"-1\"");
 					tl(12, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " \"");
-					tl(12, "onclick=\"", str_enleverLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); $('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "').val(null); patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); \"");
+					tl(12, "onclick=\"", str_enleverLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); $('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "').val(null); patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
 					tl(12, ">");
 					tl(11, "<i class=\"far fa-eraser \"></i>");
 					tl(10, "</button>");
@@ -5489,12 +5489,12 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			if(classeUtilisateurEcrire && classeSessionEcrire) {
 				tl(2, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), "s roles ROLES sessionId}}");
-//				t(2, "if(").l();
-//				t(4, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())").l();
-//				t(4, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())").l();
-//				t(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)").l();
-//				t(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)").l();
-//				t(2, ") {").l();
+//				t(2, "if(");
+//				t(4, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())");
+//				t(4, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())");
+//				t(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
+//				t(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
+//				t(2, ") {");
 			}
 			else if(classePublicLire) {
 				tl(2, "{{#ifContainsAnyRoles roles ROLES}}");
@@ -5513,12 +5513,12 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				else {
 					tl(2, "{{#ifContainsKeys ", str_utilisateur(langueNom), str_Cle(langueNom), "s}}");
-//					t(2, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {").l();
+//					t(2, "if(", str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())) {");
 				}
 			}
 			else if(classeSessionEcrire) {
 				tl(2, "{{#ifContainsSessionId sessionId}}");
-//				t(2, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {").l();
+//				t(2, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {");
 			}
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
 				tl(2, "{{#ifContainsAnyRoles roles ROLES}}");
@@ -5528,7 +5528,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //				tl(4, ") {");
 			}
 			else {
-//				t(2, "{").l();
+//				t(2, "{");
 			}
 
 			if(entiteAttribuer) {
@@ -5541,7 +5541,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(6, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_vider(langueNom), "\"");
 				tl(6, "class=\"", entiteVar, "_", str_vider(langueNom), " \"");
 				tl(6, ">");
-				tl(5, "<label for=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_vider(langueNom), ">", str_vider(langueNom), "</label>");
+				tl(5, "<label for=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_vider(langueNom), "\">", str_vider(langueNom), "</label>");
 				tl(4, "</div>");
 				tl(3, "{{/eq}}");
 
@@ -5549,10 +5549,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(5, "type=\"text\"");
 
 				if(entiteNomAffichage != null) {
-					tl(5, "placeholder", entiteNomAffichage);
+					tl(5, "placeholder=\"", entiteNomAffichage, "\"");
 				}
 				if(entiteDescription != null) {
-					t(5).dal("title", entiteDescription);
+					t(5, "title=\"", entiteDescription, "\"");
 				}
 
 				tl(4, "class=\"", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", str_suggere(langueNom), entiteVarCapitalise, " w3-input w3-border w3-cell w3-cell-middle \"");
@@ -5560,15 +5560,15 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(4, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 				tl(4, "autocomplete=\"off\"");
 				t(4, "oninput=\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
-				s("\", ", classeVarClePrimaire, " == null ? \"\" : \"{'name':'fq','value':'", entiteAttribuerVar, ":\" + ", classeVarClePrimaire, " + \"'}\", \"");
-				l("], $('#", "list", classeNomSimple, entiteVarCapitalise, "_\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"'), \", ", classeVarClePrimaire, ", \"");
+				s("{{#if ", classeVarClePrimaire, "}}{'name':'fq','value':'", entiteAttribuerVar, ":{{", classeVarClePrimaire, "}}'}{{else}}{{/if}}");
+				l("], $('#list", classeNomSimple, entiteVarCapitalise, "_{{", str_classeApiMethodeMethode(langueNom), "}}'), {{", classeVarClePrimaire, "}}); \"");
 				tl(4, "/>");
 				l();
 			}
 			else if("LocalDate".equals(entiteNomSimple)) {
 				tl(3, "<input");
 				tl(5, "type=\"text\"");
-				tl(5, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(5, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(5, "placeholder=\"", str_DDDashMMDashYYYY(langueNom), "\"");
 				tl(5, "data-timeformat=\"", str_ddDashMMDashyyyy(langueNom), "\"");
 				tl(5, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
@@ -5582,7 +5582,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 					s("if(t) { ");
 						s("var s = t.format('YYYY-MM-DD'); ");
-						s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); ");
+						s("patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
 				tl(3, "{{/eq}}");
@@ -5591,7 +5591,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
 				tl(3, "<input");
 				tl(5, "type=\"text\"");
-				tl(5, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(5, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(5, "placeholder=\"", str_DDDashMMDashYYYY_HHColonMM(langueNom), "\"");
 				tl(5, "data-timeformat=\"", str_ddDashMMDashyyyy(langueNom), "\"");
 				tl(5, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
@@ -5605,7 +5605,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 					s("if(t) { ");
 						s("var s = t.format('YYYY-MM-DD'); ");
-						s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); ");
+						s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
 				tl(3, "{{/eq}}");
@@ -5614,60 +5614,61 @@ public class EcrireGenClasse extends EcrireClasse {
 			else if("LocalTime".equals(entiteNomSimple)) {
 				tl(3, "<input");
 				tl(5, "type=\"text\"");
-				tl(5, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(5, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(5, "placeholder=\"", str_HHColonMM(langueNom), "\"");
 				tl(5, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 
-				t(3, "<input").l();
-				t(5).dal("type", "text");
-				t(5, ".a(\"class\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\")");
-				t(5).dal("placeholder", str_HHColonMM(langueNom));
-				t(5).l(".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "\")");
+				tl(3, "<input");
+				tl(5, "type=\"text\"");
+				tl(5, "class=\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(5, "placeholder=\"", str_HHColonMM(langueNom), "\"");
+				tl(5, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 				if(entiteDescription != null)
-					t(5).da("title", entiteDescription + " (", str_HAposhAposmm(langueNom), ")");
-				tl(5, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_HAposhAposmm(langueNom), "\").format(", entiteVar, "));");
+					tl(5, "title=\"", entiteDescription + " (", str_HAposhAposmm(langueNom), ")\"");
+				tl(5, "value=\"{{", entiteVar, "}}\"");
 				tl(3, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				t(4).l("a(\"onclick\", \"", str_enleverLueur(langueNom), "($(this)); \");");
-				t(4, "a(\"onchange\", \"");
+				tl(4, "onclick=\"", str_enleverLueur(langueNom), "($(this)); \"");
+				t(4, "onchange=\"");
 					s("var t = moment(this.value, '", str_HAposhAposmm(langueNom), "'); ");
 					s("if(t) { ");
 						s("var s = t.format('HH:mm'); ");
-						s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); ");
+						s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
 					s("} ");
-				l("\");");
+				l("\"");
 				tl(3, "{{/eq}}");
-				tl(3, "fg();");
+				tl(3, "/>");
 			}
 			else if("Boolean".equals(entiteNomSimple)) {
 				tl(3, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				t(4, "<input").l();
-				t(5).dal("type", "checkbox");
-				t(5).l(".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "\")");
-				t(5).da("value", "true").l(";");
-				t(3).l("} else {");
-				t(4, "<select").l();
-				t(5).l(".a(\"id\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "\");");
+				tl(4, "<input");
+				tl(5, "type=\"checkbox\"");
+				tl(5, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
+				tl(5, "value=\"true\"");
+				tl(3, "{{else}}");
+				tl(4, "<select");
+				tl(5, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 				tl(3, "{{/eq}}");
 
 				tl(3, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-						t(4, "a(\"class\", \"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
-						t(4).a("name", "set", entiteVarCapitalise).l(";");
+						tl(4, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+						tl(4, "name=\"set", entiteVarCapitalise, "\"");
 				tl(3, "{{else}}");
-					tl(3, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-						t(4, "a(\"class\", \"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
-						t(4).a("name", "set", entiteVarCapitalise).l(";");
-					tl(3, "{{else}}");
-						t(4, "a(\"class\", \"", str_valeur(langueNom), entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\");");
-						t(4).a("name", entiteVar).l(";");
-					tl(3, "{{/eq}}");
+					tl(4, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
+						tl(5, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+						tl(5, "name=\"set", entiteVarCapitalise, "\"");
+					tl(4, "{{else}}");
+						tl(5, "class=\"", str_valeur(langueNom), entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+						tl(5, "name=\"set", entiteVarCapitalise, "\"");
+					tl(4, "{{/eq}}");
 				tl(3, "{{/eq}}");
 				tl(3, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-					t(4, "a(\"onchange\", \"patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); \")").l(";");
+					tl(4, "onchange=\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
 				tl(3, "{{/eq}}");
 
 				tl(3, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
 				tl(4, "{{#if ", entiteVar, "}}");
-				tl(5, "checked\"checked\"");
+				tl(5, "checked=\"checked\"");
+				tl(4, "{{/if}}");
 				tl(4, ">");
 				tl(3, "{{else}}");
 				tl(4, ">");
@@ -5675,7 +5676,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(4, "<option value=\"true\">true</option>");
 				tl(4, "<option value=\"false\">false</option>");
 				tl(4, "</select>");
-				tl(3, "{{/if}}");
 				tl(3, "{{/eq}}");
 				l();
 			}
@@ -5715,14 +5715,14 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(4, "<button id=\"signatureButton", str_Vider(langueNom), classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\"");
 				tl(5, "class=\"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \"");
 				tl(5, "onclick=\"");
-				tl(6, "$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').show(); ");
-				tl(6, "$('#signatureImg", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').hide(); ");
-				tl(6, "", str_enleverLueur(langueNom), "($('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')); ");
-				tl(6, "patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', null); ");
-				tl(6, "if($('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "')) { ");
-				tl(6, "$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature('reset'); ");
+				tl(6, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').show(); ");
+				tl(6, "$('#signatureImg", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').hide(); ");
+				tl(6, "", str_enleverLueur(langueNom), "($('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "')); ");
+				tl(6, "patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', null); ");
+				tl(6, "if($('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "')) { ");
+				tl(6, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').jSignature('reset'); ");
 				tl(6, "} else { ");
-				tl(6, "$('#signatureInput", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVar, "').jSignature({'height':200}); ");
+				tl(6, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').jSignature({'height':200}); ");
 				tl(6, "}");
 				tl(5, "\"");
 				tl(5, ">", str_Vider(langueNom));
@@ -5736,33 +5736,33 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(3, "<textarea");
 				else {
 					tl(3, "<input");
-					tl(4, " type=\"text\"");
+					tl(4, "type=\"text\"");
 				}
 
 				if(entiteNomAffichage != null) {
-					tl(4, " placeholder=\"", entiteNomAffichage, "\"");
+					tl(4, "placeholder=\"", entiteNomAffichage, "\"");
 				}
 				if(entiteDescription != null) {
-					tl(4, " title=\"", entiteDescription, "\"");
+					tl(4, "title=\"", entiteDescription, "\"");
 				}
 				tl(4, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 
-				tl(4).l("{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(4, "{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
 					tl(5, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border ");
 					tl(5, "name=\"set", entiteVarCapitalise, "\"");
-				tl(4).l("{{else}}");
-				tl(4).l("{{#eq \"PATCH\" ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(4, "{{else}}");
+				tl(4, "{{#eq \"PATCH\" ", str_classeApiMethodeMethode(langueNom), "}}");
 				tl(5, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border ");
 				tl(5, "name=\"set", entiteVarCapitalise, "\"");
-				tl(4).l("{{else}}");
-					tl(5, "class=\"", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(4, "{{else}}");
+					tl(5, "class=\"", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 					tl(5, "name=\"", entiteVar, "\"");
-				tl(4).l("{{/eq}}");
-				tl(4).l("{{/eq}}");
-				tl(4).l("{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(4, "{{/eq}}");
+				tl(4, "{{/eq}}");
+				tl(4, "{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
 					tl(5, "onclick=\"", str_enleverLueur(langueNom), "($(this)); \"");
-					tl(5, "onchange=\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:\", ", classeVarClePrimaire, ", \"' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#\", {{", str_classeApiMethodeMethode(langueNom), "}}, \"_", entiteVar, "')); }); \"");
-				tl(4).l("{{/eq}}");
+					tl(5, "onchange=\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
+				tl(4, "{{/eq}}");
 
 				if(entiteMultiligne) {
 					tl(3, ">", "{{", entiteVar, "}}");
@@ -5780,28 +5780,28 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 
 			if(entiteAttribuer) {
-				tl(2, "{{else}}").l();
+				tl(2, "{{else}}");
 			}
 			else if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
-				tl(2, "{{else}}").l();
-				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " >{{htm", entiteVarCapitalise, "}}</span>");
+				tl(2, "{{else}}");
+				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 			}
 			else if(classeUtilisateurEcrire) {
 				if(classeRolesTrouves || classeRoleLiresTrouves) {
-					tl(2, "{{else}}").l();
+					tl(2, "{{else}}");
 					tl(4, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 				}
 				else {
-					tl(2, "{{else}}").l();
+					tl(2, "{{else}}");
 					tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 				}
 			}
 			else if(classeSessionEcrire) {
-				tl(2, "{{else}}").l();
+				tl(2, "{{else}}");
 				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 			}
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
-					tl(2, "{{else}}").l();
+					tl(2, "{{else}}");
 				tl(3, "{{#ifContainsKeys ", str_utilisateur(langueNom), str_Cle(langueNom), "s}}");
 //				tl(3, "if(");
 //				tl(5, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
@@ -5816,7 +5816,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(3, "{{/ifContainsKeys}}");
 			}
 			else {
-//								tl(3, "sx(htm", entiteVarCapitalise, "());").l();
+//								tl(3, "sx(htm", entiteVarCapitalise, "());");
 			}
 
 			if(classeUtilisateurEcrire && classeSessionEcrire) {
@@ -5841,7 +5841,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}
 		else if(!entiteModifier) {
-			tl(2, "<span.a(\"class\", \"var", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " \").f()", ".sx(htm", entiteVarCapitalise, "())").l(".g(\"span\");");
+			tl(2, "<span class=\", \"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 		}
 		tl(0, "{{/partial}}");
 
