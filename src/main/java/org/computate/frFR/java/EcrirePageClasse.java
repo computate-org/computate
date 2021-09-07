@@ -646,6 +646,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		String classePageCheminCss = (String)classeDoc.get("classePageCheminCss"   + "_" + langueNom + "_stored_string");
 		String classePageCheminJs = (String)classeDoc.get("classePageCheminJs"   + "_" + langueNom + "_stored_string");
 		String classePageCheminHbs = (String)classeDoc.get("classePageCheminHbs"   + "_" + langueNom + "_stored_string");
+		String classeGenPageCheminHbs = (String)classeDoc.get("classeGenPageCheminHbs"   + "_" + langueNom + "_stored_string");
 		String classePageUriMethode = (String)classeDoc.get("classeApiUri"  + "_" + langueNom + "_stored_string");
 		String classePageLangueNom = (String)classeDoc.get("classePageLangueNom"  + "_" + langueNom + "_stored_string");
 
@@ -1676,10 +1677,25 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 			}
 
-			o = auteurPageHbs;
+			if(auteurPageHbs != null) {
+				o = auteurPageHbs;
+				l("{{> ", classeGenPageNomSimple, "}}");
+			}
+
+			o = auteurGenPageHbs;
 
 			l();
-			tl(0, "{{#partial \"htmlScripts", classeGenPageNomSimple, "\"}}");
+			tl(0, "{{#partial \"htmlHead", classeGenPageNomSimple, "\"}}");
+			tl(0, "{{> \"htmScripts", classeGenPageNomSimple, "\"}}");
+			tl(0, "{{> \"htmStyle", classeGenPageNomSimple, "\"}}");
+			tl(0, "{{/partial}}");
+
+			l();
+			tl(0, "{{#partial \"htmStyle", classeGenPageNomSimple, "\"}}");
+			tl(0, "{{/partial}}");
+
+			l();
+			tl(0, "{{#partial \"htmScripts", classeGenPageNomSimple, "\"}}");
 			t(2).l("<script src=\"", str_statiqueUrlBase(langueNom), ", \"/js/", langueNom, "/", classePageNomSimple, ".js\"></script>");
 			if(classeAttribuerNomSimplePages != null) {
 				for(String classeAttribuerNomSimplePage : classeAttribuerNomSimplePages) {
@@ -1689,7 +1705,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{/partial}}");
 			l();
 			if(!classePageSimple) {
-				tl(0, "{{#partial \"htmlScript", classeGenPageNomSimple, "\"}}");
+				tl(0, "{{#partial \"htmScript", classeGenPageNomSimple, "\"}}");
 				for(String classeApiMethode : classeApiMethodes) {
 					String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
 					String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
@@ -2251,7 +2267,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(5, "{{#with ", str_liste(langueNom), classeNomSimple, "_[0]}}");
 				tl(6, "{{#if pageH1}}");
 				tl(7, "<h1>");
-				tl(8, "<a href=\"{{> htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(8, "<a href=\"{{htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 				tl(9, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
 				tl(10, "<i class=\"", str_contexteIconeClassesCss(langueNom), " site-menu-icon \"></i>");
 				tl(9, "{{/if}}");
@@ -2289,7 +2305,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					t(4).e("span class=\" \"").df().dsxq(contexteNomPluriel).dgl("span");
 //					t(3).bgl("h1");
 				tl(5, "<h1>");
-				tl(6, "<a href=\"{{> htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(6, "<a href=\"{{htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 				tl(7, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
 				tl(8, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
 				tl(7, "{{/if}}");
@@ -2345,7 +2361,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					t(4).e("span class=\" \"").df().dsxq(contexteNomPluriel).dgl("span");
 //					t(3).bgl("h1");
 				tl(4, "<h1>");
-				tl(5, "<a href=\"{{> htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(5, "<a href=\"{{htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 				tl(6, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
 				tl(7, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
 				tl(6, "{{/if}}");
@@ -2394,7 +2410,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "{{/eq}}");
 				tl(2, "{{else}}");
 				tl(3, "<h1>");
-				tl(4, "<a href=\"{{> htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(4, "<a href=\"{{htmlUrl", classeNomSimple, "}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 				tl(5, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
 				tl(6, "<i class=\"", str_contexteIconeClassesCss(langueNom), " site-menu-icon \"></i>");
 				tl(5, "{{/if}}");
@@ -2437,13 +2453,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(9, "type=\"hidden\"");
 					tl(9, "/>");
 					tl(7, "</form>");
-					tl(7, "{{> htmlFormPage", classeNomSimple, "}}");
+					tl(7, "{{> \"htmlFormPage", classeNomSimple, "\"}}");
 					tl(6, "{{/if}}");
 				}
 				if(classeMethodeVars.contains("htmlBody")) {
 					l();
 					tl(6, "{{#if o}}");
-					tl(7, "{{> htmlBody}}");
+					tl(7, "{{> \"htmlBody\"}}");
 					tl(6, "{{/if}}");
 				}
 				l();
@@ -2454,7 +2470,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				// formulaires
 				if(!classePageSimple) {
-					tl(2, "{{> htmlBodyForms", classeGenPageNomSimple, "}}");
+					tl(2, "{{> \"htmlBodyForms", classeGenPageNomSimple, "\"}}");
 				}
 	
 				tl(0, "{{/partial}}");
@@ -2613,9 +2629,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												l();
 			
 												if("DELETE".equals(classeApiMethodeMethode))
-													tl(7 + tab, "{{> htmlFormPATCH", classeNomSimple, " o}}");
+													tl(7 + tab, "{{> \"htmlFormPATCH", classeNomSimple, "\" o=o}}");
 												else
-													tl(7 + tab, "{{> htmlForm", classeApiMethodeMethode, classeNomSimple, " o}}");
+													tl(7 + tab, "{{> \"htmlForm", classeApiMethodeMethode, classeNomSimple, "\" o=o}}");
 			
 												tl(7 + tab, "<button").l();
 												tl(8 + tab, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " \"");
@@ -2642,11 +2658,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 												{ tl(7 + tab, "<div id=\"", classeApiOperationIdMethode, "Form\">");
 			
 												if("DELETE".equals(classeApiMethodeMethode))
-													tl(8 + tab, "{{> htmlFormPATCH", classeNomSimple, " o}}");
+													tl(8 + tab, "{{> \"htmlFormPATCH", classeNomSimple, "\" o=o}}");
 												else if("PUTImport".equals(classeApiMethode))
-													tl(8 + tab, "{{> htmlFormPUTImport", classeNomSimple, " o}}");
+													tl(8 + tab, "{{> \"htmlFormPUTImport", classeNomSimple, "\" o=o}}");
 												else if(str_PUTFusion(langueNom).equals(classeApiMethode))
-													tl(8 + tab, "{{> htmlForm", str_PUTFusion(langueNom), classeNomSimple, " o}}");
+													tl(8 + tab, "{{> \"htmlForm", str_PUTFusion(langueNom), classeNomSimple, "\" o=o}}");
 												else if(str_PUTCopie(langueNom).equals(classeApiMethode))
 													tl(8 + tab, "{{> htmlForm", str_PUTCopie(langueNom), classeNomSimple, " o}}");
 												else
@@ -2945,6 +2961,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(0, "}");
 			}
 	
+			o = auteurGenPageHbs;
+
+			l("{{> ", classePageSuperNomSimple, "}}");
+			l("{{#partial \"htmlHead\"}}");
+			l("{{> \"htmlHead", classeGenPageNomSimple, "\"}}");
+			l("{{/partial}}");
+			l("{{#partial \"htmlBody\"}}");
+			l("{{> \"htmlHead", classeGenPageNomSimple, "\"}}");
+			l("{{/partial}}");
+	
 			o = auteurPageGenClasse;
 
 			tl(0, "}");
@@ -2961,8 +2987,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			System.out.println(str_Ecrire(langueNom) + ": " + classePageCheminCss); 
 			auteurPageJs.flushClose();
 			System.out.println(str_Ecrire(langueNom) + ": " + classePageCheminJs); 
-			auteurPageHbs.flushClose();
-			System.out.println(str_Ecrire(langueNom) + ": " + classePageCheminHbs); 
+			if(auteurPageHbs != null) {
+				auteurPageHbs.flushClose();
+				System.out.println(str_Ecrire(langueNom) + ": " + classePageCheminHbs); 
+			}
+			auteurGenPageHbs.flushClose();
+			System.out.println(str_Ecrire(langueNom) + ": " + classeGenPageCheminHbs); 
 
 			String appliCheminVertx = appliCheminsVertx.get(langueNom);
 			String appliNomVertx = StringUtils.substringAfterLast(appliCheminVertx, "/");
@@ -3949,7 +3979,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				o = auteurPageHbs;
 //	
 //				l();
-//				tl(0, "{{#partial \"htmlScripts", classeGenPageNomSimple, "\"}}");
+//				tl(0, "{{#partial \"htmScripts", classeGenPageNomSimple, "\"}}");
 //				t(2).l("<script src=\"", str_statiqueUrlBase(langueNom), ", \"/js/", langueNom, "/", classePageNomSimple, ".js\"></script>");
 //				if(classeAttribuerNomSimplePages != null) {
 //					for(String classeAttribuerNomSimplePage : classeAttribuerNomSimplePages) {
@@ -3959,7 +3989,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				tl(0, "{{/partial}}");
 //				l();
 //				if(!classePageSimple) {
-//					tl(0, "{{#partial \"htmlScript", classeGenPageNomSimple, "\"}}");
+//					tl(0, "{{#partial \"htmScript", classeGenPageNomSimple, "\"}}");
 //					for(String classeApiMethode : classeApiMethodes) {
 //						String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
 //						String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");

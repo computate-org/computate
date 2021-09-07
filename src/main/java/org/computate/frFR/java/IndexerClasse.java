@@ -5851,6 +5851,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 				if(classePage) {
 					String classePageNomSimple = classeNomSimpleLangue + str_Page(langueNom);
+					String classePageSuperNomSimple = regexLangue(langueNom, "^" + str_PageSuper(classeLangueNom), classeCommentaire, "Object");
 					String classeNomEnsembleLangue = (String)classeDoc.get("classeNomEnsemble_" + langueNom + "_indexed_string").getValue();
 					String classePageNomCanonique = (String)classeDoc.get("classeNomCanonique_" + langueNom + "_stored_string").getValue();
 					indexerStockerSolr(langueNom, classeDoc, "classePageNomCanonique", classePageNomCanonique);
@@ -5878,7 +5879,42 @@ public class IndexerClasse extends RegarderClasseBase {
 					indexerStockerSolr(langueNom, classeDoc, "classePageCheminCss", concat(appliChemin, "-static/css/", langueNom, "/", classePageNomSimple, ".css"));
 					indexerStockerSolr(langueNom, classeDoc, "classePageCheminJs", concat(appliChemin, "-static/js/", langueNom, "/", classePageNomSimple, ".js"));
 					indexerStockerSolr(langueNom, classeDoc, "classePageCheminHbs", concat(appliChemin, "-static/template/", langueNom, "/", classePageNomSimple, ".hbs"));
+					indexerStockerSolr(langueNom, classeDoc, "classeGenPageCheminHbs", concat(appliChemin, "-static/template/", langueNom, "/", classeGenPageNomSimple, ".hbs"));
 					indexerStockerSolr(langueNom, classeDoc, "classePageLangueNom", langueNom); 
+
+					if(classePageSuperNomSimple != null) {
+						SolrQuery recherchePageSuper = new SolrQuery();   
+						recherchePageSuper.setQuery("*:*");
+						recherchePageSuper.setRows(1);
+						recherchePageSuper.addFilterQuery("classeNomSimple_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePageSuperNomSimple));
+						recherchePageSuper.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+						recherchePageSuper.addFilterQuery("partEstClasse_indexed_boolean:true");
+						recherchePageSuper.addFilterQuery("langueNom_indexed_string:" + ClientUtils.escapeQueryChars(classeLangueNom));
+						QueryResponse reponseRecherchePageSuper = clientSolrComputate.query(recherchePageSuper);
+						SolrDocumentList listeRecherchePageSuper = reponseRecherchePageSuper.getResults();
+	
+						if(listeRecherchePageSuper.size() > 0) {
+							SolrDocument docPageSuper = listeRecherchePageSuper.get(0);
+							String classePageSuperNomCanoniqueMethode = (String)docPageSuper.get("classeNomCanonique_" + classeLangueNom + "_stored_string");
+							indexerStockerSolr(langueNom, classeDoc, "classePageSuperNomCanonique", classePageSuperNomCanoniqueMethode);
+							indexerStockerSolr(langueNom, classeDoc, "classePageSuperNomSimple", classePageSuperNomSimple);
+							classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePageSuperNomCanoniqueMethode, classeLangueNom), classeLangueNom);
+						}
+						else {
+							if(classePartsMiseEnPage != null) {
+								indexerStockerSolr(langueNom, classeDoc, "classePageSuperNomCanonique", (String)classePartsMiseEnPage.nomCanonique(classeLangueNom));
+								indexerStockerSolr(langueNom, classeDoc, "classePageSuperNomSimple", (String)classePartsMiseEnPage.nomSimple(classeLangueNom));
+								classePartsGenPageAjouter(classePartsMiseEnPage, classeLangueNom);
+							}
+						}
+					}
+					else {
+						if(classePartsMiseEnPage != null) {
+							indexerStockerSolr(langueNom, classeDoc, "classePageSuperNomCanonique", (String)classePartsMiseEnPage.nomCanonique(classeLangueNom));
+							indexerStockerSolr(langueNom, classeDoc, "classePageSuperNomSimple", (String)classePartsMiseEnPage.nomSimple(classeLangueNom));
+							classePartsGenPageAjouter(classePartsMiseEnPage, classeLangueNom);
+						}
+					}
 				}
 
 				Matcher classeApiMethodesRegex = Pattern.compile("^" + str_ApiMethode(classeLangueNom) + "(\\.([^:\n]+))?:\\s*(.*)", Pattern.MULTILINE).matcher(classeCommentaire);
@@ -5920,8 +5956,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							indexerStockerSolr(langueNom, classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Reponse", (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Reponse" + "_" + langueNom + "_stored_string"));
 						}
 		
-						String classePageNomSimpleMethode = regexLangue(langueNom, "^" + str_Page(classeLangueNom) + "" + classeApiMethode, classeCommentaire);
-						String classePageSuperNomSimpleMethode = regexLangue(langueNom, "^" + str_PageSuper(classeLangueNom) + "" + classeApiMethode, classeCommentaire, "java.lang.Object");
+						String classePageNomSimpleMethode = regexLangue(langueNom, "^" + str_Page(classeLangueNom) + classeApiMethode, classeCommentaire);
+						String classePageSuperNomSimpleMethode = regexLangue(langueNom, "^" + str_PageSuper(classeLangueNom) + classeApiMethode, classeCommentaire, "Object");
 						String classeApiTypeMedia200Methode = regexLangue(langueNom, "^ApiTypeMedia200" + classeApiMethode, classeCommentaire, classePageNomSimpleMethode == null ? "application/json" : "text/html");
 						String classeApiMotCleMethode = regexLangue(langueNom, "^ApiMotCle" + classeApiMethode, classeCommentaire);
 						if(StringUtils.contains(classeApiMethode, "POST")

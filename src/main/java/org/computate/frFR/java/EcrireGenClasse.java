@@ -623,6 +623,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain auteurPageCss = null;
 	protected ToutEcrivain auteurPageJs = null;
 	protected ToutEcrivain auteurPageHbs = null;
+	protected ToutEcrivain auteurGenPageHbs = null;
 	protected ToutEcrivain auteurWebsocket = null;
 
 	/**
@@ -1156,6 +1157,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	private String classePageCheminGen;
 
 	private String classePageCheminHbs;
+
+	private String classeGenPageCheminHbs;
 
 	private String classePageCheminJs;
 	
@@ -2236,12 +2239,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			classePageCheminCss = (String)classeDoc.get("classePageCheminCss"  + "_" + langueNom + "_stored_string");
 			classePageCheminJs = (String)classeDoc.get("classePageCheminJs"  + "_" + langueNom + "_stored_string");
 			classePageCheminHbs = (String)classeDoc.get("classePageCheminHbs"  + "_" + langueNom + "_stored_string");
+			classeGenPageCheminHbs = (String)classeDoc.get("classeGenPageCheminHbs"  + "_" + langueNom + "_stored_string");
 		
 			File classePageFichierGen = null;
 			File classePageFichier = null;
 			File classePageFichierCss = null;
 			File classePageFichierJs = null;
 			File classePageFichierHbs = null;
+			File classeGenPageFichierHbs = null;
 
 			if(classePageCheminGen != null)
 				classePageFichierGen = new File(classePageCheminGen);
@@ -2253,6 +2258,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageFichierJs = new File(classePageCheminJs);
 			if(classePageCheminHbs != null)
 				classePageFichierHbs = new File(classePageCheminHbs);
+			if(classeGenPageCheminHbs != null)
+				classeGenPageFichierHbs = new File(classeGenPageCheminHbs);
 
 			if(classePageFichierGen != null)
 				auteurPageGenClasse = ToutEcrivain.create(classePageFichierGen);
@@ -2266,9 +2273,13 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageFichierJs.getParentFile().mkdirs();
 				auteurPageJs = ToutEcrivain.create(classePageFichierJs);
 			}
-			if(classePageFichierHbs != null) {
+			if(classePageFichierHbs != null && !classePageFichierHbs.exists()) {
 				classePageFichierHbs.getParentFile().mkdirs();
 				auteurPageHbs = ToutEcrivain.create(classePageFichierHbs);
+			}
+			if(classeGenPageFichierHbs != null) {
+				classeGenPageFichierHbs.getParentFile().mkdirs();
+				auteurGenPageHbs = ToutEcrivain.create(classeGenPageFichierHbs);
 			}
 		}
 
@@ -5201,7 +5212,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	public void genCodeEntiteHtm(String langueNom) throws Exception {
 		ToutEcrivain oAncien = o;
-		o = auteurPageHbs;
+		o = auteurGenPageHbs;
 
 		l();
 		tl(0, "{{#partial \"htm", entiteVarCapitalise, "\"}}");
