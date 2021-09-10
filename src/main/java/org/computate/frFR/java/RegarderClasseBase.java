@@ -29,7 +29,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */ 
 	@Override protected void _appliChemin() throws Exception {
 		if(appliChemin == null) {
-			appliChemin = System.getenv(str_appliChemin(langueNom)); 
+			appliChemin = System.getenv(str_APPLI_CHEMIN(langueNom));
 			if(appliChemin == null)
 				appliChemin = args[0]; 
 		}
@@ -42,7 +42,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */ 
 	@Override protected void _appliCheminVertx() throws Exception {
 		if(appliCheminVertx == null) {
-			appliCheminVertx = System.getenv(str_appliChemin(langueNom) + "Vertx"); 
+			appliCheminVertx = System.getenv(str_APPLI_CHEMIN_VERTX(langueNom)); 
 		}
 	}
 
@@ -57,7 +57,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _classeCheminAbsolu() throws Exception {
 		if(classeCheminAbsolu == null) {
-			classeCheminAbsolu = System.getenv(str_classeCheminAbsolu(langueNom)); 
+			classeCheminAbsolu = System.getenv(str_CLASSE_CHEMIN_ABSOLU(langueNom)); 
 			if(classeCheminAbsolu == null)
 				classeCheminAbsolu = args[1];
 		}
@@ -84,7 +84,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _appliChemins() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String appliCheminLangue = config.getString(appliNom + "." + str_appliChemin(langueNom) + "_" + langueNom); 
+			String appliCheminLangue = config.getString(str_APPLI_CHEMIN(langueNom) + "_" + langueNom); 
 			if(StringUtils.isEmpty(appliCheminLangue)) {
 				appliChemins.put(langueNom, appliChemin);
 			}
@@ -113,7 +113,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _appliCheminsVertx() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String appliCheminVertxLangue = config.getString(appliNom + "." + str_appliChemin(langueNom) + "Vertx_" + langueNom); 
+			String appliCheminVertxLangue = config.getString(str_APPLI_CHEMIN_VERTX(langueNom) + "_" + langueNom); 
 			if(StringUtils.isEmpty(appliCheminVertxLangue)) {
 				appliCheminsVertx.put(langueNom, appliCheminVertx);
 			}

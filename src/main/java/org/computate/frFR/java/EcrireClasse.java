@@ -819,7 +819,7 @@ public class EcrireClasse extends IndexerClasse {
 				if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeChemin)) {
 					l("}"); 
 
-					System.out.println("Ecrire: " + classeChemin); 
+					System.out.println(str_Ecrire(langueNom) + ": " + classeChemin); 
 					o.flushClose();
 				}
 			}

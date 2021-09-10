@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.configuration2.INIConfiguration;
+import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,11 +32,32 @@ public class ConfigSite {
 	public ConfigSite() {
 	}
 
+	public String str_APPLI_NOM(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "APPLI_NOM";
+		else
+			return "APP_NAME";
+	}
+
 	public String str_appliNom(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "appliNom";
 		else
 			return "appName";
+	}
+
+	public String str_APPLI_CHEMIN(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "APPLI_CHEMIN";
+		else
+			return "APP_PATH";
+	}
+
+	public String str_APPLI_CHEMIN_VERTX(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "APPLI_CHEMIN_VERTX";
+		else
+			return "APP_PATH_VERTX";
 	}
 
 	public String str_appliChemin(String langueNom) {
@@ -46,6 +67,13 @@ public class ConfigSite {
 			return "appPath";
 	}
 
+	public String str_CLASSE_CHEMIN_ABSOLU(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "CLASSE_CHEMIN_ABSOLU";
+		else
+			return "CLASS_ABSOLUTE_PATH";
+	}
+
 	public String str_classeCheminAbsolu(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "classeCheminAbsolu";
@@ -53,11 +81,25 @@ public class ConfigSite {
 			return "classAbsolutePath";
 	}
 
+	public String str_NOM_DOMAINE(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "NOM_DOMAINE";
+		else
+			return "DOMAIN_NAME";
+	}
+
 	public String str_nomDomaine(String langueNom) {
 		if ("frFR".equals(langueNom))
-			return "str_nomDomaine";
+			return "nomDomaine";
 		else
 			return "domainName";
+	}
+
+	public String str_AUTRES_LANGUES(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "AUTRES_LANGUES";
+		else
+			return "OTHER_LANGUAGES";
 	}
 
 	public String str_autresLangues(String langueNom) {
@@ -81,6 +123,13 @@ public class ConfigSite {
 			return "siteBaseUrl";
 	}
 
+	public String str_NOM_ENSEMBLE_DOMAINE(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "NOM_ENSEMBLE_DOMAINE";
+		else
+			return "DOMAIN_PACKAGE_NAME";
+	}
+
 	public String str_nomEnsembleDomaine(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "nomEnsembleDomaine";
@@ -93,6 +142,13 @@ public class ConfigSite {
 			return "fichier";
 		else
 			return "file";
+	}
+
+	public String str_NOM_FICHIER_CONFIG(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "NOM_FICHIER_CONFIG";
+		else
+			return "CONFIG_FILE_NAME";
 	}
 
 	public String str_nomFichierConfig(String langueNom) {
@@ -109,11 +165,32 @@ public class ConfigSite {
 			return "SOLR_URL";
 	}
 
+	public String str_SOLR_URL_COMPUTATE(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "SOLR_URL_COMPUTATE";
+		else
+			return "SOLR_URL_COMPUTATE";
+	}
+
+	public String str_SOLR_URL(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "SOLR_URL";
+		else
+			return "SOLR_URL";
+	}
+
 	public String str_solrUrl(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "solrUrl";
 		else
 			return "solrUrl";
+	}
+
+	public String str_SITE_CRYPTE(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "SITE_CRYPTE";
+		else
+			return "SITE_ENCRYPTED";
 	}
 
 	public String str_siteCrypte(String langueNom) {
@@ -123,11 +200,25 @@ public class ConfigSite {
 			return "siteEncrypted";
 	}
 
+	public String str_SITE_ECRIRE_METHODES(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "SITE_ECRIRE_METHODES";
+		else
+			return "SITE_WRITE_METHODS";
+	}
+
 	public String str_siteEcrireMethodes(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "siteEcrireMethodes";
 		else
 			return "siteWriteMethods";
+	}
+
+	public String str_ECRIRE_API(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ECRIRE_API";
+		else
+			return "WRITE_API";
 	}
 
 	public String str_ecrireApi(String langueNom) {
@@ -137,6 +228,13 @@ public class ConfigSite {
 			return "writeApi";
 	}
 
+	public String str_ECRIRE_COMMENTAIRE(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ECRIRE_COMMENTAIRE";
+		else
+			return "WRITE_COMMENTS";
+	}
+
 	public String str_ecrireCommentaire(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "ecrireCommentaire";
@@ -144,11 +242,88 @@ public class ConfigSite {
 			return "writeComments";
 	}
 
+	public String str_roles(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "roles";
+		else
+			return "roles";
+	}
+
+	public String str_rolesRequis(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "rolesRequis";
+		else
+			return "rolesRequired";
+	}
+
+	public String str_rolesPourLires(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "rolesPourLires";
+		else
+			return "rolesForRead";
+	}
+
 	public String str_roleLires(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "roleLires";
 		else
 			return "roleReads";
+	}
+
+	public String str_AUTH_ROLES_ADMIN(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "AUTH_ROLES_ADMIN";
+		else
+			return "AUTH_ROLES_ADMIN";
+	}
+
+	public String str_authRolesAdmin(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "authRolesAdmin";
+		else
+			return "authRolesAdmin";
+	}
+
+	public String str_ACTIVER_SUPPRIME(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ACTIVER_SUPPRIMER";
+		else
+			return "ENABLE_DELETED";
+	}
+
+	public String str_ACTIVER_ARCHIVE(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ACTIVER_ARCHIVE";
+		else
+			return "ENABLE_ARCHIVED";
+	}
+
+	public String str_ACTIVER_UTILISATEUR_CLE(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ACTIVER_UTILISATEUR_CLE";
+		else
+			return "ENABLE_USER_KEY";
+	}
+
+	public String str_ACTIVER_SESSION_ID(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ACTIVER_SESSION_ID";
+		else
+			return "ENABLE_SESSION_ID";
+	}
+
+	public String str_ACTIVER_ROLE_ADMIN(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ACTIVER_ROLE_ADMIN";
+		else
+			return "ENABLE_ROLE_ADMIN";
+	}
+
+	public String str_ACTIVER_OPENID_CONNECT(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ACTIVER_OPENID_CONNECT";
+		else
+			return "ENABLE_OPENID_CONNECT";
 	}
 
 	public String str_activer(String langueNom) {
@@ -3146,6 +3321,13 @@ public class ConfigSite {
 			return "Attribute";
 	}
 
+	public static String str_chemin_absolu(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "chemin absolu";
+		else
+			return "absolute path";
+	}
+
 	/**
 	 * Var.enUS: languageName enUS: The configured language name for this app.
 	 */
@@ -3156,7 +3338,7 @@ public class ConfigSite {
 	 * appName
 	 **/
 	protected void _langueNom() throws Exception {
-		langueNom = System.getenv("lang");
+		langueNom = System.getenv("APP_LANG");
 	}
 
 	/**
@@ -3170,7 +3352,7 @@ public class ConfigSite {
 	 **/
 	protected void _appliNom() throws Exception {
 		if (appliNom == null)
-			appliNom = System.getenv(str_appliNom(langueNom));
+			appliNom = System.getenv(str_APPLI_NOM(langueNom));
 	}
 
 	/**
@@ -3184,7 +3366,7 @@ public class ConfigSite {
 	 **/
 	protected void _appliChemin() throws Exception {
 		if (appliChemin == null)
-			appliChemin = System.getenv(str_appliChemin(langueNom));
+			appliChemin = System.getenv(str_APPLI_CHEMIN(langueNom));
 	}
 
 	/**
@@ -3198,7 +3380,7 @@ public class ConfigSite {
 	 **/
 	protected void _appliCheminVertx() throws Exception {
 		if (appliCheminVertx == null)
-			appliCheminVertx = System.getenv(str_appliChemin(langueNom) + "Vertx");
+			appliCheminVertx = System.getenv(str_APPLI_CHEMIN_VERTX(langueNom));
 	}
 
 	/**
@@ -3253,7 +3435,7 @@ public class ConfigSite {
 	 * r.enUS: appPath r: appliNom r.enUS: appName
 	 **/
 	protected void _configChemin() throws Exception {
-		configChemin = appliChemin + "/config/" + appliNom + ".config";
+		configChemin = appliChemin + "/config/" + appliNom + ".yml";
 	}
 //
 //	/**
@@ -3303,13 +3485,13 @@ public class ConfigSite {
 	/**
 	 * The INI Configuration Object for the config file.
 	 */
-	public INIConfiguration config;
+	public YAMLConfiguration config;
 
 	/**
 	 * r: fichierConfig r.enUS: configFile
 	 **/
 	protected void _config() throws Exception {
-		config = configurations.ini(fichierConfig);
+		config = configurations.fileBased(YAMLConfiguration.class, fichierConfig);
 	}
 
 	/**
@@ -3343,7 +3525,7 @@ public class ConfigSite {
 	 **/
 	protected void _autresLangues() throws Exception {
 		autresLangues = config
-				.getStringArray(StringUtils.replace(appliNom, ".", "..") + "." + str_autresLangues(langueNom));
+				.getStringArray(str_AUTRES_LANGUES(langueNom));
 	}
 
 	/**
@@ -3393,7 +3575,7 @@ public class ConfigSite {
 	 * appName
 	 **/
 	protected void _nomDomaine() throws Exception {
-		nomDomaine = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_nomDomaine(langueNom));
+		nomDomaine = config.getString(str_NOM_DOMAINE(langueNom));
 	}
 
 	/**
@@ -3406,7 +3588,7 @@ public class ConfigSite {
 	 * domainName r: siteUrlBase r.enUS: siteBaseUrl
 	 **/
 	protected void _siteUrlBase() throws Exception {
-		siteUrlBase = config.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_siteUrlBase(langueNom));
+		siteUrlBase = config.getString(str_SITE_URL_BASE(langueNom));
 	}
 
 	/**
@@ -3422,7 +3604,7 @@ public class ConfigSite {
 	 **/
 	protected void _nomEnsembleDomaine() throws Exception {
 		nomEnsembleDomaine = config
-				.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_nomEnsembleDomaine(langueNom));
+				.getString(str_NOM_ENSEMBLE_DOMAINE(langueNom));
 		if (StringUtils.isEmpty(nomEnsembleDomaine)) {
 			String[] partis = StringUtils.split(nomDomaine, ".");
 			ArrayUtils.reverse(partis);
@@ -3432,7 +3614,7 @@ public class ConfigSite {
 
 	/**
 	 * Var.enUS: configFileName enUS: The name of the config file which defaults to
-	 * the appName followed by ".config".
+	 * the appName followed by ".yml".
 	 */
 	public String nomFichierConfig;
 
@@ -3442,133 +3624,15 @@ public class ConfigSite {
 	 **/
 	protected void _nomFichierConfig() throws Exception {
 		nomFichierConfig = config.getString(
-				StringUtils.replace(appliNom, ".", "..") + "." + str_nomFichierConfig(langueNom), appliNom + ".config");
+				str_NOM_FICHIER_CONFIG(langueNom), appliNom + ".yml");
 	}
 
 	public String siteZone;
 
 	protected void _siteZone() throws Exception {
 		siteZone = config.getString(
-				StringUtils.replace(appliNom, ".", "..") + "." + str_siteZone(langueNom), appliNom + ".config");
+				str_SITE_ZONE(langueNom));
 	}
-//
-//	/**
-//	 * Var.enUS: mavenVersion
-//	 * enUS: The version of maven being used. 
-//	 */
-//	public String versionMaven;
-//	/**	
-//	 * Var.enUS: _mavenVersion
-//	 * r: versionMaven
-//	 * r.enUS: mavenVersion
-//	 **/ 
-//	protected void _versionMaven() throws Exception {
-//		versionMaven = config.getString("maven.versionMaven", "3.5.3");
-//	}
-//
-//	/**
-//	 * Var.enUS: zookeeperVersion
-//	 * enUS: The version of Zookeeper being used. 
-//	 */
-//	public String versionZookeeper;
-//	/**	
-//	 * Var.enUS: _zookeeperVersion
-//	 * r: versionZookeeper
-//	 * r.enUS: zookeeperVersion
-//	 **/ 
-//	protected void _versionZookeeper() throws Exception {
-//		versionZookeeper = config.getString("maven.versionZookeeper", "3.5.4");
-//	}
-//
-//	/**
-//	 * Var.enUS: zookeeperPortPrefix
-//	 * enUS: The port prefix for zookeeper (default is "102"). 
-//	 */
-//	public String prefixePortZookeeper;
-//	/**	
-//	 * Var.enUS: _zookeeperPortPrefix
-//	 * r: prefixePortZookeeper
-//	 * r.enUS: zookeeperPortPrefix
-//	 **/ 
-//	protected void _prefixePortZookeeper() throws Exception {
-//		prefixePortZookeeper = config.getString("zookeeper.prefixePortZookeeper", "102");
-//	}
-//
-//	/**
-//	 * Var.enUS: zookeeperClientPort
-//	 * enUS: The Zookeeper client port (default is "10281"). 
-//	 */
-//	public String portClientZookeeper;
-//	/**	
-//	 * Var.enUS: _zookeeperClientPort
-//	 * r: portClientZookeeper
-//	 * r.enUS: zookeeperClientPort
-//	 * r: prefixePortZookeeper
-//	 * r.enUS: zookeeperPortPrefix
-//	 **/ 
-//	protected void _portClientZookeeper() throws Exception {
-//		portClientZookeeper = config.getString("zookeeper.portClientZookeeper", prefixePortZookeeper + "81");
-//	}
-//
-//	/**
-//	 * Var.enUS: zookeeperAdminPort
-//	 * enUS: The Zookeeper admin port (default is "10280"). 
-//	 */
-//	public String portAdminZookeeper;
-//	/**	
-//	 * Var.enUS: _zookeeperAdminPort
-//	 * r: portAdminZookeeper
-//	 * r.enUS: zookeeperAdminPort
-//	 * r: prefixePortZookeeper
-//	 * r.enUS: zookeeperPortPrefix
-//	 **/ 
-//	protected void _portAdminZookeeper() throws Exception {
-//		portAdminZookeeper = config.getString("zookeeper.portAdminZookeeper", prefixePortZookeeper + "80");
-//	}
-//
-//	/**
-//	 * Var.enUS: solrVersion
-//	 * enUS: The version of Solr being used. 
-//	 */
-//	public String versionSolr;
-//	/**	
-//	 * Var.enUS: _solrVersion
-//	 * r: versionSolr
-//	 * r.enUS: solrVersion
-//	 **/ 
-//	protected void _versionSolr() throws Exception {
-//		versionSolr = config.getString("solr.versionSolr", "7.1.0");
-//	}
-//
-//	/**
-//	 * Var.enUS: solrPortPrefix
-//	 * enUS: The port prefix for Solr (default is "103"). 
-//	 */
-//	public String prefixePortSolr;
-//	/**	
-//	 * Var.enUS: _solrPortPrefix
-//	 * r: prefixePortSolr
-//	 * r.enUS: solrPortPrefix
-//	 **/ 
-//	protected void _prefixePortSolr() throws Exception {
-//		prefixePortSolr = config.getString("solr.prefixePortSolr", "103");
-//	}
-//
-//	/**
-//	 * Var.enUS: solrPort
-//	 * enUS: The Solr web port (default is "10383"). 
-//	 */ 
-//	public String portSolr;
-//	/**	
-//	 * Var.enUS: _solrPort
-//	 * r: portSolr
-//	 * r.enUS: solrPort
-//	 * r: prefixePortSolr
-//	 * r.enUS: solrPortPrefix
-//	 **/ 
-//	protected void _portSolr() throws Exception {
-//		portSolr = config.getString("solr.portSolr", prefixePortSolr + "83");
-//	}
 
 	/**
 	 * Var.enUS: solrUrlComputate enUS: The Solr web URL for the "computate" index.
@@ -3582,7 +3646,7 @@ public class ConfigSite {
 	protected void _solrUrlComputate() throws Exception {
 //		solrUrlComputate = config.getString("solr.solrUrl", "http://localhost:" + portSolr + "/solr/computate");
 		solrUrlComputate = config
-				.getString(StringUtils.replace(appliNom, ".", "..") + "." + str_solrUrl(langueNom) + "Computate");
+				.getString(str_SOLR_URL_COMPUTATE(langueNom));
 	}
 
 	/**
@@ -3654,77 +3718,77 @@ public class ConfigSite {
 	 * r.enUS: appName
 	 **/
 	protected void _siteCrypte() throws Exception {
-		siteCrypte = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_siteCrypte(langueNom),
+		siteCrypte = config.getBoolean(str_SITE_CRYPTE(langueNom),
 				false);
 	}
 
 	public Boolean customerProfileId1;
 
 	protected void _customerProfileId1() throws Exception {
-		customerProfileId1 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId1",
+		customerProfileId1 = config.getBoolean("customerProfileId1",
 				false);
 	}
 
 	public Boolean customerProfileId2;
 
 	protected void _customerProfileId2() throws Exception {
-		customerProfileId2 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId2",
+		customerProfileId2 = config.getBoolean("customerProfileId2",
 				false);
 	}
 
 	public Boolean customerProfileId3;
 
 	protected void _customerProfileId3() throws Exception {
-		customerProfileId3 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId3",
+		customerProfileId3 = config.getBoolean("customerProfileId3",
 				false);
 	}
 
 	public Boolean customerProfileId4;
 
 	protected void _customerProfileId4() throws Exception {
-		customerProfileId4 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId4",
+		customerProfileId4 = config.getBoolean("customerProfileId4",
 				false);
 	}
 
 	public Boolean customerProfileId5;
 
 	protected void _customerProfileId5() throws Exception {
-		customerProfileId5 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId5",
+		customerProfileId5 = config.getBoolean("customerProfileId5",
 				false);
 	}
 
 	public Boolean customerProfileId6;
 
 	protected void _customerProfileId6() throws Exception {
-		customerProfileId6 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId6",
+		customerProfileId6 = config.getBoolean("customerProfileId6",
 				false);
 	}
 
 	public Boolean customerProfileId7;
 
 	protected void _customerProfileId7() throws Exception {
-		customerProfileId7 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId7",
+		customerProfileId7 = config.getBoolean("customerProfileId7",
 				false);
 	}
 
 	public Boolean customerProfileId8;
 
 	protected void _customerProfileId8() throws Exception {
-		customerProfileId8 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId8",
+		customerProfileId8 = config.getBoolean("customerProfileId8",
 				false);
 	}
 
 	public Boolean customerProfileId9;
 
 	protected void _customerProfileId9() throws Exception {
-		customerProfileId9 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId9",
+		customerProfileId9 = config.getBoolean("customerProfileId9",
 				false);
 	}
 
 	public Boolean customerProfileId10;
 
 	protected void _customerProfileId10() throws Exception {
-		customerProfileId10 = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + "customerProfileId10",
+		customerProfileId10 = config.getBoolean("customerProfileId10",
 				false);
 	}
 
@@ -3739,9 +3803,17 @@ public class ConfigSite {
 	 **/
 	protected void _siteEcrireMethodes() throws Exception {
 		List<String> o = config.getList(String.class,
-				StringUtils.replace(appliNom, ".", "..") + "." + str_siteEcrireMethodes(langueNom));
+				str_SITE_ECRIRE_METHODES(langueNom));
 		if (o != null)
 			siteEcrireMethodes.addAll(o);
+	}
+
+	public ArrayList<String> authRolesAdmin = new ArrayList<String>();
+
+	protected void _authRolesAdmin() throws Exception {
+		List<String> o = config.getList(String.class, str_AUTH_ROLES_ADMIN(langueNom));
+		if (o != null)
+			authRolesAdmin.addAll(o);
 	}
 
 	/**
@@ -3753,36 +3825,34 @@ public class ConfigSite {
 	 * Var.enUS: _writeApi r: ecrireApi r.enUS: writeApi r: appliNom r.enUS: appName
 	 **/
 	protected void _ecrireApi() throws Exception {
-		ecrireApi = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_ecrireApi(langueNom), true);
+		ecrireApi = config.getBoolean(str_ECRIRE_API(langueNom), true);
 	}
 
 	public Boolean ecrireCommentaire;
 
 	protected void _ecrireCommentaire() throws Exception {
 		ecrireCommentaire = config
-				.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_ecrireCommentaire(langueNom), true);
+				.getBoolean(str_ECRIRE_COMMENTAIRE(langueNom), true);
 	}
 
 	public Boolean activerSupprime;
 
 	protected void _activerSupprime() throws Exception {
-		activerSupprime = config.getBoolean(
-				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_Supprime(langueNom),
-				true);
+		activerSupprime = config.getBoolean( str_ACTIVER_SUPPRIME(langueNom), true);
 	}
 
 	public Boolean activerArchive;
 
 	protected void _activerArchive() throws Exception {
 		activerArchive = config.getBoolean(
-				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_Archive(langueNom), true);
+				str_ACTIVER_ARCHIVE(langueNom), true);
 	}
 
 	public Boolean activerUtilisateurCle;
 
 	protected void _activerUtilisateurCle() throws Exception {
 		activerUtilisateurCle = config.getBoolean(
-				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_UtilisateurCle(langueNom),
+				str_ACTIVER_UTILISATEUR_CLE(langueNom),
 				true);
 	}
 
@@ -3790,22 +3860,22 @@ public class ConfigSite {
 
 	protected void _activerSessionId() throws Exception {
 		activerSessionId = config.getBoolean(
-				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + str_SessionId(langueNom),
+				str_ACTIVER_SESSION_ID(langueNom),
 				true);
 	}
 
 	public Boolean activerRoleAdmin;
 
 	protected void _activerRoleAdmin() throws Exception {
-		activerRoleAdmin = config.getBoolean(StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom)
-				+ str_Role(langueNom) + str_Admin(langueNom), true);
+		activerRoleAdmin = config.getBoolean(str_activer(langueNom)
+				+ str_ACTIVER_ROLE_ADMIN(langueNom), true);
 	}
 
 	public Boolean activerOpenIdConnect;
 
 	protected void _activerOpenIdConnect() throws Exception {
 		activerOpenIdConnect = config.getBoolean(
-				StringUtils.replace(appliNom, ".", "..") + "." + str_activer(langueNom) + "OpenIdConnect", true);
+				str_ACTIVER_OPENID_CONNECT(langueNom), true);
 	}
 
 	/**
@@ -3877,6 +3947,7 @@ public class ConfigSite {
 		_customerProfileId9();
 		_customerProfileId10();
 		_siteEcrireMethodes();
+		_authRolesAdmin();
 		_ecrireApi();
 		_ecrireCommentaire();
 		_activerSupprime();

@@ -4506,7 +4506,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					/////////
 		
 					l();
-					tl(1, "public String htm", entiteVarCapitalise, "() {");
+					tl(1, "public String html", entiteVarCapitalise, "() {");
 					tl(2, "return ", entiteVar, " == null ? \"\" : StringEscapeUtils.escapeHtml4(str", entiteVarCapitalise, "());");
 					tl(1, "}");
 		
@@ -5215,7 +5215,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		o = auteurGenPageHbs;
 
 		l();
-		tl(0, "{{#partial \"htm", entiteVarCapitalise, "\"}}");
+		tl(0, "{{#*inline \"html", entiteVarCapitalise, "\"}}");
 		tl(2, "<div class=\"w3-cell w3-cell-top w3-center w3-mobile \">");
 		if(entiteHtml && (entiteDefinir || entiteAttribuer)) {
 
@@ -5243,7 +5243,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(8, "<div class=\"w3-cell-row \">");
 				l();
 
-				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
+				tl(8, "{{> \"input", entiteVarCapitalise, "\"}}");
 				tl(8, "</div>");
 				tl(7, "</div>");
 				tl(6, "</div>");
@@ -5337,7 +5337,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(6, "<div class=\"w3-cell-row  \">");
 				tl(7, "<div class=\"w3-cell \">");
-				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
+				tl(8, "{{> \"input", entiteVarCapitalise, "\"}}");
 				tl(7, "</div>");
 			}
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
@@ -5348,7 +5348,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(6, "<div class=\"w3-cell-row w3-padding \">");
 				tl(7, "<div class=\"w3-cell \">");
-				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
+				tl(8, "{{> \"input", entiteVarCapitalise, "\"}}");
 				tl(7, "</div>");
 			}
 			else if("LocalTime".equals(entiteNomSimple)) {
@@ -5359,7 +5359,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(6, "<div class=\"w3-cell-row w3-padding \">");
 				tl(7, "<div class=\"w3-cell \">");
-				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
+				tl(8, "{{> \"input", entiteVarCapitalise, "\"}}");
 				tl(7, "</div>");
 			}
 			else if("Boolean".equals(entiteNomSimple)) {
@@ -5370,7 +5370,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(6, "<div class=\"w3-cell-row w3-padding \">");
 				tl(7, "<div class=\"w3-cell \">");
-				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
+				tl(8, "{{> \"input", entiteVarCapitalise, "\"}}");
 				tl(7, "</div>");
 			}
 			else {
@@ -5381,7 +5381,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(6, "<div class=\"w3-cell-row w3-padding \">");
 				tl(7, "<div class=\"w3-cell \">");
-				tl(8, "{{#block \"input", entiteVarCapitalise, "\"}}{{/block}}");
+				tl(8, "{{> \"input", entiteVarCapitalise, "\"}}");
 				tl(7, "</div>");
 			}
 			if(!entiteAttribuer && entiteModifier && !"Boolean".equals(entiteNomSimple)) {
@@ -5441,14 +5441,14 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(7, "{{/ifContainsAnyRoles}}");
 					}
 					else {
-						tl(7, "{{#ifContainsKeys}}");
+						tl(7, "{{/ifContainsKeys}}");
 					}
 				}
 				else if(classeSessionEcrire) {
-					tl(7, "{{#ifContainsSessionId}}");
+					tl(7, "{{/ifContainsSessionId}}");
 				}
 				else if(classeRolesTrouves) {
-					tl(7, "{{#ifContainsAnyRoles}}");
+					tl(7, "{{/ifContainsAnyRoles}}");
 				}
 			}
 
@@ -5488,14 +5488,14 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		tl(2, "</div>");
-		tl(0, "{{/partial}}");  
+		tl(0, "{{/inline}}");  
 
 		///////////
 		// input //
 		///////////
 
 		l();
-		tl(0, "{{#partial \"input", entiteVarCapitalise, "\"}}");
+		tl(0, "{{#*inline \"input", entiteVarCapitalise, "\"}}");
 		if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
 
 			if(classeUtilisateurEcrire && classeSessionEcrire) {
@@ -5795,21 +5795,21 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
 				tl(2, "{{else}}");
-				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
 			}
 			else if(classeUtilisateurEcrire) {
 				if(classeRolesTrouves || classeRoleLiresTrouves) {
 					tl(2, "{{else}}");
-					tl(4, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+					tl(4, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
 				}
 				else {
 					tl(2, "{{else}}");
-					tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+					tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
 				}
 			}
 			else if(classeSessionEcrire) {
 				tl(2, "{{else}}");
-				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
 			}
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
 					tl(2, "{{else}}");
@@ -5822,12 +5822,12 @@ public class EcrireGenClasse extends EcrireClasse {
 //					tl(5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
 //				}
 //				tl(4, ") {");
-				tl(4, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+				tl(4, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
 //				tl(3, "}");
 				tl(3, "{{/ifContainsKeys}}");
 			}
 			else {
-//								tl(3, "sx(htm", entiteVarCapitalise, "());");
+//								tl(3, "sx(html", entiteVarCapitalise, "());");
 			}
 
 			if(classeUtilisateurEcrire && classeSessionEcrire) {
@@ -5852,9 +5852,9 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}
 		else if(!entiteModifier) {
-			tl(2, "<span class=\", \"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+			tl(2, "<span class=\", \"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
 		}
-		tl(0, "{{/partial}}");
+		tl(0, "{{/inline}}");
 
 		o = oAncien;
 	}
@@ -6674,7 +6674,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		l("}"); 
 
-		System.out.println("Ecrire: " + classeCheminGen); 
+		System.out.println(str_Ecrire(langueNom) + ": " + classeCheminGen); 
 		auteurGenClasse.flushClose();
 	}  
 

@@ -41,7 +41,7 @@ public class RegarderRepertoire {
 	/** 
 	 * Var.enUS: log
 	 */
-	protected final Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
+	protected final Logger LOG = org.slf4j.LoggerFactory.getLogger(getClass());
 	
 	/** 
 	 * Var.enUS: observer
@@ -90,9 +90,9 @@ public class RegarderRepertoire {
 	 */
 	protected ArrayList<String> cheminsSource = new ArrayList<String>();
 	/**
-	 * Var.enUS: relativePathsToWatch
+	 * Var.enUS: RELATIVE_PATHS_TO_WATCH
 	 */
-	protected ArrayList<String> cheminsRelatifsARegarder = new ArrayList<String>();
+	protected ArrayList<String> CHEMINS_RELATIFS_A_REGARDER = new ArrayList<String>();
 	/**
 	 * Var.enUS: allSourcePaths
 	 */
@@ -131,23 +131,23 @@ public class RegarderRepertoire {
 	protected INIConfiguration configuration;
 	protected String langueNom;
 	/**
-	 * Var.enUS: appName
+	 * Var.enUS: APP_NAME
 	 */
-	protected String appliNom;
+	protected String APPLI_NOM;
 	/**
-	 * Var.enUS: appPath
+	 * Var.enUS: APP_PATH
 	 */
-	protected String appliChemin;
+	protected String APPLI_CHEMIN;
 	/**
-	 * Var.enUS: appComputatePath
+	 * Var.enUS: APP_COMPUTATE_PATH
 	 */
-	protected String appliComputateChemin;
+	protected String APPLI_COMPUTATE_CHEMIN;
 
-	public static String str_appliNom(String langueNom) {
+	public static String str_APPLI_NOM(String langueNom) {
 		if("frFR".equals(langueNom))
-			return "appliNom";
+			return "APPLI_NOM";
 		else
-			return "appName";
+			return "APP_NAME";
 	}
 
 	public static String str_Regarder(String langueNom) {
@@ -157,36 +157,36 @@ public class RegarderRepertoire {
 			return "Watch";
 	}
 
-	public static String str_appliChemin(String langueNom) {
+	public static String str_APPLI_CHEMIN(String langueNom) {
 		if("frFR".equals(langueNom))
-			return "appliChemin";
+			return "APPLI_CHEMIN";
 		else
-			return "appPath";
+			return "APP_PATH";
 	}
 
-	public static String str_appliComputateChemin(String langueNom) {
+	public static String str_APPLI_COMPUTATE_CHEMIN(String langueNom) {
 		if("frFR".equals(langueNom))
-			return "appliComputateChemin";
+			return "APPLI_COMPUTATE_CHEMIN";
 		else
-			return "appComputatePath";
+			return "APP_COMPUTATE_PATH";
 	}
 
-	public static String str_cheminsRelatifsARegarder(String langueNom) {
+	public static String str_CHEMINS_RELATIFS_A_REGARDER(String langueNom) {
 		if("frFR".equals(langueNom))
-			return "cheminsRelatifsARegarder";
+			return "CHEMINS_RELATIFS_A_REGARDER";
 		else
-			return "relativePathsToWatch";
+			return "RELATIVE_PATHS_TO_WATCH";
 	}
 
 	 /**
-	 * r: appliNom
-	 * r.enUS: appName
-	 * r: appliChemin
-	 * r.enUS: appPath
+	 * r: APPLI_NOM
+	 * r.enUS: APP_NAME
+	 * r: APPLI_CHEMIN
+	 * r.enUS: APP_PATH
 	 * r: cheminsBin
 	 * r.enUS: pathsBin
-	 * r: appliComputateChemin
-	 * r.enUS: appComputatePath
+	 * r: APPLI_COMPUTATE_CHEMIN
+	 * r.enUS: APP_COMPUTATE_PATH
 	 * r: initialiserRegarderRepertoire
 	 * r.enUS: initializeWatchDirectory
 	 * r: ajouterCheminsARegarder
@@ -212,22 +212,22 @@ public class RegarderRepertoire {
 	 */
 	public static void main(String[] args) throws Exception { 
 		Logger log = org.slf4j.LoggerFactory.getLogger(RegarderRepertoire.class);
-		String lang = Optional.ofNullable(System.getenv("lang")).orElse("frFR");
-		String appliNom = System.getenv(str_appliNom(lang));
-		String appliChemin = System.getenv(str_appliChemin(lang));
-		String appliComputateChemin = System.getenv(str_appliComputateChemin(lang));
+		String lang = Optional.ofNullable(System.getenv("APP_LANG")).orElse("frFR");
+		String APPLI_NOM = System.getenv(str_APPLI_NOM(lang));
+		String APPLI_CHEMIN = System.getenv(str_APPLI_CHEMIN(lang));
+		String APPLI_COMPUTATE_CHEMIN = System.getenv(str_APPLI_COMPUTATE_CHEMIN(lang));
 		RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
 		regarderRepertoire.langueNom = lang;
-		regarderRepertoire.appliNom = appliNom;
-		regarderRepertoire.appliChemin = appliChemin;
-		regarderRepertoire.appliComputateChemin = appliComputateChemin;
-		regarderRepertoire.classeCheminRepertoireAppli = appliChemin;
+		regarderRepertoire.APPLI_NOM = APPLI_NOM;
+		regarderRepertoire.APPLI_CHEMIN = APPLI_CHEMIN;
+		regarderRepertoire.APPLI_COMPUTATE_CHEMIN = APPLI_COMPUTATE_CHEMIN;
+		regarderRepertoire.classeCheminRepertoireAppli = APPLI_CHEMIN;
 
-		regarderRepertoire.cheminSrcMainJava = appliChemin + "/src/main/java";
-		regarderRepertoire.cheminSrcGenJava = appliChemin + "/src/gen/java";
-		regarderRepertoire.cheminsBin.add(appliChemin + "/src/main/resources");
+		regarderRepertoire.cheminSrcMainJava = APPLI_CHEMIN + "/src/main/java";
+		regarderRepertoire.cheminSrcGenJava = APPLI_CHEMIN + "/src/gen/java";
+		regarderRepertoire.cheminsBin.add(APPLI_CHEMIN + "/src/main/resources");
 
-		regarderRepertoire.configChemin = appliChemin + "/config/" + appliNom + ".config";
+		regarderRepertoire.configChemin = APPLI_CHEMIN + "/config/" + APPLI_NOM + ".yml";
 		regarderRepertoire.fichierConfig = new File(regarderRepertoire.configChemin);
 		Configurations configurations = new Configurations();
 		regarderRepertoire.configuration = configurations.ini(regarderRepertoire.fichierConfig);
@@ -284,19 +284,19 @@ public class RegarderRepertoire {
 	 * r.enUS: libraryPaths
 	 * r: classeChemin
 	 * r.enUS: classPath
-	 * r: cheminsRelatifsARegarder
-	 * r.enUS: relativePathsToWatch
-	 * r: appliChemin
-	 * r.enUS: appPath
-	 * r: appliNom
-	 * r.enUS: appName
+	 * r: CHEMINS_RELATIFS_A_REGARDER
+	 * r.enUS: RELATIVE_PATHS_TO_WATCH
+	 * r: APPLI_CHEMIN
+	 * r.enUS: APP_PATH
+	 * r: APPLI_NOM
+	 * r.enUS: APP_NAME
 	 */
 	public void initialiserRegarderRepertoire() throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
 //		executeur.setStreamHandler(gestionnaireFluxPompe);
-		String[] cheminsRelatifsARegarder = configuration.getStringArray(StringUtils.replace(appliNom, ".", "..") + "." + str_cheminsRelatifsARegarder(langueNom));
-		for(String cheminRelatifARegarder : cheminsRelatifsARegarder) {
-			String cheminARegarder = appliChemin + "/" + cheminRelatifARegarder;
+		String[] CHEMINS_RELATIFS_A_REGARDER = configuration.getStringArray(str_CHEMINS_RELATIFS_A_REGARDER(langueNom));
+		for(String cheminRelatifARegarder : CHEMINS_RELATIFS_A_REGARDER) {
+			String cheminARegarder = APPLI_CHEMIN + "/" + cheminRelatifARegarder;
 			cheminsARegarder.add(cheminARegarder);
 		}
 
@@ -336,9 +336,9 @@ public class RegarderRepertoire {
 		for(String cheminARegarder : cheminsARegarder) {
 			try {
 				chemins.add(enregistrerTout(Paths.get(cheminARegarder)));
-				log.info("{}: {}", str_Regarder(cheminARegarder), cheminARegarder);
+				LOG.info("{}: {}", str_Regarder(cheminARegarder), cheminARegarder);
 			} catch (IOException e) { 
-				log.error("Erreur à ajouter chemin pour regarder.", e);
+				LOG.error("Erreur à ajouter chemin pour regarder.", e);
 			}
 		}
 	}      
@@ -424,8 +424,8 @@ public class RegarderRepertoire {
 	 * r.enUS: configPath
 	 * r: fichierConfig
 	 * r.enUS: configFile
-	 * r: appliNom
-	 * r.enUS: appName
+	 * r: APPLI_NOM
+	 * r.enUS: APP_NAME
 	 * r: chemins
 	 * r.enUS: paths
 	 */
@@ -436,10 +436,10 @@ public class RegarderRepertoire {
 	 * r.enUS: classAbsolutePath
 	 * r: executeur
 	 * r.enUS: executor
-	 * r: appliChemin
-	 * r.enUS: appPath
-	 * r: appliComputateChemin
-	 * r.enUS: appComputatePath
+	 * r: APPLI_CHEMIN
+	 * r.enUS: APP_PATH
+	 * r: APPLI_COMPUTATE_CHEMIN
+	 * r.enUS: APP_COMPUTATE_PATH
 	 * r: observateur
 	 * r.enUS: observer
 	 * r: cles
@@ -502,14 +502,14 @@ public class RegarderRepertoire {
 
 				try { 
 					String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
-					String cp = FileUtils.readFileToString(new File(appliComputateChemin + "/config/cp.txt"), "UTF-8");
-					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + appliComputateChemin + "/target/classes\" " + RegarderClasse.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
-					File repertoireTravail = new File(appliComputateChemin);
+					String cp = FileUtils.readFileToString(new File(APPLI_COMPUTATE_CHEMIN + "/config/cp.txt"), "UTF-8");
+					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + APPLI_COMPUTATE_CHEMIN + "/target/classes\" " + RegarderClasse.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
+					File repertoireTravail = new File(APPLI_COMPUTATE_CHEMIN);
 
 					executeur.setWorkingDirectory(repertoireTravail);
 					executeur.execute(ligneCommande); 
 				} catch (Exception e) {  
-					log.error("Une Problème d'exécution de RegarderRepertoire: " + cheminComplet.toAbsolutePath().toString(), e);
+					LOG.error("Une Problème d'exécution de RegarderRepertoire: " + cheminComplet.toAbsolutePath().toString(), e);
 				} 
 
 				if (kind == ENTRY_CREATE) {

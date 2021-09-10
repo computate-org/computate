@@ -37,7 +37,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 */ 
 	public static void main(String[] args) throws Exception {   
 		RegarderClasse regarderClasse = new RegarderClasse();
-		String classeLangueNom = StringUtils.defaultString(System.getenv("lang"), "frFR");
+		String classeLangueNom = StringUtils.defaultString(System.getenv("APP_LANG"), "frFR");
 		try {
 			regarderClasse.args = args;
 			regarderClasse.initRegarderClasseBase(); 
@@ -105,7 +105,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 	public static void regarderClasse(RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile() && regarderClasse.classeCheminAbsolu.endsWith(".java")) {
-			System.out.println("cheminAbsolu : " + regarderClasse.classeCheminAbsolu);
+			System.out.println(str_chemin_absolu(classeLangueNom) + " : " + regarderClasse.classeCheminAbsolu);
 			SolrInputDocument classeDoc = new SolrInputDocument();
 //			classeDoc.addField("id", regarderClasse.classeCheminAbsolu);  
 			regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, classeLangueNom);

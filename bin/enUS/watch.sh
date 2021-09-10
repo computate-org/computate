@@ -1,4 +1,4 @@
 #!/bin/bash
-cd $appComputatePath
-mvn dependency:build-classpath -Dmdep.outputFile=$appComputatePath/config/cp.txt -q
-java -cp "$(cat $appComputatePath/config/cp.txt):$appComputatePath/target/classes" org.computate.frFR.java.RegarderRepertoire
+cd $APP_COMPUTATE_PATH
+mvn dependency:build-classpath -Dmdep.outputFile=$APP_COMPUTATE_PATH/config/cp.txt -q
+java -cp "$(cat $APP_COMPUTATE_PATH/config/cp.txt):$APP_COMPUTATE_PATH/target/classes" org.computate.frFR.java.RegarderRepertoire
