@@ -326,6 +326,20 @@ public class ConfigSite {
 			return "ENABLE_OPENID_CONNECT";
 	}
 
+	public String str_ACTIVER_VERTX(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ACTIVER_VERTX";
+		else
+			return "ENABLE_VERTX";
+	}
+
+	public String str_ACTIVER_QUARKUS(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "ACTIVER_QUARKUS";
+		else
+			return "ENABLE_QUARKUS";
+	}
+
 	public String str_activer(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "activer";
@@ -3878,6 +3892,20 @@ public class ConfigSite {
 				str_ACTIVER_OPENID_CONNECT(langueNom), true);
 	}
 
+	public Boolean activerQuarkus;
+
+	protected void _activerQuarkus() throws Exception {
+		activerQuarkus = config.getBoolean(
+				str_ACTIVER_QUARKUS(langueNom), false);
+	}
+
+	public Boolean activerVertx;
+
+	protected void _activerVertx() throws Exception {
+		activerVertx = config.getBoolean(
+				str_ACTIVER_VERTX(langueNom), !activerQuarkus);
+	}
+
 	/**
 	 * Var.enUS: initSiteConfig r: fichierConfig r.enUS: configFile r:
 	 * langueNomActuel r.enUS: languageActualName r: langueIndexe r.enUS:
@@ -3956,6 +3984,8 @@ public class ConfigSite {
 		_activerSessionId();
 		_activerRoleAdmin();
 		_activerOpenIdConnect();
+		_activerQuarkus();
+		_activerVertx();
 	}
 
 	/**

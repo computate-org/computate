@@ -235,6 +235,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 			auteurGenApiService.l();
 			auteurGenApiService.l("/**");
+			String hackathonMission = (String)classeDoc.get("hackathonMissionGenApiService_stored_string");
+			String hackathonColumn = (String)classeDoc.get("hackathonColumnGenApiService_stored_string");
+			if(hackathonMission != null)
+				auteurGenApiService.l(String.format(" * Map.hackathonMission: %s", hackathonMission));
+			if(hackathonColumn != null)
+				auteurGenApiService.l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
 			auteurGenApiService.l(" * ", str_Traduire(classeLangueNom), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueGenApiServiceLangue = (String)classeDoc.get("classeNomCanoniqueGenApiService_" + langueNom + "_stored_string");
@@ -2259,6 +2265,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			o = auteurGenApiServiceImpl;
 			l();
 			l("/**");
+			String hackathonMission = (String)classeDoc.get("hackathonMissionGenApiServiceImpl_stored_string");
+			String hackathonColumn = (String)classeDoc.get("hackathonColumnGenApiServiceImpl_stored_string");
+			if(hackathonMission != null)
+				l(String.format(" * Map.hackathonMission: %s", hackathonMission));
+			if(hackathonColumn != null)
+				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
 			l(" * ", str_Traduire(classeLangueNom), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueGenApiServiceImplLangue = (String)classeDoc.get("classeNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
