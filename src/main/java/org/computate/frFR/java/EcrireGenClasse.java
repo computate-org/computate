@@ -624,6 +624,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain auteurPageJs = null;
 	protected ToutEcrivain auteurPageHbs = null;
 	protected ToutEcrivain auteurGenPageHbs = null;
+	protected ToutEcrivain auteurGenPageHbsEntite = null;
 	protected ToutEcrivain auteurWebsocket = null;
 
 	/**
@@ -2280,6 +2281,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeGenPageFichierHbs != null) {
 				classeGenPageFichierHbs.getParentFile().mkdirs();
 				auteurGenPageHbs = ToutEcrivain.create(classeGenPageFichierHbs);
+				auteurGenPageHbsEntite = ToutEcrivain.create();
 			}
 		}
 
@@ -4506,7 +4508,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					/////////
 		
 					l();
-					tl(1, "public String html", entiteVarCapitalise, "() {");
+					tl(1, "public String htm", entiteVarCapitalise, "() {");
 					tl(2, "return ", entiteVar, " == null ? \"\" : StringEscapeUtils.escapeHtml4(str", entiteVarCapitalise, "());");
 					tl(1, "}");
 		
@@ -4528,9 +4530,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				}
 	
-				for(String classeEcrireMethode : new String[] { "htmlBody" }) {
+				for(String classeEcrireMethode : new String[] { "htmBody" }) {
 					if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
-						if(entiteNomSimpleCompletGenerique == null && "htmlBody".equals(classeEcrireMethode)) {
+						if(entiteNomSimpleCompletGenerique == null && "htmBody".equals(classeEcrireMethode)) {
 							tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "(", entiteNomSimpleComplet, " o) {");
 //							if(classePartsPagePart != null && entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique(langueNom))) {
 //								// do stuff here. 
@@ -4540,9 +4542,9 @@ public class EcrireGenClasse extends EcrireClasse {
 //							}
 							tl(1, "}");
 							tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "() {");
-							tl(2, entiteVar, ".html", str_Avant(langueNom), "();");
+							tl(2, entiteVar, ".htm", str_Avant(langueNom), "();");
 							tl(2, classeEcrireMethode, entiteVarCapitalise, "(", entiteVar, ");");
-							tl(2, entiteVar, ".html", str_Apres(langueNom), "();");
+							tl(2, entiteVar, ".htm", str_Apres(langueNom), "();");
 							tl(1, "}");
 						}
 					}
@@ -5212,10 +5214,10 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	public void genCodeEntiteHtm(String langueNom) throws Exception {
 		ToutEcrivain oAncien = o;
-		o = auteurGenPageHbs;
+		o = auteurGenPageHbsEntite;
 
 		l();
-		tl(0, "{{#*inline \"html", entiteVarCapitalise, "\"}}");
+		tl(0, "{{#*inline \"htm", entiteVarCapitalise, "\"}}");
 		tl(2, "<div class=\"w3-cell w3-cell-top w3-center w3-mobile \">");
 		if(entiteHtml && (entiteDefinir || entiteAttribuer)) {
 
@@ -5795,21 +5797,21 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
 				tl(2, "{{else}}");
-				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
+				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 			}
 			else if(classeUtilisateurEcrire) {
 				if(classeRolesTrouves || classeRoleLiresTrouves) {
 					tl(2, "{{else}}");
-					tl(4, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
+					tl(4, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 				}
 				else {
 					tl(2, "{{else}}");
-					tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
+					tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 				}
 			}
 			else if(classeSessionEcrire) {
 				tl(2, "{{else}}");
-				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
+				tl(3, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 			}
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
 					tl(2, "{{else}}");
@@ -5822,12 +5824,12 @@ public class EcrireGenClasse extends EcrireClasse {
 //					tl(5, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
 //				}
 //				tl(4, ") {");
-				tl(4, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
+				tl(4, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 //				tl(3, "}");
 				tl(3, "{{/ifContainsKeys}}");
 			}
 			else {
-//								tl(3, "sx(html", entiteVarCapitalise, "());");
+//								tl(3, "sx(htm", entiteVarCapitalise, "());");
 			}
 
 			if(classeUtilisateurEcrire && classeSessionEcrire) {
@@ -5852,7 +5854,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}
 		else if(!entiteModifier) {
-			tl(2, "<span class=\", \"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{html", entiteVarCapitalise, "}}</span>");
+			tl(2, "<span class=\", \"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 		}
 		tl(0, "{{/inline}}");
 

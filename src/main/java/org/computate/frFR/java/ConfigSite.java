@@ -3160,6 +3160,13 @@ public class ConfigSite {
 			return "VarModified";
 	}
 
+	public String str_cVar(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "c";
+		else
+			return "w";
+	}
+
 	public String str_VarCree(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "VarCree";
