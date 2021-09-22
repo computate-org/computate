@@ -5838,6 +5838,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Objects.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, SortClause.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Promise", classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePartsConfigCles.nomCanonique(classeLangueNom), classeLangueNom), classeLangueNom);
 	
 			for(ClasseParts classePartGenPage : classePartsGenPage.values()) {
 				indexerStockerListeSolr(langueNom, classeDoc, "classeImportationsGenPage", classePartGenPage.nomCanonique(classeLangueNom));

@@ -277,6 +277,20 @@ public class ConfigSite {
 			return "AUTH_ROLES_ADMIN";
 	}
 
+	public String str_AUTH_ROLES_REQUIS(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "AUTH_ROLES_REQUIS";
+		else
+			return "AUTH_ROLES_REQUIRED";
+	}
+
+	public String str_AUTH_ROLES_LIRE_REQUIS(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "AUTH_ROLES_LIRE_REQUIS";
+		else
+			return "AUTH_ROLES_READ_REQUIRED";
+	}
+
 	public String str_authRolesAdmin(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "authRolesAdmin";

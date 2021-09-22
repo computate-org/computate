@@ -1143,7 +1143,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _", str_rolesRequis(langueNom), "(List<String> l) {");
-				tl(2, "l.addAll(Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\"));");
+				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(ConfigKeys.", str_AUTH_ROLES_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
 				tl(1, "}");
 			}
 			if(classeRoleLiresTrouves) {
@@ -1151,15 +1151,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _", str_rolesPourLires(langueNom), "(List<String> l) {");
-				tl(2, "l.addAll(Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\"));");
-				tl(1, "}");
-			}
-			if(activerRoleAdmin) {
-				l();
-				if(classePageSuperNomSimple != null)
-					tl(1, "@Override");
-				tl(1, "protected void _", str_authRolesAdmin(langueNom), "(List<String> l) {");
-				tl(2, "l.addAll(Arrays.asList(\"", StringUtils.join(authRolesAdmin, "\", \""), "\"));");
+				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(ConfigKeys.", str_AUTH_ROLES_LIRE_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
 				tl(1, "}");
 			}
 
@@ -1693,6 +1685,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			if(auteurPageHbs != null) {
 				o = auteurPageHbs;
+				l("{{#partial \"htmHead", classePageNomSimple, "\"}}{{> htmHead", classePageNomSimple, "Count0}}{{/partial}}");
+				l("{{#partial \"htmStyle", classePageNomSimple, "\"}}{{> htmStyle", classePageNomSimple, "Count0}}{{/partial}}");
+				l("{{#partial \"htmScripts", classePageNomSimple, "\"}}{{> htmScripts", classePageNomSimple, "Count0}}{{/partial}}");
+				l("{{#partial \"htmBody", classePageNomSimple, "\"}}{{> htmBody", classePageNomSimple, "Count0}}{{/partial}}");
+				l("{{#partial \"htmBody", classePageNomSimple, "Count0\"}}{{> htmBody", classePageNomSimple, "Count0}}{{/partial}}");
 				l("{{> ", classePageNomSimple, "}}");
 			}
 
@@ -2232,7 +2229,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{/inline}}");
 			}
 			t(0, "{{#*inline \"htmUrl", classeNomSimple, "\"}}");
-			s("{{pageUriBase}}");
+			s("{{pageUri}}");
 			s("?q={{query.q}}");
 			s("&rows={{#if rows}}{{rows}}{{else}}{{pagination.", str_lignes(langueNom), "}}{{/if}}");
 			s("&start={{#if start}}{{start}}{{else}}{{pagination.", str_debut(langueNom), "}}{{/if}}");
@@ -2257,67 +2254,68 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{> \"htmScripts", classePageNomSimple, "\"}}");
 			l("{{/inline}}");
 
+			l("{{#partial \"htmBody", classePageNomSimple, "Count0\"}}");
+			tl(2, "<h1>");
+			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+			tl(4, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
+			tl(5, "<i class=\"", str_contexteIconeClassesCss(langueNom), " site-menu-icon \"></i>");
+			tl(4, "{{/if}}");
+			tl(4, "<span class=\"\">", contexteNomAdjectifPluriel, "</span>");
+			tl(3, "</a>");
+			tl(2, "</h1>");
+			tl(2, "<h2>");
+			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
+			tl(4, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
+			tl(5, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
+			tl(4, "{{/if}}");
+			tl(4, "<span class=\"\">", contexteAucunNomTrouve, "</span>");
+			tl(3, "</span>");
+			tl(2, "</h2>");
+			l("{{/partial}}");
+
+//			l("{{#*inline \"htmBody", classePageNomSimple, "Count1\"}}");
+//			l("{{/inline}}");
+
 			tl(0, "{{#*inline \"htmBody", classePageNomSimple, "\"}}");
 //			tl(0, "{{> \"htmBody", classePageSuperNomSimple, "\"}}");
 			if(classePageSimple) {
 			} else {
-				tl(2, "{{#eq ", StringUtils.uncapitalize(classeNomSimple), "Count int0}}");
-				tl(3, "<h1>");
-				tl(4, "<a href=\"{{pageUriBase}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-				tl(5, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
-				tl(6, "<i class=\"", str_contexteIconeClassesCss(langueNom), " site-menu-icon \"></i>");
+				tl(1, "{{#eq ", StringUtils.uncapitalize(classeNomSimple), "Count int0}}{{#block \"htmBody", classePageNomSimple, "Count0\"}}{{/block}}");
+				tl(1, "{{else}}");
+
+				tl(2, "{{#eq ", StringUtils.uncapitalize(classeNomSimple), "Count int1}}");
+				tl(3, "{{#eq params.query.q \"*:*\"}}");
+
+				tl(4, "{{#with ", str_liste(langueNom), classeNomSimple, "_[0]}}");
+				tl(5, "{{#if pageH1}}");
+				tl(2, "<h1>");
+				tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(3, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
+				tl(4, "<i class=\"", str_contexteIconeClassesCss(langueNom), " site-menu-icon \"></i>");
+				tl(3, "{{/if}}");
+				tl(4, "<span class=\"\">{{pageH1}}</span>");
+				tl(3, "</a>");
+				tl(2, "</h1>");
 				tl(5, "{{/if}}");
-				tl(5, "<span class=\"\">", contexteNomAdjectifPluriel, "</span>");
-				tl(4, "</a>");
-				tl(3, "</h1>");
+				tl(4, "{{/with}}");
 
-				tl(3, "<div class=\"w3-padding-16 w3-card-4 w3-light-grey \">");
-
-				tl(3, "<h2>");
-				tl(4, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
-				tl(5, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
-				tl(6, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
-				tl(5, "{{/if}}");
-				tl(5, "<span class=\"\">", contexteAucunNomTrouve, "</span>");
-				tl(4, "</span>");
-				tl(3, "</h2>");
-				tl(2, "{{else}}");
-
-				tl(3, "{{#eq ", StringUtils.uncapitalize(classeNomSimple), "Count int1}}");
-				tl(4, "{{#eq params.query.q \"*:*\"}}");
-
-				tl(5, "{{#with ", str_liste(langueNom), classeNomSimple, "_[0]}}");
-				tl(6, "{{#if pageH1}}");
-				tl(7, "<h1>");
-				tl(8, "<a href=\"{{pageUriBase}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-				tl(9, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
-				tl(10, "<i class=\"", str_contexteIconeClassesCss(langueNom), " site-menu-icon \"></i>");
-				tl(9, "{{/if}}");
-				tl(9, "<span class=\"\">{{pageH1}}</span>");
-				tl(8, "</a>");
-				tl(7, "</h1>");
-				tl(6, "{{/if}}");
-				tl(5, "{{/with}}");
+				tl(4, "{{#if pageH2}}");
+				tl(2, "<h2>");
+				tl(3, "<span class\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
+				tl(4, "<span class=\"\">{{pageH2}}</span>");
+				tl(3, "</span>");
+				tl(2, "</h2>");
+				tl(4, "{{/if}}");
 	
-				tl(5, "<div class=\"w3-padding-16 w3-card-4 w3-light-grey \">");
-
-				tl(5, "{{#if pageH2}}");
-				tl(6, "<h2>");
-				tl(7, "<span class\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
-				tl(8, "<span class=\"\">{{pageH2}}</span>");
-				tl(7, "</span>");
-				tl(6, "</h2>");
-				tl(5, "{{/if}}");
+				tl(4, "{{#if pageH3}}");
+				tl(2, "<h3>");
+				tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
+				tl(4, "<span class=\"\">{{pageH3}}</span>");
+				tl(3, "</span>");
+				tl(2, "</h3>");
+				tl(4, "{{/if}}");
 	
-				tl(5, "{{#if pageH3}}");
-				tl(6, "<h3>");
-				tl(7, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
-				tl(8, "<span class=\"\">{{pageH3}}</span>");
-				tl(7, "</span>");
-				tl(6, "</h3>");
-				tl(5, "{{/if}}");
-	
-				tl(4, "{{else}}");
+				tl(3, "{{else}}");
 
 //					t(3).l("// contexteNomPluriel : plusiers ", contexteNomPluriel);
 //					t(3).be("h1>");
@@ -2325,46 +2323,43 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					tl(5, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
 //					t(4).e("span class=\" \"").df().dsxq(contexteNomPluriel).dgl("span");
 //					t(3).bgl("h1");
-				tl(5, "<h1>");
-				tl(6, "<a href=\"{{pageUriBase}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-				tl(7, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
-				tl(8, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
-				tl(7, "{{/if}}");
-				tl(7, "<span class=\"\">{{pageH1}}</span>");
-				tl(6, "</a>");
-				tl(5, "</h1>");
+				tl(2, "<h1>");
+				tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(4, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
+				tl(4, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
+				tl(4, "{{/if}}");
+				tl(4, "<span class=\"\">{{pageH1}}</span>");
+				tl(3, "</a>");
+				tl(2, "</h1>");
 
-//					tl(5, "<div class=\"w3-padding-16 w3-card-4 w3-light-grey \">");
-				tl(5, "<div class=\"\">");
+				tl(2, "<div>");
+				tl(3, "{{#if pagination.page", str_Precedent(langueNom), "}}");
+				tl(3, "<a href=\"{{pageUri}}?start={{pagination.page", str_Precedent(langueNom), ".", str_debut(langueNom), "}}&rows={{pagination.", str_lignes(langueNom), "}}\">");
+				tl(4, "<i class=\"fas fa-arrow-square-left \"></i>");
+				tl(3, "</a>");
+				tl(3, "{{else}}");
+				tl(3, "<i class=\"fas fa-arrow-square-left w3-opacity \"></i>");
+				tl(3, "{{/if}}");
+				tl(3, "{{#gte pagination.", str_lignes(langueNom), str_Precedent(langueNom), " pagination.1L}}");
+				tl(3, "<a href=\"{{pageUri}}?start={{pagination.", str_debut(langueNom), "}}&rows={{ pagination.", str_lignes(langueNom), str_Precedent(langueNom), " }}\">");
+				tl(4, "<i class=\"fas fa-minus-square \"></i>");
+				tl(3, "</a>");
+				tl(3, "{{else}}");
+				tl(3, "<i class=\"fas fa-minus-square w3-opacity \"></i>");
+				tl(3, "{{/gte}}");
+				tl(3, "<a href=\"{{pageUri}}?start={{pagination.", str_debut(langueNom), "}}&rows={{ pagination.", str_lignes(langueNom), str_Prochaine(langueNom), " }}\">");
+				tl(4, "<i class=\"fas fa-plus-square \"></i>");
+				tl(3, "</a>");
+				tl(3, "{{#if pagination.page", str_Prochaine(langueNom), "}}");
+				tl(3, "<a href=\"{{pageUri}}?start={{pagination.page", str_Prochaine(langueNom), ".", str_debut(langueNom), "}}&rows={{pagination.", str_lignes(langueNom), "}}\">");
+				tl(4, "<i class=\"fas fa-arrow-square-right \"></i>");
+				tl(3, "</a>");
+				tl(3, "{{else}}");
+				tl(3, "<i class=\"fas fa-arrow-square-right w3-opacity \"></i>");
+				tl(3, "{{/if}}");
+				tl(3, "<span>{{ pagination.", str_debut(langueNom), "Num }} - {{ pagination.", str_fin(langueNom), "Num }} ", str_de(langueNom), " {{ pagination.", str_numTrouve(langueNom), " }}</span>");
 
-				tl(6, "<div>");
-				tl(7, "{{#if pagination.page", str_Precedent(langueNom), "}}");
-				tl(8, "<a href=\"{{pageUriBase}}?start={{pagination.page", str_Precedent(langueNom), ".", str_debut(langueNom), "}}&rows={{pagination.", str_lignes(langueNom), "}}\">");
-				tl(9, "<i class=\"fas fa-arrow-square-left \"></i>");
-				tl(8, "</a>");
-				tl(7, "{{else}}");
-				tl(8, "<i class=\"fas fa-arrow-square-left w3-opacity \"></i>");
-				tl(7, "{{/if}}");
-				tl(7, "{{#gte pagination.", str_lignes(langueNom), str_Precedent(langueNom), " pagination.1L}}");
-				tl(8, "<a href=\"{{pageUriBase}}?start={{pagination.", str_debut(langueNom), "}}&rows={{ pagination.", str_lignes(langueNom), str_Precedent(langueNom), " }}\">");
-				tl(9, "<i class=\"fas fa-minus-square \"></i>");
-				tl(8, "</a>");
-				tl(7, "{{else}}");
-				tl(8, "<i class=\"fas fa-minus-square w3-opacity \"></i>");
-				tl(7, "{{/gte}}");
-				tl(7, "<a href=\"{{pageUriBase}}?start={{pagination.", str_debut(langueNom), "}}&rows={{ pagination.", str_lignes(langueNom), str_Prochaine(langueNom), " }}\">");
-				tl(8, "<i class=\"fas fa-plus-square \"></i>");
-				tl(7, "</a>");
-				tl(7, "{{#if pagination.page", str_Prochaine(langueNom), "}}");
-				tl(8, "<a href=\"{{pageUriBase}}?start={{pagination.page", str_Prochaine(langueNom), ".", str_debut(langueNom), "}}&rows={{pagination.", str_lignes(langueNom), "}}\">");
-				tl(9, "<i class=\"fas fa-arrow-square-right \"></i>");
-				tl(8, "</a>");
-				tl(7, "{{else}}");
-				tl(9, "<i class=\"fas fa-arrow-square-right w3-opacity \"></i>");
-				tl(7, "{{/if}}");
-				tl(7, "<span>{{ pagination.", str_debut(langueNom), "Num }} - {{ pagination.", str_fin(langueNom), "Num }} ", str_de(langueNom), " {{ pagination.", str_numTrouve(langueNom), " }}</span>");
-
-				tl(6, "</div>");
+				tl(2, "</div>");
 
 				tl(6, "{{> \"table1", classePageNomSimple, "\"}}");
 				tl(5, "</div>");
@@ -2378,7 +2373,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					t(4).e("span class=\" \"").df().dsxq(contexteNomPluriel).dgl("span");
 //					t(3).bgl("h1");
 				tl(4, "<h1>");
-				tl(5, "<a href=\"{{pageUriBase}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+				tl(5, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 				tl(6, "{{#if ", str_contexteIconeClassesCss(langueNom), "}}");
 				tl(7, "<i class=\"", str_contexteIconeClassesCss(langueNom), " + \" site-menu-icon \"></i>");
 				tl(6, "{{/if}}");
@@ -2391,24 +2386,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				tl(5, "<div>");
 				tl(7, "{{#if pagination.page", str_Precedent(langueNom), "}}");
-				tl(8, "<a href=\"{{pageUriBase}}?start={{pagination.page", str_Precedent(langueNom), ".", str_debut(langueNom), "}}&rows={{pagination.", str_lignes(langueNom), "}}\">");
+				tl(8, "<a href=\"{{pageUri}}?start={{pagination.page", str_Precedent(langueNom), ".", str_debut(langueNom), "}}&rows={{pagination.", str_lignes(langueNom), "}}\">");
 				tl(9, "<i class=\"fas fa-arrow-square-left \"></i>");
 				tl(8, "</a>");
 				tl(7, "{{else}}");
 				tl(8, "<i class=\"fas fa-arrow-square-left w3-opacity \"></i>");
 				tl(7, "{{/if}}");
 				tl(7, "{{#gte pagination.", str_lignes(langueNom), str_Precedent(langueNom), " pagination.1L}}");
-				tl(8, "<a href=\"{{pageUriBase}}?start={{pagination.", str_debut(langueNom), "}}&rows={{ pagination.", str_lignes(langueNom), str_Precedent(langueNom), " }}\">");
+				tl(8, "<a href=\"{{pageUri}}?start={{pagination.", str_debut(langueNom), "}}&rows={{ pagination.", str_lignes(langueNom), str_Precedent(langueNom), " }}\">");
 				tl(9, "<i class=\"fas fa-minus-square \"></i>");
 				tl(8, "</a>");
 				tl(7, "{{else}}");
 				tl(8, "<i class=\"fas fa-minus-square w3-opacity \"></i>");
 				tl(7, "{{/gte}}");
-				tl(7, "<a href=\"{{pageUriBase}}?start={{pagination.", str_debut(langueNom), "}}&rows={{ pagination.", str_lignes(langueNom), str_Prochaine(langueNom), " }}\">");
+				tl(7, "<a href=\"{{pageUri}}?start={{pagination.", str_debut(langueNom), "}}&rows={{ pagination.", str_lignes(langueNom), str_Prochaine(langueNom), " }}\">");
 				tl(8, "<i class=\"fas fa-plus-square \"></i>");
 				tl(7, "</a>");
 				tl(7, "{{#if pagination.page", str_Prochaine(langueNom), "}}");
-				tl(8, "<a href=\"{{pageUriBase}}?start={{pagination.page", str_Prochaine(langueNom), ".", str_debut(langueNom), "}}&rows={{pagination.", str_lignes(langueNom), "}}\">");
+				tl(8, "<a href=\"{{pageUri}}?start={{pagination.page", str_Prochaine(langueNom), ".", str_debut(langueNom), "}}&rows={{pagination.", str_lignes(langueNom), "}}\">");
 				tl(9, "<i class=\"fas fa-arrow-square-right \"></i>");
 				tl(8, "</a>");
 				tl(7, "{{else}}");
