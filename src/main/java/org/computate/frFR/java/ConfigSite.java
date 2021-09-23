@@ -1137,6 +1137,20 @@ public class ConfigSite {
 			return "formFilters";
 	}
 
+	public String str_Formulaire(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Formulaire";
+		else
+			return "Form";
+	}
+
+	public String str_Formulaires(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Formulaires";
+		else
+			return "Forms";
+	}
+
 	/**
 	 * Var.enUS: str_FormFilters
 	 */

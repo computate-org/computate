@@ -5217,7 +5217,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		o = auteurGenPageHbsEntite;
 
 		l();
-		tl(0, "{{#*inline \"htm", entiteVarCapitalise, "\"}}");
+		l("{{#*inline \"htm", entiteVarCapitalise, "\"}}");
 		tl(2, "<div class=\"w3-cell w3-cell-top w3-center w3-mobile \">");
 		if(entiteHtml && (entiteDefinir || entiteAttribuer)) {
 
@@ -5490,7 +5490,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		tl(2, "</div>");
-		tl(0, "{{/inline}}");  
+		l("{{/inline}}");  
 
 		///////////
 		// input //
