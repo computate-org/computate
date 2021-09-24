@@ -3239,10 +3239,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: suffix
 	 */        
 	public SolrInputDocument indexerClasse(String classeCheminAbsolu, SolrInputDocument classeDoc, String classeLangueNom) throws Exception { 
-		LOG.info("STUFF");
 
 		String[] classeAutresLangues = ArrayUtils.removeAllOccurences(toutesLangues, classeLangueNom);
-		String classeNomCanonique = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classeCheminAbsolu, "."), cheminSrcMainJava + "/"), "/", ".");
+		String classeNomCanonique = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classeCheminAbsolu, "."), "/java/"), "/", ".");
 		String classeNomSimple = StringUtils.substringAfterLast(classeNomCanonique, ".");
 		String classeNomCanoniqueGen = classeNomCanonique + "Gen";
 		String classeNomSimpleGen = classeNomSimple + "Gen";
@@ -3968,7 +3967,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				Boolean champEstSubstitue = false;
 				for(JavaAnnotation annotation : annotations) {
 					String champAnnotationLangue = annotation.getType().getCanonicalName();
-					indexerStockerSolr(classeLangueNom, champDoc, "champAnnotation", champAnnotationLangue); 
+					indexerStockerListeSolr(classeLangueNom, champDoc, "champAnnotation", champAnnotationLangue); 
 
 					if("org.junit.Test".equals(annotation.getType().getCanonicalName())) {
 						champEstTest = true;

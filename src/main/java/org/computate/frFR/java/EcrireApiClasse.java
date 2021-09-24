@@ -344,6 +344,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurApiServiceImpl.l();
 			auteurApiServiceImpl.l("/**");
+			String hackathonMission = (String)classeDoc.get("hackathonMissionApiServiceImpl_stored_string");
+			String hackathonColumn = (String)classeDoc.get("hackathonColumnApiServiceImpl_stored_string");
+			if(hackathonMission != null)
+				auteurApiServiceImpl.l(String.format(" * Map.hackathonMission: %s", hackathonMission));
+			if(hackathonColumn != null)
+				auteurApiServiceImpl.l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
 			auteurApiServiceImpl.l(" * ", str_Traduire(classeLangueNom), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueApiServiceImplLangue = (String)classeDoc.get("classeNomCanoniqueApiServiceImpl_" + langueNom + "_stored_string");

@@ -68,7 +68,26 @@ public class RegarderClasse extends EcrireToutesClasses {
 			System.err.println("Erreur pendant traiterEvenements. ");
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
-		regarderClasse(regarderClasse, classeLangueNom);
+		SolrInputDocument classeDoc = regarderClasse(regarderClasse, classeLangueNom);
+		if(classeDoc != null) {
+			Boolean classeEtendGen = (Boolean)classeDoc.get("classeEtendGen_stored_boolean").getValue();
+			String classeCheminGen = (String)classeDoc.get("classeCheminGen_enUS_stored_string").getValue();
+			if(classeEtendGen != null && classeCheminGen != null && classeEtendGen) {
+				
+				RegarderClasse regarderClasse2 = new RegarderClasse();
+				try {
+					regarderClasse2.args = args;
+					regarderClasse2.initRegarderClasseBase(); 
+					SolrInputDocument classeDoc2 = new SolrInputDocument();
+					System.out.println(str_chemin_absolu(classeLangueNom) + " : " + classeCheminGen);
+					regarderClasse2.indexerClasse(classeCheminGen, classeDoc2, classeLangueNom);
+				}
+				catch(Exception e) {
+					System.err.println("Erreur pendant traiterEvenements. ");
+					System.err.println(ExceptionUtils.getStackTrace(e));
+				}
+			}
+		}
 	}
 	
 	/**
@@ -102,7 +121,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r: classeLangueNom
 	 * r.enUS: classLanguageName
 	 */   
-	public static void regarderClasse(RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
+	public static SolrInputDocument regarderClasse(RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile() && regarderClasse.classeCheminAbsolu.endsWith(".java")) {
 			System.out.println(str_chemin_absolu(classeLangueNom) + " : " + regarderClasse.classeCheminAbsolu);
@@ -132,6 +151,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 				if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
 					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, langueNom);
 			}
+			return classeDoc;
 		}
+		return null;
 	}
 }

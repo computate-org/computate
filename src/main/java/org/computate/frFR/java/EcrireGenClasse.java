@@ -1909,6 +1909,12 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(ecrireCommentaire) {
 			l("/**\t");
 			ecrireCommentairePart(classeCommentaire, 0); 
+			String hackathonMission = (String)classeDoc.get("hackathonMissionGen_stored_string");
+			String hackathonColumn = (String)classeDoc.get("hackathonColumnGen_stored_string");
+			if(hackathonMission != null)
+				l(String.format(" * Map.hackathonMission: %s", hackathonMission));
+			if(hackathonColumn != null)
+				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
 			tl(0, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">", str_Trouver_la_classe_(langueNom), entiteVar, str__dans_Solr(langueNom), ". </a>");
 			tl(0, " * <br/>");
 			l(" **/");  
