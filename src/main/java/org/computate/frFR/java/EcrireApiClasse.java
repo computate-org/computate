@@ -3173,7 +3173,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, ").onSuccess(b -> {");
 						tl(6, "a.handle(Future.succeededFuture());");
 						tl(5, "}).onFailure(ex -> {");
-						tl(6, "RuntimeException ex2 = new RuntimeException(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", ex);");
+						tl(6, "RuntimeException ex2 = new RuntimeException(\"", str_valeur(classeLangueNom), " ", classeNomSimple, " ", str_a_échoué(classeLangueNom), "\", ex);");
 						tl(6, "LOG.error(String.format(\"", str_attribuer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex2);");
 						tl(6, "a.handle(Future.failedFuture(ex2));");
 						tl(5, "});");
@@ -3259,7 +3259,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, ").onSuccess(b -> {");
 						tl(6, "a.handle(Future.succeededFuture());");
 						tl(5, "}).onFailure(ex -> {");
-						tl(6, "RuntimeException ex2 = new RuntimeException(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", ex);");
+						tl(6, "RuntimeException ex2 = new RuntimeException(\"", str_valeur(classeLangueNom), " ", classeNomSimple, " ", str_a_échoué(classeLangueNom), "\", ex);");
 						tl(6, "LOG.error(String.format(\"", str_attribuer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex2);");
 						tl(6, "a.handle(Future.failedFuture(ex2));");
 						tl(5, "});");
@@ -3325,7 +3325,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, ").onSuccess(b -> {");
 						tl(6, "a.handle(Future.succeededFuture());");
 						tl(5, "}).onFailure(ex -> {");
-						tl(6, "RuntimeException ex2 = new RuntimeException(\"", str_valeur(classeLangueNom), " ", classeNomSimple, ".", entiteVar, " ", str_a_échoué(classeLangueNom), "\", ex);");
+						tl(6, "RuntimeException ex2 = new RuntimeException(\"", str_valeur(classeLangueNom), " ", classeNomSimple, " ", str_a_échoué(classeLangueNom), "\", ex);");
 						tl(6, "LOG.error(String.format(\"", str_attribuer(classeLangueNom), classeNomSimple, " ", str_a_échoué(classeLangueNom), ". \"), ex2);");
 						tl(6, "a.handle(Future.failedFuture(ex2));");
 						tl(5, "});");
