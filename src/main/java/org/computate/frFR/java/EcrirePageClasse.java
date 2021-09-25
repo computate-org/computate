@@ -2443,21 +2443,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									if("PATCH".equals(classeApiMethode) || str_PUTFusion(langueNom).equals(classeApiMethode) || str_PUTCopie(langueNom).equals(classeApiMethode) || "PUTImport".equals(classeApiMethode)) {
 	
 										if("PUTImport".equals(classeApiMethode)) {
-											tl(7, "<div class=\"w3-cell-row \">");
-											tl(8, "<textarea");
-											tl(9, "class=\"", "PUTImport_", str_liste(langueNom), " w3-input w3-border \"");
-											tl(9, "style=\"height: 400px; \"");
-											tl(9, "placeholder=\"{ '", str_liste(langueNom), "': [ { 'pk': ... , '", str_sauvegardes(langueNom), "': [ ... ] }, ... ] }\"");
-											tl(9, "></textarea>");
-											tl(7, "</div>");
+											tl(6, "<div class=\"w3-cell-row \">");
+											tl(7, "<textarea");
+											tl(8, "class=\"", "PUTImport_", str_liste(langueNom), " w3-input w3-border \"");
+											tl(8, "style=\"height: 400px; \"");
+											tl(8, "placeholder=\"{ '", str_liste(langueNom), "': [ { 'pk': ... , '", str_sauvegardes(langueNom), "': [ ... ] }, ... ] }\"");
+											tl(8, "></textarea>");
+											tl(6, "</div>");
 										} else if(str_PUTFusion(langueNom).equals(classeApiMethode)) {
-											tl(7, "<div class=\"w3-cell-row \">");
-											tl(8, "<textarea");
-											tl(9, "class=\"", "PUT", str_PUTFusion(langueNom), "_", str_liste(langueNom), " w3-input w3-border \"");
-											tl(9, "style=\"height: 400px; \"");
-											tl(9, "placeholder=\"{ '", str_liste(langueNom), "': [ { 'pk': ... , '", str_sauvegardes(langueNom), "': [ ... ] }, ... ] }\"");
-											tl(9, "></textarea>");
-											tl(7, "</div>");
+											tl(6, "<div class=\"w3-cell-row \">");
+											tl(7, "<textarea");
+											tl(8, "class=\"", "PUT", str_PUTFusion(langueNom), "_", str_liste(langueNom), " w3-input w3-border \"");
+											tl(8, "style=\"height: 400px; \"");
+											tl(8, "placeholder=\"{ '", str_liste(langueNom), "': [ { 'pk': ... , '", str_sauvegardes(langueNom), "': [ ... ] }, ... ] }\"");
+											tl(8, "></textarea>");
+											tl(6, "</div>");
 										} else if(str_PUTCopie(langueNom).equals(classeApiMethode)) {
 											s(wFormPUTCopie);
 										} else if("PATCH".equals(classeApiMethodeMethode)) {
