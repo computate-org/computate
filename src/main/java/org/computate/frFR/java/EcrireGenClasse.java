@@ -5592,220 +5592,224 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(14, "/>");
 			}
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
-				tl(8, "<input");
-				tl(10, "type=\"text\"");
-				tl(10, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
-				tl(10, "placeholder=\"", str_DDDashMMDashYYYY_HHColonMM(langueNom), "\"");
-				tl(10, "data-timeformat=\"", str_ddDashMMDashyyyy(langueNom), "\"");
-				tl(10, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
+				tl(14, "<input");
+				tl(16, "type=\"text\"");
+				tl(16, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "placeholder=\"", str_DDDashMMDashYYYY_HHColonMM(langueNom), "\"");
+				tl(16, "data-timeformat=\"", str_ddDashMMDashyyyy(langueNom), "\"");
+				tl(16, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 				if(entiteDescription != null)
-					tl(10, "title=\"", entiteDescription, " (", str_DDDashMMDashYYYY(langueNom), ")\"");
+					tl(16, "title=\"", entiteDescription, " (", str_DDDashMMDashYYYY(langueNom), ")\"");
 //				tl(4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV(langueNom), "\").format(", entiteVar, "));");
-				tl(10, "value=\"{{", entiteVar, "}}\"");
-				tl(8, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				tl(9, "onclick=\"", str_enleverLueur(langueNom), "($(this)); \";");
-				t(9, "onchange=\"");
+				tl(16, "value=\"{{", entiteVar, "}}\"");
+				tl(14, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(15, "onclick=\"", str_enleverLueur(langueNom), "($(this)); \";");
+				t(15, "onchange=\"");
 					s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 					s("if(t) { ");
 						s("var s = t.format('YYYY-MM-DD'); ");
 						s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
-				tl(8, "{{/eq}}");
-				tl(8, "/>");
+				tl(14, "{{/eq}}");
+				tl(14, "/>");
 			}
 			else if("LocalTime".equals(entiteNomSimple)) {
-				tl(8, "<input");
-				tl(10, "type=\"text\"");
-				tl(10, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
-				tl(10, "placeholder=\"", str_HHColonMM(langueNom), "\"");
-				tl(10, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
+				tl(14, "<input");
+				tl(16, "type=\"text\"");
+				tl(16, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "placeholder=\"", str_HHColonMM(langueNom), "\"");
+				tl(16, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 
-				tl(8, "<input");
-				tl(10, "type=\"text\"");
-				tl(10, "class=\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
-				tl(10, "placeholder=\"", str_HHColonMM(langueNom), "\"");
-				tl(10, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
+				tl(14, "<input");
+				tl(16, "type=\"text\"");
+				tl(16, "class=\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "placeholder=\"", str_HHColonMM(langueNom), "\"");
+				tl(16, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 				if(entiteDescription != null)
-					tl(10, "title=\"", entiteDescription + " (", str_HAposhAposmm(langueNom), ")\"");
-				tl(10, "value=\"{{", entiteVar, "}}\"");
-				tl(8, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				tl(9, "onclick=\"", str_enleverLueur(langueNom), "($(this)); \"");
-				t(9, "onchange=\"");
+					tl(16, "title=\"", entiteDescription + " (", str_HAposhAposmm(langueNom), ")\"");
+				tl(16, "value=\"{{", entiteVar, "}}\"");
+				tl(14, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(15, "onclick=\"", str_enleverLueur(langueNom), "($(this)); \"");
+				t(15, "onchange=\"");
 					s("var t = moment(this.value, '", str_HAposhAposmm(langueNom), "'); ");
 					s("if(t) { ");
 						s("var s = t.format('HH:mm'); ");
 						s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
-				tl(8, "{{/eq}}");
-				tl(8, "/>");
+				tl(14, "{{/eq}}");
+				tl(14, "/>");
 			}
 			else if("Boolean".equals(entiteNomSimple)) {
-				tl(8, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				tl(9, "<input");
-				tl(10, "type=\"checkbox\"");
-				tl(10, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
-				tl(10, "value=\"true\"");
-				tl(8, "{{else}}");
-				tl(9, "<select");
-				tl(10, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
-				tl(8, "{{/eq}}");
+				tl(1, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(15, "<input");
+				tl(16, "type=\"checkbox\"");
+				tl(16, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
+				tl(16, "value=\"true\"");
+				tl(16, "/>");
+				tl(14, "<select");
+				tl(15, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
+				tl(1, "{{else}}");
+				tl(14, "<select");
+				tl(15, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
+				tl(1, "{{/eq}}");
 
-				tl(8, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				tl(9, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
-				tl(9, "name=\"set", entiteVarCapitalise, "\"");
-				tl(8, "{{else}}");
-				tl(9, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				tl(10, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
-				tl(10, "name=\"set", entiteVarCapitalise, "\"");
-				tl(9, "{{else}}");
-				tl(10, "class=\"", str_valeur(langueNom), entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
-				tl(10, "name=\"set", entiteVarCapitalise, "\"");
-				tl(9, "{{/eq}}");
-				tl(8, "{{/eq}}");
-				tl(8, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-					tl(9, "onchange=\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
-				tl(8, "{{/eq}}");
+				tl(1, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(15, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(15, "name=\"set", entiteVarCapitalise, "\"");
+				tl(1, "{{else}}");
+				tl(2, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(16, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "name=\"set", entiteVarCapitalise, "\"");
+				tl(2, "{{else}}");
+				tl(16, "class=\"", str_valeur(langueNom), entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "name=\"set", entiteVarCapitalise, "\"");
+				tl(2, "{{/eq}}");
+				tl(1, "{{/eq}}");
+				tl(1, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
+					tl(15, "onchange=\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
+				tl(1, "{{/eq}}");
 
-				tl(8, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				tl(9, "{{#if ", entiteVar, "}}");
-				tl(10, "checked=\"checked\"");
-				tl(9, "{{/if}}");
-				tl(9, ">");
-				tl(8, "{{else}}");
-				tl(9, ">");
-				tl(9, "<option value=\"\" selected=\"selected\"></option>");
-				tl(9, "<option value=\"true\">true</option>");
-				tl(9, "<option value=\"false\">false</option>");
-				tl(9, "</select>");
-				tl(8, "{{/eq}}");
+				tl(1, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(2, "{{#if ", entiteVar, "}}");
+				tl(16, "checked=\"checked\"");
+				tl(2, "{{/if}}");
+				tl(15, ">");
+				tl(14, "</select>");
+				tl(1, "{{else}}");
+				tl(15, ">");
+				tl(15, "<option value=\"\" selected=\"selected\"></option>");
+				tl(15, "<option value=\"true\">true</option>");
+				tl(15, "<option value=\"false\">false</option>");
+				tl(14, "</select>");
+				tl(1, "{{/eq}}");
 				l();
 			}
 			else if(entiteImageBase64Url != null) {
-				tl(8, "<div class=\"imageBase64Div1", classeNomSimple, "_", entiteVar, "\" id=\"imageBase64Div1", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\">");
+				tl(14, "<div class=\"imageBase64Div1", classeNomSimple, "_", entiteVar, "\" id=\"imageBase64Div1", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\">");
 
-				tl(9, "<h5>", str_Télécharger_image(langueNom), "</h5>");
-				tl(9, "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"", entiteImageBase64Url, "\" class=\"\">");
-				tl(10, "<input type=\"hidden\" name=\"", classeVarClePrimaire, "\" value=\"{{", classeVarClePrimaire, "}}\"/>");
-				tl(10, "<input type=\"hidden\" name=\"", str_classeNomSimple(langueNom), "\" value=\"", classeNomSimple, "\"/>");
-				tl(10, "<input name=\"", str_fichier(langueNom), "\" type=\"file\" onchange=\"$.ajax({ type: 'POST', enctype: 'multipart/form-data', url: '", entiteImageBase64Url, "', data: new FormData(this.form), processData: false, contentType: false}); \"/>");
-				tl(9, "</form>");
+				tl(15, "<h5>", str_Télécharger_image(langueNom), "</h5>");
+				tl(15, "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"", entiteImageBase64Url, "\" class=\"\">");
+				tl(16, "<input type=\"hidden\" name=\"", classeVarClePrimaire, "\" value=\"{{", classeVarClePrimaire, "}}\"/>");
+				tl(16, "<input type=\"hidden\" name=\"", str_classeNomSimple(langueNom), "\" value=\"", classeNomSimple, "\"/>");
+				tl(16, "<input name=\"", str_fichier(langueNom), "\" type=\"file\" onchange=\"$.ajax({ type: 'POST', enctype: 'multipart/form-data', url: '", entiteImageBase64Url, "', data: new FormData(this.form), processData: false, contentType: false}); \"/>");
+				tl(15, "</form>");
 
-				tl(9, "<img id=\"imageBase64Img", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\");");
-				tl(10, "class=\"img", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-image \"");
-				tl(10, "src=\"{{#if ", entiteVar, "}}data:image/png;base64,{{else}}{{", entiteVar, "}}{{/if}} alt=\"\"");
-				tl(9, "/>");
+				tl(15, "<img id=\"imageBase64Img", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\");");
+				tl(16, "class=\"img", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-image \"");
+				tl(16, "src=\"{{#if ", entiteVar, "}}data:image/png;base64,{{else}}{{", entiteVar, "}}{{/if}} alt=\"\"");
+				tl(15, "/>");
 
-				tl(8, "</div>");
+				tl(14, "</div>");
 			}
 			else if(BooleanUtils.isTrue(entiteSignature)) {
-				tl(8, "<div class=\"signatureDiv1", classeNomSimple, "_", entiteVar, " signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, "\" id=\"signatureDiv1", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\">");
+				tl(14, "<div class=\"signatureDiv1", classeNomSimple, "_", entiteVar, " signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, "\" id=\"signatureDiv1", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\">");
 
-				tl(9, "<div id=\"signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\"");
-				tl(10, "style=\"display: {{#if ", entiteVar, "}}block{{else}}none{{/if}}\"");
-				tl(9, "</div>");
+				tl(15, "<div id=\"signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\"");
+				tl(16, "style=\"display: {{#if ", entiteVar, "}}block{{else}}none{{/if}}\"");
+				tl(15, "</div>");
 
-				tl(9, "<img id=\"signatureImg", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\"");
-				tl(10, "class=\"signatureImg", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, "\"");
-				tl(10, "src=\"{{#if ", entiteVar, "}}data:image/png;base64{{else}}{{", entiteVar, "}}\" alt=\"\"");
-				tl(10, "style=\"padding: 10px; display: {{#if ", entiteVar, "}}none{{else}}block{{/if}}\"");
-				tl(9, "/>");
+				tl(15, "<img id=\"signatureImg", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\"");
+				tl(16, "class=\"signatureImg", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, "\"");
+				tl(16, "src=\"{{#if ", entiteVar, "}}data:image/png;base64{{else}}{{", entiteVar, "}}\" alt=\"\"");
+				tl(16, "style=\"padding: 10px; display: {{#if ", entiteVar, "}}none{{else}}block{{/if}}\"");
+				tl(15, "/>");
 
-				tl(8, "<div>");
-				tl(8, "<div id=\"signatureDiv2", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\">");
+				tl(14, "<div>");
+				tl(14, "<div id=\"signatureDiv2", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\">");
 
-				tl(9, "<button id=\"signatureButton", str_Vider(langueNom), classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\"");
-				tl(10, "class=\"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \"");
-				tl(10, "onclick=\"");
-				tl(11, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').show(); ");
-				tl(11, "$('#signatureImg", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').hide(); ");
-				tl(11, "", str_enleverLueur(langueNom), "($('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "')); ");
-				tl(11, "patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', null); ");
-				tl(11, "if($('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "')) { ");
-				tl(11, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').jSignature('reset'); ");
-				tl(11, "} else { ");
-				tl(11, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').jSignature({'height':200}); ");
-				tl(11, "}");
-				tl(10, "\"");
-				tl(10, ">", str_Vider(langueNom));
-				tl(9, "</button>");
+				tl(15, "<button id=\"signatureButton", str_Vider(langueNom), classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "\"");
+				tl(16, "class=\"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \"");
+				tl(16, "onclick=\"");
+				tl(17, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').show(); ");
+				tl(17, "$('#signatureImg", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').hide(); ");
+				tl(17, "", str_enleverLueur(langueNom), "($('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "')); ");
+				tl(17, "patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', null); ");
+				tl(17, "if($('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "')) { ");
+				tl(17, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').jSignature('reset'); ");
+				tl(17, "} else { ");
+				tl(17, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').jSignature({'height':200}); ");
+				tl(17, "}");
+				tl(16, "\"");
+				tl(16, ">", str_Vider(langueNom));
+				tl(15, "</button>");
 
-				tl(8, "</div>");
+				tl(14, "</div>");
 
 			}
 			else {
 				if(entiteMultiligne)
-					tl(8, "<textarea");
+					tl(14, "<textarea");
 				else {
-					tl(8, "<input");
-					tl(9, "type=\"text\"");
+					tl(14, "<input");
+					tl(15, "type=\"text\"");
 				}
 
 				if(entiteNomAffichage != null) {
-					tl(9, "placeholder=\"", entiteNomAffichage, "\"");
+					tl(15, "placeholder=\"", entiteNomAffichage, "\"");
 				}
 				if(entiteDescription != null) {
-					tl(9, "title=\"", entiteDescription, "\"");
+					tl(15, "title=\"", entiteDescription, "\"");
 				}
-				tl(9, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
+				tl(15, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 
-				tl(9, "{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
-					tl(10, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border ");
-					tl(10, "name=\"set", entiteVarCapitalise, "\"");
-				tl(9, "{{else}}");
-				tl(9, "{{#eq \"PATCH\" ", str_classeApiMethodeMethode(langueNom), "}}");
-				tl(10, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border ");
-				tl(10, "name=\"set", entiteVarCapitalise, "\"");
-				tl(9, "{{else}}");
-					tl(10, "class=\"", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
-					tl(10, "name=\"", entiteVar, "\"");
-				tl(9, "{{/eq}}");
-				tl(9, "{{/eq}}");
-				tl(9, "{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
-					tl(10, "onclick=\"", str_enleverLueur(langueNom), "($(this)); \"");
-					tl(10, "onchange=\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
-				tl(9, "{{/eq}}");
+				tl(1, "{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
+					tl(16, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+					tl(16, "name=\"set", entiteVarCapitalise, "\"");
+				tl(1, "{{else}}");
+				tl(2, "{{#eq \"PATCH\" ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(16, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "name=\"set", entiteVarCapitalise, "\"");
+				tl(2, "{{else}}");
+					tl(16, "class=\"", str_valeur(langueNom), entiteVarCapitalise, " w3-input w3-border class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+					tl(16, "name=\"", entiteVar, "\"");
+				tl(2, "{{/eq}}");
+				tl(1, "{{/eq}}");
+				tl(1, "{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
+					tl(16, "onclick=\"", str_enleverLueur(langueNom), "($(this)); \"");
+					tl(16, "onchange=\"patch", classeNomSimple, "Val([{ name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
+				tl(1, "{{/eq}}");
 
 				if(entiteMultiligne) {
-					tl(8, ">", "{{", entiteVar, "}}");
+					tl(14, ">", "{{", entiteVar, "}}");
 				}
 				else {
-					tl(9, "value=\"{{", entiteVarCapitalise, "}}\">");
+					tl(15, "value=\"{{", entiteVarCapitalise, "}}\"");
 				}
 
 				if(entiteMultiligne)
 					s("</textarea>");
 				else
-					tl(8, "/>");
+					tl(14, "/>");
 
 				l();
 			}
 
 			if(entiteAttribuer) {
-				tl(7, "{{else}}");
+				tl(13, "{{else}}");
 			}
 			else if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
-				tl(7, "{{else}}");
-				tl(8, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+				tl(13, "{{else}}");
+				tl(15, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 			}
 			else if(classeUtilisateurEcrire) {
 				if(classeRolesTrouves || classeRoleLiresTrouves) {
-					tl(7, "{{else}}");
-					tl(9, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+					tl(13, "{{else}}");
+					tl(15, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 				}
 				else {
-					tl(7, "{{else}}");
-					tl(8, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+					tl(13, "{{else}}");
+					tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 				}
 			}
 			else if(classeSessionEcrire) {
-				tl(7, "{{else}}");
-				tl(8, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+				tl(13, "{{else}}");
+				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 			}
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
-					tl(7, "{{else}}");
-				tl(8, "{{#ifContainsKeys ", str_utilisateur(langueNom), str_Cle(langueNom), "s}}");
+					tl(13, "{{else}}");
+				tl(14, "{{#ifContainsKeys ", str_utilisateur(langueNom), str_Cle(langueNom), "s}}");
 //				tl(8, "if(");
 //				tl(10, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 //				tl(10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -5814,7 +5818,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //					tl(10, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLE_READS)");
 //				}
 //				tl(9, ") {");
-				tl(9, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
+				tl(15, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{htm", entiteVarCapitalise, "}}</span>");
 //				tl(8, "}");
 				tl(3, "{{/ifContainsKeys}}");
 			}
@@ -5844,7 +5848,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}
 		else if(!entiteModifier) {
-			tl(8, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{", entiteVar, "}}</span>");
+			tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{", entiteVar, "}}</span>");
 		}
 		tl(0, "{{/inline}}");
 

@@ -1742,10 +1742,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(0, "{{#*inline \"htmScripts", classePageNomSimple, "\"}}");
 			s("{{> \"htmScripts", classePageSuperNomSimple, "\"}}");
 			tl(2, "<!-- inline \"htmScripts", classePageNomSimple, "\" -->");
-			tl(2, "<script src=\"", str_statiqueUrlBase(langueNom), "/js/", langueNom, "/", classePageNomSimple, ".js\"></script>");
+			tl(2, "<script src=\"{{", str_statiqueUrlBase(langueNom), "}}/js/", langueNom, "/", classePageNomSimple, ".js\"></script>");
 			if(classeAttribuerNomSimplePages != null) {
 				for(String classeAttribuerNomSimplePage : classeAttribuerNomSimplePages) {
-					t(2).l("<script src=\"", str_statiqueUrlBase(langueNom), ", \"/js/", langueNom, "/", classeAttribuerNomSimplePage, ".js\"></script>");
+					t(2).l("<script src=\"{{", str_statiqueUrlBase(langueNom), "}}/js/", langueNom, "/", classeAttribuerNomSimplePage, ".js\"></script>");
 				}
 			}
 			tl(0, "{{/inline}}");
