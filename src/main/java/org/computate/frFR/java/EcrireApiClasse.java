@@ -2388,7 +2388,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "params.put(\"header\", new JsonObject());");
 						tl(5, "params.put(\"form\", new JsonObject());");
 						tl(5, "JsonObject query = new JsonObject();");
-						tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
+						tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(true);");
 						tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 						tl(5, "if(softCommit)");
 						tl(6, "query.put(\"softCommit\", softCommit);");
@@ -3465,7 +3465,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "if(", str_liste(classeLangueNom), classeNomSimple, ".size() == 1)");
 							tl(4, str_requeteSite(classeLangueNom), ".set", str_Requete(classeLangueNom), StringUtils.capitalize(classeVarClePrimaire), "(", str_liste(classeLangueNom), classeNomSimple, ".get(0).get", StringUtils.capitalize(classeVarClePrimaire), "()", ");");
 							if(!classePageSimple)
-								tl(3, "page.set", str_Liste(classeLangueNom), classeNomSimple, "_(", str_liste(classeLangueNom), classeNomSimple, ");");
+								tl(3, "page.set", str_ListeRecherche(classeLangueNom), classeNomSimple, "_(", str_liste(classeLangueNom), classeNomSimple, ");");
 							tl(3, "page.set", str_RequeteSite(classeLangueNom), "_(", str_requeteSite(classeLangueNom), ");");
 							tl(3, "page.", str_promesseLoin(classeLangueNom), classeNomSimple, str_Page(classeLangueNom), "(", str_requeteSite(classeLangueNom), ").onSuccess(a -> {");
 							tl(4, "JsonObject json = JsonObject.mapFrom(page);");

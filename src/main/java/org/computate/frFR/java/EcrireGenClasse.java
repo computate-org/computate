@@ -1260,8 +1260,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: wInitLoin
 	 * r.enUS: wInitDeep
 	 * r.enUS: wIndex
-	 * r: dejaInitialise
-	 * r.enUS: alreadyInitialized
 	 * r: PourClasse
 	 * r.enUS: ForClass
 	 * r: initLoin
@@ -1290,20 +1288,13 @@ public class EcrireGenClasse extends EcrireClasse {
 			wInitLoin.tl(1, "//////////////");
 			wInitLoin.tl(1, "// ", str_initLoin(langueNom), " //");
 			wInitLoin.tl(1, "//////////////");
-			wInitLoin.l(); 
-			wInitLoin.tl(1, "protected boolean ", str_dejaInitialise(langueNom), classeNomSimple, " = false;");
 
 			wInitLoin.l();
 			if(classePromesse) {
 				wInitLoin.tl(1, "public Future<Void> ", str_promesseLoin(langueNom), classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_) {");
 				if(classeContientRequeteSite)
 					wInitLoin.tl(2, "set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
-				wInitLoin.tl(2, "if(!", str_dejaInitialise(langueNom), classeNomSimple, ") {");
-				wInitLoin.tl(3, str_dejaInitialise(langueNom), classeNomSimple, " = true;");
-				wInitLoin.tl(3, "return ", str_promesseLoin(langueNom), classeNomSimple, "();");
-				wInitLoin.tl(2, "} else {");
-				wInitLoin.tl(3, "return Future.succeededFuture();");
-				wInitLoin.tl(2, "}");
+				wInitLoin.tl(2, "return ", str_promesseLoin(langueNom), classeNomSimple, "();");
 				wInitLoin.tl(1, "}");
 			} else {
 				wInitLoin.t(1, "public ", classeNomSimple, " ", str_initLoin(langueNom), classeNomSimple, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_)");
@@ -1322,10 +1313,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	//							tl(2, "((", classeNomSimple, ")this).setRequeteSite_(requeteSite);");
 				if(classeContientRequeteSite)
 					wInitLoin.tl(2, "set", str_RequeteSite(langueNom), "_(", str_requeteSite(langueNom), "_);");
-				wInitLoin.tl(2, "if(!", str_dejaInitialise(langueNom), classeNomSimple, ") {");
-				wInitLoin.tl(3, str_dejaInitialise(langueNom), classeNomSimple, " = true;");
-				wInitLoin.tl(3, str_initLoin(langueNom), classeNomSimple, "();");
-				wInitLoin.tl(2, "}");
+				wInitLoin.tl(2, str_initLoin(langueNom), classeNomSimple, "();");
 				wInitLoin.tl(2, "return (", classeNomSimple, ")this;");
 				wInitLoin.tl(1, "}");
 			}
@@ -2935,8 +2923,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: in Solr
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
-	 * r: dejaInitialise
-	 * r.enUS: alreadyInitialized
 	 * r: definirPourClasse
 	 * r.enUS: defineForClass
 	 * r: classeSauvegarde
@@ -3428,6 +3414,10 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			if(entiteIgnorer)
 				tl(1, "@JsonIgnore");
+			else if("JsonArray".equals(entiteNomSimple)) {
+			}
+			else if("JsonObject".equals(entiteNomSimple)) {
+			}
 			else if("LocalDate".equals(entiteNomSimple)) {
 				tl(1, "@JsonProperty");
 				tl(1, "@JsonDeserialize(using = ToStringSerializer.class)");
@@ -3465,7 +3455,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonProperty");
 				tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
 				tl(1, "@JsonSerialize(contentUsing = ToStringSerializer.class)");
-			} else if(entiteNomSimpleGenerique != null) {
+			} else if("array".equals(entiteTypeJson)) {
 				tl(1, "@JsonProperty");
 				tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
 			} else {
@@ -3495,10 +3485,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 			}
 			l(";");
-	
-			tl(1, "@JsonIgnore");
-			t(1, "public ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVar, classePartsCouverture.nomSimple(langueNom));
-			l(" = new ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, ">().var(\"", entiteVar, "\").o(", entiteVar, ");");
 	
 			// Methode underscore //
 			l();
@@ -3588,7 +3574,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(StringUtils.equals(entiteNomCanonique, String.class.getCanonicalName())) {
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 
@@ -3612,7 +3597,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				l();
 				tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVar, ") {");
 				tl(2, "this.", entiteVar, " = ", entiteVar, ";");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 			}
 	//
@@ -3628,7 +3612,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "Long l = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
 				tl(2, "if(l != null)");
 				tl(3, "add", entiteVarCapitalise, "(l);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "if(NumberUtils.isParsable(o))");
@@ -3643,7 +3626,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "return Boolean.parseBoolean(o);");
@@ -3656,7 +3638,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "if(NumberUtils.isParsable(o))");
@@ -3671,7 +3652,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "if(NumberUtils.isParsable(o))");
@@ -3686,7 +3666,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "if(NumberUtils.isParsable(o))");
@@ -3701,7 +3680,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "if(NumberUtils.isParsable(o))");
@@ -3716,7 +3694,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "o = StringUtils.removeAll(o, \"[^\\\\d\\\\.]\");");
@@ -3727,12 +3704,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Double o) {");
 				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Integer o) {");
 				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				staticSet = true;
 			}
@@ -3745,7 +3720,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "return Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME)));");
@@ -3761,7 +3735,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "return Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).atZone(ZoneId.of(\"Z\")).toInstant());");
@@ -3777,7 +3750,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "try {");
@@ -3794,7 +3766,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Instant o) {");
 				tl(2, "this.", entiteVar, " = o == null ? null : LocalDate.from(o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03+01:00 **/");
@@ -3802,7 +3773,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "return o == null ? null : LocalDate.parse(o, DateTimeFormatter.ISO_DATE);");
@@ -3811,7 +3781,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
 					tl(2, "this.", entiteVar, " = o == null ? null : o.toInstant().atZone(ZoneId.of(", str_requeteSite(langueNom), "_.get", str_Config(langueNom), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", str_siteZone(langueNom), ")))).toLocalDate();");
-					tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 					tl(1, "}");
 				}
 				staticSet = true;
@@ -3822,7 +3791,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Instant o) {");
 				tl(2, "this.", entiteVar, " = o == null ? null : ZonedDateTime.from(o).truncatedTo(ChronoUnit.MILLIS);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
@@ -3830,7 +3798,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ", o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "if(StringUtils.endsWith(o, \"Z\"))");
@@ -3841,7 +3808,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
 				tl(2, "this.", entiteVar, " = o == null ? null : ZonedDateTime.ofInstant(o.toInstant(), ZoneId.of(", str_requeteSite(langueNom), "_.get", str_Config(langueNom), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", str_SITE_ZONE(langueNom), "))).truncatedTo(ChronoUnit.MILLIS);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				staticSet = true;
 			}
@@ -3851,7 +3817,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Instant o) {");
 				tl(2, "this.", entiteVar, " = o == null ? null : LocalDateTime.from(o).truncatedTo(ChronoUnit.MILLIS);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				if(ecrireCommentaire) {
 					tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
@@ -3859,7 +3824,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, o);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.nomSimple(langueNom), " ", str_requeteSite(langueNom), "_, String o) {");
 				tl(2, "return o == null ? null : LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).truncatedTo(ChronoUnit.MILLIS);");
@@ -3867,7 +3831,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
 				tl(2, "this.", entiteVar, " = o == null ? null : LocalDateTime.ofInstant(o.toInstant(), ZoneId.of(", str_requeteSite(langueNom), "_.get", str_Config(langueNom), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", str_SITE_ZONE(langueNom), "))).truncatedTo(ChronoUnit.MILLIS);");
-				tl(2, "this.", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), " = true;");
 				tl(1, "}");
 				staticSet = true;
 			}
@@ -4182,35 +4145,28 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "protected Future<", entiteNomSimpleComplet, "> ", entiteVar, str_Promesse(langueNom), "() {");
 				tl(2, "Promise<", entiteNomSimpleComplet, "> promise = Promise.promise();");
 	
-				tl(2, "if(!", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), ") {");
-				tl(3, "Promise<", entiteNomSimpleComplet, "> promise2 = Promise.promise();");
-				tl(3, "_", entiteVar, "(promise2);");
-				tl(3, "promise2.future().onSuccess(o -> {");
+				tl(2, "Promise<", entiteNomSimpleComplet, "> promise2 = Promise.promise();");
+				tl(2, "_", entiteVar, "(promise2);");
+				tl(2, "promise2.future().onSuccess(o -> {");
 				if(entiteInitLoin && entiteInitialise) {
-					tl(4, "if(o != null && ", entiteVar, " == null) {");
-					tl(5, "o.", str_promesseLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ").onSuccess(a -> {");
-					tl(6, "set", entiteVarCapitalise, "(o);");
-					tl(6, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
-					tl(6, "promise.complete(o);");
-					tl(5, "}).onFailure(ex -> {");
-					tl(6, "promise.fail(ex);");
-					tl(5, "});");
-					tl(4, "} else {");
-					tl(5, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
+					tl(3, "if(o != null && ", entiteVar, " == null) {");
+					tl(4, "o.", str_promesseLoin(langueNom), str_PourClasse(langueNom), "(", classeContientRequeteSite ? (str_requeteSite(langueNom) + "_") : "null", ").onSuccess(a -> {");
+					tl(5, "set", entiteVarCapitalise, "(o);");
 					tl(5, "promise.complete(o);");
-					tl(4, "}");
+					tl(4, "}).onFailure(ex -> {");
+					tl(5, "promise.fail(ex);");
+					tl(4, "});");
+					tl(3, "} else {");
+					tl(4, "promise.complete(o);");
+					tl(3, "}");
 				}
 				else {
-					tl(4, "set", entiteVarCapitalise, "(o);");
-					tl(4, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
-					tl(4, "promise.complete(o);");
+					tl(3, "set", entiteVarCapitalise, "(o);");
+					tl(3, "promise.complete(o);");
 				}
-				tl(3, "}).onFailure(ex -> {");
-				tl(4, "promise.fail(ex);");
-				tl(3, "});");
-				tl(2, "} else {");
-				tl(3, "promise.complete();");
-				tl(2, "}");
+				tl(2, "}).onFailure(ex -> {");
+				tl(3, "promise.fail(ex);");
+				tl(2, "});");
 				tl(2, "return promise.future();");
 			} else {
 				t(1, "protected ", classeNomSimple, " ", entiteVar, "Init()");
@@ -4240,17 +4196,17 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "}");
 				}
 	
-				tl(2, "if(!", entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), ") {");
 				if(entiteCouverture) {
+					t(2, classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVar, classePartsCouverture.nomSimple(langueNom));
+					l(" = new ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, ">().var(\"", entiteVar, "\");");
+					tl(2, "if(", entiteVar, " == null) {");
 					tl(3, "_", entiteVar, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ");");
-					tl(3, "if(", entiteVar, " == null)");
-					tl(4, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
-					tl(3, entiteVar, classePartsCouverture.nomSimple(langueNom), ".o(null);");
+					tl(3, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
+					tl(2, "}");
 				}
 				else {
-					tl(3, "_", entiteVar, "(", entiteVar, ");");
+					tl(2, "_", entiteVar, "(", entiteVar, ");");
 				}
-				tl(2, "}");
 				if(entiteInitLoin && entiteInitialise) {
 					if(entiteCouverture) {
 						tl(2, "if(", entiteVar, " != null)");
@@ -4276,7 +4232,6 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "}");
 				}
 	
-				tl(2, entiteVar, classePartsCouverture.nomSimple(langueNom), ".", str_dejaInitialise(langueNom), "(true);");
 				tl(2, "return (", classeNomSimple, ")this;");
 			}
 			tl(1, "}");
@@ -5872,8 +5827,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classSuperSimpleNameGeneric
 	 * r: classeNomSimple
 	 * r.enUS: classSimpleName
-	 * r: dejaInitialise
-	 * r.enUS: alreadyInitialized
 	 * r: PourClasse
 	 * r.enUS: ForClass
 	 * r: initLoin
@@ -6053,7 +6006,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		// codeInitLoin //
 		//////////////////
 		if(classeInitLoin && classePartsRequeteSite != null) {
-//			wInitLoin.tl(3, "", dejaInitialise(langueNom), "", classeNomSimple, " = true;");
 			if(classePromesse) {
 				wInitLoin.tl(4, "promise2.complete();");
 				wInitLoin.tl(3, "} catch(Exception ex) {");

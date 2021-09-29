@@ -5202,6 +5202,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
 								entiteTypeJson = "array";
 								entiteListeTypeJson = "string";
+							} else {
+								entiteTypeJson = "array";
 							}
 							stockerSolr(entiteDoc, "entiteListeTypeJson", entiteListeTypeJson);
 						}
