@@ -497,7 +497,14 @@ public class ConfigSite {
 		if ("frFR".equals(langueNom))
 			return "attribuer";
 		else
-			return "attribute";
+			return "relate";
+	}
+
+	public String str_Attribuer(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "Attribuer";
+		else
+			return "Relate";
 	}
 
 	/**
@@ -2648,6 +2655,13 @@ public class ConfigSite {
 			return "Api";
 	}
 
+	public String str_modele(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "modele";
+		else
+			return "model";
+	}
+
 	public String str_Modele(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "Modele";
@@ -3361,13 +3375,6 @@ public class ConfigSite {
 			return "LongeurMax";
 		else
 			return "LengthMax";
-	}
-
-	public String str_Attribuer(String langueNom) {
-		if ("frFR".equals(langueNom))
-			return "Attribuer";
-		else
-			return "Attribute";
 	}
 
 	public static String str_chemin_absolu(String langueNom) {

@@ -4365,149 +4365,20 @@ public class EcrireGenClasse extends EcrireClasse {
 			//////////
 			if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
 	
-				//////////
-				// solr //
-				//////////
-				l();
-				tl(1, "public ", entiteSolrNomSimple, " solr", entiteVarCapitalise, "() {");
-					if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
-						tl(2, "List<", entiteNomSimpleGenerique, "> l = new ArrayList<", entiteNomSimpleGenerique, ">();");
-						tl(2, "for(", entiteNomSimpleGenerique, " o : ", entiteVar, ") {");
-						tl(3, "l.add(", classeNomSimple, ".staticSolr", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, o));");
-						tl(2, "}");
-						tl(2, "return l;");
-					}
-					else {
-						tl(2, "return ", classeNomSimple, ".staticSolr", entiteVarCapitalise, "(", str_requeteSite(langueNom), "_, ", entiteVar, ");");
-					}
-				tl(1, "}");
-	
-				/////////
-				// str //
-				/////////
-				l();
-				tl(1, "public String str", entiteVarCapitalise, "() {");
-				if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")));");
-				}
-				else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")));");
-				}
-				else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"", str_EEE_d_MMM_yyyy(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")));");
-				}
-				else if(VAL_nomCanoniqueLocalTime.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ofPattern(\"", str_HAposhAposmm(langueNom), "\", Locale.forLanguageTag(\"", str_frDashFR(langueNom), "\")));");
-				}
-				else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".setScale(2, RoundingMode.HALF_UP).toString();");
-				}
-				else if(VAL_nomCanoniqueString.equals(entiteNomCanonique))
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ";");
-				else
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".toString();");
-				tl(1, "}");
-	
 				/////////
 				// sql //
 				/////////
-				l();
-				if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
-					tl(1, "public OffsetDateTime sql", entiteVarCapitalise, "() {");
-					tl(2, "return ", entiteVar, " == null ? null : ", entiteVar, ".toOffsetDateTime();");
-					tl(1, "}");
-				}
-				else {
-					tl(1, "public ", entiteNomSimpleComplet, " sql", entiteVarCapitalise, "() {");
-					tl(2, "return ", entiteVar, ";");
-					tl(1, "}");
-				}
-	
-				//////////
-				// json //
-				//////////
-				l();
-				tl(1, "public String json", entiteVarCapitalise, "() {");
-				if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ISO_DATE_TIME);");
-				}
-				else if(VAL_nomCanoniqueLocalDateTime.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ISO_DATE_TIME);");
-				}
-				else if(VAL_nomCanoniqueLocalDate.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ISO_DATE);");
-				}
-				else if(VAL_nomCanoniqueLocalTime.equals(entiteNomCanonique)) {
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".format(DateTimeFormatter.ISO_TIME);");
-				}
-
-				else if(VAL_nomCanoniqueString.equals(entiteNomCanonique))
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ";");
-				else
-					tl(2, "return ", entiteVar, " == null ? \"\" : ", entiteVar, ".toString();");
-				tl(1, "}");
-//	
-//				//////////////////
-//				// nomAffichage //
-//				//////////////////
-//				l();
-//				tl(1, "public String nomAffichage", entiteVarCapitalise, "() {");
-//				tl(2, "return ", entiteNomAffichage == null ? "null" : "\"" + escapeJava(entiteNomAffichage) + "\"", ";");
-//				tl(1, "}");
-	
-				if(classePage) {
-					/////////////////
-					// htmTooltip //
-					/////////////////
+				if(entiteDefinir || entiteAttribuer) {
 					l();
-					tl(1, "public String htmTooltip", entiteVarCapitalise, "() {");
-					tl(2, "return ", entiteHtmlTooltip == null ? "null" : "\"" + escapeJava(entiteHtmlTooltip) + "\"", ";");
-					tl(1, "}");
-		
-					/////////
-					// htm //
-					/////////
-		
-					l();
-					tl(1, "public String htm", entiteVarCapitalise, "() {");
-					tl(2, "return ", entiteVar, " == null ? \"\" : StringEscapeUtils.escapeHtml4(str", entiteVarCapitalise, "());");
-					tl(1, "}");
-		
-					if(entiteVarCapitalise != null && classeIndexe && entiteSolrNomCanonique != null) {
-			
-						int tIndex = 0;
-						Boolean resultat = false;
-				
-						if(entiteHtml && classeVarClePrimaire != null) {
-		
-	//						String classeApiMethodeMethode = "PATCH";
-							String classePrefixe = "";
-							if(classeEstBase) {
-								classePrefixe = "s.";
-							}
-
-							genCodeEntiteHtm(langueNom);
-						}
+					if(VAL_nomCanoniqueZonedDateTime.equals(entiteNomCanonique)) {
+						tl(1, "public OffsetDateTime sql", entiteVarCapitalise, "() {");
+						tl(2, "return ", entiteVar, " == null ? null : ", entiteVar, ".toOffsetDateTime();");
+						tl(1, "}");
 					}
-				}
-	
-				for(String classeEcrireMethode : new String[] { "htmBody" }) {
-					if(entiteEcrireMethodes.contains(classeEcrireMethode)) {
-						if(entiteNomSimpleCompletGenerique == null && "htmBody".equals(classeEcrireMethode)) {
-							tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "(", entiteNomSimpleComplet, " o) {");
-//							if(classePartsPagePart != null && entiteClassesSuperEtMoiSansGen.contains(classePartsPagePart.nomCanonique(langueNom))) {
-//								// do stuff here. 
-//								if(!entiteValsEcrivain.getEmpty()) {
-//									s(entiteValsEcrivain);
-//								}
-//							}
-							tl(1, "}");
-							tl(1, "public void ", classeEcrireMethode, entiteVarCapitalise, "() {");
-							tl(2, entiteVar, ".htm", str_Avant(langueNom), "();");
-							tl(2, classeEcrireMethode, entiteVarCapitalise, "(", entiteVar, ");");
-							tl(2, entiteVar, ".htm", str_Apres(langueNom), "();");
-							tl(1, "}");
-						}
+					else {
+						tl(1, "public ", entiteNomSimpleComplet, " sql", entiteVarCapitalise, "() {");
+						tl(2, "return ", entiteVar, ";");
+						tl(1, "}");
 					}
 				}
 			}
@@ -5373,7 +5244,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(16, "<button");
 					tl(18, "tabindex=\"-1\"");
 					tl(18, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " \"");
-					tl(18, "onclick=\"", str_enleverLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); $('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "').val(null); patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
+					tl(18, "onclick=\"", str_enleverLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); $('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "').val(null); patch{{", str_classeNomSimple(langueNom), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
 					tl(18, ">");
 					tl(17, "<i class=\"far fa-eraser \"></i>");
 					tl(16, "</button>");
@@ -5425,7 +5296,9 @@ public class EcrireGenClasse extends EcrireClasse {
 				} else if(StringUtils.equals(classeVarId, entiteVar) && classeVarUrlId != null) {
 					tl(15, "<a href=\"", classeVarUrlId, ">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</a>");
 				} else {
-					tl(15, "<span class=\"\">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+					tl(15, "<span class=\"\">");
+					tl(16, "{{> \"input", entiteVarCapitalise, "\"}}");
+					tl(15, "</span>");
 				}
 				tl(14, "</div>");
 				tl(13, "</div>");
@@ -5540,7 +5413,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 					s("if(t) { ");
 						s("var s = t.format('YYYY-MM-DD'); ");
-						s("patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
+						s("patch{{", str_classeNomSimple(langueNom), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
 				tl(14, "{{/eq}}");
@@ -5563,7 +5436,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					s("var t = moment(this.value, '", str_DDDashMMDashYYYY(langueNom), "'); ");
 					s("if(t) { ");
 						s("var s = t.format('YYYY-MM-DD'); ");
-						s("patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
+						s("patch{{", str_classeNomSimple(langueNom), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
 				tl(14, "{{/eq}}");
@@ -5590,7 +5463,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					s("var t = moment(this.value, '", str_HAposhAposmm(langueNom), "'); ");
 					s("if(t) { ");
 						s("var s = t.format('HH:mm'); ");
-						s("patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
+						s("patch{{", str_classeNomSimple(langueNom), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
 				tl(14, "{{/eq}}");
@@ -5602,9 +5475,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(16, "type=\"checkbox\"");
 				tl(16, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 				tl(16, "value=\"true\"");
-				tl(16, "/>");
-				tl(14, "<select");
-				tl(15, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
 				tl(1, "{{else}}");
 				tl(14, "<select");
 				tl(15, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
@@ -5623,15 +5493,14 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "{{/eq}}");
 				tl(1, "{{/eq}}");
 				tl(1, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-					tl(15, "onchange=\"patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
+					tl(15, "onchange=\"patch{{", str_classeNomSimple(langueNom), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
 				tl(1, "{{/eq}}");
 
 				tl(1, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				tl(2, "{{#if ", entiteVar, "}}");
+				tl(2, "{{#if ", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}");
 				tl(16, "checked=\"checked\"");
 				tl(2, "{{/if}}");
-				tl(15, ">");
-				tl(14, "</select>");
+				tl(16, "/>");
 				tl(1, "{{else}}");
 				tl(15, ">");
 				tl(15, "<option value=\"\" selected=\"selected\"></option>");
@@ -5680,7 +5549,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(17, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').show(); ");
 				tl(17, "$('#signatureImg", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').hide(); ");
 				tl(17, "", str_enleverLueur(langueNom), "($('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "')); ");
-				tl(17, "patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', null); ");
+				tl(17, "patch{{", str_classeNomSimple(langueNom), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', null); ");
 				tl(17, "if($('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "')) { ");
 				tl(17, "$('#signatureInput", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVar, "').jSignature('reset'); ");
 				tl(17, "} else { ");
@@ -5723,7 +5592,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "{{/eq}}");
 				tl(1, "{{#eq \"Page\" ", str_classeApiMethodeMethode(langueNom), "}}");
 					tl(16, "onclick=\"", str_enleverLueur(langueNom), "($(this)); \"");
-					tl(16, "onchange=\"patch", classeNomSimple, "Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
+					tl(16, "onchange=\"patch{{", str_classeNomSimple(langueNom), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", str_ajouterLueur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }, function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "')); }); \"");
 				tl(1, "{{/eq}}");
 
 				if(entiteMultiligne) {
@@ -5804,8 +5673,12 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "{{/ifContainsAnyRoles}}");
 			}
 		}
-		else if(!entiteModifier) {
-			tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+		else {
+			if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
+				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \" title=\"{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' requestLocaleId requestZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy h:mm a zz' ", str_requete(langueNom), "LocaleId ", str_requete(langueNom), "ZoneId}}</span>");
+			} else {
+				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+			}
 		}
 		tl(0, "{{/inline}}");
 
@@ -6249,48 +6122,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			t(1);
 			if(!classeEstBase)
 				s("@Override ");
-			s("public boolean ", str_definir(langueNom), str_PourClasse(langueNom), "(String var, String val)");
-			if(classeInitLoinExceptions.size() > 0) {
-				s(" throws ");
-				for(int i = 0; i < classeInitLoinExceptions.size(); i++) {
-					String classeInitLoinException = classeInitLoinExceptions.get(i);
-					String classeInitLoinExceptionNomSimple = StringUtils.substringAfterLast(classeInitLoinException, ".");
-					if(i > 0)
-						s(", ");
-					s(classeInitLoinExceptionNomSimple);
-				}
-			}
-			l(" {");
-			tl(2, "String[] vars = StringUtils.split(var, \".\");");
-			tl(2, "Object o = null;");
-			tl(2, "if(val != null) {");
-			tl(3, "for(String v : vars) {");
-			tl(4, "if(o == null)");
-			tl(5, "o = ", str_definir(langueNom), "", classeNomSimple, "(v, val);");
-			tl(4, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
-			tl(5, classePartsCluster.nomSimple(langueNom), " o", classePartsCluster.nomSimple(langueNom), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
-			tl(5, "o = o", classePartsCluster.nomSimple(langueNom), ".", str_definir(langueNom), str_PourClasse(langueNom), "(v, val);");
-			tl(4, "}");
-			tl(3, "}");
-			tl(2, "}");
-			tl(2, "return o != null;");
-			tl(1, "}");
-			tl(1, "public Object ", str_definir(langueNom), "", classeNomSimple, "(String var, String val) {");
-			tl(2, "switch(var.toLowerCase()) {");
-			s(wDefinir.toString());
-			tl(3, "default:");
-
-			if(classeEstBase)
-				tl(4, "return null;");
-			else
-				tl(4, "return super.", str_definir(langueNom), "", classeNomSimpleSuperGenerique, "(var, val);");
-
-			tl(2, "}");
-			tl(1, "}");
-			tl(0);
-			t(1);
-			if(!classeEstBase)
-				s("@Override ");
 			s("public boolean ", str_definir(langueNom), str_PourClasse(langueNom), "(String var, Object val)");
 			if(classeInitLoinExceptions.size() > 0) {
 				s(" throws ");
@@ -6548,53 +6379,53 @@ public class EcrireGenClasse extends EcrireClasse {
 				System.err.println(String.format("%s %s %s %s %s. ", str_classe(langueNom), str_RequeteSite(langueNom), str_manquante(langueNom), str_dans(langueNom), cheminSrcMainJava));
 			}
 		}
-
-		//////////////
-		// hashCode //
-		//////////////
-		l(); 
-		tl(1, "//////////////");
-		tl(1, "// hashCode //");
-		tl(1, "//////////////");
-		l();
-		tl(1, "@Override public int hashCode() {");
-		t(2, "return Objects.hash(");
-		if(BooleanUtils.isTrue(classeEtendBase)) {
-			s("super.hashCode()");
-			if(entiteIndice > 0)
-				s(", ");
-		}
-		s(wHashCode.toString());
-		l(");");
-		tl(1, "}");
-
-		////////////
-		// equals //
-		////////////
-		l(); 
-		tl(1, "////////////");
-		tl(1, "// equals //");
-		tl(1, "////////////");
-		l();
-		tl(1, "@Override public boolean equals(Object o) {");
-		tl(2, "if(this == o)");
-		tl(3, "return true;");
-		tl(2, "if(!(o instanceof ", classeNomSimple, "))");
-		tl(3, "return false;");
-		tl(2, classeNomSimple, " that = (", classeNomSimple, ")o;");
-		t(2, "return ");
-		if(BooleanUtils.isTrue(classeEtendBase)) {
-			s("super.equals(o)");
-			if(entiteIndice > 0) {
-				l();
-				t(4, "&& ");
-			}
-		}
-		s(wEquals.toString());
-		if(!BooleanUtils.isTrue(classeEtendBase) && entiteIndice == 0)
-			s("true");
-		l(";");
-		tl(1, "}");
+//
+//		//////////////
+//		// hashCode //
+//		//////////////
+//		l(); 
+//		tl(1, "//////////////");
+//		tl(1, "// hashCode //");
+//		tl(1, "//////////////");
+//		l();
+//		tl(1, "@Override public int hashCode() {");
+//		t(2, "return Objects.hash(");
+//		if(BooleanUtils.isTrue(classeEtendBase)) {
+//			s("super.hashCode()");
+//			if(entiteIndice > 0)
+//				s(", ");
+//		}
+//		s(wHashCode.toString());
+//		l(");");
+//		tl(1, "}");
+//
+//		////////////
+//		// equals //
+//		////////////
+//		l(); 
+//		tl(1, "////////////");
+//		tl(1, "// equals //");
+//		tl(1, "////////////");
+//		l();
+//		tl(1, "@Override public boolean equals(Object o) {");
+//		tl(2, "if(this == o)");
+//		tl(3, "return true;");
+//		tl(2, "if(!(o instanceof ", classeNomSimple, "))");
+//		tl(3, "return false;");
+//		tl(2, classeNomSimple, " that = (", classeNomSimple, ")o;");
+//		t(2, "return ");
+//		if(BooleanUtils.isTrue(classeEtendBase)) {
+//			s("super.equals(o)");
+//			if(entiteIndice > 0) {
+//				l();
+//				t(4, "&& ");
+//			}
+//		}
+//		s(wEquals.toString());
+//		if(!BooleanUtils.isTrue(classeEtendBase) && entiteIndice == 0)
+//			s("true");
+//		l(";");
+//		tl(1, "}");
 
 		//////////////
 		// toString //
