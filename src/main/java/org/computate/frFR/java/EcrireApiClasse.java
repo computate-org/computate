@@ -237,10 +237,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("/**");
 			String hackathonMission = (String)classeDoc.get("hackathonMissionGenApiService_stored_string");
 			String hackathonColumn = (String)classeDoc.get("hackathonColumnGenApiService_stored_string");
+			String hackathonLabels = (String)classeDoc.get("hackathonLabelsGenApiService_stored_string");
 			if(hackathonMission != null)
 				auteurGenApiService.l(String.format(" * Map.hackathonMission: %s", hackathonMission));
 			if(hackathonColumn != null)
 				auteurGenApiService.l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
+			if(hackathonLabels != null)
+				auteurGenApiService.l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 			auteurGenApiService.l(" * ", str_Traduire(classeLangueNom), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueGenApiServiceLangue = (String)classeDoc.get("classeNomCanoniqueGenApiService_" + langueNom + "_stored_string");
@@ -343,10 +346,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l("/**");
 			String hackathonMission = (String)classeDoc.get("hackathonMissionApiServiceImpl_stored_string");
 			String hackathonColumn = (String)classeDoc.get("hackathonColumnApiServiceImpl_stored_string");
+			String hackathonLabels = (String)classeDoc.get("hackathonLabelsApiServiceImpl_stored_string");
 			if(hackathonMission != null)
 				auteurApiServiceImpl.l(String.format(" * Map.hackathonMission: %s", hackathonMission));
 			if(hackathonColumn != null)
 				auteurApiServiceImpl.l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
+			if(hackathonLabels != null)
+				auteurApiServiceImpl.l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 			auteurApiServiceImpl.l(" * ", str_Traduire(classeLangueNom), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueApiServiceImplLangue = (String)classeDoc.get("classeNomCanoniqueApiServiceImpl_" + langueNom + "_stored_string");
@@ -2270,10 +2276,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l("/**");
 			String hackathonMission = (String)classeDoc.get("hackathonMissionGenApiServiceImpl_stored_string");
 			String hackathonColumn = (String)classeDoc.get("hackathonColumnGenApiServiceImpl_stored_string");
+			String hackathonLabels = (String)classeDoc.get("hackathonLabelsGenApiServiceImpl_stored_string");
 			if(hackathonMission != null)
 				l(String.format(" * Map.hackathonMission: %s", hackathonMission));
 			if(hackathonColumn != null)
 				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
+			if(hackathonLabels != null)
+				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 			l(" * ", str_Traduire(classeLangueNom), ": false");
 			for(String langueNom : classeAutresLangues) {
 				String classeNomCanoniqueGenApiServiceImplLangue = (String)classeDoc.get("classeNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
@@ -2388,8 +2397,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "params.put(\"header\", new JsonObject());");
 						tl(5, "params.put(\"form\", new JsonObject());");
 						tl(5, "JsonObject query = new JsonObject();");
-						tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(true);");
+						tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
 						tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
+						tl(5, "if(softCommit == null && commitWithin == null)");
+						tl(6, "softCommit = true;");
 						tl(5, "if(softCommit)");
 						tl(6, "query.put(\"softCommit\", softCommit);");
 						tl(5, "if(commitWithin != null)");
@@ -2689,8 +2700,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "params.put(\"header\", new JsonObject());");
 						tl(5, "params.put(\"form\", new JsonObject());");
 						tl(5, "JsonObject query = new JsonObject();");
-						tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
+						tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
 						tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
+						tl(5, "if(softCommit == null && commitWithin == null)");
+						tl(6, "softCommit = true;");
 						tl(5, "if(softCommit)");
 						tl(6, "query.put(\"softCommit\", softCommit);");
 						tl(5, "if(commitWithin != null)");
@@ -4548,8 +4561,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "String solrHostName = ", str_requeteSite(classeLangueNom), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_HOST_NAME);");
 			tl(4, "Integer solrPort = ", str_requeteSite(classeLangueNom), ".getConfig().getInteger(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PORT);");
 			tl(4, "String solrCollection = ", str_requeteSite(classeLangueNom), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_COLLECTION);");
-			tl(4, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
+			tl(4, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
 			tl(4, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
+			tl(5, "if(softCommit == null && commitWithin == null)");
+			tl(6, "softCommit = true;");
+			tl(5, "else if(softCommit == null)");
+			tl(6, "softCommit = false;");
 			tl(4, "String solrRequestUri = String.format(\"/solr/%s/update%s%s%s\", solrCollection, \"?overwrite=true&wt=json\", softCommit ? \"&softCommit=true\" : \"\", commitWithin != null ? (\"&commitWithin=\" + commitWithin) : \"\");");
 			tl(4, "JsonArray json = new JsonArray().add(new JsonObject(document.toMap(new HashMap<String, Object>())));");
 			tl(4, str_clientWeb(classeLangueNom), ".post(solrPort, solrHostName, solrRequestUri).putHeader(\"Content-Type\", \"application/json\").expect(ResponsePredicate.SC_OK).sendBuffer(json.toBuffer()).onSuccess(b -> {");
@@ -4601,8 +4618,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(5, "params.put(\"form\", new JsonObject());");
 					tl(5, "params.put(\"path\", new JsonObject());");
 					tl(5, "JsonObject query = new JsonObject();");
-					tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(false);");
+					tl(5, "Boolean softCommit = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
 					tl(5, "Integer commitWithin = Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_RequeteService(classeLangueNom), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
+					tl(5, "if(softCommit == null && commitWithin == null)");
+					tl(6, "softCommit = true;");
 					tl(5, "if(softCommit)");
 					tl(6, "query.put(\"softCommit\", softCommit);");
 					tl(5, "if(commitWithin != null)");

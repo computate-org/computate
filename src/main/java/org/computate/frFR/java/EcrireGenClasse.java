@@ -1899,10 +1899,13 @@ public class EcrireGenClasse extends EcrireClasse {
 			ecrireCommentairePart(classeCommentaire, 0); 
 			String hackathonMission = (String)classeDoc.get("hackathonMissionGen_stored_string");
 			String hackathonColumn = (String)classeDoc.get("hackathonColumnGen_stored_string");
+			String hackathonLabels = (String)classeDoc.get("hackathonLabelsGen_stored_string");
 			if(hackathonMission != null)
 				l(String.format(" * Map.hackathonMission: %s", hackathonMission));
 			if(hackathonColumn != null)
 				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
+			if(hackathonLabels != null)
+				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 			tl(0, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">", str_Trouver_la_classe_(langueNom), entiteVar, str__dans_Solr(langueNom), ". </a>");
 			tl(0, " * <br/>");
 			l(" **/");  
@@ -2090,12 +2093,6 @@ public class EcrireGenClasse extends EcrireClasse {
 					classeValVarNumero = 0;
 				}
 			}
-		}
-
-		if(classeRoleLiresTrouves || classeRolesTrouves) {
-			l();
-			tl(1, "public static final List<String> ROLES = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
-			tl(1, "public static final List<String> ROLE_READS = Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\");");
 		}
 		
 		//////////////
@@ -4383,6 +4380,23 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 			}
 
+			if(classePage && entiteVarCapitalise != null && classeIndexe && entiteSolrNomCanonique != null) {
+
+				int tIndex = 0;
+				Boolean resultat = false;
+
+				if(entiteHtml && classeVarClePrimaire != null) {
+
+//						String classeApiMethodeMethode = "PATCH";
+					String classePrefixe = "";
+					if(classeEstBase) {
+						classePrefixe = "s.";
+					}
+
+					genCodeEntiteHtm(langueNom);
+				}
+			}
+
 			if(entiteSolrNomSimple != null) {
 
 				///////////////
@@ -5060,7 +5074,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(entiteAttribuer) {
 				if(entiteNomAffichage != null) {
 					tl(12, "<div class=\"w3-cell-row \">");
-					tl(13, "<a href=\"", entiteAttribuerPageUri, "?fq=", entiteAttribuerVar, ":\", ", classeVarClePrimaire, "\" class=\"w3-cell w3-btn w3-center h4 w3-block h4 w3-", entiteAttribuerContexteCouleur, " w3-hover-", entiteAttribuerContexteCouleur, " \">");
+					tl(13, "<a href=\"", entiteAttribuerPageUri, "?fq=", entiteAttribuerVar, ":{{", uncapitalizeClasseNomSimple, "_.", classeVarClePrimaire, "}}\" class=\"w3-cell w3-btn w3-center h4 w3-block h4 w3-", entiteAttribuerContexteCouleur, " w3-hover-", entiteAttribuerContexteCouleur, " \">");
 					if(entiteAttribuerContexteIconeGroupe != null && entiteAttribuerContexteIconeNom != null)
 						tl(14, "<i class=\"fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " \"></i>");
 					tl(14, entiteNomAffichage);
@@ -5092,11 +5106,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				else if(entiteAttribuerUtilisateurEcrire) {
 					if(entiteAttribuerClasseRoles != null && entiteAttribuerClasseRoles.size() > 0) {
-						tl(14, "{{#ifContainsAnyRoles roles, ROLES}}");
-//						tl(14, "if(");
-//						tl(16, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
-//						tl(16, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
-//						tl(16, ") {");
+						tl(14, "{{#ifContainsAnyRoles ", str_roles(langueNom), " ", str_rolesRequis(langueNom), "}}");
 					}
 					else {
 						tl(14, "{{#ifContainsKeys ", str_utilisateur(langueNom), str_Cle(langueNom), "s}}");
@@ -5109,11 +5119,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				else {
 					if(classeRolesTrouves || classeRoleLiresTrouves) {
-						tl(14, "{{#ifContainsAnyRoles roles, ROLES}}");
-//						tl(14, "if(");
-//						tl(16, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
-//						tl(16, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ", entiteAttribuerNomSimple, ".ROLES)");
-//						tl(16, ") {");
+						tl(14, "{{#ifContainsAnyRoles ", str_roles(langueNom), ", ", str_rolesRequis(langueNom), "}}");
 					}
 					else {
 //						tl(14, "{");
@@ -5127,9 +5133,9 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(18, " id=\", {{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_ajouter(langueNom), "\"");
 
 				if("array".equals(entiteAttribuerTypeJson))
-					t(18, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ \\\"{{", classeVarClePrimaire, "}}\\\" ] }");
+					t(18, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ '{{", classeVarClePrimaire, "}}' ] }");
 				else
-					t(18, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": \\\"{{", classeVarClePrimaire, "}}\\\" }");
+					t(18, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": '{{", classeVarClePrimaire, "}}' }");
 				s(", function() {}");
 				s(", function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}", entiteVar, "')); });");
 				s("\"");
@@ -5221,11 +5227,11 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(!entiteAttribuer && entiteModifier && !"Boolean".equals(entiteNomSimple)) {
 
 				if(classeUtilisateurEcrire && classeSessionEcrire) {
-					tl(1, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), "s roles ROLES sessionId}}");
+					tl(1, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), " ", uncapitalizeClasseNomSimple, "_.", str_utilisateur(langueNom), str_Cle(langueNom), "s ", str_roles(langueNom), " ", str_rolesRequis(langueNom), " ", str_sessionId(langueNom), " ", uncapitalizeClasseNomSimple, "_.", str_sessionId(langueNom), "}}");
 				}
 				else if(classeUtilisateurEcrire) {
 					if(classeRolesTrouves) {
-						tl(1, "{{#ifContainsAnyRoles roles ROLES}}");
+						tl(1, "{{#ifContainsAnyRoles ", str_roles(langueNom), " ", str_rolesRequis(langueNom), "}}");
 					}
 					else {
 						tl(1, "{{#ifContainsKeys ", str_utilisateur(langueNom), str_Cle(langueNom), "s}}");
@@ -5235,7 +5241,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "{{#ifContainsSessionId sessionId}}");
 				}
 				else if(classeRolesTrouves) {
-					tl(1, "{{#ifContainsAnyRoles roles ROLES}}");
+					tl(1, "{{#ifContainsAnyRoles ", str_roles(langueNom), " ", str_rolesRequis(langueNom), "}}");
 				}
 
 				tl(2, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
@@ -5320,7 +5326,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
 
 			if(classeUtilisateurEcrire && classeSessionEcrire) {
-				tl(2, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), "s roles ROLES sessionId}}");
+				tl(2, "{{#ifContainsKeysAnyRolesOrSessionId ", str_utilisateur(langueNom), str_Cle(langueNom), " ", uncapitalizeClasseNomSimple, "_.", str_utilisateur(langueNom), str_Cle(langueNom), "s ", str_roles(langueNom), " ", str_rolesRequis(langueNom), " ", str_sessionId(langueNom), " ", uncapitalizeClasseNomSimple, "_.", str_sessionId(langueNom), "}}");
 //				t(2, "if(");
 //				t(4, str_utilisateur(langueNom), str_Cle(langueNom), "s.contains(", str_requeteSite(langueNom), "_.get", str_Utilisateur(langueNom), str_Cle(langueNom), "())");
 //				t(4, "|| Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId())");
@@ -5329,7 +5335,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //				t(2, ") {");
 			}
 			else if(classePublicLire) {
-				tl(2, "{{#ifContainsAnyRoles roles ROLES}}");
+				tl(2, "{{#ifContainsAnyRoles ", str_roles(langueNom), " ", str_rolesRequis(langueNom), "}}");
 //				tl(2, "if(");
 //				tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 //				tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -5337,7 +5343,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if(classeUtilisateurEcrire) {
 				if(classeRolesTrouves || classeRoleLiresTrouves) {
-					tl(2, "{{#ifContainsAnyRoles roles ROLES}}");
+					tl(2, "{{#ifContainsAnyRoles ", str_roles(langueNom), " ", str_rolesRequis(langueNom), "}}");
 //					tl(2, "if(");
 //					tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 //					tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -5353,7 +5359,7 @@ public class EcrireGenClasse extends EcrireClasse {
 //				t(2, "if(Objects.equals(sessionId, ", str_requeteSite(langueNom), "_.getSessionId()) {");
 			}
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
-				tl(2, "{{#ifContainsAnyRoles roles ROLES}}");
+				tl(2, "{{#ifContainsAnyRoles ", str_roles(langueNom), " ", str_rolesRequis(langueNom), "}}");
 //				tl(2, "if(");
 //				tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
 //				tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
@@ -5674,7 +5680,40 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}
 		else {
-			if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
+			if(entiteAttribuer) {
+				tl(14, "<i class=\"far fa-search w3-xxlarge w3-cell w3-cell-middle \"></i>");
+				tl(14, "{{#eq '", str_PUTCopie(langueNom), "' ", str_classeApiMethodeMethode(langueNom), "}}");
+				tl(15, "<div>");
+				tl(16, "<input ");
+				tl(17, "type=\"checkbox\"");
+				tl(17, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_vider(langueNom), "\"");
+				tl(17, "class=\"", entiteVar, "_", str_vider(langueNom), " \"");
+				tl(17, ">");
+				tl(16, "<label for=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_vider(langueNom), "\">", str_vider(langueNom), "</label>");
+				tl(15, "</div>");
+				tl(14, "{{/eq}}");
+
+				tl(14, "<input");
+				tl(16, "type=\"text\"");
+
+				if(entiteNomAffichage != null) {
+					tl(16, "placeholder=\"", entiteNomAffichage, "\"");
+				}
+				if(entiteDescription != null) {
+					t(16, "title=\"", entiteDescription, "\"");
+				}
+
+				tl(15, "class=\"", str_valeur(langueNom), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", str_suggere(langueNom), entiteVarCapitalise, " w3-input w3-border w3-cell w3-cell-middle \"");
+				tl(15, "name=\"", "set", entiteVarCapitalise, "\"");
+				tl(15, "id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "\"");
+				tl(15, "autocomplete=\"off\"");
+				t(15, "oninput=\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "($(this).val() ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
+				s("{{#if ", classeVarClePrimaire, "}}{'name':'fq','value':'", entiteAttribuerVar, ":{{", classeVarClePrimaire, "}}'}{{else}}{{/if}}");
+				l("], $('#list", classeNomSimple, entiteVarCapitalise, "_{{", str_classeApiMethodeMethode(langueNom), "}}'), {{", classeVarClePrimaire, "}}); \"");
+				tl(15, "/>");
+				l();
+			}
+			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
 				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \" title=\"{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' requestLocaleId requestZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy h:mm a zz' ", str_requete(langueNom), "LocaleId ", str_requete(langueNom), "ZoneId}}</span>");
 			} else {
 				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");

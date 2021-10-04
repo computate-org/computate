@@ -3923,8 +3923,7 @@ public class ConfigSite {
 	public Boolean activerRoleAdmin;
 
 	protected void _activerRoleAdmin() throws Exception {
-		activerRoleAdmin = config.getBoolean(str_activer(langueNom)
-				+ str_ACTIVER_ROLE_ADMIN(langueNom), true);
+		activerRoleAdmin = config.getBoolean(str_ACTIVER_ROLE_ADMIN(langueNom), true);
 	}
 
 	public Boolean activerOpenIdConnect;
