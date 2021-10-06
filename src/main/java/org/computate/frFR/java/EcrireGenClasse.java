@@ -4643,7 +4643,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.set", str_Stocker(langueNom), "(true);");
 				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setQuery(\"*:*\");");
 				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setC(", entiteAttribuerNomSimple, ".class);");
-				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.addFilterQuery(\"", classeVarClePrimaire, "_indexed_long:\" + ", classeVarClePrimaire, "2);");
+				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.addFilterQuery(\"", classeVarClePrimaire, "_indexedstored_long:\" + ", classeVarClePrimaire, "2);");
 				wIndexerFacetFor.tl(6, str_listeRecherche(langueNom), "2.setRows(1);");
 				wIndexerFacetFor.tl(6, "futures.add(Future.future(promise2 -> {");
 				wIndexerFacetFor.tl(7, str_listeRecherche(langueNom), "2.", str_promesseLoin(langueNom), str_ListeRecherche(langueNom), "(", str_requeteSite(langueNom), ").onSuccess(b -> {");
