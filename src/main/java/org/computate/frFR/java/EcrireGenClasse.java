@@ -5119,7 +5119,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				else {
 					if(classeRolesTrouves || classeRoleLiresTrouves) {
-						tl(14, "{{#ifContainsAnyRoles ", str_roles(langueNom), ", ", str_rolesRequis(langueNom), "}}");
+						tl(14, "{{#ifContainsAnyRoles ", str_roles(langueNom), " ", str_rolesRequis(langueNom), "}}");
 					}
 					else {
 //						tl(14, "{");
@@ -5130,19 +5130,21 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(16, "<div class=\"w3-cell-row \">");
 				tl(17, "<button");
 				tl(18, " class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", entiteAttribuerContexteCouleur, " \"");
-				tl(18, " id=\", {{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_ajouter(langueNom), "\"");
+				tl(18, " id=\"{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_ajouter(langueNom), "\"");
 
 				if("array".equals(entiteAttribuerTypeJson))
 					t(18, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ '{{", classeVarClePrimaire, "}}' ] }");
 				else
 					t(18, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", str_Envoi(langueNom), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": '{{", classeVarClePrimaire, "}}' }");
-				s(", function() {}");
+				s(", function() { ");
+				s("$('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_ajouter(langueNom), "').disabled = false; ");
+				s("$('#{{", str_classeApiMethodeMethode(langueNom), "}}_", entiteVar, "_", str_ajouter(langueNom), "').innerHTML = '", str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom, "';");
+				s(" }");
 				s(", function() { ", str_ajouterErreur(langueNom), "($('#{{", str_classeApiMethodeMethode(langueNom), "}}", entiteVar, "')); });");
 				s("\"");
 				l();
 
-				tl(18, ">", str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom);
-				tl(17, "</button>");
+				tl(18, ">", str_ajouter(langueNom), " ", entiteAttribuerContexteUnNom, "</button>");
 				tl(16, "</div>");
 				tl(1, "{{/eq}}");
 

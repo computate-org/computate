@@ -826,20 +826,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								}
 							}
 							if(entiteAttribuer) {
-								wJsInit.tl(2, "if(");
-								wJsInit.tl(4, "CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRessource(langueNom), "(), ROLES)");
-								wJsInit.tl(4, "|| CollectionUtils.containsAny(", str_requeteSite(langueNom), "_.get", str_UtilisateurRolesRoyaume(langueNom), "(), ROLES)");
-								wJsInit.tl(4, ") {");
-								wJsInit.tl(3, "tl(2, ", "\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, true); \"", ");");
-								wJsInit.tl(2, "} else {");
-								wJsInit.tl(3, "tl(2, ", "\"", str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, false); \"", ");");
-								wJsInit.tl(2, "}");
+								wJsInit.tl(2, "{{#ifContainsAnyRoles roles ", str_rolesRequis(langueNom), "}}");
+								wJsInit.tl(5, str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, true);");
+								wJsInit.tl(2, "{{else}}");
+								wJsInit.tl(5, str_suggere(langueNom), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, false);");
+								wJsInit.tl(2, "{{/ifContainsAnyRoles}}");
 //									wWebsocket.tl(2, "tl(2, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + \" + ", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {});\");");
-								wPks.tl(2, "tl(4, \"if(c == '", entiteAttribuerNomSimple, "')\");");
-								wPks.tl(2, "tl(5, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});\");");
+								wPks.tl(2, "if(c == '", entiteAttribuerNomSimple, "')");
+								wPks.tl(2, "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});");
 							}
 							if(entiteSignature) {
-								wJsInit.tl(2, "$('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}).bind('change', function(e){ patch{{", str_classeNomSimple(langueNom), "}}Val([{ name: 'fq', value: 'pk:' + pk }], 'set", entiteVarCapitalise, "', $('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default')); });");
+								wJsInit.tl(2, "$('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}).bind('change', function(e){ patch{{", str_classeNomSimple(langueNom), "}}Val([{ name: 'fq', value: 'pk:' + pk }], 'set", entiteVarCapitalise, "', $('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default'));");
 							}
 							if(entiteDefinir || entiteAttribuer || entiteIndexe || entiteStocke) {
 								if("LocalDate".equals(entiteNomSimple)) {
@@ -950,6 +947,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageClasse.l("package ", classeNomEnsemble, ";");
 				auteurPageClasse.l();
 				auteurPageClasse.l("/**");
+				String hackathonMission = (String)classeDoc.get("hackathonMissionPage_stored_string");
+				String hackathonColumn = (String)classeDoc.get("hackathonColumnPage_stored_string");
+				String hackathonLabels = (String)classeDoc.get("hackathonLabelsPage_stored_string");
+				if(hackathonMission != null)
+					auteurPageClasse.l(String.format(" * Map.hackathonMission: %s", hackathonMission));
+				if(hackathonColumn != null)
+					auteurPageClasse.l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
+				if(hackathonLabels != null)
+					auteurPageClasse.l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 				auteurPageClasse.l(" * ", str_Traduire(langueNom), ": false");
 				for(String langueNom2 : autresLangues) {
 					String classePageNomSimple2 = (String)classeDoc.get("classePageNomCanonique" + str_PageRecherche(langueNom2)  + "_" + langueNom2 + "_stored_string");
@@ -975,6 +981,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "");
 //				ecrireCommentaire(classeCommentaire, 0); 
 			l("/**");
+			{
+				String hackathonMission = (String)classeDoc.get("hackathonMissionGenPage_stored_string");
+				String hackathonColumn = (String)classeDoc.get("hackathonColumnGenPage_stored_string");
+				String hackathonLabels = (String)classeDoc.get("hackathonLabelsGenPage_stored_string");
+				if(hackathonMission != null)
+					l(String.format(" * Map.hackathonMission: %s", hackathonMission));
+				if(hackathonColumn != null)
+					l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
+				if(hackathonLabels != null)
+					l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
+			}
 			l(" * ", str_Traduire(langueNom), ": false");
 			for(String langueNom2 : autresLangues) {
 				String classeGenPageNomSimple2 = (String)classeDoc.get("classeGenPageNomCanonique" + str_PageRecherche(langueNom2)  + "_" + langueNom2 + "_stored_string");
@@ -1104,7 +1121,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _", str_rolesRequis(langueNom), "(List<String> l) {");
-				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(ConfigKeys.", str_AUTH_ROLES_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
+				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", str_AUTH_ROLES_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
 				tl(1, "}");
 			}
 			if(classeRoleLiresTrouves) {
@@ -1112,7 +1129,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _", str_rolesPourLires(langueNom), "(List<String> l) {");
-				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(ConfigKeys.", str_AUTH_ROLES_LIRE_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
+				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", str_AUTH_ROLES_LIRE_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
 				tl(1, "}");
 			}
 
@@ -1645,11 +1662,25 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(auteurPageHbs != null) {
 				o = auteurPageHbs;
 				if(classeEtendBase && auteurPageHbs != null) {
+					String hackathonMission = (String)classeDoc.get("hackathonMissionPageHbs_stored_string");
+					String hackathonColumn = (String)classeDoc.get("hackathonColumnPageHbs_stored_string");
+					String hackathonLabels = (String)classeDoc.get("hackathonLabelsPageHbs_stored_string");
+					if(hackathonMission != null || hackathonColumn != null || hackathonLabels != null) {
+						l("<!--");
+						if(hackathonMission != null)
+							l(String.format("hackathonMission: %s", hackathonMission));
+						if(hackathonColumn != null)
+							l(String.format("hackathonColumn: %s", hackathonColumn));
+						if(hackathonLabels != null)
+							l(String.format("hackathonLabels: %s", hackathonLabels));
+						l("-->");
+					}
 					l("{{#partial \"htmHead\"}}{{> htmHead", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmTitle\"}}{{> htmTitle", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmMeta\"}}{{> htmMeta", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmStyle\"}}{{> htmStyle", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmScripts\"}}{{> htmScripts", classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"htmScript\"}}{{> htmScript", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", str_Debut(langueNom), "\"}}{{> htmBody", str_Debut(langueNom), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", str_Fin(langueNom), "\"}}{{> htmBody", str_Fin(langueNom), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody\"}}{{> htmBody", classePageNomSimple, "}}{{/partial}}");
@@ -1676,6 +1707,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			o = auteurGenPageHbs;
 
+			{
+				String hackathonMission = (String)classeDoc.get("hackathonMissionGenPageHbs_stored_string");
+				String hackathonColumn = (String)classeDoc.get("hackathonColumnGenPageHbs_stored_string");
+				String hackathonLabels = (String)classeDoc.get("hackathonLabelsGenPageHbs_stored_string");
+				if(hackathonMission != null || hackathonColumn != null || hackathonLabels != null) {
+					l("<!--");
+					if(hackathonMission != null)
+						l(String.format("hackathonMission: %s", hackathonMission));
+					if(hackathonColumn != null)
+						l(String.format("hackathonColumn: %s", hackathonColumn));
+					if(hackathonLabels != null)
+						l(String.format("hackathonLabels: %s", hackathonLabels));
+					l("-->");
+				}
+			}
 			t(0, "{{#*inline \"htmTitle", classePageNomSimple, "\"}}");
 			tl(2, "<!-- inline \"htmTitle", classePageNomSimple, "\" -->");
 			t(2, "<title>");
@@ -1715,8 +1761,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{/inline}}");
 
 			if(!classePageSimple) {
+
+				String hackathonMission = (String)classeDoc.get("hackathonMissionPageJs_stored_string");
+				String hackathonColumn = (String)classeDoc.get("hackathonColumnPageJs_stored_string");
+				String hackathonLabels = (String)classeDoc.get("hackathonLabelsPageJs_stored_string");
+				if(hackathonMission != null || hackathonColumn != null || hackathonLabels != null) {
+					if(hackathonMission != null)
+						auteurPageJs.l("// ", String.format("hackathonMission: %s", hackathonMission));
+					if(hackathonColumn != null)
+						auteurPageJs.l("// ", String.format("hackathonColumn: %s", hackathonColumn));
+					if(hackathonLabels != null)
+						auteurPageJs.l("// ", String.format("hackathonLabels: %s", hackathonLabels));
+				}
+
 				t(0, "{{#*inline \"htmScript", classePageNomSimple, "\"}}");
+//				s("{{> \"htmScript", classePageSuperNomSimple, "\"}}");
 				tl(2, "<!-- inline \"htmScript", classePageNomSimple, "\" -->");
+				tl(2, "<script>");
 				for(String classeApiMethode : classeApiMethodes) {
 					String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
 					String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
@@ -1733,7 +1794,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						Boolean methodePATCH = classeApiMethodeMethode.equals("PATCH");
 						Boolean methodeDELETE = classeApiMethodeMethode.equals("DELETE");
 						Boolean methodeRecherche = classeApiMethode.contains(str_Recherche(langueNom));
-	
 						auteurPageJs.l();
 						auteurPageJs.tl(0, "// ", classeApiMethode, " //");
 						auteurPageJs.l();
@@ -2149,7 +2209,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(5, "}");
 				tl(4, "};");
 				tl(4, "window.eventBus = new EventBus('/eventbus');");
-				tl(4, "var pk = \", Optional.ofNullable(", str_requeteSite(langueNom), "_.get", str_Requete(langueNom), StringUtils.capitalize(classeVarClePrimaire), "()).map(l -> l.toString()).orElse(\"null\"), \";");
+				tl(4, "var pk = {{#if pk}}{{pk}}{{else}}null{{/if}};");
 				tl(4, "if(pk != null) {");
 				s(wJsInit);
 				tl(4, "}");
@@ -2157,6 +2217,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					s(wWebsocket);
 //					tl(2, "tl(1, ", q("});"), ");");
 				tl(3, "});");
+				tl(2, "</script>");
 				tl(0, "{{/inline}}");
 			}
 			t(0, "{{#*inline \"htmUrl", classeNomSimple, "\"}}");
@@ -2183,6 +2244,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{> \"htmMeta", classePageNomSimple, "\"}}");
 			s("{{> \"htmStyle", classePageNomSimple, "\"}}");
 			s("{{> \"htmScripts", classePageNomSimple, "\"}}");
+			s("{{> \"htmScript", classePageNomSimple, "\"}}");
 			l("{{/inline}}");
 
 			s("{{#*inline \"htmBodyCount0", classePageNomSimple, "\"}}");

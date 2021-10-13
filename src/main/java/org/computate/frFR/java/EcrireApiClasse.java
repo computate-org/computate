@@ -2336,8 +2336,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(3, "try {");
 					if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
 						tl(4, str_requeteSite(classeLangueNom), ".setJsonObject(body);");
-					tl(4, str_requeteSite(classeLangueNom), ".set", str_RequeteUri(classeLangueNom), "(Optional.ofNullable(", str_requeteService(classeLangueNom), ".getExtra()).map(extra -> extra.getString(\"uri\")).orElse(null));");
-					tl(4, str_requeteSite(classeLangueNom), ".set", str_RequeteMethode(classeLangueNom), "(Optional.ofNullable(", str_requeteService(classeLangueNom), ".getExtra()).map(extra -> extra.getString(\"method\")).orElse(null));");
+//					tl(4, str_requeteSite(classeLangueNom), ".set", str_RequeteUri(classeLangueNom), "(Optional.ofNullable(", str_requeteService(classeLangueNom), ".getExtra()).map(extra -> extra.getString(\"uri\")).orElse(null));");
+//					tl(4, str_requeteSite(classeLangueNom), ".set", str_RequeteMethode(classeLangueNom), "(Optional.ofNullable(", str_requeteService(classeLangueNom), ".getExtra()).map(extra -> extra.getString(\"method\")).orElse(null));");
 					if(
 							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") 
 								&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
@@ -2353,7 +2353,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							)
 							) {
 						l();
-						tl(4, "List<String> roles = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
+						tl(4, "List<String> roles = Optional.ofNullable(config.getJsonArray(", classePartsConfigCles.nomSimple(classeLangueNom), ".", str_AUTH_ROLES_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).getList();");
 						if(StringUtils.containsAny(classeApiMethode, "GET", str_Recherche(classeLangueNom))) {
 							tl(4, "List<String> ", str_roleLires(classeLangueNom), " = Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\");");
 						}
@@ -2426,7 +2426,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						Integer tBase;
 						if(activerRoleAdmin) {
 							tBase = 1;
-							tl(7, "List<String> roles2 = Arrays.asList(\"SiteAdmin\");");
+							tl(7, "List<String> roles2 = Optional.ofNullable(config.getJsonArray(", classePartsConfigCles.nomSimple(classeLangueNom), ".", str_AUTH_ROLES_ADMIN(classeLangueNom), ")).orElse(new JsonArray()).getList();");
 							tl(7, "if(", str_liste(classeLangueNom), classeNomSimple, ".getQueryResponse().getResults().getNumFound() > 1");
 							tl(9, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roles2)");
 							tl(9, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRoyaume(classeLangueNom), "(), roles2)");
@@ -3253,6 +3253,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "bParams.add(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurCle(classeLangueNom), "());");
 							tl(3, "}");
 						}
+						if(classeNomCanonique.equals(classePartsUtilisateurSite.nomCanonique(classeLangueNom))) {
+							tl(3, "if(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "() != null) {");
+							tl(4, "if(bParams.size() > 0) {");
+							tl(5, "bSql.append(\", \");");
+							tl(4, "}");
+							tl(4, "bSql.append(\"", str_utilisateurId(classeLangueNom), "=$\" + num);");
+							tl(4, "num++;");
+							tl(4, "bParams.add(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurId(classeLangueNom), "());");
+							tl(3, "}");
+						}
 						l();
 						tl(3, "if(jsonObject != null) {");
 						tl(4, "Set<String> ", str_entite(classeLangueNom), "Vars = jsonObject.fieldNames();");
@@ -3691,7 +3701,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 			}
 	
-			s(wApiEntites.toString());
 			{
 				SolrQuery rechercheSolr = new SolrQuery();   
 				rechercheSolr.setQuery("*:*");
@@ -4267,9 +4276,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "} else if(", classeVarCleUnique, " != null) {");
 			tl(4, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"", classeVarId, "_indexedstored_string:\" + ClientUtils.escapeQueryChars(id));");
 			tl(3, "}");
-			if(classeRoleSession || classeRoleUtilisateur) {
+			if(classeRoles.size() > 0 && (classeRoleSession || classeRoleUtilisateur)) {
 				l();
-				tl(3, "List<String> roles = Arrays.asList(\"", StringUtils.join(classeRoles, "\", \""), "\");");
+				tl(3, "List<String> roles = Optional.ofNullable(config.getJsonArray(", classePartsConfigCles.nomSimple(classeLangueNom), ".", str_AUTH_ROLES_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).getList();");
 				tl(3, "List<String> ", str_roleLires(classeLangueNom), " = Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\");");
 				tl(3, "if(");
 				tl(5, "!CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roles)");
@@ -4280,6 +4289,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"sessionId_indexedstored_string:\" + ClientUtils.escapeQueryChars(Optional.ofNullable(", str_requeteSite(classeLangueNom), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_indexedstored_string:\" + ClientUtils.escapeQueryChars(Optional.ofNullable(", str_requeteSite(classeLangueNom), ".getSessionId", str_Avant(classeLangueNom), "()).orElse(\"-----\"))");
 				tl(6, "+ \" OR ", str_utilisateur(classeLangueNom), str_Cle(classeLangueNom), "s_indexedstored_longs:\" + Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), str_Cle(classeLangueNom), "()).orElse(0L));");
 				tl(3, "}");
+			} else if(classeRoleSession || classeRoleUtilisateur) {
+				l();
+				tl(3, str_listeRecherche(classeLangueNom), ".addFilterQuery(\"sessionId_indexedstored_string:\" + ClientUtils.escapeQueryChars(Optional.ofNullable(", str_requeteSite(classeLangueNom), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_indexedstored_string:\" + ClientUtils.escapeQueryChars(Optional.ofNullable(", str_requeteSite(classeLangueNom), ".getSessionId", str_Avant(classeLangueNom), "()).orElse(\"-----\"))");
+				tl(4, "+ \" OR ", str_utilisateur(classeLangueNom), str_Cle(classeLangueNom), "s_indexedstored_longs:\" + Optional.ofNullable(", str_requeteSite(classeLangueNom), ".get", str_Utilisateur(classeLangueNom), str_Cle(classeLangueNom), "()).orElse(0L));");
 			}
 			l();
 			tl(3, str_requeteService(classeLangueNom), ".getParams().getJsonObject(\"query\").forEach(param", str_Requete(classeLangueNom), " -> {");
