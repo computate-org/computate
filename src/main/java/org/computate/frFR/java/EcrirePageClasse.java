@@ -1698,7 +1698,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 		
 						if(classeApiMethode.equals(str_PageRecherche(langueNom)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(str_PUTCopie(langueNom)) || classeApiMethode.equals(str_PUTFusion(langueNom)) || classeApiMethode.equals("PUTImport")) {
-							l("{{#partial \"htmInput_", classeApiOperationIdMethode, "\"}}{{> htmInput", classePageNomSimple, "_", classeApiOperationIdMethode, "}}{{/partial}}");
+							l("{{#partial \"htm", str_Formulaire(langueNom), "_", classeApiOperationIdMethode, "\"}}{{> htm", str_Formulaire(langueNom), classePageNomSimple, "_", classeApiOperationIdMethode, "}}{{/partial}}");
 						}
 					}
 				}
@@ -2398,7 +2398,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				s(" type=\"hidden\"");
 				l("/>");
 				tl(2, "</form>");
-				l("{{#block \"htmInput_", StringUtils.lowerCase(str_PageRecherche(langueNom)), classeNomSimple, "\"}}{{/block}}");
+				l("{{#block \"htm", str_Formulaire(langueNom), "_", StringUtils.lowerCase(str_PageRecherche(langueNom)), classeNomSimple, "\"}}{{/block}}");
 				tl(1, "{{/if}}");
 				l("{{/inline}}");
 			}
@@ -2410,7 +2410,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 
 				if(classeApiMethode.equals(str_PageRecherche(langueNom)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(str_PUTCopie(langueNom)) || classeApiMethode.equals(str_PUTFusion(langueNom)) || classeApiMethode.equals("PUTImport")) {
-					l("{{#*inline \"htmInput", classePageNomSimple, "_", classeApiOperationIdMethode, "\"}}");
+					l("{{#*inline \"htm", str_Formulaire(langueNom), classePageNomSimple, "_", classeApiOperationIdMethode, "\"}}");
 					String methodeTitreFiltres = null;
 					String methodeTitreValeurs = null;
 
@@ -2517,7 +2517,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 										if("POST".equals(classeApiMethode)) {
 											s(wFormPOST);
-										} if(str_Recherche(langueNom).equals(classeApiMethode)) {
+										} else if(str_Recherche(langueNom).equals(classeApiMethode)) {
 											s(wFormRecherche);
 										} else {
 											s(wFormPage);

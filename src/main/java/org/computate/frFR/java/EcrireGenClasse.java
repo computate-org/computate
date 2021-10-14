@@ -5682,6 +5682,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}
 		else {
+			tl(1, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
 			if(entiteAttribuer) {
 				tl(14, "<i class=\"far fa-search w3-xxlarge w3-cell w3-cell-middle \"></i>");
 				tl(14, "{{#eq '", str_PUTCopie(langueNom), "' ", str_classeApiMethodeMethode(langueNom), "}}");
@@ -5720,6 +5721,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			} else {
 				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
 			}
+			tl(1, "{{/eq}}");
 		}
 		tl(0, "{{/inline}}");
 
