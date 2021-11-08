@@ -1155,7 +1155,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	private String classePageCheminCss;
 
-	private String classePageCheminGen;
+	private String classeGenPageChemin;
 
 	private String classePageCheminHbs;
 
@@ -2226,7 +2226,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		if(classePage) {
-			classePageCheminGen = (String)classeDoc.get("classePageCheminGen"  + "_" + langueNom + "_stored_string");
+			classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin"  + "_" + langueNom + "_stored_string");
 			classePageChemin = (String)classeDoc.get("classePageChemin"  + "_" + langueNom + "_stored_string");
 			classePageCheminCss = (String)classeDoc.get("classePageCheminCss"  + "_" + langueNom + "_stored_string");
 			classePageCheminJs = (String)classeDoc.get("classePageCheminJs"  + "_" + langueNom + "_stored_string");
@@ -2240,8 +2240,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			File classePageFichierHbs = null;
 			File classeGenPageFichierHbs = null;
 
-			if(classePageCheminGen != null)
-				classePageFichierGen = new File(classePageCheminGen);
+			if(classeGenPageChemin != null)
+				classePageFichierGen = new File(classeGenPageChemin);
 			if(classePageChemin != null)
 				classePageFichier = new File(classePageChemin);
 			if(classePageCheminCss != null)
@@ -2280,13 +2280,13 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
 			String classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
-			String classePageCheminGen = (String)classeDoc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
+			String classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin" + classePageMethode  + "_stored_string");
 	
 			if(classePageNomSimple != null) {
 				if(classePageUriMethode != null) {
 					tl(1, "public static final String ", classePageNomSimple, "_Uri", " = ", q(classePageUriMethode), ";");
 				}
-				if(classePageCheminGen != null) {
+				if(classeGenPageChemin != null) {
 					tl(1, "public static final String ", classePageNomSimple, "_ImageUri", " = ", q("/png", classePageUriMethode, "-999.png"), ";");
 				}
 			}
@@ -3872,7 +3872,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
 				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(", entiteNomSimpleCompletGenerique, " o) {");
-				tl(2, "if(o != null && !", entiteVar, ".contains(o))");
+				tl(2, "if(o != null)");
 				tl(3, "this.", entiteVar, ".add(o);");
 				tl(2, "return (", classeNomSimple, ")this;");
 				tl(1, "}");
@@ -5047,7 +5047,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				// toString //
 				//////////////
 		
-				wToString.tl(2, "sb.append( \"" + (entiteIndice > 0 ? ", " : "") + entiteVar + ": " + ("String".equals(entiteNomSimpleComplet) ? "\\\"" : "") + "\" ).append(" + entiteVar + "" + ("String".equals(entiteNomSimpleComplet) ? ").append( \"\\\"\" " : "") + ");");
+				wToString.tl(2, "sb.append(Optional.ofNullable(", entiteVar, ").map(v -> \"", entiteVar, ": ", ("String".equals(entiteNomSimpleComplet) ? "\\\"" : ""), "\" + v", ("String".equals(entiteNomSimpleComplet) ? " + \"\\\"\\n\" " : " + \"\\n\""), ").orElse(\"\"));");
 		
 				entiteIndice++;
 			}
@@ -5837,7 +5837,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classCanonicalName
 	 * r: classeApiMethodes
 	 * r.enUS: classApiMethods
-	 * r: classePageCheminGen
+	 * r: classeGenPageChemin
 	 * r.enUS: classPagePathGen
 	 * r: classePageCheminCss
 	 * r.enUS: classPagePathCss
@@ -6257,7 +6257,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
 			for(String classePageMethode : classeApiMethodes) {
 	
-				String classePageCheminGen = (String)classeDoc.get("classePageCheminGen" + classePageMethode  + "_stored_string");
+				String classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin" + classePageMethode  + "_stored_string");
 				String classePageChemin = (String)classeDoc.get("classePageChemin" + classePageMethode  + "_stored_string");
 				String classePageCheminCss = (String)classeDoc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
 				String classePageCheminJs = (String)classeDoc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
@@ -6265,7 +6265,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
 				String classePageNomSimple = (String)classeDoc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
 		
-				if(classePageCheminGen != null) {
+				if(classeGenPageChemin != null) {
 			
 					tl(3, "{");
 					tl(4, "new File(\"", appliChemin, "-static/png", StringUtils.substringBeforeLast(classePageUriMethode, "/"), "\").mkdirs();");
@@ -6481,10 +6481,8 @@ public class EcrireGenClasse extends EcrireClasse {
 		tl(1, "@Override public String toString() {");
 		tl(2, "StringBuilder sb = new StringBuilder();");
 		if(BooleanUtils.isTrue(classeEtendBase)) 
-			tl(2, "sb.append(super.toString() + \"\\n\");");
-		tl(2, "sb.append(\"", classeNomSimple, " { \");");
+			tl(2, "sb.append(super.toString());");
 		s(wToString.toString());
-		tl(2, "sb.append(\" }\");");
 		tl(2, "return sb.toString();");
 		tl(1, "}");
 

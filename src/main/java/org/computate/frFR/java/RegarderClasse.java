@@ -1,6 +1,7 @@
 package org.computate.frFR.java; 
 
 import java.io.File;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -71,7 +72,9 @@ public class RegarderClasse extends EcrireToutesClasses {
 		SolrInputDocument classeDoc = regarderClasse(regarderClasse, classeLangueNom);
 		if(classeDoc != null) {
 			Boolean classeEtendGen = (Boolean)classeDoc.get("classeEtendGen_stored_boolean").getValue();
-			String classeCheminGen = (String)classeDoc.get("classeCheminGen_enUS_stored_string").getValue();
+			String classeCheminGen = Optional.ofNullable(classeDoc.get("classeCheminGen_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
+			String classePageChemin = Optional.ofNullable(classeDoc.get("classePageChemin_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
+			String classeGenPageChemin = Optional.ofNullable(classeDoc.get("classeGenPageChemin_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
 			if(classeEtendGen != null && classeCheminGen != null && classeEtendGen) {
 				
 				RegarderClasse regarderClasse2 = new RegarderClasse();
@@ -81,6 +84,38 @@ public class RegarderClasse extends EcrireToutesClasses {
 					SolrInputDocument classeDoc2 = new SolrInputDocument();
 					System.out.println(str_chemin_absolu(classeLangueNom) + " : " + classeCheminGen);
 					regarderClasse2.indexerClasse(classeCheminGen, classeDoc2, classeLangueNom);
+				}
+				catch(Exception e) {
+					System.err.println("Erreur pendant traiterEvenements. ");
+					System.err.println(ExceptionUtils.getStackTrace(e));
+				}
+			}
+			if(classePageChemin != null) {
+				String classePageGenChemin = classePageChemin.replace("/src/main/java", "/src/gen/java").replace(".java", "Gen.java");
+				
+				RegarderClasse regarderClasse2 = new RegarderClasse();
+				try {
+					regarderClasse2.args = args;
+					regarderClasse2.initRegarderClasseBase(); 
+					SolrInputDocument classeDoc2 = new SolrInputDocument();
+					System.out.println(str_chemin_absolu(classeLangueNom) + " : " + classePageGenChemin);
+					regarderClasse2.indexerClasse(classePageGenChemin, classeDoc2, classeLangueNom);
+				}
+				catch(Exception e) {
+					System.err.println("Erreur pendant traiterEvenements. ");
+					System.err.println(ExceptionUtils.getStackTrace(e));
+				}
+			}
+			if(classeGenPageChemin != null) {
+				String classeGenPageGenChemin = classeGenPageChemin.replace("/src/main/java", "/src/gen/java").replace(".java", "Gen.java");
+				
+				RegarderClasse regarderClasse2 = new RegarderClasse();
+				try {
+					regarderClasse2.args = args;
+					regarderClasse2.initRegarderClasseBase(); 
+					SolrInputDocument classeDoc2 = new SolrInputDocument();
+					System.out.println(str_chemin_absolu(classeLangueNom) + " : " + classeGenPageGenChemin);
+					regarderClasse2.indexerClasse(classeGenPageGenChemin, classeDoc2, classeLangueNom);
 				}
 				catch(Exception e) {
 					System.err.println("Erreur pendant traiterEvenements. ");

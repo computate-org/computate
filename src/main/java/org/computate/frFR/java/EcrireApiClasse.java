@@ -2353,7 +2353,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							)
 							) {
 						l();
-						tl(4, "List<String> roles = Optional.ofNullable(config.getJsonArray(", classePartsConfigCles.nomSimple(classeLangueNom), ".", str_AUTH_ROLES_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).getList();");
+						tl(4, "List<String> roles = Optional.ofNullable(config.getValue(", classePartsConfigCles.nomSimple(classeLangueNom), ".", str_AUTH_ROLES_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).map(v -> v instanceof JsonArray ? (JsonArray)v : new JsonArray(v.toString())).orElse(new JsonArray()).getList();");
 						if(StringUtils.containsAny(classeApiMethode, "GET", str_Recherche(classeLangueNom))) {
 							tl(4, "List<String> ", str_roleLires(classeLangueNom), " = Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\");");
 						}
@@ -2426,7 +2426,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						Integer tBase;
 						if(activerRoleAdmin) {
 							tBase = 1;
-							tl(7, "List<String> roles2 = Optional.ofNullable(config.getJsonArray(", classePartsConfigCles.nomSimple(classeLangueNom), ".", str_AUTH_ROLES_ADMIN(classeLangueNom), ")).orElse(new JsonArray()).getList();");
+							tl(7, "List<String> roles2 = Optional.ofNullable(config.getValue(", classePartsConfigCles.nomSimple(classeLangueNom), ".", str_AUTH_ROLES_ADMIN(classeLangueNom), ")).map(v -> v instanceof JsonArray ? (JsonArray)v : new JsonArray(v.toString())).orElse(new JsonArray()).getList();");
 							tl(7, "if(", str_liste(classeLangueNom), classeNomSimple, ".getQueryResponse().getResults().getNumFound() > 1");
 							tl(9, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roles2)");
 							tl(9, "&& !CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRoyaume(classeLangueNom), "(), roles2)");
@@ -2583,7 +2583,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(3, "}");
 					tl(2, "}).onFailure(ex -> {");
 					if(activerOpenIdConnect) {
-						tl(3, "if(\"Inactive Token\".equals(ex.getMessage())) {");
+						tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || \"invalid_grant: Refresh token expired\".equals(ex.getMessage())) {");
 						tl(4, "try {");
 						tl(5, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", str_deconnexion(classeLangueNom), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
 						tl(4, "} catch(Exception ex2) {");
@@ -2758,7 +2758,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "});");
 						tl(2, "}).onFailure(ex -> {");
 						if(activerOpenIdConnect) {
-							tl(3, "if(\"Inactive Token\".equals(ex.getMessage())) {");
+							tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || \"invalid_grant: Refresh token expired\".equals(ex.getMessage())) {");
 							tl(4, "try {");
 							tl(5, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", str_deconnexion(classeLangueNom), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
 							tl(4, "} catch(Exception ex2) {");
@@ -2933,7 +2933,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "}");
 						tl(2, "}).onFailure(ex -> {");
 						if(activerOpenIdConnect) {
-							tl(3, "if(\"Inactive Token\".equals(ex.getMessage())) {");
+							tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || \"invalid_grant: Refresh token expired\".equals(ex.getMessage())) {");
 							tl(4, "try {");
 							tl(5, str_gestionnaireEvenements(classeLangueNom), ".handle(Future.succeededFuture(new ServiceResponse(302, \"Found\", null, MultiMap.caseInsensitiveMultiMap().add(HttpHeaders.LOCATION, \"/", str_deconnexion(classeLangueNom), "?redirect_uri=\" + URLEncoder.encode(serviceRequest.getExtra().getString(\"uri\"), \"UTF-8\")))));");
 							tl(4, "} catch(Exception ex2) {");
@@ -4278,7 +4278,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "}");
 			if(classeRoles.size() > 0 && (classeRoleSession || classeRoleUtilisateur)) {
 				l();
-				tl(3, "List<String> roles = Optional.ofNullable(config.getJsonArray(", classePartsConfigCles.nomSimple(classeLangueNom), ".", str_AUTH_ROLES_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).getList();");
+				tl(3, "List<String> roles = Optional.ofNullable(config.getValue(", classePartsConfigCles.nomSimple(classeLangueNom), ".", str_AUTH_ROLES_REQUIS(langueNom), " + \"_", classeNomSimple, "\")).map(v -> v instanceof JsonArray ? (JsonArray)v : new JsonArray(v.toString())).orElse(new JsonArray()).getList();");
 				tl(3, "List<String> ", str_roleLires(classeLangueNom), " = Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\");");
 				tl(3, "if(");
 				tl(5, "!CollectionUtils.containsAny(", str_requeteSite(classeLangueNom), ".get", str_UtilisateurRolesRessource(classeLangueNom), "(), roles)");

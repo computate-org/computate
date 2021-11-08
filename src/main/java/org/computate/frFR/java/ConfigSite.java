@@ -1364,6 +1364,13 @@ public class ConfigSite {
 			return "ObjectValues";
 	}
 
+	public String str_objetTitre(String langueNom) {
+		if ("frFR".equals(langueNom))
+			return "objetTitre";
+		else
+			return "objectTitle";
+	}
+
 	public String str_objetTexte(String langueNom) {
 		if ("frFR".equals(langueNom))
 			return "objetTexte";
