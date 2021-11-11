@@ -5144,8 +5144,16 @@ public class IndexerClasse extends RegarderClasseBase {
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueDate, VAL_nomCanoniqueZonedDateTime)) {
 							entiteTypeJson = "string";
 							entiteFormatJson = "date-time";
-							if(entiteFormatHtm == null)
-								entiteFormatHtm = "short";
+							if(entiteFormatHtm == null) {
+								if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueTimestamp))
+									entiteFormatHtm = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+								else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueLocalDateTime))
+									entiteFormatHtm = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+								else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueDate))
+									entiteFormatHtm = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+								else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueZonedDateTime))
+									entiteFormatHtm = "yyyy-MM-dd'T'HH:mm:ss.SSS'['VV']'";
+							}
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalDate)) {
 							entiteTypeJson = "string";

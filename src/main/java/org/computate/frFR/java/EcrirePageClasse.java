@@ -1,6 +1,7 @@
 package org.computate.frFR.java;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -1414,6 +1415,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								wTd.t(7, "<span class=\"white-space-pre-wrap \">");
 								if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 									wTd.s("{{siteZonedDateTimeFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
+								} else if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
+									wTd.s("{{siteLocalDateFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
 								} else if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
 									wTd.s("{{siteLocalDateTimeFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
 								} else if(StringUtils.equals(entiteNomCanonique, LocalTime.class.getCanonicalName())) {
