@@ -5130,39 +5130,53 @@ public class IndexerClasse extends RegarderClasseBase {
 						////////////////////
 						String entiteTypeJson = null;
 						String entiteFormatJson = null;
+						String entiteFormatHtm = regex("^FormatHtm: (.*)", methodeCommentaire);
 						String entiteListeTypeJson = null;
 						if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBoolean)) {
 							entiteTypeJson = "boolean";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalTime)) {
 							entiteTypeJson = "string";
-							//TODO: ctate disabled until vertx fix is made. 
-//							entiteFormatJson = "date-time";
+							entiteFormatJson = "date-time";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "short";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueDate, VAL_nomCanoniqueZonedDateTime)) {
 							entiteTypeJson = "string";
-							//TODO: ctate disabled until vertx fix is made. 
-//							entiteFormatJson = "date-time";
+							entiteFormatJson = "date-time";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "short";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalDate)) {
 							entiteTypeJson = "string";
-							//TODO: ctate disabled until vertx fix is made. 
-//							entiteFormatJson = "date";
+							entiteFormatJson = "date";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "short";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLong)) {
 							entiteTypeJson = "string";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "integer";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 							entiteTypeJson = "string";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
 							entiteTypeJson = "string";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueFloat)) {
 							entiteTypeJson = "string";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueInteger)) {
 							entiteTypeJson = "string";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "integer";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList, VAL_nomCanoniqueSet, VAL_nomCanoniqueHashSet)) {
 							if(entiteNomCanoniqueGenerique.equals(VAL_nomCanoniqueBoolean)) {
@@ -5211,6 +5225,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(entiteDoc, "entiteTypeJson", entiteTypeJson);
 						if(entiteFormatJson != null)
 							stockerSolr(entiteDoc, "entiteFormatJson", entiteFormatJson);
+						indexerStockerSolr(entiteDoc, "entiteFormatHtm", entiteFormatHtm);
 
 						if(entiteClePrimaire) {
 							classeVarClePrimaire = stockerSolr(classeLangueNom, classeDoc, "classeVarClePrimaire", entiteVar);

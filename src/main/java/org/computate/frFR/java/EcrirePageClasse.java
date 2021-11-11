@@ -1,5 +1,9 @@
 package org.computate.frFR.java;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -1377,11 +1381,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							String entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + langueNom + "_stored_string");
 							String entiteSolrNomSimple = (String)entiteDocumentSolr.get("entiteSolrNomSimple_stored_string");
 							String entiteNomSimple = (String)entiteDocumentSolr.get("entiteNomSimple_" + langueNom + "_stored_string");
+							String entiteNomCanonique = (String)entiteDocumentSolr.get("entiteNomCanonique_" + langueNom + "_stored_string");
 							String entiteNomSimpleGenerique = (String)entiteDocumentSolr.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
 							String entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
 							String entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
 							String entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
 							Boolean entiteHtml = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean"));
+							String entiteFormatHtm = (String)entiteDocumentSolr.get("entiteFormatHtm_stored_string");
 							Boolean entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
 							Boolean entiteHighlighting = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteHighlighting_stored_boolean"));
 							Boolean entiteVarTitre = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteVarTitre_stored_boolean"));
@@ -1405,7 +1411,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								wTd.tl(6, "<a href=\"{{", classeVarUrlPk, "}}\">");
 								if(contexteIconeGroupe != null && contexteIconeNom != null && BooleanUtils.isTrue(entiteVarTitre))
 									wTd.tl(7, "<i class=\"fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " \"></i>");
-								wTd.tl(7, "<span class=\"white-space-pre-wrap \">{{", entiteVar, "}}</span>");
+								wTd.t(7, "<span class=\"white-space-pre-wrap \">");
+								if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
+									wTd.s("{{siteZonedDateTimeFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
+								} else if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
+									wTd.s("{{siteLocalDateTimeFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
+								} else if(StringUtils.equals(entiteNomCanonique, LocalTime.class.getCanonicalName())) {
+									wTd.s("{{siteLocalTimeFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
+								} else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
+									wTd.s("{{siteNumberFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
+								} else {
+									wTd.s("{{", entiteVar, "}}");
+								}
+								wTd.l("</span>");
 								wTd.tl(6, "</a>");
 								if(entiteHighlighting) {
 									wTd.tl(6, "{{#if highlightList}}");
