@@ -1615,7 +1615,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 									if("Boolean".equals(entiteNomSimple)) {
 										wPATCH.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, "SelectVal = $", str_formulaireValeurs(langueNom), ".find('select.set", entiteVarCapitalise, "').val();");
-										wPATCH.tl(1, "var ", str_valeur(langueNom), entiteVarCapitalise, " = null;");
 										wPATCH.tl(1, "if(", str_valeur(langueNom), entiteVarCapitalise, "SelectVal != null && ", str_valeur(langueNom), entiteVarCapitalise, "SelectVal !== '')");
 										wPATCH.tl(2, str_valeur(langueNom), entiteVarCapitalise, " = ", str_valeur(langueNom), entiteVarCapitalise, "SelectVal == 'true';");
 										wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : ", str_valeur(langueNom), entiteVarCapitalise, ";");

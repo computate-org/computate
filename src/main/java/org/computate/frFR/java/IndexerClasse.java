@@ -5785,8 +5785,8 @@ public class IndexerClasse extends RegarderClasseBase {
 			indexerStockerSolr(langueNom, classeDoc, "classePageChemin", classePageChemin); 
 			indexerStockerSolr(langueNom, classeDoc, "classePageCheminCss", concat(appliChemin, "-static/css/", langueNom, "/", classePageNomSimple, ".css"));
 			indexerStockerSolr(langueNom, classeDoc, "classePageCheminJs", concat(appliChemin, "-static/js/", langueNom, "/", classePageNomSimple, ".js"));
-			indexerStockerSolr(langueNom, classeDoc, "classePageCheminHbs", concat(appliChemin, "-static/template/", langueNom, "/", classePageNomSimple, ".hbs"));
-			indexerStockerSolr(langueNom, classeDoc, "classeGenPageCheminHbs", concat(appliChemin, "-static/template/", langueNom, "/", classeGenPageNomSimple, ".hbs"));
+			indexerStockerSolr(langueNom, classeDoc, "classePageCheminHbs", concat(appliChemin, "/src/main/resources/templates/", langueNom, "/", classePageNomSimple, ".hbs"));
+			indexerStockerSolr(langueNom, classeDoc, "classeGenPageCheminHbs", concat(appliChemin, "/src/main/resources/templates/", langueNom, "/", classeGenPageNomSimple, ".hbs"));
 			indexerStockerSolr(langueNom, classeDoc, "classePageLangueNom", langueNom); 
 
 			if(classePageSuperNomSimple != null) {
@@ -6513,6 +6513,8 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classeTriOrdre = classeTrisOrdre.get(i);
 			String classeTriVar = classeTrisVar.get(i);
 			String classeTriSuffixeType = Optional.ofNullable(clientSolrComputate.getById(classeCheminAbsolu + "." + classeTriVar)).map(d -> (String)d.get("entiteSuffixeType_stored_string")).orElse(null);
+			if(classeTriSuffixeType == null)
+				classeTriSuffixeType = Optional.ofNullable(clientSolrComputate.getById(classeSuperDoc.get("classeCheminAbsolu_stored_string") + "." + classeTriVar)).map(d -> (String)d.get("entiteSuffixeType_stored_string")).orElse(null);
 			indexerStockerListeSolr(classeDoc, "classeTrisSuffixeType", classeTriSuffixeType); 
 			indexerStockerListeSolr(classeDoc, "classeTrisOrdre", classeTriOrdre); 
 			indexerStockerListeSolr(classeLangueNom, classeDoc, "classeTrisVar", classeTriVar); 

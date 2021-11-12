@@ -5489,14 +5489,14 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "{{/eq}}");
 
 				tl(1, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				tl(15, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(15, "class=\"class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(15, "name=\"set", entiteVarCapitalise, "\"");
 				tl(1, "{{else}}");
 				tl(2, "{{#eq 'Page' ", str_classeApiMethodeMethode(langueNom), "}}");
-				tl(16, "class=\"set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "class=\"class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(16, "name=\"set", entiteVarCapitalise, "\"");
 				tl(2, "{{else}}");
-				tl(16, "class=\"", str_valeur(langueNom), entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "class=\"set", entiteVarCapitalise, " ", str_valeur(langueNom), entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(16, "name=\"set", entiteVarCapitalise, "\"");
 				tl(2, "{{/eq}}");
 				tl(1, "{{/eq}}");
