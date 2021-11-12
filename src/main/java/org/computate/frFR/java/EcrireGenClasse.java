@@ -2265,10 +2265,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageFichierJs.getParentFile().mkdirs();
 				auteurPageJs = ToutEcrivain.create(classePageFichierJs);
 			}
-//			if(classePageFichierHbs != null && !classePageFichierHbs.exists()) {
+			if(classePageFichierHbs != null && !classePageFichierHbs.exists()) {
 				classePageFichierHbs.getParentFile().mkdirs();
 				auteurPageHbs = ToutEcrivain.create(classePageFichierHbs);
-//			}
+			}
 			if(classeGenPageFichierHbs != null) {
 				classeGenPageFichierHbs.getParentFile().mkdirs();
 				auteurGenPageHbs = ToutEcrivain.create(classeGenPageFichierHbs);

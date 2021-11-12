@@ -3436,7 +3436,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					/////////////////
 					if(classePageNomCanoniqueMethode != null) {
 						tl(1, "public String ", str_template(classeLangueNom), classeApiMethode, classeNomSimple, "() {");
-						tl(2, "return config.getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".TEMPLATE_PATH) + \"/", classeLangueNom, "/", classeNomSimple, str_Page(classeLangueNom), "\";");
+						tl(2, "return Optional.ofNullable(config.getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".TEMPLATE_PATH)).orElse(\"templates\") + \"/", classeLangueNom, "/", classeNomSimple, str_Page(classeLangueNom), "\";");
 						t(1, "}");
 					}
 					l();
