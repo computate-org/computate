@@ -3,6 +3,8 @@ package org.computate.frFR.java;
 import java.io.File;
 import java.util.Optional;
 
+import org.apache.commons.configuration2.YAMLConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.common.SolrInputDocument;
@@ -39,9 +41,11 @@ public class RegarderClasse extends EcrireToutesClasses {
 	public static void main(String[] args) throws Exception {   
 		RegarderClasse regarderClasse = new RegarderClasse();
 		String classeLangueNom = StringUtils.defaultString(System.getenv("APP_LANG"), "frFR");
+		Configurations configurations = new Configurations();
+		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("classpath:/i18n/i18n_%s.yml", classeLangueNom));
 		try {
 			regarderClasse.args = args;
-			regarderClasse.initRegarderClasseBase(); 
+			regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
 //			try {
 //				if(ArrayUtils.contains(regarderClasse.autresLangues, "enUS")) {
 //					regarderClasse.enUSWatchClass = new WatchClass();
@@ -69,7 +73,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 			System.err.println("Erreur pendant traiterEvenements. ");
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
-		SolrInputDocument classeDoc = regarderClasse(regarderClasse, classeLangueNom);
+		SolrInputDocument classeDoc = regarderClasse(classeLangueConfig, regarderClasse, classeLangueNom);
 		if(classeDoc != null) {
 			Boolean classeEtendGen = (Boolean)classeDoc.get("classeEtendGen_stored_boolean").getValue();
 			String classeCheminGen = Optional.ofNullable(classeDoc.get("classeCheminGen_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
@@ -80,9 +84,9 @@ public class RegarderClasse extends EcrireToutesClasses {
 				RegarderClasse regarderClasse2 = new RegarderClasse();
 				try {
 					regarderClasse2.args = args;
-					regarderClasse2.initRegarderClasseBase(); 
+					regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 					SolrInputDocument classeDoc2 = new SolrInputDocument();
-					System.out.println(str_chemin_absolu(classeLangueNom) + " : " + classeCheminGen);
+					System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + classeCheminGen);
 					regarderClasse2.indexerClasse(classeCheminGen, classeDoc2, classeLangueNom);
 				}
 				catch(Exception e) {
@@ -96,9 +100,9 @@ public class RegarderClasse extends EcrireToutesClasses {
 				RegarderClasse regarderClasse2 = new RegarderClasse();
 				try {
 					regarderClasse2.args = args;
-					regarderClasse2.initRegarderClasseBase(); 
+					regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 					SolrInputDocument classeDoc2 = new SolrInputDocument();
-					System.out.println(str_chemin_absolu(classeLangueNom) + " : " + classePageGenChemin);
+					System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + classePageGenChemin);
 					regarderClasse2.indexerClasse(classePageGenChemin, classeDoc2, classeLangueNom);
 				}
 				catch(Exception e) {
@@ -112,9 +116,9 @@ public class RegarderClasse extends EcrireToutesClasses {
 				RegarderClasse regarderClasse2 = new RegarderClasse();
 				try {
 					regarderClasse2.args = args;
-					regarderClasse2.initRegarderClasseBase(); 
+					regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 					SolrInputDocument classeDoc2 = new SolrInputDocument();
-					System.out.println(str_chemin_absolu(classeLangueNom) + " : " + classeGenPageGenChemin);
+					System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + classeGenPageGenChemin);
 					regarderClasse2.indexerClasse(classeGenPageGenChemin, classeDoc2, classeLangueNom);
 				}
 				catch(Exception e) {
@@ -156,10 +160,10 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r: classeLangueNom
 	 * r.enUS: classLanguageName
 	 */   
-	public static SolrInputDocument regarderClasse(RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
+	public static SolrInputDocument regarderClasse(YAMLConfiguration classeLangueConfig, RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile() && regarderClasse.classeCheminAbsolu.endsWith(".java")) {
-			System.out.println(str_chemin_absolu(classeLangueNom) + " : " + regarderClasse.classeCheminAbsolu);
+			System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + regarderClasse.classeCheminAbsolu);
 			SolrInputDocument classeDoc = new SolrInputDocument();
 //			classeDoc.addField("id", regarderClasse.classeCheminAbsolu);  
 			regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, classeLangueNom);
@@ -179,12 +183,13 @@ public class RegarderClasse extends EcrireToutesClasses {
 				}
 			}
 			for(String langueNom : regarderClasse.toutesLangues) {
+				YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("i18n/i18n_%s.yml", langueNom));
 //				if("enUS".equals(langueNom))
 //					regarderClasse.enUSWatchClass.writeGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
 //				if("frFR".equals(langueNom))
 //					regarderClasse.frFRRegarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
 				if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
-					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, langueNom);
+					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, langueNom, langueConfig);
 			}
 			return classeDoc;
 		}

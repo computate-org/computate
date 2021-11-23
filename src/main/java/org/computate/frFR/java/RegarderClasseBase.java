@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
 
@@ -22,6 +23,10 @@ public class RegarderClasseBase extends ConfigSite {
 
 	public String[] args;
 
+	public String classeLangueNom;
+
+	public YAMLConfiguration classeLangueConfig;
+
 	/**
 	 * Var.enUS: _appPath
 	 * r: appliChemin
@@ -29,7 +34,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */ 
 	@Override protected void _appliChemin() throws Exception {
 		if(appliChemin == null) {
-			appliChemin = System.getenv(str_APPLI_CHEMIN(langueNom));
+			appliChemin = System.getenv(langueConfigGlobale.getString(ConfigCles.var_APPLI_CHEMIN));
 			if(appliChemin == null)
 				appliChemin = args[0]; 
 		}
@@ -42,7 +47,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */ 
 	@Override protected void _appliCheminVertx() throws Exception {
 		if(appliCheminVertx == null) {
-			appliCheminVertx = System.getenv(str_APPLI_CHEMIN_VERTX(langueNom)); 
+			appliCheminVertx = System.getenv(langueConfigGlobale.getString(ConfigCles.var_APPLI_CHEMIN_VERTX)); 
 		}
 	}
 
@@ -57,7 +62,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _classeCheminAbsolu() throws Exception {
 		if(classeCheminAbsolu == null) {
-			classeCheminAbsolu = System.getenv(str_CLASSE_CHEMIN_ABSOLU(langueNom)); 
+			classeCheminAbsolu = System.getenv(langueConfigGlobale.getString(ConfigCles.var_CLASSE_CHEMIN_ABSOLU)); 
 			if(classeCheminAbsolu == null)
 				classeCheminAbsolu = args[1];
 		}
@@ -84,7 +89,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _appliChemins() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String appliCheminLangue = config.getString(str_APPLI_CHEMIN(langueNom) + "_" + langueNom); 
+			String appliCheminLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_APPLI_CHEMIN) + "_" + langueNom); 
 			if(StringUtils.isEmpty(appliCheminLangue)) {
 				appliChemins.put(langueNom, appliChemin);
 			}
@@ -113,7 +118,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _appliCheminsVertx() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String appliCheminVertxLangue = config.getString(str_APPLI_CHEMIN_VERTX(langueNom) + "_" + langueNom); 
+			String appliCheminVertxLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_APPLI_CHEMIN_VERTX) + "_" + langueNom); 
 			if(StringUtils.isEmpty(appliCheminVertxLangue)) {
 				appliCheminsVertx.put(langueNom, appliCheminVertx);
 			}
@@ -186,7 +191,10 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r: bricoleur
 	 * r.enUS: builder
 	 */
-	public void initRegarderClasseBase() throws Exception {
+	public void initRegarderClasseBase(String classeLangueNom, YAMLConfiguration classeLangueConfig) throws Exception {
+		this.classeLangueNom = classeLangueNom;
+		this.classeLangueConfig = classeLangueConfig;
+
 		initConfigSite();
 		_classeCheminAbsolu();
 		_appliChemin();

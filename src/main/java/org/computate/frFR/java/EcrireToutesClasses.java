@@ -1,26 +1,17 @@
 package org.computate.frFR.java;       
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.ArrayListHandler;
+import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
-import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
 /**   
@@ -64,7 +55,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */   
-	public void ecrireGenClasses(String classeCheminAbsolu, String classeLangueNom, String langueNom) throws Exception { 
+	public void ecrireGenClasses(String classeCheminAbsolu, String classeLangueNom, String langueNom, YAMLConfiguration langueConfig) throws Exception { 
 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
@@ -74,7 +65,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		rechercheSolr.addSort("partNumero_indexed_int", ORDER.asc);
 
 		QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-		ecrireGenClasses(reponseRecherche, classeLangueNom, langueNom);
+		ecrireGenClasses(reponseRecherche, classeLangueNom, langueNom, langueConfig);
 	}
 
 	/** 
@@ -435,7 +426,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */  
-	public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom) throws Exception { 
+	public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom, YAMLConfiguration langueConfig) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
 		if(listeRecherche.size() > 0 && (langueIndexe || !StringUtils.equals(langueNom, this.langueNom))) {    
@@ -640,13 +631,13 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	
 						o = auteurGenClasse;
 	
-						genCodeInitLoin(langueNom);
-						genCodeRequeteSite(langueNom);
-						genCodeObtenir(langueNom);
-						genCodeAttribuer(langueNom);
-						genCodePut(langueNom);
-						genCodePeupler(langueNom);
-						genCodeClasseDebut(langueNom);
+						genCodeInitLoin(langueNom, langueConfig);
+						genCodeRequeteSite(langueNom, langueConfig);
+						genCodeObtenir(langueNom, langueConfig);
+						genCodeAttribuer(langueNom, langueConfig);
+						genCodePut(langueNom, langueConfig);
+						genCodePeupler(langueNom, langueConfig);
+						genCodeClasseDebut(langueNom, langueConfig);
 //					}
 					if(classeApi)
 						apiCodeClasseDebut(langueNom);
@@ -658,13 +649,13 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	
 //					if(StringUtils.equals(classeLangueNom, langueNom)) {
 						if(BooleanUtils.isTrue(partEstConstructeur)) {
-							genCodeConstructeur(langueNom);
+							genCodeConstructeur(langueNom, langueConfig);
 						}
 						else if(BooleanUtils.isTrue(partEstMethode)) {
-							genCodeMethode(langueNom);
+							genCodeMethode(langueNom, langueConfig);
 						}
 						else if(BooleanUtils.isTrue(partEstEntite)) {
-							genCodeEntite(langueNom);
+							genCodeEntite(langueNom, langueConfig);
 						}
 //					}
 				}
@@ -672,10 +663,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 			if(o != null) {
 				if(listeRecherche.size() > 0 && !StringUtils.equals(classeCheminAbsolu, classeCheminGen)) {
 //					if(StringUtils.equals(classeLangueNom, langueNom)) {
-						genCodeClasseFin(langueNom);
+						genCodeClasseFin(langueNom, langueConfig);
 //					}
 					if(classePage) {
-						pageCodeClasse(langueNom);
+						pageCodeClasse(langueNom, langueConfig);
 					}
 					if(classeApi) {
 //						ecrireApiEnsembleInfo(langueNom);
