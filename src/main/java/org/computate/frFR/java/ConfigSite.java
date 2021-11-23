@@ -41,22 +41,20 @@ public class ConfigSite {
 	protected void _configurations() throws Exception {
 		configurations = new Configurations();
 	}
-	/**
-	 * Var.enUS: languageName enUS: The configured language name for this app.
-	 */
-	public String langueNomGlobale;
 
-	/**
-	 * Var.enUS: _languageName r: langueNom r.enUS: languageName r: appliNom r.enUS:
-	 * appName
-	 **/
+	public String langueNomGlobale;
 	protected void _langueNomGlobale() throws Exception {
 		langueNomGlobale = System.getenv("APP_LANG");
 	}
 
+	public String appComputate;
+	protected void _appComputate() throws Exception {
+		appComputate = System.getenv("APP_COMPUTATE");
+	}
+
 	public YAMLConfiguration langueConfigGlobale;
 	protected void _langueConfigGlobale() throws Exception {
-		langueConfigGlobale = configurations.fileBased(YAMLConfiguration.class, String.format("i18n/i18n_%s.yml", langueNomGlobale));
+		langueConfigGlobale = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, langueNomGlobale));
 	}
 
 	/**
@@ -625,6 +623,7 @@ public class ConfigSite {
 	public void initConfigSite() throws Exception {
 		_configurations();
 		_langueNomGlobale();
+		_appComputate();
 		_langueConfigGlobale();
 		_appliNom();
 		_appliChemin();

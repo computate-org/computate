@@ -2308,7 +2308,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				String classeApiTypeMedia200Methode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				if(classePageLangueNom == null || classePageLangueNom.equals(classeLangueNom)) {
-					YAMLConfiguration classePageLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("i18n/i18n_%s.yml", classePageLangueNom));
 					l();
 					tl(1, "// ", classeApiMethode, " //");
 					if(classePageNomCanoniqueMethode != null) {
@@ -3183,7 +3182,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(4, "bParams.add(", classeVarClePrimaire, ");");
 						tl(4, "num++;");
 						tl(4, "futures2.add(0, Future.future(a -> {");
-						tl(5, classePageLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(bSql.toString())");
+						tl(5, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(bSql.toString())");
 						tl(7, ".execute(Tuple.tuple(bParams)");
 						tl(7, ").onSuccess(b -> {");
 						tl(6, "a.handle(Future.succeededFuture());");

@@ -41,8 +41,9 @@ public class RegarderClasse extends EcrireToutesClasses {
 	public static void main(String[] args) throws Exception {   
 		RegarderClasse regarderClasse = new RegarderClasse();
 		String classeLangueNom = StringUtils.defaultString(System.getenv("APP_LANG"), "frFR");
+		String appComputate = System.getenv("APP_COMPUTATE");
 		Configurations configurations = new Configurations();
-		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("classpath:/i18n/i18n_%s.yml", classeLangueNom));
+		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, classeLangueNom));
 		try {
 			regarderClasse.args = args;
 			regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
@@ -161,6 +162,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r.enUS: classLanguageName
 	 */   
 	public static SolrInputDocument regarderClasse(YAMLConfiguration classeLangueConfig, RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
+		String appComputate = System.getenv("APP_COMPUTATE");
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile() && regarderClasse.classeCheminAbsolu.endsWith(".java")) {
 			System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + regarderClasse.classeCheminAbsolu);
@@ -183,7 +185,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 				}
 			}
 			for(String langueNom : regarderClasse.toutesLangues) {
-				YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("i18n/i18n_%s.yml", langueNom));
+				YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, langueNom));
 //				if("enUS".equals(langueNom))
 //					regarderClasse.enUSWatchClass.writeGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
 //				if("frFR".equals(langueNom))
