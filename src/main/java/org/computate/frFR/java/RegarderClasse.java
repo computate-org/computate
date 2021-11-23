@@ -29,10 +29,10 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r.enUS: watchClass
 	 * r: autresLangues
 	 * r.enUS: otherLanguages
-	 * r: appliNom
-	 * r.enUS: appName
-	 * r: appliChemin
-	 * r.enUS: appPath
+	 * r: siteNom
+	 * r.enUS: siteName
+	 * r: siteChemin
+	 * r.enUS: sitePath
 	 * r: Erreur pendant traiterEvenements.
 	 * r.enUS: Error during initWatchClassBase.
 	 * r: "frFR"
@@ -51,8 +51,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 //				if(ArrayUtils.contains(regarderClasse.autresLangues, "enUS")) {
 //					regarderClasse.enUSWatchClass = new WatchClass();
 //					regarderClasse.enUSWatchClass.args = args;
-//					regarderClasse.enUSWatchClass.appName = regarderClasse.appliNom;
-//					regarderClasse.enUSWatchClass.appPath = regarderClasse.appliChemin;
+//					regarderClasse.enUSWatchClass.siteName = regarderClasse.siteNom;
+//					regarderClasse.enUSWatchClass.sitePath = regarderClasse.siteChemin;
 //					regarderClasse.enUSWatchClass.initWatchClassBase();
 //				}
 //			} catch (Exception e) {
@@ -62,8 +62,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 //				if(ArrayUtils.contains(regarderClasse.autresLangues, "frFR")) {
 //					regarderClasse.frFRRegarderClasse = new RegarderClasse();
 //					regarderClasse.frFRRegarderClasse.args = args;
-//					regarderClasse.frFRRegarderClasse.appliNom = regarderClasse.appliNom;
-//					regarderClasse.frFRRegarderClasse.appliChemin = regarderClasse.appliChemin;
+//					regarderClasse.frFRRegarderClasse.siteNom = regarderClasse.siteNom;
+//					regarderClasse.frFRRegarderClasse.siteChemin = regarderClasse.siteChemin;
 //					regarderClasse.frFRRegarderClasse.initRegarderClasseBase();
 //				}
 //			} catch (Exception e) {

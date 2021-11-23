@@ -1,12 +1,12 @@
 #!/bin/bash
 
 export langueNom="${langueNom:-frFR}"
-export appliNom="${appliNom:-computate}"
-#appliChemin="$(readlink -f $( dirname $( dirname $( dirname ${BASH_SOURCE[0]} ) ) ) )"
-export appliChemin="${appliChemin:-$(readlink -f $( dirname $( dirname $( dirname ${BASH_SOURCE[0]} ) ) ) )}"
-export appliComputateChemin="${appliComputateChemin:-$appliChemin}"
-export nomFichierConfig="${appliNom}.config"
-export cheminConfig="$appliChemin/config/$nomFichierConfig"
+export siteNom="${siteNom:-computate}"
+#siteChemin="$(readlink -f $( dirname $( dirname $( dirname ${BASH_SOURCE[0]} ) ) ) )"
+export siteChemin="${siteChemin:-$(readlink -f $( dirname $( dirname $( dirname ${BASH_SOURCE[0]} ) ) ) )}"
+export appliComputateChemin="${appliComputateChemin:-$siteChemin}"
+export nomFichierConfig="${siteNom}.config"
+export cheminConfig="$siteChemin/config/$nomFichierConfig"
 
 function computate() {
 	echo "Voulez-vous exécuter la commande ci-dessous ? "
@@ -23,7 +23,7 @@ function computate() {
 }
 
 if [ ! -f $cheminConfig ]; then
-	computate "cp $appliChemin/config/$langueNom/$nomFichierConfig $cheminConfig"
+	computate "cp $siteChemin/config/$langueNom/$nomFichierConfig $cheminConfig"
 fi
 
 function config_var {

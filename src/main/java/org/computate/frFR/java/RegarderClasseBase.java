@@ -28,26 +28,26 @@ public class RegarderClasseBase extends ConfigSite {
 	public YAMLConfiguration classeLangueConfig;
 
 	/**
-	 * Var.enUS: _appPath
-	 * r: appliChemin
-	 * r.enUS: appPath
+	 * Var.enUS: _sitePath
+	 * r: siteChemin
+	 * r.enUS: sitePath
 	 */ 
-	@Override protected void _appliChemin() throws Exception {
-		if(appliChemin == null) {
-			appliChemin = System.getenv(langueConfigGlobale.getString(ConfigCles.var_APPLI_CHEMIN));
-			if(appliChemin == null)
-				appliChemin = args[0]; 
+	@Override protected void _siteChemin() throws Exception {
+		if(siteChemin == null) {
+			siteChemin = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN));
+			if(siteChemin == null)
+				siteChemin = args[0]; 
 		}
 	}
 
 	/**
-	 * Var.enUS: _appPathVertx
-	 * r: appliCheminVertx
-	 * r.enUS: appPathVertx
+	 * Var.enUS: _sitePathVertx
+	 * r: siteCheminVertx
+	 * r.enUS: sitePathVertx
 	 */ 
-	@Override protected void _appliCheminVertx() throws Exception {
-		if(appliCheminVertx == null) {
-			appliCheminVertx = System.getenv(langueConfigGlobale.getString(ConfigCles.var_APPLI_CHEMIN_VERTX)); 
+	@Override protected void _siteCheminVertx() throws Exception {
+		if(siteCheminVertx == null) {
+			siteCheminVertx = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN_VERTX)); 
 		}
 	}
 
@@ -69,61 +69,61 @@ public class RegarderClasseBase extends ConfigSite {
 	}
 	
 	/** 
-	 * Var.enUS: appPaths
+	 * Var.enUS: sitePaths
 	 */
-	public HashMap<String, String> appliChemins = new HashMap<String, String>(); 
+	public HashMap<String, String> siteChemins = new HashMap<String, String>(); 
 	/** 
-	 * Var.enUS: _appPaths
+	 * Var.enUS: _sitePaths
 	 * r: autresLangues
 	 * r.enUS: otherLanguages
 	 * r: langueNom
 	 * r.enUS: languageName
-	 * r: appliCheminLange
-	 * r.enUS: appPathLanguage
-	 * r: appliNom
-	 * r.enUS: appName
-	 * r: appliCheminLangue
-	 * r.enUS: appPathLanguage
-	 * r: appliChemin
-	 * r.enUS: appPath
+	 * r: siteCheminLange
+	 * r.enUS: sitePathLanguage
+	 * r: siteNom
+	 * r.enUS: siteName
+	 * r: siteCheminLangue
+	 * r.enUS: sitePathLanguage
+	 * r: siteChemin
+	 * r.enUS: sitePath
 	 */  
-	protected void _appliChemins() throws Exception {
+	protected void _siteChemins() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String appliCheminLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_APPLI_CHEMIN) + "_" + langueNom); 
-			if(StringUtils.isEmpty(appliCheminLangue)) {
-				appliChemins.put(langueNom, appliChemin);
+			String siteCheminLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN) + "_" + langueNom); 
+			if(StringUtils.isEmpty(siteCheminLangue)) {
+				siteChemins.put(langueNom, siteChemin);
 			}
 			else {
-				appliChemins.put(langueNom, appliCheminLangue);
+				siteChemins.put(langueNom, siteCheminLangue);
 			}
 		}
 	}
 	
 	/** 
-	 * Var.enUS: appPathsVertx
+	 * Var.enUS: sitePathsVertx
 	 */
-	public HashMap<String, String> appliCheminsVertx = new HashMap<String, String>(); 
+	public HashMap<String, String> siteCheminsVertx = new HashMap<String, String>(); 
 	/** 
-	 * Var.enUS: _appPathsVertx
+	 * Var.enUS: _sitePathsVertx
 	 * r: autresLangues
 	 * r.enUS: otherLanguages
 	 * r: langueNom
 	 * r.enUS: languageName
-	 * r: appliCheminVertxLangue
-	 * r.enUS: appPathVertxLanguage
-	 * r: appliNom
-	 * r.enUS: appName
-	 * r: appliChemin
-	 * r.enUS: appPath
+	 * r: siteCheminVertxLangue
+	 * r.enUS: sitePathVertxLanguage
+	 * r: siteNom
+	 * r.enUS: siteName
+	 * r: siteChemin
+	 * r.enUS: sitePath
 	 */  
-	protected void _appliCheminsVertx() throws Exception {
+	protected void _siteCheminsVertx() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String appliCheminVertxLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_APPLI_CHEMIN_VERTX) + "_" + langueNom); 
-			if(StringUtils.isEmpty(appliCheminVertxLangue)) {
-				appliCheminsVertx.put(langueNom, appliCheminVertx);
+			String siteCheminVertxLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN_VERTX) + "_" + langueNom); 
+			if(StringUtils.isEmpty(siteCheminVertxLangue)) {
+				siteCheminsVertx.put(langueNom, siteCheminVertx);
 			}
 			else {
-				appliCheminsVertx.put(langueNom, appliCheminVertxLangue);
+				siteCheminsVertx.put(langueNom, siteCheminVertxLangue);
 			}
 		}
 	}
@@ -180,10 +180,10 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r.enUS: SiteConfig
 	 * r: classeCheminAbsolu
 	 * r.enUS: classAbsolutePath
-	 * r: appliChemins
-	 * r.enUS: appPaths
-	 * r: appliCheminsVertx
-	 * r.enUS: appPathsVertx
+	 * r: siteChemins
+	 * r.enUS: sitePaths
+	 * r: siteCheminsVertx
+	 * r.enUS: sitePathsVertx
 	 * r: classeDocs
 	 * r.enUS: classDocs
 	 * r: classeParts
@@ -197,10 +197,10 @@ public class RegarderClasseBase extends ConfigSite {
 
 		initConfigSite();
 		_classeCheminAbsolu();
-		_appliChemin();
-		_appliChemins();
-		_appliCheminVertx();
-		_appliCheminsVertx();
+		_siteChemin();
+		_siteChemins();
+		_siteCheminVertx();
+		_siteCheminsVertx();
 		_classeDocs();
 		_classePartsGen();
 		_bricoleur();

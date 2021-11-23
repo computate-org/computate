@@ -1,11 +1,11 @@
 #!/bin/bash
 
 export languageName="${languageName:-enUS}"
-export appName="${appName:-computate}"
-export appPath="${appPath:-$(readlink -f $( dirname $( dirname $( dirname ${BASH_SOURCE[0]} ) ) ) )}"
+export siteName="${siteName:-computate}"
+export sitePath="${sitePath:-$(readlink -f $( dirname $( dirname $( dirname ${BASH_SOURCE[0]} ) ) ) )}"
 export appComputatePath="${appComputatePath:-/usr/local/src/computate}"
-export configFileName="${appName}.config"
-export configPath="$appPath/config/$configFileName"
+export configFileName="${siteName}.config"
+export configPath="$sitePath/config/$configFileName"
 
 function computate() {
 	echo "Do you want to execute the command below? "

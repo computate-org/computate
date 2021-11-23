@@ -1,15 +1,15 @@
 #!/bin/bash
 
 export langueNom="${langueNom:-frFR}"
-export appliNom="${appliNom:-computate}"
-export appliUrl="${appliUrl:-https://github.com/computate/$appliNom.git}"
+export siteNom="${siteNom:-computate}"
+export appliUrl="${appliUrl:-https://github.com/computate/$siteNom.git}"
 export appliUtilisateur="${appliUtilisateur:-$USER}"
 export appliGroupe="${appliUtilisateur:-$appliUtilisateur}"
-export appliChemin="${appliChemin:-/usr/local/src/$appliNom}"
+export siteChemin="${siteChemin:-/usr/local/src/$siteNom}"
 export appliComputateChemin="${appliComputateChemin:-/usr/local/src/computate}"
 export appliComputateUrl="${appliComputateUrl:-https://github.com/computate/computate.git}"
-export nomFichierConfig="${appliNom}.config"
-export cheminConfig="$appliChemin/config/$nomFichierConfig"
+export nomFichierConfig="${siteNom}.config"
+export cheminConfig="$siteChemin/config/$nomFichierConfig"
 
 function computate() {
 	echo "Voulez-vous exécuter la commande ci-dessous ? "
@@ -39,16 +39,16 @@ if [ ! -d $appliComputateChemin/config ]; then
 fi
 $appliComputateChemin/bin/frFR/installer.sh
 
-export appliUtilisateurActuel=$(ls -ld "$appliChemin" | awk '{print $3}')
-export appliGroupeActuel=$(ls -ld "$appliChemin" | awk '{print $4}')
+export appliUtilisateurActuel=$(ls -ld "$siteChemin" | awk '{print $3}')
+export appliGroupeActuel=$(ls -ld "$siteChemin" | awk '{print $4}')
 
-if [ ! -d $appliChemin ]; then
-	computate "sudo mkdir -p $appliChemin"
+if [ ! -d $siteChemin ]; then
+	computate "sudo mkdir -p $siteChemin"
 fi
 if [ "$appliUtilisateurActuel" != "$appliUtilisateur" ] || [ "$appliGroupeActuel" != "$appliGroupe" ]; then
-	computate "sudo chown -R $appliUtilisateur:$appliGroupe $appliChemin"
+	computate "sudo chown -R $appliUtilisateur:$appliGroupe $siteChemin"
 fi
-if [ ! -d $appliChemin/config ]; then
-	computate "git clone $appliUrl $appliChemin"
+if [ ! -d $siteChemin/config ]; then
+	computate "git clone $appliUrl $siteChemin"
 fi
 

@@ -58,45 +58,45 @@ public class ConfigSite {
 	}
 
 	/**
-	 * Var.enUS: appName frFR: Le nom de l'lappli. enUS: The name of the
+	 * Var.enUS: siteName frFR: Le nom de l'lappli. enUS: The name of the
 	 * application.
 	 **/
-	public String appliNom;
+	public String siteNom;
 
 	/**
-	 * Var.enUS: _appName r: appliNom r.enUS: appName
+	 * Var.enUS: _siteName r: siteNom r.enUS: siteName
 	 **/
-	protected void _appliNom() throws Exception {
-		if (appliNom == null)
-			appliNom = System.getenv(langueConfigGlobale.getString(ConfigCles.var_APPLI_NOM));
+	protected void _siteNom() throws Exception {
+		if (siteNom == null)
+			siteNom = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_NOM));
 	}
 
 	/**
-	 * Var.enUS: appPath frFR: Le chemin vers l'lappli. enUS: The path to the
+	 * Var.enUS: sitePath frFR: Le chemin vers l'lappli. enUS: The path to the
 	 * application.
 	 **/
-	public String appliChemin;
+	public String siteChemin;
 
 	/**
-	 * Var.enUS: _appPath r: appliChemin r.enUS: appPath
+	 * Var.enUS: _sitePath r: siteChemin r.enUS: sitePath
 	 **/
-	protected void _appliChemin() throws Exception {
-		if (appliChemin == null)
-			appliChemin = System.getenv(langueConfigGlobale.getString(ConfigCles.var_APPLI_CHEMIN));
+	protected void _siteChemin() throws Exception {
+		if (siteChemin == null)
+			siteChemin = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN));
 	}
 
 	/**
-	 * Var.enUS: appPathVertx frFR: Le chemin vers l'lappli. enUS: The path to the
+	 * Var.enUS: sitePathVertx frFR: Le chemin vers l'lappli. enUS: The path to the
 	 * application.
 	 **/
-	public String appliCheminVertx;
+	public String siteCheminVertx;
 
 	/**
-	 * Var.enUS: _appPathVertx r: appliCheminVertx r.enUS: appPathVertx
+	 * Var.enUS: _sitePathVertx r: siteCheminVertx r.enUS: sitePathVertx
 	 **/
-	protected void _appliCheminVertx() throws Exception {
-		if (appliCheminVertx == null)
-			appliCheminVertx = System.getenv(langueConfigGlobale.getString(ConfigCles.var_APPLI_CHEMIN_VERTX));
+	protected void _siteCheminVertx() throws Exception {
+		if (siteCheminVertx == null)
+			siteCheminVertx = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN_VERTX));
 	}
 
 	/**
@@ -107,10 +107,10 @@ public class ConfigSite {
 
 	/**
 	 * Var.enUS: _srcMainJavaPath r: cheminSrcMainJava r.enUS: srcMainJavaPath r:
-	 * appliChemin r.enUS: appPath
+	 * siteChemin r.enUS: sitePath
 	 **/
 	protected void _cheminSrcMainJava() throws Exception {
-		cheminSrcMainJava = appliChemin + "/src/main/java";
+		cheminSrcMainJava = siteChemin + "/src/main/java";
 	}
 
 	/**
@@ -121,10 +121,10 @@ public class ConfigSite {
 
 	/**
 	 * Var.enUS: _srcMainResourcesPath r: cheminSrcMainResources r.enUS:
-	 * srcMainResourcesPath r: appliChemin r.enUS: appPath
+	 * srcMainResourcesPath r: siteChemin r.enUS: sitePath
 	 **/
 	protected void _cheminSrcMainResources() throws Exception {
-		cheminSrcMainResources = appliChemin + "/src/main/resources";
+		cheminSrcMainResources = siteChemin + "/src/main/resources";
 	}
 
 	/**
@@ -135,10 +135,10 @@ public class ConfigSite {
 
 	/**
 	 * Var.enUS: _srcGenJavaPath r: cheminSrcGenJava r.enUS: srcGenJavaPath r:
-	 * appliChemin r.enUS: appPath
+	 * siteChemin r.enUS: sitePath
 	 **/
 	protected void _cheminSrcGenJava() throws Exception {
-		cheminSrcGenJava = appliChemin + "/src/gen/java";
+		cheminSrcGenJava = siteChemin + "/src/gen/java";
 	}
 
 	/**
@@ -147,11 +147,11 @@ public class ConfigSite {
 	public String configChemin;
 
 	/**
-	 * Var.enUS: _configPath r: configChemin r.enUS: configPath r: appliChemin
-	 * r.enUS: appPath r: appliNom r.enUS: appName
+	 * Var.enUS: _configPath r: configChemin r.enUS: configPath r: siteChemin
+	 * r.enUS: sitePath r: siteNom r.enUS: siteName
 	 **/
 	protected void _configChemin() throws Exception {
-		configChemin = appliChemin + "/config/" + appliNom + ".yml";
+		configChemin = siteChemin + "/config/" + siteNom + ".yml";
 	}
 //
 //	/**
@@ -165,15 +165,15 @@ public class ConfigSite {
 //	 * configPath
 //	 * r.enUS: configChemin
 //	 * configPath
-//	 * r.enUS: appliNom
-//	 * appName
-//	 * r.enUS: appliChemin
-//	 * appPath
+//	 * r.enUS: siteNom
+//	 * siteName
+//	 * r.enUS: siteChemin
+//	 * sitePath
 //	 * r.enUS: nomFichierConfig
 //	 * configFileName
 //	 **/ 
 //	protected void _configChemin() throws Exception {
-//		configChemin = config.getString(StringUtils.replace(appliNom, ".", "..") + ".configChemin", appliChemin + "/config/" + nomFichierConfig);
+//		configChemin = config.getString(StringUtils.replace(siteNom, ".", "..") + ".configChemin", siteChemin + "/config/" + nomFichierConfig);
 //	}
 
 	/**
@@ -228,7 +228,7 @@ public class ConfigSite {
 	/**
 	 * Var.enUS: _otherLanguages r: autresLangues r.enUS: otherLanguages r:
 	 * toutesLangues r.enUS: allLanguages r: langueNom r.enUS: languageName r:
-	 * appliNom r.enUS: appName
+	 * siteNom r.enUS: siteName
 	 **/
 	protected void _autresLangues() throws Exception {
 		autresLangues = config
@@ -248,8 +248,8 @@ public class ConfigSite {
 	public String[] classeAutresLangues;
 
 	/**
-	 * Var.enUS: _allLanguages r: toutesLangues r.enUS: allLanguages r: appliNom
-	 * r.enUS: appName r: autresLangues r.enUS: otherLanguages r: langueNom r.enUS:
+	 * Var.enUS: _allLanguages r: toutesLangues r.enUS: allLanguages r: siteNom
+	 * r.enUS: siteName r: autresLangues r.enUS: otherLanguages r: langueNom r.enUS:
 	 * languageName
 	 **/
 	protected void _toutesLangues() throws Exception {
@@ -278,8 +278,8 @@ public class ConfigSite {
 	public String nomDomaine;
 
 	/**
-	 * Var.enUS: _domainName r: nomDomaine r.enUS: domainName r: appliNom r.enUS:
-	 * appName
+	 * Var.enUS: _domainName r: nomDomaine r.enUS: domainName r: siteNom r.enUS:
+	 * siteName
 	 **/
 	protected void _nomDomaine() throws Exception {
 		nomDomaine = config.getString(langueConfigGlobale.getString(ConfigCles.var_NOM_DOMAINE));
@@ -291,7 +291,7 @@ public class ConfigSite {
 	public String siteUrlBase;
 
 	/**
-	 * Var.enUS: _siteBaseUrl r: appliNom r.enUS: appName r: nomDomaine r.enUS:
+	 * Var.enUS: _siteBaseUrl r: siteNom r.enUS: siteName r: nomDomaine r.enUS:
 	 * domainName r: siteUrlBase r.enUS: siteBaseUrl
 	 **/
 	protected void _siteUrlBase() throws Exception {
@@ -306,8 +306,8 @@ public class ConfigSite {
 
 	/**
 	 * Var.enUS: _domainPackageName r: nomEnsembleDomaine r.enUS: domainPackageName
-	 * r: nomDomaine r.enUS: domainName r: partis r.enUS: parts r: appliNom r.enUS:
-	 * appName
+	 * r: nomDomaine r.enUS: domainName r: partis r.enUS: parts r: siteNom r.enUS:
+	 * siteName
 	 **/
 	protected void _nomEnsembleDomaine() throws Exception {
 		nomEnsembleDomaine = config
@@ -321,17 +321,17 @@ public class ConfigSite {
 
 	/**
 	 * Var.enUS: configFileName enUS: The name of the config file which defaults to
-	 * the appName followed by ".yml".
+	 * the siteName followed by ".yml".
 	 */
 	public String nomFichierConfig;
 
 	/**
 	 * Var.enUS: _configFileName r: nomFichierConfig r.enUS: configFileName r:
-	 * appliNom r.enUS: appName
+	 * siteNom r.enUS: siteName
 	 **/
 	protected void _nomFichierConfig() throws Exception {
 		nomFichierConfig = config.getString(
-				langueConfigGlobale.getString(ConfigCles.var_NOM_FICHIER_CONFIG), appliNom + ".yml");
+				langueConfigGlobale.getString(ConfigCles.var_NOM_FICHIER_CONFIG), siteNom + ".yml");
 	}
 
 	public String siteZone;
@@ -421,8 +421,8 @@ public class ConfigSite {
 	public Boolean siteCrypte;
 
 	/**
-	 * Var.enUS: _siteEncrypted r: siteCrypte r.enUS: siteEncrypted r: appliNom
-	 * r.enUS: appName
+	 * Var.enUS: _siteEncrypted r: siteCrypte r.enUS: siteEncrypted r: siteNom
+	 * r.enUS: siteName
 	 **/
 	protected void _siteCrypte() throws Exception {
 		siteCrypte = config.getBoolean(langueConfigGlobale.getString(ConfigCles.var_SITE_CRYPTE),
@@ -506,7 +506,7 @@ public class ConfigSite {
 
 	/**
 	 * Var.enUS: _siteWriteMethods r: siteEcrireMethodes r.enUS: siteWriteMethods r:
-	 * appliNom r.enUS: appName
+	 * siteNom r.enUS: siteName
 	 **/
 	protected void _siteEcrireMethodes() throws Exception {
 		List<String> o = config.getList(String.class,
@@ -529,7 +529,7 @@ public class ConfigSite {
 	public Boolean ecrireApi;
 
 	/**
-	 * Var.enUS: _writeApi r: ecrireApi r.enUS: writeApi r: appliNom r.enUS: appName
+	 * Var.enUS: _writeApi r: ecrireApi r.enUS: writeApi r: siteNom r.enUS: siteName
 	 **/
 	protected void _ecrireApi() throws Exception {
 		ecrireApi = config.getBoolean(langueConfigGlobale.getString(ConfigCles.var_ECRIRE_API), true);
@@ -605,8 +605,8 @@ public class ConfigSite {
 	 * r.enUS: allLanguages r: langueNom r.enUS: languageName r: nomEnsembleDomaine
 	 * r.enUS: domainPackageName r: nomDomaine r.enUS: domainName r:
 	 * nomFichierConfig r.enUS: configFileName r: configChemin r.enUS: configPath r:
-	 * configChemin r.enUS: configPath r: appliNom r.enUS: appName r: appliChemin
-	 * r.enUS: appPath r: nomFichierConfig r.enUS: configFileName r: versionMaven
+	 * configChemin r.enUS: configPath r: siteNom r.enUS: siteName r: siteChemin
+	 * r.enUS: sitePath r: nomFichierConfig r.enUS: configFileName r: versionMaven
 	 * r.enUS: mavenVersion r: versionZookeeper r.enUS: zookeeperVersion r:
 	 * prefixePortZookeeper r.enUS: zookeeperPortPrefix r: portAdminZookeeper
 	 * r.enUS: zookeeperAdminPort r: portClientZookeeper r.enUS: zookeeperClientPort
@@ -625,9 +625,9 @@ public class ConfigSite {
 		_langueNomGlobale();
 		_appComputate();
 		_langueConfigGlobale();
-		_appliNom();
-		_appliChemin();
-		_appliCheminVertx();
+		_siteNom();
+		_siteChemin();
+		_siteCheminVertx();
 		_cheminSrcMainJava();
 		_cheminSrcMainResources();
 		_cheminSrcGenJava();

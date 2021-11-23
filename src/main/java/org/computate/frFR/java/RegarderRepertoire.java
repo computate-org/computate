@@ -131,20 +131,20 @@ public class RegarderRepertoire {
 	protected INIConfiguration configuration;
 	protected String langueNom;
 	/**
-	 * Var.enUS: APP_NAME
+	 * Var.enUS: SITE_NAME
 	 */
-	protected String APPLI_NOM;
+	protected String SITE_NOM;
 	/**
-	 * Var.enUS: APP_PATH
+	 * Var.enUS: SITE_PATH
 	 */
-	protected String APPLI_CHEMIN;
+	protected String SITE_CHEMIN;
 	protected String APP_COMPUTATE;
 //
-//	public static String str_APPLI_NOM(String langueNom) {
+//	public static String str_SITE_NOM(String langueNom) {
 //		if("frFR".equals(langueNom))
-//			return "APPLI_NOM";
+//			return "SITE_NOM";
 //		else
-//			return "APP_NAME";
+//			return "SITE_NAME";
 //	}
 //
 //	public static String str_Regarder(String langueNom) {
@@ -154,11 +154,11 @@ public class RegarderRepertoire {
 //			return "Watch";
 //	}
 //
-//	public static String str_APPLI_CHEMIN(String langueNom) {
+//	public static String str_SITE_CHEMIN(String langueNom) {
 //		if("frFR".equals(langueNom))
-//			return "APPLI_CHEMIN";
+//			return "SITE_CHEMIN";
 //		else
-//			return "APP_PATH";
+//			return "SITE_PATH";
 //	}
 //
 //	public static String str_APP_COMPUTATE(String langueNom) {
@@ -176,10 +176,10 @@ public class RegarderRepertoire {
 //	}
 
 	 /**
-	 * r: APPLI_NOM
-	 * r.enUS: APP_NAME
-	 * r: APPLI_CHEMIN
-	 * r.enUS: APP_PATH
+	 * r: SITE_NOM
+	 * r.enUS: SITE_NAME
+	 * r: SITE_CHEMIN
+	 * r.enUS: SITE_PATH
 	 * r: cheminsBin
 	 * r.enUS: pathsBin
 	 * r: initialiserRegarderRepertoire
@@ -210,20 +210,20 @@ public class RegarderRepertoire {
 		String appComputate = System.getenv("APP_COMPUTATE");
 		Configurations configurations = new Configurations();
 		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, lang));
-		String APPLI_NOM = System.getenv(classeLangueConfig.getString("var_APPLI_NOM"));
-		String APPLI_CHEMIN = System.getenv(classeLangueConfig.getString("var_APPLI_CHEMIN"));
+		String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
+		String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
 		RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
 		regarderRepertoire.langueNom = lang;
-		regarderRepertoire.APPLI_NOM = APPLI_NOM;
-		regarderRepertoire.APPLI_CHEMIN = APPLI_CHEMIN;
+		regarderRepertoire.SITE_NOM = SITE_NOM;
+		regarderRepertoire.SITE_CHEMIN = SITE_CHEMIN;
 		regarderRepertoire.APP_COMPUTATE = appComputate;
-		regarderRepertoire.classeCheminRepertoireAppli = APPLI_CHEMIN;
+		regarderRepertoire.classeCheminRepertoireAppli = SITE_CHEMIN;
 
-		regarderRepertoire.cheminSrcMainJava = APPLI_CHEMIN + "/src/main/java";
-		regarderRepertoire.cheminSrcGenJava = APPLI_CHEMIN + "/src/gen/java";
-		regarderRepertoire.cheminsBin.add(APPLI_CHEMIN + "/src/main/resources");
+		regarderRepertoire.cheminSrcMainJava = SITE_CHEMIN + "/src/main/java";
+		regarderRepertoire.cheminSrcGenJava = SITE_CHEMIN + "/src/gen/java";
+		regarderRepertoire.cheminsBin.add(SITE_CHEMIN + "/src/main/resources");
 
-		regarderRepertoire.configChemin = APPLI_CHEMIN + "/config/" + APPLI_NOM + ".yml";
+		regarderRepertoire.configChemin = SITE_CHEMIN + "/config/" + SITE_NOM + ".yml";
 		regarderRepertoire.fichierConfig = new File(regarderRepertoire.configChemin);
 		regarderRepertoire.configuration = configurations.ini(regarderRepertoire.fichierConfig);
 
@@ -281,17 +281,17 @@ public class RegarderRepertoire {
 	 * r.enUS: classPath
 	 * r: CHEMINS_RELATIFS_A_REGARDER
 	 * r.enUS: RELATIVE_PATHS_TO_WATCH
-	 * r: APPLI_CHEMIN
-	 * r.enUS: APP_PATH
-	 * r: APPLI_NOM
-	 * r.enUS: APP_NAME
+	 * r: SITE_CHEMIN
+	 * r.enUS: SITE_PATH
+	 * r: SITE_NOM
+	 * r.enUS: SITE_NAME
 	 */
 	public void initialiserRegarderRepertoire(YAMLConfiguration classeLangueConfig) throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
 //		executeur.setStreamHandler(gestionnaireFluxPompe);
 		String[] CHEMINS_RELATIFS_A_REGARDER = configuration.getStringArray(classeLangueConfig.getString(ConfigCles.var_CHEMINS_RELATIFS_A_REGARDER));
 		for(String cheminRelatifARegarder : CHEMINS_RELATIFS_A_REGARDER) {
-			String cheminARegarder = APPLI_CHEMIN + "/" + cheminRelatifARegarder;
+			String cheminARegarder = SITE_CHEMIN + "/" + cheminRelatifARegarder;
 			cheminsARegarder.add(cheminARegarder);
 		}
 
@@ -419,8 +419,8 @@ public class RegarderRepertoire {
 	 * r.enUS: configPath
 	 * r: fichierConfig
 	 * r.enUS: configFile
-	 * r: APPLI_NOM
-	 * r.enUS: APP_NAME
+	 * r: SITE_NOM
+	 * r.enUS: SITE_NAME
 	 * r: chemins
 	 * r.enUS: paths
 	 */
@@ -431,9 +431,9 @@ public class RegarderRepertoire {
 	 * r.enUS: classAbsolutePath
 	 * r: executeur
 	 * r.enUS: executor
-	 * r: APPLI_CHEMIN
-	 * r.enUS: APP_PATH
-	 * r: APPLI_COMPUTATE_CHEMIN
+	 * r: SITE_CHEMIN
+	 * r.enUS: SITE_PATH
+	 * r: SITE_COMPUTATE_CHEMIN
 	 * r.enUS: APP_COMPUTATE_PATH
 	 * r: observateur
 	 * r.enUS: observer

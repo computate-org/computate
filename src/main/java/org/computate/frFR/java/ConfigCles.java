@@ -55,11 +55,6 @@ public class ConfigCles {
 	public static final String var_ApiMethode = "var_ApiMethode";
 	public static final String var_ApiTag = "var_ApiTag";
 	public static final String var_ApiUri = "var_ApiUri";
-	public static final String var_appliChemin = "var_appliChemin";
-	public static final String var_APPLI_CHEMIN = "var_APPLI_CHEMIN";
-	public static final String var_APPLI_CHEMIN_VERTX = "var_APPLI_CHEMIN_VERTX";
-	public static final String var_appliNom = "var_appliNom";
-	public static final String var_APPLI_NOM = "var_APPLI_NOM";
 	public static final String var_apres = "var_apres";
 	public static final String var_Apres = "var_Apres";
 	public static final String var_archive = "var_archive";
@@ -138,6 +133,7 @@ public class ConfigCles {
 	public static final String var_documentSolr = "var_documentSolr";
 	public static final String var_DocumentSolr = "var_DocumentSolr";
 	public static final String var_documentsSolr = "var_documentsSolr";
+	public static final String var_DocValues = "var_DocValues";
 	public static final String var_Droits = "var_Droits";
 	public static final String var_ecrireApi = "var_ecrireApi";
 	public static final String var_ECRIRE_API = "var_ECRIRE_API";
@@ -340,12 +336,17 @@ public class ConfigCles {
 	public static final String var_sessionId = "var_sessionId";
 	public static final String var_SessionId = "var_SessionId";
 	public static final String var_Signature = "var_Signature";
+	public static final String var_siteChemin = "var_siteChemin";
+	public static final String var_SITE_CHEMIN = "var_SITE_CHEMIN";
+	public static final String var_SITE_CHEMIN_VERTX = "var_SITE_CHEMIN_VERTX";
 	public static final String var_siteContexte = "var_siteContexte";
 	public static final String var_SiteContexte = "var_SiteContexte";
 	public static final String var_siteCrypte = "var_siteCrypte";
 	public static final String var_SITE_CRYPTE = "var_SITE_CRYPTE";
 	public static final String var_siteEcrireMethodes = "var_siteEcrireMethodes";
 	public static final String var_SITE_ECRIRE_METHODES = "var_SITE_ECRIRE_METHODES";
+	public static final String var_siteNom = "var_siteNom";
+	public static final String var_SITE_NOM = "var_SITE_NOM";
 	public static final String var_siteUrlBase = "var_siteUrlBase";
 	public static final String var_SiteUrlBase = "var_SiteUrlBase";
 	public static final String var_SITE_URL_BASE = "var_SITE_URL_BASE";

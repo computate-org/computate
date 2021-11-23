@@ -418,10 +418,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: WatchClassBase
 	 * r: RegarderClasse
 	 * r.enUS: WatchClass
-	 * r: appliChemin
-	 * r.enUS: appPath
-	 * r: appliNom
-	 * r.enUS: appName
+	 * r: siteChemin
+	 * r.enUS: sitePath
+	 * r: siteNom
+	 * r.enUS: siteName
 	 * r: regarderClasse
 	 * r.enUS: watchClass
 	 * 
@@ -785,6 +785,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteHtmlCellule = (Integer)entiteDocumentSolr.get("entiteHtmlCellule_stored_int");
 							entiteCouverture = (Boolean)entiteDocumentSolr.get("entiteCouverture_stored_boolean");
 							entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
+							entiteDocValues = (Boolean)entiteDocumentSolr.get("entiteDocValues_stored_boolean");
 							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
 							entiteStocke = (Boolean)entiteDocumentSolr.get("entiteStocke_stored_boolean");
 							entiteVarTitre = (Boolean)entiteDocumentSolr.get("entiteVarTitre_stored_boolean");
@@ -2086,6 +2087,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										entiteHtmlLigne = (Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int");
 										entiteCouverture = (Boolean)entiteDocumentSolr.get("entiteCouverture_stored_boolean");
 										entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
+										entiteDocValues = (Boolean)entiteDocumentSolr.get("entiteDocValues_stored_boolean");
 										entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
 										entiteStocke = (Boolean)entiteDocumentSolr.get("entiteStocke_stored_boolean");
 										entiteMultiligne = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteMultiligne_stored_boolean"));
@@ -2997,16 +2999,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			auteurGenPageHbs.flushClose();
 			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeGenPageCheminHbs); 
 
-			String appliCheminVertx = appliCheminsVertx.get(langueNom);
-			String appliNomVertx = StringUtils.substringAfterLast(appliCheminVertx, "/");
-			String cheminSrcGenJavaVertx = (appliCheminVertx == null ? appliChemin : appliCheminVertx) + "/src/gen/java";
-			String cheminSrcMainJavaVertx = (appliCheminVertx == null ? appliChemin : appliCheminVertx) + "/src/main/java";
-			String cheminSrcMainResourcesVertx = (appliCheminVertx == null ? appliChemin : appliCheminVertx) + "/src/main/resources";
+			String siteCheminVertx = siteCheminsVertx.get(langueNom);
+			String siteNomVertx = StringUtils.substringAfterLast(siteCheminVertx, "/");
+			String cheminSrcGenJavaVertx = (siteCheminVertx == null ? siteChemin : siteCheminVertx) + "/src/gen/java";
+			String cheminSrcMainJavaVertx = (siteCheminVertx == null ? siteChemin : siteCheminVertx) + "/src/main/java";
+			String cheminSrcMainResourcesVertx = (siteCheminVertx == null ? siteChemin : siteCheminVertx) + "/src/main/resources";
 
 			{
 				RegarderClasse regarderClasse = new RegarderClasse();
-				regarderClasse.appliChemin = appliCheminVertx;
-				regarderClasse.appliNom = appliNomVertx;
+				regarderClasse.siteChemin = siteCheminVertx;
+				regarderClasse.siteNom = siteNomVertx;
 				regarderClasse.classeCheminAbsolu = classePageChemin;
 				regarderClasse.cheminSrcGenJava = cheminSrcGenJavaVertx;
 				regarderClasse.cheminSrcMainJava = cheminSrcMainJavaVertx;
@@ -3021,8 +3023,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			{
 				RegarderClasse regarderClasse = new RegarderClasse();
-				regarderClasse.appliChemin = appliCheminVertx;
-				regarderClasse.appliNom = appliNomVertx;
+				regarderClasse.siteChemin = siteCheminVertx;
+				regarderClasse.siteNom = siteNomVertx;
 				regarderClasse.classeCheminAbsolu = classeGenPageChemin;
 				regarderClasse.cheminSrcGenJava = cheminSrcGenJavaVertx;
 				regarderClasse.cheminSrcMainJava = cheminSrcMainJavaVertx;

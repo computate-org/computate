@@ -1944,14 +1944,14 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classOtherLanguages
 	 * r: autresLangues
 	 * r.enUS: otherLanguages
-	 * r: appliCheminVertxLangue
-	 * r.enUS: appPathVertxLanguage
-	 * r: appliCheminLangue
-	 * r.enUS: appPathLanguage
-	 * r: appliCheminsVertx
-	 * r.enUS: appPathsVertx
-	 * r: appliChemins
-	 * r.enUS: appPaths
+	 * r: siteCheminVertxLangue
+	 * r.enUS: sitePathVertxLanguage
+	 * r: siteCheminLangue
+	 * r.enUS: sitePathLanguage
+	 * r: siteCheminsVertx
+	 * r.enUS: sitePathsVertx
+	 * r: siteChemins
+	 * r.enUS: sitePaths
 	 * r: stockerSolr
 	 * r.enUS: storeSolr
 	 * r: rechercherNomCanonique
@@ -2260,12 +2260,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classSuperPartsLanguage
 	 * r: regexTrouve
 	 * r.enUS: regexFound
-	 * r: appliCheminVertx
-	 * r.enUS: appPathVertx
-	 * r: appliChemin
-	 * r.enUS: appPath
-	 * r: appliNom
-	 * r.enUS: appName
+	 * r: siteCheminVertx
+	 * r.enUS: sitePathVertx
+	 * r: siteChemin
+	 * r.enUS: sitePath
+	 * r: siteNom
+	 * r.enUS: siteName
 	 * r: classeMethodesEcrites
 	 * r.enUS: classMethodsWritten
 	 * r: classeBaseEtendGen
@@ -3247,9 +3247,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeNomCanoniqueGen = classeNomCanonique + "Gen";
 		String classeNomSimpleGen = classeNomSimple + "Gen";
 
-		indexerStockerSolr(classeDoc, "appliChemin", appliChemin);
-		indexerStockerSolr(classeDoc, "appliCheminVertx", appliCheminVertx);
-		indexerStockerSolr(classeDoc, "appliNom", appliNom);
+		indexerStockerSolr(classeDoc, "siteChemin", siteChemin);
+		indexerStockerSolr(classeDoc, "siteCheminVertx", siteCheminVertx);
+		indexerStockerSolr(classeDoc, "siteNom", siteNom);
 		JavaClass classeQdox = bricoleur.getClassByName(classeNomCanonique.toString());
 		JavaClass classeQdoxSuper = classeQdox.getSuperJavaClass();
 		JavaClass classeQdoxString = bricoleur.getClassByName(String.class.getCanonicalName());
@@ -3382,11 +3382,11 @@ public class IndexerClasse extends RegarderClasseBase {
 
 //		if(classeTraduire) {
 			for(String langueNom : classeAutresLangues) {
-				String appliCheminLangue = appliChemins.get(langueNom);
-				String appliCheminVertxLangue = appliCheminsVertx.get(langueNom);
+				String siteCheminLangue = siteChemins.get(langueNom);
+				String siteCheminVertxLangue = siteCheminsVertx.get(langueNom);
 				stockerRegexCommentaires(langueNom, classeDoc, "classeCommentaire", classeCommentaire);
-				String cheminSrcMainJavaLangue = appliCheminLangue + "/src/main/java";
-				String cheminSrcGenJavaLangue = appliCheminLangue + "/src/gen/java";
+				String cheminSrcMainJavaLangue = siteCheminLangue + "/src/main/java";
+				String cheminSrcGenJavaLangue = siteCheminLangue + "/src/gen/java";
 				String classeNomCanoniqueLangue = regex("^" + classeLangueConfig.getString(ConfigCles.var_NomCanonique) + "\\." + langueNom + ":\\s*(.*)", classeCommentaire);
 	
 				if(classeNomCanoniqueLangue == null)
@@ -3516,7 +3516,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		indexerStockerSolr(classeLangueNom, classeDoc, "classeNomAffichage", regexLangue(classeLangueNom, "^" + classeLangueConfig.getString(ConfigCles.var_NomAffichage) + "", classeCommentaire));
 
-//		indexerStockerSolr(classeDoc, "appliChemin", appliChemin);
+//		indexerStockerSolr(classeDoc, "siteChemin", siteChemin);
 
 		String classeNomSimpleApiEnsembleInfo;
 		String classeNomSimpleGenApiServiceImpl;
@@ -3535,9 +3535,9 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		if(classeApi) {
 
-			String appliCheminVertx = appliCheminsVertx.get(classeLangueNom);
-			String cheminSrcGenJavaVertx = (appliCheminVertx == null ? appliChemin : appliCheminVertx) + "/src/gen/java";
-			String cheminSrcMainJavaVertx = (appliCheminVertx == null ? appliChemin : appliCheminVertx) + "/src/main/java";
+			String siteCheminVertx = siteCheminsVertx.get(classeLangueNom);
+			String cheminSrcGenJavaVertx = (siteCheminVertx == null ? siteChemin : siteCheminVertx) + "/src/gen/java";
+			String cheminSrcMainJavaVertx = (siteCheminVertx == null ? siteChemin : siteCheminVertx) + "/src/main/java";
 
 			classeNomSimpleApiEnsembleInfo = indexerStockerSolr(classeLangueNom, classeDoc, "classeNomSimpleApiEnsembleInfo", "package-info");
 			classeNomSimpleGenApiServiceImpl = indexerStockerSolr(classeLangueNom, classeDoc, "classeNomSimpleGenApiServiceImpl", classeNomSimple + StringUtils.capitalize(classeLangueNom) + "GenApiServiceImpl");
@@ -3563,9 +3563,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		if(classeTraduire) {
 			for(String langueNom : classeAutresLangues) {
 
-				String appliCheminLangue = appliChemins.get(langueNom);
-				String cheminSrcMainJavaLangue = appliCheminLangue + "/src/main/java";
-				String cheminSrcGenJavaLangue = appliCheminLangue + "/src/gen/java";
+				String siteCheminLangue = siteChemins.get(langueNom);
+				String cheminSrcMainJavaLangue = siteCheminLangue + "/src/main/java";
+				String cheminSrcGenJavaLangue = siteCheminLangue + "/src/gen/java";
 				String classeNomCanoniqueLangue = (String)classeDoc.get("classeNomCanonique_" + langueNom + "_indexed_string").getValue();
 				String classeNomSimpleLangue = (String)classeDoc.get("classeNomSimple_" + langueNom + "_indexed_string").getValue();
 				String classeNomEnsembleLangue = (String)classeDoc.get("classeNomEnsemble_" + langueNom + "_indexed_string").getValue();
@@ -3587,9 +3587,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	
 				if(classeApi) {
 
-					String appliCheminVertxLangue = appliCheminsVertx.get(langueNom);
-					String cheminSrcGenJavaVertxLangue = (appliCheminVertxLangue == null ? appliCheminLangue : appliCheminVertxLangue) + "/src/gen/java";
-					String cheminSrcMainJavaVertxLangue = (appliCheminVertxLangue == null ? appliCheminLangue : appliCheminVertxLangue) + "/src/main/java";
+					String siteCheminVertxLangue = siteCheminsVertx.get(langueNom);
+					String cheminSrcGenJavaVertxLangue = (siteCheminVertxLangue == null ? siteCheminLangue : siteCheminVertxLangue) + "/src/gen/java";
+					String cheminSrcMainJavaVertxLangue = (siteCheminVertxLangue == null ? siteCheminLangue : siteCheminVertxLangue) + "/src/main/java";
 
 					String classeNomSimpleApiEnsembleInfoLangue = indexerStockerSolr(langueNom, classeDoc, "classeNomSimpleApiEnsembleInfo", "package-info");
 					String classeNomSimpleGenApiServiceImplLangue = indexerStockerSolr(langueNom, classeDoc, "classeNomSimpleGenApiServiceImpl", classeNomSimpleLangue + StringUtils.capitalize(langueNom) + "GenApiServiceImpl");
@@ -4501,7 +4501,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteSauvegarde = indexerStockerSolr(entiteDoc, "entiteSauvegarde", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Sauvegarde) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteIncremente = indexerStockerSolr(entiteDoc, "entiteIncremente", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Incremente) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteTexte = indexerStockerSolr(entiteDoc, "entiteTexte", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Texte) + ":\\s*(true)$", methodeCommentaire));
-						Boolean entiteIndexe = indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Indexe) + ":\\s*(true)$", methodeCommentaire) || entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteClePrimaire || entiteIncremente);
+						Boolean entiteDocValues = indexerStockerSolr(entiteDoc, "entiteDocValues", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_DocValues) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteIndexe = indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Indexe) + ":\\s*(true)$", methodeCommentaire) || entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteClePrimaire || entiteIncremente || entiteDocValues);
 						Boolean entiteStocke = indexerStockerSolr(entiteDoc, "entiteStocke", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Stocke) + ":\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteIndexeOuStocke", entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteIndexe || entiteStocke || entiteIncremente || entiteTexte);
 						indexerStockerSolr(entiteDoc, "entiteIgnorer", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Ignorer) + ":\\s*(true)$", methodeCommentaire));
@@ -5767,8 +5768,8 @@ public class IndexerClasse extends RegarderClasseBase {
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageNomCanonique", classePageNomCanonique);
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageNomSimple", classePageNomSimple);
 
-			String appliCheminVertxLangue = appliCheminsVertx.get(langueNomGlobale);
-			String cheminSrcMainJavaVertxLangue = (appliCheminVertxLangue == null ? appliChemin : appliCheminVertxLangue) + "/src/main/java";
+			String siteCheminVertxLangue = siteCheminsVertx.get(langueNomGlobale);
+			String cheminSrcMainJavaVertxLangue = (siteCheminVertxLangue == null ? siteChemin : siteCheminVertxLangue) + "/src/main/java";
 
 			String classeGenPageNomSimple;
 			String classeGenPageChemin;
@@ -5786,10 +5787,10 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classePageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimple, ".java");
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageChemin", classeGenPageChemin); 
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageChemin", classePageChemin); 
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(appliChemin, "-static/css/", langueNomGlobale, "/", classePageNomSimple, ".css"));
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(appliChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, ".js"));
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminHbs", concat(appliChemin, "/src/main/resources/templates/", langueNomGlobale, "/", classePageNomSimple, ".hbs"));
-			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageCheminHbs", concat(appliChemin, "/src/main/resources/templates/", langueNomGlobale, "/", classeGenPageNomSimple, ".hbs"));
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(siteChemin, "-static/css/", langueNomGlobale, "/", classePageNomSimple, ".css"));
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminJs", concat(siteChemin, "-static/js/", langueNomGlobale, "/", classePageNomSimple, ".js"));
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminHbs", concat(siteChemin, "/src/main/resources/templates/", langueNomGlobale, "/", classePageNomSimple, ".hbs"));
+			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageCheminHbs", concat(siteChemin, "/src/main/resources/templates/", langueNomGlobale, "/", classeGenPageNomSimple, ".hbs"));
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageLangueNom", langueNomGlobale); 
 
 			if(classePageSuperNomSimple != null) {
@@ -6080,8 +6081,8 @@ public class IndexerClasse extends RegarderClasseBase {
 								indexerStockerSolr(langueNom, classeDoc, "classePageNomCanonique" + classeApiMethode, classePageNomCanoniqueMethode);
 								indexerStockerSolr(langueNom, classeDoc, "classePageNomSimple" + classeApiMethode, classePageNomSimpleMethode);
 
-								String appliCheminVertxLangue = appliCheminsVertx.get(langueNom);
-								String cheminSrcMainJavaVertxLangue = (appliCheminVertxLangue == null ? appliChemin : appliCheminVertxLangue) + "/src/main/java";
+								String siteCheminVertxLangue = siteCheminsVertx.get(langueNom);
+								String cheminSrcMainJavaVertxLangue = (siteCheminVertxLangue == null ? siteChemin : siteCheminVertxLangue) + "/src/main/java";
 	
 								String classeGenPageNomSimple;
 								String classeGenPageChemin;
@@ -6110,8 +6111,8 @@ public class IndexerClasse extends RegarderClasseBase {
 								String classeGenPageChemin;
 								String classePageChemin;
 
-								String appliCheminVertxLangue = appliCheminsVertx.get(langueNom);
-								String cheminSrcMainJavaVertxLangue = (appliCheminVertxLangue == null ? appliChemin : appliCheminVertxLangue) + "/src/main/java";
+								String siteCheminVertxLangue = siteCheminsVertx.get(langueNom);
+								String cheminSrcMainJavaVertxLangue = (siteCheminVertxLangue == null ? siteChemin : siteCheminVertxLangue) + "/src/main/java";
 
 								if(StringUtils.contains(classePageNomSimpleMethode, "Page")) {
 									classeGenPageNomSimple = StringUtils.substringBeforeLast(classePageNomSimpleMethode, "Page") + "GenPage" + StringUtils.substringAfterLast(classePageNomSimpleMethode, "Page");
@@ -6173,9 +6174,9 @@ public class IndexerClasse extends RegarderClasseBase {
 								classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePartsMiseEnPage.nomCanonique(classeLangueNom), classeLangueNom), classeLangueNom);
 							}
 	
-							String classePageCheminCss = concat(appliChemin, "-static/css/", langueNom, "/", classePageNomSimpleMethode, ".css");
-							String classePageCheminJs = concat(appliChemin, "-static/js/", langueNom, "/", classePageNomSimpleMethode, ".js");
-							String classePageCheminHbs = concat(appliChemin, "-static/template/", langueNom, "/", classePageNomSimpleMethode, ".hbs");
+							String classePageCheminCss = concat(siteChemin, "-static/css/", langueNom, "/", classePageNomSimpleMethode, ".css");
+							String classePageCheminJs = concat(siteChemin, "-static/js/", langueNom, "/", classePageNomSimpleMethode, ".js");
+							String classePageCheminHbs = concat(siteChemin, "-static/template/", langueNom, "/", classePageNomSimpleMethode, ".hbs");
 				
 							indexerStockerSolr(langueNom, classeDoc, "classePageCheminCss" + classeApiMethode, classePageCheminCss); 
 							indexerStockerSolr(langueNom, classeDoc, "classePageCheminJs" + classeApiMethode, classePageCheminJs); 
