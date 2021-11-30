@@ -40,8 +40,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 */ 
 	public static void main(String[] args) throws Exception {   
 		RegarderClasse regarderClasse = new RegarderClasse();
-		String classeLangueNom = StringUtils.defaultString(System.getenv("APP_LANG"), "frFR");
-		String appComputate = System.getenv("APP_COMPUTATE");
+		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
+		String appComputate = System.getenv("COMPUTATE_SRC");
 		Configurations configurations = new Configurations();
 		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, classeLangueNom));
 		try {
@@ -162,7 +162,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r.enUS: classLanguageName
 	 */   
 	public static SolrInputDocument regarderClasse(YAMLConfiguration classeLangueConfig, RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
-		String appComputate = System.getenv("APP_COMPUTATE");
+		String appComputate = System.getenv("COMPUTATE_SRC");
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile() && regarderClasse.classeCheminAbsolu.endsWith(".java")) {
 			System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + regarderClasse.classeCheminAbsolu);

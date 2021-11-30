@@ -138,7 +138,7 @@ public class RegarderRepertoire {
 	 * Var.enUS: SITE_PATH
 	 */
 	protected String SITE_CHEMIN;
-	protected String APP_COMPUTATE;
+	protected String COMPUTATE_SRC;
 //
 //	public static String str_SITE_NOM(String langueNom) {
 //		if("frFR".equals(langueNom))
@@ -161,11 +161,11 @@ public class RegarderRepertoire {
 //			return "SITE_PATH";
 //	}
 //
-//	public static String str_APP_COMPUTATE(String langueNom) {
+//	public static String str_COMPUTATE_SRC(String langueNom) {
 //		if("frFR".equals(langueNom))
-//			return "APP_COMPUTATE";
+//			return "COMPUTATE_SRC";
 //		else
-//			return "APP_COMPUTATE";
+//			return "COMPUTATE_SRC";
 //	}
 //
 //	public static String str_CHEMINS_RELATIFS_A_REGARDER(String langueNom) {
@@ -206,8 +206,8 @@ public class RegarderRepertoire {
 	 * r.enUS: configFile
 	 */
 	public static void main(String[] args) throws Exception { 
-		String lang = Optional.ofNullable(System.getenv("APP_LANG")).orElse("frFR");
-		String appComputate = System.getenv("APP_COMPUTATE");
+		String lang = Optional.ofNullable(System.getenv("SITE_LANG")).orElse("frFR");
+		String appComputate = System.getenv("COMPUTATE_SRC");
 		Configurations configurations = new Configurations();
 		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, lang));
 		String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
@@ -216,7 +216,7 @@ public class RegarderRepertoire {
 		regarderRepertoire.langueNom = lang;
 		regarderRepertoire.SITE_NOM = SITE_NOM;
 		regarderRepertoire.SITE_CHEMIN = SITE_CHEMIN;
-		regarderRepertoire.APP_COMPUTATE = appComputate;
+		regarderRepertoire.COMPUTATE_SRC = appComputate;
 		regarderRepertoire.classeCheminRepertoireAppli = SITE_CHEMIN;
 
 		regarderRepertoire.cheminSrcMainJava = SITE_CHEMIN + "/src/main/java";
@@ -434,7 +434,7 @@ public class RegarderRepertoire {
 	 * r: SITE_CHEMIN
 	 * r.enUS: SITE_PATH
 	 * r: SITE_COMPUTATE_CHEMIN
-	 * r.enUS: APP_COMPUTATE_PATH
+	 * r.enUS: COMPUTATE_SRC_PATH
 	 * r: observateur
 	 * r.enUS: observer
 	 * r: cles
@@ -497,9 +497,9 @@ public class RegarderRepertoire {
 
 				try { 
 					String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
-					String cp = FileUtils.readFileToString(new File(APP_COMPUTATE + "/config/cp.txt"), "UTF-8");
-					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + APP_COMPUTATE + "/target/classes\" " + RegarderClasse.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
-					File repertoireTravail = new File(APP_COMPUTATE);
+					String cp = FileUtils.readFileToString(new File(COMPUTATE_SRC + "/config/cp.txt"), "UTF-8");
+					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + COMPUTATE_SRC + "/target/classes\" " + RegarderClasse.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
+					File repertoireTravail = new File(COMPUTATE_SRC);
 
 					executeur.setWorkingDirectory(repertoireTravail);
 					executeur.execute(ligneCommande); 

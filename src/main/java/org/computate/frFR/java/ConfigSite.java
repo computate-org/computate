@@ -44,12 +44,12 @@ public class ConfigSite {
 
 	public String langueNomGlobale;
 	protected void _langueNomGlobale() throws Exception {
-		langueNomGlobale = System.getenv("APP_LANG");
+		langueNomGlobale = System.getenv("SITE_LANG");
 	}
 
 	public String appComputate;
 	protected void _appComputate() throws Exception {
-		appComputate = System.getenv("APP_COMPUTATE");
+		appComputate = System.getenv("COMPUTATE_SRC");
 	}
 
 	public YAMLConfiguration langueConfigGlobale;
