@@ -4634,7 +4634,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.set", langueConfig.getString(ConfigCles.var_Stocker), "(true);");
 				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.setQuery(\"*:*\");");
 				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.setC(", entiteAttribuerNomSimple, ".class);");
-				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.addFilterQuery(\"", classeVarClePrimaire, "_indexedstored_long:\" + ", classeVarClePrimaire, "2);");
+				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.addFilterQuery(\"", classeVarClePrimaire, "_docvalues_long:\" + ", classeVarClePrimaire, "2);");
 				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.setRows(1);");
 				wIndexerFacetFor.tl(6, "futures.add(Future.future(promise2 -> {");
 				wIndexerFacetFor.tl(7, langueConfig.getString(ConfigCles.var_listeRecherche), "2.", langueConfig.getString(ConfigCles.var_promesseLoin), langueConfig.getString(ConfigCles.var_ListeRecherche), "(", langueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(b -> {");
@@ -6222,7 +6222,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 			tl(1, "public void ", langueConfig.getString(ConfigCles.var_peupler), classeNomSimple, "(SolrDocument solrDocument) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
-			tl(2, "", langueConfig.getString(ConfigCles.var_sauvegardes), " = (List<String>)solrDocument.get(\"", langueConfig.getString(ConfigCles.var_sauvegardes), "_indexedstored_strings\");");
+			tl(2, "", langueConfig.getString(ConfigCles.var_sauvegardes), " = (List<String>)solrDocument.get(\"", langueConfig.getString(ConfigCles.var_sauvegardes), "_docvalues_strings\");");
 			tl(2, "if(", langueConfig.getString(ConfigCles.var_sauvegardes), " != null) {");
 			s(wPeupler.toString());
 			tl(2, "}");
