@@ -4948,7 +4948,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			// codeStocker //
 			/////////////////
 			o = wStocker;
-			if(entiteCrypte || entiteStocke || entiteCleUnique || entiteSuggere || entiteIncremente || entiteTexte) {
+			if(entiteCrypte || entiteStocke || entiteDocValues || entiteCleUnique || entiteSuggere || entiteIncremente || entiteTexte) {
 
 //				if(entiteTexte) {
 //					if("frFR".equals(langueNom) || "esES".equals(langueNom))

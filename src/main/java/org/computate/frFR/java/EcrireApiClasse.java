@@ -1076,7 +1076,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							////////////////////////
 							o = wApiGenererPost;
 					
-							if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir) && BooleanUtils.isTrue(entiteModifier)) {
+							if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 								tl(5, "case ", classeNomSimple, ".VAR_", entiteVar, ":");
 								tl(6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var));");
 								tl(6, "if(bParams.size() > 0) {");
@@ -1245,7 +1245,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							////////////////////////////
 							o = wApiGenererPutCopie;
 				
-							if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir) && BooleanUtils.isTrue(entiteModifier)) {
+							if(classeSauvegarde && BooleanUtils.isTrue(entiteDefinir)) {
 								tl(5, "case ", classeNomSimple, ".VAR_", entiteVar, ":");
 								tl(6, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var));");
 								tl(6, "if(bParams.size() > 0) {");
