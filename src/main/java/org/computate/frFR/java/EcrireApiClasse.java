@@ -2408,7 +2408,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "if(commitWithin != null)");
 						tl(6, "query.put(\"commitWithin\", commitWithin);");
 						tl(5, "params.put(\"query\", query);");
-						tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "()).map(", classeLangueConfig.getString(ConfigCles.var_utilisateur), " -> ", classeLangueConfig.getString(ConfigCles.var_utilisateur), ".principal()).orElse(null));");
+						tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "()).map(", classeLangueConfig.getString(ConfigCles.var_utilisateur), " -> ", classeLangueConfig.getString(ConfigCles.var_utilisateur), ".attributes().getJsonObject(\"tokenPrincipal\")).orElse(null));");
 						tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
 						tl(5, "eventBus.request(\"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
 						tl(6, "JsonObject responseMessage = (JsonObject)a.body();");
@@ -2711,7 +2711,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "if(commitWithin != null)");
 						tl(6, "query.put(\"commitWithin\", commitWithin);");
 						tl(5, "params.put(\"query\", query);");
-						tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "()).map(", classeLangueConfig.getString(ConfigCles.var_utilisateur), " -> ", classeLangueConfig.getString(ConfigCles.var_utilisateur), ".principal()).orElse(null));");
+						tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "()).map(", classeLangueConfig.getString(ConfigCles.var_utilisateur), " -> ", classeLangueConfig.getString(ConfigCles.var_utilisateur), ".attributes().getJsonObject(\"tokenPrincipal\")).orElse(null));");
 						tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
 						tl(5, "eventBus.request(\"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
 						tl(6, "promise1.complete();");
@@ -4643,7 +4643,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(6, "query.put(\"commitWithin\", commitWithin);");
 					tl(5, "query.put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + o.getPk()));");
 					tl(5, "params.put(\"query\", query);");
-					tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "()).map(", classeLangueConfig.getString(ConfigCles.var_utilisateur), " -> ", classeLangueConfig.getString(ConfigCles.var_utilisateur), ".principal()).orElse(null));");
+					tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "()).map(", classeLangueConfig.getString(ConfigCles.var_utilisateur), " -> ", classeLangueConfig.getString(ConfigCles.var_utilisateur), ".attributes().getJsonObject(\"tokenPrincipal\")).orElse(null));");
 					tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
 					tl(5, "eventBus.request(\"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", classeNomSimple, "Future\")).onSuccess(c -> {");
 					tl(6, "JsonObject responseMessage = (JsonObject)c.body();");

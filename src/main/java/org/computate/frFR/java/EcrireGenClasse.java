@@ -905,9 +905,6 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	Integer entiteHtmlCellule;
 
-	/**
-	 * Var.enUS: entityIndexed
-	 */
 	Boolean entiteIndexe;
 
 	/**
@@ -1060,101 +1057,101 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wVarRecherche;
 	ToutEcrivain wVarSuggere;
 
-	private Boolean entiteFacetsTrouves;
+	Boolean entiteFacetsTrouves;
 
-	private List<String> methodeExceptionsNomSimpleComplet;
+	List<String> methodeExceptionsNomSimpleComplet;
 
-	private List<String> entiteFacets;
+	List<String> entiteFacets;
 
-	private Boolean entiteExact;
+	Boolean entiteExact;
 
-	private Boolean entiteClePrimaire;
+	Boolean entiteClePrimaire;
 
-	private Boolean entiteCleUnique;
+	Boolean entiteCleUnique;
 
-	private Boolean entiteCrypte;
+	Boolean entiteCrypte;
 
-	private Boolean entiteSauvegarde;
+	Boolean entiteSauvegarde;
 
-	private Boolean entiteIncremente;
+	Boolean entiteIncremente;
 
-	private Boolean entiteIgnorer;
+	Boolean entiteIgnorer;
 
-	private Boolean entiteSetTrim;
+	Boolean entiteSetTrim;
 
-	private Boolean entiteSetLower;
+	Boolean entiteSetLower;
 
-	private Boolean entiteSetUpper;
+	Boolean entiteSetUpper;
 
-	private Boolean entiteDeclarer;
+	Boolean entiteDeclarer;
 
-	private Boolean entiteRechercher;
+	Boolean entiteRechercher;
 
-	private String entiteAttribuerNomCanoniqueGenApiServiceImpl;
+	String entiteAttribuerNomCanoniqueGenApiServiceImpl;
 
-	private String entiteAttribuerNomSimpleGenApiServiceImpl;
+	String entiteAttribuerNomSimpleGenApiServiceImpl;
 
-	private String entiteAttribuerNomSimpleApiServiceImpl;
+	String entiteAttribuerNomSimpleApiServiceImpl;
 
-	private Boolean entiteAjouter;
+	Boolean entiteAjouter;
 
-	private Boolean entiteSupprimer;
+	Boolean entiteSupprimer;
 
-	private Boolean entiteRecharger;
+	Boolean entiteRecharger;
 
-	private Boolean entiteCles;
+	Boolean entiteCles;
 
-	private Boolean entiteIndexeOuStocke;
+	Boolean entiteIndexeOuStocke;
 
-	private boolean entiteContientRequeteSite;
+	boolean entiteContientRequeteSite;
 
-	private String entiteHtmlTooltip;
+	String entiteHtmlTooltip;
 
-	private List<String> entiteMethodesAvantVisibilite;
+	List<String> entiteMethodesAvantVisibilite;
 
-	private List<String> entiteMethodesAvantVar;
+	List<String> entiteMethodesAvantVar;
 
-	private List<String> entiteMethodesAvantParamVar;
+	List<String> entiteMethodesAvantParamVar;
 
-	private List<String> entiteMethodesAvantParamNomSimple;
+	List<String> entiteMethodesAvantParamNomSimple;
 
-	private List<Boolean> entiteMethodesAvantEcrire;
+	List<Boolean> entiteMethodesAvantEcrire;
 
-	private List<Boolean> entiteMethodesAvantNomParam;
+	List<Boolean> entiteMethodesAvantNomParam;
 
-	private List<String> entiteMethodesApresVisibilite;
+	List<String> entiteMethodesApresVisibilite;
 
-	private List<String> entiteMethodesApresVar;
+	List<String> entiteMethodesApresVar;
 
-	private List<String> entiteMethodesApresParamVar;
+	List<String> entiteMethodesApresParamVar;
 
-	private List<String> entiteMethodesApresParamNomSimple;
+	List<String> entiteMethodesApresParamNomSimple;
 
-	private List<Boolean> entiteMethodesApresNomParam;
+	List<Boolean> entiteMethodesApresNomParam;
 
-	private List<Boolean> entiteMethodesApresEcrire;
+	List<Boolean> entiteMethodesApresEcrire;
 
-	private List<String> entiteEcrireMethodes;
+	List<String> entiteEcrireMethodes;
 
-	private List<String> entiteValsVar;
+	List<String> entiteValsVar;
 
-	private List<String> entiteValsLangue;
+	List<String> entiteValsLangue;
 
-	private List<String> entiteValsCode;
+	List<String> entiteValsCode;
 
-	private List<String> entiteValsValeur;
+	List<String> entiteValsValeur;
 
-	private String classePageChemin;
+	String classePageChemin;
 
-	private String classePageCheminCss;
+	String classePageCheminCss;
 
-	private String classeGenPageChemin;
+	String classeGenPageChemin;
 
-	private String classePageCheminHbs;
+	String classePageCheminHbs;
 
-	private String classeGenPageCheminHbs;
+	String classeGenPageCheminHbs;
 
-	private String classePageCheminJs;
+	String classePageCheminJs;
 	
 	/** 
 	 * r: wInitLoin

@@ -148,6 +148,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		int tIndex = 0;
 		Boolean resultat = false;
 
+							System.out.println(entiteVar + " " + classeApiMethodeMethode);
 		if(entiteHtml) {
 			if(langueConfig.getString(ConfigCles.var_Recherche).equals(classeApiMethodeMethode)) {
 				rechercheLigneActuelRecherche = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
@@ -786,6 +787,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteCouverture = (Boolean)entiteDocumentSolr.get("entiteCouverture_stored_boolean");
 							entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
 							entiteDocValues = (Boolean)entiteDocumentSolr.get("entiteDocValues_stored_boolean");
+							entiteIndexeOuStocke = (Boolean)entiteDocumentSolr.get("entiteIndexeOuStocke_stored_boolean");
 							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
 							entiteStocke = (Boolean)entiteDocumentSolr.get("entiteStocke_stored_boolean");
 							entiteVarTitre = (Boolean)entiteDocumentSolr.get("entiteVarTitre_stored_boolean");
@@ -816,8 +818,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 							if(entiteHtml) {
 								if(entiteHtmlCellule != null) {
-									if(ecrireFormEntite(langueNom, langueConfig, wFormPOST, "POST"))
-										resultatFormPOST = true;
 									if(ecrireFormEntite(langueNom, langueConfig, wFormPage, "Page"))
 										resultatFormPage = true;
 								}
@@ -826,12 +826,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //												resultatFormPUTImport = true;
 //											if(ecrireFormEntite(langueNom, wFormPUTFusion, langueConfig.getString(ConfigCles.var_PUTFusion)))
 //												resultatFormPUTFusion = true;
+									if(ecrireFormEntite(langueNom, langueConfig, wFormPOST, "POST"))
+										resultatFormPOST = true;
 									if(ecrireFormEntite(langueNom, langueConfig, wFormPUTCopie, langueConfig.getString(ConfigCles.var_PUTCopie)))
 										resultatFormPUTCopie = true;
 									if(ecrireFormEntite(langueNom, langueConfig, wFormPATCH, "PATCH"))
 										resultatFormPATCH = true;
 								}
-								if(entiteIndexe) {
+								if(entiteIndexeOuStocke) {
 									if(ecrireFormEntite(langueNom, langueConfig, wFormRecherche, langueConfig.getString(ConfigCles.var_Recherche)))
 										resultatFormRecherche = true;
 								}
@@ -849,7 +851,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							if(entiteSignature) {
 								wJsInit.tl(2, "$('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}).bind('change', function(e){ patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'fq', value: 'pk:' + pk }], 'set", entiteVarCapitalise, "', $('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default'));");
 							}
-							if(entiteDefinir || entiteAttribuer || entiteIndexe || entiteStocke) {
+							if(entiteDefinir || entiteAttribuer || entiteIndexeOuStocke) {
 								if("LocalDate".equals(entiteNomSimple)) {
 									wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
 									wWebsocketInput.tl(3, "if(val != null) {");
@@ -2331,7 +2333,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "</h1>");
 
 			tl(2, "<h2 class=\"w3-center \">");
-			tl(3, "<span class\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
+			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
 			tl(4, "<span class=\"\">{{", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");
 			tl(3, "</span>");
 			tl(2, "</h2>");
@@ -2565,24 +2567,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										}
 	
 										} tl(6, "</div>");
-//										tl(6, "<button");
-//										tl(7, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " \"");
-//										if("POST".equals(classeApiMethodeMethode))
-//											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
-//										else if("PATCH".equals(classeApiMethodeMethode))
-//											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_FormulaireFiltres), "'), $('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'), function() {}, function() {}); \"");
-//										else if("PUTImport".equals(classeApiMethode))
-//											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
-//										else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))
-//											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
-//										else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
-//											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", uncapitalizeClasseNomSimple, "_ == null ? \"null\" : ", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
-//										else if(classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("POST") || classeApiMethodeMethode.contains("PUT"))
-//											tl(7, "onclick=\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
-//										else
-//											tl(7, "onclick=\"", classeApiOperationIdMethode, "(); \"");
-//		
-//										tl(7, ">", methodeTitreValeurs, "</button>");
+										tl(6, "<button");
+										tl(7, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " \"");
+										if("POST".equals(classeApiMethodeMethode))
+											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
+										else if("PATCH".equals(classeApiMethodeMethode))
+											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_FormulaireFiltres), "'), $('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'), function() {}, function() {}); \"");
+										else if("PUTImport".equals(classeApiMethode))
+											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
+										else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))
+											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
+										else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
+											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", uncapitalizeClasseNomSimple, "_ == null ? \"null\" : ", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
+										else if(classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("POST") || classeApiMethodeMethode.contains("PUT"))
+											tl(7, "onclick=\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
+										else
+											tl(7, "onclick=\"", classeApiOperationIdMethode, "(); \"");
+		
+										tl(7, ">", methodeTitreValeurs, "</button>");
 									}
 								} tl(5, "</div>");
 							} tl(4, "</div>");
