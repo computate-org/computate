@@ -148,7 +148,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		int tIndex = 0;
 		Boolean resultat = false;
 
-							System.out.println(entiteVar + " " + classeApiMethodeMethode);
 		if(entiteHtml) {
 			if(langueConfig.getString(ConfigCles.var_Recherche).equals(classeApiMethodeMethode)) {
 				rechercheLigneActuelRecherche = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
@@ -668,7 +667,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		String classePageNomCanonique = (String)classeDoc.get("classePageNomCanonique"   + "_" + langueNom + "_stored_string");
 		classeAttribuerNomSimplePages = (List<String>)classeDoc.get("classeAttribuerNomSimplePages_" + langueNom + "_stored_strings");
 
-		System.out.println(classeGenPageChemin + " " + classePageLangueNom + " " + langueNom);
 		if(!classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 			classePageCheminsGen.add(classeGenPageChemin);
 

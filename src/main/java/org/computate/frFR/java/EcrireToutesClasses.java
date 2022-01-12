@@ -485,8 +485,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					if(classeMotsCles == null)
 						classeMotsCles = Arrays.asList();
 					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
-					if(classeFichierGen.getAbsolutePath().equals("/usr/local/src/computate-scolaire/src/gen/java/org/computate/scolaire/enUS/design/DesignDisplayGenPageGen.java"))
-						System.out.println("ID " + classeFichierGen.getAbsolutePath() + ": " + doc.get("id") + classeImportationsGen);
 					classeSuperEcrireMethodes = (List<String>)doc.get("classeSuperEcrireMethodes_stored_strings");
 					classeEcrireMethodes = (List<String>)doc.get("classeEcrireMethodes_stored_strings");
 					classeEcrireEcrivains = new ArrayList<>();

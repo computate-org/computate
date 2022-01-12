@@ -463,10 +463,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected ToutEcrivain wPageHtmlSingulier;
 
-	/**
-	 * Var.enUS: wApiEntities
-	 */
-	protected ToutEcrivain wApiEntites;
+	protected ToutEcrivain wVarsStatic;
+	protected ToutEcrivain wNomAffichageStatic;
+	protected ToutEcrivain wNomAffichageMethode;
 
 	/**
 	 * Var.enUS: wPageEntities
@@ -1214,7 +1213,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		wStocker = ToutEcrivain.create();
 		wDefinir = ToutEcrivain.create();
 		wDefinirObjet = ToutEcrivain.create();
-		wApiEntites = ToutEcrivain.create();
+		wVarsStatic = ToutEcrivain.create();
+		wNomAffichageStatic = ToutEcrivain.create();
+		wNomAffichageMethode = ToutEcrivain.create();
 		wPageEntites = ToutEcrivain.create();
 		wApiGet = ToutEcrivain.create();
 		wApiGenererGet = ToutEcrivain.create();
@@ -1447,10 +1448,12 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
 			tl(4, "o = ", langueConfig.getString(ConfigCles.var_obtenir), classeNomSimple, "(v);");
-			tl(3, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
-			tl(4, classePartsCluster.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
-			tl(4, "o = ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), ".", langueConfig.getString(ConfigCles.var_obtenir), langueConfig.getString(ConfigCles.var_PourClasse), "(v);");
-			tl(3, "}");
+			if(classePartsCluster != null) {
+				tl(3, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
+				tl(4, classePartsCluster.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
+				tl(4, "o = ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), ".", langueConfig.getString(ConfigCles.var_obtenir), langueConfig.getString(ConfigCles.var_PourClasse), "(v);");
+				tl(3, "}");
+			}
 			tl(3, "else if(o instanceof Map) {");
 			tl(4, "Map<?, ?> map = (Map<?, ?>)o;");
 			tl(4, "o = map.get(v);");
@@ -1513,10 +1516,12 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
 			tl(4, "o = ", langueConfig.getString(ConfigCles.var_attribuer), classeNomSimple + "(v, val);");
-			tl(3, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
-			tl(4, classePartsCluster.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
-			tl(4, "o = ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), ".", langueConfig.getString(ConfigCles.var_attribuer), langueConfig.getString(ConfigCles.var_PourClasse), "(v, val);");
-			tl(3, "}");
+			if(classePartsCluster != null) {
+				tl(3, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
+				tl(4, classePartsCluster.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
+				tl(4, "o = ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), ".", langueConfig.getString(ConfigCles.var_attribuer), langueConfig.getString(ConfigCles.var_PourClasse), "(v, val);");
+				tl(3, "}");
+			}
 			tl(2, "}");
 			tl(2, "return o != null;");
 			tl(1, "}");
@@ -3869,7 +3874,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "}");
 		
 				// Setter String //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, String.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, String.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -3881,7 +3886,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter Boolean //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, Boolean.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Boolean.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -3898,7 +3903,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter Integer //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, Integer.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Integer.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -3917,7 +3922,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter BigDecimal //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -3936,7 +3941,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter Float //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, Float.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Float.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -3955,7 +3960,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter Double //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, Double.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Double.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -3974,7 +3979,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter Long //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -3993,7 +3998,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter Timestamp //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, Timestamp.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Timestamp.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -4013,7 +4018,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter Date //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, Date.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Date.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -4033,7 +4038,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter LocalDate //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDate.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, LocalDate.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -4058,7 +4063,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter ZonedDateTime //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -4083,7 +4088,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter LocalDateTime //
-				if(StringUtils.equals(entiteNomCanoniqueGenerique, LocalDateTime.class.getCanonicalName())) {
+				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, LocalDateTime.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
 					tl(2, entiteVar, ".clear();");
@@ -4990,21 +4995,16 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			}
 	
-			/////////////////
-			// codeApiChamps //
-			/////////////////
-			o = wApiEntites;
-			tl(1, "public static final String VAR_", entiteVar, " = \"", entiteVar, "\";");
-	//		if(classeIndexe) {
-	//			if(entiteIndexe)
-	//				tl(1, "public static final String ENTITE_VAR_INDEXE_", entiteVar, " = \"", entiteVar, "_indexed", entiteSuffixeType, "\";");
-	//			if(entiteStocke)
-	//				tl(1, "public static final String ENTITE_VAR_STOCKE_", entiteVar, " = \"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\";");
-	//			if(entiteCrypte)
-	//				tl(1, "public static final String ENTITE_VAR_CRYPTE_", entiteVar, " = \"", entiteVar, "_encrypted", entiteSuffixeType, "\";");
-	//		}
-	//		if(entiteAttribuer)
-	//			tl(1, "public static final String ENTITE_VAR_", entiteVar, "_ATTRIBUER_", entiteAttribuerNomSimple, "_", entiteAttribuerVar, " = \"", entiteAttribuerVar, "\";");
+			//////////
+			// Vars //
+			//////////
+
+			wVarsStatic.tl(1, "public static final String VAR_", entiteVar, " = \"", entiteVar, "\";");
+
+			wNomAffichageStatic.tl(1, "public static final String ", langueConfig.getString(ConfigCles.var_NOM_AFFICHAGE), "_", entiteVar, " = \"", entiteNomAffichage, "\";");
+
+			wNomAffichageMethode.tl(2, "case VAR_", entiteVar, ":");
+			wNomAffichageMethode.tl(3, "return ", langueConfig.getString(ConfigCles.var_NOM_AFFICHAGE), "_", entiteVar, ";");
 	
 			if(entiteDefinir || entiteAttribuer || entiteIndexe || entiteStocke) {
 		
@@ -6026,7 +6026,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		wStocker.flushClose();
 		wDefinir.flushClose();
 		wDefinirObjet.flushClose();
-		wApiEntites.flushClose();
+		wVarsStatic.flushClose();
+		wNomAffichageStatic.flushClose();
+		wNomAffichageMethode.flushClose();
 		wPageEntites.flushClose();
 		wPageGet.flushClose();
 		wHashCode.flushClose();
@@ -6042,7 +6044,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			s(wAttribuer.toString());
 		}
 
-		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
+		if(classePartsRequeteSite != null && classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "///////////////");
 			tl(1, "// staticSet //");
@@ -6171,10 +6173,12 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(3, "for(String v : vars) {");
 			tl(4, "if(o == null)");
 			tl(5, "o = ", langueConfig.getString(ConfigCles.var_definir), "", classeNomSimple, "(v, val);");
-			tl(4, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
-			tl(5, classePartsCluster.nomSimple(langueNom), " o", classePartsCluster.nomSimple(langueNom), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
-			tl(5, "o = o", classePartsCluster.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_definir), langueConfig.getString(ConfigCles.var_PourClasse), "(v, val);");
-			tl(4, "}");
+			if(classePartsCluster != null) {
+				tl(4, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
+				tl(5, classePartsCluster.nomSimple(langueNom), " o", classePartsCluster.nomSimple(langueNom), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
+				tl(5, "o = o", classePartsCluster.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_definir), langueConfig.getString(ConfigCles.var_PourClasse), "(v, val);");
+				tl(4, "}");
+			}
 			tl(3, "}");
 			tl(2, "}");
 			tl(2, "return o != null;");
@@ -6384,7 +6388,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}
 
-		if(classeContientRequeteSite) {
+		if(classeApi && classeContientRequeteSite) {
 			if(classePartsRequeteSite != null) {
 				//////////////////
 				// requeteApi //
@@ -6480,7 +6484,26 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		l();
-		s(wApiEntites);
+		s(wVarsStatic);
+
+		l();
+		s(wNomAffichageStatic);
+
+		l();
+		tl(1, "public static String ", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(String var) {");
+		tl(2, "return ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var);");
+		tl(1, "}");
+		tl(1, "public static String ", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(String var) {");
+		tl(2, "switch(var) {");
+		s(wNomAffichageMethode.toString());
+		tl(2, "default:");
+
+		if(classeEstBase)
+			tl(3, "return null;");
+		else
+			tl(3, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimpleSuperGenerique, "(var);");
+		tl(2, "}");
+		tl(1, "}");
 
 		l("}"); 
 

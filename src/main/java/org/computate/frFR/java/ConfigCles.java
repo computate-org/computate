@@ -237,6 +237,8 @@ public class ConfigCles {
 	public static final String var_NomAdjectifPluriel = "var_NomAdjectifPluriel";
 	public static final String var_NomAdjectifSingulier = "var_NomAdjectifSingulier";
 	public static final String var_NomAffichage = "var_NomAffichage";
+	public static final String var_nomAffichage = "var_nomAffichage";
+	public static final String var_NOM_AFFICHAGE = "var_NOM_AFFICHAGE";
 	public static final String var_NomCanonique = "var_NomCanonique";
 	public static final String var_NomComplet = "var_NomComplet";
 	public static final String var_nomDomaine = "var_nomDomaine";
@@ -263,6 +265,7 @@ public class ConfigCles {
 	public static final String var_objetTitre = "var_objetTitre";
 	public static final String var_obtenir = "var_obtenir";
 	public static final String var_Optionnel = "var_Optionnel";
+	public static final String var_OutilRecherche = "var_OutilRecherche";
 	public static final String var_pageActuel = "var_pageActuel";
 	public static final String var_page = "var_page";
 	public static final String var_Page = "var_Page";
