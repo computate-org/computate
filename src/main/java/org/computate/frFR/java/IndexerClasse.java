@@ -6446,6 +6446,8 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(classePartsList, classeLangueNom);
 			classePartsGenAjouter(classePartsArrayList, classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classeLangueNom), classeLangueNom);
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.computate.search.response.solr.SolrResponse", classeLangueNom), classeLangueNom);
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueVertxJsonObject, classeLangueNom), classeLangueNom);
 		}
 
 		if(classeImage) {
