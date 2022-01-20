@@ -18,7 +18,7 @@ public class ConfigCles {
 	public static final String str__est_l_entité_déjà_construit__ = "str__est_l_entité_déjà_construit__";
 	public static final String str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__ = "str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__";
 	public static final String str_Fusionner_ = "str_Fusionner_";
-	public static final String str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut_ = "str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut_";
+	public static final String str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut = "str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut";
 	public static final String str_Importer_ = "str_Importer_";
 	public static final String str_L_entité_ = "str_L_entité_";
 	public static final String str_Modifier_des_ = "str_Modifier_des_";
@@ -34,6 +34,7 @@ public class ConfigCles {
 	public static final String var_a = "var_a";
 	public static final String var_activer = "var_activer";
 	public static final String var_ACTIVER_ARCHIVE = "var_ACTIVER_ARCHIVE";
+	public static final String var_ACTIVER_LOG = "var_ACTIVER_LOG";
 	public static final String var_ACTIVER_OPENID_CONNECT = "var_ACTIVER_OPENID_CONNECT";
 	public static final String var_ACTIVER_QUARKUS = "var_ACTIVER_QUARKUS";
 	public static final String var_ACTIVER_ROLE_ADMIN = "var_ACTIVER_ROLE_ADMIN";

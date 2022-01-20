@@ -1899,8 +1899,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
 			if(hackathonLabels != null)
 				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
-			tl(0, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">", langueConfig.getString(ConfigCles.str_Trouver_la_classe_), entiteVar, langueConfig.getString(ConfigCles.str__dans_Solr), ". </a>");
-			tl(0, " * <br/>");
+			tl(0, " * <br><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">", langueConfig.getString(ConfigCles.str_Trouver_la_classe_), entiteVar, langueConfig.getString(ConfigCles.str__dans_Solr), ". </a>");
+			tl(0, " * <br>");
 			l(" **/");  
 		}
 		s("public abstract class ", classeNomSimpleGen);
@@ -2027,9 +2027,9 @@ public class EcrireGenClasse extends EcrireClasse {
 			l();
 		}
 
-//		if(classeSauvegarde) {
-		tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimple, ".class);");
-//		}
+		if(activerLog) {
+			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimple, ".class);");
+		}
 		List<String> classeValsVar = (List<String>)doc.get("classeValsVar_stored_strings");
 		List<String> classeValsLangue = (List<String>)doc.get("classeValsLangue_stored_strings");
 		List<String> classeValsValeur = (List<String>)doc.get("classeValsValeur_stored_strings");
@@ -3396,7 +3396,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, " *\t", " is defined as null before being initialized. ");
 				}
 				else {
-					tl(1, " *\t", "Il est construit avant d'être initialisé avec le constructeur par défaut ", entiteNomSimpleComplet, "(). ");
+					tl(1, " *\t", langueConfig.getString(ConfigCles.str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut), ". ");
 				}
 				tl(1, " */");
 			}
@@ -3480,7 +3480,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(ecrireCommentaire) {
 				t(1, "/**");
 				t(1);
-				s("<br/>", langueConfig.getString(ConfigCles.str_L_entité_), entiteVar);
+				s("<br>", langueConfig.getString(ConfigCles.str_L_entité_), entiteVar);
 				l();
 		
 				if(entiteCommentaire != null) {
@@ -3501,18 +3501,18 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, " * ", langueConfig.getString(ConfigCles.str__est_défini_comme_null_avant_d_être_initialisé__));
 				}
 				else {
-					tl(1, " * ", langueConfig.getString(ConfigCles.str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut_), entiteNomSimpleComplet, "(). ");
+					tl(1, " * ", langueConfig.getString(ConfigCles.str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut), ". ");
 				}
 		
 				// Lien vers Solr //
-				tl(1, " * <br/><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", langueConfig.getString(ConfigCles.str_Trouver_l_entité_), entiteVar, langueConfig.getString(ConfigCles.str__dans_Solr), "</a>");
-				tl(1, " * <br/>");
+				tl(1, " * <br><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", langueConfig.getString(ConfigCles.str_Trouver_l_entité_), entiteVar, langueConfig.getString(ConfigCles.str__dans_Solr), "</a>");
+				tl(1, " * <br>");
 		
 				if(entiteCouverture) {
 					tl(1, " * @param ", entiteVarParam, langueConfig.getString(ConfigCles.str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__));
 				}
 				else {
-					tl(1, " * @param ", entiteVar, langueConfig.getString(ConfigCles.str__est_l_entité_déjà_construit__));
+					tl(1, " * @param ", entiteVarParam, langueConfig.getString(ConfigCles.str__est_l_entité_déjà_construit__));
 				}
 		//		if(methodeExceptionsNomSimpleComplet != null && methodeExceptionsNomSimpleComplet.size() > 0) {
 		//

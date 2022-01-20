@@ -1176,7 +1176,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "JsonArray pages = new JsonArray();");
 			tl(2, "Long ", langueConfig.getString(ConfigCles.var_debut), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.getStart().longValue();");
 			tl(2, "Long ", langueConfig.getString(ConfigCles.var_lignes), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.getRows().longValue();");
-			tl(2, "Long ", langueConfig.getString(ConfigCles.var_numTrouve), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.getQueryResponse().getResults().getNumFound();");
+			tl(2, "Long ", langueConfig.getString(ConfigCles.var_numTrouve), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.getQueryResponse().getResponse().getNumFound().longValue();");
 			tl(2, "Long ", langueConfig.getString(ConfigCles.var_debut), "Num = ", langueConfig.getString(ConfigCles.var_debut), " + 1L;");
 			tl(2, "Long ", langueConfig.getString(ConfigCles.var_fin), "Num = ", langueConfig.getString(ConfigCles.var_debut), " + ", langueConfig.getString(ConfigCles.var_lignes), ";");
 			tl(2, "Long floorMod = Math.floorMod(", langueConfig.getString(ConfigCles.var_numTrouve), ", ", langueConfig.getString(ConfigCles.var_lignes), ");");
@@ -1224,7 +1224,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "JsonObject params = ", langueConfig.getString(ConfigCles.var_requeteService), ".getParams();");
 			l();
 			tl(2, "JsonObject queryParams = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteService), ").map(ServiceRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
-			tl(2, "Long num = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.getQueryResponse().getResults().getNumFound();");
+			tl(2, "Long num = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.getQueryResponse().getResponse().getNumFound().longValue();");
 			tl(2, "String q = \"*:*\";");
 			tl(2, "String q1 = \"", classeVarTexte, "\";");
 			tl(2, "String q2 = \"\";");
@@ -1260,7 +1260,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "Integer rows3 = rows1 * 2;");
 			tl(2, "start2 = start2 < 0 ? 0 : start2;");
 			tl(2, "JsonArray fqs = new JsonArray();");
-			tl(2, "for(String fq : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_).map(l -> l.getFilterQueries()).orElse(new String[0])) {");
+			tl(2, "for(String fq : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_).map(l -> l.getFilterQueries()).orElse(Arrays.asList())) {");
 			tl(3, "if(!StringUtils.contains(fq, \"(\")) {");
 			tl(4, "String fq1 = StringUtils.substringBefore(fq, \"_\");");
 			tl(4, "String fq2 = StringUtils.substringAfter(fq, \":\");");
@@ -1271,8 +1271,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "query.put(\"fq\", fqs);");
 			l();
 			tl(2, "JsonArray sorts = new JsonArray();");
-			tl(2, "for(SortClause sort : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_).map(l -> l.getSorts()).orElse(Arrays.asList())) {");
-			tl(3, "sorts.add(new JsonObject().put(\"var\", StringUtils.substringBefore(sort.getItem(), \"_\")).put(\"order\", sort.getOrder().name()));");
+			tl(2, "for(String sort : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_).map(l -> l.getSorts()).orElse(Arrays.asList())) {");
+			tl(3, "sorts.add(new JsonObject().put(\"var\", StringUtils.substringBefore(sort, \"_\")).put(\"order\", StringUtils.substringAfter(sort, \" \")));");
 			tl(2, "}");
 			tl(2, "query.put(\"sort\", sorts);");
 			tl(1, "}");

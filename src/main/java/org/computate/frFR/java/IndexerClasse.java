@@ -50,7 +50,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.text.WordUtils;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
@@ -201,7 +200,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */ 
 	ClasseParts classePartsRequeteSite;
 	ClasseParts classePartsUtilisateurSite;
-	ClasseParts classePartsOutilRecherche;
 	/**
 	 * Var.enUS: classPartsApiRequest
 	 */
@@ -3426,7 +3424,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsList = ClasseParts.initClasseParts(this, List.class.getCanonicalName(), classeLangueNom);
 		classePartsArrayList = ClasseParts.initClasseParts(this, ArrayList.class.getCanonicalName(), classeLangueNom);
 		classePartsUtilisateurSite = classePartsUtilisateurSite(nomEnsembleDomaine, classeLangueNom);
-		classePartsOutilRecherche = classePartsOutilRecherche(nomEnsembleDomaine, classeLangueNom);
 		classePartsRequeteApi = classePartsRequeteApi(nomEnsembleDomaine, classeLangueNom);
 		classePartsCluster = classePartsCluster(nomEnsembleDomaine, classeLangueNom);
 		classePartsResultatRecherche = classePartsResultatRecherche(nomEnsembleDomaine, classeLangueNom);
@@ -3646,8 +3643,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, ArrayList.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, HashMap.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-		classePartsGenAjouter(ClasseParts.initClasseParts(this, Logger.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-		classePartsGenAjouter(ClasseParts.initClasseParts(this, LoggerFactory.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		if(activerLog) {
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, Logger.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, LoggerFactory.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		}
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Map.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(classePartsConfigCles, classeLangueNom);
@@ -5840,13 +5839,11 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Stream.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Collectors.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Arrays.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, QueryResponse.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, BigDecimal.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, MathContext.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Objects.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, SortClause.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Promise", classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePartsConfigCles.nomCanonique(classeLangueNom), classeLangueNom), classeLangueNom);
 	
@@ -5943,11 +5940,12 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Optional", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Stream", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.net.URLDecoder", classeLangueNom), classeLangueNom);
-				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsOutilRecherche.nomCanonique(classeLangueNom), classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.regex.Pattern", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.regex.Matcher", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Map.Entry", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Iterator", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.computate.search.tool.SearchTool", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.computate.search.response.solr.SolrResponse", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, Base64.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, ZonedDateTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, CollectionUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);

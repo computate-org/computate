@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -2387,7 +2386,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 
 						tl(5, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(1);");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1L);");
+						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1);");
 						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
 						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
@@ -2429,7 +2428,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(activerRoleAdmin) {
 							tBase = 1;
 							tl(7, "List<String> roles2 = Optional.ofNullable(config.getValue(", classePartsConfigCles.nomSimple(classeLangueNom), ".", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLES_ADMIN), ")).map(v -> v instanceof JsonArray ? (JsonArray)v : new JsonArray(v.toString())).orElse(new JsonArray()).getList();");
-							tl(7, "if(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResults().getNumFound() > 1");
+							tl(7, "if(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResponse().getNumFound() > 1");
 							tl(9, "&& !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), roles2)");
 							tl(9, "&& !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), roles2)");
 							tl(9, ") {");
@@ -2442,8 +2441,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tBase = 0;
 						}
 						tl(tBase + 7, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
-						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getRows());");
-						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResults().getNumFound());");
+						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getRequest().getRows());");
+						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResponse().getNumFound());");
 						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
 						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
@@ -2509,8 +2508,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
 						tl(6, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", false, true, true).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
 						tl(7, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getRows());");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResults().getNumFound());");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getRequest().getRows());");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResponse().getNumFound());");
 						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
 						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
@@ -2541,7 +2540,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(6, "JsonArray jsonArray = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_ObjetJson), "()).map(o -> o.getJsonArray(\"list\")).orElse(new JsonArray());");
 						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(jsonArray.size());");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(new Integer(jsonArray.size()).longValue());");
+						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(jsonArray.size());");
 						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
 						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
@@ -2627,7 +2626,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, "});");
 						tl(2, "CompositeFuture.all(futures).onSuccess( a -> {");
 						tl(3, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), " != null) {");
-						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumPATCH() + ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResults().size());");
+						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumPATCH() + ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResponse().getDocs().size());");
 						tl(4, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
 						tl(5, classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first().", classeLangueConfig.getString(ConfigCles.var_requeteApi), classeNomSimple, "();");
 						tl(4, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
@@ -2746,7 +2745,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, classeLangueConfig.getString(ConfigCles.var_utilisateur), "(", classeLangueConfig.getString(ConfigCles.var_requeteService), ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_requeteSite), " -> {");
 						tl(3, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(3, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(1);");
-						tl(3, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1L);");
+						tl(3, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1);");
 						tl(3, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
 						tl(3, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 						tl(3, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
@@ -2789,10 +2788,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(4, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", false, true, true).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
 						tl(5, "try {");
 						tl(6, classeNomSimple, " o = ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first();");
-						tl(6, "if(o != null && ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResults().getNumFound() == 1) {");
+						tl(6, "if(o != null && ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResponse().getNumFound() == 1) {");
 						tl(7, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(1);");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1L);");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1);");
 						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
 						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
@@ -2837,7 +2836,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "try {");
 						tl(4, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(1);");
-						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1L);");
+						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1);");
 						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
 						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
@@ -2856,7 +2855,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeLangueConfig.getString(ConfigCles.var_supprime), "_docvalues_boolean:false\");");
 						if(activerArchive)
 							tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeLangueConfig.getString(ConfigCles.var_archive), "_docvalues_boolean:false\");");
-						tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire + "_docvalues_string" : classeVarClePrimaire + "_docvalues_long", ":\" + ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".escapeQueryChars(body.getString(\"", classeVarClePrimaire, "\")));");
+						tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire + "_docvalues_string" : classeVarClePrimaire + "_docvalues_long", ":\" + SearchTool.escapeQueryChars(body.getString(\"", classeVarClePrimaire, "\")));");
 						tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".", classeLangueConfig.getString(ConfigCles.var_promesseLoin), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(a -> {");
 						tl(5, "try {");
 						tl(6, "if(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".size() >= 1) {");
@@ -3475,10 +3474,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 	
 	
-					if(classeApiMethode.contains("GET")) {
-						tl(3, "SolrDocumentList ", classeLangueConfig.getString(ConfigCles.var_documentsSolr), " = ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getSolrDocumentList();");
-						l();
-					}
 					if(classeApiMethode.contains(classeLangueConfig.getString(ConfigCles.var_Recherche))) {
 						if(classePageNomCanoniqueMethode != null) {
 							if(classePartsToutEcrivain == null)
@@ -3497,18 +3492,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "templateEngine.render(json, ", classeLangueConfig.getString(ConfigCles.var_template), classeApiMethode, classeNomSimple, "()).onSuccess(buffer -> {");
 						}
 						else {
-							tl(3, "QueryResponse ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), " = ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse();");
-							tl(3, "SolrDocumentList ", classeLangueConfig.getString(ConfigCles.var_documentsSolr), " = ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getSolrDocumentList();");
-							tl(3, "Long ", classeLangueConfig.getString(ConfigCles.var_millisRecherche), " = Long.valueOf(", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getQTime());");
-							tl(3, "Long ", classeLangueConfig.getString(ConfigCles.var_millisTransmission), " = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getElapsedTime();");
-							tl(3, "Long ", classeLangueConfig.getString(ConfigCles.var_numCommence), " = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getResults().getStart();");
-							tl(3, "Long ", classeLangueConfig.getString(ConfigCles.var_numTrouve), " = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getResults().getNumFound();");
-							tl(3, "Integer ", classeLangueConfig.getString(ConfigCles.var_numRetourne), " = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getResults().size();");
+							tl(3, "SolrResponse ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), " = ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse();");
+							tl(3, "List<SolrResponse.Doc> ", classeLangueConfig.getString(ConfigCles.var_documentsSolr), " = ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getResponse().getDocs();");
+							tl(3, "Long ", classeLangueConfig.getString(ConfigCles.var_millisRecherche), " = Long.valueOf(", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getResponseHeader().getqTime());");
+							tl(3, "Integer ", classeLangueConfig.getString(ConfigCles.var_numCommence), " = ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getRequest().getStart();");
+							tl(3, "Integer ", classeLangueConfig.getString(ConfigCles.var_numTrouve), " = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getResponse().getNumFound();");
+							tl(3, "Integer ", classeLangueConfig.getString(ConfigCles.var_numRetourne), " = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getResponse().getDocs().size();");
 							tl(3, "String ", classeLangueConfig.getString(ConfigCles.var_tempsRecherche), " = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(", classeLangueConfig.getString(ConfigCles.var_millisRecherche), "), TimeUnit.MILLISECONDS.toMillis(", classeLangueConfig.getString(ConfigCles.var_millisRecherche), ") - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(", classeLangueConfig.getString(ConfigCles.var_millisRecherche), ")));");
-							tl(3, "String ", classeLangueConfig.getString(ConfigCles.var_tempsTransmission), " = String.format(\"%d.%03d sec\", TimeUnit.MILLISECONDS.toSeconds(", classeLangueConfig.getString(ConfigCles.var_millisTransmission), "), TimeUnit.MILLISECONDS.toMillis(", classeLangueConfig.getString(ConfigCles.var_millisTransmission), ") - TimeUnit.SECONDS.toSeconds(TimeUnit.MILLISECONDS.toSeconds(", classeLangueConfig.getString(ConfigCles.var_millisTransmission), ")));");
 							tl(3, "String ", classeLangueConfig.getString(ConfigCles.var_marqueCurseurSuivante), " = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getNextCursorMark();");
-							tl(3, "Exception exception", classeLangueConfig.getString(ConfigCles.var_Recherche), " = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getException();");
-							tl(3, "List<String> fls = ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getFields();");
+							tl(3, "String exception", classeLangueConfig.getString(ConfigCles.var_Recherche), " = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getError()).map(error -> error.getMsg()).orElse(null);");
+							tl(3, "List<String> fls = ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getRequest().getFields();");
 							l();
 							tl(3, "JsonObject json = new JsonObject();");
 							tl(3, "json.put(", q(classeLangueConfig.getString(ConfigCles.var_numCommence)), ", ", classeLangueConfig.getString(ConfigCles.var_numCommence), ");");
@@ -3516,7 +3509,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "json.put(", q(classeLangueConfig.getString(ConfigCles.var_numRetourne)), ", ", classeLangueConfig.getString(ConfigCles.var_numRetourne), ");");
 							tl(3, "if(fls.size() == 1 && fls.stream().findFirst().orElse(null).equals(\"", classeLangueConfig.getString(ConfigCles.var_sauvegardes), "\")) {");
 							tl(4, "json.put(", q(classeLangueConfig.getString(ConfigCles.var_tempsRecherche)), ", ", classeLangueConfig.getString(ConfigCles.var_tempsRecherche), ");");
-							tl(4, "json.put(", q(classeLangueConfig.getString(ConfigCles.var_tempsTransmission)), ", ", classeLangueConfig.getString(ConfigCles.var_tempsTransmission), ");");
 							tl(3, "}");
 							tl(3, "if(", classeLangueConfig.getString(ConfigCles.var_marqueCurseurSuivante), " != null) {");
 							tl(4, "json.put(", q(classeLangueConfig.getString(ConfigCles.var_marqueCurseurSuivante)), ", ", classeLangueConfig.getString(ConfigCles.var_marqueCurseurSuivante), ");");
@@ -3544,37 +3536,33 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "});");
 							tl(3, "json.put(", q(classeLangueConfig.getString(ConfigCles.var_liste)), ", l);");
 							l();
-							tl(3, "List<FacetField> facetFields = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getFacetFields();");
+							tl(3, "SolrResponse.FacetFields facetFields = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getFacetCounts()).map(f -> f.getFacetFields()).orElse(null);");
 							tl(3, "if(facetFields != null) {");
 							tl(4, "JsonObject facetFieldsJson = new JsonObject();");
 							tl(4, "json.put(\"facet_fields\", facetFieldsJson);");
-							tl(4, "for(FacetField facetField : facetFields) {");
+							tl(4, "for(SolrResponse.FacetField facetField : facetFields.getFacets().values()) {");
 							tl(5, "String facetFieldVar = StringUtils.substringBefore(facetField.getName(), \"_docvalues_\");");
 							tl(5, "JsonObject facetFieldCounts = new JsonObject();");
 							tl(5, "facetFieldsJson.put(facetFieldVar, facetFieldCounts);");
-							tl(5, "List<FacetField.Count> facetFieldValues = facetField.getValues();");
-							tl(5, "for(Integer i = 0; i < facetFieldValues.size(); i+= 1) {");
-							tl(6, "FacetField.Count count = (FacetField.Count)facetFieldValues.get(i);");
-							tl(6, "facetFieldCounts.put(count.getName(), count.getCount());");
-							tl(5, "}");
+							tl(5, "facetField.getCounts().forEach((name, count) -> {");
+							tl(6, "facetFieldCounts.put(name, count);");
+							tl(5, "});");
 							tl(4, "}");
 							tl(3, "}");
 							l();
-							tl(3, "List<RangeFacet> facetRanges = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getFacetRanges();");
+							tl(3, "SolrResponse.FacetRanges facetRanges = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getFacetCounts()).map(f -> f.getFacetRanges()).orElse(null);");
 							tl(3, "if(facetRanges != null) {");
 							tl(4, "JsonObject rangeJson = new JsonObject();");
 							tl(4, "json.put(\"facet_ranges\", rangeJson);");
-							tl(4, "for(RangeFacet rangeFacet : facetRanges) {");
+							tl(4, "for(SolrResponse.FacetRange rangeFacet : facetRanges.getRanges().values()) {");
 							tl(5, "JsonObject rangeFacetJson = new JsonObject();");
 							tl(5, "String rangeFacetVar = StringUtils.substringBefore(rangeFacet.getName(), \"_docvalues_\");");
 							tl(5, "rangeJson.put(rangeFacetVar, rangeFacetJson);");
 							tl(5, "JsonObject rangeFacetCountsMap = new JsonObject();");
 							tl(5, "rangeFacetJson.put(\"counts\", rangeFacetCountsMap);");
-							tl(5, "List<?> rangeFacetCounts = rangeFacet.getCounts();");
-							tl(5, "for(Integer i = 0; i < rangeFacetCounts.size(); i+= 1) {");
-							tl(6, "RangeFacet.Count count = (RangeFacet.Count)rangeFacetCounts.get(i);");
-							tl(6, "rangeFacetCountsMap.put(count.getValue(), count.getCount());");
-							tl(5, "}");
+							tl(5, "rangeFacet.getCounts().forEach((name, count) -> {");
+							tl(6, "rangeFacetCountsMap.put(name, count);");
+							tl(5, "});");
 //							tl(5, "JsonArray rangeFacetCountsList = new JsonArray();");
 //							tl(5, "rangeFacetJson.put(\"counts\", rangeFacetCountsList);");
 //							tl(5, "List<?> rangeFacetCounts = rangeFacet.getCounts();");
@@ -3588,15 +3576,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "}");
 							tl(3, "}");
 							l();
-							tl(3, "NamedList<List<PivotField>> facetPivot = ", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getFacetPivot();");
-							tl(3, "if(facetPivot != null) {");
+							tl(3, "SolrResponse.FacetPivots facetPivots = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_reponse), classeLangueConfig.getString(ConfigCles.var_Recherche), ".getFacetCounts()).map(f -> f.getFacetPivots()).orElse(null);");
+							tl(3, "if(facetPivots != null) {");
 							tl(4, "JsonObject facetPivotJson = new JsonObject();");
 							tl(4, "json.put(\"facet_pivot\", facetPivotJson);");
-							tl(4, "Iterator<Entry<String, List<PivotField>>> facetPivotIterator = responseSearch.getFacetPivot().iterator();");
-							tl(4, "while(facetPivotIterator.hasNext()) {");
-							tl(5, "Entry<String, List<PivotField>> pivotEntry = facetPivotIterator.next();");
-							tl(5, "List<PivotField> pivotFields = pivotEntry.getValue();");
-							tl(5, "String[] vars", classeLangueConfig.getString(ConfigCles.var_Indexe), " = pivotEntry.getKey().trim().split(\",\");");
+							tl(4, "for(SolrResponse.FacetPivot facetPivot : facetPivots.getPivots().values()) {");
+							tl(5, "String[] vars", classeLangueConfig.getString(ConfigCles.var_Indexe), " = facetPivot.getName().trim().split(\",\");");
 							tl(5, "String[] ", classeLangueConfig.getString(ConfigCles.var_entite), "Vars = new String[vars", classeLangueConfig.getString(ConfigCles.var_Indexe), ".length];");
 							tl(5, "for(Integer i = 0; i < ", classeLangueConfig.getString(ConfigCles.var_entite), "Vars.length; i++) {");
 							tl(6, "String ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Indexe), " = vars", classeLangueConfig.getString(ConfigCles.var_Indexe), "[i];");
@@ -3604,11 +3589,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "}");
 							tl(5, "JsonArray pivotArray = new JsonArray();");
 							tl(5, "facetPivotJson.put(StringUtils.join(", classeLangueConfig.getString(ConfigCles.var_entite), "Vars, \",\"), pivotArray);");
-							tl(5, classeLangueConfig.getString(ConfigCles.var_reponse), "Pivot", classeApiMethode, classeNomSimple, "(pivotFields, pivotArray);");
+							tl(5, classeLangueConfig.getString(ConfigCles.var_reponse), "Pivot", classeApiMethode, classeNomSimple, "(facetPivot.getPivot(), pivotArray);");
 							tl(4, "}");
 							tl(3, "}");
 							tl(3, "if(exception", classeLangueConfig.getString(ConfigCles.var_Recherche), " != null) {");
-							tl(4, "json.put(", q("exception", classeLangueConfig.getString(ConfigCles.var_Recherche)), ", exception", classeLangueConfig.getString(ConfigCles.var_Recherche), ".getMessage());");
+							tl(4, "json.put(", q("exception", classeLangueConfig.getString(ConfigCles.var_Recherche)), ", exception", classeLangueConfig.getString(ConfigCles.var_Recherche), ");");
 							tl(3, "}");
 						}
 					}
@@ -3665,8 +3650,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(2, "return promise.future();");
 					tl(1, "}");
 					if(classeApiMethode.contains(classeLangueConfig.getString(ConfigCles.var_Recherche)) && classePageNomCanoniqueMethode == null) {
-						tl(1, "public void ", classeLangueConfig.getString(ConfigCles.var_reponse), "Pivot", classeApiMethode, classeNomSimple, "(List<PivotField> pivotFields, JsonArray pivotArray) {");
-						tl(2, "for(PivotField pivotField : pivotFields) {");
+						tl(1, "public void ", classeLangueConfig.getString(ConfigCles.var_reponse), "Pivot", classeApiMethode, classeNomSimple, "(List<SolrResponse.Pivot> pivots, JsonArray pivotArray) {");
+						tl(2, "for(SolrResponse.Pivot pivotField : pivots) {");
 						tl(3, "String ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Indexe), " = pivotField.getField();");
 						tl(3, "String ", classeLangueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.substringBefore(", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Indexe), ", \"_docvalues_\");");
 						tl(3, "JsonObject pivotJson = new JsonObject();");
@@ -3674,22 +3659,20 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "pivotJson.put(\"field\", entityVar);");
 						tl(3, "pivotJson.put(\"value\", pivotField.getValue());");
 						tl(3, "pivotJson.put(\"count\", pivotField.getCount());");
-						tl(3, "List<RangeFacet> pivotRanges = pivotField.getFacetRanges();");
-						tl(3, "List<PivotField> pivotFields2 = pivotField.getPivot();");
+						tl(3, "Collection<SolrResponse.PivotRange> pivotRanges = pivotField.getRanges().values();");
+						tl(3, "List<SolrResponse.Pivot> pivotFields2 = pivotField.getPivot();");
 						tl(3, "if(pivotRanges != null) {");
 						tl(4, "JsonObject rangeJson = new JsonObject();");
 						tl(4, "pivotJson.put(\"ranges\", rangeJson);");
-						tl(4, "for(RangeFacet rangeFacet : pivotRanges) {");
+						tl(4, "for(SolrResponse.PivotRange rangeFacet : pivotRanges) {");
 						tl(5, "JsonObject rangeFacetJson = new JsonObject();");
 						tl(5, "String rangeFacetVar = StringUtils.substringBefore(rangeFacet.getName(), \"_docvalues_\");");
 						tl(5, "rangeJson.put(rangeFacetVar, rangeFacetJson);");
 						tl(5, "JsonObject rangeFacetCountsObject = new JsonObject();");
 						tl(5, "rangeFacetJson.put(\"counts\", rangeFacetCountsObject);");
-						tl(5, "List<?> rangeFacetCounts = rangeFacet.getCounts();");
-						tl(5, "for(Integer i = 0; i < rangeFacetCounts.size(); i+= 1) {");
-						tl(6, "RangeFacet.Count count = (RangeFacet.Count)rangeFacetCounts.get(i);");
-						tl(6, "rangeFacetCountsObject.put(count.getValue(), count.getCount());");
-						tl(5, "}");
+						tl(5, "rangeFacet.getCounts().forEach((value, count) -> {");
+						tl(6, "rangeFacetCountsObject.put(value, count);");
+						tl(5, "});");
 						tl(4, "}");
 						tl(3, "}");
 						tl(3, "if(pivotFields2 != null) {");
@@ -4174,7 +4157,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 			l();
 			tl(1, "public void ", classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Q(", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", String ", classeLangueConfig.getString(ConfigCles.var_entite), "Var, String ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", String ", "var", classeLangueConfig.getString(ConfigCles.var_Indexe), ") {");
-			tl(2, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".q(var", classeLangueConfig.getString(ConfigCles.var_Indexe), " + \":\" + (\"*\".equals(", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ") ? ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " : ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".escapeQueryChars(", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ")));");
+			tl(2, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".q(var", classeLangueConfig.getString(ConfigCles.var_Indexe), " + \":\" + (\"*\".equals(", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ") ? ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " : SearchTool.escapeQueryChars(", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ")));");
 			tl(2, "if(!\"*\".equals(", classeLangueConfig.getString(ConfigCles.var_entite), "Var)) {");
 //			tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".setHighlight(true);");
 //			tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".setHighlightSnippets(3);");
@@ -4194,14 +4177,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "String fq2 = fqs[1].equals(\"*\") ? fqs[1] : ", classeNomSimple, ".staticSolrFq", classeLangueConfig.getString(ConfigCles.var_PourClasse), "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(), fqs[1]);");
 			tl(3, " return var", classeLangueConfig.getString(ConfigCles.var_Indexe), " + \":[\" + fq1 + \" TO \" + fq2 + \"]\";");
 			tl(2, "} else {");
-			tl(3, "return var", classeLangueConfig.getString(ConfigCles.var_Indexe), " + \":\" + ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".escapeQueryChars(", classeNomSimple, ".staticSolrFq", classeLangueConfig.getString(ConfigCles.var_PourClasse), "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(), ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ")).replace(\"\\\\\", \"\\\\\\\\\");");
+			tl(3, "return var", classeLangueConfig.getString(ConfigCles.var_Indexe), " + \":\" + SearchTool.escapeQueryChars(", classeNomSimple, ".staticSolrFq", classeLangueConfig.getString(ConfigCles.var_PourClasse), "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(), ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ")).replace(\"\\\\\", \"\\\\\\\\\");");
 			tl(2, "}");
 			tl(1, "}");
 			l();
 			tl(1, "public void ", classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Sort(", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", String ", classeLangueConfig.getString(ConfigCles.var_entite), "Var, String ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", String ", "var", classeLangueConfig.getString(ConfigCles.var_Indexe), ") {");
 			tl(2, "if(var", classeLangueConfig.getString(ConfigCles.var_Indexe), " == null)");
 			tl(3, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", classeLangueConfig.getString(ConfigCles.str_nest_pas_une_entite_indexe), ". \", ", classeLangueConfig.getString(ConfigCles.var_entite), "Var));");
-			tl(2, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".addSort(var", classeLangueConfig.getString(ConfigCles.var_Indexe), ", ORDER.valueOf(", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), "));");
+			tl(2, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".sort(var", classeLangueConfig.getString(ConfigCles.var_Indexe), ", ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
 			tl(1, "}");
 			l();
 			tl(1, "public void ", classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Rows(", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", Integer ", classeLangueConfig.getString(ConfigCles.var_valeur), "Rows) {");
@@ -4269,14 +4252,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".setC(", classeNomSimple, ".class);");
 			tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 			tl(3, "if(", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Liste), " != null)");
-			tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".addFields(", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Liste), ");");
+			tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fl(", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Liste), ");");
 			s(wFacets);
 			l();
 			tl(3, "String id = ", classeLangueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"path\").getString(\"id\");");
 			tl(3, "if(", classeVarCleUnique, " != null && NumberUtils.isCreatable(", classeVarCleUnique, ")) {");
-			tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"(", classeVarClePrimaire, "_docvalues_long:\" + ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".escapeQueryChars(id) + \" OR ", classeVarId, "_docvalues_string:\" + ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".escapeQueryChars(id) + \")\");");
+			tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"(", classeVarClePrimaire, "_docvalues_long:\" + SearchTool.escapeQueryChars(id) + \" OR ", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(id) + \")\");");
 			tl(3, "} else if(", classeVarCleUnique, " != null) {");
-			tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeVarId, "_docvalues_string:\" + ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".escapeQueryChars(id));");
+			tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeVarId, "_docvalues_string:\" + SearchTool.escapeQueryChars(id));");
 			tl(3, "}");
 			if(classeRoles.size() > 0 && (classeRoleSession || classeRoleUtilisateur)) {
 				l();
@@ -4288,12 +4271,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "&& (", classeLangueConfig.getString(ConfigCles.var_modifier), " || !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ", classeLangueConfig.getString(ConfigCles.var_roleLires), "))");
 				tl(5, "&& (", classeLangueConfig.getString(ConfigCles.var_modifier), " || !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ", classeLangueConfig.getString(ConfigCles.var_roleLires), "))");
 				tl(5, ") {");
-				tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_docvalues_string:\" + ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId", classeLangueConfig.getString(ConfigCles.var_Avant), "()).orElse(\"-----\"))");
+				tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId", classeLangueConfig.getString(ConfigCles.var_Avant), "()).orElse(\"-----\"))");
 				tl(6, "+ \" OR ", classeLangueConfig.getString(ConfigCles.var_utilisateur), classeLangueConfig.getString(ConfigCles.var_Cle), "s_docvalues_longs:\" + Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), classeLangueConfig.getString(ConfigCles.var_Cle), "()).orElse(0L));");
 				tl(3, "}");
 			} else if(classeRoleSession || classeRoleUtilisateur) {
 				l();
-				tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_docvalues_string:\" + ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId", classeLangueConfig.getString(ConfigCles.var_Avant), "()).orElse(\"-----\"))");
+				tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId", classeLangueConfig.getString(ConfigCles.var_Avant), "()).orElse(\"-----\"))");
 				tl(4, "+ \" OR ", classeLangueConfig.getString(ConfigCles.var_utilisateur), classeLangueConfig.getString(ConfigCles.var_Cle), "s_docvalues_longs:\" + Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), classeLangueConfig.getString(ConfigCles.var_Cle), "()).orElse(0L));");
 			}
 			l();
@@ -4322,7 +4305,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(8, classeLangueConfig.getString(ConfigCles.var_entite), "Var = ", classeLangueConfig.getString(ConfigCles.var_entite), "Vars[i];");
 			tl(8, "vars", classeLangueConfig.getString(ConfigCles.var_Indexe), "[i] = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
 			tl(7, "}");
-			tl(7, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"facet.pivot\", (solrLocalParams == null ? \"\" : solrLocalParams) + StringUtils.join(vars", classeLangueConfig.getString(ConfigCles.var_Indexe), ", \",\"));");
+			tl(7, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetPivot((solrLocalParams == null ? \"\" : solrLocalParams) + StringUtils.join(vars", classeLangueConfig.getString(ConfigCles.var_Indexe), ", \",\"));");
 			tl(6, "}");
 			tl(5, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Valeurs), classeLangueConfig.getString(ConfigCles.var_Objet), " != null) {");
 
@@ -4389,24 +4372,24 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(9, "break;");
 	
 			tl(8, "case \"facet\":");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"facet\", ((Boolean)param", classeLangueConfig.getString(ConfigCles.var_Objet), ").toString());");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facet((Boolean)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
 			tl(9, "break;");
 	
 			tl(8, "case \"facet.range.start\":");
 			tl(9, "String startMathStr = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
-			tl(9, "Date start = ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".parseMath(startMathStr);");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"facet.range.start\", start.toInstant().toString());");
+			tl(9, "Date start = SearchTool.parseMath(startMathStr);");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeStart(start.toInstant().toString());");
 			tl(9, "break;");
 	
 			tl(8, "case \"facet.range.end\":");
 			tl(9, "String endMathStr = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
-			tl(9, "Date end = ", classePartsOutilRecherche.nomSimple(classeLangueNom), ".parseMath(endMathStr);");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"facet.range.end\", end.toInstant().toString());");
+			tl(9, "Date end = SearchTool.parseMath(endMathStr);");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeEnd(end.toInstant().toString());");
 			tl(9, "break;");
 	
 			tl(8, "case \"facet.range.gap\":");
 			tl(9, "String gap = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"facet.range.gap\", gap);");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeGap(gap);");
 			tl(9, "break;");
 	
 			tl(8, "case \"facet.range\":");
@@ -4416,7 +4399,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(10, "String solrLocalParams = mFacetRange.group(1);");
 			tl(10, classeLangueConfig.getString(ConfigCles.var_entite), "Var = mFacetRange.group(2).trim();");
 			tl(10, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
-			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"facet.range\", (solrLocalParams == null ? \"\" : solrLocalParams) + var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
+			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRange((solrLocalParams == null ? \"\" : solrLocalParams) + var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
 			tl(9, "}");
 			tl(9, "break;");
 	
@@ -4424,7 +4407,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(9, classeLangueConfig.getString(ConfigCles.var_entite), "Var = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
 			tl(9, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
 			tl(9, "if(var", classeLangueConfig.getString(ConfigCles.var_Indexe), " != null)");
-			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".addFacetField(var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
+			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetField(var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
 			tl(9, "break;");
 	
 			tl(8, "case \"var\":");
@@ -4435,7 +4418,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	
 			tl(8, "case \"cursorMark\":");
 			tl(9, classeLangueConfig.getString(ConfigCles.var_valeur), "CursorMark = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"cursorMark\", (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".cursorMark((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
 			tl(9, "break;");
 	
 			tl(7, "}");
@@ -4454,11 +4437,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						String classeTriVar = classeTrisVar.get(i);
 						String classeTriOrdre = classeTrisOrdre.get(i);
 						String classeTriSuffixeType = classeTrisSuffixeType.get(i);
-						tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".addSort(\"", classeTriVar, "_docvalues", classeTriSuffixeType, "\", ORDER.", classeTriOrdre, ");");
+						tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".sort(\"", classeTriVar, "_docvalues", classeTriSuffixeType, "\", \"", classeTriOrdre, "\");");
 					}
 				}
 				else {
-					tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".addSort(\"", classeVarCree, "_docvalues_date\", ORDER.desc);");
+					tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".sort(\"", classeVarCree, "_docvalues_date\", \"desc\");");
 				}
 				tl(3, "}");
 			}

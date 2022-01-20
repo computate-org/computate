@@ -542,6 +542,12 @@ public class ConfigSite {
 				.getBoolean(langueConfigGlobale.getString(ConfigCles.var_ECRIRE_COMMENTAIRE), true);
 	}
 
+	public Boolean activerLog;
+
+	protected void _activerLog() throws Exception {
+		activerLog = config.getBoolean( langueConfigGlobale.getString(ConfigCles.var_ACTIVER_LOG), true);
+	}
+
 	public Boolean activerSupprime;
 
 	protected void _activerSupprime() throws Exception {
@@ -672,6 +678,7 @@ public class ConfigSite {
 		_authRolesAdmin();
 		_ecrireApi();
 		_ecrireCommentaire();
+		_activerLog();
 		_activerSupprime();
 		_activerArchive();
 		_activerUtilisateurCle();
