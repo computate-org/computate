@@ -2383,6 +2383,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classSimpleNameGen
 	 */ 
 	public void genCodeConstructeur(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+		o = auteurGenClasse;
 		String constructeurCodeSource = (String)doc.get("constructeurCodeSource_" + langueNom + "_stored_string");
 		String constructeurCommentaire = (String)doc.get("constructeurCommentaire_" + langueNom + "_stored_string");
 		List<String> constructeurExceptionsNomSimpleComplet = (List<String>)doc.get("constructeurExceptionsNomSimpleComplet_stored_strings");
@@ -2486,6 +2487,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: methodValValue
 	 **/
 	public void genCodeMethode(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+		o = auteurGenClasse;
 
 		String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
 
@@ -3072,6 +3074,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: define
 	 */   
 	public void genCodeEntite(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+		o = auteurGenClasse;
 		entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
 		entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
 		entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + langueNom + "_stored_string");
@@ -3530,7 +3533,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				s("Promise<", entiteNomSimpleComplet, "> ", entiteVarParam);
 			}
 			else if(entiteCouverture) {
-				s(classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVarParam);
+				s("Wrap", "<", entiteNomSimpleComplet, "> ", entiteVarParam);
 			}
 			else {
 				s(entiteNomSimpleComplet, " ", entiteVarParam);
@@ -4186,11 +4189,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 	
 				if(entiteCouverture) {
-					t(2, classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVar, classePartsCouverture.nomSimple(langueNom));
-					l(" = new ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, ">().var(\"", entiteVar, "\");");
+					t(2, "Wrap", "<", entiteNomSimpleComplet, "> ", entiteVar, "Wrap");
+					l(" = new ", "Wrap", "<", entiteNomSimpleComplet, ">().var(\"", entiteVar, "\");");
 					tl(2, "if(", entiteVar, " == null) {");
-					tl(3, "_", entiteVar, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ");");
-					tl(3, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
+					tl(3, "_", entiteVar, "(", entiteVar, "Wrap", ");");
+					tl(3, "set", entiteVarCapitalise, "(", entiteVar, "Wrap", ".o);");
 					tl(2, "}");
 				}
 				else {
@@ -4633,7 +4636,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.q(\"*:*\");");
 				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.setC(", entiteAttribuerNomSimple, ".class);");
 				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.fq(\"", classeVarClePrimaire, "_docvalues_long:\" + ", classeVarClePrimaire, "2);");
-				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.rows(1);");
+				wIndexerFacetFor.tl(6, langueConfig.getString(ConfigCles.var_listeRecherche), "2.rows(1L);");
 				wIndexerFacetFor.tl(6, "futures.add(Future.future(promise2 -> {");
 				wIndexerFacetFor.tl(7, langueConfig.getString(ConfigCles.var_listeRecherche), "2.", langueConfig.getString(ConfigCles.var_promesseLoin), langueConfig.getString(ConfigCles.var_ListeRecherche), "(", langueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(b -> {");
 				wIndexerFacetFor.tl(8, entiteAttribuerNomSimple, " o2 = ", langueConfig.getString(ConfigCles.var_listeRecherche), "2.getList().stream().findFirst().orElse(null);");
@@ -6382,7 +6385,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}
 
-		if(classeApi && classeContientRequeteSite) {
+		if((classeModele || classeApi || classeIndexe) && classeContientRequeteSite) {
 			if(classePartsRequeteSite != null) {
 				//////////////////
 				// requeteApi //

@@ -216,10 +216,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * Var.enUS: classPartsAllWriter
 	 */
 	ClasseParts classePartsToutEcrivain;
-	/**
-	 * Var.enUS: classPartsWrap
-	 */
-	ClasseParts classePartsCouverture;
+//	/**
+//	 * Var.enUS: classPartsWrap
+//	 */
+//	ClasseParts classePartsCouverture;
 	/**
 	 * Var.enUS: classPartsSearchList
 	 */
@@ -1516,23 +1516,23 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		return classeParts;
 	}
-
-	/**
-	 * Var.enUS: classPartsWrap
-	 * Param1.var.enUS: domainPackageName
-	 * Param2.var.enUS: classLanguageName
-	 * r: classeLangueNom
-	 * r.enUS: classLanguageName
-	 * r: classePartsPourNomSimple
-	 * r.enUS: classPartsForSimpleName
-	 * r: nomEnsembleDomaine
-	 * r.enUS: domainPackageName
-	 * r: Couverture
-	 * r.enUS: Wrap
-	 */
-	protected ClasseParts classePartsCouverture(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_Couverture), langueNom);
-	}
+//
+//	/**
+//	 * Var.enUS: classPartsWrap
+//	 * Param1.var.enUS: domainPackageName
+//	 * Param2.var.enUS: classLanguageName
+//	 * r: classeLangueNom
+//	 * r.enUS: classLanguageName
+//	 * r: classePartsPourNomSimple
+//	 * r.enUS: classPartsForSimpleName
+//	 * r: nomEnsembleDomaine
+//	 * r.enUS: domainPackageName
+//	 * r: Couverture
+//	 * r.enUS: Wrap
+//	 */
+//	protected ClasseParts classePartsCouverture(String nomEnsembleDomaine, String langueNom) throws Exception {
+//		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_Couverture), langueNom);
+//	}
 
 	/**
 	 * Var.enUS: classPartsSiteRequest
@@ -3429,7 +3429,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsResultatRecherche = classePartsResultatRecherche(nomEnsembleDomaine, classeLangueNom);
 		classePartsToutEcrivain = classePartsToutEcrivain(nomEnsembleDomaine, classeLangueNom);
 		classePartsListeRecherche = classePartsListeRecherche(nomEnsembleDomaine, classeLangueNom);
-		classePartsCouverture = classePartsCouverture(nomEnsembleDomaine, classeLangueNom);
+//		classePartsCouverture = classePartsCouverture(nomEnsembleDomaine, classeLangueNom);
 		classePartsMiseEnPage = classePartsMiseEnPage(nomEnsembleDomaine, classeLangueNom);
 		classePartsPagePart = classePartsPagePart(nomEnsembleDomaine, classeLangueNom);
 		classePartsBaseApiServiceImpl = classePartsBaseApiServiceImpl(nomEnsembleDomaine, classeLangueNom);
@@ -4112,9 +4112,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteCouverture = false;
 						Boolean entitePromesse = false;
 
-						if(classePartsCouverture == null)
-							throw new RuntimeException(String.format("%s %s %s %s %s. ", classeLangueConfig.getString(ConfigCles.var_classe), classeLangueConfig.getString(ConfigCles.var_Couverture), classeLangueConfig.getString(ConfigCles.var_manquante), classeLangueConfig.getString(ConfigCles.var_dans), cheminSrcMainJava));
-						if(StringUtils.equalsAny(entiteClasseParts.nomSimple(classeLangueNom), "Promise", classePartsCouverture.nomSimple(classeLangueNom))) {
+//						if(classePartsCouverture == null)
+//							throw new RuntimeException(String.format("%s %s %s %s %s. ", classeLangueConfig.getString(ConfigCles.var_classe), classeLangueConfig.getString(ConfigCles.var_Couverture), classeLangueConfig.getString(ConfigCles.var_manquante), classeLangueConfig.getString(ConfigCles.var_dans), cheminSrcMainJava));
+						if(StringUtils.equalsAny(entiteClasseParts.nomSimple(classeLangueNom), "Promise", "Wrap")) {
 							if(StringUtils.equals(entiteClasseParts.nomSimple(classeLangueNom), "Promise")) {
 								entitePromesse = true;
 								classePromesse = true;
@@ -5726,7 +5726,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			stockerListeSolr(classeDoc, "classeMotsCles", classeMotCleValeur); 
 		}
 		
-		classePartsGenAjouter(classePartsCouverture, classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.computate.search.wrap.Wrap", classeLangueNom), classeLangueNom);
 
 		ArrayList<String> classeApiMethodes = regexListe("^" + classeLangueConfig.getString(ConfigCles.var_ApiMethode) + ":\\s*(.*)", classeCommentaire);
 		if(!classeApiMethodes.contains("Recherche") && classeMotsClesTrouves && (classeMotsCles.contains("Recherche.requete") || classeMotsCles.contains("Recherche.reponse")))
@@ -5819,7 +5819,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpServerRequest", classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpServerResponse", classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(classePartsListeRecherche, classeLangueNom);
-			classePartsGenPageAjouter(classePartsCouverture, classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "org.computate.search.wrap.Wrap", classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(classePartsMiseEnPage, classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalDateTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
