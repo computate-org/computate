@@ -3533,7 +3533,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				s("Promise<", entiteNomSimpleComplet, "> ", entiteVarParam);
 			}
 			else if(entiteCouverture) {
-				s("Wrap", "<", entiteNomSimpleComplet, "> ", entiteVarParam);
+				s(classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVarParam);
 			}
 			else {
 				s(entiteNomSimpleComplet, " ", entiteVarParam);
@@ -4189,11 +4189,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 	
 				if(entiteCouverture) {
-					t(2, "Wrap", "<", entiteNomSimpleComplet, "> ", entiteVar, "Wrap");
-					l(" = new ", "Wrap", "<", entiteNomSimpleComplet, ">().var(\"", entiteVar, "\");");
+					t(2, classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVar, classePartsCouverture.nomSimple(langueNom));
+					l(" = new ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, ">().var(\"", entiteVar, "\");");
 					tl(2, "if(", entiteVar, " == null) {");
-					tl(3, "_", entiteVar, "(", entiteVar, "Wrap", ");");
-					tl(3, "set", entiteVarCapitalise, "(", entiteVar, "Wrap", ".o);");
+					tl(3, "_", entiteVar, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ");");
+					tl(3, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
 					tl(2, "}");
 				}
 				else {

@@ -798,7 +798,7 @@ public class EcrireClasse extends IndexerClasse {
 						s(entiteVar);
 
 						if(BooleanUtils.isTrue(entiteCouverture))
-							s("(", "Wrap", "<", entiteNomSimpleComplet, "> ", entiteVarParam);
+							s("(", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVarParam);
 						else
 							s("(", entiteNomSimpleComplet, " ", entiteVarParam);
 						s(")");

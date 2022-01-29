@@ -1045,7 +1045,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "/**");
 				tl(1, " * ", langueConfig.getString(ConfigCles.var_Ignorer), ": true");
 				tl(1, "**/");
-				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_requeteSite), "_(", "", "Wrap", "<", classePartsRequeteSite.nomSimple(langueNom), "> c", ") {");
+				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_requeteSite), "_(", "", classePartsCouverture.nomSimple(langueNom), "<", classePartsRequeteSite.nomSimple(langueNom), "> c", ") {");
 				tl(1, "}");
 			}
 
@@ -1054,7 +1054,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, " * {@inheritDoc}");
 			tl(1, " * ", langueConfig.getString(ConfigCles.var_Ignorer), ": true");
 			tl(1, " **/");
-			tl(1, "protected void _", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_(", "Wrap", "<", langueConfig.getString(ConfigCles.var_ListeRecherche), "<", classeNomSimple, ">> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+			tl(1, "protected void _", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_(", classePartsCouverture.nomSimple(langueNom), "<", langueConfig.getString(ConfigCles.var_ListeRecherche), "<", classeNomSimple, ">> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 			tl(1, "}");
 			l();
 			tl(1, "/**");
@@ -1064,11 +1064,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_).map(o -> o.get", langueConfig.getString(ConfigCles.var_Liste), "()).orElse(Arrays.asList()).stream().map(o -> JsonObject.mapFrom(o)).forEach(o -> l.add(o));");
 			tl(1, "}");
 			l();
-			tl(1, "protected void _", uncapitalizeClasseNomSimple, "Count(", "Wrap", "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+			tl(1, "protected void _", uncapitalizeClasseNomSimple, "Count(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 			tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_ == null ? 0 : ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.size());");
 			tl(1, "}");
 			l();
-			tl(1, "protected void _", uncapitalizeClasseNomSimple, "_(", "", "Wrap", "<", classeNomSimple, "> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+			tl(1, "protected void _", uncapitalizeClasseNomSimple, "_(", "", classePartsCouverture.nomSimple(langueNom), "<", classeNomSimple, "> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 			if(classePageSimple) {
 				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(new ", classeNomSimple, "());");
 			} else {
@@ -1077,7 +1077,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			tl(1, "}");
 			l();
-			tl(1, "protected void _", classeVarClePrimaire, "(", "Wrap", "<Long> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+			tl(1, "protected void _", classeVarClePrimaire, "(", classePartsCouverture.nomSimple(langueNom), "<Long> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 			tl(2, "if(", uncapitalizeClasseNomSimple, "Count == 1)");
 			tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "());");
 			tl(1, "}");
@@ -1097,14 +1097,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l();
 			if(classePageSuperNomSimple != null)
 				tl(1, "@Override");
-			tl(1, "protected void _", classePageLangueConfig.getString(ConfigCles.var_classeNomSimple), "(", "Wrap", "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+			tl(1, "protected void _", classePageLangueConfig.getString(ConfigCles.var_classeNomSimple), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 			tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(\"", classeNomSimple, "\");");
 			tl(1, "}");
 
 			l();
 			if(classePageSuperNomSimple != null)
 				tl(1, "@Override");
-			tl(1, "protected void _page", langueConfig.getString(ConfigCles.var_Titre), "(", "Wrap", "<String> c) {");
+			tl(1, "protected void _page", langueConfig.getString(ConfigCles.var_Titre), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 			if(classeVarTitre != null) {
 				tl(2, "if(", uncapitalizeClasseNomSimple, "_ != null && ", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarTitre), "() != null)");
 				tl(3, "c.o(", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarTitre), "()", ");");
@@ -1126,7 +1126,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l();
 			if(classePageSuperNomSimple != null)
 				tl(1, "@Override");
-			tl(1, "protected void _pageUri(", "Wrap", "<String> c) {");
+			tl(1, "protected void _pageUri(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 			tl(2, "c.o(", q(classePageUriMethode), ");");
 			tl(1, "}");
 			for(String pageLangueNom : toutesLangues) {
@@ -1137,7 +1137,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						l();
 						if(classePageSuperNomSimple != null)
 							tl(1, "@Override");
-						tl(1, "protected void _pageUri", StringUtils.capitalize(pageLangueNom), "(", "Wrap", "<String> c) {");
+						tl(1, "protected void _pageUri", StringUtils.capitalize(pageLangueNom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 						tl(2, "c.o(", q(classePageUriMethodeLangue), ");");
 						tl(1, "}");
 					}
@@ -1293,7 +1293,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _pageDescription(", "Wrap", "<String> c) {");
+				tl(1, "protected void _pageDescription(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				tl(3, "c.o(", q(contexteDescription), ");");
 				tl(1, "}");
 			}
@@ -1302,7 +1302,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _pageImageUri(", "Wrap", "<String> c) {");
+				tl(1, "protected void _pageImageUri(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				tl(3, "c.o(", q("/png", classePageUriMethode, "-999.png"), ");");
 				tl(1, "}");
 			}
@@ -1311,7 +1311,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _pageImage", langueConfig.getString(ConfigCles.var_Largeur), "(", "Wrap", "<Integer> c) {");
+				tl(1, "protected void _pageImage", langueConfig.getString(ConfigCles.var_Largeur), "(", classePartsCouverture.nomSimple(langueNom), "<Integer> c) {");
 				tl(3, "c.o(", contexteImageLargeur, ");");
 				tl(1, "}");
 			}
@@ -1320,7 +1320,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _pageImage", langueConfig.getString(ConfigCles.var_Hauteur), "(", "Wrap", "<Integer> c) {");
+				tl(1, "protected void _pageImage", langueConfig.getString(ConfigCles.var_Hauteur), "(", classePartsCouverture.nomSimple(langueNom), "<Integer> c) {");
 				tl(3, "c.o(", contexteImageHauteur, ");");
 				tl(1, "}");
 			}
@@ -1329,7 +1329,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _pageVideoId(", "Wrap", "<String> c) {");
+				tl(1, "protected void _pageVideoId(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				tl(3, "c.o(", q(contexteVideoId), ");");
 				tl(1, "}");
 			}
@@ -1338,7 +1338,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_contexte), langueConfig.getString(ConfigCles.var_Icone), langueConfig.getString(ConfigCles.var_Groupe), "(", "Wrap", "<String> c) {");
+				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_contexte), langueConfig.getString(ConfigCles.var_Icone), langueConfig.getString(ConfigCles.var_Groupe), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				tl(3, "c.o(", q(contexteIconeGroupe), ");");
 				tl(1, "}");
 			}
@@ -1347,7 +1347,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_contexte), langueConfig.getString(ConfigCles.var_Icone), langueConfig.getString(ConfigCles.var_Nom), "(", "Wrap", "<String> c) {");
+				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_contexte), langueConfig.getString(ConfigCles.var_Icone), langueConfig.getString(ConfigCles.var_Nom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				tl(3, "c.o(", q(contexteIconeNom), ");");
 				tl(1, "}");
 			}
@@ -1362,7 +1362,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			if(StringUtils.isNotBlank(classeApiUri)) {
 				l();
-				tl(1, "protected void _pageUri", classeNomSimple, "(", "Wrap", "<String> c) {");
+				tl(1, "protected void _pageUri", classeNomSimple, "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				tl(3, "c.o(", q(classePageUriMethode), ");");
 				tl(1, "}");
 			}
