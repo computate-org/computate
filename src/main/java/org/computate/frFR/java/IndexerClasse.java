@@ -1551,7 +1551,10 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: SiteRequest
 	 */
 	protected ClasseParts classePartsRequeteSite(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_RequeteSite), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_RequeteSite), langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.search.request.SiteRequest", langueNom);
+		return parts;
 	}
 
 	protected ClasseParts classePartsUtilisateurSite(String nomEnsembleDomaine, String langueNom) throws Exception {
@@ -1698,27 +1701,45 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	protected ClasseParts classePartsZonedDateTimeDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, "ZonedDateTimeDeserializer", langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "ZonedDateTimeDeserializer", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.search.serialize.ComputateZonedDateTimeDeserializer", langueNom);
+		return parts;
 	}
 
 	protected ClasseParts classePartsZonedDateTimeSerializer(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, "ZonedDateTimeSerializer", langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "ZonedDateTimeSerializer", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.search.serialize.ComputateZonedDateTimeSerializer", langueNom);
+		return parts;
 	}
 
 	protected ClasseParts classePartsLocalDateDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, "LocalDateDeserializer", langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "LocalDateDeserializer", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.search.serialize.ComputateLocalDateDeserializer", langueNom);
+		return parts;
 	}
 
 	protected ClasseParts classePartsLocalDateSerializer(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, "LocalDateSerializer", langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "LocalDateSerializer", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.search.serialize.ComputateLocalDateSerializer", langueNom);
+		return parts;
 	}
 
 	protected ClasseParts classePartsLocalTimeDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, "LocalTimeDeserializer", langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "LocalTimeDeserializer", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.search.serialize.ComputateLocalTimeDeserializer", langueNom);
+		return parts;
 	}
 
 	protected ClasseParts classePartsLocalTimeSerializer(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, "LocalTimeSerializer", langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "LocalTimeSerializer", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.search.serialize.ComputateLocalTimeSerializer", langueNom);
+		return parts;
 	}
 
 	/**
@@ -3601,12 +3622,12 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 
 		if(classeEtendBase) {
-			if(classeNomSimpleSuperGenerique.equals(classePartsCluster.nomSimple(langueNomGlobale)))
+			if(classePartsCluster != null && classeNomSimpleSuperGenerique.equals(classePartsCluster.nomSimple(langueNomGlobale)))
 				classePromesse = true;
 			classePartsGenAjouter(classePartsCluster, classeLangueNom);
 		}
 		else if(classeEstBase) {
-			if(classePartsCluster != null && classeNomSimple.equals(classePartsCluster.nomSimple(langueNomGlobale)))
+			if(classePartsCluster != null && classePartsCluster != null && classeNomSimple.equals(classePartsCluster.nomSimple(langueNomGlobale)))
 				classePromesse = true;
 			classePartsGenAjouter(classePartsCluster, classeLangueNom);
 		}
@@ -5932,9 +5953,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.buffer.Buffer", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.CompositeFuture", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.http.HttpHeaders", classeLangueNom), classeLangueNom);
-				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.http.client.utils.URLEncodedUtils", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.nio.charset.Charset", classeLangueNom), classeLangueNom);
-				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.http.NameValuePair", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.service.ServiceRequest", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.service.ServiceResponse", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.client.predicate.ResponsePredicate", classeLangueNom), classeLangueNom);
