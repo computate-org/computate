@@ -299,6 +299,16 @@ public class ConfigSite {
 	}
 
 	/**
+	 */
+	public String computateEnsembleRecherchePrefixe;
+
+	/**
+	 **/
+	protected void _computateEnsembleRecherchePrefixe() throws Exception {
+		computateEnsembleRecherchePrefixe = config.getString(langueConfigGlobale.getString(ConfigCles.var_COMPUTATE_ENSEMBLE_RECHERCHE_PREFIXE), "org.computate.search org.computate.vertx ");
+	}
+
+	/**
 	 * Var.enUS: domainPackageName enUS: The Java package name for the domain
 	 * (example.com would have a package name of "com.example").
 	 */
@@ -646,6 +656,7 @@ public class ConfigSite {
 		_langueIndexe();
 		_nomDomaine();
 		_siteUrlBase();
+		_computateEnsembleRecherchePrefixe();
 		_nomDomaine();
 		_nomEnsembleDomaine();
 		_nomFichierConfig();

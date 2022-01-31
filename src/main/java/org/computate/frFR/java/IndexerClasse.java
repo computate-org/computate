@@ -1424,7 +1424,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			rechercheSolr.setRows(1);
 			rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomGlobale + "_indexed_string:" + ClientUtils.escapeQueryChars(nomCanonique));
 			rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-			rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+			rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 			QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
 			SolrDocumentList listeRecherche = reponseRecherche.getResults();
 			if(listeRecherche.size() > 0) {
@@ -1552,17 +1552,27 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	protected ClasseParts classePartsRequeteSite(String nomEnsembleDomaine, String langueNom) throws Exception {
 		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_RequeteSite), langueNom);
-		if(parts == null)
-			parts = ClasseParts.initClasseParts(this, "org.computate.search.request.SiteRequest", langueNom);
+		if(parts == null) {
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.request.SiteRequest", langueNom);
+			parts.setEtendGen(true);
+		}
 		return parts;
 	}
 
 	protected ClasseParts classePartsUtilisateurSite(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_UtilisateurSite), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_UtilisateurSite), langueNom);
+		if(parts == null) {
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.model.user.SiteUser", langueNom);
+			parts.setEtendGen(true);
+		}
+		return parts;
 	}
 
 	protected ClasseParts classePartsOutilRecherche(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_OutilRecherche), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_OutilRecherche), langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.search.tool.SearchTool", langueNom);
+		return parts;
 	}
 
 	/**
@@ -1579,7 +1589,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: ApiRequest
 	 */
 	protected ClasseParts classePartsRequeteApi(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_RequeteApi), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_RequeteApi), langueNom);
+		if(parts == null) {
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.api.ApiRequest", langueNom);
+			parts.setEtendGen(true);
+		}
+		return parts;
 	}
 
 	/**
@@ -1596,7 +1611,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: Cluster
 	 */
 	protected ClasseParts classePartsCluster(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_Cluster), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_Cluster), langueNom);
+		if(parts == null) {
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.model.base.BaseModel", langueNom);
+			parts.setEtendGen(true);
+		}
+		return parts;
 	}
 
 	/**
@@ -1613,7 +1633,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: SearchResult
 	 */
 	protected ClasseParts classePartsResultatRecherche(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ResultatRecherche), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ResultatRecherche), langueNom);
+		if(parts == null) {
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.search.list.SearchResult", langueNom);
+			parts.setEtendGen(true);
+		}
+		return parts;
 	}
 
 	/**
@@ -1630,7 +1655,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: AllWriter
 	 */
 	protected ClasseParts classePartsToutEcrivain(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ToutEcrivain), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ToutEcrivain), langueNom);
+		if(parts == null) {
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.writer.AllWriter", langueNom);
+			parts.setEtendGen(true);
+		}
+		return parts;
 	}
 
 	/**
@@ -1647,7 +1677,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: SearchList
 	 */
 	protected ClasseParts classePartsListeRecherche(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ListeRecherche), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ListeRecherche), langueNom);
+		if(parts == null) {
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.search.list.SearchList", langueNom);
+			parts.setEtendGen(true);
+		}
+		return parts;
 	}
 
 	/**
@@ -1664,7 +1699,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: PageLayout
 	 */
 	protected ClasseParts classePartsMiseEnPage(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_MiseEnPage), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_MiseEnPage), langueNom);
+		if(parts == null) {
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.page.PageLayout", langueNom);
+			parts.setEtendGen(true);
+		}
+		return parts;
 	}
 
 	/**
@@ -1689,15 +1729,24 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	protected ClasseParts classePartsBaseApiServiceImpl(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_BaseApiServiceImpl), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_BaseApiServiceImpl), langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.api.BaseApiServiceImpl", langueNom);
+		return parts;
 	}
 
 	protected ClasseParts classePartsMailVerticle(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_MailVerticle), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_MailVerticle), langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.verticle.EmailVerticle", langueNom);
+		return parts;
 	}
 
 	protected ClasseParts classePartsConfigCles(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ConfigCles), langueNom);
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ConfigCles), langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.config.ComputateVertxConfigKeys", langueNom);
+		return parts;
 	}
 
 	protected ClasseParts classePartsZonedDateTimeDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
@@ -3473,8 +3522,12 @@ public class IndexerClasse extends RegarderClasseBase {
 			classeInitLoin = classeEtendBase || classeEstBase;
 //			classeInitLoin = classeContientRequeteSite;
 		classeInitLoin = stockerSolr(classeDoc, "classeInitLoin", classeInitLoin);
-		if(classeInitLoin)
-			classePartsGenAjouter(classePartsRequeteSite, classeLangueNom);
+		if(classeInitLoin) {
+			if(classePartsRequeteSite.getEtendBase())
+				classePartsGenAjouter(ClasseParts.initClasseParts(this, classePartsRequeteSite.getNomCanoniqueSuperGenerique(), classeLangueNom), classeLangueNom);
+			else
+				classePartsGenAjouter(classePartsRequeteSite, classeLangueNom);
+		}
 		indexerStockerSolr(classeDoc, "classeEtendGen", classeEtendGen);
 
 		indexerStockerSolr(classeDoc, "langueNom", classeLangueNom); 
@@ -3621,22 +3674,25 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
-		if(classeEtendBase) {
-			if(classePartsCluster != null && classeNomSimpleSuperGenerique.equals(classePartsCluster.nomSimple(langueNomGlobale)))
-				classePromesse = true;
-			classePartsGenAjouter(classePartsCluster, classeLangueNom);
+		if(activerVertx) {
+			if(classeEtendBase) {
+				if(classePartsCluster != null && classeNomSimpleSuperGenerique.equals(classePartsCluster.nomSimple(langueNomGlobale)))
+					classePromesse = true;
+				classePartsGenAjouter(classePartsCluster, classeLangueNom);
+			}
+			else if(classeEstBase) {
+				if(classePartsCluster != null && classePartsCluster != null && classeNomSimple.equals(classePartsCluster.nomSimple(langueNomGlobale)))
+					classePromesse = true;
+				classePartsGenAjouter(classePartsCluster, classeLangueNom);
+			}
+			if(classeSauvegarde) {
+				classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom), classeLangueNom);
+				classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom), classeLangueNom);
+				classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Set", classeLangueNom), classeLangueNom);
+			}
+			classePartsGenAjouter(classePartsRequeteApi, classeLangueNom);
+			classePartsGenAjouter(classePartsConfigCles, classeLangueNom);
 		}
-		else if(classeEstBase) {
-			if(classePartsCluster != null && classePartsCluster != null && classeNomSimple.equals(classePartsCluster.nomSimple(langueNomGlobale)))
-				classePromesse = true;
-			classePartsGenAjouter(classePartsCluster, classeLangueNom);
-		}
-		if(classeSauvegarde) {
-			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom), classeLangueNom);
-			classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom), classeLangueNom);
-			classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Set", classeLangueNom), classeLangueNom);
-		}
-		classePartsGenAjouter(classePartsRequeteApi, classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Optional.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", classeLangueNom), classeLangueNom);
@@ -3673,7 +3729,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, RoundingMode.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, Map.class.getCanonicalName(), classeLangueNom), classeLangueNom);
-		classePartsGenAjouter(classePartsConfigCles, classeLangueNom);
 
 		Boolean classePublicLire = false;
 		Boolean classeRoleSession = false;
@@ -3856,13 +3911,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			ClasseParts classePartsSuperGenerique = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, classeLangueNom);
 			classePartsGenAjouter(classePartsSuperGenerique, classeLangueNom);
 
-			if(StringUtils.startsWith(classeNomCanoniqueSuper, nomEnsembleDomaine)) {
+			if(StringUtils.startsWith(classeNomCanoniqueSuper, nomEnsembleDomaine) || StringUtils.startsWith(classeNomCanoniqueSuper, ClasseParts.NOM_ENSEMBLE_DOMAINE_COMPUTATE)) {
 				SolrQuery rechercheSolr = new SolrQuery();   
 				rechercheSolr.setQuery("*:*");
 				rechercheSolr.setRows(1);
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classeNomCanoniqueSuperGenerique));
 				rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 				QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList listeRecherche = reponseRecherche.getResults();
 				if(listeRecherche.size() > 0) { 
@@ -3875,7 +3930,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				rechercheSolr.setRows(1);
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classeNomCanoniqueSuperGenerique));
 				rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 				QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList listeRecherche = reponseRecherche.getResults();
 				if(listeRecherche.size() > 0) { 
@@ -4253,7 +4308,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							rechercheSolrMethodeAvant.setRows(10);
 							String fqMethodeAvant = "(" + entiteNomsCanoniquesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(classeLangueConfig.getString(ConfigCles.var_avant) + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
 							rechercheSolrMethodeAvant.addFilterQuery("entiteClassesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
-							rechercheSolrMethodeAvant.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+							rechercheSolrMethodeAvant.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 							rechercheSolrMethodeAvant.addFilterQuery("partEstMethode_indexed_boolean:true");
 							rechercheSolrMethodeAvant.addFilterQuery("methodeVar_" + classeLangueNom + "_indexed_string:" + fqMethodeAvant);
 							QueryResponse reponseRechercheMethodeAvant = clientSolrComputate.query(rechercheSolrMethodeAvant);
@@ -4294,7 +4349,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							rechercheSolrMethodeApres.setRows(10);
 							String fqMethodeApres = "(" + entiteNomsCanoniquesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(classeLangueConfig.getString(ConfigCles.var_apres) + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
 							rechercheSolrMethodeApres.addFilterQuery("entiteClassesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
-							rechercheSolrMethodeApres.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+							rechercheSolrMethodeApres.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 							rechercheSolrMethodeApres.addFilterQuery("partEstMethode_indexed_boolean:true");
 							rechercheSolrMethodeApres.addFilterQuery("methodeVar_" + classeLangueNom + "_indexed_string:" + fqMethodeApres);
 							QueryResponse reponseRechercheMethodeApres = clientSolrComputate.query(rechercheSolrMethodeApres);
@@ -4616,7 +4671,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							rechercheSolrClasse.setQuery("*:*");
 							rechercheSolrClasse.setRows(1);
 							rechercheSolrClasse.addFilterQuery("classeNomSimple_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomSimple));
-							rechercheSolrClasse.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+							rechercheSolrClasse.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 							rechercheSolrClasse.addFilterQuery("partEstClasse_indexed_boolean:true");
 							QueryResponse reponseRechercheClasse = clientSolrComputate.query(rechercheSolrClasse);
 							SolrDocumentList listeRechercheClasse = reponseRechercheClasse.getResults();
@@ -4640,7 +4695,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								rechercheSolrVar.setRows(1);
 								rechercheSolrVar.addFilterQuery("classeNomCanonique_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerNomCanonique));
 								rechercheSolrVar.addFilterQuery("entiteVar_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteAttribuerVar));
-								rechercheSolrVar.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+								rechercheSolrVar.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 								rechercheSolrVar.addFilterQuery("partEstEntite_indexed_boolean:true");
 								QueryResponse reponseRechercheVar = clientSolrComputate.query(rechercheSolrVar);
 								SolrDocumentList listeRechercheVar = reponseRechercheVar.getResults();
@@ -5806,7 +5861,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				recherchePageSuper.setQuery("*:*");
 				recherchePageSuper.setRows(1);
 				recherchePageSuper.addFilterQuery("classeNomSimple_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePageSuperNomSimple));
-				recherchePageSuper.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+				recherchePageSuper.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 				recherchePageSuper.addFilterQuery("partEstClasse_indexed_boolean:true");
 				recherchePageSuper.addFilterQuery("langueNom_indexed_string:" + ClientUtils.escapeQueryChars(classeLangueNom));
 				QueryResponse reponseRecherchePageSuper = clientSolrComputate.query(recherchePageSuper);
@@ -5885,7 +5940,10 @@ public class IndexerClasse extends RegarderClasseBase {
 
 				classePartsGenApi.clear();
 		
-				classePartsGenApiAjouter(classePartsRequeteSite, classeLangueNom);
+				if(classePartsRequeteSite.getEtendBase())
+					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePartsRequeteSite.getNomCanoniqueSuperGenerique(), classeLangueNom), classeLangueNom);
+				else
+					classePartsGenApiAjouter(classePartsRequeteSite, classeLangueNom);
 				classePartsGenApiAjouter(classePartsUtilisateurSite, classeLangueNom);
 				classePartsGenApiAjouter(classePartsRequeteApi, classeLangueNom);
 				classePartsGenApiAjouter(classePartsResultatRecherche, classeLangueNom);
@@ -6061,7 +6119,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							recherchePage.setQuery("*:*");
 							recherchePage.setRows(1);
 							recherchePage.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePageNomSimpleMethode));
-							recherchePage.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+							recherchePage.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 							recherchePage.addFilterQuery("partEstClasse_indexed_boolean:true");
 							QueryResponse reponseRecherchePage = clientSolrComputate.query(recherchePage);
 							SolrDocumentList listeRecherchePage = reponseRecherchePage.getResults();
@@ -6134,7 +6192,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								recherchePageSuper.setQuery("*:*");
 								recherchePageSuper.setRows(1);
 								recherchePageSuper.addFilterQuery("classeNomSimple_" + classePageLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePageSuperNomSimpleMethode));
-								recherchePageSuper.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(nomEnsembleDomaine));
+								recherchePageSuper.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 								recherchePageSuper.addFilterQuery("partEstClasse_indexed_boolean:true");
 								recherchePageSuper.addFilterQuery("langueNom_indexed_string:" + ClientUtils.escapeQueryChars(classePageLangueNom));
 								QueryResponse reponseRecherchePageSuper = clientSolrComputate.query(recherchePageSuper);

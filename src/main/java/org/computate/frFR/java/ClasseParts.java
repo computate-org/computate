@@ -21,6 +21,8 @@ public class ClasseParts {
 //
 //	private ConfigSite configSite;
 
+	public static final String NOM_ENSEMBLE_DOMAINE_COMPUTATE = "org.computate.";
+
 	private String valeurGenerique;
 
 	/**
@@ -147,7 +149,19 @@ public class ClasseParts {
 
 	/**
 	 */
-	private Boolean etendGen;
+	private String nomSimpleSuperGenerique;
+
+	/**
+	 */
+	private String nomCanoniqueSuperGenerique;
+
+	/**
+	 */
+	private Boolean etendGen = false;
+
+	/**
+	 */
+	private Boolean etendBase = false;
 
 	/**
 	 */
@@ -165,7 +179,7 @@ public class ClasseParts {
 	public static SolrDocument documentSolr(ConfigSite configSite, String nomSimpleOuCanonique, String langueNom) throws Exception {
 		SolrDocument doc = null;   
 		Boolean contientPoint = nomSimpleOuCanonique.contains(".");
-		if(!contientPoint || StringUtils.startsWith(nomSimpleOuCanonique, configSite.nomEnsembleDomaine)) {
+		if(!contientPoint || StringUtils.startsWith(nomSimpleOuCanonique, configSite.nomEnsembleDomaine) || StringUtils.startsWith(nomSimpleOuCanonique, NOM_ENSEMBLE_DOMAINE_COMPUTATE)) {
 			SolrQuery rechercheSolr = new SolrQuery();   
 			rechercheSolr.setQuery("*:*");
 			rechercheSolr.setRows(1);
@@ -176,7 +190,8 @@ public class ClasseParts {
 				rechercheSolr.addFilterQuery("classeNomSimple_" + langueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(nomSimpleOuCanonique));
 
 			rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-			rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(configSite.nomEnsembleDomaine));
+			if(!contientPoint)
+				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:" + ClientUtils.escapeQueryChars(configSite.nomEnsembleDomaine));
 //			rechercheSolr.addFilterQuery("langueNom_indexed_string:" + ClientUtils.escapeQueryChars(langueNom));
 			QueryResponse reponseRecherche = configSite.clientSolrComputate.query(rechercheSolr);
 			SolrDocumentList listeRecherche = reponseRecherche.getResults();
@@ -312,6 +327,9 @@ public class ClasseParts {
 //			nomCanonique = (String)documentSolr1.get("classeNomCanonique_" + langueNom + "_stored_string");
 			nomSimple = (String)documentSolr.get("classeNomSimple_" + langueNom + "_stored_string");
 			etendGen = (Boolean)documentSolr.get("classeEtendGen_stored_boolean");
+			etendBase = (Boolean)documentSolr.get("classeEtendBase_stored_boolean");
+			setNomSimpleSuperGenerique((String)documentSolr.get("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string"));
+			setNomCanoniqueSuperGenerique((String)documentSolr.get("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string"));
 		}
 		if(nomSimple == null) {
 			nomSimple = StringUtils.substringAfterLast(nomCanonique, ".");
@@ -521,6 +539,15 @@ public class ClasseParts {
 	public void setValeurGenerique(String valeurGenerique) {
 		this.valeurGenerique = valeurGenerique;
 	}
+
+	public Boolean getEtendBase() {
+		return etendBase;
+	}
+
+	public void setEtendBase(Boolean etendBase) {
+		this.etendBase = etendBase;
+	}
+
 	public Boolean getEtendGen() {
 		return etendGen;
 	}
@@ -545,6 +572,19 @@ public class ClasseParts {
 		this.langueNom = langueNom;
 	}
 
+	public String getNomCanoniqueSuperGenerique() {
+		return nomCanoniqueSuperGenerique;
+	}
+	public void setNomCanoniqueSuperGenerique(String nomCanoniqueSuperGenerique) {
+		this.nomCanoniqueSuperGenerique = nomCanoniqueSuperGenerique;
+	}
+
+	public String getNomSimpleSuperGenerique() {
+		return nomSimpleSuperGenerique;
+	}
+	public void setNomSimpleSuperGenerique(String nomSimpleSuperGenerique) {
+		this.nomSimpleSuperGenerique = nomSimpleSuperGenerique;
+	}
 	/**
 	 */
 	@Override public String toString() {

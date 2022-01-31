@@ -94,6 +94,7 @@ public class ConfigCles {
 	public static final String var_clientWeb = "var_clientWeb";
 	public static final String var_Cluster = "var_Cluster";
 	public static final String var_Colonne = "var_Colonne";
+	public static final String var_COMPUTATE_ENSEMBLE_RECHERCHE_PREFIXE = "var_COMPUTATE_ENSEMBLE_RECHERCHE_PREFIXE";
 	public static final String var_ConfigChemin = "var_ConfigChemin";
 	public static final String var_ConfigCles = "var_ConfigCles";
 	public static final String var_Config = "var_Config";
