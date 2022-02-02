@@ -1551,21 +1551,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: SiteRequest
 	 */
 	protected ClasseParts classePartsRequeteSite(String nomEnsembleDomaine, String langueNom) throws Exception {
-		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_RequeteSite), langueNom);
-		if(parts == null) {
-			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.request.SiteRequest", langueNom);
-			parts.setEtendGen(true);
-		}
-		return parts;
+		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_RequeteSite), langueNom);
 	}
 
 	protected ClasseParts classePartsUtilisateurSite(String nomEnsembleDomaine, String langueNom) throws Exception {
-		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_UtilisateurSite), langueNom);
-		if(parts == null) {
-			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.model.user.SiteUser", langueNom);
-			parts.setEtendGen(true);
-		}
-		return parts;
+		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_UtilisateurSite), langueNom);
 	}
 
 	protected ClasseParts classePartsOutilRecherche(String nomEnsembleDomaine, String langueNom) throws Exception {
@@ -1611,12 +1601,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: Cluster
 	 */
 	protected ClasseParts classePartsCluster(String nomEnsembleDomaine, String langueNom) throws Exception {
-		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_Cluster), langueNom);
-		if(parts == null) {
-			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.model.base.BaseModel", langueNom);
-			parts.setEtendGen(true);
-		}
-		return parts;
+		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_Cluster), langueNom);
 	}
 
 	/**
@@ -1699,12 +1684,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: PageLayout
 	 */
 	protected ClasseParts classePartsMiseEnPage(String nomEnsembleDomaine, String langueNom) throws Exception {
-		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_MiseEnPage), langueNom);
-		if(parts == null) {
-			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.page.PageLayout", langueNom);
-			parts.setEtendGen(true);
-		}
-		return parts;
+		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_MiseEnPage), langueNom);
 	}
 
 	/**
