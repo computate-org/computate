@@ -1,3 +1,16 @@
+/*
+ * Copyright (c) 2018-2022 Computate Limited Liability Company in Utah, USA. 
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the GNU GENERAL PUBLIC LICENSE Version 3 which is available at
+ * 
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
+ * 
+ * You may not propagate or modify a covered work except as expressly provided 
+ * under this License. Any attempt otherwise to propagate or modify it is void, 
+ * and will automatically terminate your rights under this License (including 
+ * any patent licenses granted under the third paragraph of section 11).
+ */
 package org.computate.frFR.java;   
 
 import java.awt.image.BufferedImage;
@@ -42,6 +55,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RegExUtils;
@@ -3279,6 +3293,14 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: suffix
 	 */        
 	public SolrInputDocument indexerClasse(String classeCheminAbsolu, SolrInputDocument classeDoc, String classeLangueNom) throws Exception { 
+
+		String classeStr = FileUtils.readFileToString(new File(classeCheminAbsolu), "UTF-8");
+		Matcher classeDroitAuteurMatcher = Pattern.compile("\\/\\*[\\s\\S]+?[Cc]opyright[\\s\\S]+?(?=\\*\\/)\\*\\/", Pattern.MULTILINE).matcher(classeStr);
+		if(classeDroitAuteurMatcher.find()) {
+			String classeDroitAuteur = classeDroitAuteurMatcher.group(0);
+			indexerStockerSolr(classeDoc, "classeDroitAuteur", classeDroitAuteur);
+		}
+
 
 		String[] classeAutresLangues = ArrayUtils.removeAllOccurences(toutesLangues, classeLangueNom);
 		String classeNomCanonique = StringUtils.replace(StringUtils.substringAfter(StringUtils.substringBeforeLast(classeCheminAbsolu, "."), "/java/"), "/", ".");
