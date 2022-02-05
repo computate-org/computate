@@ -3524,7 +3524,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			classeInitLoin = classeEtendBase || classeEstBase;
 //			classeInitLoin = classeContientRequeteSite;
 		classeInitLoin = stockerSolr(classeDoc, "classeInitLoin", classeInitLoin);
-		if(classeInitLoin) {
+		if(classeInitLoin && classePartsRequeteSite != null) {
 			if(classePartsRequeteSite.getEtendBase())
 				classePartsGenAjouter(ClasseParts.initClasseParts(this, classePartsRequeteSite.getNomCanoniqueSuperGenerique(), classeLangueNom), classeLangueNom);
 			else
