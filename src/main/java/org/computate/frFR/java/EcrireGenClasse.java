@@ -1463,10 +1463,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
 			tl(4, "o = ", langueConfig.getString(ConfigCles.var_obtenir), classeNomSimple, "(v);");
-			if(activerVertx && classePartsCluster != null) {
-				tl(3, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
-				tl(4, classePartsCluster.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
-				tl(4, "o = ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), ".", langueConfig.getString(ConfigCles.var_obtenir), langueConfig.getString(ConfigCles.var_PourClasse), "(v);");
+			if(activerVertx && classePartsModeleBase != null) {
+				tl(3, "else if(o instanceof ", classePartsModeleBase.nomSimple(langueNom), ") {");
+				tl(4, classePartsModeleBase.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsModeleBase.nomSimple(langueNom)), " = (", classePartsModeleBase.nomSimple(langueNom), ")o;");
+				tl(4, "o = ", StringUtils.uncapitalize(classePartsModeleBase.nomSimple(langueNom)), ".", langueConfig.getString(ConfigCles.var_obtenir), langueConfig.getString(ConfigCles.var_PourClasse), "(v);");
 				tl(3, "}");
 			}
 			tl(3, "else if(o instanceof Map) {");
@@ -1531,10 +1531,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "for(String v : vars) {");
 			tl(3, "if(o == null)");
 			tl(4, "o = ", langueConfig.getString(ConfigCles.var_attribuer), classeNomSimple + "(v, val);");
-			if(activerVertx && classePartsCluster != null) {
-				tl(3, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
-				tl(4, classePartsCluster.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
-				tl(4, "o = ", StringUtils.uncapitalize(classePartsCluster.nomSimple(langueNom)), ".", langueConfig.getString(ConfigCles.var_attribuer), langueConfig.getString(ConfigCles.var_PourClasse), "(v, val);");
+			if(activerVertx && classePartsModeleBase != null) {
+				tl(3, "else if(o instanceof ", classePartsModeleBase.nomSimple(langueNom), ") {");
+				tl(4, classePartsModeleBase.nomSimple(langueNom), " ", StringUtils.uncapitalize(classePartsModeleBase.nomSimple(langueNom)), " = (", classePartsModeleBase.nomSimple(langueNom), ")o;");
+				tl(4, "o = ", StringUtils.uncapitalize(classePartsModeleBase.nomSimple(langueNom)), ".", langueConfig.getString(ConfigCles.var_attribuer), langueConfig.getString(ConfigCles.var_PourClasse), "(v, val);");
 				tl(3, "}");
 			}
 			tl(2, "}");
@@ -6187,10 +6187,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(3, "for(String v : vars) {");
 			tl(4, "if(o == null)");
 			tl(5, "o = ", langueConfig.getString(ConfigCles.var_definir), "", classeNomSimple, "(v, val);");
-			if(activerVertx && classePartsCluster != null) {
-				tl(4, "else if(o instanceof ", classePartsCluster.nomSimple(langueNom), ") {");
-				tl(5, classePartsCluster.nomSimple(langueNom), " o", classePartsCluster.nomSimple(langueNom), " = (", classePartsCluster.nomSimple(langueNom), ")o;");
-				tl(5, "o = o", classePartsCluster.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_definir), langueConfig.getString(ConfigCles.var_PourClasse), "(v, val);");
+			if(activerVertx && classePartsModeleBase != null) {
+				tl(4, "else if(o instanceof ", classePartsModeleBase.nomSimple(langueNom), ") {");
+				tl(5, classePartsModeleBase.nomSimple(langueNom), " o", classePartsModeleBase.nomSimple(langueNom), " = (", classePartsModeleBase.nomSimple(langueNom), ")o;");
+				tl(5, "o = o", classePartsModeleBase.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_definir), langueConfig.getString(ConfigCles.var_PourClasse), "(v, val);");
 				tl(4, "}");
 			}
 			tl(3, "}");

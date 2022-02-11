@@ -219,9 +219,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	ClasseParts classePartsRequeteApi;
 	/**
-	 * Var.enUS: classPartsCluster
+	 * Var.enUS: classPartsModeleBase
 	 */
-	ClasseParts classePartsCluster;
+	ClasseParts classePartsModeleBase;
 	/**
 	 * Var.enUS: classPartsSearchResult
 	 */
@@ -1602,7 +1602,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	}
 
 	/**
-	 * Var.enUS: classPartsCluster
+	 * Var.enUS: classPartsModeleBase
 	 * Param1.var.enUS: domainPackageName
 	 * Param2.var.enUS: classLanguageName
 	 * r: classeLangueNom
@@ -1611,11 +1611,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classPartsForSimpleName
 	 * r: nomEnsembleDomaine
 	 * r.enUS: domainPackageName
-	 * r: Cluster
-	 * r.enUS: Cluster
+	 * r: ModeleBase
+	 * r.enUS: ModeleBase
 	 */
-	protected ClasseParts classePartsCluster(String nomEnsembleDomaine, String langueNom) throws Exception {
-		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_Cluster), langueNom);
+	protected ClasseParts classePartsModeleBase(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ModeleBase), langueNom);
 	}
 
 	/**
@@ -2349,8 +2349,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: classPartsSiteUser
 	 * r: classePartsRequeteApi
 	 * r.enUS: classPartsApiRequest
-	 * r: classePartsCluster
-	 * r.enUS: classPartsCluster
+	 * r: classePartsModeleBase
+	 * r.enUS: classPartsModeleBase
 	 * r: classePartsResultatRecherche
 	 * r.enUS: classPartsSearchResult
 	 * r: classePartsSolrInputDocument
@@ -3500,7 +3500,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsArrayList = ClasseParts.initClasseParts(this, ArrayList.class.getCanonicalName(), classeLangueNom);
 		classePartsUtilisateurSite = classePartsUtilisateurSite(nomEnsembleDomaine, classeLangueNom);
 		classePartsRequeteApi = classePartsRequeteApi(nomEnsembleDomaine, classeLangueNom);
-		classePartsCluster = classePartsCluster(nomEnsembleDomaine, classeLangueNom);
+		classePartsModeleBase = classePartsModeleBase(nomEnsembleDomaine, classeLangueNom);
 		classePartsResultatRecherche = classePartsResultatRecherche(nomEnsembleDomaine, classeLangueNom);
 		classePartsToutEcrivain = classePartsToutEcrivain(nomEnsembleDomaine, classeLangueNom);
 		classePartsListeRecherche = classePartsListeRecherche(nomEnsembleDomaine, classeLangueNom);
@@ -3678,14 +3678,14 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		if(activerVertx) {
 			if(classeEtendBase) {
-				if(classePartsCluster != null && classeNomSimpleSuperGenerique.equals(classePartsCluster.nomSimple(langueNomGlobale)))
+				if(classePartsModeleBase != null && classeNomSimpleSuperGenerique.equals(classePartsModeleBase.nomSimple(langueNomGlobale)))
 					classePromesse = true;
-				classePartsGenAjouter(classePartsCluster, classeLangueNom);
+				classePartsGenAjouter(classePartsModeleBase, classeLangueNom);
 			}
 			else if(classeEstBase) {
-				if(classePartsCluster != null && classePartsCluster != null && classeNomSimple.equals(classePartsCluster.nomSimple(langueNomGlobale)))
+				if(classePartsModeleBase != null && classePartsModeleBase != null && classeNomSimple.equals(classePartsModeleBase.nomSimple(langueNomGlobale)))
 					classePromesse = true;
-				classePartsGenAjouter(classePartsCluster, classeLangueNom);
+				classePartsGenAjouter(classePartsModeleBase, classeLangueNom);
 			}
 			if(classeSauvegarde) {
 				classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom), classeLangueNom);

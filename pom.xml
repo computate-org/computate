@@ -17,7 +17,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>computate</artifactId>
 	<packaging>jar</packaging>
-	<name>Computate Search Tools</name>
+	<name>Computate Vert.x Code Generation Tools</name>
 	<description>Code that generates more code as you save. Internationalized. Integrated with Solr search. A new way to write code to make persistence easier. </description>
 	<url>https://github.com/computate-org/computate</url>
 

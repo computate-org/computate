@@ -105,7 +105,7 @@ public class ConfigCles {
 	public static final String var_clientSql = "var_clientSql";
 	public static final String var_ClientSql = "var_ClientSql";
 	public static final String var_clientWeb = "var_clientWeb";
-	public static final String var_Cluster = "var_Cluster";
+	public static final String var_ModeleBase = "var_ModeleBase";
 	public static final String var_Colonne = "var_Colonne";
 	public static final String var_COMPUTATE_ENSEMBLE_RECHERCHE_PREFIXE = "var_COMPUTATE_ENSEMBLE_RECHERCHE_PREFIXE";
 	public static final String var_ConfigChemin = "var_ConfigChemin";
