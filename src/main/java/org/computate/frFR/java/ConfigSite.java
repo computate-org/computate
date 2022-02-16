@@ -624,7 +624,7 @@ public class ConfigSite {
 
 	protected void _activerVertx() throws Exception {
 		activerVertx = config.getBoolean(
-				langueConfigGlobale.getString(ConfigCles.var_ACTIVER_VERTX), !activerQuarkus);
+				langueConfigGlobale.getString(ConfigCles.var_ACTIVER_VERTX), true);
 	}
 
 	/**

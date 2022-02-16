@@ -669,6 +669,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		String classeGenPageCheminHbs = (String)classeDoc.get("classeGenPageCheminHbs"   + "_" + langueNom + "_stored_string");
 		String classePageUriMethode = (String)classeDoc.get("classeApiUri"  + "_" + langueNom + "_stored_string");
 		String classePageLangueNom = (String)classeDoc.get("classePageLangueNom"  + "_" + langueNom + "_stored_string");
+		Boolean classeModele = (Boolean)classeDoc.get("classeModele_stored_boolean");
 		YAMLConfiguration classePageLangueConfig = null;
 		if(classePageLangueNom != null) {
 			classePageLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, classePageLangueNom));
@@ -1089,11 +1090,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.get(0));");
 			}
 			tl(1, "}");
-			l();
-			tl(1, "protected void _", classeVarClePrimaire, "(", classePartsCouverture.nomSimple(langueNom), "<Long> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-			tl(2, "if(", uncapitalizeClasseNomSimple, "Count == 1)");
-			tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "());");
-			tl(1, "}");
+			if(classeModele) {
+				l();
+				tl(1, "protected void _", classeVarClePrimaire, "(", classePartsCouverture.nomSimple(langueNom), "<Long> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+				tl(2, "if(", uncapitalizeClasseNomSimple, "Count == 1)");
+				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "());");
+				tl(1, "}");
+			}
 
 			l();
 			if(classePageSuperNomSimple != null) {

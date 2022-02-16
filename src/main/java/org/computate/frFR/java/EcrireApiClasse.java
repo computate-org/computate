@@ -354,6 +354,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l("import io.vertx.core.WorkerExecutor;");
 			auteurApiServiceImpl.l("import io.vertx.core.json.JsonObject;");
 			auteurApiServiceImpl.l("import io.vertx.pgclient.PgPool;");
+			if(classePage)
+				auteurApiServiceImpl.l("import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;");
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurApiServiceImpl.l();
 			auteurApiServiceImpl.l("/**");
@@ -2990,27 +2992,39 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "pgPool.withTransaction(", classeLangueConfig.getString(ConfigCles.var_connexionSql), " -> {");
 							tl(4, "Promise<", classeNomSimple, "> promise1 = Promise.promise();");
 							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(", classeLangueConfig.getString(ConfigCles.var_connexionSql), ");");
-							tl(4, classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
-							tl(5, "sql", classeApiMethode, classeNomSimple, "(", uncapitalizeClasseNomSimple, ", inheritPk).onSuccess(b -> {");
-							tl(6, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
-							tl(7, classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
-							tl(8, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
-							tl(9, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
-							tl(8, "}).onFailure(ex -> {");
-							tl(9, "promise1.fail(ex);");
-							tl(8, "});");
-							tl(7, "}).onFailure(ex -> {");
-							tl(8, "promise1.fail(ex);");
-							tl(7, "});");
-							tl(6, "}).onFailure(ex -> {");
-							tl(7, "promise1.fail(ex);");
-							tl(6, "});");
-							tl(5, "}).onFailure(ex -> {");
-							tl(6, "promise1.fail(ex);");
-							tl(5, "});");
-							tl(4, "}).onFailure(ex -> {");
-							tl(5, "promise1.fail(ex);");
-							tl(4, "});");
+							if(classeModele) {
+								tl(4, classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
+								tl(5, "sql", classeApiMethode, classeNomSimple, "(", uncapitalizeClasseNomSimple, ", inheritPk).onSuccess(b -> {");
+								tl(6, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
+								tl(7, classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
+								tl(8, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
+								tl(9, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
+								tl(8, "}).onFailure(ex -> {");
+								tl(9, "promise1.fail(ex);");
+								tl(8, "});");
+								tl(7, "}).onFailure(ex -> {");
+								tl(8, "promise1.fail(ex);");
+								tl(7, "});");
+								tl(6, "}).onFailure(ex -> {");
+								tl(7, "promise1.fail(ex);");
+								tl(6, "});");
+								tl(5, "}).onFailure(ex -> {");
+								tl(6, "promise1.fail(ex);");
+								tl(5, "});");
+								tl(4, "}).onFailure(ex -> {");
+								tl(5, "promise1.fail(ex);");
+								tl(4, "});");
+							} else {
+								tl(4, classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
+								tl(5, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
+								tl(6, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
+								tl(5, "}).onFailure(ex -> {");
+								tl(6, "promise1.fail(ex);");
+								tl(5, "});");
+								tl(4, "}).onFailure(ex -> {");
+								tl(5, "promise1.fail(ex);");
+								tl(4, "});");
+							}
 							tl(4, "return promise1.future();");
 							tl(3, "}).onSuccess(a -> {");
 							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");
@@ -4131,36 +4145,43 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "// General //");
 
-			if(classeApiMethodes.contains("PATCH") || classeApiMethodes.contains("PUT")) {
+			if(classeApiMethodes.contains("POST") || classeApiMethodes.contains("PATCH") || classeApiMethodes.contains("PUT")) {
 				l();
 				tl(1, "public Future<", classeNomSimple, "> ", classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, "(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ") {");
 				tl(2, "Promise<", classeNomSimple, "> promise = Promise.promise();");
 				tl(2, "try {");
-				tl(3, "SqlConnection ", classeLangueConfig.getString(ConfigCles.var_connexionSql), " = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "();");
-				tl(3, "String ", classeLangueConfig.getString(ConfigCles.var_utilisateur), "Id = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "Id();");
-				tl(3, "Long ", classeLangueConfig.getString(ConfigCles.var_utilisateurCle), " = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurCle), "();");
-				tl(3, "ZonedDateTime ", classeLangueConfig.getString(ConfigCles.var_cree), " = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_ObjetJson), "()).map(j -> j.getString(\"", classeLangueConfig.getString(ConfigCles.var_cree), "\")).map(s -> ZonedDateTime.parse(s, DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.of(config.getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SITE_ZONE))))).orElse(ZonedDateTime.now(ZoneId.of(config.getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SITE_ZONE))));");
-				l();
-				if(activerUtilisateurCle) {
-					tl(3, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"INSERT INTO ", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_cree), ", ", classeLangueConfig.getString(ConfigCles.var_utilisateurCle), ") VALUES($1, $2) RETURNING ", classeVarClePrimaire, "\")");
-					tl(5, ".collecting(Collectors.toList())");
-					tl(5,".execute(Tuple.of(", classeLangueConfig.getString(ConfigCles.var_cree), ".toOffsetDateTime(), ", classeLangueConfig.getString(ConfigCles.var_utilisateurCle), ")).onSuccess(", classeLangueConfig.getString(ConfigCles.var_resultat), " -> {");
+				if(classeModele) {
+					tl(3, "SqlConnection ", classeLangueConfig.getString(ConfigCles.var_connexionSql), " = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "();");
+					tl(3, "String ", classeLangueConfig.getString(ConfigCles.var_utilisateur), "Id = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "Id();");
+					tl(3, "Long ", classeLangueConfig.getString(ConfigCles.var_utilisateurCle), " = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurCle), "();");
+					tl(3, "ZonedDateTime ", classeLangueConfig.getString(ConfigCles.var_cree), " = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_ObjetJson), "()).map(j -> j.getString(\"", classeLangueConfig.getString(ConfigCles.var_cree), "\")).map(s -> ZonedDateTime.parse(s, DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.of(config.getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SITE_ZONE))))).orElse(ZonedDateTime.now(ZoneId.of(config.getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SITE_ZONE))));");
+					l();
+					if(activerUtilisateurCle) {
+						tl(3, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"INSERT INTO ", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_cree), ", ", classeLangueConfig.getString(ConfigCles.var_utilisateurCle), ") VALUES($1, $2) RETURNING ", classeVarClePrimaire, "\")");
+						tl(5, ".collecting(Collectors.toList())");
+						tl(5,".execute(Tuple.of(", classeLangueConfig.getString(ConfigCles.var_cree), ".toOffsetDateTime(), ", classeLangueConfig.getString(ConfigCles.var_utilisateurCle), ")).onSuccess(", classeLangueConfig.getString(ConfigCles.var_resultat), " -> {");
+					} else {
+						tl(3, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"INSERT INTO ", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_cree), ") VALUES($1) RETURNING ", classeVarClePrimaire, "\")");
+						tl(5, ".collecting(Collectors.toList())");
+						tl(5,".execute(Tuple.of(", classeLangueConfig.getString(ConfigCles.var_cree), ".toOffsetDateTime())).onSuccess(", classeLangueConfig.getString(ConfigCles.var_resultat), " -> {");
+					}
+					tl(4, "Row ", classeLangueConfig.getString(ConfigCles.var_creer), classeLangueConfig.getString(ConfigCles.var_Ligne), " = ", classeLangueConfig.getString(ConfigCles.var_resultat), ".value().stream().findFirst().orElseGet(() -> null);");
+					tl(4, "Long ", classeVarClePrimaire, " = ", classeLangueConfig.getString(ConfigCles.var_creer), classeLangueConfig.getString(ConfigCles.var_Ligne), ".getLong(0);");
+					tl(4, classeNomSimple, " o = new ", classeNomSimple, "();");
+					tl(4, "o.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
+					tl(4, "o.set", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
+					tl(4, "promise.complete(o);");
+					tl(3, "}).onFailure(ex -> {");
+					tl(4, "RuntimeException ex2 = new RuntimeException(ex);");
+					tl(4, "LOG.error(\"", classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \", ex2);");
+					tl(4, "promise.fail(ex2);");
+					tl(3, "});");
 				} else {
-					tl(3, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"INSERT INTO ", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_cree), ") VALUES($1) RETURNING ", classeVarClePrimaire, "\")");
-					tl(5, ".collecting(Collectors.toList())");
-					tl(5,".execute(Tuple.of(", classeLangueConfig.getString(ConfigCles.var_cree), ".toOffsetDateTime())).onSuccess(", classeLangueConfig.getString(ConfigCles.var_resultat), " -> {");
+					tl(3, classeNomSimple, " o = new ", classeNomSimple, "();");
+					tl(3, "o.set", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
+					tl(3, "promise.complete(o);");
+					
 				}
-				tl(4, "Row ", classeLangueConfig.getString(ConfigCles.var_creer), classeLangueConfig.getString(ConfigCles.var_Ligne), " = ", classeLangueConfig.getString(ConfigCles.var_resultat), ".value().stream().findFirst().orElseGet(() -> null);");
-				tl(4, "Long ", classeVarClePrimaire, " = ", classeLangueConfig.getString(ConfigCles.var_creer), classeLangueConfig.getString(ConfigCles.var_Ligne), ".getLong(0);");
-				tl(4, classeNomSimple, " o = new ", classeNomSimple, "();");
-				tl(4, "o.set", StringUtils.capitalize(classeVarClePrimaire), "(", classeVarClePrimaire, ");");
-				tl(4, "o.set", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
-				tl(4, "promise.complete(o);");
-				tl(3, "}).onFailure(ex -> {");
-				tl(4, "RuntimeException ex2 = new RuntimeException(ex);");
-				tl(4, "LOG.error(\"", classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \", ex2);");
-				tl(4, "promise.fail(ex2);");
-				tl(3, "});");
 				tl(2, "} catch(Exception ex) {");
 				tl(3, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
 				tl(3, "promise.fail(ex);");
