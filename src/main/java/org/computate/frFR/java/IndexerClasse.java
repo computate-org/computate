@@ -3410,7 +3410,14 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 		Boolean classeEstBase = indexerStockerSolr(classeDoc, "classeEstBase", !classeBaseEtendGen || StringUtils.isEmpty(classeNomCompletSuperGenerique) || StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
 		Boolean classeEtendBase = indexerStockerSolr(classeDoc, "classeEtendBase", !classeEstBase && classeBaseEtendGen && !StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
-		Boolean classePromesse = false;
+		
+		String classeCommentaire = stockerRegexCommentaires(classeLangueNom, classeDoc, "classeCommentaire", classeQdox.getComment());
+		String classeNomEnsemble = StringUtils.substringBeforeLast(classeNomCanonique, ".");
+		String classeChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), ".java");
+		String classeCheminRepertoire = StringUtils.substringBeforeLast(classeChemin, "/");
+		String classeCheminGen = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "Gen.java");
+
+		Boolean classePromesse = regexTrouve("^(classe)?" + classeLangueConfig.getString(ConfigCles.var_Promesse) + ":\\s*(true)$", classeCommentaire);
 		indexerStockerSolr(classeDoc, "classeBaseEtendGen", classeBaseEtendGen);
 		Boolean classeContientRequeteSite = false;
 		try {
@@ -3420,12 +3427,6 @@ public class IndexerClasse extends RegarderClasseBase {
 			// TODO ctate fix this to pull from solr. 
 		}
 		indexerStockerSolr(classeDoc, "classeContientRequeteSite", classeContientRequeteSite);
-		
-		String classeCommentaire = stockerRegexCommentaires(classeLangueNom, classeDoc, "classeCommentaire", classeQdox.getComment());
-		String classeNomEnsemble = StringUtils.substringBeforeLast(classeNomCanonique, ".");
-		String classeChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), ".java");
-		String classeCheminRepertoire = StringUtils.substringBeforeLast(classeChemin, "/");
-		String classeCheminGen = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), "Gen.java");
 
 		String classeCheminRepertoireGen = StringUtils.substringBeforeLast(classeCheminGen, "/");
 		String classeCle = classeCheminAbsolu;

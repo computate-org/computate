@@ -6160,7 +6160,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 		}
 
-		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
+		if((classeModele || classePartsModeleBase != null && classePartsModeleBase.nomCanonique(langueNom).equals(classeNomCanonique)) && classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// ", langueConfig.getString(ConfigCles.var_definir), " //");
@@ -6223,7 +6223,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////
 		// codePeupler //
 		/////////////////
-		if(classeIndexe) {
+		if((classeModele || classePartsModeleBase != null && classePartsModeleBase.nomCanonique(langueNom).equals(classeNomCanonique)) && classeIndexe) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// ", langueConfig.getString(ConfigCles.var_peupler), " //");
