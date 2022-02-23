@@ -2417,7 +2417,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "Integer commitWithin = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 						tl(5, "if(softCommit == null && commitWithin == null)");
 						tl(6, "softCommit = true;");
-						tl(5, "if(softCommit)");
+						tl(5, "if(softCommit != null)");
 						tl(6, "query.put(\"softCommit\", softCommit);");
 						tl(5, "if(commitWithin != null)");
 						tl(6, "query.put(\"commitWithin\", commitWithin);");
@@ -2427,7 +2427,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "eventBus.request(\"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
 						tl(6, "JsonObject responseMessage = (JsonObject)a.body();");
 						tl(6, "JsonObject responseBody = new JsonObject(new String(Base64.getDecoder().decode(responseMessage.getString(\"payload\")), Charset.forName(\"UTF-8\")));");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Long.parseLong(responseBody.getString(\"pk\")));");
+						if(classeModele)
+							tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Long.parseLong(responseBody.getString(\"pk\")));");
 						tl(6, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(responseBody.encodePrettily()))));");
 						tl(6, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
 						tl(5, "}).onFailure(ex -> {");
@@ -2720,7 +2721,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "Integer commitWithin = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 						tl(5, "if(softCommit == null && commitWithin == null)");
 						tl(6, "softCommit = true;");
-						tl(5, "if(softCommit)");
+						tl(5, "if(softCommit != null)");
 						tl(6, "query.put(\"softCommit\", softCommit);");
 						tl(5, "if(commitWithin != null)");
 						tl(6, "query.put(\"commitWithin\", commitWithin);");
@@ -3046,8 +3047,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(3, "});");
 							} else {
 								tl(3, classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
-								tl(4, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
-								tl(5, "promise.complete(", uncapitalizeClasseNomSimple, ");");
+								tl(4, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
+								tl(5, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
+								tl(6, "promise.complete(", uncapitalizeClasseNomSimple, ");");
+								tl(5, "}).onFailure(ex -> {");
+								tl(6, "promise.fail(ex);");
+								tl(5, "});");
 								tl(4, "}).onFailure(ex -> {");
 								tl(5, "promise.fail(ex);");
 								tl(4, "});");
@@ -4499,15 +4504,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(1, "}");
 			tl(1, "public void ", classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "2(", classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", Boolean ", classeLangueConfig.getString(ConfigCles.var_peupler), ", Boolean ", classeLangueConfig.getString(ConfigCles.var_stocker), ", Boolean ", classeLangueConfig.getString(ConfigCles.var_modifier), ", ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeNomSimple, "> ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ") {");
 			tl(1, "}");
+		
+			/////////////
+			// definir //
+			/////////////
+			l();
+			tl(1, "public Future<Void> ", classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", classeNomSimple, " o) {");
+			tl(2, "Promise<Void> promise = Promise.promise();");
+			tl(2, "try {");
+			tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), " = o.get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_();");
 			if(classeModele) {
-				/////////////
-				// definir //
-				/////////////
-				l();
-				tl(1, "public Future<Void> ", classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", classeNomSimple, " o) {");
-				tl(2, "Promise<Void> promise = Promise.promise();");
-				tl(2, "try {");
-				tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), " = o.get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_();");
 				tl(3, "SqlConnection ", classeLangueConfig.getString(ConfigCles.var_connexionSql), " = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "();");
 				tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
 				tl(3, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"SELECT * FROM ", classeNomSimple, " WHERE ", classeVarClePrimaire, "=$1\")");
@@ -4538,13 +4544,34 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex2);");
 				tl(4, "promise.fail(ex2);");
 				tl(3, "});");
-				tl(2, "} catch(Exception ex) {");
-				tl(3, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-				tl(3, "promise.fail(ex);");
-				tl(2, "}");
-				tl(2, "return promise.future();");
-				tl(1, "}");
-				l();
+			} else {
+				tl(4, "try {");
+				tl(5, "JsonObject jsonObject = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getJsonObject();");
+				tl(5, "jsonObject.forEach(definition -> {");
+				tl(7, "String columnName = definition.getKey();");
+				tl(7, "Object columnValue = definition.getValue();");
+				tl(6, "if(!\"", classeVarClePrimaire, "\".equals(columnName)) {");
+				tl(7, "try {");
+				tl(8, "o.", classeLangueConfig.getString(ConfigCles.var_definir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(columnName, columnValue);");
+				tl(7, "} catch(Exception e) {");
+				tl(8, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), e);");
+				tl(7, "}");
+				tl(6, "}");
+				tl(5, "});");
+				tl(5, "promise.complete();");
+				tl(4, "} catch(Exception ex) {");
+				tl(5, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+				tl(5, "promise.fail(ex);");
+				tl(4, "}");
+			}
+			tl(2, "} catch(Exception ex) {");
+			tl(3, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+			tl(3, "promise.fail(ex);");
+			tl(2, "}");
+			tl(2, "return promise.future();");
+			tl(1, "}");
+			l();
+			if(classeModele) {
 				///////////////
 				// attribuer //
 				///////////////
@@ -4664,7 +4691,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(5, "Integer commitWithin = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 					tl(5, "if(softCommit == null && commitWithin == null)");
 					tl(6, "softCommit = true;");
-					tl(5, "if(softCommit)");
+					tl(5, "if(softCommit != null)");
 					tl(6, "query.put(\"softCommit\", softCommit);");
 					tl(5, "if(commitWithin != null)");
 					tl(6, "query.put(\"commitWithin\", commitWithin);");
