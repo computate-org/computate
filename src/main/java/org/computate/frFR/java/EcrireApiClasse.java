@@ -2426,7 +2426,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
 						tl(5, "eventBus.request(\"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
 						tl(6, "JsonObject responseMessage = (JsonObject)a.body();");
-						tl(6, "JsonObject responseBody = new JsonObject(new String(Base64.getDecoder().decode(responseMessage.getString(\"payload\")), Charset.forName(\"UTF-8\")));");
+						tl(6, "JsonObject responseBody = new JsonObject(Buffer.buffer(JsonUtil.BASE64_DECODER.decode(responseMessage.getString(\"payload\"))));");
 						if(classeModele)
 							tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Long.parseLong(responseBody.getString(\"pk\")));");
 						tl(6, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(responseBody.encodePrettily()))));");
