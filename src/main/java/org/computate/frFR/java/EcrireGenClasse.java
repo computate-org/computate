@@ -4529,25 +4529,15 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(entiteTexte) {
 					if(entiteLangue == null)
 						entiteLangue = langueNom;
-					if("frFR".equals(entiteLangue) || "esES".equals(entiteLangue)) {
-						if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
-							tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
-							tl(4, "doc.put(\"", entiteVar, "_text_", entiteLangue, "\", o", "String".equals(entiteNomSimpleCompletGenerique) ? "" : ".toString()", ");");
-							tl(3, "}");
-						}
-						else {
-							tl(3, "doc.put(\"", entiteVar, "_text_", entiteLangue, "\", ", entiteVar, "", "String".equals(entiteNomSimpleCompletGenerique) ? "" : ".toString()", ");");
-						}
+					if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
+						tl(3, "JsonArray l = new JsonArray();");
+						tl(3, "doc.put(\"", entiteVar, "_text_", entiteLangue, "\", l);");
+						tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
+						tl(4, "l.add(o", "String".equals(entiteNomSimpleCompletGenerique) ? "" : ".toString()", ");");
+						tl(3, "}");
 					}
 					else {
-						if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
-							tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
-							tl(4, "doc.put(\"", entiteVar, "_text_enUS\", o", "String".equals(entiteNomSimpleCompletGenerique) ? "" : ".toString()", ");");
-							tl(3, "}");
-						}
-						else {
-							tl(3, "doc.put(\"", entiteVar, "_text_enUS", "\", ", entiteVar, "", "String".equals(entiteNomSimpleCompletGenerique) ? "" : ".toString()", ");");
-						}
+						tl(3, "doc.put(\"", entiteVar, "_text_", entiteLangue, "\", ", entiteVar, "", "String".equals(entiteNomSimpleCompletGenerique) ? "" : ".toString()", ");");
 					}
 				}
 	
@@ -4572,8 +4562,10 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
 					}
 					else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
-						tl(3, "for(", entiteNomCanoniqueGenerique, " o : ", entiteVar, ") {");
-						tl(4, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", o);");
+						tl(3, "JsonArray l = new JsonArray();");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", l);");
+						tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
+						tl(4, "l.add(o);");
 						tl(3, "}");
 					}
 					else {
@@ -4858,6 +4850,10 @@ public class EcrireGenClasse extends EcrireClasse {
 						} else {
 							tl(4, "if(val instanceof ", entiteNomSimpleComplet, ")");
 							tl(5, "set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+							if(!StringUtils.equals(entiteNomCanonique, String.class.getCanonicalName())) {
+								tl(4, "else if(val instanceof String)");
+								tl(5, "set", entiteVarCapitalise, "((String)val);");
+							}
 						}
 						if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 							tl(4, "else if(val instanceof OffsetDateTime)");
