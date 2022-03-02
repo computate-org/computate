@@ -3249,7 +3249,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(StringUtils.isBlank(entiteValLangue))
 						entiteValLangue = langueNom;
 					entiteValVarLangue = entiteValVar + entiteValLangue;
-					entiteValCode = entiteValsCode.get(j);
+					entiteValCode = entiteValsCode == null ? "" : entiteValsCode.get(j);
 					entiteValValeur = entiteValsValeur.get(j);
 	
 					Integer xmlPart = 0;
