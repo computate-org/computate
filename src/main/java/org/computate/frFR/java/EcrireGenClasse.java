@@ -4655,10 +4655,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				wIndexerFacetFor.tl(9, "params.put(\"cookie\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"path\", new JsonObject());");
 				wIndexerFacetFor.tl(9, "params.put(\"query\", new JsonObject().put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + pk2)));");
-				wIndexerFacetFor.tl(9, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), ".get", langueConfig.getString(ConfigCles.var_Utilisateur), "()).map(", langueConfig.getString(ConfigCles.var_utilisateur), " -> ", langueConfig.getString(ConfigCles.var_utilisateur), ".principal()).orElse(null));");
+				wIndexerFacetFor.tl(9, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", langueConfig.getString(ConfigCles.var_requeteSite), ".getUserPrincipal());");
 				wIndexerFacetFor.tl(9, "JsonObject json = new JsonObject().put(\"context\", context);");
 				wIndexerFacetFor.tl(9, "eventBus.request(\"", siteNom, "-", langueNom, "-", entiteAttribuerNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"patch", entiteAttribuerNomSimple, "Future\")).onSuccess(c -> {");
-				wIndexerFacetFor.tl(6, "JsonObject responseMessage = (JsonObject)c.body();");
+				wIndexerFacetFor.tl(10, "JsonObject responseMessage = (JsonObject)c.body();");
 				wIndexerFacetFor.tl(10, "Integer statusCode = responseMessage.getInteger(\"statusCode\");");
 				wIndexerFacetFor.tl(10, "if(statusCode.equals(200))");
 				wIndexerFacetFor.tl(11, "promise2.complete();");
@@ -5398,7 +5398,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(15, "name=\"", "set", entiteVarCapitalise, "\"");
 				tl(15, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(15, "autocomplete=\"off\"");
-				t(15, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "($(this).val() ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
+				t(15, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "($(this).val() ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", langueConfig.getString(ConfigCles.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
 				s("{{#if ", classeVarClePrimaire, "}}{'name':'fq','value':'", entiteAttribuerVar, ":{{", classeVarClePrimaire, "}}'}{{else}}{{/if}}");
 				l("], $('#list", classeNomSimple, entiteVarCapitalise, "_{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}'), {{", classeVarClePrimaire, "}}); \"");
 				tl(15, "/>");
@@ -5710,7 +5710,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(15, "name=\"", "set", entiteVarCapitalise, "\"");
 				tl(15, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(15, "autocomplete=\"off\"");
-				t(15, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "($(this).val() ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
+				t(15, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "($(this).val() ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", langueConfig.getString(ConfigCles.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
 				s("{{#if ", classeVarClePrimaire, "}}{'name':'fq','value':'", entiteAttribuerVar, ":{{", classeVarClePrimaire, "}}'}{{else}}{{/if}}");
 				l("], $('#list", classeNomSimple, entiteVarCapitalise, "_{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}'), {{", classeVarClePrimaire, "}}); \"");
 				tl(15, "/>");
