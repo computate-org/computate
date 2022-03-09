@@ -3429,14 +3429,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if("LocalDate".equals(entiteNomSimple)) {
 				tl(1, "@JsonProperty");
-				tl(1, "@JsonDeserialize(using = ToStringSerializer.class)");
-				tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
+				tl(1, "@JsonDeserialize(using = ", classePartsLocalDateDeserializer.nomSimple(langueNom), ".class)");
+				tl(1, "@JsonSerialize(using = ", classePartsLocalDateSerializer.nomSimple(langueNom), ".class)");
 				tl(1, "@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = \"yyyy-MM-dd\")");
 			}
 			else if("LocalTime".equals(entiteNomSimple)) {
 				tl(1, "@JsonProperty");
-				tl(1, "@JsonDeserialize(using = ToStringSerializer.class)");
-				tl(1, "@JsonSerialize(using = ToStringSerializer.class)");
+				tl(1, "@JsonDeserialize(using = ", classePartsLocalTimeDeserializer.nomSimple(langueNom), ".class)");
+				tl(1, "@JsonSerialize(using = ", classePartsLocalTimeSerializer.nomSimple(langueNom), ".class)");
 				tl(1, "@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = \"HH:mm:ss.SSS\")");
 			}
 			else if("ZonedDateTime".equals(entiteNomSimple)) {
@@ -3789,7 +3789,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(classeContientRequeteSite) {
 				tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
-					tl(2, "this.", entiteVar, " = o == null ? null : o.toInstant().atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_siteZone), ")))).toLocalDate();");
+					tl(2, "this.", entiteVar, " = o == null ? null : o.toInstant().atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toLocalDate();");
 					tl(1, "}");
 				}
 				staticSet = true;
