@@ -3784,6 +3784,13 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(2, "if(o != null) {");
+				tl(3, "if(o.contains(\"T\")) {");
+				tl(4, "return java.time.LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toLocalDate();");
+				tl(3, "} else {");
+				tl(4, "return LocalDate.parse(o, DateTimeFormatter.ISO_DATE);");
+				tl(3, "}");
+				tl(2, "}");
 				tl(2, "return o == null ? null : LocalDate.parse(o, DateTimeFormatter.ISO_DATE);");
 				tl(1, "}");
 				if(classeContientRequeteSite) {
@@ -5406,22 +5413,17 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if("LocalDate".equals(entiteNomSimple)) {
 				tl(14, "<input");
-				tl(16, "type=\"text\"");
-				tl(16, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
-				tl(16, "placeholder=\"", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), "\"");
-				tl(16, "data-timeformat=\"", langueConfig.getString(ConfigCles.var_ddDashMMDashyyyy), "\"");
+				tl(16, "type=\"date\"");
+				tl(16, "class=\"w3-input w3-border set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(16, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				if(entiteDescription != null)
 					tl(16, "title=\"", entiteDescription, " (", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), ")\"");
 //				tl(5, "value=\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", langueConfig.getString(ConfigCles.var_ddDashMMDashyyyy), "\").format(", entiteVar, "));");
 				tl(16, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
 				tl(14, "{{#eq 'Page' ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
-				tl(15, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "($(this)); \";");
 				t(15, "onchange=\"");
-					s("var t = moment(this.value, '", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), "'); ");
-					s("if(t) { ");
-						s("var s = t.format('YYYY-MM-DD'); ");
-						s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
+					s("if(this.value) { ");
+						s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:{{", classeVarClePrimaire, "}}' }], 'set", entiteVarCapitalise, "', this.value, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
 				tl(14, "{{/eq}}");
