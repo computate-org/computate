@@ -3652,7 +3652,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "if(facetPivot != null) {");
 							tl(4, "JsonObject facetPivotJson = new JsonObject();");
 							tl(4, "json.put(\"facet_pivot\", facetPivotJson);");
-							tl(4, "for(SolrResponse.Pivot pivot : facetPivot.getPivot().values()) {");
+							tl(4, "for(SolrResponse.Pivot pivot : facetPivot.getPivotMap().values()) {");
 							tl(5, "String[] vars", classeLangueConfig.getString(ConfigCles.var_Indexe), " = pivot.getName().trim().split(\",\");");
 							tl(5, "String[] ", classeLangueConfig.getString(ConfigCles.var_entite), "Vars = new String[vars", classeLangueConfig.getString(ConfigCles.var_Indexe), ".length];");
 							tl(5, "for(Integer i = 0; i < ", classeLangueConfig.getString(ConfigCles.var_entite), "Vars.length; i++) {");
@@ -3661,7 +3661,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "}");
 							tl(5, "JsonArray pivotArray = new JsonArray();");
 							tl(5, "facetPivotJson.put(StringUtils.join(", classeLangueConfig.getString(ConfigCles.var_entite), "Vars, \",\"), pivotArray);");
-							tl(5, classeLangueConfig.getString(ConfigCles.var_reponse), "Pivot", classeApiMethode, classeNomSimple, "(pivot.getInternalPivot(), pivotArray);");
+							tl(5, classeLangueConfig.getString(ConfigCles.var_reponse), "Pivot", classeApiMethode, classeNomSimple, "(pivot.getPivotList(), pivotArray);");
 							tl(4, "}");
 							tl(3, "}");
 							tl(3, "if(exception", classeLangueConfig.getString(ConfigCles.var_Recherche), " != null) {");
@@ -3732,7 +3732,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "pivotJson.put(\"value\", pivotField.getValue());");
 						tl(3, "pivotJson.put(\"count\", pivotField.getCount());");
 						tl(3, "Collection<SolrResponse.PivotRange> pivotRanges = pivotField.getRanges().values();");
-						tl(3, "List<SolrResponse.Pivot> pivotFields2 = pivotField.getInternalPivot();");
+						tl(3, "List<SolrResponse.Pivot> pivotFields2 = pivotField.getPivotList();");
 						tl(3, "if(pivotRanges != null) {");
 						tl(4, "JsonObject rangeJson = new JsonObject();");
 						tl(4, "pivotJson.put(\"ranges\", rangeJson);");
