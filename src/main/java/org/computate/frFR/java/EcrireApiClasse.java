@@ -225,6 +225,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	public void ecrireGenApiService(String classeLangueNom) throws Exception {
 		classeAutresLangues = ArrayUtils.removeAllOccurences(toutesLangues, classeLangueNom);
 		if(auteurGenApiService != null) {
+			if(classeDroitAuteur != null)
+				auteurGenApiService.l(classeDroitAuteur);
 			auteurGenApiService.l("package ", classeNomEnsemble, ";");
 			auteurGenApiService.l();
 			auteurGenApiService.l("import io.vertx.ext.web.client.WebClient;");
@@ -343,6 +345,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 	public void ecrireApiServiceImpl(String classeLangueNom) throws Exception {
 		classeAutresLangues = ArrayUtils.removeAllOccurences(toutesLangues, classeLangueNom);
 		if(auteurApiServiceImpl != null) {
+			if(classeDroitAuteur != null)
+				auteurApiServiceImpl.l(classeDroitAuteur);
 			auteurApiServiceImpl.l("package ", classeNomEnsemble, ";");
 			auteurApiServiceImpl.l();
 			if(activerOpenIdConnect) {
@@ -780,6 +784,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 		if(auteurGenApiServiceImpl != null) {
 			o = auteurGenApiServiceImpl;
 	
+			if(classeDroitAuteur != null)
+				l(classeDroitAuteur);
 			l("package ", classeNomEnsemble, ";");
 			l();
 			if(classeImportationsGenApi.size() > 0) { 

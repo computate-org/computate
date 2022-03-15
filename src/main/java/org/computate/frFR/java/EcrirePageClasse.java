@@ -969,6 +969,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 	
 			if(auteurPageClasse != null) {
+				if(classeDroitAuteur != null)
+					auteurPageClasse.l(classeDroitAuteur);
 				auteurPageClasse.l("package ", classeNomEnsemble, ";");
 				auteurPageClasse.l();
 				auteurPageClasse.l("/**");
@@ -1007,6 +1009,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageClasse.tl(0, "}");
 			}
 
+			if(classeDroitAuteur != null)
+				l(classeDroitAuteur);
 			l("package ", classeNomEnsemble, ";");
 			l();
 			if(classeImportationsGenPage.size() > 0) { 

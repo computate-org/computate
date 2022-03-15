@@ -1895,7 +1895,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		o = auteurGenClasse;
 
 		if(classeDroitAuteur != null)
-		l(classeDroitAuteur);
+			l(classeDroitAuteur);
 		l("package ", classeNomEnsemble, ";");
 		l();
 		if(classeImportationsGen.size() > 0) { 
@@ -3816,6 +3816,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
 				tl(1, "}");
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(2, "if(StringUtils.endsWith(o, \"]\"))");
+				tl(3, "return o == null ? null : ZonedDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".ZONED_DATE_TIME_FORMATTER);");
 				tl(2, "if(StringUtils.endsWith(o, \"Z\"))");
 				tl(3, "return o == null ? null : Instant.parse(o).atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).truncatedTo(ChronoUnit.MILLIS);");
 				tl(2, "else");
