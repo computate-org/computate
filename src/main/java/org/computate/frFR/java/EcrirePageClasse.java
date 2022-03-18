@@ -2324,7 +2324,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "<h1>");
 			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 			tl(4, "{{#if ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), "}}");
-			tl(5, "<i class=\"", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " site-menu-icon \"></i>");
+			tl(5, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " }} site-menu-icon \"></i>");
 			tl(4, "{{/if}}");
 			tl(4, "<span class=\"\">", contexteNomAdjectifPluriel, "</span>");
 			tl(3, "</a>");
@@ -2332,7 +2332,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "<h2>");
 			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
 			tl(4, "{{#if ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), "}}");
-			tl(5, "<i class=\"", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " + \" site-menu-icon \"></i>");
+			tl(5, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " }} + \" site-menu-icon \"></i>");
 			tl(4, "{{/if}}");
 			tl(4, "<span class=\"\">", contexteAucunNomTrouve, "</span>");
 			tl(3, "</span>");
@@ -2344,7 +2344,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "<h1 class=\"w3-center \">");
 			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 			tl(3, "{{#if ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), "}}");
-			tl(4, "<i class=\"", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " site-menu-icon \"></i>");
+			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " }} site-menu-icon \"></i>");
 			tl(3, "{{/if}}");
 			tl(4, "<span class=\"\">", contexteNomAdjectifSingulier, "</span>");
 			tl(3, "</a>");
@@ -2366,7 +2366,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "<h1>");
 			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 			tl(1, "{{#if ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), "}}");
-			tl(4, "<i class=\"", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " + \" site-menu-icon \"></i>");
+			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " }} + \" site-menu-icon \"></i>");
 			tl(1, "{{/if}}");
 			tl(4, "<span class=\"\">", contexteNomAdjectifPluriel, "</span>");
 			tl(3, "</a>");
@@ -2406,7 +2406,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "<h1>");
 			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
 			tl(1, "{{#if ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), "}}");
-			tl(4, "<i class=\"", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " + \" site-menu-icon \"></i>");
+			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " }} + \" site-menu-icon \"></i>");
 			tl(1, "{{/if}}");
 			tl(4, "<span class=\"\">", contexteNomAdjectifPluriel, "</span>");
 			tl(3, "</a>");
