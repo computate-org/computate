@@ -324,6 +324,12 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classPage
 	 */
 	protected Boolean classePage;
+	protected String classePageNomSimple;
+	protected String classePageSuperNomSimple;
+	protected String classeApiClasseNomSimple;
+	protected String classeGenPageNomSimple;
+	protected List<String> classeAttribuerNomSimplePages;
+	protected List<String> classePageCheminsGen = new ArrayList<>();
 
 	/**
 	 * Var.enUS: classRoleSession

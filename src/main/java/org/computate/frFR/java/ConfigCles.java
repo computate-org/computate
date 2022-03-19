@@ -65,6 +65,7 @@ public class ConfigCles {
 	public static final String var_ajouterErreur = "var_ajouterErreur";
 	public static final String var_ajouterLueur = "var_ajouterLueur";
 	public static final String var_Api = "var_Api";
+	public static final String var_ApiClasse = "var_ApiClasse";
 	public static final String var_apiMethode = "var_apiMethode";
 	public static final String var_ApiMethode = "var_ApiMethode";
 	public static final String var_ApiTag = "var_ApiTag";
@@ -288,7 +289,6 @@ public class ConfigCles {
 	public static final String var_PageRecherche = "var_PageRecherche";
 	public static final String var_PageSimple = "var_PageSimple";
 	public static final String var_PageSuper = "var_PageSuper";
-	public static final String var_PageClasse = "var_PageClasse";
 	public static final String var_peupler = "var_peupler";
 	public static final String var_Peupler = "var_Peupler";
 	public static final String var_PourClasse = "var_PourClasse";
