@@ -288,6 +288,7 @@ public class ConfigCles {
 	public static final String var_PageRecherche = "var_PageRecherche";
 	public static final String var_PageSimple = "var_PageSimple";
 	public static final String var_PageSuper = "var_PageSuper";
+	public static final String var_PageClasse = "var_PageClasse";
 	public static final String var_peupler = "var_peupler";
 	public static final String var_Peupler = "var_Peupler";
 	public static final String var_PourClasse = "var_PourClasse";

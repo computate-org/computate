@@ -5829,6 +5829,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		if(classePage) {
 			String classePageNomSimple = classeNomSimpleLangue + classeLangueConfig.getString(ConfigCles.var_Page);
 			String classePageSuperNomSimple = regexLangue(langueNomGlobale, "^" + classeLangueConfig.getString(ConfigCles.var_PageSuper), classeCommentaire, "Object");
+			String classePageClasseNomSimple = regexLangue(langueNomGlobale, "^" + classeLangueConfig.getString(ConfigCles.var_PageClasse), classeCommentaire, classeNomSimple);
 			String classeNomEnsembleLangue = (String)classeDoc.get("classeNomEnsemble_" + langueNomGlobale + "_indexed_string").getValue();
 			String classePageNomCanonique = (String)classeDoc.get("classeNomCanonique_" + langueNomGlobale + "_stored_string").getValue();
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageNomCanonique", classePageNomCanonique);
@@ -5890,6 +5891,29 @@ public class IndexerClasse extends RegarderClasseBase {
 					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomCanonique", (String)classePartsMiseEnPage.nomCanonique(classeLangueNom));
 					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageSuperNomSimple", (String)classePartsMiseEnPage.nomSimple(classeLangueNom));
 					classePartsGenPageAjouter(classePartsMiseEnPage, classeLangueNom);
+				}
+			}
+
+			if(classePageClasseNomSimple != null) {
+				System.out.println("AAAAAAAAAAA" + classePageClasseNomSimple);
+				SolrQuery recherchePageClasse = new SolrQuery();   
+				recherchePageClasse.setQuery("*:*");
+				recherchePageClasse.setRows(1);
+				recherchePageClasse.addFilterQuery("classeNomSimple_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classePageClasseNomSimple));
+				recherchePageClasse.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
+				recherchePageClasse.addFilterQuery("partEstClasse_indexed_boolean:true");
+				recherchePageClasse.addFilterQuery("langueNom_indexed_string:" + ClientUtils.escapeQueryChars(classeLangueNom));
+				QueryResponse reponseRecherchePageClasse = clientSolrComputate.query(recherchePageClasse);
+				SolrDocumentList listeRecherchePageClasse = reponseRecherchePageClasse.getResults();
+
+				System.out.println(recherchePageClasse.toString());
+				if(listeRecherchePageClasse.size() > 0) {
+				System.out.println("BBBBBBBBBBBB");
+					SolrDocument docPageClasse = listeRecherchePageClasse.get(0);
+					String classePageClasseNomCanoniqueMethode = (String)docPageClasse.get("classeNomCanonique_" + classeLangueNom + "_stored_string");
+					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageClasseNomCanonique", classePageClasseNomCanoniqueMethode);
+					indexerStockerSolr(langueNomGlobale, classeDoc, "classePageClasseNomSimple", classePageClasseNomSimple);
+					classePartsGenPageAjouter(ClasseParts.initClasseParts(this, classePageClasseNomCanoniqueMethode, classeLangueNom), classeLangueNom);
 				}
 			}
 		}

@@ -53,6 +53,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * Var.enUS: classPageSuperSimpleName
 	 */
 	protected String classePageSuperNomSimple;
+	protected String classePageClasseNomSimple;
 
 	/**
 	 * Var.enUS: classGenPageSimpleName
@@ -677,6 +678,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		classePageNomSimple = (String)classeDoc.get("classePageNomSimple"   + "_" + langueNom + "_stored_string");
 		classePageSuperNomSimple = (String)classeDoc.get("classePageSuperNomSimple"   + "_" + langueNom + "_stored_string");
+		classePageClasseNomSimple = (String)classeDoc.get("classePageClasseNomSimple"   + "_" + langueNom + "_stored_string");
+		String uncapitalizeClassePageClasseNomSimple = StringUtils.uncapitalize(classePageClasseNomSimple);
 		classeGenPageNomSimple = (String)classeDoc.get("classeGenPageNomSimple"   + "_" + langueNom + "_stored_string");
 		String classePageNomCanonique = (String)classeDoc.get("classePageNomCanonique"   + "_" + langueNom + "_stored_string");
 		classeAttribuerNomSimplePages = (List<String>)classeDoc.get("classeAttribuerNomSimplePages_" + langueNom + "_stored_strings");
@@ -1072,33 +1075,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, " * {@inheritDoc}");
 			tl(1, " * ", langueConfig.getString(ConfigCles.var_Ignorer), ": true");
 			tl(1, " **/");
-			tl(1, "protected void _", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_(", classePartsCouverture.nomSimple(langueNom), "<", langueConfig.getString(ConfigCles.var_ListeRecherche), "<", classeNomSimple, ">> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+			tl(1, "protected void _", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_(", classePartsCouverture.nomSimple(langueNom), "<", langueConfig.getString(ConfigCles.var_ListeRecherche), "<", classePageClasseNomSimple, ">> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 			tl(1, "}");
 			l();
 			tl(1, "/**");
 			tl(1, " * {@inheritDoc}");
 			tl(1, " **/");
-			tl(1, "protected void _", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "(JsonArray l) {");
-			tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_).map(o -> o.get", langueConfig.getString(ConfigCles.var_Liste), "()).orElse(Arrays.asList()).stream().map(o -> JsonObject.mapFrom(o)).forEach(o -> l.add(o));");
+			tl(1, "protected void _", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, "(JsonArray l) {");
+			tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_).map(o -> o.get", langueConfig.getString(ConfigCles.var_Liste), "()).orElse(Arrays.asList()).stream().map(o -> JsonObject.mapFrom(o)).forEach(o -> l.add(o));");
 			tl(1, "}");
 			l();
-			tl(1, "protected void _", uncapitalizeClasseNomSimple, "Count(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-			tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_ == null ? 0 : ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.size());");
+			tl(1, "protected void _", uncapitalizeClassePageClasseNomSimple, "Count(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+			tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_ == null ? 0 : ", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_.size());");
 			tl(1, "}");
 			l();
-			tl(1, "protected void _", uncapitalizeClasseNomSimple, "_(", "", classePartsCouverture.nomSimple(langueNom), "<", classeNomSimple, "> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+			tl(1, "protected void _", uncapitalizeClassePageClasseNomSimple, "_(", "", classePartsCouverture.nomSimple(langueNom), "<", classePageClasseNomSimple, "> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 			if(classePageSimple) {
-				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(new ", classeNomSimple, "());");
+				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(new ", classePageClasseNomSimple, "());");
 			} else {
-				tl(2, "if(", uncapitalizeClasseNomSimple, "Count == 1)");
-				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.get(0));");
+				tl(2, "if(", uncapitalizeClassePageClasseNomSimple, "Count == 1)");
+				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_.get(0));");
 			}
 			tl(1, "}");
 			if(classeModele) {
 				l();
 				tl(1, "protected void _", classeVarClePrimaire, "(", classePartsCouverture.nomSimple(langueNom), "<Long> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-				tl(2, "if(", uncapitalizeClasseNomSimple, "Count == 1)");
-				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "());");
+				tl(2, "if(", uncapitalizeClassePageClasseNomSimple, "Count == 1)");
+				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", uncapitalizeClassePageClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "());");
 				tl(1, "}");
 			}
 
@@ -1118,7 +1121,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(classePageSuperNomSimple != null)
 				tl(1, "@Override");
 			tl(1, "protected void _", classePageLangueConfig.getString(ConfigCles.var_classeNomSimple), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-			tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(\"", classeNomSimple, "\");");
+			tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(\"", classePageClasseNomSimple, "\");");
 			tl(1, "}");
 
 			l();
@@ -1126,15 +1129,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "@Override");
 			tl(1, "protected void _page", langueConfig.getString(ConfigCles.var_Titre), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 			if(classeVarTitre != null) {
-				tl(2, "if(", uncapitalizeClasseNomSimple, "_ != null && ", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarTitre), "() != null)");
-				tl(3, "c.o(", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarTitre), "()", ");");
-				tl(2, "else if(", uncapitalizeClasseNomSimple, "_ != null)");
+				tl(2, "if(", uncapitalizeClassePageClasseNomSimple, "_ != null && ", uncapitalizeClassePageClasseNomSimple, "_.get", StringUtils.capitalize(classeVarTitre), "() != null)");
+				tl(3, "c.o(", uncapitalizeClassePageClasseNomSimple, "_.get", StringUtils.capitalize(classeVarTitre), "()", ");");
+				tl(2, "else if(", uncapitalizeClassePageClasseNomSimple, "_ != null)");
 			} else {
-				tl(2, "if(", uncapitalizeClasseNomSimple, "_ != null)");
+				tl(2, "if(", uncapitalizeClassePageClasseNomSimple, "_ != null)");
 			}
 			tl(3, "c.o(", q(contexteTitre), ");");
 			if(!classePageSimple) {
-				tl(2, "else if(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_ == null || ", uncapitalizeClasseNomSimple, "Count == 0)");
+				tl(2, "else if(", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_ == null || ", uncapitalizeClassePageClasseNomSimple, "Count == 0)");
 				tl(3, "c.o(", q(contexteAucunNomTrouve), ");");
 			}
 			if(contexteTitre != null) {
@@ -1177,7 +1180,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_rolesRequis), "(List<String> l) {");
-				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLES_REQUIS), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
+				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLES_REQUIS), " + \"_", classePageClasseNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
 				tl(1, "}");
 			}
 			if(classeRoleLiresTrouves) {
@@ -1185,7 +1188,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_rolesPourLires), "(List<String> l) {");
-				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLES_LIRE_REQUIS), " + \"_", classeNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
+				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLES_LIRE_REQUIS), " + \"_", classePageClasseNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
 				tl(1, "}");
 			}
 
@@ -1194,9 +1197,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "@Override");
 			tl(1, "protected void _pagination(JsonObject pagination) {");
 			tl(2, "JsonArray pages = new JsonArray();");
-			tl(2, "Long ", langueConfig.getString(ConfigCles.var_debut), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.getStart().longValue();");
-			tl(2, "Long ", langueConfig.getString(ConfigCles.var_lignes), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.getRows().longValue();");
-			tl(2, "Long ", langueConfig.getString(ConfigCles.var_numTrouve), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.getQueryResponse().getResponse().getNumFound().longValue();");
+			tl(2, "Long ", langueConfig.getString(ConfigCles.var_debut), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_.getStart().longValue();");
+			tl(2, "Long ", langueConfig.getString(ConfigCles.var_lignes), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_.getRows().longValue();");
+			tl(2, "Long ", langueConfig.getString(ConfigCles.var_numTrouve), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_.getQueryResponse().getResponse().getNumFound().longValue();");
 			tl(2, "Long ", langueConfig.getString(ConfigCles.var_debut), "Num = ", langueConfig.getString(ConfigCles.var_debut), " + 1L;");
 			tl(2, "Long ", langueConfig.getString(ConfigCles.var_fin), "Num = ", langueConfig.getString(ConfigCles.var_debut), " + ", langueConfig.getString(ConfigCles.var_lignes), ";");
 			tl(2, "Long floorMod = Math.floorMod(", langueConfig.getString(ConfigCles.var_numTrouve), ", ", langueConfig.getString(ConfigCles.var_lignes), ");");
@@ -1244,7 +1247,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "JsonObject params = ", langueConfig.getString(ConfigCles.var_requeteService), ".getParams();");
 			l();
 			tl(2, "JsonObject queryParams = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteService), ").map(ServiceRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
-			tl(2, "Long num = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_.getQueryResponse().getResponse().getNumFound().longValue();");
+			tl(2, "Long num = ", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_.getQueryResponse().getResponse().getNumFound().longValue();");
 			tl(2, "String q = \"*:*\";");
 			tl(2, "String q1 = \"", classeVarTexte, "\";");
 			tl(2, "String q2 = \"\";");
@@ -1272,15 +1275,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "}");
 			tl(2, "query.put(\"q\", q);");
 			l();
-			tl(2, "Long rows1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_).map(l -> l.getRows()).orElse(10L);");
-			tl(2, "Long start1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_).map(l -> l.getStart()).orElse(1L);");
+			tl(2, "Long rows1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_).map(l -> l.getRows()).orElse(10L);");
+			tl(2, "Long start1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_).map(l -> l.getStart()).orElse(1L);");
 			tl(2, "Long start2 = start1 - rows1;");
 			tl(2, "Long start3 = start1 + rows1;");
 			tl(2, "Long rows2 = rows1 / 2;");
 			tl(2, "Long rows3 = rows1 * 2;");
 			tl(2, "start2 = start2 < 0 ? 0 : start2;");
 			tl(2, "JsonArray fqs = new JsonArray();");
-			tl(2, "for(String fq : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_).map(l -> l.getFilterQueries()).orElse(Arrays.asList())) {");
+			tl(2, "for(String fq : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_).map(l -> l.getFilterQueries()).orElse(Arrays.asList())) {");
 			tl(3, "if(!StringUtils.contains(fq, \"(\")) {");
 			tl(4, "String fq1 = StringUtils.substringBefore(fq, \"_\");");
 			tl(4, "String fq2 = StringUtils.substringAfter(fq, \":\");");
@@ -1291,7 +1294,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "query.put(\"fq\", fqs);");
 			l();
 			tl(2, "JsonArray sorts = new JsonArray();");
-			tl(2, "for(String sort : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_).map(l -> l.getSorts()).orElse(Arrays.asList())) {");
+			tl(2, "for(String sort : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_).map(l -> l.getSorts()).orElse(Arrays.asList())) {");
 			tl(3, "sorts.add(new JsonObject().put(\"var\", StringUtils.substringBefore(sort, \"_\")).put(\"order\", StringUtils.substringAfter(sort, \" \")));");
 			tl(2, "}");
 			tl(2, "query.put(\"sort\", sorts);");
@@ -1382,7 +1385,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			if(StringUtils.isNotBlank(classeApiUri)) {
 				l();
-				tl(1, "protected void _pageUri", classeNomSimple, "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
+				tl(1, "protected void _pageUri", classePageClasseNomSimple, "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
 				tl(3, "c.o(", q(classePageUriMethode), ");");
 				tl(1, "}");
 			}
@@ -1665,7 +1668,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //												else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
 //													t(tIndex + 3).s(classePrefixe, "<input").l();
 //													t(tIndex + 5).dal("type", "text");
-//													t(tIndex + 5).s(classePrefixe).s(" class=\"\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\"");
+//													t(tIndex + 5).s(classePrefixe).s(" class=\"\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classePageClasseNomSimple, " input", classePageClasseNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\"");
 //													t(tIndex + 5).dal("placeholder", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY_HHColonMM));
 //													t(tIndex + 5).dal("data-timeformat", langueConfig.getString(ConfigCles.var_ddDashMMDashyyyy));
 //													t(tIndex + 5).l(" id=\"", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", \"_", entiteVar, "\"");
@@ -1687,7 +1690,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //												else if("LocalTime".equals(entiteNomSimple)) {
 //													t(tIndex + 3).s(classePrefixe, "<input").l();
 //													t(tIndex + 5).dal("type", "text");
-//													t(tIndex + 5).s(classePrefixe).s(" class=\"\"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\"");
+//													t(tIndex + 5).s(classePrefixe).s(" class=\"\"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classePageClasseNomSimple, " input", classePageClasseNomSimple, "\", ", classeVarClePrimaire, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\"");
 //													t(tIndex + 5).dal("placeholder", langueConfig.getString(ConfigCles.var_HHColonMM));
 //													t(tIndex + 5).l(" id=\"", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", \"_", entiteVar, "\"");
 //													if(entiteDescription != null)
@@ -1796,8 +1799,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(0, "{{#*inline \"htmTitle", classePageNomSimple, "\"}}");
 			tl(2, "<!-- inline \"htmTitle", classePageNomSimple, "\" -->");
 			t(2, "<title>");
-				s("{{#if ", langueConfig.getString(ConfigCles.var_listeRecherche), classeNomSimple, "_}}");
-				s("{{#eq ", uncapitalizeClasseNomSimple, "Count int1}}");
+				s("{{#if ", langueConfig.getString(ConfigCles.var_listeRecherche), classePageClasseNomSimple, "_}}");
+				s("{{#eq ", uncapitalizeClassePageClasseNomSimple, "Count int1}}");
 				s("{{#eq params.query.q \"*:*\"}}");
 				s(contexteNomAdjectifSingulier);
 				s("{{else}}");
@@ -2136,7 +2139,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			
 										if(entiteSuggere) {
 											auteurPageJs.l();
-											auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "($", langueConfig.getString(ConfigCles.var_formulaireFiltres), ", $list) {");
+											auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_suggere), classePageClasseNomSimple, entiteVarCapitalise, "($", langueConfig.getString(ConfigCles.var_formulaireFiltres), ", $list) {");
 											auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
 											auteurPageJs.tl(2, "$list.empty();");
 											auteurPageJs.tl(2, "$.each(data['list'], function(i, o) {");
@@ -2154,13 +2157,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurPageJs.tl(2, "});");
 											auteurPageJs.tl(1, "};");
 											auteurPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
-											auteurPageJs.tl(1, "", langueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Vals($", langueConfig.getString(ConfigCles.var_formulaireFiltres), ", success, error);");
+											auteurPageJs.tl(1, "", langueConfig.getString(ConfigCles.var_rechercher), classePageClasseNomSimple, "Vals($", langueConfig.getString(ConfigCles.var_formulaireFiltres), ", success, error);");
 											auteurPageJs.tl(0, "}");
 										}
 										else if(entiteAttribuer) {
 
 											auteurPageJs.l();
-											auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_filtres), ", $list, ", classeVarClePrimaire, " = null, ", langueConfig.getString(ConfigCles.var_attribuer), "=true) {");
+											auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_suggere), classePageClasseNomSimple, entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_filtres), ", $list, ", classeVarClePrimaire, " = null, ", langueConfig.getString(ConfigCles.var_attribuer), "=true) {");
 											auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
 											auteurPageJs.tl(2, "$list.empty();");
 											auteurPageJs.tl(2, "$.each(data['list'], function(i, o) {");
@@ -2220,7 +2223,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													auteurPageJs.tl(k, "$sortInput.attr('style', 'width: 4em; ');");
 													auteurPageJs.tl(k, "$sortInput.attr('id', \"", langueConfig.getString(ConfigCles.var_attribuer), "_\" + o['", classeVarClePrimaire, "'] + \"_", langueConfig.getString(ConfigCles.var_tri), "_", entiteAttribuerTriVar, "\");");
 													auteurPageJs.tl(k, "$sortInput.attr('value', ", entiteAttribuerTriVar, ").attr('onchange', ");
-													auteurPageJs.tl(k + 1, "\"$('#", classeNomSimple, "Form :input[name=\\\"focusId\\\"]').val($(this).attr('id')); \"");
+													auteurPageJs.tl(k + 1, "\"$('#", classePageClasseNomSimple, "Form :input[name=\\\"focusId\\\"]').val($(this).attr('id')); \"");
 													auteurPageJs.tl(k + 1, "+ \"", entiteAttribuerOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeVarClePrimaire, ":\" + o['", classeVarClePrimaire, "'] + \"' }], { ['set", StringUtils.capitalize(entiteAttribuerTriVar), "']: $(this).val() ? $(this).val() : null }\"");
 													auteurPageJs.tl(k + 2, "+ \", function() { \"");
 													auteurPageJs.tl(k + 2, "+ \"}\"");
@@ -2239,7 +2242,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurPageJs.tl(3, "$li.append($a);");
 											auteurPageJs.tl(3, "$list.append($li);");
 											auteurPageJs.tl(2, "});");
-											auteurPageJs.tl(2, "var focusId = $('#", classeNomSimple, "Form :input[name=\"focusId\"]').val();");
+											auteurPageJs.tl(2, "var focusId = $('#", classePageClasseNomSimple, "Form :input[name=\"focusId\"]').val();");
 											auteurPageJs.tl(2, "if(focusId)");
 											auteurPageJs.tl(3, "$('#' + focusId).parent().next().find('input').focus();");
 											auteurPageJs.tl(1, "};");
@@ -2251,7 +2254,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurWebsocket.tl(2, "window.eventBus.registerHandler('websocket", entiteAttribuerNomSimple, "', function (error, message) {");
 //												auteurWebsocket.tl(3, "var json = JSON.parse(message['body']);");
 //												auteurWebsocket.tl(3, "var id = json['id'];");
-//												auteurWebsocket.tl(3, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "($('#' + ($(this).val() ? '", langueConfig.getString(ConfigCles.var_suggere), "' : 'form') + '", classeNomSimple, entiteVarCapitalise, "'), $('#", "list", classeNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "'));");
+//												auteurWebsocket.tl(3, langueConfig.getString(ConfigCles.var_suggere), classePageClasseNomSimple, entiteVarCapitalise, "($('#' + ($(this).val() ? '", langueConfig.getString(ConfigCles.var_suggere), "' : 'form') + '", classePageClasseNomSimple, entiteVarCapitalise, "'), $('#", "list", classePageClasseNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "'));");
 											auteurWebsocket.tl(3, "$('#Page_", entiteVar, "').trigger('oninput');");
 											auteurWebsocket.tl(3, "$('#Page_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').text('", langueConfig.getString(ConfigCles.var_ajouter), " ", entiteAttribuerContexteUnNom, "');");
 											auteurWebsocket.tl(3, "$('#Page_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').removeClass('w3-disabled');");
@@ -2285,14 +2288,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "if(pk != null) {");
 				s(wJsInit);
 				tl(4, "}");
-				tl(4, "websocket", classeNomSimple, "(websocket", classeNomSimple, "Inner);");
+				tl(4, "websocket", classePageClasseNomSimple, "(websocket", classePageClasseNomSimple, "Inner);");
 //					s(wWebsocket);
 //					tl(2, "tl(1, ", q("});"), ");");
 				tl(3, "});");
 				tl(2, "</script>");
 				tl(0, "{{/inline}}");
 			}
-			t(0, "{{#*inline \"htmUrl", classeNomSimple, "\"}}");
+			t(0, "{{#*inline \"htmUrl", classePageClasseNomSimple, "\"}}");
 			s("{{pageUri}}");
 			s("?q={{query.q}}");
 			s("&amp;rows={{#if rows}}{{rows}}{{else}}{{pagination.", langueConfig.getString(ConfigCles.var_lignes), "}}{{/if}}");
@@ -2352,7 +2355,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			tl(2, "<h2 class=\"w3-center \">");
 			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
-			tl(4, "<span class=\"\">{{", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");
+			tl(4, "<span class=\"\">{{", uncapitalizeClassePageClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");
 			tl(3, "</span>");
 			tl(2, "</h2>");
 
@@ -2447,7 +2450,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				s("{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "\"}}");
 				tl(1, "{{#if ", classeVarClePrimaire, "}}");
 				tl(2, "<!-- #*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "\" -->");
-				tl(2, "<form action=\"", classeApiUri, "\" id=\"", classeNomSimple, "Form\" style=\"display: inline-block; width: 100%; \" onsubmit=\"event.preventDefault(); return false; \">");
+				tl(2, "<form action=\"", classeApiUri, "\" id=\"", classePageClasseNomSimple, "Form\" style=\"display: inline-block; width: 100%; \" onsubmit=\"event.preventDefault(); return false; \">");
 				t(3, "<input");
 				s(" name=\"", classeVarClePrimaire, "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_valeur), StringUtils.capitalize(classeVarClePrimaire), "\"");
@@ -2459,7 +2462,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				s(" type=\"hidden\"");
 				l("/>");
 				tl(2, "</form>");
-				l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", StringUtils.lowerCase(langueConfig.getString(ConfigCles.var_PageRecherche)), classeNomSimple, "\"}}{{/block}}");
+				l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", StringUtils.lowerCase(langueConfig.getString(ConfigCles.var_PageRecherche)), classePageClasseNomSimple, "\"}}{{/block}}");
 				tl(1, "{{/if}}");
 				l("{{/inline}}");
 			}
@@ -2535,7 +2538,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 								{ tl(5, "<div class=\"\" id=\"", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "\">");
 //											TODO
-//											tl(7+ tab, classeNomSimple, " o = new ", classeNomSimple, "();");
+//											tl(7+ tab, classePageClasseNomSimple, " o = new ", classePageClasseNomSimple, "();");
 ////											tl(7+ tab, "o.", langueConfig.getString(ConfigCles.var_initLoin), langueConfig.getString(ConfigCles.var_PourClasse), "(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
 //											tl(7+ tab, "o.set", langueConfig.getString(ConfigCles.var_RequeteSite), "_(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
 									if("PATCH".equals(classeApiMethode) || langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode) || langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode) || "PUTImport".equals(classeApiMethode)) {
@@ -2600,7 +2603,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))
 											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
 										else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
-											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", uncapitalizeClasseNomSimple, "_ == null ? \"null\" : ", uncapitalizeClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
+											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", uncapitalizeClassePageClasseNomSimple, "_ == null ? \"null\" : ", uncapitalizeClassePageClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
 										else if(classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("POST") || classeApiMethodeMethode.contains("PUT"))
 											tl(7, "onclick=\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
 										else
@@ -2627,11 +2630,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"htmBody", classePageNomSimple, "\"}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{/block}}");
-			tl(1, "{{#eq ", uncapitalizeClasseNomSimple, "Count int0}}");
+			tl(1, "{{#eq ", uncapitalizeClassePageClasseNomSimple, "Count int0}}");
 			tl(0, "{{#block \"htmBodyCount0\"}}{{/block}}");
 			tl(1, "{{else}}");
 
-			tl(2, "{{#eq ", uncapitalizeClasseNomSimple, "Count int1}}");
+			tl(2, "{{#eq ", uncapitalizeClassePageClasseNomSimple, "Count int1}}");
 			tl(3, "{{#eq params.query.q \"*:*\"}}");
 			tl(0, "{{#block \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{/block}}");
 			tl(3, "{{else}}");
@@ -2681,10 +2684,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"tbody2", classePageNomSimple, "\"}}");
 //				TODO
-//				tl(2, "Map<String, Map<String, List<String>>> highlighting = ", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse().getHighlighting();");
-			tl(2, "{{#each ", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "}}");
+//				tl(2, "Map<String, Map<String, List<String>>> highlighting = ", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, ".getQueryResponse().getHighlighting();");
+			tl(2, "{{#each ", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, "}}");
 //				TODO
-//				tl(3, classeNomSimple, " o = ", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getList().get(i);");
+//				tl(3, classePageClasseNomSimple, " o = ", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, ".getList().get(i);");
 //				tl(3, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
 //				tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 //				tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
@@ -2701,7 +2704,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{#*inline \"tfoot2", classePageNomSimple, "\"}}");
 			tl(2, "<tr>");
 //				TODO
-//				tl(3, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getQueryResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(new SimpleOrderedMap());");
+//				tl(3, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, ".getQueryResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(new SimpleOrderedMap());");
 			s(wFoot);
 			tl(2, "</tr>");
 			tl(1, "{{/inline}}");
@@ -2710,7 +2713,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
 
 			// refraîchir 1 //
-			tl(2, "{{#eq ", uncapitalizeClasseNomSimple, "Count int1}}");
+			tl(2, "{{#eq ", uncapitalizeClassePageClasseNomSimple, "Count int1}}");
 			tl(2, "<button");
 			tl(3, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " \"");
 			tl(3, "id=\"", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "\"");
@@ -2749,7 +2752,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				if(StringUtils.equals(langueNomActuel, langueNom))
 //				for(String langueNom2 : autresLangues) {
 //					String classeGenPageNomSimple2 = (String)classeDoc.get("classeGenPageNomSimple" + langueConfig2.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
-//					String classeNomSimple2 = (String)classeDoc.get("classeNomSimple" + "_" + langueNom2 + "_stored_string");
+//					String classePageClasseNomSimple2 = (String)classeDoc.get("classePageClasseNomSimple" + "_" + langueNom2 + "_stored_string");
 //					String contexteTousNom2 = (String)classeDoc.get("contexteTousNom" + "_" + langueNom2 + "_stored_string");
 //					String contexteNomAdjectifPluriel2 = (String)classeDoc.get("contexteNomAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
 //					String classePageUriMethode2 = (String)classeDoc.get("classeApiUri" + langueConfig2.getString(ConfigCles.var_PageRecherche) + "_" + langueNom2 + "_stored_string");
@@ -2767,39 +2770,39 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_recharger), " ", contexteTousNom2, "\"");
 //					tl(1, " * r: \"", langueConfig.getString(ConfigCles.var_rechercher), " ", contexteNomAdjectifPluriel, langueConfig.getString(ConfigCles.var_deuxPoints), "\"");
 //					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_rechercher), " ", contexteNomAdjectifPluriel2, langueConfig2.getString(ConfigCles.var_deuxPoints), "\"");
-//					tl(1, " * r: \"", langueConfig.getString(ConfigCles.var_suggere), "Form", classeNomSimple, "\"");
-//					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_suggere), "Form", classeNomSimple2, "\"");
+//					tl(1, " * r: \"", langueConfig.getString(ConfigCles.var_suggere), "Form", classePageClasseNomSimple, "\"");
+//					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_suggere), "Form", classePageClasseNomSimple2, "\"");
 //					tl(1, " * r: \"", langueConfig.getString(ConfigCles.var_rechercher), " ", contexteNomAdjectifPluriel, "\"");
 //					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_rechercher), " ", contexteNomAdjectifPluriel2, "\"");
-//					tl(1, " * r: \"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, " w3-input w3-border w3-cell w3-cell-middle ", "\"");
-//					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_suggere), classeNomSimple2, " w3-input w3-border w3-cell w3-cell-middle ", "\"");
-//					tl(1, " * r: \"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, "\"");
-//					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_suggere), classeNomSimple2, "\"");
+//					tl(1, " * r: \"", langueConfig.getString(ConfigCles.var_suggere), classePageClasseNomSimple, " w3-input w3-border w3-cell w3-cell-middle ", "\"");
+//					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_suggere), classePageClasseNomSimple2, " w3-input w3-border w3-cell w3-cell-middle ", "\"");
+//					tl(1, " * r: \"", langueConfig.getString(ConfigCles.var_suggere), classePageClasseNomSimple, "\"");
+//					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_suggere), classePageClasseNomSimple2, "\"");
 //
 //					tl(1, " * r: ", "patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals", "");
-//					tl(1, " * r.", langueNom2, ": ", "patch", classeNomSimple2, "Vals", "");
+//					tl(1, " * r.", langueNom2, ": ", "patch", classePageClasseNomSimple2, "Vals", "");
 //					tl(1, " * r: ", langueConfig.getString(ConfigCles.var_ajouterLueur), "");
 //					tl(1, " * r.", langueNom2, ": ", langueConfig2.getString(ConfigCles.var_ajouterLueur), "");
 //					tl(1, " * r: ", langueConfig.getString(ConfigCles.var_recharger), classeGenPageNomSimple, "");
 //					tl(1, " * r.", langueNom2, ": ", langueConfig2.getString(ConfigCles.var_recharger), classeGenPageNomSimple2, "");
 //					tl(1, " * r: ", langueConfig.getString(ConfigCles.var_ajouterErreur), "");
 //					tl(1, " * r.", langueNom2, ": ", langueConfig2.getString(ConfigCles.var_ajouterErreur), "");
-//					tl(1, " * r: ", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, StringUtils.capitalize(classeVarSuggere));
-//					tl(1, " * r.", langueNom2, ": ", langueConfig2.getString(ConfigCles.var_suggere), classeNomSimple2, StringUtils.capitalize(classeVarSuggere2));
-//					tl(1, " * r: ", langueConfig.getString(ConfigCles.var_texte), classeNomSimple, StringUtils.capitalize(classeVarTexte));
-//					tl(1, " * r.", langueNom2, ": ", langueConfig2.getString(ConfigCles.var_texte), classeNomSimple2, StringUtils.capitalize(classeVarTexte2));
+//					tl(1, " * r: ", langueConfig.getString(ConfigCles.var_suggere), classePageClasseNomSimple, StringUtils.capitalize(classeVarSuggere));
+//					tl(1, " * r.", langueNom2, ": ", langueConfig2.getString(ConfigCles.var_suggere), classePageClasseNomSimple2, StringUtils.capitalize(classeVarSuggere2));
+//					tl(1, " * r: ", langueConfig.getString(ConfigCles.var_texte), classePageClasseNomSimple, StringUtils.capitalize(classeVarTexte));
+//					tl(1, " * r.", langueNom2, ": ", langueConfig2.getString(ConfigCles.var_texte), classePageClasseNomSimple2, StringUtils.capitalize(classeVarTexte2));
 //					tl(1, " * r: ", "'", classeVarSuggere, ":'", "");
 //					tl(1, " * r.", langueNom2, ": ", "'", classeVarSuggere2, ":'", "");
 //					tl(1, " * r: ", "'", classeVarTexte, ":'", "");
 //					tl(1, " * r.", langueNom2, ": ", "'", classeVarTexte2, ":'", "");
-//					tl(1, " * r: ", "'#", langueConfig.getString(ConfigCles.var_suggere), "List", classeNomSimple, "'", "");
-//					tl(1, " * r.", langueNom2, ": ", "'#", langueConfig2.getString(ConfigCles.var_suggere), "List", classeNomSimple2, "'", "");
-//					tl(1, " * r: \"", langueConfig.getString(ConfigCles.var_suggere), "List", classeNomSimple, "\"");
-//					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_suggere), "List", classeNomSimple2, "\"");
+//					tl(1, " * r: ", "'#", langueConfig.getString(ConfigCles.var_suggere), "List", classePageClasseNomSimple, "'", "");
+//					tl(1, " * r.", langueNom2, ": ", "'#", langueConfig2.getString(ConfigCles.var_suggere), "List", classePageClasseNomSimple2, "'", "");
+//					tl(1, " * r: \"", langueConfig.getString(ConfigCles.var_suggere), "List", classePageClasseNomSimple, "\"");
+//					tl(1, " * r.", langueNom2, ": \"", langueConfig2.getString(ConfigCles.var_suggere), "List", classePageClasseNomSimple2, "\"");
 //				}
 //				tl(1, "**/");
 				l("{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Suggere), classePageNomSimple, "\"}}");
-//					tl(1, "public static void htm", langueConfig.getString(ConfigCles.var_Suggere), classeGenPageNomSimple, "(", classePartsMiseEnPage.nomSimple(langueNom), " p, String id, ", langueConfig.getString(ConfigCles.var_ListeRecherche), "<", classeNomSimple, "> ", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ") {");
+//					tl(1, "public static void htm", langueConfig.getString(ConfigCles.var_Suggere), classeGenPageNomSimple, "(", classePartsMiseEnPage.nomSimple(langueNom), " p, String id, ", langueConfig.getString(ConfigCles.var_ListeRecherche), "<", classePageClasseNomSimple, "> ", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, ") {");
 //				tl(2, classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_ = p.get", langueConfig.getString(ConfigCles.var_RequeteSite), "_();");
 //				TODO
 //				tl(2, "try {");
@@ -2831,15 +2834,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				tl(4, "}");
 //				tl(3, "}");
 //				l();
-//				tl(3, "Integer rows1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").map(l -> l.getRows()).orElse(10);");
-//				tl(3, "Integer start1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").map(l -> l.getStart()).orElse(1);");
+//				tl(3, "Integer rows1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, ").map(l -> l.getRows()).orElse(10);");
+//				tl(3, "Integer start1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, ").map(l -> l.getStart()).orElse(1);");
 //				tl(3, "Integer start2 = start1 - rows1;");
 //				tl(3, "Integer start3 = start1 + rows1;");
 //				tl(3, "Integer rows2 = rows1 / 2;");
 //				tl(3, "Integer rows3 = rows1 * 2;");
 //				tl(3, "start2 = start2 < 0 ? 0 : start2;");
 //				tl(3, "StringBuilder fqs = new StringBuilder();");
-//				tl(3, "for(String fq : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").map(l -> l.getFilterQueries()).orElse(new String[0])) {");
+//				tl(3, "for(String fq : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, ").map(l -> l.getFilterQueries()).orElse(new String[0])) {");
 //				tl(4, "if(!StringUtils.contains(fq, \"(\")) {");
 //				tl(5, "String fq1 = StringUtils.substringBefore(fq, \"_\");");
 //				tl(5, "String fq2 = StringUtils.substringAfter(fq, \":\");");
@@ -2848,7 +2851,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				tl(4, "}");
 //				tl(3, "}");
 //				tl(3, "StringBuilder sorts = new StringBuilder();");
-//				tl(3, "for(SortClause sort : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").map(l -> l.getSorts()).orElse(Arrays.asList())) {");
+//				tl(3, "for(SortClause sort : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, ").map(l -> l.getSorts()).orElse(Arrays.asList())) {");
 //				tl(4, "sorts.append(\"&sort=\").append(StringUtils.substringBefore(sort.getItem(), \"_\")).append(\" \").append(sort.getOrder().name());");
 //				tl(3, "}");
 //				l();
@@ -2856,7 +2859,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
 
 				// recharger tous //
-//						t(4).s("{{# if ", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " == null) {").l();
+//						t(4).s("{{# if ", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, " == null) {").l();
 				tl(5, "<div class=\"\">");
 				tl(6, "<button id=\"", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "{{id}}\" class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " \"");
 				tl(7, "onclick=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals([], {}, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "{{id}}')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "{{id}}')); }); \"");
@@ -2885,13 +2888,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(5, "placeholder=\"", contexteRechercherTousNom, "\"");
 				}
 
-				tl(5, "class=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, " w3-input w3-border w3-bar-item \"");
-				tl(5, "name=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, "\"");
-				tl(5, "id=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, "{{id}}\"");
+				tl(5, "class=\"", langueConfig.getString(ConfigCles.var_suggere), classePageClasseNomSimple, " w3-input w3-border w3-bar-item \"");
+				tl(5, "name=\"", langueConfig.getString(ConfigCles.var_suggere), classePageClasseNomSimple, "\"");
+				tl(5, "id=\"", langueConfig.getString(ConfigCles.var_suggere), classePageClasseNomSimple, "{{id}}\"");
 				tl(5, "autocomplete=\"off\"");
-				tl(5, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, StringUtils.capitalize(classeVarSuggere), "( [ { 'name': 'q', 'value': '", classeVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", langueConfig.getString(ConfigCles.var_classeNomCanonique), ",", classeVarClePrimaire, classeVarUrlPk == null ? "" : "," + classeVarUrlPk, classeVarTitre == null ? "" : "," + classeVarTitre, "' } ], $('#", langueConfig.getString(ConfigCles.var_suggere), "List", classeNomSimple, "{{id}}'), {{", classeVarClePrimaire, "}}; \"");
+				tl(5, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classePageClasseNomSimple, StringUtils.capitalize(classeVarSuggere), "( [ { 'name': 'q', 'value': '", classeVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", langueConfig.getString(ConfigCles.var_classeNomCanonique), ",", classeVarClePrimaire, classeVarUrlPk == null ? "" : "," + classeVarUrlPk, classeVarTitre == null ? "" : "," + classeVarTitre, "' } ], $('#", langueConfig.getString(ConfigCles.var_suggere), "List", classePageClasseNomSimple, "{{id}}'), {{", classeVarClePrimaire, "}}; \"");
 				tl(5, "onkeyup=\"if (event.keyCode === 13) { event.preventDefault(); window.location.href = '", classePageUriMethode + "?q={{query1}}:' + encodeURIComponent(this.value) + '{{fqs}}{{sorts}}&amp;rows={{start2}}&amp;rows={{rows1}}\"");
-				tl(4, "{{#if ", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "}}");
+				tl(4, "{{#if ", langueConfig.getString(ConfigCles.var_liste), classePageClasseNomSimple, "}}");
 				tl(5, "value=\"{{query2}}\"");
 				tl(4, "{{/if}}");
 				tl(4, "/>");
@@ -2905,7 +2908,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "<div>");
 				tl(3, "<div class=\"w3-cell-row \">");
 				tl(4, "<div class=\"w3-cell w3-left-align w3-cell-top \">");
-				tl(5, "<ul class=\"w3-ul w3-hoverable \" id=\"", langueConfig.getString(ConfigCles.var_suggere), "List", classeNomSimple, "{{id}}\">");
+				tl(5, "<ul class=\"w3-ul w3-hoverable \" id=\"", langueConfig.getString(ConfigCles.var_suggere), "List", classePageClasseNomSimple, "{{id}}\">");
 				tl(5, "</ul>");
 				tl(4, "</div>");
 				tl(3, "</div>");
@@ -2925,27 +2928,27 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{/inline}}");
 				l("{{> ", classePageSuperNomSimple
 						, "Object".equals(classeNomSimpleSuperGenerique) ? "" : (
-								" " + StringUtils.uncapitalize(classeNomSimpleSuperGenerique) + "_=" + uncapitalizeClasseNomSimple + "_"
+								" " + StringUtils.uncapitalize(classeNomSimpleSuperGenerique) + "_=" + uncapitalizeClassePageClasseNomSimple + "_"
 								), "}}");
 
 				if(classeMethodeVars.contains("htmBody" + langueConfig.getString(ConfigCles.var_Court))) {
 					if(classePageSuperNomSimple != null)
 						tl(1, "@Override");
 					tl(0, "{{#*inline \"htmBodyCourt", classePageNomSimple, "\"}}");
-					tl(2, uncapitalizeClasseNomSimple, ".htmBody" + langueConfig.getString(ConfigCles.var_Court) + "();");
+					tl(2, uncapitalizeClassePageClasseNomSimple, ".htmBody" + langueConfig.getString(ConfigCles.var_Court) + "();");
 					tl(0, "{{/inline}}");
 				}
 
 				auteurWebsocket.flushClose();
 				auteurPageJs.l();
-				auteurPageJs.tl(0, "async function websocket", classeNomSimple, "(success) {");
+				auteurPageJs.tl(0, "async function websocket", classePageClasseNomSimple, "(success) {");
 				auteurPageJs.tl(1, "window.eventBus.onopen = function () {");
 				auteurPageJs.l();
-				auteurPageJs.tl(2, "window.eventBus.registerHandler('websocket", classeNomSimple, "', function (error, message) {");
+				auteurPageJs.tl(2, "window.eventBus.registerHandler('websocket", classePageClasseNomSimple, "', function (error, message) {");
 				auteurPageJs.tl(3, "var json = JSON.parse(message['body']);");
 				auteurPageJs.tl(3, "var id = json['id'];");
 				auteurPageJs.tl(3, "var pk = json['pk'];");
-				auteurPageJs.tl(3, "var pkPage = $('#", classeNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val();");
+				auteurPageJs.tl(3, "var pkPage = $('#", classePageClasseNomSimple, "Form :input[name=", classeVarClePrimaire, "]').val();");
 				auteurPageJs.tl(3, "var pks = json['pks'];");
 				auteurPageJs.tl(3, "var empty = json['empty'];");
 //					auteurPageJs.tl(3, "if(!empty) {");
@@ -2991,7 +2994,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(1, "}");
 				auteurPageJs.tl(0, "}");
 
-				auteurPageJs.tl(0, "async function websocket", classeNomSimple, "Inner(", langueConfig.getString(ConfigCles.var_requeteApi), ") {");
+				auteurPageJs.tl(0, "async function websocket", classePageClasseNomSimple, "Inner(", langueConfig.getString(ConfigCles.var_requeteApi), ") {");
 				auteurPageJs.s(wWebsocket);
 				auteurPageJs.tl(0, "}");
 			}
