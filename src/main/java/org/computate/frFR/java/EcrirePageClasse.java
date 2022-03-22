@@ -2454,7 +2454,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				s("{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "\"}}");
 				tl(1, "{{#if ", classeVarClePrimaire, "}}");
 				tl(2, "<!-- #*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "\" -->");
-				tl(2, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" style=\"display: inline-block; width: 100%; \" onsubmit=\"event.preventDefault(); return false; \">");
+				tl(2, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" style=\"\" onsubmit=\"event.preventDefault(); return false; \">");
 				t(3, "<input");
 				s(" name=\"", classeVarClePrimaire, "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_valeur), StringUtils.capitalize(classeVarClePrimaire), "\"");
@@ -2507,7 +2507,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 					else {
 						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + contexteUnNom;
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Supprimer_) + contexteNomPluriel;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Rechercher_) + contexteNomPluriel;
 					}
 
 					if(!classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche))) {
@@ -2530,15 +2530,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							tl(3, methodeTitreValeurs);
 						tl(2, "</button>");
 					}
-					{ tl(2, "<div id=\"", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "\" class=\"", classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) ? "" : "w3-modal ", "w3-padding-32 \">");
+					{ tl(2, "<div id=\"", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "\" class=\"", classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) ? "" : "w3-modal ", "\">");
 						{ tl(3, "<div class=\"", classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) ? "" : "w3-modal-content ", "\">");
 							{ tl(4, "<div class=\"w3-card-4 \">");
-								{ tl(5, "<header class=\"w3-container w3-", contexteCouleur, "\">");
-									tl(1, "{{#eq \"Page\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
-									tl(6, "<span class=\"w3-button w3-display-topright \" onclick=\"$('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "').hide(); \">×</span>");
-									tl(1, "{{/eq}}");
-									tl(6, "<h2 class=\"w3-padding \">", methodeTitreValeurs, "</h2>");
-								} tl(5, "</header>");
+								if(!langueConfig.getString(ConfigCles.var_PageRecherche).equals(classeApiMethode)) {
+									{ tl(5, "<header class=\"w3-container w3-", contexteCouleur, "\">");
+										tl(1, "{{#eq \"Page\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
+										tl(6, "<span class=\"w3-button w3-display-topright \" onclick=\"$('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "').hide(); \">×</span>");
+										tl(1, "{{/eq}}");
+										tl(6, "<h2 class=\"w3-padding \">", methodeTitreValeurs, "</h2>");
+									} tl(5, "</header>");
+								}
 	
 								{ tl(5, "<div class=\"\" id=\"", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "\">");
 //											TODO
@@ -2596,24 +2598,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										}
 	
 										} tl(6, "</div>");
-										tl(6, "<button");
-										tl(7, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " \"");
-										if("POST".equals(classeApiMethodeMethode))
-											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
-										else if("PATCH".equals(classeApiMethodeMethode))
-											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_FormulaireFiltres), "'), $('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'), function() {}, function() {}); \"");
-										else if("PUTImport".equals(classeApiMethode))
-											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
-										else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))
-											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
-										else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
-											tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", uncapitalizeClasseApiClasseNomSimple, "_ == null ? \"null\" : ", uncapitalizeClasseApiClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
-										else if(classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("POST") || classeApiMethodeMethode.contains("PUT"))
-											tl(7, "onclick=\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
-										else
-											tl(7, "onclick=\"", classeApiOperationIdMethode, "(); \"");
-		
-										tl(7, ">", methodeTitreValeurs, "</button>");
+										if(!langueConfig.getString(ConfigCles.var_PageRecherche).equals(classeApiMethode)) {
+											tl(6, "<button");
+											tl(7, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " \"");
+											if("POST".equals(classeApiMethodeMethode))
+												tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
+											else if("PATCH".equals(classeApiMethodeMethode))
+												tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_FormulaireFiltres), "'), $('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'), function() {}, function() {}); \"");
+											else if("PUTImport".equals(classeApiMethode))
+												tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
+											else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))
+												tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
+											else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
+												tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form'), \", ", uncapitalizeClasseApiClasseNomSimple, "_ == null ? \"null\" : ", uncapitalizeClasseApiClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
+											else if(classeApiMethodeMethode.contains("PATCH") || classeApiMethodeMethode.contains("POST") || classeApiMethodeMethode.contains("PUT"))
+												tl(7, "onclick=\"", classeApiOperationIdMethode, "(\", o.get", StringUtils.capitalize(classeVarClePrimaire), "(), \"; \")");
+											else
+												tl(7, "onclick=\"", classeApiOperationIdMethode, "(); \"");
+			
+											tl(7, ">", methodeTitreValeurs, "</button>");
+										}
 									}
 								} tl(5, "</div>");
 							} tl(4, "</div>");
@@ -2744,7 +2748,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 
-				if(classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+				if(classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
 				}
 			}
