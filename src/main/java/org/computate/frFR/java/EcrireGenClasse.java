@@ -485,6 +485,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wPageHtmlSingulier;
 
 	protected ToutEcrivain wVarsStatic;
+	protected ToutEcrivain wVarsIndexe;
 	protected ToutEcrivain wNomAffichageStatic;
 	protected ToutEcrivain wNomAffichageMethode;
 
@@ -1235,6 +1236,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wDefinir = ToutEcrivain.create();
 		wDefinirObjet = ToutEcrivain.create();
 		wVarsStatic = ToutEcrivain.create();
+		wVarsIndexe = ToutEcrivain.create();
 		wNomAffichageStatic = ToutEcrivain.create();
 		wNomAffichageMethode = ToutEcrivain.create();
 		wPageEntites = ToutEcrivain.create();
@@ -5027,6 +5029,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			//////////
 
 			wVarsStatic.tl(1, "public static final String VAR_", entiteVar, " = \"", entiteVar, "\";");
+			if(entiteIndexe)
+				wVarsIndexe.tl(2, "vars.add(VAR_", entiteVar, ");");
 
 			wNomAffichageStatic.tl(1, "public static final String ", langueConfig.getString(ConfigCles.var_NOM_AFFICHAGE), "_", entiteVar, " = \"", entiteNomAffichage, "\";");
 
@@ -5727,9 +5731,9 @@ public class EcrireGenClasse extends EcrireClasse {
 				l();
 			}
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
-				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \" title=\"{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' requestLocaleId requestZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy h:mm a zz' ", langueConfig.getString(ConfigCles.var_requete), "LocaleId ", langueConfig.getString(ConfigCles.var_requete), "ZoneId}}</span>");
+//				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \" title=\"{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' requestLocaleId requestZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy h:mm a zz' ", langueConfig.getString(ConfigCles.var_requete), "LocaleId ", langueConfig.getString(ConfigCles.var_requete), "ZoneId}}</span>");
 			} else {
-				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+//				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
 			}
 			tl(1, "{{/eq}}");
 		}
@@ -6047,6 +6051,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wDefinir.flushClose();
 		wDefinirObjet.flushClose();
 		wVarsStatic.flushClose();
+		wVarsIndexe.flushClose();
 		wNomAffichageStatic.flushClose();
 		wNomAffichageMethode.flushClose();
 		wPageEntites.flushClose();
@@ -6505,6 +6510,17 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		l();
 		s(wVarsStatic);
+
+		l();
+		tl(1, "public static List<String> vars", langueConfig.getString(ConfigCles.var_Indexe), langueConfig.getString(ConfigCles.var_PourClasse), "() {");
+		tl(2, "return ", classeNomSimple, ".vars", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(new ArrayList<String>());");
+		tl(1, "}");
+		tl(1, "public static List<String> vars", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(List<String> vars) {");
+		s(wVarsIndexe);
+		if(!classeEstBase)
+			tl(2, classeNomSimpleSuperGenerique, ".vars", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimpleSuperGenerique, "(vars);");
+		tl(2, "return vars;");
+		tl(1, "}");
 
 		l();
 		s(wNomAffichageStatic);

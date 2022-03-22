@@ -1219,6 +1219,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l();
 			if(classePageSuperNomSimple != null)
 				tl(1, "@Override");
+			tl(1, "protected void _vars", langueConfig.getString(ConfigCles.var_Indexe), "(JsonObject vars) {");
+			tl(2, classeNomSimple, ".vars", langueConfig.getString(ConfigCles.var_Indexe), langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
+			tl(3, "JsonObject json = new JsonObject();");
+			tl(3, "json.put(\"var\", var);");
+			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+			tl(3, "vars.put(var, json);");
+			tl(2, "});");
+			tl(1, "}");
+
+			l();
+			if(classePageSuperNomSimple != null)
+				tl(1, "@Override");
 			tl(1, "protected void _query(JsonObject query) {");
 			tl(2, "ServiceRequest ", langueConfig.getString(ConfigCles.var_requeteService), " = ", langueConfig.getString(ConfigCles.var_requeteSite), "_.getServiceRequest();");
 			tl(2, "JsonObject params = ", langueConfig.getString(ConfigCles.var_requeteService), ".getParams();");
@@ -1265,14 +1277,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(4, "String fq1 = StringUtils.substringBefore(fq, \"_\");");
 			tl(4, "String fq2 = StringUtils.substringAfter(fq, \":\");");
 			tl(4, "if(!StringUtils.startsWithAny(fq, \"", langueConfig.getString(ConfigCles.var_classeNomsCanoniques), "_\", \"", langueConfig.getString(ConfigCles.var_archive), "_\", \"", langueConfig.getString(ConfigCles.var_supprime), "_\", \"sessionId\", \"", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s\"))");
-			tl(5, "fqs.add(new JsonObject().put(\"var\", fq1).put(\"val\", fq2));");
+			tl(5, "fqs.add(new JsonObject().put(\"var\", fq1).put(\"val\", fq2).put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(fq1)));");
 			tl(4, "}");
 			tl(3, "}");
 			tl(2, "query.put(\"fq\", fqs);");
 			l();
 			tl(2, "JsonArray sorts = new JsonArray();");
 			tl(2, "for(String sort : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getSorts()).orElse(Arrays.asList())) {");
-			tl(3, "sorts.add(new JsonObject().put(\"var\", StringUtils.substringBefore(sort, \"_\")).put(\"order\", StringUtils.substringAfter(sort, \" \")));");
+			tl(3, "String sort1 = StringUtils.substringBefore(sort, \"_\");");
+			tl(3, "sorts.add(new JsonObject().put(\"var\", sort1).put(\"order\", StringUtils.substringAfter(sort, \" \")).put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(sort1)));");
 			tl(2, "}");
 			tl(2, "query.put(\"sort\", sorts);");
 			tl(1, "}");
@@ -1735,6 +1748,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Fin), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody\"}}{{> htmBody", classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Recherche), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount0\"}}{{> htmBodyCount0", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{> htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount1\"}}{{> htmBodyCount1", classePageNomSimple, "}}{{/partial}}");
@@ -2299,6 +2313,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{> \"htmScript", classePageNomSimple, "\"}}");
 			l("{{/inline}}");
 
+			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), classePageNomSimple, "\"}}");
+			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), classePageNomSimple, "\" -->");
+			tl(1, "<div>");
+			tl(0, "{{#each varsIndexed}}");
+			tl(2, "<div class=\"w3-padding \">");
+			tl(3, "<label for=\"fq", classeNomSimple, "_{{ @key }}\">{{ displayName }}</label>");
+			tl(3, "<input id=\"fq", classeNomSimple, "_{{ @key }}\" placeholder=\"{{ displayName }}\" class=\"w3-input \"/>");
+			tl(2, "</div>");
+			tl(0, "{{/each}}");
+			tl(1, "</div>");
+			
+			l("{{/inline}}");
+
 			s("{{#*inline \"htmBodyCount0", classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBodyCount0", classePageNomSimple, "\" -->");
 			tl(2, "<h1>");
@@ -2607,6 +2634,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"htmBody", classePageNomSimple, "\"}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{/block}}");
+			tl(0, "<div class=\"w3-sidebar w3-bar-block\" style=\"width: 25%; \">");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), "\"}}{{/block}}");
+			tl(0, "</div>");
+			tl(0, "<div class=\"w3-content \" style=\"margin-left: 25%; \">");
 			tl(1, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int0}}");
 			tl(0, "{{#block \"htmBodyCount0\"}}{{/block}}");
 			tl(1, "{{else}}");
@@ -2633,6 +2664,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Fin), "\"}}{{/block}}");
+			tl(0, "</div>");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"table1", classePageNomSimple, "\"}}");
 			tl(2, "<table class=\"w3-table w3-bordered w3-striped w3-border w3-hoverable \">");
@@ -2712,7 +2744,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 
-				if("application/json".equals(classeApiTypeMediaMethode) && (classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport"))) {
+				if(classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
 				}
 			}
