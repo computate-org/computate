@@ -146,6 +146,7 @@ public class ConfigCles {
 	public static final String var_dernier = "var_dernier";
 	public static final String var_Dernier = "var_Dernier";
 	public static final String var_Description = "var_Description";
+	public static final String var_description = "var_description";
 	public static final String var_desindexer = "var_desindexer";
 	public static final String var_documentSolr = "var_documentSolr";
 	public static final String var_DocumentSolr = "var_DocumentSolr";
@@ -194,8 +195,11 @@ public class ConfigCles {
 	public static final String var_HAposhAposmm = "var_HAposhAposmm";
 	public static final String var_Hauteur = "var_Hauteur";
 	public static final String var_HHColonMM = "var_HHColonMM";
+	public static final String var_htmlCellule = "var_htmlCellule";
 	public static final String var_HtmlCellule = "var_HtmlCellule";
+	public static final String var_htmlColonne = "var_htmlColonne";
 	public static final String var_HtmlColonne = "var_HtmlColonne";
+	public static final String var_htmlLigne = "var_htmlLigne";
 	public static final String var_HtmlLigne = "var_HtmlLigne";
 	public static final String var_IconeGroupe = "var_IconeGroupe";
 	public static final String var_Icone = "var_Icone";
@@ -224,7 +228,9 @@ public class ConfigCles {
 	public static final String var_Liste = "var_Liste";
 	public static final String var_listeRecherche = "var_listeRecherche";
 	public static final String var_ListeRecherche = "var_ListeRecherche";
+	public static final String var_longeurMax = "var_longeurMax";
 	public static final String var_LongeurMax = "var_LongeurMax";
+	public static final String var_longeurMin = "var_longeurMin";
 	public static final String var_LongeurMin = "var_LongeurMin";
 	public static final String var_lueur = "var_lueur";
 	public static final String var_MailAdmin = "var_MailAdmin";
@@ -233,11 +239,15 @@ public class ConfigCles {
 	public static final String var_MailVerticle = "var_MailVerticle";
 	public static final String var_manquante = "var_manquante";
 	public static final String var_marqueCurseurSuivante = "var_marqueCurseurSuivante";
+	public static final String var_max = "var_max";
+	public static final String var_Max = "var_Max";
 	public static final String var_Methode = "var_Methode";
 	public static final String var_methodeNom = "var_methodeNom";
 	public static final String var_methodeNoms = "var_methodeNoms";
 	public static final String var_millisRecherche = "var_millisRecherche";
 	public static final String var_millisTransmission = "var_millisTransmission";
+	public static final String var_min = "var_min";
+	public static final String var_Min = "var_Min";
 	public static final String var_MiseEnPage = "var_MiseEnPage";
 	public static final String var_Modale = "var_Modale";
 	public static final String var_modele = "var_modele";

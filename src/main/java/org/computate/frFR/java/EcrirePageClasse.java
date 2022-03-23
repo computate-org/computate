@@ -1216,17 +1216,43 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "}");
 			tl(1, "}");
 
+			////////////
+			// varsQ //
+			////////////
+
 			l();
 			if(classePageSuperNomSimple != null)
 				tl(1, "@Override");
-			tl(1, "protected void _vars", langueConfig.getString(ConfigCles.var_Indexe), "(JsonObject vars) {");
-			tl(2, classeNomSimple, ".vars", langueConfig.getString(ConfigCles.var_Indexe), langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
+			tl(1, "protected void _varsQ(JsonObject vars) {");
+			tl(2, classeNomSimple, ".varsQ", langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
 			tl(3, "JsonObject json = new JsonObject();");
 			tl(3, "json.put(\"var\", var);");
-			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
 			tl(3, "vars.put(var, json);");
 			tl(2, "});");
 			tl(1, "}");
+
+			////////////
+			// varsFq //
+			////////////
+
+			l();
+			if(classePageSuperNomSimple != null)
+				tl(1, "@Override");
+			tl(1, "protected void _varsFq(JsonObject vars) {");
+			tl(2, classeNomSimple, ".varsFq", langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
+			tl(3, "JsonObject json = new JsonObject();");
+			tl(3, "json.put(\"var\", var);");
+			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+			tl(3, "vars.put(var, json);");
+			tl(2, "});");
+			tl(1, "}");
+
+			///////////
+			// query //
+			///////////
 
 			l();
 			if(classePageSuperNomSimple != null)
@@ -1387,8 +1413,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				String fqClassesSuperEtMoi = "(" + classeEntiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + this.langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-				rechercheSolr.addFilterQuery("entiteHtmlColonne_indexed_double:[* TO *]");
-				rechercheSolr.addSort("entiteHtmlColonne_indexed_double", ORDER.asc);
+				rechercheSolr.addFilterQuery("entiteHtmlColonne_indexed_int:[* TO *]");
+				rechercheSolr.addSort("entiteHtmlColonne_indexed_int", ORDER.asc);
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();
 				Integer rechercheLignes = rechercheSolr.getRows();
@@ -1749,6 +1775,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Fin), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody\"}}{{> htmBody", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Recherche), classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Filtres), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Filtres), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount0\"}}{{> htmBodyCount0", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{> htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount1\"}}{{> htmBodyCount1", classePageNomSimple, "}}{{/partial}}");
@@ -2313,12 +2340,51 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{> \"htmScript", classePageNomSimple, "\"}}");
 			l("{{/inline}}");
 
+			//////////////////////
+			// htmBodyRecherche //
+			//////////////////////
+
 			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), classePageNomSimple, "\" -->");
 			tl(1, "<div>");
-			tl(0, "{{#each varsIndexed}}");
+			tl(0, "{{#each varsQ}}");
 			tl(2, "<div class=\"w3-padding \">");
-			tl(3, "<label for=\"fq", classeNomSimple, "_{{ @key }}\">{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}</label>");
+			t(3, "<label for=\"fq", classeNomSimple, "_{{ @key }}\">");
+			s("{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}");
+			s("<sup class=\"w3-tiny \"> ({{ ", langueConfig.getString(ConfigCles.var_classeNomSimple), " }})</sup>");
+			l("</label>");
+
+			t(3, "<input");
+			s(" id=\"fq", classeNomSimple, "_{{ @key }}\"");
+			s(" placeholder=\"{{ displayName }}\"");
+			s(" class=\"w3-input \"");
+			s(" onkeypress=\"qChange(this); \"");
+			s(" onkeyup=\"qChange(this); \"");
+			s(" onchange=\"qChange(this); \"");
+			s(" data-var=\"{{ var }}\"");
+			s(" autocomplete=\"off=\"");
+			l("/>");
+
+			tl(3, "<div class=\"pageSearchVal w3-tiny \"></div>");
+			tl(2, "</div>");
+			tl(0, "{{/each}}");
+			tl(1, "</div>");
+			
+			l("{{/inline}}");
+
+			////////////////////
+			// htmBodyFiltres //
+			////////////////////
+
+			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Filtres), classePageNomSimple, "\"}}");
+			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Filtres), classePageNomSimple, "\" -->");
+			tl(1, "<div>");
+			tl(0, "{{#each varsFq", "}}");
+			tl(2, "<div class=\"w3-padding \">");
+			t(3, "<label for=\"fq", classeNomSimple, "_{{ @key }}\">");
+			s("{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}");
+			s("<sup class=\"w3-tiny \"> ({{ ", langueConfig.getString(ConfigCles.var_classeNomSimple), " }})</sup>");
+			l("</label>");
 
 			t(3, "<input");
 			s(" id=\"fq", classeNomSimple, "_{{ @key }}\"");
@@ -2337,6 +2403,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "</div>");
 			
 			l("{{/inline}}");
+
+			///////////////////
+			// htmBodyCount0 //
+			///////////////////
 
 			s("{{#*inline \"htmBodyCount0", classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBodyCount0", classePageNomSimple, "\" -->");
@@ -2650,16 +2720,61 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"htmBody", classePageNomSimple, "\"}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{/block}}");
-			tl(0, "<div  class=\"siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-sidebar w3-bar-block \" style=\"width: 25%; \">");
+
+			///////////////
+			// sidebar q //
+			///////////////
+
+			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-sidebar w3-bar-block \" style=\"min-width: 300px; display: none; \">");
 			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
-			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_filtres), "</span>");
+			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Recherche), "</span>");
 			tl(1, "</div>");
 			tl(1, "<div class=\"w3-bar-block \">");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), "\"}}{{/block}}");
 			tl(1, "</div>");
 			tl(0, "</div>");
-			tl(0, "<div class=\"pageContent w3-content \" style=\"margin-left: 25%; \">");
-			tl(1, "<span title=\"", langueConfig.getString(ConfigCles.var_Recherche), "\" class=\"w3-button w3-display-topleft w3-xlarge w3-", contexteCouleur, " \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); \">☰</span>");
+
+			////////////////
+			// sidebar fa //
+			////////////////
+
+			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), " w3-sidebar w3-bar-block \" style=\"min-width: 300px; display: none; \">");
+			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Filtres), "</span>");
+			tl(1, "</div>");
+			tl(1, "<div class=\"w3-bar-block \">");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Filtres), "\"}}{{/block}}");
+			tl(1, "</div>");
+			tl(0, "</div>");
+
+			tl(0, "<div class=\"pageContent w3-content \">");
+
+			t(1, "<div class=\"w3-display-topleft \">");
+
+			//////////////
+			// bouton q //
+			//////////////
+			t(2, "<span");
+			s(" title=\"", langueConfig.getString(ConfigCles.var_Recherche), "\"");
+			s(" class=\"w3-button w3-xlarge w3-", contexteCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); \"");
+			s(">");
+			s("<i class=\"fas fa-magnifying-glass \"></i>");
+			l("</span>");
+
+			///////////////
+			// bouton fq //
+			///////////////
+			t(2, "<span");
+			s(" title=\"", langueConfig.getString(ConfigCles.var_Filtres), "\"");
+			s(" class=\"w3-button w3-xlarge w3-", contexteCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').toggle(); \"");
+			s(">");
+			s("<i class=\"fas fa-filters \"></i>");
+			l("</span>");
+
+			l("</div>");
+
 			tl(1, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int0}}");
 			tl(0, "{{#block \"htmBodyCount0\"}}{{/block}}");
 			tl(1, "{{else}}");

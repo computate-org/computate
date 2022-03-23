@@ -2686,7 +2686,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "}");
 						tl(3, classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".next().onSuccess(", classeLangueConfig.getString(ConfigCles.var_suivant), " -> {");
 						tl(4, "if(", classeLangueConfig.getString(ConfigCles.var_suivant), ") {");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ");");
+						tl(5, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(b -> {");
+						tl(6, "promise.complete();");
+						tl(5, "}).onFailure(ex -> {");
+						tl(6, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(6, "promise.fail(ex);");
+						tl(5, "});");
 						tl(4, "} else {");
 						tl(5, "promise.complete();");
 						tl(4, "}");
@@ -2723,7 +2728,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumPATCH() + ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".size());");
 						tl(3, classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".next().onSuccess(", classeLangueConfig.getString(ConfigCles.var_suivant), " -> {");
 						tl(4, "if(", classeLangueConfig.getString(ConfigCles.var_suivant), ") {");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ");");
+						tl(5, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(b -> {");
+						tl(6, "promise.complete();");
+						tl(5, "}).onFailure(ex -> {");
+						tl(6, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(6, "promise.fail(ex);");
+						tl(5, "});");
 						tl(4, "} else {");
 						tl(5, "promise.complete();");
 						tl(4, "}");

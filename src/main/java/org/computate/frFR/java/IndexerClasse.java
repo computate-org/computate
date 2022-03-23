@@ -4627,7 +4627,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						{ 
 							String str = regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmlColonne) + ":\\s*(.*)$", methodeCommentaire);
 							if(NumberUtils.isCreatable(str)) {
-								indexerStockerSolr(entiteDoc, "entiteHtmlColonne", Double.parseDouble(str));
+								indexerStockerSolr(entiteDoc, "entiteHtmlColonne", Integer.parseInt(str));
 								entiteHtml = true;
 							}
 						}

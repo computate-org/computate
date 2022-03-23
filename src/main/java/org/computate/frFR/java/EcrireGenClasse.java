@@ -485,9 +485,19 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wPageHtmlSingulier;
 
 	protected ToutEcrivain wVarsStatic;
-	protected ToutEcrivain wVarsIndexe;
+	protected ToutEcrivain wVarsQ;
+	protected ToutEcrivain wVarsFq;
 	protected ToutEcrivain wNomAffichageStatic;
 	protected ToutEcrivain wNomAffichageMethode;
+	protected ToutEcrivain wClasseNomSimpleMethode;
+	protected ToutEcrivain wDescriptionMethode;
+	protected ToutEcrivain wHtmlColonneMethode;
+	protected ToutEcrivain wHtmlLigneMethode;
+	protected ToutEcrivain wHtmlCelluleMethode;
+	protected ToutEcrivain wLongeurMinMethode;
+	protected ToutEcrivain wLongeurMaxMethode;
+	protected ToutEcrivain wMinMethode;
+	protected ToutEcrivain wMaxMethode;
 
 	/**
 	 * Var.enUS: wPageEntities
@@ -923,8 +933,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	String entiteDescription;
 
 	Integer entiteHtmlLigne;
-
 	Integer entiteHtmlCellule;
+	Integer entiteLongeurMin;
+	Integer entiteLongeurMax;
+	Integer entiteMin;
+	Integer entiteMax;
 
 	Boolean entiteIndexe;
 
@@ -1128,6 +1141,8 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String entiteHtmlTooltip;
 
+	Integer entiteHtmlColonne;
+
 	List<String> entiteMethodesAvantVisibilite;
 
 	List<String> entiteMethodesAvantVar;
@@ -1236,9 +1251,21 @@ public class EcrireGenClasse extends EcrireClasse {
 		wDefinir = ToutEcrivain.create();
 		wDefinirObjet = ToutEcrivain.create();
 		wVarsStatic = ToutEcrivain.create();
-		wVarsIndexe = ToutEcrivain.create();
-		wNomAffichageStatic = ToutEcrivain.create();
+		wVarsQ = ToutEcrivain.create();
+		wVarsFq = ToutEcrivain.create();
 		wNomAffichageMethode = ToutEcrivain.create();
+		wNomAffichageStatic = ToutEcrivain.create();
+
+		wClasseNomSimpleMethode = ToutEcrivain.create();
+		wDescriptionMethode = ToutEcrivain.create();
+		wHtmlColonneMethode = ToutEcrivain.create();
+		wHtmlLigneMethode = ToutEcrivain.create();
+		wHtmlCelluleMethode = ToutEcrivain.create();
+		wLongeurMinMethode = ToutEcrivain.create();
+		wLongeurMaxMethode = ToutEcrivain.create();
+		wMinMethode = ToutEcrivain.create();
+		wMaxMethode = ToutEcrivain.create();
+
 		wPageEntites = ToutEcrivain.create();
 		wApiGet = ToutEcrivain.create();
 		wApiGenererGet = ToutEcrivain.create();
@@ -3101,6 +3128,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	public void genCodeEntite(String langueNom, YAMLConfiguration langueConfig) throws Exception {
 		o = auteurGenClasse;
 		entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
+		entiteDescription = (String)doc.get("entiteDescription_" + langueNom + "_stored_string");
 		entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
 		entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + langueNom + "_stored_string");
 		entiteAttribuerVarSuggere = (String)doc.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
@@ -3187,6 +3215,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
 			entiteHtmlTooltip = (String)doc.get("entiteHtmlTooltip_" + langueNom + "_stored_string");
+			entiteHtmlColonne = (Integer)doc.get("entiteHtmlColonne_stored_int");
+			entiteHtmlLigne = (Integer)doc.get("entiteHtmlLigne_stored_int");
+			entiteHtmlCellule = (Integer)doc.get("entiteHtmlCellule_stored_int");
+			entiteLongeurMin = (Integer)doc.get("entiteLongeurMin_stored_int");
+			entiteLongeurMax = (Integer)doc.get("entiteLongeurMax_stored_int");
+			entiteMin = (Integer)doc.get("entiteMin_stored_int");
+			entiteMax = (Integer)doc.get("entiteMax_stored_int");
 			entiteHtml = (Boolean)doc.get("entiteHtml_stored_boolean");
 
 			entiteClassesSuperEtMoiSansGen = (List<String>)doc.get("entiteClassesSuperEtMoiSansGen_stored_strings");
@@ -5029,10 +5064,56 @@ public class EcrireGenClasse extends EcrireClasse {
 			//////////
 
 			wVarsStatic.tl(1, "public static final String VAR_", entiteVar, " = \"", entiteVar, "\";");
-			if(entiteIndexe)
-				wVarsIndexe.tl(2, "vars.add(VAR_", entiteVar, ");");
+
+			// varsQ //
+			if(entiteTexte || entiteSuggere)
+				wVarsQ.tl(2, "vars.add(VAR_", entiteVar, ");");
+			// varsFq //
+			else if(entiteIndexe)
+				wVarsFq.tl(2, "vars.add(VAR_", entiteVar, ");");
+
+			////////////////////////
+			// nomAffichageStatic //
+			////////////////////////
 
 			wNomAffichageStatic.tl(1, "public static final String ", langueConfig.getString(ConfigCles.var_NOM_AFFICHAGE), "_", entiteVar, " = \"", entiteNomAffichage, "\";");
+
+			if(entiteDescription != null) {
+				wDescriptionMethode.tl(2, "case VAR_", entiteVar, ":");
+				wDescriptionMethode.tl(3, "return \"", entiteDescription, "\";");
+			}
+			if(entiteNomSimple != null) {
+				wClasseNomSimpleMethode.tl(2, "case VAR_", entiteVar, ":");
+				wClasseNomSimpleMethode.tl(3, "return \"", entiteNomSimple, "\";");
+			}
+			if(entiteHtmlColonne != null) {
+				wHtmlColonneMethode.tl(2, "case VAR_", entiteVar, ":");
+				wHtmlColonneMethode.tl(3, "return ", entiteHtmlColonne, ";");
+			}
+			if(entiteHtmlLigne != null) {
+				wHtmlLigneMethode.tl(2, "case VAR_", entiteVar, ":");
+				wHtmlLigneMethode.tl(3, "return ", entiteHtmlLigne, ";");
+			}
+			if(entiteHtmlCellule != null) {
+				wHtmlCelluleMethode.tl(2, "case VAR_", entiteVar, ":");
+				wHtmlCelluleMethode.tl(3, "return ", entiteHtmlCellule, ";");
+			}
+			if(entiteLongeurMin != null) {
+				wLongeurMinMethode.tl(2, "case VAR_", entiteVar, ":");
+				wLongeurMinMethode.tl(3, "return ", entiteLongeurMin, ";");
+			}
+			if(entiteLongeurMax != null) {
+				wLongeurMaxMethode.tl(2, "case VAR_", entiteVar, ":");
+				wLongeurMaxMethode.tl(3, "return ", entiteLongeurMax, ";");
+			}
+			if(entiteMin != null) {
+				wMinMethode.tl(2, "case VAR_", entiteVar, ":");
+				wMinMethode.tl(3, "return ", entiteMin, ";");
+			}
+			if(entiteMax != null) {
+				wMaxMethode.tl(2, "case VAR_", entiteVar, ":");
+				wMaxMethode.tl(3, "return ", entiteMax, ";");
+			}
 
 			wNomAffichageMethode.tl(2, "case VAR_", entiteVar, ":");
 			wNomAffichageMethode.tl(3, "return ", langueConfig.getString(ConfigCles.var_NOM_AFFICHAGE), "_", entiteVar, ";");
@@ -6052,9 +6133,19 @@ public class EcrireGenClasse extends EcrireClasse {
 		wDefinir.flushClose();
 		wDefinirObjet.flushClose();
 		wVarsStatic.flushClose();
-		wVarsIndexe.flushClose();
+		wVarsQ.flushClose();
+		wVarsFq.flushClose();
 		wNomAffichageStatic.flushClose();
 		wNomAffichageMethode.flushClose();
+		wDescriptionMethode.flushClose();
+		wClasseNomSimpleMethode.flushClose();
+		wHtmlColonneMethode.flushClose();
+		wHtmlLigneMethode.flushClose();
+		wHtmlCelluleMethode.flushClose();
+		wLongeurMinMethode.flushClose();
+		wLongeurMaxMethode.flushClose();
+		wMinMethode.flushClose();
+		wMaxMethode.flushClose();
 		wPageEntites.flushClose();
 		wPageGet.flushClose();
 		wHashCode.flushClose();
@@ -6512,16 +6603,41 @@ public class EcrireGenClasse extends EcrireClasse {
 		l();
 		s(wVarsStatic);
 
-		l();
-		tl(1, "public static List<String> vars", langueConfig.getString(ConfigCles.var_Indexe), langueConfig.getString(ConfigCles.var_PourClasse), "() {");
-		tl(2, "return ", classeNomSimple, ".vars", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(new ArrayList<String>());");
-		tl(1, "}");
-		tl(1, "public static List<String> vars", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(List<String> vars) {");
-		s(wVarsIndexe);
-		if(!classeEstBase)
-			tl(2, classeNomSimpleSuperGenerique, ".vars", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimpleSuperGenerique, "(vars);");
-		tl(2, "return vars;");
-		tl(1, "}");
+		if(classeIndexe) {
+			////////////
+			// varsQ //
+			////////////
+	
+			l();
+			tl(1, "public static List<String> varsQ", langueConfig.getString(ConfigCles.var_PourClasse), "() {");
+			tl(2, "return ", classeNomSimple, ".varsQ", classeNomSimple, "(new ArrayList<String>());");
+			tl(1, "}");
+			tl(1, "public static List<String> varsQ", classeNomSimple, "(List<String> vars) {");
+			s(wVarsQ);
+			if(!classeEstBase)
+				tl(2, classeNomSimpleSuperGenerique, ".varsQ", classeNomSimpleSuperGenerique, "(vars);");
+			tl(2, "return vars;");
+			tl(1, "}");
+	
+			////////////
+			// varsFq //
+			////////////
+	
+			l();
+			tl(1, "public static List<String> varsFq", langueConfig.getString(ConfigCles.var_PourClasse), "() {");
+			tl(2, "return ", classeNomSimple, ".varsFq", classeNomSimple, "(new ArrayList<String>());");
+			tl(1, "}");
+			tl(1, "public static List<String> varsFq", classeNomSimple, "(List<String> vars) {");
+			s(wVarsFq);
+			if(!classeEstBase)
+				tl(2, classeNomSimpleSuperGenerique, ".varsFq", classeNomSimpleSuperGenerique, "(vars);");
+			tl(2, "return vars;");
+			tl(1, "}");
+		}
+
+		////////////////////////
+		// nomAffichageStatic //
+		////////////////////////
 
 		l();
 		s(wNomAffichageStatic);
@@ -6541,6 +6657,144 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(3, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimpleSuperGenerique, "(var);");
 		tl(2, "}");
 		tl(1, "}");
+
+		if(classePage) {
+	
+			/////////////////
+			// Description //
+			/////////////////
+			l();
+			tl(1, "public static String ", langueConfig.getString(ConfigCles.var_description), classeNomSimple, "(String var) {");
+			tl(2, "switch(var) {");
+			s(wDescriptionMethode);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_description), classeNomSimpleSuperGenerique, "(var);");
+			tl(2, "}");
+			tl(1, "}");
+	
+			/////////////////////
+			// ClasseNomSimple //
+			/////////////////////
+			l();
+			tl(1, "public static String ", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(String var) {");
+			tl(2, "switch(var) {");
+			s(wClasseNomSimpleMethode);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimpleSuperGenerique, "(var);");
+			tl(2, "}");
+			tl(1, "}");
+	
+			/////////////////
+			// HtmlColonne //
+			/////////////////
+			l();
+			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmlColonne), classeNomSimple, "(String var) {");
+			tl(2, "switch(var) {");
+			s(wHtmlColonneMethode);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmlColonne), classeNomSimpleSuperGenerique, "(var);");
+			tl(2, "}");
+			tl(1, "}");
+	
+			///////////////
+			// HtmlLigne //
+			///////////////
+			l();
+			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmlLigne), classeNomSimple, "(String var) {");
+			tl(2, "switch(var) {");
+			s(wHtmlLigneMethode);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmlLigne), classeNomSimpleSuperGenerique, "(var);");
+			tl(2, "}");
+			tl(1, "}");
+	
+			/////////////////
+			// HtmlCellule //
+			/////////////////
+			l();
+			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmlCellule), classeNomSimple, "(String var) {");
+			tl(2, "switch(var) {");
+			s(wHtmlCelluleMethode);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmlCellule), classeNomSimpleSuperGenerique, "(var);");
+			tl(2, "}");
+			tl(1, "}");
+	
+			////////////////
+			// LongeurMin //
+			////////////////
+			l();
+			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_longeurMin), classeNomSimple, "(String var) {");
+			tl(2, "switch(var) {");
+			s(wLongeurMinMethode);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_longeurMin), classeNomSimpleSuperGenerique, "(var);");
+			tl(2, "}");
+			tl(1, "}");
+	
+			////////////////
+			// LongeurMax //
+			////////////////
+			l();
+			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_longeurMax), classeNomSimple, "(String var) {");
+			tl(2, "switch(var) {");
+			s(wLongeurMaxMethode);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_longeurMax), classeNomSimpleSuperGenerique, "(var);");
+			tl(2, "}");
+			tl(1, "}");
+	
+			/////////
+			// Max //
+			/////////
+			l();
+			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_max), classeNomSimple, "(String var) {");
+			tl(2, "switch(var) {");
+			s(wMaxMethode);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_max), classeNomSimpleSuperGenerique, "(var);");
+			tl(2, "}");
+			tl(1, "}");
+	
+			/////////
+			// Min //
+			/////////
+			l();
+			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_min), classeNomSimple, "(String var) {");
+			tl(2, "switch(var) {");
+			s(wMinMethode);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_min), classeNomSimpleSuperGenerique, "(var);");
+			tl(2, "}");
+			tl(1, "}");
+		}
 
 		l("}"); 
 
