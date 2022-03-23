@@ -2318,8 +2318,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "<div>");
 			tl(0, "{{#each varsIndexed}}");
 			tl(2, "<div class=\"w3-padding \">");
-			tl(3, "<label for=\"fq", classeNomSimple, "_{{ @key }}\">{{ displayName }}</label>");
-			tl(3, "<input id=\"fq", classeNomSimple, "_{{ @key }}\" placeholder=\"{{ displayName }}\" class=\"w3-input \"/>");
+			tl(3, "<label for=\"fq", classeNomSimple, "_{{ @key }}\">{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}</label>");
+
+			t(3, "<input");
+			s(" id=\"fq", classeNomSimple, "_{{ @key }}\"");
+			s(" placeholder=\"{{ displayName }}\"");
+			s(" class=\"w3-input \"");
+			s(" onkeypress=\"fqChange(this); \"");
+			s(" onkeyup=\"fqChange(this); \"");
+			s(" onchange=\"fqChange(this); \"");
+			s(" data-var=\"{{ var }}\"");
+			s(" autocomplete=\"off=\"");
+			l("/>");
+
+			tl(3, "<div class=\"pageSearchVal w3-tiny \"></div>");
 			tl(2, "</div>");
 			tl(0, "{{/each}}");
 			tl(1, "</div>");
@@ -2638,10 +2650,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"htmBody", classePageNomSimple, "\"}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{/block}}");
-			tl(0, "<div class=\"w3-sidebar w3-bar-block\" style=\"width: 25%; \">");
+			tl(0, "<div  class=\"siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-sidebar w3-bar-block \" style=\"width: 25%; \">");
+			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_filtres), "</span>");
+			tl(1, "</div>");
+			tl(1, "<div class=\"w3-bar-block \">");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), "\"}}{{/block}}");
+			tl(1, "</div>");
 			tl(0, "</div>");
-			tl(0, "<div class=\"w3-content \" style=\"margin-left: 25%; \">");
+			tl(0, "<div class=\"pageContent w3-content \" style=\"margin-left: 25%; \">");
+			tl(1, "<span title=\"", langueConfig.getString(ConfigCles.var_Recherche), "\" class=\"w3-button w3-display-topleft w3-xlarge w3-", contexteCouleur, " \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); \">☰</span>");
 			tl(1, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int0}}");
 			tl(0, "{{#block \"htmBodyCount0\"}}{{/block}}");
 			tl(1, "{{else}}");
