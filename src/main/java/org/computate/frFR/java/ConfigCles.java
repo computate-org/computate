@@ -189,6 +189,8 @@ public class ConfigCles {
 	public static final String var_fusion = "var_fusion";
 	public static final String var_Fusion = "var_Fusion";
 	public static final String var_Future = "var_Future";
+	public static final String var_gamme = "var_gamme";
+	public static final String var_Gamme = "var_Gamme";
 	public static final String var_generer = "var_generer";
 	public static final String var_gestionnaireEvenements = "var_gestionnaireEvenements";
 	public static final String var_GestionnaireEvenements = "var_GestionnaireEvenements";
