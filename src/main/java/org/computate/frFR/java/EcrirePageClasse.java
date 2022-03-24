@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -1229,6 +1228,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(3, "json.put(\"var\", var);");
 			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
 			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+			tl(3, "json.put(\"val\", Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getQuery()).filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
 			tl(3, "vars.put(var, json);");
 			tl(2, "});");
 			tl(1, "}");
@@ -1241,11 +1241,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(classePageSuperNomSimple != null)
 				tl(1, "@Override");
 			tl(1, "protected void _varsFq(JsonObject vars) {");
+			tl(2, "Map<String, SolrResponse.FacetField> facetFields = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getQueryResponse().getFacetCounts()).map(c -> c.getFacetFields()).map(f -> f.getFacets()).orElse(new HashMap<String,SolrResponse.FacetField>());");
 			tl(2, classeNomSimple, ".varsFq", langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
+			tl(3, "String var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(var);");
 			tl(3, "JsonObject json = new JsonObject();");
 			tl(3, "json.put(\"var\", var);");
 			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
 			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+			tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
+
+			tl(3, "Optional.ofNullable(facetFields.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(facetField -> {");
+			tl(4, "JsonObject facetJson = new JsonObject();");
+			tl(4, "JsonObject counts = new JsonObject();");
+			tl(4, "facetJson.put(\"var\", var);");
+			tl(4, "facetField.getCounts().forEach((val, count) -> {");
+			tl(5, "counts.put(val, count);");
+			tl(4, "});");
+			tl(4, "facetJson.put(\"counts\", counts);");
+			tl(4, "json.put(\"facetField\", facetJson);");
+			tl(3, "});");
+
 			tl(3, "vars.put(var, json);");
 			tl(2, "});");
 			tl(1, "}");
@@ -1297,13 +1312,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "Long rows2 = rows1 / 2;");
 			tl(2, "Long rows3 = rows1 * 2;");
 			tl(2, "start2 = start2 < 0 ? 0 : start2;");
-			tl(2, "JsonArray fqs = new JsonArray();");
+			tl(2, "JsonObject fqs = new JsonObject();");
 			tl(2, "for(String fq : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getFilterQueries()).orElse(Arrays.asList())) {");
 			tl(3, "if(!StringUtils.contains(fq, \"(\")) {");
 			tl(4, "String fq1 = StringUtils.substringBefore(fq, \"_\");");
 			tl(4, "String fq2 = StringUtils.substringAfter(fq, \":\");");
 			tl(4, "if(!StringUtils.startsWithAny(fq, \"", langueConfig.getString(ConfigCles.var_classeNomsCanoniques), "_\", \"", langueConfig.getString(ConfigCles.var_archive), "_\", \"", langueConfig.getString(ConfigCles.var_supprime), "_\", \"sessionId\", \"", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s\"))");
-			tl(5, "fqs.add(new JsonObject().put(\"var\", fq1).put(\"val\", fq2).put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(fq1)));");
+			tl(5, "fqs.put(fq1, new JsonObject().put(\"var\", fq1).put(\"val\", fq2).put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(fq1)));");
 			tl(4, "}");
 			tl(3, "}");
 			tl(2, "query.put(\"fq\", fqs);");
@@ -2358,9 +2373,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"fq", classeNomSimple, "_{{ @key }}\"");
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"w3-input \"");
-			s(" onkeypress=\"qChange(this); \"");
+//			s(" onkeypress=\"qChange(this); \"");
 			s(" onkeyup=\"qChange(this); \"");
-			s(" onchange=\"qChange(this); \"");
+//			s(" onchange=\"qChange(this); \"");
 			s(" data-var=\"{{ var }}\"");
 			s(" autocomplete=\"off=\"");
 			l("/>");
@@ -2379,26 +2394,69 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Filtres), classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Filtres), classePageNomSimple, "\" -->");
 			tl(1, "<div>");
-			tl(0, "{{#each varsFq", "}}");
+			tl(0, "{{#each varsFq }}");
 			tl(2, "<div class=\"w3-padding \">");
 			t(3, "<label for=\"fq", classeNomSimple, "_{{ @key }}\">");
 			s("{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}");
 			s("<sup class=\"w3-tiny \"> ({{ ", langueConfig.getString(ConfigCles.var_classeNomSimple), " }})</sup>");
 			l("</label>");
 
-			t(3, "<input");
+			tl(3, "<div class=\"w3-cell-row \">");
+			tl(4, "<div class=\"w3-cell w3-cell-top \">");
+			t(5, "<button");
+			s(" id=\"buttonFacet", classeNomSimple, "_{{ @key }}\"");
+			s(" class=\"w3-button \"");
+			s(" onclick=\"facetFieldChange(this); \"");
+			s(" title=\"", langueConfig.getString(ConfigCles.str_voir_valeurs), " ", "\"");
+			s(" data-var=\"{{ var }}\"");
+			s(" data-clear=\"{{#if facetField }}true{{else}}false{{/if}}\"");
+			l("><i class=\"fas fa-list \"></i></button>");
+			tl(4, "</div>");
+
+			tl(4, "<div class=\"w3-cell w3-cell-top \">");
+			t(5, "<input");
 			s(" id=\"fq", classeNomSimple, "_{{ @key }}\"");
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"w3-input \"");
-			s(" onkeypress=\"fqChange(this); \"");
+//			s(" onkeypress=\"fqChange(this); \"");
 			s(" onkeyup=\"fqChange(this); \"");
-			s(" onchange=\"fqChange(this); \"");
+//			s(" onchange=\"fqChange(this); \"");
 			s(" data-var=\"{{ var }}\"");
 			s(" autocomplete=\"off=\"");
+			s(" value=\"{{ val }}\"");
 			l("/>");
+			tl(4, "</div>");
+			tl(3, "</div>");
 
-			tl(3, "<div class=\"pageSearchVal w3-tiny \"></div>");
 			tl(2, "</div>");
+			t(2, "<div");
+			s(" class=\"w3-padding w3-tiny \"");
+			l(">");
+			t(3, "<div");
+			s(" class=\"pageSearchVal \"");
+			s(" id=\"pageSearchVal-fq", classeNomSimple, "_{{ @key }}\"");
+			l(">{{#if val }}fq={{ var }}:{{encodeURIComponent val }}{{/if}}</div>");
+			t(3, "<div");
+			s(" class=\"pageSearchVal \"");
+			s(" id=\"pageSearchVal-buttonFacet", classeNomSimple, "_{{ @key }}\"");
+			l(">{{#if facetField.var }}facet.field={{ facetField.var }}{{/if}}</div>");
+			tl(2, "</div>");
+
+			t(2, "<ol");
+			s(" class=\"pageFacetField \"");
+			s(" id=\"pageFacetField", classeNomSimple, "_{{ @key }}\"");
+			l(">");
+			tl(0, "{{#each facetField.counts }}");
+			t(3, "<li");
+			s(" class=\"\"");
+			s(">");
+			s("{{ @key }}");
+			s(": ");
+			s("{{ this }}");
+			l("</li>");
+			tl(0, "{{/each}}");
+			tl(2, "</ol>");
+
 			tl(0, "{{/each}}");
 			tl(1, "</div>");
 			

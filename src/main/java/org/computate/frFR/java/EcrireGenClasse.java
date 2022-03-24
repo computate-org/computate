@@ -5069,7 +5069,16 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(entiteTexte || entiteSuggere)
 				wVarsQ.tl(2, "vars.add(VAR_", entiteVar, ");");
 			// varsFq //
-			else if(entiteIndexe)
+			else if(entiteIndexe 
+					&& !langueConfig.getString(ConfigCles.var_supprime).equals(entiteVar) 
+					&& !langueConfig.getString(ConfigCles.var_archive).equals(entiteVar) 
+					&& !langueConfig.getString(ConfigCles.var_classeNomsCanoniques).equals(entiteVar)
+					&& !langueConfig.getString(ConfigCles.var_classeNomCanonique).equals(entiteVar)
+					&& !langueConfig.getString(ConfigCles.var_classeNomSimple).equals(entiteVar)
+					&& !langueConfig.getString(ConfigCles.var_sessionId).equals(entiteVar)
+					&& !langueConfig.getString(ConfigCles.var_utilisateurCle).equals(entiteVar)
+					&& !langueConfig.getString(ConfigCles.var_sauvegardes).equals(entiteVar)
+					)
 				wVarsFq.tl(2, "vars.add(VAR_", entiteVar, ");");
 
 			////////////////////////

@@ -44,6 +44,7 @@ public class ConfigCles {
 	public static final String str_Trouver_la_classe_ = "str_Trouver_la_classe_";
 	public static final String str_Trouver_l_entité_ = "str_Trouver_l_entité_";
 	public static final String str_ValiderLaSignature = "str_ValiderLaSignature";
+	public static final String str_voir_valeurs = "str_voir_valeurs";
 	public static final String var_a = "var_a";
 	public static final String var_activer = "var_activer";
 	public static final String var_ACTIVER_ARCHIVE = "var_ACTIVER_ARCHIVE";
