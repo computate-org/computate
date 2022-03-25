@@ -2540,49 +2540,95 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Gamme), classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Gamme), classePageNomSimple, "\" -->");
 
-			tl(1, "<div class=\"w3-cell-row \">");
-			tl(2, "<div class=\"w3-cell \">");
-			tl(2, "<span><input type=\"checkbox\" name=\"rangeEnabled\" value=\"{{#if facetCounts.facetRange }}true{{else}}false{{/if}}\"/></span>");
+			tl(1, "<div class=\"w3-padding \">");
+			tl(2, "<div class=\"w3-cell-row \">");
+			tl(3, "<div class=\"w3-cell \">");
+			t(3, "<span>");
+			s("<input type=\"checkbox\"");
+			s(" name=\"rangeEnabled\"");
+			s(" id=\"pageFacetRangeEnabled-", classeNomSimple, "\"");
+			s(" value=\"{{#if facetCounts.facetRange }}true{{else}}false{{/if}}\"");
+			s(" onclick=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			l("/></span>");
+			tl(3, "</div>");
+			tl(3, "<div class=\"w3-cell \">");
+			tl(3, "<span>Enable Range Graph</span>");
+			tl(3, "</div>");
 			tl(2, "</div>");
-			tl(2, "<div class=\"w3-cell \">");
-			tl(2, "<span>Enable Range Graph</span>");
-			tl(2, "</div>");
-			tl(1, "</div>");
 
-			tl(1, "<div class=\"w3-cell-row \">");
-			tl(2, "<div class=\"w3-cell \">");
-			tl(3, "<select name=\"facet.range.gap\" id=\"pageFacetRangeGap\">");
-			tl(4, "<option value=\"YEAR\"{{#eq defaultRangeGap 'YEAR'}} selected=\"selected\"{{else}}{{/eq}}>Year</option>");
-			tl(4, "<option value=\"MONTH\"{{#eq defaultRangeGap 'MONTH'}} selected=\"selected\"{{else}}{{/eq}}>Month</option>");
-			tl(4, "<option value=\"WEEK\"{{#eq defaultRangeGap 'WEEK'}} selected=\"selected\"{{else}}{{/eq}}>Week</option>");
-			tl(4, "<option value=\"DAY\"{{#eq defaultRangeGap 'DAY'}} selected=\"selected\"{{else}}{{/eq}}>Day</option>");
-			tl(4, "<option value=\"HOUR\"{{#eq defaultRangeGap 'HOUR'}} selected=\"selected\"{{else}}{{/eq}}>Hour</option>");
-			tl(4, "<option value=\"MINUTE\"{{#eq defaultRangeGap 'MINUTE'}} selected=\"selected\"{{else}}{{/eq}}>Minute</option>");
-			tl(4, "<option value=\"SECOND\"{{#eq defaultRangeGap 'SECOND'}} selected=\"selected\"{{else}}{{/eq}}>Second</option>");
-			tl(3, "</select>");
+			tl(2, "<div class=\"w3-cell-row \">");
+			tl(3, "<div class=\"w3-cell \">");
+			tl(3, "<span>Range Gap</span>");
+			tl(3, "</div>");
+			tl(3, "<div class=\"w3-cell \">");
+			tl(4, "<select");
+			s(" name=\"facet.range.gap\"");
+			s(" id=\"pageFacetRangeGap-", classeNomSimple, "\"");
+			s(" onchange=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			l(">");
+			tl(5, "<option value=\"YEAR\"{{#eq defaultRangeGap 'YEAR'}} selected=\"selected\"{{else}}{{/eq}}>Year</option>");
+			tl(5, "<option value=\"MONTH\"{{#eq defaultRangeGap 'MONTH'}} selected=\"selected\"{{else}}{{/eq}}>Month</option>");
+			tl(5, "<option value=\"WEEK\"{{#eq defaultRangeGap 'WEEK'}} selected=\"selected\"{{else}}{{/eq}}>Week</option>");
+			tl(5, "<option value=\"DAY\"{{#eq defaultRangeGap 'DAY'}} selected=\"selected\"{{else}}{{/eq}}>Day</option>");
+			tl(5, "<option value=\"HOUR\"{{#eq defaultRangeGap 'HOUR'}} selected=\"selected\"{{else}}{{/eq}}>Hour</option>");
+			tl(5, "<option value=\"MINUTE\"{{#eq defaultRangeGap 'MINUTE'}} selected=\"selected\"{{else}}{{/eq}}>Minute</option>");
+			tl(5, "<option value=\"SECOND\"{{#eq defaultRangeGap 'SECOND'}} selected=\"selected\"{{else}}{{/eq}}>Second</option>");
+			tl(4, "</select>");
+			tl(3, "</div>");
 			tl(2, "</div>");
-			tl(2, "<div class=\"w3-cell \">");
-			tl(2, "<span>Range Gap</span>");
-			tl(2, "</div>");
-			tl(1, "</div>");
 
-			tl(1, "<div class=\"w3-cell-row \">");
-			tl(2, "<div class=\"w3-cell \">");
-//			tl(2, "<span><input type=\"datetime-local\" name=\"facetRangeStart\" value=\"{{formatZonedDateTime defaultRangeStart 'long' defaultLocaleId defaultZoneId}}\"/></span>");
-			tl(2, "<span><input type=\"datetime-local\" name=\"facetRangeStart\" value=\"{{defaultRangeStart}}\"/></span>");
+			tl(2, "<div class=\"w3-cell-row \">");
+			tl(3, "<div class=\"w3-cell \">");
+			tl(4, "<span>Range Start</span>");
+			tl(3, "</div>");
 			tl(2, "</div>");
-			tl(2, "<div class=\"w3-cell \">");
-			tl(2, "<span>Range Start</span>");
+			tl(2, "<div class=\"w3-cell-row \">");
+			tl(3, "<div class=\"w3-cell \">");
+			t(3, "<span>");
+			s("<input type=\"datetime-local\"");
+			s(" name=\"facetRangeStart\"");
+			s(" id=\"pageFacetRangeStart-", classeNomSimple, "\"");
+			s(" value=\"{{formatZonedDateTime defaultRangeStart \"yyyy-MM-dd'T'HH:mm\" defaultLocaleId defaultZoneId}}\"");
+			s(" onclick=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			l("/></span>");
+			tl(3, "</div>");
 			tl(2, "</div>");
-			tl(1, "</div>");
 
-			tl(1, "<div class=\"w3-cell-row \">");
-			tl(2, "<div class=\"w3-cell \">");
-//			tl(2, "<span><input type=\"datetime-local\" name=\"facetRangeEnd\" value=\"{{formatZonedDateTime defaultRangeEnd 'long' defaultLocaleId defaultZoneId}}\"/></span>");
-			tl(2, "<span><input type=\"datetime-local\" name=\"facetRangeEnd\" value=\"{{defaultRangeEnd}}\"/></span>");
+			tl(2, "<div class=\"w3-cell-row \">");
+			tl(3, "<div class=\"w3-cell \">");
+			tl(4, "<span>Range End</span>");
+			tl(3, "</div>");
 			tl(2, "</div>");
-			tl(2, "<div class=\"w3-cell \">");
-			tl(2, "<span>Range End</span>");
+			tl(2, "<div class=\"w3-cell-row \">");
+			tl(3, "<div class=\"w3-cell \">");
+			t(3, "<span>");
+			s("<input type=\"datetime-local\"");
+			s(" name=\"facetRangeEnd\"");
+			s(" id=\"pageFacetRangeEnd-", classeNomSimple, "\"");
+			s(" value=\"{{formatZonedDateTime defaultRangeEnd \"yyyy-MM-dd'T'HH:mm\" defaultLocaleId defaultZoneId}}\"");
+			s(" onclick=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			l("/></span>");
+			tl(3, "</div>");
+			tl(2, "</div>");
+
+			t(2, "<div");
+			s(" class=\"w3-padding w3-tiny \"");
+			l(">");
+			t(3, "<div");
+			s(" class=\"pageSearchVal \"");
+			s(" id=\"pageSearchVal-pageFacetRangeGap-", classeNomSimple, "\"");
+			s(">{{#if facetCounts.facetRange }}facet.range.gap={{ defaultRangeGap }}{{/if}}");
+			l("</div>");
+			t(3, "<div");
+			s(" class=\"pageSearchVal \"");
+			s(" id=\"pageSearchVal-pageFacetRangeStart-", classeNomSimple, "\"");
+			s(">{{#if facetCounts.facetRange }}facet.range.start={{ defaultRangeStart }}{{/if}}");
+			l("</div>");
+			t(3, "<div");
+			s(" class=\"pageSearchVal \"");
+			s(" id=\"pageSearchVal-pageFacetRangeEnd-", classeNomSimple, "\"");
+			s(">{{#if facetCounts.facetRange }}facet.range.end={{ defaultRangeEnd }}{{/if}}");
+			l("</div>");
 			tl(2, "</div>");
 			tl(1, "</div>");
 
@@ -2919,7 +2965,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar q //
 			///////////////
 
-			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-sidebar w3-bar-block \" style=\"min-width: 300px; display: none; \">");
+			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-sidebar w3-bar-block \" style=\"min-width: 400px; display: none; \">");
 			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Recherche), "</span>");
 			tl(1, "</div>");
@@ -2932,7 +2978,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar fa //
 			////////////////
 
-			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), " w3-sidebar w3-bar-block \" style=\"min-width: 300px; display: none; \">");
+			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), " w3-sidebar w3-bar-block \" style=\"min-width: 400px; display: none; \">");
 			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Filtres), "</span>");
 			tl(1, "</div>");
@@ -2945,7 +2991,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar gamme //
 			///////////////////
 
-			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), " w3-sidebar w3-bar-block \" style=\"min-width: 300px; display: none; \">");
+			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), " w3-sidebar w3-bar-block \" style=\"min-width: 400px; display: none; \">");
 			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Gamme), "</span>");
 			tl(1, "</div>");
