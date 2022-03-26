@@ -305,6 +305,8 @@ public class ConfigCles {
 	public static final String var_PageSuper = "var_PageSuper";
 	public static final String var_peupler = "var_peupler";
 	public static final String var_Peupler = "var_Peupler";
+	public static final String var_pivot = "var_pivot";
+	public static final String var_Pivot = "var_Pivot";
 	public static final String var_PourClasse = "var_PourClasse";
 	public static final String var_Pour = "var_Pour";
 	public static final String var_Precedent = "var_Precedent";

@@ -1335,6 +1335,38 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "});");
 			tl(1, "}");
 
+			///////////////
+			// varsPivot //
+			///////////////
+
+			l();
+			if(classePageSuperNomSimple != null)
+				tl(1, "@Override");
+			tl(1, "protected void _varsPivot(JsonObject vars) {");
+			tl(2, "Map<String, SolrResponse.Pivot> pivotFields = Optional.ofNullable(facetCounts).map(c -> c.getFacetPivot()).map(f -> f.getPivotMap()).orElse(new HashMap<String,SolrResponse.Pivot>());");
+			tl(2, classeNomSimple, ".varsFq", langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
+			tl(3, "String var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(var);");
+			tl(3, "JsonObject json = new JsonObject();");
+			tl(3, "json.put(\"var\", var);");
+			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+			tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
+
+//			tl(3, "Optional.ofNullable(facetFields.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(facetField -> {");
+//			tl(4, "JsonObject facetJson = new JsonObject();");
+//			tl(4, "JsonObject counts = new JsonObject();");
+//			tl(4, "facetJson.put(\"var\", var);");
+//			tl(4, "facetField.getCounts().forEach((val, count) -> {");
+//			tl(5, "counts.put(val, count);");
+//			tl(4, "});");
+//			tl(4, "facetJson.put(\"counts\", counts);");
+//			tl(4, "json.put(\"facetField\", facetJson);");
+//			tl(3, "});");
+
+			tl(3, "vars.put(var, json);");
+			tl(2, "});");
+			tl(1, "}");
+
 			///////////
 			// query //
 			///////////
@@ -1862,6 +1894,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Recherche), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Filtres), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Filtres), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Gamme), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Gamme), classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Pivot), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Pivot), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount0\"}}{{> htmBodyCount0", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{> htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount1\"}}{{> htmBodyCount1", classePageNomSimple, "}}{{/partial}}");
@@ -2540,31 +2573,31 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Gamme), classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Gamme), classePageNomSimple, "\" -->");
 
-			tl(1, "<div class=\"w3-padding \">");
-			tl(2, "<div class=\"w3-cell-row \">");
-			tl(3, "<div class=\"w3-cell \">");
+			tl(1, "<table class=\"w3-padding w3-table \">");
+			tl(2, "<tr class=\"\">");
+			tl(3, "<td class=\"\">");
+			tl(3, "<span>Enable Range Graph</span>");
+			tl(3, "</td>");
+			tl(3, "<td class=\"\">");
 			t(3, "<span>");
 			s("<input type=\"checkbox\"");
 			s(" name=\"rangeEnabled\"");
 			s(" id=\"pageFacetRangeEnabled-", classeNomSimple, "\"");
 			s(" value=\"{{#if facetCounts.facetRange }}true{{else}}false{{/if}}\"");
-			s(" onclick=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change(this, '", classeNomSimple, "'); \"");
 			l("/></span>");
-			tl(3, "</div>");
-			tl(3, "<div class=\"w3-cell \">");
-			tl(3, "<span>Enable Range Graph</span>");
-			tl(3, "</div>");
-			tl(2, "</div>");
+			tl(3, "</td>");
+			tl(2, "</tr>");
 
-			tl(2, "<div class=\"w3-cell-row \">");
-			tl(3, "<div class=\"w3-cell \">");
+			tl(2, "<tr class=\"\">");
+			tl(3, "<td class=\"\">");
 			tl(3, "<span>Range Gap</span>");
-			tl(3, "</div>");
-			tl(3, "<div class=\"w3-cell \">");
+			tl(3, "</td>");
+			tl(3, "<td class=\"\">");
 			tl(4, "<select");
 			s(" name=\"facet.range.gap\"");
 			s(" id=\"pageFacetRangeGap-", classeNomSimple, "\"");
-			s(" onchange=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			s(" onchange=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change(this, '", classeNomSimple, "'); \"");
 			l(">");
 			tl(5, "<option value=\"YEAR\"{{#eq defaultRangeGap 'YEAR'}} selected=\"selected\"{{else}}{{/eq}}>Year</option>");
 			tl(5, "<option value=\"MONTH\"{{#eq defaultRangeGap 'MONTH'}} selected=\"selected\"{{else}}{{/eq}}>Month</option>");
@@ -2574,63 +2607,66 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(5, "<option value=\"MINUTE\"{{#eq defaultRangeGap 'MINUTE'}} selected=\"selected\"{{else}}{{/eq}}>Minute</option>");
 			tl(5, "<option value=\"SECOND\"{{#eq defaultRangeGap 'SECOND'}} selected=\"selected\"{{else}}{{/eq}}>Second</option>");
 			tl(4, "</select>");
-			tl(3, "</div>");
-			tl(2, "</div>");
+			tl(3, "</td>");
+			tl(2, "</tr>");
 
-			tl(2, "<div class=\"w3-cell-row \">");
-			tl(3, "<div class=\"w3-cell \">");
+			tl(2, "<tr class=\"\">");
+			tl(3, "<td class=\"\" colspan=\"2\">");
 			tl(4, "<span>Range Start</span>");
-			tl(3, "</div>");
-			tl(2, "</div>");
-			tl(2, "<div class=\"w3-cell-row \">");
-			tl(3, "<div class=\"w3-cell \">");
+			tl(3, "</td>");
+			tl(2, "</tr>");
+			tl(2, "<tr class=\"\">");
+			tl(3, "<td class=\"\" colspan=\"2\">");
 			t(3, "<span>");
 			s("<input type=\"datetime-local\"");
 			s(" name=\"facetRangeStart\"");
 			s(" id=\"pageFacetRangeStart-", classeNomSimple, "\"");
 			s(" value=\"{{formatZonedDateTime defaultRangeStart \"yyyy-MM-dd'T'HH:mm\" defaultLocaleId defaultZoneId}}\"");
-			s(" onclick=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change(this, '", classeNomSimple, "'); \"");
 			l("/></span>");
-			tl(3, "</div>");
-			tl(2, "</div>");
+			tl(3, "</td>");
+			tl(2, "</tr>");
 
-			tl(2, "<div class=\"w3-cell-row \">");
-			tl(3, "<div class=\"w3-cell \">");
+			tl(2, "<tr class=\"\">");
+			tl(3, "<td class=\"\" colspan=\"2\">");
 			tl(4, "<span>Range End</span>");
-			tl(3, "</div>");
-			tl(2, "</div>");
-			tl(2, "<div class=\"w3-cell-row \">");
-			tl(3, "<div class=\"w3-cell \">");
+			tl(3, "</td>");
+			tl(2, "</tr>");
+			tl(2, "<tr class=\"\">");
+			tl(3, "<td class=\"\" colspan=\"2\"");
 			t(3, "<span>");
 			s("<input type=\"datetime-local\"");
 			s(" name=\"facetRangeEnd\"");
 			s(" id=\"pageFacetRangeEnd-", classeNomSimple, "\"");
 			s(" value=\"{{formatZonedDateTime defaultRangeEnd \"yyyy-MM-dd'T'HH:mm\" defaultLocaleId defaultZoneId}}\"");
-			s(" onclick=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change(this, '", classeNomSimple, "'); \"");
 			l("/></span>");
-			tl(3, "</div>");
-			tl(2, "</div>");
+			tl(3, "</td>");
+			tl(2, "</tr>");
 
-			t(2, "<div");
+			t(2, "<tr>");
+			t(3, "<td");
 			s(" class=\"w3-padding w3-tiny \"");
+			s(" colspan=\"2\"");
 			l(">");
-			t(3, "<div");
+			t(4, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-pageFacetRangeGap-", classeNomSimple, "\"");
 			s(">{{#if facetCounts.facetRange }}facet.range.gap={{ defaultRangeGap }}{{/if}}");
 			l("</div>");
-			t(3, "<div");
+			t(4, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-pageFacetRangeStart-", classeNomSimple, "\"");
 			s(">{{#if facetCounts.facetRange }}facet.range.start={{ defaultRangeStart }}{{/if}}");
 			l("</div>");
-			t(3, "<div");
+			t(4, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-pageFacetRangeEnd-", classeNomSimple, "\"");
 			s(">{{#if facetCounts.facetRange }}facet.range.end={{ defaultRangeEnd }}{{/if}}");
 			l("</div>");
-			tl(2, "</div>");
-			tl(1, "</div>");
+			tl(3, "</td>");
+			tl(2, "</tr>");
+			tl(1, "</table>");
 
 //			&facet.pivot={!range%3Dr1}eventId_docvalues_strings
 //			&facet.pivot.mincount=0
@@ -2641,6 +2677,60 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //			&facet.range.start=2022-02-23T04:05:23.921447Z
 //			&facet.range.end=2022-03-02T04:05:23.920401Z
 //			&facet.range={!tag%3Dr1}created_docvalues_date
+
+			//////////////////
+			// htmBodyPivot //
+			//////////////////
+
+			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Pivot), classePageNomSimple, "\"}}");
+			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Pivot), classePageNomSimple, "\" -->");
+
+			t(2, "<div");
+			s(" class=\"w3-padding w3-tiny pageSearchVal \"");
+			s(" id=\"pageSearchVal-pivot", classeNomSimple, "\"");
+			l(">");
+//			tl(0, "{{#each varsPivot }}");
+//			t(3, "<div");
+//			s(" class=\"pageSearchVal \"");
+//			s(" id=\"pageSearchVal-pivot", classeNomSimple, "_{{ @key }}\"");
+//			l(">{{ var }}</div>");
+//			tl(0, "{{/each}}");
+			tl(2, "</div>");
+
+			tl(1, "<table class=\"w3-table \">");
+			tl(0, "{{#each varsFq }}");
+			tl(2, "<tr class=\"\">");
+			tl(3, "<td class=\"\">");
+			t(4, "<span>");
+			s("<input type=\"checkbox\"");
+			s(" name=\"pageFacetPivot\"");
+			s(" class=\"pageFacetPivot \"");
+			s(" id=\"pageFacetPivot", classeNomSimple, "_{{ @key }}\"");
+			s(" value=\"{{ var }}\"");
+			s(" onclick=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			l("/></span>");
+			tl(3, "</td>");
+			tl(3, "<td class=\"w3-cell \">");
+			tl(3, "<label for=\"pageFacetPivot", classeNomSimple, "_{{ @key }}\">{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}</span>");
+			tl(3, "</td>");
+			tl(2, "</tr>");
+			tl(0, "{{/each}}");
+			tl(1, "</table>");
+
+			t(2, "<div");
+			s(" style=\"display: none; \"");
+			s(" class=\"w3-padding w3-tiny \"");
+			s(" id=\"pageSearchVal-hidden", classeNomSimple, "\"");
+			l(">");
+//			tl(0, "{{#each varsPivot }}");
+//			t(3, "<div");
+//			s(" class=\"pageSearchVal pageSearchVal-hidden", classeNomSimple, " \"");
+//			s(" id=\"pageSearchVal-hidden", classeNomSimple, "_{{ @key }}\"");
+//			l(">{{ var }}</div>");
+//			tl(0, "{{/each}}");
+			tl(2, "</div>");
+			
+			l("{{/inline}}");
 			
 			l("{{/inline}}");
 
@@ -2875,7 +2965,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											tl(6, "<div class=\"w3-cell-row \">");
 											tl(7, "<textarea");
 											tl(8, "class=\"", "PUTImport_", langueConfig.getString(ConfigCles.var_listeRecherche), " w3-input w3-border \"");
-											tl(8, "style=\"height: 400px; \"");
+											tl(8, "style=\"height: 300px; \"");
 											tl(8, "placeholder=\"{ '", langueConfig.getString(ConfigCles.var_listeRecherche), "': [ { 'pk': ... , '", langueConfig.getString(ConfigCles.var_sauvegardes), "': [ ... ] }, ... ] }\"");
 											tl(8, "></textarea>");
 											tl(6, "</div>");
@@ -2883,7 +2973,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											tl(6, "<div class=\"w3-cell-row \">");
 											tl(7, "<textarea");
 											tl(8, "class=\"", "PUT", langueConfig.getString(ConfigCles.var_PUTFusion), "_", langueConfig.getString(ConfigCles.var_listeRecherche), " w3-input w3-border \"");
-											tl(8, "style=\"height: 400px; \"");
+											tl(8, "style=\"height: 300px; \"");
 											tl(8, "placeholder=\"{ '", langueConfig.getString(ConfigCles.var_listeRecherche), "': [ { 'pk': ... , '", langueConfig.getString(ConfigCles.var_sauvegardes), "': [ ... ] }, ... ] }\"");
 											tl(8, "></textarea>");
 											tl(6, "</div>");
@@ -2965,7 +3055,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar q //
 			///////////////
 
-			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-sidebar w3-bar-block \" style=\"min-width: 400px; display: none; \">");
+			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-sidebar w3-bar-block \" style=\"min-width: 300px; display: none; \">");
 			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Recherche), "</span>");
 			tl(1, "</div>");
@@ -2978,7 +3068,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar fa //
 			////////////////
 
-			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), " w3-sidebar w3-bar-block \" style=\"min-width: 400px; display: none; \">");
+			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), " w3-sidebar w3-bar-block \" style=\"min-width: 300px; display: none; \">");
 			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Filtres), "</span>");
 			tl(1, "</div>");
@@ -2991,12 +3081,25 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar gamme //
 			///////////////////
 
-			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), " w3-sidebar w3-bar-block \" style=\"min-width: 400px; display: none; \">");
+			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), " w3-sidebar w3-bar-block \" style=\"min-width: 300px; display: none; \">");
 			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Gamme), "</span>");
 			tl(1, "</div>");
 			tl(1, "<div class=\"w3-bar-block \">");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Gamme), "\"}}{{/block}}");
+			tl(1, "</div>");
+			tl(0, "</div>");
+
+			///////////////////
+			// sidebar pivot //
+			///////////////////
+
+			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), " w3-sidebar w3-bar-block \" style=\"min-width: 300px; display: none; \">");
+			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Pivot), "</span>");
+			tl(1, "</div>");
+			tl(1, "<div class=\"w3-bar-block \">");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Pivot), "\"}}{{/block}}");
 			tl(1, "</div>");
 			tl(0, "</div>");
 
@@ -3014,7 +3117,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(2, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Recherche), "\"");
 			s(" class=\"w3-button w3-xlarge w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); \"");
 			s(">");
 			s("<i class=\"fad fa-magnifying-glass \"></i>");
 			l("</span>");
@@ -3025,7 +3128,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(2, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Filtres), "\"");
 			s(" class=\"w3-button w3-xlarge w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').toggle(); \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').toggle(); \"");
 			s(">");
 			s("<i class=\"fad fa-filters \"></i>");
 			l("</span>");
@@ -3036,9 +3139,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(2, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Gamme), "\"");
 			s(" class=\"w3-button w3-xlarge w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').toggle(); \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').toggle(); \"");
 			s(">");
 			s("<i class=\"fad fa-calendar-range \"></i>");
+			l("</span>");
+
+			//////////////////
+			// bouton pivot //
+			//////////////////
+			t(2, "<span");
+			s(" title=\"", langueConfig.getString(ConfigCles.var_Gamme), "\"");
+			s(" class=\"w3-button w3-xlarge w3-", contexteCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').toggle(); \"");
+			s(">");
+			s("<i class=\"fad fa-table-pivot \"></i>");
 			l("</span>");
 
 			l("</div>");
