@@ -6627,7 +6627,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, classeNomSimpleSuperGenerique, ".varsQ", classeNomSimpleSuperGenerique, "(vars);");
 			tl(2, "return vars;");
 			tl(1, "}");
-	
+
 			////////////
 			// varsFq //
 			////////////
@@ -6640,6 +6640,21 @@ public class EcrireGenClasse extends EcrireClasse {
 			s(wVarsFq);
 			if(!classeEstBase)
 				tl(2, classeNomSimpleSuperGenerique, ".varsFq", classeNomSimpleSuperGenerique, "(vars);");
+			tl(2, "return vars;");
+			tl(1, "}");
+
+			////////////
+			// varsGamme //
+			////////////
+	
+			l();
+			tl(1, "public static List<String> vars", langueConfig.getString(ConfigCles.var_Gamme), langueConfig.getString(ConfigCles.var_PourClasse), "() {");
+			tl(2, "return ", classeNomSimple, ".vars", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimple, "(new ArrayList<String>());");
+			tl(1, "}");
+			tl(1, "public static List<String> vars", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimple, "(List<String> vars) {");
+			s(wVarsFq);
+			if(!classeEstBase)
+				tl(2, classeNomSimpleSuperGenerique, ".vars", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimpleSuperGenerique, "(vars);");
 			tl(2, "return vars;");
 			tl(1, "}");
 		}

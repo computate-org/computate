@@ -2664,8 +2664,34 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"pageSearchVal-pageFacetRangeEnd-", classeNomSimple, "\"");
 			s(">{{#if facetCounts.facetRange }}facet.range.end={{ defaultRangeEnd }}{{/if}}");
 			l("</div>");
+			t(4, "<div");
+			s(" class=\"pageSearchVal \"");
+			s(" id=\"pageSearchVal-pageFacetRangeVar-", classeNomSimple, "\"");
+			s(">{{#if facetCounts.facetRange }}facet.range={{ defaultRangeVar }}{{/if}}");
+			l("</div>");
 			tl(3, "</td>");
 			tl(2, "</tr>");
+			tl(1, "</table>");
+
+			tl(1, "<div class=\"w3-large font-weight-bold \">", langueConfig.getString(ConfigCles.var_gamme), "</div>");
+			tl(1, "<table class=\"w3-table \">");
+			tl(0, "{{#each vars", langueConfig.getString(ConfigCles.var_Gamme), " }}");
+			tl(2, "<tr class=\"\">");
+			tl(3, "<td class=\"\">");
+			t(4, "<span>");
+			s("<input type=\"checkbox\"");
+			s(" name=\"pageFacetPivot\"");
+			s(" class=\"pageFacetPivot \"");
+			s(" id=\"pageFacetPivot", classeNomSimple, "_{{ @key }}\"");
+			s(" value=\"{{ var }}\"");
+			s(" onclick=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			l("/></span>");
+			tl(3, "</td>");
+			tl(3, "<td class=\"w3-cell \">");
+			tl(3, "<label for=\"pageFacetPivot", classeNomSimple, "_{{ @key }}\">{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}</span>");
+			tl(3, "</td>");
+			tl(2, "</tr>");
+			tl(0, "{{/each}}");
 			tl(1, "</table>");
 
 //			&facet.pivot={!range%3Dr1}eventId_docvalues_strings
