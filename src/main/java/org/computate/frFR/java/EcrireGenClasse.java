@@ -487,6 +487,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wVarsStatic;
 	protected ToutEcrivain wVarsQ;
 	protected ToutEcrivain wVarsFq;
+	protected ToutEcrivain wVarsGamme;
 	protected ToutEcrivain wNomAffichageStatic;
 	protected ToutEcrivain wNomAffichageMethode;
 	protected ToutEcrivain wClasseNomSimpleMethode;
@@ -1253,6 +1254,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wVarsStatic = ToutEcrivain.create();
 		wVarsQ = ToutEcrivain.create();
 		wVarsFq = ToutEcrivain.create();
+		wVarsGamme = ToutEcrivain.create();
 		wNomAffichageMethode = ToutEcrivain.create();
 		wNomAffichageStatic = ToutEcrivain.create();
 
@@ -5078,8 +5080,20 @@ public class EcrireGenClasse extends EcrireClasse {
 					&& !langueConfig.getString(ConfigCles.var_sessionId).equals(entiteVar)
 					&& !langueConfig.getString(ConfigCles.var_utilisateurCle).equals(entiteVar)
 					&& !langueConfig.getString(ConfigCles.var_sauvegardes).equals(entiteVar)
-					)
+					) {
 				wVarsFq.tl(2, "vars.add(VAR_", entiteVar, ");");
+				if(!entiteAttribuer && (
+						entiteNomSimple.endsWith("DateTime")
+						||entiteNomSimple.equals("Date")
+						||entiteNomSimple.equals("Timestamp")
+						||entiteNomSimple.equals("BigDecimal")
+						||entiteNomSimple.equals("Integer")
+						||entiteNomSimple.equals("Double")
+						||entiteNomSimple.equals("Long")
+					)) {
+					wVarsGamme.tl(2, "vars.add(VAR_", entiteVar, ");");
+				}
+			}
 
 			////////////////////////
 			// nomAffichageStatic //
@@ -6144,6 +6158,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wVarsStatic.flushClose();
 		wVarsQ.flushClose();
 		wVarsFq.flushClose();
+		wVarsGamme.flushClose();
 		wNomAffichageStatic.flushClose();
 		wNomAffichageMethode.flushClose();
 		wDescriptionMethode.flushClose();
@@ -6643,16 +6658,16 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "return vars;");
 			tl(1, "}");
 
-			////////////
+			///////////////
 			// varsGamme //
-			////////////
+			///////////////
 	
 			l();
 			tl(1, "public static List<String> vars", langueConfig.getString(ConfigCles.var_Gamme), langueConfig.getString(ConfigCles.var_PourClasse), "() {");
 			tl(2, "return ", classeNomSimple, ".vars", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimple, "(new ArrayList<String>());");
 			tl(1, "}");
 			tl(1, "public static List<String> vars", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimple, "(List<String> vars) {");
-			s(wVarsFq);
+			s(wVarsGamme);
 			if(!classeEstBase)
 				tl(2, classeNomSimpleSuperGenerique, ".vars", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimpleSuperGenerique, "(vars);");
 			tl(2, "return vars;");

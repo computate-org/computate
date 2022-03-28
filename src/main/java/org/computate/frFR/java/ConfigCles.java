@@ -194,6 +194,8 @@ public class ConfigCles {
 	public static final String var_generer = "var_generer";
 	public static final String var_gestionnaireEvenements = "var_gestionnaireEvenements";
 	public static final String var_GestionnaireEvenements = "var_GestionnaireEvenements";
+	public static final String var_graphique = "var_graphique";
+	public static final String var_Graphique = "var_Graphique";
 	public static final String var_Groupe = "var_Groupe";
 	public static final String var_HAposhAposmm = "var_HAposhAposmm";
 	public static final String var_Hauteur = "var_Hauteur";
@@ -244,6 +246,7 @@ public class ConfigCles {
 	public static final String var_marqueCurseurSuivante = "var_marqueCurseurSuivante";
 	public static final String var_max = "var_max";
 	public static final String var_Max = "var_Max";
+	public static final String var_Menu = "var_Menu";
 	public static final String var_Methode = "var_Methode";
 	public static final String var_methodeNom = "var_methodeNom";
 	public static final String var_methodeNoms = "var_methodeNoms";
