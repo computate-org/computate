@@ -3224,7 +3224,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// pageContent //
 			/////////////////
 
-			tl(0, "{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "\"}}{{/block}}");
 			tl(0, "<div class=\"pageContent w3-content \">");
 
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Menu), "\"}}{{/block}}");
@@ -3246,6 +3245,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{/block}}");
 			tl(2, "{{/eq}}");
 			tl(1, "{{/eq}}");
+			tl(0, "{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "\"}}{{/block}}");
 			if(classeMethodeVars.contains("htmBody")) {
 				tl(6, "{{#if o}}");
 				tl(7, "{{> \"htmBody\"}}");
@@ -3635,7 +3635,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(4, "var pivot1Counts = pivot1.ranges[rangeName].counts;");
 				auteurPageJs.tl(4, "var trace = {};");
 				auteurPageJs.tl(4, "trace['x'] = Object.keys(pivot1Counts).map(key => key.substring(0, 10));");
-				auteurPageJs.tl(4, "trace['y'] = Object.entries(pivot1Counts).map((key, count) => count);");
+				auteurPageJs.tl(4, "trace['y'] = Object.values(pivot1Counts);");
 				auteurPageJs.tl(4, "trace['mode'] = 'lines';");
 				auteurPageJs.tl(4, "trace['name'] = pivot1Val;");
 				auteurPageJs.tl(4, "data.push(trace);");

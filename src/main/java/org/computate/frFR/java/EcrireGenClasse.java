@@ -3472,6 +3472,11 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if("JsonObject".equals(entiteNomSimple)) {
 			}
+			else if("Point".equals(entiteNomSimple)) {
+				tl(1, "@JsonProperty");
+				tl(1, "@JsonDeserialize(using = ", classePartsPointDeserializer.nomSimple(langueNom), ".class)");
+				tl(1, "@JsonSerialize(using = ", classePartsPointSerializer.nomSimple(langueNom), ".class)");
+			}
 			else if("LocalDate".equals(entiteNomSimple)) {
 				tl(1, "@JsonProperty");
 				tl(1, "@JsonDeserialize(using = ", classePartsLocalDateDeserializer.nomSimple(langueNom), ".class)");
@@ -3738,6 +3743,23 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
 				tl(2, "if(NumberUtils.isParsable(o))");
 				tl(3, "return Long.parseLong(o);");
+				tl(2, "return null;");
+				tl(1, "}");
+				staticSet = true;
+			}
+	
+			// Setter Point //
+			if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePoint)) {
+				tl(1, "@JsonIgnore");
+				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
+				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				tl(1, "}");
+				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(2, "if(o != null) {");
+				tl(3, "String[] vals = o.split(\",\");");
+				tl(3, "if(vals.length == 2 && NumberUtils.isParsable(vals[0]) && NumberUtils.isParsable(vals[1]))");
+				tl(4, "return new Point(Double.parseDouble(vals[0]), Double.parseDouble(vals[1]));");
+				tl(2, "}");
 				tl(2, "return null;");
 				tl(1, "}");
 				staticSet = true;
@@ -4345,6 +4367,11 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(2, "return o == null ? null : Date.from(o.atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\")).toInstant());");
 						tl(1, "}");
 					}
+					else if(entiteNomSimple.toString().equals("Point")) {
+						tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+						tl(2, "return o;");
+						tl(1, "}");
+					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 						tl(2, "return o == null ? null : o.doubleValue();");
@@ -4612,6 +4639,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
+					else if(entiteNomSimple.toString().equals("Point")) {
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", String.format(\"%s,%s\", ", entiteVar, ".getX(), ", entiteVar, ".getY()));");
+					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
 					}
@@ -4643,6 +4673,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
+					}
+					else if(entiteNomSimple.toString().equals("Point")) {
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", new Point(", entiteVar, ".getPoint1(), ", entiteVar, ".getPoint2()));");
 					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
@@ -4896,7 +4929,12 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(5, "", langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
 					}
 					else {
-						if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
+						if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePoint)) {
+							tl(4, "if(val instanceof String)");
+							tl(5, "set", entiteVarCapitalise, "((String)val);");
+							tl(4, "else if(val instanceof Point)");
+							tl(5, "set", entiteVarCapitalise, "((Point)val);");
+						} else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
 							tl(4, "if(val instanceof String)");
 							tl(5, "set", entiteVarCapitalise, "((String)val);");
 							tl(4, "else if(val instanceof Number)");
@@ -5087,6 +5125,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						||entiteNomSimple.equals("Date")
 						||entiteNomSimple.equals("Timestamp")
 						||entiteNomSimple.equals("BigDecimal")
+						||entiteNomSimple.equals("Point")
 						||entiteNomSimple.equals("Integer")
 						||entiteNomSimple.equals("Double")
 						||entiteNomSimple.equals("Long")
@@ -5834,9 +5873,9 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(15, "/>");
 				l();
 			} else if("LocalDateTime".equals(entiteNomSimple)) {
-				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \" title=\"{{formatLocalDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' requestLocaleId requestZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy' ", langueConfig.getString(ConfigCles.var_requete), "LocaleId ", langueConfig.getString(ConfigCles.var_requete), "ZoneId}}</span>");
+				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \" title=\"{{formatLocalDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' defaultLocaleId defaultZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy' defaultLocaleId defaultZoneId}}</span>");
 			} else if("ZonedDateTime".equals(entiteNomSimple)) {
-				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \" title=\"{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' requestLocaleId requestZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy h:mm a zz' ", langueConfig.getString(ConfigCles.var_requete), "LocaleId ", langueConfig.getString(ConfigCles.var_requete), "ZoneId}}</span>");
+				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \" title=\"{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' defaultLocaleId defaultZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy h:mm a zz' defaultLocaleId defaultZoneId}}</span>");
 			} else {
 				tl(14, "<span class=\"var", classeNomSimple, "{{", classeVarClePrimaire, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
 			}

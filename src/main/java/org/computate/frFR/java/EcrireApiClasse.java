@@ -973,6 +973,21 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										tl(8, "w.l(\"]\");");
 										tl(7, "}");
 									}
+									else if(VAL_nomCanoniquePoint.equals(entiteNomCanoniqueGenerique)) {
+										l();
+										tl(7, "{");
+										tl(8, entiteNomSimpleComplet, " ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Valeurs), " = o.get", entiteVarCapitalise, "();");
+										tl(8, "w.t(3, ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Numero), "++ == 0 ? \"\" : \", \");");
+										tl(8, "w.s(\"\\\"", entiteVar, "\\\": [\");");
+										tl(8, "for(int k = 0; k < ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Valeurs), ".size(); k++) {");
+										tl(9, classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Valeur), " = ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Valeurs), ".get(k);");
+										tl(9, "if(k > 0)");
+										tl(10, "w.s(\", \");");
+										tl(9, "w.s(Point.valueOf((Double)", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Valeur), ").toString());");
+										tl(8, "}");
+										tl(8, "w.l(\"]\");");
+										tl(7, "}");
+									}
 									else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
 										l();
 										tl(7, "{");
@@ -1070,6 +1085,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(8, "w.tl(3, ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Numero), "++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", w.qjs(", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Valeur), "));");
 										}
 									} else if (VAL_nomCanoniqueLong.equals(entiteSolrNomCanonique)) {
+										tl(8, "w.tl(3, ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Numero), "++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Valeur), ");");
+									} else if (VAL_nomCanoniquePoint.equals(entiteSolrNomCanonique)) {
 										tl(8, "w.tl(3, ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Numero), "++ == 0 ? ", q(), " : ", q(", "), ", ", q(q(entiteVar), ": "), ", ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Valeur), ");");
 									} else if (VAL_nomCanoniqueDouble.equals(entiteSolrNomCanonique)) {
 										if (VAL_nomCanoniqueBigDecimal.equals(entiteNomCanonique)) {
