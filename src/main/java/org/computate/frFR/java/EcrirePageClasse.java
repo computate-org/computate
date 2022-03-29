@@ -1054,8 +1054,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "protected void _", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_(", classePartsCouverture.nomSimple(langueNom), "<", langueConfig.getString(ConfigCles.var_ListeRecherche), "<", classeApiClasseNomSimple, ">> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 			tl(1, "}");
 			l();
-			tl(1, "protected void _", langueConfig.getString(ConfigCles.var_reponse), classeApiClasseNomSimple, "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-			tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(JsonObject.mapFrom(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getQueryResponse()).toString());");
+			tl(1, "protected void _", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+			tl(2, "if(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_ != null)");
+			tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(JsonObject.mapFrom(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getQueryResponse()).toString());");
 			tl(1, "}");
 			if(classePageSuperNomSimple != null && classeEtendBase) {
 				l();
@@ -1082,11 +1083,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 				l();
 				tl(1, "protected void _defaultRangeGap(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeGap()).orElse(\"DAY\"));");
+				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeGap()).orElse(\"+1DAY\"));");
 				tl(1, "}");
 				l();
 				tl(1, "protected void _defaultRangeEnd(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeEnd()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(ZonedDateTime.now(defaultTimeZone)));");
+				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeEnd()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(ZonedDateTime.now(defaultTimeZone).toLocalDate().atStartOfDay(defaultTimeZone).plusDays(1)));");
 				tl(1, "}");
 				l();
 				tl(1, "protected void _defaultRangeStart(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
@@ -1094,7 +1095,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 				l();
 				tl(1, "protected void _defaultRangeVar(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeGap()).orElse(\"", classeVarCree, "\"));");
+				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRanges()).orElse(Arrays.asList()).stream().findFirst().map(v -> { if(v.contains(\"}\")) return StringUtils.substringBefore(StringUtils.substringAfterLast(v, \"}\"), \"_\"); else return StringUtils.substringBefore(v, \"_\"); }).orElse(\"", classeVarCree, "\"));");
 				tl(1, "}");
 				l();
 				tl(1, "protected void _defaultFacetSort(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
@@ -2446,8 +2447,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "websocket", classeApiClasseNomSimple, "(websocket", classeApiClasseNomSimple, "Inner);");
 //					s(wWebsocket);
 //					tl(2, "tl(1, ", q("});"), ");");
-				tl(4, "window.", langueConfig.getString(ConfigCles.var_reponse), classeApiClasseNomSimple, " = JSON.parse('{{{replace ", langueConfig.getString(ConfigCles.var_reponse), classeApiClasseNomSimple, " \"'\" \"&apos;\" }}}');");
-				tl(4, langueConfig.getString(ConfigCles.var_graphique), classeApiClasseNomSimple, "();");
+				tl(4, "window.varsFq = JSON.parse('{{{toJsonObjectStringInApostrophes varsFq}}}');");
+				tl(4, langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), "();");
 				tl(3, "});");
 				tl(2, "</script>");
 				tl(0, "{{/inline}}");
@@ -2602,22 +2603,22 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(4, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-pageFacetRangeGap-", classeNomSimple, "\"");
-			s(">{{#if defaultRangeGap }}facet.range.gap={{ defaultRangeGap }}{{/if}}");
+			s(">{{#if defaultRangeGap }}facet.range.gap={{encodeURIComponent defaultRangeGap }}{{/if}}");
 			l("</div>");
 			t(4, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-pageFacetRangeStart-", classeNomSimple, "\"");
-			s(">{{#if defaultRangeStart }}facet.range.start={{ defaultRangeStart }}{{/if}}");
+			s(">{{#if defaultRangeStart }}facet.range.start={{encodeURIComponent defaultRangeStart }}{{/if}}");
 			l("</div>");
 			t(4, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-pageFacetRangeEnd-", classeNomSimple, "\"");
-			s(">{{#if defaultRangeEnd }}facet.range.end={{ defaultRangeEnd }}{{/if}}");
+			s(">{{#if defaultRangeEnd }}facet.range.end={{encodeURIComponent defaultRangeEnd }}{{/if}}");
 			l("</div>");
 			t(4, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-pageFacetRangeVar-", classeNomSimple, "\"");
-			s(">{{#if defaultRangeVar }}facet.range={{ defaultRangeVar }}{{/if}}");
+			s(">{{#if defaultRangeVar }}facet.range={!tag=r1}{{encodeURIComponent defaultRangeVar }}{{/if}}");
 			l("</div>");
 			tl(3, "</td>");
 			tl(2, "</tr>");
@@ -2637,7 +2638,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(5, "<option value=\"+1YEAR\"{{#eq defaultRangeGap '+1YEAR'}} selected=\"selected\"{{else}}{{/eq}}>Year</option>");
 			tl(5, "<option value=\"+1MONTH\"{{#eq defaultRangeGap '+1MONTH'}} selected=\"selected\"{{else}}{{/eq}}>Month</option>");
 			tl(5, "<option value=\"+1WEEK\"{{#eq defaultRangeGap '+1WEEK'}} selected=\"selected\"{{else}}{{/eq}}>Week</option>");
-			tl(5, "<option value=\"+1DAY\"{{#eq defaultRangeGap '+1DAY'}} selected=\"selected\"{{else}}{{/eq}}>Day</option>");
+			tl(5, "<option value=\"+1DAY\"{{#eq defaultRangeGap '+1DAY'}} selected=\"selected\"{{else}}{{#if defaultRangeGap}}{{else}} selected=\"selected\"{{/if}}{{/eq}}>Day</option>");
 			tl(5, "<option value=\"+1HOUR\"{{#eq defaultRangeGap '+1HOUR'}} selected=\"selected\"{{else}}{{/eq}}>Hour</option>");
 			tl(5, "<option value=\"+1MINUTE\"{{#eq defaultRangeGap '+1MINUTE'}} selected=\"selected\"{{else}}{{/eq}}>Minute</option>");
 			tl(5, "<option value=\"+1SECOND\"{{#eq defaultRangeGap '+1SECOND'}} selected=\"selected\"{{else}}{{/eq}}>Second</option>");
@@ -2690,7 +2691,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" class=\"pageFacet", langueConfig.getString(ConfigCles.var_Gamme), " \"");
 			s(" id=\"pageFacet", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimple, "_{{ @key }}\"");
 			s(" value=\"{{ var }}\"");
-			s("{{#if default", langueConfig.getString(ConfigCles.var_Gamme), "Var }} checked=\"checked\"{{/if}}");
+			s("{{#eq default", langueConfig.getString(ConfigCles.var_Gamme), "Var var }} checked=\"checked\"{{/eq}}");
 			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change(this, '", classeNomSimple, "'); \"");
 			l("/></span>");
 			tl(3, "</td>");
@@ -2831,10 +2832,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(4, "<span class=\"\">{{", uncapitalizeClasseApiClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");
 			tl(3, "</span>");
 			tl(2, "</h2>");
-
-			if(classeVarClePrimaire != null) {
-				tl(0, "{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "\"}}{{/block}}");
-			}
 			l("{{/inline}}");
 	
 			s("{{#*inline \"htmBodyCount1", classePageNomSimple, "\"}}");
@@ -2920,23 +2917,32 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l("{{/inline}}");
 
 			if(classeVarClePrimaire != null) {
-				s("{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "\"}}");
-				tl(1, "{{#if ", classeVarClePrimaire, "}}");
+				l("{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "\"}}");
 				tl(2, "<!-- #*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "\" -->");
-				tl(2, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" style=\"\" onsubmit=\"event.preventDefault(); return false; \">");
+				tl(2, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " \" style=\"\" onsubmit=\"event.preventDefault(); return false; \">");
+				tl(0, "{{#if ", classeVarClePrimaire, "}}");
 				t(3, "<input");
 				s(" name=\"", classeVarClePrimaire, "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_valeur), StringUtils.capitalize(classeVarClePrimaire), "\"");
 				s(" type=\"hidden\"");
 				s(" value=\"{{", classeVarClePrimaire, "}}\"");
 				l("/>");
+				tl(0, "{{/if}}");
 				t(3, "<input");
 				s(" name=\"focusId\"");
 				s(" type=\"hidden\"");
 				l("/>");
+				t(3, "<input");
+				s(" name=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\"");
+				s(" id=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\"");
+				s(" class=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\" ");
+				s(" value='{{{toJsonObjectStringInApostrophes ", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), " }}}'");
+				s(" type=\"hidden\"");
+				l("/>");
 				tl(2, "</form>");
+				tl(0, "{{#if ", classeVarClePrimaire, "}}");
 				l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", StringUtils.lowerCase(langueConfig.getString(ConfigCles.var_PageRecherche)), classeApiClasseNomSimple, "\"}}{{/block}}");
-				tl(1, "{{/if}}");
+				tl(0, "{{/if}}");
 				l("{{/inline}}");
 			}
 
@@ -3218,10 +3224,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// pageContent //
 			/////////////////
 
+			tl(0, "{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "\"}}{{/block}}");
 			tl(0, "<div class=\"pageContent w3-content \">");
 
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Menu), "\"}}{{/block}}");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
 
 			// htmBodyCount0 //
 			tl(1, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int0}}");
@@ -3594,45 +3601,57 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.s(wWebsocket);
 				auteurPageJs.tl(0, "}");
 				auteurPageJs.l();
-				auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_graphique), classeApiClasseNomSimple, "(", langueConfig.getString(ConfigCles.var_requeteApi), ") {");
-				auteurPageJs.tl(1, "var facetCounts = window.", langueConfig.getString(ConfigCles.var_reponse), classeApiClasseNomSimple, ".facetCounts;");
-				auteurPageJs.tl(1, "if(facetCounts.facetPivot.pivotMap && facetCounts.facetRanges.ranges) {");
-				auteurPageJs.tl(2, "var numPivots = window.", langueConfig.getString(ConfigCles.var_reponse), classeApiClasseNomSimple, ".responseHeader.params['facet.pivot'].split(',').length;");
-				auteurPageJs.tl(2, "var range = facetCounts.facetRanges.ranges[Object.keys(facetCounts.facetRanges.ranges)[0]];");
-				auteurPageJs.tl(2, "var rangeName = range.name;");
-				auteurPageJs.tl(2, "var rangeCounts = range.counts;");
-				auteurPageJs.tl(2, "var rangeVals = Object.keys(rangeCounts).map(key => key.substring(0, 10));");
-				auteurPageJs.tl(2, "var pivot1Map = facetCounts.facetPivot.pivotMap[Object.keys(facetCounts.facetPivot.pivotMap)[0]].pivotMap;");
-				auteurPageJs.tl(2, "var pivot1Vals = Object.keys(pivot1Map);");
-				auteurPageJs.tl(2, "var data = [];");
-				auteurPageJs.tl(2, "var layout = {};");
-				auteurPageJs.tl(2, "layout['title'] = '", classeNomSimple, "';");
-				auteurPageJs.tl(2, "layout['xaxis'] = {");
-				auteurPageJs.tl(3, "title: '", classeNomSimple, "'");
+				auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), "(", langueConfig.getString(ConfigCles.var_requeteApi), ") {");
+				auteurPageJs.tl(1, "var json = JSON.parse($('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "').val());");
+				auteurPageJs.tl(1, "if(json['facetCounts']) {");
+				auteurPageJs.tl(2, "var facetCounts = json.facetCounts;");
+				auteurPageJs.tl(2, "if(facetCounts['facetPivot'] && facetCounts['facetRanges']) {");
+				auteurPageJs.tl(3, "var numPivots = json.responseHeader.params['facet.pivot'].split(',').length;");
+				auteurPageJs.tl(3, "var range = facetCounts.facetRanges.ranges[Object.keys(facetCounts.facetRanges.ranges)[0]];");
+				auteurPageJs.tl(3, "var rangeName = range.name;");
+				auteurPageJs.tl(3, "var rangeVar = rangeName.substring(0, rangeName.indexOf('_'));");
+				auteurPageJs.tl(3, "var rangeVarFq = window.varsFq[rangeVar];");
+				auteurPageJs.tl(3, "var rangeCounts = range.counts;");
+				auteurPageJs.tl(3, "var rangeVals = Object.keys(rangeCounts).map(key => key.substring(0, 10));");
+				auteurPageJs.tl(3, "var pivot1Name = Object.keys(facetCounts.facetPivot.pivotMap)[0];");
+				auteurPageJs.tl(3, "var pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), " = pivot1Name;");
+				auteurPageJs.tl(3, "if(pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".includes(','))");
+				auteurPageJs.tl(4, "pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), " = pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".substring(0, pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".indexOf(','));");
+				auteurPageJs.tl(3, "var pivot1Var = pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".substring(0, pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".indexOf('_'));");
+				auteurPageJs.tl(3, "var pivot1VarFq = window.varsFq[pivot1Var];");
+				auteurPageJs.tl(3, "var pivot1Map = facetCounts.facetPivot.pivotMap[pivot1Name].pivotMap;");
+				auteurPageJs.tl(3, "var pivot1Vals = Object.keys(pivot1Map);");
+				auteurPageJs.tl(3, "var data = [];");
+				auteurPageJs.tl(3, "var layout = {};");
+				auteurPageJs.tl(3, "layout['title'] = '", classeNomSimple, "';");
+				auteurPageJs.tl(3, "layout['xaxis'] = {");
+				auteurPageJs.tl(4, "title: rangeVarFq.displayName");
+				auteurPageJs.tl(3, "}");
+				auteurPageJs.tl(3, "layout['yaxis'] = {");
+				auteurPageJs.tl(4, "title: pivot1VarFq.displayName");
+				auteurPageJs.tl(3, "}");
+				auteurPageJs.tl(3, "pivot1Vals.forEach((pivot1Val) => {");
+				auteurPageJs.tl(4, "var pivot1 = pivot1Map[pivot1Val];");
+				auteurPageJs.tl(4, "var pivot1Counts = pivot1.ranges[rangeName].counts;");
+				auteurPageJs.tl(4, "var trace = {};");
+				auteurPageJs.tl(4, "trace['x'] = Object.keys(pivot1Counts).map(key => key.substring(0, 10));");
+				auteurPageJs.tl(4, "trace['y'] = Object.entries(pivot1Counts).map((key, count) => count);");
+				auteurPageJs.tl(4, "trace['mode'] = 'lines';");
+				auteurPageJs.tl(4, "trace['name'] = pivot1Val;");
+				auteurPageJs.tl(4, "data.push(trace);");
+//				auteurPageJs.tl(4, "var pivot2Map = pivot1.pivotMap;");
+//				auteurPageJs.tl(4, "var pivot2Vals = Object.keys(pivot2Map);");
+//				auteurPageJs.tl(4, "pivot2Vals.forEach((pivot2Val) => {");
+//				auteurPageJs.tl(5, "var pivot2 = pivot2Map[pivot2Val];");
+//				auteurPageJs.tl(5, "var pivot2Counts = pivot2.ranges[rangeName].counts;");
+//				auteurPageJs.tl(5, "trace['x'] = Object.keys(pivot2Counts).map(key => key.substring(0, 10));");
+//				auteurPageJs.tl(5, "trace['y'] = Object.entries(pivot2Counts).map((key, count) => count);");
+//				auteurPageJs.tl(5, "trace['mode'] = 'lines';");
+//				auteurPageJs.tl(4, "});");
+				auteurPageJs.tl(3, "});");
+				auteurPageJs.tl(3, "Plotly.newPlot('htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageSuperNomSimple, "', data, layout);");
 				auteurPageJs.tl(2, "}");
-				auteurPageJs.tl(2, "layout['yaxis'] = {");
-				auteurPageJs.tl(3, "title: '", classeNomSimple, "'");
-				auteurPageJs.tl(2, "}");
-				auteurPageJs.tl(2, "pivot1Vals.forEach((pivot1Val) => {");
-				auteurPageJs.tl(3, "var pivot1 = pivot1Map[pivot1Val];");
-				auteurPageJs.tl(3, "var pivot1Counts = pivot1.ranges[rangeName].counts;");
-				auteurPageJs.tl(3, "var trace = {};");
-				auteurPageJs.tl(3, "trace['x'] = Object.keys(pivot1Counts).map(key => key.substring(0, 10));");
-				auteurPageJs.tl(3, "trace['y'] = Object.entries(pivot1Counts).map((key, count) => count);");
-				auteurPageJs.tl(3, "trace['mode'] = 'lines';");
-				auteurPageJs.tl(3, "data.push(trace);");
-//				auteurPageJs.tl(3, "var pivot2Map = pivot1.pivotMap;");
-//				auteurPageJs.tl(3, "var pivot2Vals = Object.keys(pivot2Map);");
-//				auteurPageJs.tl(3, "pivot2Vals.forEach((pivot2Val) => {");
-//				auteurPageJs.tl(4, "var pivot2 = pivot2Map[pivot2Val];");
-//				auteurPageJs.tl(4, "var pivot2Counts = pivot2.ranges[rangeName].counts;");
-//				auteurPageJs.tl(4, "trace['x'] = Object.keys(pivot2Counts).map(key => key.substring(0, 10));");
-//				auteurPageJs.tl(4, "trace['y'] = Object.entries(pivot2Counts).map((key, count) => count);");
-//				auteurPageJs.tl(4, "trace['mode'] = 'lines';");
-//				auteurPageJs.tl(3, "});");
-				auteurPageJs.tl(2, "});");
 				auteurPageJs.tl(1, "}");
-				auteurPageJs.tl(1, "Plotly.newPlot('htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageSuperNomSimple, "', data, layout);");
 				auteurPageJs.tl(0, "}");
 			}
 	
