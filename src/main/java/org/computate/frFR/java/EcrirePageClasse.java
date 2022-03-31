@@ -1163,6 +1163,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", uncapitalizeClasseApiClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "());");
 				tl(1, "}");
 			}
+			l();
+			tl(1, "protected void _", classeVarCleUnique, "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+			tl(2, "if(", uncapitalizeClasseApiClasseNomSimple, "Count == 1)");
+			tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", uncapitalizeClasseApiClasseNomSimple, "_.get", StringUtils.capitalize(classeVarCleUnique), "());");
+			tl(1, "}");
 
 			l();
 			if(classePageSuperNomSimple != null) {
@@ -2920,7 +2925,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l("{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "\"}}");
 				tl(2, "<!-- #*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "\" -->");
 				tl(2, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " \" style=\"\" onsubmit=\"event.preventDefault(); return false; \">");
-				tl(0, "{{#if ", classeVarClePrimaire, "}}");
+				tl(0, "{{#if ", classeVarCleUnique, "}}");
 				t(3, "<input");
 				s(" name=\"", classeVarClePrimaire, "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_valeur), StringUtils.capitalize(classeVarClePrimaire), "\"");
@@ -2940,7 +2945,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				s(" type=\"hidden\"");
 				l("/>");
 				tl(2, "</form>");
-				tl(0, "{{#if ", classeVarClePrimaire, "}}");
+				tl(0, "{{#if ", classeVarCleUnique, "}}");
 				l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", StringUtils.lowerCase(langueConfig.getString(ConfigCles.var_PageRecherche)), classeApiClasseNomSimple, "\"}}{{/block}}");
 				tl(0, "{{/if}}");
 				l("{{/inline}}");
