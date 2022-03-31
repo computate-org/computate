@@ -4024,7 +4024,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "partNumero", partNumero);
 
 		String classeCodeSourceComplet = classeQdox.getCodeBlock();
-		stockerSolr(classeLangueNom, classeDoc, "classeCodeSourceDebut", regex("([\\s\\S]*?class " + classeNomSimple + "[^\\{]*\\{)", classeCodeSourceComplet, 1));
+		stockerSolr(classeLangueNom, classeDoc, "classeCodeSourceDebut", regex("([\\s\\S]*?class " + classeNomSimple + "[^\\{]*[;\\{])", classeCodeSourceComplet, 1));
 		stockerSolr(classeLangueNom, classeDoc, "classeCodeSourceFin", "}\n");
 		
 		for(String classeImportation : classeQdox.getSource().getImports()) {
@@ -4049,9 +4049,10 @@ public class IndexerClasse extends RegarderClasseBase {
 				String champCle = classeCheminAbsolu + "." + champVar;
 				String champCodeSourceComplet = champQdox.getCodeBlock();
 				String champCodeSource = StringUtils.substringBeforeLast(StringUtils.trim(regex("[\\s\\S]+?" + champVar + "\\s*=([\\s\\S]*)", champCodeSourceComplet, 1)), ";");
-				if(StringUtils.isBlank(champCodeSource))
-					champCodeSourceComplet = regex("^([\\s\\S]+?" + champVar + ")\\s*=\\s*$", champCodeSourceComplet, 1);
-				stockerSolr(classeLangueNom, champDoc, "champCodeSourceDebut", "\t" + champCodeSourceComplet);
+				champCodeSourceComplet = regex("^([\\s\\S]+?" + champVar + ")\\s*[=;]", champCodeSourceComplet, 1);
+				if(!StringUtils.isBlank(champCodeSource))
+					champCodeSource = " = " + champCodeSource;
+				stockerSolr(classeLangueNom, champDoc, "champCodeSourceDebut", champCodeSourceComplet);
 				stockerSolr(classeLangueNom, champDoc, "champCodeSourceFin", ";\n");
 				String champString = regex("^String\\." + classeLangueNom + ":(.*)", champCommentaire);
 				if(champString != null) {
@@ -4184,7 +4185,10 @@ public class IndexerClasse extends RegarderClasseBase {
 
 				String constructeurCodeSource = constructeurQdox.getSourceCode();
 				String constructeurCodeSourceComplet = constructeurQdox.getCodeBlock();
-				stockerSolr(classeLangueNom, constructeurDoc, "constructeurCodeSourceDebut", "\t" + regex("([\\s\\S]*?\\w+\\s*\\([^\\)]+\\)\\s*\\{)([\\s\\S]*)(\\}\\s*)", constructeurCodeSourceComplet, 1));
+				String src = regex("([\\s\\S]*?\\w+\\s*\\([^\\)]*\\)[^;\\{]*[;\\{])", constructeurCodeSourceComplet, 1);
+				if(src.endsWith(";") && !constructeurQdox.isAbstract())
+					src = StringUtils.substringBeforeLast(src, ";") + " {";
+				stockerSolr(classeLangueNom, constructeurDoc, "constructeurCodeSourceDebut", src);
 				stockerSolr(classeLangueNom, constructeurDoc, "constructeurCodeSourceFin", "}\n");
 				String constructeurCodeSourceLangue = constructeurCodeSource;
 				ArrayList<String> remplacerClesLangue = regexListe("^r." + classeLangueNom + "\\s*=\\s*(.*)\\n.*", constructeurCommentaire);
@@ -4920,7 +4924,10 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						String entiteCodeSource = methodeQdox.getSourceCode();
 						String entiteCodeSourceComplet = methodeQdox.getCodeBlock();
-						stockerSolr(classeLangueNom, entiteDoc, "entiteCodeSourceDebut", "\t" + regex("([\\s\\S]*?\\w+\\s*\\([^\\)]+\\)\\s*\\{)([\\s\\S]*)(\\}\\s*)", entiteCodeSourceComplet, 1));
+						String src = regex("([\\s\\S]*?\\w+\\s*\\([^\\)]*\\)[^;\\{]*[;\\{])", entiteCodeSourceComplet, 1);
+						if(src.endsWith(";") && !methodeQdox.isAbstract())
+							src = StringUtils.substringBeforeLast(src, ";") + " {";
+						stockerSolr(classeLangueNom, entiteDoc, "entiteCodeSourceDebut", src);
 						stockerSolr(classeLangueNom, entiteDoc, "entiteCodeSourceFin", "}\n");
 						String entiteString = regex("^String\\." + classeLangueNom + ":(.*)", methodeCommentaire);
 						if(entiteString != null) {
@@ -5643,7 +5650,10 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						String methodeCodeSource = methodeQdox.getSourceCode();
 						String methodeCodeSourceComplet = methodeQdox.getCodeBlock();
-						stockerSolr(classeLangueNom, methodeDoc, "methodeCodeSourceDebut", "\t" + regex("([\\s\\S]*?\\w+\\s*\\([^\\)]+\\)\\s*\\{)([\\s\\S]*)(\\}\\s*)", methodeCodeSourceComplet, 1));
+						String src = regex("([\\s\\S]*?\\w+\\s*\\([^\\)]*\\)[^;\\{]*[;\\{])", methodeCodeSourceComplet, 1);
+						if(src.endsWith(";") && !methodeQdox.isAbstract())
+							src = StringUtils.substringBeforeLast(src, ";") + " {";
+						stockerSolr(classeLangueNom, methodeDoc, "methodeCodeSourceDebut", src);
 						stockerSolr(classeLangueNom, methodeDoc, "methodeCodeSourceFin", "}\n");
 						String methodeCodeSourceLangue = methodeCodeSource;
 						String methodeString = regex("^String\\." + classeLangueNom + ":(.*)", methodeCommentaire);

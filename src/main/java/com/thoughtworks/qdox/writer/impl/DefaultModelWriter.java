@@ -26,6 +26,17 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+
+///////////////////////////////////////////////////////////////////////////////
+//MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+///////////////////////////////////////////////////////////////////////////////
+import org.apache.commons.lang3.RegExUtils;
+import org.apache.commons.lang3.StringUtils;
+import com.thoughtworks.qdox.model.JavaGenericDeclaration;
+import com.thoughtworks.qdox.model.JavaTypeVariable;
+import com.thoughtworks.qdox.model.impl.DefaultJavaClass;
+import com.thoughtworks.qdox.model.impl.DefaultJavaParameter;
+
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaAnnotatedElement;
 import com.thoughtworks.qdox.model.JavaAnnotation;
@@ -129,7 +140,11 @@ public class DefaultModelWriter
             if ( !"java.lang.Object".equals( className ) && !"java.lang.Enum".equals( className ) )
             {
                 buffer.write( " extends " );
-                buffer.write( cls.getSuperClass().getGenericCanonicalName() );
+
+                ///////////////////////////////////////////////////////////////////////////////
+                //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+                ///////////////////////////////////////////////////////////////////////////////
+                buffer.write( RegExUtils.replaceAll(cls.getSuperClass().getGenericCanonicalName(), "[A-Za-z0-9\\.]+\\.", "") );
             }
         }
 
@@ -140,7 +155,11 @@ public class DefaultModelWriter
 
             for ( ListIterator<JavaType> iter = cls.getImplements().listIterator(); iter.hasNext(); )
             {
-                buffer.write( iter.next().getGenericCanonicalName() );
+
+                ///////////////////////////////////////////////////////////////////////////////
+                //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+                ///////////////////////////////////////////////////////////////////////////////
+                buffer.write( RegExUtils.replaceAll(iter.next().getGenericCanonicalName(), "[A-Za-z0-9\\.]+\\.", "") );
                 if ( iter.hasNext() )
                 {
                     buffer.write( ", " );
@@ -217,10 +236,19 @@ public class DefaultModelWriter
     {
         commentHeader( field );
 
+
+        ///////////////////////////////////////////////////////////////////////////////
+        //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+        ///////////////////////////////////////////////////////////////////////////////
+        buffer.write("\t");
         writeAllModifiers( field.getModifiers() );
         if ( !field.isEnumConstant() )
         {
-            buffer.write( field.getType().getGenericCanonicalName() );
+
+            ///////////////////////////////////////////////////////////////////////////////
+            //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+            ///////////////////////////////////////////////////////////////////////////////
+            buffer.write( RegExUtils.replaceAll(field.getType().getGenericCanonicalName(), "[A-Za-z0-9\\.]+\\.", "") );
             buffer.write( ' ' );
         }
         buffer.write( field.getName() );
@@ -264,6 +292,11 @@ public class DefaultModelWriter
     public ModelWriter writeConstructor( JavaConstructor constructor )
     {
         commentHeader( constructor );
+
+        ///////////////////////////////////////////////////////////////////////////////
+        //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+        ///////////////////////////////////////////////////////////////////////////////
+        buffer.write("\t");
         writeAllModifiers( constructor.getModifiers() );
 
         buffer.write( constructor.getName() );
@@ -283,7 +316,11 @@ public class DefaultModelWriter
             buffer.write( " throws " );
             for ( Iterator<JavaClass> excIter = constructor.getExceptions().iterator(); excIter.hasNext(); )
             {
-                buffer.write( excIter.next().getGenericCanonicalName() );
+
+                ///////////////////////////////////////////////////////////////////////////////
+                //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+                ///////////////////////////////////////////////////////////////////////////////
+                buffer.write( RegExUtils.replaceAll(excIter.next().getGenericCanonicalName(), "[A-Za-z0-9\\.]+\\.", "") );
                 if ( excIter.hasNext() )
                 {
                     buffer.write( ", " );
@@ -307,9 +344,32 @@ public class DefaultModelWriter
     public ModelWriter writeMethod( JavaMethod method )
     {
         commentHeader( method );
+
+        ///////////////////////////////////////////////////////////////////////////////
+        //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+        ///////////////////////////////////////////////////////////////////////////////
+        buffer.write("\t");
         writeAccessibilityModifier( method.getModifiers() );
         writeNonAccessibilityModifiers( method.getModifiers() );
-        buffer.write( method.getReturnType().getGenericCanonicalName() );
+
+        ///////////////////////////////////////////////////////////////////////////////
+        //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+        ///////////////////////////////////////////////////////////////////////////////
+        List<JavaTypeVariable<JavaGenericDeclaration>> typeParameters = method.getTypeParameters();
+        if(typeParameters.size() > 0) {
+            buffer.write( "<" );
+            for(Integer i=0; i < typeParameters.size(); i++) {
+                JavaTypeVariable<JavaGenericDeclaration> typeParameter = typeParameters.get(i);
+                List<JavaType> bounds = typeParameter.getBounds();
+                if(bounds.size() > 0) {
+                    buffer.write(typeParameter.getName());
+                    buffer.write(" extends ");
+                    buffer.write(RegExUtils.replaceAll(bounds.get(0).getCanonicalName(), "[A-Za-z0-9\\.]+\\.", ""));
+                }
+            }
+            buffer.write( "> " );
+        }
+        buffer.write( RegExUtils.replaceAll(method.getReturnType().getGenericCanonicalName(), "[A-Za-z0-9\\.]+\\.", "") );
         buffer.write( ' ' );
         buffer.write( method.getName() );
         buffer.write( '(' );
@@ -328,7 +388,11 @@ public class DefaultModelWriter
             buffer.write( " throws " );
             for ( Iterator<JavaClass> excIter = method.getExceptions().iterator(); excIter.hasNext(); )
             {
-                buffer.write( excIter.next().getGenericCanonicalName() );
+
+                ///////////////////////////////////////////////////////////////////////////////
+                //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+                ///////////////////////////////////////////////////////////////////////////////
+                buffer.write( RegExUtils.replaceAll(excIter.next().getGenericCanonicalName(), "[A-Za-z0-9\\.]+\\.", "") );
                 if ( excIter.hasNext() )
                 {
                     buffer.write( ", " );
@@ -388,7 +452,11 @@ public class DefaultModelWriter
     public ModelWriter writeAnnotation( JavaAnnotation annotation )
     {
         buffer.write( '@' );
-        buffer.write( annotation.getType().getGenericCanonicalName() );
+
+        ///////////////////////////////////////////////////////////////////////////////
+        //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+        ///////////////////////////////////////////////////////////////////////////////
+        buffer.write( RegExUtils.replaceAll(annotation.getType().getGenericCanonicalName(), "[A-Za-z0-9\\.]+\\.", "") );
         if ( !annotation.getPropertyMap().isEmpty() )
         {
             buffer.indent();
@@ -417,7 +485,7 @@ public class DefaultModelWriter
     public ModelWriter writeParameter( JavaParameter parameter )
     {
         commentHeader( parameter );
-        buffer.write( parameter.getGenericCanonicalName() );
+        buffer.write( RegExUtils.replaceAll(parameter.getGenericCanonicalName(), "[A-Za-z0-9\\.]+\\.", "") );
         if ( parameter.isVarArgs() )
         {
             buffer.write( "..." );
@@ -429,16 +497,30 @@ public class DefaultModelWriter
 
     protected void commentHeader( JavaAnnotatedElement entity )
     {
+
+        //////////////////////////////////////////////////////////////////////////////
+        //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+        //////////////////////////////////////////////////////////////////////////////
+    	String tabs = (entity instanceof DefaultJavaClass || entity instanceof DefaultJavaParameter) ? "" : "\t";
+        if(!(entity instanceof DefaultJavaClass || entity instanceof DefaultJavaParameter))
+            buffer.newline();
+
         if ( entity.getComment() != null || ( entity.getTags().size() > 0 ) )
         {
+
+            ///////////////////////////////////////////////////////////////////////////////
+            //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+            ///////////////////////////////////////////////////////////////////////////////
+            buffer.write( tabs );
             buffer.write( "/**" );
-            buffer.newline();
 
             if ( entity.getComment() != null && entity.getComment().length() > 0 )
             {
-                buffer.write( " * " );
 
-                buffer.write( entity.getComment().replaceAll( "\n", "\n * " ) );
+                ///////////////////////////////////////////////////////////////////////////////
+                //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+                ///////////////////////////////////////////////////////////////////////////////
+                buffer.write( StringUtils.chomp(entity.getComment()).replaceAll( "\n", "\n" + tabs + " * " ) );
 
                 buffer.newline();
             }
@@ -447,11 +529,21 @@ public class DefaultModelWriter
             {
                 if ( entity.getComment() != null && entity.getComment().length() > 0 )
                 {
+
+                    ///////////////////////////////////////////////////////////////////////////////
+                    //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+                    ///////////////////////////////////////////////////////////////////////////////
+                    buffer.write( tabs );
                     buffer.write( " *" );
                     buffer.newline();
                 }
                 for ( DocletTag docletTag : entity.getTags() )
                 {
+
+                    ///////////////////////////////////////////////////////////////////////////////
+                    //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+                    ///////////////////////////////////////////////////////////////////////////////
+                	buffer.write( tabs );
                     buffer.write( " * @" );
                     buffer.write( docletTag.getName() );
                     if ( docletTag.getValue().length() > 0 )
@@ -463,6 +555,11 @@ public class DefaultModelWriter
                 }
             }
 
+
+            ///////////////////////////////////////////////////////////////////////////////
+            //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+            ///////////////////////////////////////////////////////////////////////////////
+            buffer.write( tabs );
             buffer.write( " */" );
             buffer.newline();
         }
@@ -470,6 +567,11 @@ public class DefaultModelWriter
         {
             for ( JavaAnnotation annotation : entity.getAnnotations() )
             {
+
+                ///////////////////////////////////////////////////////////////////////////////
+                //MODIFIED BY computate FROM THE ORIGINAL qdox SOURCE CODE TAG: qdox-2.0-M4 //
+                ///////////////////////////////////////////////////////////////////////////////
+            	buffer.write( tabs );
                 writeAnnotation( annotation );
             }
         }
