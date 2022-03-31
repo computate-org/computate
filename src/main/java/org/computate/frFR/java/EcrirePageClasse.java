@@ -3553,6 +3553,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(1, "window.eventBus.onopen = function () {");
 				auteurPageJs.l();
 				auteurPageJs.tl(2, "window.eventBus.registerHandler('websocket", classeApiClasseNomSimple, "', function (error, message) {");
+				auteurPageJs.tl(3, "", langueConfig.getString(ConfigCles.var_rechercher), langueConfig.getString(ConfigCles.var_Page), "();");
 				auteurPageJs.tl(3, "var json = JSON.parse(message['body']);");
 				auteurPageJs.tl(3, "var id = json['id'];");
 				auteurPageJs.tl(3, "var pk = json['pk'];");
