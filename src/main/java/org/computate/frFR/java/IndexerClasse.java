@@ -4568,6 +4568,13 @@ public class IndexerClasse extends RegarderClasseBase {
 											System.err.println(ExceptionUtils.getStackTrace(e));
 										}
 									}
+									else if("Boolean".equals(entiteMapCleType)) {
+										try {
+											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Boolean.parseBoolean(entiteMapValeur));
+										} catch (Exception e) {
+											System.err.println(ExceptionUtils.getStackTrace(e));
+										}
+									}
 									else if("ZonedDateTime".equals(entiteMapCleType) && NumberUtils.isCreatable(entiteMapValeur)) {
 										try {
 											indexerStockerSolr(entiteDoc, entiteMapCleParts[1], Date.from(ZonedDateTime.parse(entiteMapValeur, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toInstant()));
@@ -5549,6 +5556,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						
 						SolrInputDocument methodeDoc = classeDocClone.deepCopy();
 						indexerStockerSolr(classeLangueNom, methodeDoc, "methodeVar", methodeVar);
+						indexerStockerSolr(classeLangueNom, methodeDoc, "methodeDescription", regexLangue(classeLangueNom, "^Description", methodeCommentaire));
 						indexerStockerListeSolr(classeLangueNom, classeDoc, "classeMethodeVars", methodeVar);
 						for(Integer methodeParamNum = 1; methodeParamNum <= methodeParamsQdox.size(); methodeParamNum++) {
 							JavaParameter methodeParamQdox = methodeParamsQdox.get(methodeParamNum - 1);
