@@ -1,21 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<parent>
-		<groupId>org.computate</groupId>
-		<artifactId>computate-base</artifactId>
-		<relativePath>../computate-base/pom.xml</relativePath>
-		<version>${revision}</version>
-	</parent>
 
 	<properties>
 		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
 		<log4j.version>2.17.1</log4j.version>
 		<slf4j.version>1.7.35</slf4j.version>
+		<solr.version>8.11.1</solr.version>
+		<jackson.version>2.13.1</jackson.version>
+		<commons-lang3.version>3.12.0</commons-lang3.version>
 		<junit.version>4.13.1</junit.version>
+		<commons-collections.version>3.2.2</commons-collections.version>
+		<commons-configuration2.version>2.7</commons-configuration2.version>
+		<snakeyaml.version>1.30</snakeyaml.version>
+		<log4j-slf4j-impl.version>2.17.1</log4j-slf4j-impl.version>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.computate</groupId>
 	<artifactId>computate</artifactId>
+	<version>4.1.8.6</version>
 	<packaging>jar</packaging>
 	<name>Computate Vert.x Code Generation Tools</name>
 	<description>Code that generates more code as you save. Internationalized. Integrated with Solr search. A new way to write code to make persistence easier. </description>
