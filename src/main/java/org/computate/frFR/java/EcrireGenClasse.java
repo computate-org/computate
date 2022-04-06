@@ -1089,6 +1089,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected Stack<Integer> methodeNumeroPile = new Stack<Integer>();
 
 	ToutEcrivain wVarIndexe;
+	ToutEcrivain wVarStocke;
 	ToutEcrivain wVarRecherche;
 	ToutEcrivain wVarSuggere;
 
@@ -1285,6 +1286,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wToString = ToutEcrivain.create();
 		wEquals = ToutEcrivain.create();
 		wVarIndexe = ToutEcrivain.create();
+		wVarStocke = ToutEcrivain.create();
 		wVarRecherche = ToutEcrivain.create();
 		wVarSuggere = ToutEcrivain.create();
 	}
@@ -4693,17 +4695,25 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 
 			if(classeIndexe) {
+				if(entiteStocke || entiteDocValues) {
+					wVarStocke.tl(3, "case \"", entiteVar, "\":");
+					if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteCleUnique) {
+						wVarStocke.tl(4, "return \"", classeVarCleUnique, "\";");
+					} else {
+						wVarStocke.tl(4, "return \"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe && entiteStocke ? "_indexedstored" : "_stored")), entiteSuffixeType, "\";");
+					}
+				}
 				if(entiteIndexe) {
 					wVarIndexe.tl(3, "case \"", entiteVar, "\":");
 					if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteCleUnique) {
 						wVarIndexe.tl(4, "return \"", classeVarCleUnique, "\";");
-					}
-					else if(entiteSuggere)
+					} else if(entiteSuggere)
 						wVarIndexe.tl(4, "return \"", entiteVar, "_suggested", "\";");
 					else if(entiteTexte && entiteLangue != null)
 						wVarIndexe.tl(4, "return \"", entiteVar, "_text_" + entiteLangue, "\";");
-					else
+					else {
 						wVarIndexe.tl(4, "return \"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\";");
+					}
 				}
 				if(entiteTexte && entiteLangue != null) {
 					wVarRecherche.tl(3, "case \"", entiteVar, "\":");
@@ -6469,6 +6479,18 @@ public class EcrireGenClasse extends EcrireClasse {
 			// var //
 			/////////
 			l();
+			tl(1, "public static String var", langueConfig.getString(ConfigCles.var_Stocke), classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_entite), "Var) {");
+			tl(2, "switch(", langueConfig.getString(ConfigCles.var_entite), "Var) {");
+			s(wVarStocke);
+			tl(3, "default:");
+			if(classeEstBase)
+//				tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", langueConfig.getString(ConfigCles.var_nest_pas_une_entite_Stocke), ". \", ", langueConfig.getString(ConfigCles.var_entite), "Var));");
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", langueConfig.getString(ConfigCles.var_Stocke), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_entite), "Var);");
+			tl(2, "}");
+			tl(1, "}");
+			l();
 			tl(1, "public static String var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_entite), "Var) {");
 			tl(2, "switch(", langueConfig.getString(ConfigCles.var_entite), "Var) {");
 			s(wVarIndexe);
@@ -6664,6 +6686,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		l();
+		tl(1, "public static final String ", langueConfig.getString(ConfigCles.var_CLASSE_NOM_SIMPLE), " = \"", classeNomSimple, "\";");
 		s(wVarsStatic);
 
 		if(classeIndexe) {

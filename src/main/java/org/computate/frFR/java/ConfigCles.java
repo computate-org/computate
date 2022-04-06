@@ -95,6 +95,7 @@ public class ConfigCles {
 	public static final String var_classeApiUriMethode = "var_classeApiUriMethode";
 	public static final String var_classeCheminAbsolu = "var_classeCheminAbsolu";
 	public static final String var_CLASSE_CHEMIN_ABSOLU = "var_CLASSE_CHEMIN_ABSOLU";
+	public static final String var_CLASSE_NOM_SIMPLE = "var_CLASSE_NOM_SIMPLE";
 	public static final String var_classe = "var_classe";
 	public static final String var_classeNomCanonique = "var_classeNomCanonique";
 	public static final String var_classeNomsCanoniques = "var_classeNomsCanoniques";
