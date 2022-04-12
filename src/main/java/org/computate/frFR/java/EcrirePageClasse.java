@@ -644,7 +644,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		String classePageCheminJs = (String)classeDoc.get("classePageCheminJs"   + "_" + langueNom + "_stored_string");
 		String classePageCheminHbs = (String)classeDoc.get("classePageCheminHbs"   + "_" + langueNom + "_stored_string");
 		String classeGenPageCheminHbs = (String)classeDoc.get("classeGenPageCheminHbs"   + "_" + langueNom + "_stored_string");
-		String classePageUriMethode = (String)classeDoc.get("classeApiUri"  + "_" + langueNom + "_stored_string");
+		String classePageUriMethode = (String)classeDoc.get("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string");
 		String classePageLangueNom = (String)classeDoc.get("classePageLangueNom"  + "_" + langueNom + "_stored_string");
 		Boolean classeModele = (Boolean)classeDoc.get("classeModele_stored_boolean");
 		YAMLConfiguration classePageLangueConfig = null;
@@ -702,6 +702,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			auteurWebsocket = ToutEcrivain.create();
 
 			ToutEcrivain wRecherche = ToutEcrivain.create();
+			ToutEcrivain wVarsFqJs = ToutEcrivain.create();
 			ToutEcrivain wPOST = ToutEcrivain.create();
 			ToutEcrivain wPUTImport = ToutEcrivain.create();
 			ToutEcrivain wPUTFusion = ToutEcrivain.create();
@@ -1332,8 +1333,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "Map<String, SolrResponse.FacetField> facetFields = Optional.ofNullable(facetCounts).map(c -> c.getFacetFields()).map(f -> f.getFacets()).orElse(new HashMap<String,SolrResponse.FacetField>());");
 			tl(2, classeNomSimple, ".varsFq", langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
 			tl(3, "String var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(var);");
+			tl(3, "String var", langueConfig.getString(ConfigCles.var_Stocke), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Stocke), classeNomSimple, "(var);");
 			tl(3, "JsonObject json = new JsonObject();");
 			tl(3, "json.put(\"var\", var);");
+			tl(3, "json.put(\"var", langueConfig.getString(ConfigCles.var_Stocke), "\", var", langueConfig.getString(ConfigCles.var_Stocke), ");");
+			tl(3, "json.put(\"var", langueConfig.getString(ConfigCles.var_Indexe), "\", var", langueConfig.getString(ConfigCles.var_Indexe), ");");
 			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
 			tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
 			tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
@@ -1709,6 +1713,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wRecherche.tl(2, "if(", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, " != null && ", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, " !== '')");
 
 								wRecherche.tl(3, langueConfig.getString(ConfigCles.var_filtres), ".push({ name: '", (entiteSuggere ? "q" : "fq"), "', value: '", entiteVar, ":' + ", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, " });");
+
+								wVarsFqJs.tl(1, "vars.push({ var: '", entiteVar, "', "
+										, "var", langueConfig.getString(ConfigCles.var_Indexe), ": '", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "'"
+										, ", ", langueConfig.getString(ConfigCles.var_nomAffichage), ": ", entiteNomAffichage == null ? "null" : "'" + entiteNomAffichage + "'", "});");
 							}
 
 							if(entiteHtml) {
@@ -2168,6 +2176,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.l("}");
 
 						if(methodePATCH || methodeRecherche) {
+//							auteurPageJs.l();
+//							auteurPageJs.tl(0, "function varsFq", classeNomSimple, "() {");
+//							auteurPageJs.tl(1, "var vars = [];");
+//							auteurPageJs.s(wVarsFqJs);
+//							auteurPageJs.tl(1, "return vars;");
+//							auteurPageJs.tl(0, "}");
+
 							auteurPageJs.l();
 							auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Filtres), "($", langueConfig.getString(ConfigCles.var_formulaireFiltres), ") {");
 							auteurPageJs.tl(1, "var ", langueConfig.getString(ConfigCles.var_filtres), " = [];");
@@ -2725,7 +2740,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Pivot), classePageNomSimple, "\" -->");
 
 			t(2, "<div");
-			s(" class=\"w3-padding w3-tiny pageSearchVal \"");
+			s(" class=\"w3-padding w3-tiny \"");
 			s(" id=\"pageSearchVal-pivot", classeNomSimple, "\"");
 			l(">");
 			tl(0, "{{#if default", langueConfig.getString(ConfigCles.var_Pivot), "Vars }}");
@@ -3639,9 +3654,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(4, "var lat = [];");
 				auteurPageJs.tl(4, "var lon = [];");
 				auteurPageJs.tl(4, "var text = [];");
+				auteurPageJs.tl(4, "var customdata = [];");
 				auteurPageJs.tl(4, "trace['lat'] = lat;");
 				auteurPageJs.tl(4, "trace['lon'] = lon;");
 				auteurPageJs.tl(4, "trace['text'] = text;");
+				auteurPageJs.tl(4, "trace['customdata'] = customdata;");
 				auteurPageJs.tl(4, "json.response.docs.forEach((record) => {");
 				auteurPageJs.tl(5, "var location = record.fields[pivot1VarIndexed];");
 				auteurPageJs.tl(5, "if(location) {");
@@ -3649,6 +3666,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(6, "text.push('pivot1Val');");
 				auteurPageJs.tl(6, "lat.push(parseFloat(locationParts[0]));");
 				auteurPageJs.tl(6, "lon.push(parseFloat(locationParts[1]));");
+				auteurPageJs.tl(6, "var vals = {};");
+				auteurPageJs.tl(6, "var hovertemplate = '';");
+				auteurPageJs.tl(6, "Object.entries(window.varsFq).forEach(([key, data]) => {");
+				auteurPageJs.tl(7, "if(data.displayName) {");
+				auteurPageJs.tl(8, "vals[data.var] = record.fields[data.var", langueConfig.getString(ConfigCles.var_Stocke), "];");
+				auteurPageJs.tl(8, "hovertemplate += '<b>' + data.", langueConfig.getString(ConfigCles.var_nomAffichage), " + ': %{customdata.' + data.var + '}</b><br>';");
+				auteurPageJs.tl(7, "}");
+				auteurPageJs.tl(7, "customdata.push(vals);");
+				auteurPageJs.tl(6, "});");
+				auteurPageJs.tl(6, "customdata.push(vals);");
+				auteurPageJs.tl(6, "trace['hovertemplate'] = hovertemplate;");
 				auteurPageJs.tl(5, "}");
 				auteurPageJs.tl(4, "});");
 				auteurPageJs.tl(4, "data.push(trace);");
