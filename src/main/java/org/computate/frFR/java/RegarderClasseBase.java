@@ -16,7 +16,7 @@ package org.computate.frFR.java;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.configuration2.YAMLConfiguration;
@@ -84,7 +84,7 @@ public class RegarderClasseBase extends ConfigSite {
 	/** 
 	 * Var.enUS: sitePaths
 	 */
-	public HashMap<String, String> siteChemins = new HashMap<String, String>(); 
+	public LinkedHashMap<String, String> siteChemins = new LinkedHashMap<String, String>(); 
 	/** 
 	 * Var.enUS: _sitePaths
 	 * r: autresLangues
@@ -115,7 +115,7 @@ public class RegarderClasseBase extends ConfigSite {
 	/** 
 	 * Var.enUS: sitePathsVertx
 	 */
-	public HashMap<String, String> siteCheminsVertx = new HashMap<String, String>(); 
+	public LinkedHashMap<String, String> siteCheminsVertx = new LinkedHashMap<String, String>(); 
 	/** 
 	 * Var.enUS: _sitePathsVertx
 	 * r: autresLangues
@@ -144,7 +144,7 @@ public class RegarderClasseBase extends ConfigSite {
 	/**  
 	 * Var.enUS: classDocs
 	 */
-	public HashMap<String, SolrDocument> classeDocs = new HashMap<String, SolrDocument>();
+	public LinkedHashMap<String, SolrDocument> classeDocs = new LinkedHashMap<String, SolrDocument>();
 	/**
 	 * Var.enUS: _classDocs
 	 */
@@ -156,7 +156,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r: ClasseParts
 	 * r.enUS: ClassParts
 	 */
-	public HashMap<String, ClasseParts> classePartsGen = new HashMap<String, ClasseParts>();
+	public LinkedHashMap<String, ClasseParts> classePartsGen = new LinkedHashMap<String, ClasseParts>();
 	/**
 	 * Var.enUS: _classPartsGen
 	 */
