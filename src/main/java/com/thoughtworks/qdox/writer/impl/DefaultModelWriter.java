@@ -361,7 +361,7 @@ public class DefaultModelWriter
             for(Integer i=0; i < typeParameters.size(); i++) {
                 JavaTypeVariable<JavaGenericDeclaration> typeParameter = typeParameters.get(i);
                 List<JavaType> bounds = typeParameter.getBounds();
-                if(bounds.size() > 0) {
+                if(bounds != null && bounds.size() > 0) {
                     buffer.write(typeParameter.getName());
                     buffer.write(" extends ");
                     buffer.write(RegExUtils.replaceAll(bounds.get(0).getCanonicalName(), "[A-Za-z0-9\\.]+\\.", ""));
