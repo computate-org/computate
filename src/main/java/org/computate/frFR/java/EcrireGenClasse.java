@@ -1955,7 +1955,13 @@ public class EcrireGenClasse extends EcrireClasse {
 				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
 			if(hackathonLabels != null)
 				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
-			tl(0, " * <br><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true\">", langueConfig.getString(ConfigCles.str_Trouver_la_classe_), entiteVar, langueConfig.getString(ConfigCles.str__dans_Solr), ". </a>");
+			tl(0, " * <br><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "\">", langueConfig.getString(ConfigCles.str_Trouver_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ". </a>");
+			tl(0, " * <br><br>", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ". ");
+			tl(0, " * <br><pre>curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'</pre>");
+			tl(0, " * <br>", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_l_ensemble_), classeNomEnsemble, langueConfig.getString(ConfigCles.str__dans_Solr), ". ");
+			tl(0, " * <br><pre>curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'</pre>");
+			tl(0, " * <br>", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_le_projet_), siteNom, langueConfig.getString(ConfigCles.str__dans_Solr), ". ");
+			tl(0, " * <br><pre>curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'</pre>");
 			tl(0, " * <br>");
 			l(" **/");  
 		}
@@ -3577,7 +3583,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Lien vers Solr //
-				tl(1, " * <br><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=classeEtendGen_indexed_boolean:true&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", langueConfig.getString(ConfigCles.str_Trouver_l_entité_), entiteVar, langueConfig.getString(ConfigCles.str__dans_Solr), "</a>");
+				tl(1, " * <br><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstEntite_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&fq=entiteVar_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(entiteVar), "\">", langueConfig.getString(ConfigCles.str_Trouver_l_entité_), entiteVar, langueConfig.getString(ConfigCles.str__dans_Solr), "</a>");
 				tl(1, " * <br>");
 		
 				if(entiteCouverture) {

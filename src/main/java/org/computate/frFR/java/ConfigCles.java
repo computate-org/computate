@@ -33,7 +33,10 @@ public class ConfigCles {
 	public static final String str_Fusionner_ = "str_Fusionner_";
 	public static final String str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut = "str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut";
 	public static final String str_Importer_ = "str_Importer_";
+	public static final String str_la_classe_ = "str_la_classe_";
+	public static final String str_l_ensemble_ = "str_l_ensemble_";
 	public static final String str_L_entité_ = "str_L_entité_";
+	public static final String str_le_projet_ = "str_le_projet_";
 	public static final String str_Modifier_des_ = "str_Modifier_des_";
 	public static final String str_nest_pas_une_entite_indexe = "str_nest_pas_une_entite_indexe";
 	public static final String str_Rechercher_ = "str_Rechercher_";
