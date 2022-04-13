@@ -94,6 +94,9 @@ import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
  * NomCanonique.enUS: org.computate.enUS.java.IndexClass
  */ 
 public class IndexerClasse extends RegarderClasseBase { 
+
+	public static final String REGEX_LIGNE = "\r\n|\r|\n";
+
 	/**
 	 * Var.enUS: VAL_canonicalNameString
 	 */
@@ -4026,6 +4029,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeCodeSourceComplet = classeQdox.getCodeBlock();
 		stockerSolr(classeLangueNom, classeDoc, "classeCodeSourceDebut", regex("([\\s\\S]*?class " + classeNomSimple + "[^\\{]*[;\\{])", classeCodeSourceComplet, 1));
 		stockerSolr(classeLangueNom, classeDoc, "classeCodeSourceFin", "}\n");
+
+		indexerStockerSolr(classeDoc, "classeLigneDebut", classeQdox.getLineNumber() - (classeCommentaire == null ? 0 : (classeCommentaire.split(REGEX_LIGNE).length + 1)));
+		indexerStockerSolr(classeDoc, "classeLigneFin", classeQdox.getLineNumber());
 		
 		for(String classeImportation : classeQdox.getSource().getImports()) {
 			ClasseParts classeImportationClasseParts = ClasseParts.initClasseParts(this, classeImportation, classeLangueNom);
@@ -4059,6 +4065,8 @@ public class IndexerClasse extends RegarderClasseBase {
 					champCodeSource = "\"" + StringUtils.replace(StringUtils.replace(champString, "\\", "\\\\"), "\"", "\\\"") + "\"";
 					indexerStockerSolr(classeLangueNom, champDoc, "champString", champString); 
 				}
+				indexerStockerSolr(champDoc, "champLigneDebut", champQdox.getLineNumber() - (champCommentaire == null ? 0 : (champCommentaire.split(REGEX_LIGNE).length + 1)));
+				indexerStockerSolr(champDoc, "champLigneFin", champQdox.getLineNumber() + (champCodeSource == null ? 0 : champCodeSource.split(REGEX_LIGNE).length));
 
 				// Champs Solr du champ. 
 
@@ -4199,6 +4207,9 @@ public class IndexerClasse extends RegarderClasseBase {
 					StringUtils.replace(constructeurCodeSourceLangue, cle, valeur);
 				}
 				stockerSolr(classeLangueNom, constructeurDoc, "constructeurCodeSource", constructeurCodeSourceLangue);
+
+				indexerStockerSolr(constructeurDoc, "constructeurLigneDebut", constructeurQdox.getLineNumber() - (constructeurCommentaire == null ? 0 : (constructeurCommentaire.split(REGEX_LIGNE).length + 1)));
+				indexerStockerSolr(constructeurDoc, "constructeurLigneFin", constructeurQdox.getLineNumber() + (constructeurCodeSource == null ? 0 : (constructeurCodeSource.split(REGEX_LIGNE).length - 1)));
 
 				if(classeTraduire) {
 					for(String langueNom : classeAutresLangues) {  
@@ -4943,6 +4954,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						stockerSolr(classeLangueNom, entiteDoc, "entiteCodeSource", entiteCodeSource); 
 
+						indexerStockerSolr(entiteDoc, "entiteLigneDebut", methodeQdox.getLineNumber() - (methodeCommentaire == null ? 0 : (methodeCommentaire.split(REGEX_LIGNE).length + 1)));
+						indexerStockerSolr(entiteDoc, "entiteLigneFin", methodeQdox.getLineNumber() + (entiteCodeSource == null ? 0 : (entiteCodeSource.split(REGEX_LIGNE).length - 1)));
+
 						if(activerVertx || activerQuarkus) {
 							/////////////////////////
 							// entiteTypeVertxJson //
@@ -5677,6 +5691,9 @@ public class IndexerClasse extends RegarderClasseBase {
 
 						stockerSolr(classeLangueNom, methodeDoc, "methodeCodeSource", methodeCodeSource);
 						indexerStockerSolr(classeLangueNom, methodeDoc, "methodeNomAffichage", regexLangue(classeLangueNom, "^" + classeLangueConfig.getString(ConfigCles.var_NomAffichage) + "", methodeCommentaire));
+
+						indexerStockerSolr(methodeDoc, "methodeLigneDebut", methodeQdox.getLineNumber() - (methodeCommentaire == null ? 0 : (methodeCommentaire.split(REGEX_LIGNE).length + 1)));
+						indexerStockerSolr(methodeDoc, "methodeLigneFin", methodeQdox.getLineNumber() - (methodeCodeSource == null ? 0 : (methodeCodeSource.split(REGEX_LIGNE).length - 1)));
 
 						if(classeTraduire) {
 							for(String langueNom : classeAutresLangues) {  
