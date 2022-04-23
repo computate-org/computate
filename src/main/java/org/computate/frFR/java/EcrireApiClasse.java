@@ -2491,7 +2491,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 					else if(classeApiMethode.contains("PATCH")) {
 //							tl(5, classeLangueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").put(\"rows\", 100);");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_rechercher), classeApiClasseNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", false, true, true).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
+						tl(5, classeLangueConfig.getString(ConfigCles.var_rechercher), classeApiClasseNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", (classeModele ? "false, true" : "true, false"), ", true).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
 						tl(6, "try {");
 						Integer tBase;
 						if(activerRoleAdmin) {
@@ -3199,23 +3199,35 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "pgPool.withTransaction(", classeLangueConfig.getString(ConfigCles.var_connexionSql), " -> {");
 							tl(4, "Promise<", classeApiClasseNomSimple, "> promise1 = Promise.promise();");
 							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(", classeLangueConfig.getString(ConfigCles.var_connexionSql), ");");
-							tl(4, "sql", classeApiMethode, classeNomSimple, "(o, inheritPk).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
-							tl(5, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
-							tl(6, classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
-							tl(7, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
-							tl(8, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
-							tl(7, "}).onFailure(ex -> {");
-							tl(8, "promise1.fail(ex);");
-							tl(7, "});");
-							tl(6, "}).onFailure(ex -> {");
-							tl(7, "promise1.fail(ex);");
-							tl(6, "});");
-							tl(5, "}).onFailure(ex -> {");
-							tl(6, "promise1.fail(ex);");
-							tl(5, "});");
-							tl(4, "}).onFailure(ex -> {");
-							tl(5, "promise1.fail(ex);");
-							tl(4, "});");
+							if(classeModele) {
+								tl(4, "sql", classeApiMethode, classeNomSimple, "(o, inheritPk).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
+								tl(5, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
+								tl(6, classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
+								tl(7, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
+								tl(8, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
+								tl(7, "}).onFailure(ex -> {");
+								tl(8, "promise1.fail(ex);");
+								tl(7, "});");
+								tl(6, "}).onFailure(ex -> {");
+								tl(7, "promise1.fail(ex);");
+								tl(6, "});");
+								tl(5, "}).onFailure(ex -> {");
+								tl(6, "promise1.fail(ex);");
+								tl(5, "});");
+								tl(4, "}).onFailure(ex -> {");
+								tl(5, "promise1.fail(ex);");
+								tl(4, "});");
+							} else {
+								tl(4, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(o).onSuccess(c -> {");
+								tl(5, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(o).onSuccess(e -> {");
+								tl(6, "promise1.complete(o);");
+								tl(5, "}).onFailure(ex -> {");
+								tl(6, "promise1.fail(ex);");
+								tl(5, "});");
+								tl(4, "}).onFailure(ex -> {");
+								tl(5, "promise1.fail(ex);");
+								tl(4, "});");
+							}
 							tl(4, "return promise1.future();");
 							tl(3, "}).onSuccess(a -> {");
 							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");

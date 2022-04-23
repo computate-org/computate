@@ -18,7 +18,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.computate</groupId>
 	<artifactId>computate</artifactId>
-	<version>4.1.8.7</version>
+	<version>4.1.8.8</version>
 	<packaging>jar</packaging>
 	<name>Computate Vert.x Code Generation Tools</name>
 	<description>Code that generates more code as you save. Internationalized. Integrated with Solr search. A new way to write code to make persistence easier. </description>
