@@ -4915,7 +4915,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}	
 	
 			/////////////
-			// ", langueConfig.getString(ConfigCles.var_definir), " //
+			// definir //
 			/////////////
 
 			o = wDefinir;
@@ -6342,7 +6342,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 		}
 
-		if((classeModele || classePartsModeleBase != null && classeEntiteClassesSuperEtMoiSansGen.contains(classePartsModeleBase.nomCanonique(langueNomGlobale))) && classeInitLoin && (classeEtendBase || classeEstBase)) {
+		if((classeApi || classePartsModeleBase != null && classeEntiteClassesSuperEtMoiSansGen.contains(classePartsModeleBase.nomCanonique(langueNomGlobale))) && classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// ", langueConfig.getString(ConfigCles.var_definir), " //");

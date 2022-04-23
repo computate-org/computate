@@ -2517,7 +2517,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
 						tl(tBase + 7, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
 						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setOriginal(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first());");
-						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.getPk()).orElse(null));");
+						if(classeModele)
+							tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.getPk()).orElse(null));");
 						tl(tBase + 7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
 						l();
 						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(e -> {");
@@ -2880,7 +2881,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "}");
 						tl(7, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
 						tl(8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setOriginal(o);");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.getPk()).orElse(null));");
+						if(classeModele)
+							tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.getPk()).orElse(null));");
 						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
 						tl(7, classeApiOperationIdMethode, "Future(o, false).onSuccess(a -> {");
 						tl(8, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(new JsonObject().encodePrettily()))));");
@@ -2935,7 +2937,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeLangueConfig.getString(ConfigCles.var_supprime), "_docvalues_boolean:false\");");
 						if(activerArchive)
 							tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeLangueConfig.getString(ConfigCles.var_archive), "_docvalues_boolean:false\");");
-						tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire + "_docvalues_string" : classeVarClePrimaire + "_docvalues_long", ":\" + SearchTool.escapeQueryChars(body.getString(\"", classeVarClePrimaire, "\")));");
+						tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire + "_docvalues_string" : classeVarClePrimaire + "_docvalues_long", ":\" + SearchTool.escapeQueryChars(body.getString(", classeNomSimple, ".VAR_", classeModele ? classeVarClePrimaire : classeVarCleUnique, ")));");
 						tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".", classeLangueConfig.getString(ConfigCles.var_promesseLoin), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(a -> {");
 						tl(5, "try {");
 						tl(6, "if(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".size() >= 1) {");
