@@ -6405,7 +6405,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////
 		// codePeupler //
 		/////////////////
-		if((classeModele || classePartsModeleBase != null && classePartsModeleBase.nomCanonique(langueNom).equals(classeNomCanonique)) && classeIndexe) {
+		if((classeEtendBase || classePartsModeleBase != null && classePartsModeleBase.nomCanonique(langueNom).equals(classeNomCanonique)) && classeIndexe) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// ", langueConfig.getString(ConfigCles.var_peupler), " //");
