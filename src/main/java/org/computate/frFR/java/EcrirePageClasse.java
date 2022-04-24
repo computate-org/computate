@@ -1595,14 +1595,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //								wGetters.tl(2, "return true;");
 //								wGetters.tl(1, "}");
 
-								wTh.tl(4, "<th>", entiteNomAffichage, "</th>");
+								wTh.tl(6, "<th>", entiteNomAffichage, "</th>");
 	
 //								wTd.tl(4, "{{#if get", langueConfig.getString(ConfigCles.var_Colonne), entiteVarCapitalise, "}}");
-								wTd.tl(5, "<td>");
-								wTd.tl(6, "<a href=\"{{", classeVarUrlPk, "}}\">");
+								wTd.tl(6, "<td>");
+								wTd.tl(7, "<a href=\"{{", classeVarUrlPk, "}}\">");
 								if(contexteIconeGroupe != null && contexteIconeNom != null && BooleanUtils.isTrue(entiteVarTitre))
-									wTd.tl(7, "<i class=\"fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " \"></i>");
-								wTd.t(7, "<span class=\"white-space-pre-wrap \">");
+									wTd.tl(8, "<i class=\"fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " \"></i>");
+								wTd.t(8, "<span class=\"white-space-pre-wrap \">");
 								if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 									wTd.s("{{siteZonedDateTimeFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
 								} else if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
@@ -1617,15 +1617,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wTd.s("{{", entiteVar, "}}");
 								}
 								wTd.l("</span>");
-								wTd.tl(6, "</a>");
+								wTd.tl(7, "</a>");
 								if(entiteHighlighting) {
-									wTd.tl(6, "{{#if highlightList}}");
-									wTd.tl(7, "<div class=\"site-highlight \">");
-										wTd.tl(8, "StringUtils.join(highlightList, \" ... \")");
-									wTd.t(7).bgl("</div>");
-									wTd.tl(6, "{{/if}}");
+									wTd.tl(7, "{{#if highlightList}}");
+									wTd.tl(8, "<div class=\"site-highlight \">");
+										wTd.tl(9, "StringUtils.join(highlightList, \" ... \")");
+									wTd.t(8).bgl("</div>");
+									wTd.tl(7, "{{/if}}");
 								}
-								wTd.tl(5, "</td>");
+								wTd.tl(6, "</td>");
 //								wTd.tl(4, "{{/if}}");
 							}
 
@@ -1918,6 +1918,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htmStyle\"}}{{> htmStyle", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmScripts\"}}{{> htmScripts", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmScript\"}}{{> htmScript", classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"htmBodySidebar\"}}{{> htmBodySidebar}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Fin), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody\"}}{{> htmBody", classePageNomSimple, "}}{{/partial}}");
@@ -3125,21 +3126,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //			l("{{#*inline \"htmBodyCount1", classePageNomSimple, "\"}}");
 //			l("{{/inline}}");
 
-			tl(0, "{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, "\"}}");
-			tl(0, "{{> \"htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageSuperNomSimple, "\"}}");
-			tl(0, "{{/inline}}");
-			tl(0, "{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageNomSimple, "\"}}");
-			tl(0, "{{> \"htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageSuperNomSimple, "\"}}");
-			tl(0, "{{/inline}}");
-			tl(0, "{{#*inline \"htmBody", classePageNomSimple, "\"}}");
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{/block}}");
+			tl(0, "{{#*inline \"htmBodySidebar\"}}");
 
 			/////////////
 			// sidebar //
 			/////////////
 
-			t(1, "<div class=\"w3-sidebar w3-bar-block \" style=\"min-width: 300px; \">");
-			t(2, "<div class=\"\">");
+			tl(1, "<div class=\"w3-dropdown-hover w3-bar-block min-width-300px \">");
+			tl(2, "<div class=\"min-width-300px \">");
 
 			//////////////
 			// bouton q //
@@ -3178,7 +3172,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// bouton pivot //
 			//////////////////
 			t(3, "<span");
-			s(" title=\"", langueConfig.getString(ConfigCles.var_Gamme), "\"");
+			s(" title=\"", langueConfig.getString(ConfigCles.var_Pivot), "\"");
 			s(" class=\"w3-button w3-xlarge w3-", contexteCouleur, " \"");
 			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').toggle(); \"");
 			s(">");
@@ -3186,67 +3180,87 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l("</span>");
 
 			tl(2, "</div>");
+			tl(2, "<div class=\"w3-dropdown-content min-width-300px w3-white w3-border \">");
 
 			///////////////
 			// sidebar q //
 			///////////////
 
-			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "\" style=\"display: none; \">");
-			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
-			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Recherche), "</span>");
-			tl(1, "</div>");
-			tl(1, "<div class=\"w3-bar-block \">");
+			tl(3, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "\" style=\"display: none; \">");
+			tl(4, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(5, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Recherche), "</span>");
+			tl(4, "</div>");
+			tl(4, "<div class=\"w3-bar-block \">");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), "\"}}{{/block}}");
-			tl(1, "</div>");
-			tl(0, "</div>");
+			tl(4, "</div>");
+			tl(3, "</div>");
 
 			////////////////
 			// sidebar fa //
 			////////////////
 
-			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "\" style=\"display: none; \">");
-			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
-			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Filtres), "</span>");
-			tl(1, "</div>");
-			tl(1, "<div class=\"w3-bar-block \">");
+			tl(3, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "\" style=\"display: none; \">");
+			tl(4, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(5, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Filtres), "</span>");
+			tl(4, "</div>");
+			tl(4, "<div class=\"w3-bar-block \">");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Filtres), "\"}}{{/block}}");
-			tl(1, "</div>");
-			tl(0, "</div>");
+			tl(4, "</div>");
+			tl(3, "</div>");
 
 			///////////////////
 			// sidebar gamme //
 			///////////////////
 
-			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "\" style=\"display: none; \">");
-			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
-			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Gamme), "</span>");
-			tl(1, "</div>");
-			tl(1, "<div class=\"w3-bar-block \">");
+			tl(3, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "\" style=\"display: none; \">");
+			tl(4, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(5, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Gamme), "</span>");
+			tl(4, "</div>");
+			tl(4, "<div class=\"w3-bar-block \">");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Gamme), "\"}}{{/block}}");
-			tl(1, "</div>");
-			tl(0, "</div>");
+			tl(4, "</div>");
+			tl(3, "</div>");
 
 			///////////////////
 			// sidebar pivot //
 			///////////////////
 
-			tl(0, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "\" style=\"display: none; \">");
-			tl(1, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
-			tl(2, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Pivot), "</span>");
-			tl(1, "</div>");
-			tl(1, "<div class=\"w3-bar-block \">");
+			tl(3, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "\" style=\"display: none; \">");
+			tl(4, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(5, "<span class=\"w3-bar-item w3-padding \">", langueConfig.getString(ConfigCles.var_Pivot), "</span>");
+			tl(4, "</div>");
+			tl(4, "<div class=\"w3-bar-block \">");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Pivot), "\"}}{{/block}}");
+			tl(4, "</div>");
+			tl(3, "</div>");
+			tl(2, "</div>");
 			tl(1, "</div>");
-			tl(0, "</div>");
-			tl(1, "</div>");
+			tl(0, "{{/inline}}");
+
+			tl(0, "{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, "\"}}");
+			tl(0, "{{> \"htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageSuperNomSimple, "\"}}");
+			tl(0, "{{/inline}}");
+			tl(0, "{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageNomSimple, "\"}}");
+			tl(0, "{{> \"htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageSuperNomSimple, "\"}}");
+			tl(0, "{{/inline}}");
+
+			tl(0, "{{#*inline \"htmBody", classePageNomSimple, "\"}}");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{/block}}");
 
 			/////////////////
 			// pageContent //
 			/////////////////
 
-			tl(0, "<div class=\"pageContent w3-content \">");
-
+			tl(2, "<div class=\"w3-bar \">");
+			tl(3, "<div class=\"w3-bar-item \">");
+			tl(0, "{{#block \"htmBodySidebar\"}}{{/block}}");
+			tl(3, "</div>");
+			tl(3, "<div class=\"w3-bar-item \">");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Menu), "\"}}{{/block}}");
+			tl(3, "</div>");
+			tl(2, "</div>");
+
+			tl(1, "<div class=\"pageContent w3-content \">");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
 
 			// htmBodyCount0 //
@@ -3278,32 +3292,34 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Fin), "\"}}{{/block}}");
-			tl(0, "</div>");
+			tl(1, "</div>");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"table1", classePageNomSimple, "\"}}");
-			tl(2, "<table class=\"w3-table w3-bordered w3-striped w3-border w3-hoverable \">");
-			tl(3, "{{> table2", classePageNomSimple, "}}");
-			tl(2, "</table>");
+			tl(2, "<div class=\"w3-responsive \">");
+			tl(3, "<table class=\"w3-table w3-bordered w3-striped w3-border w3-hoverable \">");
+			tl(0, "{{> table2", classePageNomSimple, "}}");
+			tl(3, "</table>");
+			tl(2, "</div>");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"table2", classePageNomSimple, "\"}}");
-			tl(2, "{{> \"thead1", classePageNomSimple, "\"}}");
-			tl(2, "{{> \"tbody1", classePageNomSimple, "\"}}");
-			tl(2, "{{> \"tfoot1", classePageNomSimple, "\"}}");
-			tl(1, "{{/inline}}");
+			tl(0, "{{> \"thead1", classePageNomSimple, "\"}}");
+			tl(0, "{{> \"tbody1", classePageNomSimple, "\"}}");
+			tl(0, "{{> \"tfoot1", classePageNomSimple, "\"}}");
+			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"thead1", classePageNomSimple, "\"}}");
-			tl(2, "<thead class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-			tl(3, "{{> thead2", classePageNomSimple, "}}");
-			tl(2, "</thead>");
-			tl(1, "{{/inline}}");
+			tl(4, "<thead class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+			tl(0, "{{> thead2", classePageNomSimple, "}}");
+			tl(4, "</thead>");
+			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"thead2", classePageNomSimple, "\"}}");
 			tl(3, "<tr>");
 			s(wTh);
 			tl(3, "</tr>");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"tbody1", classePageNomSimple, "\"}}");
-			tl(2, "<tbody>");
-			tl(3, "{{> tbody2", classePageNomSimple, "}}");
-			tl(2, "</tbody>");
+			tl(4, "<tbody>");
+			tl(0, "{{> tbody2", classePageNomSimple, "}}");
+			tl(4, "</tbody>");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"tbody2", classePageNomSimple, "\"}}");
 //				TODO
@@ -3314,22 +3330,22 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				tl(3, "Map<String, List<String>> highlights = highlighting == null ? null : highlighting.get(o.getId());");
 //				tl(3, "List<String> highlightList = highlights == null ? null : highlights.get(highlights.keySet().stream().findFirst().orElse(null));");
 //				tl(3, "String uri = ", classeEntiteVars.contains("pageUri") ? "o.getPageUri()" : (q(classePageUriMethode, "/") + " + o.get" + StringUtils.capitalize(classeVarClePrimaire) + "()"), ";");
-			tl(3, "<tr>");
+			tl(5, "<tr>");
 			s(wTd);
-			tl(3, "</tr>");
+			tl(5, "</tr>");
 			tl(2, "{{/each}}");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"tfoot1", classePageNomSimple, "\"}}");
-			tl(2, "<tfoot class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-			tl(3, "{{> tfoot2", classePageNomSimple, "}}");
-			tl(2, "</tfoot>");
+			tl(4, "<tfoot class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+			tl(0, "{{> tfoot2", classePageNomSimple, "}}");
+			tl(4, "</tfoot>");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"tfoot2", classePageNomSimple, "\"}}");
-			tl(2, "<tr>");
+			tl(3, "<tr>");
 //				TODO
 //				tl(3, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getQueryResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(new SimpleOrderedMap());");
 			s(wFoot);
-			tl(2, "</tr>");
+			tl(3, "</tr>");
 			tl(1, "{{/inline}}");
 			s(wGetters);
 			tl(0, "{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaires), classePageNomSimple, "\"}}");
