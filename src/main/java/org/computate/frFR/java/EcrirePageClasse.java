@@ -1898,7 +1898,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			if(auteurPageHbs != null) {
 				o = auteurPageHbs;
-				if((classeEtendBase || !classeModele) && auteurPageHbs != null) {
+				if((classeEtendBase || !classeModele && (classePartsModeleBase == null || !classeNomCanonique.equals(classePartsModeleBase.nomCanonique(langueNom)))) && auteurPageHbs != null) {
 					String hackathonMission = (String)classeDoc.get("hackathonMissionPageHbs_stored_string");
 					String hackathonColumn = (String)classeDoc.get("hackathonColumnPageHbs_stored_string");
 					String hackathonLabels = (String)classeDoc.get("hackathonLabelsPageHbs_stored_string");
@@ -2690,7 +2690,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(3, "</td>");
 			tl(2, "</tr>");
 			tl(2, "<tr class=\"\">");
-			tl(3, "<td class=\"\" colspan=\"2\"");
+			tl(3, "<td class=\"\" colspan=\"2\">");
 			t(3, "<span>");
 			s("<input type=\"datetime-local\"");
 			s(" name=\"facetRangeEnd\"");
