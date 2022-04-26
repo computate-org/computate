@@ -191,15 +191,15 @@ public class IndexerClasse extends RegarderClasseBase {
 	ClasseParts classePartsZonedDateTimeSerializer;
 	ClasseParts classePartsZonedDateTimeDeserializer;
 
-	ClasseParts classePartsSolrInputDocument;
-	/**
-	 * Var.enUS: classPartsSolrDocument
-	 */
-	ClasseParts classePartsSolrDocument;
-	/**
-	 * Var.enUS: classPartsSolrClient
-	 */
-	ClasseParts classePartsSolrClient;
+//	ClasseParts classePartsSolrInputDocument;
+//	/**
+//	 * Var.enUS: classPartsSolrDocument
+//	 */
+//	ClasseParts classePartsSolrDocument;
+//	/**
+//	 * Var.enUS: classPartsSolrClient
+//	 */
+//	ClasseParts classePartsSolrClient;
 	/**
 	 * Var.enUS: classPartsTest
 	 */
@@ -3589,7 +3589,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		indexerStockerSolr(classeDoc, "classeEstAbstrait", classeQdox.isAbstract()); 
 		Boolean classeModele = indexerStockerSolr(classeDoc, "classeModele", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Modele) + ": \\s*(true)$", classeCommentaire));
-		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire) || classeModele);
+		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire));
 		Boolean classePage = regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Page) + ": \\s*(true)$", classeCommentaire);
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Sauvegarde) + ":\\s*(true)$", classeCommentaire) || classeModele);
@@ -5012,6 +5012,10 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteNomSimpleVertxJson = "String";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							}
+							else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
+								entiteNomSimpleVertxJson = "JsonObject";
+								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
+							}
 							else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 								entiteNomSimpleVertxJson = "String";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
@@ -5139,6 +5143,11 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
 							entiteSuffixeType = "_location";
 						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
+							entiteSolrNomCanonique = VAL_nomCanoniqueVertxJsonObject;
+							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
+							entiteSuffixeType = "_string";
+						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 							entiteSolrNomCanonique = VAL_nomCanoniqueDouble;
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
@@ -5241,6 +5250,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePoint)) {
 							entiteTypeSql = "point";
 						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
+							entiteTypeSql = "text";
+						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 							entiteTypeSql = "decimal";
 						}
@@ -5340,6 +5352,11 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePoint)) {
 							entiteTypeJson = "string";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "default";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
+							entiteTypeJson = "JsonObject";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
 						}
@@ -6642,9 +6659,9 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 
 		if(classeIndexe) {
-			classePartsGenAjouter(classePartsSolrInputDocument, classeLangueNom);
-			classePartsGenAjouter(classePartsSolrClient, classeLangueNom);
-			classePartsGenAjouter(classePartsSolrDocument, classeLangueNom);
+//			classePartsGenAjouter(classePartsSolrInputDocument, classeLangueNom);
+//			classePartsGenAjouter(classePartsSolrClient, classeLangueNom);
+//			classePartsGenAjouter(classePartsSolrDocument, classeLangueNom);
 			classePartsGenAjouter(classePartsList, classeLangueNom);
 			classePartsGenAjouter(classePartsArrayList, classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classeLangueNom), classeLangueNom);
@@ -6653,6 +6670,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 
 		if(classeImage) {
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, DefaultExecutor.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, CommandLine.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, File.class.getCanonicalName(), classeLangueNom), classeLangueNom);

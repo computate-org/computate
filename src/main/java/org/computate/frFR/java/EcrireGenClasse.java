@@ -2331,19 +2331,17 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}
 
-		for(String classePageMethode : classeApiMethodes) {
+		String classePageUriMethode = (String)classeDoc.get("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string");
+		String classePageNomSimple = (String)classeDoc.get("classePageNomSimple_" + langueNom  + "_stored_string");
+		String classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin_" + langueNom  + "_stored_string");
+		String classePageLangueNom = (String)classeDoc.get("classePageLangueNom_" + langueNom + "_stored_string");
 
-			String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
-			String classePageNomSimple = (String)doc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
-			String classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin" + classePageMethode  + "_stored_string");
-	
-			if(classePageNomSimple != null) {
-				if(classePageUriMethode != null) {
-					tl(1, "public static final String ", classePageNomSimple, "_Uri", " = ", q(classePageUriMethode), ";");
-				}
-				if(classeGenPageChemin != null) {
-					tl(1, "public static final String ", classePageNomSimple, "_ImageUri", " = ", q("/png", classePageUriMethode, "-999.png"), ";");
-				}
+		if(langueNom.equals(classePageLangueNom)) {
+			if(classePageUriMethode != null) {
+				tl(1, "public static final String ", classePageNomSimple, "_", classePageLangueNom, "_Uri", " = ", q(classePageUriMethode), ";");
+			}
+			if(classeGenPageChemin != null) {
+				tl(1, "public static final String ", classePageNomSimple, "_", classePageLangueNom, "_ImageUri", " = ", q("/png", classePageUriMethode, "-999.png"), ";");
 			}
 		}
 	}
@@ -3477,8 +3475,10 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(entiteIgnorer)
 				tl(1, "@JsonIgnore");
 			else if("JsonArray".equals(entiteNomSimple)) {
+				tl(1, "@JsonProperty");
 			}
 			else if("JsonObject".equals(entiteNomSimple)) {
+				tl(1, "@JsonProperty");
 			}
 			else if("Point".equals(entiteNomSimple)) {
 				tl(1, "@JsonProperty");
@@ -3767,6 +3767,21 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(3, "String[] vals = o.split(\",\");");
 				tl(3, "if(vals.length == 2 && NumberUtils.isParsable(vals[0]) && NumberUtils.isParsable(vals[1]))");
 				tl(4, "return new Point(Double.parseDouble(vals[0]), Double.parseDouble(vals[1]));");
+				tl(2, "}");
+				tl(2, "return null;");
+				tl(1, "}");
+				staticSet = true;
+			}
+	
+			// Setter JsonObject //
+			if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
+				tl(1, "@JsonIgnore");
+				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
+				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				tl(1, "}");
+				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(2, "if(o != null) {");
+				tl(4, "return new JsonObject(o);");
 				tl(2, "}");
 				tl(2, "return null;");
 				tl(1, "}");
@@ -4380,6 +4395,11 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(2, "return o;");
 						tl(1, "}");
 					}
+					else if(entiteNomSimple.toString().equals("JsonObject")) {
+						tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+						tl(2, "return o;");
+						tl(1, "}");
+					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 						tl(2, "return o == null ? null : o.doubleValue();");
@@ -4650,6 +4670,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					else if(entiteNomSimple.toString().equals("Point")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", String.format(\"%s,%s\", ", entiteVar, ".getX(), ", entiteVar, ".getY()));");
 					}
+					else if(entiteNomSimple.toString().equals("JsonObject")) {
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
+					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
 					}
@@ -4684,6 +4707,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(entiteNomSimple.toString().equals("Point")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", new Point(", entiteVar, ".getPoint1(), ", entiteVar, ".getPoint2()));");
+					}
+					else if(entiteNomSimple.toString().equals("JsonObject")) {
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
 					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
@@ -4950,6 +4976,11 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(5, "set", entiteVarCapitalise, "((String)val);");
 							tl(4, "else if(val instanceof Point)");
 							tl(5, "set", entiteVarCapitalise, "((Point)val);");
+						} else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
+							tl(4, "if(val instanceof String)");
+							tl(5, "set", entiteVarCapitalise, "((String)val);");
+							tl(4, "else if(val instanceof JsonObject)");
+							tl(5, "set", entiteVarCapitalise, "((JsonObject)val);");
 						} else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
 							tl(4, "if(val instanceof String)");
 							tl(5, "set", entiteVarCapitalise, "((String)val);");
@@ -5142,6 +5173,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						||entiteNomSimple.equals("Timestamp")
 						||entiteNomSimple.equals("BigDecimal")
 						||entiteNomSimple.equals("Point")
+						||entiteNomSimple.equals("JsonObject")
 						||entiteNomSimple.equals("Integer")
 						||entiteNomSimple.equals("Double")
 						||entiteNomSimple.equals("Long")
@@ -6435,40 +6467,37 @@ public class EcrireGenClasse extends EcrireClasse {
 		// codeIndexer //
 		/////////////////
 		if(classeImage) {
-			l(); 
-			tl(1, "///////////");
-			tl(1, "// image //");
-			tl(1, "///////////");
-			tl(0);
-			tl(1, "public static void image() {");
-			tl(2, "try {");
-			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
-			for(String classePageMethode : classeApiMethodes) {
-	
-				String classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin" + classePageMethode  + "_stored_string");
-				String classePageChemin = (String)classeDoc.get("classePageChemin" + classePageMethode  + "_stored_string");
-				String classePageCheminCss = (String)classeDoc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
-				String classePageCheminJs = (String)classeDoc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
-				String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
-				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
-				String classePageNomSimple = (String)classeDoc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
-		
-				if(classeGenPageChemin != null) {
-			
-					tl(3, "{");
-					tl(4, "new File(\"", siteChemin, "-static/png", StringUtils.substringBeforeLast(classePageUriMethode, "/"), "\").mkdirs();");
-					tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --min-height=200 --url=", siteUrlBase, classePageUriMethode, "?pageRecapituler=true --out=", siteChemin, "-static/png", classePageUriMethode, "-999.png\"));");
-					tl(4, "BufferedImage img = ImageIO.read(new File(\"", siteChemin, "-static/png", classePageUriMethode, "-999.png\"));");
-					tl(4, "System.out.println(\"", classePageNomSimple, "\");");
-					tl(4, "System.out.println(\" * ImageLargeur.", classePageLangueNom, ": \" + img.getWidth());");
-					tl(4, "System.out.println(\" * ImageHauteur.", classePageLangueNom, ": \" + img.getHeight());");
-					tl(3, "}");
-				}
-			}
-			tl(2, "} catch(Exception e) {");
-			tl(3, "ExceptionUtils.rethrow(e);");
-			tl(2, "}");
-			tl(1, "}");
+//			l(); 
+//			tl(1, "///////////");
+//			tl(1, "// image //");
+//			tl(1, "///////////");
+//			tl(0);
+//			tl(1, "public static void image() {");
+//			tl(2, "try {");
+//			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
+//			String classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin" + classePageMethode  + "_stored_string");
+//			String classePageChemin = (String)classeDoc.get("classePageChemin" + classePageMethode  + "_stored_string");
+//			String classePageCheminCss = (String)classeDoc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
+//			String classePageCheminJs = (String)classeDoc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
+//			String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
+//			String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
+//			String classePageNomSimple = (String)classeDoc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
+//	
+//			if(classeGenPageChemin != null) {
+//		
+//				tl(3, "{");
+//				tl(4, "new File(\"", siteChemin, "-static/png", StringUtils.substringBeforeLast(classePageUriMethode, "/"), "\").mkdirs();");
+//				tl(4, "executeur.execute(CommandLine.parse(\"/usr/bin/CutyCapt --min-height=200 --url=", siteUrlBase, classePageUriMethode, "?pageRecapituler=true --out=", siteChemin, "-static/png", classePageUriMethode, "-999.png\"));");
+//				tl(4, "BufferedImage img = ImageIO.read(new File(\"", siteChemin, "-static/png", classePageUriMethode, "-999.png\"));");
+//				tl(4, "System.out.println(\"", classePageNomSimple, "\");");
+//				tl(4, "System.out.println(\" * ImageLargeur.", classePageLangueNom, ": \" + img.getWidth());");
+//				tl(4, "System.out.println(\" * ImageHauteur.", classePageLangueNom, ": \" + img.getHeight());");
+//				tl(3, "}");
+//			}
+//			tl(2, "} catch(Exception e) {");
+//			tl(3, "ExceptionUtils.rethrow(e);");
+//			tl(2, "}");
+//			tl(1, "}");
 		}
 		if(classeIndexe && classePartsRequeteSite != null) {
 
