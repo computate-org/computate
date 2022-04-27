@@ -4480,7 +4480,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									entiteValCode = "";
 								if(entiteValLangue == null) {
 									stockerListeSolr(entiteDoc, "entiteValsVar", entiteValVar);
-									stockerListeSolr(entiteDoc, "entiteValsLangue", "");
+									stockerListeSolr(entiteDoc, "entiteValsLangue", classeLangueNom);
 									stockerListeSolr(entiteDoc, "entiteValsCode", entiteValCode);
 									stockerListeSolr(entiteDoc, "entiteValsValeur", entiteValValeur);
 								}
@@ -6099,7 +6099,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Requete", "ApiOperationId" + classeApiMethode + "Requete" + "." + langueNom, classeCommentaire, classeApiMethode + classeNomSimpleLangue + langueConfig.getString(ConfigCles.var_Requete));
 						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Reponse", "ApiOperationId" + classeApiMethode + "Reponse" + "." + langueNom, classeCommentaire, classeApiMethode + classeNomSimpleLangue + langueConfig.getString(ConfigCles.var_Reponse));
 						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiDescription" + classeApiMethode, "ApiDescription" + classeApiMethode + "." + langueNom, classeCommentaire, regexLangue(langueNom, "(classe)?Description" + classeApiMethode, classeCommentaire));
-						indexerStockerSolr(classeDoc, "classeApiInterne" + classeApiMethode, regexTrouve("^Api" + classeLangueConfig.getString(ConfigCles.var_Interne) + classeApiMethode + ": \\s*(true)$", classeCommentaire));
+						indexerStockerSolr(langueNom, classeDoc, "classeApiInterne" + classeApiMethode, regexTrouve("^Api" + classeLangueConfig.getString(ConfigCles.var_Interne) + classeApiMethode + ": \\s*(true)$", classeCommentaire));
 		
 						if(classeEtendBase && classeSuperDoc != null) {
 							indexerStockerSolr(langueNom, classeDoc, "classeSuperApiOperationId" + classeApiMethode, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string"));

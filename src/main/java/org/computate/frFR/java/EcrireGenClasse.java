@@ -2111,11 +2111,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				classeValValeur = classeValsValeur.get(j);
 
 				if(!StringUtils.equals(classeValVarLangue, classeValVarLangueAncien) && (StringUtils.equals(classeValVarLangueAncien, classeValVarAncien + langueNom))) {
-					t(1, "public static final String ", classeValVarAncien, " = ");
+					t(1, "public static final String ", classeValVarAncien, "_", classeValLangue, " = ");
 					for(int k = 1; k <= classeValVarNumero; k++) {
 						if(k > 1)
 							s(" + ");
-						s(classeValVarAncien, k);
+						s(classeValVarAncien, k, "_", classeValLangue);
 					}
 					l(";");
 					classeValVarNumero = 0;
@@ -2123,10 +2123,10 @@ public class EcrireGenClasse extends EcrireClasse {
 
 				if(StringUtils.equals(langueNom, classeValLangue)) {
 					classeValVarNumero++;
-					tl(1, "public static final String ", classeValVar, classeValVarNumero, " = \"", escapeJava(classeValValeur), "\";");
+					tl(1, "public static final String ", classeValVar, classeValVarNumero, "_", classeValLangue, " = \"", escapeJava(classeValValeur), "\";");
 					if(!classeVals.getEmpty())
 						classeVals.s(", ");
-					classeVals.s(classeValVar, classeValVarNumero);
+					classeVals.s(classeValVar, classeValVarNumero, "_", classeValLangue);
 				}
 
 				classeValVarAncien = classeValVar;
@@ -2138,11 +2138,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				classeValVar = null;
 	
 				if(classeValVarAncien != null && !StringUtils.equals(classeValVar, classeValVarLangueAncien)) {
-					t(1, "public static final String ", classeValVarAncien, " = ");
+					t(1, "public static final String ", classeValVarAncien, "_", classeValLangue, " = ");
 					for(int k = 1; k <= classeValVarNumero; k++) {
 						if(k > 1)
 							s(" + ");
-						s(classeValVarAncien, k);
+						s(classeValVarAncien, k, "_", classeValLangue);
 					}
 					l(";");
 					classeValVarNumero = 0;
@@ -2156,117 +2156,134 @@ public class EcrireGenClasse extends EcrireClasse {
 		
 		if(classeContexte) {
 
+			for(String langueNom2 : toutesLangues) {
+			
+				l();
+	
+				contexteVideoId = (String)classeDoc.get("contexteVideoId" + "_" + langueNom2 + "_stored_string");
+				contexteUnNom = (String)classeDoc.get("contexteUnNom" + "_" + langueNom2 + "_stored_string");
+				contexteNomSingulier = (String)classeDoc.get("contexteNomSingulier" + "_" + langueNom2 + "_stored_string");
+				contexteNomPluriel = (String)classeDoc.get("contexteNomPluriel" + "_" + langueNom2 + "_stored_string");
+				contexteNomVar = (String)classeDoc.get("contexteNomVar" + "_" + langueNom2 + "_stored_string");
+				contexteAdjectif = (String)classeDoc.get("contexteAdjectif" + "_" + langueNom2 + "_stored_string");
+				contexteAdjectifPluriel = (String)classeDoc.get("contexteAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
+				contexteAdjectifVar = (String)classeDoc.get("contexteAdjectifVar" + "_" + langueNom2 + "_stored_string");
+				contexteNomAdjectifSingulier = (String)classeDoc.get("contexteNomAdjectifSingulier" + "_" + langueNom2 + "_stored_string");
+				contexteNomAdjectifPluriel = (String)classeDoc.get("contexteNomAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
+				contexteCe = (String)classeDoc.get("contexteCe" + "_" + langueNom2 + "_stored_string");
+				contexteUn = (String)classeDoc.get("contexteUn" + "_" + langueNom2 + "_stored_string");
+				contexteNomActuel = (String)classeDoc.get("contexteNomActuel" + "_" + langueNom2 + "_stored_string");
+				contexteTousNom = (String)classeDoc.get("contexteTousNom" + "_" + langueNom2 + "_stored_string");
+				contexteRechercherTousNomPar = (String)classeDoc.get("contexteRechercherTousNomPar" + "_" + langueNom2 + "_stored_string");
+				contexteRechercherTousNom = (String)classeDoc.get("contexteRechercherTousNom" + "_" + langueNom2 + "_stored_string");
+				contexteLesNoms = (String)classeDoc.get("contexteLesNoms" + "_" + langueNom2 + "_stored_string");
+				contexteTitre = (String)classeDoc.get("contexteTitre" + "_" + langueNom2 + "_stored_string");
+				contexteH1 = (String)classeDoc.get("contexteH1" + "_" + langueNom2 + "_stored_string");
+				contexteH2 = (String)classeDoc.get("contexteH2" + "_" + langueNom2 + "_stored_string");
+				contexteH3 = (String)classeDoc.get("contexteH3" + "_" + langueNom2 + "_stored_string");
+				contexteAucunNomTrouve = (String)classeDoc.get("contexteAucunNomTrouve" + "_" + langueNom2 + "_stored_string");
+				contexteUnNomAdjectif = (String)classeDoc.get("contexteUnNomAdjectif" + "_" + langueNom2 + "_stored_string");
+				contexteCeNom = (String)classeDoc.get("contexteCeNom" + "_" + langueNom2 + "_stored_string");
+				contexteLeNom = (String)classeDoc.get("contexteLeNom" + "_" + langueNom2 + "_stored_string");
+				contexteDeNom = (String)classeDoc.get("contexteDeNom" + "_" + langueNom2 + "_stored_string");
+				if(contexteUnNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNom), "_", langueNom2, " = ", q(contexteUnNom), ";");
+				
+				if(contexteCe != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Ce), "_", langueNom2, " = ", q(contexteCe), ";");
+				
+				if(contexteCeNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_CeNom), "_", langueNom2, " = ", q(contexteCeNom), ";");
+				
+				if(contexteUn != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Un), "_", langueNom2, " = ", q(contexteUn), ";");
+				
+				if(contexteLeNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_LeNom), "_", langueNom2, " = ", q(contexteLeNom), ";");
+				
+				if(contexteNomSingulier != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomSingulier), "_", langueNom2, " = ", q(contexteNomSingulier), ";");
+				
+				if(contexteNomPluriel != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomPluriel), "_", langueNom2, " = ", q(contexteNomPluriel), ";");
+				
+				if(contexteNomActuel != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomActuel), "_", langueNom2, " = ", q(contexteNomActuel), ";");
+				
+				if(contexteTous != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Tous), "_", langueNom2, " = ", q(contexteTous), ";");
+				
+				if(contexteTousNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_TousNom), "_", langueNom2, " = ", q(contexteTousNom), ";");
+				
+				if(contexteRechercherTousNomPar != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_RechercherTousNomPar), "_", langueNom2, " = ", q(contexteRechercherTousNomPar), ";");
+				
+				if(contexteRechercherTousNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_RechercherTousNom), "_", langueNom2, " = ", q(contexteRechercherTousNom), ";");
+				
+				if(contexteH1 != null)
+					tl(1, "public static final String ", classeNomSimple, "_H1", "_", langueNom2, " = ", q(contexteH1), ";");
+				
+				if(contexteH2 != null)
+					tl(1, "public static final String ", classeNomSimple, "_H2", "_", langueNom2, " = ", q(contexteH2), ";");
+				
+				if(contexteH3 != null)
+					tl(1, "public static final String ", classeNomSimple, "_H3", "_", langueNom2, " = ", q(contexteH3), ";");
+				
+				if(contexteTitre != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Titre), "_", langueNom2, " = ", q(contexteTitre), ";");
+				
+				if(contexteLesNoms != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_LesNoms), "_", langueNom2, " = ", q(contexteLesNoms), ";");
+				
+				if(contexteAucunNomTrouve != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AucunNomTrouve), "_", langueNom2, " = ", q(contexteAucunNomTrouve), ";");
+				
+				if(contexteNomVar != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomVar), "_", langueNom2, " = ", q(contexteNomVar), ";");
+				
+				if(contexteDeNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_DeNom), "_", langueNom2, " = ", q(contexteDeNom), ";");
+				
+				if(contexteAdjectif != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Adjectif), "_", langueNom2, " = ", q(contexteAdjectif), ";");
+				
+				if(contexteAdjectifPluriel != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AdjectifPluriel), "_", langueNom2, " = ", q(contexteAdjectifPluriel), ";");
+				
+				if(contexteAdjectifVar != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AdjectifVar), "_", langueNom2, " = ", q(contexteAdjectifVar), ";");
+				
+				if(contexteUnNomAdjectif != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNomAdjectif), "_", langueNom2, " = ", q(contexteUnNomAdjectif), ";");
+				
+				if(contexteNomAdjectifSingulier != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifSingulier), "_", langueNom2, " = ", q(contexteNomAdjectifSingulier), ";");
+				
+				if(contexteNomAdjectifPluriel != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifPluriel), "_", langueNom2, " = ", q(contexteNomAdjectifPluriel), ";");
+
+				List<String> classeApiMethodes = Optional.ofNullable((List<String>)doc.get("classeApiMethodes_" + langueNom2 + "_stored_strings")).orElse(Arrays.asList());
+				for(String classePageMethode : classeApiMethodes) {
+					String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_" + langueNom2 + "_stored_string");
+					if(classePageUriMethode != null) {
+						if(classePageUriMethode != null) {
+							tl(1, "public static final String ", classePageMethode, "_", langueNom2, "_Uri", " = ", q(classePageUriMethode), ";");
+						}
+						if(classePageUriMethode != null) {
+							tl(1, "public static final String ", classePageMethode, "_", langueNom2, "_ImageUri", " = ", q("/png", classePageUriMethode, "-999.png"), ";");
+						}
+					}
+				}
+			}
+
 			contexteCouleur = (String)classeDoc.get("contexteCouleur_stored_string");
 			contexteIconeGroupe = (String)classeDoc.get("contexteIconeGroupe_stored_string");
 			contexteIconeNom = (String)classeDoc.get("contexteIconeNom_stored_string");
 			contexteRows = (Integer)classeDoc.get("contexteRows_stored_int");
-
-			contexteVideoId = (String)classeDoc.get("contexteVideoId" + "_" + langueNom + "_stored_string");
-			contexteUnNom = (String)classeDoc.get("contexteUnNom" + "_" + langueNom + "_stored_string");
-			contexteNomSingulier = (String)classeDoc.get("contexteNomSingulier" + "_" + langueNom + "_stored_string");
-			contexteNomPluriel = (String)classeDoc.get("contexteNomPluriel" + "_" + langueNom + "_stored_string");
-			contexteNomVar = (String)classeDoc.get("contexteNomVar" + "_" + langueNom + "_stored_string");
-			contexteAdjectif = (String)classeDoc.get("contexteAdjectif" + "_" + langueNom + "_stored_string");
-			contexteAdjectifPluriel = (String)classeDoc.get("contexteAdjectifPluriel" + "_" + langueNom + "_stored_string");
-			contexteAdjectifVar = (String)classeDoc.get("contexteAdjectifVar" + "_" + langueNom + "_stored_string");
-			contexteNomAdjectifSingulier = (String)classeDoc.get("contexteNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
-			contexteNomAdjectifPluriel = (String)classeDoc.get("contexteNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
-			contexteCe = (String)classeDoc.get("contexteCe" + "_" + langueNom + "_stored_string");
-			contexteUn = (String)classeDoc.get("contexteUn" + "_" + langueNom + "_stored_string");
-			contexteNomActuel = (String)classeDoc.get("contexteNomActuel" + "_" + langueNom + "_stored_string");
-			contexteTousNom = (String)classeDoc.get("contexteTousNom" + "_" + langueNom + "_stored_string");
-			contexteRechercherTousNomPar = (String)classeDoc.get("contexteRechercherTousNomPar" + "_" + langueNom + "_stored_string");
-			contexteRechercherTousNom = (String)classeDoc.get("contexteRechercherTousNom" + "_" + langueNom + "_stored_string");
-			contexteLesNoms = (String)classeDoc.get("contexteLesNoms" + "_" + langueNom + "_stored_string");
-			contexteTitre = (String)classeDoc.get("contexteTitre" + "_" + langueNom + "_stored_string");
-			contexteH1 = (String)classeDoc.get("contexteH1" + "_" + langueNom + "_stored_string");
-			contexteH2 = (String)classeDoc.get("contexteH2" + "_" + langueNom + "_stored_string");
-			contexteH3 = (String)classeDoc.get("contexteH3" + "_" + langueNom + "_stored_string");
-			contexteAucunNomTrouve = (String)classeDoc.get("contexteAucunNomTrouve" + "_" + langueNom + "_stored_string");
-			contexteUnNomAdjectif = (String)classeDoc.get("contexteUnNomAdjectif" + "_" + langueNom + "_stored_string");
-			contexteCeNom = (String)classeDoc.get("contexteCeNom" + "_" + langueNom + "_stored_string");
-			contexteLeNom = (String)classeDoc.get("contexteLeNom" + "_" + langueNom + "_stored_string");
-			contexteDeNom = (String)classeDoc.get("contexteDeNom" + "_" + langueNom + "_stored_string");
 			
 			l();
-			if(contexteUnNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNom), " = ", q(contexteUnNom), ";");
-			
-			if(contexteCe != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Ce), " = ", q(contexteCe), ";");
-			
-			if(contexteCeNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_CeNom), " = ", q(contexteCeNom), ";");
-			
-			if(contexteUn != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Un), " = ", q(contexteUn), ";");
-			
-			if(contexteLeNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_LeNom), " = ", q(contexteLeNom), ";");
-			
-			if(contexteNomSingulier != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomSingulier), " = ", q(contexteNomSingulier), ";");
-			
-			if(contexteNomPluriel != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomPluriel), " = ", q(contexteNomPluriel), ";");
-			
-			if(contexteNomActuel != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomActuel), " = ", q(contexteNomActuel), ";");
-			
-			if(contexteTous != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Tous), " = ", q(contexteTous), ";");
-			
-			if(contexteTousNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_TousNom), " = ", q(contexteTousNom), ";");
-			
-			if(contexteRechercherTousNomPar != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_RechercherTousNomPar), " = ", q(contexteRechercherTousNomPar), ";");
-			
-			if(contexteRechercherTousNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_RechercherTousNom), " = ", q(contexteRechercherTousNom), ";");
-			
-			if(contexteH1 != null)
-				tl(1, "public static final String ", classeNomSimple, "_H1 = ", q(contexteH1), ";");
-			
-			if(contexteH2 != null)
-				tl(1, "public static final String ", classeNomSimple, "_H2 = ", q(contexteH2), ";");
-			
-			if(contexteH3 != null)
-				tl(1, "public static final String ", classeNomSimple, "_H3 = ", q(contexteH3), ";");
-			
-			if(contexteTitre != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Titre), " = ", q(contexteTitre), ";");
-			
-			if(contexteLesNoms != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_LesNoms), " = ", q(contexteLesNoms), ";");
-			
-			if(contexteAucunNomTrouve != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AucunNomTrouve), " = ", q(contexteAucunNomTrouve), ";");
-			
-			if(contexteNomVar != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomVar), " = ", q(contexteNomVar), ";");
-			
-			if(contexteDeNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_DeNom), " = ", q(contexteDeNom), ";");
-			
-			if(contexteAdjectif != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Adjectif), " = ", q(contexteAdjectif), ";");
-			
-			if(contexteAdjectifPluriel != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AdjectifPluriel), " = ", q(contexteAdjectifPluriel), ";");
-			
-			if(contexteAdjectifVar != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AdjectifVar), " = ", q(contexteAdjectifVar), ";");
-			
-			if(contexteUnNomAdjectif != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNomAdjectif), " = ", q(contexteUnNomAdjectif), ";");
-			
-			if(contexteNomAdjectifSingulier != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifSingulier), " = ", q(contexteNomAdjectifSingulier), ";");
-			
-			if(contexteNomAdjectifPluriel != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifPluriel), " = ", q(contexteNomAdjectifPluriel), ";");
-			
 			if(contexteCouleur != null)
 				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Couleur), " = ", q(contexteCouleur), ";");
 			
@@ -2328,20 +2345,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				classeGenPageFichierHbs.getParentFile().mkdirs();
 				auteurGenPageHbs = ToutEcrivain.create(classeGenPageFichierHbs);
 				auteurGenPageHbsEntite = ToutEcrivain.create();
-			}
-		}
-
-		String classePageUriMethode = (String)classeDoc.get("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string");
-		String classePageNomSimple = (String)classeDoc.get("classePageNomSimple_" + langueNom  + "_stored_string");
-		String classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin_" + langueNom  + "_stored_string");
-		String classePageLangueNom = (String)classeDoc.get("classePageLangueNom_" + langueNom + "_stored_string");
-
-		if(langueNom.equals(classePageLangueNom)) {
-			if(classePageUriMethode != null) {
-				tl(1, "public static final String ", classePageNomSimple, "_", classePageLangueNom, "_Uri", " = ", q(classePageUriMethode), ";");
-			}
-			if(classeGenPageChemin != null) {
-				tl(1, "public static final String ", classePageNomSimple, "_", classePageLangueNom, "_ImageUri", " = ", q("/png", classePageUriMethode, "-999.png"), ";");
 			}
 		}
 	}
@@ -3294,130 +3297,134 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 				entiteXmlPile = new Stack<String>();
 				entiteNumeroPile = new Stack<Integer>();
-				for(int j = 0; j < entiteValsVar.size(); j++) {
-					entiteValVar = entiteValsVar.get(j);
-					entiteValLangue = entiteValsLangue.get(j);
-					if(StringUtils.isBlank(entiteValLangue))
-						entiteValLangue = langueNom;
-					entiteValVarLangue = entiteValVar + entiteValLangue;
-					entiteValCode = entiteValsCode == null ? "" : entiteValsCode.get(j);
-					entiteValValeur = entiteValsValeur.get(j);
-	
-					Integer xmlPart = 0;
-					if(!StringUtils.equals(entiteValVarLangue, entiteValVarLangueAncien) && (StringUtils.equals(entiteValVarLangueAncien, entiteValVarAncien + langueNom))) {
-						t(1, "public static final String ", entiteVar, entiteValVarAncien, " = ");
-						for(int k = 1; k <= entiteValVarNumero; k++) {
-							if(k > 1)
-								s(" + ");
-							s(entiteVar, entiteValVarAncien, k);
+				for(String langueNom2 : toutesLangues) {
+					for(int j = 0; j < entiteValsVar.size(); j++) {
+						entiteValVar = entiteValsVar.get(j);
+						entiteValLangue = entiteValsLangue.get(j);
+						if(StringUtils.isBlank(entiteValLangue))
+							entiteValLangue = langueNom2;
+						entiteValVarLangue = entiteValVar + entiteValLangue;
+						entiteValCode = entiteValsCode == null ? "" : entiteValsCode.get(j);
+						entiteValValeur = entiteValsValeur.get(j);
+		
+						Integer xmlPart = 0;
+						if(!StringUtils.equals(entiteValVarLangue, entiteValVarLangueAncien) && (StringUtils.equals(entiteValVarLangueAncien, entiteValVarAncien + langueNom2))) {
+							t(1, "public static final String ", entiteVar, entiteValVarAncien, "_", langueNom2, " = ");
+							for(int k = 1; k <= entiteValVarNumero; k++) {
+								if(k > 1)
+									s(" + ");
+								s(entiteVar, entiteValVarAncien, k, "_", langueNom2);
+							}
+							l(";");
+							entiteValVarNumero = 0;
 						}
-						l(";");
-						entiteValVarNumero = 0;
+		
+						if(StringUtils.equals(langueNom2, entiteValLangue)) {
+							entiteValVarNumero++;
+							tl(1, "public static final String ", entiteVar, entiteValVar, entiteValVarNumero, "_", entiteValLangue, " = \"", escapeJava(entiteValValeur), "\";");
+							if(!classeVals.getEmpty())
+								classeVals.s(", ");
+							classeVals.s(entiteVar, entiteValVar, entiteValVarNumero, "_", entiteValLangue);
+	//						{
+	//							String[] parts = splitByCharacterTypeCamelCase(entiteValVar);
+	//							Boolean html = false;
+	//							for(Integer p = 0; p < parts.length; p++) {
+	//								String part = StringUtils.uncapitalize(parts[p]);
+	//
+	//								Matcher regex = Pattern.compile("^(\\w+?)(\\d*)$").matcher(part);
+	//								boolean trouve = regex.find();
+	//								if(trouve) {
+	//									String element = StringUtils.lowerCase(regex.group(1));
+	//									String numeroStr = regex.group(2);
+	//									Integer numero = StringUtils.isEmpty(numeroStr) ? null : Integer.parseInt(numeroStr);
+	//									if("h".equals(element)) {
+	//										element += numero;
+	//										numero = null;
+	//									}
+	//
+	////									entiteValsEcrivain.t(1);
+	//									if(StringUtils.equalsAny(element, HTML_ELEMENTS)) {
+	//										html = true;
+	//
+	//										String css = entiteVar;
+	//										for(Integer r = 0; r <= xmlPart; r++) {
+	//											String s = parts[r];
+	//											css += s;
+	//										}
+	//										css += " ";
+	//
+	//										String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(StringUtils.substringBeforeLast(css, numero.toString()), "0") + (numero % 2 == 0 ? " even " : " odd "));
+	//
+	//										if(numero == null)
+	//											numero = 1;
+	//
+	//										if(entiteXmlPile.size() < (xmlPart + 1)) {
+	//											if("i".equals(element))
+	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
+	//											else if("a".equals(element))
+	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entiteVar, entiteValVar, entiteValVarNumero, ").f();");
+	//											else if("br".equals(element))
+	//												entiteValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
+	//											else if("td".equals(element))
+	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
+	//											else
+	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
+	//
+	//											if(!"br".equals(element)) {
+	//												entiteXmlPile.push(element);
+	//												entiteNumeroPile.push(numero);
+	//												xmlPart++;
+	//											}
+	//										}
+	//										else if(StringUtils.equals(element, entiteXmlPile.get(xmlPart)) && numero.equals(entiteNumeroPile.get(xmlPart))) {
+	//											xmlPart++;
+	//										}
+	//										else {
+	//											while(entiteXmlPile.size() > xmlPart) {
+	//												entiteValsEcrivain.tl(1 + entiteXmlPile.size(), "} g(\"", entiteXmlPile.peek(), "\");");
+	//												entiteXmlPile.pop();
+	//												entiteNumeroPile.pop();
+	//											}
+	//											if("i".equals(element))
+	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
+	//											else if("a".equals(element))
+	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entiteVar, entiteValVar, entiteValVarNumero, ").f();");
+	//											else if("br".equals(element))
+	//												entiteValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
+	//											else if("td".equals(element))
+	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
+	//											else
+	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
+	//
+	//											if(!"br".equals(element)) {
+	//												entiteXmlPile.push(element);
+	//												entiteNumeroPile.push(numero);
+	//												xmlPart++;
+	//											}
+	//										}
+	//									}
+	//								}
+	//							}
+	//							if(html && !"i".equals(entiteXmlPile.peek())) {
+	//								Integer p = entiteXmlPile.size();
+	//								if(StringUtils.isEmpty(entiteValCode)) {
+	//									entiteValsEcrivain.tl(2 + p, "sx(", entiteVar, entiteValVar, entiteValVarNumero, ");");
+	//								}
+	//								else {
+	//									if(classeEntiteVars.contains("utilisateurId"))
+	//										entiteValsEcrivain.tl(2 + p, "sx(utilisateurId == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
+	//									else
+	//										entiteValsEcrivain.tl(2 + p, "sx(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getUtilisateurId() == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
+	//								}
+	//							}
+	//						}
+						}
+		
+						entiteValVarAncien = entiteValVar;
+						entiteValVarLangueAncien = entiteValVarLangue;
 					}
-	
-					if(StringUtils.equals(langueNom, entiteValLangue)) {
-						entiteValVarNumero++;
-						tl(1, "public static final String ", entiteVar, entiteValVar, entiteValVarNumero, " = \"", escapeJava(entiteValValeur), "\";");
-						if(!classeVals.getEmpty())
-							classeVals.s(", ");
-						classeVals.s(entiteVar, entiteValVar, entiteValVarNumero);
-//						{
-//							String[] parts = splitByCharacterTypeCamelCase(entiteValVar);
-//							Boolean html = false;
-//							for(Integer p = 0; p < parts.length; p++) {
-//								String part = StringUtils.uncapitalize(parts[p]);
-//
-//								Matcher regex = Pattern.compile("^(\\w+?)(\\d*)$").matcher(part);
-//								boolean trouve = regex.find();
-//								if(trouve) {
-//									String element = StringUtils.lowerCase(regex.group(1));
-//									String numeroStr = regex.group(2);
-//									Integer numero = StringUtils.isEmpty(numeroStr) ? null : Integer.parseInt(numeroStr);
-//									if("h".equals(element)) {
-//										element += numero;
-//										numero = null;
-//									}
-//
-////									entiteValsEcrivain.t(1);
-//									if(StringUtils.equalsAny(element, HTML_ELEMENTS)) {
-//										html = true;
-//
-//										String css = entiteVar;
-//										for(Integer r = 0; r <= xmlPart; r++) {
-//											String s = parts[r];
-//											css += s;
-//										}
-//										css += " ";
-//
-//										String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(StringUtils.substringBeforeLast(css, numero.toString()), "0") + (numero % 2 == 0 ? " even " : " odd "));
-//
-//										if(numero == null)
-//											numero = 1;
-//
-//										if(entiteXmlPile.size() < (xmlPart + 1)) {
-//											if("i".equals(element))
-//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
-//											else if("a".equals(element))
-//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entiteVar, entiteValVar, entiteValVarNumero, ").f();");
-//											else if("br".equals(element))
-//												entiteValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
-//											else if("td".equals(element))
-//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
-//											else
-//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
-//
-//											if(!"br".equals(element)) {
-//												entiteXmlPile.push(element);
-//												entiteNumeroPile.push(numero);
-//												xmlPart++;
-//											}
-//										}
-//										else if(StringUtils.equals(element, entiteXmlPile.get(xmlPart)) && numero.equals(entiteNumeroPile.get(xmlPart))) {
-//											xmlPart++;
-//										}
-//										else {
-//											while(entiteXmlPile.size() > xmlPart) {
-//												entiteValsEcrivain.tl(1 + entiteXmlPile.size(), "} g(\"", entiteXmlPile.peek(), "\");");
-//												entiteXmlPile.pop();
-//												entiteNumeroPile.pop();
-//											}
-//											if("i".equals(element))
-//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
-//											else if("a".equals(element))
-//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entiteVar, entiteValVar, entiteValVarNumero, ").f();");
-//											else if("br".equals(element))
-//												entiteValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
-//											else if("td".equals(element))
-//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
-//											else
-//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
-//
-//											if(!"br".equals(element)) {
-//												entiteXmlPile.push(element);
-//												entiteNumeroPile.push(numero);
-//												xmlPart++;
-//											}
-//										}
-//									}
-//								}
-//							}
-//							if(html && !"i".equals(entiteXmlPile.peek())) {
-//								Integer p = entiteXmlPile.size();
-//								if(StringUtils.isEmpty(entiteValCode)) {
-//									entiteValsEcrivain.tl(2 + p, "sx(", entiteVar, entiteValVar, entiteValVarNumero, ");");
-//								}
-//								else {
-//									if(classeEntiteVars.contains("utilisateurId"))
-//										entiteValsEcrivain.tl(2 + p, "sx(utilisateurId == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
-//									else
-//										entiteValsEcrivain.tl(2 + p, "sx(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getUtilisateurId() == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
-//								}
-//							}
-//						}
-					}
-	
-					entiteValVarAncien = entiteValVar;
-					entiteValVarLangueAncien = entiteValVarLangue;
+					entiteValVarAncien = null;
+					entiteValVarLangueAncien = null;
 				}
 				if(StringUtils.equals(langueNom, entiteValLangue)) {
 					entiteValVarAncien = entiteValVar;
@@ -3425,11 +3432,11 @@ public class EcrireGenClasse extends EcrireClasse {
 					entiteValVar = null;
 		
 					if(entiteValVarAncien != null && !StringUtils.equals(entiteValVar, entiteValVarLangueAncien)) {
-						t(1, "public static final String ", entiteVar, entiteValVarAncien, " = ");
+						t(1, "public static final String ", entiteVar, entiteValVarAncien, "_", entiteValLangue, " = ");
 						for(int k = 1; k <= entiteValVarNumero; k++) {
 							if(k > 1)
 								s(" + ");
-							s(entiteVar, entiteValVarAncien, k);
+							s(entiteVar, entiteValVarAncien, k, "_", entiteValLangue);
 						}
 						l(";");
 						entiteValVarNumero = 0;

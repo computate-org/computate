@@ -188,24 +188,27 @@ public class RegarderClasse extends EcrireToutesClasses {
 //						regarderClasse.enUSWatchClass.indexClass(regarderClasse.classeCheminAbsolu, classeDoc);
 //				}
 //			}
-			Boolean classeTraduire = (Boolean)classeDoc.get("classeTraduire_indexed_boolean").getValue();
-			for(String langueNom : regarderClasse.autresLangues) {
-				if(!StringUtils.equals(langueNom, regarderClasse.langueNom)) {
-//					if("enUS".equals(langueNom))
-//						regarderClasse.enUSWatchClass.writeClass(regarderClasse.classeCheminAbsolu, langueNom);
-					if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
-						regarderClasse.ecrireClasse(regarderClasse.classeCheminAbsolu, langueNom);
-				}
-			}
-			for(String langueNom : regarderClasse.toutesLangues) {
-				YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, langueNom));
-//				if("enUS".equals(langueNom))
-//					regarderClasse.enUSWatchClass.writeGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
-//				if("frFR".equals(langueNom))
-//					regarderClasse.frFRRegarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
-				if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
-					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, langueNom, langueConfig);
-			}
+//			Boolean classeTraduire = (Boolean)classeDoc.get("classeTraduire_indexed_boolean").getValue();
+//						regarderClasse.ecrireClasse(regarderClasse.classeCheminAbsolu, langueNom);
+//			for(String langueNom : regarderClasse.autresLangues) {
+//				if(!StringUtils.equals(langueNom, regarderClasse.langueNom)) {
+////					if("enUS".equals(langueNom))
+////						regarderClasse.enUSWatchClass.writeClass(regarderClasse.classeCheminAbsolu, langueNom);
+//					if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
+//						regarderClasse.ecrireClasse(regarderClasse.classeCheminAbsolu, langueNom);
+//				}
+//			}
+//			for(String langueNom : regarderClasse.toutesLangues) {
+//				YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, langueNom));
+////				if("enUS".equals(langueNom))
+////					regarderClasse.enUSWatchClass.writeGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
+////				if("frFR".equals(langueNom))
+////					regarderClasse.frFRRegarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
+//				if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
+//					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, langueNom, langueConfig);
+//			}
+			YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, classeLangueNom));
+			regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, langueConfig);
 			return classeDoc;
 		}
 		return null;
