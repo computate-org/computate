@@ -2752,32 +2752,32 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Pivot), classePageNomSimple, "\" -->");
 
 			t(2, "<div");
+			s(" style=\"display: none; \"");
+			s(" class=\"w3-padding w3-tiny \"");
+			s(" id=\"pageSearchVal-pivot", classeNomSimple, "Hidden\"");
+			l(">");
+			tl(0, "{{#each default", langueConfig.getString(ConfigCles.var_Pivot), "Vars }}");
+			t(3, "<div");
+			s(" class=\"pageSearchVal-pivot", classeNomSimple, "Hidden \"");
+			s(" id=\"pageSearchVal-pivot", classeNomSimple, "Hidden_{{ this }}\"");
+			l(">{{ this }}</div>");
+			tl(0, "{{/each}}");
+			tl(2, "</div>");
+
+			t(2, "<div");
 			s(" class=\"w3-padding w3-tiny \"");
 			s(" id=\"pageSearchVal-pivot", classeNomSimple, "\"");
 			l(">");
 			tl(0, "{{#if default", langueConfig.getString(ConfigCles.var_Pivot), "Vars }}");
 			t(3, "<div");
-			s(" class=\"pageSearchVal \"");
-			s(" id=\"pageSearchVal-pivot", classeNomSimple, "\"");
+			s(" class=\"pageSearchVal pageSearchVal-pivot", classeNomSimple, " \"");
+			s(" id=\"pageSearchVal-pivot", classeNomSimple, "_1\"");
 			s(">facet.pivot=");
 			s("{{#each default", langueConfig.getString(ConfigCles.var_Pivot), "Vars }}");
 			s("{{#if @index }},{{/if}}{{ this }}");
 			s("{{/each}}");
 			l("</div>");
 			tl(0, "{{/if}}");
-			tl(2, "</div>");
-
-			t(2, "<div");
-			s(" style=\"display: none; \"");
-			s(" class=\"w3-padding w3-tiny \"");
-			s(" id=\"pageSearchVal-hidden", classeNomSimple, "\"");
-			l(">");
-			tl(0, "{{#each default", langueConfig.getString(ConfigCles.var_Pivot), "Vars }}");
-			t(3, "<div");
-			s(" class=\"pageSearchVal pageSearchVal-hidden", classeNomSimple, " \"");
-			s(" id=\"pageSearchVal-hidden", classeNomSimple, "_{{ this }}\"");
-			l(">{{ this }}</div>");
-			tl(0, "{{/each}}");
 			tl(2, "</div>");
 
 			tl(1, "<table class=\"w3-table \">");

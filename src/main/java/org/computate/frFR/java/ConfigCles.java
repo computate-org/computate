@@ -426,6 +426,7 @@ public class ConfigCles {
 	public static final String var_UnNomAdjectif = "var_UnNomAdjectif";
 	public static final String var_UnNom = "var_UnNom";
 	public static final String var_Un = "var_Un";
+	public static final String var_Url = "var_Url";
 	public static final String var_utilisateurCles = "var_utilisateurCles";
 	public static final String var_UtilisateurCles = "var_UtilisateurCles";
 	public static final String var_utilisateurCle = "var_utilisateurCle";
@@ -452,6 +453,7 @@ public class ConfigCles {
 	public static final String var_VarDescription = "var_VarDescription";
 	public static final String var_VarModifie = "var_VarModifie";
 	public static final String var_VarTitre = "var_VarTitre";
+	public static final String var_VarUrl = "var_VarUrl";
 	public static final String var_VideoId = "var_VideoId";
 	public static final String var_vider = "var_vider";
 	public static final String var_Vider = "var_Vider";
