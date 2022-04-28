@@ -5251,7 +5251,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteTypeSql = "point";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
-							entiteTypeSql = "text";
+							entiteTypeSql = "jsonb";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 							entiteTypeSql = "decimal";
@@ -5356,7 +5356,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
-							entiteTypeJson = "JsonObject";
+							entiteTypeJson = "object";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
 						}
@@ -6120,7 +6120,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								classeApiMotCleMethode = StringUtils.substringAfterLast(classeApiUriMethode, "/");
 							if(StringUtils.isBlank(classeApiUriMethode)) {
 								if("PUTImport".equals(classeApiMethode))
-									classeApiUriMethode = classeApiUri + "/" + "import";
+									classeApiUriMethode = classeApiUri + "-import";
 								else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
 									classeApiUriMethode = classeApiUri + "/" + langueConfig.getString(ConfigCles.var_copie);
 								else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))

@@ -2520,7 +2520,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"w3-input \"");
 //			s(" onkeypress=\"qChange(this); \"");
-			s(" onkeyup=\"qChange(this); \"");
+
+			if(classeVarSuggere == null)
+				s(" onkeyup=\"qChange(this); \"");
+			else
+				s(" {{#eq ../var '", classeVarSuggere, "' }}onkeyup{{else}}onchange{{/eq}}=\"qChange(this); \"");
+
 //			s(" onchange=\"qChange(this); \"");
 			s(" data-var=\"{{ var }}\"");
 			s(" autocomplete=\"off=\"");
@@ -2565,7 +2570,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"w3-input \"");
 //			s(" onkeypress=\"fqChange(this); \"");
-			s(" onkeyup=\"fqChange(this); \"");
+
+			s(" onchange=\"fqChange(this); \"");
+
 //			s(" onchange=\"fqChange(this); \"");
 			s(" data-var=\"{{ var }}\"");
 			s(" autocomplete=\"off=\"");
@@ -2594,7 +2601,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l(">");
 			tl(0, "{{#each facetField.counts }}");
 			t(3, "<li");
-			s(" class=\"\"");
+			s(" class=\"cursor-pointer \"");
+			s(" data-class=\"", classeNomSimple, "\"");
+			s(" data-var=\"{{ ../var }}\"");
+			s(" data-val=\"{{ @key }}\"");
+			s(" onclick=\"fqReplace(this); \"");
 			s(">");
 			s("{{ @key }}");
 			s(": ");

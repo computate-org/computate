@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.configuration2.YAMLConfiguration;
@@ -514,6 +516,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wToString;
 
 	protected ToutEcrivain wEquals;
+	protected ToutEcrivain auteurSqlDrop;
+	protected ToutEcrivain auteurSqlCreate;
 
 	/**
 	 * Var.enUS: entityVar
@@ -1289,6 +1293,8 @@ public class EcrireGenClasse extends EcrireClasse {
 		wVarStocke = ToutEcrivain.create();
 		wVarRecherche = ToutEcrivain.create();
 		wVarSuggere = ToutEcrivain.create();
+		auteurSqlCreate = ToutEcrivain.create();
+		auteurSqlDrop = ToutEcrivain.create();
 	}
 
 	/**
@@ -1999,7 +2005,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 		s(" {\n");
 		if(classeMotsCles.contains(langueConfig.getString(ConfigCles.var_classeNomSimple) + "Verticle")) {
-			ToutEcrivain auteurSqlDrop = ToutEcrivain.create();
 
 			l();
 			l("/*");
@@ -2036,20 +2041,20 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 					String classeNomSimple = (String)doc1.get("classeNomSimple_" + langueNom + "_stored_string");
 					auteurSqlDrop.l("DROP TABLE ", classeNomSimple, " CASCADE;");
-					l("CREATE TABLE ", classeNomSimple, "(");
+					auteurSqlCreate.l("CREATE TABLE ", classeNomSimple, "(");
 					for(Integer j = 0; j < listeRecherche2.size(); j++) {
 						SolrDocument doc2 = listeRecherche2.get(j);
 						if(doc2.get("entiteAttribuerTypeJson_stored_string") != null && (((String)doc2.get("entiteVar_" + langueNom + "_stored_string")).compareTo((String)doc2.get("entiteAttribuerVar_" + langueNom + "_stored_string")) < 0 || "array".equals(doc2.get("entiteAttribuerTypeJson_stored_string"))) || doc2.get("entiteAttribuerTypeJson_stored_string") == null) {
-							t(1);
+							auteurSqlCreate.t(1);
 							if(j > 0)
-								s(", ");
-							s(doc2.get("entiteVar_" + langueNom + "_stored_string"), " ", doc2.get("entiteTypeSql_stored_string"));
+								auteurSqlCreate.s(", ");
+							auteurSqlCreate.s(doc2.get("entiteVar_" + langueNom + "_stored_string"), " ", doc2.get("entiteTypeSql_stored_string"));
 							if(doc2.get("entiteAttribuerTypeJson_stored_string") != null)
-								s(" references ", (String)doc2.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string"), "(pk)");
-							l();
+								auteurSqlCreate.s(" references ", (String)doc2.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string"), "(pk)");
+							auteurSqlCreate.l();
 						}
 					}
-					tl(1, ");");
+					auteurSqlCreate.tl(1, ");");
 				}
 			}
 
@@ -2075,14 +2080,15 @@ public class EcrireGenClasse extends EcrireClasse {
 						String c2 = (String)doc2.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
 
 						auteurSqlDrop.l("DROP TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), " CASCADE;");
-						l("CREATE TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), "(");
-						tl(1, "pk bigserial primary key");
-						tl(1, ", pk1 bigint references ", c1, "(pk)");
-						tl(1, ", pk2 bigint references ", c2, "(pk)");
-						tl(1, ");");
+						auteurSqlCreate.l("CREATE TABLE ", c1, StringUtils.capitalize(var), "_", c2, StringUtils.capitalize(varAttribuer), "(");
+						auteurSqlCreate.tl(1, "pk bigserial primary key");
+						auteurSqlCreate.tl(1, ", pk1 bigint references ", c1, "(pk)");
+						auteurSqlCreate.tl(1, ", pk2 bigint references ", c2, "(pk)");
+						auteurSqlCreate.tl(1, ");");
 					}
 				}
 			}
+			s(auteurSqlCreate);
 			l();
 			s(auteurSqlDrop);
 			l("*/");
@@ -3280,7 +3286,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			l(ligneCommentaire);
 			l();
 
-//			ToutEcrivain entiteValsEcrivain = ToutEcrivain.create();
+			ToutEcrivain entiteValsEcrivain = ToutEcrivain.create();
+
 			entiteValsVar = (List<String>)doc.get("entiteValsVar_stored_strings");
 			entiteValsLangue = (List<String>)doc.get("entiteValsLangue_stored_strings");
 			entiteValsCode = (List<String>)doc.get("entiteValsCode_stored_strings");
@@ -3325,99 +3332,100 @@ public class EcrireGenClasse extends EcrireClasse {
 							if(!classeVals.getEmpty())
 								classeVals.s(", ");
 							classeVals.s(entiteVar, entiteValVar, entiteValVarNumero, "_", entiteValLangue);
-	//						{
-	//							String[] parts = splitByCharacterTypeCamelCase(entiteValVar);
-	//							Boolean html = false;
-	//							for(Integer p = 0; p < parts.length; p++) {
-	//								String part = StringUtils.uncapitalize(parts[p]);
-	//
-	//								Matcher regex = Pattern.compile("^(\\w+?)(\\d*)$").matcher(part);
-	//								boolean trouve = regex.find();
-	//								if(trouve) {
-	//									String element = StringUtils.lowerCase(regex.group(1));
-	//									String numeroStr = regex.group(2);
-	//									Integer numero = StringUtils.isEmpty(numeroStr) ? null : Integer.parseInt(numeroStr);
-	//									if("h".equals(element)) {
-	//										element += numero;
-	//										numero = null;
-	//									}
-	//
-	////									entiteValsEcrivain.t(1);
-	//									if(StringUtils.equalsAny(element, HTML_ELEMENTS)) {
-	//										html = true;
-	//
-	//										String css = entiteVar;
-	//										for(Integer r = 0; r <= xmlPart; r++) {
-	//											String s = parts[r];
-	//											css += s;
-	//										}
-	//										css += " ";
-	//
-	//										String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(StringUtils.substringBeforeLast(css, numero.toString()), "0") + (numero % 2 == 0 ? " even " : " odd "));
-	//
-	//										if(numero == null)
-	//											numero = 1;
-	//
-	//										if(entiteXmlPile.size() < (xmlPart + 1)) {
-	//											if("i".equals(element))
-	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
-	//											else if("a".equals(element))
-	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entiteVar, entiteValVar, entiteValVarNumero, ").f();");
-	//											else if("br".equals(element))
-	//												entiteValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
-	//											else if("td".equals(element))
-	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
-	//											else
-	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
-	//
-	//											if(!"br".equals(element)) {
-	//												entiteXmlPile.push(element);
-	//												entiteNumeroPile.push(numero);
-	//												xmlPart++;
-	//											}
-	//										}
-	//										else if(StringUtils.equals(element, entiteXmlPile.get(xmlPart)) && numero.equals(entiteNumeroPile.get(xmlPart))) {
-	//											xmlPart++;
-	//										}
-	//										else {
-	//											while(entiteXmlPile.size() > xmlPart) {
-	//												entiteValsEcrivain.tl(1 + entiteXmlPile.size(), "} g(\"", entiteXmlPile.peek(), "\");");
-	//												entiteXmlPile.pop();
-	//												entiteNumeroPile.pop();
-	//											}
-	//											if("i".equals(element))
-	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", entiteVar, entiteValVar, entiteValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
-	//											else if("a".equals(element))
-	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", entiteVar, entiteValVar, entiteValVarNumero, ").f();");
-	//											else if("br".equals(element))
-	//												entiteValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
-	//											else if("td".equals(element))
-	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
-	//											else
-	//												entiteValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
-	//
-	//											if(!"br".equals(element)) {
-	//												entiteXmlPile.push(element);
-	//												entiteNumeroPile.push(numero);
-	//												xmlPart++;
-	//											}
-	//										}
-	//									}
-	//								}
-	//							}
-	//							if(html && !"i".equals(entiteXmlPile.peek())) {
-	//								Integer p = entiteXmlPile.size();
-	//								if(StringUtils.isEmpty(entiteValCode)) {
-	//									entiteValsEcrivain.tl(2 + p, "sx(", entiteVar, entiteValVar, entiteValVarNumero, ");");
-	//								}
-	//								else {
-	//									if(classeEntiteVars.contains("utilisateurId"))
-	//										entiteValsEcrivain.tl(2 + p, "sx(utilisateurId == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
-	//									else
-	//										entiteValsEcrivain.tl(2 + p, "sx(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getUtilisateurId() == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
-	//								}
-	//							}
-	//						}
+							{
+								String[] parts = splitByCharacterTypeCamelCase(entiteValVar);
+								Boolean html = false;
+								for(Integer p = 0; p < parts.length; p++) {
+									String part = StringUtils.uncapitalize(parts[p]);
+	
+									Matcher regex = Pattern.compile("^(\\w+?)(\\d*)$").matcher(part);
+									boolean trouve = regex.find();
+									if(trouve) {
+										String element = StringUtils.lowerCase(regex.group(1));
+										String numeroStr = regex.group(2);
+										Integer numero = StringUtils.isEmpty(numeroStr) ? null : Integer.parseInt(numeroStr);
+										if("h".equals(element)) {
+											element += numero;
+											numero = null;
+										}
+	
+	//									entiteValsEcrivain.t(1);
+										if(StringUtils.equalsAny(element, HTML_ELEMENTS)) {
+											html = true;
+	
+											String css = entiteVar;
+											for(Integer r = 0; r <= xmlPart; r++) {
+												String s = parts[r];
+												css += s;
+											}
+											css += " ";
+	
+											String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(StringUtils.substringBeforeLast(css, numero.toString()), "0") + (numero % 2 == 0 ? " even " : " odd "));
+	
+											if(numero == null)
+												numero = 1;
+	
+											if(entiteXmlPile.size() < (xmlPart + 1)) {
+												if("i".equals(element))
+													entiteValsEcrivain.tl(2 + xmlPart, "<", element, " class=\"", entiteVar, entiteValVar, entiteValVarNumero, " site-menu-icon ", css, cssNumero, " \">");
+												else if("a".equals(element))
+													entiteValsEcrivain.tl(2 + xmlPart, "<", element, " class=\"", css, cssNumero, " \" href=\"", entiteVar, entiteValVar, entiteValVarNumero, "\">");
+												else if("br".equals(element))
+													entiteValsEcrivain.tl(2 + xmlPart, "<", element, "/>");
+												else if("td".equals(element))
+													entiteValsEcrivain.tl(2 + xmlPart, "<", element, " class=\"w3-mobile ", css, cssNumero, " \">");
+												else
+													entiteValsEcrivain.tl(2 + xmlPart, "<", element, " class=\"", css, cssNumero, " \">");
+	
+												if(!"br".equals(element)) {
+													entiteXmlPile.push(element);
+													entiteNumeroPile.push(numero);
+													xmlPart++;
+												}
+											}
+											else if(StringUtils.equals(element, entiteXmlPile.get(xmlPart)) && numero.equals(entiteNumeroPile.get(xmlPart))) {
+												xmlPart++;
+											}
+											else {
+												while(entiteXmlPile.size() > xmlPart) {
+													entiteValsEcrivain.tl(1 + entiteXmlPile.size(), "</", entiteXmlPile.peek(), ">");
+													entiteXmlPile.pop();
+													entiteNumeroPile.pop();
+												}
+												if("i".equals(element))
+													entiteValsEcrivain.tl(2 + xmlPart, "<", element, " class=\"", entiteVar, entiteValVar, entiteValVarNumero, " site-menu-icon ", css, cssNumero, " \">");
+												else if("a".equals(element))
+													entiteValsEcrivain.tl(2 + xmlPart, "<", element, " class=\"", css, cssNumero, " \" href=\"", entiteVar, entiteValVar, entiteValVarNumero, "\">");
+												else if("br".equals(element))
+													entiteValsEcrivain.tl(2 + xmlPart, "<", element, "/>");
+												else if("td".equals(element))
+													entiteValsEcrivain.tl(2 + xmlPart, "<", element, " class=\"w3-mobile ", css, cssNumero, " \">");
+												else
+													entiteValsEcrivain.tl(2 + xmlPart, "<", element, " class=\"", css, cssNumero, " \">");
+	
+												if(!"br".equals(element)) {
+													entiteXmlPile.push(element);
+													entiteNumeroPile.push(numero);
+													xmlPart++;
+												}
+											}
+										}
+									}
+								}
+								if(html && !"i".equals(entiteXmlPile.peek())) {
+									Integer p = entiteXmlPile.size();
+									if(StringUtils.isEmpty(entiteValCode)) {
+										entiteValsEcrivain.tl(2 + p, "{{ ", classeNomSimple, "['", entiteVar, entiteValVar, entiteValVarNumero, "_{{ lang }}'] }}");
+									}
+									else {
+										entiteValsEcrivain.tl(2 + p, "{{#if ", classeLangueConfig.getString(ConfigCles.var_utilisateurId), "}}", entiteVar, entiteValVar, entiteValVarNumero, "{{else}}", entiteValCode, "{{/if}}");
+//										if(classeEntiteVars.contains(classeLangueConfig.getString(ConfigCles.var_utilisateurId)))
+//											entiteValsEcrivain.tl(2 + p, "sx(utilisateurId == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
+//										else
+//											entiteValsEcrivain.tl(2 + p, "sx(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getUtilisateurId() == null ? ", entiteVar, entiteValVar, entiteValVarNumero, " : ", entiteValCode, ");");
+									}
+								}
+							}
 						}
 		
 						entiteValVarAncien = entiteValVar;
@@ -3444,14 +3452,15 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				l();
 
-//				for(int q = entiteXmlPile.size() - 1; q >= 0; q--) {
-//					entiteValsEcrivain.tl(2 + q, "} g(\"", entiteXmlPile.get(q), "\");");
-//					entiteXmlPile.pop();
-//				}
+				for(int q = entiteXmlPile.size() - 1; q >= 0; q--) {
+					entiteValsEcrivain.tl(2 + q, "</", entiteXmlPile.get(q), ">");
+					entiteXmlPile.pop();
+				}
 			}
 
 			if(ecrireCommentaire) {
 				t(1, "/**");
+			s(entiteValsEcrivain);
 				t(1);
 					s(langueConfig.getString(ConfigCles.str_L_entité_), entiteVar);
 				l();
@@ -6444,7 +6453,8 @@ public class EcrireGenClasse extends EcrireClasse {
 		/////////////////
 		// codePeupler //
 		/////////////////
-		if((classeEtendBase || classePartsModeleBase != null && classePartsModeleBase.nomCanonique(langueNom).equals(classeNomCanonique)) && classeIndexe) {
+//		if((classeEtendBase || classePartsModeleBase != null && classePartsModeleBase.nomCanonique(langueNom).equals(classeNomCanonique)) && classeIndexe) {
+		if(classeIndexe) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// ", langueConfig.getString(ConfigCles.var_peupler), " //");
