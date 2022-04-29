@@ -829,6 +829,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected Integer contexteRows;
 
+	protected String contexteUri;
+
 	/**
 	 * Var.enUS: contextDescription
 	 */
@@ -2168,6 +2170,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				l();
 	
 				contexteVideoId = (String)classeDoc.get("contexteVideoId" + "_" + langueNom2 + "_stored_string");
+				contexteUri = (String)classeDoc.get("contexteUri" + "_" + langueNom2 + "_stored_string");
+				contexteDescription = (String)classeDoc.get("contexteDescription" + "_" + langueNom2 + "_stored_string");
 				contexteUnNom = (String)classeDoc.get("contexteUnNom" + "_" + langueNom2 + "_stored_string");
 				contexteNomSingulier = (String)classeDoc.get("contexteNomSingulier" + "_" + langueNom2 + "_stored_string");
 				contexteNomPluriel = (String)classeDoc.get("contexteNomPluriel" + "_" + langueNom2 + "_stored_string");
@@ -2193,6 +2197,13 @@ public class EcrireGenClasse extends EcrireClasse {
 				contexteCeNom = (String)classeDoc.get("contexteCeNom" + "_" + langueNom2 + "_stored_string");
 				contexteLeNom = (String)classeDoc.get("contexteLeNom" + "_" + langueNom2 + "_stored_string");
 				contexteDeNom = (String)classeDoc.get("contexteDeNom" + "_" + langueNom2 + "_stored_string");
+
+				if(contexteUri != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Uri), "_", langueNom2, " = ", q(contexteUri), ";");
+
+				if(contexteDescription != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Description), "_", langueNom2, " = ", q(contexteDescription), ";");
+
 				if(contexteUnNom != null)
 					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNom), "_", langueNom2, " = ", q(contexteUnNom), ";");
 				

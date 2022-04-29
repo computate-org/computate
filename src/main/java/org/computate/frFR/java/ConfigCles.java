@@ -125,6 +125,7 @@ public class ConfigCles {
 	public static final String var_ConnexionSql = "var_ConnexionSql";
 	public static final String var_contexte = "var_contexte";
 	public static final String var_Contexte = "var_Contexte";
+	public static final String var_CONTEXTE = "var_CONTEXTE";
 	public static final String var_contexteIconeClassesCss = "var_contexteIconeClassesCss";
 	public static final String var_copie = "var_copie";
 	public static final String var_Copie = "var_Copie";
@@ -426,7 +427,7 @@ public class ConfigCles {
 	public static final String var_UnNomAdjectif = "var_UnNomAdjectif";
 	public static final String var_UnNom = "var_UnNom";
 	public static final String var_Un = "var_Un";
-	public static final String var_Url = "var_Url";
+	public static final String var_Uri = "var_Uri";
 	public static final String var_utilisateurCles = "var_utilisateurCles";
 	public static final String var_UtilisateurCles = "var_UtilisateurCles";
 	public static final String var_utilisateurCle = "var_utilisateurCle";

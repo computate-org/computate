@@ -514,6 +514,11 @@ public class IndexerClasse extends RegarderClasseBase {
 	private String contexteVideoId;
 
 	/**
+	 * Var.enUS: contextUri
+	 */
+	private String contexteUri;
+
+	/**
 	 * Var.enUS: contextDescription
 	 */
 	private String contexteDescription;
@@ -6458,6 +6463,10 @@ public class IndexerClasse extends RegarderClasseBase {
 				contexteVideoId = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_VideoId) + "", classeCommentaire);
 				if(contexteVideoId != null)
 					indexerStockerSolr(langueNom, classeDoc, "contexteVideoId", contexteVideoId); 
+
+				contexteUri = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_Uri) + "", classeCommentaire);
+				if(contexteUri != null)
+					indexerStockerSolr(langueNom, classeDoc, "contexteUri", contexteUri); 
 
 				contexteDescription = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_Description) + "", classeCommentaire);
 				if(contexteDescription != null)
