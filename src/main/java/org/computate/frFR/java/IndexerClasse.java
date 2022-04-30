@@ -3923,6 +3923,13 @@ public class IndexerClasse extends RegarderClasseBase {
 							System.err.println(ExceptionUtils.getStackTrace(e));
 						}
 					}
+					else if("Boolean".equals(classeMapCleType)) {
+						try {
+							indexerStockerSolr(classeDoc, classeMapCleParts[1], Boolean.parseBoolean(classeMapValeur));
+						} catch (Exception e) {
+							System.err.println(ExceptionUtils.getStackTrace(e));
+						}
+					}
 					else if("ZonedDateTime".equals(classeMapCleType) && NumberUtils.isCreatable(classeMapValeur)) {
 						try {
 							indexerStockerSolr(classeDoc, classeMapCleParts[1], Date.from(ZonedDateTime.parse(classeMapValeur, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toInstant()));
