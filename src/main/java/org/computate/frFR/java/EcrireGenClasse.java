@@ -4696,14 +4696,14 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 			}
 
-			if(entiteFacetsTrouves) {
-				for(String entiteFacet : entiteFacets) {
-					if("terms".equals(entiteFacet))
-						wFacets.tl(3, langueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"json.facet\", \"{", entiteFacet, "_", entiteVar, ":{terms:{field:", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "}}}\");");
-					else
-						wFacets.tl(3, langueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"json.facet\", \"{", entiteFacet, "_", entiteVar, ":'", entiteFacet, "(", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, ")'}\");");
-				}
-			}
+//			if(entiteFacetsTrouves) {
+//				for(String entiteFacet : entiteFacets) {
+//					if("terms".equals(entiteFacet))
+//						wFacets.tl(3, langueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"json.facet\", \"{", entiteFacet, "_", entiteVar, ":{terms:{field:", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "}}}\");");
+//					else
+//						wFacets.tl(3, langueConfig.getString(ConfigCles.var_listeRecherche), ".add(\"json.facet\", \"{", entiteFacet, "_", entiteVar, ":'", entiteFacet, "(", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, ")'}\");");
+//				}
+//			}
 
 			if(entiteAttribuer && !classesNomSimpleFacetFor.contains(entiteAttribuerNomSimple)) {
 				wIndexerFacetFor.l();
@@ -5096,6 +5096,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				wVarsQ.tl(2, "vars.add(VAR_", entiteVar, ");");
 			// varsFq //
 			else if(entiteIndexe 
+					&& entiteFacetsTrouves
 					&& !langueConfig.getString(ConfigCles.var_supprime).equals(entiteVar) 
 					&& !langueConfig.getString(ConfigCles.var_archive).equals(entiteVar) 
 					&& !langueConfig.getString(ConfigCles.var_classeNomsCanoniques).equals(entiteVar)

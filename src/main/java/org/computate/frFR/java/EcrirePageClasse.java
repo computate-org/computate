@@ -2552,7 +2552,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Filtres), classePageNomSimple, "\" -->");
 			tl(1, "<div>");
 			tl(0, "{{#each varsFq }}");
-			tl(2, "<div class=\"w3-padding \">");
+			tl(2, "<div class=\"\">");
 			t(3, "<label for=\"fq", classeNomSimple, "_{{ @key }}\">");
 			s("{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}");
 			s("<sup class=\"w3-tiny \"> ({{ ", langueConfig.getString(ConfigCles.var_classeNomSimple), " }})</sup>");
@@ -2562,7 +2562,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(4, "<div class=\"w3-cell w3-cell-top \">");
 			t(5, "<button");
 			s(" id=\"buttonFacet", classeNomSimple, "_{{ @key }}\"");
-			s(" class=\"w3-button \"");
+			s(" class=\"\"");
 			s(" onclick=\"facetFieldChange(this); \"");
 			s(" title=\"", langueConfig.getString(ConfigCles.str_voir_valeurs), " ", "\"");
 			s(" data-var=\"{{ var }}\"");
@@ -2574,7 +2574,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(5, "<input");
 			s(" id=\"fq", classeNomSimple, "_{{ @key }}\"");
 			s(" placeholder=\"{{ displayName }}\"");
-			s(" class=\"w3-input \"");
+			s(" class=\"\"");
 //			s(" onkeypress=\"fqChange(this); \"");
 
 			s(" onchange=\"fqChange(this); \"");
@@ -2589,7 +2589,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			tl(2, "</div>");
 			t(2, "<div");
-			s(" class=\"w3-padding w3-tiny \"");
+			s(" class=\"w3-tiny \"");
 			l(">");
 			t(3, "<div");
 			s(" class=\"pageSearchVal \"");
@@ -2602,7 +2602,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "</div>");
 
 			t(2, "<ol");
-			s(" class=\"pageFacetField \"");
+			s(" class=\"pageFacetField w3-small \"");
 			s(" id=\"pageFacetField", classeNomSimple, "_{{ @key }}\"");
 			l(">");
 			tl(0, "{{#each facetField.counts }}");
