@@ -4763,7 +4763,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(4, "o", classeNomSimple, ".add", entiteVarCapitalise, "((", entiteNomSimpleCompletGenerique, ")val);");
 				} else {
 					tl(4, "if(o", classeNomSimple, ".get", entiteVarCapitalise, "() == null)");
-					tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val == null ? null : (NumberUtils.isCreatable(val.toString()) ? Long.parseLong(val.toString()) : null));");
+					tl(5, "o", classeNomSimple, ".set", entiteVarCapitalise, "(val == null ? null : (NumberUtils.isCreatable(val.toString()) ? Long.parseLong(val.toString()) : -1));");
 				}
 				tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\"))");
 				tl(5, langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
