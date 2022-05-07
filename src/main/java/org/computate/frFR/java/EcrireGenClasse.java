@@ -1196,7 +1196,41 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String classeGenPageCheminHbs;
 
+	String classePageUriMethode;
+
+	String classePageLangueNom;
+
 	String classePageCheminJs;
+
+	String uncapitalizeClasseApiClasseNomSimple;
+
+	String classePageNomCanonique;
+
+	YAMLConfiguration classePageLangueConfig;
+
+	ToutEcrivain wRecherche;
+	ToutEcrivain wVarsFqJs;
+	ToutEcrivain wPOST;
+	ToutEcrivain wPUTImport;
+	ToutEcrivain wPUTFusion;
+	ToutEcrivain wPUTCopie;
+	ToutEcrivain wPATCH;
+	ToutEcrivain wSuggere;
+	ToutEcrivain wGetters;
+	ToutEcrivain wTh;
+	ToutEcrivain wTd;
+	ToutEcrivain wFoot;
+	ToutEcrivain wFormRecherche;
+	ToutEcrivain wFormPOST;
+	ToutEcrivain wFormPUTImport;
+	ToutEcrivain wFormPUTFusion;
+	ToutEcrivain wFormPUTCopie;
+	ToutEcrivain wFormPage;
+	ToutEcrivain wFormPATCH;
+	ToutEcrivain wJsInit;
+	ToutEcrivain wWebsocket;
+	ToutEcrivain wWebsocketInput;
+	ToutEcrivain wPks;
 	
 	/** 
 	 * r: wInitLoin
@@ -2255,7 +2289,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			if(classePageFichierGen != null)
 				auteurPageGenClasse = ToutEcrivain.create(classePageFichierGen);
-			if(classePageFichier != null && !classePageFichier.exists())
+			if(classePageFichier != null && (!classePageFichier.exists() || classePageFichier.length() == 0L))
 				auteurPageClasse = ToutEcrivain.create(classePageFichier);
 			if(classePageFichierCss != null) {
 				classePageFichierCss.getParentFile().mkdirs();
@@ -2265,7 +2299,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageFichierJs.getParentFile().mkdirs();
 				auteurPageJs = ToutEcrivain.create(classePageFichierJs);
 			}
-			if(classePageFichierHbs != null && !classePageFichierHbs.exists()) {
+			if(classePageFichierHbs != null && (!classePageFichierHbs.exists() || classePageFichierHbs.length() == 0L)) {
 				classePageFichierHbs.getParentFile().mkdirs();
 				auteurPageHbs = ToutEcrivain.create(classePageFichierHbs);
 			}

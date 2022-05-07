@@ -36,6 +36,7 @@ public class ConfigCles {
 	public static final String str_la_classe_ = "str_la_classe_";
 	public static final String str_l_ensemble_ = "str_l_ensemble_";
 	public static final String str_L_entité_ = "str_L_entité_";
+	public static final String str_Liste_Champs = "str_Liste_Champs";
 	public static final String str_le_projet_ = "str_le_projet_";
 	public static final String str_Modifier_des_ = "str_Modifier_des_";
 	public static final String str_nest_pas_une_entite_indexe = "str_nest_pas_une_entite_indexe";
@@ -236,6 +237,8 @@ public class ConfigCles {
 	public static final String var_Lignes = "var_Lignes";
 	public static final String var_liste = "var_liste";
 	public static final String var_Liste = "var_Liste";
+	public static final String var_listeChamps = "var_listeChamps";
+	public static final String var_ListeChamps = "var_ListeChamps";
 	public static final String var_listeRecherche = "var_listeRecherche";
 	public static final String var_ListeRecherche = "var_ListeRecherche";
 	public static final String var_longeurMax = "var_longeurMax";

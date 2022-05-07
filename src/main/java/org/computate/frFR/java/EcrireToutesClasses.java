@@ -629,7 +629,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 							classeFichierGenApiServiceImpl.getParentFile().mkdirs();
 							auteurGenApiServiceImpl = ToutEcrivain.create(classeFichierGenApiServiceImpl);
 						}
-						if(classeFichierApiServiceImpl != null && (!classeFichierApiServiceImpl.exists() || classeFichierApiServiceImpl.length() == 0)) {
+						if(classeFichierApiServiceImpl != null && (!classeFichierApiServiceImpl.exists() || classeFichierApiServiceImpl.length() == 0L)) {
 							classeFichierApiServiceImpl.getParentFile().mkdirs();
 							auteurApiServiceImpl = ToutEcrivain.create(classeFichierApiServiceImpl);
 						}
@@ -679,7 +679,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 						genCodeClasseFin(langueNom, langueConfig);
 //					}
 					if(classePage) {
-						pageCodeClasse(langueNom, langueConfig);
+						pageCodeClasseJava(langueNom, langueConfig);
+						pageCodeClasseHbs(langueNom, langueConfig);
 					}
 					if(classeApi) {
 //						ecrireApiEnsembleInfo(langueNom);
