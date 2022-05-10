@@ -33,7 +33,6 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.lang3.ArrayUtils;
@@ -43,12 +42,8 @@ import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
 import org.apache.commons.text.translate.EntityArrays;
 import org.apache.commons.text.translate.LookupTranslator;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1097,6 +1092,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	ToutEcrivain wVarIndexe;
 	ToutEcrivain wVarStocke;
+	ToutEcrivain wRechercheVar;
 	ToutEcrivain wVarRecherche;
 	ToutEcrivain wVarSuggere;
 
@@ -1328,6 +1324,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wEquals = ToutEcrivain.create();
 		wVarIndexe = ToutEcrivain.create();
 		wVarStocke = ToutEcrivain.create();
+		wRechercheVar = ToutEcrivain.create();
 		wVarRecherche = ToutEcrivain.create();
 		wVarSuggere = ToutEcrivain.create();
 		auteurSqlCreate = ToutEcrivain.create();
@@ -4704,21 +4701,31 @@ public class EcrireGenClasse extends EcrireClasse {
 					wVarStocke.tl(3, "case \"", entiteVar, "\":");
 					if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteCleUnique) {
 						wVarStocke.tl(4, "return \"", classeVarCleUnique, "\";");
+						wRechercheVar.tl(3, "case \"", classeVarCleUnique, "\":");
 					} else {
 						wVarStocke.tl(4, "return \"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe && entiteStocke ? "_indexedstored" : "_stored")), entiteSuffixeType, "\";");
+						if(!entiteDocValues) {
+							wRechercheVar.tl(3, "case \"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe && entiteStocke ? "_indexedstored" : "_stored")), entiteSuffixeType, "\":");
+							wRechercheVar.tl(4, "return \"", entiteVar, "\";");
+						}
 					}
 				}
 				if(entiteIndexe) {
 					wVarIndexe.tl(3, "case \"", entiteVar, "\":");
 					if(StringUtils.isNotEmpty(classeVarCleUnique) && entiteCleUnique) {
 						wVarIndexe.tl(4, "return \"", classeVarCleUnique, "\";");
-					} else if(entiteSuggere)
-						wVarIndexe.tl(4, "return \"", entiteVar, "_suggested", "\";");
-					else if(entiteTexte && entiteLangue != null)
+						wRechercheVar.tl(3, "case \"", classeVarCleUnique, "\":");
+					} else if(entiteSuggere) {
+						wVarIndexe.tl(4, "return \"", entiteVar, "_suggested\";");
+						wRechercheVar.tl(3, "case \"", entiteVar, "_suggested\":");
+					} else if(entiteTexte && entiteLangue != null) {
 						wVarIndexe.tl(4, "return \"", entiteVar, "_text_" + entiteLangue, "\";");
-					else {
+						wRechercheVar.tl(3, "case \"", entiteVar, "_text_" + entiteLangue, "\":");
+					} else {
 						wVarIndexe.tl(4, "return \"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\";");
+						wRechercheVar.tl(3, "case \"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\":");
 					}
+					wRechercheVar.tl(4, "return \"", entiteVar, "\";");
 				}
 				if(entiteTexte && entiteLangue != null) {
 					wVarRecherche.tl(3, "case \"", entiteVar, "\":");
@@ -4726,7 +4733,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				if(entiteSuggere) {
 					wVarSuggere.tl(3, "case \"", entiteVar, "\":");
-					wVarSuggere.tl(4, "return \"", entiteVar, "_suggested", "\";");
+					wVarSuggere.tl(4, "return \"", entiteVar, "_suggested\";");
 				}
 			}
 
@@ -6504,6 +6511,17 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(4, "return null;");
 			else
 				tl(4, "return ", classeNomSimpleSuperGenerique, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_entite), "Var);");
+			tl(2, "}");
+			tl(1, "}");
+			l();
+			tl(1, "public static String ", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(String ", langueConfig.getString(ConfigCles.var_recherche), "Var) {");
+			tl(2, "switch(", langueConfig.getString(ConfigCles.var_recherche), "Var) {");
+			s(wRechercheVar);
+			tl(3, "default:");
+			if(classeEstBase)
+				tl(4, "return null;");
+			else
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_recherche), "Var);");
 			tl(2, "}");
 			tl(1, "}");
 

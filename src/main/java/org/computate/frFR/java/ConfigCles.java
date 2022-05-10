@@ -43,6 +43,7 @@ public class ConfigCles {
 	public static final String str_Rechercher_ = "str_Rechercher_";
 	public static final String str_Remplacer_ = "str_Remplacer_";
 	public static final String str_roles_requis = "str_roles_requis";
+	public static final String str_Stats = "str_Stats";
 	public static final String str_Supprimer_ = "str_Supprimer_";
 	public static final String str_Télécharger_image = "str_Télécharger_image";
 	public static final String str_Trouver_la_classe_ = "str_Trouver_la_classe_";
@@ -402,6 +403,8 @@ public class ConfigCles {
 	public static final String var_solrUrl = "var_solrUrl";
 	public static final String var_SOLR_URL = "var_SOLR_URL";
 	public static final String var_statiqueUrlBase = "var_statiqueUrlBase";
+	public static final String var_Stats = "var_Stats";
+	public static final String var_stats = "var_stats";
 	public static final String var_stocker = "var_stocker";
 	public static final String var_Stocker = "var_Stocker";
 	public static final String var_Stocke = "var_Stocke";
