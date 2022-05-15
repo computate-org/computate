@@ -3880,8 +3880,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(3, "return o == null ? null : ZonedDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".ZONED_DATE_TIME_FORMATTER);");
 				tl(2, "if(StringUtils.endsWith(o, \"Z\"))");
 				tl(3, "return o == null ? null : Instant.parse(o).atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).truncatedTo(ChronoUnit.MILLIS);");
-				tl(2, "else");
+				tl(2, "if(StringUtils.contains(o, \"T\"))");
 				tl(3, "return o == null ? null : ZonedDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).truncatedTo(ChronoUnit.MILLIS);");
+				tl(2, "else");
+				tl(3, "return o == null ? null : LocalDate.parse(o, DateTimeFormatter.ISO_DATE).atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).truncatedTo(ChronoUnit.MILLIS);");
 				tl(1, "}");
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(Date o) {");

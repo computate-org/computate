@@ -5018,6 +5018,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneId", classeLangueNom), classeLangueNom);
 								classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZoneOffset", classeLangueNom), classeLangueNom);
 								classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDateTime", classeLangueNom), classeLangueNom);
+								classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.LocalDate", classeLangueNom), classeLangueNom);
 								classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.time.ZonedDateTime", classeLangueNom), classeLangueNom);
 								classePartsGenAjouter(ClasseParts.initClasseParts(this, ChronoUnit.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 								classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueDate, classeLangueNom), classeLangueNom);
