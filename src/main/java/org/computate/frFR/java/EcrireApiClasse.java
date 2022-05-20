@@ -3140,7 +3140,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(3, "});");
 							} else {
 								tl(3, classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
-								tl(4, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
+								tl(4, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ", false).onSuccess(c -> {");
 								tl(5, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
 								tl(6, "promise.complete(", uncapitalizeClasseNomSimple, ");");
 								tl(5, "}).onFailure(ex -> {");
@@ -3256,7 +3256,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, "promise1.fail(ex);");
 								tl(4, "});");
 							} else {
-								tl(4, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(o).onSuccess(c -> {");
+								tl(4, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(o, true).onSuccess(c -> {");
 								tl(5, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(o).onSuccess(e -> {");
 								tl(6, "promise1.complete(o);");
 								tl(5, "}).onFailure(ex -> {");
@@ -4576,11 +4576,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			// definir //
 			/////////////
 			l();
-			tl(1, "public Future<Void> ", classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", classeNomSimple, " o) {");
-			tl(2, "Promise<Void> promise = Promise.promise();");
-			tl(2, "try {");
-			tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), " = o.get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_();");
 			if(classeModele) {
+				tl(1, "public Future<Void> ", classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", classeNomSimple, " o) {");
+				tl(2, "Promise<Void> promise = Promise.promise();");
+				tl(2, "try {");
+				tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), " = o.get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_();");
 				tl(3, "SqlConnection ", classeLangueConfig.getString(ConfigCles.var_connexionSql), " = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "();");
 				tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
 				tl(3, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"SELECT * FROM ", classeNomSimple, " WHERE ", classeVarClePrimaire, "=$1\")");
@@ -4612,11 +4612,22 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, "promise.fail(ex2);");
 				tl(3, "});");
 			} else {
+				tl(1, "public Future<Void> ", classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", classeNomSimple, " o, Boolean patch) {");
+				tl(2, "Promise<Void> promise = Promise.promise();");
+				tl(2, "try {");
+				tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), " = o.get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_();");
 				tl(4, "try {");
 				tl(5, "JsonObject jsonObject = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getJsonObject();");
 				tl(5, "jsonObject.forEach(definition -> {");
-				tl(7, "String columnName = definition.getKey();");
-				tl(7, "Object columnValue = definition.getValue();");
+				tl(7, "String columnName;");
+				tl(7, "Object columnValue;");
+				tl(6, "if(patch && StringUtils.startsWith(definition.getKey(), \"set\")) {");
+				tl(7, "columnName = StringUtils.uncapitalize(StringUtils.substringAfter(definition.getKey(), \"set\"));");
+				tl(7, "columnValue = definition.getValue();");
+				tl(6, "} else {");
+				tl(7, "columnName = definition.getKey();");
+				tl(7, "columnValue = definition.getValue();");
+				tl(6, "}");
 				tl(6, "if(!\"", classeVarClePrimaire, "\".equals(columnName)) {");
 				tl(7, "try {");
 				tl(8, "o.", classeLangueConfig.getString(ConfigCles.var_definir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(columnName, columnValue);");

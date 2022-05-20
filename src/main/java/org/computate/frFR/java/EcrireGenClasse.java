@@ -4947,8 +4947,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeIndexe && BooleanUtils.isTrue(entiteDefinir) || BooleanUtils.isTrue(entiteAttribuer) && !"array".equals(entiteTypeJson)) {
 					tl(3, "case \"", entiteVar.toLowerCase(), "\":");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
-						tl(4, "if(val instanceof ", entiteNomSimpleComplet, ")");
-						tl(5, "add", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
+						tl(4, "if(val instanceof ", entiteNomSimple, "<?>)");
+						tl(5, "((", entiteNomSimpleComplet, ")val).stream().forEach(v -> add", entiteVarCapitalise, "(v));");
 						tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\"))");
 						tl(5, "", langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
 					}
