@@ -4622,7 +4622,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				}
 	
-				if(entiteNomSimple != null && entiteIndexe && !entiteSuggere && !entiteCleUnique) {
+				if(entiteNomSimple != null && entiteIndexe && !entiteSuggere && !entiteCleUnique && !entiteTexte) {
 					// indexe
 					if(entiteNomSimple.equals("Timestamp")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", DateTimeFormatter.ofPattern(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
@@ -4949,6 +4949,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 						tl(4, "if(val instanceof ", entiteNomSimple, "<?>)");
 						tl(5, "((", entiteNomSimpleComplet, ")val).stream().forEach(v -> add", entiteVarCapitalise, "(v));");
+						tl(4, "else if(val instanceof JsonArray)");
+						tl(5, "((JsonArray)val).stream().forEach(v -> add", entiteVarCapitalise, "(v.toString()));");
 						tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\"))");
 						tl(5, "", langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
 					}
@@ -5085,16 +5087,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			o = wStocker;
 			if(entiteCrypte || entiteStocke || entiteDocValues || entiteCleUnique || entiteSuggere || entiteIncremente || entiteTexte) {
 
-//				if(entiteTexte) {
-//					if("frFR".equals(langueNom) || "esES".equals(langueNom))
-//						tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")doc.get(\"", entiteVar, "_text_", langueNom, "\");");
-//					else
-//						tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")doc.get(\"", entiteVar, "_text_enUS\");");
-//					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
-//				}
 				if(entiteSuggere) {
-					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")doc.get(\"", entiteVar, "_suggested", "\");");
-					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(", entiteVar, ");");
+					tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(Optional.ofNullable(doc.get(\"", entiteVar, "_suggested\")).map(v -> v.toString()).orElse(null));");
 				}
 //				else if(entiteIncremente) {
 //					tl(2, entiteSolrNomSimple, " ", entiteVar, " = (", entiteSolrNomSimple, ")doc.get(\"", entiteVar, "_incremented", "\");");
@@ -5116,8 +5110,16 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(StringUtils.contains(entiteSolrNomCanonique, "<")) {
 						if(entitePromesse || entiteCouverture) {
 							tl(2, "o", classeNomSimple, ".set", entiteVarCapitalise, "(new ArrayList<>());");
+	 					}
+						if(entiteTexte) {
+							if("frFR".equals(langueNom) || "esES".equals(langueNom))
+								tl(2, "Optional.ofNullable((List<?>)doc.get(\"", entiteVar, "_text_", langueNom, "\")).orElse(Arrays.asList()).stream().filter(v -> v != null).forEach(v -> {");
+							else
+								tl(2, "Optional.ofNullable((List<?>)doc.get(\"", entiteVar, "_text_enUS\")).orElse(Arrays.asList()).stream().filter(v -> v != null).forEach(v -> {");
 						}
-						tl(2, "Optional.ofNullable((List<?>)doc.get(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\")).orElse(Arrays.asList()).stream().filter(v -> v != null).forEach(v -> {");
+						else {
+							tl(2, "Optional.ofNullable((List<?>)doc.get(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\")).orElse(Arrays.asList()).stream().filter(v -> v != null).forEach(v -> {");
+						}
 						tl(3, "o", classeNomSimple, ".add", entiteVarCapitalise, "(v.toString());");
 						tl(2, "});");
 					}
