@@ -1,7 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 
 	<properties>
+		<computate.version>4.1.8.10</computate.version>
 		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
 		<log4j.version>2.17.1</log4j.version>
 		<slf4j.version>1.7.35</slf4j.version>
@@ -18,7 +21,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.computate</groupId>
 	<artifactId>computate</artifactId>
-	<version>4.1.8.9</version>
+	<version>${computate.version}</version>
 	<packaging>jar</packaging>
 	<name>Computate Vert.x Code Generation Tools</name>
 	<description>Code that generates more code as you save. Internationalized. Integrated with Solr search. A new way to write code to make persistence easier. </description>
@@ -44,6 +47,20 @@
 		<developerConnection>scm:git:ssh://github.com:computate-org/computate-search.git</developerConnection>
 		<url>http://github.com/computate-org/computate/tree/master</url>
 	</scm>
+
+	<repositories>
+		<repository>
+			<id>redhat-ga</id>
+			<name>Red Hat GA</name>
+			<url>https://maven.repository.redhat.com/ga/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -90,24 +107,17 @@
 			<version>${jackson.version}.1</version>
 		</dependency>
 
-		<!-- logging -->
+		<!-- computate -->
 
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
+			<groupId>org.computate</groupId>
+			<artifactId>computate-search</artifactId>
+			<version>${computate.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>${log4j-slf4j-impl.version}</version>
-			<scope>test</scope>
+			<groupId>org.computate</groupId>
+			<artifactId>computate-vertx</artifactId>
+			<version>${computate.version}</version>
 		</dependency>
 
 		<!-- Tests -->
