@@ -4,7 +4,7 @@
 
 
 	<properties>
-		<computate.version>4.1.8.10</computate.version>
+		<computate.version>4.1.8.11</computate.version>
 		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
 		<log4j.version>2.17.1</log4j.version>
 		<slf4j.version>1.7.35</slf4j.version>
