@@ -1674,6 +1674,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				for(String classeApiMethode : classeApiMethodes) {
 					String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
 					String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
+					String classeApiTypeMediaRequete = (String)classeDoc.get("classeApiTypeMediaRequete" + classeApiMethode + "_" + langueNom + "_stored_string");
 					String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 					String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 					List<String> classeTrisVar = (List<String>)classeDoc.get("classeTrisVar_" + langueNom + "_stored_strings");
@@ -1751,12 +1752,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						else if(methodePUTImport) {
 							auteurPageJs.tl(1, "var json = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.", "PUTImport", "_", langueConfig.getString(ConfigCles.var_listeRecherche), "').val();");
 							auteurPageJs.tl(1, "if(json != null && json !== '')");
-							auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), success, error);");
+							if(StringUtils.equals("application/json", classeApiTypeMediaRequete))
+								auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), success, error);");
+							else
+								auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(json, success, error);");
 						}
 						else if(methodePUTFusion) {
 							auteurPageJs.tl(1, "var json = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.", langueConfig.getString(ConfigCles.var_PUTFusion), "_", langueConfig.getString(ConfigCles.var_listeRecherche), "').val();");
 							auteurPageJs.tl(1, "if(json != null && json !== '')");
-							auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), success, error);");
+							if(StringUtils.equals("application/json", classeApiTypeMediaRequete))
+								auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), success, error);");
+							else
+								auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(json, success, error);");
 						}
 						else if(methodePUTCopie) {
 							auteurPageJs.tl(1, "var vals = {};");

@@ -429,7 +429,7 @@ public class ConfigCles {
 	public static final String var_Traduire = "var_Traduire";
 	public static final String var_tri = "var_tri";
 	public static final String var_Tri = "var_Tri";
-	public static final String var_TypeContenu = "var_TypeContenu";
+	public static final String var_TypeMedia = "var_TypeMedia";
 	public static final String var_UnNomAdjectif = "var_UnNomAdjectif";
 	public static final String var_UnNom = "var_UnNom";
 	public static final String var_Un = "var_Un";

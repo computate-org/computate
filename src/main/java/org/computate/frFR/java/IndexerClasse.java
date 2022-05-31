@@ -3623,7 +3623,7 @@ public class IndexerClasse extends RegarderClasseBase {
 					}
 				}
 
-		String classeTypeContenu = regex("^" + classeLangueConfig.getString(ConfigCles.var_TypeContenu) + ":\\s*(.*)", classeCommentaire);
+		String classeTypeContenu = regex("^" + classeLangueConfig.getString(ConfigCles.var_TypeMedia) + ":\\s*(.*)", classeCommentaire);
 		if(StringUtils.isNotBlank(classeTypeContenu))
 			indexerStockerSolr(classeDoc, "classeTypeContenu", classeTypeContenu);
 		else 
@@ -6169,6 +6169,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 						String classePageNomSimpleMethode = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_Page) + classeApiMethode, classeCommentaire);
 						String classePageSuperNomSimpleMethode = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_PageSuper) + classeApiMethode, classeCommentaire, "Object");
+						String classeApiTypeMediaRequeteMethode = regexLangue(langueNom, "^Api" + langueConfig.getString(ConfigCles.var_TypeMedia) + langueConfig.getString(ConfigCles.var_Requete) + classeApiMethode, classeCommentaire, "application/json");
 						String classeApiTypeMedia200Methode = regexLangue(langueNom, "^ApiTypeMedia200" + classeApiMethode, classeCommentaire, classePageNomSimpleMethode == null ? "application/json" : "text/html");
 						String classeApiMotCleMethode = regexLangue(langueNom, "^ApiMotCle" + classeApiMethode, classeCommentaire);
 						if(StringUtils.contains(classeApiMethode, "POST")
@@ -6196,8 +6197,15 @@ public class IndexerClasse extends RegarderClasseBase {
 								classeApiUriMethode = classeApiUri + "/{id}";
 						}
 
-						if(this.langueNomGlobale.equals(classeLangueNom))
+						if(this.langueNomGlobale.equals(classeLangueNom)) {
 							indexerStockerSolr(langueNom, classeDoc, "classeApiTypeMedia200" + classeApiMethode, classeApiTypeMedia200Methode);
+							if(StringUtils.contains(classeApiMethode, "POST")
+									|| StringUtils.contains(classeApiMethode, "PATCH")
+									|| StringUtils.contains(classeApiMethode, "PUT")
+									) {
+								indexerStockerSolr(langueNom, classeDoc, "classeApiTypeMediaRequete" + classeApiMethode, classeApiTypeMediaRequeteMethode);
+							}
+						}
 						indexerStockerSolr(langueNom, classeDoc, "classeApiMotCle" + classeApiMethode, classeApiMotCleMethode);
 						indexerStockerSolr(langueNom, classeDoc, "classeApiUri" + classeApiMethode, classeApiUriMethode);
 
