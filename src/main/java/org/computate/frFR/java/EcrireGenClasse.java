@@ -4706,7 +4706,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						wRechercheVar.tl(3, "case \"", classeVarCleUnique, "\":");
 					} else {
 						wVarStocke.tl(4, "return \"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe && entiteStocke ? "_indexedstored" : "_stored")), entiteSuffixeType, "\";");
-						if(!entiteDocValues) {
+						if(!entiteDocValues && !entiteStocke) {
 							wRechercheVar.tl(3, "case \"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe && entiteStocke ? "_indexedstored" : "_stored")), entiteSuffixeType, "\":");
 							wRechercheVar.tl(4, "return \"", entiteVar, "\";");
 						}
