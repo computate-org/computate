@@ -224,6 +224,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		classePageCheminJs = (String)classeDoc.get("classePageCheminJs"   + "_" + langueNom + "_stored_string");
 		classePageCheminHbs = (String)classeDoc.get("classePageCheminHbs"   + "_" + langueNom + "_stored_string");
 		classeGenPageCheminHbs = (String)classeDoc.get("classeGenPageCheminHbs"   + "_" + langueNom + "_stored_string");
+		classeApiUri = (String)classeDoc.get("classeApiUri" + "_" + langueNom + "_stored_string");
 		classePageUriMethode = (String)classeDoc.get("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string");
 		classePageLangueNom = (String)classeDoc.get("classePageLangueNom"  + "_" + langueNom + "_stored_string");
 		classeModele = (Boolean)classeDoc.get("classeModele_stored_boolean");
@@ -855,6 +856,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 				}
 			}
+
+			l();
+			if(classePageSuperNomSimple != null)
+				tl(1, "@Override");
+			tl(1, "protected void _apiUri(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
+			tl(2, "c.o(", q(classeApiUri), ");");
+			tl(1, "}");
 
 			l();
 			if(classePageSuperNomSimple != null)
@@ -1567,6 +1575,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htmScript\"}}{{> htmScript", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodySidebar\"}}{{> htmBodySidebar", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Milieu), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Fin), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody\"}}{{> htmBody", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Recherche), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Recherche), classePageNomSimple, "}}{{/partial}}");
@@ -2986,18 +2995,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar //
 			/////////////
 
-			tl(4, "<div class=\"w3-dropdown-hover w3-bar-block min-width-300px \">");
-			tl(5, "<div class=\"min-width-300px w3-", contexteCouleur, " \">");
+			tl(4, "<div class=\"w3-dropdown-click w3-bar-block min-width-300px \">");
+			tl(5, "<div class=\"min-width-300px \">");
 
 			//////////////
 			// bouton q //
 			//////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Recherche), "\"");
-			s(" class=\"siteSidebarToggle w3-xlarge \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').show(); \"");
 			s(">");
-			s("<i class=\"fad fa-magnifying-glass hover-box-shadow \"></i>");
+			s("<i class=\"fad fa-magnifying-glass hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Rechercher));
 			l("</span>");
 
 			///////////////
@@ -3005,10 +3014,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Filtres), "\"");
-			s(" class=\"siteSidebarToggle w3-xlarge \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').toggle(); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').show(); \"");
 			s(">");
-			s("<i class=\"fad fa-filters hover-box-shadow \"></i>");
+			s("<i class=\"fad fa-filters hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Filtres));
 			l("</span>");
 
 			//////////////////
@@ -3016,10 +3025,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			//////////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Gamme), "\"");
-			s(" class=\"siteSidebarToggle w3-xlarge \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').toggle(); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').show(); \"");
 			s(">");
-			s("<i class=\"fad fa-calendar-range hover-box-shadow \"></i>");
+			s("<i class=\"fad fa-calendar-range hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Gamme));
 			l("</span>");
 
 			//////////////////
@@ -3027,10 +3036,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			//////////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Pivot), "\"");
-			s(" class=\"siteSidebarToggle w3-xlarge \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').toggle(); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').show(); \"");
 			s(">");
-			s("<i class=\"fad fa-table-pivot hover-box-shadow \"></i>");
+			s("<i class=\"fad fa-table-pivot hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Pivot));
 			l("</span>");
 
 			/////////////////////////
@@ -3038,10 +3047,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			/////////////////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_ListeChamps), "\"");
-			s(" class=\"siteSidebarToggle w3-xlarge \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').toggle(); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').show(); \"");
 			s(">");
-			s("<i class=\"fad fa-list-ul hover-box-shadow \"></i>");
+			s("<i class=\"fad fa-list-ul hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_ListeChamps));
 			l("</span>");
 
 			//////////////////
@@ -3049,11 +3058,22 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			//////////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Stats), "\"");
-			s(" class=\"siteSidebarToggle w3-xlarge \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').toggle(); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').show(); \"");
 			s(">");
-			s("<i class=\"fad fa-chart-candlestick hover-box-shadow \"></i>");
+			s("<i class=\"fad fa-chart-candlestick hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Stats));
 			l("</span>");
+
+			////////////////
+			// bouton API //
+			////////////////
+			t(6, "<a");
+			s(" title=\"", langueConfig.getString(ConfigCles.str_API), "\"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
+			s(" href=\"{{ apiUri }}{{ queryStr }}\"");
+			s(">");
+			s("<i class=\"fad fa-brackets-curly hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.str_API));
+			l("</a>");
 
 
 			tl(5, "</div>");
@@ -3163,24 +3183,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, "\"}}");
 			tl(0, "{{> \"htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageSuperNomSimple, "\"}}");
 			tl(0, "{{/inline}}");
+			tl(0, "{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageNomSimple, "\"}}");
+			tl(0, "{{> \"htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageSuperNomSimple, "\"}}");
+			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageNomSimple, "\"}}");
 			tl(0, "{{> \"htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageSuperNomSimple, "\"}}");
 			tl(0, "{{/inline}}");
 
 			tl(0, "{{#*inline \"htmBody", classePageNomSimple, "\"}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{/block}}");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Milieu), "\"}}{{/block}}");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Fin), "\"}}{{/block}}");
+			tl(0, "{{/inline}}");
 
 			/////////////////
 			// pageContent //
 			/////////////////
 
-			tl(2, "<div class=\"w3-bar \">");
-			tl(3, "<div class=\"w3-bar-item \">");
+			tl(0, "{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageNomSimple, "\"}}");
+			tl(2, "<div class=\"w3-bar w3-content \">");
 			tl(0, "{{#block \"htmBodySidebar\"}}{{/block}}");
-			tl(3, "</div>");
-			tl(3, "<div class=\"w3-bar-item \">");
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Menu), "\"}}{{/block}}");
-			tl(3, "</div>");
 			tl(2, "</div>");
 
 			tl(1, "<div class=\"pageContent w3-content \">");
@@ -3214,7 +3236,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaires), "\"}}{{/block}}");
 			}
 
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Fin), "\"}}{{/block}}");
 			tl(1, "</div>");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"table1", classePageNomSimple, "\"}}");

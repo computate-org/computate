@@ -3008,7 +3008,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, "if(body2.size() > 0) {");
 							tl(8, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ObjetJson), "(body2);");
 							tl(8, "patch", classeNomSimple, "Future(", (classeModele ? "o" : "o2"), ", ", classeApiMethode.equals("PUTImport"), ").onSuccess(b -> {");
-							tl(9, "LOG.info(\"Import ", classeNomSimple, " {} ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ", ", classeLangueConfig.getString(ConfigCles.var_modifie), " ", classeNomSimple, ". \", body.getValue(\"pk\"));");
+							tl(9, "LOG.info(\"Import ", classeNomSimple, " {} ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ", ", classeLangueConfig.getString(ConfigCles.var_modifie), " ", classeNomSimple, ". \", body.getValue(", classeNomSimple, ".VAR_", classeModele ? classeVarClePrimaire : classeVarCleUnique, "));");
 							tl(9, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture());");
 							tl(8, "}).onFailure(ex -> {");
 							tl(9, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
@@ -3019,7 +3019,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, "}");
 							tl(6, "} else {");
 							tl(7, "post", classeNomSimple, "Future(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeApiMethode.equals("PUTImport"), ").onSuccess(b -> {");
-							tl(8, "LOG.info(\"Import ", classeNomSimple, " {} ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ", ", classeLangueConfig.getString(ConfigCles.str_créé_nouveau), " ", classeNomSimple, ". \", body.getValue(\"pk\"));");
+							tl(8, "LOG.info(\"Import ", classeNomSimple, " {} ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ", ", classeLangueConfig.getString(ConfigCles.str_créé_nouveau), " ", classeNomSimple, ". \", body.getValue(", classeNomSimple, ".VAR_", classeModele ? classeVarClePrimaire : classeVarCleUnique, "));");
 							tl(8, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture());");
 							tl(7, "}).onFailure(ex -> {");
 							tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
@@ -3658,6 +3658,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "page.set", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 							tl(3, "page.", classeLangueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimple, classeLangueConfig.getString(ConfigCles.var_Page), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(a -> {");
 							tl(4, "JsonObject json = JsonObject.mapFrom(page);");
+							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".STATIC_BASE_URL, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".STATIC_BASE_URL));");
+							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".GITHUB_ORG, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".GITHUB_ORG));");
+							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_NAME));");
+							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_DISPLAY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_DISPLAY_NAME));");
+							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_URL, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_URL));");
+							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_NAME));");
+							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_IMAGE_URI, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_IMAGE_URI));");
 							tl(4, "templateEngine.render(json, ", classeLangueConfig.getString(ConfigCles.var_template), classeApiMethode, classeNomSimple, "()).onSuccess(buffer -> {");
 						}
 						else {

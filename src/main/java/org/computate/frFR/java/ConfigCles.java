@@ -17,6 +17,7 @@ public class ConfigCles {
 	public static final String str_a_démarré = "str_a_démarré";
 	public static final String str_a_échoué = "str_a_échoué";
 	public static final String str_a_réussi = "str_a_réussi";
+	public static final String str_API = "str_API";
 	public static final String str_chemin_absolu = "str_chemin_absolu";
 	public static final String str_créé_nouveau = "str_créé_nouveau";
 	public static final String str_Creer_ = "str_Creer_";
@@ -259,6 +260,7 @@ public class ConfigCles {
 	public static final String var_Methode = "var_Methode";
 	public static final String var_methodeNom = "var_methodeNom";
 	public static final String var_methodeNoms = "var_methodeNoms";
+	public static final String var_Milieu = "var_Milieu";
 	public static final String var_millisRecherche = "var_millisRecherche";
 	public static final String var_millisTransmission = "var_millisTransmission";
 	public static final String var_min = "var_min";
