@@ -3004,7 +3004,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Recherche), "\"");
 			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').show(); \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-magnifying-glass hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Rechercher));
 			l("</span>");
@@ -3015,7 +3015,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Filtres), "\"");
 			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').show(); \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-filters hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Filtres));
 			l("</span>");
@@ -3026,7 +3026,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Gamme), "\"");
 			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').show(); \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-calendar-range hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Gamme));
 			l("</span>");
@@ -3037,7 +3037,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Pivot), "\"");
 			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').show(); \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-table-pivot hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Pivot));
 			l("</span>");
@@ -3048,7 +3048,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_ListeChamps), "\"");
 			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').show(); \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-list-ul hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_ListeChamps));
 			l("</span>");
@@ -3059,7 +3059,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Stats), "\"");
 			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').show(); \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-chart-candlestick hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Stats));
 			l("</span>");
@@ -3077,15 +3077,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 
 			tl(5, "</div>");
-			tl(5, "<div class=\"w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \">");
+			tl(5, "<div class=\" \">");
 
 
 			///////////////
 			// sidebar q //
 			///////////////
 
-			tl(6, "<div class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "\" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " cursor-pointer \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-magnifying-glass \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Recherche), "</span>");
@@ -3099,8 +3099,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar fq //
 			////////////////
 
-			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "\" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " cursor-pointer \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').toggle(); \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-filters \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Filtres), "</span>");
@@ -3114,8 +3114,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar gamme //
 			///////////////////
 
-			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "\" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " cursor-pointer \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').toggle(); \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-calendar-range \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Gamme), "</span>");
@@ -3129,8 +3129,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar pivot //
 			///////////////////
 
-			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "\" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " cursor-pointer \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').toggle(); \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-table-pivot \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Pivot), "</span>");
@@ -3144,8 +3144,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar liste champs //
 			//////////////////////////
 
-			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "\" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').toggle(); \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-list-ul \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.str_Liste_Champs), "</span>");
@@ -3159,8 +3159,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar stats //
 			///////////////////
 
-			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "\" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').toggle(); \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-chart-candlestick \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.str_Stats), "</span>");
