@@ -1751,7 +1751,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	protected ClasseParts classePartsConfigCles(String nomEnsembleDomaine, String langueNom) throws Exception {
 		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ConfigCles), langueNom);
 		if(parts == null)
-			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.config.ComputateVertxConfigKeys", langueNom);
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.config.ComputateConfigKeys", langueNom);
 		return parts;
 	}
 

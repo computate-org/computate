@@ -3085,7 +3085,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////
 
 			tl(6, "<div class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " cursor-pointer \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-magnifying-glass \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Recherche), "</span>");
@@ -3100,7 +3100,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			////////////////
 
 			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " cursor-pointer \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').toggle(); \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-filters \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Filtres), "</span>");
@@ -3115,7 +3115,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////////
 
 			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " cursor-pointer \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').toggle(); \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, "  \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-calendar-range \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Gamme), "</span>");
@@ -3130,7 +3130,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////////
 
 			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " cursor-pointer \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').toggle(); \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-table-pivot \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Pivot), "</span>");
@@ -3145,7 +3145,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			//////////////////////////
 
 			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').toggle(); \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-list-ul \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.str_Liste_Champs), "</span>");
@@ -3160,7 +3160,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////////
 
 			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').toggle(); \">");
+			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-chart-candlestick \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.str_Stats), "</span>");
@@ -3506,7 +3506,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "var layout = {};");
 				auteurPageJs.tl(3, "if(pivot1VarFq.", langueConfig.getString(ConfigCles.var_classeNomSimple), " === 'Point') {");
 				auteurPageJs.tl(4, "layout['dragmode'] = 'zoom';");
-				auteurPageJs.tl(4, "layout['mapbox'] = { style: 'open-street-map' };");
+				auteurPageJs.tl(4, "layout['mapbox'] = { style: 'open-street-map', center: { lat: 55.61888, lon: 13.548799 }, zoom: 11 };");
 				auteurPageJs.tl(4, "layout['margin'] = { r: 0, t: 0, b: 0, l: 0 };");
 				auteurPageJs.tl(4, "var trace = {};");
 				auteurPageJs.tl(4, "trace['type'] = 'scattermapbox';");

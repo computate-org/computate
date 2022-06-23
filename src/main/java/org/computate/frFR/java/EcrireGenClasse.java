@@ -3948,8 +3948,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			// Ajouter //
 			if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, Set.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, HashSet.class.getCanonicalName())) {
-				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(", entiteNomSimpleCompletGenerique, "...objets) {");
-				tl(2, "for(", entiteNomSimpleCompletGenerique, " o : objets) {");
+				tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(", entiteNomSimpleCompletGenerique, "...objects) {");
+				tl(2, "for(", entiteNomSimpleCompletGenerique, " o : objects) {");
 				tl(3, "add", entiteVarCapitalise, "(o);");
 				tl(2, "}");
 				tl(2, "return (", classeNomSimple, ")this;");
@@ -3963,10 +3963,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter String //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, String.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
@@ -3975,10 +3975,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter Boolean //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Boolean.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
@@ -3992,10 +3992,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter Integer //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Integer.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
@@ -4011,10 +4011,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter BigDecimal //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, "Double o = objets.getDouble(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, "Double o = objects.getDouble(i);");
 					tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP));");
 					tl(2, "}");
 					tl(1, "}");
@@ -4030,10 +4030,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter Float //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Float.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
@@ -4049,10 +4049,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter Double //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Double.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
@@ -4068,10 +4068,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter Long //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, entiteNomSimpleCompletGenerique, " o = objets.get", entiteNomSimpleCompletGenerique, "(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
@@ -4087,10 +4087,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter Timestamp //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Timestamp.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, "Instant o = objets.getInstant(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, "Instant o = objects.getInstant(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
@@ -4107,10 +4107,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter Date //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, Date.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, "Instant o = objets.getInstant(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, "Instant o = objects.getInstant(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
@@ -4127,10 +4127,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter LocalDate //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, LocalDate.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, "Instant o = objets.getInstant(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, "Instant o = objects.getInstant(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
@@ -4152,10 +4152,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter ZonedDateTime //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, ZonedDateTime.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, "Instant o = objets.getInstant(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, "Instant o = objects.getInstant(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
@@ -4177,10 +4177,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				// Setter LocalDateTime //
 				if((activerVertx || activerQuarkus) && StringUtils.equals(entiteNomCanoniqueGenerique, LocalDateTime.class.getCanonicalName())) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objets) {");
+					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
-					tl(2, "for(int i = 0; i < objets.size(); i++) {");
-					tl(3, "Instant o = objets.getInstant(i);");
+					tl(2, "for(int i = 0; i < objects.size(); i++) {");
+					tl(3, "Instant o = objects.getInstant(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
