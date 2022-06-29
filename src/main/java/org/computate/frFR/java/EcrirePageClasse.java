@@ -697,12 +697,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetPivotMinCount()).orElse(0));");
 					tl(1, "}");
 					l();
-					tl(1, "protected void _DEFAULT_MAP_LOCATION(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_DEFAULT_MAP_LOCATION)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION)));");
+					tl(1, "protected void _DEFAULT_MAP_LOCATION(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+					tl(2, "String pointStr = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_DEFAULT_MAP_LOCATION)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION));");
+					tl(2, "if(pointStr != null) {");
+					tl(3, "String[] parts = pointStr.split(\",\");");
+					tl(3, "JsonObject point = new JsonObject().put(\"lat\", Double.parseDouble(parts[0])).put(\"lon\", Double.parseDouble(parts[1]));");
+					tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(point);");
+					tl(2, "}");
 					tl(1, "}");
 					l();
-					tl(1, "protected void _DEFAULT_MAP_ZOOM(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_DEFAULT_MAP_ZOOM)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_ZOOM)));");
+					tl(1, "protected void _DEFAULT_MAP_ZOOM(", classePartsCouverture.nomSimple(langueNom), "<BigDecimal> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+					tl(2, "String s = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_DEFAULT_MAP_ZOOM)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_ZOOM));");
+					tl(2, "if(s != null)");
+					tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(new BigDecimal(s));");
 					tl(1, "}");
 				}
 				l();
@@ -2144,6 +2151,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "window.varsFq = JSON.parse('{{{toJsonObjectStringInApostrophes varsFq}}}');");
 				tl(4, langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), "();");
 				tl(3, "});");
+				l("{{#if DEFAULT_MAP_LOCATION }}");
+				tl(3, "window.DEFAULT_MAP_LOCATION = { lat: {{ DEFAULT_MAP_LOCATION.lat }}, lon: {{ DEFAULT_MAP_LOCATION.lon }} };");
+				l("{{/if}}");
+				l("{{#if DEFAULT_MAP_ZOOM }}");
+				tl(3, "window.DEFAULT_MAP_ZOOM = {{ DEFAULT_MAP_ZOOM }};");
+				l("{{/if}}");
 				tl(2, "</script>");
 				tl(0, "{{/inline}}");
 			}
@@ -2655,6 +2668,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l("</div>");
 			tl(0, "{{/eq}}");
 			tl(0, "{{/each}}");
+			tl(0, "{{#if ./stats/min }}");
+			t(9, "<div>");
+			t(9, "<span> step </span>");
+			t(9, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Step\" placeholder=\"step\" value=\"1\" style=\"width: 4em; \"/>");
+			t(9, "<span> max </span>");
+			t(9, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Min\" placeholder=\"min\" value=\"{{ ./stats/min }}\" style=\"width: 4em; \"/>");
+			t(9, "<span> max </span>");
+			t(9, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Max\" placeholder=\"max\" value=\"{{ ./stats/max }}\" style=\"width: 4em; \"/>");
+			t(9, "<span> speed in seconds </span>");
+			t(9, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Speed\" placeholder=\"speed\" value=\"1\" style=\"width: 4em; \"/>");
+			t(9, "<button onclick=\"animate", langueConfig.getString(ConfigCles.var_Stats), "(); \">animate</button>");
+			t(9, "</div>");
+			tl(0, "{{/if}}");
 			tl(0, "{{/if}}");
 			tl(11, "</div>");
 
@@ -2681,7 +2707,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageNomSimple, "\" -->");
 //			s("{{> \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageSuperNomSimple, "\"}}");
-			s("<div id=\"htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageSuperNomSimple, "\" class=\"htmBody", langueConfig.getString(ConfigCles.var_Graphique), " \"></div>");
+			s("<div id=\"htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageSuperNomSimple, "\" class=\"w3-content htmBody", langueConfig.getString(ConfigCles.var_Graphique), " \"></div>");
 			l("{{/inline}}");
 
 			///////////////////
@@ -3213,8 +3239,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{#block \"htmBodySidebar\"}}{{/block}}");
 			tl(2, "</div>");
 
-			tl(1, "<div class=\"pageContent w3-content \">");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
+			tl(1, "<div class=\"pageContent w3-content \">");
 
 			// htmBodyCount0 //
 			tl(1, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int0}}");
@@ -3514,7 +3540,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "var layout = {};");
 				auteurPageJs.tl(3, "if(pivot1VarFq.", langueConfig.getString(ConfigCles.var_classeNomSimple), " === 'Point') {");
 				auteurPageJs.tl(4, "layout['dragmode'] = 'zoom';");
-				auteurPageJs.tl(4, "layout['mapbox'] = { style: 'open-street-map', center: { lat: 55.61888, lon: 13.548799 }, zoom: 11 };");
+				auteurPageJs.tl(4, "layout['uirevision'] = 'true';");
+				auteurPageJs.tl(4, "if(window['DEFAULT_MAP_LOCATION'] && window['DEFAULT_MAP_ZOOM'])");
+				auteurPageJs.tl(5, "layout['mapbox'] = { style: 'open-street-map', center: { lat: window['DEFAULT_MAP_LOCATION']['lat'], lon: window['DEFAULT_MAP_LOCATION']['lon'] }, zoom: window['DEFAULT_MAP_ZOOM'] };");
+				auteurPageJs.tl(4, "else if(window['DEFAULT_MAP_ZOOM'])");
+				auteurPageJs.tl(5, "layout['mapbox'] = { style: 'open-street-map', zoom: window['DEFAULT_MAP_ZOOM'] };");
+				auteurPageJs.tl(4, "else if(window['DEFAULT_MAP_LOCATION'])");
+				auteurPageJs.tl(5, "layout['mapbox'] = { style: 'open-street-map', center: { lat: window['DEFAULT_MAP_LOCATION']['lat'], lon: window['DEFAULT_MAP_LOCATION']['lon'] } };");
+				auteurPageJs.tl(4, "else");
+				auteurPageJs.tl(5, "layout['mapbox'] = { style: 'open-street-map' };");
 				auteurPageJs.tl(4, "layout['margin'] = { r: 0, t: 0, b: 0, l: 0 };");
 				auteurPageJs.tl(4, "var trace = {};");
 				auteurPageJs.tl(4, "trace['type'] = 'scattermapbox';");
@@ -3576,9 +3610,27 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(5, "data.push(trace);");
 				auteurPageJs.tl(4, "});");
 				auteurPageJs.tl(3, "}");
-				auteurPageJs.tl(3, "Plotly.newPlot('htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageSuperNomSimple, "', data, layout);");
+				auteurPageJs.tl(3, "Plotly.react('htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageSuperNomSimple, "', data, layout);");
 				auteurPageJs.tl(2, "}");
 				auteurPageJs.tl(1, "}");
+				auteurPageJs.tl(0, "}");
+				auteurPageJs.l();
+				auteurPageJs.tl(0, "function animate", langueConfig.getString(ConfigCles.var_Stats), "() {");
+				auteurPageJs.tl(1, "let speedRate = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Speed').val()) * 1000;");
+				auteurPageJs.tl(1, "let xStep = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Step').val());");
+				auteurPageJs.tl(1, "let xMin = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Min').val());");
+				auteurPageJs.tl(1, "let xMax = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Max').val());");
+				auteurPageJs.tl(1, "let x = xMin;");
+				auteurPageJs.l();
+				auteurPageJs.tl(1, "let animateInterval = window.setInterval(() => {");
+				auteurPageJs.tl(1, "x = x + xStep;");
+				auteurPageJs.tl(1, "if (x > xMax || x < 0) {");
+				auteurPageJs.tl(2, "clearInterval(animateInterval);");
+				auteurPageJs.tl(1, "}");
+				auteurPageJs.tl(1, "$('#fqVehicleStep_time').val(x);");
+				auteurPageJs.tl(1, "$('#fqVehicleStep_time').change();");
+				auteurPageJs.tl(1, "searchPage();");
+				auteurPageJs.tl(1, "}, speedRate);");
 				auteurPageJs.tl(0, "}");
 			}
 	
