@@ -4,18 +4,35 @@
 
 
 	<properties>
-		<computate.version>4.1.8.12</computate.version>
-		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
-		<log4j.version>2.17.1</log4j.version>
-		<slf4j.version>1.7.35</slf4j.version>
 		<solr.version>8.11.1</solr.version>
-		<jackson.version>2.13.2</jackson.version>
-		<commons-lang3.version>3.12.0</commons-lang3.version>
-		<junit.version>4.13.1</junit.version>
-		<commons-collections.version>3.2.2</commons-collections.version>
+		<computate.version>4.2.5.12</computate.version>
+
+		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+		<vertx-maven-plugin.version>1.0.18</vertx-maven-plugin.version>
+		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+		<exec-maven-plugin.version>1.5.0</exec-maven-plugin.version>
+		<vertx-base.version>4.2.5</vertx-base.version>
+		<vertx.version>${vertx-base.version}.redhat-00001</vertx.version>
+		<revision>${vertx-base.version}.12</revision>
+		<log4j.version>2.17.2</log4j.version>
+		<log4j-slf4j-impl.version>2.17.1.redhat-00002</log4j-slf4j-impl.version>
+		<slf4j.version>1.7.36.redhat-00001</slf4j.version>
+		<solr.version>8.11.1</solr.version>
+		<jackson.version>2.13.2.redhat-00001</jackson.version>
+		<jackson-databind.version>2.13.2.2-redhat-00001</jackson-databind.version>
+		<commons-lang3.version>3.12.0.redhat-00001</commons-lang3.version>
+		<commons-collections.version>4.2.0.redhat-00001</commons-collections.version>
 		<commons-configuration2.version>2.7</commons-configuration2.version>
-		<snakeyaml.version>1.30</snakeyaml.version>
-		<log4j-slf4j-impl.version>2.17.1</log4j-slf4j-impl.version>
+		<snakeyaml.version>1.30.0.redhat-00002</snakeyaml.version>
+		<postgresql.version>42.3.3.redhat-00001</postgresql.version>
+		<junit.version>4.13.1</junit.version>
+		<camel.version>3.11.5.fuse-800012-redhat-00004</camel.version>
+		<kie.version>7.59.0.Final-redhat-00010</kie.version>
+		<drools.version>7.59.0.Final-redhat-00010</drools.version>
+		<cloudevents.version>2.3.0</cloudevents.version>
+		<jfreechart.version>1.5.3</jfreechart.version>
+		<handlebars.version>4.3.0</handlebars.version>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -104,7 +121,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}.1</version>
+			<version>${jackson-databind.version}</version>
 		</dependency>
 
 		<!-- computate -->
