@@ -2672,7 +2672,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(9, "<div>");
 			t(9, "<span> step </span>");
 			t(9, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Step\" placeholder=\"step\" value=\"1\" style=\"width: 4em; \"/>");
-			t(9, "<span> max </span>");
+			t(9, "<span> min </span>");
 			t(9, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Min\" placeholder=\"min\" value=\"{{ ./stats/min }}\" style=\"width: 4em; \"/>");
 			t(9, "<span> max </span>");
 			t(9, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Max\" placeholder=\"max\" value=\"{{ ./stats/max }}\" style=\"width: 4em; \"/>");
