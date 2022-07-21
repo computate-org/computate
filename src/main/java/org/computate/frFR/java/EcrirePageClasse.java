@@ -240,6 +240,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		classeGenPageNomSimple = (String)classeDoc.get("classeGenPageNomSimple"   + "_" + langueNom + "_stored_string");
 		classePageNomCanonique = (String)classeDoc.get("classePageNomCanonique"   + "_" + langueNom + "_stored_string");
 		classeAttribuerNomSimplePages = (List<String>)classeDoc.get("classeAttribuerNomSimplePages_" + langueNom + "_stored_strings");
+		classeAttribuerNomSimples = (List<String>)classeDoc.get("classeAttribuerNomSimple_" + langueNom + "_stored_strings");
 
 		if(!classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 			classePageCheminsGen.add(classeGenPageChemin);
@@ -2146,6 +2147,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				s(wJsInit);
 				tl(4, "}");
 				tl(4, "websocket", classeApiClasseNomSimple, "(websocket", classeApiClasseNomSimple, "Inner);");
+				if(classeAttribuerNomSimples != null) {
+					for(String classeAttribuerNomSimple : classeAttribuerNomSimples) {
+						tl(4, "websocket", classeAttribuerNomSimple, "(websocket", classeAttribuerNomSimple, "Inner);");
+					}
+				}
 //					s(wWebsocket);
 //					tl(2, "tl(1, ", q("});"), ");");
 				tl(4, "window.varsFq = JSON.parse('{{{toJsonObjectStringInApostrophes varsFq}}}');");

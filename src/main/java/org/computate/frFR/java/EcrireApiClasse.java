@@ -26,6 +26,7 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.api.service.ServiceRequest;
 
@@ -4792,7 +4793,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(6, "query.put(\"softCommit\", softCommit);");
 					tl(5, "if(commitWithin != null)");
 					tl(6, "query.put(\"commitWithin\", commitWithin);");
-					tl(5, "query.put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + o.getPk()));");
+					tl(5, "query.put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + o.getPk())).put(\"var\", new JsonArray().add(\"refresh:false\"));");
 					tl(5, "params.put(\"query\", query);");
 					tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getUserPrincipal());");
 					tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");

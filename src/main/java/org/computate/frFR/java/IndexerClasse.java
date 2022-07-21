@@ -33,6 +33,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -4894,8 +4895,12 @@ public class IndexerClasse extends RegarderClasseBase {
 										indexerStockerSolr(classeLangueNom, entiteDoc, "entiteAttribuerOperationId" + classeLangueConfig.getString(ConfigCles.var_Recherche), entiteAttribuerOperationIdRecherche);
 
 									String classeAttribuerNomSimplePage = (String)docClasse.get("classePageNomSimple" + classeLangueConfig.getString(ConfigCles.var_PageRecherche) + "_" + classeLangueNom + "_stored_string");
-									if(classeAttribuerNomSimplePage != null)
-										indexerStockerListeSolr(classeLangueNom, classeDoc, "classeAttribuerNomSimplePages", classeAttribuerNomSimplePage);
+									if(classeAttribuerNomSimplePage != null) {
+										if(!Optional.ofNullable(classeDoc.getFieldValues("classeAttribuerNomSimplePages_" + classeLangueNom + "_indexed_strings")).orElse(Arrays.asList()).contains(classeAttribuerNomSimplePage))
+											indexerStockerListeSolr(classeLangueNom, classeDoc, "classeAttribuerNomSimplePages", classeAttribuerNomSimplePage);
+										if(!Optional.ofNullable(classeDoc.getFieldValues("classeAttribuerNomSimple_" + classeLangueNom + "_indexed_strings")).orElse(Arrays.asList()).contains(entiteAttribuerNomSimple))
+											indexerStockerListeSolr(classeLangueNom, classeDoc, "classeAttribuerNomSimple", entiteAttribuerNomSimple);
+									}
 
 									if(classeTraduire) {
 										for(String langueNom : classeAutresLangues) {  
@@ -4952,8 +4957,12 @@ public class IndexerClasse extends RegarderClasseBase {
 											entiteAttribuerOperationIdPATCH = (String)docClasse.get("classeApiOperationIdPATCH_" + langueNom + "_stored_string");
 
 											classeAttribuerNomSimplePage = (String)docClasse.get("classePageNomSimple" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string");
-											if(classeAttribuerNomSimplePage != null)
-												indexerStockerListeSolr(langueNom, classeDoc, "classeAttribuerNomSimplePages", classeAttribuerNomSimplePage);
+											if(classeAttribuerNomSimplePage != null) {
+												if(!Optional.ofNullable(classeDoc.getFieldValues("classeAttribuerNomSimplePages_" + classeLangueNom + "_indexed_strings")).orElse(Arrays.asList()).contains(classeAttribuerNomSimplePage))
+													indexerStockerListeSolr(langueNom, classeDoc, "classeAttribuerNomSimplePages", classeAttribuerNomSimplePage);
+												if(!Optional.ofNullable(classeDoc.getFieldValues("classeAttribuerNomSimple_" + classeLangueNom + "_indexed_strings")).orElse(Arrays.asList()).contains(classeAttribuerNomSimplePage))
+													indexerStockerListeSolr(langueNom, classeDoc, "classeAttribuerNomSimple", classeNomSimpleLangue);
+											}
 
 											if(entiteAttribuerOperationIdPATCH != null)
 												indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerOperationIdPATCH", entiteAttribuerOperationIdPATCH);
