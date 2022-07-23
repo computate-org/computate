@@ -3110,43 +3110,34 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, "promise1.fail(ex);");
 								tl(4, "});");
 								tl(4, "return promise1.future();");
-								if(classeModele) {
-									tl(3, "}).onSuccess(a -> {");
-									tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");
-									tl(3, "}).onFailure(ex -> {");
-									tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");
-									tl(4, "promise.fail(ex);");
-									tl(3, "}).compose(", uncapitalizeClasseNomSimple, " -> {");
-									tl(4, "Promise<", classeApiClasseNomSimple, "> promise2 = Promise.promise();");
-									tl(4, classeLangueConfig.getString(ConfigCles.var_recharger), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(a -> {");
-									tl(5, "try {");
-									tl(6, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_();");
-									tl(6, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), " != null) {");
-									tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumPATCH() + 1);");
-									tl(7, uncapitalizeClasseNomSimple, ".", classeLangueConfig.getString(ConfigCles.var_requeteApi), classeNomSimple, "();");
-									tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
-									tl(6, "}");
-									tl(6, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
-									tl(5, "} catch(Exception ex) {");
-									tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-									tl(6, "promise.fail(ex);");
-									tl(5, "}");
-									tl(4, "}).onFailure(ex -> {");
-									tl(5, "promise2.fail(ex);");
-									tl(4, "});");
-									tl(4, "return promise2.future();");
-									tl(3, "}).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
-									tl(4, "promise.complete(", uncapitalizeClasseNomSimple, ");");
-									tl(3, "}).onFailure(ex -> {");
-									tl(4, "promise.fail(ex);");
-								} else {
-									tl(3, "}).onSuccess(a -> {");
-									tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");
-									tl(4, "promise.complete(o);");
-									tl(3, "}).onFailure(ex -> {");
-									tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");
-									tl(4, "promise.fail(ex);");
-								}
+								tl(3, "}).onSuccess(a -> {");
+								tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");
+								tl(3, "}).onFailure(ex -> {");
+								tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");
+								tl(4, "promise.fail(ex);");
+								tl(3, "}).compose(", uncapitalizeClasseNomSimple, " -> {");
+								tl(4, "Promise<", classeApiClasseNomSimple, "> promise2 = Promise.promise();");
+								tl(4, classeLangueConfig.getString(ConfigCles.var_recharger), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(a -> {");
+								tl(5, "try {");
+								tl(6, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_();");
+								tl(6, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), " != null) {");
+								tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumPATCH() + 1);");
+								tl(7, uncapitalizeClasseNomSimple, ".", classeLangueConfig.getString(ConfigCles.var_requeteApi), classeNomSimple, "();");
+								tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
+								tl(6, "}");
+								tl(6, "promise2.complete(", uncapitalizeClasseNomSimple, ");");
+								tl(5, "} catch(Exception ex) {");
+								tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+								tl(6, "promise.fail(ex);");
+								tl(5, "}");
+								tl(4, "}).onFailure(ex -> {");
+								tl(5, "promise2.fail(ex);");
+								tl(4, "});");
+								tl(4, "return promise2.future();");
+								tl(3, "}).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
+								tl(4, "promise.complete(", uncapitalizeClasseNomSimple, ");");
+								tl(3, "}).onFailure(ex -> {");
+								tl(4, "promise.fail(ex);");
 								tl(3, "});");
 							} else {
 								tl(3, classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
@@ -3244,10 +3235,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						}
 						else if(classeApiMethode.contains("PATCH")) {
 							tl(3, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_();");
-							tl(3, "pgPool.withTransaction(", classeLangueConfig.getString(ConfigCles.var_connexionSql), " -> {");
-							tl(4, "Promise<", classeApiClasseNomSimple, "> promise1 = Promise.promise();");
-							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(", classeLangueConfig.getString(ConfigCles.var_connexionSql), ");");
 							if(classeModele) {
+								tl(3, "Promise<", classeApiClasseNomSimple, "> promise1 = Promise.promise();");
+								tl(3, "pgPool.withTransaction(", classeLangueConfig.getString(ConfigCles.var_connexionSql), " -> {");
+								tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(", classeLangueConfig.getString(ConfigCles.var_connexionSql), ");");
 								tl(4, "sql", classeApiMethode, classeNomSimple, "(o, inheritPk).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
 								tl(5, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
 								tl(6, classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
@@ -3265,19 +3256,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(4, "}).onFailure(ex -> {");
 								tl(5, "promise1.fail(ex);");
 								tl(4, "});");
-							} else {
-								tl(4, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(o, true).onSuccess(c -> {");
-								tl(5, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(o).onSuccess(e -> {");
-								tl(6, "promise1.complete(o);");
-								tl(5, "}).onFailure(ex -> {");
-								tl(6, "promise1.fail(ex);");
-								tl(5, "});");
-								tl(4, "}).onFailure(ex -> {");
-								tl(5, "promise1.fail(ex);");
-								tl(4, "});");
-							}
-							tl(4, "return promise1.future();");
-							if(classeModele) {
+								tl(4, "return promise1.future();");
 								tl(3, "}).onSuccess(a -> {");
 								tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");
 								tl(3, "}).onFailure(ex -> {");
@@ -3295,15 +3274,18 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(4, "promise.complete(", uncapitalizeClasseNomSimple, ");");
 								tl(3, "}).onFailure(ex -> {");
 								tl(4, "promise.fail(ex);");
+								tl(3, "});");
 							} else {
-								tl(3, "}).onSuccess(a -> {");
-								tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");
-								tl(4, "promise.complete(o);");
+								tl(3, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(o, true).onSuccess(c -> {");
+								tl(4, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(o).onSuccess(e -> {");
+								tl(5, "promise.complete(o);");
+								tl(4, "}).onFailure(ex -> {");
+								tl(5, "promise.fail(ex);");
+								tl(4, "});");
 								tl(3, "}).onFailure(ex -> {");
-								tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ConnexionSql), "(null);");
 								tl(4, "promise.fail(ex);");
+								tl(3, "});");
 							}
-							tl(3, "});");
 						}
 						tl(2, "} catch(Exception ex) {");
 						tl(3, "LOG.error(String.format(\"", classeApiOperationIdMethode, "Future ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");

@@ -701,7 +701,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "protected void _DEFAULT_MAP_LOCATION(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, "String pointStr = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_DEFAULT_MAP_LOCATION)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION));");
 					tl(2, "if(pointStr != null) {");
-					tl(3, "String[] parts = pointStr.split(\",\");");
+					tl(3, "String[] parts = pointStr.replace(\"[\", \"\").replace(\"]\", \"\").replace(\"\\\"\", \"\").split(\",\");");
 					tl(3, "JsonObject point = new JsonObject().put(\"lat\", Double.parseDouble(parts[0])).put(\"lon\", Double.parseDouble(parts[1]));");
 					tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(point);");
 					tl(2, "}");
