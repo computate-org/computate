@@ -2147,13 +2147,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				s(wJsInit);
 				tl(4, "}");
 				tl(4, "websocket", classeApiClasseNomSimple, "(websocket", classeApiClasseNomSimple, "Inner);");
-				if(classeAttribuerNomSimples != null) {
-					for(String classeAttribuerNomSimple : classeAttribuerNomSimples) {
-						tl(4, "websocket", classeAttribuerNomSimple, "(websocket", classeAttribuerNomSimple, "Inner);");
-					}
-				}
-//					s(wWebsocket);
-//					tl(2, "tl(1, ", q("});"), ");");
 				tl(4, "window.varsFq = JSON.parse('{{{toJsonObjectStringInApostrophes varsFq}}}');");
 				tl(4, langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), "();");
 				tl(3, "});");
@@ -3545,6 +3538,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "var data = [];");
 				auteurPageJs.tl(3, "var layout = {};");
 				auteurPageJs.tl(3, "if(pivot1VarFq.", langueConfig.getString(ConfigCles.var_classeNomSimple), " === 'Point') {");
+				auteurPageJs.tl(4, "layout['showlegend'] = true;");
 				auteurPageJs.tl(4, "layout['dragmode'] = 'zoom';");
 				auteurPageJs.tl(4, "layout['uirevision'] = 'true';");
 				auteurPageJs.tl(4, "if(window['DEFAULT_MAP_LOCATION'] && window['DEFAULT_MAP_ZOOM'])");
@@ -3557,6 +3551,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(5, "layout['mapbox'] = { style: 'open-street-map' };");
 				auteurPageJs.tl(4, "layout['margin'] = { r: 0, t: 0, b: 0, l: 0 };");
 				auteurPageJs.tl(4, "var trace = {};");
+				auteurPageJs.tl(4, "trace['showlegend'] = true;");
 				auteurPageJs.tl(4, "trace['type'] = 'scattermapbox';");
 				auteurPageJs.tl(4, "trace['marker'] = { color: 'fuchsia', size: 6 };");
 				auteurPageJs.tl(4, "var lat = [];");
@@ -3600,6 +3595,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(5, "var pivot1 = pivot1Map[pivot1Val];");
 				auteurPageJs.tl(5, "var pivot1Counts = pivot1.ranges[rangeName].counts;");
 				auteurPageJs.tl(5, "var trace = {};");
+				auteurPageJs.tl(5, "trace['showlegend'] = true;");
 				auteurPageJs.tl(5, "trace['x'] = Object.keys(pivot1Counts).map(key => key.substring(0, 10));");
 				auteurPageJs.tl(5, "trace['y'] = Object.values(pivot1Counts);");
 				auteurPageJs.tl(5, "trace['mode'] = 'lines+markers';");
