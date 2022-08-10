@@ -3645,9 +3645,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".GITHUB_ORG, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".GITHUB_ORG));");
 							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_NAME));");
 							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_DISPLAY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_DISPLAY_NAME));");
-							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_URL, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_URL));");
-							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_NAME));");
-							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_IMAGE_URI, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".PROJECT_POWERED_BY_IMAGE_URI));");
+							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_URL, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_URL));");
+							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_NAME));");
+							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_IMAGE_URI, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_IMAGE_URI));");
 							tl(4, "templateEngine.render(json, ", classeLangueConfig.getString(ConfigCles.var_template), classeApiMethode, classeNomSimple, "()).onSuccess(buffer -> {");
 						}
 						else {
