@@ -23,6 +23,12 @@ public class ConfigCles {
 	public static final String str_Creer_ = "str_Creer_";
 	public static final String str__dans_Solr = "str__dans_Solr";
 	public static final String str_DDDashMMDashYYYY_HHColonMM = "str_DDDashMMDashYYYY_HHColonMM";
+
+	public static final String str_description_classe_Api = "str_description_classe_Api";
+	public static final String str_description_classe_Modele = "str_description_classe_Modele";
+	public static final String str_description_classe_Indexe = "str_description_classe_Indexe";
+	public static final String str_description_classe_Page = "str_description_classe_Page";
+
 	public static final String str_deuxPoints = "str_deuxPoints";
 	public static final String str_Dupliquer_ = "str_Dupliquer_";
 	public static final String str_EEE_d_MMM_yyyy = "str_EEE_d_MMM_yyyy";

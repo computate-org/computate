@@ -645,6 +645,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected Boolean entiteInitLoin;
 	
 	protected ToutEcrivain auteurGenClasse;
+	protected ToutEcrivain auteurGenClasseDebut;
+	protected ToutEcrivain auteurGenClasseFin;
 	protected ToutEcrivain auteurPageGenClasse = null;
 	protected ToutEcrivain auteurPageClasse = null;
 	protected ToutEcrivain auteurPageCss = null;
@@ -1972,7 +1974,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: context
 	 */
 	public void genCodeClasseDebut(String langueNom, YAMLConfiguration langueConfig) throws Exception {
-		o = auteurGenClasse;
+		o = auteurGenClasseDebut;
 
 		if(classeDroitAuteur != null)
 			l(classeDroitAuteur);
@@ -1984,28 +1986,8 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			l();
 		}
-		if(ecrireCommentaire) {
-			l("/**\t");
-			ecrireCommentairePart(classeCommentaire, 0); 
-			String hackathonMission = (String)classeDoc.get("hackathonMissionGen_stored_string");
-			String hackathonColumn = (String)classeDoc.get("hackathonColumnGen_stored_string");
-			String hackathonLabels = (String)classeDoc.get("hackathonLabelsGen_stored_string");
-			if(hackathonMission != null)
-				l(String.format(" * Map.hackathonMission: %s", hackathonMission));
-			if(hackathonColumn != null)
-				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
-			if(hackathonLabels != null)
-				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
-			tl(0, " * <br><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "\">", langueConfig.getString(ConfigCles.str_Trouver_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ". </a>");
-			tl(0, " * <br><br>", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ". ");
-			tl(0, " * <br><pre>curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'</pre>");
-			tl(0, " * <br>", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_l_ensemble_), classeNomEnsemble, langueConfig.getString(ConfigCles.str__dans_Solr), ". ");
-			tl(0, " * <br><pre>curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'</pre>");
-			tl(0, " * <br>", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_le_projet_), siteNom, langueConfig.getString(ConfigCles.str__dans_Solr), ". ");
-			tl(0, " * <br><pre>curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'</pre>");
-			tl(0, " * <br>");
-			l(" **/");  
-		}
+
+		o = auteurGenClasseFin;
 		s("public abstract class ", classeNomSimpleGen);
 		if(classeParametreTypeNoms != null && classeParametreTypeNoms.size() > 0) {
 			s("<");
@@ -2406,7 +2388,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classSimpleNameGen
 	 */ 
 	public void genCodeConstructeur(String langueNom, YAMLConfiguration langueConfig) throws Exception {
-		o = auteurGenClasse;
+		o = auteurGenClasseFin;
 		String constructeurCodeSource = (String)doc.get("constructeurCodeSource_" + langueNom + "_stored_string");
 		String constructeurCommentaire = (String)doc.get("constructeurCommentaire_" + langueNom + "_stored_string");
 		List<String> constructeurExceptionsNomSimpleComplet = (List<String>)doc.get("constructeurExceptionsNomSimpleComplet_stored_strings");
@@ -2510,7 +2492,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: methodValValue
 	 **/
 	public void genCodeMethode(String langueNom, YAMLConfiguration langueConfig) throws Exception {
-		o = auteurGenClasse;
+		o = auteurGenClasseFin;
 
 		String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
 
@@ -3097,7 +3079,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: define
 	 */   
 	public void genCodeEntite(String langueNom, YAMLConfiguration langueConfig) throws Exception {
-		o = auteurGenClasse;
+		o = auteurGenClasseFin;
 		entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
 		entiteVarUrl = (String)doc.get("entiteVarUrl_" + langueNom + "_stored_string");
 		entiteDescription = (String)doc.get("entiteDescription_" + langueNom + "_stored_string");
@@ -3232,7 +3214,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 			}
 	
-			o = auteurGenClasse;
+			o = auteurGenClasseFin;
 	
 			l();
 			String ligneCommentaire = "\t///" + String.join("", Collections.nCopies(entiteVar.length(), "/")) + "///";
@@ -6243,7 +6225,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wToString.flushClose();
 		wEquals.flushClose();
 
-		o = auteurGenClasse;
+		o = auteurGenClasseFin;
 
 		if(BooleanUtils.isTrue(classeInitLoin) && classePartsRequeteSite != null) {
 			s(wInitLoin.toString());
@@ -6643,53 +6625,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				System.err.println(String.format("%s %s %s %s %s. ", langueConfig.getString(ConfigCles.var_classe), langueConfig.getString(ConfigCles.var_RequeteSite), langueConfig.getString(ConfigCles.var_manquante), langueConfig.getString(ConfigCles.var_dans), cheminSrcMainJava));
 			}
 		}
-//
-//		//////////////
-//		// hashCode //
-//		//////////////
-//		l(); 
-//		tl(1, "//////////////");
-//		tl(1, "// hashCode //");
-//		tl(1, "//////////////");
-//		l();
-//		tl(1, "@Override public int hashCode() {");
-//		t(2, "return Objects.hash(");
-//		if(BooleanUtils.isTrue(classeEtendBase)) {
-//			s("super.hashCode()");
-//			if(entiteIndice > 0)
-//				s(", ");
-//		}
-//		s(wHashCode.toString());
-//		l(");");
-//		tl(1, "}");
-//
-//		////////////
-//		// equals //
-//		////////////
-//		l(); 
-//		tl(1, "////////////");
-//		tl(1, "// equals //");
-//		tl(1, "////////////");
-//		l();
-//		tl(1, "@Override public boolean equals(Object o) {");
-//		tl(2, "if(this == o)");
-//		tl(3, "return true;");
-//		tl(2, "if(!(o instanceof ", classeNomSimple, "))");
-//		tl(3, "return false;");
-//		tl(2, classeNomSimple, " that = (", classeNomSimple, ")o;");
-//		t(2, "return ");
-//		if(BooleanUtils.isTrue(classeEtendBase)) {
-//			s("super.equals(o)");
-//			if(entiteIndice > 0) {
-//				l();
-//				t(4, "&& ");
-//			}
-//		}
-//		s(wEquals.toString());
-//		if(!BooleanUtils.isTrue(classeEtendBase) && entiteIndice == 0)
-//			s("true");
-//		l(";");
-//		tl(1, "}");
 
 		//////////////
 		// toString //
@@ -6925,6 +6860,69 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		l("}"); 
+
+		o = auteurGenClasseDebut; 
+		if(ecrireCommentaire) {
+			l("/**\t");
+			ecrireCommentairePart(classeCommentaire, 0); 
+			String hackathonMission = (String)classeDoc.get("hackathonMissionGen_stored_string");
+			String hackathonColumn = (String)classeDoc.get("hackathonColumnGen_stored_string");
+			String hackathonLabels = (String)classeDoc.get("hackathonLabelsGen_stored_string");
+			if(hackathonMission != null)
+				l(String.format(" * Map.hackathonMission: %s", hackathonMission));
+			if(hackathonColumn != null)
+				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
+			if(hackathonLabels != null)
+				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
+
+			tl(0, " * <p>");
+			tl(0, " * This Java class extends a generated Java class built by the <a href=\"https://github.com/computate-org/computate\">https://github.com/computate-org/computate</a> project. ");
+			tl(0, " * Whenever this Java class is modified or touched, the watch service installed as described in the README, indexes all the information about this Java class in a local Apache Solr Search Engine. ");
+			tl(0, " * If you are running the service, you can see the indexed data about this Java Class here: ");
+			tl(0, " * </p>");
+			tl(0, " * <p><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "\">", langueConfig.getString(ConfigCles.str_Trouver_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ". </a></p>");
+			tl(0, " * <p>");
+			tl(0, " * The extended class ending with \"Gen\" did not exist at first, but was automatically created by the same watch service based on the data retrieved from the local Apache Server search engine. ");
+			tl(0, " * The extended class contains many generated fields, getters, setters, initialization code, and helper methods to help build a website and API fast, reactive, and scalable. ");
+			tl(0, " * </p>");
+
+			if(classeApi) {
+				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Api).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classeModele) {
+				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Modele).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classeIndexe) {
+				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Indexe).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classePage) {
+				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Page).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			tl(0, " * <p>");
+			tl(0, " * ", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
+			tl(0, " * curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+			tl(0, " * </p>");
+			tl(0, " * <p>");
+			tl(0, " * ", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_l_ensemble_), classeNomEnsemble, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
+			tl(0, " * curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+			tl(0, " * </p>");
+			tl(0, " * <p>");
+			tl(0, " * ", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_le_projet_), siteNom, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
+			tl(0, " * curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+			tl(0, " * </p>");
+			l(" **/");  
+		}
+
+		auteurGenClasse.s(auteurGenClasseDebut);
+		auteurGenClasse.s(auteurGenClasseFin);
 
 		System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeCheminGen); 
 		auteurGenClasse.flushClose();

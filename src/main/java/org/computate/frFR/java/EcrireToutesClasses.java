@@ -640,9 +640,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					}
 					genCodeInit();
 //					if(StringUtils.equals(classeLangueNom, langueNom)) {
+						auteurGenClasseDebut = ToutEcrivain.create();
+						auteurGenClasseFin = ToutEcrivain.create();
 						auteurGenClasse = ToutEcrivain.create(classeFichierGen);
-	
-						o = auteurGenClasse;
 	
 						genCodeInitLoin(langueNom, langueConfig);
 						genCodeRequeteSite(langueNom, langueConfig);
