@@ -2504,7 +2504,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(9, "<div");
 			s(" class=\"pageSearchVal pageSearchVal-", langueConfig.getString(ConfigCles.var_Pivot), classeNomSimple, " \"");
 			s(" id=\"pageSearchVal-", langueConfig.getString(ConfigCles.var_Pivot), classeNomSimple, "_1\"");
-			s(">facet.pivot=");
+			s(">facet.pivot={!range=r1}");
 			s("{{#each default", langueConfig.getString(ConfigCles.var_Pivot), "Vars }}");
 			s("{{#if @index }},{{/if}}{{ this }}");
 			s("{{/each}}");
@@ -3525,14 +3525,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(4, "rangeVar = rangeName.substring(0, rangeName.indexOf('_'));");
 				auteurPageJs.tl(4, "rangeVarFq = window.varsFq[rangeVar];");
 				auteurPageJs.tl(4, "rangeCounts = range.counts;");
-				auteurPageJs.tl(4, "rangeVals = Object.keys(rangeCounts).map(key => key.substring(0, 10));");
+				auteurPageJs.tl(4, "rangeVals = Object.keys(rangeCounts).map(key => key);");
 				auteurPageJs.tl(3, "}");
 				auteurPageJs.tl(3, "var pivot1Name = Object.keys(facetCounts.facetPivot.pivotMap)[0];");
 				auteurPageJs.tl(3, "var pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), " = pivot1Name;");
 				auteurPageJs.tl(3, "if(pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".includes(','))");
 				auteurPageJs.tl(4, "pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), " = pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".substring(0, pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".indexOf(','));");
 				auteurPageJs.tl(3, "var pivot1Var = pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".substring(0, pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".indexOf('_'));");
-				auteurPageJs.tl(3, "var pivot1VarFq = window.varsFq[pivot1Var];");
+				auteurPageJs.tl(3, "var pivot1VarFq = window.varsFq[pivot1Var] ? window.varsFq[pivot1Var] : 'classSimpleName';");
 				auteurPageJs.tl(3, "var pivot1Map = facetCounts.facetPivot.pivotMap[pivot1Name].pivotMap;");
 				auteurPageJs.tl(3, "var pivot1Vals = Object.keys(pivot1Map);");
 				auteurPageJs.tl(3, "var data = [];");
@@ -3596,7 +3596,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(5, "var pivot1Counts = pivot1.ranges[rangeName].counts;");
 				auteurPageJs.tl(5, "var trace = {};");
 				auteurPageJs.tl(5, "trace['showlegend'] = true;");
-				auteurPageJs.tl(5, "trace['x'] = Object.keys(pivot1Counts).map(key => key.substring(0, 10));");
+				auteurPageJs.tl(5, "trace['x'] = Object.keys(pivot1Counts).map(key => key);");
 				auteurPageJs.tl(5, "trace['y'] = Object.values(pivot1Counts);");
 				auteurPageJs.tl(5, "trace['mode'] = 'lines+markers';");
 				auteurPageJs.tl(5, "trace['name'] = pivot1Val;");
@@ -3605,7 +3605,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				auteurPageJs.tl(5, "pivot2Vals.forEach((pivot2Val) => {");
 //				auteurPageJs.tl(6, "var pivot2 = pivot2Map[pivot2Val];");
 //				auteurPageJs.tl(6, "var pivot2Counts = pivot2.ranges[rangeName].counts;");
-//				auteurPageJs.tl(6, "trace['x'] = Object.keys(pivot2Counts).map(key => key.substring(0, 10));");
+//				auteurPageJs.tl(6, "trace['x'] = Object.keys(pivot2Counts).map(key => key);");
 //				auteurPageJs.tl(6, "trace['y'] = Object.entries(pivot2Counts).map((key, count) => count);");
 //				auteurPageJs.tl(6, "trace['mode'] = 'lines';");
 //				auteurPageJs.tl(5, "});");
