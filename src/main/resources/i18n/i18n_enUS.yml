@@ -7,6 +7,21 @@ str_créé_nouveau: "created new"
 str_Creer_: "Create "
 str__dans_Solr: " in Solr"
 str_DDDashMMDashYYYY_HHColonMM: "MM/DD/YYYY HH:MM AM"
+str_description_classe_Api: |
+  <p>This class contains a comment "Api: true", which means this class will have Java Vert.x API backend code generated for these objects. 
+  </p>
+str_description_classe_Indexe: |
+  <p>This class contains a comment "Indexed: true", which means this class will be indexed in the search engine. 
+  Every protected void method that begins with "_" that is marked to be searched with a comment like "Indexed: true", "Stored: true", or "DocValues: true" will be indexed in the search engine. 
+  </p>
+str_description_classe_Modele: |
+  <p>This class contains a comment "Model: true", which means this class will be stored in the database. 
+  Every protected void method that begins with "_" that contains a "Persist: true" comment will be a persisted field in the database table. 
+  </p>
+str_description_classe_Page: |
+  <p>This class contains a comment "Page: true", which means this class will have webpage code generated for these objects. 
+  Java Vert.x backend API code, Handlebars HTML template frontend code, and JavaScript code will all generated and can be extended. 
+  </p>
 str_deuxPoints: ": "
 str_Dupliquer_: "Duplicate "
 str_EEE_d_MMM_yyyy: "EEE MMM d, yyyy"
