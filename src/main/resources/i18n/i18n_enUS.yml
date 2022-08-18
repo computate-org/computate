@@ -10,6 +10,12 @@ str_DDDashMMDashYYYY_HHColonMM: "MM/DD/YYYY HH:MM AM"
 str_description_classe_Api: |
   <p>This class contains a comment "Api: true", which means this class will have Java Vert.x API backend code generated for these objects. 
   </p>
+str_description_classe_ApiTag: |
+  <p>This class contains a comment "ApiTag: %s", which groups all of the OpenAPIs for %s objects under the tag "%s". 
+  </p>
+str_description_classe_ApiUri: |
+  <p>This class contains a comment "ApiUri: %s", which defines the base API URI for %s objects as "%s" in the OpenAPI spec. 
+  </p>
 str_description_classe_Indexe: |
   <p>This class contains a comment "Indexed: true", which means this class will be indexed in the search engine. 
   Every protected void method that begins with "_" that is marked to be searched with a comment like "Indexed: true", "Stored: true", or "DocValues: true" will be indexed in the search engine. 
@@ -21,6 +27,11 @@ str_description_classe_Modele: |
 str_description_classe_Page: |
   <p>This class contains a comment "Page: true", which means this class will have webpage code generated for these objects. 
   Java Vert.x backend API code, Handlebars HTML template frontend code, and JavaScript code will all generated and can be extended. 
+  This creates a new Java class %s. 
+  </p>
+str_description_classe_PageSuper: |
+  <p>This class contains a comment "SuperPage.enUS: %s", which identifies the Java super class of the page code by it's class simple name "%s". 
+  This means that the newly created class %s extends %s. 
   </p>
 str_deuxPoints: ": "
 str_Dupliquer_: "Duplicate "

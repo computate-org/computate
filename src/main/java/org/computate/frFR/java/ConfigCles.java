@@ -25,9 +25,12 @@ public class ConfigCles {
 	public static final String str_DDDashMMDashYYYY_HHColonMM = "str_DDDashMMDashYYYY_HHColonMM";
 
 	public static final String str_description_classe_Api = "str_description_classe_Api";
+	public static final String str_description_classe_ApiUri = "str_description_classe_ApiUri";
+	public static final String str_description_classe_ApiTag = "str_description_classe_ApiTag";
 	public static final String str_description_classe_Modele = "str_description_classe_Modele";
 	public static final String str_description_classe_Indexe = "str_description_classe_Indexe";
 	public static final String str_description_classe_Page = "str_description_classe_Page";
+	public static final String str_description_classe_PageSuper = "str_description_classe_PageSuper";
 
 	public static final String str_deuxPoints = "str_deuxPoints";
 	public static final String str_Dupliquer_ = "str_Dupliquer_";

@@ -481,6 +481,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
 					classeNomSimpleSuperGenerique = (String)doc.get("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
 					classeNomCanoniqueSuperGenerique = (String)doc.get("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string");
+					classePageNomSimple = (String)doc.get("classePageNomSimple_" + langueNom + "_stored_string");
+					classePageNomCanonique = (String)doc.get("classePageNomCanonique_" + langueNom + "_stored_string");
+					classePageSuperNomSimple = (String)doc.get("classePageSuperNomSimple_" + langueNom + "_stored_string");
+					classePageSuperNomCanonique = (String)doc.get("classePageSuperNomCanonique_" + langueNom + "_stored_string");
 					classeDroitAuteur = (String)doc.get("classeDroitAuteur_stored_string");
 					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
 					classeNomSimpleApiServiceImpl = (String)doc.get("classeNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
@@ -493,7 +497,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeVarCleUnique = (String)doc.get("classeVarCleUnique_" + langueNom + "_stored_string");
 					classeVarModifie = (String)doc.get("classeVarModifie_" + langueNom + "_stored_string");
 					classeVarCree = (String)doc.get("classeVarCree_" + langueNom + "_stored_string");
-					classeApiUri = (String)doc.get("classeApiUri_stored_string");
+					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
+					classeApiTag = (String)doc.get("classeApiTag_" + langueNom + "_stored_string");
 					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeMotsCles = (List<String>)doc.get("classeMotsCles_stored_strings");
 					if(classeMotsCles == null)

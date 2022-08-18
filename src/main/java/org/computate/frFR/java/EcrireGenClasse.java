@@ -172,11 +172,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeNomCanoniqueSuper;
 
 	/**
-	 * Var.enUS: classApiUri
-	 */
-	protected String classeApiUri;
-
-	/**
 	 * Var.enUS: classComment
 	 */
 	protected String classeCommentaire;
@@ -312,10 +307,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected Boolean classeModele;
 
-	/**
-	 * Var.enUS: classApi
-	 */
 	protected Boolean classeApi;
+	protected String classeApiUri;
+	protected String classeApiTag;
 
 	/**
 	 * Var.enUS: classPage
@@ -323,6 +317,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected Boolean classePage;
 	protected String classePageNomSimple;
 	protected String classePageSuperNomSimple;
+	protected String classePageSuperNomCanonique;
 	protected String classeApiClasseNomSimple;
 	protected String classeGenPageNomSimple;
 	protected List<String> classeAttribuerNomSimplePages;
@@ -5127,9 +5122,6 @@ public class EcrireGenClasse extends EcrireClasse {
 					&& entiteFacetsTrouves
 					&& !langueConfig.getString(ConfigCles.var_supprime).equals(entiteVar) 
 					&& !langueConfig.getString(ConfigCles.var_archive).equals(entiteVar) 
-					&& !langueConfig.getString(ConfigCles.var_classeNomsCanoniques).equals(entiteVar)
-					&& !langueConfig.getString(ConfigCles.var_classeNomCanonique).equals(entiteVar)
-					&& !langueConfig.getString(ConfigCles.var_classeNomSimple).equals(entiteVar)
 					&& !langueConfig.getString(ConfigCles.var_sessionId).equals(entiteVar)
 					&& !langueConfig.getString(ConfigCles.var_utilisateurCle).equals(entiteVar)
 					&& !langueConfig.getString(ConfigCles.var_sauvegardes).equals(entiteVar)
@@ -6886,11 +6878,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(0, " * The extended class contains many generated fields, getters, setters, initialization code, and helper methods to help build a website and API fast, reactive, and scalable. ");
 			tl(0, " * </p>");
 
-			if(classeApi) {
-				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Api).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
 			if(classeModele) {
 				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Modele).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
@@ -6902,7 +6889,32 @@ public class EcrireGenClasse extends EcrireClasse {
 				});
 			}
 			if(classePage) {
-				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Page).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_Page), classePageNomCanonique).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classePageSuperNomSimple != null) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_PageSuper), classePageSuperNomSimple, classePageSuperNomSimple, classePageNomCanonique, classePageSuperNomCanonique).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classeApi) {
+				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Api).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classeRole != null) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_ApiTag), classeApiTag, classeNomSimple, classeApiTag).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classeApiTag != null) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_ApiTag), classeApiTag, classeNomSimple, classeApiTag).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classeApiUri != null) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_ApiUri), classeApiUri, classeNomSimple, classeApiUri).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 			}
