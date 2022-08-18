@@ -6903,11 +6903,6 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(0, " * ", s);
 				});
 			}
-			if(classeRole != null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_ApiTag), classeApiTag, classeNomSimple, classeApiTag).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
 			if(classeApiTag != null) {
 				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_ApiTag), classeApiTag, classeNomSimple, classeApiTag).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
