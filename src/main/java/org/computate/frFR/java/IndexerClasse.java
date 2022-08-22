@@ -3971,7 +3971,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 
 		SolrDocument classeSuperDoc = null;   
-		if(classeEtendGen) {
+		if(classeEtendGen && StringUtils.isNotBlank(classeNomCompletSuperGenerique)) {
 			ClasseParts classePartsSuperGenerique = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, classeLangueNom);
 			classePartsGenAjouter(classePartsSuperGenerique, classeLangueNom);
 
@@ -6260,7 +6260,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								indexerStockerSolr(langueNom, classeDoc, "classePageChemin" + classeApiMethode, classePageChemin); 
 								classePageLangueNom = langueNom;
 
-//								classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePageNomCanoniqueMethode, classePageLangueNom));
+								classePartsGenApiAjouter(ClasseParts.initClasseParts(this, classePageNomCanoniqueMethode, classePageLangueNom), classePageLangueNom);
 							}
 
 							if(classePageLangueNom == null) {

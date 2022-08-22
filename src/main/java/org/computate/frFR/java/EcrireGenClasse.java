@@ -316,6 +316,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected Boolean classePage;
 	protected String classePageNomSimple;
+	protected String classePageNomSimpleMethode;
 	protected String classePageSuperNomSimple;
 	protected String classePageSuperNomCanonique;
 	protected String classeApiClasseNomSimple;
