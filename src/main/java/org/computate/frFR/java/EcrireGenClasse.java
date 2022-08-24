@@ -171,10 +171,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String classeNomCanoniqueSuper;
 
-	/**
-	 * Var.enUS: classComment
-	 */
 	protected String classeCommentaire;
+	protected String classeCommentaireLangue;
 
 	protected String classeVarClePrimaire;
 
@@ -510,6 +508,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wEquals;
 	protected ToutEcrivain auteurSqlDrop;
 	protected ToutEcrivain auteurSqlCreate;
+
+	protected ToutEcrivain wClasseTodos;
+	protected ToutEcrivain wClasseSuggere;
 
 	/**
 	 * Var.enUS: entityVar
@@ -1328,6 +1329,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		wVarSuggere = ToutEcrivain.create();
 		auteurSqlCreate = ToutEcrivain.create();
 		auteurSqlDrop = ToutEcrivain.create();
+
+		wClasseTodos = ToutEcrivain.create();
+		wClasseSuggere = ToutEcrivain.create();
 	}
 
 	/**
@@ -6857,7 +6861,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		o = auteurGenClasseDebut; 
 		if(ecrireCommentaire) {
 			l("/**\t");
-			ecrireCommentairePart(classeCommentaire, 0); 
+			ecrireCommentairePart(classeCommentaireLangue, 0); 
 			String hackathonMission = (String)classeDoc.get("hackathonMissionGen_stored_string");
 			String hackathonColumn = (String)classeDoc.get("hackathonColumnGen_stored_string");
 			String hackathonLabels = (String)classeDoc.get("hackathonLabelsGen_stored_string");
@@ -6867,6 +6871,71 @@ public class EcrireGenClasse extends EcrireClasse {
 				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
 			if(hackathonLabels != null)
 				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
+
+			// Todo
+
+			if(classeNomSimpleSuperGenerique == null) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_NomSimpleSuperGenerique_todo), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+					wClasseTodos.tl(0, " * ", s);
+				});
+			}
+			if(classeApi && !classeIndexe) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Indexe_todo), classeNomSimple).split("\n")).stream().forEach(s -> {
+					wClasseTodos.tl(0, " * ", s);
+				});
+			}
+			if(classeApi && classeApiUri == null) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ApiUri_todo), classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
+					wClasseTodos.tl(0, " * ", s);
+				});
+			}
+			if(classeApi && classeApiTag == null) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ApiTag_todo), classeLangueNom, classeNomSimple, classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
+					wClasseTodos.tl(0, " * ", s);
+				});
+			}
+
+			if(!wClasseTodos.getEmpty()) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Todo)).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+				tl(0, " * <ol>");
+				s(wClasseTodos);
+				tl(0, " * </ol>");
+			}
+
+			// Suggere
+
+			if(Optional.ofNullable(classeCommentaire).map(commentaire -> !commentaire.contains("{@inheritDoc}")).orElse(false)) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_inheritDoc_suggere), classeNomSimpleGen, classeNomSimple).split("\n")).stream().forEach(s -> {
+					wClasseSuggere.tl(0, " * ", s);
+				});
+			}
+			if(classeNomSimpleSuperGenerique != null && !classeApi) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Api_suggere), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+					wClasseSuggere.tl(0, " * ", s);
+				});
+			}
+			if(classeApi && !classeModele) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Modele_suggere), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+					wClasseSuggere.tl(0, " * ", s);
+				});
+			}
+
+			if(!wClasseSuggere.getEmpty()) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Suggere)).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+				tl(0, " * <ol>");
+				s(wClasseSuggere);
+				tl(0, " * </ol>");
+			}
+
+			// Description
+
+			Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Description), classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique).split("\n")).stream().forEach(s -> {
+				tl(0, " * ", s);
+			});
 
 			tl(0, " * <p>");
 			tl(0, " * This Java class extends a generated Java class built by the <a href=\"https://github.com/computate-org/computate\">https://github.com/computate-org/computate</a> project. ");

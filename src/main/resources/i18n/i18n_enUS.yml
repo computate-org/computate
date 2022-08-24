@@ -7,6 +7,56 @@ str_créé_nouveau: "created new"
 str_Creer_: "Create "
 str__dans_Solr: " in Solr"
 str_DDDashMMDashYYYY_HHColonMM: "MM/DD/YYYY HH:MM AM"
+
+classe:
+  Todo: |
+    <h1>TODO: </h1>
+  Description: |
+    <h1>About the %s class and it's generated class %s&lt;%s&gt;: </h1>
+  Suggere: |
+    <h1>Suggestions that can generate more code for you: </h1>
+
+  inheritDoc:
+    suggere: |
+      <li>You can add a class comment "{@inheritDoc}" if you wish to inherit the helpful inherited class comments from class %s into the class %s. 
+      </li>
+  Api:
+    suggere: |
+      <li>You can add a class comment "Api: true" if you wish to GET, POST, PATCH or PUT these %s objects in a RESTful API. 
+      </li>
+  ApiUri:
+    todo: |
+      <li>You should add a class comment "ApiUri.%s: /api/..." to specify the base URL for %s objects in the RESTful API. 
+      The OpenAPI spec and code to handle API requests to this base URL will then be automatically generated. 
+      </li>
+  ApiTag:
+    todo: |
+      <li>You should add a class comment "ApiTag.%s: ..." to specify a group name for %s objects in the OpenAPI specification. 
+      It can be as simple as "ApiTag.%s: %s". 
+      The OpenAPI spec for this tag can then be automatically generated. 
+      </li>
+  Indexe:
+    todo: |
+      <li>You should add a class comment "Indexed: true" because the GET, POST, PATCH and PUT APIs rely on a indexed data search engine to paginate, filter, sort and aggregate the data when it's queried. 
+      The code to index and retrieve the %s data in the search engine will then be automatically generated. 
+      </li>
+  Modele:
+    suggere: |
+      <li>You can add a class comment "Model: true" if you wish to persist these %s objects in a relational PostgreSQL database transactionally in the RESTful API. 
+      The code to persist and query the %s data in the database will then be automatically generated. 
+      </li>
+  NomSimpleSuperGenerique:
+    todo: |
+      <li>This class %s should <code>extend %s&lt;Object&gt;</code>, or some other inherited class besides Object. 
+      By specifying a generic class inside of %s&lt;???&gt; means that the generated <code>class %s extends ???</code>, in other words class %s extends %s which extends ???. 
+      This generated inheritance is a powerful feature that allows a lot of boiler plate code to be created for you automatically while still preserving inheritance through the power of Java Generic classes. 
+      </li>
+    description: |
+      <p>This <code>class %s extends %s&lt;%s&gt;</code>, which means it extends a newly generated %s. 
+      The generated <code>class %s extends %s</code> which means that %s extends %s which extends %s. 
+      This generated inheritance is a powerful feature that allows a lot of boiler plate code to be created for you automatically while still preserving inheritance through the power of Java Generic classes. 
+      </p>
+    
 str_description_classe_Api: |
   <p>This class contains a comment "Api: true", which means this class will have Java Vert.x API backend code generated for these objects. 
   </p>

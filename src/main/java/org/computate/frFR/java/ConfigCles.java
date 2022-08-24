@@ -14,6 +14,20 @@
 package org.computate.frFR.java;
 
 public class ConfigCles {
+
+	public static final String classe_Todo = "classe.Todo";
+	public static final String classe_NomSimpleSuperGenerique_todo = "classe.NomSimpleSuperGenerique.todo";
+	public static final String classe_NomSimpleSuperGenerique_description = "classe.NomSimpleSuperGenerique.description";
+	public static final String classe_Description = "classe.Description";
+	public static final String classe_Suggere = "classe.Suggere";
+
+	public static final String classe_inheritDoc_suggere = "classe.inheritDoc.suggere";
+	public static final String classe_Api_suggere = "classe.Api.suggere";
+	public static final String classe_Indexe_todo = "classe.Indexe.todo";
+	public static final String classe_Modele_suggere = "classe.Modele.suggere";
+	public static final String classe_ApiUri_todo = "classe.ApiUri.todo";
+	public static final String classe_ApiTag_todo = "classe.ApiTag.todo";
+
 	public static final String str_a_démarré = "str_a_démarré";
 	public static final String str_a_échoué = "str_a_échoué";
 	public static final String str_a_réussi = "str_a_réussi";

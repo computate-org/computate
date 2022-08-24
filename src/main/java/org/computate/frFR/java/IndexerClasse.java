@@ -3439,7 +3439,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		Boolean classeEstBase = indexerStockerSolr(classeDoc, "classeEstBase", !classeBaseEtendGen || StringUtils.isEmpty(classeNomCompletSuperGenerique) || StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
 		Boolean classeEtendBase = indexerStockerSolr(classeDoc, "classeEtendBase", !classeEstBase && classeBaseEtendGen && !StringUtils.equals(classeNomCompletSuperGenerique, "java.lang.Object"));
 		
-		String classeCommentaire = stockerRegexCommentaires(classeLangueNom, classeDoc, "classeCommentaire", classeQdox.getComment());
+		String classeCommentaire = stockerSolr(classeDoc, "classeCommentaire", classeQdox.getComment());
+		stockerRegexCommentaires(classeLangueNom, classeDoc, "classeCommentaire", classeCommentaire);
 		String classeNomEnsemble = StringUtils.substringBeforeLast(classeNomCanonique, ".");
 		String classeChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanonique, ".", "/"), ".java");
 		String classeCheminRepertoire = StringUtils.substringBeforeLast(classeChemin, "/");

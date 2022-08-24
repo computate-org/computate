@@ -499,7 +499,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					classeVarCree = (String)doc.get("classeVarCree_" + langueNom + "_stored_string");
 					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
 					classeApiTag = (String)doc.get("classeApiTag_" + langueNom + "_stored_string");
-					classeCommentaire = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
+					classeCommentaire = (String)doc.get("classeCommentaire_stored_string");
+					classeCommentaireLangue = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
 					classeMotsCles = (List<String>)doc.get("classeMotsCles_stored_strings");
 					if(classeMotsCles == null)
 						classeMotsCles = Arrays.asList();
