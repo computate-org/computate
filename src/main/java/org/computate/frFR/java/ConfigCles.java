@@ -22,11 +22,11 @@ public class ConfigCles {
 	public static final String classe_Suggere = "classe.Suggere";
 
 	public static final String classe_inheritDoc_suggere = "classe.inheritDoc.suggere";
-	public static final String classe_Api_suggere = "classe.Api.suggere";
-	public static final String classe_Indexe_todo = "classe.Indexe.todo";
-	public static final String classe_Modele_suggere = "classe.Modele.suggere";
-	public static final String classe_ApiUri_todo = "classe.ApiUri.todo";
-	public static final String classe_ApiTag_todo = "classe.ApiTag.todo";
+	public static final String classe_ref_Api_suggere = "classe.ref.Api.suggere";
+	public static final String classe_ref_Indexe_todo = "classe.ref.Indexe.todo";
+	public static final String classe_ref_Modele_suggere = "classe.ref.Modele.suggere";
+	public static final String classe_ref_ApiUri_todo = "classe.ref.ApiUri.todo";
+	public static final String classe_ref_ApiTag_todo = "classe.ref.ApiTag.todo";
 
 	public static final String str_a_démarré = "str_a_démarré";
 	public static final String str_a_échoué = "str_a_échoué";

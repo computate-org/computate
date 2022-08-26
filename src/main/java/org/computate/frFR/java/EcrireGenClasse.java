@@ -6880,17 +6880,17 @@ public class EcrireGenClasse extends EcrireClasse {
 				});
 			}
 			if(classeApi && !classeIndexe) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Indexe_todo), classeNomSimple).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_Indexe_todo), classeNomSimple).split("\n")).stream().forEach(s -> {
 					wClasseTodos.tl(0, " * ", s);
 				});
 			}
 			if(classeApi && classeApiUri == null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ApiUri_todo), classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_ApiUri_todo), classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
 					wClasseTodos.tl(0, " * ", s);
 				});
 			}
 			if(classeApi && classeApiTag == null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ApiTag_todo), classeLangueNom, classeNomSimple, classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_ApiTag_todo), classeLangueNom, classeNomSimple, classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
 					wClasseTodos.tl(0, " * ", s);
 				});
 			}
@@ -6912,12 +6912,12 @@ public class EcrireGenClasse extends EcrireClasse {
 				});
 			}
 			if(classeNomSimpleSuperGenerique != null && !classeApi) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Api_suggere), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_Api_suggere), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
 					wClasseSuggere.tl(0, " * ", s);
 				});
 			}
 			if(classeApi && !classeModele) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Modele_suggere), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_Modele_suggere), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
 					wClasseSuggere.tl(0, " * ", s);
 				});
 			}

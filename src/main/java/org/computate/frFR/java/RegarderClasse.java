@@ -56,7 +56,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
 		String appComputate = System.getenv("COMPUTATE_SRC");
 		Configurations configurations = new Configurations();
-		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, classeLangueNom));
+		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classeLangueNom));
 		try {
 			regarderClasse.args = args;
 			regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
@@ -199,7 +199,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 //				}
 //			}
 //			for(String langueNom : regarderClasse.toutesLangues) {
-//				YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, langueNom));
+//				YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, langueNom));
 ////				if("enUS".equals(langueNom))
 ////					regarderClasse.enUSWatchClass.writeGenClasses(regarderClasse.classeCheminAbsolu, langueNom);
 ////				if("frFR".equals(langueNom))
@@ -207,7 +207,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 //				if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
 //					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, langueNom, langueConfig);
 //			}
-			YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, classeLangueNom));
+			YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classeLangueNom));
 			regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, langueConfig);
 			return classeDoc;
 		}

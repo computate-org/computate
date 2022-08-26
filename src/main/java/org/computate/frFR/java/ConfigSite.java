@@ -67,7 +67,7 @@ public class ConfigSite {
 
 	public YAMLConfiguration langueConfigGlobale;
 	protected void _langueConfigGlobale() throws Exception {
-		langueConfigGlobale = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, langueNomGlobale));
+		langueConfigGlobale = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, langueNomGlobale));
 	}
 
 	/**

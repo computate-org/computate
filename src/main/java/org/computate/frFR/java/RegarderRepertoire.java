@@ -222,7 +222,7 @@ public class RegarderRepertoire {
 		String lang = Optional.ofNullable(System.getenv("SITE_LANG")).orElse("frFR");
 		String appComputate = System.getenv("COMPUTATE_SRC");
 		Configurations configurations = new Configurations();
-		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/i18n/i18n_%s.yml", appComputate, lang));
+		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, lang));
 		String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
 		String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
 		RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
