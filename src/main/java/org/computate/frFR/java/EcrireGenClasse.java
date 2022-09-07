@@ -661,102 +661,102 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * Var.enUS: contextAName
 	 */
-	protected String contexteUnNom;
+	protected String classeUnNom;
 
 	/**
 	 * Var.enUS: contextThis
 	 */
-	protected String contexteCe;
+	protected String classeCe;
 
 	/**
 	 * Var.enUS: contextThisName
 	 */
-	protected String contexteCeNom;
+	protected String classeCeNom;
 
 	/**
 	 * Var.enUS: contextA
 	 */
-	protected String contexteUn;
+	protected String classeUn;
 
 	/**
 	 * Var.enUS: contextTheName
 	 */
-	protected String contexteLeNom;
+	protected String classeLeNom;
 
 	/**
 	 * Var.enUS: contextNameSingular
 	 */
-	protected String contexteNomSingulier;
+	protected String classeNomSingulier;
 
 	/**
 	 * Var.enUS: contextNamePlural
 	 */
-	protected String contexteNomPluriel;
+	protected String classeNomPluriel;
 
 	/**
 	 * Var.enUS: contextActualName
 	 */
-	protected String contexteNomActuel;
+	protected String classeNomActuel;
 
 	/**
 	 * Var.enUS: contextAll
 	 */
-	protected String contexteTous;
+	protected String classeTous;
 
 	/**
 	 * Var.enUS: contextAllName
 	 */
-	protected String contexteTousNom;
+	protected String classeTousNom;
 
 	/**
 	 * Var.enUS: contextSearchAllNameBy
 	 */
-	protected String contexteRechercherTousNomPar;
+	protected String classeRechercherTousNomPar;
 
 	/**
 	 * Var.enUS: contextSearchAllName
 	 */
-	protected String contexteRechercherTousNom;
+	protected String classeRechercherTousNom;
 
 	/**
 	 * Var.enUS: contextH1
 	 */
-	protected String contexteH1;
+	protected String classeH1;
 
 	/**
 	 * Var.enUS: contextH2
 	 */
-	protected String contexteH2;
+	protected String classeH2;
 
 	/**
 	 * Var.enUS: contextH3
 	 */
-	protected String contexteH3;
+	protected String classeH3;
 
 	/**
 	 * Var.enUS: contextTitle
 	 */
-	protected String contexteTitre;
+	protected String classeTitre;
 
 	/**
 	 * Var.enUS: contextTheNames
 	 */
-	protected String contexteLesNoms;
+	protected String classeLesNoms;
 
 	/**
 	 * Var.enUS: contextNoNameFound
 	 */
-	protected String contexteAucunNomTrouve;
+	protected String classeAucunNomTrouve;
 
 	/**
 	 * Var.enUS: contextNameVar
 	 */
-	protected String contexteNomVar;
+	protected String classeNomVar;
 
 	/**
 	 * Var.enUS: contextOfName
 	 */
-	protected String contexteDeNom;
+	protected String classeDeNom;
 
 	protected String classeVarTitre;
 
@@ -777,74 +777,74 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * Var.enUS: contextAdjective
 	 */
-	protected String contexteAdjectif;
+	protected String classeAdjectif;
 
 	/**
 	 * Var.enUS: contextAdjectivePlural
 	 */
-	protected String contexteAdjectifPluriel;
+	protected String classeAdjectifPluriel;
 
 	/**
 	 * Var.enUS: contextAdjectiveVar
 	 */
-	protected String contexteAdjectifVar;
+	protected String classeAdjectifVar;
 
 	/**
 	 * Var.enUS: contextANameAdjective
 	 */
-	protected String contexteUnNomAdjectif;
+	protected String classeUnNomAdjectif;
 
 	/**
 	 * Var.enUS: contextNameAdjectiveSingular
 	 */
-	protected String contexteNomAdjectifSingulier;
+	protected String classeNomAdjectifSingulier;
 
 	/**
 	 * Var.enUS: contextNameAdjectivePlural
 	 */
-	protected String contexteNomAdjectifPluriel;
+	protected String classeNomAdjectifPluriel;
 
 	/**
 	 * Var.enUS: contextColor
 	 */
-	protected String contexteCouleur;
+	protected String classeCouleur;
 
 	/**
 	 * Var.enUS: contextIconGroup
 	 */
-	protected String contexteIconeGroupe;
+	protected String classeIconeGroupe;
 
 	/**
 	 * Var.enUS: contextIconName
 	 */
-	protected String contexteIconeNom;
+	protected String classeIconeNom;
 
 	/**
 	 * Var.enUS: contextRows
 	 */
-	protected Integer contexteRows;
+	protected Integer classeLignes;
 
-	protected String contexteUri;
+	protected String classeUri;
 
 	/**
 	 * Var.enUS: contextDescription
 	 */
-	protected String contexteDescription;
+	protected String classeDescription;
 
 	/**
 	 * Var.enUS: contextImageWidth
 	 */
-	protected Integer contexteImageLargeur;
+	protected Integer classeImageLargeur;
 
 	/**
 	 * Var.enUS: contextImageHeight
 	 */
-	protected Integer contexteImageHauteur;
+	protected Integer classeImageHauteur;
 
 	/**
 	 * Var.enUS: contextVideoId
 	 */
-	protected String contexteVideoId;
+	protected String classeVideoId;
 
 	/**
 	 * Var.enUS: classContext
@@ -1880,63 +1880,63 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * 
 	 * r: classeContexte
 	 * r.enUS: classContext
-	 * r: contexteNomAdjectifSingulier
+	 * r: classeNomAdjectifSingulier
 	 * r.enUS: contextNameAdjectiveSingular
-	 * r: contexteAdjectifPluriel
+	 * r: classeAdjectifPluriel
 	 * r.enUS: contextAdjectivePlural
-	 * r: contexteNomAdjectifPluriel
+	 * r: classeNomAdjectifPluriel
 	 * r.enUS: contextNameAdjectivePlural
-	 * r: contexteTitre
+	 * r: classeTitre
 	 * r.enUS: contextTitle
-	 * r: contexteCeNom
+	 * r: classeCeNom
 	 * r.enUS: contextThisName
-	 * r: contexteCe
+	 * r: classeCe
 	 * r.enUS: contextThis
-	 * r: contexteUnNom
+	 * r: classeUnNom
 	 * r.enUS: contextAName
-	 * r: contexteUn
+	 * r: classeUn
 	 * r.enUS: contextA
-	 * r: contexteLeNom
+	 * r: classeLeNom
 	 * r.enUS: contextTheName
-	 * r: contexteLesNoms
+	 * r: classeLesNoms
 	 * r.enUS: contextTheNames
-	 * r: contexteCree
+	 * r: classeCree
 	 * r.enUS: contextCreated
-	 * r: contexteModifie
+	 * r: classeModifie
 	 * r.enUS: contextModified
-	 * r: contexteNomSingulier
+	 * r: classeNomSingulier
 	 * r.enUS: contextNameSingular
-	 * r: contexteNomPluriel
+	 * r: classeNomPluriel
 	 * r.enUS: contextNamePlural
-	 * r: contexteNomActuel
+	 * r: classeNomActuel
 	 * r.enUS: contextActualName
-	 * r: contexteTousNom
+	 * r: classeTousNom
 	 * r.enUS: contextAllName
-	 * r: contexteRechercherTousNomPar
+	 * r: classeRechercherTousNomPar
 	 * r.enUS: contextSearchAllNameBy
-	 * r: contexteRechercherTousNom
+	 * r: classeRechercherTousNom
 	 * r.enUS: contextSearchAllName
 	 * r: LesNom
 	 * r.enUS: TheName
-	 * r: contexteTous
+	 * r: classeTous
 	 * r.enUS: contextAll
-	 * r: contexteAucunNomTrouve
+	 * r: classeAucunNomTrouve
 	 * r.enUS: contextNoNameFound
-	 * r: contexteNomVar
+	 * r: classeNomVar
 	 * r.enUS: contextNameVar
-	 * r: contexteDeNom
+	 * r: classeDeNom
 	 * r.enUS: contextOfName
-	 * r: contexteNom
+	 * r: classeNom
 	 * r.enUS: contextName
-	 * r: contexteCouleur
+	 * r: classeCouleur
 	 * r.enUS: contextColor
-	 * r: contexteIconeGroupe
+	 * r: classeIconeGroupe
 	 * r.enUS: contextIconGroup
-	 * r: contexteIconeNom
+	 * r: classeIconeNom
 	 * r.enUS: contextIconName
-	 * r: contexteRows
+	 * r: classeLignes
 	 * r.enUS: contextRows
-	 * r: contexteVideoId
+	 * r: classeVideoId
 	 * r.enUS: contextVideoId
 	 * r: UnNomAdjectif
 	 * r.enUS: ANameAdjective
@@ -1970,7 +1970,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: classPageUriMethod
 	 * r: classePageNomSimple
 	 * r.enUS: classPageSimpleName
-	 * r: contexte
+	 * r: classe
 	 * r.enUS: context
 	 */
 	public void genCodeClasseDebut(String langueNom, YAMLConfiguration langueConfig) throws Exception {
@@ -2093,118 +2093,118 @@ public class EcrireGenClasse extends EcrireClasse {
 			
 				l();
 	
-				contexteVideoId = (String)classeDoc.get("contexteVideoId" + "_" + langueNom2 + "_stored_string");
-				contexteUri = (String)classeDoc.get("contexteUri" + "_" + langueNom2 + "_stored_string");
-				contexteDescription = (String)classeDoc.get("contexteDescription" + "_" + langueNom2 + "_stored_string");
-				contexteUnNom = (String)classeDoc.get("contexteUnNom" + "_" + langueNom2 + "_stored_string");
-				contexteNomSingulier = (String)classeDoc.get("contexteNomSingulier" + "_" + langueNom2 + "_stored_string");
-				contexteNomPluriel = (String)classeDoc.get("contexteNomPluriel" + "_" + langueNom2 + "_stored_string");
-				contexteNomVar = (String)classeDoc.get("contexteNomVar" + "_" + langueNom2 + "_stored_string");
-				contexteAdjectif = (String)classeDoc.get("contexteAdjectif" + "_" + langueNom2 + "_stored_string");
-				contexteAdjectifPluriel = (String)classeDoc.get("contexteAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
-				contexteAdjectifVar = (String)classeDoc.get("contexteAdjectifVar" + "_" + langueNom2 + "_stored_string");
-				contexteNomAdjectifSingulier = (String)classeDoc.get("contexteNomAdjectifSingulier" + "_" + langueNom2 + "_stored_string");
-				contexteNomAdjectifPluriel = (String)classeDoc.get("contexteNomAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
-				contexteCe = (String)classeDoc.get("contexteCe" + "_" + langueNom2 + "_stored_string");
-				contexteUn = (String)classeDoc.get("contexteUn" + "_" + langueNom2 + "_stored_string");
-				contexteNomActuel = (String)classeDoc.get("contexteNomActuel" + "_" + langueNom2 + "_stored_string");
-				contexteTousNom = (String)classeDoc.get("contexteTousNom" + "_" + langueNom2 + "_stored_string");
-				contexteRechercherTousNomPar = (String)classeDoc.get("contexteRechercherTousNomPar" + "_" + langueNom2 + "_stored_string");
-				contexteRechercherTousNom = (String)classeDoc.get("contexteRechercherTousNom" + "_" + langueNom2 + "_stored_string");
-				contexteLesNoms = (String)classeDoc.get("contexteLesNoms" + "_" + langueNom2 + "_stored_string");
-				contexteTitre = (String)classeDoc.get("contexteTitre" + "_" + langueNom2 + "_stored_string");
-				contexteH1 = (String)classeDoc.get("contexteH1" + "_" + langueNom2 + "_stored_string");
-				contexteH2 = (String)classeDoc.get("contexteH2" + "_" + langueNom2 + "_stored_string");
-				contexteH3 = (String)classeDoc.get("contexteH3" + "_" + langueNom2 + "_stored_string");
-				contexteAucunNomTrouve = (String)classeDoc.get("contexteAucunNomTrouve" + "_" + langueNom2 + "_stored_string");
-				contexteUnNomAdjectif = (String)classeDoc.get("contexteUnNomAdjectif" + "_" + langueNom2 + "_stored_string");
-				contexteCeNom = (String)classeDoc.get("contexteCeNom" + "_" + langueNom2 + "_stored_string");
-				contexteLeNom = (String)classeDoc.get("contexteLeNom" + "_" + langueNom2 + "_stored_string");
-				contexteDeNom = (String)classeDoc.get("contexteDeNom" + "_" + langueNom2 + "_stored_string");
+				classeVideoId = (String)classeDoc.get("classeVideoId" + "_" + langueNom2 + "_stored_string");
+				classeUri = (String)classeDoc.get("classeUri" + "_" + langueNom2 + "_stored_string");
+				classeDescription = (String)classeDoc.get("classeDescription" + "_" + langueNom2 + "_stored_string");
+				classeUnNom = (String)classeDoc.get("classeUnNom" + "_" + langueNom2 + "_stored_string");
+				classeNomSingulier = (String)classeDoc.get("classeNomSingulier" + "_" + langueNom2 + "_stored_string");
+				classeNomPluriel = (String)classeDoc.get("classeNomPluriel" + "_" + langueNom2 + "_stored_string");
+				classeNomVar = (String)classeDoc.get("classeNomVar" + "_" + langueNom2 + "_stored_string");
+				classeAdjectif = (String)classeDoc.get("classeAdjectif" + "_" + langueNom2 + "_stored_string");
+				classeAdjectifPluriel = (String)classeDoc.get("classeAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
+				classeAdjectifVar = (String)classeDoc.get("classeAdjectifVar" + "_" + langueNom2 + "_stored_string");
+				classeNomAdjectifSingulier = (String)classeDoc.get("classeNomAdjectifSingulier" + "_" + langueNom2 + "_stored_string");
+				classeNomAdjectifPluriel = (String)classeDoc.get("classeNomAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
+				classeCe = (String)classeDoc.get("classeCe" + "_" + langueNom2 + "_stored_string");
+				classeUn = (String)classeDoc.get("classeUn" + "_" + langueNom2 + "_stored_string");
+				classeNomActuel = (String)classeDoc.get("classeNomActuel" + "_" + langueNom2 + "_stored_string");
+				classeTousNom = (String)classeDoc.get("classeTousNom" + "_" + langueNom2 + "_stored_string");
+				classeRechercherTousNomPar = (String)classeDoc.get("classeRechercherTousNomPar" + "_" + langueNom2 + "_stored_string");
+				classeRechercherTousNom = (String)classeDoc.get("classeRechercherTousNom" + "_" + langueNom2 + "_stored_string");
+				classeLesNoms = (String)classeDoc.get("classeLesNoms" + "_" + langueNom2 + "_stored_string");
+				classeTitre = (String)classeDoc.get("classeTitre" + "_" + langueNom2 + "_stored_string");
+				classeH1 = (String)classeDoc.get("classeH1" + "_" + langueNom2 + "_stored_string");
+				classeH2 = (String)classeDoc.get("classeH2" + "_" + langueNom2 + "_stored_string");
+				classeH3 = (String)classeDoc.get("classeH3" + "_" + langueNom2 + "_stored_string");
+				classeAucunNomTrouve = (String)classeDoc.get("classeAucunNomTrouve" + "_" + langueNom2 + "_stored_string");
+				classeUnNomAdjectif = (String)classeDoc.get("classeUnNomAdjectif" + "_" + langueNom2 + "_stored_string");
+				classeCeNom = (String)classeDoc.get("classeCeNom" + "_" + langueNom2 + "_stored_string");
+				classeLeNom = (String)classeDoc.get("classeLeNom" + "_" + langueNom2 + "_stored_string");
+				classeDeNom = (String)classeDoc.get("classeDeNom" + "_" + langueNom2 + "_stored_string");
 
-				if(contexteUri != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Uri), "_", langueNom2, " = ", q(contexteUri), ";");
+				if(classeUri != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Uri), "_", langueNom2, " = ", q(classeUri), ";");
 
-				if(contexteDescription != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Description), "_", langueNom2, " = ", q(contexteDescription), ";");
+				if(classeDescription != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Description), "_", langueNom2, " = ", q(classeDescription), ";");
 
-				if(contexteUnNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNom), "_", langueNom2, " = ", q(contexteUnNom), ";");
+				if(classeUnNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNom), "_", langueNom2, " = ", q(classeUnNom), ";");
 				
-				if(contexteCe != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Ce), "_", langueNom2, " = ", q(contexteCe), ";");
+				if(classeCe != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Ce), "_", langueNom2, " = ", q(classeCe), ";");
 				
-				if(contexteCeNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_CeNom), "_", langueNom2, " = ", q(contexteCeNom), ";");
+				if(classeCeNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_CeNom), "_", langueNom2, " = ", q(classeCeNom), ";");
 				
-				if(contexteUn != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Un), "_", langueNom2, " = ", q(contexteUn), ";");
+				if(classeUn != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Un), "_", langueNom2, " = ", q(classeUn), ";");
 				
-				if(contexteLeNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_LeNom), "_", langueNom2, " = ", q(contexteLeNom), ";");
+				if(classeLeNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_LeNom), "_", langueNom2, " = ", q(classeLeNom), ";");
 				
-				if(contexteNomSingulier != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomSingulier), "_", langueNom2, " = ", q(contexteNomSingulier), ";");
+				if(classeNomSingulier != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomSingulier), "_", langueNom2, " = ", q(classeNomSingulier), ";");
 				
-				if(contexteNomPluriel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomPluriel), "_", langueNom2, " = ", q(contexteNomPluriel), ";");
+				if(classeNomPluriel != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomPluriel), "_", langueNom2, " = ", q(classeNomPluriel), ";");
 				
-				if(contexteNomActuel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomActuel), "_", langueNom2, " = ", q(contexteNomActuel), ";");
+				if(classeNomActuel != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomActuel), "_", langueNom2, " = ", q(classeNomActuel), ";");
 				
-				if(contexteTous != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Tous), "_", langueNom2, " = ", q(contexteTous), ";");
+				if(classeTous != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Tous), "_", langueNom2, " = ", q(classeTous), ";");
 				
-				if(contexteTousNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_TousNom), "_", langueNom2, " = ", q(contexteTousNom), ";");
+				if(classeTousNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_TousNom), "_", langueNom2, " = ", q(classeTousNom), ";");
 				
-				if(contexteRechercherTousNomPar != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_RechercherTousNomPar), "_", langueNom2, " = ", q(contexteRechercherTousNomPar), ";");
+				if(classeRechercherTousNomPar != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_RechercherTousNomPar), "_", langueNom2, " = ", q(classeRechercherTousNomPar), ";");
 				
-				if(contexteRechercherTousNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_RechercherTousNom), "_", langueNom2, " = ", q(contexteRechercherTousNom), ";");
+				if(classeRechercherTousNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_RechercherTousNom), "_", langueNom2, " = ", q(classeRechercherTousNom), ";");
 				
-				if(contexteH1 != null)
-					tl(1, "public static final String ", classeNomSimple, "_H1", "_", langueNom2, " = ", q(contexteH1), ";");
+				if(classeH1 != null)
+					tl(1, "public static final String ", classeNomSimple, "_H1", "_", langueNom2, " = ", q(classeH1), ";");
 				
-				if(contexteH2 != null)
-					tl(1, "public static final String ", classeNomSimple, "_H2", "_", langueNom2, " = ", q(contexteH2), ";");
+				if(classeH2 != null)
+					tl(1, "public static final String ", classeNomSimple, "_H2", "_", langueNom2, " = ", q(classeH2), ";");
 				
-				if(contexteH3 != null)
-					tl(1, "public static final String ", classeNomSimple, "_H3", "_", langueNom2, " = ", q(contexteH3), ";");
+				if(classeH3 != null)
+					tl(1, "public static final String ", classeNomSimple, "_H3", "_", langueNom2, " = ", q(classeH3), ";");
 				
-				if(contexteTitre != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Titre), "_", langueNom2, " = ", q(contexteTitre), ";");
+				if(classeTitre != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Titre), "_", langueNom2, " = ", q(classeTitre), ";");
 				
-				if(contexteLesNoms != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_LesNoms), "_", langueNom2, " = ", q(contexteLesNoms), ";");
+				if(classeLesNoms != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_LesNoms), "_", langueNom2, " = ", q(classeLesNoms), ";");
 				
-				if(contexteAucunNomTrouve != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AucunNomTrouve), "_", langueNom2, " = ", q(contexteAucunNomTrouve), ";");
+				if(classeAucunNomTrouve != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AucunNomTrouve), "_", langueNom2, " = ", q(classeAucunNomTrouve), ";");
 				
-				if(contexteNomVar != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomVar), "_", langueNom2, " = ", q(contexteNomVar), ";");
+				if(classeNomVar != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomVar), "_", langueNom2, " = ", q(classeNomVar), ";");
 				
-				if(contexteDeNom != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_DeNom), "_", langueNom2, " = ", q(contexteDeNom), ";");
+				if(classeDeNom != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_DeNom), "_", langueNom2, " = ", q(classeDeNom), ";");
 				
-				if(contexteAdjectif != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Adjectif), "_", langueNom2, " = ", q(contexteAdjectif), ";");
+				if(classeAdjectif != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Adjectif), "_", langueNom2, " = ", q(classeAdjectif), ";");
 				
-				if(contexteAdjectifPluriel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AdjectifPluriel), "_", langueNom2, " = ", q(contexteAdjectifPluriel), ";");
+				if(classeAdjectifPluriel != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AdjectifPluriel), "_", langueNom2, " = ", q(classeAdjectifPluriel), ";");
 				
-				if(contexteAdjectifVar != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AdjectifVar), "_", langueNom2, " = ", q(contexteAdjectifVar), ";");
+				if(classeAdjectifVar != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_AdjectifVar), "_", langueNom2, " = ", q(classeAdjectifVar), ";");
 				
-				if(contexteUnNomAdjectif != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNomAdjectif), "_", langueNom2, " = ", q(contexteUnNomAdjectif), ";");
+				if(classeUnNomAdjectif != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_UnNomAdjectif), "_", langueNom2, " = ", q(classeUnNomAdjectif), ";");
 				
-				if(contexteNomAdjectifSingulier != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifSingulier), "_", langueNom2, " = ", q(contexteNomAdjectifSingulier), ";");
+				if(classeNomAdjectifSingulier != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifSingulier), "_", langueNom2, " = ", q(classeNomAdjectifSingulier), ";");
 				
-				if(contexteNomAdjectifPluriel != null)
-					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifPluriel), "_", langueNom2, " = ", q(contexteNomAdjectifPluriel), ";");
+				if(classeNomAdjectifPluriel != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifPluriel), "_", langueNom2, " = ", q(classeNomAdjectifPluriel), ";");
 
 				List<String> classeApiMethodes = Optional.ofNullable((List<String>)doc.get("classeApiMethodes_" + langueNom2 + "_stored_strings")).orElse(Arrays.asList());
 				for(String classePageMethode : classeApiMethodes) {
@@ -2220,23 +2220,23 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 			}
 
-			contexteCouleur = (String)classeDoc.get("contexteCouleur_stored_string");
-			contexteIconeGroupe = (String)classeDoc.get("contexteIconeGroupe_stored_string");
-			contexteIconeNom = (String)classeDoc.get("contexteIconeNom_stored_string");
-			contexteRows = (Integer)classeDoc.get("contexteRows_stored_int");
+			classeCouleur = (String)classeDoc.get("classeCouleur_stored_string");
+			classeIconeGroupe = (String)classeDoc.get("classeIconeGroupe_stored_string");
+			classeIconeNom = (String)classeDoc.get("classeIconeNom_stored_string");
+			classeLignes = (Integer)classeDoc.get("classeLignes_stored_int");
 			
 			l();
-			if(contexteCouleur != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Couleur), " = ", q(contexteCouleur), ";");
+			if(classeCouleur != null)
+				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Couleur), " = ", q(classeCouleur), ";");
 			
-			if(contexteIconeGroupe != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_IconeGroupe), " = ", q(contexteIconeGroupe), ";");
+			if(classeIconeGroupe != null)
+				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_IconeGroupe), " = ", q(classeIconeGroupe), ";");
 			
-			if(contexteIconeNom != null)
-				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_IconeNom), " = ", q(contexteIconeNom), ";");
+			if(classeIconeNom != null)
+				tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_IconeNom), " = ", q(classeIconeNom), ";");
 			
-			if(contexteRows != null)
-				tl(1, "public static final Integer ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Lignes), " = ", contexteRows, ";");
+			if(classeLignes != null)
+				tl(1, "public static final Integer ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Lignes), " = ", classeLignes, ";");
 		}
 
 		if(classePage) {
@@ -5258,7 +5258,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row \">");
 				tl(13, "<h5 class=\"w3-cell \">");
-				tl(14, langueConfig.getString(ConfigCles.var_relier), " ", entiteListeTypeJson == null ? entiteAttribuerContexteUnNom : entiteAttribuerContexteNomPluriel, " ", langueConfig.getString(ConfigCles.var_a), " ", contexteCeNom);
+				tl(14, langueConfig.getString(ConfigCles.var_relier), " ", entiteListeTypeJson == null ? entiteAttribuerContexteUnNom : entiteAttribuerContexteNomPluriel, " ", langueConfig.getString(ConfigCles.var_a), " ", classeCeNom);
 				tl(13, "</h5>");
 				tl(12, "</div>");
 				tl(12, "<div class=\"w3-cell-row w3-padding \">");
@@ -5348,7 +5348,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if("LocalDate".equals(entiteNomSimple)) {
 				if(entiteNomAffichage != null) {
-					tl(12, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(12, "<div class=\"w3-cell-row w3-", classeCouleur, "\">");
 					tl(13, "<label for=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
 					tl(12, "</div>");
 				}
@@ -5359,7 +5359,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
 				if(entiteNomAffichage != null) {
-					tl(12, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(12, "<div class=\"w3-cell-row w3-", classeCouleur, "\">");
 					tl(13, "<label for=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
 					tl(12, "</div>");
 				}
@@ -5370,7 +5370,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if("LocalTime".equals(entiteNomSimple)) {
 				if(entiteNomAffichage != null) {
-					tl(12, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(12, "<div class=\"w3-cell-row w3-", classeCouleur, "\">");
 					tl(13, "<label for=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
 					tl(12, "</div>");
 				}
@@ -5381,7 +5381,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else if("Boolean".equals(entiteNomSimple)) {
 				if(entiteNomAffichage != null) {
-					tl(12, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(12, "<div class=\"w3-cell-row w3-", classeCouleur, "\">");
 					tl(13, "<label for=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
 					tl(12, "</div>");
 				}
@@ -5392,7 +5392,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			else {
 				if(entiteNomAffichage != null) {
-					tl(12, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(12, "<div class=\"w3-cell-row w3-", classeCouleur, "\">");
 					tl(13, "<label for=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
 					tl(12, "</div>");
 				}
@@ -5426,7 +5426,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(15, "<div class=\"w3-cell w3-left-align w3-cell-top \">");
 					tl(16, "<button");
 					tl(18, "tabindex=\"-1\"");
-					tl(18, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " \"");
+					tl(18, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", classeCouleur, " \"");
 					tl(18, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); $('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "').val(null); patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: 'pk:' + $('#", classeNomSimple, "Form :input[name=", classeModele ? classeVarClePrimaire : classeVarCleUnique, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); \"");
 					tl(18, ">");
 					tl(17, "<i class=\"far fa-eraser \"></i>");
@@ -5467,7 +5467,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(11, "<div class=\"w3-card \">");
 
 				if(entiteNomAffichage != null) {
-					tl(12, "<div class=\"w3-cell-row w3-", contexteCouleur, "\">");
+					tl(12, "<div class=\"w3-cell-row w3-", classeCouleur, "\">");
 					tl(13, "<label>", entiteNomAffichage, "</label>");
 					tl(12, "</div>");
 				}
@@ -6921,6 +6921,11 @@ public class EcrireGenClasse extends EcrireClasse {
 					wClasseSuggere.tl(0, " * ", s);
 				});
 			}
+			if(classeApi && classeLignes == null) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_Lignes_suggere), classeNomSimple).split("\n")).stream().forEach(s -> {
+					wClasseSuggere.tl(0, " * ", s);
+				});
+			}
 
 			if(!wClasseSuggere.getEmpty()) {
 				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Suggere)).split("\n")).stream().forEach(s -> {
@@ -6983,6 +6988,12 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(0, " * ", s);
 				});
 			}
+			if(classeLignes != null) {
+				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_Lignes_description), classeLignes, classeNomSimple, classeLignes).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+
 			tl(0, " * <p>");
 			tl(0, " * ", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
 			tl(0, " * curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");

@@ -245,33 +245,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		if(!classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 			classePageCheminsGen.add(classeGenPageChemin);
 
-			contexteImageLargeur = (Integer)classeDoc.get("contexteImageLargeur" + "_" + langueNom + "_stored_int");
-			contexteImageHauteur = (Integer)classeDoc.get("contexteImageHauteur" + "_" + langueNom + "_stored_int");
-			contexteVideoId = (String)classeDoc.get("contexteVideoId" + "_" + langueNom + "_stored_string");
-			contexteUnNom = (String)classeDoc.get("contexteUnNom" + "_" + langueNom + "_stored_string");
-			contexteNomSingulier = (String)classeDoc.get("contexteNomSingulier" + "_" + langueNom + "_stored_string");
-			contexteNomPluriel = (String)classeDoc.get("contexteNomPluriel" + "_" + langueNom + "_stored_string");
-			contexteNomVar = (String)classeDoc.get("contexteNomVar" + "_" + langueNom + "_stored_string");
-			contexteAdjectif = (String)classeDoc.get("contexteAdjectif" + "_" + langueNom + "_stored_string");
-			contexteAdjectifPluriel = (String)classeDoc.get("contexteAdjectifPluriel" + "_" + langueNom + "_stored_string");
-			contexteAdjectifVar = (String)classeDoc.get("contexteAdjectifVar" + "_" + langueNom + "_stored_string");
-			contexteNomAdjectifSingulier = (String)classeDoc.get("contexteNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
-			contexteNomAdjectifPluriel = (String)classeDoc.get("contexteNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
-			contexteCe = (String)classeDoc.get("contexteCe" + "_" + langueNom + "_stored_string");
-			contexteUn = (String)classeDoc.get("contexteUn" + "_" + langueNom + "_stored_string");
-			contexteNomActuel = (String)classeDoc.get("contexteNomActuel" + "_" + langueNom + "_stored_string");
-			contexteTous = (String)classeDoc.get("contexteTous" + "_" + langueNom + "_stored_string");
-			contexteTousNom = (String)classeDoc.get("contexteTousNom" + "_" + langueNom + "_stored_string");
-			contexteLesNoms = (String)classeDoc.get("contexteLesNoms" + "_" + langueNom + "_stored_string");
-			contexteTitre = (String)classeDoc.get("contexteTitre" + "_" + langueNom + "_stored_string");
-			contexteH1 = (String)classeDoc.get("contexteH1" + "_" + langueNom + "_stored_string");
-			contexteH2 = (String)classeDoc.get("contexteH2" + "_" + langueNom + "_stored_string");
-			contexteH3 = (String)classeDoc.get("contexteH3" + "_" + langueNom + "_stored_string");
-			contexteAucunNomTrouve = (String)classeDoc.get("contexteAucunNomTrouve" + "_" + langueNom + "_stored_string");
-			contexteUnNomAdjectif = (String)classeDoc.get("contexteUnNomAdjectif" + "_" + langueNom + "_stored_string");
-			contexteCeNom = (String)classeDoc.get("contexteCeNom" + "_" + langueNom + "_stored_string");
-			contexteLeNom = (String)classeDoc.get("contexteLeNom" + "_" + langueNom + "_stored_string");
-			contexteDeNom = (String)classeDoc.get("contexteDeNom" + "_" + langueNom + "_stored_string");
+			classeImageLargeur = (Integer)classeDoc.get("classeImageLargeur" + "_" + langueNom + "_stored_int");
+			classeImageHauteur = (Integer)classeDoc.get("classeImageHauteur" + "_" + langueNom + "_stored_int");
+			classeVideoId = (String)classeDoc.get("classeVideoId" + "_" + langueNom + "_stored_string");
+			classeUnNom = (String)classeDoc.get("classeUnNom" + "_" + langueNom + "_stored_string");
+			classeNomSingulier = (String)classeDoc.get("classeNomSingulier" + "_" + langueNom + "_stored_string");
+			classeNomPluriel = (String)classeDoc.get("classeNomPluriel" + "_" + langueNom + "_stored_string");
+			classeNomVar = (String)classeDoc.get("classeNomVar" + "_" + langueNom + "_stored_string");
+			classeAdjectif = (String)classeDoc.get("classeAdjectif" + "_" + langueNom + "_stored_string");
+			classeAdjectifPluriel = (String)classeDoc.get("classeAdjectifPluriel" + "_" + langueNom + "_stored_string");
+			classeAdjectifVar = (String)classeDoc.get("classeAdjectifVar" + "_" + langueNom + "_stored_string");
+			classeNomAdjectifSingulier = (String)classeDoc.get("classeNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
+			classeNomAdjectifPluriel = (String)classeDoc.get("classeNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
+			classeCe = (String)classeDoc.get("classeCe" + "_" + langueNom + "_stored_string");
+			classeUn = (String)classeDoc.get("classeUn" + "_" + langueNom + "_stored_string");
+			classeNomActuel = (String)classeDoc.get("classeNomActuel" + "_" + langueNom + "_stored_string");
+			classeTous = (String)classeDoc.get("classeTous" + "_" + langueNom + "_stored_string");
+			classeTousNom = (String)classeDoc.get("classeTousNom" + "_" + langueNom + "_stored_string");
+			classeLesNoms = (String)classeDoc.get("classeLesNoms" + "_" + langueNom + "_stored_string");
+			classeTitre = (String)classeDoc.get("classeTitre" + "_" + langueNom + "_stored_string");
+			classeH1 = (String)classeDoc.get("classeH1" + "_" + langueNom + "_stored_string");
+			classeH2 = (String)classeDoc.get("classeH2" + "_" + langueNom + "_stored_string");
+			classeH3 = (String)classeDoc.get("classeH3" + "_" + langueNom + "_stored_string");
+			classeAucunNomTrouve = (String)classeDoc.get("classeAucunNomTrouve" + "_" + langueNom + "_stored_string");
+			classeUnNomAdjectif = (String)classeDoc.get("classeUnNomAdjectif" + "_" + langueNom + "_stored_string");
+			classeCeNom = (String)classeDoc.get("classeCeNom" + "_" + langueNom + "_stored_string");
+			classeLeNom = (String)classeDoc.get("classeLeNom" + "_" + langueNom + "_stored_string");
+			classeDeNom = (String)classeDoc.get("classeDeNom" + "_" + langueNom + "_stored_string");
 			classeVarTitre = (String)classeDoc.get("classeVarTitre" + "_" + langueNom + "_stored_string");
 			classeVarH1 = (String)classeDoc.get("classeVarH1" + "_" + langueNom + "_stored_string");
 			classeVarH2 = (String)classeDoc.get("classeVarH2" + "_" + langueNom + "_stored_string");
@@ -841,14 +841,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			} else {
 				tl(2, "if(", uncapitalizeClasseApiClasseNomSimple, "_ != null)");
 			}
-			tl(3, "c.o(", q(contexteTitre), ");");
+			tl(3, "c.o(", q(classeTitre), ");");
 			if(!classePageSimple) {
 				tl(2, "else if(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_ == null || ", uncapitalizeClasseApiClasseNomSimple, "Count == 0)");
-				tl(3, "c.o(", q(contexteAucunNomTrouve), ");");
+				tl(3, "c.o(", q(classeAucunNomTrouve), ");");
 			}
-			if(contexteTitre != null) {
+			if(classeTitre != null) {
 				tl(2, "else");
-				tl(3, "c.o(", q(contexteTitre), ");");
+				tl(3, "c.o(", q(classeTitre), ");");
 			}
 			tl(1, "}");
 
@@ -1136,12 +1136,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "promise.complete();");
 			tl(1, "}");
 
-			if(contexteDescription != null) {
+			if(classeDescription != null) {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _pageDescription(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
-				tl(3, "c.o(", q(contexteDescription), ");");
+				tl(3, "c.o(", q(classeDescription), ");");
 				tl(1, "}");
 			}
 
@@ -1154,48 +1154,48 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 			}
 
-			if(contexteImageLargeur != null) {
+			if(classeImageLargeur != null) {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _pageImage", langueConfig.getString(ConfigCles.var_Largeur), "(", classePartsCouverture.nomSimple(langueNom), "<Integer> c) {");
-				tl(3, "c.o(", contexteImageLargeur, ");");
+				tl(3, "c.o(", classeImageLargeur, ");");
 				tl(1, "}");
 			}
 
-			if(contexteImageHauteur != null) {
+			if(classeImageHauteur != null) {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _pageImage", langueConfig.getString(ConfigCles.var_Hauteur), "(", classePartsCouverture.nomSimple(langueNom), "<Integer> c) {");
-				tl(3, "c.o(", contexteImageHauteur, ");");
+				tl(3, "c.o(", classeImageHauteur, ");");
 				tl(1, "}");
 			}
 
-			if(StringUtils.isNotBlank(contexteVideoId)) {
+			if(StringUtils.isNotBlank(classeVideoId)) {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _pageVideoId(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
-				tl(3, "c.o(", q(contexteVideoId), ");");
+				tl(3, "c.o(", q(classeVideoId), ");");
 				tl(1, "}");
 			}
 
-			if(StringUtils.isNotBlank(contexteIconeGroupe)) {
+			if(StringUtils.isNotBlank(classeIconeGroupe)) {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_contexte), langueConfig.getString(ConfigCles.var_Icone), langueConfig.getString(ConfigCles.var_Groupe), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
-				tl(3, "c.o(", q(contexteIconeGroupe), ");");
+				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_classe), langueConfig.getString(ConfigCles.var_Icone), langueConfig.getString(ConfigCles.var_Groupe), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
+				tl(3, "c.o(", q(classeIconeGroupe), ");");
 				tl(1, "}");
 			}
 
-			if(StringUtils.isNotBlank(contexteIconeNom)) {
+			if(StringUtils.isNotBlank(classeIconeNom)) {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_contexte), langueConfig.getString(ConfigCles.var_Icone), langueConfig.getString(ConfigCles.var_Nom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
-				tl(3, "c.o(", q(contexteIconeNom), ");");
+				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_classe), langueConfig.getString(ConfigCles.var_Icone), langueConfig.getString(ConfigCles.var_Nom), "(", classePartsCouverture.nomSimple(langueNom), "<String> c) {");
+				tl(3, "c.o(", q(classeIconeNom), ");");
 				tl(1, "}");
 			}
 //
@@ -1271,8 +1271,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //								wTd.tl(4, "{{#if get", langueConfig.getString(ConfigCles.var_Colonne), entiteVarCapitalise, "}}");
 								wTd.tl(6, "<td>");
 								wTd.tl(7, "<a href=\"{{", classeVarUrlPk, "}}\">");
-								if(contexteIconeGroupe != null && contexteIconeNom != null && BooleanUtils.isTrue(entiteVarTitre))
-									wTd.tl(8, "<i class=\"fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " \"></i>");
+								if(classeIconeGroupe != null && classeIconeNom != null && BooleanUtils.isTrue(entiteVarTitre))
+									wTd.tl(8, "<i class=\"fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " \"></i>");
 								wTd.t(8, "<span class=\"white-space-pre-wrap \">");
 								if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
 									wTd.s("{{siteZonedDateTimeFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
@@ -1646,15 +1646,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				s("{{#if ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_}}");
 				s("{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int1}}");
 				s("{{#eq params.query.q \"*:*\"}}");
-				s(contexteNomAdjectifSingulier);
+				s(classeNomAdjectifSingulier);
 				s("{{else}}");
-				s(contexteNomAdjectifSingulier);
+				s(classeNomAdjectifSingulier);
 				s("{{/eq}}");
 				s("{{else}}");
-				s(contexteAucunNomTrouve);
+				s(classeAucunNomTrouve);
 				s("{{/eq}}");
 				s("{{else}}");
-				s(contexteNomAdjectifPluriel);
+				s(classeNomAdjectifPluriel);
 				s("{{/if}}");
 			l("</title>");
 			l("{{/inline}}");
@@ -1718,10 +1718,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.l();
 //							auteurPageJs.l("/**");
 //							if(methodePATCH) {
-//							auteurPageJs.l(" * Modifier un ou plusiers ", contexteNomPluriel, " sans valuers qui change, ");
-//							auteurPageJs.l(" * ou changer des valeurs pour un ou plusiers ", contexteLeNom, ". ");
+//							auteurPageJs.l(" * Modifier un ou plusiers ", classeNomPluriel, " sans valuers qui change, ");
+//							auteurPageJs.l(" * ou changer des valeurs pour un ou plusiers ", classeLeNom, ". ");
 //							auteurPageJs.l(" * @param params: [ \"q=*:*\", \"fq=", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":1\", \"sort=", classeModele ? classeVarClePrimaire : classeVarCleUnique, " asc\", \"rows=1\", \"fl=", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\" ]");
-//							auteurPageJs.l(" *        Une liste des opérations de recherche sur des ", contexteNomPluriel, " ");
+//							auteurPageJs.l(" *        Une liste des opérations de recherche sur des ", classeNomPluriel, " ");
 //							auteurPageJs.l(" *        pour rechercher \"q=*:*\", filtrer \"fq=", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":1\", trier \"sort=", classeModele ? classeVarClePrimaire : classeVarCleUnique, " desc\", ");
 //							auteurPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les valeurs \"fl=", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\". ");
 //							auteurPageJs.l(" * @param valeurs Noms des champs et valeurs à changer selon les filtres fq. ");
@@ -1887,9 +1887,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						if(methodeRecherche) {
 							auteurPageJs.l();
 							auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(", langueConfig.getString(ConfigCles.var_filtres), ", success, error) {");
-							if(contexteRows != null) {
+							if(classeLignes != null) {
 								auteurPageJs.l();
-//										auteurPageJs.tl(1, langueConfig.getString(ConfigCles.var_filtres), ".push({ name: 'rows', value: ", contexteRows, " });");
+//										auteurPageJs.tl(1, langueConfig.getString(ConfigCles.var_filtres), ".push({ name: 'rows', value: ", classeLignes, " });");
 							}
 							if(classeTrisVar != null) {
 								auteurPageJs.l();
@@ -2001,7 +2001,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
 											auteurPageJs.tl(2, "$list.empty();");
 											auteurPageJs.tl(2, "$.each(data['list'], function(i, o) {");
-											auteurPageJs.tl(3, "var $i = $('<i>').attr('class', 'fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " ');");
+											auteurPageJs.tl(3, "var $i = $('<i>').attr('class', 'fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " ');");
 											auteurPageJs.t(3, "var $span = $('<span>').attr('class', '').text(");
 											if(classeVarTitre != null)
 												auteurPageJs.s("o['", classeVarTitre, "']");
@@ -2716,19 +2716,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{#*inline \"htmBodyCount0", classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBodyCount0", classePageNomSimple, "\" -->");
 			tl(2, "<h1>");
-			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-			tl(4, "{{#if ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), "}}");
-			tl(5, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " }} site-menu-icon \"></i>");
+			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
+			tl(4, "{{#if ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), "}}");
+			tl(5, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), " }} site-menu-icon \"></i>");
 			tl(4, "{{/if}}");
-			tl(4, "<span class=\"\">", contexteNomAdjectifPluriel, "</span>");
+			tl(4, "<span class=\"\">", classeNomAdjectifPluriel, "</span>");
 			tl(3, "</a>");
 			tl(2, "</h1>");
 			tl(2, "<h2>");
-			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
-			tl(4, "{{#if ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), "}}");
-			tl(5, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " }}  site-menu-icon \"></i>");
+			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", classeCouleur, "\">");
+			tl(4, "{{#if ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), "}}");
+			tl(5, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), " }}  site-menu-icon \"></i>");
 			tl(4, "{{/if}}");
-			tl(4, "<span class=\"\">", contexteAucunNomTrouve, "</span>");
+			tl(4, "<span class=\"\">", classeAucunNomTrouve, "</span>");
 			tl(3, "</span>");
 			tl(2, "</h2>");
 			l("{{/inline}}");
@@ -2736,16 +2736,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{#*inline \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\" -->");
 			tl(2, "<h1 class=\"w3-center \">");
-			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-			tl(3, "{{#if ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), "}}");
-			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " }} site-menu-icon \"></i>");
+			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-block w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
+			tl(3, "{{#if ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), "}}");
+			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), " }} site-menu-icon \"></i>");
 			tl(3, "{{/if}}");
-			tl(4, "<span class=\"\">", contexteNomAdjectifSingulier, "</span>");
+			tl(4, "<span class=\"\">", classeNomAdjectifSingulier, "</span>");
 			tl(3, "</a>");
 			tl(2, "</h1>");
 
 			tl(2, "<h2 class=\"w3-center \">");
-			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", contexteCouleur, "\">");
+			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", classeCouleur, "\">");
 			tl(4, "<span class=\"\">{{", uncapitalizeClasseApiClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");
 			tl(3, "</span>");
 			tl(2, "</h2>");
@@ -2754,11 +2754,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{#*inline \"htmBodyCount1", classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBodyCount1", classePageNomSimple, "\" -->");
 			tl(2, "<h1>");
-			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-			tl(1, "{{#if ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), "}}");
-			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " }} site-menu-icon \"></i>");
+			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
+			tl(1, "{{#if ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), "}}");
+			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), " }} site-menu-icon \"></i>");
 			tl(1, "{{/if}}");
-			tl(4, "<span class=\"\">", contexteNomAdjectifPluriel, "</span>");
+			tl(4, "<span class=\"\">", classeNomAdjectifPluriel, "</span>");
 			tl(3, "</a>");
 			tl(2, "</h1>");
 			tl(2, "<div>");
@@ -2794,11 +2794,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\" -->");
 			tl(2, "<h1>");
-			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
-			tl(1, "{{#if ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), "}}");
-			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_contexteIconeClassesCss), " }} site-menu-icon \"></i>");
+			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-center w3-block w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
+			tl(1, "{{#if ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), "}}");
+			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), " }} site-menu-icon \"></i>");
 			tl(1, "{{/if}}");
-			tl(4, "<span class=\"\">", contexteNomAdjectifPluriel, "</span>");
+			tl(4, "<span class=\"\">", classeNomAdjectifPluriel, "</span>");
 			tl(3, "</a>");
 			tl(2, "</h1>");
 			tl(2, "<div class=\"\">");
@@ -2875,36 +2875,36 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					String methodeTitreValeurs = null;
 
 					if("POST".equals(classeApiMethodeMethode)) {
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Creer_) + contexteUnNom;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Creer_) + classeUnNom;
 					}
 					else if("PUTImport".equals(classeApiMethode)) {
-						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + contexteUnNom;
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Importer_) + contexteNomPluriel;
+						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + classeUnNom;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Importer_) + classeNomPluriel;
 					}
 					else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode)) {
-						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + contexteUnNom;
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Fusionner_) + contexteNomPluriel;
+						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + classeUnNom;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Fusionner_) + classeNomPluriel;
 					}
 					else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode)) {
-						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + contexteUnNom;
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Dupliquer_) + contexteNomPluriel;
+						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + classeUnNom;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Dupliquer_) + classeNomPluriel;
 					}
 					else if("PATCH".equals(classeApiMethodeMethode)) {
-						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + contexteUnNom;
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Modifier_des_) + contexteNomPluriel;
+						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + classeUnNom;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Modifier_des_) + classeNomPluriel;
 					}
 					else if("DELETE".equals(classeApiMethodeMethode)) {
-						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + contexteUnNom;
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Supprimer_) + contexteNomPluriel;
+						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + classeUnNom;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Supprimer_) + classeNomPluriel;
 					}
 					else {
-						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + contexteUnNom;
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Rechercher_) + contexteNomPluriel;
+						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + classeUnNom;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Rechercher_) + classeNomPluriel;
 					}
 
 					if(!classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche))) {
 						tl(2, "<button");
-						tl(3, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " \"");
+						tl(3, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", classeCouleur, " \"");
 						tl(3, "onclick=\"$('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "').show(); \"");
 						tl(3, ">");
 	
@@ -2926,7 +2926,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						{ tl(3, "<div class=\"", classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) ? "" : "w3-modal-content ", "\">");
 							{ tl(4, "<div class=\"w3-card-4 \">");
 								if(!langueConfig.getString(ConfigCles.var_PageRecherche).equals(classeApiMethode)) {
-									{ tl(5, "<header class=\"w3-container w3-", contexteCouleur, "\">");
+									{ tl(5, "<header class=\"w3-container w3-", classeCouleur, "\">");
 										tl(1, "{{#eq \"Page\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 										tl(6, "<span class=\"w3-button w3-display-topright \" onclick=\"$('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "').hide(); \">×</span>");
 										tl(1, "{{/eq}}");
@@ -2964,7 +2964,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										}
 	
 										tl(6, "<button");
-										tl(7, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " \"");
+										tl(7, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", classeCouleur, " \"");
 		
 										if("PATCH".equals(classeApiMethode))
 											tl(7, "onclick=\"", classeApiOperationIdMethode, "(null, $('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "')); \"");
@@ -2992,7 +2992,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										} tl(6, "</div>");
 										if(!langueConfig.getString(ConfigCles.var_PageRecherche).equals(classeApiMethode)) {
 											tl(6, "<button");
-											tl(7, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", contexteCouleur, " \"");
+											tl(7, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", classeCouleur, " \"");
 											if("POST".equals(classeApiMethodeMethode))
 												tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
 											else if("PATCH".equals(classeApiMethodeMethode))
@@ -3036,8 +3036,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			//////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Recherche), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-magnifying-glass hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Rechercher));
 			l("</span>");
@@ -3047,8 +3047,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			///////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Filtres), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-filters hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Filtres));
 			l("</span>");
@@ -3058,8 +3058,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			//////////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Gamme), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-calendar-range hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Gamme));
 			l("</span>");
@@ -3069,8 +3069,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			//////////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Pivot), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-table-pivot hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Pivot));
 			l("</span>");
@@ -3080,8 +3080,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			/////////////////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_ListeChamps), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-list-ul hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_ListeChamps));
 			l("</span>");
@@ -3091,8 +3091,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			//////////////////
 			t(6, "<span");
 			s(" title=\"", langueConfig.getString(ConfigCles.var_Stats), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", contexteCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", contexteCouleur, "'); \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
+			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
 			s(">");
 			s("<i class=\"fad fa-chart-candlestick hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Stats));
 			l("</span>");
@@ -3102,7 +3102,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			////////////////
 			t(6, "<a");
 			s(" title=\"", langueConfig.getString(ConfigCles.str_API), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", contexteCouleur, " \"");
+			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
 			s(" href=\"{{ apiUri }}{{ queryStr }}\"");
 			s(">");
 			s("<i class=\"fad fa-brackets-curly hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.str_API));
@@ -3117,8 +3117,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar q //
 			///////////////
 
-			tl(6, "<div class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", classeCouleur, " \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-magnifying-glass \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Recherche), "</span>");
@@ -3132,8 +3132,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar fq //
 			////////////////
 
-			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", classeCouleur, " \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-filters \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Filtres), "</span>");
@@ -3147,8 +3147,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar gamme //
 			///////////////////
 
-			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, "  \">");
+			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", classeCouleur, "  \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-calendar-range \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Gamme), "</span>");
@@ -3162,8 +3162,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar pivot //
 			///////////////////
 
-			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", classeCouleur, " \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-table-pivot \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.var_Pivot), "</span>");
@@ -3177,8 +3177,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar liste champs //
 			//////////////////////////
 
-			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", classeCouleur, " \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-list-ul \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.str_Liste_Champs), "</span>");
@@ -3192,8 +3192,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar stats //
 			///////////////////
 
-			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", contexteCouleur, " \" style=\"display: none; \">");
-			tl(7, "<div class=\"w3-bar w3-", contexteCouleur, " \">");
+			tl(6, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(7, "<div class=\"w3-bar w3-", classeCouleur, " \">");
 			tl(8, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-chart-candlestick \"></i>");
 			l(" ", langueConfig.getString(ConfigCles.str_Stats), "</span>");
@@ -3284,7 +3284,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{> \"tfoot1", classePageNomSimple, "\"}}");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"thead1", classePageNomSimple, "\"}}");
-			tl(4, "<thead class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+			tl(4, "<thead class=\"w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
 			tl(0, "{{> thead2", classePageNomSimple, "}}");
 			tl(4, "</thead>");
 			tl(0, "{{/inline}}");
@@ -3313,7 +3313,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "{{/each}}");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"tfoot1", classePageNomSimple, "\"}}");
-			tl(4, "<tfoot class=\"w3-", contexteCouleur, " w3-hover-", contexteCouleur, "\">");
+			tl(4, "<tfoot class=\"w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
 			tl(0, "{{> tfoot2", classePageNomSimple, "}}");
 			tl(4, "</tfoot>");
 			tl(0, "{{/inline}}");
@@ -3331,11 +3331,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// refraîchir 1 //
 			tl(2, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int1}}");
 			tl(2, "<button");
-			tl(3, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " \"");
-			tl(3, "id=\"", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "\"");
-			tl(3, "onclick=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' } ], {}, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(contexteCe)), classeGenPageNomSimple, "')); }); return false; \">");
+			tl(3, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", classeCouleur, " \"");
+			tl(3, "id=\"", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "\"");
+			tl(3, "onclick=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' } ], {}, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }); return false; \">");
 			tl(3, "<i class=\"fas fa-sync-alt \"></i>");
-			tl(3, langueConfig.getString(ConfigCles.var_recharger), " ", contexteCeNom);
+			tl(3, langueConfig.getString(ConfigCles.var_recharger), " ", classeCeNom);
 			tl(2, "</button>");
 			tl(2, "{{/eq}}");
 
@@ -3370,11 +3370,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				// recharger tous //
 //						t(4).s("{{# if ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, " == null) {").l();
 				tl(5, "<div class=\"\">");
-				tl(6, "<button id=\"", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "{{id}}\" class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", contexteCouleur, " \"");
-				tl(7, "onclick=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals([], {}, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "{{id}}')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(contexteTous)), classeGenPageNomSimple, "{{id}}')); }); \"");
+				tl(6, "<button id=\"", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}\" class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", classeCouleur, " \"");
+				tl(7, "onclick=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals([], {}, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}')); }); \"");
 				tl(7, ">");
 				tl(7, "<i class=\"fas fa-sync-alt \"></i>");
-				tl(7, langueConfig.getString(ConfigCles.var_recharger), " ", contexteTousNom);
+				tl(7, langueConfig.getString(ConfigCles.var_recharger), " ", classeTousNom);
 				tl(6, "</button>");
 				tl(5, "</div>");
 //						t(4, "}").l();
@@ -3384,7 +3384,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "<div class=\"w3-cell-row \">");
 				tl(4, "<div class=\"w3-cell \">");
 				tl(5, "<span>");
-				tl(6, langueConfig.getString(ConfigCles.var_rechercher), " ", contexteNomAdjectifPluriel, langueConfig.getString(ConfigCles.str_deuxPoints));
+				tl(6, langueConfig.getString(ConfigCles.var_rechercher), " ", classeNomAdjectifPluriel, langueConfig.getString(ConfigCles.str_deuxPoints));
 				tl(5, "</span>");
 				tl(4, "</div>");
 				tl(3, "</div>");
@@ -3393,8 +3393,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "<input");
 				tl(5, "type=\"text\"");
 
-				if(contexteRechercherTousNom != null) {
-					tl(5, "placeholder=\"", contexteRechercherTousNom, "\"");
+				if(classeRechercherTousNom != null) {
+					tl(5, "placeholder=\"", classeRechercherTousNom, "\"");
 				}
 
 				tl(5, "class=\"", langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, " w3-input w3-border w3-bar-item \"");
@@ -3408,7 +3408,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "{{/if}}");
 				tl(4, "/>");
 				tl(4, "<button");
-				tl(5, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", contexteCouleur, " \"");
+				tl(5, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", classeCouleur, " \"");
 				tl(5, "onclick=\"window.location.href = '", classePageUriMethode + "?q=&quot;, query1, &quot;:' + encodeURIComponent(this.previousElementSibling.value) + '&quot;, fqs, sorts, &quot;&amp;rows=&quot;, start2, &quot;&amp;rows=&quot;, rows1, &quot;'; \"");
 				tl(5, ">");
 				tl(5, "<i class=\"fas fa-search \"></i>");
@@ -3425,9 +3425,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				// voir tous //
 				tl(3, "<div class=\"\">");
 				tl(4, "<a href=\"", classePageUriMethode, "\" class=\"\">");
-				if(contexteIconeGroupe != null && contexteIconeNom != null)
-					tl(5, "<i class=\"fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, "\"></i>");
-				tl(5, langueConfig.getString(ConfigCles.var_voir), " ", contexteTousNom);
+				if(classeIconeGroupe != null && classeIconeNom != null)
+					tl(5, "<i class=\"fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, "\"></i>");
+				tl(5, langueConfig.getString(ConfigCles.var_voir), " ", classeTousNom);
 				tl(4, "</a>");
 				tl(3, "</div>");
 
@@ -3468,13 +3468,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "var $box = $('<div>').attr('class', 'w3-quarter box-' + id + ' ').attr('id', 'box-' + id).attr('data-numPATCH', numPATCH);");
 				auteurPageJs.tl(3, "var $margin = $('<div>').attr('class', 'w3-margin ').attr('id', 'margin-' + id);");
 				auteurPageJs.tl(3, "var $card = $('<div>').attr('class', 'w3-card w3-white ').attr('id', 'card-' + id);");
-				auteurPageJs.tl(3, "var $header = $('<div>').attr('class', 'w3-container fa-", contexteCouleur, " ').attr('id', 'header-' + id);");
-				auteurPageJs.tl(3, "var $i = $('<i>').attr('class', 'fa", StringUtils.substring(contexteIconeGroupe, 0, 1), " fa-", contexteIconeNom, " w3-margin-right ').attr('id', 'icon-' + id);");
-				auteurPageJs.tl(3, "var $headerSpan = $('<span>').attr('class', '').text('", langueConfig.getString(ConfigCles.var_modifier), " ", contexteNomAdjectifPluriel, " ", langueConfig.getString(ConfigCles.var_dans), " ' + json.", langueConfig.getString(ConfigCles.var_tempsRestant), ");");
+				auteurPageJs.tl(3, "var $header = $('<div>').attr('class', 'w3-container fa-", classeCouleur, " ').attr('id', 'header-' + id);");
+				auteurPageJs.tl(3, "var $i = $('<i>').attr('class', 'fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " w3-margin-right ').attr('id', 'icon-' + id);");
+				auteurPageJs.tl(3, "var $headerSpan = $('<span>').attr('class', '').text('", langueConfig.getString(ConfigCles.var_modifier), " ", classeNomAdjectifPluriel, " ", langueConfig.getString(ConfigCles.var_dans), " ' + json.", langueConfig.getString(ConfigCles.var_tempsRestant), ");");
 				auteurPageJs.tl(3, "var $x = $('<span>').attr('class', 'w3-button w3-display-topright ').attr('onclick', '$(\"#card-' + id + '\").hide(); ').attr('id', 'x-' + id);");
 				auteurPageJs.tl(3, "var $body = $('<div>').attr('class', 'w3-container w3-padding ').attr('id', 'text-' + id);");
 				auteurPageJs.tl(3, "var $bar = $('<div>').attr('class', 'w3-light-gray ').attr('id', 'bar-' + id);");
-				auteurPageJs.tl(3, "var $progress = $('<div>').attr('class', 'w3-", contexteCouleur, " ').attr('style', 'height: 24px; width: ' + percent + '; ').attr('id', 'progress-' + id).text(numPATCH + '/' + numFound);");
+				auteurPageJs.tl(3, "var $progress = $('<div>').attr('class', 'w3-", classeCouleur, " ').attr('style', 'height: 24px; width: ' + percent + '; ').attr('id', 'progress-' + id).text(numPATCH + '/' + numFound);");
 				auteurPageJs.tl(3, "$card.append($header);");
 				auteurPageJs.tl(3, "$header.append($i);");
 				auteurPageJs.tl(3, "$header.append($headerSpan);");

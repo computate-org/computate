@@ -68,6 +68,16 @@ classe:
         <li>You can add a class comment "Model: true" if you wish to persist these %s objects in a relational PostgreSQL database transactionally in the RESTful API. 
         The code to persist and query the %s data in the database will then be automatically generated. 
         </li>
+    Lignes:
+      suggere: |
+        <li>You can add a class comment "Rows: 100" if you wish the %s API to return more or less than 10 records by default. 
+        In this case, the API will return 100 records from the API instead of 10 by default. 
+        Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
+        </li>
+      description: |
+        <p>This class contains a comment "Rows: %s", which means the %s API will return a default of %s records instead of 10 by default. 
+        Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
+        </p>
     
 str_description_classe_Api: |
   <p>This class contains a comment "Api: true", which means this class will have Java Vert.x API backend code generated for these objects. 

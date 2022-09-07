@@ -320,59 +320,59 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r: pageCodeClasse
 	 * r.enUS: pageCodeClass
 	 * 
-	 * r: contexteNomAdjectifSingulier
+	 * r: classeNomAdjectifSingulier
 	 * r.enUS: contextNameAdjectiveSingular
-	 * r: contexteCeNom
+	 * r: classeCeNom
 	 * r.enUS: contextThisName
-	 * r: contexteCe
+	 * r: classeCe
 	 * r.enUS: contextThis
-	 * r: contexteUnNom
+	 * r: classeUnNom
 	 * r.enUS: contextAName
-	 * r: contexteUn
+	 * r: classeUn
 	 * r.enUS: contextA
-	 * r: contexteLeNom
+	 * r: classeLeNom
 	 * r.enUS: contextTheName
-	 * r: contexteNomSingulier
+	 * r: classeNomSingulier
 	 * r.enUS: contextNameSingular
-	 * r: contexteNomPluriel
+	 * r: classeNomPluriel
 	 * r.enUS: contextNamePlural
-	 * r: contexteNomActuel
+	 * r: classeNomActuel
 	 * r.enUS: contextActualName
-	 * r: contexteTousNom
+	 * r: classeTousNom
 	 * r.enUS: contextAllName
-	 * r: contexteLesNoms
+	 * r: classeLesNoms
 	 * r.enUS: contextTheName
-	 * r: contexteTitre
+	 * r: classeTitre
 	 * r.enUS: contextTitle
-	 * r: contexteH1
+	 * r: classeH1
 	 * r.enUS: contextH1
-	 * r: contexteH2
+	 * r: classeH2
 	 * r.enUS: contextH2
-	 * r: contexteH3
+	 * r: classeH3
 	 * r.enUS: contextH3
-	 * r: contexteTous
+	 * r: classeTous
 	 * r.enUS: contextAll
-	 * r: contexteAucunNomTrouve
+	 * r: classeAucunNomTrouve
 	 * r.enUS: contextNoNameFound
-	 * r: contexteNomVar
+	 * r: classeNomVar
 	 * r.enUS: contextNameVar
-	 * r: contexteDeNom
+	 * r: classeDeNom
 	 * r.enUS: contextOfName
-	 * r: contexteNom
+	 * r: classeNom
 	 * r.enUS: contextName
-	 * r: contexteImageWidth
+	 * r: classeImageWidth
 	 * r.enUS: contextImageLargeur
-	 * r: contexteImageHeight
+	 * r: classeImageHeight
 	 * r.enUS: contextImageHauteur
-	 * r: contexteVideoId
+	 * r: classeVideoId
 	 * r.enUS: contextVideoId
-	 * r: contexteDescription
+	 * r: classeDescription
 	 * r.enUS: contextDescription
-	 * r: contexteImageLargeur
+	 * r: classeImageLargeur
 	 * r.enUS: contextImageWidth
-	 * r: contexteImageHauteur
+	 * r: classeImageHauteur
 	 * r.enUS: contextImageHeight
-	 * r: contexteRechercherTousNomPar
+	 * r: classeRechercherTousNomPar
 	 * r.enUS: contextSearchAllNameBy
 	 * r: UnNomAdjectif
 	 * r.enUS: ANameAdjective
@@ -421,7 +421,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * r.enUS: classDoc
 	 * r: classe
 	 * r.enUS: class
-	 * r: contexte
+	 * r: classe
 	 * r.enUS: context
 	 * r: Contexte
 	 * r.enUS: Context
@@ -596,39 +596,39 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 					entiteIndice = 0;   
 
 					classeContexte = (Boolean)doc.get("classeContexte_stored_boolean");
-					contexteCouleur = (String)doc.get("contexteCouleur_stored_string");
-					contexteIconeGroupe = (String)doc.get("contexteIconeGroupe_stored_string");
-					contexteIconeNom = (String)doc.get("contexteIconeNom_stored_string");
-					contexteRows = (Integer)doc.get("contexteRows_stored_int");
+					classeCouleur = (String)doc.get("classeCouleur_stored_string");
+					classeIconeGroupe = (String)doc.get("classeIconeGroupe_stored_string");
+					classeIconeNom = (String)doc.get("classeIconeNom_stored_string");
+					classeLignes = (Integer)doc.get("classeLignes_stored_int");
 
-					contexteDescription = (String)doc.get("contexteDescription" + "_" + langueNom + "_stored_string");
-					contexteImageLargeur = (Integer)doc.get("contexteImageLargeur" + "_" + langueNom + "_stored_int");
-					contexteImageHauteur = (Integer)doc.get("contexteImageHauteur" + "_" + langueNom + "_stored_int");
-					contexteVideoId = (String)doc.get("contexteVideoId" + "_" + langueNom + "_stored_string");
-					contexteUnNom = (String)doc.get("contexteUnNom" + "_" + langueNom + "_stored_string");
-					contexteNomSingulier = (String)doc.get("contexteNomSingulier" + "_" + langueNom + "_stored_string");
-					contexteNomPluriel = (String)doc.get("contexteNomPluriel" + "_" + langueNom + "_stored_string");
-					contexteNomVar = (String)doc.get("contexteNomVar" + "_" + langueNom + "_stored_string");
-					contexteAdjectif = (String)doc.get("contexteAdjectif" + "_" + langueNom + "_stored_string");
-					contexteAdjectifPluriel = (String)doc.get("contexteAdjectifPluriel" + "_" + langueNom + "_stored_string");
-					contexteAdjectifVar = (String)doc.get("contexteAdjectifVar" + "_" + langueNom + "_stored_string");
-					contexteNomAdjectifSingulier = (String)doc.get("contexteNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
-					contexteNomAdjectifPluriel = (String)doc.get("contexteNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
-					contexteCe = (String)doc.get("contexteCe" + "_" + langueNom + "_stored_string");
-					contexteUn = (String)doc.get("contexteUn" + "_" + langueNom + "_stored_string");
-					contexteNomActuel = (String)doc.get("contexteNomActuel" + "_" + langueNom + "_stored_string");
-					contexteTousNom = (String)doc.get("contexteTousNom" + "_" + langueNom + "_stored_string");
-					contexteRechercherTousNomPar = (String)doc.get("contexteRechercherTousNomPar" + "_" + langueNom + "_stored_string");
-					contexteLesNoms = (String)doc.get("contexteLesNoms" + "_" + langueNom + "_stored_string");
-					contexteTitre = (String)doc.get("contexteTitre" + "_" + langueNom + "_stored_string");
-					contexteH1 = (String)doc.get("contexteH1" + "_" + langueNom + "_stored_string");
-					contexteH2 = (String)doc.get("contexteH2" + "_" + langueNom + "_stored_string");
-					contexteH3 = (String)doc.get("contexteH3" + "_" + langueNom + "_stored_string");
-					contexteAucunNomTrouve = (String)doc.get("contexteAucunNomTrouve" + "_" + langueNom + "_stored_string");
-					contexteUnNomAdjectif = (String)doc.get("contexteUnNomAdjectif" + "_" + langueNom + "_stored_string");
-					contexteCeNom = (String)doc.get("contexteCeNom" + "_" + langueNom + "_stored_string");
-					contexteLeNom = (String)doc.get("contexteLeNom" + "_" + langueNom + "_stored_string");
-					contexteDeNom = (String)doc.get("contexteDeNom" + "_" + langueNom + "_stored_string");
+					classeDescription = (String)doc.get("classeDescription" + "_" + langueNom + "_stored_string");
+					classeImageLargeur = (Integer)doc.get("classeImageLargeur" + "_" + langueNom + "_stored_int");
+					classeImageHauteur = (Integer)doc.get("classeImageHauteur" + "_" + langueNom + "_stored_int");
+					classeVideoId = (String)doc.get("classeVideoId" + "_" + langueNom + "_stored_string");
+					classeUnNom = (String)doc.get("classeUnNom" + "_" + langueNom + "_stored_string");
+					classeNomSingulier = (String)doc.get("classeNomSingulier" + "_" + langueNom + "_stored_string");
+					classeNomPluriel = (String)doc.get("classeNomPluriel" + "_" + langueNom + "_stored_string");
+					classeNomVar = (String)doc.get("classeNomVar" + "_" + langueNom + "_stored_string");
+					classeAdjectif = (String)doc.get("classeAdjectif" + "_" + langueNom + "_stored_string");
+					classeAdjectifPluriel = (String)doc.get("classeAdjectifPluriel" + "_" + langueNom + "_stored_string");
+					classeAdjectifVar = (String)doc.get("classeAdjectifVar" + "_" + langueNom + "_stored_string");
+					classeNomAdjectifSingulier = (String)doc.get("classeNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
+					classeNomAdjectifPluriel = (String)doc.get("classeNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
+					classeCe = (String)doc.get("classeCe" + "_" + langueNom + "_stored_string");
+					classeUn = (String)doc.get("classeUn" + "_" + langueNom + "_stored_string");
+					classeNomActuel = (String)doc.get("classeNomActuel" + "_" + langueNom + "_stored_string");
+					classeTousNom = (String)doc.get("classeTousNom" + "_" + langueNom + "_stored_string");
+					classeRechercherTousNomPar = (String)doc.get("classeRechercherTousNomPar" + "_" + langueNom + "_stored_string");
+					classeLesNoms = (String)doc.get("classeLesNoms" + "_" + langueNom + "_stored_string");
+					classeTitre = (String)doc.get("classeTitre" + "_" + langueNom + "_stored_string");
+					classeH1 = (String)doc.get("classeH1" + "_" + langueNom + "_stored_string");
+					classeH2 = (String)doc.get("classeH2" + "_" + langueNom + "_stored_string");
+					classeH3 = (String)doc.get("classeH3" + "_" + langueNom + "_stored_string");
+					classeAucunNomTrouve = (String)doc.get("classeAucunNomTrouve" + "_" + langueNom + "_stored_string");
+					classeUnNomAdjectif = (String)doc.get("classeUnNomAdjectif" + "_" + langueNom + "_stored_string");
+					classeCeNom = (String)doc.get("classeCeNom" + "_" + langueNom + "_stored_string");
+					classeLeNom = (String)doc.get("classeLeNom" + "_" + langueNom + "_stored_string");
+					classeDeNom = (String)doc.get("classeDeNom" + "_" + langueNom + "_stored_string");
 
 					if(classeApi && ecrireApi) {
 						if(classeFichierGenApiServiceImpl != null) {

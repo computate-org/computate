@@ -27,6 +27,8 @@ public class ConfigCles {
 	public static final String classe_ref_Modele_suggere = "classe.ref.Modele.suggere";
 	public static final String classe_ref_ApiUri_todo = "classe.ref.ApiUri.todo";
 	public static final String classe_ref_ApiTag_todo = "classe.ref.ApiTag.todo";
+	public static final String classe_ref_Lignes_suggere = "classe.ref.Lignes.suggere";
+	public static final String classe_ref_Lignes_description = "classe.ref.Lignes.description";
 
 	public static final String str_a_démarré = "str_a_démarré";
 	public static final String str_a_échoué = "str_a_échoué";
@@ -149,10 +151,9 @@ public class ConfigCles {
 	public static final String var_Connexion = "var_Connexion";
 	public static final String var_connexionSql = "var_connexionSql";
 	public static final String var_ConnexionSql = "var_ConnexionSql";
-	public static final String var_contexte = "var_contexte";
 	public static final String var_Contexte = "var_Contexte";
 	public static final String var_CONTEXTE = "var_CONTEXTE";
-	public static final String var_contexteIconeClassesCss = "var_contexteIconeClassesCss";
+	public static final String var_classeIconeClassesCss = "var_classeIconeClassesCss";
 	public static final String var_copie = "var_copie";
 	public static final String var_Copie = "var_Copie";
 	public static final String var_Couleur = "var_Couleur";

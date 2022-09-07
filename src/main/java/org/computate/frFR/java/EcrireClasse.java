@@ -461,9 +461,9 @@ public class EcrireClasse extends IndexerClasse {
 					Boolean classePublicLire = (Boolean)doc.get("classePublicLire_stored_boolean");
 					Boolean classeRoleSession = (Boolean)doc.get("classeRoleSession_stored_boolean");
 					Boolean classeRoleUtilisateur = (Boolean)doc.get("classeRoleUtilisateur_stored_boolean");
-					String contexteCouleur = (String)doc.get("contexteCouleur_stored_string");
-					String contexteIconeGroupe = (String)doc.get("contexteIconeGroupe_stored_string");
-					String contexteIconeNom = (String)doc.get("contexteIconeNom_stored_string");
+					String classeCouleur = (String)doc.get("classeCouleur_stored_string");
+					String classeIconeGroupe = (String)doc.get("classeIconeGroupe_stored_string");
+					String classeIconeNom = (String)doc.get("classeIconeNom_stored_string");
 
 					auteurClasse = ToutEcrivain.create(classeFichier);
 					o = auteurClasse;
@@ -498,19 +498,19 @@ public class EcrireClasse extends IndexerClasse {
 						c.append(classeLangueConfig.getString(ConfigCles.var_RoleSession)).append(": ").append(classeRoleSession).append("\n");
 					if(classeRoleUtilisateur)
 						c.append(classeLangueConfig.getString(ConfigCles.var_RoleUtilisateur)).append(": ").append(classeRoleUtilisateur).append("\n");
-					if(contexteCouleur != null)
-						c.append(classeLangueConfig.getString(ConfigCles.var_Couleur)).append(": ").append(contexteCouleur).append("\n");
-					if(contexteIconeGroupe != null)
-						c.append(classeLangueConfig.getString(ConfigCles.var_IconeGroupe)).append(": ").append(contexteIconeGroupe).append("\n");
-					if(contexteIconeNom != null)
-						c.append(classeLangueConfig.getString(ConfigCles.var_IconeNom)).append(": ").append(contexteIconeNom).append("\n");
+					if(classeCouleur != null)
+						c.append(classeLangueConfig.getString(ConfigCles.var_Couleur)).append(": ").append(classeCouleur).append("\n");
+					if(classeIconeGroupe != null)
+						c.append(classeLangueConfig.getString(ConfigCles.var_IconeGroupe)).append(": ").append(classeIconeGroupe).append("\n");
+					if(classeIconeNom != null)
+						c.append(classeLangueConfig.getString(ConfigCles.var_IconeNom)).append(": ").append(classeIconeNom).append("\n");
 					if(StringUtils.isNotBlank(classeCommentaire))
 						c.append("\n").append(classeCommentaire);
 
 					for(String langueNom : toutesLangues) {
 						String classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
 						String classeApiTag = (String)doc.get("classeApiTag_" + langueNom + "_stored_string");
-						String contexteUnNom = (String)doc.get("contexteUnNom_" + langueNom + "_stored_string");
+						String classeUnNom = (String)doc.get("classeUnNom_" + langueNom + "_stored_string");
 						List<String> classeRoles = (List<String>)doc.get("classeRoles_stored_strings");
 						List<String> classeRolesLangue = (List<String>)doc.get("classeRolesLangue_stored_strings");
 
@@ -527,8 +527,8 @@ public class EcrireClasse extends IndexerClasse {
 							c.append(classeLangueConfig.getString(ConfigCles.var_ApiUri)).append(".").append(langueNom).append(": ").append(classeApiUri).append("\n");
 						if(StringUtils.isNotBlank(classeApiTag))
 							c.append(classeLangueConfig.getString(ConfigCles.var_ApiTag)).append(".").append(langueNom).append(": ").append(classeApiTag).append("\n");
-						if(StringUtils.isNotBlank(contexteUnNom))
-							c.append(classeLangueConfig.getString(ConfigCles.var_UnNom)).append(".").append(langueNom).append(": ").append(contexteUnNom).append("\n");
+						if(StringUtils.isNotBlank(classeUnNom))
+							c.append(classeLangueConfig.getString(ConfigCles.var_UnNom)).append(".").append(langueNom).append(": ").append(classeUnNom).append("\n");
 						if(!langueNom.equals(classeLangueNom)) {
 							String classeNomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
 							c.append(classeLangueConfig.getString(ConfigCles.var_NomCanonique)).append(": ").append(classeNomCanonique).append("\n");
