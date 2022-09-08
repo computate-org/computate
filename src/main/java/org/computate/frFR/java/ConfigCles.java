@@ -317,6 +317,7 @@ public class ConfigCles {
 	public static final String var_nomFichierConfig = "var_nomFichierConfig";
 	public static final String var_NOM_FICHIER_CONFIG = "var_NOM_FICHIER_CONFIG";
 	public static final String var_Nom = "var_Nom";
+	public static final String var_NomApi = "var_NomApi";
 	public static final String var_NomPluriel = "var_NomPluriel";
 	public static final String var_NomSingulierAdjectifPluriel = "var_NomSingulierAdjectifPluriel";
 	public static final String var_NomSingulier = "var_NomSingulier";

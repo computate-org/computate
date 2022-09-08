@@ -307,6 +307,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected Boolean classeApi;
 	protected String classeApiUri;
+	protected String classeApiUriPageRecherche;
 	protected String classeApiTag;
 
 	/**
@@ -748,10 +749,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String classeAucunNomTrouve;
 
-	/**
-	 * Var.enUS: contextNameVar
-	 */
 	protected String classeNomVar;
+	protected String classeNomApi;
 
 	/**
 	 * Var.enUS: contextOfName
@@ -2100,6 +2099,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				classeNomSingulier = (String)classeDoc.get("classeNomSingulier" + "_" + langueNom2 + "_stored_string");
 				classeNomPluriel = (String)classeDoc.get("classeNomPluriel" + "_" + langueNom2 + "_stored_string");
 				classeNomVar = (String)classeDoc.get("classeNomVar" + "_" + langueNom2 + "_stored_string");
+				classeApiUri = (String)classeDoc.get("classeApiUri" + "_" + langueNom2 + "_stored_string");
+				classeApiUriPageRecherche = (String)classeDoc.get("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom2 + "_stored_string");
 				classeAdjectif = (String)classeDoc.get("classeAdjectif" + "_" + langueNom2 + "_stored_string");
 				classeAdjectifPluriel = (String)classeDoc.get("classeAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
 				classeAdjectifVar = (String)classeDoc.get("classeAdjectifVar" + "_" + langueNom2 + "_stored_string");
@@ -2184,6 +2185,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				
 				if(classeNomVar != null)
 					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomVar), "_", langueNom2, " = ", q(classeNomVar), ";");
+				if(classeApiUri != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_ApiUri), "_", langueNom2, " = ", q(classeApiUri), ";");
+				if(classeApiUriPageRecherche != null)
+					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_ApiUri), langueConfig.getString(ConfigCles.var_PageRecherche), "_", langueNom2, " = ", q(classeApiUriPageRecherche), ";");
 				
 				if(classeDeNom != null)
 					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_DeNom), "_", langueNom2, " = ", q(classeDeNom), ";");

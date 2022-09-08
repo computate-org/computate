@@ -605,11 +605,6 @@ public class IndexerClasse extends RegarderClasseBase {
 	private String classeAucunNomTrouve;
 
 	/**
-	 * Var.enUS: contextNameVar
-	 */
-	private String classeNomVar;
-
-	/**
 	 * Var.enUS: contextOfName
 	 */
 	private String classeDeNom;
@@ -6513,7 +6508,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(langueNom, classeDoc, "classeUnNom", classeUnNom); 
 						classeNomSingulier = indexerStockerSolr(langueNom, classeDoc, "classeNomSingulier", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_NomSingulier), classeCommentaire, StringUtils.substringAfter(classeUnNom, " ")));
 						classeNomPluriel = indexerStockerSolr(langueNom, classeDoc, "classeNomPluriel", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_NomPluriel), classeCommentaire, classeNomSingulier + "s"));
-						classeNomVar = indexerStockerSolr(langueNom, classeDoc, "classeNomVar", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_NomVar), classeCommentaire, StringUtils.uncapitalize(Normalizer.normalize(StringUtils.replace(WordUtils.capitalize(StringUtils.join(StringUtils.split(classeNomSingulier, "-"), " ")), " ", ""), Normalizer.Form.NFD))));
+						String classeApiUri = regexLangue(langueNom, "^ApiUri", classeCommentaire);
 						classeLesNoms = indexerStockerSolr(langueNom, classeDoc, "classeLesNoms", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_LesNoms), classeCommentaire, CONTEXTE_frFR_LesPluriel + classeNomPluriel));
 		
 						classeAdjectif = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_Adjectif), classeCommentaire);
@@ -6635,8 +6630,6 @@ public class IndexerClasse extends RegarderClasseBase {
 						classeNomSingulier = indexerStockerSolr(langueNom, classeDoc, "classeNomSingulier", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_NomSingulier), classeCommentaire, StringUtils.substringAfter(classeUnNom, " ")));
 						classeNomPluriel = indexerStockerSolr(langueNom, classeDoc, "classeNomPluriel", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_NomPluriel), classeCommentaire, classeNomSingulier + "s"));
 						String classeApiUri = regexLangue(langueNom, "^ApiUri", classeCommentaire);
-						String classeNomVar = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_NomVar), classeCommentaire, StringUtils.uncapitalize(Normalizer.normalize(StringUtils.replace(WordUtils.capitalize(StringUtils.join(StringUtils.split(classeNomSingulier, "-"), " ")), " ", ""), Normalizer.Form.NFD)), classeApiUri);
-						classeNomVar = indexerStockerSolr(langueNom, classeDoc, "classeNomVar", classeNomVar);
 						classeLesNoms = indexerStockerSolr(langueNom, classeDoc, "classeLesNoms", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_LesNoms), classeCommentaire, CONTEXTE_enUS_LesPluriel + classeNomPluriel));
 		
 						classeAdjectif = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_Adjectif), classeCommentaire);
