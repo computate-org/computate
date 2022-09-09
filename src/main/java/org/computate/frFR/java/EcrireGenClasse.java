@@ -6338,7 +6338,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 		}
 
-		if((classeApi || classePartsModeleBase != null && classeEntiteClassesSuperEtMoiSansGen.contains(classePartsModeleBase.nomCanonique(langueNomGlobale))) && classeInitLoin && (classeEtendBase || classeEstBase)) {
+		if(classeApi 
+				|| (
+						classePartsModeleBase != null && classeEntiteClassesSuperEtMoiSansGen.contains(classePartsModeleBase.nomCanonique(langueNomGlobale))
+						|| classePartsResultatBase != null && classeEntiteClassesSuperEtMoiSansGen.contains(classePartsResultatBase.nomCanonique(langueNomGlobale))
+				) 
+				&& classeInitLoin 
+				&& (classeEtendBase || classeEstBase)
+				) {
 			l(); 
 			tl(1, "/////////////");
 			tl(1, "// ", langueConfig.getString(ConfigCles.var_definir), " //");

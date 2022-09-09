@@ -226,10 +226,8 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * Var.enUS: classPartsApiRequest
 	 */
 	ClasseParts classePartsRequeteApi;
-	/**
-	 * Var.enUS: classPartsModeleBase
-	 */
 	ClasseParts classePartsModeleBase;
+	ClasseParts classePartsResultatBase;
 	/**
 	 * Var.enUS: classPartsSearchResult
 	 */
@@ -1609,21 +1607,12 @@ public class IndexerClasse extends RegarderClasseBase {
 		return parts;
 	}
 
-	/**
-	 * Var.enUS: classPartsModeleBase
-	 * Param1.var.enUS: domainPackageName
-	 * Param2.var.enUS: classLanguageName
-	 * r: classeLangueNom
-	 * r.enUS: classLanguageName
-	 * r: classePartsPourNomSimple
-	 * r.enUS: classPartsForSimpleName
-	 * r: nomEnsembleDomaine
-	 * r.enUS: domainPackageName
-	 * r: ModeleBase
-	 * r.enUS: ModeleBase
-	 */
 	protected ClasseParts classePartsModeleBase(String nomEnsembleDomaine, String langueNom) throws Exception {
 		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ModeleBase), langueNom);
+	}
+
+	protected ClasseParts classePartsResultatBase(String nomEnsembleDomaine, String langueNom) throws Exception {
+		return classePartsPourNomSimple(nomEnsembleDomaine, langueConfigGlobale.getString(ConfigCles.var_ResultatBase), langueNom);
 	}
 
 	/**
@@ -3526,6 +3515,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsUtilisateurSite = classePartsUtilisateurSite(nomEnsembleDomaine, classeLangueNom);
 		classePartsRequeteApi = classePartsRequeteApi(nomEnsembleDomaine, classeLangueNom);
 		classePartsModeleBase = classePartsModeleBase(nomEnsembleDomaine, classeLangueNom);
+		classePartsResultatBase = classePartsResultatBase(nomEnsembleDomaine, classeLangueNom);
 		classePartsResultatRecherche = classePartsResultatRecherche(nomEnsembleDomaine, classeLangueNom);
 		classePartsToutEcrivain = classePartsToutEcrivain(nomEnsembleDomaine, classeLangueNom);
 		classePartsListeRecherche = classePartsListeRecherche(nomEnsembleDomaine, classeLangueNom);
