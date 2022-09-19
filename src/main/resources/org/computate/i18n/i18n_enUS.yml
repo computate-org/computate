@@ -36,12 +36,18 @@ classe:
     Api:
       nom: "Api"
       commentaire: "Api: true"
+      description: |
+        <p>This class contains a comment <b>"Api: true"</b>, which means this class will have Java Vert.x API backend code generated for these objects. 
+        </p>
       suggere: |
-        <li>You can add a class comment "Api: true" if you wish to GET, POST, PATCH or PUT these %s objects in a RESTful API. 
+        <li>You can add a class comment <b>"Api: true"</b> if you wish to GET, POST, PATCH or PUT these %s objects in a RESTful API. 
         </li>
     ApiUri:
       nom: "ApiUri"
       commentaire: "ApiUri.%s: /api/..."
+      description: |
+        <p>This class contains a comment <b>"ApiUri: %s"</b>, which defines the base API URI for %s objects as "%s" in the OpenAPI spec. 
+        </p>
       todo: |
         <li>You should add a class comment "ApiUri.%s: /api/..." to specify the base URL for %s objects in the RESTful API. 
         The OpenAPI spec and code to handle API requests to this base URL will then be automatically generated. 
@@ -49,14 +55,21 @@ classe:
     ApiTag:
       nom: "ApiTag"
       commentaire: "ApiTag.%s: ..."
+      description: |
+        <p>This class contains a comment <b>"ApiTag: %s"</b>, which groups all of the OpenAPIs for %s objects under the tag "%s". 
+        </p>
       todo: |
-        <li>You should add a class comment "ApiTag.%s: ..." to specify a group name for %s objects in the OpenAPI specification. 
+        <li>You should add a class comment <b>"ApiTag.%s: ..."</b> to specify a group name for %s objects in the OpenAPI specification. 
         It can be as simple as "ApiTag.%s: %s". 
         The OpenAPI spec for this tag can then be automatically generated. 
         </li>
     Indexe:
       nom: "Indexed"
       commentaire: "Indexed: true"
+      description: |
+        <p>This class contains a comment <b>"Indexed: true"</b>, which means this class will be indexed in the search engine. 
+        Every protected void method that begins with "_" that is marked to be searched with a comment like "Indexed: true", "Stored: true", or "DocValues: true" will be indexed in the search engine. 
+        </p>
       todo: |
         <li>You should add a class comment "Indexed: true" because the GET, POST, PATCH and PUT APIs rely on a indexed data search engine to paginate, filter, sort and aggregate the data when it's queried. 
         The code to index and retrieve the %s data in the search engine will then be automatically generated. 
@@ -64,47 +77,55 @@ classe:
     Modele:
       nom: "Model"
       commentaire: "Model: true"
+      description: |
+        <p>This class contains a comment <b>"Model: true"</b>, which means this class will be stored in the database. 
+        Every protected void method that begins with "_" that contains a "Persist: true" comment will be a persisted field in the database table. 
+        </p>
       suggere: |
         <li>You can add a class comment "Model: true" if you wish to persist these %s objects in a relational PostgreSQL database transactionally in the RESTful API. 
         The code to persist and query the %s data in the database will then be automatically generated. 
         </li>
     Lignes:
+      description: |
+        <p>This class contains a comment <b>"Rows: %s"</b>, which means the %s API will return a default of %s records instead of 10 by default. 
+        Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
+        </p>
       suggere: |
         <li>You can add a class comment "Rows: 100" if you wish the %s API to return more or less than 10 records by default. 
         In this case, the API will return 100 records from the API instead of 10 by default. 
         Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
         </li>
+    Page:
       description: |
-        <p>This class contains a comment "Rows: %s", which means the %s API will return a default of %s records instead of 10 by default. 
-        Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
+        <p>This class contains a comment <b>"Page: true"</b>, which means this class will have webpage code generated for these objects. 
+        Java Vert.x backend API code, Handlebars HTML template frontend code, and JavaScript code will all generated and can be extended. 
+        This creates a new Java class %s. 
         </p>
-    
-str_description_classe_Api: |
-  <p>This class contains a comment "Api: true", which means this class will have Java Vert.x API backend code generated for these objects. 
-  </p>
-str_description_classe_ApiTag: |
-  <p>This class contains a comment "ApiTag: %s", which groups all of the OpenAPIs for %s objects under the tag "%s". 
-  </p>
-str_description_classe_ApiUri: |
-  <p>This class contains a comment "ApiUri: %s", which defines the base API URI for %s objects as "%s" in the OpenAPI spec. 
-  </p>
-str_description_classe_Indexe: |
-  <p>This class contains a comment "Indexed: true", which means this class will be indexed in the search engine. 
-  Every protected void method that begins with "_" that is marked to be searched with a comment like "Indexed: true", "Stored: true", or "DocValues: true" will be indexed in the search engine. 
-  </p>
-str_description_classe_Modele: |
-  <p>This class contains a comment "Model: true", which means this class will be stored in the database. 
-  Every protected void method that begins with "_" that contains a "Persist: true" comment will be a persisted field in the database table. 
-  </p>
-str_description_classe_Page: |
-  <p>This class contains a comment "Page: true", which means this class will have webpage code generated for these objects. 
-  Java Vert.x backend API code, Handlebars HTML template frontend code, and JavaScript code will all generated and can be extended. 
-  This creates a new Java class %s. 
-  </p>
-str_description_classe_PageSuper: |
-  <p>This class contains a comment "SuperPage.enUS: %s", which identifies the Java super class of the page code by it's class simple name "%s". 
-  This means that the newly created class %s extends %s. 
-  </p>
+    PageSuper:
+      description: |
+        <p>This class contains a comment <b>"SuperPage.enUS: %s"</b>, which identifies the Java super class of the page code by it's class simple name "%s". 
+        This means that the newly created class %s extends %s. 
+        </p>
+    UnNom:
+      description: |
+        <p>This class contains a comment <b>"AName.enUS: %s"</b>, which identifies the language context to describe a %s as "%s". 
+        </p>
+    Couleur:
+      description: |
+        <p>This class contains a comment <b>"Color: %s"</b>, which styles the %s page "%s". 
+        This will reference a CSS class defined by the stylesheets in the project that starts with "w3-". 
+        A css class of "w3-%s" is expected to exist in the project stylesheets, and is inspired by W3 CSS colors. 
+        See: <a href="https://www.w3schools.com/w3css/w3css_colors.asp">https://www.w3schools.com/w3css/w3css_colors.asp</a>. 
+        </p>
+    IconeGroupe:
+      description: |
+        <p>This class contains a comment <b>"IconGroup: %s"</b>, which adds icons on the %s page with a group of "%s". 
+        This will reference a Font Awesome icon group defined by the stylesheets in the project that starts with "fa" followed by the first letter of the icon group, which is "fa%s". 
+        A Font Awesome icon group of "%s" is expected to exist. 
+        The Font Awesome groups currently supported include: solid, thin, duotone. 
+        See: <a href="https://www.w3schools.com/w3css/w3css_colors.asp">https://www.w3schools.com/w3css/w3css_colors.asp</a>. 
+        </p>
+
 str_deuxPoints: ": "
 str_Dupliquer_: "Duplicate "
 str_EEE_d_MMM_yyyy: "EEE MMM d, yyyy"

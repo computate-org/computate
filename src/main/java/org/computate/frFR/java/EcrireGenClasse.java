@@ -6880,28 +6880,28 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Todo
 
 			if(classeNomSimpleSuperGenerique == null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_NomSimpleSuperGenerique_todo), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.NomSimpleSuperGenerique.todo"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
 					wClasseTodos.tl(0, " * ", s);
 				});
 			}
 			if(classeApi && !classeIndexe) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_Indexe_todo), classeNomSimple).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.Indexe.todo"), classeNomSimple).split("\n")).stream().forEach(s -> {
 					wClasseTodos.tl(0, " * ", s);
 				});
 			}
 			if(classeApi && classeApiUri == null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_ApiUri_todo), classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.ApiUri.todo"), classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
 					wClasseTodos.tl(0, " * ", s);
 				});
 			}
 			if(classeApi && classeApiTag == null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_ApiTag_todo), classeLangueNom, classeNomSimple, classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.ApiTag.todo"), classeLangueNom, classeNomSimple, classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
 					wClasseTodos.tl(0, " * ", s);
 				});
 			}
 
 			if(!wClasseTodos.getEmpty()) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Todo)).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.Todo")).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 				tl(0, " * <ol>");
@@ -6912,28 +6912,28 @@ public class EcrireGenClasse extends EcrireClasse {
 			// Suggere
 
 			if(Optional.ofNullable(classeCommentaire).map(commentaire -> !commentaire.contains("{@inheritDoc}")).orElse(false)) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_inheritDoc_suggere), classeNomSimpleGen, classeNomSimple).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.inheritDoc.suggere"), classeNomSimpleGen, classeNomSimple).split("\n")).stream().forEach(s -> {
 					wClasseSuggere.tl(0, " * ", s);
 				});
 			}
 			if(classeNomSimpleSuperGenerique != null && !classeApi) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_Api_suggere), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.Api.suggere"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
 					wClasseSuggere.tl(0, " * ", s);
 				});
 			}
 			if(classeApi && !classeModele) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_Modele_suggere), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.Modele.suggere"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
 					wClasseSuggere.tl(0, " * ", s);
 				});
 			}
 			if(classeApi && classeLignes == null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_Lignes_suggere), classeNomSimple).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.Lignes.suggere"), classeNomSimple).split("\n")).stream().forEach(s -> {
 					wClasseSuggere.tl(0, " * ", s);
 				});
 			}
 
 			if(!wClasseSuggere.getEmpty()) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Suggere)).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.Suggere")).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 				tl(0, " * <ol>");
@@ -6943,7 +6943,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			// Description
 
-			Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_Description), classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique).split("\n")).stream().forEach(s -> {
+			Arrays.asList(String.format(langueConfig.getString("classe.Description"), classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique).split("\n")).stream().forEach(s -> {
 				tl(0, " * ", s);
 			});
 
@@ -6959,42 +6959,57 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(0, " * </p>");
 
 			if(classeModele) {
-				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Modele).split("\n")).stream().forEach(s -> {
+				Arrays.asList(langueConfig.getString("classe.ref.Modele.description").split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 			}
 			if(classeIndexe) {
-				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Indexe).split("\n")).stream().forEach(s -> {
+				Arrays.asList(langueConfig.getString("classe.ref.Indexe.description").split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 			}
 			if(classePage) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_Page), classePageNomCanonique).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.Page.description"), classePageNomCanonique).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 			}
 			if(classePageSuperNomSimple != null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_PageSuper), classePageSuperNomSimple, classePageSuperNomSimple, classePageNomCanonique, classePageSuperNomCanonique).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.PageSuper.description"), classePageSuperNomSimple, classePageSuperNomSimple, classePageNomCanonique, classePageSuperNomCanonique).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 			}
 			if(classeApi) {
-				Arrays.asList(langueConfig.getString(ConfigCles.str_description_classe_Api).split("\n")).stream().forEach(s -> {
+				Arrays.asList(langueConfig.getString("classe.ref.Api.description").split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 			}
 			if(classeApiTag != null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_ApiTag), classeApiTag, classeNomSimple, classeApiTag).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.ApiTag.description"), classeApiTag, classeNomSimple, classeApiTag).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 			}
 			if(classeApiUri != null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.str_description_classe_ApiUri), classeApiUri, classeNomSimple, classeApiUri).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.ApiUri.description"), classeApiUri, classeNomSimple, classeApiUri).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 			}
 			if(classeLignes != null) {
-				Arrays.asList(String.format(langueConfig.getString(ConfigCles.classe_ref_Lignes_description), classeLignes, classeNomSimple, classeLignes).split("\n")).stream().forEach(s -> {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.Lignes.description"), classeLignes, classeNomSimple, classeLignes).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classeUnNom != null) {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.UnNom.description"), classeUnNom, classeNomSimple, classeUnNom).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classeCouleur != null) {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.Couleur.description"), classeCouleur, classeNomSimple, classeCouleur, classeCouleur).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classeIconeGroupe != null) {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.IconeGroupe.description"), classeIconeGroupe, classeNomSimple, classeIconeGroupe, StringUtils.substring(classeIconeGroupe, 0, 1), classeCouleur).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 			}

@@ -15,21 +15,6 @@ package org.computate.frFR.java;
 
 public class ConfigCles {
 
-	public static final String classe_Todo = "classe.Todo";
-	public static final String classe_NomSimpleSuperGenerique_todo = "classe.NomSimpleSuperGenerique.todo";
-	public static final String classe_NomSimpleSuperGenerique_description = "classe.NomSimpleSuperGenerique.description";
-	public static final String classe_Description = "classe.Description";
-	public static final String classe_Suggere = "classe.Suggere";
-
-	public static final String classe_inheritDoc_suggere = "classe.inheritDoc.suggere";
-	public static final String classe_ref_Api_suggere = "classe.ref.Api.suggere";
-	public static final String classe_ref_Indexe_todo = "classe.ref.Indexe.todo";
-	public static final String classe_ref_Modele_suggere = "classe.ref.Modele.suggere";
-	public static final String classe_ref_ApiUri_todo = "classe.ref.ApiUri.todo";
-	public static final String classe_ref_ApiTag_todo = "classe.ref.ApiTag.todo";
-	public static final String classe_ref_Lignes_suggere = "classe.ref.Lignes.suggere";
-	public static final String classe_ref_Lignes_description = "classe.ref.Lignes.description";
-
 	public static final String str_a_démarré = "str_a_démarré";
 	public static final String str_a_échoué = "str_a_échoué";
 	public static final String str_a_réussi = "str_a_réussi";
@@ -39,15 +24,6 @@ public class ConfigCles {
 	public static final String str_Creer_ = "str_Creer_";
 	public static final String str__dans_Solr = "str__dans_Solr";
 	public static final String str_DDDashMMDashYYYY_HHColonMM = "str_DDDashMMDashYYYY_HHColonMM";
-
-	public static final String str_description_classe_Api = "str_description_classe_Api";
-	public static final String str_description_classe_ApiUri = "str_description_classe_ApiUri";
-	public static final String str_description_classe_ApiTag = "str_description_classe_ApiTag";
-	public static final String str_description_classe_Modele = "str_description_classe_Modele";
-	public static final String str_description_classe_Indexe = "str_description_classe_Indexe";
-	public static final String str_description_classe_Page = "str_description_classe_Page";
-	public static final String str_description_classe_PageSuper = "str_description_classe_PageSuper";
-
 	public static final String str_deuxPoints = "str_deuxPoints";
 	public static final String str_Dupliquer_ = "str_Dupliquer_";
 	public static final String str_EEE_d_MMM_yyyy = "str_EEE_d_MMM_yyyy";
