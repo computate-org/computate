@@ -370,6 +370,7 @@ public class ConfigCles {
 	public static final String var_RequeteUri = "var_RequeteUri";
 	public static final String var_ResultatRecherche = "var_ResultatRecherche";
 	public static final String var_resultat = "var_resultat";
+	public static final String var_ResultatBase = "var_ResultatBase";
 	public static final String var_RoleChacun = "var_RoleChacun";
 	public static final String var_RoleLire = "var_RoleLire";
 	public static final String var_roleLires = "var_roleLires";
