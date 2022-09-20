@@ -4475,10 +4475,14 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(9, "break;");
 	
 			tl(8, "case \"stats.field\":");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_entite), "Var = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
-			tl(9, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
-			tl(9, "if(var", classeLangueConfig.getString(ConfigCles.var_Indexe), " != null)");
-			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".statsField(var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
+			tl(9, "Matcher mStats = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
+			tl(9, "boolean foundStats = mStats.find();");
+			tl(9, "if(foundStats) {");
+			tl(10, "String solrLocalParams = mStats.group(1);");
+			tl(10, classeLangueConfig.getString(ConfigCles.var_entite), "Var = mStats.group(2).trim();");
+			tl(10, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
+			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".statsField((solrLocalParams == null ? \"\" : solrLocalParams) + var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
+			tl(9, "}");
 			tl(9, "break;");
 	
 			tl(8, "case \"facet\":");
