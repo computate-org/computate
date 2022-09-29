@@ -7039,7 +7039,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		auteurGenClasse.s(auteurGenClasseDebut);
 		auteurGenClasse.s(auteurGenClasseFin);
 
-		System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeCheminGen); 
+//		System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeCheminGen); 
 		auteurGenClasse.flushClose();
 	}  
 

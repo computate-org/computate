@@ -14,6 +14,9 @@
 package org.computate.frFR.java; 
 
 import java.io.File;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 import org.apache.commons.configuration2.YAMLConfiguration;
@@ -21,6 +24,8 @@ import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.common.SolrInputDocument;
+import org.computate.search.serialize.ComputateZonedDateTimeSerializer;
+import org.computate.vertx.config.ComputateConfigKeys;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchClass
@@ -57,6 +62,10 @@ public class RegarderClasse extends EcrireToutesClasses {
 		String appComputate = System.getenv("COMPUTATE_SRC");
 		Configurations configurations = new Configurations();
 		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classeLangueNom));
+		String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
+		String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
+		String siteConfigChemin = String.format("%s/config/%s.yml", SITE_CHEMIN, SITE_NOM);
+		YAMLConfiguration siteConfig = configurations.fileBased(YAMLConfiguration.class, siteConfigChemin);
 		try {
 			regarderClasse.args = args;
 			regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
@@ -87,7 +96,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 			System.err.println("Erreur pendant traiterEvenements. ");
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
-		SolrInputDocument classeDoc = regarderClasse(classeLangueConfig, regarderClasse, classeLangueNom);
+		SolrInputDocument classeDoc = regarderClasse(classeLangueConfig, siteConfig, regarderClasse, classeLangueNom);
 		if(classeDoc != null) {
 			Boolean classeEtendGen = (Boolean)classeDoc.get("classeEtendGen_stored_boolean").getValue();
 			String classeCheminGen = Optional.ofNullable(classeDoc.get("classeCheminGen_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
@@ -100,7 +109,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 					regarderClasse2.args = args;
 					regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 					SolrInputDocument classeDoc2 = new SolrInputDocument();
-					System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + classeCheminGen);
+//					System.out.println(String.format(classeLangueConfig.getString(ConfigCles.str_chemin_absolu), classeNomSimple, siteUrlBase, id));
 					regarderClasse2.indexerClasse(classeCheminGen, classeDoc2, classeLangueNom);
 				}
 				catch(Exception e) {
@@ -116,7 +125,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 					regarderClasse2.args = args;
 					regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 					SolrInputDocument classeDoc2 = new SolrInputDocument();
-					System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + classePageGenChemin);
+//					System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + classePageGenChemin);
 					regarderClasse2.indexerClasse(classePageGenChemin, classeDoc2, classeLangueNom);
 				}
 				catch(Exception e) {
@@ -132,7 +141,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 					regarderClasse2.args = args;
 					regarderClasse2.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 					SolrInputDocument classeDoc2 = new SolrInputDocument();
-					System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + classeGenPageGenChemin);
+//					System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + classeGenPageGenChemin);
 					regarderClasse2.indexerClasse(classeGenPageGenChemin, classeDoc2, classeLangueNom);
 				}
 				catch(Exception e) {
@@ -174,14 +183,26 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r: classeLangueNom
 	 * r.enUS: classLanguageName
 	 */   
-	public static SolrInputDocument regarderClasse(YAMLConfiguration classeLangueConfig, RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
+	public static SolrInputDocument regarderClasse(YAMLConfiguration classeLangueConfig, YAMLConfiguration siteConfig, RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
 		String appComputate = System.getenv("COMPUTATE_SRC");
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile() && regarderClasse.classeCheminAbsolu.endsWith(".java")) {
-			System.out.println(classeLangueConfig.getString(ConfigCles.str_chemin_absolu) + " : " + regarderClasse.classeCheminAbsolu);
 			SolrInputDocument classeDoc = new SolrInputDocument();
 //			classeDoc.addField("id", regarderClasse.classeCheminAbsolu);  
 			regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, classeLangueNom);
+			String classeNomSimple = Optional.ofNullable(classeDoc.get("classeNomSimple_enUS_stored_string")).map(o -> (String)o.getValue()).orElse(null);
+//			Date classeModifie = Optional.ofNullable(classeDoc.get("modifiee_stored_date")).map(o -> (Date)o.getValue()).orElse(null);
+			String siteUrlBase = siteConfig.getString(classeLangueConfig.getString(ConfigCles.var_SITE_URL_BASE));
+//			String siteLangue = siteConfig.getString(classeLangueConfig.getString(ConfigCles.var_LANGUE_NOM));
+//			String siteZoneStr = siteConfig.getString(classeLangueConfig.getString(ConfigCles.var_SITE_ZONE));
+//			ZoneId siteZone = ZoneId.of(siteZoneStr);
+//			String classeModifieStr = ZonedDateTime.ofInstant(classeModifie.toInstant(), siteZone).format(ComputateZonedDateTimeSerializer.ZONED_DATE_TIME_FORMATTER.withZone(ZoneId.of(siteConfig.getString(ComputateConfigKeys.SITE_ZONE))));
+			Boolean classeTraduire = Optional.ofNullable(classeDoc.get("classeTraduire_stored_boolean")).map(o -> (Boolean)o.getValue()).orElse(null);
+			if(classeTraduire) {
+				String url = String.format(classeLangueConfig.getString(ConfigCles.str_chemin_absolu_url), siteUrlBase, classeNomSimple);
+				String log = String.format(classeLangueConfig.getString(ConfigCles.str_chemin_absolu), classeNomSimple, url);
+				System.out.println(log);
+			}
 //			for(String langueNom : regarderClasse.autresLangues) {
 //				if(!StringUtils.equals(langueNom, regarderClasse.langueNom)) {
 //					if("enUS".equals(langueNom))

@@ -3703,21 +3703,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			wTh.flushClose();
 
 			auteurPageGenClasse.flushClose();
-			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeGenPageChemin); 
+//			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeGenPageChemin); 
 			if(auteurPageClasse != null) {
 				auteurPageClasse.flushClose();
-				System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageChemin); 
+//				System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageChemin); 
 			}
 			auteurPageCss.flushClose();
-			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageCheminCss); 
+//			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageCheminCss); 
 			auteurPageJs.flushClose();
-			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageCheminJs); 
+//			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageCheminJs); 
 			if(auteurPageHbs != null) {
 				auteurPageHbs.flushClose();
-				System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageCheminHbs); 
+//				System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageCheminHbs); 
 			}
 			auteurGenPageHbs.flushClose();
-			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeGenPageCheminHbs); 
+//			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeGenPageCheminHbs); 
 
 			String siteCheminVertx = siteCheminsVertx.get(langueNom);
 			String siteNomVertx = StringUtils.substringAfterLast(siteCheminVertx, "/");

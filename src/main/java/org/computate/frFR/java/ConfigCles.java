@@ -20,6 +20,7 @@ public class ConfigCles {
 	public static final String str_a_réussi = "str_a_réussi";
 	public static final String str_API = "str_API";
 	public static final String str_chemin_absolu = "str_chemin_absolu";
+	public static final String str_chemin_absolu_url = "str_chemin_absolu_url";
 	public static final String str_créé_nouveau = "str_créé_nouveau";
 	public static final String str_Creer_ = "str_Creer_";
 	public static final String str__dans_Solr = "str__dans_Solr";
@@ -229,6 +230,7 @@ public class ConfigCles {
 	public static final String var_initLoin = "var_initLoin";
 	public static final String var_InitLoin = "var_InitLoin";
 	public static final String var_Interne = "var_Interne";
+	public static final String var_LANGUE_NOM = "var_LANGUE_NOM";
 	public static final String var_Langue = "var_Langue";
 	public static final String var_Largeur = "var_Largeur";
 	public static final String var_LeNomAdjectif = "var_LeNomAdjectif";

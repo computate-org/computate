@@ -4815,7 +4815,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(0, "}");
 
 			auteurGenApiServiceImpl.flushClose();
-			System.out.println(classeLangueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeCheminGenApiServiceImpl); 
+//			System.out.println(classeLangueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeCheminGenApiServiceImpl); 
 		}
 	}
 }
