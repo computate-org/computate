@@ -803,10 +803,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String classeNomAdjectifPluriel;
 
-	/**
-	 * Var.enUS: contextColor
-	 */
 	protected String classeCouleur;
+	protected String classeEntiteCouleur;
 
 	/**
 	 * Var.enUS: contextIconGroup

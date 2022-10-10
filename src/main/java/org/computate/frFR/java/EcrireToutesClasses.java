@@ -597,6 +597,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 
 					classeContexte = (Boolean)doc.get("classeContexte_stored_boolean");
 					classeCouleur = (String)doc.get("classeCouleur_stored_string");
+					classeEntiteCouleur = (String)doc.get("classeEntiteCouleur_stored_string");
 					classeIconeGroupe = (String)doc.get("classeIconeGroupe_stored_string");
 					classeIconeNom = (String)doc.get("classeIconeNom_stored_string");
 					classeLignes = (Integer)doc.get("classeLignes_stored_int");

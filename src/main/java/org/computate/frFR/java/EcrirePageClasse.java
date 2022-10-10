@@ -2674,7 +2674,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l("</div>");
 			tl(0, "{{/eq}}");
 			tl(0, "{{/each}}");
-			tl(0, "{{#if ./stats/min }}");
+			tl(0, "{{#if ./stats/max }}");
 			t(9, "<div>");
 			t(9, "<span> step </span>");
 			t(9, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Step\" placeholder=\"step\" value=\"1\" style=\"width: 4em; \"/>");
@@ -3566,7 +3566,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(5, "var trace = {};");
 				auteurPageJs.tl(5, "trace['showlegend'] = true;");
 				auteurPageJs.tl(5, "trace['type'] = 'scattermapbox';");
-				auteurPageJs.tl(5, "trace['marker'] = { color: 'fuchsia', size: 6 };");
+				auteurPageJs.tl(5, "var colors = [];");
 				auteurPageJs.tl(5, "var lat = [];");
 				auteurPageJs.tl(5, "var lon = [];");
 				auteurPageJs.tl(5, "var text = [];");
@@ -3582,6 +3582,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(7, "text.push('pivot1Val');");
 				auteurPageJs.tl(7, "lat.push(parseFloat(locationParts[0]));");
 				auteurPageJs.tl(7, "lon.push(parseFloat(locationParts[1]));");
+				auteurPageJs.tl(7, "colors.push(", classeEntiteCouleur == null ? "'fuchsia'" : "record.fields[window.varsFq['" + classeEntiteCouleur + "'].var", langueConfig.getString(ConfigCles.var_Indexe), "]", ");");
 				auteurPageJs.tl(7, "var vals = {};");
 				auteurPageJs.tl(7, "var hovertemplate = '';");
 				auteurPageJs.tl(7, "Object.entries(window.varsFq).forEach(([key, data]) => {");
@@ -3595,6 +3596,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(7, "trace['hovertemplate'] = hovertemplate;");
 				auteurPageJs.tl(6, "}");
 				auteurPageJs.tl(5, "});");
+				auteurPageJs.tl(5, "trace['marker'] = { color: colors, size: 10 };");
 				auteurPageJs.tl(5, "data.push(trace);");
 				auteurPageJs.tl(4, "} else if(range) {");
 				auteurPageJs.tl(5, "layout['title'] = '", classeNomSimple, "';");
