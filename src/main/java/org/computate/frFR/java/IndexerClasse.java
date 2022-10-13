@@ -21,6 +21,7 @@ import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.Normalizer;
 import java.text.NumberFormat;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -3582,10 +3583,11 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		indexerStockerSolr(classeDoc, "classeEstAbstrait", classeQdox.isAbstract()); 
 		Boolean classeModele = indexerStockerSolr(classeDoc, "classeModele", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Modele) + ": \\s*(true)$", classeCommentaire));
+		Boolean classeFiware = indexerStockerSolr(classeDoc, "classeFiware", regexTrouve("^Fiware: \\s*(true)$", classeCommentaire));
 		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire));
 		Boolean classePage = regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Page) + ": \\s*(true)$", classeCommentaire);
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
-		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Sauvegarde) + ":\\s*(true)$", classeCommentaire) || classeModele);
+		Boolean classeSauvegarde = indexerStockerSolr(classeDoc, "classeSauvegarde", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Sauvegarde) + ":\\s*(true)$", classeCommentaire) || classeModele || classeFiware);
 		String classeApiClasseNomSimple = regexLangue(langueNomGlobale, "^" + classeLangueConfig.getString(ConfigCles.var_ApiClasse), classeCommentaire, classeNomSimple);
 
 				if(classeApiClasseNomSimple != null) {
@@ -6423,6 +6425,8 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, LocalDate.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, ZonedDateTime.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, DateTimeFormatter.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Duration.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Instant.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, Locale.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonObject", classeLangueNom), classeLangueNom);
 			classePartsGenPageAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.api.service.ServiceRequest", classeLangueNom), classeLangueNom);
@@ -6717,7 +6721,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
-		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Indexe) + ":\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele || classePage);
+		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Indexe) + ":\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele || classeFiware || classePage);
 		Boolean classeImage = indexerStockerSolr(classeDoc, "classeImage", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Image) + ":\\s*(true)$", classeCommentaire));
 
 		stockerSolr(classeDoc, "classePromesse", classePromesse);

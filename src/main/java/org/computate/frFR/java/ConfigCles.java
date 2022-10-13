@@ -96,6 +96,8 @@ public class ConfigCles {
 	public static final String var_Avant = "var_Avant";
 	public static final String var_BaseApiServiceImpl = "var_BaseApiServiceImpl";
 	public static final String var_PageBase = "var_PageBase";
+	public static final String var_calendrier = "var_calendrier";
+	public static final String var_Calendrier = "var_Calendrier";
 	public static final String var_Ce = "var_Ce";
 	public static final String var_CeNom = "var_CeNom";
 	public static final String var_CHEMINS_RELATIFS_A_REGARDER = "var_CHEMINS_RELATIFS_A_REGARDER";

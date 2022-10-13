@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -638,12 +639,266 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_(", classePartsCouverture.nomSimple(langueNom), "<", langueConfig.getString(ConfigCles.var_ListeRecherche), "<", classeApiClasseNomSimple, ">> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 				tl(1, "}");
 				l();
+				tl(1, "@Override");
 				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 				tl(2, "if(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_ != null)");
 				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(JsonObject.mapFrom(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).toString());");
 				tl(1, "}");
+				l();
+				tl(1, "@Override");
+				tl(1, "protected void _stats(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.Stats> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getStats());");
+				tl(1, "}");
+				l();
+				tl(1, "@Override");
+				tl(1, "protected void _facetCounts(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.FacetCounts> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getFacetCounts());");
+				tl(1, "}");
+				l();
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
+				tl(1, "protected void _pagination(JsonObject pagination) {");
+				tl(2, "JsonArray pages = new JsonArray();");
+				tl(2, "Long ", langueConfig.getString(ConfigCles.var_debut), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getStart().longValue();");
+				tl(2, "Long ", langueConfig.getString(ConfigCles.var_lignes), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRows().longValue();");
+				tl(2, "Long ", langueConfig.getString(ConfigCles.var_numTrouve), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getResponse().getNumFound().longValue();");
+				tl(2, "Long ", langueConfig.getString(ConfigCles.var_debut), "Num = ", langueConfig.getString(ConfigCles.var_debut), " + 1L;");
+				tl(2, "Long ", langueConfig.getString(ConfigCles.var_fin), "Num = ", langueConfig.getString(ConfigCles.var_debut), " + ", langueConfig.getString(ConfigCles.var_lignes), ";");
+				tl(2, "Long floorMod = (", langueConfig.getString(ConfigCles.var_lignes), " == 0L ? 0L : Math.floorMod(", langueConfig.getString(ConfigCles.var_numTrouve), ", ", langueConfig.getString(ConfigCles.var_lignes), "));");
+				tl(2, "Long ", langueConfig.getString(ConfigCles.var_dernier), " = (", langueConfig.getString(ConfigCles.var_lignes), " == 0L ? 0L : Math.floorDiv(", langueConfig.getString(ConfigCles.var_numTrouve), ", ", langueConfig.getString(ConfigCles.var_lignes), ") - (floorMod.equals(0L) ? 1L : 0L) * ", langueConfig.getString(ConfigCles.var_lignes), ");");
+				tl(2, langueConfig.getString(ConfigCles.var_fin), "Num = ", langueConfig.getString(ConfigCles.var_fin), "Num < ", langueConfig.getString(ConfigCles.var_numTrouve), " ? ", langueConfig.getString(ConfigCles.var_fin), "Num : ", langueConfig.getString(ConfigCles.var_numTrouve), ";");
+				tl(2, langueConfig.getString(ConfigCles.var_debut), "Num = ", langueConfig.getString(ConfigCles.var_numTrouve), " == 0L ? 0L : ", langueConfig.getString(ConfigCles.var_debut), "Num;");
+				tl(2, "Long pagination", langueConfig.getString(ConfigCles.var_Debut), " = ", langueConfig.getString(ConfigCles.var_debut), " - 10L * ", langueConfig.getString(ConfigCles.var_lignes), ";");
+				tl(2, "if(pagination", langueConfig.getString(ConfigCles.var_Debut), " < 0L)");
+				tl(3, "pagination", langueConfig.getString(ConfigCles.var_Debut), " = 0L;");
+				tl(2, "Long pagination", langueConfig.getString(ConfigCles.var_Fin), " = ", langueConfig.getString(ConfigCles.var_debut), " + 10L * ", langueConfig.getString(ConfigCles.var_lignes), ";");
+				tl(2, "if(pagination", langueConfig.getString(ConfigCles.var_Fin), " > ", langueConfig.getString(ConfigCles.var_numTrouve), ")");
+				tl(3, "pagination", langueConfig.getString(ConfigCles.var_Fin), " = ", langueConfig.getString(ConfigCles.var_numTrouve), ";");
+				l();
+				tl(2, "pagination.put(\"1L\", 1L);");
+				tl(2, "pagination.put(\"0L\", 0L);");
+				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_debut), "\", ", langueConfig.getString(ConfigCles.var_debut), ");");
+				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_lignes), "\", ", langueConfig.getString(ConfigCles.var_lignes), ");");
+				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), "\", ", langueConfig.getString(ConfigCles.var_lignes), " / 2);");
+				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Prochaine), "\", ", langueConfig.getString(ConfigCles.var_lignes), " * 2);");
+				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_debut), "Num\", ", langueConfig.getString(ConfigCles.var_debut), "Num);");
+				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_fin), "Num\", ", langueConfig.getString(ConfigCles.var_fin), "Num);");
+				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_numTrouve), "\", ", langueConfig.getString(ConfigCles.var_numTrouve), ");");
+				tl(2, "pagination.put(\"page", langueConfig.getString(ConfigCles.var_Debut), "\", new JsonObject().put(\"", langueConfig.getString(ConfigCles.var_debut), "\", 0L).put(\"page", langueConfig.getString(ConfigCles.var_Numero), "\", 1L));");
+				tl(2, "if(", langueConfig.getString(ConfigCles.var_debut), " > 0L)");
+				tl(3, "pagination.put(\"page", langueConfig.getString(ConfigCles.var_Precedent), "\", new JsonObject().put(\"", langueConfig.getString(ConfigCles.var_debut), "\", ", langueConfig.getString(ConfigCles.var_debut), " - ", langueConfig.getString(ConfigCles.var_lignes), ").put(\"page", langueConfig.getString(ConfigCles.var_Numero), "\", ", langueConfig.getString(ConfigCles.var_debut), " - ", langueConfig.getString(ConfigCles.var_lignes), " + 1L));");
+				tl(2, "if(", langueConfig.getString(ConfigCles.var_debut), " + ", langueConfig.getString(ConfigCles.var_lignes), " < ", langueConfig.getString(ConfigCles.var_numTrouve), ")");
+				tl(3, "pagination.put(\"page", langueConfig.getString(ConfigCles.var_Prochaine), "\", new JsonObject().put(\"", langueConfig.getString(ConfigCles.var_debut), "\", ", langueConfig.getString(ConfigCles.var_debut), " + ", langueConfig.getString(ConfigCles.var_lignes), ").put(\"page", langueConfig.getString(ConfigCles.var_Numero), "\", ", langueConfig.getString(ConfigCles.var_debut), " + ", langueConfig.getString(ConfigCles.var_lignes), " + 1L));");
+				tl(2, "pagination.put(\"page", langueConfig.getString(ConfigCles.var_Fin), "\", new JsonObject().put(\"", langueConfig.getString(ConfigCles.var_debut), "\", ", langueConfig.getString(ConfigCles.var_dernier), ").put(\"page", langueConfig.getString(ConfigCles.var_Numero), "\", ", langueConfig.getString(ConfigCles.var_dernier), " + 1L));");
+				tl(2, "pagination.put(\"pages\", pages);");
+				tl(2, "for(Long i = pagination", langueConfig.getString(ConfigCles.var_Debut), "; i < pagination", langueConfig.getString(ConfigCles.var_Fin), "; i += ", langueConfig.getString(ConfigCles.var_lignes), ") {");
+				tl(3, "Long page", langueConfig.getString(ConfigCles.var_Numero), " = Math.floorDiv(i, ", langueConfig.getString(ConfigCles.var_lignes), ") + 1L;");
+				tl(3, "JsonObject page = new JsonObject();");
+				tl(3, "page.put(\"page", langueConfig.getString(ConfigCles.var_Numero), "\", page", langueConfig.getString(ConfigCles.var_Numero), ");");
+				tl(3, "page.put(\"", langueConfig.getString(ConfigCles.var_pageActuel), "\", ", langueConfig.getString(ConfigCles.var_debut), ".equals(i));");
+				tl(3, "page.put(\"", langueConfig.getString(ConfigCles.var_debut), "\", i);");
+				tl(3, "pages.add(page);");
+				tl(2, "}");
+				tl(1, "}");
+	
+				////////////
+				// varsQ //
+				////////////
+	
+				l();
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
+				tl(1, "protected void _varsQ(JsonObject vars) {");
+				tl(2, classeNomSimple, ".varsQ", langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
+				tl(3, "JsonObject json = new JsonObject();");
+				tl(3, "json.put(\"var\", var);");
+				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+				tl(3, "json.put(\"val\", Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getQuery()).filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
+				tl(3, "vars.put(var, json);");
+				tl(2, "});");
+				tl(1, "}");
+	
+				////////////
+				// varsFq //
+				////////////
+	
+				l();
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
+				tl(1, "protected void _varsFq(JsonObject vars) {");
+				tl(2, "Map<String, SolrResponse.FacetField> facetFields = Optional.ofNullable(facetCounts).map(c -> c.getFacetFields()).map(f -> f.getFacets()).orElse(new HashMap<String,SolrResponse.FacetField>());");
+				tl(2, classeNomSimple, ".varsFq", langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
+				tl(3, "String var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(var);");
+				tl(3, "String var", langueConfig.getString(ConfigCles.var_Stocke), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Stocke), classeNomSimple, "(var);");
+				tl(3, "JsonObject json = new JsonObject();");
+				tl(3, "json.put(\"var\", var);");
+				tl(3, "json.put(\"var", langueConfig.getString(ConfigCles.var_Stocke), "\", var", langueConfig.getString(ConfigCles.var_Stocke), ");");
+				tl(3, "json.put(\"var", langueConfig.getString(ConfigCles.var_Indexe), "\", var", langueConfig.getString(ConfigCles.var_Indexe), ");");
+				tl(3, "String type = StringUtils.substringAfterLast(var", langueConfig.getString(ConfigCles.var_Indexe), ", \"_\");");
+				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+				tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
+				tl(3, "Optional.ofNullable(stats).map(s -> s.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(stat -> {");
+				tl(4, "json.put(\"stats\", JsonObject.mapFrom(stat));");
+				tl(3, "});");
+	
+				tl(3, "Optional.ofNullable(facetFields.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(facetField -> {");
+				tl(4, "JsonObject facetJson = new JsonObject();");
+				tl(4, "JsonObject counts = new JsonObject();");
+				tl(4, "facetJson.put(\"var\", var);");
+				tl(4, "facetField.getCounts().forEach((val, count) -> {");
+				tl(5, "counts.put(val, count);");
+				tl(4, "});");
+				tl(4, "facetJson.put(\"counts\", counts);");
+				tl(4, "json.put(\"facetField\", facetJson);");
+				tl(3, "});");
+	
+				tl(3, "if(default", langueConfig.getString(ConfigCles.var_ListeChamps), "Vars.contains(var)) {");
+				tl(4, "json.put(\"", langueConfig.getString(ConfigCles.var_listeChamps), "\", true);");
+				tl(3, "}");
+	
+				tl(3, "if(StringUtils.equalsAny(type, \"date\") && json.containsKey(\"stats\")) {");
+				tl(4, "JsonObject stats = json.getJsonObject(\"stats\");");
+				tl(4, "Instant min = Instant.parse(stats.getString(\"min\"));");
+				tl(4, "Instant max = Instant.parse(stats.getString(\"max\"));");
+				tl(4, "Duration duration = Duration.between(min, max);");
+				tl(4, "String gap = \"DAY\";");
+				tl(4, "if(duration.toDays() >= 365)");
+				tl(5, "gap = \"YEAR\";");
+				tl(4, "else if(duration.toDays() >= 28)");
+				tl(5, "gap = \"MONTH\";");
+				tl(4, "else if(duration.toDays() >= 1)");
+				tl(5, "gap = \"DAY\";");
+				tl(4, "else if(duration.toHours() >= 1)");
+				tl(5, "gap = \"HOUR\";");
+				tl(4, "else if(duration.toMinutes() >= 1)");
+				tl(5, "gap = \"MINUTE\";");
+				tl(4, "else if(duration.toMillis() >= 1000)");
+				tl(5, "gap = \"SECOND\";");
+				tl(4, "else if(duration.toMillis() >= 1)");
+				tl(5, "gap = \"MILLI\";");
+				tl(4, "json.put(\"defaultRangeGap\", String.format(\"+1%s\", gap));");
+				tl(4, "json.put(\"defaultRangeEnd\", stats.getString(\"max\"));");
+				tl(4, "json.put(\"defaultRangeStart\", stats.getString(\"min\"));");
+				tl(4, "json.put(\"", langueConfig.getString(ConfigCles.var_activer), langueConfig.getString(ConfigCles.var_Calendrier), "\", true);");
+				tl(4, "setDefault", langueConfig.getString(ConfigCles.var_Gamme), langueConfig.getString(ConfigCles.var_Stats), "(json);");
+				tl(3, "}");
+				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_activer), langueConfig.getString(ConfigCles.var_Stats), "\", !StringUtils.equalsAny(type, \"boolean\", \"location\"));");
+				tl(3, "if(default", langueConfig.getString(ConfigCles.var_Stats), "Vars.contains(var)) {");
+				tl(4, "SolrResponse.StatsField varStats = stats.get(var", langueConfig.getString(ConfigCles.var_Indexe), ");");
+				tl(4, "if(varStats != null)");
+				tl(5, "json.put(\"", langueConfig.getString(ConfigCles.var_stats), "\", varStats);");
+				tl(3, "}");
+	
+				tl(3, "if(default", langueConfig.getString(ConfigCles.var_Pivot), "Vars.contains(var)) {");
+				tl(4, "json.put(\"", langueConfig.getString(ConfigCles.var_pivot), "\", true);");
+				tl(3, "}");
+	
+				tl(3, "vars.put(var, json);");
+				tl(2, "});");
+				tl(1, "}");
+	
+				///////////////
+				// varsGamme //
+				///////////////
+	
+				l();
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
+				tl(1, "protected void _vars", langueConfig.getString(ConfigCles.var_Gamme), "(JsonObject vars) {");
+	//			tl(2, "Map<String, SolrResponse.Pivot> pivotFields = Optional.ofNullable(facetCounts).map(c -> c.getFacetPivot()).map(f -> f.getPivotMap()).orElse(new HashMap<String,SolrResponse.Pivot>());");
+				tl(2, classeNomSimple, ".vars", langueConfig.getString(ConfigCles.var_Gamme), langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
+				tl(3, "String var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(var);");
+				tl(3, "JsonObject json = new JsonObject();");
+				tl(3, "json.put(\"var\", var);");
+				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
+				tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
+	
+	//			tl(3, "Optional.ofNullable(facetFields.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(facetField -> {");
+	//			tl(4, "JsonObject facetJson = new JsonObject();");
+	//			tl(4, "JsonObject counts = new JsonObject();");
+	//			tl(4, "facetJson.put(\"var\", var);");
+	//			tl(4, "facetField.getCounts().forEach((val, count) -> {");
+	//			tl(5, "counts.put(val, count);");
+	//			tl(4, "});");
+	//			tl(4, "facetJson.put(\"counts\", counts);");
+	//			tl(4, "json.put(\"facetField\", facetJson);");
+	//			tl(3, "});");
+	
+				tl(3, "vars.put(var, json);");
+				tl(2, "});");
+				tl(1, "}");
+	
+				///////////
+				// query //
+				///////////
+	
+				l();
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
+				tl(1, "protected void _query(JsonObject query) {");
+				tl(2, "ServiceRequest ", langueConfig.getString(ConfigCles.var_requeteService), " = ", langueConfig.getString(ConfigCles.var_requeteSite), "_.getServiceRequest();");
+				tl(2, "JsonObject params = ", langueConfig.getString(ConfigCles.var_requeteService), ".getParams();");
+				l();
+				tl(2, "JsonObject queryParams = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteService), ").map(ServiceRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
+				tl(2, "Long num = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getResponse().getNumFound().longValue();");
+				tl(2, "String q = \"*:*\";");
+				tl(2, "String q1 = \"", classeVarTexte, "\";");
+				tl(2, "String q2 = \"\";");
+				tl(2, "for(String param", langueConfig.getString(ConfigCles.var_Nom), " : queryParams.fieldNames()) {");
+				tl(3, "String ", langueConfig.getString(ConfigCles.var_entite), "Var = null;");
+				tl(3, "String ", langueConfig.getString(ConfigCles.var_valeur), langueConfig.getString(ConfigCles.var_Indexe), " = null;");
+				tl(3, "Object param", langueConfig.getString(ConfigCles.var_ValeursObjet), " = queryParams.getValue(param", langueConfig.getString(ConfigCles.var_Nom), ");");
+				tl(3, "JsonArray param", langueConfig.getString(ConfigCles.var_Objets), " = param", langueConfig.getString(ConfigCles.var_ValeursObjet), " instanceof JsonArray ? (JsonArray)param", langueConfig.getString(ConfigCles.var_ValeursObjet), " : new JsonArray().add(param", langueConfig.getString(ConfigCles.var_ValeursObjet), ");");
+				l();
+				tl(3, "try {");
+				tl(4, "for(Object param", langueConfig.getString(ConfigCles.var_Objet), " : param", langueConfig.getString(ConfigCles.var_Objets), ") {");
+				tl(5, "switch(param", langueConfig.getString(ConfigCles.var_Nom), ") {");
+				tl(5, "case \"q\":");
+				tl(6, "q = (String)param", langueConfig.getString(ConfigCles.var_Objet), ";");
+				tl(6, langueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", langueConfig.getString(ConfigCles.var_Objet), ", \":\"));");
+				tl(6, langueConfig.getString(ConfigCles.var_valeur), langueConfig.getString(ConfigCles.var_Indexe), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", langueConfig.getString(ConfigCles.var_Objet), ", \":\")), \"UTF-8\");");
+				tl(6, "q1 = ", langueConfig.getString(ConfigCles.var_entite), "Var.equals(\"*\") ? q1 : ", langueConfig.getString(ConfigCles.var_entite), "Var;");
+				tl(6, "q2 = ", langueConfig.getString(ConfigCles.var_valeur), langueConfig.getString(ConfigCles.var_Indexe), ";");
+				tl(6, "q = q1 + \":\" + q2;");
+				tl(5, "}");
+				tl(4, "}");
+				tl(3, "} catch(Exception e) {");
+				tl(4, "ExceptionUtils.rethrow(e);");
+				tl(3, "}");
+				tl(2, "}");
+				tl(2, "query.put(\"q\", q);");
+				l();
+				tl(2, "Long rows1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getRows()).orElse(10L);");
+				tl(2, "Long start1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getStart()).orElse(1L);");
+				tl(2, "Long start2 = start1 - rows1;");
+				tl(2, "Long start3 = start1 + rows1;");
+				tl(2, "Long rows2 = rows1 / 2;");
+				tl(2, "Long rows3 = rows1 * 2;");
+				tl(2, "start2 = start2 < 0 ? 0 : start2;");
+				tl(2, "JsonObject fqs = new JsonObject();");
+				tl(2, "for(String fq : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getFilterQueries()).orElse(Arrays.asList())) {");
+				tl(3, "if(!StringUtils.contains(fq, \"(\")) {");
+				tl(4, "String fq1 = ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(StringUtils.substringBefore(fq, \":\"));");
+				tl(4, "String fq2 = StringUtils.substringAfter(fq, \":\");");
+				tl(4, "if(!StringUtils.startsWithAny(fq, \"", langueConfig.getString(ConfigCles.var_classeNomsCanoniques), "_\", \"", langueConfig.getString(ConfigCles.var_archive), "_\", \"", langueConfig.getString(ConfigCles.var_supprime), "_\", \"sessionId\", \"", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s\"))");
+				tl(5, "fqs.put(fq1, new JsonObject().put(\"var\", fq1).put(\"val\", fq2).put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(fq1)));");
+				tl(4, "}");
+				tl(3, "}");
+				tl(2, "query.put(\"fq\", fqs);");
+				l();
+				tl(2, "JsonArray sorts = new JsonArray();");
+				tl(2, "for(String sort : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getSorts()).orElse(Arrays.asList())) {");
+				tl(3, "String sort1 = ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(StringUtils.substringBefore(sort, \" \"));");
+				tl(3, "sorts.add(new JsonObject().put(\"var\", sort1).put(\"order\", StringUtils.substringAfter(sort, \" \")).put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(sort1)));");
+				tl(2, "}");
+				tl(2, "query.put(\"sort\", sorts);");
+				tl(1, "}");
 				if(classePageSuperNomSimple != null && (classeEtendBase || !classeModele)) {
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _defaultZoneId(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_defaultZoneId)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_ZONE)));");
 					tl(1, "}");
@@ -651,10 +906,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "/**");
 					tl(1, " * ", langueConfig.getString(ConfigCles.var_Ignorer), ": true");
 					tl(1, " **/");
+					tl(1, "@Override");
 					tl(1, "protected void _defaultTimeZone(", classePartsCouverture.nomSimple(langueNom), "<ZoneId> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(ZoneId.of(defaultZoneId));");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _defaultLocaleId(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getRequestHeaders().get(\"Accept-Language\")).map(acceptLanguage -> StringUtils.substringBefore(acceptLanguage, \",\")).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_LOCALE)));");
 					tl(1, "}");
@@ -662,42 +919,52 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "/**");
 					tl(1, " * ", langueConfig.getString(ConfigCles.var_Ignorer), ": true");
 					tl(1, " **/");
+					tl(1, "@Override");
 					tl(1, "protected void _defaultLocale(", classePartsCouverture.nomSimple(langueNom), "<Locale> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Locale.forLanguageTag(defaultLocaleId));");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _defaultRangeGap(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeGap()).orElse(\"+1DAY\"));");
+					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeGap()).orElse(Optional.ofNullable(defaultRangeStats).map(s -> s.getString(\"defaultRangeGap\")).orElse(\"+1DAY\")));");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _defaultRangeEnd(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeEnd()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(ZonedDateTime.now(defaultTimeZone).toLocalDate().atStartOfDay(defaultTimeZone).plusDays(1)));");
+					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeEnd()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeEnd\")).atZone(defaultTimeZone)).orElse(ZonedDateTime.now(defaultTimeZone).toLocalDate().atStartOfDay(defaultTimeZone).plusDays(1))));");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _defaultRangeStart(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeStart()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(defaultRangeEnd.minusDays(7).toLocalDate().atStartOfDay(defaultTimeZone)));");
+					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeStart()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeStart\")).atZone(defaultTimeZone)).orElse(defaultRangeEnd.minusDays(7).toLocalDate().atStartOfDay(defaultTimeZone))));");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _defaultRangeVar(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRanges()).orElse(Arrays.asList()).stream().findFirst().map(v -> { if(v.contains(\"}\")) return StringUtils.substringBefore(StringUtils.substringAfterLast(v, \"}\"), \"_\"); else return ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(v); }).orElse(\"", classeVarCree, "\"));");
+					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRanges()).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Arrays.asList(s.getString(\"defaultRangeVar\"))).orElse(Arrays.asList())).stream().findFirst().map(v -> { if(v.contains(\"}\")) return StringUtils.substringBefore(StringUtils.substringAfterLast(v, \"}\"), \"_\"); else return ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(v); }).orElse(\"", classeVarCree, "\"));");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _defaultFacetSort(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetSort()).orElse(\"index\"));");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _defaultFacetLimit(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetLimit()).orElse(1));");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _defaultFacetMinCount(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetMinCount()).orElse(1));");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _defaultPivotMinCount(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetPivotMinCount()).orElse(0));");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _DEFAULT_MAP_LOCATION(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, "String pointStr = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_DEFAULT_MAP_LOCATION)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION));");
 					tl(2, "if(pointStr != null) {");
@@ -707,6 +974,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(2, "}");
 					tl(1, "}");
 					l();
+					tl(1, "@Override");
 					tl(1, "protected void _DEFAULT_MAP_ZOOM(", classePartsCouverture.nomSimple(langueNom), "<BigDecimal> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, "String s = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_DEFAULT_MAP_ZOOM)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_ZOOM));");
 					tl(2, "if(s != null)");
@@ -714,8 +982,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "}");
 				}
 				l();
-				if(classePageSuperNomSimple != null && classeEtendBase)
-					tl(1, "@Override");
+				tl(1, "@Override");
 				tl(1, "protected void _default", langueConfig.getString(ConfigCles.var_ListeChamps), "Vars(List<String> l) {");
 				tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFields()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(ConfigCles.var_Stocke), " -> {");
 				tl(3, "String var", langueConfig.getString(ConfigCles.var_Stocke), "2 = var", langueConfig.getString(ConfigCles.var_Stocke), ";");
@@ -732,8 +999,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(2, "});");
 				tl(1, "}");
 				l();
-				if(classePageSuperNomSimple != null && classeEtendBase)
-					tl(1, "@Override");
+				tl(1, "@Override");
 				tl(1, "protected void _default", langueConfig.getString(ConfigCles.var_Stats), "Vars(List<String> l) {");
 				tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getStatsFields()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(ConfigCles.var_Indexe), " -> {");
 				tl(3, "String var", langueConfig.getString(ConfigCles.var_Indexe), "2 = var", langueConfig.getString(ConfigCles.var_Indexe), ";");
@@ -750,8 +1016,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(2, "});");
 				tl(1, "}");
 				l();
-				if(classePageSuperNomSimple != null && classeEtendBase)
-					tl(1, "@Override");
+				tl(1, "@Override");
 				tl(1, "protected void _default", langueConfig.getString(ConfigCles.var_Pivot), "Vars(List<String> l) {");
 				tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetPivots()).orElse(Arrays.asList()).forEach(facetPivot -> {");
 				tl(3, "String facetPivot2 = facetPivot;");
@@ -773,14 +1038,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, " **/");
 				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, "(JsonArray l) {");
 				tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(o -> o.get", langueConfig.getString(ConfigCles.var_Liste), "()).orElse(Arrays.asList()).stream().map(o -> JsonObject.mapFrom(o)).forEach(o -> l.add(o));");
-				tl(1, "}");
-				l();
-				tl(1, "protected void _stats(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.Stats> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getStats());");
-				tl(1, "}");
-				l();
-				tl(1, "protected void _facetCounts(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.FacetCounts> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getFacetCounts());");
 				tl(1, "}");
 				l();
 				tl(1, "protected void _", uncapitalizeClasseApiClasseNomSimple, "Count(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
@@ -902,225 +1159,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "@Override");
 				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_rolesPourLires), "(List<String> l) {");
 				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLES_LIRE_REQUIS), " + \"_", classeApiClasseNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
-				tl(1, "}");
-			}
-
-			if(!classePageSimple) {
-				l();
-				if(classePageSuperNomSimple != null)
-					tl(1, "@Override");
-				tl(1, "protected void _pagination(JsonObject pagination) {");
-				tl(2, "JsonArray pages = new JsonArray();");
-				tl(2, "Long ", langueConfig.getString(ConfigCles.var_debut), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getStart().longValue();");
-				tl(2, "Long ", langueConfig.getString(ConfigCles.var_lignes), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRows().longValue();");
-				tl(2, "Long ", langueConfig.getString(ConfigCles.var_numTrouve), " = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getResponse().getNumFound().longValue();");
-				tl(2, "Long ", langueConfig.getString(ConfigCles.var_debut), "Num = ", langueConfig.getString(ConfigCles.var_debut), " + 1L;");
-				tl(2, "Long ", langueConfig.getString(ConfigCles.var_fin), "Num = ", langueConfig.getString(ConfigCles.var_debut), " + ", langueConfig.getString(ConfigCles.var_lignes), ";");
-				tl(2, "Long floorMod = (", langueConfig.getString(ConfigCles.var_lignes), " == 0L ? 0L : Math.floorMod(", langueConfig.getString(ConfigCles.var_numTrouve), ", ", langueConfig.getString(ConfigCles.var_lignes), "));");
-				tl(2, "Long ", langueConfig.getString(ConfigCles.var_dernier), " = (", langueConfig.getString(ConfigCles.var_lignes), " == 0L ? 0L : Math.floorDiv(", langueConfig.getString(ConfigCles.var_numTrouve), ", ", langueConfig.getString(ConfigCles.var_lignes), ") - (floorMod.equals(0L) ? 1L : 0L) * ", langueConfig.getString(ConfigCles.var_lignes), ");");
-				tl(2, langueConfig.getString(ConfigCles.var_fin), "Num = ", langueConfig.getString(ConfigCles.var_fin), "Num < ", langueConfig.getString(ConfigCles.var_numTrouve), " ? ", langueConfig.getString(ConfigCles.var_fin), "Num : ", langueConfig.getString(ConfigCles.var_numTrouve), ";");
-				tl(2, langueConfig.getString(ConfigCles.var_debut), "Num = ", langueConfig.getString(ConfigCles.var_numTrouve), " == 0L ? 0L : ", langueConfig.getString(ConfigCles.var_debut), "Num;");
-				tl(2, "Long pagination", langueConfig.getString(ConfigCles.var_Debut), " = ", langueConfig.getString(ConfigCles.var_debut), " - 10L * ", langueConfig.getString(ConfigCles.var_lignes), ";");
-				tl(2, "if(pagination", langueConfig.getString(ConfigCles.var_Debut), " < 0L)");
-				tl(3, "pagination", langueConfig.getString(ConfigCles.var_Debut), " = 0L;");
-				tl(2, "Long pagination", langueConfig.getString(ConfigCles.var_Fin), " = ", langueConfig.getString(ConfigCles.var_debut), " + 10L * ", langueConfig.getString(ConfigCles.var_lignes), ";");
-				tl(2, "if(pagination", langueConfig.getString(ConfigCles.var_Fin), " > ", langueConfig.getString(ConfigCles.var_numTrouve), ")");
-				tl(3, "pagination", langueConfig.getString(ConfigCles.var_Fin), " = ", langueConfig.getString(ConfigCles.var_numTrouve), ";");
-				l();
-				tl(2, "pagination.put(\"1L\", 1L);");
-				tl(2, "pagination.put(\"0L\", 0L);");
-				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_debut), "\", ", langueConfig.getString(ConfigCles.var_debut), ");");
-				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_lignes), "\", ", langueConfig.getString(ConfigCles.var_lignes), ");");
-				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), "\", ", langueConfig.getString(ConfigCles.var_lignes), " / 2);");
-				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Prochaine), "\", ", langueConfig.getString(ConfigCles.var_lignes), " * 2);");
-				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_debut), "Num\", ", langueConfig.getString(ConfigCles.var_debut), "Num);");
-				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_fin), "Num\", ", langueConfig.getString(ConfigCles.var_fin), "Num);");
-				tl(2, "pagination.put(\"", langueConfig.getString(ConfigCles.var_numTrouve), "\", ", langueConfig.getString(ConfigCles.var_numTrouve), ");");
-				tl(2, "pagination.put(\"page", langueConfig.getString(ConfigCles.var_Debut), "\", new JsonObject().put(\"", langueConfig.getString(ConfigCles.var_debut), "\", 0L).put(\"page", langueConfig.getString(ConfigCles.var_Numero), "\", 1L));");
-				tl(2, "if(", langueConfig.getString(ConfigCles.var_debut), " > 0L)");
-				tl(3, "pagination.put(\"page", langueConfig.getString(ConfigCles.var_Precedent), "\", new JsonObject().put(\"", langueConfig.getString(ConfigCles.var_debut), "\", ", langueConfig.getString(ConfigCles.var_debut), " - ", langueConfig.getString(ConfigCles.var_lignes), ").put(\"page", langueConfig.getString(ConfigCles.var_Numero), "\", ", langueConfig.getString(ConfigCles.var_debut), " - ", langueConfig.getString(ConfigCles.var_lignes), " + 1L));");
-				tl(2, "if(", langueConfig.getString(ConfigCles.var_debut), " + ", langueConfig.getString(ConfigCles.var_lignes), " < ", langueConfig.getString(ConfigCles.var_numTrouve), ")");
-				tl(3, "pagination.put(\"page", langueConfig.getString(ConfigCles.var_Prochaine), "\", new JsonObject().put(\"", langueConfig.getString(ConfigCles.var_debut), "\", ", langueConfig.getString(ConfigCles.var_debut), " + ", langueConfig.getString(ConfigCles.var_lignes), ").put(\"page", langueConfig.getString(ConfigCles.var_Numero), "\", ", langueConfig.getString(ConfigCles.var_debut), " + ", langueConfig.getString(ConfigCles.var_lignes), " + 1L));");
-				tl(2, "pagination.put(\"page", langueConfig.getString(ConfigCles.var_Fin), "\", new JsonObject().put(\"", langueConfig.getString(ConfigCles.var_debut), "\", ", langueConfig.getString(ConfigCles.var_dernier), ").put(\"page", langueConfig.getString(ConfigCles.var_Numero), "\", ", langueConfig.getString(ConfigCles.var_dernier), " + 1L));");
-				tl(2, "pagination.put(\"pages\", pages);");
-				tl(2, "for(Long i = pagination", langueConfig.getString(ConfigCles.var_Debut), "; i < pagination", langueConfig.getString(ConfigCles.var_Fin), "; i += ", langueConfig.getString(ConfigCles.var_lignes), ") {");
-				tl(3, "Long page", langueConfig.getString(ConfigCles.var_Numero), " = Math.floorDiv(i, ", langueConfig.getString(ConfigCles.var_lignes), ") + 1L;");
-				tl(3, "JsonObject page = new JsonObject();");
-				tl(3, "page.put(\"page", langueConfig.getString(ConfigCles.var_Numero), "\", page", langueConfig.getString(ConfigCles.var_Numero), ");");
-				tl(3, "page.put(\"", langueConfig.getString(ConfigCles.var_pageActuel), "\", ", langueConfig.getString(ConfigCles.var_debut), ".equals(i));");
-				tl(3, "page.put(\"", langueConfig.getString(ConfigCles.var_debut), "\", i);");
-				tl(3, "pages.add(page);");
-				tl(2, "}");
-				tl(1, "}");
-	
-				////////////
-				// varsQ //
-				////////////
-	
-				l();
-				if(classePageSuperNomSimple != null)
-					tl(1, "@Override");
-				tl(1, "protected void _varsQ(JsonObject vars) {");
-				tl(2, classeNomSimple, ".varsQ", langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
-				tl(3, "JsonObject json = new JsonObject();");
-				tl(3, "json.put(\"var\", var);");
-				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-				tl(3, "json.put(\"val\", Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getQuery()).filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
-				tl(3, "vars.put(var, json);");
-				tl(2, "});");
-				tl(1, "}");
-	
-				////////////
-				// varsFq //
-				////////////
-	
-				l();
-				if(classePageSuperNomSimple != null)
-					tl(1, "@Override");
-				tl(1, "protected void _varsFq(JsonObject vars) {");
-				tl(2, "Map<String, SolrResponse.FacetField> facetFields = Optional.ofNullable(facetCounts).map(c -> c.getFacetFields()).map(f -> f.getFacets()).orElse(new HashMap<String,SolrResponse.FacetField>());");
-				tl(2, classeNomSimple, ".varsFq", langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
-				tl(3, "String var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(var);");
-				tl(3, "String var", langueConfig.getString(ConfigCles.var_Stocke), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Stocke), classeNomSimple, "(var);");
-				tl(3, "JsonObject json = new JsonObject();");
-				tl(3, "json.put(\"var\", var);");
-				tl(3, "json.put(\"var", langueConfig.getString(ConfigCles.var_Stocke), "\", var", langueConfig.getString(ConfigCles.var_Stocke), ");");
-				tl(3, "json.put(\"var", langueConfig.getString(ConfigCles.var_Indexe), "\", var", langueConfig.getString(ConfigCles.var_Indexe), ");");
-				tl(5, "String type = StringUtils.substringAfterLast(var", langueConfig.getString(ConfigCles.var_Indexe), ", \"_\");");
-				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-				tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
-				tl(3, "Optional.ofNullable(stats).map(s -> s.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(stat -> {");
-				tl(4, "json.put(\"stats\", JsonObject.mapFrom(stat));");
-				tl(3, "});");
-	
-				tl(3, "Optional.ofNullable(facetFields.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(facetField -> {");
-				tl(4, "JsonObject facetJson = new JsonObject();");
-				tl(4, "JsonObject counts = new JsonObject();");
-				tl(4, "facetJson.put(\"var\", var);");
-				tl(4, "facetField.getCounts().forEach((val, count) -> {");
-				tl(5, "counts.put(val, count);");
-				tl(4, "});");
-				tl(4, "facetJson.put(\"counts\", counts);");
-				tl(4, "json.put(\"facetField\", facetJson);");
-				tl(3, "});");
-	
-				tl(3, "if(default", langueConfig.getString(ConfigCles.var_ListeChamps), "Vars.contains(var)) {");
-				tl(4, "json.put(\"", langueConfig.getString(ConfigCles.var_listeChamps), "\", true);");
-				tl(3, "}");
-	
-				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_activer), langueConfig.getString(ConfigCles.var_Stats), "\", !StringUtils.equalsAny(type, \"boolean\", \"location\"));");
-				tl(3, "if(default", langueConfig.getString(ConfigCles.var_Stats), "Vars.contains(var)) {");
-				tl(4, "SolrResponse.StatsField varStats = stats.get(var", langueConfig.getString(ConfigCles.var_Indexe), ");");
-				tl(4, "if(varStats != null)");
-				tl(5, "json.put(\"", langueConfig.getString(ConfigCles.var_stats), "\", varStats);");
-				tl(3, "}");
-	
-				tl(3, "if(default", langueConfig.getString(ConfigCles.var_Pivot), "Vars.contains(var)) {");
-				tl(4, "json.put(\"", langueConfig.getString(ConfigCles.var_pivot), "\", true);");
-				tl(3, "}");
-	
-				tl(3, "vars.put(var, json);");
-				tl(2, "});");
-				tl(1, "}");
-	
-				///////////////
-				// varsGamme //
-				///////////////
-	
-				l();
-				if(classePageSuperNomSimple != null)
-					tl(1, "@Override");
-				tl(1, "protected void _vars", langueConfig.getString(ConfigCles.var_Gamme), "(JsonObject vars) {");
-	//			tl(2, "Map<String, SolrResponse.Pivot> pivotFields = Optional.ofNullable(facetCounts).map(c -> c.getFacetPivot()).map(f -> f.getPivotMap()).orElse(new HashMap<String,SolrResponse.Pivot>());");
-				tl(2, classeNomSimple, ".vars", langueConfig.getString(ConfigCles.var_Gamme), langueConfig.getString(ConfigCles.var_PourClasse), "().forEach(var -> {");
-				tl(3, "String var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(var);");
-				tl(3, "JsonObject json = new JsonObject();");
-				tl(3, "json.put(\"var\", var);");
-				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-				tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
-	
-	//			tl(3, "Optional.ofNullable(facetFields.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(facetField -> {");
-	//			tl(4, "JsonObject facetJson = new JsonObject();");
-	//			tl(4, "JsonObject counts = new JsonObject();");
-	//			tl(4, "facetJson.put(\"var\", var);");
-	//			tl(4, "facetField.getCounts().forEach((val, count) -> {");
-	//			tl(5, "counts.put(val, count);");
-	//			tl(4, "});");
-	//			tl(4, "facetJson.put(\"counts\", counts);");
-	//			tl(4, "json.put(\"facetField\", facetJson);");
-	//			tl(3, "});");
-	
-				tl(3, "vars.put(var, json);");
-				tl(2, "});");
-				tl(1, "}");
-	
-				///////////
-				// query //
-				///////////
-	
-				l();
-				if(classePageSuperNomSimple != null)
-					tl(1, "@Override");
-				tl(1, "protected void _query(JsonObject query) {");
-				tl(2, "ServiceRequest ", langueConfig.getString(ConfigCles.var_requeteService), " = ", langueConfig.getString(ConfigCles.var_requeteSite), "_.getServiceRequest();");
-				tl(2, "JsonObject params = ", langueConfig.getString(ConfigCles.var_requeteService), ".getParams();");
-				l();
-				tl(2, "JsonObject queryParams = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteService), ").map(ServiceRequest::getParams).map(or -> or.getJsonObject(\"query\")).orElse(new JsonObject());");
-				tl(2, "Long num = ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getResponse().getNumFound().longValue();");
-				tl(2, "String q = \"*:*\";");
-				tl(2, "String q1 = \"", classeVarTexte, "\";");
-				tl(2, "String q2 = \"\";");
-				tl(2, "for(String param", langueConfig.getString(ConfigCles.var_Nom), " : queryParams.fieldNames()) {");
-				tl(3, "String ", langueConfig.getString(ConfigCles.var_entite), "Var = null;");
-				tl(3, "String ", langueConfig.getString(ConfigCles.var_valeur), langueConfig.getString(ConfigCles.var_Indexe), " = null;");
-				tl(3, "Object param", langueConfig.getString(ConfigCles.var_ValeursObjet), " = queryParams.getValue(param", langueConfig.getString(ConfigCles.var_Nom), ");");
-				tl(3, "JsonArray param", langueConfig.getString(ConfigCles.var_Objets), " = param", langueConfig.getString(ConfigCles.var_ValeursObjet), " instanceof JsonArray ? (JsonArray)param", langueConfig.getString(ConfigCles.var_ValeursObjet), " : new JsonArray().add(param", langueConfig.getString(ConfigCles.var_ValeursObjet), ");");
-				l();
-				tl(3, "try {");
-				tl(4, "for(Object param", langueConfig.getString(ConfigCles.var_Objet), " : param", langueConfig.getString(ConfigCles.var_Objets), ") {");
-				tl(5, "switch(param", langueConfig.getString(ConfigCles.var_Nom), ") {");
-				tl(5, "case \"q\":");
-				tl(6, "q = (String)param", langueConfig.getString(ConfigCles.var_Objet), ";");
-				tl(6, langueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", langueConfig.getString(ConfigCles.var_Objet), ", \":\"));");
-				tl(6, langueConfig.getString(ConfigCles.var_valeur), langueConfig.getString(ConfigCles.var_Indexe), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", langueConfig.getString(ConfigCles.var_Objet), ", \":\")), \"UTF-8\");");
-				tl(6, "q1 = ", langueConfig.getString(ConfigCles.var_entite), "Var.equals(\"*\") ? q1 : ", langueConfig.getString(ConfigCles.var_entite), "Var;");
-				tl(6, "q2 = ", langueConfig.getString(ConfigCles.var_valeur), langueConfig.getString(ConfigCles.var_Indexe), ";");
-				tl(6, "q = q1 + \":\" + q2;");
-				tl(5, "}");
-				tl(4, "}");
-				tl(3, "} catch(Exception e) {");
-				tl(4, "ExceptionUtils.rethrow(e);");
-				tl(3, "}");
-				tl(2, "}");
-				tl(2, "query.put(\"q\", q);");
-				l();
-				tl(2, "Long rows1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getRows()).orElse(10L);");
-				tl(2, "Long start1 = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getStart()).orElse(1L);");
-				tl(2, "Long start2 = start1 - rows1;");
-				tl(2, "Long start3 = start1 + rows1;");
-				tl(2, "Long rows2 = rows1 / 2;");
-				tl(2, "Long rows3 = rows1 * 2;");
-				tl(2, "start2 = start2 < 0 ? 0 : start2;");
-				tl(2, "JsonObject fqs = new JsonObject();");
-				tl(2, "for(String fq : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getFilterQueries()).orElse(Arrays.asList())) {");
-				tl(3, "if(!StringUtils.contains(fq, \"(\")) {");
-				tl(4, "String fq1 = ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(StringUtils.substringBefore(fq, \":\"));");
-				tl(4, "String fq2 = StringUtils.substringAfter(fq, \":\");");
-				tl(4, "if(!StringUtils.startsWithAny(fq, \"", langueConfig.getString(ConfigCles.var_classeNomsCanoniques), "_\", \"", langueConfig.getString(ConfigCles.var_archive), "_\", \"", langueConfig.getString(ConfigCles.var_supprime), "_\", \"sessionId\", \"", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s\"))");
-				tl(5, "fqs.put(fq1, new JsonObject().put(\"var\", fq1).put(\"val\", fq2).put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(fq1)));");
-				tl(4, "}");
-				tl(3, "}");
-				tl(2, "query.put(\"fq\", fqs);");
-				l();
-				tl(2, "JsonArray sorts = new JsonArray();");
-				tl(2, "for(String sort : Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_).map(l -> l.getSorts()).orElse(Arrays.asList())) {");
-				tl(3, "String sort1 = ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(StringUtils.substringBefore(sort, \" \"));");
-				tl(3, "sorts.add(new JsonObject().put(\"var\", sort1).put(\"order\", StringUtils.substringAfter(sort, \" \")).put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), langueConfig.getString(ConfigCles.var_PourClasse), "(sort1)));");
-				tl(2, "}");
-				tl(2, "query.put(\"sort\", sorts);");
 				tl(1, "}");
 			}
 
@@ -3582,7 +3620,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(7, "text.push('pivot1Val');");
 				auteurPageJs.tl(7, "lat.push(parseFloat(locationParts[0]));");
 				auteurPageJs.tl(7, "lon.push(parseFloat(locationParts[1]));");
-				auteurPageJs.tl(7, "colors.push(", classeEntiteCouleur == null ? "'fuchsia'" : "record.fields[window.varsFq['" + classeEntiteCouleur + "'].var", langueConfig.getString(ConfigCles.var_Indexe), "]", ");");
+				auteurPageJs.tl(7, "colors.push(", classeEntiteCouleur == null ? "'fuchsia'" : "record.fields[window.varsFq['" + classeEntiteCouleur + "'].var" + langueConfig.getString(ConfigCles.var_Indexe) + "]", ");");
 				auteurPageJs.tl(7, "var vals = {};");
 				auteurPageJs.tl(7, "var hovertemplate = '';");
 				auteurPageJs.tl(7, "Object.entries(window.varsFq).forEach(([key, data]) => {");
