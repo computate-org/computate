@@ -5,7 +5,7 @@
 
 	<properties>
 		<solr.version>8.11.1</solr.version>
-		<computate.version>4.2.5.14</computate.version>
+		<computate.version>4.2.5.15</computate.version>
 
 		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
