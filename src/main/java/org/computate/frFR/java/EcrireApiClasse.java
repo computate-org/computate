@@ -2947,7 +2947,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
 							if(classeApiMethode.equals(classeLangueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
-								tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", body.getValue(\"", classeVarClePrimaire, "\"));");
+								tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", body.getValue(\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\"));");
 							}
 							tl(4, "if(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteService), ".getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getJsonArray(\"var\")).orElse(new JsonArray()).stream().filter(s -> \"", classeLangueConfig.getString(ConfigCles.var_recharger), ":false\".equals(s)).count() > 0L) {");
 							tl(5, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Requete), "Vars().put( \"", classeLangueConfig.getString(ConfigCles.var_recharger), "\", \"false\" );");

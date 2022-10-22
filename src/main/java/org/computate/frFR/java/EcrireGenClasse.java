@@ -4916,14 +4916,17 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeIndexe && (BooleanUtils.isTrue(entiteDefinir) || BooleanUtils.isTrue(entiteAttribuer) && !"array".equals(entiteTypeJson))) {
 					tl(3, "case \"", entiteVar.toLowerCase(), "\":");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
-						tl(4, "if(val != null)");
+						tl(4, "if(val != null) {");
 						tl(5, "add", entiteVarCapitalise, "(val);");
-						tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\"))");
+						tl(4, "}");
+						tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
 						tl(5, "", langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
+						tl(4, "}");
 					}
 					else {
-						tl(4, "if(val != null)");
+						tl(4, "if(val != null) {");
 						tl(5, "set", entiteVarCapitalise, "(val);");
+						tl(4, "}");
 						tl(4, langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
 					}
 					tl(4, "return val;");
@@ -4931,42 +4934,50 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			o = wDefinirObjet;
 			if(classeIndexe && BooleanUtils.isTrue(entiteDefinir) || BooleanUtils.isTrue(entiteAttribuer) && !"array".equals(entiteTypeJson)) {
-					tl(3, "case \"", entiteVar.toLowerCase(), "\":");
+//					tl(3, "case \"", entiteVar.toLowerCase(), "\":");
+					tl(3, wDefinirObjet.getEmpty() ? "if" : "} else if", "(\"", entiteVar.toLowerCase(), "\".equals(varLower)) {");
 					if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
-						tl(4, "if(val instanceof ", entiteNomSimple, "<?>)");
+						tl(4, "if(val instanceof ", entiteNomSimple, "<?>) {");
 						tl(5, "((", entiteNomSimpleComplet, ")val).stream().forEach(v -> add", entiteVarCapitalise, "(v));");
-						tl(4, "else if(val instanceof JsonArray)");
+						tl(4, "} else if(val instanceof JsonArray) {");
 						tl(5, "((JsonArray)val).stream().forEach(v -> add", entiteVarCapitalise, "(v.toString()));");
-						tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\"))");
+						tl(4, "}");
+						tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
 						tl(5, "", langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
+						tl(4, "}");
 					}
 					else {
 						if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePoint)) {
-							tl(4, "if(val instanceof String)");
+							tl(4, "if(val instanceof String) {");
 							tl(5, "set", entiteVarCapitalise, "((String)val);");
-							tl(4, "else if(val instanceof Point)");
+							tl(4, "} else if(val instanceof Point) {");
 							tl(5, "set", entiteVarCapitalise, "((Point)val);");
+							tl(4, "}");
 						} else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
-							tl(4, "if(val instanceof String)");
+							tl(4, "if(val instanceof String) {");
 							tl(5, "set", entiteVarCapitalise, "((String)val);");
-							tl(4, "else if(val instanceof JsonObject)");
+							tl(4, "} else if(val instanceof JsonObject) {");
 							tl(5, "set", entiteVarCapitalise, "((JsonObject)val);");
+							tl(4, "}");
 						} else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
-							tl(4, "if(val instanceof String)");
+							tl(4, "if(val instanceof String) {");
 							tl(5, "set", entiteVarCapitalise, "((String)val);");
-							tl(4, "else if(val instanceof Number)");
+							tl(4, "} else if(val instanceof Number) {");
 							tl(5, "set", entiteVarCapitalise, "(new BigDecimal(((Number)val).doubleValue()));");
+							tl(4, "}");
 						} else {
-							tl(4, "if(val instanceof ", entiteNomSimpleComplet, ")");
+							tl(4, "if(val instanceof ", entiteNomSimpleComplet, ") {");
 							tl(5, "set", entiteVarCapitalise, "((", entiteNomSimpleComplet, ")val);");
 							if(!StringUtils.equals(entiteNomCanonique, String.class.getCanonicalName())) {
-								tl(4, "else if(val instanceof String)");
-								tl(5, "set", entiteVarCapitalise, "((String)val);");
+								tl(4, "} else {");
+								tl(5, "set", entiteVarCapitalise, "(val == null ? null : val.toString());");
 							}
+							tl(4, "}");
 						}
 						if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
-							tl(4, "else if(val instanceof OffsetDateTime)");
+							tl(4, "} else if(val instanceof OffsetDateTime) {");
 							tl(5, "set", entiteVarCapitalise, "(((OffsetDateTime)val).atZoneSameInstant(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))));");
+							tl(4, "}");
 						}
 						tl(4, langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
 					}
@@ -6381,16 +6392,19 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "return o != null;");
 			tl(1, "}");
 			tl(1, "public Object ", langueConfig.getString(ConfigCles.var_definir), "", classeNomSimple, "(String var, Object val) {");
-			tl(2, "switch(var.toLowerCase()) {");
+//			tl(2, "switch(var.toLowerCase()) {");
+			tl(2, "String varLower = var.toLowerCase();");
 			s(wDefinirObjet.toString());
-			tl(3, "default:");
+//			tl(3, "default:");
+			tl(3, "} else {");
 
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
 				tl(4, "return super.", langueConfig.getString(ConfigCles.var_definir), "", classeNomSimpleSuperGenerique, "(var, val);");
 
-			tl(2, "}");
+			tl(3, "}");
+
 			tl(1, "}");
 		}
 
