@@ -2987,10 +2987,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(12, "break;");
 							tl(11, "}");
 							tl(10, "}");
-							tl(10, "if(!match) {");
-							tl(11, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
-							tl(10, "}");
+//							tl(10, "if(!match) {");
+							tl(10, "vals.clear();");
+							tl(10, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
+//							tl(10, "}");
 							tl(9, "} else {");
+							tl(10, "vals.clear();");
 							tl(10, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
 							tl(9, "}");
 							tl(8, "} else {");
