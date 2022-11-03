@@ -6393,14 +6393,18 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "String varLower = var.toLowerCase();");
 			s(wDefinirObjet.toString());
 //			tl(3, "default:");
-			tl(3, "} else {");
+			if(!wDefinirObjet.getEmpty()) {
+				tl(2, "} else {");
+			}
 
 			if(classeEstBase)
-				tl(4, "return null;");
+				tl(wDefinirObjet.getEmpty() ? 2 : 3, "return null;");
 			else
-				tl(4, "return super.", langueConfig.getString(ConfigCles.var_definir), "", classeNomSimpleSuperGenerique, "(var, val);");
+				tl(wDefinirObjet.getEmpty() ? 2 : 3, "return super.", langueConfig.getString(ConfigCles.var_definir), "", classeNomSimpleSuperGenerique, "(var, val);");
 
-			tl(3, "}");
+			if(!wDefinirObjet.getEmpty()) {
+				tl(2, "}");
+			}
 
 			tl(1, "}");
 		}
@@ -7011,6 +7015,11 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 			if(classeLignes != null) {
 				Arrays.asList(String.format(langueConfig.getString("classe.ref.Lignes.description"), classeLignes, classeNomSimple, classeLignes).split("\n")).stream().forEach(s -> {
+					tl(0, " * ", s);
+				});
+			}
+			if(classePromesse != null) {
+				Arrays.asList(String.format(langueConfig.getString("classe.ref.Promesse.description"), classePromesse, classeNomSimple).split("\n")).stream().forEach(s -> {
 					tl(0, " * ", s);
 				});
 			}
