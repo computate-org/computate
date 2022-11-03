@@ -87,6 +87,8 @@ classe:
         The code to persist and query the %s data in the database will then be automatically generated. 
         </li>
     Lignes:
+      nom: "Rows"
+      commentaire: "Rows: %s"
       description: |
         <p>This class contains a comment <b>"Rows: %s"</b>, which means the %s API will return a default of %s records instead of 10 by default. 
         Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
@@ -97,21 +99,53 @@ classe:
         Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
         </li>
     Page:
+      nom: "Page"
+      commentaire: "Page: true"
       description: |
         <p>This class contains a comment <b>"Page: true"</b>, which means this class will have webpage code generated for these objects. 
         Java Vert.x backend API code, Handlebars HTML template frontend code, and JavaScript code will all generated and can be extended. 
         This creates a new Java class %s. 
         </p>
     PageSuper:
+      nom: "SuperPage"
+      commentaire: "SuperPage.%s: %s"
       description: |
         <p>This class contains a comment <b>"SuperPage.enUS: %s"</b>, which identifies the Java super class of the page code by it's class simple name "%s". 
         This means that the newly created class %s extends %s. 
         </p>
+    Promesse:
+      nom: "Promise"
+      commentaire: "Promise: true"
+      description: |
+        <p>
+          Sometimes a Java class must be initialized asynchronously when it involves calling a blocking API. 
+          This Java class comment annotation replaces the initDeep methods with promiseDeep methods which must be initialized asynchronously as a Vert.x Promise. 
+        </p>
+        <p>
+          Adding protected void methods beginning with an underscore with a Promise as the only parameter will automatically set `Promise: true`. 
+        </p>
+        <p>
+          <pre>
+          	protected void _promiseBefore(Promise<Void> promise) {
+          		promise.complete();
+          	}
+          </pre>
+        </p>
+        <p>
+          Java classes with the `Model: true` will automatically set `Promise: true`. 
+        </p>
+        <p>
+          If a super class of this Java class with `Model: true`, then the child class will also inherit `Promise: true`. 
+        </p>
     UnNom:
+      nom: "AName"
+      commentaire: "AName: %s"
       description: |
         <p>This class contains a comment <b>"AName.enUS: %s"</b>, which identifies the language context to describe a %s as "%s". 
         </p>
     Couleur:
+      nom: "Color"
+      commentaire: "Color: %s"
       description: |
         <p>This class contains a comment <b>"Color: %s"</b>, which styles the %s page "%s". 
         This will reference a CSS class defined by the stylesheets in the project that starts with "w3-". 
@@ -119,6 +153,8 @@ classe:
         See: <a href="https://www.w3schools.com/w3css/w3css_colors.asp">https://www.w3schools.com/w3css/w3css_colors.asp</a>. 
         </p>
     IconeGroupe:
+      nom: "IconGroup"
+      commentaire: "IconGroup: %s"
       description: |
         <p>This class contains a comment <b>"IconGroup: %s"</b>, which adds icons on the %s page with a group of "%s". 
         This will reference a Font Awesome icon group defined by the stylesheets in the project that starts with "fa" followed by the first letter of the icon group, which is "fa%s". 
