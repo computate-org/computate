@@ -3286,7 +3286,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
 			tl(1, "<div class=\"pageContent w3-content \">");
 			tl(2, "<div id=\"site-calendar-box\">");
-			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
+//			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
 			tl(3, "<div id=\"site-calendar\"><!-- // --></div>");
 			tl(2, "</div>");
 
