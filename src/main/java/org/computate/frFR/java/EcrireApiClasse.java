@@ -254,9 +254,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 			auteurGenApiService.l();
 			auteurGenApiService.l("/**");
-			String hackathonMission = (String)classeDoc.get("hackathonMissionGenApiService_stored_string");
-			String hackathonColumn = (String)classeDoc.get("hackathonColumnGenApiService_stored_string");
-			String hackathonLabels = (String)classeDoc.get("hackathonLabelsGenApiService_stored_string");
+			String hackathonMission = classeDoc.getString("hackathonMissionGenApiService_stored_string");
+			String hackathonColumn = classeDoc.getString("hackathonColumnGenApiService_stored_string");
+			String hackathonLabels = classeDoc.getString("hackathonLabelsGenApiService_stored_string");
 			if(hackathonMission != null)
 				auteurGenApiService.l(String.format(" * Map.hackathonMission: %s", hackathonMission));
 			if(hackathonColumn != null)
@@ -265,7 +265,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				auteurGenApiService.l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 			auteurGenApiService.l(" * ", classeLangueConfig.getString(ConfigCles.var_Traduire), ": false");
 			for(String langueNom : classeAutresLangues) {
-				String classeNomCanoniqueGenApiServiceLangue = (String)classeDoc.get("classeNomCanoniqueGenApiService_" + langueNom + "_stored_string");
+				String classeNomCanoniqueGenApiServiceLangue = classeDoc.getString("classeNomCanoniqueGenApiService_" + langueNom + "_stored_string");
 				auteurGenApiService.l(" * ", classeLangueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom, ": ", classeNomCanoniqueGenApiServiceLangue);
 			}
 			auteurGenApiService.l(" * Gen: false");
@@ -293,10 +293,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
-				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiTypeMediaRequeteMethode = (String)classeDoc.get("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classePageNomCanoniqueMethode = classeDoc.getString("classePageNomCanonique" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classeApiTypeMediaRequeteMethode = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classePageLangueNom = classeDoc.getString("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 
 				if(classePageLangueNom == null || classePageLangueNom.equals(classeLangueNom)) {
 					if(classePageNomCanoniqueMethode != null) {
@@ -368,9 +368,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurApiServiceImpl.l();
 			auteurApiServiceImpl.l("/**");
-			String hackathonMission = (String)classeDoc.get("hackathonMissionApiServiceImpl_stored_string");
-			String hackathonColumn = (String)classeDoc.get("hackathonColumnApiServiceImpl_stored_string");
-			String hackathonLabels = (String)classeDoc.get("hackathonLabelsApiServiceImpl_stored_string");
+			String hackathonMission = classeDoc.getString("hackathonMissionApiServiceImpl_stored_string");
+			String hackathonColumn = classeDoc.getString("hackathonColumnApiServiceImpl_stored_string");
+			String hackathonLabels = classeDoc.getString("hackathonLabelsApiServiceImpl_stored_string");
 			if(hackathonMission != null)
 				auteurApiServiceImpl.l(String.format(" * Map.hackathonMission: %s", hackathonMission));
 			if(hackathonColumn != null)
@@ -379,7 +379,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				auteurApiServiceImpl.l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 			auteurApiServiceImpl.l(" * ", classeLangueConfig.getString(ConfigCles.var_Traduire), ": false");
 			for(String langueNom : classeAutresLangues) {
-				String classeNomCanoniqueApiServiceImplLangue = (String)classeDoc.get("classeNomCanoniqueApiServiceImpl_" + langueNom + "_stored_string");
+				String classeNomCanoniqueApiServiceImplLangue = classeDoc.getString("classeNomCanoniqueApiServiceImpl_" + langueNom + "_stored_string");
 				auteurApiServiceImpl.l(" * ", classeLangueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom, ": ", classeNomCanoniqueApiServiceImplLangue);
 			}
 			auteurApiServiceImpl.l(" **/");
@@ -2365,9 +2365,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			o = auteurGenApiServiceImpl;
 			l();
 			l("/**");
-			String hackathonMission = (String)classeDoc.get("hackathonMissionGenApiServiceImpl_stored_string");
-			String hackathonColumn = (String)classeDoc.get("hackathonColumnGenApiServiceImpl_stored_string");
-			String hackathonLabels = (String)classeDoc.get("hackathonLabelsGenApiServiceImpl_stored_string");
+			String hackathonMission = classeDoc.getString("hackathonMissionGenApiServiceImpl_stored_string");
+			String hackathonColumn = classeDoc.getString("hackathonColumnGenApiServiceImpl_stored_string");
+			String hackathonLabels = classeDoc.getString("hackathonLabelsGenApiServiceImpl_stored_string");
 			if(hackathonMission != null)
 				l(String.format(" * Map.hackathonMission: %s", hackathonMission));
 			if(hackathonColumn != null)
@@ -2376,7 +2376,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 			l(" * ", classeLangueConfig.getString(ConfigCles.var_Traduire), ": false");
 			for(String langueNom : classeAutresLangues) {
-				String classeNomCanoniqueGenApiServiceImplLangue = (String)classeDoc.get("classeNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
+				String classeNomCanoniqueGenApiServiceImplLangue = classeDoc.getString("classeNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
 				l(" * ", classeLangueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom, ": ", classeNomCanoniqueGenApiServiceImplLangue);
 			}
 			l(" **/");
@@ -2391,13 +2391,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
-				String classePageNomCanoniqueMethode = (String)classeDoc.get("classePageNomCanonique" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classePageNomSimpleMethode = (String)classeDoc.get("classePageNomSimple" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiTypeMedia200Methode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classeApiTypeMediaRequeteMethode = (String)classeDoc.get("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
-				String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classePageNomCanoniqueMethode = classeDoc.getString("classePageNomCanonique" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classePageNomSimpleMethode = classeDoc.getString("classePageNomSimple" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classeApiTypeMedia200Methode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classeApiTypeMediaRequeteMethode = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classePageLangueNom = classeDoc.getString("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				if(classePageLangueNom == null || classePageLangueNom.equals(classeLangueNom)) {
 					l();
 					tl(1, "// ", classeApiMethode, " //");
@@ -3791,7 +3791,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						for(Integer j = 0; j < rechercheListe.size(); j++) {
 							SolrDocument entiteDocumentSolr = rechercheListe.get(j);
 							entiteVar = (String)entiteDocumentSolr.get("entiteVar_" + classeLangueNom + "_stored_string");
-							entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + classeLangueNom + "_stored_string");
+							entiteVarCapitalise = (String)entiteDocumentSolr.get("entiteVarCapitalise_" + classeLangueNom + "_stored_string");
 							entiteSuffixeType = (String)entiteDocumentSolr.get("entiteSuffixeType_stored_string");
 							entiteIndexe = (Boolean)entiteDocumentSolr.get("entiteIndexe_stored_boolean");
 							entiteTexte = (Boolean)entiteDocumentSolr.get("entiteTexte_stored_boolean");

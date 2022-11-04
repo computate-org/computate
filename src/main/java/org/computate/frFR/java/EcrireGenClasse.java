@@ -14,6 +14,8 @@
 package org.computate.frFR.java;      
 
 import java.io.File;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -33,6 +35,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.lang3.ArrayUtils;
@@ -46,6 +49,13 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.DumperOptions;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
@@ -123,9 +133,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * Var.enUS: classDoc
 	 */
-	protected SolrDocument classeDoc;
+	protected JsonObject classeDoc;
 			
-	protected SolrDocument doc;
+	protected JsonObject doc;
 
 	/**
 	 * Var.enUS: classCanonicalName
@@ -207,6 +217,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected List<String> classeImportationsGen;
 
+	protected Boolean classeMotsClesTrouves;
 	protected List<String> classeMotsCles;
 
 	/**
@@ -509,9 +520,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wEquals;
 	protected ToutEcrivain auteurSqlDrop;
 	protected ToutEcrivain auteurSqlCreate;
-
-	protected ToutEcrivain wClasseTodos;
-	protected ToutEcrivain wClasseSuggere;
 
 	/**
 	 * Var.enUS: entityVar
@@ -1201,6 +1209,10 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	YAMLConfiguration classePageLangueConfig;
 
+	List<String> classeValsVar;
+	List<String> classeValsLangue;
+	List<String> classeValsValeur;
+
 	ToutEcrivain wRecherche;
 	ToutEcrivain wVarsFqJs;
 	ToutEcrivain wPOST;
@@ -1326,9 +1338,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		wVarSuggere = ToutEcrivain.create();
 		auteurSqlCreate = ToutEcrivain.create();
 		auteurSqlDrop = ToutEcrivain.create();
-
-		wClasseTodos = ToutEcrivain.create();
-		wClasseSuggere = ToutEcrivain.create();
 	}
 
 	/**
@@ -2022,9 +2031,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(activerLog) {
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimple, ".class);");
 		}
-		List<String> classeValsVar = (List<String>)doc.get("classeValsVar_stored_strings");
-		List<String> classeValsLangue = (List<String>)doc.get("classeValsLangue_stored_strings");
-		List<String> classeValsValeur = (List<String>)doc.get("classeValsValeur_stored_strings");
 		if(classeValsVar != null && classeValsLangue != null && classeValsValeur != null) {
 			String classeValVarAncien = null;
 			Integer classeValVarNumero = 0;
@@ -2090,36 +2096,36 @@ public class EcrireGenClasse extends EcrireClasse {
 			
 				l();
 	
-				classeVideoId = (String)classeDoc.get("classeVideoId" + "_" + langueNom2 + "_stored_string");
-				classeUri = (String)classeDoc.get("classeUri" + "_" + langueNom2 + "_stored_string");
-				classeDescription = (String)classeDoc.get("classeDescription" + "_" + langueNom2 + "_stored_string");
-				classeUnNom = (String)classeDoc.get("classeUnNom" + "_" + langueNom2 + "_stored_string");
-				classeNomSingulier = (String)classeDoc.get("classeNomSingulier" + "_" + langueNom2 + "_stored_string");
-				classeNomPluriel = (String)classeDoc.get("classeNomPluriel" + "_" + langueNom2 + "_stored_string");
-				classeNomVar = (String)classeDoc.get("classeNomVar" + "_" + langueNom2 + "_stored_string");
-				classeApiUri = (String)classeDoc.get("classeApiUri" + "_" + langueNom2 + "_stored_string");
-				classeApiUriPageRecherche = (String)classeDoc.get("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom2 + "_stored_string");
-				classeAdjectif = (String)classeDoc.get("classeAdjectif" + "_" + langueNom2 + "_stored_string");
-				classeAdjectifPluriel = (String)classeDoc.get("classeAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
-				classeAdjectifVar = (String)classeDoc.get("classeAdjectifVar" + "_" + langueNom2 + "_stored_string");
-				classeNomAdjectifSingulier = (String)classeDoc.get("classeNomAdjectifSingulier" + "_" + langueNom2 + "_stored_string");
-				classeNomAdjectifPluriel = (String)classeDoc.get("classeNomAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
-				classeCe = (String)classeDoc.get("classeCe" + "_" + langueNom2 + "_stored_string");
-				classeUn = (String)classeDoc.get("classeUn" + "_" + langueNom2 + "_stored_string");
-				classeNomActuel = (String)classeDoc.get("classeNomActuel" + "_" + langueNom2 + "_stored_string");
-				classeTousNom = (String)classeDoc.get("classeTousNom" + "_" + langueNom2 + "_stored_string");
-				classeRechercherTousNomPar = (String)classeDoc.get("classeRechercherTousNomPar" + "_" + langueNom2 + "_stored_string");
-				classeRechercherTousNom = (String)classeDoc.get("classeRechercherTousNom" + "_" + langueNom2 + "_stored_string");
-				classeLesNoms = (String)classeDoc.get("classeLesNoms" + "_" + langueNom2 + "_stored_string");
-				classeTitre = (String)classeDoc.get("classeTitre" + "_" + langueNom2 + "_stored_string");
-				classeH1 = (String)classeDoc.get("classeH1" + "_" + langueNom2 + "_stored_string");
-				classeH2 = (String)classeDoc.get("classeH2" + "_" + langueNom2 + "_stored_string");
-				classeH3 = (String)classeDoc.get("classeH3" + "_" + langueNom2 + "_stored_string");
-				classeAucunNomTrouve = (String)classeDoc.get("classeAucunNomTrouve" + "_" + langueNom2 + "_stored_string");
-				classeUnNomAdjectif = (String)classeDoc.get("classeUnNomAdjectif" + "_" + langueNom2 + "_stored_string");
-				classeCeNom = (String)classeDoc.get("classeCeNom" + "_" + langueNom2 + "_stored_string");
-				classeLeNom = (String)classeDoc.get("classeLeNom" + "_" + langueNom2 + "_stored_string");
-				classeDeNom = (String)classeDoc.get("classeDeNom" + "_" + langueNom2 + "_stored_string");
+				classeVideoId = classeDoc.getString("classeVideoId" + "_" + langueNom2 + "_stored_string");
+				classeUri = classeDoc.getString("classeUri" + "_" + langueNom2 + "_stored_string");
+				classeDescription = classeDoc.getString("classeDescription" + "_" + langueNom2 + "_stored_string");
+				classeUnNom = classeDoc.getString("classeUnNom" + "_" + langueNom2 + "_stored_string");
+				classeNomSingulier = classeDoc.getString("classeNomSingulier" + "_" + langueNom2 + "_stored_string");
+				classeNomPluriel = classeDoc.getString("classeNomPluriel" + "_" + langueNom2 + "_stored_string");
+				classeNomVar = classeDoc.getString("classeNomVar" + "_" + langueNom2 + "_stored_string");
+				classeApiUri = classeDoc.getString("classeApiUri" + "_" + langueNom2 + "_stored_string");
+				classeApiUriPageRecherche = classeDoc.getString("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom2 + "_stored_string");
+				classeAdjectif = classeDoc.getString("classeAdjectif" + "_" + langueNom2 + "_stored_string");
+				classeAdjectifPluriel = classeDoc.getString("classeAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
+				classeAdjectifVar = classeDoc.getString("classeAdjectifVar" + "_" + langueNom2 + "_stored_string");
+				classeNomAdjectifSingulier = classeDoc.getString("classeNomAdjectifSingulier" + "_" + langueNom2 + "_stored_string");
+				classeNomAdjectifPluriel = classeDoc.getString("classeNomAdjectifPluriel" + "_" + langueNom2 + "_stored_string");
+				classeCe = classeDoc.getString("classeCe" + "_" + langueNom2 + "_stored_string");
+				classeUn = classeDoc.getString("classeUn" + "_" + langueNom2 + "_stored_string");
+				classeNomActuel = classeDoc.getString("classeNomActuel" + "_" + langueNom2 + "_stored_string");
+				classeTousNom = classeDoc.getString("classeTousNom" + "_" + langueNom2 + "_stored_string");
+				classeRechercherTousNomPar = classeDoc.getString("classeRechercherTousNomPar" + "_" + langueNom2 + "_stored_string");
+				classeRechercherTousNom = classeDoc.getString("classeRechercherTousNom" + "_" + langueNom2 + "_stored_string");
+				classeLesNoms = classeDoc.getString("classeLesNoms" + "_" + langueNom2 + "_stored_string");
+				classeTitre = classeDoc.getString("classeTitre" + "_" + langueNom2 + "_stored_string");
+				classeH1 = classeDoc.getString("classeH1" + "_" + langueNom2 + "_stored_string");
+				classeH2 = classeDoc.getString("classeH2" + "_" + langueNom2 + "_stored_string");
+				classeH3 = classeDoc.getString("classeH3" + "_" + langueNom2 + "_stored_string");
+				classeAucunNomTrouve = classeDoc.getString("classeAucunNomTrouve" + "_" + langueNom2 + "_stored_string");
+				classeUnNomAdjectif = classeDoc.getString("classeUnNomAdjectif" + "_" + langueNom2 + "_stored_string");
+				classeCeNom = classeDoc.getString("classeCeNom" + "_" + langueNom2 + "_stored_string");
+				classeLeNom = classeDoc.getString("classeLeNom" + "_" + langueNom2 + "_stored_string");
+				classeDeNom = classeDoc.getString("classeDeNom" + "_" + langueNom2 + "_stored_string");
 
 				if(classeUri != null)
 					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_Uri), "_", langueNom2, " = ", q(classeUri), ";");
@@ -2209,9 +2215,9 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(classeNomAdjectifPluriel != null)
 					tl(1, "public static final String ", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_NomAdjectifPluriel), "_", langueNom2, " = ", q(classeNomAdjectifPluriel), ";");
 
-				List<String> classeApiMethodes = Optional.ofNullable((List<String>)doc.get("classeApiMethodes_" + langueNom2 + "_stored_strings")).orElse(Arrays.asList());
+				List<String> classeApiMethodes = Optional.ofNullable(Optional.ofNullable(doc.getJsonArray("classeApiMethodes_" + langueNom2 + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList())).orElse(Arrays.asList());
 				for(String classePageMethode : classeApiMethodes) {
-					String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_" + langueNom2 + "_stored_string");
+					String classePageUriMethode = classeDoc.getString("classeApiUri" + classePageMethode + "_" + langueNom2 + "_stored_string");
 					if(classePageUriMethode != null) {
 						if(classePageUriMethode != null) {
 							tl(1, "public static final String ", classePageMethode, "_", langueNom2, "_Uri", " = ", q(classePageUriMethode), ";");
@@ -2223,10 +2229,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 			}
 
-			classeCouleur = (String)classeDoc.get("classeCouleur_stored_string");
-			classeIconeGroupe = (String)classeDoc.get("classeIconeGroupe_stored_string");
-			classeIconeNom = (String)classeDoc.get("classeIconeNom_stored_string");
-			classeLignes = (Integer)classeDoc.get("classeLignes_stored_int");
+			classeCouleur = classeDoc.getString("classeCouleur_stored_string");
+			classeIconeGroupe = classeDoc.getString("classeIconeGroupe_stored_string");
+			classeIconeNom = classeDoc.getString("classeIconeNom_stored_string");
+			classeLignes = (Integer)classeDoc.getInteger("classeLignes_stored_int");
 			
 			l();
 			if(classeCouleur != null)
@@ -2243,12 +2249,12 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		if(classePage) {
-			classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin"  + "_" + langueNom + "_stored_string");
-			classePageChemin = (String)classeDoc.get("classePageChemin"  + "_" + langueNom + "_stored_string");
-			classePageCheminCss = (String)classeDoc.get("classePageCheminCss"  + "_" + langueNom + "_stored_string");
-			classePageCheminJs = (String)classeDoc.get("classePageCheminJs"  + "_" + langueNom + "_stored_string");
-			classePageCheminHbs = (String)classeDoc.get("classePageCheminHbs"  + "_" + langueNom + "_stored_string");
-			classeGenPageCheminHbs = (String)classeDoc.get("classeGenPageCheminHbs"  + "_" + langueNom + "_stored_string");
+			classeGenPageChemin = classeDoc.getString("classeGenPageChemin"  + "_" + langueNom + "_stored_string");
+			classePageChemin = classeDoc.getString("classePageChemin"  + "_" + langueNom + "_stored_string");
+			classePageCheminCss = classeDoc.getString("classePageCheminCss"  + "_" + langueNom + "_stored_string");
+			classePageCheminJs = classeDoc.getString("classePageCheminJs"  + "_" + langueNom + "_stored_string");
+			classePageCheminHbs = classeDoc.getString("classePageCheminHbs"  + "_" + langueNom + "_stored_string");
+			classeGenPageCheminHbs = classeDoc.getString("classeGenPageCheminHbs"  + "_" + langueNom + "_stored_string");
 		
 			File classePageFichierGen = null;
 			File classePageFichier = null;
@@ -2392,11 +2398,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */ 
 	public void genCodeConstructeur(String langueNom, YAMLConfiguration langueConfig) throws Exception {
 		o = auteurGenClasseFin;
-		String constructeurCodeSource = (String)doc.get("constructeurCodeSource_" + langueNom + "_stored_string");
-		String constructeurCommentaire = (String)doc.get("constructeurCommentaire_" + langueNom + "_stored_string");
-		List<String> constructeurExceptionsNomSimpleComplet = (List<String>)doc.get("constructeurExceptionsNomSimpleComplet_stored_strings");
-		List<String> constructeurAnnotationsNomSimpleCompletListe = (List<String>)doc.get("constructeurAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings");
-		List<String> constructeurAnnotationsBlocCodeListe = (List<String>)doc.get("constructeurAnnotationsBlocCode_" + langueNom + "_stored_strings");
+		String constructeurCodeSource = doc.getString("constructeurCodeSource_" + langueNom + "_stored_string");
+		String constructeurCommentaire = doc.getString("constructeurCommentaire_" + langueNom + "_stored_string");
+		List<String> constructeurExceptionsNomSimpleComplet = Optional.ofNullable(doc.getJsonArray("constructeurExceptionsNomSimpleComplet_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		List<String> constructeurAnnotationsNomSimpleCompletListe = Optional.ofNullable(doc.getJsonArray("constructeurAnnotationsNomSimpleComplet_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		List<String> constructeurAnnotationsBlocCodeListe = Optional.ofNullable(doc.getJsonArray("constructeurAnnotationsBlocCode_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 
 		l(""); 
 		ecrireCommentaire(constructeurCommentaire, 1);
@@ -2408,26 +2414,26 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 		}
 		s("\t");
-		if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstPublic_stored_boolean")))
+		if(BooleanUtils.isTrue(doc.getBoolean("constructeurEstPublic_stored_boolean")))
 			s("public ");
-		if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstProtege_stored_boolean")))
+		if(BooleanUtils.isTrue(doc.getBoolean("constructeurEstProtege_stored_boolean")))
 			s("protected ");
-		if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstPrive_stored_boolean")))
+		if(BooleanUtils.isTrue(doc.getBoolean("constructeurEstPrive_stored_boolean")))
 			s("private ");
-		if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstStatique_stored_boolean")))
+		if(BooleanUtils.isTrue(doc.getBoolean("constructeurEstStatique_stored_boolean")))
 			s("static ");
-		if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstFinale_stored_boolean")))
+		if(BooleanUtils.isTrue(doc.getBoolean("constructeurEstFinale_stored_boolean")))
 			s("final ");
-		if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstAbstrait_stored_boolean")))
+		if(BooleanUtils.isTrue(doc.getBoolean("constructeurEstAbstrait_stored_boolean")))
 			s("abstract ");
-		if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstNatif_stored_boolean")))
+		if(BooleanUtils.isTrue(doc.getBoolean("constructeurEstNatif_stored_boolean")))
 			s("native ");
 
 		s(classeNomSimpleGen);
 		s("(");
-		List<String> constructeurParamsNomSimpleComplet = (List<String>)doc.get("constructeurParamsNomSimpleComplet_" + langueNom + "_stored_strings"); 
-		List<String> constructeurParamsVar = (List<String>)doc.get("constructeurParamsVar_" + langueNom + "_stored_strings");
-		List<Boolean> constructeurParamsArgsVariables = (List<Boolean>)doc.get("constructeurParamsArgsVariables_stored_booleans");
+		List<String> constructeurParamsNomSimpleComplet = Optional.ofNullable(doc.getJsonArray("constructeurParamsNomSimpleComplet_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()); 
+		List<String> constructeurParamsVar = Optional.ofNullable(doc.getJsonArray("constructeurParamsVar_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		List<Boolean> constructeurParamsArgsVariables = Optional.ofNullable(doc.getJsonArray("constructeurParamsArgsVariables_stored_booleans")).orElse(new JsonArray()).stream().map(v -> (Boolean)v).collect(Collectors.toList());
 		if(constructeurParamsNomSimpleComplet != null && constructeurParamsVar != null && constructeurParamsNomSimpleComplet.size() == constructeurParamsVar.size()) {
 			for(int j = 0; j < constructeurParamsVar.size(); j++) {
 				String constructeurParamNomSimpleComplet = constructeurParamsNomSimpleComplet.get(j);
@@ -2497,13 +2503,13 @@ public class EcrireGenClasse extends EcrireClasse {
 	public void genCodeMethode(String langueNom, YAMLConfiguration langueConfig) throws Exception {
 		o = auteurGenClasseFin;
 
-		String methodeVar = (String)doc.get("methodeVar_" + langueNom + "_stored_string");
+		String methodeVar = doc.getString("methodeVar_" + langueNom + "_stored_string");
 
 		ToutEcrivain methodeValsEcrivain = ToutEcrivain.create();
-		List<String> methodeValsVar = (List<String>)doc.get("methodeValsVar_stored_strings");
-		List<String> methodeValsLangue = (List<String>)doc.get("methodeValsLangue_stored_strings");
-		List<String> methodeValsCode = (List<String>)doc.get("methodeValsCode_stored_strings");
-		List<String> methodeValsValeur = (List<String>)doc.get("methodeValsValeur_stored_strings");
+		List<String> methodeValsVar = Optional.ofNullable(doc.getJsonArray("methodeValsVar_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		List<String> methodeValsLangue = Optional.ofNullable(doc.getJsonArray("methodeValsLangue_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		List<String> methodeValsCode = Optional.ofNullable(doc.getJsonArray("methodeValsCode_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		List<String> methodeValsValeur = Optional.ofNullable(doc.getJsonArray("methodeValsValeur_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 		if(methodeValsVar != null && methodeValsLangue != null && methodeValsValeur != null) {
 			String methodeValVarAncien = null;
 			Integer methodeValVarNumero = 0;
@@ -3083,121 +3089,121 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */   
 	public void genCodeEntite(String langueNom, YAMLConfiguration langueConfig) throws Exception {
 		o = auteurGenClasseFin;
-		entiteVar = (String)doc.get("entiteVar_" + langueNom + "_stored_string");
-		entiteVarUrl = (String)doc.get("entiteVarUrl_" + langueNom + "_stored_string");
-		entiteDescription = (String)doc.get("entiteDescription_" + langueNom + "_stored_string");
-		entiteSuffixeType = (String)doc.get("entiteSuffixeType_stored_string");
-		entiteVarCapitalise = (String)doc.get("entiteVarCapitalise_" + langueNom + "_stored_string");
-		entiteAttribuerVarSuggere = (String)doc.get("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
-		entiteNomCanonique = (String)doc.get("entiteNomCanonique_" + langueNom + "_stored_string");
-		entiteNomCanoniqueGenerique = (String)doc.get("entiteNomCanoniqueGenerique_" + langueNom + "_stored_string");
-		entiteNomSimpleComplet = (String)doc.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
-		entiteNomSimpleGenerique = (String)doc.get("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
-		entiteNomSimpleCompletGenerique = (String)doc.get("entiteNomSimpleCompletGenerique_" + langueNom + "_stored_string");
-		entiteNomSimple = (String)doc.get("entiteNomSimple_" + langueNom + "_stored_string");
-		entiteCommentaire = (String)doc.get("entiteCommentaire_" + langueNom + "_stored_string");
-		entiteVarParam = (String)doc.get("entiteVarParam_" + langueNom + "_stored_string");
-		entiteAttribuerTypeJson = (String)doc.get("entiteAttribuerTypeJson_stored_string");
-		entiteCouverture = (Boolean)doc.get("entiteCouverture_stored_boolean");
-		entitePromesse = (Boolean)doc.get("entitePromesse_stored_boolean");
-		entiteInitialise = (Boolean)doc.get("entiteInitialise_stored_boolean");
-		entiteInitLoin = (Boolean)doc.get("entiteInitLoin_stored_boolean");
-		entiteFacetsTrouves = Optional.ofNullable((Boolean)doc.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
-		methodeExceptionsNomSimpleComplet = (List<String>)doc.get("methodeExceptionsNomSimpleComplet_stored_strings");
-		entiteFacets = Optional.ofNullable((List<String>)doc.get("entiteFacets_stored_strings")).orElse(Arrays.asList());
+		entiteVar = doc.getString("entiteVar_" + langueNom + "_stored_string");
+		entiteVarUrl = doc.getString("entiteVarUrl_" + langueNom + "_stored_string");
+		entiteDescription = doc.getString("entiteDescription_" + langueNom + "_stored_string");
+		entiteSuffixeType = doc.getString("entiteSuffixeType_stored_string");
+		entiteVarCapitalise = doc.getString("entiteVarCapitalise_" + langueNom + "_stored_string");
+		entiteAttribuerVarSuggere = doc.getString("entiteAttribuerVarSuggere_" + langueNom + "_stored_string");
+		entiteNomCanonique = doc.getString("entiteNomCanonique_" + langueNom + "_stored_string");
+		entiteNomCanoniqueGenerique = doc.getString("entiteNomCanoniqueGenerique_" + langueNom + "_stored_string");
+		entiteNomSimpleComplet = doc.getString("entiteNomSimpleComplet_" + langueNom + "_stored_string");
+		entiteNomSimpleGenerique = doc.getString("entiteNomSimpleGenerique_" + langueNom + "_stored_string");
+		entiteNomSimpleCompletGenerique = doc.getString("entiteNomSimpleCompletGenerique_" + langueNom + "_stored_string");
+		entiteNomSimple = doc.getString("entiteNomSimple_" + langueNom + "_stored_string");
+		entiteCommentaire = doc.getString("entiteCommentaire_" + langueNom + "_stored_string");
+		entiteVarParam = doc.getString("entiteVarParam_" + langueNom + "_stored_string");
+		entiteAttribuerTypeJson = doc.getString("entiteAttribuerTypeJson_stored_string");
+		entiteCouverture = doc.getBoolean("entiteCouverture_stored_boolean");
+		entitePromesse = doc.getBoolean("entitePromesse_stored_boolean");
+		entiteInitialise = doc.getBoolean("entiteInitialise_stored_boolean");
+		entiteInitLoin = doc.getBoolean("entiteInitLoin_stored_boolean");
+		entiteFacetsTrouves = Optional.ofNullable(doc.getBoolean("entiteFacetsTrouves_stored_boolean")).orElse(false);
+		methodeExceptionsNomSimpleComplet = Optional.ofNullable(doc.getJsonArray("methodeExceptionsNomSimpleComplet_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		entiteFacets = Optional.ofNullable(doc.getJsonArray("entiteFacets_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 
 		if(entiteNomCanonique != null) {
-			entiteSolrNomCanonique = (String)doc.get("entiteSolrNomCanonique_stored_string");
-			entiteSolrNomSimple = (String)doc.get("entiteSolrNomSimple_stored_string");
-			entiteNomSimpleVertxJson = (String)doc.get("entiteNomSimpleVertxJson_stored_string");
-			entiteNomCanoniqueVertxJson = (String)doc.get("entiteNomCanoniqueVertxJson_stored_string");
-			entiteListeNomSimpleVertxJson = (String)doc.get("entiteListeNomSimpleVertxJson_stored_string");
-			entiteListeNomCanoniqueVertxJson = (String)doc.get("entiteListeNomCanoniqueVertxJson_stored_string");
+			entiteSolrNomCanonique = doc.getString("entiteSolrNomCanonique_stored_string");
+			entiteSolrNomSimple = doc.getString("entiteSolrNomSimple_stored_string");
+			entiteNomSimpleVertxJson = doc.getString("entiteNomSimpleVertxJson_stored_string");
+			entiteNomCanoniqueVertxJson = doc.getString("entiteNomCanoniqueVertxJson_stored_string");
+			entiteListeNomSimpleVertxJson = doc.getString("entiteListeNomSimpleVertxJson_stored_string");
+			entiteListeNomCanoniqueVertxJson = doc.getString("entiteListeNomCanoniqueVertxJson_stored_string");
 
-			entiteExact = (Boolean)doc.get("entiteExact_stored_boolean");
-			entiteClePrimaire = (Boolean)doc.get("entiteClePrimaire_stored_boolean");
-			entiteCleUnique = (Boolean)doc.get("entiteCleUnique_stored_boolean");
-			entiteCrypte = (Boolean)doc.get("entiteCrypte_stored_boolean");
-			entiteSuggere = (Boolean)doc.get("entiteSuggere_stored_boolean");
-			entiteSauvegarde = (Boolean)doc.get("entiteSauvegarde_stored_boolean");
-			entiteDocValues = (Boolean)doc.get("entiteDocValues_stored_boolean");
-			entiteIndexe = (Boolean)doc.get("entiteIndexe_stored_boolean");
-			entiteStocke = (Boolean)doc.get("entiteStocke_stored_boolean");
-			entiteTexte = (Boolean)doc.get("entiteTexte_stored_boolean");
-			entiteLangue = (String)doc.get("entiteLangue_stored_string");
-			entiteIncremente = (Boolean)doc.get("entiteIncremente_stored_boolean");
-			entiteIgnorer = (Boolean)doc.get("entiteIgnorer_stored_boolean");
-			entiteSetTrim = (Boolean)doc.get("entiteSetTrim_stored_boolean");
-			entiteSetLower = (Boolean)doc.get("entiteSetLower_stored_boolean");
-			entiteSetUpper = (Boolean)doc.get("entiteSetUpper_stored_boolean");
-			entiteDeclarer = (Boolean)doc.get("entiteDeclarer_stored_boolean");
-			entiteRechercher = (Boolean)doc.get("entiteRechercher_stored_boolean");
-			entiteAttribuer = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuer_stored_boolean"));
-			entiteAttribuerNomCanonique = (String)doc.get("entiteAttribuerNomCanonique_" + langueNom + "_stored_string");
-			entiteAttribuerNomSimple = (String)doc.get("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
-			entiteAttribuerNomCanoniqueGenApiServiceImpl = (String)doc.get("entiteAttribuerNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
-			entiteAttribuerNomSimpleGenApiServiceImpl = (String)doc.get("entiteAttribuerNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
-			entiteAttribuerNomSimpleApiServiceImpl = (String)doc.get("entiteAttribuerNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
-			entiteAttribuerVar = (String)doc.get("entiteAttribuerVar_" + langueNom + "_stored_string");
-			entiteAttribuerVarUrlId = (String)doc.get("entiteAttribuerVarUrlId_" + langueNom + "_stored_string");
-			entiteAttribuerVarUrlPk = (String)doc.get("entiteAttribuerVarUrlPk_" + langueNom + "_stored_string");
-			entiteAttribuerVarId = (String)doc.get("entiteAttribuerVarId_" + langueNom + "_stored_string");
-			entiteAttribuerVarTitre = (String)doc.get("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
-			entiteAttribuerVarDescription = (String)doc.get("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
-			entiteAttribuerVarImageUrl = (String)doc.get("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
-			entiteAttribuerUtilisateurEcrire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerUtilisateurEcrire_stored_boolean"));
-			entiteAttribuerSessionEcrire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerSessionEcrire_stored_boolean"));
-			entiteAttribuerPublicLire = BooleanUtils.isTrue((Boolean)doc.get("entiteAttribuerPublicLire_stored_boolean"));
-			entiteAttribuerClasseRoles = (List<String>)doc.get("entiteAttribuerClasseRoles_stored_strings");
-			entiteAttribuerClasseRolesLangue = (List<String>)doc.get("entiteAttribuerClasseRolesLangue_stored_strings");
-			entiteAjouter = (Boolean)doc.get("entiteAjouter_stored_boolean");
-			entiteSupprimer = (Boolean)doc.get("entiteSupprimer_stored_boolean");
-			entiteModifier = (Boolean)doc.get("entiteModifier_stored_boolean");
-			entiteRecharger = (Boolean)doc.get("entiteRecharger_stored_boolean");
-			entiteMultiligne = (Boolean)doc.get("entiteMultiligne_stored_boolean");
-			entiteSignature = (Boolean)doc.get("entiteSignature_stored_boolean");
-			entiteImageBase64Url = (String)doc.get("entiteImageBase64Url_" + langueNom + "_stored_string");
-			entiteCles = (Boolean)doc.get("entiteCles_stored_boolean");
-			entiteIndexeOuStocke = (Boolean)doc.get("entiteIndexeOuStocke_stored_boolean");
-			entiteDefinir = (Boolean)doc.get("entiteDefinir_stored_boolean");
-			entiteContientRequeteSite = BooleanUtils.isTrue((Boolean)doc.get("entiteContientRequeteSite_stored_boolean"));
-			entiteListeTypeJson = (String)doc.get("entiteListeTypeJson_stored_string");
-			entiteAttribuerContexteUnNom = (String)doc.get("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
-			entiteAttribuerContexteNomPluriel = (String)doc.get("entiteAttribuerContexteNomPluriel_" + langueNom + "_stored_string");
-			entiteAttribuerContexteCouleur = (String)doc.get("entiteAttribuerContexteCouleur_stored_string");
-			entiteAttribuerContexteIconeGroupe = (String)doc.get("entiteAttribuerContexteIconeGroupe_stored_string");
-			entiteAttribuerContexteIconeNom = (String)doc.get("entiteAttribuerContexteIconeNom_stored_string");
-			entiteAttribuerPageUri = (String)doc.get("entiteAttribuerPageUri_" + langueNom + "_stored_string");
-			entiteTypeJson = (String)doc.get("entiteTypeJson_stored_string");
+			entiteExact = doc.getBoolean("entiteExact_stored_boolean");
+			entiteClePrimaire = doc.getBoolean("entiteClePrimaire_stored_boolean");
+			entiteCleUnique = doc.getBoolean("entiteCleUnique_stored_boolean");
+			entiteCrypte = doc.getBoolean("entiteCrypte_stored_boolean");
+			entiteSuggere = doc.getBoolean("entiteSuggere_stored_boolean");
+			entiteSauvegarde = doc.getBoolean("entiteSauvegarde_stored_boolean");
+			entiteDocValues = doc.getBoolean("entiteDocValues_stored_boolean");
+			entiteIndexe = doc.getBoolean("entiteIndexe_stored_boolean");
+			entiteStocke = doc.getBoolean("entiteStocke_stored_boolean");
+			entiteTexte = doc.getBoolean("entiteTexte_stored_boolean");
+			entiteLangue = doc.getString("entiteLangue_stored_string");
+			entiteIncremente = doc.getBoolean("entiteIncremente_stored_boolean");
+			entiteIgnorer = doc.getBoolean("entiteIgnorer_stored_boolean");
+			entiteSetTrim = doc.getBoolean("entiteSetTrim_stored_boolean");
+			entiteSetLower = doc.getBoolean("entiteSetLower_stored_boolean");
+			entiteSetUpper = doc.getBoolean("entiteSetUpper_stored_boolean");
+			entiteDeclarer = doc.getBoolean("entiteDeclarer_stored_boolean");
+			entiteRechercher = doc.getBoolean("entiteRechercher_stored_boolean");
+			entiteAttribuer = BooleanUtils.isTrue(doc.getBoolean("entiteAttribuer_stored_boolean"));
+			entiteAttribuerNomCanonique = doc.getString("entiteAttribuerNomCanonique_" + langueNom + "_stored_string");
+			entiteAttribuerNomSimple = doc.getString("entiteAttribuerNomSimple_" + langueNom + "_stored_string");
+			entiteAttribuerNomCanoniqueGenApiServiceImpl = doc.getString("entiteAttribuerNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
+			entiteAttribuerNomSimpleGenApiServiceImpl = doc.getString("entiteAttribuerNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
+			entiteAttribuerNomSimpleApiServiceImpl = doc.getString("entiteAttribuerNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
+			entiteAttribuerVar = doc.getString("entiteAttribuerVar_" + langueNom + "_stored_string");
+			entiteAttribuerVarUrlId = doc.getString("entiteAttribuerVarUrlId_" + langueNom + "_stored_string");
+			entiteAttribuerVarUrlPk = doc.getString("entiteAttribuerVarUrlPk_" + langueNom + "_stored_string");
+			entiteAttribuerVarId = doc.getString("entiteAttribuerVarId_" + langueNom + "_stored_string");
+			entiteAttribuerVarTitre = doc.getString("entiteAttribuerVarTitre_" + langueNom + "_stored_string");
+			entiteAttribuerVarDescription = doc.getString("entiteAttribuerVarDescription_" + langueNom + "_stored_string");
+			entiteAttribuerVarImageUrl = doc.getString("entiteAttribuerVarImageUrl_" + langueNom + "_stored_string");
+			entiteAttribuerUtilisateurEcrire = BooleanUtils.isTrue(doc.getBoolean("entiteAttribuerUtilisateurEcrire_stored_boolean"));
+			entiteAttribuerSessionEcrire = BooleanUtils.isTrue(doc.getBoolean("entiteAttribuerSessionEcrire_stored_boolean"));
+			entiteAttribuerPublicLire = BooleanUtils.isTrue(doc.getBoolean("entiteAttribuerPublicLire_stored_boolean"));
+			entiteAttribuerClasseRoles = Optional.ofNullable(doc.getJsonArray("entiteAttribuerClasseRoles_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteAttribuerClasseRolesLangue = Optional.ofNullable(doc.getJsonArray("entiteAttribuerClasseRolesLangue_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteAjouter = doc.getBoolean("entiteAjouter_stored_boolean");
+			entiteSupprimer = doc.getBoolean("entiteSupprimer_stored_boolean");
+			entiteModifier = doc.getBoolean("entiteModifier_stored_boolean");
+			entiteRecharger = doc.getBoolean("entiteRecharger_stored_boolean");
+			entiteMultiligne = doc.getBoolean("entiteMultiligne_stored_boolean");
+			entiteSignature = doc.getBoolean("entiteSignature_stored_boolean");
+			entiteImageBase64Url = doc.getString("entiteImageBase64Url_" + langueNom + "_stored_string");
+			entiteCles = doc.getBoolean("entiteCles_stored_boolean");
+			entiteIndexeOuStocke = doc.getBoolean("entiteIndexeOuStocke_stored_boolean");
+			entiteDefinir = doc.getBoolean("entiteDefinir_stored_boolean");
+			entiteContientRequeteSite = BooleanUtils.isTrue(doc.getBoolean("entiteContientRequeteSite_stored_boolean"));
+			entiteListeTypeJson = doc.getString("entiteListeTypeJson_stored_string");
+			entiteAttribuerContexteUnNom = doc.getString("entiteAttribuerContexteUnNom_" + langueNom + "_stored_string");
+			entiteAttribuerContexteNomPluriel = doc.getString("entiteAttribuerContexteNomPluriel_" + langueNom + "_stored_string");
+			entiteAttribuerContexteCouleur = doc.getString("entiteAttribuerContexteCouleur_stored_string");
+			entiteAttribuerContexteIconeGroupe = doc.getString("entiteAttribuerContexteIconeGroupe_stored_string");
+			entiteAttribuerContexteIconeNom = doc.getString("entiteAttribuerContexteIconeNom_stored_string");
+			entiteAttribuerPageUri = doc.getString("entiteAttribuerPageUri_" + langueNom + "_stored_string");
+			entiteTypeJson = doc.getString("entiteTypeJson_stored_string");
 	
-			entiteNomAffichage = (String)doc.get("entiteNomAffichage_" + langueNom + "_stored_string");
-			entiteHtmlTooltip = (String)doc.get("entiteHtmlTooltip_" + langueNom + "_stored_string");
-			entiteHtmlColonne = (Integer)doc.get("entiteHtmlColonne_stored_int");
-			entiteHtmlLigne = (Integer)doc.get("entiteHtmlLigne_stored_int");
-			entiteHtmlCellule = (Integer)doc.get("entiteHtmlCellule_stored_int");
-			entiteLongeurMin = (Integer)doc.get("entiteLongeurMin_stored_int");
-			entiteLongeurMax = (Integer)doc.get("entiteLongeurMax_stored_int");
-			entiteMin = (Integer)doc.get("entiteMin_stored_int");
-			entiteMax = (Integer)doc.get("entiteMax_stored_int");
-			entiteHtml = (Boolean)doc.get("entiteHtml_stored_boolean");
+			entiteNomAffichage = doc.getString("entiteNomAffichage_" + langueNom + "_stored_string");
+			entiteHtmlTooltip = doc.getString("entiteHtmlTooltip_" + langueNom + "_stored_string");
+			entiteHtmlColonne = doc.getInteger("entiteHtmlColonne_stored_int");
+			entiteHtmlLigne = doc.getInteger("entiteHtmlLigne_stored_int");
+			entiteHtmlCellule = doc.getInteger("entiteHtmlCellule_stored_int");
+			entiteLongeurMin = doc.getInteger("entiteLongeurMin_stored_int");
+			entiteLongeurMax = doc.getInteger("entiteLongeurMax_stored_int");
+			entiteMin = doc.getInteger("entiteMin_stored_int");
+			entiteMax = doc.getInteger("entiteMax_stored_int");
+			entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");
 
-			entiteClassesSuperEtMoiSansGen = (List<String>)doc.get("entiteClassesSuperEtMoiSansGen_stored_strings");
+			entiteClassesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("entiteClassesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 	
-			entiteMethodesAvantVisibilite = (List<String>)doc.get("entiteMethodesAvantVisibilite_stored_strings");
-			entiteMethodesAvantVar = (List<String>)doc.get("entiteMethodesAvantVar_" + langueNom + "_stored_strings");
-			entiteMethodesAvantParamVar = (List<String>)doc.get("entiteMethodesAvantParamVar_" + langueNom + "_stored_strings");
-			entiteMethodesAvantParamNomSimple = (List<String>)doc.get("entiteMethodesAvantParamNomSimple_" + langueNom + "_stored_strings");
-			entiteMethodesAvantNomParam = (List<Boolean>)doc.get("entiteMethodesAvantNomParam_stored_booleans");
-			entiteMethodesAvantEcrire = (List<Boolean>)doc.get("entiteMethodesAvantEcrire_stored_booleans");
+			entiteMethodesAvantVisibilite = Optional.ofNullable(doc.getJsonArray("entiteMethodesAvantVisibilite_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteMethodesAvantVar = Optional.ofNullable(doc.getJsonArray("entiteMethodesAvantVar_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteMethodesAvantParamVar = Optional.ofNullable(doc.getJsonArray("entiteMethodesAvantParamVar_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteMethodesAvantParamNomSimple = Optional.ofNullable(doc.getJsonArray("entiteMethodesAvantParamNomSimple_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteMethodesAvantNomParam = Optional.ofNullable(doc.getJsonArray("entiteMethodesAvantNomParam_stored_booleans")).orElse(new JsonArray()).stream().map(v -> (Boolean)v).collect(Collectors.toList());
+			entiteMethodesAvantEcrire = Optional.ofNullable(doc.getJsonArray("entiteMethodesAvantEcrire_stored_booleans")).orElse(new JsonArray()).stream().map(v -> (Boolean)v).collect(Collectors.toList());
 	
-			entiteMethodesApresVisibilite = (List<String>)doc.get("entiteMethodesApresVisibilite_stored_strings");
-			entiteMethodesApresVar = (List<String>)doc.get("entiteMethodesApresVar_" + langueNom + "_stored_strings");
-			entiteMethodesApresParamVar = (List<String>)doc.get("entiteMethodesApresParamVar_" + langueNom + "_stored_strings");
-			entiteMethodesApresParamNomSimple = (List<String>)doc.get("entiteMethodesApresParamNomSimple_" + langueNom + "_stored_strings");
-			entiteMethodesApresNomParam = (List<Boolean>)doc.get("entiteMethodesApresNomParam_stored_booleans");
-			entiteMethodesApresEcrire = (List<Boolean>)doc.get("entiteMethodesApresEcrire_stored_booleans");
+			entiteMethodesApresVisibilite = Optional.ofNullable(doc.getJsonArray("entiteMethodesApresVisibilite_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteMethodesApresVar = Optional.ofNullable(doc.getJsonArray("entiteMethodesApresVar_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteMethodesApresParamVar = Optional.ofNullable(doc.getJsonArray("entiteMethodesApresParamVar_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteMethodesApresParamNomSimple = Optional.ofNullable(doc.getJsonArray("entiteMethodesApresParamNomSimple_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteMethodesApresNomParam = Optional.ofNullable(doc.getJsonArray("entiteMethodesApresNomParam_stored_booleans")).orElse(new JsonArray()).stream().map(v -> (Boolean)v).collect(Collectors.toList());
+			entiteMethodesApresEcrire = Optional.ofNullable(doc.getJsonArray("entiteMethodesApresEcrire_stored_booleans")).orElse(new JsonArray()).stream().map(v -> (Boolean)v).collect(Collectors.toList());
 
-			entiteEcrireMethodes = (List<String>)doc.get("entiteEcrireMethodes_stored_strings");
+			entiteEcrireMethodes = Optional.ofNullable(doc.getJsonArray("entiteEcrireMethodes_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 			if(entiteEcrireMethodes == null)
 				entiteEcrireMethodes = new ArrayList<>();
 			if(classeEcrireMethodes != null) {
@@ -3228,10 +3234,10 @@ public class EcrireGenClasse extends EcrireClasse {
 
 			ToutEcrivain entiteValsEcrivain = ToutEcrivain.create();
 
-			entiteValsVar = (List<String>)doc.get("entiteValsVar_stored_strings");
-			entiteValsLangue = (List<String>)doc.get("entiteValsLangue_stored_strings");
-			entiteValsCode = (List<String>)doc.get("entiteValsCode_stored_strings");
-			entiteValsValeur = (List<String>)doc.get("entiteValsValeur_stored_strings");
+			entiteValsVar = Optional.ofNullable(doc.getJsonArray("entiteValsVar_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteValsLangue = Optional.ofNullable(doc.getJsonArray("entiteValsLangue_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteValsCode = Optional.ofNullable(doc.getJsonArray("entiteValsCode_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteValsValeur = Optional.ofNullable(doc.getJsonArray("entiteValsValeur_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 			if(entiteValsVar != null && entiteValsLangue != null && entiteValsValeur != null) {
 				String entiteValVarAncien = null;
 				Integer entiteValVarNumero = 0;
@@ -6460,13 +6466,13 @@ public class EcrireGenClasse extends EcrireClasse {
 //			tl(1, "public static void image() {");
 //			tl(2, "try {");
 //			tl(3, "DefaultExecutor executeur = new DefaultExecutor();");
-//			String classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin" + classePageMethode  + "_stored_string");
-//			String classePageChemin = (String)classeDoc.get("classePageChemin" + classePageMethode  + "_stored_string");
-//			String classePageCheminCss = (String)classeDoc.get("classePageCheminCss" + classePageMethode  + "_stored_string");
-//			String classePageCheminJs = (String)classeDoc.get("classePageCheminJs" + classePageMethode  + "_stored_string");
-//			String classePageUriMethode = (String)classeDoc.get("classeApiUri" + classePageMethode + "_stored_string");
-//			String classePageLangueNom = (String)classeDoc.get("classePageLangueNom" + classePageMethode + "_stored_string");
-//			String classePageNomSimple = (String)classeDoc.get("classePageNomSimple" + classePageMethode  + "_stored_string");
+//			String classeGenPageChemin = classeDoc.getString("classeGenPageChemin" + classePageMethode  + "_stored_string");
+//			String classePageChemin = classeDoc.getString("classePageChemin" + classePageMethode  + "_stored_string");
+//			String classePageCheminCss = classeDoc.getString("classePageCheminCss" + classePageMethode  + "_stored_string");
+//			String classePageCheminJs = classeDoc.getString("classePageCheminJs" + classePageMethode  + "_stored_string");
+//			String classePageUriMethode = classeDoc.getString("classeApiUri" + classePageMethode + "_stored_string");
+//			String classePageLangueNom = classeDoc.getString("classePageLangueNom" + classePageMethode + "_stored_string");
+//			String classePageNomSimple = classeDoc.getString("classePageNomSimple" + classePageMethode  + "_stored_string");
 //	
 //			if(classeGenPageChemin != null) {
 //		
@@ -6887,9 +6893,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(ecrireCommentaire) {
 			l("/**\t");
 			ecrireCommentairePart(classeCommentaireLangue, 0); 
-			String hackathonMission = (String)classeDoc.get("hackathonMissionGen_stored_string");
-			String hackathonColumn = (String)classeDoc.get("hackathonColumnGen_stored_string");
-			String hackathonLabels = (String)classeDoc.get("hackathonLabelsGen_stored_string");
+			String hackathonMission = classeDoc.getString("hackathonMissionGen_stored_string");
+			String hackathonColumn = classeDoc.getString("hackathonColumnGen_stored_string");
+			String hackathonLabels = classeDoc.getString("hackathonLabelsGen_stored_string");
 			if(hackathonMission != null)
 				l(String.format(" * Map.hackathonMission: %s", hackathonMission));
 			if(hackathonColumn != null)
@@ -6897,160 +6903,15 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(hackathonLabels != null)
 				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 
+			DumperOptions options = new DumperOptions();
+			Writer writer = new StringWriter();
+			langueConfig.dump(writer, options);
+			ObjectMapper yamlReader = new ObjectMapper(new YAMLFactory());
+			Object obj = yamlReader.readValue(writer.toString(), Object.class);
+			ObjectMapper jsonWriter = new ObjectMapper();
+			JsonObject langueConfigJson = new JsonObject(jsonWriter.writeValueAsString(obj));
 			// Todo
-
-			if(classeNomSimpleSuperGenerique == null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.NomSimpleSuperGenerique.todo"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
-					wClasseTodos.tl(0, " * ", s);
-				});
-			}
-			if(classeApi && !classeIndexe) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.Indexe.todo"), classeNomSimple).split("\n")).stream().forEach(s -> {
-					wClasseTodos.tl(0, " * ", s);
-				});
-			}
-			if(classeApi && classeApiUri == null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.ApiUri.todo"), classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
-					wClasseTodos.tl(0, " * ", s);
-				});
-			}
-			if(classeApi && classeApiTag == null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.ApiTag.todo"), classeLangueNom, classeNomSimple, classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
-					wClasseTodos.tl(0, " * ", s);
-				});
-			}
-
-			if(!wClasseTodos.getEmpty()) {
-				Arrays.asList(String.format(langueConfig.getString("classe.Todo")).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-				tl(0, " * <ol>");
-				s(wClasseTodos);
-				tl(0, " * </ol>");
-			}
-
-			// Suggere
-
-			if(Optional.ofNullable(classeCommentaire).map(commentaire -> !commentaire.contains("{@inheritDoc}")).orElse(false)) {
-				Arrays.asList(String.format(langueConfig.getString("classe.inheritDoc.suggere"), classeNomSimpleGen, classeNomSimple).split("\n")).stream().forEach(s -> {
-					wClasseSuggere.tl(0, " * ", s);
-				});
-			}
-			if(classeNomSimpleSuperGenerique != null && !classeApi) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.Api.suggere"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
-					wClasseSuggere.tl(0, " * ", s);
-				});
-			}
-			if(classeApi && !classeModele) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.Modele.suggere"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
-					wClasseSuggere.tl(0, " * ", s);
-				});
-			}
-			if(classeApi && classeLignes == null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.Lignes.suggere"), classeNomSimple).split("\n")).stream().forEach(s -> {
-					wClasseSuggere.tl(0, " * ", s);
-				});
-			}
-
-			if(!wClasseSuggere.getEmpty()) {
-				Arrays.asList(String.format(langueConfig.getString("classe.Suggere")).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-				tl(0, " * <ol>");
-				s(wClasseSuggere);
-				tl(0, " * </ol>");
-			}
-
-			// Description
-
-			Arrays.asList(String.format(langueConfig.getString("classe.Description"), classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique).split("\n")).stream().forEach(s -> {
-				tl(0, " * ", s);
-			});
-
-			tl(0, " * <p>");
-			tl(0, " * This Java class extends a generated Java class built by the <a href=\"https://github.com/computate-org/computate\">https://github.com/computate-org/computate</a> project. ");
-			tl(0, " * Whenever this Java class is modified or touched, the watch service installed as described in the README, indexes all the information about this Java class in a local Apache Solr Search Engine. ");
-			tl(0, " * If you are running the service, you can see the indexed data about this Java Class here: ");
-			tl(0, " * </p>");
-			tl(0, " * <p><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "\">", langueConfig.getString(ConfigCles.str_Trouver_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ". </a></p>");
-			tl(0, " * <p>");
-			tl(0, " * The extended class ending with \"Gen\" did not exist at first, but was automatically created by the same watch service based on the data retrieved from the local Apache Server search engine. ");
-			tl(0, " * The extended class contains many generated fields, getters, setters, initialization code, and helper methods to help build a website and API fast, reactive, and scalable. ");
-			tl(0, " * </p>");
-
-			if(classeModele) {
-				Arrays.asList(langueConfig.getString("classe.ref.Modele.description").split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classeIndexe) {
-				Arrays.asList(langueConfig.getString("classe.ref.Indexe.description").split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classePage) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.Page.description"), classePageNomCanonique).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classePageSuperNomSimple != null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.PageSuper.description"), classePageSuperNomSimple, classePageSuperNomSimple, classePageNomCanonique, classePageSuperNomCanonique).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classeApi) {
-				Arrays.asList(langueConfig.getString("classe.ref.Api.description").split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classeApiTag != null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.ApiTag.description"), classeApiTag, classeNomSimple, classeApiTag).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classeApiUri != null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.ApiUri.description"), classeApiUri, classeNomSimple, classeApiUri).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classeLignes != null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.Lignes.description"), classeLignes, classeNomSimple, classeLignes).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classePromesse != null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.Promesse.description"), classePromesse, classeNomSimple).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classeUnNom != null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.UnNom.description"), classeUnNom, classeNomSimple, classeUnNom).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classeCouleur != null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.Couleur.description"), classeCouleur, classeNomSimple, classeCouleur, classeCouleur).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-			if(classeIconeGroupe != null) {
-				Arrays.asList(String.format(langueConfig.getString("classe.ref.IconeGroupe.description"), classeIconeGroupe, classeNomSimple, classeIconeGroupe, StringUtils.substring(classeIconeGroupe, 0, 1), classeCouleur).split("\n")).stream().forEach(s -> {
-					tl(0, " * ", s);
-				});
-			}
-
-			tl(0, " * <p>");
-			tl(0, " * ", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
-			tl(0, " * curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
-			tl(0, " * </p>");
-			tl(0, " * <p>");
-			tl(0, " * ", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_l_ensemble_), classeNomEnsemble, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
-			tl(0, " * curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
-			tl(0, " * </p>");
-			tl(0, " * <p>");
-			tl(0, " * ", langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_le_projet_), siteNom, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
-			tl(0, " * curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
-			tl(0, " * </p>");
+			s(ecrireClasseCommentaire(langueConfigJson, siteNom));
 			l(" **/");  
 		}
 
@@ -7099,5 +6960,273 @@ public class EcrireGenClasse extends EcrireClasse {
         }
         list.add(new String(c, tokenStart, c.length - tokenStart));
         return list.toArray(new String[list.size()]);
+    }
+
+    public String ecrireClasseCommentaire(JsonObject langueConfig, String siteNom) {
+		ToutEcrivain wClasseTodos = ToutEcrivain.create();
+		ToutEcrivain wClasseSuggere = ToutEcrivain.create();
+		ToutEcrivain wClasseDescription = ToutEcrivain.create();
+
+		JsonObject classe = langueConfig.getJsonObject("classe");
+		JsonObject classeRef = classe.getJsonObject("ref");
+
+		// Todos
+
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classe.getJsonObject("NomSimpleSuperGenerique").getString("todo"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeNomSimpleSuperGenerique == null)
+				wClasseTodos.s(0, b.toString());
+			classe.getJsonObject("NomSimpleSuperGenerique").put("todo", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("Indexe").getString("todo"), classeNomSimple).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeApi && !classeIndexe)
+				wClasseTodos.s(0, b.toString());
+			classeRef.getJsonObject("Indexe").put("todo", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("ApiUri").getString("todo"), classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeApi && classeApiUri == null)
+				wClasseTodos.s(0, b.toString());
+			classeRef.getJsonObject("ApiUri").put("todo", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("ApiTag").getString("todo"), classeLangueNom, classeNomSimple, classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeApi && classeApiTag == null)
+				wClasseTodos.s(0, b.toString());
+			classeRef.getJsonObject("ApiTag").put("todo", b.toString());
+		}
+
+		if(!wClasseTodos.getEmpty()) {
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classe.getString("Todo")).split("\n")).stream().forEach(s -> {
+				b.insert(0, s);
+			});
+			wClasseTodos.s(0, b.toString());
+			classe.put("Todo", b.toString());
+
+			tl(0, "<ol>");
+			s(wClasseTodos);
+			tl(0, "</ol>");
+		}
+
+		// Suggere
+
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classe.getJsonObject("inheritDoc").getString("suggere"), classeNomSimpleGen, classeNomSimple).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(Optional.ofNullable(classeCommentaire).map(commentaire -> !commentaire.contains("{@inheritDoc}")).orElse(false))
+				wClasseSuggere.s(0, b.toString());
+			classe.getJsonObject("inheritDoc").put("suggere", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("Api").getString("suggere"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeNomSimpleSuperGenerique != null && !classeApi)
+				wClasseSuggere.s(0, b.toString());
+			classeRef.getJsonObject("Api").put("suggere", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("Modele").getString("suggere"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeApi && !classeModele)
+				wClasseSuggere.s(0, b.toString());
+			classeRef.getJsonObject("Modele").put("suggere", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("Lignes").getString("suggere"), classeNomSimple).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeApi && classeLignes == null)
+				wClasseSuggere.s(0, b.toString());
+			classeRef.getJsonObject("Lignes").put("suggere", b.toString());
+		}
+
+		if(!wClasseSuggere.getEmpty()) {
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classe.getString("Suggere")).split("\n")).stream().forEach(s -> {
+				b.insert(0, s);
+			});
+			wClasseSuggere.s(0, b.toString());
+			classe.put("Suggere", b.toString());
+
+			tl(0, "<ol>");
+			s(wClasseSuggere);
+			tl(0, "</ol>");
+		}
+
+		// Description
+
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classe.getString("Description"), classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique).split("\n")).stream().forEach(s -> {
+				b.insert(0, s);
+			});
+			wClasseDescription.s(0, b.toString());
+			classe.put("Description", b.toString());
+		}
+
+		wClasseDescription.tl(0, "<p>");
+		wClasseDescription.tl(0, "This Java class extends a generated Java class built by the <a href=\"https://github.com/computate-org/computate\">https://github.com/computate-org/computate</a> project. ");
+		wClasseDescription.tl(0, "Whenever this Java class is modified or touched, the watch service installed as described in the README, indexes all the information about this Java class in a local Apache Solr Search Engine. ");
+		wClasseDescription.tl(0, "If you are running the service, you can see the indexed data about this Java Class here: ");
+		wClasseDescription.tl(0, "</p>");
+		wClasseDescription.tl(0, "<p><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "\">", langueConfig.getString(ConfigCles.str_Trouver_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ". </a></p>");
+		wClasseDescription.tl(0, "<p>");
+		wClasseDescription.tl(0, "The extended class ending with \"Gen\" did not exist at first, but was automatically created by the same watch service based on the data retrieved from the local Apache Server search engine. ");
+		wClasseDescription.tl(0, "The extended class contains many generated fields, getters, setters, initialization code, and helper methods to help build a website and API fast, reactive, and scalable. ");
+		wClasseDescription.tl(0, "</p>");
+
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(classeRef.getJsonObject("Modele").getString("description").split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeModele)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("Modele").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(classeRef.getJsonObject("Indexe").getString("description").split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeIndexe)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("Indexe").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("Page").getString("description"), classePageNomCanonique).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classePage)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("Page").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("PageSuper").getString("description"), classePageSuperNomSimple, classePageSuperNomSimple, classePageNomCanonique, classePageSuperNomCanonique).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classePageSuperNomSimple != null)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("PageSuper").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(classeRef.getJsonObject("Api").getString("description").split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeApi)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("Api").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("ApiTag").getString("description"), classeApiTag, classeNomSimple, classeApiTag).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeApiTag != null)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("ApiTag").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("ApiUri").getString("description"), classeApiUri, classeNomSimple, classeApiUri).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeApiUri != null)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("ApiUri").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("Lignes").getString("description"), classeLignes, classeNomSimple, classeLignes).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeLignes != null)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("Lignes").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("Promesse").getString("description"), classePromesse, classeNomSimple).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classePromesse != null)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("Promesse").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("UnNom").getString("description"), classeUnNom, classeNomSimple, classeUnNom).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeUnNom != null)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("UnNom").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("Couleur").getString("description"), classeCouleur, classeNomSimple, classeCouleur, classeCouleur).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeCouleur != null)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("Couleur").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("IconeGroupe").getString("description"), classeIconeGroupe, classeNomSimple, classeIconeGroupe, classeIconeGroupe, classeIconeGroupe, classeIconeGroupe).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeIconeGroupe != null)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("IconeGroupe").put("description", b.toString());
+		}
+		{
+			StringBuilder b = new StringBuilder();
+			Arrays.asList(String.format(classeRef.getJsonObject("IconeNom").getString("description"), classeIconeNom, classeNomSimple, classeIconeNom, classeIconeGroupe, classeIconeGroupe, classeIconeNom, classeIconeGroupe, classeIconeNom, classeIconeGroupe, classeIconeNom).split("\n")).stream().forEach(s -> {
+				b.append(s).append("\n");
+			});
+			if(classeIconeNom != null)
+				wClasseDescription.s(0, b.toString());
+			classeRef.getJsonObject("IconeNom").put("description", b.toString());
+		}
+
+		wClasseDescription.tl(0, "<p>");
+		wClasseDescription.tl(0, langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
+		wClasseDescription.tl(0, "curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+		wClasseDescription.tl(0, "</p>");
+		wClasseDescription.tl(0, "<p>");
+		wClasseDescription.tl(0, langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_l_ensemble_), classeNomEnsemble, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
+		wClasseDescription.tl(0, "curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+		wClasseDescription.tl(0, "</p>");
+		wClasseDescription.tl(0, "<p>");
+		wClasseDescription.tl(0, langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_le_projet_), siteNom, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
+		wClasseDescription.tl(0, "curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+		wClasseDescription.tl(0, "</p>");
+
+		return String.format("%s%s%s", wClasseTodos.toString(), wClasseSuggere.toString(), wClasseDescription.toString());
     }
 }

@@ -36,6 +36,8 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 
+import io.vertx.core.json.JsonArray;
+
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WritePageClass
  * 
@@ -218,69 +220,69 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 	public void pageCodeClasseJava(String langueNom, YAMLConfiguration langueConfig) throws Exception {
 
-		classeVarClePrimaire = (String)classeDoc.get("classeVarClePrimaire"   + "_" + langueNom + "_stored_string");
-		classeGenPageChemin = (String)classeDoc.get("classeGenPageChemin"   + "_" + langueNom + "_stored_string");
-		classePageChemin = (String)classeDoc.get("classePageChemin"   + "_" + langueNom + "_stored_string");
-		classePageCheminCss = (String)classeDoc.get("classePageCheminCss"   + "_" + langueNom + "_stored_string");
-		classePageCheminJs = (String)classeDoc.get("classePageCheminJs"   + "_" + langueNom + "_stored_string");
-		classePageCheminHbs = (String)classeDoc.get("classePageCheminHbs"   + "_" + langueNom + "_stored_string");
-		classeGenPageCheminHbs = (String)classeDoc.get("classeGenPageCheminHbs"   + "_" + langueNom + "_stored_string");
-		classeApiUri = (String)classeDoc.get("classeApiUri" + "_" + langueNom + "_stored_string");
-		classePageUriMethode = (String)classeDoc.get("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string");
-		classePageLangueNom = (String)classeDoc.get("classePageLangueNom"  + "_" + langueNom + "_stored_string");
-		classeModele = (Boolean)classeDoc.get("classeModele_stored_boolean");
+		classeVarClePrimaire = classeDoc.getString("classeVarClePrimaire"   + "_" + langueNom + "_stored_string");
+		classeGenPageChemin = classeDoc.getString("classeGenPageChemin"   + "_" + langueNom + "_stored_string");
+		classePageChemin = classeDoc.getString("classePageChemin"   + "_" + langueNom + "_stored_string");
+		classePageCheminCss = classeDoc.getString("classePageCheminCss"   + "_" + langueNom + "_stored_string");
+		classePageCheminJs = classeDoc.getString("classePageCheminJs"   + "_" + langueNom + "_stored_string");
+		classePageCheminHbs = classeDoc.getString("classePageCheminHbs"   + "_" + langueNom + "_stored_string");
+		classeGenPageCheminHbs = classeDoc.getString("classeGenPageCheminHbs"   + "_" + langueNom + "_stored_string");
+		classeApiUri = classeDoc.getString("classeApiUri" + "_" + langueNom + "_stored_string");
+		classePageUriMethode = classeDoc.getString("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string");
+		classePageLangueNom = classeDoc.getString("classePageLangueNom"  + "_" + langueNom + "_stored_string");
+		classeModele = (Boolean)classeDoc.getBoolean("classeModele_stored_boolean");
 		classePageLangueConfig = null;
 		if(classePageLangueNom != null) {
 			classePageLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classePageLangueNom));
 		}
 
-		classePageNomSimple = (String)classeDoc.get("classePageNomSimple"   + "_" + langueNom + "_stored_string");
-		classePageSuperNomSimple = (String)classeDoc.get("classePageSuperNomSimple"   + "_" + langueNom + "_stored_string");
-		classeApiClasseNomSimple = (String)classeDoc.get("classeApiClasseNomSimple"   + "_" + langueNom + "_stored_string");
+		classePageNomSimple = classeDoc.getString("classePageNomSimple"   + "_" + langueNom + "_stored_string");
+		classePageSuperNomSimple = classeDoc.getString("classePageSuperNomSimple"   + "_" + langueNom + "_stored_string");
+		classeApiClasseNomSimple = classeDoc.getString("classeApiClasseNomSimple"   + "_" + langueNom + "_stored_string");
 		uncapitalizeClasseApiClasseNomSimple = StringUtils.uncapitalize(classeApiClasseNomSimple);
-		classeGenPageNomSimple = (String)classeDoc.get("classeGenPageNomSimple"   + "_" + langueNom + "_stored_string");
-		classePageNomCanonique = (String)classeDoc.get("classePageNomCanonique"   + "_" + langueNom + "_stored_string");
-		classeAttribuerNomSimplePages = (List<String>)classeDoc.get("classeAttribuerNomSimplePages_" + langueNom + "_stored_strings");
-		classeAttribuerNomSimples = (List<String>)classeDoc.get("classeAttribuerNomSimple_" + langueNom + "_stored_strings");
+		classeGenPageNomSimple = classeDoc.getString("classeGenPageNomSimple"   + "_" + langueNom + "_stored_string");
+		classePageNomCanonique = classeDoc.getString("classePageNomCanonique"   + "_" + langueNom + "_stored_string");
+		classeAttribuerNomSimplePages = Optional.ofNullable(doc.getJsonArray("classeAttribuerNomSimplePages_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeAttribuerNomSimples = Optional.ofNullable(doc.getJsonArray("classeAttribuerNomSimple_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 
 		if(!classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 			classePageCheminsGen.add(classeGenPageChemin);
 
-			classeImageLargeur = (Integer)classeDoc.get("classeImageLargeur" + "_" + langueNom + "_stored_int");
-			classeImageHauteur = (Integer)classeDoc.get("classeImageHauteur" + "_" + langueNom + "_stored_int");
-			classeVideoId = (String)classeDoc.get("classeVideoId" + "_" + langueNom + "_stored_string");
-			classeUnNom = (String)classeDoc.get("classeUnNom" + "_" + langueNom + "_stored_string");
-			classeNomSingulier = (String)classeDoc.get("classeNomSingulier" + "_" + langueNom + "_stored_string");
-			classeNomPluriel = (String)classeDoc.get("classeNomPluriel" + "_" + langueNom + "_stored_string");
-			classeNomVar = (String)classeDoc.get("classeNomVar" + "_" + langueNom + "_stored_string");
-			classeAdjectif = (String)classeDoc.get("classeAdjectif" + "_" + langueNom + "_stored_string");
-			classeAdjectifPluriel = (String)classeDoc.get("classeAdjectifPluriel" + "_" + langueNom + "_stored_string");
-			classeAdjectifVar = (String)classeDoc.get("classeAdjectifVar" + "_" + langueNom + "_stored_string");
-			classeNomAdjectifSingulier = (String)classeDoc.get("classeNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
-			classeNomAdjectifPluriel = (String)classeDoc.get("classeNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
-			classeCe = (String)classeDoc.get("classeCe" + "_" + langueNom + "_stored_string");
-			classeUn = (String)classeDoc.get("classeUn" + "_" + langueNom + "_stored_string");
-			classeNomActuel = (String)classeDoc.get("classeNomActuel" + "_" + langueNom + "_stored_string");
-			classeTous = (String)classeDoc.get("classeTous" + "_" + langueNom + "_stored_string");
-			classeTousNom = (String)classeDoc.get("classeTousNom" + "_" + langueNom + "_stored_string");
-			classeLesNoms = (String)classeDoc.get("classeLesNoms" + "_" + langueNom + "_stored_string");
-			classeTitre = (String)classeDoc.get("classeTitre" + "_" + langueNom + "_stored_string");
-			classeH1 = (String)classeDoc.get("classeH1" + "_" + langueNom + "_stored_string");
-			classeH2 = (String)classeDoc.get("classeH2" + "_" + langueNom + "_stored_string");
-			classeH3 = (String)classeDoc.get("classeH3" + "_" + langueNom + "_stored_string");
-			classeAucunNomTrouve = (String)classeDoc.get("classeAucunNomTrouve" + "_" + langueNom + "_stored_string");
-			classeUnNomAdjectif = (String)classeDoc.get("classeUnNomAdjectif" + "_" + langueNom + "_stored_string");
-			classeCeNom = (String)classeDoc.get("classeCeNom" + "_" + langueNom + "_stored_string");
-			classeLeNom = (String)classeDoc.get("classeLeNom" + "_" + langueNom + "_stored_string");
-			classeDeNom = (String)classeDoc.get("classeDeNom" + "_" + langueNom + "_stored_string");
-			classeVarTitre = (String)classeDoc.get("classeVarTitre" + "_" + langueNom + "_stored_string");
-			classeVarH1 = (String)classeDoc.get("classeVarH1" + "_" + langueNom + "_stored_string");
-			classeVarH2 = (String)classeDoc.get("classeVarH2" + "_" + langueNom + "_stored_string");
-			classeVarH3 = (String)classeDoc.get("classeVarH3" + "_" + langueNom + "_stored_string");
-			classeVarUrlId = (String)classeDoc.get("classeVarUrlId" + "_" + langueNom + "_stored_string");
-			classeVarUrlPk = (String)classeDoc.get("classeVarUrlPk" + "_" + langueNom + "_stored_string");
-			classeVarSuggere = (String)classeDoc.get("classeVarSuggere" + "_" + langueNom + "_stored_string");
-			classeVarTexte = (String)classeDoc.get("classeVarTexte" + "_" + langueNom + "_stored_string");
+			classeImageLargeur = (Integer)classeDoc.getInteger("classeImageLargeur" + "_" + langueNom + "_stored_int");
+			classeImageHauteur = (Integer)classeDoc.getInteger("classeImageHauteur" + "_" + langueNom + "_stored_int");
+			classeVideoId = classeDoc.getString("classeVideoId" + "_" + langueNom + "_stored_string");
+			classeUnNom = classeDoc.getString("classeUnNom" + "_" + langueNom + "_stored_string");
+			classeNomSingulier = classeDoc.getString("classeNomSingulier" + "_" + langueNom + "_stored_string");
+			classeNomPluriel = classeDoc.getString("classeNomPluriel" + "_" + langueNom + "_stored_string");
+			classeNomVar = classeDoc.getString("classeNomVar" + "_" + langueNom + "_stored_string");
+			classeAdjectif = classeDoc.getString("classeAdjectif" + "_" + langueNom + "_stored_string");
+			classeAdjectifPluriel = classeDoc.getString("classeAdjectifPluriel" + "_" + langueNom + "_stored_string");
+			classeAdjectifVar = classeDoc.getString("classeAdjectifVar" + "_" + langueNom + "_stored_string");
+			classeNomAdjectifSingulier = classeDoc.getString("classeNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
+			classeNomAdjectifPluriel = classeDoc.getString("classeNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
+			classeCe = classeDoc.getString("classeCe" + "_" + langueNom + "_stored_string");
+			classeUn = classeDoc.getString("classeUn" + "_" + langueNom + "_stored_string");
+			classeNomActuel = classeDoc.getString("classeNomActuel" + "_" + langueNom + "_stored_string");
+			classeTous = classeDoc.getString("classeTous" + "_" + langueNom + "_stored_string");
+			classeTousNom = classeDoc.getString("classeTousNom" + "_" + langueNom + "_stored_string");
+			classeLesNoms = classeDoc.getString("classeLesNoms" + "_" + langueNom + "_stored_string");
+			classeTitre = classeDoc.getString("classeTitre" + "_" + langueNom + "_stored_string");
+			classeH1 = classeDoc.getString("classeH1" + "_" + langueNom + "_stored_string");
+			classeH2 = classeDoc.getString("classeH2" + "_" + langueNom + "_stored_string");
+			classeH3 = classeDoc.getString("classeH3" + "_" + langueNom + "_stored_string");
+			classeAucunNomTrouve = classeDoc.getString("classeAucunNomTrouve" + "_" + langueNom + "_stored_string");
+			classeUnNomAdjectif = classeDoc.getString("classeUnNomAdjectif" + "_" + langueNom + "_stored_string");
+			classeCeNom = classeDoc.getString("classeCeNom" + "_" + langueNom + "_stored_string");
+			classeLeNom = classeDoc.getString("classeLeNom" + "_" + langueNom + "_stored_string");
+			classeDeNom = classeDoc.getString("classeDeNom" + "_" + langueNom + "_stored_string");
+			classeVarTitre = classeDoc.getString("classeVarTitre" + "_" + langueNom + "_stored_string");
+			classeVarH1 = classeDoc.getString("classeVarH1" + "_" + langueNom + "_stored_string");
+			classeVarH2 = classeDoc.getString("classeVarH2" + "_" + langueNom + "_stored_string");
+			classeVarH3 = classeDoc.getString("classeVarH3" + "_" + langueNom + "_stored_string");
+			classeVarUrlId = classeDoc.getString("classeVarUrlId" + "_" + langueNom + "_stored_string");
+			classeVarUrlPk = classeDoc.getString("classeVarUrlPk" + "_" + langueNom + "_stored_string");
+			classeVarSuggere = classeDoc.getString("classeVarSuggere" + "_" + langueNom + "_stored_string");
+			classeVarTexte = classeDoc.getString("classeVarTexte" + "_" + langueNom + "_stored_string");
 
 			auteurWebsocket = ToutEcrivain.create();
 
@@ -538,9 +540,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageClasse.l();
 				auteurPageClasse.l("/**");
 
-				String hackathonMission = (String)classeDoc.get("hackathonMissionPage_stored_string");
-				String hackathonColumn = (String)classeDoc.get("hackathonColumnPage_stored_string");
-				String hackathonLabels = (String)classeDoc.get("hackathonLabelsPage_stored_string");
+				String hackathonMission = classeDoc.getString("hackathonMissionPage_stored_string");
+				String hackathonColumn = classeDoc.getString("hackathonColumnPage_stored_string");
+				String hackathonLabels = classeDoc.getString("hackathonLabelsPage_stored_string");
 				if(hackathonMission != null)
 					auteurPageClasse.l(String.format(" * Map.hackathonMission: %s", hackathonMission));
 				if(hackathonColumn != null)
@@ -548,9 +550,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(hackathonLabels != null)
 					auteurPageClasse.l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 
-				String hackathonPageGenMission = (String)classeDoc.get("hackathonMissionPageGen_stored_string");
-				String hackathonPageGenColumn = (String)classeDoc.get("hackathonColumnPageGen_stored_string");
-				String hackathonPageGenLabels = (String)classeDoc.get("hackathonLabelsPageGen_stored_string");
+				String hackathonPageGenMission = classeDoc.getString("hackathonMissionPageGen_stored_string");
+				String hackathonPageGenColumn = classeDoc.getString("hackathonColumnPageGen_stored_string");
+				String hackathonPageGenLabels = classeDoc.getString("hackathonLabelsPageGen_stored_string");
 				if(hackathonPageGenMission != null)
 					auteurPageClasse.l(String.format(" * Map.hackathonMissionGen: %s", hackathonPageGenMission));
 				if(hackathonPageGenColumn != null)
@@ -561,7 +563,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageClasse.l(" * ", langueConfig.getString(ConfigCles.var_Traduire), ": false");
 				for(String langueNom2 : autresLangues) {
 					YAMLConfiguration langueConfig2 = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classePageLangueNom));
-					String classePageNomSimple2 = (String)classeDoc.get("classePageNomCanonique" + langueConfig2.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
+					String classePageNomSimple2 = classeDoc.getString("classePageNomCanonique" + langueConfig2.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
 					if(classePageNomSimple2 != null)
 						auteurPageClasse.	l(" * ", langueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom2, ": ", classePageNomSimple2);
 				}
@@ -587,9 +589,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //				ecrireCommentaire(classeCommentaire, 0); 
 			l("/**");
 			{
-				String hackathonMission = (String)classeDoc.get("hackathonMissionGenPage_stored_string");
-				String hackathonColumn = (String)classeDoc.get("hackathonColumnGenPage_stored_string");
-				String hackathonLabels = (String)classeDoc.get("hackathonLabelsGenPage_stored_string");
+				String hackathonMission = classeDoc.getString("hackathonMissionGenPage_stored_string");
+				String hackathonColumn = classeDoc.getString("hackathonColumnGenPage_stored_string");
+				String hackathonLabels = classeDoc.getString("hackathonLabelsGenPage_stored_string");
 				if(hackathonMission != null)
 					l(String.format(" * Map.hackathonMission: %s", hackathonMission));
 				if(hackathonColumn != null)
@@ -597,9 +599,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(hackathonLabels != null)
 					l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 
-				String hackathonGenPageGenMission = (String)classeDoc.get("hackathonMissionGenPageGen_stored_string");
-				String hackathonGenPageGenColumn = (String)classeDoc.get("hackathonColumnGenPageGen_stored_string");
-				String hackathonGenPageGenLabels = (String)classeDoc.get("hackathonLabelsGenPageGen_stored_string");
+				String hackathonGenPageGenMission = classeDoc.getString("hackathonMissionGenPageGen_stored_string");
+				String hackathonGenPageGenColumn = classeDoc.getString("hackathonColumnGenPageGen_stored_string");
+				String hackathonGenPageGenLabels = classeDoc.getString("hackathonLabelsGenPageGen_stored_string");
 				if(hackathonGenPageGenMission != null)
 					l(String.format(" * Map.hackathonMissionGen: %s", hackathonGenPageGenMission));
 				if(hackathonGenPageGenColumn != null)
@@ -611,7 +613,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			l(" * ", langueConfig.getString(ConfigCles.var_Traduire), ": false");
 			for(String langueNom2 : autresLangues) {
 				YAMLConfiguration langueConfig2 = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classePageLangueNom));
-				String classeGenPageNomSimple2 = (String)classeDoc.get("classeGenPageNomCanonique" + langueConfig2.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
+				String classeGenPageNomSimple2 = classeDoc.getString("classeGenPageNomCanonique" + langueConfig2.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
 				if(classeGenPageNomSimple2 != null)
 					l(" * ", langueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom2, ": ", classeGenPageNomSimple2);
 			}
@@ -1117,7 +1119,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "}");
 			for(String pageLangueNom : toutesLangues) {
 				if(!StringUtils.equals(classePageLangueNom, pageLangueNom)) {
-					String classePageUriMethodeLangue = (String)classeDoc.get(StringUtils.replace("classeApiUri_stored_string", StringUtils.capitalize(classePageLangueNom), StringUtils.capitalize(pageLangueNom)));
+					String classePageUriMethodeLangue = classeDoc.getString(StringUtils.replace("classeApiUri_stored_string", StringUtils.capitalize(classePageLangueNom), StringUtils.capitalize(pageLangueNom)));
 					
 					if(classePageUriMethodeLangue != null) {
 						l();
@@ -1608,9 +1610,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(auteurPageHbs != null) {
 				o = auteurPageHbs;
 				if((classeEtendBase || !classeModele && (classePartsModeleBase == null || !classeNomCanonique.equals(classePartsModeleBase.nomCanonique(langueNom)))) && auteurPageHbs != null) {
-					String hackathonMission = (String)classeDoc.get("hackathonMissionPageHbs_stored_string");
-					String hackathonColumn = (String)classeDoc.get("hackathonColumnPageHbs_stored_string");
-					String hackathonLabels = (String)classeDoc.get("hackathonLabelsPageHbs_stored_string");
+					String hackathonMission = classeDoc.getString("hackathonMissionPageHbs_stored_string");
+					String hackathonColumn = classeDoc.getString("hackathonColumnPageHbs_stored_string");
+					String hackathonLabels = classeDoc.getString("hackathonLabelsPageHbs_stored_string");
 					if(hackathonMission != null || hackathonColumn != null || hackathonLabels != null) {
 						l("<!--");
 						if(hackathonMission != null)
@@ -1648,10 +1650,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaires), "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaires), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Suggere), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Suggere), classePageNomSimple, "}}{{/partial}}");
 					for(String classeApiMethode : classeApiMethodes) {
-						String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
-						String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
-						String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
-						String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
+						String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
+						String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
+						String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
+						String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 		
 						if(classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "_", classeApiOperationIdMethode, "}}{{/partial}}");
@@ -1664,9 +1666,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			o = auteurGenPageHbs;
 
 			{
-				String hackathonMission = (String)classeDoc.get("hackathonMissionGenPageHbs_stored_string");
-				String hackathonColumn = (String)classeDoc.get("hackathonColumnGenPageHbs_stored_string");
-				String hackathonLabels = (String)classeDoc.get("hackathonLabelsGenPageHbs_stored_string");
+				String hackathonMission = classeDoc.getString("hackathonMissionGenPageHbs_stored_string");
+				String hackathonColumn = classeDoc.getString("hackathonColumnGenPageHbs_stored_string");
+				String hackathonLabels = classeDoc.getString("hackathonLabelsGenPageHbs_stored_string");
 				if(hackathonMission != null || hackathonColumn != null || hackathonLabels != null) {
 					l("<!--");
 					if(hackathonMission != null)
@@ -1718,9 +1720,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			if(!classePageSimple) {
 
-				String hackathonMission = (String)classeDoc.get("hackathonMissionPageJs_stored_string");
-				String hackathonColumn = (String)classeDoc.get("hackathonColumnPageJs_stored_string");
-				String hackathonLabels = (String)classeDoc.get("hackathonLabelsPageJs_stored_string");
+				String hackathonMission = classeDoc.getString("hackathonMissionPageJs_stored_string");
+				String hackathonColumn = classeDoc.getString("hackathonColumnPageJs_stored_string");
+				String hackathonLabels = classeDoc.getString("hackathonLabelsPageJs_stored_string");
 				if(hackathonMission != null || hackathonColumn != null || hackathonLabels != null) {
 					if(hackathonMission != null)
 						auteurPageJs.l("// ", String.format("hackathonMission: %s", hackathonMission));
@@ -1735,12 +1737,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(2, "<!-- inline \"htmScript", classePageNomSimple, "\" -->");
 				tl(2, "<script>");
 				for(String classeApiMethode : classeApiMethodes) {
-					String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
-					String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
-					String classeApiTypeMediaRequete = (String)classeDoc.get("classeApiTypeMediaRequete" + classeApiMethode + "_" + langueNom + "_stored_string");
-					String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
-					String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
-					List<String> classeTrisVar = (List<String>)classeDoc.get("classeTrisVar_" + langueNom + "_stored_strings");
+					String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
+					String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
+					String classeApiTypeMediaRequete = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + langueNom + "_stored_string");
+					String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
+					String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
+					List<String> classeTrisVar = Optional.ofNullable(doc.getJsonArray("classeTrisVar_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 	
 					if("application/json".equals(classeApiTypeMediaMethode)) {
 						Boolean methodePOST = classeApiMethodeMethode.equals("POST");
@@ -2909,10 +2911,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 
 			for(String classeApiMethode : classeApiMethodes) {
-				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
-				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
-				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
-				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 
 				if(classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 					l("{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "_", classeApiOperationIdMethode, "\"}}");
@@ -3395,10 +3397,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRolesAdmin), "}}");
 			}
 			for(String classeApiMethode : classeApiMethodes) {
-				String classeApiOperationIdMethode = (String)classeDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
-				String classeApiUriMethode = (String)classeDoc.get("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
-				String classeApiTypeMediaMethode = (String)classeDoc.get("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
-				String classeApiMethodeMethode = (String)classeDoc.get("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
+				String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 
 				if(classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{/block}}");

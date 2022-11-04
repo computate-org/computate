@@ -17,6 +17,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.lang3.BooleanUtils;
@@ -26,6 +28,9 @@ import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocumentList;
+
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WriteAllClasses
@@ -86,354 +91,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * Param1.var.enUS: searchResponse
 	 * Param2.var.enUS: classLanguageName
 	 * Param3.var.enUS: languageName
-	 * r: VAL_entiteCommentaireLigne1Part1
-	 * r.enUS: VAL_entityCommentLine1Part1
-	 * r: VAL_entiteCommentaireLigne1Part2
-	 * r.enUS: VAL_entityCommentLine1Part2
-	 * r: langueIndexe
-	 * r.enUS: languageIndexed
-	 * r: listeRecherche
-	 * r.enUS: searchList
-	 * r: rechercheSolr
-	 * r.enUS: solrSearch
-	 * r: reponseRecherche
-	 * r.enUS: searchResponse
-	 * r: classeCheminAbsolu
-	 * r.enUS: classAbsolutePath
-	 * r: partNumero
-	 * r.enUS: partNumber
-	 * r: classeParametreTypeNoms
-	 * r.enUS: classParameterTypeNames
-	 * r: classeParametreTypeNom
-	 * r.enUS: classParameterTypeName
-	 * r: methodeParametreTypeNoms
-	 * r.enUS: methodParameterTypeNames
-	 * r: methodeParametreTypeNom
-	 * r.enUS: methodParameterTypeName
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: classeSuperParametreTypeNoms
-	 * r.enUS: classSuperParameterTypeNames
-	 * r: classeParametreTypeNoms
-	 * r.enUS: classTypeParameterNames
-	 * r: classeImportations
-	 * r.enUS: classImports
-	 * r: classeCommentaire
-	 * r.enUS: classComment
-	 * r: classeNomEnsemble
-	 * r.enUS: classPackageName
-	 * r: classeNomCanoniqueSuperGeneriqueLangue
-	 * r.enUS: classSuperCanonicalNameGenericLanguage
-	 * r: classeNomCanoniqueSuperGenerique
-	 * r.enUS: classSuperCanonicalNameGeneric
-	 * r: classeNomCanoniqueSuper
-	 * r.enUS: classSuperCanonicalName
-	 * r: classeNomCanoniqueGenLangue
-	 * r.enUS: classCanonicalNameGenLanguage
-	 * r: classeNomCanoniqueGen
-	 * r.enUS: classCanonicalNameGen
-	 * r: classeNomCanoniqueSuperDoc
-	 * r.enUS: classSuperCanonicalNameDoc
-	 * r: classeNomCanoniqueLangue
-	 * r.enUS: classCanonicalNameLanguage
-	 * r: classeNomCanonique
-	 * r.enUS: classCanonicalName
-	 * r: classeNomSimpleSuperGeneriqueLangue
-	 * r.enUS: classSuperSimpleNameGenericLanguage
-	 * r: classeNomSimpleSuperGenerique
-	 * r.enUS: classSuperSimpleNameGeneric
-	 * r: classeNomSimpleSuper
-	 * r.enUS: classSuperSimpleName
-	 * r: classeNomSimpleGenLangue
-	 * r.enUS: classSimpleNameGenLanguage
-	 * r: classeNomSimpleGen
-	 * r.enUS: classSimpleNameGen
-	 * r: classeNomSimpleSuperDoc
-	 * r.enUS: classSuperSimpleNameDoc
-	 * r: classeNomSimpleGenLangue
-	 * r.enUS: classSimpleNameGenLanguage
-	 * r: classeNomSimpleLangue
-	 * r.enUS: classSimpleNameLanguage
-	 * r: classeNomSimple
-	 * r.enUS: classSimpleName
-	 * r: classeEtendGen
-	 * r.enUS: classExtendsGen
-	 * r: classeCheminRepertoireGenLangue
-	 * r.enUS: classDirPathGenLanguage
-	 * r: classeCheminRepertoireGen
-	 * r.enUS: classDirPathGen
-	 * r: classeCheminRepertoireLangue
-	 * r.enUS: classDirPathLanguage
-	 * r: classeCheminRepertoire
-	 * r.enUS: classDirPath
-	 * r: classeChemin
-	 * r.enUS: classPath
-	 * r: classeRepertoire
-	 * r.enUS: classDir
-	 * r: classeFichier
-	 * r.enUS: classFile
-	 * r: classeImportation
-	 * r.enUS: classImport
-	 * r: classePartsSuperLangue
-	 * r.enUS: classSuperPartsLanguage
-	 * r: ecrireCommentaire
-	 * r.enUS: writeComment
-	 * r: classeSuperParametreTypeNom
-	 * r.enUS: classSuperTypeParameterName
-	 * r: entiteClassesSuperEtMoiSansGen
-	 * r.enUS: entitySuperClassesAndMeWithoutGen
-	 * r: partEstChamp
-	 * r.enUS: partIsField
-	 * r: partEstEntite
-	 * r.enUS: partIsEntity
-	 * r: partEstMethode
-	 * r.enUS: partIsMethode
-	 * r: classeVarClePrimaire
-	 * r.enUS: classVarPrimaryKey
-	 * r: classeVarId
-	 * r.enUS: classVarId
-	 * r: classeVarModifie
-	 * r.enUS: classVarModified
-	 * r: classeVarCree
-	 * r.enUS: classVarCreated
-	 * r: classeVarCleUnique
-	 * r.enUS: classVarUniqueKey
-	 * r: classePageUri
-	 * r.enUS: classPageUri
-	 * r: classeApiUri
-	 * r.enUS: classApiUri
-	 * r: classeBaseEtendGen
-	 * r.enUS: classBaseExtendsGen
-	 * r: classeEtendBase
-	 * r.enUS: classExtendsBase
-	 * r: classeEstBase
-	 * r.enUS: classIsBase
-	 * r: classeInitLoin
-	 * r.enUS: classInitDeep
-	 * r: classeContientRequeteSite
-	 * r.enUS: classContainsSiteRequest
-	 * r: classeSauvegarde
-	 * r.enUS: classSaved
-	 * r: classeIndexe
-	 * r.enUS: classIndexed
-	 * r: classeImage
-	 * r.enUS: classImage
-	 * r: classeModele
-	 * r.enUS: classModel
-	 * r: classeApiMethodes
-	 * r.enUS: classApiMethods
-	 * r: classeApi
-	 * r.enUS: classApi
-	 * r: classePage
-	 * r.enUS: classPage
-	 * 
-	 * r: classeRolesTrouves
-	 * r.enUS: classRolesFound
-	 * r: classeRoles
-	 * r.enUS: classRoles
-	 * r: classePageNomSimple
-	 * r.enUS: classPageSimpleName
-	 * r: classePageSuperNomSimple
-	 * r.enUS: classPageSuperSimpleName
-	 * r: classeGenPageNomSimple
-	 * r.enUS: classGenPageSimpleName
-	 * 
-	 * r: classeFiltresTrouves
-	 * r.enUS: classFiltersFound
-	 * r: classeFiltres
-	 * r.enUS: classFilters
-	 * 
-	 * r: classeEcrireMethode
-	 * r.enUS: classWriteMethod
-	 * r: auteurGenClasse
-	 * r.enUS: writerGenClass
-	 * r: auteurApiEnsembleInfo
-	 * r.enUS: writerApiPackageInfo
-	 * r: auteurGenApiServiceImpl
-	 * r.enUS: writerGenApiServiceImpl
-	 * r: auteurGenApiService
-	 * r.enUS: writerGenApiService
-	 * r: auteurApiServiceImpl
-	 * r.enUS: writerApiServiceImpl
-	 * r: auteurApiGenClasse
-	 * r.enUS: writerApiGenClass
-	 * r: auteurGenPageClasse
-	 * r.enUS: writerGenPageClass
-	 * r: auteurPageClasse
-	 * r.enUS: writerPageClass
-	 * r: auteurPageCss
-	 * r.enUS: writerPageCss
-	 * r: auteurPageJs
-	 * r.enUS: writerPageJs
-	 * r: genCodeInitLoin
-	 * r.enUS: genCodeInitDeep
-	 * r: genCodeRequeteSite
-	 * r.enUS: genCodeSiteRequest
-	 * r: genCodeIndexer
-	 * r.enUS: genCodeIndex
-	 * r: genCodeObtenir
-	 * r.enUS: genCodeObtain
-	 * r: genCodeAttribuer
-	 * r.enUS: genCodeAttribute
-	 * r: genCodePeupler
-	 * r.enUS: genCodePopulate
-	 * r: genCodeExiste
-	 * r.enUS: genCodeExists
-	 * r: genCodeSauvegardes
-	 * r.enUS: genCodeSaves
-	 * r: genCodeSauvegarder
-	 * r.enUS: genCodeSave
-	 * r: genCodeClasseDebut
-	 * r.enUS: genCodeClassBegin
-	 * r: genCodeEntite
-	 * r.enUS: genCodeEntity
-	 * r: genCodeMethode
-	 * r.enUS: genCodeMethod
-	 * r: partEstConstructeur
-	 * r.enUS: partIsConstructor
-	 * r: genCodeClasseFin
-	 * r.enUS: genCodeClassEnd
-	 * r: apiCodeClasseDebut
-	 * r.enUS: apiCodeClassBegin
-	 * r: apiCodeClasseDebut
-	 * r.enUS: apiCodeClassBegin
-	 * r: apiCodeClasseFin
-	 * r.enUS: apiCodeClassEnd
-	 * r: entiteIndice
-	 * r.enUS: entityIndex
-	 * r: ToutEcrivain
-	 * r.enUS: AllWriter
-	 * r: ecrireGenApiServiceImpl
-	 * r.enUS: writeGenApiServiceImpl
-	 * r: ecrireGenApiService
-	 * r.enUS: writeGenApiService
-	 * r: ecrireApiEnsembleInfo
-	 * r.enUS: writeApiPackageInfo
-	 * r: ecrireApiServiceImpl
-	 * r.enUS: writeApiServiceImpl
-	 * r: classeApiMethodes
-	 * r.enUS: classApiMethods
-	 * r: genCodeConstructeur
-	 * r.enUS: genCodeConstructor
-	 * r: ecrireApi
-	 * r.enUS: writeApi
-	 * r: pageCodeClasse
-	 * r.enUS: pageCodeClass
-	 * 
-	 * r: classeNomAdjectifSingulier
-	 * r.enUS: contextNameAdjectiveSingular
-	 * r: classeCeNom
-	 * r.enUS: contextThisName
-	 * r: classeCe
-	 * r.enUS: contextThis
-	 * r: classeUnNom
-	 * r.enUS: contextAName
-	 * r: classeUn
-	 * r.enUS: contextA
-	 * r: classeLeNom
-	 * r.enUS: contextTheName
-	 * r: classeNomSingulier
-	 * r.enUS: contextNameSingular
-	 * r: classeNomPluriel
-	 * r.enUS: contextNamePlural
-	 * r: classeNomActuel
-	 * r.enUS: contextActualName
-	 * r: classeTousNom
-	 * r.enUS: contextAllName
-	 * r: classeLesNoms
-	 * r.enUS: contextTheName
-	 * r: classeTitre
-	 * r.enUS: contextTitle
-	 * r: classeH1
-	 * r.enUS: contextH1
-	 * r: classeH2
-	 * r.enUS: contextH2
-	 * r: classeH3
-	 * r.enUS: contextH3
-	 * r: classeTous
-	 * r.enUS: contextAll
-	 * r: classeAucunNomTrouve
-	 * r.enUS: contextNoNameFound
-	 * r: classeNomVar
-	 * r.enUS: contextNameVar
-	 * r: classeDeNom
-	 * r.enUS: contextOfName
-	 * r: classeNom
-	 * r.enUS: contextName
-	 * r: classeImageWidth
-	 * r.enUS: contextImageLargeur
-	 * r: classeImageHeight
-	 * r.enUS: contextImageHauteur
-	 * r: classeVideoId
-	 * r.enUS: contextVideoId
-	 * r: classeDescription
-	 * r.enUS: contextDescription
-	 * r: classeImageLargeur
-	 * r.enUS: contextImageWidth
-	 * r: classeImageHauteur
-	 * r.enUS: contextImageHeight
-	 * r: classeRechercherTousNomPar
-	 * r.enUS: contextSearchAllNameBy
-	 * r: UnNomAdjectif
-	 * r.enUS: ANameAdjective
-	 * r: LeNomAdjectif
-	 * r.enUS: TheNameAdjective
-	 * r: AdjectifAvant
-	 * r.enUS: AdjectiveBefore
-	 * r: NomAdjectifSingulier
-	 * r.enUS: NameAdjectiveSingular
-	 * r: NomAdjectifPluriel
-	 * r.enUS: NameAdjectivePlural
-	 * r: PlurielNomAdjectif
-	 * r.enUS: PluralNameAdjective
-	 * r: SingulierNomAdjectif
-	 * r.enUS: SingularNameAdjective
-	 * r: LeNomAdjectif
-	 * r.enUS: TheAdjectiveName
-	 * r: UnNomAdjectif
-	 * r.enUS: AnAdjectiveName
-	 * r: AdjectifVar
-	 * r.enUS: AdjectiveVar
-	 * r: Adjectif
-	 * r.enUS: Adjective
-	 * r: Couleur
-	 * r.enUS: Color
-	 * r: IconeGroupe
-	 * r.enUS: IconGroup
-	 * r: IconeNom
-	 * r.enUS: IconName
-	 * r: classeSuperEcrireMethodes
-	 * r.enUS: classSuperWriteMethods
-	 * r: classeEcrireMethodes
-	 * r.enUS: classWriteMethods
-	 * r: classeEcrireEcrivains
-	 * r.enUS: classWriteWriters
-	 * r: classeEntiteVars
-	 * r.enUS: classEntityVars
-	 * r: classeMethodeVars
-	 * r.enUS: classMethodVars
-	 * r: classeVals
-	 * r.enUS: classVals
-	 * 
-	 * r: EnsembleInfo
-	 * r.enUS: PackageInfo
-	 * r: classeDoc
-	 * r.enUS: classDoc
-	 * r: classe
-	 * r.enUS: class
-	 * r: classe
-	 * r.enUS: context
-	 * r: Contexte
-	 * r.enUS: Context
-	 * r: Entite
-	 * r.enUS: Entity
-	 * r: Pluriel
-	 * r.enUS: Plural
-	 * r: Singulier
-	 * r.enUS: Singular
-	 * 
-	 * r: Ecrire:
-	 * r.enUS: Write:
 	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
 	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
 	 * enUS: Retrieve the records for the class from the search engine, 
@@ -444,192 +101,20 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 
 		if(listeRecherche.size() > 0 && (langueIndexe || !StringUtils.equals(langueNom, this.langueNom))) {    
 			for(int i = 0; i < listeRecherche.size(); i++) {
-				doc = listeRecherche.get(i); 
-				Integer partNumero = (Integer)doc.get("partNumero_stored_int");
+				doc = new JsonObject(listeRecherche.get(i).jsonStr());
+				Integer partNumero = (Integer)doc.getInteger("partNumero_stored_int");
 				if(partNumero.equals(1)) {
-					classeDoc = doc;
+					ecrireGenClasse(doc, langueNom);
 
+					classeDoc = doc;
 					classeVals = ToutEcrivain.create();
 
-					classeCheminRepertoireGen = (String)doc.get("classeCheminRepertoireGen_" + langueNom + "_stored_string");
-					classeCheminGen = (String)doc.get("classeCheminGen_" + langueNom + "_stored_string"); 
-					classeCheminApiEnsembleInfo = (String)doc.get("classeCheminApiEnsembleInfo_" + langueNom + "_stored_string"); 
-					classeCheminGenApiServiceImpl = (String)doc.get("classeCheminGenApiServiceImpl_" + langueNom + "_stored_string"); 
-					classeCheminApiServiceImpl = (String)doc.get("classeCheminApiServiceImpl_" + langueNom + "_stored_string"); 
-					classeCheminGenApiService = (String)doc.get("classeCheminGenApiService_" + langueNom + "_stored_string"); 
-
+					classeFichierGen = new File(classeCheminGen);
+			
 					classeRepertoireGen = new File(classeCheminRepertoireGen);
 					classeRepertoireGen.mkdirs();
-
-					classeFichierGen = new File(classeCheminGen);
-					if(classeCheminApiEnsembleInfo != null)
-						classeFichierApiEnsembleInfo = new File(classeCheminApiEnsembleInfo);
-					if(classeCheminGenApiServiceImpl != null)
-						classeFichierGenApiServiceImpl = new File(classeCheminGenApiServiceImpl);
-					if(classeCheminApiServiceImpl != null)
-						classeFichierApiServiceImpl = new File(classeCheminApiServiceImpl);
-					if(classeCheminGenApiService != null)
-						classeFichierGenApiService = new File(classeCheminGenApiService);
-
+			
 					o = ToutEcrivain.create(classeFichierGen);
-					classeNomSimple = (String)doc.get("classeNomSimple_" + langueNom + "_stored_string");
-					uncapitalizeClasseNomSimple = StringUtils.uncapitalize(classeNomSimple);
-					classeNomSimpleGen = (String)doc.get("classeNomSimpleGen_" + langueNom + "_stored_string");
-					classeNomCanonique = (String)doc.get("classeNomCanonique_" + langueNom + "_stored_string");
-					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
-					classeNomSimpleSuper = (String)doc.get("classeNomSimpleSuper_" + langueNom + "_stored_string");
-					classeNomCanoniqueSuper = (String)doc.get("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
-					classeNomSimpleSuperGenerique = (String)doc.get("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
-					classeNomCanoniqueSuperGenerique = (String)doc.get("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string");
-					classePageNomSimple = (String)doc.get("classePageNomSimple_" + langueNom + "_stored_string");
-					classePageNomCanonique = (String)doc.get("classePageNomCanonique_" + langueNom + "_stored_string");
-					classePageSuperNomSimple = (String)doc.get("classePageSuperNomSimple_" + langueNom + "_stored_string");
-					classePageSuperNomCanonique = (String)doc.get("classePageSuperNomCanonique_" + langueNom + "_stored_string");
-					classeDroitAuteur = (String)doc.get("classeDroitAuteur_stored_string");
-					classeNomEnsemble = (String)doc.get("classeNomEnsemble_" + langueNom + "_stored_string");
-					classeNomSimpleApiServiceImpl = (String)doc.get("classeNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
-					classeNomSimpleGenApiServiceImpl = (String)doc.get("classeNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
-					classeNomSimpleGenApiService = (String)doc.get("classeNomSimpleGenApiService_" + langueNom + "_stored_string");
-					classeVarClePrimaire = (String)doc.get("classeVarClePrimaire_" + langueNom + "_stored_string");
-					classeVarInheritClePrimaire = (String)doc.get("classeVarInheritClePrimaire_" + langueNom + "_stored_string");
-					classeVarSauvegardes = (String)doc.get("classeVarSauvegardes_" + langueNom + "_stored_string");
-					classeVarId = (String)doc.get("classeVarId_" + langueNom + "_stored_string");
-					classeVarCleUnique = (String)doc.get("classeVarCleUnique_" + langueNom + "_stored_string");
-					classeVarModifie = (String)doc.get("classeVarModifie_" + langueNom + "_stored_string");
-					classeVarCree = (String)doc.get("classeVarCree_" + langueNom + "_stored_string");
-					classeApiUri = (String)doc.get("classeApiUri_" + langueNom + "_stored_string");
-					classeApiTag = (String)doc.get("classeApiTag_" + langueNom + "_stored_string");
-					classeCommentaire = (String)doc.get("classeCommentaire_stored_string");
-					classeCommentaireLangue = (String)doc.get("classeCommentaire_" + langueNom + "_stored_string");
-					classeMotsCles = (List<String>)doc.get("classeMotsCles_stored_strings");
-					if(classeMotsCles == null)
-						classeMotsCles = Arrays.asList();
-					classeImportationsGen = (List<String>)doc.get("classeImportationsGen_" + langueNom + "_stored_strings");
-					classeSuperEcrireMethodes = (List<String>)doc.get("classeSuperEcrireMethodes_stored_strings");
-					classeEcrireMethodes = (List<String>)doc.get("classeEcrireMethodes_stored_strings");
-					classeEcrireEcrivains = new ArrayList<>();
-					if(classeEcrireMethodes == null)
-						classeEcrireMethodes = new ArrayList<>();
-					for(String classeEcrireMethode : classeEcrireMethodes) {
-						classeEcrireEcrivains.add(new ToutEcrivain().initDeepStringPrintWriter());
-					}
-					if(classeImportationsGen == null)
-						classeImportationsGen = new ArrayList<String>();
-					classeImportationsGenApi = (List<String>)doc.get("classeImportationsGenApi_" + langueNom + "_stored_strings");
-					if(classeImportationsGenApi == null)
-						classeImportationsGenApi = new ArrayList<String>();
-					classeImportationsGenPage = (List<String>)doc.get("classeImportationsGenPage_" + langueNom + "_stored_strings");
-					if(classeImportationsGenPage == null)
-						classeImportationsGenPage = new ArrayList<String>();
-					classeInitLoinExceptions = (List<String>)doc.get("classeInitLoinExceptions_stored_strings");
-					if(classeInitLoinExceptions == null)
-						classeInitLoinExceptions = new ArrayList<String>();
-					classeParametreTypeNoms = (List<String>)doc.get("classeParametreTypeNoms_stored_strings");
-					classeSuperParametreTypeNoms = (List<String>)doc.get("classeSuperParametreTypeNoms_stored_strings");
-					classeEntiteClassesSuperEtMoiSansGen = (List<String>)doc.get("entiteClassesSuperEtMoiSansGen_stored_strings");
-					classePromesse = (Boolean)doc.get("classePromesse_stored_boolean");
-					classeEtendGen = (Boolean)doc.get("classeEtendGen_stored_boolean");
-					classeBaseEtendGen = (Boolean)doc.get("classeBaseEtendGen_stored_boolean");
-					classeEtendBase = (Boolean)doc.get("classeEtendBase_stored_boolean");
-					classeEstBase = (Boolean)doc.get("classeEstBase_stored_boolean");
-					classeInitLoin = (Boolean)doc.get("classeInitLoin_stored_boolean");
-					classeContientRequeteSite = (Boolean)doc.get("classeContientRequeteSite_stored_boolean");
-					classeSauvegarde = BooleanUtils.isTrue((Boolean)doc.get("classeSauvegarde_stored_boolean"));
-					classeIndexe = BooleanUtils.isTrue((Boolean)doc.get("classeIndexe_stored_boolean"));
-					classeImage = BooleanUtils.isTrue((Boolean)doc.get("classeImage_stored_boolean"));
-					classeModele = BooleanUtils.isTrue((Boolean)doc.get("classeModele_stored_boolean"));
-					classeApi = BooleanUtils.isTrue((Boolean)doc.get("classeApi_stored_boolean"));
-					classePage = BooleanUtils.isTrue((Boolean)doc.get("classePage_stored_boolean"));
-					classeApiClasseNomSimple = (String)classeDoc.get("classeApiClasseNomSimple"   + "_" + langueNom + "_stored_string");
-					classePageSimple = BooleanUtils.isTrue((Boolean)doc.get("classePageSimple_stored_boolean"));
-					classeRoleSession = (Boolean)doc.get("classeRoleSession_stored_boolean");
-					classeRoleUtilisateur = (Boolean)doc.get("classeRoleUtilisateur_stored_boolean");
-					classeRoleChacun = (Boolean)doc.get("classeRoleChacun_stored_boolean");
-
-					classeSessionEcrire = (Boolean)doc.get("classeSessionEcrire_stored_boolean");
-					classeUtilisateurEcrire = (Boolean)doc.get("classeUtilisateurEcrire_stored_boolean");
-					classePublicEcrire = (Boolean)doc.get("classePublicEcrire_stored_boolean");
-					classeSessionLire = (Boolean)doc.get("classeSessionLire_stored_boolean");
-					classeUtilisateurLire = (Boolean)doc.get("classeUtilisateurLire_stored_boolean");
-					classePublicLire = (Boolean)doc.get("classePublicLire_stored_boolean");
-
-					classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRolesTrouves_stored_boolean"));
-					List<String> classeRolesTemp = (List<String>)doc.get("classeRoles_stored_strings");
-					List<String> classeRolesLangue = (List<String>)doc.get("classeRolesLangue_stored_strings");
-					classeRoles = new ArrayList<>();
-					if(classeRolesTemp != null) {
-						for(Integer j = 0; j < classeRolesTemp.size(); j++) {
-							String classeRole = classeRolesTemp.get(j);
-							String classeRoleLangue = classeRolesLangue.get(j);
-							if(langueNom.equals(classeRoleLangue))
-								classeRoles.add(classeRole);
-						}
-					}
-
-					classeRoleLiresTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeRoleLiresTrouves_stored_boolean"));
-					List<String> classeRoleLiresTemp = (List<String>)doc.get("classeRoleLires_stored_strings");
-					List<String> classeRoleLiresLangue = (List<String>)doc.get("classeRoleLiresLangue_stored_strings");
-					classeRoleLires = new ArrayList<>();
-					if(classeRoleLiresTemp != null) {
-						for(Integer j = 0; j < classeRoleLiresTemp.size(); j++) {
-							String classeRoleLire = classeRoleLiresTemp.get(j);
-							String classeRoleLireLangue = classeRoleLiresLangue.get(j);
-							if(langueNom.equals(classeRoleLireLangue))
-								classeRoleLires.add(classeRoleLire);
-						}
-					}
-
-					classeTrisVar = (List<String>)doc.get("classeTrisVar_" + langueNom + "_stored_strings");
-					classeTrisOrdre = (List<String>)doc.get("classeTrisOrdre_stored_strings");
-					classeTrisSuffixeType = (List<String>)doc.get("classeTrisSuffixeType_stored_strings");
-					classeFiltresTrouves = BooleanUtils.isTrue((Boolean)doc.get("classeFiltresTrouves_stored_boolean"));
-					classeFiltres = (List<String>)doc.get("classeFiltres_stored_strings");
-					classeApiMethodes = (List<String>)doc.get("classeApiMethodes_" + langueNom + "_stored_strings");
-					if(classeApiMethodes == null)
-						classeApiMethodes = new ArrayList<>();
-					classeEntiteVars = (List<String>)doc.get("classeEntiteVars_" + langueNom + "_stored_strings");
-					if(classeEntiteVars == null)
-						classeEntiteVars = new ArrayList<>();
-					classeMethodeVars = (List<String>)doc.get("classeMethodeVars_" + langueNom + "_stored_strings");
-					if(classeMethodeVars == null)
-						classeMethodeVars = new ArrayList<>();
-					entiteIndice = 0;   
-
-					classeContexte = (Boolean)doc.get("classeContexte_stored_boolean");
-					classeCouleur = (String)doc.get("classeCouleur_stored_string");
-					classeEntiteCouleur = (String)doc.get("classeEntiteCouleur_stored_string");
-					classeIconeGroupe = (String)doc.get("classeIconeGroupe_stored_string");
-					classeIconeNom = (String)doc.get("classeIconeNom_stored_string");
-					classeLignes = (Integer)doc.get("classeLignes_stored_int");
-
-					classeDescription = (String)doc.get("classeDescription" + "_" + langueNom + "_stored_string");
-					classeImageLargeur = (Integer)doc.get("classeImageLargeur" + "_" + langueNom + "_stored_int");
-					classeImageHauteur = (Integer)doc.get("classeImageHauteur" + "_" + langueNom + "_stored_int");
-					classeVideoId = (String)doc.get("classeVideoId" + "_" + langueNom + "_stored_string");
-					classeUnNom = (String)doc.get("classeUnNom" + "_" + langueNom + "_stored_string");
-					classeNomSingulier = (String)doc.get("classeNomSingulier" + "_" + langueNom + "_stored_string");
-					classeNomPluriel = (String)doc.get("classeNomPluriel" + "_" + langueNom + "_stored_string");
-					classeNomVar = (String)doc.get("classeNomVar" + "_" + langueNom + "_stored_string");
-					classeAdjectif = (String)doc.get("classeAdjectif" + "_" + langueNom + "_stored_string");
-					classeAdjectifPluriel = (String)doc.get("classeAdjectifPluriel" + "_" + langueNom + "_stored_string");
-					classeAdjectifVar = (String)doc.get("classeAdjectifVar" + "_" + langueNom + "_stored_string");
-					classeNomAdjectifSingulier = (String)doc.get("classeNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
-					classeNomAdjectifPluriel = (String)doc.get("classeNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
-					classeCe = (String)doc.get("classeCe" + "_" + langueNom + "_stored_string");
-					classeUn = (String)doc.get("classeUn" + "_" + langueNom + "_stored_string");
-					classeNomActuel = (String)doc.get("classeNomActuel" + "_" + langueNom + "_stored_string");
-					classeTousNom = (String)doc.get("classeTousNom" + "_" + langueNom + "_stored_string");
-					classeRechercherTousNomPar = (String)doc.get("classeRechercherTousNomPar" + "_" + langueNom + "_stored_string");
-					classeLesNoms = (String)doc.get("classeLesNoms" + "_" + langueNom + "_stored_string");
-					classeTitre = (String)doc.get("classeTitre" + "_" + langueNom + "_stored_string");
-					classeH1 = (String)doc.get("classeH1" + "_" + langueNom + "_stored_string");
-					classeH2 = (String)doc.get("classeH2" + "_" + langueNom + "_stored_string");
-					classeH3 = (String)doc.get("classeH3" + "_" + langueNom + "_stored_string");
-					classeAucunNomTrouve = (String)doc.get("classeAucunNomTrouve" + "_" + langueNom + "_stored_string");
-					classeUnNomAdjectif = (String)doc.get("classeUnNomAdjectif" + "_" + langueNom + "_stored_string");
-					classeCeNom = (String)doc.get("classeCeNom" + "_" + langueNom + "_stored_string");
-					classeLeNom = (String)doc.get("classeLeNom" + "_" + langueNom + "_stored_string");
-					classeDeNom = (String)doc.get("classeDeNom" + "_" + langueNom + "_stored_string");
 
 					if(classeApi && ecrireApi) {
 						if(classeFichierGenApiServiceImpl != null) {
@@ -663,9 +148,9 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 						apiCodeClasseDebut(langueNom);
 				} 
 				else {
-					Boolean partEstConstructeur = (Boolean)doc.get("partEstConstructeur_stored_boolean");
-					Boolean partEstEntite = (Boolean)doc.get("partEstEntite_stored_boolean");
-					Boolean partEstMethode = (Boolean)doc.get("partEstMethode_stored_boolean");
+					Boolean partEstConstructeur = (Boolean)doc.getBoolean("partEstConstructeur_stored_boolean");
+					Boolean partEstEntite = (Boolean)doc.getBoolean("partEstEntite_stored_boolean");
+					Boolean partEstMethode = (Boolean)doc.getBoolean("partEstMethode_stored_boolean");
 	
 //					if(StringUtils.equals(classeLangueNom, langueNom)) {
 						if(BooleanUtils.isTrue(partEstConstructeur)) {
@@ -701,4 +186,197 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 			}
 		} 
 	}  
+
+	/** 
+	 * Var.enUS: writeGenClasses
+	 * Param1.var.enUS: searchResponse
+	 * Param2.var.enUS: classLanguageName
+	 * Param3.var.enUS: languageName
+	 * frFR: Récupérer les enregistrements de la classe à partir du moteur de recherche, 
+	 * frFR: traitez-les et écrivez-les dans des fichiers de classe pour chaque langue prise en charge. 
+	 * enUS: Retrieve the records for the class from the search engine, 
+	 * enUS: process them and write them into class files for each supported language. 
+	 */  
+//	public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom, YAMLConfiguration langueConfig) throws Exception { 
+	public void ecrireGenClasse(JsonObject doc, String langueNom) throws Exception { 
+
+		classeCheminRepertoireGen = doc.getString("classeCheminRepertoireGen_" + langueNom + "_stored_string");
+		classeCheminGen = doc.getString("classeCheminGen_" + langueNom + "_stored_string"); 
+		classeCheminApiEnsembleInfo = doc.getString("classeCheminApiEnsembleInfo_" + langueNom + "_stored_string"); 
+		classeCheminGenApiServiceImpl = doc.getString("classeCheminGenApiServiceImpl_" + langueNom + "_stored_string"); 
+		classeCheminApiServiceImpl = doc.getString("classeCheminApiServiceImpl_" + langueNom + "_stored_string"); 
+		classeCheminGenApiService = doc.getString("classeCheminGenApiService_" + langueNom + "_stored_string"); 
+
+		if(classeCheminApiEnsembleInfo != null)
+			classeFichierApiEnsembleInfo = new File(classeCheminApiEnsembleInfo);
+		if(classeCheminGenApiServiceImpl != null)
+			classeFichierGenApiServiceImpl = new File(classeCheminGenApiServiceImpl);
+		if(classeCheminApiServiceImpl != null)
+			classeFichierApiServiceImpl = new File(classeCheminApiServiceImpl);
+		if(classeCheminGenApiService != null)
+			classeFichierGenApiService = new File(classeCheminGenApiService);
+		classeNomSimple = doc.getString("classeNomSimple_" + langueNom + "_stored_string");
+		uncapitalizeClasseNomSimple = StringUtils.uncapitalize(classeNomSimple);
+		classeNomSimpleGen = doc.getString("classeNomSimpleGen_" + langueNom + "_stored_string");
+		classeNomCanonique = doc.getString("classeNomCanonique_" + langueNom + "_stored_string");
+		classeNomCanoniqueSuper = doc.getString("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
+		classeNomSimpleSuper = doc.getString("classeNomSimpleSuper_" + langueNom + "_stored_string");
+		classeNomCanoniqueSuper = doc.getString("classeNomCanoniqueSuper_" + langueNom + "_stored_string");
+		classeNomSimpleSuperGenerique = doc.getString("classeNomSimpleSuperGenerique_" + langueNom + "_stored_string");
+		classeNomCanoniqueSuperGenerique = doc.getString("classeNomCanoniqueSuperGenerique_" + langueNom + "_stored_string");
+		classePageNomSimple = doc.getString("classePageNomSimple_" + langueNom + "_stored_string");
+		classePageNomCanonique = doc.getString("classePageNomCanonique_" + langueNom + "_stored_string");
+		classePageSuperNomSimple = doc.getString("classePageSuperNomSimple_" + langueNom + "_stored_string");
+		classePageSuperNomCanonique = doc.getString("classePageSuperNomCanonique_" + langueNom + "_stored_string");
+		classeDroitAuteur = doc.getString("classeDroitAuteur_stored_string");
+		classeNomEnsemble = doc.getString("classeNomEnsemble_" + langueNom + "_stored_string");
+		classeNomSimpleApiServiceImpl = doc.getString("classeNomSimpleApiServiceImpl_" + langueNom + "_stored_string");
+		classeNomSimpleGenApiServiceImpl = doc.getString("classeNomSimpleGenApiServiceImpl_" + langueNom + "_stored_string");
+		classeNomSimpleGenApiService = doc.getString("classeNomSimpleGenApiService_" + langueNom + "_stored_string");
+		classeVarClePrimaire = doc.getString("classeVarClePrimaire_" + langueNom + "_stored_string");
+		classeVarInheritClePrimaire = doc.getString("classeVarInheritClePrimaire_" + langueNom + "_stored_string");
+		classeVarSauvegardes = doc.getString("classeVarSauvegardes_" + langueNom + "_stored_string");
+		classeVarId = doc.getString("classeVarId_" + langueNom + "_stored_string");
+		classeVarCleUnique = doc.getString("classeVarCleUnique_" + langueNom + "_stored_string");
+		classeVarModifie = doc.getString("classeVarModifie_" + langueNom + "_stored_string");
+		classeVarCree = doc.getString("classeVarCree_" + langueNom + "_stored_string");
+		classeApiUri = doc.getString("classeApiUri_" + langueNom + "_stored_string");
+		classeApiTag = doc.getString("classeApiTag_" + langueNom + "_stored_string");
+		classeCommentaire = doc.getString("classeCommentaire_stored_string");
+		classeCommentaireLangue = doc.getString("classeCommentaire_" + langueNom + "_stored_string");
+		classeMotsClesTrouves = doc.getBoolean("classeMotsClesTrouves_stored_boolean");
+		classeMotsCles = classeMotsClesTrouves ? Optional.ofNullable(doc.getJsonArray("classeMotsCles_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList()).stream().map(v -> (String)v).collect(Collectors.toList()) : Arrays.asList();
+		if(classeMotsCles == null)
+			classeMotsCles = Arrays.asList();
+		classeImportationsGen = Optional.ofNullable(doc.getJsonArray("classeImportationsGen_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeSuperEcrireMethodes = Optional.ofNullable(doc.getJsonArray("classeSuperEcrireMethodes_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeEcrireMethodes = Optional.ofNullable(doc.getJsonArray("classeEcrireMethodes_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeEcrireEcrivains = new ArrayList<>();
+		if(classeEcrireMethodes == null)
+			classeEcrireMethodes = new ArrayList<>();
+		for(String classeEcrireMethode : classeEcrireMethodes) {
+			classeEcrireEcrivains.add(new ToutEcrivain().initDeepStringPrintWriter());
+		}
+		if(classeImportationsGen == null)
+			classeImportationsGen = new ArrayList<String>();
+		classeImportationsGenApi = Optional.ofNullable(doc.getJsonArray("classeImportationsGenApi_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		if(classeImportationsGenApi == null)
+			classeImportationsGenApi = new ArrayList<String>();
+		classeImportationsGenPage = Optional.ofNullable(doc.getJsonArray("classeImportationsGenPage_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		if(classeImportationsGenPage == null)
+			classeImportationsGenPage = new ArrayList<String>();
+		classeInitLoinExceptions = Optional.ofNullable(doc.getJsonArray("classeInitLoinExceptions_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		if(classeInitLoinExceptions == null)
+			classeInitLoinExceptions = new ArrayList<String>();
+		classeParametreTypeNoms = Optional.ofNullable(doc.getJsonArray("classeParametreTypeNoms_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeSuperParametreTypeNoms = Optional.ofNullable(doc.getJsonArray("classeSuperParametreTypeNoms_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeEntiteClassesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("entiteClassesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classePromesse = (Boolean)doc.getBoolean("classePromesse_stored_boolean");
+		classeEtendGen = (Boolean)doc.getBoolean("classeEtendGen_stored_boolean");
+		classeBaseEtendGen = (Boolean)doc.getBoolean("classeBaseEtendGen_stored_boolean");
+		classeEtendBase = (Boolean)doc.getBoolean("classeEtendBase_stored_boolean");
+		classeEstBase = (Boolean)doc.getBoolean("classeEstBase_stored_boolean");
+		classeInitLoin = (Boolean)doc.getBoolean("classeInitLoin_stored_boolean");
+		classeContientRequeteSite = (Boolean)doc.getBoolean("classeContientRequeteSite_stored_boolean");
+		classeSauvegarde = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeSauvegarde_stored_boolean"));
+		classeIndexe = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeIndexe_stored_boolean"));
+		classeImage = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeImage_stored_boolean"));
+		classeModele = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeModele_stored_boolean"));
+		classeApi = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeApi_stored_boolean"));
+		classePage = BooleanUtils.isTrue((Boolean)doc.getBoolean("classePage_stored_boolean"));
+		classeApiClasseNomSimple = (String)doc.getString("classeApiClasseNomSimple"   + "_" + langueNom + "_stored_string");
+		classePageSimple = BooleanUtils.isTrue((Boolean)doc.getBoolean("classePageSimple_stored_boolean"));
+		classeRoleSession = (Boolean)doc.getBoolean("classeRoleSession_stored_boolean");
+		classeRoleUtilisateur = (Boolean)doc.getBoolean("classeRoleUtilisateur_stored_boolean");
+		classeRoleChacun = (Boolean)doc.getBoolean("classeRoleChacun_stored_boolean");
+
+		classeSessionEcrire = (Boolean)doc.getBoolean("classeSessionEcrire_stored_boolean");
+		classeUtilisateurEcrire = (Boolean)doc.getBoolean("classeUtilisateurEcrire_stored_boolean");
+		classePublicEcrire = (Boolean)doc.getBoolean("classePublicEcrire_stored_boolean");
+		classeSessionLire = (Boolean)doc.getBoolean("classeSessionLire_stored_boolean");
+		classeUtilisateurLire = (Boolean)doc.getBoolean("classeUtilisateurLire_stored_boolean");
+		classePublicLire = (Boolean)doc.getBoolean("classePublicLire_stored_boolean");
+
+		classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeRolesTrouves_stored_boolean"));
+		List<String> classeRolesTemp = Optional.ofNullable(doc.getJsonArray("classeRoles_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		List<String> classeRolesLangue = Optional.ofNullable(doc.getJsonArray("classeRolesLangue_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeRoles = new ArrayList<>();
+		if(classeRolesTemp != null) {
+			for(Integer j = 0; j < classeRolesTemp.size(); j++) {
+				String classeRole = classeRolesTemp.get(j);
+				String classeRoleLangue = classeRolesLangue.get(j);
+				if(langueNom.equals(classeRoleLangue))
+					classeRoles.add(classeRole);
+			}
+		}
+
+		classeRoleLiresTrouves = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeRoleLiresTrouves_stored_boolean"));
+		List<String> classeRoleLiresTemp = Optional.ofNullable(doc.getJsonArray("classeRoleLires_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		List<String> classeRoleLiresLangue = Optional.ofNullable(doc.getJsonArray("classeRoleLiresLangue_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeRoleLires = new ArrayList<>();
+		if(classeRoleLiresTemp != null) {
+			for(Integer j = 0; j < classeRoleLiresTemp.size(); j++) {
+				String classeRoleLire = classeRoleLiresTemp.get(j);
+				String classeRoleLireLangue = classeRoleLiresLangue.get(j);
+				if(langueNom.equals(classeRoleLireLangue))
+					classeRoleLires.add(classeRoleLire);
+			}
+		}
+
+		classeTrisVar = Optional.ofNullable(doc.getJsonArray("classeTrisVar_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeTrisOrdre = Optional.ofNullable(doc.getJsonArray("classeTrisOrdre_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeTrisSuffixeType = Optional.ofNullable(doc.getJsonArray("classeTrisSuffixeType_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeFiltresTrouves = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeFiltresTrouves_stored_boolean"));
+		classeFiltres = Optional.ofNullable(doc.getJsonArray("classeFiltres_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeApiMethodes = Optional.ofNullable(doc.getJsonArray("classeApiMethodes_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		if(classeApiMethodes == null)
+			classeApiMethodes = new ArrayList<>();
+		classeEntiteVars = Optional.ofNullable(doc.getJsonArray("classeEntiteVars_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		if(classeEntiteVars == null)
+			classeEntiteVars = new ArrayList<>();
+		classeMethodeVars = Optional.ofNullable(doc.getJsonArray("classeMethodeVars_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		if(classeMethodeVars == null)
+			classeMethodeVars = new ArrayList<>();
+		entiteIndice = 0;   
+
+		classeContexte = (Boolean)doc.getBoolean("classeContexte_stored_boolean");
+		classeCouleur = doc.getString("classeCouleur_stored_string");
+		classeEntiteCouleur = doc.getString("classeEntiteCouleur_stored_string");
+		classeIconeGroupe = doc.getString("classeIconeGroupe_stored_string");
+		classeIconeNom = doc.getString("classeIconeNom_stored_string");
+		classeLignes = (Integer)doc.getInteger("classeLignes_stored_int");
+
+		classeDescription = doc.getString("classeDescription" + "_" + langueNom + "_stored_string");
+		classeImageLargeur = (Integer)doc.getInteger("classeImageLargeur" + "_" + langueNom + "_stored_int");
+		classeImageHauteur = (Integer)doc.getInteger("classeImageHauteur" + "_" + langueNom + "_stored_int");
+		classeVideoId = doc.getString("classeVideoId" + "_" + langueNom + "_stored_string");
+		classeUnNom = doc.getString("classeUnNom" + "_" + langueNom + "_stored_string");
+		classeNomSingulier = doc.getString("classeNomSingulier" + "_" + langueNom + "_stored_string");
+		classeNomPluriel = doc.getString("classeNomPluriel" + "_" + langueNom + "_stored_string");
+		classeNomVar = doc.getString("classeNomVar" + "_" + langueNom + "_stored_string");
+		classeAdjectif = doc.getString("classeAdjectif" + "_" + langueNom + "_stored_string");
+		classeAdjectifPluriel = doc.getString("classeAdjectifPluriel" + "_" + langueNom + "_stored_string");
+		classeAdjectifVar = doc.getString("classeAdjectifVar" + "_" + langueNom + "_stored_string");
+		classeNomAdjectifSingulier = doc.getString("classeNomAdjectifSingulier" + "_" + langueNom + "_stored_string");
+		classeNomAdjectifPluriel = doc.getString("classeNomAdjectifPluriel" + "_" + langueNom + "_stored_string");
+		classeCe = doc.getString("classeCe" + "_" + langueNom + "_stored_string");
+		classeUn = doc.getString("classeUn" + "_" + langueNom + "_stored_string");
+		classeNomActuel = doc.getString("classeNomActuel" + "_" + langueNom + "_stored_string");
+		classeTousNom = doc.getString("classeTousNom" + "_" + langueNom + "_stored_string");
+		classeRechercherTousNomPar = doc.getString("classeRechercherTousNomPar" + "_" + langueNom + "_stored_string");
+		classeLesNoms = doc.getString("classeLesNoms" + "_" + langueNom + "_stored_string");
+		classeTitre = doc.getString("classeTitre" + "_" + langueNom + "_stored_string");
+		classeH1 = doc.getString("classeH1" + "_" + langueNom + "_stored_string");
+		classeH2 = doc.getString("classeH2" + "_" + langueNom + "_stored_string");
+		classeH3 = doc.getString("classeH3" + "_" + langueNom + "_stored_string");
+		classeAucunNomTrouve = doc.getString("classeAucunNomTrouve" + "_" + langueNom + "_stored_string");
+		classeUnNomAdjectif = doc.getString("classeUnNomAdjectif" + "_" + langueNom + "_stored_string");
+		classeCeNom = doc.getString("classeCeNom" + "_" + langueNom + "_stored_string");
+		classeLeNom = doc.getString("classeLeNom" + "_" + langueNom + "_stored_string");
+		classeDeNom = doc.getString("classeDeNom" + "_" + langueNom + "_stored_string");
+
+		classeValsVar = Optional.ofNullable(doc.getJsonArray("classeValsVar_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeValsLangue = Optional.ofNullable(doc.getJsonArray("classeValsLangue_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classeValsValeur = Optional.ofNullable(doc.getJsonArray("classeValsValeur_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+	}
 }
