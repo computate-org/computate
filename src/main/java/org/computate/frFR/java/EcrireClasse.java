@@ -121,6 +121,29 @@ public class EcrireClasse extends IndexerClasse {
 	}
 
 	/**
+	 * Var.enUS: writeCommentPart
+	 * Param1.var.enUS: comment
+	 * Param2.var.enUS: tabs
+	 * r: commentaire
+	 * r.enUS: comment
+	 * r: tabulations
+	 * r.enUS: tabs
+	 * 
+	 */
+	public String strCommentairePart(String commentaire, Integer tabulations) {
+		StringBuilder b = new StringBuilder();
+		String tabulationsStr = StringUtils.repeat("\t", tabulations);
+		if(StringUtils.isNotEmpty(commentaire)) {
+			String[] parts = StringUtils.split(commentaire, "\n");
+			for(int j = 0; j < parts.length; j++) { 
+				String ligne = parts[j];
+				b.append(tabulationsStr).append(" * ").append(ligne).append("\n");
+			}
+		} 
+		return b.toString();
+	}
+
+	/**
 	 * Var.enUS: writeClass
 	 * Param1.var.enUS: classAbsolutePath
 	 * Param2.var.enUS: languageName

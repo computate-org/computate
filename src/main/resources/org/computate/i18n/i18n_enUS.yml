@@ -11,35 +11,57 @@ str_DDDashMMDashYYYY_HHColonMM: "MM/DD/YYYY HH:MM AM"
 
 classe:
   Todo: |
-    <h1>TODO: </h1>
+    <h3>TODO: </h3>
   Description: |
-    <h1>About the %s class and it's generated class %s&lt;%s&gt;: </h1>
+    <h3>About the %s class and it's generated class %s&lt;%s&gt;: </h3>
   Suggere: |
-    <h1>Suggestions that can generate more code for you: </h1>
-  inheritDoc:
-    suggere: |
-      <li>You can add a class comment "{@inheritDoc}" if you wish to inherit the helpful inherited class comments from class %s into the class %s. 
-      </li>
-  NomSimpleSuperGenerique:
-    commentaire: "Api: true"
-    todo: |
-      <li>This class %s should <code>extend %s&lt;Object&gt;</code>, or some other inherited class besides Object. 
-      By specifying a generic class inside of %s&lt;???&gt; means that the generated <code>class %s extends ???</code>, in other words class %s extends %s which extends ???. 
-      This generated inheritance is a powerful feature that allows a lot of boiler plate code to be created for you automatically while still preserving inheritance through the power of Java Generic classes. 
-      </li>
-    description: |
-      <p>This <code>class %s extends %s&lt;%s&gt;</code>, which means it extends a newly generated %s. 
-      The generated <code>class %s extends %s</code> which means that %s extends %s which extends %s. 
-      This generated inheritance is a powerful feature that allows a lot of boiler plate code to be created for you automatically while still preserving inheritance through the power of Java Generic classes. 
-      </p>
+    <h3>Suggestions that can generate more code for you: </h3>
 
   ref:
-    UnNom:
-      nom: "AName"
-      commentaire: "AName: %s"
+    01_commentaire:
+      nom: "01 Comments"
+      commentaire: "%s class comments"
       description: |
-        <p>This class contains a comment <b>"AName.enUS: %s"</b>, which identifies the language context to describe a %s as "%s". 
+        <p>
+        Given the Java class declaration with the given class comments below: 
         </p>
+        <pre>
+        /**
+        %s
+        **/
+        public class %s extends %s&lt;%s&gt; {
+        	...
+        }
+        </pre>
+    02_etend:
+      nom: "02 Extends"
+      commentaire: "extends %s"
+      description: |
+        <p>
+        This Java class extends a generated Java class %s built by the <a href="https://github.com/computate-org/computate">https://github.com/computate-org/computate</a> project. 
+        Whenever this Java class is modified or touched, the watch service installed as described in the README, indexes all the information about this Java class in a local Apache Solr Search Engine. 
+        If you are running the service, you can see the indexed data about this Java Class here: 
+        </p>
+        <p><a href="%s/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_%s_indexed_string:%s">Find the class %s in Solr. </a></p>
+        <p>
+        The extended class ending with "Gen" did not exist at first, but was automatically created by the same watch service based on the data retrieved from the local Apache Server search engine. 
+        The extended class contains many generated fields, getters, setters, initialization code, and helper methods to help build a website and API fast, reactive, and scalable. 
+        </p>
+    03_classeNomSimpleSuperGenerique:
+      nom: "03 Extends"
+      commentaire: "extends %s<%s>"
+      todo: |
+        <li>This class %s should <code>extend %s&lt;Object&gt;</code>, or some other inherited class besides Object. 
+        By specifying a generic class inside of %s&lt;???&gt; means that the generated <code>class %s extends ???</code>, in other words class %s extends %s which extends ???. 
+        This generated inheritance is a powerful feature that allows a lot of boiler plate code to be created for you automatically while still preserving inheritance through the power of Java Generic classes. 
+        </li>
+      description: |
+        <p>This <code>class %s extends %s&lt;%s&gt;</code>, which means it extends a newly generated %s. 
+        The generated <code>class %s extends %s</code> which means that %s extends %s which extends %s. 
+        This generated inheritance is a powerful feature that allows a lot of boiler plate code to be created for you automatically while still preserving inheritance through the power of Java Generic classes. 
+        </p>
+
+
     Api:
       nom: "Api"
       commentaire: "Api: true"
@@ -51,7 +73,7 @@ classe:
         </li>
     ApiTag:
       nom: "ApiTag"
-      commentaire: "ApiTag.%s: ..."
+      commentaire: "ApiTag.%s: %s"
       description: |
         <p>This class contains a comment <b>"ApiTag: %s"</b>, which groups all of the OpenAPIs for %s objects under the tag "%s". 
         </p>
@@ -62,7 +84,7 @@ classe:
         </li>
     ApiUri:
       nom: "ApiUri"
-      commentaire: "ApiUri.%s: /api/..."
+      commentaire: "ApiUri.%s: %s"
       description: |
         <p>This class contains a comment <b>"ApiUri: %s"</b>, which defines the base API URI for %s objects as "%s" in the OpenAPI spec. 
         </p>
@@ -108,6 +130,15 @@ classe:
       todo: |
         <li>You should add a class comment "Indexed: true" because the GET, POST, PATCH and PUT APIs rely on a indexed data search engine to paginate, filter, sort and aggregate the data when it's queried. 
         The code to index and retrieve the %s data in the search engine will then be automatically generated. 
+        </li>
+    InheritDoc:
+      nom: "InheritDoc"
+      commentaire: "{@inheritDoc}"
+      description: |
+        <p>By adding a class comment "{@inheritDoc}", the %s class will inherit the helpful inherited class comments from the super class %s. 
+        </p>
+      suggere: |
+        <li>You can add a class comment "{@inheritDoc}" if you wish to inherit the helpful inherited class comments from class %s into the class %s. 
         </li>
     Lignes:
       nom: "Rows"
@@ -172,6 +203,21 @@ classe:
         </p>
         <p>
           If a super class of this Java class with `Model: true`, then the child class will also inherit `Promise: true`. 
+        </p>
+    Role:
+      nom: "Role"
+      commentaire: "Role.%s: %s"
+      description: |
+        <p>
+        This class contains a comment <b>"Role.%s: %s"</b>, which identifies the default role name "%s" of the OAuth2/OpenID Connect user role required to access this %s API. 
+        It's possible to reconfigure the roles required to access the %s API by configuring an environment variable like this: 
+        </p>
+        <pre>AUTH_ROLES_REQUIRED_%s: ["%s"]</pre>
+    UnNom:
+      nom: "AName"
+      commentaire: "AName: %s"
+      description: |
+        <p>This class contains a comment <b>"AName.enUS: %s"</b>, which identifies the language context to describe a %s as "%s". 
         </p>
 
 str_deuxPoints: ": "

@@ -369,6 +369,14 @@ public class ConfigSite {
 	 */
 	public String solrUrlComputate;
 
+	public String getSolrUrlComputate() {
+		return solrUrlComputate;
+	}
+
+	public void setSolrUrlComputate(String solrUrlComputate) {
+		this.solrUrlComputate = solrUrlComputate;
+	}
+
 	/**
 	 * Var.enUS: _solrUrlComputate r: solrUrlComputate r.enUS: solrUrlComputate r:
 	 * solrUrl r.enUS: solrUrl r: portSolr r.enUS: solrPort
