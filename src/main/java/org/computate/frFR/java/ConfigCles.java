@@ -25,6 +25,8 @@ public class ConfigCles {
 	public static final String str_Creer_ = "str_Creer_";
 	public static final String str__dans_Solr = "str__dans_Solr";
 	public static final String str_DDDashMMDashYYYY_HHColonMM = "str_DDDashMMDashYYYY_HHColonMM";
+	public static final String str_DDDashMMDashYYYY_HHColonmm = "str_DDDashMMDashYYYY_HHColonmm";
+	public static final String str_ddDashMMDashyyyy_HHColonmm_VV = "str_ddDashMMDashyyyy_HHColonmm_VV";
 	public static final String str_deuxPoints = "str_deuxPoints";
 	public static final String str_Dupliquer_ = "str_Dupliquer_";
 	public static final String str_EEE_d_MMM_yyyy = "str_EEE_d_MMM_yyyy";

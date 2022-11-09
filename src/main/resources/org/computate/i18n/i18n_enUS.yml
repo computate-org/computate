@@ -8,6 +8,8 @@ str_créé_nouveau: "created new"
 str_Creer_: "Create "
 str__dans_Solr: " in Solr"
 str_DDDashMMDashYYYY_HHColonMM: "MM/DD/YYYY HH:MM AM"
+str_DDDashMMDashYYYY_HHColonmm: "MM/DD/YYYY h:mm a"
+str_ddDashMMDashyyyy_HHColonmm_VV: "MM/dd/yyyy h:mm a '['VV']'"
 
 classe:
   Todo: |
