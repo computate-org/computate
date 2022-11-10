@@ -14,6 +14,7 @@
 package org.computate.frFR.java; 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -4342,6 +4343,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, "String ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Liste), "Str = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams().getJsonObject(", q("query"), ").getString(", q("fl"), ");");
 			tl(3, "String[] ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Liste), " = ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Liste), "Str == null ? null : ", classeLangueConfig.getString(ConfigCles.var_entite), classeLangueConfig.getString(ConfigCles.var_Liste), "Str.split(", q(",\\s*"), ");");
 			tl(3, classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, "> ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), " = new ", classePartsListeRecherche.nomSimple(classeLangueNom), "<", classeApiClasseNomSimple, ">();");
+			tl(3, "String facetRange = null;");
+			tl(3, "Date facetRangeStart = null;");
+			tl(3, "Date facetRangeEnd = null;");
+			tl(3, "String facetRangeGap = null;");
+			tl(3, "String statsField = null;");
+			tl(3, "String statsFieldIndexed = null;");
 			tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".set", classeLangueConfig.getString(ConfigCles.var_Peupler), "(", classeLangueConfig.getString(ConfigCles.var_peupler), ");");
 			tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".set", classeLangueConfig.getString(ConfigCles.var_Stocker), "(", classeLangueConfig.getString(ConfigCles.var_stocker), ");");
 			tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".q(\"*:*\");");
@@ -4381,7 +4388,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, "+ \" OR ", classeLangueConfig.getString(ConfigCles.var_utilisateur), classeLangueConfig.getString(ConfigCles.var_Cle), "s_docvalues_longs:\" + Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), classeLangueConfig.getString(ConfigCles.var_Cle), "()).orElse(0L));");
 			}
 			l();
-			tl(3, classeLangueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").forEach(param", classeLangueConfig.getString(ConfigCles.var_Requete), " -> {");
+			tl(3, "for(String param", classeLangueConfig.getString(ConfigCles.var_Nom), " : ", classeLangueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").fieldNames()) {");
+			tl(4, "Object param", classeLangueConfig.getString(ConfigCles.var_Valeurs), classeLangueConfig.getString(ConfigCles.var_Objet), " = ", classeLangueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").getValue(param", classeLangueConfig.getString(ConfigCles.var_Nom), ");");
 			tl(4, "String ", classeLangueConfig.getString(ConfigCles.var_entite), "Var = null;");
 			tl(4, "String ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " = null;");
 			tl(4, "String var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = null;");
@@ -4389,8 +4397,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(4, "Long ", classeLangueConfig.getString(ConfigCles.var_valeur), "Start = null;");
 			tl(4, "Long ", classeLangueConfig.getString(ConfigCles.var_valeur), "Rows = null;");
 			tl(4, "String ", classeLangueConfig.getString(ConfigCles.var_valeur), "CursorMark = null;");
-			tl(4, "String param", classeLangueConfig.getString(ConfigCles.var_Nom), " = param", classeLangueConfig.getString(ConfigCles.var_Requete), ".getKey();");
-			tl(4, "Object param", classeLangueConfig.getString(ConfigCles.var_Valeurs), classeLangueConfig.getString(ConfigCles.var_Objet), " = param", classeLangueConfig.getString(ConfigCles.var_Requete), ".getValue();");
 			tl(4, "JsonArray param", classeLangueConfig.getString(ConfigCles.var_Objets), " = param", classeLangueConfig.getString(ConfigCles.var_Valeurs), classeLangueConfig.getString(ConfigCles.var_Objet), " instanceof JsonArray ? (JsonArray)param", classeLangueConfig.getString(ConfigCles.var_Valeurs), classeLangueConfig.getString(ConfigCles.var_Objet), " : new JsonArray().add(param", classeLangueConfig.getString(ConfigCles.var_Valeurs), classeLangueConfig.getString(ConfigCles.var_Objet), ");");
 			l();
 			tl(4, "try {");
@@ -4411,131 +4417,119 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(5, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Valeurs), classeLangueConfig.getString(ConfigCles.var_Objet), " != null) {");
 
 			tl(6, "for(Object param", classeLangueConfig.getString(ConfigCles.var_Objet), " : param", classeLangueConfig.getString(ConfigCles.var_Objets), ") {");
-			tl(7, "switch(param", classeLangueConfig.getString(ConfigCles.var_Nom), ") {");
-	
-			tl(8, "case \"q\":");
-			tl(9, "Matcher mQ = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|\\\\^|$)))\").matcher((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
-			tl(9, "boolean foundQ = mQ.find();");
-			tl(9, "if(foundQ) {");
-			tl(10, "StringBuffer sb = new StringBuffer();");
-			tl(10, "while(foundQ) {");
-			tl(11, classeLangueConfig.getString(ConfigCles.var_entite), "Var = mQ.group(1).trim();");
-			tl(11, classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " = mQ.group(2).trim();");
-			tl(11, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
-			tl(11, "String ", classeLangueConfig.getString(ConfigCles.var_entite), "Q = ", classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Fq(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", ", "var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
-			tl(11, "mQ.appendReplacement(sb, ", classeLangueConfig.getString(ConfigCles.var_entite), "Q);");
-			tl(11, "foundQ = mQ.find();");
-			tl(10, "}");
-			tl(10, "mQ.appendTail(sb);");
-			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".q(sb.toString());");
+			tl(7, "if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"q\")) {");
+			tl(8, "Matcher mQ = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|\\\\^|$)))\").matcher((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
+			tl(8, "boolean foundQ = mQ.find();");
+			tl(8, "if(foundQ) {");
+			tl(9, "StringBuffer sb = new StringBuffer();");
+			tl(9, "while(foundQ) {");
+			tl(10, classeLangueConfig.getString(ConfigCles.var_entite), "Var = mQ.group(1).trim();");
+			tl(10, classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " = mQ.group(2).trim();");
+			tl(10, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
+			tl(10, "String ", classeLangueConfig.getString(ConfigCles.var_entite), "Q = ", classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Fq(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", ", "var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
+			tl(10, "mQ.appendReplacement(sb, ", classeLangueConfig.getString(ConfigCles.var_entite), "Q);");
+			tl(10, "foundQ = mQ.find();");
 			tl(9, "}");
-			tl(9, "break;");
+			tl(9, "mQ.appendTail(sb);");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".q(sb.toString());");
+			tl(8, "}");
 	
-			tl(8, "case \"fq\":");
-			tl(9, "Matcher mFq = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|$)))\").matcher((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
-			tl(9, "boolean foundFq = mFq.find();");
-			tl(9, "if(foundFq) {");
-			tl(10, "StringBuffer sb = new StringBuffer();");
-			tl(10, "while(foundFq) {");
-			tl(11, classeLangueConfig.getString(ConfigCles.var_entite), "Var = mFq.group(1).trim();");
-			tl(11, classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " = mFq.group(2).trim();");
-			tl(11, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
-			tl(11, "String ", classeLangueConfig.getString(ConfigCles.var_entite), "Fq = ", classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Fq(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", ", "var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
-			tl(11, "mFq.appendReplacement(sb, ", classeLangueConfig.getString(ConfigCles.var_entite), "Fq);");
-			tl(11, "foundFq = mFq.find();");
-			tl(10, "}");
-			tl(10, "mFq.appendTail(sb);");
-			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(sb.toString());");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"fq\")) {");
+			tl(8, "Matcher mFq = Pattern.compile(\"(\\\\w+):(.+?(?=(\\\\)|\\\\s+OR\\\\s+|\\\\s+AND\\\\s+|$)))\").matcher((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
+			tl(8, "boolean foundFq = mFq.find();");
+			tl(8, "if(foundFq) {");
+			tl(9, "StringBuffer sb = new StringBuffer();");
+			tl(9, "while(foundFq) {");
+			tl(10, classeLangueConfig.getString(ConfigCles.var_entite), "Var = mFq.group(1).trim();");
+			tl(10, classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " = mFq.group(2).trim();");
+			tl(10, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
+			tl(10, "String ", classeLangueConfig.getString(ConfigCles.var_entite), "Fq = ", classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Fq(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", ", "var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
+			tl(10, "mFq.appendReplacement(sb, ", classeLangueConfig.getString(ConfigCles.var_entite), "Fq);");
+			tl(10, "foundFq = mFq.find();");
 			tl(9, "}");
-			tl(9, "break;");
+			tl(9, "mFq.appendTail(sb);");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(sb.toString());");
+			tl(8, "}");
 
-			tl(8, "case \"sort\":");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ", \" \"));");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " = StringUtils.trim(StringUtils.substringAfter((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ", \" \"));");
-			tl(9, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Sort(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", ", "var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"sort\")) {");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ", \" \"));");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " = StringUtils.trim(StringUtils.substringAfter((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ", \" \"));");
+			tl(8, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Sort(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", ", "var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
 //	
-//			tl(8, "case \"fl\":");
-//			tl(9, langueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.trim((String)param", langueConfig.getString(ConfigCles.var_Objet), ");");
-//			tl(9, "var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(", langueConfig.getString(ConfigCles.var_entite), "Var);");
-//			tl(9, langueConfig.getString(ConfigCles.var_liste), langueConfig.getString(ConfigCles.var_Recherche), ".addField(var", langueConfig.getString(ConfigCles.var_Indexe), ");");
-//			tl(9, "break;");
+//			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals( \"fl\")) {");
+//			tl(8, langueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.trim((String)param", langueConfig.getString(ConfigCles.var_Objet), ");");
+//			tl(8, "var", langueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", langueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(", langueConfig.getString(ConfigCles.var_entite), "Var);");
+//			tl(8, langueConfig.getString(ConfigCles.var_liste), langueConfig.getString(ConfigCles.var_Recherche), ".addField(var", langueConfig.getString(ConfigCles.var_Indexe), ");");
 	
-			tl(8, "case \"start\":");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_valeur), "Start = param", classeLangueConfig.getString(ConfigCles.var_Objet), " instanceof Long ? (Long)param", classeLangueConfig.getString(ConfigCles.var_Objet), " : Long.parseLong(param", classeLangueConfig.getString(ConfigCles.var_Objet), ".toString());");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Start(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_valeur), "Start);");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"start\")) {");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_valeur), "Start = param", classeLangueConfig.getString(ConfigCles.var_Objet), " instanceof Long ? (Long)param", classeLangueConfig.getString(ConfigCles.var_Objet), " : Long.parseLong(param", classeLangueConfig.getString(ConfigCles.var_Objet), ".toString());");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Start(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_valeur), "Start);");
 	
-			tl(8, "case \"rows\":");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_valeur), "Rows = param", classeLangueConfig.getString(ConfigCles.var_Objet), " instanceof Long ? (Long)param", classeLangueConfig.getString(ConfigCles.var_Objet), " : Long.parseLong(param", classeLangueConfig.getString(ConfigCles.var_Objet), ".toString());");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Rows(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_valeur), "Rows);");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"rows\")) {");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_valeur), "Rows = param", classeLangueConfig.getString(ConfigCles.var_Objet), " instanceof Long ? (Long)param", classeLangueConfig.getString(ConfigCles.var_Objet), " : Long.parseLong(param", classeLangueConfig.getString(ConfigCles.var_Objet), ".toString());");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Rows(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_valeur), "Rows);");
 	
-			tl(8, "case \"stats\":");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".stats((Boolean)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"stats\")) {");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".stats((Boolean)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
 	
-			tl(8, "case \"stats.field\":");
-			tl(9, "Matcher mStats = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
-			tl(9, "boolean foundStats = mStats.find();");
-			tl(9, "if(foundStats) {");
-			tl(10, "String solrLocalParams = mStats.group(1);");
-			tl(10, classeLangueConfig.getString(ConfigCles.var_entite), "Var = mStats.group(2).trim();");
-			tl(10, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
-			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".statsField((solrLocalParams == null ? \"\" : solrLocalParams) + var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
-			tl(9, "}");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"stats.field\")) {");
+			tl(8, "Matcher mStats = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
+			tl(8, "boolean foundStats = mStats.find();");
+			tl(8, "if(foundStats) {");
+			tl(9, "String solrLocalParams = mStats.group(1);");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_entite), "Var = mStats.group(2).trim();");
+			tl(9, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".statsField((solrLocalParams == null ? \"\" : solrLocalParams) + var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
+			tl(9, "statsField = ", classeLangueConfig.getString(ConfigCles.var_entite), "Var;");
+			tl(9, "statsFieldIndexed = var", classeLangueConfig.getString(ConfigCles.var_Indexe), ";");
+			tl(8, "}");
 	
-			tl(8, "case \"facet\":");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facet((Boolean)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"facet\")) {");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facet((Boolean)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
 	
-			tl(8, "case \"facet.range.start\":");
-			tl(9, "String startMathStr = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
-			tl(9, "Date start = SearchTool.parseMath(startMathStr);");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeStart(start.toInstant().toString());");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"facet.range.start\")) {");
+			tl(8, "String startMathStr = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
+			tl(8, "Date start = SearchTool.parseMath(startMathStr);");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeStart(start.toInstant().toString());");
+			tl(8, "facetRangeStart = start;");
 	
-			tl(8, "case \"facet.range.end\":");
-			tl(9, "String endMathStr = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
-			tl(9, "Date end = SearchTool.parseMath(endMathStr);");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeEnd(end.toInstant().toString());");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"facet.range.end\")) {");
+			tl(8, "String endMathStr = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
+			tl(8, "Date end = SearchTool.parseMath(endMathStr);");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeEnd(end.toInstant().toString());");
+			tl(8, "facetRangeEnd = end;");
 	
-			tl(8, "case \"facet.range.gap\":");
-			tl(9, "String gap = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeGap(gap);");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"facet.range.gap\")) {");
+			tl(8, "String gap = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeGap(gap);");
+			tl(8, "facetRangeGap = gap;");
 	
-			tl(8, "case \"facet.range\":");
-			tl(9, "Matcher mFacetRange = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
-			tl(9, "boolean foundFacetRange = mFacetRange.find();");
-			tl(9, "if(foundFacetRange) {");
-			tl(10, "String solrLocalParams = mFacetRange.group(1);");
-			tl(10, classeLangueConfig.getString(ConfigCles.var_entite), "Var = mFacetRange.group(2).trim();");
-			tl(10, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
-			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRange((solrLocalParams == null ? \"\" : solrLocalParams) + var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
-			tl(9, "}");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"facet.range\")) {");
+			tl(8, "Matcher mFacetRange = Pattern.compile(\"(?:(\\\\{![^\\\\}]+\\\\}))?(.*)\").matcher((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
+			tl(8, "boolean foundFacetRange = mFacetRange.find();");
+			tl(8, "if(foundFacetRange) {");
+			tl(9, "String solrLocalParams = mFacetRange.group(1);");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_entite), "Var = mFacetRange.group(2).trim();");
+			tl(9, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), "", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRange((solrLocalParams == null ? \"\" : solrLocalParams) + var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
+			tl(9, "facetRange = ", classeLangueConfig.getString(ConfigCles.var_entite), "Var;");
+			tl(8, "}");
 	
-			tl(8, "case \"facet.field\":");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_entite), "Var = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
-			tl(9, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
-			tl(9, "if(var", classeLangueConfig.getString(ConfigCles.var_Indexe), " != null)");
-			tl(10, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetField(var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"facet.field\")) {");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_entite), "Var = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
+			tl(8, "var", classeLangueConfig.getString(ConfigCles.var_Indexe), " = ", classeNomSimple, ".var", classeLangueConfig.getString(ConfigCles.var_Indexe), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var);");
+			tl(8, "if(var", classeLangueConfig.getString(ConfigCles.var_Indexe), " != null)");
+			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetField(var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
 	
-			tl(8, "case \"var\":");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ", \":\"));");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ", \":\")), \"UTF-8\");");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Var(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"var\")) {");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_entite), "Var = StringUtils.trim(StringUtils.substringBefore((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ", \":\"));");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), " = URLDecoder.decode(StringUtils.trim(StringUtils.substringAfter((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ", \":\")), \"UTF-8\");");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Var(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ", ", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
 	
-			tl(8, "case \"cursorMark\":");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_valeur), "CursorMark = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
-			tl(9, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".cursorMark((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
-			tl(9, "break;");
+			tl(7, "} else if(param", classeLangueConfig.getString(ConfigCles.var_Nom), ".equals(\"cursorMark\")) {");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_valeur), "CursorMark = (String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ";");
+			tl(8, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".cursorMark((String)param", classeLangueConfig.getString(ConfigCles.var_Objet), ");");
 	
 			tl(7, "}");
 			tl(6, "}");
@@ -4545,7 +4539,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(5, "ExceptionUtils.rethrow(e);");
 			tl(4, "}");
 
-			tl(3, "});");
+			tl(3, "}");
 			if(classeVarCree != null) {
 				tl(3, "if(\"*:*\".equals(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".getQuery()) && ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".getSorts().size() == 0) {");
 				if(classeTrisVar != null && classeTrisVar.size() > 0) {
@@ -4561,9 +4555,50 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				}
 				tl(3, "}");
 			}
+			tl(3, "String facetRange2 = facetRange;");
+			tl(3, "Date facetRangeStart2 = facetRangeStart;");
+			tl(3, "Date facetRangeEnd2 = facetRangeEnd;");
+			tl(3, "String facetRangeGap2 = facetRangeGap;");
+			tl(3, "String statsField2 = statsField;");
+			tl(3, "String statsFieldIndexed2 = statsFieldIndexed;");
 			tl(3, classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "2(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_peupler), ", ", classeLangueConfig.getString(ConfigCles.var_stocker), ", ", classeLangueConfig.getString(ConfigCles.var_modifier), ", ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ");");
 			tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".", classeLangueConfig.getString(ConfigCles.var_promesseLoin), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(a -> {");
-			tl(4, "promise.complete(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ");");
+			tl(4, "if(facetRange2 != null && statsField2 != null && facetRange2.equals(statsField2)) {");
+			tl(5, "StatsField stats = ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".getResponse().getStats().getStatsFields().get(statsFieldIndexed2);");
+			tl(5, "Instant min = Instant.parse(stats.getMin().toString());");
+			tl(5, "Instant max = Instant.parse(stats.getMax().toString());");
+			tl(5, "Duration duration = Duration.between(min, max);");
+			tl(5, "String gap = \"DAY\";");
+			tl(5, "if(duration.toDays() >= 365)");
+			tl(6, "gap = \"YEAR\";");
+			tl(5, "else if(duration.toDays() >= 28)");
+			tl(6, "gap = \"MONTH\";");
+			tl(5, "else if(duration.toDays() >= 1)");
+			tl(6, "gap = \"DAY\";");
+			tl(5, "else if(duration.toHours() >= 1)");
+			tl(6, "gap = \"HOUR\";");
+			tl(5, "else if(duration.toMinutes() >= 1)");
+			tl(6, "gap = \"MINUTE\";");
+			tl(5, "else if(duration.toMillis() >= 1000)");
+			tl(6, "gap = \"SECOND\";");
+			tl(5, "else if(duration.toMillis() >= 1)");
+			tl(6, "gap = \"MILLI\";");
+			l();
+			tl(5, "if(facetRangeStart2 == null)");
+			tl(6, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeStart(min.toString());");
+			tl(5, "if(facetRangeEnd2 == null)");
+			tl(6, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeEnd(max.toString());");
+			tl(5, "if(facetRangeGap2 == null)");
+			tl(6, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".facetRangeGap(String.format(\"+1%s\", gap));");
+			tl(5, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".query().onSuccess(b -> {");
+			tl(6, "promise.complete(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ");");
+			tl(5, "}).onFailure(ex -> {");
+			tl(6, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+			tl(6, "promise.fail(ex);");
+			tl(5, "});");
+			tl(4, "} else {");
+			tl(5, "promise.complete(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ");");
+			tl(4, "}");
 			tl(3, "}).onFailure(ex -> {");
 			tl(4, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
 			tl(4, "promise.fail(ex);");
