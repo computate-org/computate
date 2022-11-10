@@ -641,18 +641,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_(", classePartsCouverture.nomSimple(langueNom), "<", langueConfig.getString(ConfigCles.var_ListeRecherche), "<", classeApiClasseNomSimple, ">> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 				tl(1, "}");
 				l();
-				tl(1, "@Override");
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
 				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 				tl(2, "if(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_ != null)");
 				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(JsonObject.mapFrom(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse()).toString());");
 				tl(1, "}");
 				l();
-				tl(1, "@Override");
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
 				tl(1, "protected void _stats(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.Stats> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getStats());");
 				tl(1, "}");
 				l();
-				tl(1, "@Override");
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
 				tl(1, "protected void _facetCounts(", classePartsCouverture.nomSimple(langueNom), "<SolrResponse.FacetCounts> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getResponse().getFacetCounts());");
 				tl(1, "}");
@@ -900,7 +903,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "}");
 				if(classePageSuperNomSimple != null && (classeEtendBase || !classeModele)) {
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultZoneId(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_defaultZoneId)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_ZONE)));");
 					tl(1, "}");
@@ -908,12 +912,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "/**");
 					tl(1, " * ", langueConfig.getString(ConfigCles.var_Ignorer), ": true");
 					tl(1, " **/");
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultTimeZone(", classePartsCouverture.nomSimple(langueNom), "<ZoneId> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(ZoneId.of(defaultZoneId));");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultLocaleId(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getRequestHeaders().get(\"Accept-Language\")).map(acceptLanguage -> StringUtils.substringBefore(acceptLanguage, \",\")).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_LOCALE)));");
 					tl(1, "}");
@@ -921,52 +927,62 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(1, "/**");
 					tl(1, " * ", langueConfig.getString(ConfigCles.var_Ignorer), ": true");
 					tl(1, " **/");
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultLocale(", classePartsCouverture.nomSimple(langueNom), "<Locale> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Locale.forLanguageTag(defaultLocaleId));");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultRangeGap(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeGap()).orElse(Optional.ofNullable(defaultRangeStats).map(s -> s.getString(\"defaultRangeGap\")).orElse(\"+1DAY\")));");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultRangeEnd(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeEnd()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeEnd\")).atZone(defaultTimeZone)).orElse(ZonedDateTime.now(defaultTimeZone).toLocalDate().atStartOfDay(defaultTimeZone).plusDays(1))));");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultRangeStart(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeStart()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeStart\")).atZone(defaultTimeZone)).orElse(defaultRangeEnd.minusDays(7).toLocalDate().atStartOfDay(defaultTimeZone))));");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultRangeVar(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRanges()).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Arrays.asList(s.getString(\"defaultRangeVar\"))).orElse(Arrays.asList())).stream().findFirst().map(v -> { if(v.contains(\"}\")) return StringUtils.substringBefore(StringUtils.substringAfterLast(v, \"}\"), \"_\"); else return ", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(v); }).orElse(\"", classeVarCree, "\"));");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultFacetSort(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetSort()).orElse(\"index\"));");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultFacetLimit(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetLimit()).orElse(1));");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultFacetMinCount(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetMinCount()).orElse(1));");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultPivotMinCount(", classePartsCouverture.nomSimple(langueNom), "<Integer> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetPivotMinCount()).orElse(0));");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _DEFAULT_MAP_LOCATION(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, "String pointStr = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_DEFAULT_MAP_LOCATION)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_LOCATION));");
 					tl(2, "if(pointStr != null) {");
@@ -976,15 +992,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(2, "}");
 					tl(1, "}");
 					l();
-					tl(1, "@Override");
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _DEFAULT_MAP_ZOOM(", classePartsCouverture.nomSimple(langueNom), "<BigDecimal> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, "String s = Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), "Vars().get(VAR_DEFAULT_MAP_ZOOM)).orElse(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".DEFAULT_MAP_ZOOM));");
 					tl(2, "if(s != null)");
 					tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(new BigDecimal(s));");
 					tl(1, "}");
+				} else {
+					l();
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
+					tl(1, "protected void _defaultRangeStats(", classePartsCouverture.nomSimple(langueNom), "<JsonObject> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+					tl(1, "}");
 				}
 				l();
-				tl(1, "@Override");
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
 				tl(1, "protected void _default", langueConfig.getString(ConfigCles.var_ListeChamps), "Vars(List<String> l) {");
 				tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFields()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(ConfigCles.var_Stocke), " -> {");
 				tl(3, "String var", langueConfig.getString(ConfigCles.var_Stocke), "2 = var", langueConfig.getString(ConfigCles.var_Stocke), ";");
@@ -1001,7 +1025,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(2, "});");
 				tl(1, "}");
 				l();
-				tl(1, "@Override");
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
 				tl(1, "protected void _default", langueConfig.getString(ConfigCles.var_Stats), "Vars(List<String> l) {");
 				tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getStatsFields()).orElse(Arrays.asList()).forEach(var", langueConfig.getString(ConfigCles.var_Indexe), " -> {");
 				tl(3, "String var", langueConfig.getString(ConfigCles.var_Indexe), "2 = var", langueConfig.getString(ConfigCles.var_Indexe), ";");
@@ -1018,7 +1043,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(2, "});");
 				tl(1, "}");
 				l();
-				tl(1, "@Override");
+				if(classePageSuperNomSimple != null)
+					tl(1, "@Override");
 				tl(1, "protected void _default", langueConfig.getString(ConfigCles.var_Pivot), "Vars(List<String> l) {");
 				tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetPivots()).orElse(Arrays.asList()).forEach(facetPivot -> {");
 				tl(3, "String facetPivot2 = facetPivot;");

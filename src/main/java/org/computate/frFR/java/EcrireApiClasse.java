@@ -4774,6 +4774,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(2, "}");
 				tl(2, "return promise.future();");
 				tl(1, "}");
+				l();
+				tl(1, "public String ", classeLangueConfig.getString(ConfigCles.var_recherche), "Var(String var", classeLangueConfig.getString(ConfigCles.var_Indexe), ") {");
+				tl(2, "return ", classeNomSimple, ".", classeLangueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
+				tl(1, "}");
 			}
 			///////////////
 			// recharger //
