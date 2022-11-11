@@ -7233,11 +7233,11 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		ecrireClasseCommentaireChamp(langueNom, classeRef, "UnNom", "commentaire", wClasseDescription
 				, true
-				, classeUnNom
+				, langueNom, classeUnNom
 				);
 		ecrireClasseCommentaireChamp(langueNom, classeRef, "UnNom", "description", wClasseDescription
 				, classeUnNom != null
-				, classeUnNom, classeNomSimple, classeUnNom
+				, langueNom, classeUnNom, classeNomSimple, classeUnNom
 				);
 
 		// Todos

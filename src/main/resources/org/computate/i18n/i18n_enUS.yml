@@ -228,9 +228,9 @@ classe:
         <pre>AUTH_ROLES_REQUIRED_%s: ["%s"]</pre>
     UnNom:
       nom: "AName"
-      commentaire: "AName: %s"
+      commentaire: "AName.%s: %s"
       description: |
-        <p>This class contains a comment <b>"AName.enUS: %s"</b>, which identifies the language context to describe a %s as "%s". 
+        <p>This class contains a comment <b>"AName.%s: %s"</b>, which identifies the language context to describe a %s as "%s". 
         </p>
 
 str_deuxPoints: ": "
