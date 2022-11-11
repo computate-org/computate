@@ -109,6 +109,7 @@ public class ConfigCles {
 	public static final String var_CLASSE_CHEMIN_ABSOLU = "var_CLASSE_CHEMIN_ABSOLU";
 	public static final String var_CLASSE_NOM_SIMPLE = "var_CLASSE_NOM_SIMPLE";
 	public static final String var_classe = "var_classe";
+	public static final String var_Classe = "var_Classe";
 	public static final String var_classeNomCanonique = "var_classeNomCanonique";
 	public static final String var_classeNomsCanoniques = "var_classeNomsCanoniques";
 	public static final String var_classeNomSimple = "var_classeNomSimple";
@@ -316,6 +317,7 @@ public class ConfigCles {
 	public static final String var_objetTitre = "var_objetTitre";
 	public static final String var_obtenir = "var_obtenir";
 	public static final String var_Optionnel = "var_Optionnel";
+	public static final String var_Ordre = "var_Ordre";
 	public static final String var_OutilRecherche = "var_OutilRecherche";
 	public static final String var_pageActuel = "var_pageActuel";
 	public static final String var_page = "var_page";
@@ -412,6 +414,7 @@ public class ConfigCles {
 	public static final String var_SOLR_URL_COMPUTATE = "var_SOLR_URL_COMPUTATE";
 	public static final String var_solrUrl = "var_solrUrl";
 	public static final String var_SOLR_URL = "var_SOLR_URL";
+	public static final String var_OrdreSql = "var_OrdreSql";
 	public static final String var_statiqueUrlBase = "var_statiqueUrlBase";
 	public static final String var_Stats = "var_Stats";
 	public static final String var_stats = "var_stats";

@@ -677,10 +677,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	private String classeIconeNom;
 
-	/**
-	 * Var.enUS: contextRows
-	 */
 	private Integer classeLignes;
+	private Integer classeOrdre;
+	private Integer classeOrdreSql;
 
 	/**
 	 * Var.enUS: populateQdoxSuperClassesInterfacesAndMe
@@ -6475,6 +6474,14 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classeLignesStr = regex("^" + classeLangueConfig.getString(ConfigCles.var_Lignes) + ":\\s*(.*)", classeCommentaire);
 			if(NumberUtils.isParsable(classeLignesStr))
 				classeLignes = indexerStockerSolr(classeDoc, "classeLignes", Integer.parseInt(classeLignesStr)); 
+
+			String classeOrdreStr = regex("^" + classeLangueConfig.getString(ConfigCles.var_Ordre) + ":\\s*(.*)", classeCommentaire);
+			if(NumberUtils.isParsable(classeOrdreStr))
+				classeOrdre = indexerStockerSolr(classeDoc, "classeOrdre", Integer.parseInt(classeOrdreStr)); 
+
+			String classeOrdreSqlStr = regex("^" + classeLangueConfig.getString(ConfigCles.var_OrdreSql) + ":\\s*(.*)", classeCommentaire);
+			if(NumberUtils.isParsable(classeOrdreSqlStr))
+				classeOrdreSql = indexerStockerSolr(classeDoc, "classeOrdreSql", Integer.parseInt(classeOrdreSqlStr)); 
 
 			for(String langueNom : toutesLangues) {
 

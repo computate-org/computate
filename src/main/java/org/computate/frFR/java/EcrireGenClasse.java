@@ -822,10 +822,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String classeIconeNom;
 
-	/**
-	 * Var.enUS: contextRows
-	 */
 	protected Integer classeLignes;
+	protected Integer classeOrdre;
+	protected Integer classeOrdreSql;
 
 	protected String classeUri;
 
@@ -6984,8 +6983,12 @@ public class EcrireGenClasse extends EcrireClasse {
 		Arrays.asList(String.format(jsonObject2.getString(champ2), formatValues).split("\n")).stream().forEach(s -> {
 			b.append(s).append("\n");
 		});
-		if(condition && !"01_commentaire".equals(champ1))
-			w.s(b.toString());
+		if(condition && !"01_commentaire".equals(champ1)) {
+			if("suggere".equals(champ2) || "todo".equals(champ2))
+				w.s("<li>", b.toString(), "</li>");
+			else
+				w.s(b.toString());
+		}
 		if(!"todo".equals(champ2))
 			jsonObject2Langue.put(champ2, b.toString());
 		
@@ -7146,6 +7149,32 @@ public class EcrireGenClasse extends EcrireClasse {
 				, classeNomSimple
 				);
 
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Ordre", "commentaire", wClasseDescription
+				, classeOrdre != null
+				, classeOrdre
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Ordre", "description", wClasseDescription
+				, classeOrdre != null
+				, classeOrdre, classeOrdre
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Ordre", "suggere", wClasseSuggere
+				, classeApi && classeOrdre == null
+				
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "OrdreSql", "commentaire", wClasseDescription
+				, classeOrdreSql != null
+				, classeOrdreSql
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "OrdreSql", "description", wClasseDescription
+				, classeOrdreSql != null
+				, classeOrdreSql, classeOrdreSql
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "OrdreSql", "suggere", wClasseSuggere
+				, classeModele && classeOrdreSql == null
+				
+				);
+
 		ecrireClasseCommentaireChamp(langueNom, classeRef, "Modele", "commentaire", wClasseDescription
 				, true
 				
@@ -7222,12 +7251,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			Arrays.asList(String.format(classe.getString("Todo")).split("\n")).stream().forEach(s -> {
 				b.insert(0, s);
 			});
-			wClasseTodos.s(0, b.toString());
-			classe.put("Todo", b.toString());
 
-			tl(0, "<ol>");
-			s(wClasseTodos);
-			tl(0, "</ol>");
+			if(o != null) {
+				tl(0, "<ol>");
+				s(0, b.toString());
+				tl(0, "</ol>");
+			}
+
+			classe.put("Todo", b.toString());
 		}
 
 		// Suggere
@@ -7237,12 +7268,13 @@ public class EcrireGenClasse extends EcrireClasse {
 			Arrays.asList(String.format(classe.getString("Suggere")).split("\n")).stream().forEach(s -> {
 				b.insert(0, s);
 			});
-			wClasseSuggere.s(0, b.toString());
-			classe.put("Suggere", b.toString());
+			if(o != null) {
+				tl(0, "<ol>");
+				s(0, b.toString());
+				tl(0, "</ol>");
+			}
 
-			tl(0, "<ol>");
-			s(wClasseSuggere);
-			tl(0, "</ol>");
+			classe.put("Suggere", b.toString());
 		}
 
 		wClasseDescription.tl(0, "<p>");
