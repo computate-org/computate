@@ -14,9 +14,6 @@
 package org.computate.frFR.java; 
 
 import java.io.File;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 import org.apache.commons.configuration2.YAMLConfiguration;
@@ -24,8 +21,6 @@ import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.common.SolrInputDocument;
-import org.computate.search.serialize.ComputateZonedDateTimeSerializer;
-import org.computate.vertx.config.ComputateConfigKeys;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchClass
