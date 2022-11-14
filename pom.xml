@@ -18,7 +18,7 @@
 		<log4j-slf4j-impl.version>2.17.1.redhat-00002</log4j-slf4j-impl.version>
 		<slf4j.version>1.7.33.redhat-00001</slf4j.version>
 		<solr.version>8.11.1</solr.version>
-		<jackson.version>2.13.2.redhat-00001</jackson.version>
+		<jackson.version>2.14.0</jackson.version>
 		<jackson-databind.version>2.14.0</jackson-databind.version>
 		<commons-lang3.version>3.12.0.redhat-00001</commons-lang3.version>
 		<commons-collections.version>4.2.0.redhat-00001</commons-collections.version>
