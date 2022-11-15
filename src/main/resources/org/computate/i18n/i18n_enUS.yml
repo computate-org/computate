@@ -106,7 +106,7 @@ classe:
         <p>This class contains a comment <b>"IconGroup: %s"</b>, which adds icons on the %s page with a group of "%s". 
         This will reference a Font Awesome icon group that starts with "fa-" followed by the icon group "%s", together is "fa-%s". 
         A Font Awesome icon group of "%s" is expected to exist. 
-        The Font Awesome groups currently supported include: solid, regular, light, thin, duotone, and sharp. 
+        The Font Awesome groups currently supported include: solid, regular, light, thin, duotone, sharp, and kit. 
         See: <a href="https://fontawesome.com/docs/web/dig-deeper/styles">https://fontawesome.com/docs/web/dig-deeper/styles</a>. 
         </p>
     IconeNom:
