@@ -511,7 +511,13 @@ public class RegarderRepertoire {
 				try { 
 					String classeCheminAbsolu = cheminComplet.toAbsolutePath().toString();   
 					String cp = FileUtils.readFileToString(new File(COMPUTATE_SRC + "/config/cp.txt"), "UTF-8");
-					CommandLine ligneCommande = CommandLine.parse("java -cp \"" + cp + ":" + COMPUTATE_SRC + "/target/classes\" " + RegarderClasse.class.getCanonicalName() + " \"" + classeCheminRepertoireAppli + "\" \"" + classeCheminAbsolu + "\"");
+					String classpath = String.format("%s:%s/target/classes", cp, COMPUTATE_SRC);
+					CommandLine ligneCommande = new CommandLine("java");
+					ligneCommande.addArgument("-cp");
+					ligneCommande.addArgument(classpath);
+					ligneCommande.addArgument(RegarderClasse.class.getCanonicalName());
+					ligneCommande.addArgument(classeCheminRepertoireAppli);
+					ligneCommande.addArgument(classeCheminAbsolu);
 					File repertoireTravail = new File(COMPUTATE_SRC);
 
 					executeur.setWorkingDirectory(repertoireTravail);
