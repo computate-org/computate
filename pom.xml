@@ -79,8 +79,8 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git://github.com/computate-org/computate-search.git</connection>
-		<developerConnection>scm:git:ssh://github.com:computate-org/computate-search.git</developerConnection>
+		<connection>scm:git:git://github.com/computate-org/computate.git</connection>
+		<developerConnection>scm:git:ssh://github.com:computate-org/computate.git</developerConnection>
 		<url>http://github.com/computate-org/computate/tree/master</url>
 	</scm>
 
