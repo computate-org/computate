@@ -8,38 +8,61 @@ str_créé_nouveau: "created new"
 str_Creer_: "Create "
 str__dans_Solr: " in Solr"
 str_DDDashMMDashYYYY_HHColonMM: "MM/DD/YYYY HH:MM AM"
+str_DDDashMMDashYYYY_HHColonmm: "MM/DD/YYYY h:mm a"
+str_ddDashMMDashyyyy_HHColonmm_VV: "MM/dd/yyyy h:mm a '['VV']'"
 
 classe:
   Todo: |
-    <h1>TODO: </h1>
+    <h3>TODO: </h3>
   Description: |
-    <h1>About the %s class and it's generated class %s&lt;%s&gt;: </h1>
+    <h3>About the %s class and it's generated class %s&lt;%s&gt;: </h3>
   Suggere: |
-    <h1>Suggestions that can generate more code for you: </h1>
-  inheritDoc:
-    suggere: |
-      <li>You can add a class comment "{@inheritDoc}" if you wish to inherit the helpful inherited class comments from class %s into the class %s. 
-      </li>
-  NomSimpleSuperGenerique:
-    commentaire: "Api: true"
-    todo: |
-      <li>This class %s should <code>extend %s&lt;Object&gt;</code>, or some other inherited class besides Object. 
-      By specifying a generic class inside of %s&lt;???&gt; means that the generated <code>class %s extends ???</code>, in other words class %s extends %s which extends ???. 
-      This generated inheritance is a powerful feature that allows a lot of boiler plate code to be created for you automatically while still preserving inheritance through the power of Java Generic classes. 
-      </li>
-    description: |
-      <p>This <code>class %s extends %s&lt;%s&gt;</code>, which means it extends a newly generated %s. 
-      The generated <code>class %s extends %s</code> which means that %s extends %s which extends %s. 
-      This generated inheritance is a powerful feature that allows a lot of boiler plate code to be created for you automatically while still preserving inheritance through the power of Java Generic classes. 
-      </p>
+    <h3>Suggestions that can generate more code for you: </h3>
 
   ref:
-    UnNom:
-      nom: "AName"
-      commentaire: "AName: %s"
+    01_commentaire:
+      nom: "01 Comments"
+      commentaire: "%s class comments"
       description: |
-        <p>This class contains a comment <b>"AName.enUS: %s"</b>, which identifies the language context to describe a %s as "%s". 
+        <p>
+        Given the Java class declaration with the given class comments below: 
         </p>
+        <pre>
+        /**
+        %s
+        **/
+        public class %s extends %s&lt;%s&gt; {
+        	...
+        }
+        </pre>
+    02_etend:
+      nom: "02 Extends"
+      commentaire: "extends %s"
+      description: |
+        <p>
+        This Java class extends a generated Java class %s built by the <a href="https://github.com/computate-org/computate">https://github.com/computate-org/computate</a> project. 
+        Whenever this Java class is modified or touched, the watch service installed as described in the README, indexes all the information about this Java class in a local Apache Solr Search Engine. 
+        If you are running the service, you can see the indexed data about this Java Class here: 
+        </p>
+        <p><a href="%s/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_%s_indexed_string:%s">Find the class %s in Solr. </a></p>
+        <p>
+        The extended class ending with "Gen" did not exist at first, but was automatically created by the same watch service based on the data retrieved from the local Apache Server search engine. 
+        The extended class contains many generated fields, getters, setters, initialization code, and helper methods to help build a website and API fast, reactive, and scalable. 
+        </p>
+    03_classeNomSimpleSuperGenerique:
+      nom: "03 Extends"
+      commentaire: "extends %s<%s>"
+      todo: |
+        This class %s should <code>extend %s&lt;Object&gt;</code>, or some other inherited class besides Object. 
+        By specifying a generic class inside of %s&lt;???&gt; means that the generated <code>class %s extends ???</code>, in other words class %s extends %s which extends ???. 
+        This generated inheritance is a powerful feature that allows a lot of boiler plate code to be created for you automatically while still preserving inheritance through the power of Java Generic classes. 
+      description: |
+        <p>This <code>class %s extends %s&lt;%s&gt;</code>, which means it extends a newly generated %s. 
+        The generated <code>class %s extends %s</code> which means that %s extends %s which extends %s. 
+        This generated inheritance is a powerful feature that allows a lot of boiler plate code to be created for you automatically while still preserving inheritance through the power of Java Generic classes. 
+        </p>
+
+
     Api:
       nom: "Api"
       commentaire: "Api: true"
@@ -47,29 +70,26 @@ classe:
         <p>This class contains a comment <b>"Api: true"</b>, which means this class will have Java Vert.x API backend code generated for these objects. 
         </p>
       suggere: |
-        <li>You can add a class comment <b>"Api: true"</b> if you wish to GET, POST, PATCH or PUT these %s objects in a RESTful API. 
-        </li>
+        You can add a class comment <b>"Api: true"</b> if you wish to GET, POST, PATCH or PUT these %s objects in a RESTful API. 
     ApiTag:
       nom: "ApiTag"
-      commentaire: "ApiTag.%s: ..."
+      commentaire: "ApiTag.%s: %s"
       description: |
         <p>This class contains a comment <b>"ApiTag: %s"</b>, which groups all of the OpenAPIs for %s objects under the tag "%s". 
         </p>
       todo: |
-        <li>You should add a class comment <b>"ApiTag.%s: ..."</b> to specify a group name for %s objects in the OpenAPI specification. 
+        You should add a class comment <b>"ApiTag.%s: ..."</b> to specify a group name for %s objects in the OpenAPI specification. 
         It can be as simple as "ApiTag.%s: %s". 
         The OpenAPI spec for this tag can then be automatically generated. 
-        </li>
     ApiUri:
       nom: "ApiUri"
-      commentaire: "ApiUri.%s: /api/..."
+      commentaire: "ApiUri.%s: %s"
       description: |
         <p>This class contains a comment <b>"ApiUri: %s"</b>, which defines the base API URI for %s objects as "%s" in the OpenAPI spec. 
         </p>
       todo: |
-        <li>You should add a class comment "ApiUri.%s: /api/..." to specify the base URL for %s objects in the RESTful API. 
+        You should add a class comment "ApiUri.%s: /api/..." to specify the base URL for %s objects in the RESTful API. 
         The OpenAPI spec and code to handle API requests to this base URL will then be automatically generated. 
-        </li>
     Couleur:
       nom: "Color"
       commentaire: "Color: %s"
@@ -86,7 +106,7 @@ classe:
         <p>This class contains a comment <b>"IconGroup: %s"</b>, which adds icons on the %s page with a group of "%s". 
         This will reference a Font Awesome icon group that starts with "fa-" followed by the icon group "%s", together is "fa-%s". 
         A Font Awesome icon group of "%s" is expected to exist. 
-        The Font Awesome groups currently supported include: solid, regular, light, thin, duotone, and sharp. 
+        The Font Awesome groups currently supported include: solid, regular, light, thin, duotone, sharp, and kit. 
         See: <a href="https://fontawesome.com/docs/web/dig-deeper/styles">https://fontawesome.com/docs/web/dig-deeper/styles</a>. 
         </p>
     IconeNom:
@@ -106,9 +126,16 @@ classe:
         Every protected void method that begins with "_" that is marked to be searched with a comment like "Indexed: true", "Stored: true", or "DocValues: true" will be indexed in the search engine. 
         </p>
       todo: |
-        <li>You should add a class comment "Indexed: true" because the GET, POST, PATCH and PUT APIs rely on a indexed data search engine to paginate, filter, sort and aggregate the data when it's queried. 
+        You should add a class comment "Indexed: true" because the GET, POST, PATCH and PUT APIs rely on a indexed data search engine to paginate, filter, sort and aggregate the data when it's queried. 
         The code to index and retrieve the %s data in the search engine will then be automatically generated. 
-        </li>
+    InheritDoc:
+      nom: "InheritDoc"
+      commentaire: "{@inheritDoc}"
+      description: |
+        <p>By adding a class comment "{@inheritDoc}", the %s class will inherit the helpful inherited class comments from the super class %s. 
+        </p>
+      suggere: |
+        You can add a class comment "{@inheritDoc}" if you wish to inherit the helpful inherited class comments from class %s into the class %s. 
     Lignes:
       nom: "Rows"
       commentaire: "Rows: %s"
@@ -117,10 +144,9 @@ classe:
         Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
         </p>
       suggere: |
-        <li>You can add a class comment "Rows: 100" if you wish the %s API to return more or less than 10 records by default. 
+        You can add a class comment "Rows: 100" if you wish the %s API to return more or less than 10 records by default. 
         In this case, the API will return 100 records from the API instead of 10 by default. 
         Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
-        </li>
     Modele:
       nom: "Model"
       commentaire: "Model: true"
@@ -129,9 +155,27 @@ classe:
         Every protected void method that begins with "_" that contains a "Persist: true" comment will be a persisted field in the database table. 
         </p>
       suggere: |
-        <li>You can add a class comment "Model: true" if you wish to persist these %s objects in a relational PostgreSQL database transactionally in the RESTful API. 
+        You can add a class comment "Model: true" if you wish to persist these %s objects in a relational PostgreSQL database transactionally in the RESTful API. 
         The code to persist and query the %s data in the database will then be automatically generated. 
-        </li>
+    Ordre:
+      nom: "Order"
+      commentaire: "Order: %s"
+      description: |
+        <p>This class contains a comment <b>"Order: %s"</b>, which means this class will be sorted by the given number %s ascending when code that relates to multiple classes at the same time is generated. 
+        </p>
+      suggere: |
+        You can add a class comment "Order: " followed by an Integer to sort this class compared to other classes in the project. 
+        There is code that is generated that queries several classes and writes code for each class in a sequence. 
+        The Order comment allows you do define which order the class code is generated. 
+    OrdreSql:
+      nom: "SqlOrder"
+      commentaire: "SqlOrder: %s"
+      description: |
+        <p>This class contains a comment <b>"SqlOrder: %s"</b>, which means this class will be sorted by the given number %s ascending when SQL code to create and drop the tables is generated. 
+        </p>
+      suggere: |
+        You can add a class comment "SqlOrder: " followed by an Integer to sort this class compared when generating the SQL code to create and drop tables. 
+        The Order comment allows you do define which order the SQL code is generated. 
     Page:
       nom: "Page"
       commentaire: "Page: true"
@@ -172,6 +216,21 @@ classe:
         </p>
         <p>
           If a super class of this Java class with `Model: true`, then the child class will also inherit `Promise: true`. 
+        </p>
+    Role:
+      nom: "Role"
+      commentaire: "Role.%s: %s"
+      description: |
+        <p>
+        This class contains a comment <b>"Role.%s: %s"</b>, which identifies the default role name "%s" of the OAuth2/OpenID Connect user role required to access this %s API. 
+        It's possible to reconfigure the roles required to access the %s API by configuring an environment variable like this: 
+        </p>
+        <pre>AUTH_ROLES_REQUIRED_%s: ["%s"]</pre>
+    UnNom:
+      nom: "AName"
+      commentaire: "AName.%s: %s"
+      description: |
+        <p>This class contains a comment <b>"AName.%s: %s"</b>, which identifies the language context to describe a %s as "%s". 
         </p>
 
 str_deuxPoints: ": "
@@ -262,6 +321,7 @@ var_classeIconeClassesCss: "classIconCssClasses"
 var_CLASSE_CHEMIN_ABSOLU: "CLASS_ABSOLUTE_PATH"
 var_CLASSE_NOM_SIMPLE: "CLASS_SIMPLE_NAME"
 var_classe: "class"
+var_Classe: "Class"
 var_classeNomCanonique: "classCanonicalName"
 var_classeNomsCanoniques: "classCanonicalNames"
 var_classeNomSimple: "classSimpleName"
@@ -467,6 +527,7 @@ var_objetTexte: "objectText"
 var_objetTitre: "objectTitle"
 var_obtenir: "obtain"
 var_Optionnel: "Optional"
+var_Ordre: "Order"
 var_OutilRecherche: "SearchTool"
 var_pageActuel: "currentPage"
 var_page: "page"
@@ -563,6 +624,7 @@ var_SITE_ZONE: "SITE_ZONE"
 var_SOLR_URL_COMPUTATE: "SOLR_URL_COMPUTATE"
 var_solrUrl: "solrUrl"
 var_SOLR_URL: "SOLR_URL"
+var_OrdreSql: "SqlOrder"
 var_statiqueUrlBase: "staticBaseUrl"
 var_Stats: "Stats"
 var_stats: "stats"

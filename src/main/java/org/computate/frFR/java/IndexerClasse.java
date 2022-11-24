@@ -677,10 +677,9 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	private String classeIconeNom;
 
-	/**
-	 * Var.enUS: contextRows
-	 */
 	private Integer classeLignes;
+	private Integer classeOrdre;
+	private Integer classeOrdreSql;
 
 	/**
 	 * Var.enUS: populateQdoxSuperClassesInterfacesAndMe
@@ -5359,13 +5358,11 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalTime)) {
 							entiteTypeJson = "string";
-							entiteFormatJson = "date-time";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "short";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueDate, VAL_nomCanoniqueZonedDateTime)) {
 							entiteTypeJson = "string";
-							entiteFormatJson = "date-time";
 							if(entiteFormatHtm == null) {
 								if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueTimestamp))
 									entiteFormatHtm = "yyyy-MM-dd'T'HH:mm:ss.SSS";
@@ -6053,6 +6050,8 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Map", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.concurrent.TimeUnit", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.Instant", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.time.Duration", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.computate.search.response.solr.SolrResponse.StatsField", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Collectors", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.Json", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", classeLangueNom), classeLangueNom);
@@ -6475,6 +6474,14 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classeLignesStr = regex("^" + classeLangueConfig.getString(ConfigCles.var_Lignes) + ":\\s*(.*)", classeCommentaire);
 			if(NumberUtils.isParsable(classeLignesStr))
 				classeLignes = indexerStockerSolr(classeDoc, "classeLignes", Integer.parseInt(classeLignesStr)); 
+
+			String classeOrdreStr = regex("^" + classeLangueConfig.getString(ConfigCles.var_Ordre) + ":\\s*(.*)", classeCommentaire);
+			if(NumberUtils.isParsable(classeOrdreStr))
+				classeOrdre = indexerStockerSolr(classeDoc, "classeOrdre", Integer.parseInt(classeOrdreStr)); 
+
+			String classeOrdreSqlStr = regex("^" + classeLangueConfig.getString(ConfigCles.var_OrdreSql) + ":\\s*(.*)", classeCommentaire);
+			if(NumberUtils.isParsable(classeOrdreSqlStr))
+				classeOrdreSql = indexerStockerSolr(classeDoc, "classeOrdreSql", Integer.parseInt(classeOrdreSqlStr)); 
 
 			for(String langueNom : toutesLangues) {
 

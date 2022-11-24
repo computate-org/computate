@@ -354,10 +354,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected Boolean classeRolesTrouves;
 
-	/**
-	 * Var.enUS: classRoles
-	 */
 	protected List<String> classeRoles;
+	protected List<String> classeRolesLangue;
 
 	/**
 	 * Var.enUS: classRoleLiresFound
@@ -824,10 +822,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String classeIconeNom;
 
-	/**
-	 * Var.enUS: contextRows
-	 */
 	protected Integer classeLignes;
+	protected Integer classeOrdre;
+	protected Integer classeOrdreSql;
 
 	protected String classeUri;
 
@@ -3155,7 +3152,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						if(StringUtils.isBlank(entiteValLangue))
 							entiteValLangue = langueNom2;
 						entiteValVarLangue = entiteValVar + entiteValLangue;
-						entiteValCode = entiteValsCode == null ? "" : entiteValsCode.get(j);
+//						entiteValCode = entiteValsCode == null ? "" : entiteValsCode.get(j);
 						entiteValValeur = entiteValsValeur.get(j);
 		
 						Integer xmlPart = 0;
@@ -5491,7 +5488,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			else if("LocalDate".equals(entiteNomSimple)) {
 				tl(14, "<input");
 				tl(16, "type=\"date\"");
-				tl(16, "class=\"w3-input w3-border set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(16, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				if(entiteDescription != null)
 					tl(16, "title=\"", entiteDescription, " (", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), ")\"");
@@ -5509,20 +5506,25 @@ public class EcrireGenClasse extends EcrireClasse {
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
 				tl(14, "<input");
 				tl(16, "type=\"text\"");
-				tl(16, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
-				tl(16, "placeholder=\"", langueConfig.getString(ConfigCles.str_DDDashMMDashYYYY_HHColonMM), "\"");
-				tl(16, "data-timeformat=\"", langueConfig.getString(ConfigCles.var_ddDashMMDashyyyy), "\"");
+				tl(16, "class=\"w3-input w3-border datetimepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "placeholder=\"", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), "\"");
+				tl(16, "data-timeformat=\"", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), "\"");
 				tl(16, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				if(entiteDescription != null)
-					tl(16, "title=\"", entiteDescription, " (", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), ")\"");
+					tl(16, "title=\"", entiteDescription, " (", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), ")\"");
 //				tl(4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", langueConfig.getString(ConfigCles.var_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV), "\").format(", entiteVar, "));");
-				tl(16, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
+				tl(16, "value=\"{{#if ", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " \"", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), "\" defaultLocaleId defaultZoneId}}{{/if}}\"");
 				tl(14, "{{#eq 'Page' ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 				tl(15, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "($(this)); \";");
 				t(15, "onchange=\"");
-					s("var t = moment(this.value, '", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), "'); ");
+					s("var timeZone = this.value.split('[').pop().split(']')[0]; ");
+					s("var t1 = moment(this.value.split('[')[0].trim(), '", langueConfig.getString(ConfigCles.str_DDDashMMDashYYYY_HHColonmm), "'); ");
+					s("var t2 = moment.tz(this.value.split('[')[0].trim(), '", langueConfig.getString(ConfigCles.str_DDDashMMDashYYYY_HHColonmm), "', timeZone); ");
+					s("var t3 = new Date(t1._d); ");
+					s("t3.setTime(t1.toDate().getTime() + t2.toDate().getTime() - t1.toDate().getTime()); ");
+					s("var t = moment(t3); ");
 					s("if(t) { ");
-						s("var s = t.format('YYYY-MM-DD'); ");
+						s("var s = t.tz(timeZone).format('YYYY-MM-DDTHH:mm:ss.000') + '[' + timeZone + ']'; ");
 						s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
@@ -5532,7 +5534,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			else if("LocalTime".equals(entiteNomSimple)) {
 				tl(14, "<input");
 				tl(16, "type=\"text\"");
-				tl(16, "class=\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+				tl(16, "class=\"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(16, "placeholder=\"", langueConfig.getString(ConfigCles.var_HHColonMM), "\"");
 				tl(16, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
@@ -6809,7 +6811,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			ObjectMapper jsonWriter = new ObjectMapper();
 			JsonObject langueConfigJson = new JsonObject(jsonWriter.writeValueAsString(obj));
 			// Todo
-			s(ecrireClasseCommentaire(langueConfigJson, siteNom));
+			ecrireClasseCommentaire(langueConfigJson, siteNom, langueNom);
 			l(" **/");  
 		}
 
@@ -6860,117 +6862,43 @@ public class EcrireGenClasse extends EcrireClasse {
         return list.toArray(new String[list.size()]);
     }
 
-    public String ecrireClasseCommentaire(JsonObject langueConfig, String siteNom) {
+    public void ecrireClasseCommentaireChamp(String langueNom, JsonObject jsonObject, String champ1, String champ2, ToutEcrivain w, Boolean condition, Object... formatValues) {
+		StringBuilder b = new StringBuilder();
+		JsonObject jsonObject2 = jsonObject.getJsonObject(champ1);
+		JsonObject jsonObjectLangue = jsonObject.getJsonObject(langueNom);
+		if(jsonObjectLangue == null) {
+			jsonObjectLangue = new JsonObject();
+			jsonObject.put(langueNom, jsonObjectLangue);
+		}
+		String champ1Langue = Optional.ofNullable(jsonObject2.getString("nom")).orElse(champ1);
+		JsonObject jsonObject2Langue = jsonObjectLangue.getJsonObject(champ1Langue);
+		if(jsonObject2Langue == null) {
+			jsonObject2Langue = new JsonObject();
+			jsonObjectLangue.put(champ1Langue, jsonObject2Langue);
+			jsonObject2Langue.put("nom", champ1Langue);
+		}
+
+		Arrays.asList(String.format(jsonObject2.getString(champ2), formatValues).split("\n")).stream().forEach(s -> {
+			b.append(s).append("\n");
+		});
+		if(condition && !"01_commentaire".equals(champ1)) {
+			if("suggere".equals(champ2) || "todo".equals(champ2))
+				w.s("<li>", b.toString(), "</li>");
+			else
+				w.s(b.toString());
+		}
+		if(!"todo".equals(champ2))
+			jsonObject2Langue.put(champ2, b.toString());
+		
+	}
+
+	public void ecrireClasseCommentaire(JsonObject langueConfig, String siteNom, String langueNom) {
 		ToutEcrivain wClasseTodos = ToutEcrivain.create();
 		ToutEcrivain wClasseSuggere = ToutEcrivain.create();
 		ToutEcrivain wClasseDescription = ToutEcrivain.create();
 
 		JsonObject classe = langueConfig.getJsonObject("classe");
 		JsonObject classeRef = classe.getJsonObject("ref");
-
-		// Todos
-
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classe.getJsonObject("NomSimpleSuperGenerique").getString("todo"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeNomSimpleSuperGenerique == null)
-				wClasseTodos.s(0, b.toString());
-			classe.getJsonObject("NomSimpleSuperGenerique").put("todo", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("Indexe").getString("todo"), classeNomSimple).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeApi && !classeIndexe)
-				wClasseTodos.s(0, b.toString());
-			classeRef.getJsonObject("Indexe").put("todo", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("ApiUri").getString("todo"), classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeApi && classeApiUri == null)
-				wClasseTodos.s(0, b.toString());
-			classeRef.getJsonObject("ApiUri").put("todo", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("ApiTag").getString("todo"), classeLangueNom, classeNomSimple, classeLangueNom, classeNomSimple).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeApi && classeApiTag == null)
-				wClasseTodos.s(0, b.toString());
-			classeRef.getJsonObject("ApiTag").put("todo", b.toString());
-		}
-
-		if(!wClasseTodos.getEmpty()) {
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classe.getString("Todo")).split("\n")).stream().forEach(s -> {
-				b.insert(0, s);
-			});
-			wClasseTodos.s(0, b.toString());
-			classe.put("Todo", b.toString());
-
-			tl(0, "<ol>");
-			s(wClasseTodos);
-			tl(0, "</ol>");
-		}
-
-		// Suggere
-
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classe.getJsonObject("inheritDoc").getString("suggere"), classeNomSimpleGen, classeNomSimple).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(Optional.ofNullable(classeCommentaire).map(commentaire -> !commentaire.contains("{@inheritDoc}")).orElse(false))
-				wClasseSuggere.s(0, b.toString());
-			classe.getJsonObject("inheritDoc").put("suggere", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("Api").getString("suggere"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeNomSimpleSuperGenerique != null && !classeApi)
-				wClasseSuggere.s(0, b.toString());
-			classeRef.getJsonObject("Api").put("suggere", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("Modele").getString("suggere"), classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeApi && !classeModele)
-				wClasseSuggere.s(0, b.toString());
-			classeRef.getJsonObject("Modele").put("suggere", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("Lignes").getString("suggere"), classeNomSimple).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeApi && classeLignes == null)
-				wClasseSuggere.s(0, b.toString());
-			classeRef.getJsonObject("Lignes").put("suggere", b.toString());
-		}
-
-		if(!wClasseSuggere.getEmpty()) {
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classe.getString("Suggere")).split("\n")).stream().forEach(s -> {
-				b.insert(0, s);
-			});
-			wClasseSuggere.s(0, b.toString());
-			classe.put("Suggere", b.toString());
-
-			tl(0, "<ol>");
-			s(wClasseSuggere);
-			tl(0, "</ol>");
-		}
 
 		// Description
 
@@ -6979,137 +6907,272 @@ public class EcrireGenClasse extends EcrireClasse {
 			Arrays.asList(String.format(classe.getString("Description"), classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique).split("\n")).stream().forEach(s -> {
 				b.insert(0, s);
 			});
-			wClasseDescription.s(0, b.toString());
+			wClasseDescription.s(b.toString());
 			classe.put("Description", b.toString());
 		}
 
-		wClasseDescription.tl(0, "<p>");
-		wClasseDescription.tl(0, "This Java class extends a generated Java class built by the <a href=\"https://github.com/computate-org/computate\">https://github.com/computate-org/computate</a> project. ");
-		wClasseDescription.tl(0, "Whenever this Java class is modified or touched, the watch service installed as described in the README, indexes all the information about this Java class in a local Apache Solr Search Engine. ");
-		wClasseDescription.tl(0, "If you are running the service, you can see the indexed data about this Java Class here: ");
-		wClasseDescription.tl(0, "</p>");
-		wClasseDescription.tl(0, "<p><a href=\"", solrUrlComputate, "/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "\">", langueConfig.getString(ConfigCles.str_Trouver_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ". </a></p>");
-		wClasseDescription.tl(0, "<p>");
-		wClasseDescription.tl(0, "The extended class ending with \"Gen\" did not exist at first, but was automatically created by the same watch service based on the data retrieved from the local Apache Server search engine. ");
-		wClasseDescription.tl(0, "The extended class contains many generated fields, getters, setters, initialization code, and helper methods to help build a website and API fast, reactive, and scalable. ");
-		wClasseDescription.tl(0, "</p>");
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "01_commentaire", "commentaire", wClasseDescription
+				, true
+				, classeNomSimpleGen
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "01_commentaire", "description", wClasseDescription
+				, true
+				, strCommentairePart(classeCommentaire, 0).trim(), classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique
+				);
 
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(classeRef.getJsonObject("Modele").getString("description").split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeModele)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("Modele").put("description", b.toString());
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "02_etend", "commentaire", wClasseDescription
+				, true
+				, classeNomSimpleGen
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "02_etend", "description", wClasseDescription
+				, classeEtendGen
+				, classeNomSimpleGen, solrUrlComputate, langueNom, ClientUtils.escapeQueryChars(classeNomCanonique), classeNomSimple
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "03_classeNomSimpleSuperGenerique", "commentaire", wClasseDescription
+				, true
+				, classeNomSimpleGen, classeNomSimpleSuperGenerique
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "03_classeNomSimpleSuperGenerique", "todo", wClasseTodos
+				, classeNomSimpleSuperGenerique == null
+				, classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "03_classeNomSimpleSuperGenerique", "description", wClasseDescription
+				, classeEtendGen
+				, classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleSuperGenerique, classeNomSimple, classeNomSimpleGen, classeNomSimpleSuperGenerique
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Api", "commentaire", wClasseDescription
+				, true
+				
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Api", "description", wClasseDescription
+				, classeApi
+				
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Api", "suggere", wClasseSuggere
+				, classeNomSimpleSuperGenerique != null && !classeApi
+				, classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiTag", "commentaire", wClasseDescription
+				, true
+				, langueNom, classeApiTag
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiTag", "description", wClasseDescription
+				, classeApiTag != null
+				, classeApiTag, classeNomSimple, classeApiTag
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiTag", "todo", wClasseTodos
+				, classeApi && classeApiTag == null
+				, langueNom, classeNomSimple, langueNom, classeNomSimple
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiUri", "commentaire", wClasseDescription
+				, true
+				, langueNom, classeApiUri
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiUri", "description", wClasseDescription
+				, classeApiUri != null
+				, classeApiUri, classeNomSimple, classeApiUri
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiUri", "todo", wClasseTodos
+				, classeApi && classeApiUri == null
+				, langueNom, classeNomSimple
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Couleur", "commentaire", wClasseDescription
+				, true
+				, classeCouleur
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Couleur", "description", wClasseDescription
+				, classeCouleur != null
+				, classeCouleur, classeNomSimple, classeCouleur, classeCouleur
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "IconeGroupe", "commentaire", wClasseDescription
+				, true
+				, classeIconeGroupe
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "IconeGroupe", "description", wClasseDescription
+				, classeIconeGroupe != null
+				, classeIconeGroupe, classeNomSimple, classeIconeGroupe, classeIconeGroupe, classeIconeGroupe, classeIconeGroupe
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "IconeNom", "commentaire", wClasseDescription
+				, true
+				, classeIconeNom
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "IconeNom", "description", wClasseDescription
+				, classeIconeNom != null
+				, classeIconeNom, classeNomSimple, classeIconeNom, classeIconeGroupe, classeIconeGroupe, classeIconeNom, classeIconeGroupe, classeIconeNom, classeIconeGroupe, classeIconeNom
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Indexe", "commentaire", wClasseDescription
+				, true
+				
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Indexe", "description", wClasseDescription
+				, classeIndexe
+				
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Indexe", "todo", wClasseTodos
+				, classeApi && !classeIndexe
+				, classeNomSimple
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "InheritDoc", "commentaire", wClasseDescription
+				, true
+				
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "InheritDoc", "description", wClasseDescription
+				, true
+				, classeNomSimple, classeNomSimpleGen
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "InheritDoc", "suggere", wClasseSuggere
+				, Optional.ofNullable(classeCommentaire).map(commentaire -> !commentaire.contains("{@inheritDoc}")).orElse(false)
+				, classeNomSimpleGen, classeNomSimple
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Lignes", "commentaire", wClasseDescription
+				, true
+				, classeLignes
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Lignes", "description", wClasseDescription
+				, classeLignes != null
+				, classeLignes, classeNomSimple, classeLignes
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Lignes", "suggere", wClasseSuggere
+				, classeApi && classeLignes == null
+				, classeNomSimple
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Ordre", "commentaire", wClasseDescription
+				, classeOrdre != null
+				, classeOrdre
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Ordre", "description", wClasseDescription
+				, classeOrdre != null
+				, classeOrdre, classeOrdre
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Ordre", "suggere", wClasseSuggere
+				, classeApi && classeOrdre == null
+				
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "OrdreSql", "commentaire", wClasseDescription
+				, classeOrdreSql != null
+				, classeOrdreSql
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "OrdreSql", "description", wClasseDescription
+				, classeOrdreSql != null
+				, classeOrdreSql, classeOrdreSql
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "OrdreSql", "suggere", wClasseSuggere
+				, classeModele && classeOrdreSql == null
+				
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Modele", "commentaire", wClasseDescription
+				, true
+				
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Modele", "description", wClasseDescription
+				, classeModele
+				
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Modele", "suggere", wClasseSuggere
+				, classeApi && !classeModele
+				, classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Page", "commentaire", wClasseDescription
+				, true
+				
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Page", "description", wClasseDescription
+				, classePage
+				, classePageNomCanonique
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "PageSuper", "commentaire", wClasseDescription
+				, true
+				, langueNom, classePageSuperNomSimple
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "PageSuper", "description", wClasseDescription
+				, classePageSuperNomSimple != null
+				, classePageSuperNomSimple, classePageSuperNomSimple, classePageNomCanonique, classePageSuperNomCanonique
+				);
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Promesse", "commentaire", wClasseDescription
+				, true
+				
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "Promesse", "description", wClasseDescription
+				, classePromesse
+				, classePromesse, classeNomSimple
+				);
+
+		for(Integer i = 0; i < classeRoles.size(); i++) {
+			String classeRole = classeRoles.get(i);
+			String classeRoleLangue = classeRolesLangue.get(i);
+
+			if(langueNom.equals(classeRoleLangue)) {
+				ecrireClasseCommentaireChamp(langueNom, classeRef, "Role", "commentaire", wClasseDescription
+						, true
+						, classeRoleLangue, classeRole
+						);
+				ecrireClasseCommentaireChamp(langueNom, classeRef, "Role", "description", wClasseDescription
+						, true
+						, classeRoleLangue, classeRole, classeRole, classeNomSimple, classeNomSimple, classeNomSimple, classeRole
+						);
+			}
 		}
-		{
+
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "UnNom", "commentaire", wClasseDescription
+				, true
+				, langueNom, classeUnNom
+				);
+		ecrireClasseCommentaireChamp(langueNom, classeRef, "UnNom", "description", wClasseDescription
+				, classeUnNom != null
+				, langueNom, classeUnNom, classeNomSimple, classeUnNom
+				);
+
+		// Todos
+
+		if(!wClasseTodos.getEmpty()) {
+			ecrireClasseCommentaireChamp(langueNom, classe, "Todo", null, wClasseTodos
+					, classeNomSimpleSuperGenerique == null
+					, classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen
+					);
 			StringBuilder b = new StringBuilder();
-			Arrays.asList(classeRef.getJsonObject("Indexe").getString("description").split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
+			Arrays.asList(String.format(classe.getString("Todo")).split("\n")).stream().forEach(s -> {
+				b.insert(0, s);
 			});
-			if(classeIndexe)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("Indexe").put("description", b.toString());
+
+			if(o != null) {
+				tl(0, "<ol>");
+				s(0, b.toString());
+				tl(0, "</ol>");
+			}
+
+			classe.put("Todo", b.toString());
 		}
-		{
+
+		// Suggere
+
+		if(!wClasseSuggere.getEmpty()) {
 			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("Page").getString("description"), classePageNomCanonique).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
+			Arrays.asList(String.format(classe.getString("Suggere")).split("\n")).stream().forEach(s -> {
+				b.insert(0, s);
 			});
-			if(classePage)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("Page").put("description", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("PageSuper").getString("description"), classePageSuperNomSimple, classePageSuperNomSimple, classePageNomCanonique, classePageSuperNomCanonique).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classePageSuperNomSimple != null)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("PageSuper").put("description", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(classeRef.getJsonObject("Api").getString("description").split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeApi)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("Api").put("description", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("ApiTag").getString("description"), classeApiTag, classeNomSimple, classeApiTag).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeApiTag != null)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("ApiTag").put("description", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("ApiUri").getString("description"), classeApiUri, classeNomSimple, classeApiUri).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeApiUri != null)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("ApiUri").put("description", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("Lignes").getString("description"), classeLignes, classeNomSimple, classeLignes).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeLignes != null)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("Lignes").put("description", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("Promesse").getString("description"), classePromesse, classeNomSimple).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classePromesse != null)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("Promesse").put("description", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("UnNom").getString("description"), classeUnNom, classeNomSimple, classeUnNom).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeUnNom != null)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("UnNom").put("description", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("Couleur").getString("description"), classeCouleur, classeNomSimple, classeCouleur, classeCouleur).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeCouleur != null)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("Couleur").put("description", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("IconeGroupe").getString("description"), classeIconeGroupe, classeNomSimple, classeIconeGroupe, classeIconeGroupe, classeIconeGroupe, classeIconeGroupe).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeIconeGroupe != null)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("IconeGroupe").put("description", b.toString());
-		}
-		{
-			StringBuilder b = new StringBuilder();
-			Arrays.asList(String.format(classeRef.getJsonObject("IconeNom").getString("description"), classeIconeNom, classeNomSimple, classeIconeNom, classeIconeGroupe, classeIconeGroupe, classeIconeNom, classeIconeGroupe, classeIconeNom, classeIconeGroupe, classeIconeNom).split("\n")).stream().forEach(s -> {
-				b.append(s).append("\n");
-			});
-			if(classeIconeNom != null)
-				wClasseDescription.s(0, b.toString());
-			classeRef.getJsonObject("IconeNom").put("description", b.toString());
+			if(o != null) {
+				tl(0, "<ol>");
+				s(0, b.toString());
+				tl(0, "</ol>");
+			}
+
+			classe.put("Suggere", b.toString());
 		}
 
 		wClasseDescription.tl(0, "<p>");
@@ -7125,6 +7188,10 @@ public class EcrireGenClasse extends EcrireClasse {
 		wClasseDescription.tl(0, "curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
 
-		return String.format("%s%s%s", wClasseTodos.toString(), wClasseSuggere.toString(), wClasseDescription.toString());
-    }
+		if(o != null) {
+			ecrireCommentairePart(wClasseTodos.toString(), 0); 
+			ecrireCommentairePart(wClasseSuggere.toString(), 0); 
+			ecrireCommentairePart(wClasseDescription.toString(), 0); 
+		}
+	}
 }

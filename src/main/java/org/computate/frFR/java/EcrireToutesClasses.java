@@ -300,13 +300,16 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeRolesTrouves = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeRolesTrouves_stored_boolean"));
 		List<String> classeRolesTemp = Optional.ofNullable(doc.getJsonArray("classeRoles_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 		List<String> classeRolesLangue = Optional.ofNullable(doc.getJsonArray("classeRolesLangue_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
-		classeRoles = new ArrayList<>();
+		this.classeRoles = new ArrayList<>();
+		this.classeRolesLangue = new ArrayList<>();
 		if(classeRolesTemp != null) {
 			for(Integer j = 0; j < classeRolesTemp.size(); j++) {
 				String classeRole = classeRolesTemp.get(j);
 				String classeRoleLangue = classeRolesLangue.get(j);
-				if(langueNom.equals(classeRoleLangue))
-					classeRoles.add(classeRole);
+				if(langueNom.equals(classeRoleLangue)) {
+					this.classeRoles.add(classeRole);
+					this.classeRolesLangue.add(classeRoleLangue);
+				}
 			}
 		}
 
@@ -345,6 +348,8 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeIconeGroupe = doc.getString("classeIconeGroupe_stored_string");
 		classeIconeNom = doc.getString("classeIconeNom_stored_string");
 		classeLignes = (Integer)doc.getInteger("classeLignes_stored_int");
+		classeOrdre = (Integer)doc.getInteger("classeOrdre_stored_int");
+		classeOrdreSql = (Integer)doc.getInteger("classeOrdreSql_stored_int");
 
 		classeDescription = doc.getString("classeDescription" + "_" + langueNom + "_stored_string");
 		classeImageLargeur = (Integer)doc.getInteger("classeImageLargeur" + "_" + langueNom + "_stored_int");

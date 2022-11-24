@@ -25,6 +25,8 @@ public class ConfigCles {
 	public static final String str_Creer_ = "str_Creer_";
 	public static final String str__dans_Solr = "str__dans_Solr";
 	public static final String str_DDDashMMDashYYYY_HHColonMM = "str_DDDashMMDashYYYY_HHColonMM";
+	public static final String str_DDDashMMDashYYYY_HHColonmm = "str_DDDashMMDashYYYY_HHColonmm";
+	public static final String str_ddDashMMDashyyyy_HHColonmm_VV = "str_ddDashMMDashyyyy_HHColonmm_VV";
 	public static final String str_deuxPoints = "str_deuxPoints";
 	public static final String str_Dupliquer_ = "str_Dupliquer_";
 	public static final String str_EEE_d_MMM_yyyy = "str_EEE_d_MMM_yyyy";
@@ -107,6 +109,7 @@ public class ConfigCles {
 	public static final String var_CLASSE_CHEMIN_ABSOLU = "var_CLASSE_CHEMIN_ABSOLU";
 	public static final String var_CLASSE_NOM_SIMPLE = "var_CLASSE_NOM_SIMPLE";
 	public static final String var_classe = "var_classe";
+	public static final String var_Classe = "var_Classe";
 	public static final String var_classeNomCanonique = "var_classeNomCanonique";
 	public static final String var_classeNomsCanoniques = "var_classeNomsCanoniques";
 	public static final String var_classeNomSimple = "var_classeNomSimple";
@@ -314,6 +317,7 @@ public class ConfigCles {
 	public static final String var_objetTitre = "var_objetTitre";
 	public static final String var_obtenir = "var_obtenir";
 	public static final String var_Optionnel = "var_Optionnel";
+	public static final String var_Ordre = "var_Ordre";
 	public static final String var_OutilRecherche = "var_OutilRecherche";
 	public static final String var_pageActuel = "var_pageActuel";
 	public static final String var_page = "var_page";
@@ -410,6 +414,7 @@ public class ConfigCles {
 	public static final String var_SOLR_URL_COMPUTATE = "var_SOLR_URL_COMPUTATE";
 	public static final String var_solrUrl = "var_solrUrl";
 	public static final String var_SOLR_URL = "var_SOLR_URL";
+	public static final String var_OrdreSql = "var_OrdreSql";
 	public static final String var_statiqueUrlBase = "var_statiqueUrlBase";
 	public static final String var_Stats = "var_Stats";
 	public static final String var_stats = "var_stats";
