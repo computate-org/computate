@@ -2505,12 +2505,10 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		String methodeVar = doc.getString("methodeVar_" + langueNom + "_stored_string");
 
-		ToutEcrivain methodeValsEcrivain = ToutEcrivain.create();
 		List<String> methodeValsVar = Optional.ofNullable(doc.getJsonArray("methodeValsVar_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 		List<String> methodeValsLangue = Optional.ofNullable(doc.getJsonArray("methodeValsLangue_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
-		List<String> methodeValsCode = Optional.ofNullable(doc.getJsonArray("methodeValsCode_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 		List<String> methodeValsValeur = Optional.ofNullable(doc.getJsonArray("methodeValsValeur_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
-		if(methodeValsVar != null && methodeValsLangue != null && methodeValsValeur != null) {
+		if(methodeValsVar.size() > 0 && methodeValsLangue.size() > 0 && methodeValsValeur.size() > 0) {
 			String methodeValVarAncien = null;
 			Integer methodeValVarNumero = 0;
 			String methodeValVar = null;
@@ -2528,10 +2526,8 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(StringUtils.isBlank(methodeValLangue))
 					methodeValLangue = langueNom;
 				methodeValVarLangue = methodeValVar + methodeValLangue;
-				methodeValCode = methodeValsCode == null ? "" : methodeValsCode.get(j);
 				methodeValValeur = methodeValsValeur.get(j);
 
-				Integer xmlPart = 0;
 				if(!StringUtils.equals(methodeValVarLangue, methodeValVarLangueAncien) && (StringUtils.equals(methodeValVarLangueAncien, methodeValVarAncien + langueNom))) {
 					t(1, "public static final String ", methodeVar, methodeValVarAncien, " = ");
 					for(int k = 1; k <= methodeValVarNumero; k++) {
@@ -2549,99 +2545,6 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(!classeVals.getEmpty())
 						classeVals.s(", ");
 					classeVals.s(methodeVar, methodeValVar, methodeValVarNumero);
-//					{
-//						String[] parts = splitByCharacterTypeCamelCase(methodeValVar);
-//						Boolean html = false;
-//						for(Integer p = 0; p < parts.length; p++) {
-//							String part = StringUtils.uncapitalize(parts[p]);
-//
-//							Matcher regex = Pattern.compile("^(\\w+?)(\\d*)$").matcher(part);
-//							boolean trouve = regex.find();
-//							if(trouve) {
-//								String element = StringUtils.lowerCase(regex.group(1));
-//								String numeroStr = regex.group(2);
-//								Integer numero = StringUtils.isEmpty(numeroStr) ? null : Integer.parseInt(numeroStr);
-//								if("h".equals(element)) {
-//									element += numero;
-//									numero = null;
-//								}
-//
-////									methodeValsEcrivain.t(1);
-//								if(StringUtils.equalsAny(element, HTML_ELEMENTS)) {
-//									html = true;
-//
-//									String css = methodeVar;
-//									for(Integer r = 0; r <= xmlPart; r++) {
-//										String s = parts[r];
-//										css += s;
-//									}
-//									css += " ";
-//
-//									String cssNumero = numero == null ? "" : (StringUtils.substringBeforeLast(StringUtils.substringBeforeLast(css, numero.toString()), "0") + (numero % 2 == 0 ? " even " : " odd "));
-//
-//									if(numero == null)
-//										numero = 1;
-//
-//									if(methodeXmlPile.size() < (xmlPart + 1)) {
-//										if("i".equals(element))
-//											methodeValsEcrivain.tl(2 + xmlPart, "<", element, "class=\", ", methodeVar, methodeValVar, methodeValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\">");
-//										else if("a".equals(element))
-//											methodeValsEcrivain.tl(2 + xmlPart, "<", element, "class=\", \" ", css, cssNumero, "\").a(\"href\", ", methodeVar, methodeValVar, methodeValVarNumero, ").f();");
-//										else if("br".equals(element))
-//											methodeValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
-//										else if("td".equals(element))
-//											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
-//										else
-//											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
-//
-//										if(!"br".equals(element)) {
-//											methodeXmlPile.push(element);
-//											methodeNumeroPile.push(numero);
-//											xmlPart++;
-//										}
-//									}
-//									else if(StringUtils.equals(element, methodeXmlPile.get(xmlPart)) && numero.equals(methodeNumeroPile.get(xmlPart))) {
-//										xmlPart++;
-//									}
-//									else {
-//										while(methodeXmlPile.size() > xmlPart) {
-//											methodeValsEcrivain.tl(1 + methodeXmlPile.size(), "} g(\"", methodeXmlPile.peek(), "\");");
-//											methodeXmlPile.pop();
-//											methodeNumeroPile.pop();
-//										}
-//										if("i".equals(element))
-//											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", ", methodeVar, methodeValVar, methodeValVarNumero, ", \" site-menu-icon ", css, cssNumero, "\").f();");
-//										else if("a".equals(element))
-//											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").a(\"href\", ", methodeVar, methodeValVar, methodeValVarNumero, ").f();");
-//										else if("br".equals(element))
-//											methodeValsEcrivain.tl(2 + xmlPart, "e(\"", element, "\").fg();");
-//										else if("td".equals(element))
-//											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" w3-mobile ", css, cssNumero, "\").f();");
-//										else
-//											methodeValsEcrivain.tl(2 + xmlPart, "{ e(\"", element, "\").a(\"class\", \" ", css, cssNumero, "\").f();");
-//
-//										if(!"br".equals(element)) {
-//											methodeXmlPile.push(element);
-//											methodeNumeroPile.push(numero);
-//											xmlPart++;
-//										}
-//									}
-//								}
-//							}
-//						}
-//						if(html && !"i".equals(methodeXmlPile.peek())) {
-//							Integer p = methodeXmlPile.size();
-//							if(StringUtils.isEmpty(methodeValCode)) {
-//								methodeValsEcrivain.tl(2 + p, "sx(", methodeVar, methodeValVar, methodeValVarNumero, ");");
-//							}
-//							else {
-//								if(classeEntiteVars.contains("utilisateurId"))
-//									methodeValsEcrivain.tl(2 + p, "sx(utilisateurId == null ? ", methodeVar, methodeValVar, methodeValVarNumero, " : ", methodeValCode, ");");
-//								else
-//									methodeValsEcrivain.tl(2 + p, "sx(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getUtilisateurId() == null ? ", methodeVar, methodeValVar, methodeValVarNumero, " : ", methodeValCode, ");");
-//							}
-//						}
-//					}
 				}
 
 				methodeValVarAncien = methodeValVar;
@@ -2664,11 +2567,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 			}
 			l();
-
-//			for(int q = methodeXmlPile.size() - 1; q >= 0; q--) {
-//				methodeValsEcrivain.tl(2 + q, "} g(\"", methodeXmlPile.get(q), "\");");
-//				methodeXmlPile.pop();
-//			}
 		}
 	}
 
