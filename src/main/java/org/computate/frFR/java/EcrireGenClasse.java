@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,6 +39,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.configuration2.YAMLConfiguration;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -50,6 +52,7 @@ import org.apache.solr.common.SolrDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -778,6 +781,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeVarH2;
 
 	protected String classeVarH3;
+
+	protected String classeSmartDataDomain;
+	protected String classeSmartDataSubModule;
+	protected String classeSmartDataModel;
 
 	/**
 	 * Var.enUS: contextAdjective
@@ -2024,6 +2031,57 @@ public class EcrireGenClasse extends EcrireClasse {
 //						}	
 		}
 		s(" {\n");
+
+		if(classeSmartDataModel != null) {
+			File smartDataModelSpecFile = new File(System.getenv("HOME"), String.format(".local/src/smart-data-models/%s/dataModel.%s/%s/model.yaml", classeSmartDataDomain, classeSmartDataSubModule, classeSmartDataModel));
+			if(smartDataModelSpecFile.exists()) {
+				Yaml yaml = new Yaml();
+				Map<String, Object> map = yaml.load(FileUtils.readFileToString(smartDataModelSpecFile, StandardCharsets.UTF_8));
+				JsonObject spec = new JsonObject(map);
+				LOG.info(spec.toString());
+				JsonObject properties = spec.getJsonObject(classeSmartDataModel).getJsonObject("properties");
+				l();
+				tl(1, "/* FIWARE SmartDataModel fields: */");
+
+				Integer row = 3;
+				Integer cell = 1;
+				for(String fieldName : properties.fieldNames()) {
+					JsonObject field = properties.getJsonObject(fieldName);
+					String jsonType = field.getString("type");
+					String description = field.getString("description");
+					String javaType = "JsonObject";
+					if("string".equals(jsonType))
+						javaType = "String";
+					else if("boolean".equals(jsonType))
+						javaType = "Boolean";
+					else if("integer".equals(jsonType))
+						javaType = "Integer";
+					else if("number".equals(jsonType))
+						javaType = "BigDecimal";
+					l("//");
+					l("//	/**");
+					l("//	 * {@inheritDoc}");
+					l("//	 * DocValues: true");
+					l("//	 * Persist: true");
+					l("//	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase());
+					if(description != null)
+						l("//	 * Description: ", description.replace("\r\n", " ").replace("\n", " "));
+					l("//	 * HtmlRow: ", row);
+					l("//	 * HtmlCell: ", cell);
+					l("//	 * Facet: true");
+					l("//	 */");
+					l("//	protected void _", fieldName, "(Wrap<", javaType, "> w) {");
+					l("//	}");
+					cell++;
+					if(cell > 3) {
+						row++;
+						cell = 1;
+					}
+				}
+				
+				l();
+			}
+		}
 
 		if(activerLog) {
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimple, ".class);");

@@ -342,6 +342,10 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 			classeMethodeVars = new ArrayList<>();
 		entiteIndice = 0;   
 
+		classeSmartDataDomain = doc.getString("classeSmartDataDomain_stored_string");
+		classeSmartDataSubModule = doc.getString("classeSmartDataSubModule_stored_string");
+		classeSmartDataModel = doc.getString("classeSmartDataModel_stored_string");
+
 		classeContexte = (Boolean)doc.getBoolean("classeContexte_stored_boolean");
 		classeCouleur = doc.getString("classeCouleur_stored_string");
 		classeEntiteCouleur = doc.getString("classeEntiteCouleur_stored_string");

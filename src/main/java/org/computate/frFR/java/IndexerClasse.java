@@ -6456,6 +6456,16 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
+		String classeSmartDataModelStr = regex("^SmartDataModel:\\s(.*)", classeCommentaire);
+		if(classeSmartDataModelStr != null) {
+			Matcher m = Pattern.compile("([\\w ]+) - ([\\w ]+) - ([\\w ]+)").matcher(classeCommentaire);
+			if (m.find()) {
+				indexerStockerSolr(classeDoc, "classeSmartDataDomain", m.group(3).replace(" ", "").trim()); 
+				indexerStockerSolr(classeDoc, "classeSmartDataSubModule", m.group(2).trim()); 
+				indexerStockerSolr(classeDoc, "classeSmartDataModel", m.group(1).trim()); 
+			}
+		}
+
 		Boolean classeContexte = indexerStockerSolr(classeDoc, "classeContexte", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Contexte) + ": \\s*(true)$", classeCommentaire) || classePage);
 
 		if(classeContexte) {
