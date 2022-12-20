@@ -2038,7 +2038,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				Yaml yaml = new Yaml();
 				Map<String, Object> map = yaml.load(FileUtils.readFileToString(smartDataModelSpecFile, StandardCharsets.UTF_8));
 				JsonObject spec = new JsonObject(map);
-				LOG.info(spec.toString());
 				JsonObject properties = spec.getJsonObject(classeSmartDataModel).getJsonObject("properties");
 				l();
 				tl(1, "/* FIWARE SmartDataModel fields: */");

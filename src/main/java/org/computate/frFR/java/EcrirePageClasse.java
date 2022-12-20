@@ -809,8 +809,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 				tl(3, "if(StringUtils.equalsAny(type, \"date\") && json.containsKey(\"stats\")) {");
 				tl(4, "JsonObject stats = json.getJsonObject(\"stats\");");
-				tl(4, "Instant min = Instant.parse(stats.getString(\"min\"));");
-				tl(4, "Instant max = Instant.parse(stats.getString(\"max\"));");
+				tl(4, "Instant min = Optional.ofNullable(stats.getString(\"min\")).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
+				tl(4, "Instant max = Optional.ofNullable(stats.getString(\"max\")).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
 				tl(4, "Duration duration = Duration.between(min, max);");
 				tl(4, "String gap = \"DAY\";");
 				tl(4, "if(duration.toDays() >= 365)");
@@ -828,8 +828,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "else if(duration.toMillis() >= 1)");
 				tl(5, "gap = \"MILLI\";");
 				tl(4, "json.put(\"defaultRangeGap\", String.format(\"+1%s\", gap));");
-				tl(4, "json.put(\"defaultRangeEnd\", stats.getString(\"max\"));");
-				tl(4, "json.put(\"defaultRangeStart\", stats.getString(\"min\"));");
+				tl(4, "json.put(\"defaultRangeEnd\", max.toString());");
+				tl(4, "json.put(\"defaultRangeStart\", min.toString());");
 				tl(4, "json.put(\"", langueConfig.getString(ConfigCles.var_activer), langueConfig.getString(ConfigCles.var_Calendrier), "\", true);");
 				tl(4, "setDefault", langueConfig.getString(ConfigCles.var_Gamme), langueConfig.getString(ConfigCles.var_Stats), "(json);");
 				tl(3, "}");
