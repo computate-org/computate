@@ -5666,16 +5666,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
 					tl(13, "{{else}}");
 				tl(14, "{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
-//				tl(8, "if(");
-//				tl(10, "CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ROLES)");
-//				tl(10, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ROLES)");
-//				if(classeRoleLiresTrouves) {
-//					tl(10, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ROLE_READS)");
-//					tl(10, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ROLE_READS)");
-//				}
-//				tl(9, ") {");
 				tl(15, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
-//				tl(8, "}");
 				tl(3, "{{/ifContainsKeys}}");
 			}
 			else {
