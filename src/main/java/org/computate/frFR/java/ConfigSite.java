@@ -549,9 +549,16 @@ public class ConfigSite {
 	public ArrayList<String> authRolesAdmin = new ArrayList<String>();
 
 	protected void _authRolesAdmin() throws Exception {
-		List<String> o = config.getList(String.class, langueConfigGlobale.getString(ConfigCles.var_AUTH_ROLES_ADMIN));
+		List<String> o = config.getList(String.class, langueConfigGlobale.getString(ConfigCles.var_AUTH_ROLE_ADMIN));
 		if (o != null)
 			authRolesAdmin.addAll(o);
+	}
+
+	public Boolean authPolitiqueGranulee;
+	/**
+	 **/
+	protected void _authPolitiqueGranulee() throws Exception {
+		authPolitiqueGranulee = config.getBoolean(langueConfigGlobale.getString(ConfigCles.var_AUTH_POLITIQUE_GRANULEE), true);
 	}
 
 	/**
@@ -708,6 +715,7 @@ public class ConfigSite {
 		_customerProfileId10();
 		_siteEcrireMethodes();
 		_authRolesAdmin();
+		_authPolitiqueGranulee();
 		_ecrireApi();
 		_ecrireCommentaire();
 		_activerLog();

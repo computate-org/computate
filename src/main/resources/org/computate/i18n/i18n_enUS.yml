@@ -225,7 +225,7 @@ classe:
         This class contains a comment <b>"Role.%s: %s"</b>, which identifies the default role name "%s" of the OAuth2/OpenID Connect user role required to access this %s API. 
         It's possible to reconfigure the roles required to access the %s API by configuring an environment variable like this: 
         </p>
-        <pre>AUTH_ROLES_REQUIRED_%s: ["%s"]</pre>
+        <pre>AUTH_ROLE_REQUIRED_%s: ["%s"]</pre>
     UnNom:
       nom: "AName"
       commentaire: "AName.%s: %s"
@@ -300,9 +300,10 @@ var_attribuer: "relate"
 var_Attribuer: "Relate"
 var_AucunNomTrouve: "NoNameFound"
 var_authRolesAdmin: "authRolesAdmin"
-var_AUTH_ROLES_ADMIN: "AUTH_ROLES_ADMIN"
-var_AUTH_ROLES_LIRE_REQUIS: "AUTH_ROLES_READ_REQUIRED"
-var_AUTH_ROLES_REQUIS: "AUTH_ROLES_REQUIRED"
+var_AUTH_ROLE_ADMIN: "AUTH_ROLE_ADMIN"
+var_AUTH_ROLE_LIRE_REQUIS: "AUTH_ROLE_READ_REQUIRED"
+var_AUTH_ROLE_REQUIS: "AUTH_ROLE_REQUIRED"
+var_AUTH_POLITIQUE_GRANULEE: "AUTH_FINE_GRAINED_POLICY_PERMISSIONS"
 var_autresLangues: "otherLanguages"
 var_AUTRES_LANGUES: "OTHER_LANGUAGES"
 var_avant: "before"
@@ -594,8 +595,8 @@ var_RoleLire: "RoleRead"
 var_roleLires: "roleReads"
 var_Role: "Role"
 var_RoleSession: "RoleSession"
-var_rolesPourLires: "rolesForRead"
-var_rolesRequis: "rolesRequired"
+var_rolePourLires: "roleForRead"
+var_roleRequis: "roleRequired"
 var_roles: "roles"
 var_RoleUtilisateur: "RoleUser"
 var_routeur: "router"

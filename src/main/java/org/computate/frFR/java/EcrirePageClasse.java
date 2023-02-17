@@ -215,47 +215,47 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			
 
 			if(classeUtilisateurEcrire && classeSessionEcrire) {
-				wForm.l("{{#ifContainsKeysAnyRolesOrSessionId ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), " ", langueConfig.getString(ConfigCles.var_sessionId), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), "}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"true\"}}");
+				wForm.l("{{#ifContainsKeysAnyRolesOrSessionId ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), " ", langueConfig.getString(ConfigCles.var_sessionId), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), "}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"false\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 				wForm.l("{{/ifContainsKeysAnyRolesOrSessionId}}");
 			}
 			else if(classePublicLire) {
-				wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"true\"}}");
+				wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"false\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 				wForm.l("{{/ifContainsAnyRoles}}");
 			}
 			else if(classeUtilisateurEcrire) {
 				if(classeRolesTrouves || classeRoleLiresTrouves) {
-					wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
-					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"true\"}}");
+					wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 					wForm.l("{{else}}");
-					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"false\"}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 					wForm.l("{{/ifContainsAnyRoles}}");
 				}
 				else {
 					wForm.l("{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
-					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"true\"}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 					wForm.l("{{else}}");
-					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"false\"}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 					wForm.l("{{/ifContainsKeys}}");
 				}
 			}
 			else if(classeSessionEcrire) {
 				wForm.l("{{#ifContainsSessionId sessionId}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"true\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"false\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 				wForm.l("{{/ifContainsSessionId}}");
 			}
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
-				wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"true\"}}");
+				wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=\"false\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 				wForm.l("{{/ifContainsAnyRoles}}");
 			}
 		}
@@ -460,7 +460,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								}
 							}
 							if(entiteAttribuer) {
-								wJsInit.tl(2, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+								wJsInit.tl(2, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 								wJsInit.tl(5, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, true);");
 								wJsInit.tl(2, "{{else}}");
 								wJsInit.tl(5, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, false);");
@@ -1221,16 +1221,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_rolesRequis), "(List<String> l) {");
-				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLES_REQUIS), " + \"_", classeApiClasseNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
+				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_roleRequis), "(List<String> l) {");
+				tl(2, "l.add(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeApiClasseNomSimple, "\"));");
 				tl(1, "}");
 			}
 			if(classeRoleLiresTrouves) {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_rolesPourLires), "(List<String> l) {");
-				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLES_LIRE_REQUIS), " + \"_", classeApiClasseNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
+				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_rolePourLires), "(List<String> l) {");
+				tl(2, "l.add(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLE_LIRE_REQUIS), " + \"_", classeApiClasseNomSimple, "\"));");
 				tl(1, "}");
 			}
 
@@ -3447,7 +3447,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "{{/inline}}");
 			s(wGetters);
 			tl(0, "{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaires), classePageNomSimple, "\"}}");
-			tl(1, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+			tl(1, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 
 			// refraîchir 1 //
 			tl(2, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int1}}");
@@ -3486,7 +3486,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(!classePageSimple) {
 				l("{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Suggere), classePageNomSimple, "\"}}");
 
-				tl(3, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+				tl(3, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 
 				// recharger tous //
 //						t(4).s("{{# if ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, " == null) {").l();

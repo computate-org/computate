@@ -5235,7 +5235,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(14, "<div class=\"w3-cell-row \">");
 				l();
 
-				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(14, "</div>");
 				tl(13, "</div>");
 				tl(12, "</div>");
@@ -5245,7 +5245,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(14, "</ul>");
 
 
-				tl(14, "{{#eq ", langueConfig.getString(ConfigCles.var_rolesRequis), " \"true\"}}");
+				tl(14, "{{#eq ", langueConfig.getString(ConfigCles.var_roleRequis), " \"true\"}}");
 
 				tl(1, "{{#eq 'Page' ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 				tl(16, "<div class=\"w3-cell-row \">");
@@ -5281,7 +5281,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row  \">");
 				tl(13, "<div class=\"w3-cell \">");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(13, "</div>");
 			}
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
@@ -5292,7 +5292,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row w3-padding \">");
 				tl(13, "<div class=\"w3-cell \">");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(13, "</div>");
 			}
 			else if("LocalTime".equals(entiteNomSimple)) {
@@ -5303,7 +5303,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row w3-padding \">");
 				tl(13, "<div class=\"w3-cell \">");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(13, "</div>");
 			}
 			else if("Boolean".equals(entiteNomSimple)) {
@@ -5314,7 +5314,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row w3-padding \">");
 				tl(13, "<div class=\"w3-cell \">");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(13, "</div>");
 			}
 			else {
@@ -5325,12 +5325,12 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row w3-padding \">");
 				tl(13, "<div class=\"w3-cell \">");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(13, "</div>");
 			}
 			if(!entiteAttribuer && entiteModifier && !"Boolean".equals(entiteNomSimple)) {
 
-				tl(1, "{{#eq ", langueConfig.getString(ConfigCles.var_rolesRequis), " \"true\"}}");
+				tl(1, "{{#eq ", langueConfig.getString(ConfigCles.var_roleRequis), " \"true\"}}");
 
 				tl(2, "{{#eq 'Page' ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 
@@ -5340,7 +5340,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(18, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", classeCouleur, " \"");
 					tl(18, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); $('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "').val(null); patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + $('#", classeNomSimple, "Form :input[name=", classeModele ? classeVarClePrimaire : classeVarCleUnique, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); \"");
 					tl(18, ">");
-					tl(17, "<i class=\"far fa-eraser \"></i>");
+					tl(17, "<i class=\"far fa-delete-left \"></i>");
 					tl(16, "</button>");
 					tl(15, "</div>");
 
@@ -5370,7 +5370,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(13, "<div class=\"w3-cell \">");
 				tl(14, "<div class=\"w3-rest \">");
 				tl(15, "<span class=\"\">");
-				tl(16, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_rolesRequis), "=", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+				tl(16, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(15, "</span>");
 				tl(14, "</div>");
 				tl(13, "</div>");
@@ -5391,7 +5391,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		tl(0, "{{#*inline \"input", entiteVarCapitalise, "\"}}");
 		if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
 
-			tl(2, "{{#eq ", langueConfig.getString(ConfigCles.var_rolesRequis), " \"true\"}}");
+			tl(2, "{{#eq ", langueConfig.getString(ConfigCles.var_roleRequis), " \"true\"}}");
 
 			if(entiteAttribuer) {
 				tl(14, "<i class=\"far fa-search w3-xxlarge w3-cell w3-cell-middle \"></i>");
