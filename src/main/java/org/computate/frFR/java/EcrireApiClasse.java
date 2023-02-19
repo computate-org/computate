@@ -4660,6 +4660,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(5, "StatsField stats = ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".getResponse().getStats().getStatsFields().get(statsFieldIndexed2);");
 			tl(5, "Instant min = Optional.ofNullable(stats.getMin()).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
 			tl(5, "Instant max = Optional.ofNullable(stats.getMax()).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
+			tl(5, "if(min.equals(max)) {");
+			tl(6, "min = min.minus(1, ChronoUnit.DAYS);");
+			tl(6, "max = max.plus(2, ChronoUnit.DAYS);");
+			tl(5, "}");
 			tl(5, "Duration duration = Duration.between(min, max);");
 			tl(5, "String gap = \"DAY\";");
 			tl(5, "if(duration.toDays() >= 365)");
