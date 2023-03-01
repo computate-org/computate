@@ -88,7 +88,7 @@ public class ConfigCles {
 	public static final String var_attribuer = "var_attribuer";
 	public static final String var_Attribuer = "var_Attribuer";
 	public static final String var_AucunNomTrouve = "var_AucunNomTrouve";
-	public static final String var_authRolesAdmin = "var_authRolesAdmin";
+	public static final String var_authRoleAdmin = "var_authRoleAdmin";
 	public static final String var_AUTH_ROLE_ADMIN = "var_AUTH_ROLE_ADMIN";
 	public static final String var_AUTH_ROLE_LIRE_REQUIS = "var_AUTH_ROLE_LIRE_REQUIS";
 	public static final String var_AUTH_ROLE_REQUIS = "var_AUTH_ROLE_REQUIS";

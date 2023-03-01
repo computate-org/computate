@@ -251,6 +251,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;");
 			auteurGenApiService.l("import io.vertx.core.WorkerExecutor;");
 			auteurGenApiService.l("import io.vertx.pgclient.PgPool;");
+			auteurGenApiService.l("import io.vertx.kafka.client.producer.KafkaProducer;");
 			if(activerOpenIdConnect) {
 				auteurGenApiService.l("import io.vertx.ext.auth.oauth2.OAuth2Auth;");
 				auteurGenApiService.l("import io.vertx.ext.auth.authorization.AuthorizationProvider;");
@@ -289,10 +290,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(8, "protected PgPool pgPool;");
 			l();
+			tl(8, "protected KafkaProducer<String, String> kafkaProducer;");
+			l();
 			tl(8, "protected WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), ";");
 
-			auteurGenApiService.tl(1, "static void ", classeLangueConfig.getString(ConfigCles.var_enregistrer), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ", Vertx vertx) {");
-			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(siteNom, "-", classeLangueNom, "-", classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", "));");
+			auteurGenApiService.tl(1, "static void ", classeLangueConfig.getString(ConfigCles.var_enregistrer), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ", Vertx vertx) {");
+			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(siteNom, "-", classeLangueNom, "-", classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", "));");
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
@@ -366,6 +369,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l("import io.vertx.core.WorkerExecutor;");
 			auteurApiServiceImpl.l("import io.vertx.core.json.JsonObject;");
 			auteurApiServiceImpl.l("import io.vertx.pgclient.PgPool;");
+			auteurApiServiceImpl.l("import io.vertx.kafka.client.producer.KafkaProducer;");
 			if(classePage)
 				auteurApiServiceImpl.l("import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;");
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
@@ -388,8 +392,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l(" **/");
 			auteurApiServiceImpl.l("public class ", classeNomSimpleApiServiceImpl, " extends ", classeNomSimpleGenApiServiceImpl, " {");
 			auteurApiServiceImpl.l();
-			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ") {");
-			auteurApiServiceImpl.tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", ");");
+			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ") {");
+			auteurApiServiceImpl.tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", ");");
 			auteurApiServiceImpl.tl(1, "}");
 			auteurApiServiceImpl.l("}");
 
@@ -2389,8 +2393,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
 			l();
-			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ") {");
-			tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", ");");
+			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ") {");
+			tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", ");");
 			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
@@ -2514,8 +2518,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						}
 					}
 					else {
-						tl(5, "{");
-						tl(4, "try {");
+						if(authPolitiqueGranulee) {
+							tl(4, "try {");
+							tl(5, "{");
+						} else {
+							tl(4, "{");
+							tl(5, "try {");
+						}
 					}
 
 					if(classeApiMethode.contains("POST")) {
@@ -4848,6 +4857,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, "String solrHostName = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_HOST_NAME);");
 				tl(4, "Integer solrPort = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getConfig().getInteger(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PORT);");
 				tl(4, "String solrCollection = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_COLLECTION);");
+				tl(4, "Boolean solrSsl = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getConfig().getBoolean(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_SSL);");
 				tl(4, "Boolean softCommit = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
 				tl(4, "Integer commitWithin = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 				tl(5, "if(softCommit == null && commitWithin == null)");
@@ -4855,7 +4865,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "else if(softCommit == null)");
 				tl(6, "softCommit = false;");
 				tl(4, "String solrRequestUri = String.format(\"/solr/%s/update%s%s%s\", solrCollection, \"?overwrite=true&wt=json\", softCommit ? \"&softCommit=true\" : \"\", commitWithin != null ? (\"&commitWithin=\" + commitWithin) : \"\");");
-				tl(4, classeLangueConfig.getString(ConfigCles.var_clientWeb), ".post(solrPort, solrHostName, solrRequestUri).putHeader(\"Content-Type\", \"application/json\").expect(ResponsePredicate.SC_OK).sendBuffer(json.toBuffer()).onSuccess(b -> {");
+				tl(4, classeLangueConfig.getString(ConfigCles.var_clientWeb), ".post(solrPort, solrHostName, solrRequestUri).ssl(solrSsl).putHeader(\"Content-Type\", \"application/json\").expect(ResponsePredicate.SC_OK).sendBuffer(json.toBuffer()).onSuccess(b -> {");
 				tl(5, "promise.complete();");
 				tl(4, "}).onFailure(ex -> {");
 				tl(5, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), new RuntimeException(ex));");

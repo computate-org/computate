@@ -2085,6 +2085,10 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(activerLog) {
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimple, ".class);");
 		}
+		if(classePartsVerticle != null && classeNomSimple.equals(classePartsVerticle.nomSimple(langueNom))) {
+			l();
+			tl(1, "public static final String ", langueConfig.getString(ConfigCles.var_SITE_NOM), " = \"", siteNom, "\";");
+		}
 		if(classeValsVar != null && classeValsLangue != null && classeValsValeur != null) {
 			String classeValVarAncien = null;
 			Integer classeValVarNumero = 0;
