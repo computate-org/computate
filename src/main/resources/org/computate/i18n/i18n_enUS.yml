@@ -71,6 +71,12 @@ classe:
         </p>
       suggere: |
         You can add a class comment <b>"Api: true"</b> if you wish to GET, POST, PATCH or PUT these %s objects in a RESTful API. 
+    ApiMethode:
+      nom: "ApiMethod"
+      commentaire: "ApiMethode: %s"
+      description: |
+        <p>This class contains a comment <b>"ApiMethod: %s"</b>, which creates an API "%s". 
+        </p>
     ApiTag:
       nom: "ApiTag"
       commentaire: "ApiTag.%s: %s"

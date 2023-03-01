@@ -6955,9 +6955,21 @@ public class EcrireGenClasse extends EcrireClasse {
 				, classeNomSimple, classeNomSimpleGen, classeNomSimpleGen, classeNomSimpleGen, classeNomSimple, classeNomSimpleGen
 				);
 
+		for(Integer i = 0; i < classeApiMethodes.size(); i++) {
+			String classeApiMethode = classeApiMethodes.get(i);
+			ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiMethode", "commentaire", wClasseDescription
+					, true
+					, classeApiMethode
+					);
+			ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiMethode", "description", wClasseDescription
+					, true
+					, classeApiMethode, classeApiMethode
+					);
+		}
+
 		ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiTag", "commentaire", wClasseDescription
 				, true
-				, langueNom, classeApiTag
+				, langueNom, true
 				);
 		ecrireClasseCommentaireChamp(langueNom, classeRef, "ApiTag", "description", wClasseDescription
 				, classeApiTag != null
