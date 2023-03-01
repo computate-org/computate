@@ -25,6 +25,14 @@ import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContexts;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.slf4j.Logger;
@@ -398,7 +406,11 @@ public class ConfigSite {
 	 * solrClientComputate r: solrUrlComputate r.enUS: solrUrlComputate
 	 **/
 	protected void _clientSolrComputate() throws Exception {
-		clientSolrComputate = new HttpSolrClient.Builder(solrUrlComputate).build();
+		SSLContextBuilder builder = new SSLContextBuilder();
+		builder.loadTrustMaterial(null, (chain, authType) -> true);
+		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
+		CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+		clientSolrComputate = new HttpSolrClient.Builder(solrUrlComputate).withHttpClient(httpclient).build();
 	}
 
 	/**
@@ -549,9 +561,16 @@ public class ConfigSite {
 	public ArrayList<String> authRolesAdmin = new ArrayList<String>();
 
 	protected void _authRolesAdmin() throws Exception {
-		List<String> o = config.getList(String.class, langueConfigGlobale.getString(ConfigCles.var_AUTH_ROLES_ADMIN));
+		List<String> o = config.getList(String.class, langueConfigGlobale.getString(ConfigCles.var_AUTH_ROLE_ADMIN));
 		if (o != null)
 			authRolesAdmin.addAll(o);
+	}
+
+	public Boolean authPolitiqueGranulee;
+	/**
+	 **/
+	protected void _authPolitiqueGranulee() throws Exception {
+		authPolitiqueGranulee = config.getBoolean(langueConfigGlobale.getString(ConfigCles.var_AUTH_POLITIQUE_GRANULEE), true);
 	}
 
 	/**
@@ -708,6 +727,7 @@ public class ConfigSite {
 		_customerProfileId10();
 		_siteEcrireMethodes();
 		_authRolesAdmin();
+		_authPolitiqueGranulee();
 		_ecrireApi();
 		_ecrireCommentaire();
 		_activerLog();

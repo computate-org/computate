@@ -88,10 +88,11 @@ public class ConfigCles {
 	public static final String var_attribuer = "var_attribuer";
 	public static final String var_Attribuer = "var_Attribuer";
 	public static final String var_AucunNomTrouve = "var_AucunNomTrouve";
-	public static final String var_authRolesAdmin = "var_authRolesAdmin";
-	public static final String var_AUTH_ROLES_ADMIN = "var_AUTH_ROLES_ADMIN";
-	public static final String var_AUTH_ROLES_LIRE_REQUIS = "var_AUTH_ROLES_LIRE_REQUIS";
-	public static final String var_AUTH_ROLES_REQUIS = "var_AUTH_ROLES_REQUIS";
+	public static final String var_authRoleAdmin = "var_authRoleAdmin";
+	public static final String var_AUTH_ROLE_ADMIN = "var_AUTH_ROLE_ADMIN";
+	public static final String var_AUTH_ROLE_LIRE_REQUIS = "var_AUTH_ROLE_LIRE_REQUIS";
+	public static final String var_AUTH_ROLE_REQUIS = "var_AUTH_ROLE_REQUIS";
+	public static final String var_AUTH_POLITIQUE_GRANULEE = "var_AUTH_POLITIQUE_GRANULEE";
 	public static final String var_autresLangues = "var_autresLangues";
 	public static final String var_AUTRES_LANGUES = "var_AUTRES_LANGUES";
 	public static final String var_avant = "var_avant";
@@ -384,8 +385,8 @@ public class ConfigCles {
 	public static final String var_roleLires = "var_roleLires";
 	public static final String var_Role = "var_Role";
 	public static final String var_RoleSession = "var_RoleSession";
-	public static final String var_rolesPourLires = "var_rolesPourLires";
-	public static final String var_rolesRequis = "var_rolesRequis";
+	public static final String var_rolePourLires = "var_rolePourLires";
+	public static final String var_roleRequis = "var_roleRequis";
 	public static final String var_roles = "var_roles";
 	public static final String var_RoleUtilisateur = "var_RoleUtilisateur";
 	public static final String var_routeur = "var_routeur";

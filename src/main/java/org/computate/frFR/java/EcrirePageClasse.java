@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -213,7 +212,51 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 			}
 			
-			wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\"}}");
+
+			if(classeUtilisateurEcrire && classeSessionEcrire) {
+				wForm.l("{{#ifContainsKeysAnyRolesOrSessionId ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), " ", langueConfig.getString(ConfigCles.var_sessionId), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), "}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+				wForm.l("{{else}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+				wForm.l("{{/ifContainsKeysAnyRolesOrSessionId}}");
+			}
+			else if(classePublicLire) {
+				wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+				wForm.l("{{else}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+				wForm.l("{{/ifContainsAnyRoles}}");
+			}
+			else if(classeUtilisateurEcrire) {
+				if(classeRolesTrouves || classeRoleLiresTrouves) {
+					wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+					wForm.l("{{else}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+					wForm.l("{{/ifContainsAnyRoles}}");
+				}
+				else {
+					wForm.l("{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+					wForm.l("{{else}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+					wForm.l("{{/ifContainsKeys}}");
+				}
+			}
+			else if(classeSessionEcrire) {
+				wForm.l("{{#ifContainsSessionId sessionId}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+				wForm.l("{{else}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+				wForm.l("{{/ifContainsSessionId}}");
+			}
+			else if(classeRolesTrouves || classeRoleLiresTrouves) {
+				wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+				wForm.l("{{else}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+				wForm.l("{{/ifContainsAnyRoles}}");
+			}
 		}
 		return resultat;
 	}
@@ -416,7 +459,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								}
 							}
 							if(entiteAttribuer) {
-								wJsInit.tl(2, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+								wJsInit.tl(2, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 								wJsInit.tl(5, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, true);");
 								wJsInit.tl(2, "{{else}}");
 								wJsInit.tl(5, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, false);");
@@ -765,8 +808,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 				tl(3, "if(StringUtils.equalsAny(type, \"date\") && json.containsKey(\"stats\")) {");
 				tl(4, "JsonObject stats = json.getJsonObject(\"stats\");");
-				tl(4, "Instant min = Instant.parse(stats.getString(\"min\"));");
-				tl(4, "Instant max = Instant.parse(stats.getString(\"max\"));");
+				tl(4, "Instant min = Optional.ofNullable(stats.getString(\"min\")).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
+				tl(4, "Instant max = Optional.ofNullable(stats.getString(\"max\")).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
+				tl(4, "if(min.equals(max)) {");
+				tl(5, "min = min.minus(1, ChronoUnit.DAYS);");
+				tl(5, "max = max.plus(2, ChronoUnit.DAYS);");
+				tl(4, "}");
 				tl(4, "Duration duration = Duration.between(min, max);");
 				tl(4, "String gap = \"DAY\";");
 				tl(4, "if(duration.toDays() >= 365)");
@@ -784,8 +831,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "else if(duration.toMillis() >= 1)");
 				tl(5, "gap = \"MILLI\";");
 				tl(4, "json.put(\"defaultRangeGap\", String.format(\"+1%s\", gap));");
-				tl(4, "json.put(\"defaultRangeEnd\", stats.getString(\"max\"));");
-				tl(4, "json.put(\"defaultRangeStart\", stats.getString(\"min\"));");
+				tl(4, "json.put(\"defaultRangeEnd\", max.toString());");
+				tl(4, "json.put(\"defaultRangeStart\", min.toString());");
 				tl(4, "json.put(\"", langueConfig.getString(ConfigCles.var_activer), langueConfig.getString(ConfigCles.var_Calendrier), "\", true);");
 				tl(4, "setDefault", langueConfig.getString(ConfigCles.var_Gamme), langueConfig.getString(ConfigCles.var_Stats), "(json);");
 				tl(3, "}");
@@ -935,20 +982,41 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l();
 					if(classePageSuperNomSimple != null)
 						tl(1, "@Override");
+					tl(1, "protected void _rangeGap(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+					tl(2, "if(", langueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"facet.range.gap\", null) != null)");
+					tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeGap()).orElse(null));");
+					tl(1, "}");
+					l();
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
+					tl(1, "protected void _rangeEnd(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+					tl(2, "if(", langueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"facet.range.end\", null) != null)");
+					tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeEnd()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(null));");
+					tl(1, "}");
+					l();
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
+					tl(1, "protected void _rangeStart(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+					tl(2, "if(", langueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"facet.range.start\", null) != null)");
+					tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeStart()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(null));");
+					tl(1, "}");
+					l();
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
 					tl(1, "protected void _defaultRangeGap(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeGap()).orElse(Optional.ofNullable(defaultRangeStats).map(s -> s.getString(\"defaultRangeGap\")).orElse(\"+1DAY\")));");
+					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(rangeGap).orElse(Optional.ofNullable(defaultRangeStats).map(s -> s.getString(\"defaultRangeGap\")).orElse(\"+1DAY\")));");
 					tl(1, "}");
 					l();
 					if(classePageSuperNomSimple != null)
 						tl(1, "@Override");
 					tl(1, "protected void _defaultRangeEnd(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeEnd()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeEnd\")).atZone(defaultTimeZone)).orElse(ZonedDateTime.now(defaultTimeZone).toLocalDate().atStartOfDay(defaultTimeZone).plusDays(1))));");
+					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(rangeEnd).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeEnd\")).atZone(defaultTimeZone)).orElse(ZonedDateTime.now(defaultTimeZone).toLocalDate().atStartOfDay(defaultTimeZone).plusDays(1))));");
 					tl(1, "}");
 					l();
 					if(classePageSuperNomSimple != null)
 						tl(1, "@Override");
 					tl(1, "protected void _defaultRangeStart(", classePartsCouverture.nomSimple(langueNom), "<ZonedDateTime> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getFacetRangeStart()).map(s -> TimeTool.parseZonedDateTime(defaultTimeZone, s)).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeStart\")).atZone(defaultTimeZone)).orElse(defaultRangeEnd.minusDays(7).toLocalDate().atStartOfDay(defaultTimeZone))));");
+					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Optional.ofNullable(rangeStart).orElse(Optional.ofNullable(defaultRangeStats).map(s -> Instant.parse(s.getString(\"defaultRangeStart\")).atZone(defaultTimeZone)).orElse(defaultRangeEnd.minusDays(7).toLocalDate().atStartOfDay(defaultTimeZone))));");
 					tl(1, "}");
 					l();
 					if(classePageSuperNomSimple != null)
@@ -1177,16 +1245,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_rolesRequis), "(List<String> l) {");
-				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLES_REQUIS), " + \"_", classeApiClasseNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
+				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_roleRequis), "(List<String> l) {");
+				tl(2, "l.add(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeApiClasseNomSimple, "\"));");
 				tl(1, "}");
 			}
 			if(classeRoleLiresTrouves) {
 				l();
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
-				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_rolesPourLires), "(List<String> l) {");
-				tl(2, "l.addAll(Optional.ofNullable(siteRequest_.getConfig().getJsonArray(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLES_LIRE_REQUIS), " + \"_", classeApiClasseNomSimple, "\")).orElse(new JsonArray()).stream().map(o -> o.toString()).collect(Collectors.toList()));");
+				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_rolePourLires), "(List<String> l) {");
+				tl(2, "l.add(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLE_LIRE_REQUIS), " + \"_", classeApiClasseNomSimple, "\"));");
 				tl(1, "}");
 			}
 
@@ -2214,6 +2282,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "}");
 				tl(4, "websocket", classeApiClasseNomSimple, "(websocket", classeApiClasseNomSimple, "Inner);");
 				tl(4, "window.varsFq = JSON.parse('{{{toJsonObjectStringInApostrophes varsFq}}}');");
+				tl(4, "window.varsRange = JSON.parse('{{{toJsonObjectStringInApostrophes varsRange}}}');");
+				tl(4, "window.defaultRangeVar = '{{ defaultRangeVar }}';");
 				tl(4, langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), "();");
 				l();
 				tl(4, "var calendarEl = document.getElementById('site-calendar');");
@@ -2229,6 +2299,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l("{{#if DEFAULT_MAP_ZOOM }}");
 				tl(3, "window.DEFAULT_MAP_ZOOM = {{ DEFAULT_MAP_ZOOM }};");
 				l("{{/if}}");
+				tl(3, "window.DEFAULT_ZONE_ID = '{{ defaultZoneId }}';");
 				tl(2, "</script>");
 				tl(0, "{{/inline}}");
 			}
@@ -2449,17 +2520,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(11, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-pageFacetRangeGap-", classeNomSimple, "\"");
-			s(">{{#if defaultRangeGap }}facet.range.gap={{encodeURIComponent defaultRangeGap }}{{/if}}");
+			s(">{{#if rangeGap }}facet.range.gap={{encodeURIComponent rangeGap }}{{/if}}");
 			l("</div>");
 			t(11, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-pageFacetRangeStart-", classeNomSimple, "\"");
-			s(">{{#if defaultRangeStart }}facet.range.start={{encodeURIComponent defaultRangeStart }}{{/if}}");
+			s(">{{#if rangeStart }}facet.range.start={{encodeURIComponent rangeStart }}{{/if}}");
 			l("</div>");
 			t(11, "<div");
 			s(" class=\"pageSearchVal \"");
 			s(" id=\"pageSearchVal-pageFacetRangeEnd-", classeNomSimple, "\"");
-			s(">{{#if defaultRangeEnd }}facet.range.end={{encodeURIComponent defaultRangeEnd }}{{/if}}");
+			s(">{{#if rangeEnd }}facet.range.end={{encodeURIComponent rangeEnd }}{{/if}}");
 			l("</div>");
 			t(11, "<div");
 			s(" class=\"pageSearchVal \"");
@@ -2479,7 +2550,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(11, "<select");
 			s(" name=\"facet.range.gap\"");
 			s(" id=\"pageFacetRangeGap-", classeNomSimple, "\"");
-			s(" onchange=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change(this, '", classeNomSimple, "'); \"");
+			s(" onchange=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "GapChange(this, '", classeNomSimple, "'); \"");
 			l(">");
 			tl(12, "<option value=\"+1YEAR\"{{#eq defaultRangeGap '+1YEAR'}} selected=\"selected\"{{else}}{{/eq}}>Year</option>");
 			tl(12, "<option value=\"+1MONTH\"{{#eq defaultRangeGap '+1MONTH'}} selected=\"selected\"{{else}}{{/eq}}>Month</option>");
@@ -2504,7 +2575,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" name=\"facetRangeStart\"");
 			s(" id=\"pageFacetRangeStart-", classeNomSimple, "\"");
 			s(" value=\"{{formatZonedDateTime defaultRangeStart \"yyyy-MM-dd'T'HH:mm\" defaultLocaleId defaultZoneId}}\"");
-			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "StartChange(this, '", classeNomSimple, "'); \"");
 			l("/></span>");
 			tl(10, "</td>");
 			tl(9, "</tr>");
@@ -2521,7 +2592,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" name=\"facetRangeEnd\"");
 			s(" id=\"pageFacetRangeEnd-", classeNomSimple, "\"");
 			s(" value=\"{{formatZonedDateTime defaultRangeEnd \"yyyy-MM-dd'T'HH:mm\" defaultLocaleId defaultZoneId}}\"");
-			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "EndChange(this, '", classeNomSimple, "'); \"");
 			l("/></span>");
 			tl(10, "</td>");
 			tl(9, "</tr>");
@@ -3403,7 +3474,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "{{/inline}}");
 			s(wGetters);
 			tl(0, "{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaires), classePageNomSimple, "\"}}");
-			tl(1, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+			tl(1, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 
 			// refraîchir 1 //
 			tl(2, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int1}}");
@@ -3420,7 +3491,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			// formulaires //
 			if(activerRoleAdmin) {
-				tl(1, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRolesAdmin), "}}");
+				tl(1, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRoleAdmin), "}}");
 			}
 			for(String classeApiMethode : classeApiMethodes) {
 				String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
@@ -3442,7 +3513,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(!classePageSimple) {
 				l("{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Suggere), classePageNomSimple, "\"}}");
 
-				tl(3, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
+				tl(3, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 
 				// recharger tous //
 //						t(4).s("{{# if ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, " == null) {").l();
@@ -3729,8 +3800,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(7, "trace['showlegend'] = true;");
 				auteurPageJs.tl(7, "trace['mode'] = 'lines+markers';");
 				auteurPageJs.tl(7, "trace['name'] = pivot1Val;");
+				auteurPageJs.tl(7, "if(window.varsRange[window.defaultRangeVar].classSimpleName == 'ZonedDateTime') {");
+				auteurPageJs.tl(8, "trace['x'] = Object.keys(pivot1Counts).map(key => moment.tz(key, Intl.DateTimeFormat().resolvedOptions().timeZone).format('YYYY-MM-DDTHH:mm:ss.SSSS'));");
+				auteurPageJs.tl(7, "} else {");
 				auteurPageJs.tl(8, "trace['x'] = Object.keys(pivot1Counts).map(key => key);");
-				auteurPageJs.tl(8, "trace['y'] = Object.entries(pivot1Counts).map(([key, count]) => count);");
+				auteurPageJs.tl(7, "}");
+				auteurPageJs.tl(7, "trace['y'] = Object.entries(pivot1Counts).map(([key, count]) => count);");
 				auteurPageJs.tl(7, "data.push(trace);");
 				auteurPageJs.tl(6, "});");
 				auteurPageJs.tl(5, "}");

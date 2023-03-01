@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,6 +39,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.configuration2.YAMLConfiguration;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -50,6 +52,7 @@ import org.apache.solr.common.SolrDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -778,6 +781,10 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeVarH2;
 
 	protected String classeVarH3;
+
+	protected String classeSmartDataDomain;
+	protected String classeSmartDataSubModule;
+	protected String classeSmartDataModel;
 
 	/**
 	 * Var.enUS: contextAdjective
@@ -2025,8 +2032,62 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 		s(" {\n");
 
+		if(classeSmartDataModel != null) {
+			File smartDataModelSpecFile = new File(System.getenv("HOME"), String.format(".local/src/smart-data-models/%s/dataModel.%s/%s/model.yaml", classeSmartDataDomain, classeSmartDataSubModule, classeSmartDataModel));
+			if(smartDataModelSpecFile.exists()) {
+				Yaml yaml = new Yaml();
+				Map<String, Object> map = yaml.load(FileUtils.readFileToString(smartDataModelSpecFile, StandardCharsets.UTF_8));
+				JsonObject spec = new JsonObject(map);
+				JsonObject properties = spec.getJsonObject(classeSmartDataModel).getJsonObject("properties");
+				l();
+				tl(1, "/* FIWARE SmartDataModel fields: */");
+
+				Integer row = 3;
+				Integer cell = 1;
+				for(String fieldName : properties.fieldNames()) {
+					JsonObject field = properties.getJsonObject(fieldName);
+					String jsonType = field.getString("type");
+					String description = field.getString("description");
+					String javaType = "JsonObject";
+					if("string".equals(jsonType))
+						javaType = "String";
+					else if("boolean".equals(jsonType))
+						javaType = "Boolean";
+					else if("integer".equals(jsonType))
+						javaType = "Integer";
+					else if("number".equals(jsonType))
+						javaType = "BigDecimal";
+					l("//");
+					l("//	/**");
+					l("//	 * {@inheritDoc}");
+					l("//	 * DocValues: true");
+					l("//	 * Persist: true");
+					l("//	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase());
+					if(description != null)
+						l("//	 * Description: ", description.replace("\r\n", " ").replace("\n", " "));
+					l("//	 * HtmlRow: ", row);
+					l("//	 * HtmlCell: ", cell);
+					l("//	 * Facet: true");
+					l("//	 */");
+					l("//	protected void _", fieldName, "(Wrap<", javaType, "> w) {");
+					l("//	}");
+					cell++;
+					if(cell > 3) {
+						row++;
+						cell = 1;
+					}
+				}
+				
+				l();
+			}
+		}
+
 		if(activerLog) {
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimple, ".class);");
+		}
+		if(classePartsVerticle != null && classeNomSimple.equals(classePartsVerticle.nomSimple(langueNom))) {
+			l();
+			tl(1, "public static final String ", langueConfig.getString(ConfigCles.var_SITE_NOM), " = \"", siteNom, "\";");
 		}
 		if(classeValsVar != null && classeValsLangue != null && classeValsValeur != null) {
 			String classeValVarAncien = null;
@@ -5178,7 +5239,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(14, "<div class=\"w3-cell-row \">");
 				l();
 
-				tl(14, "{{> \"input", entiteVarCapitalise, "\"}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(14, "</div>");
 				tl(13, "</div>");
 				tl(12, "</div>");
@@ -5188,30 +5249,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(14, "</ul>");
 
 
-				if(entiteAttribuerUtilisateurEcrire && entiteAttribuerSessionEcrire) {
-//					tl(14, "{");
-				}
-				else if(entiteAttribuerUtilisateurEcrire) {
-					if(entiteAttribuerClasseRoles != null && entiteAttribuerClasseRoles.size() > 0) {
-						tl(14, "{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
-					}
-					else {
-						tl(14, "{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
-//						tl(14, "if(", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s.contains(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Utilisateur), langueConfig.getString(ConfigCles.var_Cle), "())) {", );
-					}
-				}
-				else if(entiteAttribuerSessionEcrire) {
-					tl(14, "{{#ifContainsSessionId sessionId}}");
-//					tl(14, "if(Objects.equals(sessionId, ", langueConfig.getString(ConfigCles.var_requeteSite), "_.getSessionId()) {", );
-				}
-				else {
-					if(classeRolesTrouves || classeRoleLiresTrouves) {
-						tl(14, "{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
-					}
-					else {
-//						tl(14, "{");
-					}
-				}
+				tl(14, "{{#eq ", langueConfig.getString(ConfigCles.var_roleRequis), " \"true\"}}");
 
 				tl(1, "{{#eq 'Page' ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 				tl(16, "<div class=\"w3-cell-row \">");
@@ -5235,26 +5273,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(16, "</div>");
 				tl(1, "{{/eq}}");
 
-				if(entiteAttribuerUtilisateurEcrire && entiteAttribuerSessionEcrire) {
-				}
-				else if(entiteAttribuerUtilisateurEcrire) {
-					if(entiteAttribuerClasseRoles != null && entiteAttribuerClasseRoles.size() > 0) {
-						tl(14, "{{/ifContainsAnyRoles}}");
-					}
-					else {
-						tl(14, "{{/ifContainsKeys}}");
-					}
-				}
-				else if(entiteAttribuerSessionEcrire) {
-					tl(14, "{{/ifContainsSessionId}}");
-				}
-				else {
-					if(classeRolesTrouves || classeRoleLiresTrouves) {
-						tl(14, "{{/ifContainsAnyRoles}}");
-					}
-					else {
-					}
-				}
+				tl(14, "{{/eq}}");
 
 				tl(13, "</div>");
 			}
@@ -5266,7 +5285,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row  \">");
 				tl(13, "<div class=\"w3-cell \">");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\"}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(13, "</div>");
 			}
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
@@ -5277,7 +5296,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row w3-padding \">");
 				tl(13, "<div class=\"w3-cell \">");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\"}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(13, "</div>");
 			}
 			else if("LocalTime".equals(entiteNomSimple)) {
@@ -5288,7 +5307,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row w3-padding \">");
 				tl(13, "<div class=\"w3-cell \">");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\"}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(13, "</div>");
 			}
 			else if("Boolean".equals(entiteNomSimple)) {
@@ -5299,7 +5318,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row w3-padding \">");
 				tl(13, "<div class=\"w3-cell \">");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\"}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(13, "</div>");
 			}
 			else {
@@ -5310,28 +5329,12 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row w3-padding \">");
 				tl(13, "<div class=\"w3-cell \">");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\"}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(13, "</div>");
 			}
 			if(!entiteAttribuer && entiteModifier && !"Boolean".equals(entiteNomSimple)) {
 
-				if(classeUtilisateurEcrire && classeSessionEcrire) {
-					tl(1, "{{#ifContainsKeysAnyRolesOrSessionId ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), " ", langueConfig.getString(ConfigCles.var_sessionId), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), "}}");
-				}
-				else if(classeUtilisateurEcrire) {
-					if(classeRolesTrouves) {
-						tl(1, "{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
-					}
-					else {
-						tl(1, "{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
-					}
-				}
-				else if(classeSessionEcrire) {
-					tl(1, "{{#ifContainsSessionId sessionId}}");
-				}
-				else if(classeRolesTrouves) {
-					tl(1, "{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
-				}
+				tl(1, "{{#eq ", langueConfig.getString(ConfigCles.var_roleRequis), " \"true\"}}");
 
 				tl(2, "{{#eq 'Page' ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 
@@ -5341,29 +5344,13 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(18, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", classeCouleur, " \"");
 					tl(18, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); $('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "').val(null); patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + $('#", classeNomSimple, "Form :input[name=", classeModele ? classeVarClePrimaire : classeVarCleUnique, "]').val() }], 'set", entiteVarCapitalise, "', null, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); \"");
 					tl(18, ">");
-					tl(17, "<i class=\"far fa-eraser \"></i>");
+					tl(17, "<i class=\"far fa-delete-left \"></i>");
 					tl(16, "</button>");
 					tl(15, "</div>");
 
 				tl(14, "{{/eq}}");
 
-				if(classeUtilisateurEcrire && classeSessionEcrire) {
-					tl(1, "{{/ifContainsKeysAnyRolesOrSessionId}}");
-				}
-				else if(classeUtilisateurEcrire) {
-					if(classeRolesTrouves) {
-						tl(1, "{{/ifContainsAnyRoles}}");
-					}
-					else {
-						tl(1, "{{/ifContainsKeys}}");
-					}
-				}
-				else if(classeSessionEcrire) {
-					tl(1, "{{/ifContainsSessionId}}");
-				}
-				else if(classeRolesTrouves) {
-					tl(1, "{{/ifContainsAnyRoles}}");
-				}
+				tl(1, "{{/eq}}");
 			}
 
 			tl(12, "</div>");
@@ -5387,7 +5374,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(13, "<div class=\"w3-cell \">");
 				tl(14, "<div class=\"w3-rest \">");
 				tl(15, "<span class=\"\">");
-				tl(16, "{{> \"input", entiteVarCapitalise, "\"}}");
+				tl(16, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 				tl(15, "</span>");
 				tl(14, "</div>");
 				tl(13, "</div>");
@@ -5408,49 +5395,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		tl(0, "{{#*inline \"input", entiteVarCapitalise, "\"}}");
 		if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
 
-			if(classeUtilisateurEcrire && classeSessionEcrire) {
-				tl(2, "{{#ifContainsKeysAnyRolesOrSessionId ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), " ", langueConfig.getString(ConfigCles.var_sessionId), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), "}}");
-//				t(2, "if(");
-//				t(4, langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s.contains(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Utilisateur), langueConfig.getString(ConfigCles.var_Cle), "())");
-//				t(4, "|| Objects.equals(sessionId, ", langueConfig.getString(ConfigCles.var_requeteSite), "_.getSessionId())");
-//				t(4, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ROLES)");
-//				t(4, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ROLES)");
-//				t(2, ") {");
-			}
-			else if(classePublicLire) {
-				tl(2, "{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
-//				tl(2, "if(");
-//				tl(4, "CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ROLES)");
-//				tl(4, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ROLES)");
-//				tl(4, ") {");
-			}
-			else if(classeUtilisateurEcrire) {
-				if(classeRolesTrouves || classeRoleLiresTrouves) {
-					tl(2, "{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
-//					tl(2, "if(");
-//					tl(4, "CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ROLES)");
-//					tl(4, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ROLES)");
-//					tl(4, ") {");
-				}
-				else {
-					tl(2, "{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
-//					t(2, "if(", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s.contains(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Utilisateur), langueConfig.getString(ConfigCles.var_Cle), "())) {");
-				}
-			}
-			else if(classeSessionEcrire) {
-				tl(2, "{{#ifContainsSessionId sessionId}}");
-//				t(2, "if(Objects.equals(sessionId, ", langueConfig.getString(ConfigCles.var_requeteSite), "_.getSessionId()) {");
-			}
-			else if(classeRolesTrouves || classeRoleLiresTrouves) {
-				tl(2, "{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_rolesRequis), "}}");
-//				tl(2, "if(");
-//				tl(4, "CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ROLES)");
-//				tl(4, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ROLES)");
-//				tl(4, ") {");
-			}
-			else {
-//				t(2, "{");
-			}
+			tl(2, "{{#eq ", langueConfig.getString(ConfigCles.var_roleRequis), " \"true\"}}");
 
 			if(entiteAttribuer) {
 				tl(14, "<i class=\"far fa-search w3-xxlarge w3-cell w3-cell-middle \"></i>");
@@ -5725,42 +5670,16 @@ public class EcrireGenClasse extends EcrireClasse {
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
 					tl(13, "{{else}}");
 				tl(14, "{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
-//				tl(8, "if(");
-//				tl(10, "CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ROLES)");
-//				tl(10, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ROLES)");
-//				if(classeRoleLiresTrouves) {
-//					tl(10, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ROLE_READS)");
-//					tl(10, "|| CollectionUtils.containsAny(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ROLE_READS)");
-//				}
-//				tl(9, ") {");
 				tl(15, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
-//				tl(8, "}");
 				tl(3, "{{/ifContainsKeys}}");
 			}
 			else {
 //								tl(3, "sx(htm", entiteVarCapitalise, "());");
 			}
 
-			if(classeUtilisateurEcrire && classeSessionEcrire) {
-				tl(2, "{{/ifContainsKeysAnyRolesOrSessionId}}");
-			}
-			else if(classePublicLire) {
-				tl(2, "{{/ifContainsAnyRoles}}");
-			}
-			else if(classeUtilisateurEcrire) {
-				if(classeRolesTrouves || classeRoleLiresTrouves) {
-					tl(2, "{{/ifContainsAnyRoles}}");
-				}
-				else {
-					tl(2, "{{/ifContainsKeys}}");
-				}
-			}
-			else if(classeSessionEcrire) {
-				tl(2, "{{/ifContainsSessionId}}");
-			}
-			else if(classeRolesTrouves || classeRoleLiresTrouves) {
-				tl(2, "{{/ifContainsAnyRoles}}");
-			}
+			tl(2, "{{else}}");
+				tl(14, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+			tl(2, "{{/eq}}");
 		}
 		else {
 			tl(1, "{{#eq 'Page' ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");

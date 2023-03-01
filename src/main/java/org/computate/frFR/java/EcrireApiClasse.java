@@ -13,9 +13,11 @@
  */
 package org.computate.frFR.java; 
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -249,6 +251,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;");
 			auteurGenApiService.l("import io.vertx.core.WorkerExecutor;");
 			auteurGenApiService.l("import io.vertx.pgclient.PgPool;");
+			auteurGenApiService.l("import io.vertx.kafka.client.producer.KafkaProducer;");
 			if(activerOpenIdConnect) {
 				auteurGenApiService.l("import io.vertx.ext.auth.oauth2.OAuth2Auth;");
 				auteurGenApiService.l("import io.vertx.ext.auth.authorization.AuthorizationProvider;");
@@ -287,10 +290,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(8, "protected PgPool pgPool;");
 			l();
+			tl(8, "protected KafkaProducer<String, String> kafkaProducer;");
+			l();
 			tl(8, "protected WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), ";");
 
-			auteurGenApiService.tl(1, "static void ", classeLangueConfig.getString(ConfigCles.var_enregistrer), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ", Vertx vertx) {");
-			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(siteNom, "-", classeLangueNom, "-", classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", "));");
+			auteurGenApiService.tl(1, "static void ", classeLangueConfig.getString(ConfigCles.var_enregistrer), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ", Vertx vertx) {");
+			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", q(siteNom, "-", classeLangueNom, "-", classeNomSimple), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", "));");
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
@@ -364,6 +369,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l("import io.vertx.core.WorkerExecutor;");
 			auteurApiServiceImpl.l("import io.vertx.core.json.JsonObject;");
 			auteurApiServiceImpl.l("import io.vertx.pgclient.PgPool;");
+			auteurApiServiceImpl.l("import io.vertx.kafka.client.producer.KafkaProducer;");
 			if(classePage)
 				auteurApiServiceImpl.l("import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;");
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
@@ -386,8 +392,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l(" **/");
 			auteurApiServiceImpl.l("public class ", classeNomSimpleApiServiceImpl, " extends ", classeNomSimpleGenApiServiceImpl, " {");
 			auteurApiServiceImpl.l();
-			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ") {");
-			auteurApiServiceImpl.tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", ");");
+			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ") {");
+			auteurApiServiceImpl.tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", ");");
 			auteurApiServiceImpl.tl(1, "}");
 			auteurApiServiceImpl.l("}");
 
@@ -2387,8 +2393,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
 			l();
-			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ") {");
-			tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", ");");
+			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ") {");
+			tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", ");");
 			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
@@ -2426,11 +2432,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(2, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_démarré), ". \"));");
 	
 					tl(2, classeLangueConfig.getString(ConfigCles.var_utilisateur), "(", classeLangueConfig.getString(ConfigCles.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, \"", siteNom, "-", classeLangueNom, "-", classePartsUtilisateurSite.nomSimple(classeLangueNom), "\", \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", classeLangueConfig.getString(ConfigCles.var_requeteSite), " -> {");
-					tl(3, "try {");
-					if(StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") && StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
-						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".setJsonObject(body);");
-//					tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteUri), "(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteService), ".getExtra()).map(extra -> extra.getString(\"uri\")).orElse(null));");
-//					tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteMethode), "(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteService), ".getExtra()).map(extra -> extra.getString(\"method\")).orElse(null));");
 					if(
 							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") 
 								&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
@@ -2446,204 +2447,225 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							)
 							) {
 						l();
-						tl(4, "List<String> roles = Optional.ofNullable(config.getValue(", classePartsConfigCles.nomSimple(classeLangueNom), ".", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLES_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> v instanceof JsonArray ? (JsonArray)v : new JsonArray(v.toString())).orElse(new JsonArray()).getList();");
-						if(StringUtils.containsAny(classeApiMethode, "GET", classeLangueConfig.getString(ConfigCles.var_Recherche))) {
-							tl(4, "List<String> ", classeLangueConfig.getString(ConfigCles.var_roleLires), " = Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\");");
+						if(authPolitiqueGranulee) {
+							tl(3, "webClient.post(");
+							tl(5, "config.getInteger(ConfigKeys.AUTH_PORT)");
+							tl(5, ", config.getString(ConfigKeys.AUTH_HOST_NAME)");
+							tl(5, ", config.getString(ConfigKeys.AUTH_TOKEN_URI)");
+							tl(5, ")");
+							tl(5, ".ssl(config.getBoolean(ConfigKeys.AUTH_SSL))");
+							tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
+							tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
+							tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
+							tl(7, ".add(\"audience\", config.getString(ConfigKeys.AUTH_CLIENT))");
+							tl(7, ".add(\"response_mode\", \"decision\")");
+							tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
+							tl(3, ").onFailure(ex -> {");
+							tl(4, "String msg = String.format(\"401 UNAUTHORIZED user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+							tl(4, "eventHandler.handle(Future.succeededFuture(");
+							tl(5, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+							tl(6, "Buffer.buffer().appendString(");
+							tl(7, "new JsonObject()");
+							tl(8, ".put(\"errorCode\", \"401\")");
+							tl(8, ".put(\"errorMessage\", msg)");
+							tl(8, ".encodePrettily()");
+							tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+							tl(5, ")");
+							tl(4, "));");
+							tl(3, "}).onSuccess(authorizationDecision -> {");
+							tl(4, "try {");
+							tl(5, "if(!authorizationDecision.bodyAsJsonObject().getBoolean(\"result\")) {");
+							tl(6, "String msg = String.format(\"401 UNAUTHORIZED user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+							tl(6, "eventHandler.handle(Future.succeededFuture(");
+							tl(7, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+							tl(8, "Buffer.buffer().appendString(");
+							tl(9, "new JsonObject()");
+							tl(10, ".put(\"errorCode\", \"401\")");
+							tl(10, ".put(\"errorMessage\", msg)");
+							tl(10, ".encodePrettily()");
+							tl(9, "), MultiMap.caseInsensitiveMultiMap()");
+							tl(7, ")");
+							tl(6, "));");
+							tl(5, "} else {");
+						} else {
+							tl(3, "authorizationProvider.getAuthorizations(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "()).onFailure(ex -> {");
+							tl(4, "String msg = String.format(\"401 UNAUTHORIZED user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+							tl(4, "eventHandler.handle(Future.succeededFuture(");
+							tl(5, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+							tl(6, "Buffer.buffer().appendString(");
+							tl(7, "new JsonObject()");
+							tl(8, ".put(\"errorCode\", \"401\")");
+							tl(8, ".put(\"errorMessage\", msg)");
+							tl(8, ".encodePrettily()");
+							tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+							tl(5, ")");
+							tl(4, "));");
+							tl(3, "}).onSuccess(b -> {");
+							tl(4, "if(!Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)) {");
+							tl(5, "String msg = String.format(\"401 UNAUTHORIZED user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+							tl(5, "eventHandler.handle(Future.succeededFuture(");
+							tl(6, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+							tl(7, "Buffer.buffer().appendString(");
+							tl(8, "new JsonObject()");
+							tl(9, ".put(\"errorCode\", \"401\")");
+							tl(9, ".put(\"errorMessage\", msg)");
+							tl(9, ".encodePrettily()");
+							tl(8, "), MultiMap.caseInsensitiveMultiMap()");
+							tl(6, ")");
+							tl(5, "));");
+							tl(4, "} else {");
+							tl(5, "try {");
 						}
-						tl(4, "if(");
-						tl(6, "!CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), roles)");
-						tl(6, "&& !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), roles)");
-						if(StringUtils.containsAny(classeApiMethode, "GET", classeLangueConfig.getString(ConfigCles.var_Recherche))) {
-							tl(6, "&& !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ", classeLangueConfig.getString(ConfigCles.var_roleLires), ")");
-							tl(6, "&& !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ", classeLangueConfig.getString(ConfigCles.var_roleLires), ")");
-						}
-						tl(6, ") {");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(");
-						tl(6, "new ServiceResponse(401, \"UNAUTHORIZED\", ");
-						tl(7, "Buffer.buffer().appendString(");
-						tl(8, "new JsonObject()");
-						tl(9, ".put(\"errorCode\", \"401\")");
-						tl(9, ".put(\"errorMessage\", \"", classeLangueConfig.getString(ConfigCles.str_roles_requis), "\" + String.join(\", \", roles))");
-						tl(9, ".encodePrettily()");
-						tl(8, "), MultiMap.caseInsensitiveMultiMap()");
-						tl(6, ")");
-						tl(5, "));");
-						tl(4, "} else {");
 					}
 					else {
-						tl(4, "{");
+						if(authPolitiqueGranulee) {
+							tl(4, "try {");
+							tl(5, "{");
+						} else {
+							tl(4, "{");
+							tl(5, "try {");
+						}
 					}
 
 					if(classeApiMethode.contains("POST")) {
 
-						tl(5, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(1L);");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1L);");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
-						tl(5, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
-						tl(5, "JsonObject params = new JsonObject();");
-						tl(5, "params.put(\"body\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getJsonObject());");
-						tl(5, "params.put(\"path\", new JsonObject());");
-						tl(5, "params.put(\"cookie\", new JsonObject());");
-						tl(5, "params.put(\"header\", new JsonObject());");
-						tl(5, "params.put(\"form\", new JsonObject());");
-						tl(5, "JsonObject query = new JsonObject();");
-						tl(5, "Boolean softCommit = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
-						tl(5, "Integer commitWithin = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
-						tl(5, "if(softCommit == null && commitWithin == null)");
-						tl(6, "softCommit = true;");
-						tl(5, "if(softCommit != null)");
-						tl(6, "query.put(\"softCommit\", softCommit);");
-						tl(5, "if(commitWithin != null)");
-						tl(6, "query.put(\"commitWithin\", commitWithin);");
-						tl(5, "params.put(\"query\", query);");
-						tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getUserPrincipal());");
-						tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
-						tl(5, "eventBus.request(\"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
-						tl(6, "JsonObject responseMessage = (JsonObject)a.body();");
-						tl(6, "JsonObject responseBody = new JsonObject(Buffer.buffer(JsonUtil.BASE64_DECODER.decode(responseMessage.getString(\"payload\"))));");
-						if(classeModele)
-							tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Long.parseLong(responseBody.getString(\"pk\")));");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(responseBody.encodePrettily()))));");
-						tl(6, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
-						tl(5, "}).onFailure(ex -> {");
-						tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(5, "});");
-					}
-					else if(classeApiMethode.contains("PATCH")) {
-//							tl(5, classeLangueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").put(\"rows\", 100);");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_rechercher), classeApiClasseNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", (classeModele ? "false, true" : "true, false"), ", true).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
-						tl(6, "try {");
-						Integer tBase;
-						if(activerRoleAdmin) {
-							tBase = 1;
-							tl(7, "List<String> roles2 = Optional.ofNullable(config.getValue(", classePartsConfigCles.nomSimple(classeLangueNom), ".", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLES_ADMIN), ")).map(v -> v instanceof JsonArray ? (JsonArray)v : new JsonArray(v.toString())).orElse(new JsonArray()).getList();");
-							tl(7, "if(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getNumFound() > 1");
-							tl(9, "&& !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), roles2)");
-							tl(9, "&& !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), roles2)");
-							tl(9, ") {");
-							tl(8, "String message = String.format(\"", classeLangueConfig.getString(ConfigCles.str_roles_requis), "\" + String.join(\", \", roles2));");
-							tl(8, "LOG.error(message);");
-							tl(8, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", new RuntimeException(message));");
-							tl(7, "} else {");
-							l();
-						} else {
-							tBase = 0;
-						}
-						tl(tBase + 7, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
-						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getRequest().getRows());");
-						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getNumFound());");
-						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
-						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
-						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
-						tl(tBase + 7, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
-						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setOriginal(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first());");
-						if(classeModele)
-							tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.getPk()).orElse(null));");
-						tl(tBase + 7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
-						l();
-						tl(tBase + 7, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(e -> {");
-						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
-						tl(tBase + 9, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
-						tl(tBase + 9, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
-						tl(tBase + 8, "}).onFailure(ex -> {");
-						tl(tBase + 9, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(tBase + 9, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(tBase + 8, "});");
-						tl(tBase + 7, "}).onFailure(ex -> {");
-						tl(tBase + 8, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(tBase + 7, "});");
-						if(activerRoleAdmin) {
-							tl(7, "}");
-						}
-						tl(6, "} catch(Exception ex) {");
-						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(6, "}");
-						tl(5, "}).onFailure(ex -> {");
-						tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(5, "});");
-					}
-					else if(classeApiMethode.contains(classeLangueConfig.getString(ConfigCles.var_Recherche))) {
-						tl(5, classeLangueConfig.getString(ConfigCles.var_rechercher), classeApiClasseNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", false, true, false).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
-						tl(7, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
-						tl(6, "}).onFailure(ex -> {");
-						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(6, "});");
-						tl(5, "}).onFailure(ex -> {");
-						tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(5, "});");
-					}
-					else if(classeApiMethode.contains("GET")) {
-						tl(5, classeLangueConfig.getString(ConfigCles.var_rechercher), classeApiClasseNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", false, true, false).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
-						tl(7, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
-						tl(6, "}).onFailure(ex -> {");
-						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(6, "});");
-						tl(5, "}).onFailure(ex -> {");
-						tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(5, "});");
-					}
-					else if(classeApiMethode.equals(classeLangueConfig.getString(ConfigCles.var_PUTCopie))) {
-						tl(5, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_rechercher), classeApiClasseNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", false, true, true).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
-						tl(7, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getRequest().getRows());");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getNumFound());");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
-						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(e -> {");
-						tl(8, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(f -> {");
-						tl(9, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
-						tl(9, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
-						tl(8, "}).onFailure(ex -> {");
-						tl(9, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(9, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(8, "});");
-						tl(7, "}).onFailure(ex -> {");
-						tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(8, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(7, "});");
-						tl(6, "}).onFailure(ex -> {");
-						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(6, "});");
-						tl(5, "}).onFailure(ex -> {");
-						tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(5, "});");
-					}
-					else if(classeApiMethode.equals(classeLangueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
-						tl(5, "try {");
 						tl(6, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
-						tl(6, "JsonArray jsonArray = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_ObjetJson), "()).map(o -> o.getJsonArray(\"list\")).orElse(new JsonArray());");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(Long.valueOf(jsonArray.size()));");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(Long.valueOf(jsonArray.size()));");
+						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(1L);");
+						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1L);");
 						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
 						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 						tl(6, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
 						tl(6, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
-						tl(6, "vars", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(d -> {");
-						tl(7, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(e -> {");
-						tl(8, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
-						tl(9, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
-						tl(9, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
+						tl(6, "JsonObject params = new JsonObject();");
+						tl(6, "params.put(\"body\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getJsonObject());");
+						tl(6, "params.put(\"path\", new JsonObject());");
+						tl(6, "params.put(\"cookie\", new JsonObject());");
+						tl(6, "params.put(\"header\", new JsonObject());");
+						tl(6, "params.put(\"form\", new JsonObject());");
+						tl(6, "JsonObject query = new JsonObject();");
+						tl(6, "Boolean softCommit = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
+						tl(6, "Integer commitWithin = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
+						tl(6, "if(softCommit == null && commitWithin == null)");
+						tl(7, "softCommit = true;");
+						tl(6, "if(softCommit != null)");
+						tl(7, "query.put(\"softCommit\", softCommit);");
+						tl(6, "if(commitWithin != null)");
+						tl(7, "query.put(\"commitWithin\", commitWithin);");
+						tl(6, "params.put(\"query\", query);");
+						tl(6, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getUserPrincipal());");
+						tl(6, "JsonObject json = new JsonObject().put(\"context\", context);");
+						tl(6, "eventBus.request(\"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
+						tl(7, "JsonObject responseMessage = (JsonObject)a.body();");
+						tl(7, "JsonObject responseBody = new JsonObject(Buffer.buffer(JsonUtil.BASE64_DECODER.decode(responseMessage.getString(\"payload\"))));");
+						if(classeModele)
+							tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Long.parseLong(responseBody.getString(\"pk\")));");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(responseBody.encodePrettily()))));");
+						tl(7, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
+						tl(6, "}).onFailure(ex -> {");
+						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(6, "});");
+					}
+					else if(classeApiMethode.contains("PATCH")) {
+						tl(6, classeLangueConfig.getString(ConfigCles.var_rechercher), classeApiClasseNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", (classeModele ? "false, true" : "true, false"), ", true).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
+						tl(7, "try {");
+						Integer tBase;
+						if(activerRoleAdmin) {
+							tBase = 1;
+							tl(8, "if(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getNumFound() > 1");
+							tl(10, "&& !Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
+							tl(10, ") {");
+							tl(9, "String message = String.format(\"", classeLangueConfig.getString(ConfigCles.str_roles_requis), "\" + config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\"));");
+							tl(9, "LOG.error(message);");
+							tl(9, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", new RuntimeException(message));");
+							tl(8, "} else {");
+							l();
+						} else {
+							tBase = 0;
+						}
+						tl(tBase + 8, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
+						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getRequest().getRows());");
+						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getNumFound());");
+						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
+						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
+						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
+						tl(tBase + 8, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
+						tl(tBase + 9, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setOriginal(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first());");
+						if(classeModele)
+							tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.getPk()).orElse(null));");
+						tl(tBase + 8, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
+						l();
+						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(e -> {");
+						tl(tBase + 9, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
+						tl(tBase + 10, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
+						tl(tBase + 10, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
+						tl(tBase + 9, "}).onFailure(ex -> {");
+						tl(tBase + 10, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(tBase + 10, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(tBase + 9, "});");
+						tl(tBase + 8, "}).onFailure(ex -> {");
+						tl(tBase + 9, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(tBase + 9, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(tBase + 8, "});");
+						if(activerRoleAdmin) {
+							tl(8, "}");
+						}
+						tl(7, "} catch(Exception ex) {");
+						tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(7, "}");
+						tl(6, "}).onFailure(ex -> {");
+						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(6, "});");
+					}
+					else if(classeApiMethode.contains(classeLangueConfig.getString(ConfigCles.var_Recherche))) {
+						tl(6, classeLangueConfig.getString(ConfigCles.var_rechercher), classeApiClasseNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", false, true, false).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
+						tl(8, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
+						tl(7, "}).onFailure(ex -> {");
+						tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(7, "});");
+						tl(6, "}).onFailure(ex -> {");
+						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(6, "});");
+					}
+					else if(classeApiMethode.contains("GET")) {
+						tl(6, classeLangueConfig.getString(ConfigCles.var_rechercher), classeApiClasseNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", false, true, false).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
+						tl(8, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
+						tl(7, "}).onFailure(ex -> {");
+						tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(7, "});");
+						tl(6, "}).onFailure(ex -> {");
+						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(6, "});");
+					}
+					else if(classeApiMethode.equals(classeLangueConfig.getString(ConfigCles.var_PUTCopie))) {
+						tl(6, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_rechercher), classeApiClasseNomSimple, classeLangueConfig.getString(ConfigCles.var_Liste), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", false, true, true).onSuccess(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, " -> {");
+						tl(8, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getRequest().getRows());");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getNumFound());");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
+						tl(8, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(e -> {");
+						tl(9, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(f -> {");
+						tl(10, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
+						tl(10, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
+						tl(9, "}).onFailure(ex -> {");
+						tl(10, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(10, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(9, "});");
 						tl(8, "}).onFailure(ex -> {");
 						tl(9, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
 						tl(9, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
@@ -2656,26 +2678,80 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
 						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
 						tl(6, "});");
-						tl(5, "} catch(Exception ex) {");
-						tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(5, "}");
+					}
+					else if(classeApiMethode.equals(classeLangueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+						tl(6, "try {");
+						tl(7, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
+						tl(7, "JsonArray jsonArray = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_ObjetJson), "()).map(o -> o.getJsonArray(\"list\")).orElse(new JsonArray());");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(Long.valueOf(jsonArray.size()));");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(Long.valueOf(jsonArray.size()));");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
+						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
+						tl(7, "vars", classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(d -> {");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(e -> {");
+						tl(9, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
+						tl(10, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
+						tl(10, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
+						tl(9, "}).onFailure(ex -> {");
+						tl(10, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(10, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(9, "});");
+						tl(8, "}).onFailure(ex -> {");
+						tl(9, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(9, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(8, "});");
+						tl(7, "}).onFailure(ex -> {");
+						tl(8, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(8, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(7, "});");
+						tl(6, "} catch(Exception ex) {");
+						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(6, "}");
 					}
 					else {
-						tl(5, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
-						tl(6, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
-						tl(5, "}).onFailure(ex -> {");
-						tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \", ex));");
-						tl(6, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-						tl(5, "});");
+						tl(6, classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", classeLangueConfig.getString(ConfigCles.var_reponse), " -> {");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(", classeLangueConfig.getString(ConfigCles.var_reponse), "));");
+						tl(7, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ". \"));");
+						tl(6, "}).onFailure(ex -> {");
+						tl(7, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \", ex));");
+						tl(7, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(6, "});");
 					}
 
-					tl(4, "}");
-					tl(3, "} catch(Exception ex) {");
-					tl(4, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
-					tl(4, classeLangueConfig.getString(ConfigCles.var_erreur), "(null, ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
-					tl(3, "}");
+					if(authPolitiqueGranulee) {
+						tl(5, "}");
+						tl(4, "} catch(Exception ex) {");
+						tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(5, classeLangueConfig.getString(ConfigCles.var_erreur), "(null, ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(4, "}");
+					} else {
+						tl(5, "} catch(Exception ex) {");
+						tl(6, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(6, classeLangueConfig.getString(ConfigCles.var_erreur), "(null, ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
+						tl(5, "}");
+						tl(4, "}");
+					}
+
+					if(
+							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") 
+								&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
+								&& (
+								classeRoles.size() > 0
+							)
+							|| !StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") && (
+								BooleanUtils.isNotTrue(classeRoleSession) 
+								&& BooleanUtils.isNotTrue(classePublicLire) 
+								&& BooleanUtils.isNotTrue(classeRoleUtilisateur) 
+								&& BooleanUtils.isNotTrue(classeRoleChacun) 
+								&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
+							)
+							) {
+					tl(3, "});");
+					}
+
 					tl(2, "}).onFailure(ex -> {");
 					if(activerOpenIdConnect) {
 						tl(3, "if(\"Inactive Token\".equals(ex.getMessage()) || StringUtils.startsWith(ex.getMessage(), \"invalid_grant:\")) {");
@@ -2685,6 +2761,17 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \", ex2));");
 						tl(5, classeLangueConfig.getString(ConfigCles.var_erreur), "(null, ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex2);");
 						tl(4, "}");
+						tl(3, "} else if(StringUtils.startsWith(ex.getMessage(), \"401 UNAUTHORIZED \")) {");
+						tl(4, "eventHandler.handle(Future.succeededFuture(");
+						tl(5, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+						tl(6, "Buffer.buffer().appendString(");
+						tl(7, "new JsonObject()");
+						tl(8, ".put(\"errorCode\", \"401\")");
+						tl(8, ".put(\"errorMessage\", \"SSO Resource Permission check returned DENY\")");
+						tl(8, ".encodePrettily()");
+						tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+						tl(7, ")");
+						tl(5, "));");
 						tl(3, "} else {");
 						tl(4, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
 						tl(4, classeLangueConfig.getString(ConfigCles.var_erreur), "(null, ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
@@ -2871,6 +2958,17 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \", ex2));");
 							tl(5, classeLangueConfig.getString(ConfigCles.var_erreur), "(null, ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex2);");
 							tl(4, "}");
+							tl(3, "} else if(StringUtils.startsWith(ex.getMessage(), \"401 UNAUTHORIZED \")) {");
+							tl(4, "eventHandler.handle(Future.succeededFuture(");
+							tl(5, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+							tl(6, "Buffer.buffer().appendString(");
+							tl(7, "new JsonObject()");
+							tl(8, ".put(\"errorCode\", \"401\")");
+							tl(8, ".put(\"errorMessage\", \"SSO Resource Permission check returned DENY\")");
+							tl(8, ".encodePrettily()");
+							tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+							tl(7, ")");
+							tl(5, "));");
 							tl(3, "} else {");
 							tl(4, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
 							tl(4, classeLangueConfig.getString(ConfigCles.var_erreur), "(null, ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
@@ -3054,6 +3152,17 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \", ex2));");
 							tl(5, classeLangueConfig.getString(ConfigCles.var_erreur), "(null, ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex2);");
 							tl(4, "}");
+							tl(3, "} else if(StringUtils.startsWith(ex.getMessage(), \"401 UNAUTHORIZED \")) {");
+							tl(4, "eventHandler.handle(Future.succeededFuture(");
+							tl(5, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+							tl(6, "Buffer.buffer().appendString(");
+							tl(7, "new JsonObject()");
+							tl(8, ".put(\"errorCode\", \"401\")");
+							tl(8, ".put(\"errorMessage\", \"SSO Resource Permission check returned DENY\")");
+							tl(8, ".encodePrettily()");
+							tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+							tl(7, ")");
+							tl(5, "));");
 							tl(3, "} else {");
 							tl(4, "LOG.error(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
 							tl(4, classeLangueConfig.getString(ConfigCles.var_erreur), "(null, ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", ex);");
@@ -4371,14 +4480,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 			if(classeRoles.size() > 0 && (classeRoleSession || classeRoleUtilisateur)) {
 				l();
-				tl(3, "List<String> roles = Optional.ofNullable(config.getValue(", classePartsConfigCles.nomSimple(classeLangueNom), ".", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLES_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> v instanceof JsonArray ? (JsonArray)v : new JsonArray(v.toString())).orElse(new JsonArray()).getList();");
-				tl(3, "List<String> ", classeLangueConfig.getString(ConfigCles.var_roleLires), " = Arrays.asList(\"", StringUtils.join(classeRoleLires, "\", \""), "\");");
-				tl(3, "if(");
-				tl(5, "!CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), roles)");
-				tl(5, "&& !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), roles)");
-				tl(5, "&& (", classeLangueConfig.getString(ConfigCles.var_modifier), " || !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRessource), "(), ", classeLangueConfig.getString(ConfigCles.var_roleLires), "))");
-				tl(5, "&& (", classeLangueConfig.getString(ConfigCles.var_modifier), " || !CollectionUtils.containsAny(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_UtilisateurRolesRoyaume), "(), ", classeLangueConfig.getString(ConfigCles.var_roleLires), "))");
-				tl(5, ") {");
+				tl(3, "if(!Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)) {");
 				tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId", classeLangueConfig.getString(ConfigCles.var_Avant), "()).orElse(\"-----\"))");
 				tl(6, "+ \" OR ", classeLangueConfig.getString(ConfigCles.var_utilisateur), classeLangueConfig.getString(ConfigCles.var_Cle), "s_docvalues_longs:\" + Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), classeLangueConfig.getString(ConfigCles.var_Cle), "()).orElse(0L));");
 				tl(3, "}");
@@ -4565,8 +4667,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(3, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".", classeLangueConfig.getString(ConfigCles.var_promesseLoin), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(a -> {");
 			tl(4, "if(facetRange2 != null && statsField2 != null && facetRange2.equals(statsField2)) {");
 			tl(5, "StatsField stats = ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".getResponse().getStats().getStatsFields().get(statsFieldIndexed2);");
-			tl(5, "Instant min = Instant.parse(stats.getMin().toString());");
-			tl(5, "Instant max = Instant.parse(stats.getMax().toString());");
+			tl(5, "Instant min = Optional.ofNullable(stats.getMin()).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
+			tl(5, "Instant max = Optional.ofNullable(stats.getMax()).map(val -> Instant.parse(val.toString())).orElse(Instant.now());");
+			tl(5, "if(min.equals(max)) {");
+			tl(6, "min = min.minus(1, ChronoUnit.DAYS);");
+			tl(6, "max = max.plus(2, ChronoUnit.DAYS);");
+			tl(5, "}");
 			tl(5, "Duration duration = Duration.between(min, max);");
 			tl(5, "String gap = \"DAY\";");
 			tl(5, "if(duration.toDays() >= 365)");
@@ -4751,6 +4857,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(4, "String solrHostName = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_HOST_NAME);");
 				tl(4, "Integer solrPort = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getConfig().getInteger(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_PORT);");
 				tl(4, "String solrCollection = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getConfig().getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_COLLECTION);");
+				tl(4, "Boolean solrSsl = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getConfig().getBoolean(", classePartsConfigCles.nomSimple(classeLangueNom), ".SOLR_SSL);");
 				tl(4, "Boolean softCommit = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
 				tl(4, "Integer commitWithin = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getInteger(\"commitWithin\")).orElse(null);");
 				tl(5, "if(softCommit == null && commitWithin == null)");
@@ -4758,7 +4865,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(5, "else if(softCommit == null)");
 				tl(6, "softCommit = false;");
 				tl(4, "String solrRequestUri = String.format(\"/solr/%s/update%s%s%s\", solrCollection, \"?overwrite=true&wt=json\", softCommit ? \"&softCommit=true\" : \"\", commitWithin != null ? (\"&commitWithin=\" + commitWithin) : \"\");");
-				tl(4, classeLangueConfig.getString(ConfigCles.var_clientWeb), ".post(solrPort, solrHostName, solrRequestUri).putHeader(\"Content-Type\", \"application/json\").expect(ResponsePredicate.SC_OK).sendBuffer(json.toBuffer()).onSuccess(b -> {");
+				tl(4, classeLangueConfig.getString(ConfigCles.var_clientWeb), ".post(solrPort, solrHostName, solrRequestUri).ssl(solrSsl).putHeader(\"Content-Type\", \"application/json\").expect(ResponsePredicate.SC_OK).sendBuffer(json.toBuffer()).onSuccess(b -> {");
 				tl(5, "promise.complete();");
 				tl(4, "}).onFailure(ex -> {");
 				tl(5, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), new RuntimeException(ex));");
