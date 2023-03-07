@@ -5303,40 +5303,40 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList, VAL_nomCanoniqueSet, VAL_nomCanoniqueHashSet)) {
 							if(entiteNomCanoniqueGenerique.equals(VAL_nomCanoniqueBoolean)) {
-								entiteTypeSql = "array";
-								entiteListeTypeSql = "bigint";
+								entiteTypeSql = "boolean[]";
+								entiteListeTypeSql = "boolean";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueLocalTime)) {
-								entiteTypeSql = "array";
-								entiteListeTypeSql = "bigint";
+								entiteTypeSql = "timestamp[]";
+								entiteListeTypeSql = "timestamp";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueLocalDate, VAL_nomCanoniqueZonedDateTime)) {
-								entiteTypeSql = "array";
-								entiteListeTypeSql = "bigint";
+								entiteTypeSql = "timestamp[] with time zone";
+								entiteListeTypeSql = "timestamp with time zone";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueLong)) {
-								entiteTypeSql = "array";
+								entiteTypeSql = "bigint[]";
 								entiteListeTypeSql = "bigint";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
-								entiteTypeSql = "array";
-								entiteListeTypeSql = "bigint";
+								entiteTypeSql = "decimal[]";
+								entiteListeTypeSql = "decimal";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueDouble)) {
-								entiteTypeSql = "array";
-								entiteListeTypeSql = "bigint";
+								entiteTypeSql = "double precision[]";
+								entiteListeTypeSql = "double precision";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueFloat)) {
-								entiteTypeSql = "array";
-								entiteListeTypeSql = "bigint";
+								entiteTypeSql = "real[]";
+								entiteListeTypeSql = "real";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueInteger)) {
-								entiteTypeSql = "array";
-								entiteListeTypeSql = "bigint";
+								entiteTypeSql = "integer[]";
+								entiteListeTypeSql = "integer";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
 								entiteTypeSql = "array";
-								entiteListeTypeSql = "bigint";
+								entiteListeTypeSql = "text";
 							}
 							stockerSolr(entiteDoc, "entiteListeTypeSql", entiteListeTypeSql);
 						}

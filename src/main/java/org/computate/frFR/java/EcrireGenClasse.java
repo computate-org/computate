@@ -3555,6 +3555,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "return ", entiteVar, ";");
 			tl(1, "}");
 			Boolean staticSet = false;
+			Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
 	
 			if(StringUtils.equals(entiteNomCanonique, String.class.getCanonicalName())) {
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
@@ -3584,47 +3585,36 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(2, "this.", entiteVar, " = ", entiteVar, ";");
 				tl(1, "}");
 			}
-	//
-	//						l();
-	//						tl(1, "public ", entiteNomSimpleComplet, " ", entiteVar, "() {");
-	//						tl(2, "return get", entiteVarCapitalise, "();");
-	//						tl(1, "}");
-	
-			// Setter List //
-			if((StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName())) && StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
-				tl(1, "@JsonIgnore");
-				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-				tl(2, "Long l = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
-				tl(2, "if(l != null)");
-				tl(3, "add", entiteVarCapitalise, "(l);");
-				tl(1, "}");
-				tl(1, "public static ", entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
-				tl(2, "if(NumberUtils.isParsable(o))");
-				tl(3, "return Long.parseLong(o);");
-				tl(2, "return null;");
-				tl(1, "}");
-				staticSet = true;
-			}
 	
 			// Setter Boolean //
-			if(StringUtils.equals(entiteNomCanonique, Boolean.class.getCanonicalName())) {
+			if(StringUtils.equals(entiteNomCanonique, Boolean.class.getCanonicalName())
+					|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, Boolean.class.getCanonicalName())) {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				tl(2, entiteEstListe ? "Boolean l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				if(entiteEstListe) {
+					tl(2, "if(l != null)");
+					tl(3, "add", entiteVarCapitalise, "(l);");
+				}
 				tl(1, "}");
-				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
 				tl(2, "return Boolean.parseBoolean(o);");
 				tl(1, "}");
 				staticSet = true;
 			}
 	
 			// Setter Integer //
-			if(StringUtils.equals(entiteNomCanonique, Integer.class.getCanonicalName())) {
+			if(StringUtils.equals(entiteNomCanonique, Integer.class.getCanonicalName())
+					|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, Integer.class.getCanonicalName())) {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				tl(2, entiteEstListe ? "Integer l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				if(entiteEstListe) {
+					tl(2, "if(l != null)");
+					tl(3, "add", entiteVarCapitalise, "(l);");
+				}
 				tl(1, "}");
-				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
 				tl(2, "if(NumberUtils.isParsable(o))");
 				tl(3, "return Integer.parseInt(o);");
 				tl(2, "return null;");
@@ -3633,12 +3623,17 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 	
 			// Setter Float //
-			if(StringUtils.equals(entiteNomCanonique, Float.class.getCanonicalName())) {
+			if(StringUtils.equals(entiteNomCanonique, Float.class.getCanonicalName())
+					|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, Float.class.getCanonicalName())) {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				tl(2, entiteEstListe ? "Float l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				if(entiteEstListe) {
+					tl(2, "if(l != null)");
+					tl(3, "add", entiteVarCapitalise, "(l);");
+				}
 				tl(1, "}");
-				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
 				tl(2, "if(NumberUtils.isParsable(o))");
 				tl(3, "return Float.parseFloat(o);");
 				tl(2, "return null;");
@@ -3647,12 +3642,17 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 	
 			// Setter Double //
-			if(StringUtils.equals(entiteNomCanonique, Double.class.getCanonicalName())) {
+			if(StringUtils.equals(entiteNomCanonique, Double.class.getCanonicalName())
+					|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, Double.class.getCanonicalName())) {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				tl(2, entiteEstListe ? "Double l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				if(entiteEstListe) {
+					tl(2, "if(l != null)");
+					tl(3, "add", entiteVarCapitalise, "(l);");
+				}
 				tl(1, "}");
-				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
 				tl(2, "if(NumberUtils.isParsable(o))");
 				tl(3, "return Double.parseDouble(o);");
 				tl(2, "return null;");
@@ -3660,13 +3660,50 @@ public class EcrireGenClasse extends EcrireClasse {
 				staticSet = true;
 			}
 	
-			// Setter Long //
-			if(StringUtils.equals(entiteNomCanonique, Long.class.getCanonicalName())) {
+			// Setter BigDecimal //
+			if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())
+					|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, BigDecimal.class.getCanonicalName())) {
 				tl(1, "@JsonIgnore");
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				tl(2, entiteEstListe ? "BigDecimal l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				if(entiteEstListe) {
+					tl(2, "if(l != null)");
+					tl(3, "add", entiteVarCapitalise, "(l);");
+				}
 				tl(1, "}");
-				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(2, "o = StringUtils.removeAll(o, \"[^\\\\d\\\\.]\");");
+				tl(2, "if(NumberUtils.isParsable(o))");
+				tl(3, "return new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
+				tl(2, "return null;");
+				tl(1, "}");
+				tl(1, "@JsonIgnore");
+				tl(1, "public void set", entiteVarCapitalise, "(Double o) {");
+				tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP));");
+				tl(1, "}");
+				tl(1, "@JsonIgnore");
+				tl(1, "public void set", entiteVarCapitalise, "(Integer o) {");
+				tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP));");
+				tl(1, "}");
+				tl(1, "@JsonIgnore");
+				tl(1, "public void set", entiteVarCapitalise, "(Number o) {");
+				tl(2, entiteEstListe ? "add" : "set", entiteVarCapitalise, "(new BigDecimal(o.doubleValue(), MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP));");
+				tl(1, "}");
+				staticSet = true;
+			}
+	
+			// Setter Long //
+			if(StringUtils.equals(entiteNomCanonique, Long.class.getCanonicalName())
+					|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, Long.class.getCanonicalName())) {
+				tl(1, "@JsonIgnore");
+				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
+				tl(2, entiteEstListe ? "Long l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				if(entiteEstListe) {
+					tl(2, "if(l != null)");
+					tl(3, "add", entiteVarCapitalise, "(l);");
+				}
+				tl(1, "}");
+				tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
 				tl(2, "if(NumberUtils.isParsable(o))");
 				tl(3, "return Long.parseLong(o);");
 				tl(2, "return null;");
@@ -3702,29 +3739,6 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(4, "return new JsonObject(o);");
 				tl(2, "}");
 				tl(2, "return null;");
-				tl(1, "}");
-				staticSet = true;
-			}
-	
-			// Setter BigDecimal //
-			if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
-				tl(1, "@JsonIgnore");
-				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
-				tl(1, "}");
-				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
-				tl(2, "o = StringUtils.removeAll(o, \"[^\\\\d\\\\.]\");");
-				tl(2, "if(NumberUtils.isParsable(o))");
-				tl(3, "return new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
-				tl(2, "return null;");
-				tl(1, "}");
-				tl(1, "@JsonIgnore");
-				tl(1, "public void set", entiteVarCapitalise, "(Double o) {");
-				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
-				tl(1, "}");
-				tl(1, "@JsonIgnore");
-				tl(1, "public void set", entiteVarCapitalise, "(Integer o) {");
-				tl(3, "this.", entiteVar, " = new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP);");
 				tl(1, "}");
 				staticSet = true;
 			}
@@ -3913,6 +3927,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
 					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
@@ -3925,6 +3941,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
 					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
@@ -3942,9 +3960,11 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
-					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
-					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(3, entiteListeNomSimpleVertxJson, " o = objects.get", entiteListeNomSimpleVertxJson, "(i);");
+					tl(3, "set", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
@@ -3961,8 +3981,10 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
-					tl(3, "Double o = objects.getDouble(i);");
+					tl(3, entiteListeNomSimpleVertxJson, " o = objects.get", entiteListeNomSimpleVertxJson, "(i);");
 					tl(3, "add", entiteVarCapitalise, "(new BigDecimal(o, MathContext.DECIMAL64).setScale(2, RoundingMode.HALF_UP));");
 					tl(2, "}");
 					tl(1, "}");
@@ -3980,6 +4002,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
 					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
@@ -3999,9 +4023,11 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
-					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
-					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(3, entiteListeNomSimpleVertxJson, " o = objects.get", entiteListeNomSimpleVertxJson, "(i);");
+					tl(3, "set", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
@@ -4018,9 +4044,11 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
-					tl(3, entiteNomSimpleCompletGenerique, " o = objects.get", entiteNomSimpleCompletGenerique, "(i);");
-					tl(3, "add", entiteVarCapitalise, "(o);");
+					tl(3, entiteListeNomSimpleVertxJson, " o = objects.get", entiteListeNomSimpleVertxJson, "(i);");
+					tl(3, "set", entiteVarCapitalise, "(o);");
 					tl(2, "}");
 					tl(1, "}");
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
@@ -4037,6 +4065,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
 					tl(3, "Instant o = objects.getInstant(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
@@ -4057,6 +4087,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
 					tl(3, "Instant o = objects.getInstant(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
@@ -4077,6 +4109,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
 					tl(3, "Instant o = objects.getInstant(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
@@ -4102,6 +4136,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
 					tl(3, "Instant o = objects.getInstant(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
@@ -4127,6 +4163,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(JsonArray objects) {");
 					tl(2, entiteVar, ".clear();");
+					tl(2, "if(objects == null)");
+					tl(3, "return;");
 					tl(2, "for(int i = 0; i < objects.size(); i++) {");
 					tl(3, "Instant o = objects.getInstant(i);");
 					tl(3, "add", entiteVarCapitalise, "(o);");
@@ -4412,8 +4450,23 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(1, "public OffsetDateTime sql", entiteVarCapitalise, "() {");
 						tl(2, "return ", entiteVar, " == null ? null : ", entiteVar, ".toOffsetDateTime();");
 						tl(1, "}");
-					}
-					else {
+					} else if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)) {
+						tl(1, "public Number[] sql", entiteVarCapitalise, "() {");
+						tl(2, "return ", entiteVar, ".stream().map(v -> (Number)v).toArray(Number[]::new);");
+						tl(1, "}");
+					} else if(VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)) {
+						tl(1, "public Number[] sql", entiteVarCapitalise, "() {");
+						tl(2, "return ", entiteVar, ".stream().map(v -> (Number)v).toArray(Number[]::new);");
+						tl(1, "}");
+					} else if(VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)) {
+						tl(1, "public Number[] sql", entiteVarCapitalise, "() {");
+						tl(2, "return ", entiteVar, ".stream().map(v -> (Number)v).toArray(Number[]::new);");
+						tl(1, "}");
+					} else if(VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)) {
+						tl(1, "public Number[] sql", entiteVarCapitalise, "() {");
+						tl(2, "return ", entiteVar, ".stream().map(v -> (Number)v).toArray(Number[]::new);");
+						tl(1, "}");
+					} else {
 						tl(1, "public ", entiteNomSimpleComplet, " sql", entiteVarCapitalise, "() {");
 						tl(2, "return ", entiteVar, ";");
 						tl(1, "}");
@@ -4902,7 +4955,11 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(4, "if(val instanceof ", entiteNomSimple, "<?>) {");
 						tl(5, "((", entiteNomSimpleComplet, ")val).stream().forEach(v -> add", entiteVarCapitalise, "(v));");
 						tl(4, "} else if(val instanceof JsonArray) {");
-						tl(5, "((JsonArray)val).stream().forEach(v -> add", entiteVarCapitalise, "(v.toString()));");
+						tl(5, "((JsonArray)val).stream().forEach(v -> set", entiteVarCapitalise, "(v.toString()));");
+						tl(4, "} else if(val instanceof ", entiteNomSimpleGenerique, "[]) {");
+						tl(5, "Arrays.asList((", entiteNomSimpleGenerique, "[])val).stream().forEach(v -> set", entiteVarCapitalise, "((", entiteNomSimpleGenerique, ")v));");
+						tl(4, "} else if(val instanceof Number[]) {");
+						tl(5, "Arrays.asList((Number[])val).stream().forEach(v -> set", entiteVarCapitalise, "((Number)v));");
 						tl(4, "}");
 						tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
 						tl(5, "", langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
@@ -5626,7 +5683,12 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "{{/eq}}");
 				tl(1, "{{#eq \"Page\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 					tl(16, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "($(this)); \"");
-					tl(16, "onchange=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', $(this).val(), function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); \"");
+					t(16, "onchange=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }]");
+					if(entiteListeTypeJson != null)
+						s(", 'set", entiteVarCapitalise, "', $(this).val().replace('[','').replace(']','').split(/[ ,]+/)");
+					else
+						s(", 'set", entiteVarCapitalise, "', $(this).val()");
+					l(", function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); \"");
 				tl(1, "{{/eq}}");
 
 				if(entiteMultiligne) {

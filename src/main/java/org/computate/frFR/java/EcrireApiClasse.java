@@ -1946,6 +1946,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 //										tl(7, "}));");
 //										tl(6, "});");
 //										tl(6, "break;");
+						
+										tl(5, "case \"set", entiteVarCapitalise, "\":");
+										tl(7, "o2.set", entiteVarCapitalise, "(jsonObject.get", entiteNomSimpleVertxJson, "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var));");
+										tl(7, "if(bParams.size() > 0)");
+										tl(8, "bSql.append(\", \");");
+										tl(7, "bSql.append(", classeNomSimple, ".VAR_", entiteVar, " + \"=$\" + num);");
+										tl(7, "num++;");
+										tl(7, "bParams.add(o2.sql", entiteVarCapitalise, "());");
+										tl(6, "break;");
 									}
 									else {
 						
