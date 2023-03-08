@@ -3748,6 +3748,21 @@ public class EcrireGenClasse extends EcrireClasse {
 				staticSet = true;
 			}
 	
+			// Setter JsonArray //
+			if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueVertxJsonArray)) {
+				tl(1, "@JsonIgnore");
+				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
+				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				tl(1, "}");
+				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(2, "if(o != null) {");
+				tl(4, "return new JsonArray(o);");
+				tl(2, "}");
+				tl(2, "return null;");
+				tl(1, "}");
+				staticSet = true;
+			}
+	
 			// Setter Timestamp //
 			if(StringUtils.equals(entiteNomCanonique, Timestamp.class.getCanonicalName())) {
 				if(ecrireCommentaire) {
@@ -4363,6 +4378,11 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(2, "return o;");
 						tl(1, "}");
 					}
+					else if(entiteNomSimple.toString().equals("JsonArray")) {
+						tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+						tl(2, "return o;");
+						tl(1, "}");
+					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 						tl(2, "return o == null ? null : o.doubleValue();");
@@ -4651,6 +4671,9 @@ public class EcrireGenClasse extends EcrireClasse {
 					else if(entiteNomSimple.toString().equals("JsonObject")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
 					}
+					else if(entiteNomSimple.toString().equals("JsonArray")) {
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
+					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
 					}
@@ -4687,6 +4710,9 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", new Point(", entiteVar, ".getPoint1(), ", entiteVar, ".getPoint2()));");
 					}
 					else if(entiteNomSimple.toString().equals("JsonObject")) {
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
+					}
+					else if(entiteNomSimple.toString().equals("JsonArray")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
 					}
 					else if(entiteNomSimple.toString().equals("BigDecimal")) {
@@ -4988,6 +5014,11 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(5, "set", entiteVarCapitalise, "((String)val);");
 							tl(4, "} else if(val instanceof JsonObject) {");
 							tl(5, "set", entiteVarCapitalise, "((JsonObject)val);");
+						} else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueVertxJsonArray)) {
+							tl(4, "if(val instanceof String) {");
+							tl(5, "set", entiteVarCapitalise, "((String)val);");
+							tl(4, "} else if(val instanceof JsonArray) {");
+							tl(5, "set", entiteVarCapitalise, "((JsonArray)val);");
 						} else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
 							tl(4, "if(val instanceof String) {");
 							tl(5, "set", entiteVarCapitalise, "((String)val);");
@@ -5181,6 +5212,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						||entiteNomSimple.equals("BigDecimal")
 						||entiteNomSimple.equals("Point")
 						||entiteNomSimple.equals("JsonObject")
+						||entiteNomSimple.equals("JsonArray")
 						||entiteNomSimple.equals("Integer")
 						||entiteNomSimple.equals("Double")
 						||entiteNomSimple.equals("Long")

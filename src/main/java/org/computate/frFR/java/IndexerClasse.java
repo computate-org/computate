@@ -5052,6 +5052,10 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteNomSimpleVertxJson = "JsonObject";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
 							}
+							else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonArray)) {
+								entiteNomSimpleVertxJson = "JsonArray";
+								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonArray;
+							}
 							else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 								entiteNomSimpleVertxJson = "String";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
@@ -5184,6 +5188,11 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
 							entiteSuffixeType = "_string";
 						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonArray)) {
+							entiteSolrNomCanonique = VAL_nomCanoniqueVertxJsonArray;
+							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
+							entiteSuffixeType = "_string";
+						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 							entiteSolrNomCanonique = VAL_nomCanoniqueDouble;
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
@@ -5289,6 +5298,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
 							entiteTypeSql = "jsonb";
 						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonArray)) {
+							entiteTypeSql = "jsonb";
+						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 							entiteTypeSql = "decimal";
 						}
@@ -5391,6 +5403,11 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
 							entiteTypeJson = "object";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "default";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonArray)) {
+							entiteTypeJson = "array";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
 						}
