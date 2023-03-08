@@ -519,11 +519,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								}
 								wWebsocketInput.tl(4, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
 								wWebsocketInput.tl(5, "if(val !== $(this).val())");
-								wWebsocketInput.tl(6, "$(this).val(val);");
+								if(entiteNomSimple.startsWith("Json")) {
+									wWebsocketInput.tl(6, "$(this).val(JSON.stringify(val));");
+								} else {
+									wWebsocketInput.tl(6, "$(this).val(val);");
+								}
 								wWebsocketInput.tl(4, "});");
 								wWebsocketInput.tl(4, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
 								wWebsocketInput.tl(5, "if(val !== $(this).text())");
-								wWebsocketInput.tl(6, "$(this).text(val);");
+								if(entiteNomSimple.startsWith("Json")) {
+									wWebsocketInput.tl(6, "$(this).val(JSON.stringify(val));");
+								} else {
+									wWebsocketInput.tl(6, "$(this).val(val);");
+								}
 								wWebsocketInput.tl(4, "});");
 								wWebsocketInput.tl(4, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
 								wWebsocketInput.tl(3, "}");
