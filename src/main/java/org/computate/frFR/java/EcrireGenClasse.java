@@ -3557,11 +3557,16 @@ public class EcrireGenClasse extends EcrireClasse {
 			Boolean staticSet = false;
 			Boolean entiteEstListe = (StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()));
 	
-			if(StringUtils.equals(entiteNomCanonique, String.class.getCanonicalName())) {
+			if(StringUtils.equals(entiteNomCanonique, String.class.getCanonicalName())
+					|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, String.class.getCanonicalName())) {
 				tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-				tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				tl(2, entiteEstListe ? "String l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+				if(entiteEstListe) {
+					tl(2, "if(l != null)");
+					tl(3, "add", entiteVarCapitalise, "(l);");
+				}
 				tl(1, "}");
-				tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+				tl(1, "public static ", entiteEstListe ? entiteNomSimpleCompletGenerique : entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
 
 				if(entiteSetTrim && entiteSetLower)
 					tl(2, "return StringUtils.trim(StringUtils.lowerCase(o));");
@@ -4958,8 +4963,15 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(5, "((JsonArray)val).stream().forEach(v -> set", entiteVarCapitalise, "(v.toString()));");
 						tl(4, "} else if(val instanceof ", entiteNomSimpleGenerique, "[]) {");
 						tl(5, "Arrays.asList((", entiteNomSimpleGenerique, "[])val).stream().forEach(v -> set", entiteVarCapitalise, "((", entiteNomSimpleGenerique, ")v));");
-						tl(4, "} else if(val instanceof Number[]) {");
-						tl(5, "Arrays.asList((Number[])val).stream().forEach(v -> set", entiteVarCapitalise, "((Number)v));");
+						if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
+								|| VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)
+								|| VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)
+								|| VAL_nomCanoniqueFloat.equals(entiteNomCanoniqueGenerique)
+								|| VAL_nomCanoniqueBigDecimal.equals(entiteNomCanoniqueGenerique)
+								) {
+							tl(4, "} else if(val instanceof Number[]) {");
+							tl(5, "Arrays.asList((Number[])val).stream().forEach(v -> set", entiteVarCapitalise, "((Number)v));");
+						}
 						tl(4, "}");
 						tl(4, "if(!", langueConfig.getString(ConfigCles.var_sauvegardes), ".contains(\"", entiteVar, "\")) {");
 						tl(5, "", langueConfig.getString(ConfigCles.var_sauvegardes), ".add(\"", entiteVar, "\");");
@@ -5288,6 +5300,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 				tl(12, "<div class=\"w3-cell-row \">");
 				tl(13, "<h5 class=\"w3-cell \">");
+				tl(14, "<i class=\"far fa-search w3-xxlarge w3-cell w3-cell-middle \"></i>");
 				tl(14, langueConfig.getString(ConfigCles.var_relier), " ", entiteListeTypeJson == null ? entiteAttribuerContexteUnNom : entiteAttribuerContexteNomPluriel, " ", langueConfig.getString(ConfigCles.var_a), " ", classeCeNom);
 				tl(13, "</h5>");
 				tl(12, "</div>");
@@ -5455,7 +5468,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(2, "{{#eq ", langueConfig.getString(ConfigCles.var_roleRequis), " \"true\"}}");
 
 			if(entiteAttribuer) {
-				tl(14, "<i class=\"far fa-search w3-xxlarge w3-cell w3-cell-middle \"></i>");
 				tl(14, "{{#eq '", langueConfig.getString(ConfigCles.var_PUTCopie), "' ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 				tl(15, "<div>");
 				tl(16, "<input ");
@@ -5746,7 +5758,6 @@ public class EcrireGenClasse extends EcrireClasse {
 		else {
 			tl(1, "{{#eq 'Page' ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 			if(entiteAttribuer) {
-				tl(14, "<i class=\"far fa-search w3-xxlarge w3-cell w3-cell-middle \"></i>");
 				tl(14, "{{#eq '", langueConfig.getString(ConfigCles.var_PUTCopie), "' ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 				tl(15, "<div>");
 				tl(16, "<input ");
