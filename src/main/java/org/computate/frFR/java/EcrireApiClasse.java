@@ -2833,12 +2833,6 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(3, "}));");
 						tl(2, "});");
 						tl(2, "CompositeFuture.all(futures).onSuccess( a -> {");
-						tl(3, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), " != null) {");
-						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumPATCH() + ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getDocs().size());");
-						tl(4, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
-						tl(5, classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first().", classeLangueConfig.getString(ConfigCles.var_requeteApi), classeNomSimple, "();");
-						tl(4, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
-						tl(3, "}");
 						tl(3, classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".next().onSuccess(", classeLangueConfig.getString(ConfigCles.var_suivant), " -> {");
 						tl(4, "if(", classeLangueConfig.getString(ConfigCles.var_suivant), ") {");
 						tl(5, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(b -> {");
@@ -3032,7 +3026,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(classeModele)
 							tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.getPk()).orElse(null));");
 						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
-						tl(7, classeApiOperationIdMethode, "Future(o, false).onSuccess(a -> {");
+						tl(7, classeApiOperationIdMethode, "Future(o, false).onSuccess(o2 -> {");
+						tl(8, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), " != null) {");
+						tl(9, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumPATCH() + ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getDocs().size());");
+						tl(9, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
+						tl(10, "o2.", classeLangueConfig.getString(ConfigCles.var_requeteApi), classeNomSimple, "();");
+						tl(9, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
+						tl(8, "}");
 						tl(8, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(new JsonObject().encodePrettily()))));");
 						tl(7, "}).onFailure(ex -> {");
 						tl(8, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.failedFuture(ex));");
