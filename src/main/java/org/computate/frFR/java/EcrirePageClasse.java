@@ -1731,6 +1731,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htmStyle\"}}{{> htmStyle", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmScripts\"}}{{> htmScripts", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmScript\"}}{{> htmScript", classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"websocket\"}}{{> websocket", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodySidebar\"}}{{> htmBodySidebar", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Milieu), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageNomSimple, "}}{{/partial}}");
@@ -2270,6 +2271,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						}
 					}
 				}
+				tl(3, "$('#site-calendar-box').accordion({ collapsible: true, active: false });");
+				l("{{#if DEFAULT_MAP_LOCATION }}");
+				tl(3, "window.DEFAULT_MAP_LOCATION = { lat: {{ DEFAULT_MAP_LOCATION.lat }}, lon: {{ DEFAULT_MAP_LOCATION.lon }} };");
+				l("{{/if}}");
+				l("{{#if DEFAULT_MAP_ZOOM }}");
+				tl(3, "window.DEFAULT_MAP_ZOOM = {{ DEFAULT_MAP_ZOOM }};");
+				l("{{/if}}");
+				tl(3, "window.DEFAULT_ZONE_ID = '{{ defaultZoneId }}';");
 				tl(3, "$(document).ready(function() {");
 				tl(4, "document.onkeydown = function(evt) {");
 				tl(5, "evt = evt || window.event;");
@@ -2288,7 +2297,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "if(pk != null) {");
 				s(wJsInit);
 				tl(4, "}");
-				tl(4, "websocket", classeApiClasseNomSimple, "(websocket", classeApiClasseNomSimple, "Inner);");
 				tl(4, "window.varsFq = JSON.parse('{{{toJsonObjectStringInApostrophes varsFq}}}');");
 				tl(4, "window.varsRange = JSON.parse('{{{toJsonObjectStringInApostrophes varsRange}}}');");
 				tl(4, "window.defaultRangeVar = '{{ defaultRangeVar }}';");
@@ -2299,16 +2307,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(5, "initialView: 'dayGridMonth'");
 				tl(4, "});");
 				tl(4, "//calendar.render();");
+				tl(0, "{{#block \"websocket\"}}{{/block}}");
 				tl(3, "});");
-				tl(3, "$('#site-calendar-box').accordion({ collapsible: true, active: false });");
-				l("{{#if DEFAULT_MAP_LOCATION }}");
-				tl(3, "window.DEFAULT_MAP_LOCATION = { lat: {{ DEFAULT_MAP_LOCATION.lat }}, lon: {{ DEFAULT_MAP_LOCATION.lon }} };");
-				l("{{/if}}");
-				l("{{#if DEFAULT_MAP_ZOOM }}");
-				tl(3, "window.DEFAULT_MAP_ZOOM = {{ DEFAULT_MAP_ZOOM }};");
-				l("{{/if}}");
-				tl(3, "window.DEFAULT_ZONE_ID = '{{ defaultZoneId }}';");
 				tl(2, "</script>");
+				tl(0, "{{/inline}}");
+
+				tl(0, "{{#*inline \"websocket", classePageNomSimple, "\"}}");
+				tl(4, "<!-- inline \"websocket", classePageNomSimple, "\" -->");
+				tl(4, "websocket", classeApiClasseNomSimple, "(websocket", classeApiClasseNomSimple, "Inner);");
 				tl(0, "{{/inline}}");
 			}
 			t(0, "{{#*inline \"htmUrl", classeApiClasseNomSimple, "\"}}");
