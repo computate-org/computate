@@ -497,9 +497,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain wNomAffichageMethode;
 	protected ToutEcrivain wClasseNomSimpleMethode;
 	protected ToutEcrivain wDescriptionMethode;
-	protected ToutEcrivain wHtmlColonneMethode;
-	protected ToutEcrivain wHtmlLigneMethode;
-	protected ToutEcrivain wHtmlCelluleMethode;
+	protected ToutEcrivain wHtmColonneMethode;
+	protected ToutEcrivain wHtmLigneMethode;
+	protected ToutEcrivain wHtmCelluleMethode;
 	protected ToutEcrivain wLongeurMinMethode;
 	protected ToutEcrivain wLongeurMaxMethode;
 	protected ToutEcrivain wMinMethode;
@@ -944,8 +944,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	String entiteDescription;
 
-	Integer entiteHtmlLigne;
-	Integer entiteHtmlCellule;
+	Integer entiteHtmLigne;
+	Integer entiteHtmCellule;
 	Integer entiteLongeurMin;
 	Integer entiteLongeurMax;
 	Integer entiteMin;
@@ -1155,7 +1155,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String entiteHtmlTooltip;
 
-	Integer entiteHtmlColonne;
+	Integer entiteHtmColonne;
 
 	List<String> entiteMethodesAvantVisibilite;
 
@@ -1311,9 +1311,9 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		wClasseNomSimpleMethode = ToutEcrivain.create();
 		wDescriptionMethode = ToutEcrivain.create();
-		wHtmlColonneMethode = ToutEcrivain.create();
-		wHtmlLigneMethode = ToutEcrivain.create();
-		wHtmlCelluleMethode = ToutEcrivain.create();
+		wHtmColonneMethode = ToutEcrivain.create();
+		wHtmLigneMethode = ToutEcrivain.create();
+		wHtmCelluleMethode = ToutEcrivain.create();
 		wLongeurMinMethode = ToutEcrivain.create();
 		wLongeurMaxMethode = ToutEcrivain.create();
 		wMinMethode = ToutEcrivain.create();
@@ -2065,8 +2065,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					l("//	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase());
 					if(description != null)
 						l("//	 * Description: ", description.replace("\r\n", " ").replace("\n", " "));
-					l("//	 * HtmlRow: ", row);
-					l("//	 * HtmlCell: ", cell);
+					l("//	 * HtmRow: ", row);
+					l("//	 * HtmCell: ", cell);
 					l("//	 * Facet: true");
 					l("//	 */");
 					l("//	protected void _", fieldName, "(Wrap<", javaType, "> w) {");
@@ -3134,9 +3134,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	
 			entiteNomAffichage = doc.getString("entiteNomAffichage_" + langueNom + "_stored_string");
 			entiteHtmlTooltip = doc.getString("entiteHtmlTooltip_" + langueNom + "_stored_string");
-			entiteHtmlColonne = doc.getInteger("entiteHtmlColonne_stored_int");
-			entiteHtmlLigne = doc.getInteger("entiteHtmlLigne_stored_int");
-			entiteHtmlCellule = doc.getInteger("entiteHtmlCellule_stored_int");
+			entiteHtmColonne = doc.getInteger("entiteHtmColonne_stored_int");
+			entiteHtmLigne = doc.getInteger("entiteHtmLigne_stored_int");
+			entiteHtmCellule = doc.getInteger("entiteHtmCellule_stored_int");
 			entiteLongeurMin = doc.getInteger("entiteLongeurMin_stored_int");
 			entiteLongeurMax = doc.getInteger("entiteLongeurMax_stored_int");
 			entiteMin = doc.getInteger("entiteMin_stored_int");
@@ -5235,17 +5235,17 @@ public class EcrireGenClasse extends EcrireClasse {
 				wClasseNomSimpleMethode.tl(2, "case VAR_", entiteVar, ":");
 				wClasseNomSimpleMethode.tl(3, "return \"", entiteNomSimple, "\";");
 			}
-			if(entiteHtmlColonne != null) {
-				wHtmlColonneMethode.tl(2, "case VAR_", entiteVar, ":");
-				wHtmlColonneMethode.tl(3, "return ", entiteHtmlColonne, ";");
+			if(entiteHtmColonne != null) {
+				wHtmColonneMethode.tl(2, "case VAR_", entiteVar, ":");
+				wHtmColonneMethode.tl(3, "return ", entiteHtmColonne, ";");
 			}
-			if(entiteHtmlLigne != null) {
-				wHtmlLigneMethode.tl(2, "case VAR_", entiteVar, ":");
-				wHtmlLigneMethode.tl(3, "return ", entiteHtmlLigne, ";");
+			if(entiteHtmLigne != null) {
+				wHtmLigneMethode.tl(2, "case VAR_", entiteVar, ":");
+				wHtmLigneMethode.tl(3, "return ", entiteHtmLigne, ";");
 			}
-			if(entiteHtmlCellule != null) {
-				wHtmlCelluleMethode.tl(2, "case VAR_", entiteVar, ":");
-				wHtmlCelluleMethode.tl(3, "return ", entiteHtmlCellule, ";");
+			if(entiteHtmCellule != null) {
+				wHtmCelluleMethode.tl(2, "case VAR_", entiteVar, ":");
+				wHtmCelluleMethode.tl(3, "return ", entiteHtmCellule, ";");
 			}
 			if(entiteLongeurMin != null) {
 				wLongeurMinMethode.tl(2, "case VAR_", entiteVar, ":");
@@ -6150,9 +6150,9 @@ public class EcrireGenClasse extends EcrireClasse {
 		wNomAffichageMethode.flushClose();
 		wDescriptionMethode.flushClose();
 		wClasseNomSimpleMethode.flushClose();
-		wHtmlColonneMethode.flushClose();
-		wHtmlLigneMethode.flushClose();
-		wHtmlCelluleMethode.flushClose();
+		wHtmColonneMethode.flushClose();
+		wHtmLigneMethode.flushClose();
+		wHtmCelluleMethode.flushClose();
 		wLongeurMinMethode.flushClose();
 		wLongeurMaxMethode.flushClose();
 		wMinMethode.flushClose();
@@ -6706,47 +6706,47 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 	
 			/////////////////
-			// HtmlColonne //
+			// HtmColonne //
 			/////////////////
 			l();
-			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmlColonne), classeNomSimple, "(String var) {");
+			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmColonne), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
-			s(wHtmlColonneMethode);
+			s(wHtmColonneMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmlColonne), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmColonne), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
 			///////////////
-			// HtmlLigne //
+			// HtmLigne //
 			///////////////
 			l();
-			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmlLigne), classeNomSimple, "(String var) {");
+			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmLigne), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
-			s(wHtmlLigneMethode);
+			s(wHtmLigneMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmlLigne), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmLigne), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
 			/////////////////
-			// HtmlCellule //
+			// HtmCellule //
 			/////////////////
 			l();
-			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmlCellule), classeNomSimple, "(String var) {");
+			tl(1, "public static Integer ", langueConfig.getString(ConfigCles.var_htmCellule), classeNomSimple, "(String var) {");
 			tl(2, "switch(var) {");
-			s(wHtmlCelluleMethode);
+			s(wHtmCelluleMethode);
 			tl(3, "default:");
 			if(classeEstBase)
 				tl(4, "return null;");
 			else
-				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmlCellule), classeNomSimpleSuperGenerique, "(var);");
+				tl(4, "return ", classeNomSimpleSuperGenerique, ".", langueConfig.getString(ConfigCles.var_htmCellule), classeNomSimpleSuperGenerique, "(var);");
 			tl(2, "}");
 			tl(1, "}");
 	
@@ -7213,15 +7213,15 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		wClasseDescription.tl(0, "<p>");
 		wClasseDescription.tl(0, langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_la_classe_), classeNomSimple, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
-		wClasseDescription.tl(0, "curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+		wClasseDescription.tl(0, "curl -k '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomCanonique_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomCanonique), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
 		wClasseDescription.tl(0, "<p>");
 		wClasseDescription.tl(0, langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_l_ensemble_), classeNomEnsemble, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
-		wClasseDescription.tl(0, "curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+		wClasseDescription.tl(0, "curl -k '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;classeNomEnsemble_", langueNom, "_indexed_string:", ClientUtils.escapeQueryChars(classeNomEnsemble), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
 		wClasseDescription.tl(0, "<p>");
 		wClasseDescription.tl(0, langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_le_projet_), siteNom, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
-		wClasseDescription.tl(0, "curl '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
+		wClasseDescription.tl(0, "curl -k '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
 
 		if(o != null) {

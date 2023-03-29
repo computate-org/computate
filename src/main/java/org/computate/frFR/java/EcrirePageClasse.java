@@ -82,8 +82,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r.enUS: searchRowActualSearch
 	 * r: entiteDocumentSolr
 	 * r.enUS: entitySolrDocument
-	 * r: entiteHtmlLigne
-	 * r.enUS: entityHtmlRow
+	 * r: entiteHtmLigne
+	 * r.enUS: entityHtmRow
 	 * r: entiteHtml
 	 * r.enUS: entityHtml
 	 * r: rechercheLigneRecherche
@@ -142,17 +142,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 		if(entiteHtml) {
 			if(langueConfig.getString(ConfigCles.var_Recherche).equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelRecherche = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				rechercheLigneActuelRecherche = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
 				if(rechercheLigneRecherche != rechercheLigneActuelRecherche) {
 					if(rechercheLigneRecherche != -1)
 						wForm.tl(7, "</div>");
-					wForm.tl(7, "<div class=\"w3-cell-row \">");
+					wForm.tl(7, "<div class=\"w3-cell-row ", langueConfig.getString(ConfigCles.var_HtmLigne), "\">");
 					rechercheLigneRecherche = rechercheLigneActuelRecherche;
 					resultat = true;
 				}
 			}
 			else if("POST".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPOST = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				rechercheLigneActuelPOST = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
 				if(rechercheLignePOST != rechercheLigneActuelPOST) {
 					if(rechercheLignePOST != -1)
 						wForm.tl(7, "</div>");
@@ -162,7 +162,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 			}
 			else if("PUTImport".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPUTImport = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				rechercheLigneActuelPUTImport = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
 				if(rechercheLignePUTImport != rechercheLigneActuelPUTImport) {
 					if(rechercheLignePUTImport != -1)
 						wForm.tl(7, "</div>");
@@ -172,7 +172,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 			}
 			else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPUTFusion = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				rechercheLigneActuelPUTFusion = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
 				if(rechercheLignePUTFusion != rechercheLigneActuelPUTFusion) {
 					if(rechercheLignePUTFusion != -1)
 						wForm.tl(7, "</div>");
@@ -182,7 +182,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 			}
 			else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPUTCopie = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				rechercheLigneActuelPUTCopie = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
 				if(rechercheLignePUTCopie != rechercheLigneActuelPUTCopie) {
 					if(rechercheLignePUTCopie != -1)
 						wForm.tl(7, "</div>");
@@ -192,7 +192,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 			}
 			else if("PATCH".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPATCH = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				rechercheLigneActuelPATCH = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
 				if(rechercheLignePATCH != rechercheLigneActuelPATCH) {
 					if(rechercheLignePATCH != -1)
 						wForm.tl(7, "</div>");
@@ -202,7 +202,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 			}
 			else if("Page".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPage = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int"), 0);
+				rechercheLigneActuelPage = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
 				if(rechercheLignePage != rechercheLigneActuelPage) {
 					if(rechercheLignePage != -1)
 						wForm.tl(7, "</div>");
@@ -215,46 +215,46 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			if(classeUtilisateurEcrire && classeSessionEcrire) {
 				wForm.l("{{#ifContainsKeysAnyRolesOrSessionId ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), " ", langueConfig.getString(ConfigCles.var_sessionId), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), "}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 				wForm.l("{{/ifContainsKeysAnyRolesOrSessionId}}");
 			}
 			else if(classePublicLire) {
 				wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 				wForm.l("{{/ifContainsAnyRoles}}");
 			}
 			else if(classeUtilisateurEcrire) {
 				if(classeRolesTrouves || classeRoleLiresTrouves) {
 					wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
-					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 					wForm.l("{{else}}");
-					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 					wForm.l("{{/ifContainsAnyRoles}}");
 				}
 				else {
 					wForm.l("{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
-					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 					wForm.l("{{else}}");
-					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 					wForm.l("{{/ifContainsKeys}}");
 				}
 			}
 			else if(classeSessionEcrire) {
 				wForm.l("{{#ifContainsSessionId sessionId}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 				wForm.l("{{/ifContainsSessionId}}");
 			}
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
 				wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=\"", classeApiMethodeMethode, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 				wForm.l("{{/ifContainsAnyRoles}}");
 			}
 		}
@@ -364,9 +364,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				String fqClassesSuperEtMoi = "(" + classeEntiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-//					rechercheSolr.addFilterQuery("entiteHtmlLigne_indexed_int:[* TO *]");
-				rechercheSolr.addSort("entiteHtmlLigne_indexed_int", ORDER.asc);
-				rechercheSolr.addSort("entiteHtmlCellule_indexed_int", ORDER.asc);
+//					rechercheSolr.addFilterQuery("entiteHtmLigne_indexed_int:[* TO *]");
+				rechercheSolr.addSort("entiteHtmLigne_indexed_int", ORDER.asc);
+				rechercheSolr.addSort("entiteHtmCellule_indexed_int", ORDER.asc);
+				rechercheSolr.add("stats", "true");
+				rechercheSolr.add("stats.field", "entiteHtmLigne_indexed_int");
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();
 
@@ -402,8 +404,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
 							entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
 							entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
-							entiteHtmlLigne = (Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int");
-							entiteHtmlCellule = (Integer)entiteDocumentSolr.get("entiteHtmlCellule_stored_int");
+							entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
+							entiteHtmCellule = (Integer)entiteDocumentSolr.get("entiteHtmCellule_stored_int");
 							entiteCouverture = (Boolean)entiteDocumentSolr.get("entiteCouverture_stored_boolean");
 							entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
 							entiteDocValues = (Boolean)entiteDocumentSolr.get("entiteDocValues_stored_boolean");
@@ -437,11 +439,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteImageBase64Url = (String)entiteDocumentSolr.get("entiteImageBase64Url_" + langueNom + "_stored_string");
 
 							if(entiteHtml) {
-								if(entiteHtmlCellule != null) {
+								if(entiteHtmCellule != null) {
 									if(ecrireFormEntite(langueNom, langueConfig, wFormPage, "Page"))
 										resultatFormPage = true;
 								}
-								if(entiteHtmlLigne != null && (entiteDefinir || entiteAttribuer)) {
+								if(entiteHtmLigne != null && (entiteDefinir || entiteAttribuer)) {
 //											if(ecrireFormEntite(langueNom, wFormPUTImport, "PUTImport"))
 //												resultatFormPUTImport = true;
 //											if(ecrireFormEntite(langueNom, wFormPUTFusion, langueConfig.getString(ConfigCles.var_PUTFusion)))
@@ -1369,8 +1371,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				String fqClassesSuperEtMoi = "(" + classeEntiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + this.langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-				rechercheSolr.addFilterQuery("entiteHtmlColonne_indexed_int:[* TO *]");
-				rechercheSolr.addSort("entiteHtmlColonne_indexed_int", ORDER.asc);
+				rechercheSolr.addFilterQuery("entiteHtmColonne_indexed_int:[* TO *]");
+				rechercheSolr.addSort("entiteHtmColonne_indexed_int", ORDER.asc);
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();
 				Integer rechercheLignes = rechercheSolr.getRows();
@@ -1474,8 +1476,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				String fqClassesSuperEtMoi = "(" + classeEntiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
-				rechercheSolr.addSort("entiteHtmlLigne_indexed_int", ORDER.asc);
-				rechercheSolr.addSort("entiteHtmlCellule_indexed_int", ORDER.asc);
+				rechercheSolr.addSort("entiteHtmLigne_indexed_int", ORDER.asc);
+				rechercheSolr.addSort("entiteHtmCellule_indexed_int", ORDER.asc);
 				QueryResponse rechercheReponse = clientSolrComputate.query(rechercheSolr);
 				SolrDocumentList rechercheListe = rechercheReponse.getResults();
 				Integer rechercheLignes = rechercheSolr.getRows();
@@ -1759,7 +1761,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 		
 						if(classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
-							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "_", classeApiOperationIdMethode, "}}{{/partial}}");
+							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "_", classeApiOperationIdMethode, " classApiMethodMethod=\"", classeApiMethodeMethode, "\"}}{{/partial}}");
 						}
 					}
 				}
@@ -2108,7 +2110,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										entiteNomSimpleComplet = (String)entiteDocumentSolr.get("entiteNomSimpleComplet_" + langueNom + "_stored_string");
 										entiteDescription = (String)entiteDocumentSolr.get("entiteDescription_" + langueNom + "_stored_string");
 										entiteNomAffichage = (String)entiteDocumentSolr.get("entiteNomAffichage_" + langueNom + "_stored_string");
-										entiteHtmlLigne = (Integer)entiteDocumentSolr.get("entiteHtmlLigne_stored_int");
+										entiteHtmLigne = (Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int");
 										entiteCouverture = (Boolean)entiteDocumentSolr.get("entiteCouverture_stored_boolean");
 										entiteHtml = (Boolean)entiteDocumentSolr.get("entiteHtml_stored_boolean");
 										entiteDocValues = (Boolean)entiteDocumentSolr.get("entiteDocValues_stored_boolean");

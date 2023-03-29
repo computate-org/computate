@@ -2786,12 +2786,12 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: entityAttribute
 	 * r: entiteHtmlTooltip
 	 * r.enUS: entityHtmlTooltip
-	 * r: HtmlLigne
-	 * r.enUS: HtmlRow
-	 * r: HtmlColonne
-	 * r.enUS: HtmlColumn
-	 * r: HtmlCellule
-	 * r.enUS: HtmlCell
+	 * r: HtmLigne
+	 * r.enUS: HtmRow
+	 * r: HtmColonne
+	 * r.enUS: HtmColumn
+	 * r: HtmCellule
+	 * r.enUS: HtmCell
 	 * r: entiteHtml
 	 * r.enUS: entityHtml
 	 * r: initLoin
@@ -4690,23 +4690,23 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteHtml = entiteDefinir || regexTrouve("^Html:\\s*(true)$", methodeCommentaire);
 
 						{ 
-							String str = regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmlColonne) + ":\\s*(.*)$", methodeCommentaire);
+							String str = regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmColonne) + ":\\s*(.*)$", methodeCommentaire);
 							if(NumberUtils.isCreatable(str)) {
-								indexerStockerSolr(entiteDoc, "entiteHtmlColonne", Integer.parseInt(str));
+								indexerStockerSolr(entiteDoc, "entiteHtmColonne", Integer.parseInt(str));
 								entiteHtml = true;
 							}
 						}
 						{ 
-							String str = regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmlLigne) + ":\\s*(.*)$", methodeCommentaire);
+							String str = regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmLigne) + ":\\s*(.*)$", methodeCommentaire);
 							if(NumberUtils.isCreatable(str)) {
-								indexerStockerSolr(entiteDoc, "entiteHtmlLigne", Integer.parseInt(str));
+								indexerStockerSolr(entiteDoc, "entiteHtmLigne", Integer.parseInt(str));
 								entiteHtml = true;
 							}
 						}
 						{ 
-							String str = regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmlCellule) + ":\\s*(.*)$", methodeCommentaire);
+							String str = regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmCellule) + ":\\s*(.*)$", methodeCommentaire);
 							if(NumberUtils.isCreatable(str)) {
-								indexerStockerSolr(entiteDoc, "entiteHtmlCellule", Integer.parseInt(str));
+								indexerStockerSolr(entiteDoc, "entiteHtmCellule", Integer.parseInt(str));
 								entiteHtml = true;
 							}
 						}
