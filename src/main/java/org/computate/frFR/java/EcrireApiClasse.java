@@ -1919,6 +1919,21 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(7, "}));");
 											tl(6, "});");
 											tl(6, "break;");
+											tl(5, "case \"remove", entiteVarCapitalise, "\":");
+											tl(6, "Optional.ofNullable(jsonObject.getString(", classeLangueConfig.getString(ConfigCles.var_entite), "Var)).map(val -> Long.parseLong(val)).ifPresent(pk2 -> {");
+											tl(7, "if(!pks.contains(pk2)) {");
+											tl(8, "pks.add(pk2);");
+											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(7, "}");
+											tl(7, "futures2.add(Future.future(promise2 -> {");
+											tl(9, "sql(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").update(", classeNomSimple, ".class, pk).setToNull(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, pk2).onSuccess(a -> {");
+											tl(9, "promise2.complete();");
+											tl(8, "}).onFailure(ex -> {");
+											tl(9, "promise2.fail(ex);");
+											tl(8, "});");
+											tl(7, "}));");
+											tl(6, "});");
+											tl(6, "break;");
 										} else {
 											// no list, no list, >
 											tl(5, "case \"set", entiteVarCapitalise, "\":");
@@ -1934,6 +1949,21 @@ public class EcrireApiClasse extends EcrireGenClasse {
 											tl(9, "}).onFailure(ex -> {");
 											tl(10, "promise2.fail(ex);");
 											tl(9, "});");
+											tl(8, "}).onFailure(ex -> {");
+											tl(9, "promise2.fail(ex);");
+											tl(8, "});");
+											tl(7, "}));");
+											tl(6, "});");
+											tl(6, "break;");
+											tl(5, "case \"remove", entiteVarCapitalise, "\":");
+											tl(6, "Optional.ofNullable(jsonObject.getString(", classeLangueConfig.getString(ConfigCles.var_entite), "Var)).map(val -> Long.parseLong(val)).ifPresent(pk2 -> {");
+											tl(7, "if(!pks.contains(pk2)) {");
+											tl(8, "pks.add(pk2);");
+											tl(8, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+											tl(7, "}");
+											tl(7, "futures2.add(Future.future(promise2 -> {");
+											tl(9, "sql(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, pk2).setToNull(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
+											tl(9, "promise2.complete();");
 											tl(8, "}).onFailure(ex -> {");
 											tl(9, "promise2.fail(ex);");
 											tl(8, "});");
