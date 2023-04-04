@@ -614,6 +614,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageClasse.l(String.format(" * Map.hackathonLabelsGen: %s", hackathonPageGenLabels));
 
 				auteurPageClasse.l(" * ", langueConfig.getString(ConfigCles.var_Traduire), ": false");
+				auteurPageClasse.l(" * ", langueConfig.getString(ConfigCles.var_Promesse), ": true");
 				for(String langueNom2 : autresLangues) {
 					YAMLConfiguration langueConfig2 = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classePageLangueNom));
 					String classePageNomSimple2 = classeDoc.getString("classePageNomCanonique" + langueConfig2.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
