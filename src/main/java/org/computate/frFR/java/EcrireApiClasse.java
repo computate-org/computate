@@ -3103,6 +3103,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
 							if(classeApiMethode.equals(classeLangueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 								tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", body.getValue(\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\"));");
+								if(!classeModele)
+									tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", body.getValue(\"", classeVarCleUnique, "\"));");
 							}
 							tl(4, "if(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteService), ".getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getJsonArray(\"var\")).orElse(new JsonArray()).stream().filter(s -> \"", classeLangueConfig.getString(ConfigCles.var_recharger), ":false\".equals(s)).count() > 0L) {");
 							tl(5, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Requete), "Vars().put( \"", classeLangueConfig.getString(ConfigCles.var_recharger), "\", \"false\" );");
@@ -3153,13 +3155,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(8, "} else {");
 							tl(9, "o2.", classeLangueConfig.getString(ConfigCles.var_definir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f, bodyVal);");
 							tl(9, "o2.", classeLangueConfig.getString(ConfigCles.var_attribuer), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f, bodyVal);");
-							tl(9, "if(!StringUtils.containsAny(f, \"", classeVarClePrimaire, "\", \"", classeLangueConfig.getString(ConfigCles.var_cree), "\", \"set", classeLangueConfig.getString(ConfigCles.var_Cree), "\") && !Objects.equals(o.", classeLangueConfig.getString(ConfigCles.var_obtenir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f), o2.", classeLangueConfig.getString(ConfigCles.var_obtenir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f)))");
+							tl(9, "if(!StringUtils.containsAny(f, \"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\", \"", classeLangueConfig.getString(ConfigCles.var_cree), "\", \"set", classeLangueConfig.getString(ConfigCles.var_Cree), "\") && !Objects.equals(o.", classeLangueConfig.getString(ConfigCles.var_obtenir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f), o2.", classeLangueConfig.getString(ConfigCles.var_obtenir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f)))");
 							tl(10, "body2.put(\"set\" + StringUtils.capitalize(f), bodyVal);");
 							tl(8, "}");
 							tl(7, "}");
 							tl(7, "for(String f : Optional.ofNullable(o.get", classeLangueConfig.getString(ConfigCles.var_Sauvegardes), "()).orElse(new ArrayList<>())) {");
 							tl(8, "if(!body.fieldNames().contains(f)) {");
-							tl(9, "if(!StringUtils.containsAny(f, \"", classeVarClePrimaire, "\", \"", classeLangueConfig.getString(ConfigCles.var_cree), "\", \"set", classeLangueConfig.getString(ConfigCles.var_Cree), "\") && !Objects.equals(o.", classeLangueConfig.getString(ConfigCles.var_obtenir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f), o2.", classeLangueConfig.getString(ConfigCles.var_obtenir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f)))");
+							tl(9, "if(!StringUtils.containsAny(f, \"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\", \"", classeLangueConfig.getString(ConfigCles.var_cree), "\", \"set", classeLangueConfig.getString(ConfigCles.var_Cree), "\") && !Objects.equals(o.", classeLangueConfig.getString(ConfigCles.var_obtenir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f), o2.", classeLangueConfig.getString(ConfigCles.var_obtenir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f)))");
 							tl(10, "body2.putNull(\"set\" + StringUtils.capitalize(f));");
 							tl(8, "}");
 							tl(7, "}");

@@ -5086,14 +5086,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			// codePeupler //
 			/////////////////
 			o = wPeupler;
-			if(classeSauvegarde) {
+			if(classeIndexe) {
 	//							String nomChamp = entiteVar.toString();
 	//							String varCrypte = entiteVarCrypte.toString();
 	//							String varStocke = entiteVarStocke.toString();
 	//							String varSuggere = entiteVarSuggere.toString();
 	//							String varIncremente = entiteVarIncremente.toString();
 	//							String varCleUnique = entiteVarCleUniqueActuel.toString();
-				if(entiteCrypte || entiteStocke || entiteCleUnique || entiteSuggere || entiteIncremente) {
+				if(entiteCrypte || entiteStocke || entiteDocValues || entiteCleUnique || entiteSuggere || entiteIncremente) {
 					tl(0);
 	
 					if(entiteSuggere) {
