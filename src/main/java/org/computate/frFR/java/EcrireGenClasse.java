@@ -5293,6 +5293,9 @@ public class EcrireGenClasse extends EcrireClasse {
 				// requeteApi //
 				//////////////////
 		
+				if(entiteNomSimple.toString().equals("BigDecimal"))
+				wRequeteApi.tl(3, "if(!Objects.equals(", entiteVar, ", original.get", entiteVarCapitalise, "()) && ", entiteVar, " != null && ", entiteVar, ".compareTo(original.get", entiteVarCapitalise, "()) != 0)");
+				else
 				wRequeteApi.tl(3, "if(!Objects.equals(", entiteVar, ", original.get", entiteVarCapitalise, "()))");
 				wRequeteApi.tl(4, langueConfig.getString(ConfigCles.var_requeteApi), ".addVars(\"", entiteVar, "\");");
 		

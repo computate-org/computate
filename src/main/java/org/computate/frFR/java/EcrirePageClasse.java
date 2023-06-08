@@ -526,16 +526,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								} else {
 									wWebsocketInput.tl(6, "$(this).val(val);");
 								}
+								wWebsocketInput.tl(6, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
 								wWebsocketInput.tl(4, "});");
 								wWebsocketInput.tl(4, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
 								wWebsocketInput.tl(5, "if(val !== $(this).text())");
 								if(entiteNomSimple.startsWith("Json")) {
 									wWebsocketInput.tl(6, "$(this).val(JSON.stringify(val));");
 								} else {
-									wWebsocketInput.tl(6, "$(this).val(val);");
+									wWebsocketInput.tl(6, "$(this).text(val);");
 								}
+								wWebsocketInput.tl(6, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
 								wWebsocketInput.tl(4, "});");
-								wWebsocketInput.tl(4, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
 								wWebsocketInput.tl(3, "}");
 							}
 						}
@@ -1761,7 +1762,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 						String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 		
-						if(classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+						if(classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche))) {
+							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "_", classeApiOperationIdMethode, " classApiMethodMethod=\"Page\"}}{{/partial}}");
+						} else if(classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "_", classeApiOperationIdMethode, " classApiMethodMethod=\"", classeApiMethodeMethode, "\"}}{{/partial}}");
 						}
 					}

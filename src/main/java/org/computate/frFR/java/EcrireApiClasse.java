@@ -3060,7 +3060,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(8, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), " != null) {");
 						tl(9, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumPATCH() + ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getDocs().size());");
 						tl(9, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
-						tl(10, "o2.", classeLangueConfig.getString(ConfigCles.var_requeteApi), classeNomSimple, "();");
+						tl(10, "o", classeSauvegarde ? "2" : "", ".", classeLangueConfig.getString(ConfigCles.var_requeteApi), classeNomSimple, "();");
 						tl(9, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
 						tl(8, "}");
 						tl(8, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(new JsonObject().encodePrettily()))));");
