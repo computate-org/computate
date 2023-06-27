@@ -570,7 +570,7 @@ public class ConfigSite {
 	/**
 	 **/
 	protected void _authPolitiqueGranulee() throws Exception {
-		authPolitiqueGranulee = config.getBoolean(langueConfigGlobale.getString(ConfigCles.var_AUTH_POLITIQUE_GRANULEE), true);
+		authPolitiqueGranulee = config.getBoolean(langueConfigGlobale.getString(ConfigCles.var_AUTH_POLITIQUE_GRANULEE), false);
 	}
 
 	/**

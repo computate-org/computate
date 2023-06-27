@@ -3494,7 +3494,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "{{/inline}}");
 			s(wGetters);
 			tl(0, "{{#*inline \"htm", langueConfig.getString(ConfigCles.var_Formulaires), classePageNomSimple, "\"}}");
-			tl(1, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
+			tl(0, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRoleSuperAdmin), "}}");
 
 			// refraîchir 1 //
 			tl(2, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int1}}");
@@ -3507,26 +3507,30 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "</button>");
 			tl(2, "{{/eq}}");
 
-			tl(1, "{{/ifContainsAnyRoles}}");
+			tl(0, "{{/ifContainsAnyRoles}}");
 
 			// formulaires //
-			if(activerRoleAdmin) {
-				tl(1, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRoleAdmin), "}}");
-			}
 			for(String classeApiMethode : classeApiMethodes) {
 				String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
 				String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
 				String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
 				String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
 
-				if(classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+				if(classeApiMethode.equals("POST")) {
+					if(activerRoleAdmin) {
+						tl(0, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRoleAdmin), "}}");
+					}
 					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
+					if(activerRoleAdmin) {
+						tl(0, "{{/ifContainsAnyRoles}}");
+					}
+				} else if(classeApiMethode.equals("PATCH") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+					tl(0, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRoleSuperAdmin), "}}");
+					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
+					tl(0, "{{/ifContainsAnyRoles}}");
 				}
 			}
 
-			if(activerRoleAdmin) {
-				tl(1, "{{/ifContainsAnyRoles}}");
-			}
 			l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Suggere), "\"}}{{/block}}");
 			tl(0, "{{/inline}}");
 
