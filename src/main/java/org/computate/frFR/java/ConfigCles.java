@@ -99,6 +99,7 @@ public class ConfigCles {
 	public static final String var_avant = "var_avant";
 	public static final String var_Avant = "var_Avant";
 	public static final String var_BaseApiServiceImpl = "var_BaseApiServiceImpl";
+	public static final String var_Bouton = "var_Bouton";
 	public static final String var_PageBase = "var_PageBase";
 	public static final String var_calendrier = "var_calendrier";
 	public static final String var_Calendrier = "var_Calendrier";
