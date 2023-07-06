@@ -4391,12 +4391,12 @@ public class EcrireGenClasse extends EcrireClasse {
 						}
 						else if(entiteNomSimple.toString().equals("JsonObject")) {
 							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o;");
+							tl(2, "return o.toString();");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("JsonArray")) {
 							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o;");
+							tl(2, "return o.toString();");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("BigDecimal")) {

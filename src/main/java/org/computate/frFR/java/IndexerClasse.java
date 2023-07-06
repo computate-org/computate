@@ -5184,12 +5184,12 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteSuffixeType = "_location";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
-							entiteSolrNomCanonique = VAL_nomCanoniqueVertxJsonObject;
+							entiteSolrNomCanonique = VAL_nomCanoniqueString;
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
 							entiteSuffixeType = "_string";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonArray)) {
-							entiteSolrNomCanonique = VAL_nomCanoniqueVertxJsonArray;
+							entiteSolrNomCanonique = VAL_nomCanoniqueString;
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
 							entiteSuffixeType = "_string";
 						}

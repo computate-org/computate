@@ -1157,7 +1157,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(classePageSimple) {
 				tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(new ", classeApiClasseNomSimple, "());");
 			} else {
-				tl(2, "if(", uncapitalizeClasseApiClasseNomSimple, "Count == 1)");
+				tl(2, "if(", uncapitalizeClasseApiClasseNomSimple, "Count == 1 && Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_RequeteService), "().getParams().getJsonObject(\"path\")).map(o -> o.getString(\"id\")).orElse(null) != null)");
 				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.get(0));");
 			}
 			tl(1, "}");
@@ -1165,13 +1165,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classeModele) {
 					l();
 					tl(1, "protected void _", classeModele ? classeVarClePrimaire : classeVarCleUnique, "(", classePartsCouverture.nomSimple(langueNom), "<Long> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-					tl(2, "if(", uncapitalizeClasseApiClasseNomSimple, "Count == 1)");
+					tl(2, "if(", uncapitalizeClasseApiClasseNomSimple, "_ != null)");
 					tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", uncapitalizeClasseApiClasseNomSimple, "_.get", StringUtils.capitalize(classeVarClePrimaire), "());");
 					tl(1, "}");
 				}
 				l();
 				tl(1, "protected void _", classeVarCleUnique, "(", classePartsCouverture.nomSimple(langueNom), "<String> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
-				tl(2, "if(", uncapitalizeClasseApiClasseNomSimple, "Count == 1)");
+				tl(2, "if(", uncapitalizeClasseApiClasseNomSimple, "_ != null)");
 				tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", uncapitalizeClasseApiClasseNomSimple, "_.get", StringUtils.capitalize(classeVarCleUnique), "());");
 				tl(1, "}");
 			}
@@ -1794,11 +1794,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(2, "<title>");
 				s("{{#if ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_}}");
 				s("{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int1}}");
-				s("{{#eq params.query.q \"*:*\"}}");
+				s("{{#if ", classeVarCleUnique, "}}");
 				s(classeNomAdjectifSingulier);
 				s("{{else}}");
 				s(classeNomAdjectifSingulier);
-				s("{{/eq}}");
+				s("{{/if}}");
 				s("{{else}}");
 				s(classeAucunNomTrouve);
 				s("{{/eq}}");
@@ -2306,7 +2306,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "window.varsFq = JSON.parse('{{{toJsonObjectStringInApostrophes varsFq}}}');");
 				tl(4, "window.varsRange = JSON.parse('{{{toJsonObjectStringInApostrophes varsRange}}}');");
 				tl(4, "window.defaultRangeVar = '{{ defaultRangeVar }}';");
-				tl(4, langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), "();");
+				tl(4, langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), classeNomSimple, "();");
 				l();
 				tl(4, "var calendarEl = document.getElementById('site-calendar');");
 				tl(4, "var calendar = new FullCalendar.Calendar(calendarEl, {");
@@ -2372,14 +2372,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"q", classeNomSimple, "_{{ @key }}\"");
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"\"");
-//			s(" onkeypress=\"qChange(this); \"");
+//			s(" onkeypress=\"qChange('", classeNomSimple, "', this); \"");
 
 			if(classeVarSuggere == null)
-				s(" onkeyup=\"qChange(this); \"");
+				s(" onkeyup=\"qChange('", classeNomSimple, "', this); \"");
 			else
-				s(" {{#eq ../var '", classeVarSuggere, "' }}onkeyup{{else}}onchange{{/eq}}=\"qChange(this); \"");
+				s(" {{#eq ../var '", classeVarSuggere, "' }}onkeyup{{else}}onchange{{/eq}}=\"qChange('", classeNomSimple, "', this); \"");
 
-//			s(" onchange=\"qChange(this); \"");
+//			s(" onchange=\"qChange('", classeNomSimple, "', this); \"");
 			s(" data-var=\"{{ var }}\"");
 			s(" autocomplete=\"off=\"");
 			l("/>");
@@ -2406,7 +2406,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"q", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_debut), "\"");
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"\"");
-			s(" onchange=\"paramChange(this); \"");
+			s(" onchange=\"paramChange('", classeNomSimple, "', this); \"");
 			s(" data-var=\"start\"");
 			s(" autocomplete=\"off=\"");
 			l("/>");
@@ -2432,7 +2432,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"q", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_lignes), "\"");
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"\"");
-			s(" onchange=\"paramChange(this); \"");
+			s(" onchange=\"paramChange('", classeNomSimple, "', this); \"");
 			s(" data-var=\"rows\"");
 			s(" autocomplete=\"off=\"");
 			l("/>");
@@ -2462,7 +2462,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(12, "<button");
 			s(" id=\"buttonFacet", classeNomSimple, "_{{ @key }}\"");
 			s(" class=\"\"");
-			s(" onclick=\"facetFieldChange(this); \"");
+			s(" onclick=\"facetFieldChange('", classeNomSimple, "', this); \"");
 			s(" title=\"", langueConfig.getString(ConfigCles.str_voir_valeurs), " ", "\"");
 			s(" data-var=\"{{ var }}\"");
 			s(" data-clear=\"{{#if facetField }}true{{else}}false{{/if}}\"");
@@ -2474,11 +2474,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"fq", classeNomSimple, "_{{ @key }}\"");
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"\"");
-//			s(" onkeypress=\"fqChange(this); \"");
+//			s(" onkeypress=\"fqChange('", classeNomSimple, "', this); \"");
 
-			s(" onchange=\"fqChange(this); \"");
+			s(" onchange=\"fqChange('", classeNomSimple, "', this); \"");
 
-//			s(" onchange=\"fqChange(this); \"");
+//			s(" onchange=\"fqChange('", classeNomSimple, "', this); \"");
 			s(" data-var=\"{{ var }}\"");
 			s(" autocomplete=\"off=\"");
 			s(" value=\"{{ val }}\"");
@@ -2509,7 +2509,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" data-class=\"", classeNomSimple, "\"");
 			s(" data-var=\"{{ ../var }}\"");
 			s(" data-val=\"{{ @key }}\"");
-			s(" onclick=\"fqReplace(this); \"");
+			s(" onclick=\"fqReplace('", classeNomSimple, "', this); \"");
 			s(">");
 			s("{{ @key }}");
 			s(": ");
@@ -2570,7 +2570,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(11, "<select");
 			s(" name=\"facet.range.gap\"");
 			s(" id=\"pageFacetRangeGap-", classeNomSimple, "\"");
-			s(" onchange=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "GapChange(this, '", classeNomSimple, "'); \"");
+			s(" onchange=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "GapChange('", classeNomSimple, "', this); \"");
 			l(">");
 			tl(12, "<option value=\"+1YEAR\"{{#eq defaultRangeGap '+1YEAR'}} selected=\"selected\"{{else}}{{/eq}}>Year</option>");
 			tl(12, "<option value=\"+1MONTH\"{{#eq defaultRangeGap '+1MONTH'}} selected=\"selected\"{{else}}{{/eq}}>Month</option>");
@@ -2595,7 +2595,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" name=\"facetRangeStart\"");
 			s(" id=\"pageFacetRangeStart-", classeNomSimple, "\"");
 			s(" value=\"{{formatZonedDateTime defaultRangeStart \"yyyy-MM-dd'T'HH:mm\" defaultLocaleId defaultZoneId}}\"");
-			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "StartChange(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "StartChange('", classeNomSimple, "', this); \"");
 			l("/></span>");
 			tl(10, "</td>");
 			tl(9, "</tr>");
@@ -2612,7 +2612,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" name=\"facetRangeEnd\"");
 			s(" id=\"pageFacetRangeEnd-", classeNomSimple, "\"");
 			s(" value=\"{{formatZonedDateTime defaultRangeEnd \"yyyy-MM-dd'T'HH:mm\" defaultLocaleId defaultZoneId}}\"");
-			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "EndChange(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "EndChange('", classeNomSimple, "', this); \"");
 			l("/></span>");
 			tl(10, "</td>");
 			tl(9, "</tr>");
@@ -2629,7 +2629,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"pageFacet", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimple, "_{{ @key }}\"");
 			s(" value=\"{{ var }}\"");
 			s("{{#eq default", langueConfig.getString(ConfigCles.var_Gamme), "Var var }} checked=\"checked\"{{/eq}}");
-			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change('", classeNomSimple, "', this); \"");
 			l("/></span>");
 			tl(10, "</td>");
 			tl(10, "<td class=\"\">");
@@ -2687,7 +2687,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"pageFacetPivot", classeNomSimple, "_{{ @key }}\"");
 			s(" value=\"{{ var }}\"");
 			s("{{#if ", langueConfig.getString(ConfigCles.var_pivot), " }} checked=\"checked\"{{/if}}");
-			s(" onclick=\"facetPivotChange(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facetPivotChange('", classeNomSimple, "', this); \"");
 			l("/></span>");
 			tl(10, "</td>");
 			tl(10, "<td class=\"w3-cell \">");
@@ -2746,7 +2746,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"page", langueConfig.getString(ConfigCles.var_ListeChamps), "", classeNomSimple, "_{{ @key }}\"");
 			s(" value=\"{{ var }}\"");
 			s("{{#if ", langueConfig.getString(ConfigCles.var_listeChamps), " }} checked=\"checked\"{{/if}}");
-			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_ListeChamps), "Change(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_ListeChamps), "Change('", classeNomSimple, "', this); \"");
 			l("/></span>");
 			tl(10, "</td>");
 			tl(10, "<td class=\"w3-cell \">");
@@ -2805,7 +2805,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" id=\"page", langueConfig.getString(ConfigCles.var_Stats), "", classeNomSimple, "_{{ @key }}\"");
 			s(" value=\"{{ var }}\"");
 			s("{{#if ./", langueConfig.getString(ConfigCles.var_stats), " }} checked=\"checked\"{{/if}}");
-			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Stats), "Change(this, '", classeNomSimple, "'); \"");
+			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Stats), "Change('", classeNomSimple, "', this); \"");
 			l("/></span>");
 			tl(10, "</td>");
 			tl(10, "<td class=\"w3-cell \">");
@@ -2922,37 +2922,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(1, "{{#if ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), "}}");
 			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), " }} site-menu-icon \"></i>");
 			tl(1, "{{/if}}");
-			tl(4, "<span class=\"\">", classeNomAdjectifPluriel, "</span>");
+			tl(4, "<span class=\"\">", classeNomAdjectifSingulier, "</span>");
 			tl(3, "</a>");
 			tl(2, "</h1>");
-			tl(2, "<div>");
-			tl(1, "{{#if pagination.page", langueConfig.getString(ConfigCles.var_Precedent), "}}");
-			tl(3, "<a href=\"{{pageUri}}?start={{pagination.page", langueConfig.getString(ConfigCles.var_Precedent), ".", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{pagination.", langueConfig.getString(ConfigCles.var_lignes), "}}\">");
-			tl(4, "<i class=\"fas fa-arrow-square-left \"></i>");
-			tl(3, "</a>");
-			tl(1, "{{else}}");
-			tl(3, "<i class=\"fas fa-arrow-square-left w3-opacity \"></i>");
-			tl(1, "{{/if}}");
-			tl(1, "{{#gte pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), " pagination.1L}}");
-			tl(3, "<a href=\"{{pageUri}}?start={{pagination.", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{ pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), " }}\">");
-			tl(4, "<i class=\"fas fa-minus-square \"></i>");
-			tl(3, "</a>");
-			tl(1, "{{else}}");
-			tl(3, "<i class=\"fas fa-minus-square w3-opacity \"></i>");
-			tl(1, "{{/gte}}");
-			tl(3, "<a href=\"{{pageUri}}?start={{pagination.", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{ pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Prochaine), " }}\">");
-			tl(4, "<i class=\"fas fa-plus-square \"></i>");
-			tl(3, "</a>");
-			tl(1, "{{#if pagination.page", langueConfig.getString(ConfigCles.var_Prochaine), "}}");
-			tl(3, "<a href=\"{{pageUri}}?start={{pagination.page", langueConfig.getString(ConfigCles.var_Prochaine), ".", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{pagination.", langueConfig.getString(ConfigCles.var_lignes), "}}\">");
-			tl(4, "<i class=\"fas fa-arrow-square-right \"></i>");
-			tl(3, "</a>");
-			tl(1, "{{else}}");
-			tl(3, "<i class=\"fas fa-arrow-square-right w3-opacity \"></i>");
-			tl(1, "{{/if}}");
-			tl(3, "<span>{{ pagination.", langueConfig.getString(ConfigCles.var_debut), "Num }} - {{ pagination.", langueConfig.getString(ConfigCles.var_fin), "Num }} ", langueConfig.getString(ConfigCles.var_de), " {{ pagination.", langueConfig.getString(ConfigCles.var_numTrouve), " }}</span>");
-			tl(2, "</div>");
-			tl(0, "{{> \"table1", classePageNomSimple, "\"}}");
+
+			tl(2, "<h2 class=\"w3-center \">");
+			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", classeCouleur, "\">");
+			tl(4, "<span class=\"\">{{", uncapitalizeClasseApiClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");
+			tl(3, "</span>");
+			tl(2, "</h2>");
 			l("{{/inline}}");
 
 			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\"}}");
@@ -3416,11 +3394,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			tl(2, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int1}}");
 			// htmBodyCount1 //
-			tl(3, "{{#eq params.query.q \"*:*\"}}");
-			tl(0, "{{#block \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{/block}}");
-			tl(3, "{{else}}");
+			tl(3, "{{#if ", classeVarCleUnique, "}}");
 			tl(0, "{{#block \"htmBodyCount1\"}}{{/block}}");
-			tl(3, "{{/eq}}");
+			tl(3, "{{else}}");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{/block}}");
+//			tl(0, "{{#block \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{/block}}");
+			tl(3, "{{/if}}");
 			tl(2, "{{else}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{/block}}");
 			tl(2, "{{/eq}}");
@@ -3518,11 +3497,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				if(classeApiMethode.equals("POST")) {
 					if(activerRoleAdmin) {
-						tl(0, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRoleAdmin), "}}");
+						l("{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRoleAdmin), "}}");
 					}
+					l("{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int1}}");
+					l("{{#if ", classeVarCleUnique, "}}");
 					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
+					l("{{else}}");
+					l("{{/if}}");
+					l("{{else}}");
+					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
+					l("{{/eq}}");
 					if(activerRoleAdmin) {
-						tl(0, "{{/ifContainsAnyRoles}}");
+						l("{{/ifContainsAnyRoles}}");
 					}
 				} else if(classeApiMethode.equals("PATCH") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 					tl(0, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRoleSuperAdmin), "}}");
@@ -3680,7 +3666,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.s(wWebsocket);
 				auteurPageJs.tl(0, "}");
 				auteurPageJs.l();
-				auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), "(", langueConfig.getString(ConfigCles.var_requeteApi), ") {");
+				auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), classeNomSimple, "(", langueConfig.getString(ConfigCles.var_requeteApi), ") {");
 				auteurPageJs.tl(1, "var r = $('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "').val();");
 				auteurPageJs.tl(1, "if(r) {");
 				auteurPageJs.tl(1, "var json = JSON.parse(r);");
@@ -3760,7 +3746,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(5, "trace['marker'] = { color: colors, size: 10 };");
 				auteurPageJs.tl(5, "data.push(trace);");
 				auteurPageJs.tl(4, "} else if(range) {");
-				auteurPageJs.tl(5, "layout['title'] = '", classeNomSimple, "';");
+				auteurPageJs.tl(5, "layout['title'] = '", classeNomAdjectifPluriel, "';");
 				auteurPageJs.tl(5, "layout['xaxis'] = {");
 				auteurPageJs.tl(6, "title: rangeVarFq.displayName");
 				auteurPageJs.tl(5, "}");
