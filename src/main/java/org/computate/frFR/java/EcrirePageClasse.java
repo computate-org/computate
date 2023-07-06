@@ -1751,7 +1751,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount0\"}}{{> htmBodyCount0", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{> htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "}}{{/partial}}");
-					l("{{#partial \"htmBodyCount1\"}}{{> htmBodyCount1", classePageNomSimple, "}}{{/partial}}");
+					if(classeNomCanonique.equals(classePartsUtilisateurSite.nomCanonique(classeLangueNom))) {
+						l("{{#partial \"htmBodyCount", langueConfig.getString(ConfigCles.var_Tous), "\"}}");
+						tl(0, "<div class=\"w3-margin-top \"");
+						tl(1, "<h3>Manage username and password</h3>");
+						tl(1, "<div class=\"w3-margin \">");
+						tl(2, "<a target=\"_blank\" class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-blue-gray \" href=\"{{ siteAuthUrl }}/realms/{{ siteAuthRealm }}/account\">Manage user profile</a>");
+						tl(1, "</div>");
+						tl(0, "</div>");
+						l("{{/partial}}");
+						l("{{#partial \"htmBodyCount1\"}}");
+						tl(0, "<div class=\"w3-margin-top \"");
+						tl(1, "<h3>Manage username and password</h3>");
+						tl(1, "<div class=\"w3-margin \">");
+						tl(2, "<a target=\"_blank\" class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-blue-gray \" href=\"{{ siteAuthUrl }}/realms/{{ siteAuthRealm }}/account\">Manage user profile</a>");
+						tl(1, "</div>");
+						tl(0, "</div>");
+						l("{{/partial}}");
+					} else {
+						l("{{#partial \"htmBodyCount1\"}}{{> htmBodyCount1", classePageNomSimple, "}}{{/partial}}");
+					}
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaires), "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaires), classePageNomSimple, "}}{{/partial}}");
