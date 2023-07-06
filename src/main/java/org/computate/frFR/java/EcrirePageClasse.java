@@ -1729,6 +1729,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							l(String.format("hackathonLabels: %s", hackathonLabels));
 						l("-->");
 					}
+					l("{{#eq classSimpleName \"", classeNomSimple, "\"}}");
 					l("{{#partial \"htmHead\"}}{{> htmHead", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmTitle\"}}{{> htmTitle", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmMeta\"}}{{> htmMeta", classePageNomSimple, "}}{{/partial}}");
@@ -1792,6 +1793,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						}
 					}
 				}
+				l("{{/eq}}");
 				l("{{> ", classeGenPageNomSimple, "}}");
 			}
 
