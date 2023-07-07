@@ -55,6 +55,7 @@ public class ConfigCles {
 	public static final String str_Trouver_l_entité_ = "str_Trouver_l_entité_";
 	public static final String str_ValiderLaSignature = "str_ValiderLaSignature";
 	public static final String str_voir_valeurs = "str_voir_valeurs";
+	public static final String str_Vous_pouvez_remplacer_les_valeurs_par_defaut_ci_dessous = "str_Vous_pouvez_remplacer_les_valeurs_par_defaut_ci_dessous";
 	public static final String var_a = "var_a";
 	public static final String var_activer = "var_activer";
 	public static final String var_ACTIVER_ARCHIVE = "var_ACTIVER_ARCHIVE";
@@ -157,6 +158,7 @@ public class ConfigCles {
 	public static final String var_Declarer = "var_Declarer";
 	public static final String var_deconnexion = "var_deconnexion";
 	public static final String var_de = "var_de";
+	public static final String var_Defaut = "var_Defaut";
 	public static final String var_definir = "var_definir";
 	public static final String var_Definir = "var_Definir";
 	public static final String var_dejaInitialise = "var_dejaInitialise";

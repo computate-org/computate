@@ -950,6 +950,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	Integer entiteLongeurMax;
 	Integer entiteMin;
 	Integer entiteMax;
+	String entiteDefaut;
 
 	Boolean entiteIndexe;
 
@@ -3141,6 +3142,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteLongeurMax = doc.getInteger("entiteLongeurMax_stored_int");
 			entiteMin = doc.getInteger("entiteMin_stored_int");
 			entiteMax = doc.getInteger("entiteMax_stored_int");
+			entiteDefaut = doc.getString("entiteDefaut_stored_string");
 			entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");
 
 			entiteClassesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("entiteClassesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
@@ -3519,9 +3521,8 @@ public class EcrireGenClasse extends EcrireClasse {
 		//		}
 				tl(1, " **/");
 			}
-			t(1, "protected abstract void");
-			s(" _", entiteVar);
-			s("(");
+			t(1, "protected abstract void _", entiteVar, "(");
+
 			if(entitePromesse) {
 				s("Promise<", entiteNomSimpleComplet, "> ", entiteVarParam);
 			}
@@ -3560,6 +3561,14 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classePartsRequeteSite != null) {
 				if(StringUtils.equals(entiteNomCanonique, String.class.getCanonicalName())
 						|| entiteEstListe && StringUtils.equals(entiteNomCanoniqueGenerique, String.class.getCanonicalName())) {
+
+					if(entiteEstListe) {
+						l();
+						tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVar, ") {");
+						tl(2, "this.", entiteVar, " = ", entiteVar, ";");
+						tl(1, "}");
+					}
+
 					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
 					tl(2, entiteEstListe ? "String l = " : "this."+ entiteVar + " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
 					if(entiteEstListe) {
@@ -4301,8 +4310,14 @@ public class EcrireGenClasse extends EcrireClasse {
 					t(2, classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, "> ", entiteVar, classePartsCouverture.nomSimple(langueNom));
 					l(" = new ", classePartsCouverture.nomSimple(langueNom), "<", entiteNomSimpleComplet, ">().var(\"", entiteVar, "\");");
 					tl(2, "if(", entiteVar, " == null) {");
-					tl(3, "_", entiteVar, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ");");
-					tl(3, "set", entiteVarCapitalise, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".o);");
+					if(entiteDefaut != null) {
+						tl(3, "set", entiteVarCapitalise, "(\"", escapeJava(entiteDefaut), "\");");
+					} else {
+						tl(3, "_", entiteVar, "(", entiteVar, classePartsCouverture.nomSimple(langueNom), ");");
+						tl(3, "Optional.ofNullable(", entiteVar, classePartsCouverture.nomSimple(langueNom), ".getO()).ifPresent(o -> {");
+						tl(4, "set", entiteVarCapitalise, "(o);");
+						tl(3, "});");
+					}
 					tl(2, "}");
 				}
 				else {
@@ -5538,7 +5553,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(16, "type=\"text\"");
 
 				if(entiteNomAffichage != null) {
-					tl(16, "placeholder=\"", entiteNomAffichage, "\"");
+					tl(16, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
 					t(16, "title=\"", entiteDescription, "\"");
@@ -5576,7 +5591,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(14, "<input");
 				tl(16, "type=\"text\"");
 				tl(16, "class=\"w3-input w3-border datetimepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
-				tl(16, "placeholder=\"", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), "\"");
+				tl(16, "placeholder=\"", entiteDefaut == null ? langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV) : entiteDefaut, "\"");
 				tl(16, "data-timeformat=\"", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), "\"");
 				tl(16, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				if(entiteDescription != null)
@@ -5729,7 +5744,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 
 				if(entiteNomAffichage != null) {
-					tl(15, "placeholder=\"", entiteNomAffichage, "\"");
+					tl(15, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
 					tl(15, "title=\"", entiteDescription, "\"");
@@ -5828,7 +5843,7 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(16, "type=\"text\"");
 
 				if(entiteNomAffichage != null) {
-					tl(16, "placeholder=\"", entiteNomAffichage, "\"");
+					tl(16, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
 					t(16, "title=\"", entiteDescription, "\"");
