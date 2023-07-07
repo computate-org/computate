@@ -141,121 +141,129 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		Boolean resultat = false;
 
 		if(entiteHtml) {
-			if(langueConfig.getString(ConfigCles.var_Recherche).equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelRecherche = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
-				if(rechercheLigneRecherche != rechercheLigneActuelRecherche) {
-					if(rechercheLigneRecherche != -1)
-						wForm.tl(7, "</div>");
-					wForm.tl(7, "<div class=\"w3-cell-row ", langueConfig.getString(ConfigCles.var_HtmLigne), "\">");
-					rechercheLigneRecherche = rechercheLigneActuelRecherche;
-					resultat = true;
+			if("POST".equals(classeApiMethodeMethode) && (
+					entiteVar.equals(langueConfig.getString(ConfigCles.var_supprime))
+					|| entiteVar.equals(langueConfig.getString(ConfigCles.var_archive))
+					|| entiteVar.equals(langueConfig.getString(ConfigCles.var_cree))
+					|| entiteAttribuer
+					)) {
+			} else {
+				if(langueConfig.getString(ConfigCles.var_Recherche).equals(classeApiMethodeMethode)) {
+					rechercheLigneActuelRecherche = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
+					if(rechercheLigneRecherche != rechercheLigneActuelRecherche) {
+						if(rechercheLigneRecherche != -1)
+							wForm.tl(7, "</div>");
+						wForm.tl(7, "<div class=\"w3-cell-row ", langueConfig.getString(ConfigCles.var_HtmLigne), "\">");
+						rechercheLigneRecherche = rechercheLigneActuelRecherche;
+						resultat = true;
+					}
 				}
-			}
-			else if("POST".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPOST = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
-				if(rechercheLignePOST != rechercheLigneActuelPOST) {
-					if(rechercheLignePOST != -1)
-						wForm.tl(7, "</div>");
-					wForm.tl(7, "<div class=\"w3-cell-row \">");
-					rechercheLignePOST = rechercheLigneActuelPOST;
-					resultat = true;
+				else if("POST".equals(classeApiMethodeMethode)) {
+					rechercheLigneActuelPOST = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
+					if(rechercheLignePOST != rechercheLigneActuelPOST) {
+						if(rechercheLignePOST != -1)
+							wForm.tl(7, "</div>");
+						wForm.tl(7, "<div class=\"w3-cell-row \">");
+						rechercheLignePOST = rechercheLigneActuelPOST;
+						resultat = true;
+					}
 				}
-			}
-			else if("PUTImport".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPUTImport = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
-				if(rechercheLignePUTImport != rechercheLigneActuelPUTImport) {
-					if(rechercheLignePUTImport != -1)
-						wForm.tl(7, "</div>");
-					wForm.tl(7, "<div class=\"w3-cell-row \">");
-					rechercheLignePUTImport = rechercheLigneActuelPUTImport;
-					resultat = true;
+				else if("PUTImport".equals(classeApiMethodeMethode)) {
+					rechercheLigneActuelPUTImport = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
+					if(rechercheLignePUTImport != rechercheLigneActuelPUTImport) {
+						if(rechercheLignePUTImport != -1)
+							wForm.tl(7, "</div>");
+						wForm.tl(7, "<div class=\"w3-cell-row \">");
+						rechercheLignePUTImport = rechercheLigneActuelPUTImport;
+						resultat = true;
+					}
 				}
-			}
-			else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPUTFusion = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
-				if(rechercheLignePUTFusion != rechercheLigneActuelPUTFusion) {
-					if(rechercheLignePUTFusion != -1)
-						wForm.tl(7, "</div>");
-					wForm.tl(7, "<div class=\"w3-cell-row \">");
-					rechercheLignePUTFusion = rechercheLigneActuelPUTFusion;
-					resultat = true;
+				else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethodeMethode)) {
+					rechercheLigneActuelPUTFusion = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
+					if(rechercheLignePUTFusion != rechercheLigneActuelPUTFusion) {
+						if(rechercheLignePUTFusion != -1)
+							wForm.tl(7, "</div>");
+						wForm.tl(7, "<div class=\"w3-cell-row \">");
+						rechercheLignePUTFusion = rechercheLigneActuelPUTFusion;
+						resultat = true;
+					}
 				}
-			}
-			else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPUTCopie = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
-				if(rechercheLignePUTCopie != rechercheLigneActuelPUTCopie) {
-					if(rechercheLignePUTCopie != -1)
-						wForm.tl(7, "</div>");
-					wForm.tl(7, "<div class=\"w3-cell-row \">");
-					rechercheLignePUTCopie = rechercheLigneActuelPUTCopie;
-					resultat = true;
+				else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethodeMethode)) {
+					rechercheLigneActuelPUTCopie = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
+					if(rechercheLignePUTCopie != rechercheLigneActuelPUTCopie) {
+						if(rechercheLignePUTCopie != -1)
+							wForm.tl(7, "</div>");
+						wForm.tl(7, "<div class=\"w3-cell-row \">");
+						rechercheLignePUTCopie = rechercheLigneActuelPUTCopie;
+						resultat = true;
+					}
 				}
-			}
-			else if("PATCH".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPATCH = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
-				if(rechercheLignePATCH != rechercheLigneActuelPATCH) {
-					if(rechercheLignePATCH != -1)
-						wForm.tl(7, "</div>");
-					wForm.tl(7, "<div class=\"w3-cell-row \">");
-					rechercheLignePATCH = rechercheLigneActuelPATCH;
-					resultat = true;
+				else if("PATCH".equals(classeApiMethodeMethode)) {
+					rechercheLigneActuelPATCH = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
+					if(rechercheLignePATCH != rechercheLigneActuelPATCH) {
+						if(rechercheLignePATCH != -1)
+							wForm.tl(7, "</div>");
+						wForm.tl(7, "<div class=\"w3-cell-row \">");
+						rechercheLignePATCH = rechercheLigneActuelPATCH;
+						resultat = true;
+					}
 				}
-			}
-			else if("Page".equals(classeApiMethodeMethode)) {
-				rechercheLigneActuelPage = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
-				if(rechercheLignePage != rechercheLigneActuelPage) {
-					if(rechercheLignePage != -1)
-						wForm.tl(7, "</div>");
-					wForm.tl(7, "<div class=\"w3-cell-row \">");
-					rechercheLignePage = rechercheLigneActuelPage;
-					resultat = true;
+				else if("Page".equals(classeApiMethodeMethode)) {
+					rechercheLigneActuelPage = ObjectUtils.defaultIfNull((Integer)entiteDocumentSolr.get("entiteHtmLigne_stored_int"), 0);
+					if(rechercheLignePage != rechercheLigneActuelPage) {
+						if(rechercheLignePage != -1)
+							wForm.tl(7, "</div>");
+						wForm.tl(7, "<div class=\"w3-cell-row \">");
+						rechercheLignePage = rechercheLigneActuelPage;
+						resultat = true;
+					}
 				}
-			}
-			
-
-			if(classeUtilisateurEcrire && classeSessionEcrire) {
-				wForm.l("{{#ifContainsKeysAnyRolesOrSessionId ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), " ", langueConfig.getString(ConfigCles.var_sessionId), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), "}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
-				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
-				wForm.l("{{/ifContainsKeysAnyRolesOrSessionId}}");
-			}
-			else if(classePublicLire) {
-				wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
-				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
-				wForm.l("{{/ifContainsAnyRoles}}");
-			}
-			else if(classeUtilisateurEcrire) {
-				if(classeRolesTrouves || classeRoleLiresTrouves) {
+				
+	
+				if(classeUtilisateurEcrire && classeSessionEcrire) {
+					wForm.l("{{#ifContainsKeysAnyRolesOrSessionId ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), " ", langueConfig.getString(ConfigCles.var_sessionId), " ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), "}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+					wForm.l("{{else}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+					wForm.l("{{/ifContainsKeysAnyRolesOrSessionId}}");
+				}
+				else if(classePublicLire) {
 					wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
 					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 					wForm.l("{{else}}");
 					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
 					wForm.l("{{/ifContainsAnyRoles}}");
 				}
-				else {
-					wForm.l("{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
+				else if(classeUtilisateurEcrire) {
+					if(classeRolesTrouves || classeRoleLiresTrouves) {
+						wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
+						wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+						wForm.l("{{else}}");
+						wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+						wForm.l("{{/ifContainsAnyRoles}}");
+					}
+					else {
+						wForm.l("{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
+						wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+						wForm.l("{{else}}");
+						wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+						wForm.l("{{/ifContainsKeys}}");
+					}
+				}
+				else if(classeSessionEcrire) {
+					wForm.l("{{#ifContainsSessionId sessionId}}");
 					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
 					wForm.l("{{else}}");
 					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
-					wForm.l("{{/ifContainsKeys}}");
+					wForm.l("{{/ifContainsSessionId}}");
 				}
-			}
-			else if(classeSessionEcrire) {
-				wForm.l("{{#ifContainsSessionId sessionId}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
-				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
-				wForm.l("{{/ifContainsSessionId}}");
-			}
-			else if(classeRolesTrouves || classeRoleLiresTrouves) {
-				wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
-				wForm.l("{{else}}");
-				wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
-				wForm.l("{{/ifContainsAnyRoles}}");
+				else if(classeRolesTrouves || classeRoleLiresTrouves) {
+					wForm.l("{{#ifContainsAnyRoles ", langueConfig.getString(ConfigCles.var_roles), " ", langueConfig.getString(ConfigCles.var_roleRequis), "}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"true\"}}");
+					wForm.l("{{else}}");
+					wForm.l("{{> \"htm", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_roleRequis), "=\"false\"}}");
+					wForm.l("{{/ifContainsAnyRoles}}");
+				}
 			}
 		}
 		return resultat;
@@ -3119,6 +3127,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										tl(6, "<span class=\"w3-button w3-display-topright \" onclick=\"$('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "').hide(); \">×</span>");
 										tl(1, "{{/eq}}");
 										tl(6, "<h2 class=\"w3-padding \">", methodeTitreValeurs, "</h2>");
+										if("POST".equals(classeApiMethode)) {
+											tl(6, "<div class=\"\">", langueConfig.getString(ConfigCles.str_Vous_pouvez_remplacer_les_valeurs_par_defaut_ci_dessous), "</div>");
+										}
 									} tl(5, "</header>");
 								}
 	
@@ -3154,6 +3165,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
 									} else {
 										{ tl(6, "<div id=\"", classeApiOperationIdMethode, "Form\">");
+										if(!langueConfig.getString(ConfigCles.var_PageRecherche).equals(classeApiMethode)) {
+											l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
+										}
 	
 										if("POST".equals(classeApiMethode)) {
 											s(wFormPOST);

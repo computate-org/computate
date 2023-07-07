@@ -4741,6 +4741,11 @@ public class IndexerClasse extends RegarderClasseBase {
 								indexerStockerSolr(entiteDoc, "entiteMax", num);
 						}
 
+						{
+							String str = regex("^" + classeLangueConfig.getString(ConfigCles.var_Defaut) + ":\\s*(.*)$", methodeCommentaire, 1);
+							indexerStockerSolr(entiteDoc, "entiteDefaut", str);
+						}
+
 						if(classeTraduire) {
 							for(String langueNom : classeAutresLangues) {  
 								indexerStockerSolr(langueNom, entiteDoc, "entiteNomAffichage", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_NomAffichage), methodeCommentaire));
