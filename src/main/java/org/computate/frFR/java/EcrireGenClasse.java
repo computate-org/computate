@@ -3543,13 +3543,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					s(methodeExceptionNomSimpleComplet);
 				}
 			}
-			if(entiteDefaut == null) {
-				l(";");
-			} else {
-				l(" {");
-				tl(2, "set", entiteVarCapitalise, "(\"", escapeJava(entiteDefaut), "\");");
-				tl(1, "}");
-			}
+			l(";");
 	
 	//						l();
 	//						tl(1, "public ", classeNomSimple, " ", entiteVar, "(", entiteNomSimpleComplet, " ", entiteVarParam, ") {");

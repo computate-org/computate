@@ -483,7 +483,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							}
 							if(entiteDefinir || entiteAttribuer || entiteIndexeOuStocke) {
 								if("LocalDate".equals(entiteNomSimple)) {
-									wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
+									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
 //									wWebsocketInput.tl(3, "if(val != null) {");
 //									wWebsocketInput.tl(4, "var t = moment(val, 'YYYY-MM-DD');");
 //									wWebsocketInput.tl(4, "if(t)");
@@ -491,7 +491,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //									wWebsocketInput.tl(3, "}");
 								}
 								else if("LocalDateTime".equals(entiteNomSimple)) {
-									wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
+									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
 //									wWebsocketInput.tl(3, "if(val != null) {");
 //									wWebsocketInput.tl(4, "var t = moment(val, 'YYYY-MM-DD');");
 //									wWebsocketInput.tl(4, "if(t)");
@@ -499,7 +499,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //									wWebsocketInput.tl(3, "}");
 								}
 								else if("LocalTime".equals(entiteNomSimple)) {
-									wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
+									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
 //									wWebsocketInput.tl(3, "if(val != null) {");
 //									wWebsocketInput.tl(4, "var t = moment(val, 'HH:mm');");
 //									wWebsocketInput.tl(4, "if(t)");
@@ -507,45 +507,45 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //									wWebsocketInput.tl(3, "}");
 								}
 								else {
-									wWebsocketInput.tl(3, "var val = o['", entiteVar, "'];");
+									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
 								}
-								wWebsocketInput.tl(3, "if(vars.includes('", entiteVar, "')) {");
+								wWebsocketInput.tl(4, "if(vars.includes('", entiteVar, "')) {");
 								if(entiteImageBase64Url != null) {
-									wWebsocketInput.tl(4, "if(val === undefined)");
-									wWebsocketInput.tl(5, "val = null;");
-									wWebsocketInput.tl(4, "$('.img", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-									wWebsocketInput.tl(5, "if(val !== $(this).attr('src'))");
-									wWebsocketInput.tl(6, "$(this).attr('src', val);");
-									wWebsocketInput.tl(4, "});");
+									wWebsocketInput.tl(5, "if(val === undefined)");
+									wWebsocketInput.tl(6, "val = null;");
+									wWebsocketInput.tl(5, "$('.img", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+									wWebsocketInput.tl(6, "if(val !== $(this).attr('src'))");
+									wWebsocketInput.tl(7, "$(this).attr('src', val);");
+									wWebsocketInput.tl(5, "});");
 								}
 								if(entiteSignature) {
-									wWebsocketInput.tl(4, "if(val === undefined)");
-									wWebsocketInput.tl(5, "val = null;");
-									wWebsocketInput.tl(4, "$('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-									wWebsocketInput.tl(5, "if(val !== $('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src'))");
-									wWebsocketInput.tl(6, "$('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src', val == null ? 'data:image/png;base64,' : val);");
-									wWebsocketInput.tl(5, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
-									wWebsocketInput.tl(4, "});");
+									wWebsocketInput.tl(5, "if(val === undefined)");
+									wWebsocketInput.tl(6, "val = null;");
+									wWebsocketInput.tl(5, "$('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+									wWebsocketInput.tl(6, "if(val !== $('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src'))");
+									wWebsocketInput.tl(7, "$('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src', val == null ? 'data:image/png;base64,' : val);");
+									wWebsocketInput.tl(6, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
+									wWebsocketInput.tl(5, "});");
 								}
-								wWebsocketInput.tl(4, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-								wWebsocketInput.tl(5, "if(val !== $(this).val())");
+								wWebsocketInput.tl(5, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+								wWebsocketInput.tl(6, "if(val !== $(this).val())");
 								if(entiteNomSimple.startsWith("Json")) {
-									wWebsocketInput.tl(6, "$(this).val(JSON.stringify(val));");
+									wWebsocketInput.tl(7, "$(this).val(JSON.stringify(val));");
 								} else {
-									wWebsocketInput.tl(6, "$(this).val(val);");
+									wWebsocketInput.tl(7, "$(this).val(val);");
 								}
-								wWebsocketInput.tl(6, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
-								wWebsocketInput.tl(4, "});");
-								wWebsocketInput.tl(4, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-								wWebsocketInput.tl(5, "if(val !== $(this).text())");
+								wWebsocketInput.tl(7, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
+								wWebsocketInput.tl(5, "});");
+								wWebsocketInput.tl(5, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+								wWebsocketInput.tl(6, "if(val !== $(this).text())");
 								if(entiteNomSimple.startsWith("Json")) {
-									wWebsocketInput.tl(6, "$(this).val(JSON.stringify(val));");
+									wWebsocketInput.tl(7, "$(this).val(JSON.stringify(val));");
 								} else {
-									wWebsocketInput.tl(6, "$(this).text(val);");
+									wWebsocketInput.tl(7, "$(this).text(val);");
 								}
-								wWebsocketInput.tl(6, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
-								wWebsocketInput.tl(4, "});");
-								wWebsocketInput.tl(3, "}");
+								wWebsocketInput.tl(7, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
+								wWebsocketInput.tl(5, "});");
+								wWebsocketInput.tl(4, "}");
 							}
 						}
 						rechercheSolr.setStart(i.intValue() + rechercheLignes);
@@ -562,7 +562,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wWebsocket.tl(1, "if(pk != null) {");
 					wWebsocket.tl(2, langueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Vals([ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + pk} ], function( data, textStatus, jQxhr ) {");
 					wWebsocket.tl(3, "var o = data['list'][0];");
+					wWebsocket.tl(3, "if(o != null) {");
 					wWebsocket.s(wWebsocketInput);
+					wWebsocket.tl(3, "} else {");
+					wWebsocket.tl(4, "window.location.href = '", classePageUriMethode + "';");
+					wWebsocket.tl(3, "}");
 					wWebsocket.tl(2, "});");
 					wWebsocket.tl(1, "}");
 //						wWebsocket.l();
