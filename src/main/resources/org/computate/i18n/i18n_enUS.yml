@@ -1,3 +1,5 @@
+str_confirmer_supprimer: "Are you sure you want to delete that?"
+str_confirmer_archiver: "Are you sure you want to archive that?"
 str_a_démarré: "started"
 str_a_échoué: "failed"
 str_a_réussi: "succeeded"

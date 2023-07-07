@@ -21,6 +21,8 @@ public class ConfigCles {
 	public static final String str_API = "str_API";
 	public static final String str_chemin_absolu = "str_chemin_absolu";
 	public static final String str_chemin_absolu_url = "str_chemin_absolu_url";
+	public static final String str_confirmer_supprimer = "str_confirmer_supprimer";
+	public static final String str_confirmer_archiver = "str_confirmer_archiver";
 	public static final String str_créé_nouveau = "str_créé_nouveau";
 	public static final String str_Creer_ = "str_Creer_";
 	public static final String str__dans_Solr = "str__dans_Solr";
