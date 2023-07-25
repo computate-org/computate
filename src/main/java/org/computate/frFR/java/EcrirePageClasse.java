@@ -786,7 +786,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "json.put(\"var\", var);");
 				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
 				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-				tl(3, "json.put(\"val\", Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getQuery()).filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
+				tl(3, "json.put(\"val\", Optional.ofNullable(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getQuery()).filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null));");
 				tl(3, "vars.put(var, json);");
 				tl(2, "});");
 				tl(1, "}");
@@ -810,7 +810,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "String type = StringUtils.substringAfterLast(var", langueConfig.getString(ConfigCles.var_Indexe), ", \"_\");");
 				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
 				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-				tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
+				tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null));");
 				tl(3, "Optional.ofNullable(stats).map(s -> s.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(stat -> {");
 				tl(4, "json.put(\"stats\", JsonObject.mapFrom(stat));");
 				tl(3, "});");
@@ -890,7 +890,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "json.put(\"var\", var);");
 				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_nomAffichage), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_nomAffichage), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
 				tl(3, "json.put(\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\", Optional.ofNullable(", classeNomSimple, ".", langueConfig.getString(ConfigCles.var_classeNomSimple), classeNomSimple, "(var)).map(d -> StringUtils.isBlank(d) ? var : d).orElse(var));");
-				tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> StringUtils.substringAfter(s, \":\")).orElse(null));");
+				tl(3, "json.put(\"val\", ", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRequest().getFilterQueries().stream().filter(fq -> fq.startsWith(", classeNomSimple, ".varIndexed", classeNomSimple, "(var) + \":\")).findFirst().map(s -> SearchTool.unescapeQueryChars(StringUtils.substringAfter(s, \":\"))).orElse(null));");
 	
 	//			tl(3, "Optional.ofNullable(facetFields.get(var", langueConfig.getString(ConfigCles.var_Indexe), ")).ifPresent(facetField -> {");
 	//			tl(4, "JsonObject facetJson = new JsonObject();");
@@ -1002,6 +1002,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						tl(1, "@Override");
 					tl(1, "protected void _defaultLocale(", classePartsCouverture.nomSimple(langueNom), "<Locale> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
 					tl(2, langueConfig.getString(ConfigCles.var_cVar), ".o(Locale.forLanguageTag(defaultLocaleId));");
+					tl(1, "}");
+					l();
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
+					tl(1, "protected void _rows(", classePartsCouverture.nomSimple(langueNom), "<Long> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+					tl(2, "if(", langueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"rows\", null) != null)");
+					tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getRows());");
+					tl(1, "}");
+					l();
+					if(classePageSuperNomSimple != null)
+						tl(1, "@Override");
+					tl(1, "protected void _start(", classePartsCouverture.nomSimple(langueNom), "<Long> ", langueConfig.getString(ConfigCles.var_cVar), ") {");
+					tl(2, "if(", langueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").getString(\"start\", null) != null)");
+					tl(3, langueConfig.getString(ConfigCles.var_cVar), ".o(", langueConfig.getString(ConfigCles.var_listeRecherche), classeApiClasseNomSimple, "_.getStart());");
 					tl(1, "}");
 					l();
 					if(classePageSuperNomSimple != null)
@@ -2446,6 +2460,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" onchange=\"paramChange('", classeNomSimple, "', this); \"");
 			s(" data-var=\"start\"");
 			s(" autocomplete=\"off=\"");
+			s(" value=\"{{ start }}\"");
 			l("/>");
 			tl(11, "<div class=\"pageSearchVal w3-tiny \"></div>");
 			tl(10, "</div>");
@@ -2471,7 +2486,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" class=\"\"");
 			s(" onchange=\"paramChange('", classeNomSimple, "', this); \"");
 			s(" data-var=\"rows\"");
-			s(" autocomplete=\"off=\"");
+			s(" autocomplete=\"off\"");
+			s(" value=\"{{ rows }}\"");
 			l("/>");
 			tl(11, "<div class=\"pageSearchVal w3-tiny \"></div>");
 			tl(10, "</div>");
@@ -3863,21 +3879,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(0, "}");
 				auteurPageJs.l();
 				auteurPageJs.tl(0, "function animate", langueConfig.getString(ConfigCles.var_Stats), "() {");
-				auteurPageJs.tl(1, "let speedRate = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Speed').val()) * 1000;");
-				auteurPageJs.tl(1, "let xStep = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Step').val());");
-				auteurPageJs.tl(1, "let xMin = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Min').val());");
-				auteurPageJs.tl(1, "let xMax = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Max').val());");
-				auteurPageJs.tl(1, "let x = xMin;");
+				auteurPageJs.tl(1, "$('#pageSearchVal-fq", classeNomSimple, "_time').text('');");
+				auteurPageJs.tl(1, "searchPage('", classeNomSimple, "', function() {");
+				auteurPageJs.tl(2, "let speedRate = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Speed').val()) * 1000;");
+				auteurPageJs.tl(2, "let xStep = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Step').val());");
+				auteurPageJs.tl(2, "let xMin = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Min').val());");
+				auteurPageJs.tl(2, "let xMax = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Max').val());");
+				auteurPageJs.tl(2, "let x = xMin;");
 				auteurPageJs.l();
-				auteurPageJs.tl(1, "let animateInterval = window.setInterval(() => {");
-				auteurPageJs.tl(1, "x = x + xStep;");
-				auteurPageJs.tl(1, "if (x > xMax || x < 0) {");
-				auteurPageJs.tl(2, "clearInterval(animateInterval);");
-				auteurPageJs.tl(1, "}");
-				auteurPageJs.tl(1, "$('#fq", classeNomSimple, "_time').val(x);");
-				auteurPageJs.tl(1, "$('#fq", classeNomSimple, "_time').change();");
-				auteurPageJs.tl(1, "searchPage();");
-				auteurPageJs.tl(1, "}, speedRate);");
+				auteurPageJs.tl(2, "let animateInterval = window.setInterval(() => {");
+				auteurPageJs.tl(3, "x = x + xStep;");
+				auteurPageJs.tl(3, "if (x > xMax || x < 0) {");
+				auteurPageJs.tl(4, "clearInterval(animateInterval);");
+				auteurPageJs.tl(3, "}");
+				auteurPageJs.tl(3, "$('#fq", classeNomSimple, "_time').val(x);");
+				auteurPageJs.tl(3, "$('#fq", classeNomSimple, "_time').change();");
+				auteurPageJs.tl(3, "searchPage('", classeNomSimple, "');");
+				auteurPageJs.tl(2, "}, speedRate);");
+				auteurPageJs.tl(1, "});");
 				auteurPageJs.tl(0, "}");
 			}
 	
