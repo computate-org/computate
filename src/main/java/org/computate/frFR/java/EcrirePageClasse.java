@@ -2462,7 +2462,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" autocomplete=\"off=\"");
 			s(" value=\"{{ start }}\"");
 			l("/>");
-			tl(11, "<div class=\"pageSearchVal w3-tiny \"></div>");
+			tl(11, "<div class=\"pageSearchVal w3-tiny \">start={{ start }}</div>");
 			tl(10, "</div>");
 			tl(9, "</div>");
 
@@ -2489,7 +2489,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" autocomplete=\"off\"");
 			s(" value=\"{{ rows }}\"");
 			l("/>");
-			tl(11, "<div class=\"pageSearchVal w3-tiny \"></div>");
+			tl(11, "<div class=\"pageSearchVal w3-tiny \">rows={{ rows }}</div>");
 			tl(10, "</div>");
 			tl(9, "</div>");
 
