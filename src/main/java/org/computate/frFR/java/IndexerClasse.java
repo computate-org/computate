@@ -5352,7 +5352,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteListeTypeSql = "integer";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
-								entiteTypeSql = "array";
+								entiteTypeSql = "text[]";
 								entiteListeTypeSql = "text";
 							}
 							stockerSolr(entiteDoc, "entiteListeTypeSql", entiteListeTypeSql);
