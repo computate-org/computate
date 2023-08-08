@@ -4526,6 +4526,10 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(1, "public Number[] sql", entiteVarCapitalise, "() {");
 						tl(2, "return ", entiteVar, ".stream().map(v -> (Number)v).toArray(Number[]::new);");
 						tl(1, "}");
+					} else if(VAL_nomCanoniqueString.equals(entiteNomCanoniqueGenerique)) {
+						tl(1, "public String[] sql", entiteVarCapitalise, "() {");
+						tl(2, "return ", entiteVar, ".stream().map(v -> (String)v).toArray(String[]::new);");
+						tl(1, "}");
 					} else {
 						tl(1, "public ", entiteNomSimpleComplet, " sql", entiteVarCapitalise, "() {");
 						tl(2, "return ", entiteVar, ";");
