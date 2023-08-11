@@ -4653,6 +4653,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteDocValues = indexerStockerSolr(entiteDoc, "entiteDocValues", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_DocValues) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteIndexe = indexerStockerSolr(entiteDoc, "entiteIndexe", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Indexe) + ":\\s*(true)$", methodeCommentaire) || entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteClePrimaire || entiteIncremente || entiteDocValues);
 						Boolean entiteStocke = indexerStockerSolr(entiteDoc, "entiteStocke", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Stocke) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteRequis = indexerStockerSolr(entiteDoc, "entiteRequis", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Requis) + ":\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteIndexeOuStocke", entiteCleUnique || entiteCrypte || entiteSuggere || entiteTexte || entiteIndexe || entiteStocke || entiteDocValues || entiteIncremente || entiteTexte);
 						indexerStockerSolr(entiteDoc, "entiteIgnorer", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Ignorer) + ":\\s*(true)$", methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteDeclarer", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Declarer) + ":\\s*(true)$", methodeCommentaire));
