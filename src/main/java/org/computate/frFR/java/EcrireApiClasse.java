@@ -3096,8 +3096,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(0L);");
 							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".", classeLangueConfig.getString(ConfigCles.var_initLoin), classePartsRequeteApi.nomSimple(classeLangueNom), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 							tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ");");
+							tl(4, "String ", classeVarInheritClePrimaire, " = Optional.ofNullable(body.getString(", classeNomSimple, ".VAR_", classeModele ? classeVarClePrimaire : classeVarCleUnique, ")).orElse(body.getString(", classeNomSimple, ".VAR_", classeVarCleUnique, "));");
 							if(classeApiMethode.equals(classeLangueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
-								tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", Optional.ofNullable(body.getValue(\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\")).orElse(body.getValue(\"", classeVarCleUnique, "\")));");
+								tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", ", classeVarInheritClePrimaire, ");");
 								if(!classeModele)
 									tl(4, "body.put(\"", classeVarInheritClePrimaire, "\", body.getValue(\"", classeVarCleUnique, "\"));");
 							}
@@ -3113,7 +3114,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeLangueConfig.getString(ConfigCles.var_supprime), "_docvalues_boolean:false\");");
 							if(activerArchive)
 								tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeLangueConfig.getString(ConfigCles.var_archive), "_docvalues_boolean:false\");");
-							tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire + "_docvalues_string" : classeVarClePrimaire + "_docvalues_long", ":\" + SearchTool.escapeQueryChars(body.getString(", classeNomSimple, ".VAR_", classeModele ? classeVarClePrimaire : classeVarCleUnique, ")));");
+							tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"", classeApiMethode.equals("PUTImport") ? classeVarInheritClePrimaire + "_docvalues_string" : classeVarClePrimaire + "_docvalues_long", ":\" + SearchTool.escapeQueryChars(", classeVarInheritClePrimaire, "));");
 							tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".", classeLangueConfig.getString(ConfigCles.var_promesseLoin), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(a -> {");
 							tl(5, "try {");
 							tl(6, "if(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".size() >= 1) {");
