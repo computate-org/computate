@@ -5369,6 +5369,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						String entiteNgsiType = null;
 						String entiteFiwareType = null;
 						String entiteListeFiwareType = null;
+						String entiteFiwareContexte = indexerStockerSolr(entiteDoc, "entiteFiwareContexte", regex("^" + classeLangueConfig.getString(ConfigCles.var_FiwareContexte) + ": (.*)", methodeCommentaire));
 						String entiteFormatJson = null;
 						String entiteFormatHtm = regex("^FormatHtm: (.*)", methodeCommentaire);
 						String entiteListeTypeJson = null;
