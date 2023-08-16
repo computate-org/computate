@@ -1284,7 +1284,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_roleRequis), "(List<String> l) {");
-				tl(2, "l.add(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeApiClasseNomSimple, "\"));");
+				tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeApiClasseNomSimple, "\")).ifPresent(v -> {");
+				tl(3, "l.add(v);");
+				tl(2, "});");
 				tl(1, "}");
 			}
 			if(classeRoleLiresTrouves) {
@@ -1292,7 +1294,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classePageSuperNomSimple != null)
 					tl(1, "@Override");
 				tl(1, "protected void _", langueConfig.getString(ConfigCles.var_rolePourLires), "(List<String> l) {");
-				tl(2, "l.add(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLE_LIRE_REQUIS), " + \"_", classeApiClasseNomSimple, "\"));");
+				tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLE_LIRE_REQUIS), " + \"_", classeApiClasseNomSimple, "\")).ifPresent(v -> {");
+				tl(3, "l.add(v);");
+				tl(2, "});");
+				tl(2, "Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_.getConfig().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeApiClasseNomSimple, "\")).ifPresent(v -> {");
+				tl(3, "l.add(v);");
+				tl(2, "});");
 				tl(1, "}");
 			}
 

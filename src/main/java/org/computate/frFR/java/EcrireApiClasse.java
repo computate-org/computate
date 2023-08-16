@@ -2557,7 +2557,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, ")");
 							tl(4, "));");
 							tl(3, "}).onSuccess(b -> {");
-							tl(4, "if(!Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)) {");
+							tl(4, "if(");
+							tl(6, "!Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
+							tl(6, "&& !Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_LIRE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
+							tl(6, ") {");
 							tl(5, "String msg = String.format(\"401 UNAUTHORIZED user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 							tl(5, "eventHandler.handle(Future.succeededFuture(");
 							tl(6, "new ServiceResponse(401, \"UNAUTHORIZED\",");
