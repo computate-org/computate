@@ -3301,7 +3301,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			t(6, "<a");
 			s(" title=\"", langueConfig.getString(ConfigCles.str_API), "\"");
 			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
-			s(" href=\"{{ apiUri }}{{ queryStr }}\"");
+			s(" href=\"{{ apiUri }}{{#if pk }}/{{ pk }}{{else}}{{#if id }}/{{ id }}{{else}}{{ queryStr }}{{/if}}{{/if}}\"");
 			s(">");
 			s("<i class=\"fad fa-brackets-curly hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.str_API));
 			l("</a>");
