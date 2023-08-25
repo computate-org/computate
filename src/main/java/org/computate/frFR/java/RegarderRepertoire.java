@@ -21,6 +21,7 @@ import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.YAMLConfiguration;
@@ -45,6 +47,7 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.solr.common.SolrInputDocument;
 import org.slf4j.Logger;
 
 /**
@@ -244,6 +247,39 @@ public class RegarderRepertoire {
 		try {
 			regarderRepertoire.initialiserRegarderRepertoire(classeLangueConfig);
 			regarderRepertoire.ajouterCheminsARegarder(classeLangueConfig);
+
+			try {
+				String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
+				File dir = new File(String.format("%s/src/main/java", SITE_CHEMIN));
+				try (Stream<Path> stream = Files.walk(Paths.get(dir.getAbsolutePath()))) {
+					stream.filter(Files::isRegularFile)
+							.filter(chemin -> chemin.toString().endsWith(".java"))
+							.filter(chemin -> {
+								try {
+									return !FileUtils.readFileToString(chemin.toFile(), "UTF-8").contains("* Translate: false");
+								} catch(Exception ex) {
+									return false;
+								}
+							})
+					.forEach(chemin -> {
+						String cheminStr = chemin.toString();
+//						System.out.println(String.format("%s %s", chemin.toString().endsWith(".java"), chemin.toString()));
+						RegarderClasse regarderClasse = new RegarderClasse();
+						try {
+							regarderClasse.setArgs(new String[] {SITE_CHEMIN, cheminStr});
+							regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
+							SolrInputDocument classeDoc = new SolrInputDocument();
+							regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
+							System.out.println(String.format("%s %s", classeLangueConfig.getString(ConfigCles.var_Indexe), cheminStr));
+						} catch(Exception ex) {
+							System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+						}
+					});
+				}
+			} catch(Exception ex) {
+				System.out.println(String.format("Error indexing files on startup: %s", ex.getMessage()));
+			}
+
 			regarderRepertoire.traiterEvenements();
 		}
 		catch(Exception e) {

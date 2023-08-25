@@ -393,8 +393,8 @@ public class ConfigCles {
 	public static final String var_roleLires = "var_roleLires";
 	public static final String var_Role = "var_Role";
 	public static final String var_RoleSession = "var_RoleSession";
-	public static final String var_rolePourLires = "var_rolePourLires";
-	public static final String var_roleRequis = "var_roleRequis";
+	public static final String var_rolePourLire = "var_rolePourLire";
+	public static final String var_rolePourEcrire = "var_rolePourEcrire";
 	public static final String var_roles = "var_roles";
 	public static final String var_RoleUtilisateur = "var_RoleUtilisateur";
 	public static final String var_routeur = "var_routeur";

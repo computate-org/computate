@@ -35,6 +35,9 @@ import com.thoughtworks.qdox.model.JavaType;
 public class RegarderClasseBase extends ConfigSite {
 
 	public String[] args;
+	public void setArgs(String[] args) {
+		this.args = args;
+	}
 
 	public String classeLangueNom;
 
