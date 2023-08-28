@@ -126,6 +126,17 @@ public class ToutEcrivain {
 		return this;
 	}
 
+	public ToutEcrivain sx(Object...objets) {
+		try {
+			for(Object objet : objets)
+				if(objet != null)
+					printWriter.append(StringEscapeUtils.escapeHtml4(objet.toString()));
+		} catch(Exception ex) {
+			ExceptionUtils.rethrow(ex);
+		}
+		return this;
+	}
+
 	/**
 	 * Param1.var.enUS: objects
 	 * r: objet
