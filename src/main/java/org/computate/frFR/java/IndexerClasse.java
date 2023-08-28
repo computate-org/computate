@@ -4701,8 +4701,15 @@ public class IndexerClasse extends RegarderClasseBase {
 						{ 
 							String str = regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmLigne) + ":\\s*(.*)$", methodeCommentaire);
 							if(NumberUtils.isCreatable(str)) {
-								indexerStockerSolr(entiteDoc, "entiteHtmLigne", Integer.parseInt(str));
+								Integer i = Integer.parseInt(str);
+								indexerStockerSolr(entiteDoc, "entiteHtmLigne", i);
 								entiteHtml = true;
+								indexerStockerSolr(entiteDoc, "entiteHtmLigneTitre", regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmLigne) + classeLangueConfig.getString(ConfigCles.var_Titre) + ":\\s*(.*)$", methodeCommentaire));
+								indexerStockerSolr(entiteDoc, "entiteHtmLigneEnTeteExpression", regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmLigne) + classeLangueConfig.getString(ConfigCles.var_EnTeteExpression) + ":\\s*(.*)$", methodeCommentaire));
+								if(regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_HtmLigne) + classeLangueConfig.getString(ConfigCles.var_Verticale) + ":\\s*(true)$", methodeCommentaire))
+									indexerStockerSolr(entiteDoc, "entiteHtmLigneVerticale", true);
+								else if(regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_HtmLigne) + classeLangueConfig.getString(ConfigCles.var_Verticale) + ":\\s*(false)$", methodeCommentaire))
+									indexerStockerSolr(entiteDoc, "entiteHtmLigneVerticale", false);
 							}
 						}
 						{ 

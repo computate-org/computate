@@ -183,6 +183,7 @@ public class ConfigCles {
 	public static final String var_enleverLueur = "var_enleverLueur";
 	public static final String var_enregistrer = "var_enregistrer";
 	public static final String var_entite = "var_entite";
+	public static final String var_EnTeteExpression = "var_EnTeteExpression";
 	public static final String var_EnumNomSimple = "var_EnumNomSimple";
 	public static final String var_EnumVarDescription = "var_EnumVarDescription";
 	public static final String var_Envoi = "var_Envoi";
@@ -484,6 +485,7 @@ public class ConfigCles {
 	public static final String var_VarModifie = "var_VarModifie";
 	public static final String var_VarTitre = "var_VarTitre";
 	public static final String var_VarUrl = "var_VarUrl";
+	public static final String var_Verticale = "var_Verticale";
 	public static final String var_VideoId = "var_VideoId";
 	public static final String var_vider = "var_vider";
 	public static final String var_Vider = "var_Vider";

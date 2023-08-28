@@ -16,6 +16,7 @@ package org.computate.frFR.java;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -40,6 +42,7 @@ import org.apache.solr.common.SolrDocumentList;
 public class EcrireClasse extends IndexerClasse { 
 
 	protected ToutEcrivain auteurClasse;
+	public static final String UTF8 = "UTF-8";
 
 	/**
 	 * Var.enUS: writeClass
@@ -899,6 +902,28 @@ public class EcrireClasse extends IndexerClasse {
 		for(Object objet : objets)
 			if(objet != null)
 				o.s(objet.toString());
+		return this;
+	}
+
+	public EcrireClasse surl(Object...objets) {
+		try {
+			for(Object objet : objets)
+				if(objet != null)
+					o.s(URLEncoder.encode(objet.toString(), UTF8));
+		} catch(Exception ex) {
+			LOG.error("UTF Encode error", ex);
+		}
+		return this;
+	}
+
+	public EcrireClasse sx(Object...objets) {
+		try {
+			for(Object objet : objets)
+				if(objet != null)
+					o.s(StringEscapeUtils.escapeHtml4(objet.toString()));
+		} catch(Exception ex) {
+			LOG.error("UTF Encode error", ex);
+		}
 		return this;
 	}
 //
