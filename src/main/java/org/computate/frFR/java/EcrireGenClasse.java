@@ -5181,8 +5181,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			// varsFq //
 			else if(entiteIndexe 
 					&& entiteFacetsTrouves
-					&& !langueConfig.getString(ConfigCles.var_supprime).equals(entiteVar) 
-					&& !langueConfig.getString(ConfigCles.var_archive).equals(entiteVar) 
 					&& !langueConfig.getString(ConfigCles.var_sessionId).equals(entiteVar)
 					&& !langueConfig.getString(ConfigCles.var_utilisateurCle).equals(entiteVar)
 					&& !langueConfig.getString(ConfigCles.var_sauvegardes).equals(entiteVar)
