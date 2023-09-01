@@ -14,6 +14,7 @@
 package org.computate.frFR.java; 
 
 import java.io.File;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -42,6 +43,22 @@ public class RegarderClasseBase extends ConfigSite {
 	public String classeLangueNom;
 
 	public YAMLConfiguration classeLangueConfig;
+
+	/**
+	 * Description: A helper method for generating a URL friendly unique ID for this object
+	 */
+	public String genererId(String s) {
+		if(s != null) {
+			s = Normalizer.normalize(s, Normalizer.Form.NFD);
+			s = StringUtils.lowerCase(s);
+			s = StringUtils.trim(s);
+			s = StringUtils.replacePattern(s, "\\s{1,}", "-");
+			s = StringUtils.replacePattern(s, "[^\\w-]", "");
+			s = StringUtils.replacePattern(s, "-{2,}", "-");
+		}
+
+		return s;
+	}
 
 	/**
 	 * Var.enUS: _sitePath
