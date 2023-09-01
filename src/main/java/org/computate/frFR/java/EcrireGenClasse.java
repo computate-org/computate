@@ -3560,7 +3560,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				else {
 					l();
 					tl(1, "public void set", entiteVarCapitalise, "(", entiteNomSimpleComplet, " ", entiteVar, ") {");
-					tl(2, "this.", entiteVar, " = ", entiteVar, ";");
+					if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
+						tl(2, "this.", entiteVar, " = Optional.ofNullable(", entiteVar, ").map(v -> v.truncatedTo(ChronoUnit.MILLIS)).orElse(null);");
+					} else {
+						tl(2, "this.", entiteVar, " = ", entiteVar, ";");
+					}
 					tl(1, "}");
 				}
 				
