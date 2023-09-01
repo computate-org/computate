@@ -3695,9 +3695,13 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "}");
 					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
 					tl(2, "if(o != null) {");
-					tl(3, "String[] vals = o.split(\",\");");
-					tl(3, "if(vals.length == 2 && NumberUtils.isParsable(vals[0]) && NumberUtils.isParsable(vals[1]))");
-					tl(4, "return new Point(Double.parseDouble(vals[0]), Double.parseDouble(vals[1]));");
+					tl(3, "Matcher m = Pattern.compile(\"\\\\{[\\\\w\\\\W]*\\\"coordinates\\\"\\\\s*:\\\\s*\\\\[\\\\s*(\\\\d*\\\\.\\\\d*)\\\\s*,\\\\s*(\\\\d*\\\\.\\\\d*)\\\\]\").matcher(o);");
+					tl(3, "if(m.find())");
+					tl(4, "return new Point(Double.parseDouble(m.group(1)), Double.parseDouble(m.group(2)));");
+					tl(3, "m = Pattern.compile(\"\\\\s*(\\\\d*\\\\.\\\\d*)\\\\s*,\\\\s*(\\\\d*\\\\.\\\\d*)\").matcher(o);");
+					tl(3, "if(m.find())");
+					tl(4, "return new Point(Double.parseDouble(m.group(1)), Double.parseDouble(m.group(2)));");
+					tl(3, "throw new RuntimeException(String.format(\"Invalid point format \\\"%s\\\", try these formats instead: 55.633703,13.49254 or {\\\"type\\\":\\\"Point\\\",\\\"coordinates\\\":[55.633703,13.49254]}\", o));");
 					tl(2, "}");
 					tl(2, "return null;");
 					tl(1, "}");
