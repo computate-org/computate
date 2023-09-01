@@ -3738,6 +3738,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, List.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.StringUtils", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.Objects", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.regex.Matcher", classeLangueNom), classeLangueNom);
+		classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.regex.Pattern", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonProperty", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.annotation.JsonIgnore", classeLangueNom), classeLangueNom);
 		classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonFormat.class.getCanonicalName(), classeLangueNom), classeLangueNom);

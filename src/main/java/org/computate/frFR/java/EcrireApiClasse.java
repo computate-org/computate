@@ -3053,14 +3053,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setOriginal(o);");
 						if(classeModele)
 							tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.getPk()).orElse(null));");
-						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
+//						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
 						tl(7, classeApiOperationIdMethode, "Future(o, false).onSuccess(o2 -> {");
-						tl(8, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), " != null) {");
-						tl(9, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumPATCH() + ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getDocs().size());");
-						tl(9, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
-						tl(10, "o", classeSauvegarde ? "2" : "", ".", classeLangueConfig.getString(ConfigCles.var_requeteApi), classeNomSimple, "();");
-						tl(9, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
-						tl(8, "}");
 						tl(8, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(new JsonObject().encodePrettily()))));");
 						tl(7, "}).onFailure(ex -> {");
 						tl(8, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.failedFuture(ex));");
@@ -3262,7 +3256,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(6, "sql", classeApiMethode, classeNomSimple, "(", uncapitalizeClasseNomSimple, ", inheritPk).onSuccess(b -> {");
 								tl(7, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
 								tl(8, classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
-								tl(9, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
+								tl(9, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
 								tl(10, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
 								tl(9, "}).onFailure(ex -> {");
 								tl(10, "promise1.fail(ex);");
@@ -3315,7 +3309,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							} else {
 								tl(3, classeLangueConfig.getString(ConfigCles.var_creer), classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(", uncapitalizeClasseNomSimple, " -> {");
 								tl(4, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ", false).onSuccess(c -> {");
-								tl(5, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
+								tl(5, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
 								tl(6, "promise.complete(", uncapitalizeClasseNomSimple, ");");
 								tl(5, "}).onFailure(ex -> {");
 								tl(6, "promise.fail(ex);");
@@ -3349,7 +3343,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "sql", classeApiMethode, classeNomSimple, "(", uncapitalizeClasseNomSimple, ", jsonObject).onSuccess(b -> {");
 							tl(6, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
 							tl(7, classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
-							tl(8, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
+							tl(8, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
 							tl(9, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
 							tl(8, "}).onFailure(ex -> {");
 							tl(9, "promise1.fail(ex);");
@@ -3416,7 +3410,15 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(5, "sql", classeApiMethode, classeNomSimple, "(o, inheritPk).onSuccess(", uncapitalizeClasseNomSimple, " -> {");
 								tl(6, classeLangueConfig.getString(ConfigCles.var_definir), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(c -> {");
 								tl(7, classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(d -> {");
-								tl(8, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(e -> {");
+								tl(8, classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", uncapitalizeClasseNomSimple, ").onSuccess(o2 -> {");
+								tl(9, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), " != null) {");
+								tl(10, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumPATCH(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumPATCH() + 1);");
+								tl(10, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L && Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getJsonObject()).map(json -> json.size() > 0).orElse(false)) {");
+								tl(11, "o", classeSauvegarde ? "2" : "", ".", classeLangueConfig.getString(ConfigCles.var_requeteApi), classeNomSimple, "();");
+								tl(11, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getVars().size() > 0)");
+								tl(12, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
+								tl(10, "}");
+								tl(9, "}");
 								tl(9, "promise1.complete(", uncapitalizeClasseNomSimple, ");");
 								tl(8, "}).onFailure(ex -> {");
 								tl(9, "promise1.fail(ex);");
@@ -4907,8 +4909,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			/////////////
 			if(classeIndexe) {
 				l();
-				tl(1, "public Future<Void> ", classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", classeNomSimple, " o) {");
-				tl(2, "Promise<Void> promise = Promise.promise();");
+				tl(1, "public Future<", classeNomSimple, "> ", classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, "(", classeNomSimple, " o) {");
+				tl(2, "Promise<", classeNomSimple, "> promise = Promise.promise();");
 				tl(2, "try {");
 				tl(3, classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), " = o.get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_();");
 				tl(3, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteApi), "_();");
@@ -4931,7 +4933,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				tl(6, "softCommit = false;");
 				tl(4, "String solrRequestUri = String.format(\"/solr/%s/update%s%s%s\", solrCollection, \"?overwrite=true&wt=json\", softCommit ? \"&softCommit=true\" : \"\", commitWithin != null ? (\"&commitWithin=\" + commitWithin) : \"\");");
 				tl(4, classeLangueConfig.getString(ConfigCles.var_clientWeb), ".post(solrPort, solrHostName, solrRequestUri).ssl(solrSsl).putHeader(\"Content-Type\", \"application/json\").expect(ResponsePredicate.SC_OK).sendBuffer(json.toBuffer()).onSuccess(b -> {");
-				tl(5, "promise.complete();");
+				tl(5, "promise.complete(o);");
 				tl(4, "}).onFailure(ex -> {");
 				tl(5, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_indexer), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), new RuntimeException(ex));");
 				tl(5, "promise.fail(ex);");

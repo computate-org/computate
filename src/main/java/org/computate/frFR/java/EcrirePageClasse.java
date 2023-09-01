@@ -183,7 +183,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						if(BooleanUtils.isTrue(entiteHtmLigneVerticaleActuel)) {
 							entiteHtmLigneVerticaleActuelMap.put(classeApiMethodeMethode, true);
 							wForm.tl(7, "<!-- BooleanUtils.isTrue(entiteHtmLigneVerticale) -->");
-							wForm.tl(7, "<div class=\"w3-padding ", langueConfig.getString(ConfigCles.var_HtmLigne), "\">");
+							if(entiteHtmLigneTitre == null) {
+								wForm.tl(7, "<div class=\"w3-padding ", langueConfig.getString(ConfigCles.var_HtmLigne), "\">");
+							} else {
+								wForm.t(7, "<div class=\"w3-padding ", langueConfig.getString(ConfigCles.var_HtmLigne), "\" id=\"").sx(genererId(entiteHtmLigneTitre)).l("\">");
+							}
 							wForm.tl(8, "<table class=\"w3-table-all \">");
 							if(entiteHtmLigneTitre != null) {
 								wForm.tl(9, "<thead>");
@@ -1072,7 +1076,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			wJsInit = ToutEcrivain.create();
 			wWebsocket = ToutEcrivain.create();
-			wWebsocketInput = ToutEcrivain.create();
+			wWebsocketInput1 = ToutEcrivain.create();
+			wWebsocketInput2 = ToutEcrivain.create();
+			wWebsocketInput3 = ToutEcrivain.create();
 			wPks = ToutEcrivain.create();
 
 
@@ -1202,70 +1208,86 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								wJsInit.tl(2, "$('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}).bind('change', function(e){ patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " }], 'set", entiteVarCapitalise, "', $('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default'));");
 							}
 							if(entiteDefinir || entiteAttribuer || entiteIndexeOuStocke) {
-								if("LocalDate".equals(entiteNomSimple)) {
-									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
-//									wWebsocketInput.tl(3, "if(val != null) {");
-//									wWebsocketInput.tl(4, "var t = moment(val, 'YYYY-MM-DD');");
-//									wWebsocketInput.tl(4, "if(t)");
-//									wWebsocketInput.tl(5, "val = t.format('", classePageLangueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), "');");
-//									wWebsocketInput.tl(3, "}");
+								wWebsocketInput3.l();
+								if(entiteHtmLigneTitre != null) {
+									wWebsocketInput3.t(4, "$('#").sx(genererId(entiteHtmLigneTitre)).l("').each(function(index, fragment) {");
+									wWebsocketInput3.t(5, "$(fragment).replaceWith($response.find(\"#").sx(genererId(entiteHtmLigneTitre)).l("\"));");
+									wWebsocketInput3.tl(4, "});");
+									wWebsocketInput3.l();
 								}
-								else if("LocalDateTime".equals(entiteNomSimple)) {
-									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
-//									wWebsocketInput.tl(3, "if(val != null) {");
-//									wWebsocketInput.tl(4, "var t = moment(val, 'YYYY-MM-DD');");
-//									wWebsocketInput.tl(4, "if(t)");
-//									wWebsocketInput.tl(5, "val = t.format('", classePageLangueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), "');");
-//									wWebsocketInput.tl(3, "}");
-								}
-								else if("LocalTime".equals(entiteNomSimple)) {
-									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
-//									wWebsocketInput.tl(3, "if(val != null) {");
-//									wWebsocketInput.tl(4, "var t = moment(val, 'HH:mm');");
-//									wWebsocketInput.tl(4, "if(t)");
-//									wWebsocketInput.tl(5, "val = t.format('", classePageLangueConfig.getString(ConfigCles.var_HAposhAposmm), "');");
-//									wWebsocketInput.tl(3, "}");
-								}
-								else {
-									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
-								}
-								wWebsocketInput.tl(4, "if(vars.includes('", entiteVar, "')) {");
-								if(entiteImageBase64Url != null) {
-									wWebsocketInput.tl(5, "if(val === undefined)");
-									wWebsocketInput.tl(6, "val = null;");
-									wWebsocketInput.tl(5, "$('.img", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-									wWebsocketInput.tl(6, "if(val !== $(this).attr('src'))");
-									wWebsocketInput.tl(7, "$(this).attr('src', val);");
-									wWebsocketInput.tl(5, "});");
-								}
-								if(entiteSignature) {
-									wWebsocketInput.tl(5, "if(val === undefined)");
-									wWebsocketInput.tl(6, "val = null;");
-									wWebsocketInput.tl(5, "$('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-									wWebsocketInput.tl(6, "if(val !== $('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src'))");
-									wWebsocketInput.tl(7, "$('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src', val == null ? 'data:image/png;base64,' : val);");
-									wWebsocketInput.tl(6, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
-									wWebsocketInput.tl(5, "});");
-								}
-								wWebsocketInput.tl(5, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-								wWebsocketInput.tl(6, "if(val !== $(this).val())");
-								if(entiteNomSimple.startsWith("Json")) {
-									wWebsocketInput.tl(7, "$(this).val(JSON.stringify(val));");
-								} else {
-									wWebsocketInput.tl(7, "$(this).val(val);");
-								}
-								wWebsocketInput.tl(7, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
-								wWebsocketInput.tl(5, "});");
-								wWebsocketInput.tl(5, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-								wWebsocketInput.tl(6, "if(val !== $(this).text())");
-								if(entiteNomSimple.startsWith("Json")) {
-									wWebsocketInput.tl(7, "$(this).val(JSON.stringify(val));");
-								} else {
-									wWebsocketInput.tl(7, "$(this).text(val);");
-								}
-								wWebsocketInput.tl(7, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
-								wWebsocketInput.tl(5, "});");
-								wWebsocketInput.tl(4, "}");
+								wWebsocketInput1.tl(4, "var input", entiteVarCapitalise, " = null;");
+								wWebsocketInput2.tl(4, "if(vars.includes('", entiteVar, "'))");
+//								wWebsocketInput.tl(6, "if(val !== $(this).val())");
+								wWebsocketInput2.tl(4, "input", entiteVarCapitalise, " = $response.find('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "');");
+								wWebsocketInput3.tl(4, "if(vars.includes('", entiteVar, "')) {");
+								wWebsocketInput3.tl(5, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function(index, fragment) {");
+								wWebsocketInput3.tl(6, "$(fragment).replaceWith(input", entiteVarCapitalise, ");");
+								wWebsocketInput3.tl(5, "});");
+								wWebsocketInput3.tl(4, "}");
+//								if("LocalDate".equals(entiteNomSimple)) {
+//									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
+////									wWebsocketInput.tl(3, "if(val != null) {");
+////									wWebsocketInput.tl(4, "var t = moment(val, 'YYYY-MM-DD');");
+////									wWebsocketInput.tl(4, "if(t)");
+////									wWebsocketInput.tl(5, "val = t.format('", classePageLangueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), "');");
+////									wWebsocketInput.tl(3, "}");
+//								}
+//								else if("LocalDateTime".equals(entiteNomSimple)) {
+//									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
+////									wWebsocketInput.tl(3, "if(val != null) {");
+////									wWebsocketInput.tl(4, "var t = moment(val, 'YYYY-MM-DD');");
+////									wWebsocketInput.tl(4, "if(t)");
+////									wWebsocketInput.tl(5, "val = t.format('", classePageLangueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), "');");
+////									wWebsocketInput.tl(3, "}");
+//								}
+//								else if("LocalTime".equals(entiteNomSimple)) {
+//									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
+////									wWebsocketInput.tl(3, "if(val != null) {");
+////									wWebsocketInput.tl(4, "var t = moment(val, 'HH:mm');");
+////									wWebsocketInput.tl(4, "if(t)");
+////									wWebsocketInput.tl(5, "val = t.format('", classePageLangueConfig.getString(ConfigCles.var_HAposhAposmm), "');");
+////									wWebsocketInput.tl(3, "}");
+//								}
+//								else {
+//									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
+//								}
+//								wWebsocketInput.tl(4, "if(vars.includes('", entiteVar, "')) {");
+//								if(entiteImageBase64Url != null) {
+//									wWebsocketInput.tl(5, "if(val === undefined)");
+//									wWebsocketInput.tl(6, "val = null;");
+//									wWebsocketInput.tl(5, "$('.img", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+//									wWebsocketInput.tl(6, "if(val !== $(this).attr('src'))");
+//									wWebsocketInput.tl(7, "$(this).attr('src', val);");
+//									wWebsocketInput.tl(5, "});");
+//								}
+//								if(entiteSignature) {
+//									wWebsocketInput.tl(5, "if(val === undefined)");
+//									wWebsocketInput.tl(6, "val = null;");
+//									wWebsocketInput.tl(5, "$('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+//									wWebsocketInput.tl(6, "if(val !== $('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src'))");
+//									wWebsocketInput.tl(7, "$('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src', val == null ? 'data:image/png;base64,' : val);");
+//									wWebsocketInput.tl(6, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
+//									wWebsocketInput.tl(5, "});");
+//								}
+//								wWebsocketInput.tl(5, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+//								wWebsocketInput.tl(6, "if(val !== $(this).val())");
+//								if(entiteNomSimple.startsWith("Json")) {
+//									wWebsocketInput.tl(7, "$(this).val(JSON.stringify(val));");
+//								} else {
+//									wWebsocketInput.tl(7, "$(this).val(val);");
+//								}
+//								wWebsocketInput.tl(7, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
+//								wWebsocketInput.tl(5, "});");
+//								wWebsocketInput.tl(5, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+//								wWebsocketInput.tl(6, "if(val !== $(this).text())");
+//								if(entiteNomSimple.startsWith("Json")) {
+//									wWebsocketInput.tl(7, "$(this).val(JSON.stringify(val));");
+//								} else {
+//									wWebsocketInput.tl(7, "$(this).text(val);");
+//								}
+//								wWebsocketInput.tl(7, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
+//								wWebsocketInput.tl(5, "});");
+//								wWebsocketInput.tl(4, "}");
 							}
 						}
 						rechercheSolr.setStart(i.intValue() + rechercheLignes);
@@ -1279,14 +1301,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wWebsocket.tl(1, "var vars = ", langueConfig.getString(ConfigCles.var_requeteApi), "['vars'];");
 					wWebsocket.tl(1, "var empty = ", langueConfig.getString(ConfigCles.var_requeteApi), "['empty'];");
 					wWebsocket.l();
-					wWebsocket.tl(1, "if(pk != null) {");
-					wWebsocket.tl(2, langueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Vals([ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + pk} ], function( data, textStatus, jQxhr ) {");
-					wWebsocket.tl(3, "var o = data['list'][0];");
-					wWebsocket.tl(3, "if(o != null) {");
-					wWebsocket.s(wWebsocketInput);
-					wWebsocket.tl(3, "} else {");
-					wWebsocket.tl(4, "window.location.href = '", classePageUriMethode + "';");
-					wWebsocket.tl(3, "}");
+					wWebsocket.tl(1, "if(pk != null && vars.length > 0) {");
+					wWebsocket.tl(2, "var queryParams = \"?\" + $(\".pageSearchVal\").get().filter(elem => elem.innerText.length > 0).map(elem => elem.innerText).join(\"&\");");
+					wWebsocket.tl(2, "var uri = location.pathname + queryParams;");
+					wWebsocket.tl(2, "$.get(uri, {}, function(data) {");
+					wWebsocket.tl(3, "var $response = $(\"<html/>\").html(data);");
+//					wWebsocket.tl(2, langueConfig.getString(ConfigCles.var_rechercher), classeNomSimple, "Vals([ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + pk} ], function( data, textStatus, jQxhr ) {");
+//					wWebsocket.tl(3, "var o = data['list'][0];");
+//					wWebsocket.tl(3, "if(o != null) {");
+					wWebsocket.s(wWebsocketInput1);
+					wWebsocket.l();
+					wWebsocket.s(wWebsocketInput2);
+					wWebsocket.s(wWebsocketInput3);
+//					wWebsocket.tl(3, "} else {");
+//					wWebsocket.tl(4, "window.location.href = '", classePageUriMethode + "';");
+//					wWebsocket.tl(3, "}");
 					wWebsocket.tl(2, "});");
 					wWebsocket.tl(1, "}");
 //						wWebsocket.l();

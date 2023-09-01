@@ -1197,7 +1197,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	ToutEcrivain wFormPATCH;
 	ToutEcrivain wJsInit;
 	ToutEcrivain wWebsocket;
-	ToutEcrivain wWebsocketInput;
+	ToutEcrivain wWebsocketInput1;
+	ToutEcrivain wWebsocketInput2;
+	ToutEcrivain wWebsocketInput3;
 	ToutEcrivain wPks;
 	
 	/** 
