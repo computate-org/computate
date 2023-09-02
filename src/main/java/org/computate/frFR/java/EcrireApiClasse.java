@@ -1321,7 +1321,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								}
 								tl(6, "});");
 								tl(6, "break;");
-							}	
+							}
 					
 							////////////////////////////
 							// codeApiGenererPutCopie //
@@ -1342,120 +1342,154 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							}	
 							if(classeSauvegarde && BooleanUtils.isTrue(entiteAttribuer)) {
 								tl(5, "case ", classeNomSimple, ".VAR_", entiteVar, ":");
-								if(entiteListeTypeJson == null) {
-									if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-										tl(6, "{");
-										tl(7, "Long l = Long.parseLong(jsonObject.getString(", classeLangueConfig.getString(ConfigCles.var_entite), "Var));");
-										tl(7, "if(l != null) {");
-										if(!"array".equals(entiteAttribuerTypeJson)) {
-											// no list, no list, <
-											tl(8, "if(bParams.size() > 0) {");
-											tl(9, "bSql.append(\", \");");
-											tl(8, "}");
-											tl(8, "bSql.append(", classeNomSimple, ".VAR_", entiteVar, " + \"=$\" + num);");
-											tl(8, "num++;");
-											tl(8, "bParams.add(l);");
-										} else if(!"array".equals(entiteTypeJson)) {
-											// no list, list, <
-											tl(8, "if(bParams.size() > 0) {");
-											tl(9, "bSql.append(\", \");");
-											tl(8, "}");
-											tl(8, "bSql.append(", classeNomSimple, ".VAR_", entiteVar, " + \"=$\" + num);");
-											tl(8, "num++;");
-											tl(8, "bParams.add(l);");
-										}
-										tl(7, "}");
-										tl(6, "}");
+								if("array".equals(entiteTypeJson))
+									tl(6, "Optional.ofNullable(jsonObject.getJsonArray(", classeLangueConfig.getString(ConfigCles.var_entite), "Var)).orElse(new JsonArray()).stream().map(oVal -> oVal.toString()).forEach(val -> {");
+								else
+									tl(6, "Optional.ofNullable(jsonObject.getString(", classeLangueConfig.getString(ConfigCles.var_entite), "Var)).ifPresent(val -> {");
+								if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
+									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
+										// list, list, <
+										tl(7, "futures2.add(Future.future(promise2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
+										tl(9, "sql(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").insertInto(", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ").values(pk, pk2).onSuccess(a -> {");
+										tl(10, "promise2.complete();");
+										tl(9, "}).onFailure(ex -> {");
+										tl(10, "promise2.fail(ex);");
+										tl(9, "});");
+										tl(8, "}).onFailure(ex -> {");
+										tl(9, "promise2.fail(ex);");
+										tl(8, "});");
+										tl(7, "}));");
+									} else if("array".equals(entiteTypeJson)) {
+										// list, no list, <
+										tl(7, "futures2.add(Future.future(promise2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
+										tl(9, "sql(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
+										tl(10, "promise2.complete();");
+										tl(9, "}).onFailure(ex -> {");
+										tl(10, "promise2.fail(ex);");
+										tl(9, "});");
+										tl(8, "}).onFailure(ex -> {");
+										tl(9, "promise2.fail(ex);");
+										tl(8, "});");
+										tl(7, "}));");
+									} else if("array".equals(entiteAttribuerTypeJson)) {
+										// no list, list, <
+										tl(7, "futures1.add(Future.future(promise2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
+										tl(9, "sql(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").update(", classeNomSimple, ".class, pk).set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, pk2).onSuccess(a -> {");
+										tl(10, "promise2.complete();");
+										tl(9, "}).onFailure(ex -> {");
+										tl(10, "promise2.fail(ex);");
+										tl(9, "});");
+										tl(8, "}).onFailure(ex -> {");
+										tl(9, "promise2.fail(ex);");
+										tl(8, "});");
+										tl(7, "}));");
+									} else {
+										// no list, no list, <
+										tl(7, "futures1.add(Future.future(promise2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
+										tl(9, "sql(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").update(", classeNomSimple, ".class, pk).set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, pk2).onSuccess(a -> {");
+										tl(10, "promise2.complete();");
+										tl(9, "}).onFailure(ex -> {");
+										tl(10, "promise2.fail(ex);");
+										tl(9, "});");
+										tl(8, "}).onFailure(ex -> {");
+										tl(9, "promise2.fail(ex);");
+										tl(8, "});");
+										tl(7, "}));");
 									}
-									else {
-										tl(6, "{");
-										tl(7, "Long l = Long.parseLong(jsonObject.getString(", classeLangueConfig.getString(ConfigCles.var_entite), "Var));");
-										tl(7, "if(l != null) {");
-										if(!"array".equals(entiteAttribuerTypeJson)) {
-											// no list, no list, >
-											tl(8, "futures.add(Future.future(a -> {");
-											tl(9, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE pk=$2\")");
-											tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", l)).onSuccess(b -> {");
-											tl(10,"a.handle(Future.succeededFuture());");
-											tl(9, "}).onFailure(ex -> {");
-											tl(10, "RuntimeException ex2 = new RuntimeException(\"", classeLangueConfig.getString(ConfigCles.var_valeur), " ", classeNomSimple, ".", entiteVar, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), "\", ex);");
-											tl(10, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex2);");
-											tl(10, "a.handle(Future.failedFuture(ex2));");
-											tl(9, "});");
-											tl(8, "}));");
-										} else if(!"array".equals(entiteTypeJson)) {
-											// no list, list, >
-											tl(8, "if(bParams.size() > 0) {");
-											tl(9, "bSql.append(\", \");");
-											tl(8, "}");
-											tl(8, "bSql.append(", classeNomSimple, ".VAR_", entiteVar, " + \"=$\" + num);");
-											tl(8, "num++;");
-											tl(8, "bParams.add(l);");
-										}
-										tl(7, "}");
-										tl(6, "}");
+								} else {
+									if("array".equals(entiteTypeJson) && "array".equals(entiteAttribuerTypeJson)) {
+										// list, list, >
+										tl(7, "futures2.add(Future.future(promise2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
+										tl(9, "sql(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").insertInto(", entiteAttribuerNomSimple, ".class, ", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, ", classeNomSimple, ".VAR_", entiteVar, ").values(pk2, pk).onSuccess(a -> {");
+										tl(10, "promise2.complete();");
+										tl(9, "}).onFailure(ex -> {");
+										tl(10, "promise2.fail(ex);");
+										tl(9, "});");
+										tl(8, "}).onFailure(ex -> {");
+										tl(9, "promise2.fail(ex);");
+										tl(8, "});");
+										tl(7, "}));");
+									} else if("array".equals(entiteTypeJson)) {
+										// list, no list, >
+										tl(7, "futures2.add(Future.future(promise2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
+										tl(9, "sql(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
+										tl(10, "promise2.complete();");
+										tl(9, "}).onFailure(ex -> {");
+										tl(10, "promise2.fail(ex);");
+										tl(9, "});");
+										tl(8, "}).onFailure(ex -> {");
+										tl(9, "promise2.fail(ex);");
+										tl(8, "});");
+										tl(7, "}));");
+									} else if("array".equals(entiteAttribuerTypeJson)) {
+										// no list, list, >
+										tl(7, "futures1.add(Future.future(promise2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
+										tl(9, "sql(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").update(", classeNomSimple, ".class, pk).set(", classeNomSimple, ".VAR_", entiteVar, ", ", entiteAttribuerNomSimple, ".class, pk2).onSuccess(a -> {");
+										tl(10, "promise2.complete();");
+										tl(9, "}).onFailure(ex -> {");
+										tl(10, "promise2.fail(ex);");
+										tl(9, "});");
+										tl(8, "}).onFailure(ex -> {");
+										tl(9, "promise2.fail(ex);");
+										tl(8, "});");
+										tl(7, "}));");
+									} else {
+										// no list, no list, >
+										tl(7, "futures2.add(Future.future(promise2 -> {");
+										tl(8, "search(siteRequest).query(", entiteAttribuerNomSimple, ".class, val, false).onSuccess(pk2 -> {");
+										tl(9, "if(!pks.contains(pk2)) {");
+										tl(10, "pks.add(pk2);");
+										tl(10, "classes.add(\"", entiteAttribuerNomSimple, "\");");
+										tl(9, "}");
+										tl(9, "sql(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").update(", entiteAttribuerNomSimple, ".class, pk2).set(", entiteAttribuerNomSimple, ".VAR_", entiteAttribuerVar, ", ", classeNomSimple, ".class, pk).onSuccess(a -> {");
+										tl(10, "promise2.complete();");
+										tl(9, "}).onFailure(ex -> {");
+										tl(10, "promise2.fail(ex);");
+										tl(9, "});");
+										tl(8, "}).onFailure(ex -> {");
+										tl(9, "promise2.fail(ex);");
+										tl(8, "});");
+										tl(7, "}));");
 									}
 								}
-								else {
-									if(StringUtils.compare(entiteVar, entiteAttribuerVar) < 0) {
-										tl(6, "{");
-										tl(7, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", classeLangueConfig.getString(ConfigCles.var_entite), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-										tl(8, "futures.add(Future.future(a -> {");
-										if("array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-											// list, list, <
-											tl(9, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"INSERT INTO ", classeNomSimple, StringUtils.capitalize(entiteVar), "_", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "(pk1, pk2) values($1, $2)\")");
-											tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", l)");
-										} else if(!"array".equals(entiteAttribuerTypeJson)) {
-											// list, no list, <
-											tl(9, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE ", classeVarClePrimaire, "=$2\")");
-											tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", l)");
-										}
-										tl(11, ").onSuccess(b -> {");
-										tl(10, "a.handle(Future.succeededFuture());");
-										tl(9, "}).onFailure(ex -> {");
-										tl(10, "RuntimeException ex2 = new RuntimeException(\"", classeLangueConfig.getString(ConfigCles.var_valeur), " ", classeNomSimple, ".", entiteVar, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), "\", ex);");
-										tl(10, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex2);");
-										tl(10, "a.handle(Future.failedFuture(ex2));");
-										tl(9, "});");
-										tl(8, "}));");
-										tl(8, "if(!pks.contains(l)) {");
-										tl(9, "pks.add(l);");
-										tl(9, "classes.add(\"", entiteAttribuerNomSimple, "\");");
-										tl(8, "}");
-										tl(7, "}");
-										tl(6, "}");
-									}
-									else {
-										tl(6, "{");
-										tl(7, "for(Long l : Optional.ofNullable(jsonObject.getJsonArray(", classeLangueConfig.getString(ConfigCles.var_entite), "Var)).orElse(new JsonArray()).stream().map(a -> Long.parseLong((String)a)).collect(Collectors.toList())) {");
-										tl(8, "futures.add(Future.future(a -> {");
-										if("array".equals(entiteAttribuerTypeJson) && "array".equals(entiteTypeJson)) {
-											// list, list >
-											tl(9, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"INSERT INTO ", entiteAttribuerNomSimple, StringUtils.capitalize(entiteAttribuerVar), "_", classeNomSimple, StringUtils.capitalize(entiteVar), "(pk1, pk2) values($1, $2)\")");
-											tl(11,".execute(Tuple.of(l, ", classeVarClePrimaire, ")");
-										} else if(!"array".equals(entiteAttribuerTypeJson)) {
-											// list, no list, >
-											tl(9, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(\"UPDATE ", entiteAttribuerNomSimple, " SET ", entiteAttribuerVar, "=$1 WHERE ", classeVarClePrimaire, "=$2\")");
-											tl(11,".execute(Tuple.of(", classeVarClePrimaire, ", l)");
-										}
-										tl(11, ").onSuccess(b -> {");
-										tl(10, "a.handle(Future.succeededFuture());");
-										tl(9, "}).onFailure(ex -> {");
-										tl(10, "RuntimeException ex2 = new RuntimeException(\"", classeLangueConfig.getString(ConfigCles.var_valeur), " ", classeNomSimple, ".", entiteVar, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), "\", ex);");
-										tl(10, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_attribuer), classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex2);");
-										tl(10, "a.handle(Future.failedFuture(ex2));");
-										tl(9, "});");
-										tl(8, "}));");
-										tl(8, "if(!pks.contains(l)) {");
-										tl(9, "pks.add(l);");
-										tl(9, "classes.add(\"", entiteAttribuerNomSimple, "\");");
-										tl(8, "}");
-										tl(7, "}");
-										tl(6, "}");
-									}
-								}
+								tl(6, "});");
 								tl(6, "break;");
-							}	
+							}
 					
 							////////////////////////
 							// codeApiGenererPatch //
@@ -3650,7 +3684,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, classeNomSimple, " o2 = new ", classeNomSimple, "();");
 							tl(3, "o2.set", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 							tl(3, "Long ", classeVarClePrimaire, " = o.get", StringUtils.capitalize(classeVarClePrimaire), "();");
-							tl(3, "List<Future> futures = new ArrayList<>();");
+							tl(3, "List<Future> futures1 = new ArrayList<>();");
+							tl(3, "List<Future> futures2 = new ArrayList<>();");
 							l();
 							tl(3, "if(jsonObject != null) {");
 							tl(4, "JsonArray ", classeLangueConfig.getString(ConfigCles.var_entite), "Vars = jsonObject.getJsonArray(\"", classeVarSauvegardes, "\");");
@@ -3670,7 +3705,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "if(bParams.size() > 0) {");
 							tl(3, "bParams.add(", classeVarClePrimaire, ");");
 							tl(3, "num++;");
-							tl(4, "futures.add(Future.future(a -> {");
+							tl(4, "futures2.add(0, Future.future(a -> {");
 							tl(5, classeLangueConfig.getString(ConfigCles.var_connexionSql), ".preparedQuery(bSql.toString())");
 							tl(7, ".execute(Tuple.tuple(bParams)");
 							tl(7, ").onSuccess(b -> {");
@@ -3682,8 +3717,13 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "});");
 							tl(4, "}));");
 							tl(3, "}");
-							tl(3, "CompositeFuture.all(futures).onSuccess(a -> {");
-							tl(4, "promise.complete();");
+							tl(3, "CompositeFuture.all(futures1).onSuccess(a -> {");
+							tl(4, "CompositeFuture.all(futures2).onSuccess(b -> {");
+							tl(5, "promise.complete();");
+							tl(4, "}).onFailure(ex -> {");
+							tl(5, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+							tl(5, "promise.fail(ex);");
+							tl(4, "});");
 							tl(3, "}).onFailure(ex -> {");
 							tl(4, "LOG.error(String.format(\"sql", classeApiMethode, classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
 							tl(4, "promise.fail(ex);");

@@ -3896,9 +3896,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					else if("PUTImport".equals(classeApiMethode))
 						tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "')); \"");
 					else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))
-						tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "')); \"");
+						tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}'", "); \"");
 					else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
-						tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "')); \"");
+						tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}'", "); \"");
 					else
 						tl(7, "onclick=\"", classeApiOperationIdMethode, "(); \"");
 
@@ -4328,11 +4328,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					if(activerRoleAdmin) {
 						l("{{/ifContainsAnyRoles}}");
 					}
-				} else if(classeApiMethode.equals("PATCH") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+				} else if(classeApiMethode.equals("PATCH") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 					tl(0, "{{#ifContainsAnyRoles roles ", langueConfig.getString(ConfigCles.var_authRoleSuperAdmin), "}}");
 					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
 					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
 					tl(0, "{{/ifContainsAnyRoles}}");
+				} else if(classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie))) {
+					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
+					l("{{#block \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{/block}}");
 				}
 			}
 
