@@ -480,7 +480,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 			} else if("JsonArray".equals(entiteNomSimple)) {
 				if(entiteHtmLigneVerticaleActuel) {
-					tl(10, "<tr>");
+					tl(10, "<tr id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\">");
 					tl(12, "<td>");
 					if(entiteNomAffichage != null) {
 						tl(13, "<label for=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\">", entiteNomAffichage, "</label>");
@@ -1210,19 +1210,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							if(entiteDefinir || entiteAttribuer || entiteIndexeOuStocke) {
 								wWebsocketInput3.l();
 								if(entiteHtmLigneTitre != null) {
-									wWebsocketInput3.t(4, "$('#").sx(genererId(entiteHtmLigneTitre)).l("').each(function(index, fragment) {");
-									wWebsocketInput3.t(5, "$(fragment).replaceWith($response.find(\"#").sx(genererId(entiteHtmLigneTitre)).l("\"));");
-									wWebsocketInput3.tl(4, "});");
-									wWebsocketInput3.l();
+//									wWebsocketInput3.t(4, "$response.find(\"#").sx(genererId(entiteHtmLigneTitre)).s("\").replaceAll('#").sx(genererId(entiteHtmLigneTitre)).l("');");
+//									wWebsocketInput3.l();
 								}
 								wWebsocketInput1.tl(4, "var input", entiteVarCapitalise, " = null;");
 								wWebsocketInput2.tl(4, "if(vars.includes('", entiteVar, "'))");
-//								wWebsocketInput.tl(6, "if(val !== $(this).val())");
-								wWebsocketInput2.tl(4, "input", entiteVarCapitalise, " = $response.find('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "');");
-								wWebsocketInput3.tl(4, "if(vars.includes('", entiteVar, "')) {");
-								wWebsocketInput3.tl(5, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function(index, fragment) {");
-								wWebsocketInput3.tl(6, "$(fragment).replaceWith(input", entiteVarCapitalise, ");");
-								wWebsocketInput3.tl(5, "});");
+								wWebsocketInput2.tl(5, "input", entiteVarCapitalise, " = $response.find('#Page_", entiteVar, "');");
+								wWebsocketInput3.tl(4, "if(input", entiteVarCapitalise, ") {");
+								wWebsocketInput3.tl(5, "input", entiteVarCapitalise, ".replaceAll('#Page_", entiteVar, "');");
+								wWebsocketInput3.tl(5, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#Page_", entiteVar, "'));");
 								wWebsocketInput3.tl(4, "}");
 //								if("LocalDate".equals(entiteNomSimple)) {
 //									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
