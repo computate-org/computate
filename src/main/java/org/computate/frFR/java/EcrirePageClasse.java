@@ -885,26 +885,26 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			else if(classeUtilisateurEcrire && classeSessionEcrire || classePublicLire) {
 				tl(13, "{{else}}");
-				tl(15, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}", (entiteVarUrl == null ? "</span>" : "</a>"));
+				tl(15, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}", (entiteVarUrl == null ? "</span>" : "</a>"));
 			}
 			else if(classeUtilisateurEcrire) {
 				if(classeRolesTrouves || classeRoleLiresTrouves) {
 					tl(13, "{{else}}");
-					tl(15, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+					tl(15, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
 				}
 				else {
 					tl(13, "{{else}}");
-					tl(14, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+					tl(14, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
 				}
 			}
 			else if(classeSessionEcrire) {
 				tl(13, "{{else}}");
-				tl(14, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+				tl(14, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
 			}
 			else if(classeRolesTrouves || classeRoleLiresTrouves) {
 					tl(13, "{{else}}");
 				tl(14, "{{#ifContainsKeys ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s}}");
-				tl(15, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+				tl(15, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
 				tl(3, "{{/ifContainsKeys}}");
 			}
 			else {
@@ -912,7 +912,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 
 			tl(2, "{{else}}");
-				tl(14, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
+				tl(14, "<span class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}</span>");
 			tl(2, "{{/eq}}");
 		}
 		else {
@@ -949,11 +949,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(15, "/>");
 				l();
 			} else if("LocalDateTime".equals(entiteNomSimple)) {
-				tl(14, (entiteVarUrl == null ? "<span" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \" title=\"{{formatLocalDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' defaultLocaleId defaultZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy' defaultLocaleId defaultZoneId}}", (entiteVarUrl == null ? "</span>" : "</a>"));
+				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \" title=\"{{formatLocalDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' defaultLocaleId defaultZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy' defaultLocaleId defaultZoneId}}", (entiteVarUrl == null ? "</span>" : "</a>"));
 			} else if("ZonedDateTime".equals(entiteNomSimple)) {
-				tl(14, (entiteVarUrl == null ? "<span" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \" title=\"{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' defaultLocaleId defaultZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy h:mm a zz' defaultLocaleId defaultZoneId}}", (entiteVarUrl == null ? "</span>" : "</a>"));
+				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \" title=\"{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV' defaultLocaleId defaultZoneId}}\">{{formatZonedDateTime ", uncapitalizeClasseNomSimple, "_.", entiteVar, " 'EEE MMM d yyyy h:mm a zz' defaultLocaleId defaultZoneId}}", (entiteVarUrl == null ? "</span>" : "</a>"));
 			} else {
-				tl(14, (entiteVarUrl == null ? "<span" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}", (entiteVarUrl == null ? "</span>" : "</a>"));
+				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}", (entiteVarUrl == null ? "</span>" : "</a>"));
 			}
 			tl(1, "{{/eq}}");
 		}
