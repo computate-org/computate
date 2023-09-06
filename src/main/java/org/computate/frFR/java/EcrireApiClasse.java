@@ -2007,7 +2007,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 										}
 									}
 								}
-								else if(BooleanUtils.isTrue(entiteDefinir) && BooleanUtils.isTrue(entiteModifier)) {
+								else if(BooleanUtils.isTrue(entiteDefinir)) {
 									if(StringUtils.equals(entiteNomCanonique, List.class.getCanonicalName()) || StringUtils.equals(entiteNomCanonique, ArrayList.class.getCanonicalName())) {
 //						
 //										tl(5, "case \"set", entiteVarCapitalise, "\":");
