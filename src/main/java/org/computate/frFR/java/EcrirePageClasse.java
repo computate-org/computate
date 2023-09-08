@@ -2571,7 +2571,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						if(classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche))) {
 							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Bouton), classePageNomSimple, "_", classeApiOperationIdMethode, " classApiMethodMethod=\"Page\"}}{{/partial}}");
 							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "_", classeApiOperationIdMethode, " classApiMethodMethod=\"Page\"}}{{/partial}}");
-							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaire), langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "_", classeApiOperationIdMethode, " classApiMethodMethod=\"Page\"}}{{/partial}}");
+							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaire), langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaire), langueConfig.getString(ConfigCles.var_Bouton), classePageNomSimple, "_", classeApiOperationIdMethode, " classApiMethodMethod=\"Page\"}}{{/partial}}");
 						} else if(classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
 							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Bouton), classePageNomSimple, "_", classeApiOperationIdMethode, " classApiMethodMethod=\"", classeApiMethodeMethode, "\"}}{{/partial}}");
 							l("{{#partial \"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\"}}{{> htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, "_", classeApiOperationIdMethode, " classApiMethodMethod=\"", classeApiMethodeMethode, "\"}}{{/partial}}");
@@ -2714,7 +2714,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							auteurPageJs.s(classeVarClePrimaire);
 	
 						auteurPageJs.l(") {");
-						if(methodePOST) {
+						if(methodePOST || methodePUTCopie) {
 							auteurPageJs.tl(1, "var vals = {};");
 							auteurPageJs.tl(1, "if(success == null) {");
 							auteurPageJs.tl(2, "success = function( data, textStatus, jQxhr ) {");
@@ -3845,15 +3845,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					}
 					else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode)) {
 						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + classeUnNom;
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Dupliquer_) + classeNomPluriel;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Dupliquer_) + classeNomSingulier;
 					}
 					else if("PATCH".equals(classeApiMethodeMethode)) {
 						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + classeUnNom;
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Modifier_des_) + classeNomPluriel;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Modifier_des_) + classeNomSingulier;
 					}
 					else if("DELETE".equals(classeApiMethodeMethode)) {
 						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + classeUnNom;
-						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Supprimer_) + classeNomPluriel;
+						methodeTitreValeurs = langueConfig.getString(ConfigCles.str_Supprimer_) + classeNomSingulier;
 					}
 					else {
 						methodeTitreFiltres = langueConfig.getString(ConfigCles.str_Rechercher_) + classeUnNom;
