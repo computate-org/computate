@@ -249,33 +249,9 @@ public class RegarderRepertoire {
 			regarderRepertoire.ajouterCheminsARegarder(classeLangueConfig);
 
 			try {
-				String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
-				File dir = new File(String.format("%s/src/main/java", SITE_CHEMIN));
-				try (Stream<Path> stream = Files.walk(Paths.get(dir.getAbsolutePath()))) {
-					stream.filter(Files::isRegularFile)
-							.filter(chemin -> chemin.toString().endsWith(".java"))
-							.filter(chemin -> {
-								try {
-									return !FileUtils.readFileToString(chemin.toFile(), "UTF-8").contains("* Translate: false");
-								} catch(Exception ex) {
-									return false;
-								}
-							})
-					.forEach(chemin -> {
-						String cheminStr = chemin.toString();
-//						System.out.println(String.format("%s %s", chemin.toString().endsWith(".java"), chemin.toString()));
-						RegarderClasse regarderClasse = new RegarderClasse();
-						try {
-							regarderClasse.setArgs(new String[] {SITE_CHEMIN, cheminStr});
-							regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
-							SolrInputDocument classeDoc = new SolrInputDocument();
-							regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
-							System.out.println(String.format("%s %s", classeLangueConfig.getString(ConfigCles.var_Indexe), cheminStr));
-						} catch(Exception ex) {
-							System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
-						}
-					});
-				}
+				indexerClasses(SITE_CHEMIN, classeLangueConfig);
+				indexerClasses(SITE_CHEMIN, classeLangueConfig);
+				indexerClasses(SITE_CHEMIN, classeLangueConfig);
 			} catch(Exception ex) {
 				System.out.println(String.format("Error indexing files on startup: %s", ex.getMessage()));
 			}
@@ -287,6 +263,37 @@ public class RegarderRepertoire {
 			System.err.println(ExceptionUtils.getStackTrace(e));
 		}
 	} 
+
+	public static void indexerClasses(String SITE_CHEMIN, YAMLConfiguration classeLangueConfig) throws Exception {
+
+		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
+		File dir = new File(String.format("%s/src/main/java", SITE_CHEMIN));
+		try (Stream<Path> stream = Files.walk(Paths.get(dir.getAbsolutePath()))) {
+			stream.filter(Files::isRegularFile)
+					.filter(chemin -> chemin.toString().endsWith(".java"))
+					.filter(chemin -> {
+						try {
+							return !FileUtils.readFileToString(chemin.toFile(), "UTF-8").contains("* Translate: false");
+						} catch(Exception ex) {
+							return false;
+						}
+					})
+			.forEach(chemin -> {
+				String cheminStr = chemin.toString();
+//						System.out.println(String.format("%s %s", chemin.toString().endsWith(".java"), chemin.toString()));
+				RegarderClasse regarderClasse = new RegarderClasse();
+				try {
+					regarderClasse.setArgs(new String[] {SITE_CHEMIN, cheminStr});
+					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
+					SolrInputDocument classeDoc = new SolrInputDocument();
+					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
+					System.out.println(String.format("%s %s", classeLangueConfig.getString(ConfigCles.var_Indexe), cheminStr));
+				} catch(Exception ex) {
+					System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+				}
+			});
+		}
+	}
 	/*
 	 * r: cles
 	 * r: observateur
