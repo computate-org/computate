@@ -1,0 +1,6 @@
+---
+- name: What is this code? 
+  hosts: localhost
+  connection: local
+  roles:
+    - whatis

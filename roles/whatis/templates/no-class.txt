@@ -1,0 +1,5 @@
+The {{ project }} project is for persisting the following types of models: {% for project_model in project_models.json.response.docs %}{% if loop.index > 1 %}, {% endif %}{{ project_model.classeNomPluriel_enUS_stored_string | default('stuff') }}{% endfor %}
+
+{% for project_model in project_models.json.response.docs %}
+ansible-playbook whatis.yaml -e project='{{ project_model.classeNomSingulier_enUS_stored_string | default('stuff') }}'
+{% endfor %}

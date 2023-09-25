@@ -1,0 +1,27 @@
+---
+
+- name: Query Apache Solr for all Java classes
+  ansible.builtin.uri: 
+    url: |-
+      https://solr-solr.apps-crc.testing/solr/computate/select?rows=0&q=*%3A*&json.facet={projects:{terms:{field:siteNom_indexed_string,%20limit:3}}}
+    validate_certs: false
+  register: solr_projects
+  when: project is not defined
+- name: "Check for project var"
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'no-project.txt').split('\n') }}"
+  failed_when: true
+  when: project is not defined
+
+- name: Query Apache Solr for project models
+  ansible.builtin.uri: 
+    url: |-
+      https://solr-solr.apps-crc.testing/solr/computate/select?q=*:*&fq=partEstClasse_indexed_boolean:true&fq=classeIndexe_indexed_boolean:true&fq=classeModele_indexed_boolean:true
+    validate_certs: false
+  register: project_models
+  when: class is not defined
+- name: "Check for project models"
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'no-class.txt').split('\n') }}"
+  failed_when: true
+  when: class is not defined

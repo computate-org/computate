@@ -1,0 +1,6 @@
+The computate project is for watching for changes in your Java projects and generating code. 
+Learn more about any of the following projects: {% for solr_project in solr_projects.json.facets.projects.buckets %}{% if loop.index > 1 %}, {% endif %}solr_project.val{% endfor %}
+
+{% for solr_project in solr_projects.json.facets.projects.buckets %}
+ansible-playbook whatis.yaml -e project={{ solr_project.val }}
+{% endfor %}
