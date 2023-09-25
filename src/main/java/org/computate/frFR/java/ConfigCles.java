@@ -38,6 +38,7 @@ public class ConfigCles {
 	public static final String str__est_l_entité_déjà_construit__ = "str__est_l_entité_déjà_construit__";
 	public static final String str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__ = "str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__";
 	public static final String str_Fusionner_ = "str_Fusionner_";
+	public static final String str_Genere = "str_Genere";
 	public static final String str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut = "str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut";
 	public static final String str_Importer_ = "str_Importer_";
 	public static final String str_la_classe_ = "str_la_classe_";

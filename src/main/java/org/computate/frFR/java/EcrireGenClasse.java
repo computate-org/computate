@@ -6686,6 +6686,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		wClasseDescription.tl(0, langueConfig.getString(ConfigCles.str_Supprimer_), langueConfig.getString(ConfigCles.str_le_projet_), siteNom, langueConfig.getString(ConfigCles.str__dans_Solr), ": ");
 		wClasseDescription.tl(0, "curl -k '", solrUrlComputate, "/update?commitWithin=1000&overwrite=true&wt=json' -X POST -H 'Content-type: text/xml' --data-raw '&lt;add&gt;&lt;delete&gt;&lt;query&gt;siteNom_indexed_string:", ClientUtils.escapeQueryChars(siteNom), "&lt;/query&gt;&lt;/delete&gt;&lt;/add&gt;'");
 		wClasseDescription.tl(0, "</p>");
+		wClasseDescription.l(langueConfig.getString(ConfigCles.str_Genere), ": true");
 
 		if(o != null) {
 			ecrireCommentairePart(wClasseTodos.toString(), 0); 

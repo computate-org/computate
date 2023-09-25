@@ -1436,6 +1436,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(classeGenPageNomSimple2 != null)
 					l(" * ", langueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom2, ": ", classeGenPageNomSimple2);
 			}
+			l(" * ", classeLangueConfig.getString(ConfigCles.str_Genere), ": true");
 			l(" **/");
 			s("public class ", classeGenPageNomSimple);
 			s(" extends ", classeGenPageNomSimple, "Gen");

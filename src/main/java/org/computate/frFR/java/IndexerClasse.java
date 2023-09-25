@@ -6580,6 +6580,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
+		indexerStockerSolr(classeDoc, "classeGenere", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.str_Genere) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeContexte = indexerStockerSolr(classeDoc, "classeContexte", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Contexte) + ": \\s*(true)$", classeCommentaire) || classePage);
 
 		if(classeContexte) {
@@ -6852,7 +6853,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
-		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Indexe) + ":\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele || classeFiware || classePage);
+		Boolean classeIndexe = indexerStockerSolr(classeDoc, "classeIndexe", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Indexe) + ":\\s*(true)$", classeCommentaire) || classeSauvegarde || classeModele || classeFiware);
 		Boolean classeImage = indexerStockerSolr(classeDoc, "classeImage", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Image) + ":\\s*(true)$", classeCommentaire));
 
 		stockerSolr(classeDoc, "classePromesse", classePromesse);

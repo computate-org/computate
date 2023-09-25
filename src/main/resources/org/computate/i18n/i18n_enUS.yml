@@ -67,7 +67,7 @@ classe:
 
     Api:
       nom: "Api"
-      commentaire: "Api: true"
+      commentaire: "<h2>Api: true</h2>"
       description: |
         <p>This class contains a comment <b>"Api: true"</b>, which means this class will have Java Vert.x API backend code generated for these objects. 
         </p>
@@ -75,13 +75,13 @@ classe:
         You can add a class comment <b>"Api: true"</b> if you wish to GET, POST, PATCH or PUT these %s objects in a RESTful API. 
     ApiMethode:
       nom: "ApiMethod"
-      commentaire: "ApiMethode: %s"
+      commentaire: "<h2>ApiMethode: %s</h2>"
       description: |
         <p>This class contains a comment <b>"ApiMethod: %s"</b>, which creates an API "%s". 
         </p>
     ApiTag:
       nom: "ApiTag"
-      commentaire: "ApiTag.%s: %s"
+      commentaire: "<h2>ApiTag.%s: %s</h2>"
       description: |
         <p>This class contains a comment <b>"ApiTag: %s"</b>, which groups all of the OpenAPIs for %s objects under the tag "%s". 
         </p>
@@ -91,7 +91,7 @@ classe:
         The OpenAPI spec for this tag can then be automatically generated. 
     ApiUri:
       nom: "ApiUri"
-      commentaire: "ApiUri.%s: %s"
+      commentaire: "<h2>ApiUri.%s: %s</h2>"
       description: |
         <p>This class contains a comment <b>"ApiUri: %s"</b>, which defines the base API URI for %s objects as "%s" in the OpenAPI spec. 
         </p>
@@ -100,7 +100,7 @@ classe:
         The OpenAPI spec and code to handle API requests to this base URL will then be automatically generated. 
     Couleur:
       nom: "Color"
-      commentaire: "Color: %s"
+      commentaire: "<h2>Color: %s</h2>"
       description: |
         <p>This class contains a comment <b>"Color: %s"</b>, which styles the %s page "%s". 
         This will reference a CSS class defined by the stylesheets in the project that starts with "w3-". 
@@ -109,7 +109,7 @@ classe:
         </p>
     IconeGroupe:
       nom: "IconGroup"
-      commentaire: "IconGroup: %s"
+      commentaire: "<h2>IconGroup: %s</h2>"
       description: |
         <p>This class contains a comment <b>"IconGroup: %s"</b>, which adds icons on the %s page with a group of "%s". 
         This will reference a Font Awesome icon group that starts with "fa-" followed by the icon group "%s", together is "fa-%s". 
@@ -119,7 +119,7 @@ classe:
         </p>
     IconeNom:
       nom: "IconName"
-      commentaire: "IconName: %s"
+      commentaire: "<h2>IconName: %s</h2>"
       description: |
         <p>This class contains a comment <b>"IconName: %s"</b>, which adds icons on the %s page with a name of "%s". 
         This will reference a Font Awesome icon that starts with the icon group "fa-%s fa-" followed by the icon name, which is "fa-%s fa-%s". 
@@ -128,7 +128,7 @@ classe:
         </p>
     Indexe:
       nom: "Indexed"
-      commentaire: "Indexed: true"
+      commentaire: "<h2>Indexed: true</h2>"
       description: |
         <p>This class contains a comment <b>"Indexed: true"</b>, which means this class will be indexed in the search engine. 
         Every protected void method that begins with "_" that is marked to be searched with a comment like "Indexed: true", "Stored: true", or "DocValues: true" will be indexed in the search engine. 
@@ -138,7 +138,7 @@ classe:
         The code to index and retrieve the %s data in the search engine will then be automatically generated. 
     InheritDoc:
       nom: "InheritDoc"
-      commentaire: "{@inheritDoc}"
+      commentaire: "<h2>{@inheritDoc}</h2>"
       description: |
         <p>By adding a class comment "{@inheritDoc}", the %s class will inherit the helpful inherited class comments from the super class %s. 
         </p>
@@ -146,7 +146,7 @@ classe:
         You can add a class comment "{@inheritDoc}" if you wish to inherit the helpful inherited class comments from class %s into the class %s. 
     Lignes:
       nom: "Rows"
-      commentaire: "Rows: %s"
+      commentaire: "<h2>Rows: %s</h2>"
       description: |
         <p>This class contains a comment <b>"Rows: %s"</b>, which means the %s API will return a default of %s records instead of 10 by default. 
         Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
@@ -157,7 +157,7 @@ classe:
         Each API has built in pagination of the search records to ensure a user can query all the data a page at a time without running the application out of memory. 
     Modele:
       nom: "Model"
-      commentaire: "Model: true"
+      commentaire: "<h2>Model: true</h2>"
       description: |
         <p>This class contains a comment <b>"Model: true"</b>, which means this class will be stored in the database. 
         Every protected void method that begins with "_" that contains a "Persist: true" comment will be a persisted field in the database table. 
@@ -167,7 +167,7 @@ classe:
         The code to persist and query the %s data in the database will then be automatically generated. 
     Ordre:
       nom: "Order"
-      commentaire: "Order: %s"
+      commentaire: "<h2>Order: %s</h2>"
       description: |
         <p>This class contains a comment <b>"Order: %s"</b>, which means this class will be sorted by the given number %s ascending when code that relates to multiple classes at the same time is generated. 
         </p>
@@ -177,7 +177,7 @@ classe:
         The Order comment allows you do define which order the class code is generated. 
     OrdreSql:
       nom: "SqlOrder"
-      commentaire: "SqlOrder: %s"
+      commentaire: "<h2>SqlOrder: %s</h2>"
       description: |
         <p>This class contains a comment <b>"SqlOrder: %s"</b>, which means this class will be sorted by the given number %s ascending when SQL code to create and drop the tables is generated. 
         </p>
@@ -186,7 +186,7 @@ classe:
         The Order comment allows you do define which order the SQL code is generated. 
     Page:
       nom: "Page"
-      commentaire: "Page: true"
+      commentaire: "<h2>Page: true</h2>"
       description: |
         <p>This class contains a comment <b>"Page: true"</b>, which means this class will have webpage code generated for these objects. 
         Java Vert.x backend API code, Handlebars HTML template frontend code, and JavaScript code will all generated and can be extended. 
@@ -194,14 +194,14 @@ classe:
         </p>
     PageSuper:
       nom: "SuperPage"
-      commentaire: "SuperPage.%s: %s"
+      commentaire: "<h2>SuperPage.%s: %s</h2>"
       description: |
         <p>This class contains a comment <b>"SuperPage.enUS: %s"</b>, which identifies the Java super class of the page code by it's class simple name "%s". 
         This means that the newly created class %s extends %s. 
         </p>
     Promesse:
       nom: "Promise"
-      commentaire: "Promise: true"
+      commentaire: "<h2>Promise: true</h2>"
       description: |
         <p>
           This class contains a comment <b>"Promise: %s"</b>
@@ -227,7 +227,7 @@ classe:
         </p>
     Role:
       nom: "Role"
-      commentaire: "Role.%s: %s"
+      commentaire: "<h2>Role.%s: %s</h2>"
       description: |
         <p>
         This class contains a comment <b>"Role.%s: %s"</b>, which identifies the default role name "%s" of the OAuth2/OpenID Connect user role required to access this %s API. 
@@ -236,7 +236,7 @@ classe:
         <pre>AUTH_ROLE_REQUIRED_%s: ["%s"]</pre>
     UnNom:
       nom: "AName"
-      commentaire: "AName.%s: %s"
+      commentaire: "<h2>AName.%s: %s</h2>"
       description: |
         <p>This class contains a comment <b>"AName.%s: %s"</b>, which identifies the language context to describe a %s as "%s". 
         </p>
@@ -252,6 +252,7 @@ str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initi
 str_Fusionner_: "Merge "
 str_HAposhAposmm: "h:mm a"
 str_HHColonMM: "HH:MM A"
+str_Genere: "Generated"
 str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut: " It is constructed before being initialized with the constructor by default"
 str_Importer_: "Import "
 str_la_classe_: "the class "

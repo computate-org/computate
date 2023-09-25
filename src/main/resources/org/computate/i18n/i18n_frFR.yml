@@ -20,6 +20,7 @@ str__est_défini_comme_null_avant_d_être_initialisé__: " est défini comme nul
 str__est_l_entité_déjà_construit__: " est l'entité déjà construit. "
 str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__: " est pour envelopper une valeur à assigner à cette entité lors de l'initialisation. "
 str_Fusionner_: "Fusionner "
+str_Genere: "Genéré"
 str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut: "Il est construit avant d'être initialisé avec le constructeur par défaut"
 str_Importer_: "Importer "
 str_la_classe_: "la classe "

@@ -273,6 +273,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				auteurGenApiService.l(" * ", classeLangueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom, ": ", classeNomCanoniqueGenApiServiceLangue);
 			}
 			auteurGenApiService.l(" * Gen: false");
+			auteurGenApiService.l(" * ", classeLangueConfig.getString(ConfigCles.str_Genere), ": true");
 			auteurGenApiService.l(" **/");
 			auteurGenApiService.l("@WebApiServiceGen");
 			auteurGenApiService.l("@ProxyGen");
@@ -2476,6 +2477,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				String classeNomCanoniqueGenApiServiceImplLangue = classeDoc.getString("classeNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
 				l(" * ", classeLangueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom, ": ", classeNomCanoniqueGenApiServiceImplLangue);
 			}
+			l(" * ", classeLangueConfig.getString(ConfigCles.str_Genere), ": true");
 			l(" **/");
 			s("public class ", classeNomSimpleGenApiServiceImpl, " extends ", classePartsBaseApiServiceImpl.nomSimple(langueNom));
 			s(" implements ", classeNomSimpleGenApiService);
