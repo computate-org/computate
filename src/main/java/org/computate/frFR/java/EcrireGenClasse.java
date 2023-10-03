@@ -58,8 +58,10 @@ import org.yaml.snakeyaml.Yaml;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.pgclient.data.Path;
 
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
@@ -3368,6 +3370,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonDeserialize(using = ", classePartsPointDeserializer.nomSimple(langueNom), ".class)");
 				tl(1, "@JsonSerialize(using = ", classePartsPointSerializer.nomSimple(langueNom), ".class)");
 			}
+			else if("Path".equals(entiteNomSimple)) {
+				tl(1, "@JsonProperty");
+				tl(1, "@JsonDeserialize(using = ", classePartsPathDeserializer.nomSimple(langueNom), ".class)");
+				tl(1, "@JsonSerialize(using = ", classePartsPathSerializer.nomSimple(langueNom), ".class)");
+			}
 			else if("LocalDate".equals(entiteNomSimple)) {
 				tl(1, "@JsonProperty");
 				tl(1, "@JsonDeserialize(using = ", classePartsLocalDateDeserializer.nomSimple(langueNom), ".class)");
@@ -3708,6 +3715,43 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(3, "if(m.find())");
 					tl(4, "return new Point(Double.parseDouble(m.group(1)), Double.parseDouble(m.group(2)));");
 					tl(3, "throw new RuntimeException(String.format(\"Invalid point format \\\"%s\\\", try these formats instead: 55.633703,13.49254 or {\\\"type\\\":\\\"Point\\\",\\\"coordinates\\\":[55.633703,13.49254]}\", o));");
+					tl(2, "}");
+					tl(2, "return null;");
+					tl(1, "}");
+					staticSet = true;
+				}
+		
+				// Setter Path //
+				if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePath)) {
+					tl(1, "@JsonIgnore");
+					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
+					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+					tl(1, "}");
+					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+					tl(2, "if(o != null) {");
+//				tl(1, "@JsonDeserialize(using = ", classePartsPathDeserializer.nomSimple(langueNom), ".class)");
+//				tl(1, "@JsonSerialize(using = ", classePartsPathSerializer.nomSimple(langueNom), ".class)");
+					tl(3, "try {");
+					tl(4, "Path path = null;");
+					tl(4, "if(StringUtils.isNotBlank(o)) {");
+					tl(5, "ObjectMapper objectMapper = new ObjectMapper();");
+					tl(5, "SimpleModule module = new SimpleModule();");
+					tl(5, "module.setDeserializerModifier(new BeanDeserializerModifier() {");
+					tl(6, "@Override");
+					tl(6, "public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config, BeanDescription beanDesc, JsonDeserializer<?> deserializer) {");
+					tl(7, "if (beanDesc.getBeanClass() == Path.class) {");
+					tl(8, "return new PgClientPathDeserializer();");
+					tl(7, "}");
+					tl(7, "return deserializer;");
+					tl(6, "}");
+					tl(5, "});");
+					tl(5, "objectMapper.registerModule(module);");
+					tl(5, "path = objectMapper.readValue(Json.encode(o), Path.class);");
+					tl(4, "}");
+					tl(4, "return path;");
+					tl(3, "} catch(Exception ex) {");
+					tl(4, "ExceptionUtils.rethrow(ex);");
+					tl(3, "}");
 					tl(2, "}");
 					tl(2, "return null;");
 					tl(1, "}");
@@ -4375,6 +4419,11 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(2, "return o;");
 							tl(1, "}");
 						}
+						else if(entiteNomSimple.toString().equals("Path")) {
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(2, "return o;");
+							tl(1, "}");
+						}
 						else if(entiteNomSimple.toString().equals("JsonObject")) {
 							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o.toString();");
@@ -4443,6 +4492,13 @@ public class EcrireGenClasse extends EcrireClasse {
 						else if("java.util.List".equals(entiteNomCanonique) || "java.util.ArrayList".equals(entiteNomCanonique)) {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", StringUtils.substringBeforeLast(StringUtils.substringAfter(entiteSolrNomSimple, "<"), ">"), " o) {");
 							tl(2, "return o == null ? null : o.toString();");
+							tl(1, "}");
+						}
+						else if(entiteNomSimple.toString().equals("Path")) {
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
+							tl(2, "JsonArray pointsArray = new JsonArray();");
+							tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+							tl(2, "return new JsonObject().put(\"type\", \"MultiPoint\").put(\"coordinates\", pointsArray).toString();");
 							tl(1, "}");
 						}
 						else {
@@ -4661,6 +4717,11 @@ public class EcrireGenClasse extends EcrireClasse {
 					else if(entiteNomSimple.toString().equals("Point")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", String.format(\"%s,%s\", ", entiteVar, ".getX(), ", entiteVar, ".getY()));");
 					}
+					else if(entiteNomSimple.toString().equals("Path")) {
+						tl(3, "JsonArray pointsArray = new JsonArray();");
+						tl(3, "path.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"MultiPoint\").put(\"coordinates\", pointsArray).toString());");
+					}
 					else if(entiteNomSimple.toString().equals("JsonObject")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
 					}
@@ -4701,6 +4762,11 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(entiteNomSimple.toString().equals("Point")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", new Point(", entiteVar, ".getPoint1(), ", entiteVar, ".getPoint2()));");
+					}
+					else if(entiteNomSimple.toString().equals("Path")) {
+						tl(3, "JsonArray pointsArray = new JsonArray();");
+						tl(3, "path.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"MultiPoint\").put(\"coordinates\", pointsArray).toString());");
 					}
 					else if(entiteNomSimple.toString().equals("JsonObject")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
@@ -5829,7 +5895,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 			tl(1, "public void ", langueConfig.getString(ConfigCles.var_peupler), classeNomSimple, "(SolrResponse.Doc doc) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
-			tl(2, "", langueConfig.getString(ConfigCles.var_sauvegardes), " = doc.get(\"", langueConfig.getString(ConfigCles.var_sauvegardes), "_docvalues_strings\");");
+			tl(2, "", langueConfig.getString(ConfigCles.var_sauvegardes), " = Optional.ofNullable((ArrayList<String>)doc.get(\"", langueConfig.getString(ConfigCles.var_sauvegardes), "_docvalues_strings\")).orElse(new ArrayList<String>());");
 			tl(2, "if(", langueConfig.getString(ConfigCles.var_sauvegardes), " != null) {");
 			s(wPeupler.toString());
 			tl(2, "}");
