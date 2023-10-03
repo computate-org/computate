@@ -4498,7 +4498,7 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
 							tl(2, "JsonArray pointsArray = new JsonArray();");
 							tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
-							tl(2, "return new JsonObject().put(\"type\", \"MultiPoint\").put(\"coordinates\", pointsArray).toString();");
+							tl(2, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString();");
 							tl(1, "}");
 						}
 						else {
@@ -4720,7 +4720,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					else if(entiteNomSimple.toString().equals("Path")) {
 						tl(3, "JsonArray pointsArray = new JsonArray();");
 						tl(3, "path.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
-						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"MultiPoint\").put(\"coordinates\", pointsArray).toString());");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString());");
 					}
 					else if(entiteNomSimple.toString().equals("JsonObject")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
@@ -4766,7 +4766,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					else if(entiteNomSimple.toString().equals("Path")) {
 						tl(3, "JsonArray pointsArray = new JsonArray();");
 						tl(3, "path.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
-						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"MultiPoint\").put(\"coordinates\", pointsArray).toString());");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString());");
 					}
 					else if(entiteNomSimple.toString().equals("JsonObject")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
