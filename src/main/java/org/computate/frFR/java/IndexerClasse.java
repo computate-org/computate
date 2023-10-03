@@ -126,6 +126,7 @@ public class IndexerClasse extends RegarderClasseBase {
 	 */
 	public static final String VAL_nomCanoniqueBigDecimal = BigDecimal.class.getCanonicalName();
 	public static final String VAL_nomCanoniquePoint = "io.vertx.pgclient.data.Point";
+	public static final String VAL_nomCanoniquePath = "io.vertx.pgclient.data.Path";
 	/**
 	 * Var.enUS: VAL_canonicalNameInteger
 	 */
@@ -181,6 +182,9 @@ public class IndexerClasse extends RegarderClasseBase {
 
 	ClasseParts classePartsPointSerializer;
 	ClasseParts classePartsPointDeserializer;
+
+	ClasseParts classePartsPathSerializer;
+	ClasseParts classePartsPathDeserializer;
 
 	ClasseParts classePartsLocalTimeSerializer;
 	ClasseParts classePartsLocalTimeDeserializer;
@@ -1749,6 +1753,20 @@ public class IndexerClasse extends RegarderClasseBase {
 		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "PointSerializer", langueNom);
 		if(parts == null)
 			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.serialize.pgclient.PgClientPointSerializer", langueNom);
+		return parts;
+	}
+
+	protected ClasseParts classePartsPathDeserializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "PathDeserializer", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.serialize.pgclient.PgClientPathDeserializer", langueNom);
+		return parts;
+	}
+
+	protected ClasseParts classePartsPathSerializer(String nomEnsembleDomaine, String langueNom) throws Exception {
+		ClasseParts parts = classePartsPourNomSimple(nomEnsembleDomaine, "PathSerializer", langueNom);
+		if(parts == null)
+			parts = ClasseParts.initClasseParts(this, "org.computate.vertx.serialize.pgclient.PgClientPathSerializer", langueNom);
 		return parts;
 	}
 
@@ -3527,6 +3545,8 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsConfigCles = classePartsConfigCles(nomEnsembleDomaine, classeLangueNom);
 		classePartsPointDeserializer = classePartsPointDeserializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsPointSerializer = classePartsPointSerializer(nomEnsembleDomaine, classeLangueNom);
+		classePartsPathDeserializer = classePartsPathDeserializer(nomEnsembleDomaine, classeLangueNom);
+		classePartsPathSerializer = classePartsPathSerializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsLocalTimeDeserializer = classePartsLocalTimeDeserializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsLocalTimeSerializer = classePartsLocalTimeSerializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsLocalDateDeserializer = classePartsLocalDateDeserializer(nomEnsembleDomaine, classeLangueNom);
@@ -4324,8 +4344,22 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimpleCompletGenerique", entiteClasseParts.nomSimpleGenerique(classeLangueNom));
 
 						if("Point".equals(entiteNomSimple)) {
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.ObjectMapper", classeLangueNom), classeLangueNom);
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.module.SimpleModule", classeLangueNom), classeLangueNom);
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.deser.BeanDeserializerModifier", classeLangueNom), classeLangueNom);
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.JsonDeserializer", classeLangueNom), classeLangueNom);
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.DeserializationConfig", classeLangueNom), classeLangueNom);
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.BeanDescription", classeLangueNom), classeLangueNom);
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Collectors", classeLangueNom), classeLangueNom);
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.Json", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(classePartsPointSerializer, classeLangueNom);
 							classePartsGenAjouter(classePartsPointDeserializer, classeLangueNom);
+						}
+
+						if("Path".equals(entiteNomSimple)) {
+							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.ObjectMapper", classeLangueNom), classeLangueNom);
+							classePartsGenAjouter(classePartsPathSerializer, classeLangueNom);
+							classePartsGenAjouter(classePartsPathDeserializer, classeLangueNom);
 						}
 
 						JavaMethod entiteSetter = null;
@@ -5062,6 +5096,10 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteNomSimpleVertxJson = "String";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							}
+							else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePath)) {
+								entiteNomSimpleVertxJson = "String";
+								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
+							}
 							else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
 								entiteNomSimpleVertxJson = "JsonObject";
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
@@ -5197,6 +5235,11 @@ public class IndexerClasse extends RegarderClasseBase {
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
 							entiteSuffixeType = "_location";
 						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePath)) {
+							entiteSolrNomCanonique = VAL_nomCanoniquePath;
+							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
+							entiteSuffixeType = "_location";
+						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
 							entiteSolrNomCanonique = VAL_nomCanoniqueString;
 							entiteSolrNomSimple = StringUtils.substringAfterLast(entiteSolrNomCanonique, ".");
@@ -5308,6 +5351,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePoint)) {
 							entiteTypeSql = "point";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePath)) {
+							entiteTypeSql = "path";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
 							entiteTypeSql = "jsonb";
@@ -5435,7 +5481,14 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePoint)) {
 							entiteTypeJson = "string";
-							entiteFiwareType = "number";
+							entiteFiwareType = "string";
+							entiteNgsiType = "GeoProperty";
+							if(entiteFormatHtm == null)
+								entiteFormatHtm = "default";
+						}
+						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePath)) {
+							entiteTypeJson = "string";
+							entiteFiwareType = "string";
 							entiteNgsiType = "GeoProperty";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
