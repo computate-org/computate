@@ -4344,6 +4344,11 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteNomSimpleCompletGenerique", entiteClasseParts.nomSimpleGenerique(classeLangueNom));
 
 						if("Point".equals(entiteNomSimple)) {
+							classePartsGenAjouter(classePartsPointSerializer, classeLangueNom);
+							classePartsGenAjouter(classePartsPointDeserializer, classeLangueNom);
+						}
+
+						if("Path".equals(entiteNomSimple)) {
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.ObjectMapper", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.module.SimpleModule", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.deser.BeanDeserializerModifier", classeLangueNom), classeLangueNom);
@@ -4352,11 +4357,6 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.BeanDescription", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "java.util.stream.Collectors", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.Json", classeLangueNom), classeLangueNom);
-							classePartsGenAjouter(classePartsPointSerializer, classeLangueNom);
-							classePartsGenAjouter(classePartsPointDeserializer, classeLangueNom);
-						}
-
-						if("Path".equals(entiteNomSimple)) {
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.ObjectMapper", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(classePartsPathSerializer, classeLangueNom);
 							classePartsGenAjouter(classePartsPathDeserializer, classeLangueNom);

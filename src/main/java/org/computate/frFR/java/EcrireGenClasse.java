@@ -4719,7 +4719,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 					else if(entiteNomSimple.toString().equals("Path")) {
 						tl(3, "JsonArray pointsArray = new JsonArray();");
-						tl(3, "path.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+						tl(3, entiteVar, ".getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString());");
 					}
 					else if(entiteNomSimple.toString().equals("JsonObject")) {
