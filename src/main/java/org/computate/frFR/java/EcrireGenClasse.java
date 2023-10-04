@@ -43,6 +43,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.translate.AggregateTranslator;
 import org.apache.commons.text.translate.CharSequenceTranslator;
@@ -1994,56 +1995,6 @@ public class EcrireGenClasse extends EcrireClasse {
 //						}	
 		}
 		s(" {\n");
-
-		if(classeSmartDataModel != null) {
-			File smartDataModelSpecFile = new File(System.getenv("HOME"), String.format(".local/src/smart-data-models/%s/dataModel.%s/%s/model.yaml", classeSmartDataDomain, classeSmartDataSubModule, classeSmartDataModel));
-			if(smartDataModelSpecFile.exists()) {
-				Yaml yaml = new Yaml();
-				Map<String, Object> map = yaml.load(FileUtils.readFileToString(smartDataModelSpecFile, StandardCharsets.UTF_8));
-				JsonObject spec = new JsonObject(map);
-				JsonObject properties = spec.getJsonObject(classeSmartDataModel).getJsonObject("properties");
-				l();
-				tl(1, "/* FIWARE SmartDataModel fields: */");
-
-				Integer row = 3;
-				Integer cell = 1;
-				for(String fieldName : properties.fieldNames()) {
-					JsonObject field = properties.getJsonObject(fieldName);
-					String jsonType = field.getString("type");
-					String description = field.getString("description");
-					String javaType = "JsonObject";
-					if("string".equals(jsonType))
-						javaType = "String";
-					else if("boolean".equals(jsonType))
-						javaType = "Boolean";
-					else if("integer".equals(jsonType))
-						javaType = "Integer";
-					else if("number".equals(jsonType))
-						javaType = "BigDecimal";
-					l("//");
-					l("//	/**");
-					l("//	 * {@inheritDoc}");
-					l("//	 * DocValues: true");
-					l("//	 * Persist: true");
-					l("//	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase());
-					if(description != null)
-						l("//	 * Description: ", description.replace("\r\n", " ").replace("\n", " "));
-					l("//	 * HtmRow: ", row);
-					l("//	 * HtmCell: ", cell);
-					l("//	 * Facet: true");
-					l("//	 */");
-					l("//	protected void _", fieldName, "(Wrap<", javaType, "> w) {");
-					l("//	}");
-					cell++;
-					if(cell > 3) {
-						row++;
-						cell = 1;
-					}
-				}
-				
-				l();
-			}
-		}
 
 		if(activerLog) {
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimple, ".class);");
@@ -6344,7 +6295,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		o = auteurGenClasseDebut; 
 		if(ecrireCommentaire) {
-			l("/**\t");
+			l("/**");
 			ecrireCommentairePart(classeCommentaireLangue, 0); 
 			String hackathonMission = classeDoc.getString("hackathonMissionGen_stored_string");
 			String hackathonColumn = classeDoc.getString("hackathonColumnGen_stored_string");
@@ -6365,7 +6316,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			JsonObject langueConfigJson = new JsonObject(jsonWriter.writeValueAsString(obj));
 			// Todo
 			ecrireClasseCommentaire(langueConfigJson, siteNom, langueNom);
-			l(" **/");  
+			l(" **/");
 		}
 
 		auteurGenClasse.s(auteurGenClasseDebut);
@@ -6462,6 +6413,97 @@ public class EcrireGenClasse extends EcrireClasse {
 			});
 			wClasseDescription.s(b.toString());
 			classe.put("Description", b.toString());
+		}
+
+		try {
+			if(classeSmartDataModel != null) {
+				File smartDataModelSpecFile = new File(System.getenv("HOME"), String.format(".local/src/smart-data-models/%s/dataModel.%s/%s/model.yaml", classeSmartDataDomain, classeSmartDataSubModule, classeSmartDataModel));
+				if(smartDataModelSpecFile.exists()) {
+					Yaml yaml = new Yaml();
+					Map<String, Object> map = yaml.load(FileUtils.readFileToString(smartDataModelSpecFile, StandardCharsets.UTF_8));
+					JsonObject spec = new JsonObject(map);
+					JsonObject properties = spec.getJsonObject(classeSmartDataModel).getJsonObject("properties");
+					l();
+					tl(0, " * <h1>FIWARE SmartDataModel fields:</h1>");
+	
+					l(" * {@literal /}{@literal **}<br>");
+					l(" * {@literal 	 * SmartDataModel: ", classeSmartDataModel, " - ", classeSmartDataSubModule, " - ", classeSmartDataDomain, "}<br>");
+					l(" * {@literal 	 * Fiware: true}<br>");
+					l(" * {@literal 	 * SqlOrder: 1}<br>");
+					l(" * {@literal 	 * Api: true}<br>");
+					l(" * {@literal 	 * Page: true}<br>");
+					l(" * {@literal 	 * SuperPage.enUS: BaseModelPage}<br>");
+					l(" * {@literal 	 * Indexed: true}<br>");
+					l(" * {@literal 	 * Order: 1}<br>");
+					l(" * {@literal 	 * Description: }<br>");
+					l(" * {@literal 	 * ApiTag.enUS: ", classeNomSimple, "}<br>");
+					l(" * {@literal 	 * ApiUri.enUS: /api/", classeNomSimple, "}<br>");
+					l(" * <br>");
+					l(" * {@literal 	 * ApiMethod.enUS: Search}<br>");
+					l(" * {@literal 	 * ApiMethod: GET}<br>");
+					l(" * {@literal 	 * ApiMethod: PATCH}<br>");
+					l(" * {@literal 	 * ApiMethod: POST}<br>");
+					l(" * {@literal 	 * ApiMethod: PUTImport}<br>");
+					l(" * <br>");
+					l(" * {@literal 	 * ApiMethod.enUS: SearchPage}<br>");
+					l(" * {@literal 	 * Page.SearchPage.enUS: ", classeNomSimple, "Page}<br>");
+					l(" * {@literal 	 * ApiUri.SearchPage.enUS: /", classeNomSimple, "}<br>");
+					l(" * <br>");
+					l(" * {@literal 	 * Role.enUS: SiteAdmin}<br>");
+					l(" * <br>");
+					l(" * {@literal 	 * AName.enUS: a ", classeNomSimple, "}<br>");
+					l(" * {@literal 	 * Color: 2017-shaded-spruce}<br>");
+					l(" * {@literal 	 * IconGroup: duotone}<br>");
+					l(" * {@literal 	 * IconName: map-location-dot}<br>");
+					l(" * {@literal 	 * Rows: 100}<br>");
+					l(" * {@literal 	 **}{@literal /}<br>");
+					l(" * {@literal 	public class ", classeNomSimple, " extends ", classeNomSimple, "Gen<BaseModel>} {<br>");
+
+					Integer row = 3;
+					Integer cell = 1;
+					for(String fieldName : properties.fieldNames()) {
+						if(!fieldName.equals("id")) {
+							JsonObject field = properties.getJsonObject(fieldName);
+							String jsonType = field.getString("type");
+							String description = field.getString("description");
+							String javaType = "JsonObject";
+							if("string".equals(jsonType))
+								javaType = "String";
+							else if("boolean".equals(jsonType))
+								javaType = "Boolean";
+							else if("integer".equals(jsonType))
+								javaType = "Integer";
+							else if("number".equals(jsonType))
+								javaType = "BigDecimal";
+							else if("location".equals(fieldName))
+								javaType = "Path";
+							l(" * <br>");
+							l(" * {@literal 	/**}<br>");
+							l(" * {@literal 	 * {@inheritDoc}}<br>");
+							l(" * {@literal 	 * DocValues: true}<br>");
+							l(" * {@literal 	 * Persist: true}<br>");
+							l(" * {@literal 	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase(), "}<br>");
+							if(description != null)
+								l(" * {@literal 	 * Description: ", description.replace("\r\n", " ").replace("\n", " "), "}<br>");
+							l(" * {@literal 	 * HtmRow: ", row, "}<br>");
+							l(" * {@literal 	 * HtmCell: ", cell, "}<br>");
+							l(" * {@literal 	 * Facet: true}<br>");
+							l(" *	 {@literal **}{@literal /}<br>");
+							l(" * 	{@literal protected void _", fieldName, "(Wrap<", javaType, "> w)} {}<br>");
+							cell++;
+							if(cell > 3) {
+								row++;
+								cell = 1;
+							}
+						}
+					}
+					l(" * }<br>");
+					
+					l();
+				}
+			}
+		} catch(Exception ex) {
+			ExceptionUtils.rethrow(ex);
 		}
 
 		ecrireClasseCommentaireChamp(langueNom, classeRef, "01_commentaire", "commentaire", wClasseDescription
@@ -6716,9 +6758,9 @@ public class EcrireGenClasse extends EcrireClasse {
 			});
 
 			if(o != null) {
-				tl(0, "<ol>");
-				s(0, b.toString());
-				tl(0, "</ol>");
+				tl(0, " * <ol>");
+				s(b.toString());
+				tl(0, " * </ol>");
 			}
 
 			classe.put("Todo", b.toString());
@@ -6732,9 +6774,9 @@ public class EcrireGenClasse extends EcrireClasse {
 				b.insert(0, s);
 			});
 			if(o != null) {
-				tl(0, "<ol>");
-				s(0, b.toString());
-				tl(0, "</ol>");
+				tl(0, " * <ol>");
+				s(b.toString());
+				tl(0, " * </ol>");
 			}
 
 			classe.put("Suggere", b.toString());
