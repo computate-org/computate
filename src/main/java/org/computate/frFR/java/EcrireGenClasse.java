@@ -287,6 +287,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * Var.enUS: classInitDeep
 	 */
 	protected Boolean classeInitLoin;
+	protected Boolean classeInitLoinAvant;
 
 	/**
 	 * Var.enUS: classContainsSiteRequest
@@ -1384,17 +1385,33 @@ public class EcrireGenClasse extends EcrireClasse {
 				wInitLoin.l();
 				wInitLoin.tl(1, "public Future<Void> ", langueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimple, "() {");
 				wInitLoin.tl(2, "Promise<Void> promise = Promise.promise();");
-				wInitLoin.tl(2, "Promise<Void> promise2 = Promise.promise();");
-				wInitLoin.tl(2, langueConfig.getString(ConfigCles.var_promesse), classeNomSimple, "(promise2);");
-				wInitLoin.tl(2, "promise2.future().onSuccess(a -> {");
-				if(BooleanUtils.isTrue(classeEtendBase)) {
-					wInitLoin.tl(3, "super.", langueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_).onSuccess(b -> {");
-					wInitLoin.tl(4, "promise.complete();");
-					wInitLoin.tl(3, "}).onFailure(ex -> {");
-					wInitLoin.tl(4, "promise.fail(ex);");
-					wInitLoin.tl(3, "});");
+				if(classeInitLoinAvant) {
+					if(BooleanUtils.isTrue(classeEtendBase)) {
+						wInitLoin.tl(2, "super.", langueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_).onSuccess(a -> {");
+						wInitLoin.tl(3, "Promise<Void> promise2 = Promise.promise();");
+						wInitLoin.tl(3, langueConfig.getString(ConfigCles.var_promesse), classeNomSimple, "(promise2);");
+						wInitLoin.tl(3, "promise2.future().onSuccess(b -> {");
+						wInitLoin.tl(4, "promise.complete();");
+						wInitLoin.tl(3, "}).onFailure(ex -> {");
+						wInitLoin.tl(4, "promise.fail(ex);");
+						wInitLoin.tl(3, "});");
+					} else {
+						wInitLoin.tl(2, "promise2.future().onSuccess(a -> {");
+						wInitLoin.tl(3, "promise.complete();");
+					}
 				} else {
-					wInitLoin.tl(3, "promise.complete();");
+					wInitLoin.tl(2, "Promise<Void> promise2 = Promise.promise();");
+					wInitLoin.tl(2, langueConfig.getString(ConfigCles.var_promesse), classeNomSimple, "(promise2);");
+					wInitLoin.tl(2, "promise2.future().onSuccess(a -> {");
+					if(BooleanUtils.isTrue(classeEtendBase)) {
+						wInitLoin.tl(3, "super.", langueConfig.getString(ConfigCles.var_promesseLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_).onSuccess(b -> {");
+						wInitLoin.tl(4, "promise.complete();");
+						wInitLoin.tl(3, "}).onFailure(ex -> {");
+						wInitLoin.tl(4, "promise.fail(ex);");
+						wInitLoin.tl(3, "});");
+					} else {
+						wInitLoin.tl(3, "promise.complete();");
+					}
 				}
 				wInitLoin.tl(2, "}).onFailure(ex -> {");
 				wInitLoin.tl(3, "promise.fail(ex);");
@@ -1415,9 +1432,15 @@ public class EcrireGenClasse extends EcrireClasse {
 					}
 				}
 				wInitLoin.l(" {");
+				if(classeInitLoinAvant) {
+					if(BooleanUtils.isTrue(classeEtendBase)) 
+						wInitLoin.tl(2, "super.", langueConfig.getString(ConfigCles.var_initLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
+				}
 				wInitLoin.tl(2, "init", classeNomSimple, "();");
-				if(BooleanUtils.isTrue(classeEtendBase)) 
-					wInitLoin.tl(2, "super.", langueConfig.getString(ConfigCles.var_initLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
+				if(!classeInitLoinAvant) {
+					if(BooleanUtils.isTrue(classeEtendBase)) 
+						wInitLoin.tl(2, "super.", langueConfig.getString(ConfigCles.var_initLoin), classeNomSimpleSuperGenerique, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_);");
+				}
 				wInitLoin.tl(1, "}");
 			}
 

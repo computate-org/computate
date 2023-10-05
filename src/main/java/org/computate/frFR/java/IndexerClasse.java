@@ -3554,6 +3554,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		classePartsZonedDateTimeDeserializer = classePartsZonedDateTimeDeserializer(nomEnsembleDomaine, classeLangueNom);
 		classePartsZonedDateTimeSerializer = classePartsZonedDateTimeSerializer(nomEnsembleDomaine, classeLangueNom);
 
+		indexerStockerSolr(classeDoc, "classeInitLoinAvant", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_InitLoin) + classeLangueConfig.getString(ConfigCles.var_Avant) + ": (true)$", classeCommentaire));
 		Boolean classeInitLoin = !regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_InitLoin) + ":\\s*(false)$", classeCommentaire);
 		if(classeInitLoin)
 			classeInitLoin = classeEtendBase || classeEstBase;

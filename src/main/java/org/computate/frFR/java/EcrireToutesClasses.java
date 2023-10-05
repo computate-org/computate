@@ -277,6 +277,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeEtendBase = (Boolean)doc.getBoolean("classeEtendBase_stored_boolean");
 		classeEstBase = (Boolean)doc.getBoolean("classeEstBase_stored_boolean");
 		classeInitLoin = (Boolean)doc.getBoolean("classeInitLoin_stored_boolean");
+		classeInitLoinAvant = (Boolean)doc.getBoolean("classeInitLoinAvant_stored_boolean");
 		classeContientRequeteSite = (Boolean)doc.getBoolean("classeContientRequeteSite_stored_boolean");
 		classeSauvegarde = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeSauvegarde_stored_boolean"));
 		classeIndexe = BooleanUtils.isTrue((Boolean)doc.getBoolean("classeIndexe_stored_boolean"));
