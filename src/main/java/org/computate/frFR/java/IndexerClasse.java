@@ -3603,6 +3603,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeDoc, "classeEstAbstrait", classeQdox.isAbstract()); 
 		Boolean classeModele = indexerStockerSolr(classeDoc, "classeModele", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Modele) + ": \\s*(true)$", classeCommentaire));
 		Boolean classeFiware = indexerStockerSolr(classeDoc, "classeFiware", regexTrouve("^Fiware: \\s*(true)$", classeCommentaire));
+		String classeModeleAlternatif = indexerStockerSolr(classeDoc, "classeModeleAlternatif", regexLangue(langueNomGlobale, "^" + classeLangueConfig.getString(ConfigCles.var_ModeleAlternatif), classeCommentaire, classeNomSimple));
 		Boolean classeApi = indexerStockerSolr(classeDoc, "classeApi", regexTrouve("^(classe)?Api: \\s*(true)$", classeCommentaire));
 		Boolean classePage = regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Page) + ": \\s*(true)$", classeCommentaire);
 		Boolean classePageSimple = indexerStockerSolr(classeDoc, "classePageSimple", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_PageSimple) + ": \\s*(true)$", classeCommentaire));
@@ -5423,20 +5424,26 @@ public class IndexerClasse extends RegarderClasseBase {
 						////////////////////
 						String entiteTypeJson = null;
 						String entiteNgsiType = null;
-						String entiteFiwareType = null;
-						String entiteListeFiwareType = null;
+						String entiteFiwareType = regex("^FiwareType: (.*)", methodeCommentaire);
+						String entiteListeFiwareType = regex("^" + classeLangueConfig.getString(ConfigCles.var_Liste) + "FiwareType: (.*)", methodeCommentaire);
 						String entiteFiwareContexte = indexerStockerSolr(entiteDoc, "entiteFiwareContexte", regex("^" + classeLangueConfig.getString(ConfigCles.var_FiwareContexte) + ": (.*)", methodeCommentaire));
+						String entiteDocs = indexerStockerSolr(entiteDoc, "entiteDocs", regex("^Docs: (.*)", methodeCommentaire));
+						String entiteNomAlternatif = indexerStockerSolr(entiteDoc, "entiteNomAlternatif", regex("^" + classeLangueConfig.getString(ConfigCles.var_NomAlternatif) + ": (.*)", methodeCommentaire));
+						String entiteDescriptionAlternatif = indexerStockerSolr(entiteDoc, "entiteDescriptionAlternatif", regex("^" + classeLangueConfig.getString(ConfigCles.var_DescriptionAlternatif) + ": (.*)", methodeCommentaire));
+						String entiteDocsAlternatif = indexerStockerSolr(entiteDoc, "entiteDocsAlternatif", regex("^" + classeLangueConfig.getString(ConfigCles.var_DocsAlternatif) + ": (.*)", methodeCommentaire));
 						String entiteFormatJson = null;
 						String entiteFormatHtm = regex("^FormatHtm: (.*)", methodeCommentaire);
 						String entiteListeTypeJson = null;
 						if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBoolean)) {
 							entiteTypeJson = "boolean";
-							entiteFiwareType = "boolean";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "boolean";
 							entiteNgsiType = "Property";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalTime)) {
 							entiteTypeJson = "string";
-							entiteFiwareType = "string";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "string";
 							entiteNgsiType = "Property";
 							entiteFormatJson = "time";
 							if(entiteFormatHtm == null)
@@ -5444,7 +5451,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueDate, VAL_nomCanoniqueZonedDateTime)) {
 							entiteTypeJson = "string";
-							entiteFiwareType = "string";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "string";
 							entiteNgsiType = "Property";
 							if(entiteFormatHtm == null) {
 								if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueTimestamp)) {
@@ -5467,7 +5475,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLocalDate)) {
 							entiteTypeJson = "string";
-							entiteFiwareType = "string";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "string";
 							entiteNgsiType = "Property";
 							entiteFormatJson = "date";
 							if(entiteFormatHtm == null)
@@ -5475,63 +5484,72 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueLong)) {
 							entiteTypeJson = "string";
-							entiteFiwareType = "number";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "number";
 							entiteNgsiType = "Property";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "integer";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePoint)) {
 							entiteTypeJson = "string";
-							entiteFiwareType = "string";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "string";
 							entiteNgsiType = "GeoProperty";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePath)) {
-							entiteTypeJson = "string";
-							entiteFiwareType = "string";
+							entiteTypeJson = "object";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "object";
 							entiteNgsiType = "GeoProperty";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonObject)) {
 							entiteTypeJson = "object";
-							entiteFiwareType = "object";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "object";
 							entiteNgsiType = "Property";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueVertxJsonArray)) {
 							entiteTypeJson = "array";
-							entiteFiwareType = "array";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "array";
 							entiteNgsiType = "Property";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueBigDecimal)) {
 							entiteTypeJson = "string";
-							entiteFiwareType = "number";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "number";
 							entiteNgsiType = "Property";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueDouble)) {
 							entiteTypeJson = "string";
-							entiteFiwareType = "number";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "number";
 							entiteNgsiType = "Property";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueFloat)) {
 							entiteTypeJson = "string";
-							entiteFiwareType = "number";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "number";
 							entiteNgsiType = "Property";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueInteger)) {
 							entiteTypeJson = "string";
-							entiteFiwareType = "number";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "number";
 							entiteNgsiType = "Property";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "integer";
@@ -5539,63 +5557,72 @@ public class IndexerClasse extends RegarderClasseBase {
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueList, VAL_nomCanoniqueArrayList, VAL_nomCanoniqueSet, VAL_nomCanoniqueHashSet)) {
 							if(entiteNomCanoniqueGenerique.equals(VAL_nomCanoniqueBoolean)) {
 								entiteTypeJson = "array";
-								entiteFiwareType = "array";
+								if(entiteFiwareType == null)
+									entiteFiwareType = "array";
 								entiteListeFiwareType = "boolean";
 								entiteNgsiType = "Property";
 								entiteListeTypeJson = "boolean";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueLocalTime)) {
 								entiteTypeJson = "array";
-								entiteFiwareType = "array";
+								if(entiteFiwareType == null)
+									entiteFiwareType = "array";
 								entiteListeFiwareType = "string";
 								entiteNgsiType = "Property";
 								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueTimestamp, VAL_nomCanoniqueLocalDateTime, VAL_nomCanoniqueLocalDate, VAL_nomCanoniqueZonedDateTime)) {
 								entiteTypeJson = "array";
-								entiteFiwareType = "array";
+								if(entiteFiwareType == null)
+									entiteFiwareType = "array";
 								entiteListeFiwareType = "string";
 								entiteNgsiType = "Property";
 								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueLong)) {
 								entiteTypeJson = "array";
-								entiteFiwareType = "array";
+								if(entiteFiwareType == null)
+									entiteFiwareType = "array";
 								entiteListeFiwareType = "string";
 								entiteNgsiType = "Property";
 								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueBigDecimal)) {
 								entiteTypeJson = "array";
-								entiteFiwareType = "array";
+								if(entiteFiwareType == null)
+									entiteFiwareType = "array";
 								entiteListeFiwareType = "string";
 								entiteNgsiType = "Property";
 								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueDouble)) {
 								entiteTypeJson = "array";
-								entiteFiwareType = "array";
+								if(entiteFiwareType == null)
+									entiteFiwareType = "array";
 								entiteListeFiwareType = "string";
 								entiteNgsiType = "Property";
 								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueFloat)) {
 								entiteTypeJson = "array";
-								entiteFiwareType = "array";
+								if(entiteFiwareType == null)
+									entiteFiwareType = "array";
 								entiteListeFiwareType = "string";
 								entiteNgsiType = "Property";
 								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueInteger)) {
 								entiteTypeJson = "array";
-								entiteFiwareType = "array";
+								if(entiteFiwareType == null)
+									entiteFiwareType = "array";
 								entiteListeFiwareType = "string";
 								entiteNgsiType = "Property";
 								entiteListeTypeJson = "string";
 							}
 							else if(StringUtils.equalsAny(entiteNomCanoniqueGenerique, VAL_nomCanoniqueString)) {
 								entiteTypeJson = "array";
-								entiteFiwareType = "array";
+								if(entiteFiwareType == null)
+									entiteFiwareType = "array";
 								entiteListeFiwareType = "string";
 								entiteNgsiType = "Property";
 								entiteListeTypeJson = "string";
@@ -5605,7 +5632,8 @@ public class IndexerClasse extends RegarderClasseBase {
 							stockerSolr(entiteDoc, "entiteListeTypeJson", entiteListeTypeJson);
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniqueString)) {
-							entiteFiwareType = "string";
+							if(entiteFiwareType == null)
+								entiteFiwareType = "string";
 							entiteNgsiType = "Property";
 							entiteTypeJson = "string";
 						}

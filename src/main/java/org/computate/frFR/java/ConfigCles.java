@@ -170,7 +170,9 @@ public class ConfigCles {
 	public static final String var_Dernier = "var_Dernier";
 	public static final String var_Description = "var_Description";
 	public static final String var_description = "var_description";
+	public static final String var_DescriptionAlternatif = "var_DescriptionAlternatif";
 	public static final String var_desindexer = "var_desindexer";
+	public static final String var_DocsAlternatif = "var_DocsAlternatif";
 	public static final String var_documentSolr = "var_documentSolr";
 	public static final String var_DocumentSolr = "var_DocumentSolr";
 	public static final String var_documentsSolr = "var_documentsSolr";
@@ -286,6 +288,7 @@ public class ConfigCles {
 	public static final String var_Modale = "var_Modale";
 	public static final String var_modele = "var_modele";
 	public static final String var_Modele = "var_Modele";
+	public static final String var_ModeleAlternatif = "var_ModeleAlternatif";
 	public static final String var_modifie = "var_modifie";
 	public static final String var_Modifie = "var_Modifie";
 	public static final String var_modifié = "var_modifié";
@@ -300,6 +303,7 @@ public class ConfigCles {
 	public static final String var_NomAffichage = "var_NomAffichage";
 	public static final String var_nomAffichage = "var_nomAffichage";
 	public static final String var_NOM_AFFICHAGE = "var_NOM_AFFICHAGE";
+	public static final String var_NomAlternatif = "var_NomAlternatif";
 	public static final String var_NomCanonique = "var_NomCanonique";
 	public static final String var_NomComplet = "var_NomComplet";
 	public static final String var_nomDomaine = "var_nomDomaine";

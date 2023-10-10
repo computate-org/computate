@@ -3115,8 +3115,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "window.eventBus = new EventBus('/eventbus');");
 				tl(4, "var pk = {{#if pk}}{{pk}}{{else}}null{{/if}};");
 				tl(4, "if(pk != null) {");
+				tl(5, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse('{{{toJsonObjectStringInApostrophes ", StringUtils.uncapitalize(classeNomSimple), "_ }}}');");
 				s(wJsInit);
 				tl(4, "}");
+				tl(4, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " = JSON.parse('{{{toJsonArrayStringInApostrophes ", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " }}}');");
 				tl(4, "window.varsFq = JSON.parse('{{{toJsonObjectStringInApostrophes varsFq}}}');");
 				tl(4, "window.varsRange = JSON.parse('{{{toJsonObjectStringInApostrophes varsRange}}}');");
 				tl(4, "window.defaultRangeVar = '{{ defaultRangeVar }}';");
