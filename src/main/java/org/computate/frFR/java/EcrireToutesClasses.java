@@ -238,6 +238,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 		classeVarSauvegardes = doc.getString("classeVarSauvegardes_" + langueNom + "_stored_string");
 		classeVarId = doc.getString("classeVarId_" + langueNom + "_stored_string");
 		classeVarCleUnique = doc.getString("classeVarCleUnique_" + langueNom + "_stored_string");
+		classeVarEmplacement = doc.getString("classeVarEmplacement_" + langueNom + "_stored_string");
 		classeVarModifie = doc.getString("classeVarModifie_" + langueNom + "_stored_string");
 		classeVarCree = doc.getString("classeVarCree_" + langueNom + "_stored_string");
 		classeApiUri = doc.getString("classeApiUri_" + langueNom + "_stored_string");
@@ -343,6 +344,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 			classeMethodeVars = new ArrayList<>();
 		entiteIndice = 0;   
 
+		classeFiware = doc.getBoolean("classeFiware_stored_boolean");
 		classeSmartDataDomain = doc.getString("classeSmartDataDomain_stored_string");
 		classeSmartDataSubModule = doc.getString("classeSmartDataSubModule_stored_string");
 		classeSmartDataModel = doc.getString("classeSmartDataModel_stored_string");

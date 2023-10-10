@@ -3368,6 +3368,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarInheritClePrimaire = null;
 		String classeVarSauvegardes = null;
 		String classeVarCleUnique = null;
+		String classeVarEmplacement = null;
 
 		String classeNomCanoniqueSuper = Object.class.getCanonicalName();
 		Boolean classeSuperErreur = false;
@@ -4668,6 +4669,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean entiteInheritClePrimaire = indexerStockerSolr(entiteDoc, "entiteInheritClePrimaire", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_InheritClePrimaire) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteSauvegardes = indexerStockerSolr(entiteDoc, "entiteSauvegardes", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Sauvegardes) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteCleUnique = indexerStockerSolr(entiteDoc, "entiteCleUnique", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_CleUnique) + ":\\s*(true)$", methodeCommentaire));
+						Boolean entiteEmplacement = indexerStockerSolr(entiteDoc, "entiteEmplacement", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Emplacement) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteCrypte = indexerStockerSolr(entiteDoc, "entiteCrypte", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Crypte) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteSuggere = indexerStockerSolr(entiteDoc, "entiteSuggere", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Suggere) + ":\\s*(true)$", methodeCommentaire));
 						Boolean entiteVarUrlId = indexerStockerSolr(entiteDoc, "entiteVarUrlId", regexTrouve("^VarUrlId:\\s*(true)$", methodeCommentaire));
@@ -5668,6 +5670,9 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 						if(entiteCleUnique) {
 							classeVarCleUnique = stockerSolr(classeLangueNom, classeDoc, "classeVarCleUnique", entiteVar);
+						}
+						if(entiteEmplacement) {
+							classeVarEmplacement = stockerSolr(classeLangueNom, classeDoc, "classeVarEmplacement", entiteVar);
 						}
 						if(entiteSuggere && entiteVar.equals(classeLangueConfig.getString(ConfigCles.var_objetSuggere))) {
 							classeVarSuggere = stockerSolr(classeLangueNom, classeDoc, "classeVarSuggere", entiteVar);

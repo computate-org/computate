@@ -194,6 +194,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected String classeVarClePrimaire;
 
 	protected String classeVarInheritClePrimaire;
+	protected String classeVarEmplacement;
 
 	/**
 	 */
@@ -787,6 +788,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected String classeVarH3;
 
+	protected Boolean classeFiware;
 	protected String classeSmartDataDomain;
 	protected String classeSmartDataSubModule;
 	protected String classeSmartDataModel;
@@ -6439,7 +6441,7 @@ public class EcrireGenClasse extends EcrireClasse {
 		}
 
 		try {
-			if(classeSmartDataModel != null) {
+			if(classeSmartDataModel != null && !classeFiware) {
 				File smartDataModelSpecFile = new File(System.getenv("HOME"), String.format(".local/src/smart-data-models/%s/dataModel.%s/%s/model.yaml", classeSmartDataDomain, classeSmartDataSubModule, classeSmartDataModel));
 				if(smartDataModelSpecFile.exists()) {
 					Yaml yaml = new Yaml();

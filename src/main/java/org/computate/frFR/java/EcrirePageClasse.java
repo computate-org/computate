@@ -2536,6 +2536,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Stats), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Stats), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Menu), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Menu), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount0\"}}{{> htmBodyCount0", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{> htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "}}{{/partial}}");
 					if(classeNomCanonique.equals(classePartsUtilisateurSite.nomCanonique(classeLangueNom))) {
@@ -3691,6 +3692,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("<div id=\"htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageSuperNomSimple, "\" class=\"w3-content htmBody", langueConfig.getString(ConfigCles.var_Graphique), " \"></div>");
 			l("{{/inline}}");
 
+			/////////////////////////////////
+			// htmBodyGraphiqueEmplacement //
+			/////////////////////////////////
+
+			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageNomSimple, "\"}}");
+			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageNomSimple, "\" -->");
+//			s("{{> \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageSuperNomSimple, "\"}}");
+			s("<div id=\"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageSuperNomSimple, "\" class=\"w3-content htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), " \"></div>");
+			l("{{/inline}}");
+
 			///////////////////
 			// htmBodyCount0 //
 			///////////////////
@@ -4194,6 +4205,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{#block \"htmBodySidebar\"}}{{/block}}");
 			tl(2, "</div>");
 
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{/block}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
 			tl(1, "<div class=\"pageContent w3-content \">");
 			tl(2, "<div id=\"site-calendar-box\">");
@@ -4489,7 +4501,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), classeNomSimple, "(", langueConfig.getString(ConfigCles.var_requeteApi), ") {");
 				auteurPageJs.tl(1, "var r = $('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "').val();");
 				auteurPageJs.tl(1, "if(r) {");
-				auteurPageJs.tl(1, "var json = JSON.parse(r);");
+				auteurPageJs.tl(2, "var json = JSON.parse(r);");
+
+				// Facet Graphs
 				auteurPageJs.tl(2, "if(json['facetCounts']) {");
 				auteurPageJs.tl(3, "var facetCounts = json.facetCounts;");
 				auteurPageJs.tl(3, "if(facetCounts['facetPivot'] && facetCounts['facetRanges']) {");
@@ -4517,55 +4531,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(4, "var pivot1Vals = Object.keys(pivot1Map);");
 				auteurPageJs.tl(4, "var data = [];");
 				auteurPageJs.tl(4, "var layout = {};");
-				auteurPageJs.tl(4, "if(pivot1VarObj.", langueConfig.getString(ConfigCles.var_classeNomSimple), " === 'Point') {");
-				auteurPageJs.tl(5, "layout['showlegend'] = true;");
-				auteurPageJs.tl(5, "layout['dragmode'] = 'zoom';");
-				auteurPageJs.tl(5, "layout['uirevision'] = 'true';");
-				auteurPageJs.tl(5, "if(window['DEFAULT_MAP_LOCATION'] && window['DEFAULT_MAP_ZOOM'])");
-				auteurPageJs.tl(6, "layout['mapbox'] = { style: 'open-street-map', center: { lat: window['DEFAULT_MAP_LOCATION']['lat'], lon: window['DEFAULT_MAP_LOCATION']['lon'] }, zoom: window['DEFAULT_MAP_ZOOM'] };");
-				auteurPageJs.tl(5, "else if(window['DEFAULT_MAP_ZOOM'])");
-				auteurPageJs.tl(6, "layout['mapbox'] = { style: 'open-street-map', zoom: window['DEFAULT_MAP_ZOOM'] };");
-				auteurPageJs.tl(5, "else if(window['DEFAULT_MAP_LOCATION'])");
-				auteurPageJs.tl(6, "layout['mapbox'] = { style: 'open-street-map', center: { lat: window['DEFAULT_MAP_LOCATION']['lat'], lon: window['DEFAULT_MAP_LOCATION']['lon'] } };");
-				auteurPageJs.tl(5, "else");
-				auteurPageJs.tl(6, "layout['mapbox'] = { style: 'open-street-map' };");
-				auteurPageJs.tl(5, "layout['margin'] = { r: 0, t: 0, b: 0, l: 0 };");
-				auteurPageJs.tl(5, "var trace = {};");
-				auteurPageJs.tl(5, "trace['showlegend'] = true;");
-				auteurPageJs.tl(5, "trace['type'] = 'scattermapbox';");
-				auteurPageJs.tl(5, "var colors = [];");
-				auteurPageJs.tl(5, "var lat = [];");
-				auteurPageJs.tl(5, "var lon = [];");
-				auteurPageJs.tl(5, "var text = [];");
-				auteurPageJs.tl(5, "var customdata = [];");
-				auteurPageJs.tl(5, "trace['lat'] = lat;");
-				auteurPageJs.tl(5, "trace['lon'] = lon;");
-				auteurPageJs.tl(5, "trace['text'] = text;");
-				auteurPageJs.tl(5, "trace['customdata'] = customdata;");
-				auteurPageJs.tl(5, "json.response.docs.forEach((record) => {");
-				auteurPageJs.tl(6, "var location = record.fields[pivot1VarIndexed];");
-				auteurPageJs.tl(6, "if(location) {");
-				auteurPageJs.tl(7, "var locationParts = location.split(',');");
-				auteurPageJs.tl(7, "text.push('pivot1Val');");
-				auteurPageJs.tl(7, "lat.push(parseFloat(locationParts[0]));");
-				auteurPageJs.tl(7, "lon.push(parseFloat(locationParts[1]));");
-				auteurPageJs.tl(7, "colors.push(", classeEntiteCouleur == null ? "'fuchsia'" : "record.fields[window.varsFq['" + classeEntiteCouleur + "'].var" + langueConfig.getString(ConfigCles.var_Indexe) + "]", ");");
-				auteurPageJs.tl(7, "var vals = {};");
-				auteurPageJs.tl(7, "var hovertemplate = '';");
-				auteurPageJs.tl(7, "Object.entries(window.varsFq).forEach(([key, data]) => {");
-				auteurPageJs.tl(8, "if(data.displayName) {");
-				auteurPageJs.tl(9, "vals[data.var] = record.fields[data.var", langueConfig.getString(ConfigCles.var_Stocke), "];");
-				auteurPageJs.tl(9, "hovertemplate += '<b>' + data.", langueConfig.getString(ConfigCles.var_nomAffichage), " + ': %{customdata.' + data.var + '}</b><br>';");
-				auteurPageJs.tl(8, "}");
-				auteurPageJs.tl(8, "customdata.push(vals);");
-				auteurPageJs.tl(7, "});");
-				auteurPageJs.tl(7, "customdata.push(vals);");
-				auteurPageJs.tl(7, "trace['hovertemplate'] = hovertemplate;");
-				auteurPageJs.tl(6, "}");
-				auteurPageJs.tl(5, "});");
-				auteurPageJs.tl(5, "trace['marker'] = { color: colors, size: 10 };");
-				auteurPageJs.tl(5, "data.push(trace);");
-				auteurPageJs.tl(4, "} else if(range) {");
+				auteurPageJs.tl(4, "if(range) {");
 				auteurPageJs.tl(5, "layout['title'] = '", classeNomAdjectifPluriel, "';");
 				auteurPageJs.tl(5, "layout['xaxis'] = {");
 				auteurPageJs.tl(6, "title: rangeVarFq.displayName");
@@ -4643,6 +4609,60 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(4, "Plotly.react('htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageSuperNomSimple, "', data, layout);");
 				auteurPageJs.tl(3, "}");
 				auteurPageJs.tl(2, "}");
+
+				// Maps
+				if(classeVarEmplacement != null) {
+					auteurPageJs.l();
+					auteurPageJs.tl(2, "// ", langueConfig.getString(ConfigCles.var_Graphique), " ", langueConfig.getString(ConfigCles.var_Emplacement));
+					auteurPageJs.tl(2, "var data = [];");
+					auteurPageJs.tl(2, "var layout = {};");
+					auteurPageJs.tl(2, "layout['showlegend'] = true;");
+					auteurPageJs.tl(2, "layout['dragmode'] = 'zoom';");
+					auteurPageJs.tl(2, "layout['uirevision'] = 'true';");
+					auteurPageJs.tl(2, "if(window['DEFAULT_MAP_LOCATION'] && window['DEFAULT_MAP_ZOOM'])");
+					auteurPageJs.tl(3, "layout['mapbox'] = { style: 'open-street-map', center: { lat: window['DEFAULT_MAP_LOCATION']['lat'], lon: window['DEFAULT_MAP_LOCATION']['lon'] }, zoom: window['DEFAULT_MAP_ZOOM'] };");
+					auteurPageJs.tl(2, "else if(window['DEFAULT_MAP_ZOOM'])");
+					auteurPageJs.tl(3, "layout['mapbox'] = { style: 'open-street-map', zoom: window['DEFAULT_MAP_ZOOM'] };");
+					auteurPageJs.tl(2, "else if(window['DEFAULT_MAP_LOCATION'])");
+					auteurPageJs.tl(3, "layout['mapbox'] = { style: 'open-street-map', center: { lat: window['DEFAULT_MAP_LOCATION']['lat'], lon: window['DEFAULT_MAP_LOCATION']['lon'] } };");
+					auteurPageJs.tl(2, "else");
+					auteurPageJs.tl(3, "layout['mapbox'] = { style: 'open-street-map' };");
+					auteurPageJs.tl(2, "layout['margin'] = { r: 0, t: 0, b: 0, l: 0 };");
+					auteurPageJs.tl(2, "$.each( window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ", function(index, ", StringUtils.uncapitalize(classeNomSimple), ") {");
+					auteurPageJs.tl(3, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
+					auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ".type == 'Polygon' || ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ".type == 'MultiPolygon') {");
+					auteurPageJs.tl(5, "data.push({");
+					auteurPageJs.tl(6, "type: 'choroplethmapbox'");
+					auteurPageJs.tl(6, ", name: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarTitre);
+					auteurPageJs.tl(6, ", locations: [ ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarId, " ]");
+					auteurPageJs.tl(6, ", z: [ 10 ]");
+					auteurPageJs.tl(6, ", geojson: {");
+					auteurPageJs.tl(7, "type: 'Feature'");
+					auteurPageJs.tl(7, ", id: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarId);
+					auteurPageJs.tl(7, ", geometry: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement);
+					auteurPageJs.tl(6, "}");
+					auteurPageJs.tl(6, ", line:{");
+					auteurPageJs.tl(7, "width: 2,");
+					auteurPageJs.tl(7, "color: 'red'");
+					auteurPageJs.tl(6, "}");
+					auteurPageJs.tl(5, "});");
+					auteurPageJs.tl(4, "} else {");
+					auteurPageJs.tl(5, "data.push({");
+					auteurPageJs.tl(6, "type: 'scattermapbox'");
+					auteurPageJs.tl(6, ", name: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarTitre);
+					auteurPageJs.tl(6, ", lat: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ".coordinates.map(elem => elem[0])");
+					auteurPageJs.tl(6, ", lon: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ".coordinates.map(elem => elem[1])");
+					auteurPageJs.tl(6, ", mode: 'lines+markers'");
+					auteurPageJs.tl(6, ", line:{");
+					auteurPageJs.tl(7, "width: 2,");
+					auteurPageJs.tl(7, "color: 'red'");
+					auteurPageJs.tl(6, "}");
+					auteurPageJs.tl(5, "});");
+					auteurPageJs.tl(4, "}");
+					auteurPageJs.tl(3, "}");
+					auteurPageJs.tl(2, "});");
+					auteurPageJs.tl(2, "Plotly.react('htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageSuperNomSimple, "', data, layout);");
+				}
 				auteurPageJs.tl(1, "}");
 				auteurPageJs.tl(0, "}");
 				auteurPageJs.l();

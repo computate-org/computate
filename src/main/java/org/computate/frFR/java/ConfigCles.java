@@ -186,6 +186,7 @@ public class ConfigCles {
 	public static final String var_enleverLueur = "var_enleverLueur";
 	public static final String var_enregistrer = "var_enregistrer";
 	public static final String var_entite = "var_entite";
+	public static final String var_Emplacement = "var_Emplacement";
 	public static final String var_EnTeteExpression = "var_EnTeteExpression";
 	public static final String var_EnumNomSimple = "var_EnumNomSimple";
 	public static final String var_EnumVarDescription = "var_EnumVarDescription";
