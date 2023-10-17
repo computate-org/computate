@@ -858,6 +858,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(16, "onchange=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }]");
 					if(entiteListeTypeJson != null)
 						s(", 'set", entiteVarCapitalise, "', $(this).val().replace('[','').replace(']','').split(/[ ,]+/)");
+					else if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson))
+						s(", 'set", entiteVarCapitalise, "', $(this).val() == '' ? null : JSON.parse($(this).val())");
 					else
 						s(", 'set", entiteVarCapitalise, "', $(this).val()");
 					l(", function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); \"");
@@ -868,7 +870,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 				else {
 					tl(1, "{{#eq \"Page\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
-					tl(15, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
+					if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson))
+						tl(15, "value=\"{{toJsonObjectString ", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
+					else
+						tl(15, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
 					tl(1, "{{/eq}}");
 				}
 
@@ -1165,6 +1170,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteAttribuerContexteIconeNom = (String)entiteDocumentSolr.get("entiteAttribuerContexteIconeNom_stored_string");
 							entiteAttribuerTypeJson = (String)entiteDocumentSolr.get("entiteAttribuerTypeJson_stored_string");
 							entiteImageBase64Url = (String)entiteDocumentSolr.get("entiteImageBase64Url_" + langueNom + "_stored_string");
+							entiteNomSimpleVertxJson = (String)entiteDocumentSolr.get("entiteNomSimpleVertxJson_stored_string");
 
 							wFormRecherche.l(entiteVar);
 							if(entiteHtml) {
@@ -2363,6 +2369,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wPOST.tl(1, "if(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " != null && ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " !== '')");
 									if("Boolean".equals(entiteNomSimple)) {
 										wPOST.tl(2, "vals['", entiteVar, "'] = ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " == 'true';");
+									} else if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson)) {
+										wPOST.tl(2, "vals['", entiteVar, "'] = JSON.parse(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ");");
 									} else {
 										wPOST.tl(2, "vals['", entiteVar, "'] = ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ";");
 									}
@@ -2388,6 +2396,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wPUTCopie.tl(1, "if(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " != null && ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " !== '')");
 									if("Boolean".equals(entiteNomSimple)) {
 										wPUTCopie.tl(2, "vals['", entiteVar, "'] = ", valPrefixe, langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, valSuffixe, " == 'true';");
+									} else if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson)) {
+										wPUTCopie.tl(2, "vals['", entiteVar, "'] = JSON.parse(", valPrefixe, langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, valSuffixe, ");");
 									} else {
 										wPUTCopie.tl(2, "vals['", entiteVar, "'] = ", valPrefixe, langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, valSuffixe, ";");
 									}
@@ -2402,8 +2412,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wPATCH.tl(1, "if(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " != null && ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " !== '')");
 									if(entiteListeTypeJson == null) {
 										wPATCH.tl(2, "vals['set", entiteVarCapitalise, "'] = ", valPrefixe, langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, valSuffixe, ";");
-									}
-									else {
+									} else {
 										wPATCH.tl(2, "vals['add", entiteVarCapitalise, "'] = ", valPrefixe, langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, valSuffixe, ";");
 									}
 								} else {
@@ -2479,7 +2488,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.add", entiteVarCapitalise, "').val();");
 									}
 									wPATCH.tl(1, "if(remove", entiteVarCapitalise, " || set", entiteVarCapitalise, " != null && set", entiteVarCapitalise, " !== '')");
-									wPATCH.tl(2, "vals['set", entiteVarCapitalise, "'] = ", valPrefixe, "set", entiteVarCapitalise, valSuffixe, ";");
+									if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson)) {
+										wPATCH.tl(2, "vals['set", entiteVarCapitalise, "'] = JSON.parse(", valPrefixe, "set", entiteVarCapitalise, valSuffixe, ");");
+									} else {
+										wPATCH.tl(2, "vals['set", entiteVarCapitalise, "'] = ", valPrefixe, "set", entiteVarCapitalise, valSuffixe, ";");
+									}
 									wPATCH.tl(1, "if(add", entiteVarCapitalise, " != null && add", entiteVarCapitalise, " !== '')");
 									wPATCH.tl(2, "vals['add", entiteVarCapitalise, "'] = ", valPrefixe, "add", entiteVarCapitalise, valSuffixe, ";");
 									if("Boolean".equals(entiteNomSimple)) {
@@ -3116,10 +3129,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "window.eventBus = new EventBus('/eventbus');");
 				tl(4, "var pk = {{#if pk}}{{pk}}{{else}}null{{/if}};");
 				tl(4, "if(pk != null) {");
-				tl(5, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse('{{{toJsonObjectStringInApostrophes ", StringUtils.uncapitalize(classeNomSimple), "_ }}}');");
+				tl(5, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse($('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", StringUtils.uncapitalize(classeNomSimple), "').val());");
 				s(wJsInit);
 				tl(4, "}");
-				tl(4, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " = JSON.parse('{{{toJsonArrayStringInApostrophes ", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " }}}');");
+				tl(5, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " = JSON.parse($('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "').val());");
 				tl(4, "window.varsFq = JSON.parse('{{{toJsonObjectStringInApostrophes varsFq}}}');");
 				tl(4, "window.varsRange = JSON.parse('{{{toJsonObjectStringInApostrophes varsRange}}}');");
 				tl(4, "window.defaultRangeVar = '{{ defaultRangeVar }}';");
@@ -3724,7 +3737,21 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(4, "<span class=\"\">", classeAucunNomTrouve, "</span>");
 			tl(3, "</span>");
 			tl(2, "</h2>");
+
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{/block}}");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
+			tl(1, "<div class=\"pageContent w3-content \">");
+			tl(2, "<div id=\"site-calendar-box\">");
+//			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
+			tl(3, "<div id=\"site-calendar\"><!-- // --></div>");
+			tl(2, "</div>");
+
 			l("{{/inline}}");
+
+			///////////////////////
+			// htmBodyCount1Tous //
+			///////////////////////
+
 
 			s("{{#*inline \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\" -->");
@@ -3736,13 +3763,25 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(4, "<span class=\"\">", classeNomAdjectifSingulier, "</span>");
 			tl(3, "</a>");
 			tl(2, "</h1>");
-
 			tl(2, "<h2 class=\"w3-center \">");
 			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", classeCouleur, "\">");
 			tl(4, "<span class=\"\">{{", uncapitalizeClasseApiClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");
 			tl(3, "</span>");
 			tl(2, "</h2>");
+
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{/block}}");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
+			tl(1, "<div class=\"pageContent w3-content \">");
+			tl(2, "<div id=\"site-calendar-box\">");
+//			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
+			tl(3, "<div id=\"site-calendar\"><!-- // --></div>");
+			tl(2, "</div>");
+
 			l("{{/inline}}");
+
+			///////////////////
+			// htmBodyCount1 //
+			///////////////////
 	
 			s("{{#*inline \"htmBodyCount1", classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBodyCount1", classePageNomSimple, "\" -->");
@@ -3754,13 +3793,25 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(4, "<span class=\"\">", classeNomAdjectifSingulier, "</span>");
 			tl(3, "</a>");
 			tl(2, "</h1>");
-
 			tl(2, "<h2 class=\"w3-center \">");
 			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", classeCouleur, "\">");
 			tl(4, "<span class=\"\">{{", uncapitalizeClasseApiClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");
 			tl(3, "</span>");
 			tl(2, "</h2>");
+
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{/block}}");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
+			tl(1, "<div class=\"pageContent w3-content \">");
+			tl(2, "<div id=\"site-calendar-box\">");
+//			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
+			tl(3, "<div id=\"site-calendar\"><!-- // --></div>");
+			tl(2, "</div>");
+
 			l("{{/inline}}");
+
+			/////////////////
+			// htmBodyTous //
+			/////////////////
 
 			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\" -->");
@@ -3772,6 +3823,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(4, "<span class=\"\">", classeNomAdjectifPluriel, "</span>");
 			tl(3, "</a>");
 			tl(2, "</h1>");
+
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{/block}}");
+			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
+			tl(2, "<div id=\"site-calendar-box\">");
+//			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
+			tl(3, "<div id=\"site-calendar\"><!-- // --></div>");
+			tl(2, "</div>");
+
 			tl(2, "<div class=\"\">");
 			tl(3, "<div>");
 			tl(1, "{{#if pagination.page", langueConfig.getString(ConfigCles.var_Precedent), "}}");
@@ -3825,6 +3884,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				s(" id=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\" ");
 				s(" value='{{{toJsonObjectStringInApostrophes ", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), " }}}'");
+				s(" type=\"hidden\"");
+				l("/>");
+				t(3, "<input");
+				s(" name=\"", StringUtils.uncapitalize(classeNomSimple), "\"");
+				s(" id=\"", StringUtils.uncapitalize(classeNomSimple), "\"");
+				s(" class=\"", StringUtils.uncapitalize(classeNomSimple), "\" ");
+				s(" value='{{{toJsonObjectStringInApostrophes ", StringUtils.uncapitalize(classeNomSimple), "_ }}}'");
+				s(" type=\"hidden\"");
+				l("/>");
+				t(3, "<input");
+				s(" name=\"", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "\"");
+				s(" id=\"", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "\"");
+				s(" class=\"", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "\" ");
+				s(" value='{{{toJsonArrayStringInApostrophes ", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " }}}'");
 				s(" type=\"hidden\"");
 				l("/>");
 				tl(2, "</form>");
@@ -4205,13 +4278,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{#block \"htmBodySidebar\"}}{{/block}}");
 			tl(2, "</div>");
 
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{/block}}");
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
 			tl(1, "<div class=\"pageContent w3-content \">");
-			tl(2, "<div id=\"site-calendar-box\">");
-//			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
-			tl(3, "<div id=\"site-calendar\"><!-- // --></div>");
-			tl(2, "</div>");
 
 			// htmBodyCount0 //
 			tl(1, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int0}}");
@@ -4630,35 +4697,55 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(2, "layout['margin'] = { r: 0, t: 0, b: 0, l: 0 };");
 					auteurPageJs.tl(2, "$.each( window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ", function(index, ", StringUtils.uncapitalize(classeNomSimple), ") {");
 					auteurPageJs.tl(3, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
-					auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ".type == 'Polygon' || ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ".type == 'MultiPolygon') {");
-					auteurPageJs.tl(5, "data.push({");
-					auteurPageJs.tl(6, "type: 'choroplethmapbox'");
-					auteurPageJs.tl(6, ", name: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarTitre);
-					auteurPageJs.tl(6, ", locations: [ ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarId, " ]");
-					auteurPageJs.tl(6, ", z: [ 10 ]");
-					auteurPageJs.tl(6, ", geojson: {");
-					auteurPageJs.tl(7, "type: 'Feature'");
-					auteurPageJs.tl(7, ", id: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarId);
-					auteurPageJs.tl(7, ", geometry: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement);
+//					auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ".type == 'Polygon' || ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ".type == 'MultiPolygon') {");
+//					auteurPageJs.tl(5, "data.push({");
+//					auteurPageJs.tl(6, "type: 'choroplethmapbox'");
+//					auteurPageJs.tl(6, ", name: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarTitre);
+//					auteurPageJs.tl(6, ", locations: [ ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarId, " ]");
+//					auteurPageJs.tl(6, ", z: [ 10 ]");
+//					auteurPageJs.tl(6, ", geojson: {");
+//					auteurPageJs.tl(7, "type: 'Feature'");
+//					auteurPageJs.tl(7, ", id: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarId);
+//					auteurPageJs.tl(7, ", geometry: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement);
+//					auteurPageJs.tl(6, "}");
+//					auteurPageJs.tl(6, ", line:{");
+//					auteurPageJs.tl(7, "width: 2,");
+//					auteurPageJs.tl(7, "color: 'red'");
+//					auteurPageJs.tl(6, "}");
+//					auteurPageJs.tl(5, "});");
+//					auteurPageJs.tl(4, "} else {");
+					auteurPageJs.tl(4, "var shapes = [];");
+					auteurPageJs.tl(4, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
+					auteurPageJs.tl(5, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
+					auteurPageJs.tl(4, "else");
+					auteurPageJs.tl(5, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
+					auteurPageJs.tl(4, "shapes.forEach(shape => {");
+					auteurPageJs.tl(5, "var parts = [];");
+					auteurPageJs.tl(5, "if(shape.coordinates && shape.coordinates[0].length > 0 && Array.isArray(shape.coordinates[0][0]))");
+					auteurPageJs.tl(6, "parts = parts.concat(shape.coordinates);");
+					auteurPageJs.tl(5, "else");
+					auteurPageJs.tl(6, "parts.push(shape.coordinates);");
+					auteurPageJs.tl(5, "parts.forEach(part => {");
+					auteurPageJs.tl(6, "var lat = part.map(elem => elem[0]);");
+					auteurPageJs.tl(6, "var lon = part.map(elem => elem[1]);");
+					auteurPageJs.tl(6, "if(shape.type == 'Polygon') {");
+					auteurPageJs.tl(7, "lat.push(lat[0]);");
+					auteurPageJs.tl(7, "lon.push(lon[0]);");
 					auteurPageJs.tl(6, "}");
-					auteurPageJs.tl(6, ", line:{");
-					auteurPageJs.tl(7, "width: 2,");
-					auteurPageJs.tl(7, "color: 'red'");
-					auteurPageJs.tl(6, "}");
+					auteurPageJs.tl(6, "data.push({");
+					auteurPageJs.tl(7, "type: 'scattermapbox'");
+					auteurPageJs.tl(7, ", name: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarTitre);
+					auteurPageJs.tl(7, ", lat: lat");
+					auteurPageJs.tl(7, ", lon: lon");
+					auteurPageJs.tl(7, ", mode: 'lines+markers'");
+					auteurPageJs.tl(7, ", line:{");
+					auteurPageJs.tl(8, "width: 2,");
+					auteurPageJs.tl(8, "color: 'red'");
+					auteurPageJs.tl(7, "}");
+					auteurPageJs.tl(6, "});");
 					auteurPageJs.tl(5, "});");
-					auteurPageJs.tl(4, "} else {");
-					auteurPageJs.tl(5, "data.push({");
-					auteurPageJs.tl(6, "type: 'scattermapbox'");
-					auteurPageJs.tl(6, ", name: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarTitre);
-					auteurPageJs.tl(6, ", lat: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ".coordinates.map(elem => elem[0])");
-					auteurPageJs.tl(6, ", lon: ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ".coordinates.map(elem => elem[1])");
-					auteurPageJs.tl(6, ", mode: 'lines+markers'");
-					auteurPageJs.tl(6, ", line:{");
-					auteurPageJs.tl(7, "width: 2,");
-					auteurPageJs.tl(7, "color: 'red'");
-					auteurPageJs.tl(6, "}");
-					auteurPageJs.tl(5, "});");
-					auteurPageJs.tl(4, "}");
+					auteurPageJs.tl(4, "});");
+//					auteurPageJs.tl(4, "}");
 					auteurPageJs.tl(3, "}");
 					auteurPageJs.tl(2, "});");
 					auteurPageJs.tl(2, "Plotly.react('htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageSuperNomSimple, "', data, layout);");

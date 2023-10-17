@@ -59,10 +59,9 @@ import org.yaml.snakeyaml.Yaml;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.pgclient.data.Path;
+import io.vertx.pgclient.data.Point;
 
 /**  
  * NomCanonique.enUS: org.computate.enUS.java.WriteGenClass
@@ -92,6 +91,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	/**
 	 * Var.enUS: classPathGenApiServiceImpl
+	 * 
 	 */
 	protected String classeCheminGenApiServiceImpl;
 
@@ -3351,6 +3351,11 @@ public class EcrireGenClasse extends EcrireClasse {
 				tl(1, "@JsonDeserialize(using = ", classePartsPathDeserializer.nomSimple(langueNom), ".class)");
 				tl(1, "@JsonSerialize(using = ", classePartsPathSerializer.nomSimple(langueNom), ".class)");
 			}
+			else if("Polygon".equals(entiteNomSimple)) {
+				tl(1, "@JsonProperty");
+				tl(1, "@JsonDeserialize(using = ", classePartsPolygonDeserializer.nomSimple(langueNom), ".class)");
+				tl(1, "@JsonSerialize(using = ", classePartsPolygonSerializer.nomSimple(langueNom), ".class)");
+			}
 			else if("LocalDate".equals(entiteNomSimple)) {
 				tl(1, "@JsonProperty");
 				tl(1, "@JsonDeserialize(using = ", classePartsLocalDateDeserializer.nomSimple(langueNom), ".class)");
@@ -3391,6 +3396,18 @@ public class EcrireGenClasse extends EcrireClasse {
 			} else if("array".equals(entiteTypeJson)) {
 				tl(1, "@JsonProperty");
 				tl(1, "@JsonFormat(shape = JsonFormat.Shape.ARRAY)");
+				if("Point".equals(entiteNomSimpleGenerique)) {
+					tl(1, "@JsonDeserialize(contentUsing = ", classePartsPointDeserializer.nomSimple(langueNom), ".class)");
+					tl(1, "@JsonSerialize(contentUsing = ", classePartsPointSerializer.nomSimple(langueNom), ".class)");
+				}
+				else if("Path".equals(entiteNomSimpleGenerique)) {
+					tl(1, "@JsonDeserialize(contentUsing = ", classePartsPathDeserializer.nomSimple(langueNom), ".class)");
+					tl(1, "@JsonSerialize(contentUsing = ", classePartsPathSerializer.nomSimple(langueNom), ".class)");
+				}
+				else if("Polygon".equals(entiteNomSimpleGenerique)) {
+					tl(1, "@JsonDeserialize(contentUsing = ", classePartsPolygonDeserializer.nomSimple(langueNom), ".class)");
+					tl(1, "@JsonSerialize(contentUsing = ", classePartsPolygonSerializer.nomSimple(langueNom), ".class)");
+				}
 			} else {
 				tl(1, "@JsonProperty");
 			}
@@ -3698,33 +3715,59 @@ public class EcrireGenClasse extends EcrireClasse {
 				}
 		
 				// Setter Path //
-				if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePath)) {
+				if(
+						StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePolygon)
+						|| StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)
+						) {
 					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
-					tl(1, "}");
-					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
+
+					if(entiteNomCanoniqueGenerique == null) {
+						tl(1, "public void set", entiteVarCapitalise, "(String o) {");
+						tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+						tl(1, "}");
+					}
+					tl(1, "public static ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
 					tl(2, "if(o != null) {");
-//				tl(1, "@JsonDeserialize(using = ", classePartsPathDeserializer.nomSimple(langueNom), ".class)");
-//				tl(1, "@JsonSerialize(using = ", classePartsPathSerializer.nomSimple(langueNom), ".class)");
 					tl(3, "try {");
-					tl(4, "Path path = null;");
+					tl(4, entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " shape = null;");
 					tl(4, "if(StringUtils.isNotBlank(o)) {");
 					tl(5, "ObjectMapper objectMapper = new ObjectMapper();");
 					tl(5, "SimpleModule module = new SimpleModule();");
 					tl(5, "module.setDeserializerModifier(new BeanDeserializerModifier() {");
 					tl(6, "@Override");
 					tl(6, "public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config, BeanDescription beanDesc, JsonDeserializer<?> deserializer) {");
-					tl(7, "if (beanDesc.getBeanClass() == Path.class) {");
-					tl(8, "return new PgClientPathDeserializer();");
+					tl(7, "if (beanDesc.getBeanClass() == ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, ".class) {");
+					tl(8, "return new PgClient", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, "Deserializer();");
 					tl(7, "}");
 					tl(7, "return deserializer;");
 					tl(6, "}");
 					tl(5, "});");
 					tl(5, "objectMapper.registerModule(module);");
-					tl(5, "path = objectMapper.readValue(Json.encode(o), Path.class);");
+					tl(5, "shape = objectMapper.readValue(Json.encode(o), ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, ".class);");
 					tl(4, "}");
-					tl(4, "return path;");
+					tl(4, "return shape;");
+					tl(3, "} catch(Exception ex) {");
+					tl(4, "ExceptionUtils.rethrow(ex);");
+					tl(3, "}");
+					tl(2, "}");
+					tl(2, "return null;");
+					tl(1, "}");
+
+					if(entiteNomCanoniqueGenerique == null) {
+						tl(1, "public void set", entiteVarCapitalise, "(JsonObject o) {");
+						tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
+						tl(1, "}");
+					}
+					tl(1, "public static ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, JsonObject o) {");
+					tl(2, "if(o != null) {");
+					tl(3, "try {");
+					tl(4, entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " shape = new ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, "();");
+					tl(4, "o.getJsonArray(\"coordinates\").stream().map(a -> (JsonArray)a).forEach(g -> {");
+					tl(5, "g.stream().map(a -> (JsonArray)a).forEach(points -> {");
+					tl(6, "shape.addPoint(new Point(Double.parseDouble(points.getString(0)), Double.parseDouble(points.getString(1))));");
+					tl(5, "});");
+					tl(4, "});");
+					tl(4, "return shape;");
 					tl(3, "} catch(Exception ex) {");
 					tl(4, "ExceptionUtils.rethrow(ex);");
 					tl(3, "}");
@@ -4400,6 +4443,11 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(2, "return o;");
 							tl(1, "}");
 						}
+						else if(entiteNomSimple.toString().equals("Polygon")) {
+							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
+							tl(2, "return o;");
+							tl(1, "}");
+						}
 						else if(entiteNomSimple.toString().equals("JsonObject")) {
 							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
 							tl(2, "return o.toString();");
@@ -4471,6 +4519,13 @@ public class EcrireGenClasse extends EcrireClasse {
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("Path")) {
+							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
+							tl(2, "JsonArray pointsArray = new JsonArray();");
+							tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+							tl(2, "return new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString();");
+							tl(1, "}");
+						}
+						else if(entiteNomSimple.toString().equals("Polygon")) {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ",entiteSolrNomSimple, " o) {");
 							tl(2, "JsonArray pointsArray = new JsonArray();");
 							tl(2, "o.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
@@ -4698,6 +4753,11 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, entiteVar, ".getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString());");
 					}
+					else if(entiteNomSimple.toString().equals("Polygon")) {
+						tl(3, "JsonArray pointsArray = new JsonArray();");
+						tl(3, entiteVar, ".getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString());");
+					}
 					else if(entiteNomSimple.toString().equals("JsonObject")) {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".toString());");
 					}
@@ -4708,11 +4768,41 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ".doubleValue());");
 					}
 					else if(entiteNomSimple.equals("List") || entiteNomSimple.equals("ArrayList") || entiteNomSimple.equals("Set") || entiteNomSimple.equals("HashSet")) {
-						tl(3, "JsonArray l = new JsonArray();");
-						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", l);");
-						tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
-						tl(4, "l.add(o);");
-						tl(3, "}");
+						if(entiteNomSimple.toString().equals("Point")) {
+							tl(3, "JsonArray l = new JsonArray();");
+							tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", l);");
+							tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
+							tl(4, "l.add(o.toString());");
+							tl(3, "}");
+						} else if(entiteNomSimpleGenerique != null && entiteNomSimpleGenerique.equals("Path")) {
+							tl(3, "JsonArray l = new JsonArray();");
+							tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", l);");
+							tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
+							tl(4, "JsonArray coordinates = new JsonArray();");
+							tl(4, "o.getPoints().forEach(point -> {");
+							tl(5, "coordinates.add(new JsonArray().add(point.getX()).add(point.getY()));");
+							tl(4, "});");
+							tl(4, "JsonObject json = new JsonObject().put(\"type\", \"Path\").put(\"coordinates\", coordinates);");
+							tl(4, "l.add(json.toString());");
+							tl(3, "}");
+						} else if(entiteNomSimpleGenerique != null && entiteNomSimpleGenerique.equals("Polygon")) {
+							tl(3, "JsonArray l = new JsonArray();");
+							tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", l);");
+							tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
+							tl(4, "JsonArray coordinates = new JsonArray();");
+							tl(4, "JsonObject json = new JsonObject().put(\"type\", \"Polygon\").put(\"coordinates\", new JsonArray().add(coordinates));");
+							tl(4, "o.getPoints().forEach(point -> {");
+							tl(5, "coordinates.add(new JsonArray().add(point.getX()).add(point.getY()));");
+							tl(4, "});");
+							tl(4, "l.add(json.toString());");
+							tl(3, "}");
+						} else {
+							tl(3, "JsonArray l = new JsonArray();");
+							tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", l);");
+							tl(3, "for(", entiteNomSimpleCompletGenerique, " o : ", entiteVar, ") {");
+							tl(4, "l.add(o);");
+							tl(3, "}");
+						}
 					}
 					else {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", ", entiteVar, ");");
@@ -4740,6 +4830,11 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\", new Point(", entiteVar, ".getPoint1(), ", entiteVar, ".getPoint2()));");
 					}
 					else if(entiteNomSimple.toString().equals("Path")) {
+						tl(3, "JsonArray pointsArray = new JsonArray();");
+						tl(3, "path.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
+						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString());");
+					}
+					else if(entiteNomSimple.toString().equals("Polygon")) {
 						tl(3, "JsonArray pointsArray = new JsonArray();");
 						tl(3, "path.getPoints().stream().map(point -> new JsonArray().add(Double.valueOf(point.getX())).add(Double.valueOf(point.getY()))).collect(Collectors.toList()).forEach(pointArray -> pointsArray.add(pointArray));");
 						tl(3, "doc.put(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteStocke ? "_indexedstored" : "_indexed")), entiteSuffixeType, "\", new JsonObject().put(\"type\", \"LineString\").put(\"coordinates\", pointsArray).toString());");
@@ -5211,7 +5306,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						else {
 							tl(2, "Optional.ofNullable((List<?>)doc.get(\"", entiteVar, (entiteDocValues ? "_docvalues" : (entiteIndexe ? "_indexedstored" : "_stored")), entiteSuffixeType, "\")).orElse(Arrays.asList()).stream().filter(v -> v != null).forEach(v -> {");
 						}
-						tl(3, "o", classeNomSimple, ".add", entiteVarCapitalise, "(v.toString());");
+						tl(3, "o", classeNomSimple, ".add", entiteVarCapitalise, "(", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), ", v.toString()));");
 						tl(2, "});");
 					}
 					else {
@@ -5340,192 +5435,6 @@ public class EcrireGenClasse extends EcrireClasse {
 	}
 
 	/**
-	 * Var.enUS: genCodeClassEnd
-	 * Param1.var.enUS: languageName
-	 * r: classeInitLoinExceptionNomSimple
-	 * r.enUS: classInitDeepExceptionSimpleName
-	 * r: classeInitLoinExceptions
-	 * r.enUS: classInitDeepExceptions
-	 * r: classeInitLoinException
-	 * r.enUS: classInitDeepException
-	 * r: wInitLoin
-	 * r.enUS: wInitDeep
-	 * r: classeInitLoin
-	 * r.enUS: classInitDeep
-	 * r: classeNomSimpleSuperGenerique
-	 * r.enUS: classSuperSimpleNameGeneric
-	 * r: classeNomSimple
-	 * r.enUS: classSimpleName
-	 * r: PourClasse
-	 * r.enUS: ForClass
-	 * r: initLoin
-	 * r.enUS: initDeep
-	 * r: requeteSitePourClasse
-	 * r.enUS: siteRequestForClass
-	 * r: wIndexer
-	 * r.enUS: wIndex
-	 * r: classeIndexe
-	 * r.enUS: classIndexed
-	 * r: classeEtendBase
-	 * r.enUS: classExtendsBase
-	 * r: classeEstBase
-	 * r.enUS: classIsBase
-	 * r: classeVarClePrimaire
-	 * r.enUS: classVarPrimaryKey
-	 * r: wObtenir
-	 * r.enUS: wObtain
-	 * r: wAttribuer
-	 * r.enUS: wAttribute
-	 * r: classeSauvegarde
-	 * r.enUS: classSaved
-	 * r: wPeupler
-	 * r.enUS: wPopulate
-	 * r: wStocker
-	 * r.enUS: wStore
-	 * r: wSauvegarder
-	 * r.enUS: wSave
-	 * r: wApiEntites
-	 * r.enUS: wApiEntities
-	 * r: wApiGenererGet
-	 * r.enUS: wApiGenerateGet
-	 * r: wPageEntites
-	 * r.enUS: wPageEntities
-	 * r: auteurGenClasse
-	 * r.enUS: writerGenClass
-	 * r: wInitLoin
-	 * r.enUS: wInitDeep
-	 * r: wIndexer
-	 * r.enUS: wIndex
-	 * r: wObtenir
-	 * r.enUS: wObtain
-	 * r: wAttribuer
-	 * r.enUS: wAttribute
-	 * r: wDefinir
-	 * r.enUS: wDefine
-	 * r: wSauvegarder
-	 * r.enUS: wSave
-	 * r: classeCheminGen
-	 * r.enUS: classPathGen
-	 * r: classeVarCleUnique
-	 * r.enUS: classVarUniqueKey
-	 * r: entiteIndice
-	 * r.enUS: entityIndex
-	 * r: definirPourClasse
-	 * r.enUS: defineForClass
-	 * r: codeStocker
-	 * r.enUS: codeStore
-	 * r: siteEcrireMethode
-	 * r.enUS: siteWriteMethod
-	 * r: classeEcrireMethode
-	 * r.enUS: classWriteMethod
-	 * r: classeDoc
-	 * r.enUS: classDoc
-	 * r: strCommentaire
-	 * r.enUS: strComment
-	 * r: classeEcrireMethode
-	 * r.enUS: classWriteMethod
-	 * r: entiteEcrireMethode
-	 * r.enUS: entityWriteMethod
-	 * r: classeSuperEcrireMethode
-	 * r.enUS: classSuperWriteMethod
-	 * r: classeEcrireMethode
-	 * r.enUS: classWriteMethod
-	 * r: classeEcrireEcrivain
-	 * r.enUS: classWriteWriter
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: nomSimple
-	 * r.enUS: simpleName
-	 * r: siteChemin
-	 * r.enUS: sitePath
-	 * r: configChemin
-	 * r.enUS: configPath
-	 * r: siteUrlBase
-	 * r.enUS: siteBaseUrl
-	 * r: classeNomCanonique
-	 * r.enUS: classCanonicalName
-	 * r: classeApiMethodes
-	 * r.enUS: classApiMethods
-	 * r: classeGenPageChemin
-	 * r.enUS: classPagePathGen
-	 * r: classePageCheminCss
-	 * r.enUS: classPagePathCss
-	 * r: classePageCheminJs
-	 * r.enUS: classPagePathJs
-	 * r: classePageUriMethode
-	 * r.enUS: classPageUriMethod
-	 * r: classePageLangueNom
-	 * r.enUS: classPageLanguageName
-	 * r: classePageNomSimple
-	 * r.enUS: classPageSimpleName
-	 * r: classePageChemin
-	 * r.enUS: classPagePath
-	 * r: classePageMethode
-	 * r.enUS: classPageMethod
-	 * r: indexerPourClasse
-	 * r.enUS: indexForClass
-	 * r: stockerPourClasse
-	 * r.enUS: storeForClass
-	 * 
-	 * r: reponseRecherche
-	 * r.enUS: searchResponse
-	 * r: DocumentSolr
-	 * r.enUS: SolrDocument
-	 * r: pageRecapituler
-	 * r.enUS: pageReview
-	 * r: ImageLargeur
-	 * r.enUS: ImageWidth
-	 * r: ImageHauteur
-	 * r.enUS: ImageHeight
-	 * r: rechercheSolr
-	 * r.enUS: solrSearch
-	 * r: sauvegarder
-	 * r.enUS: save
-	 * r: peupler
-	 * r.enUS: populate
-	 * r: stocker
-	 * r.enUS: store
-	 * r: requeteJson
-	 * r.enUS: requestJson
-	 * r: attribuer
-	 * r.enUS: attribute
-	 * r: obtenir
-	 * r.enUS: obtain
-	 * r: ClientSolr
-	 * r.enUS: SolrClient
-	 * r: clientSolr
-	 * r.enUS: solrClient
-	 * r.enUS: SiteConfig
-	 * r: desindexer
-	 * r.enUS: unindex
-	 * r: ConfigSite
-	 * r.enUS: SiteConfig
-	 * r: siteContexte
-	 * r.enUS: siteContext
-	 * r: RequeteSite
-	 * r.enUS: SiteRequest
-	 * r: requeteSite
-	 * r.enUS: siteRequest
-	 * r: initLoin
-	 * r.enUS: initDeep
-	 * r: Ecrire: 
-	 * r.enUS: Write: 
-	 * r: classe
-	 * r.enUS: class
-	 * r: sauvegardes
-	 * r.enUS: saves
-	 * r: definir
-	 * r.enUS: define
-	 * r: executeur
-	 * r.enUS: executor
-	 * r: indexer
-	 * r.enUS: index
-	 * r: Avant
-	 * r.enUS: Before
-	 * r: Milieu
-	 * r.enUS: Middle
-	 * r: Apres
-	 * r.enUS: After
 	 */
 	public void genCodeClasseFin(String langueNom, YAMLConfiguration langueConfig) throws Exception {
 
@@ -6016,6 +5925,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 			tl(1, "public void ", langueConfig.getString(ConfigCles.var_stocker), classeNomSimple, "(SolrResponse.Doc doc) {");
 			tl(2, classeNomSimple, " o", classeNomSimple, " = (", classeNomSimple, ")this;");
+			tl(2, classePartsRequeteSite.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteSite), " = o", classeNomSimple, ".get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_();");
 			l();
 			s(wStocker.toString());
 			if(BooleanUtils.isTrue(classeEtendBase)) {
@@ -6454,6 +6364,8 @@ public class EcrireGenClasse extends EcrireClasse {
 					l(" * {@literal /}{@literal **}<br>");
 					l(" * {@literal 	 * SmartDataModel: ", classeSmartDataModel, " - ", classeSmartDataSubModule, " - ", classeSmartDataDomain, "}<br>");
 					l(" * {@literal 	 * Fiware: true}<br>");
+					l(" *<br>");
+					l(" * {@literal 	 * Model: true}<br>");
 					l(" * {@literal 	 * SqlOrder: 1}<br>");
 					l(" * {@literal 	 * Api: true}<br>");
 					l(" * {@literal 	 * Page: true}<br>");
@@ -6487,7 +6399,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					Integer row = 3;
 					Integer cell = 1;
 					for(String fieldName : properties.fieldNames()) {
-						if(!fieldName.equals("id")) {
+						if(!fieldName.equals("id") && !fieldName.equals("type")) {
 							JsonObject field = properties.getJsonObject(fieldName);
 							String jsonType = field.getString("type");
 							String description = field.getString("description");
