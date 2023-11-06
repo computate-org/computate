@@ -228,6 +228,8 @@ public class RegarderRepertoire {
 		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, lang));
 		String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
 		String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
+		Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
+
 		RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
 		regarderRepertoire.langueNom = lang;
 		regarderRepertoire.SITE_NOM = SITE_NOM;
@@ -246,17 +248,22 @@ public class RegarderRepertoire {
 		regarderRepertoire.trace = true;
 		try {
 			regarderRepertoire.initialiserRegarderRepertoire(classeLangueConfig);
-			regarderRepertoire.ajouterCheminsARegarder(classeLangueConfig);
+			regarderRepertoire.ajouterCheminsARegarder(classeLangueConfig, REGARDER);
 
 			try {
-				indexerClasses(SITE_CHEMIN, classeLangueConfig);
-				indexerClasses(SITE_CHEMIN, classeLangueConfig);
-				indexerClasses(SITE_CHEMIN, classeLangueConfig);
+				if(REGARDER) {
+					indexerClasses(SITE_CHEMIN, classeLangueConfig);
+					indexerClasses(SITE_CHEMIN, classeLangueConfig);
+					indexerClasses(SITE_CHEMIN, classeLangueConfig);
+					regarderRepertoire.traiterEvenements();
+				} else {
+					indexerClasses(SITE_CHEMIN, classeLangueConfig);
+					indexerClasses(SITE_CHEMIN, classeLangueConfig);
+					indexerEcrireClasses(SITE_CHEMIN, classeLangueConfig);
+				}
 			} catch(Exception ex) {
 				System.out.println(String.format("Error indexing files on startup: %s", ex.getMessage()));
 			}
-
-			regarderRepertoire.traiterEvenements();
 		}
 		catch(Exception e) {
 			System.err.println("Erreur pendant traiterEvenements. ");
@@ -265,9 +272,9 @@ public class RegarderRepertoire {
 	} 
 
 	public static void indexerClasses(String SITE_CHEMIN, YAMLConfiguration classeLangueConfig) throws Exception {
-
 		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
 		File dir = new File(String.format("%s/src/main/java", SITE_CHEMIN));
+
 		try (Stream<Path> stream = Files.walk(Paths.get(dir.getAbsolutePath()))) {
 			stream.filter(Files::isRegularFile)
 					.filter(chemin -> chemin.toString().endsWith(".java"))
@@ -287,6 +294,42 @@ public class RegarderRepertoire {
 					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
 					SolrInputDocument classeDoc = new SolrInputDocument();
 					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
+					System.out.println(String.format("%s %s", classeLangueConfig.getString(ConfigCles.var_Indexe), cheminStr));
+				} catch(Exception ex) {
+					System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
+				}
+			});
+		}
+	}
+
+
+	public static void indexerEcrireClasses(String SITE_CHEMIN, YAMLConfiguration classeLangueConfig) throws Exception {
+		String appComputate = System.getenv("COMPUTATE_SRC");
+		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
+		File dir = new File(String.format("%s/src/main/java", SITE_CHEMIN));
+		Configurations configurations = new Configurations();
+
+		try (Stream<Path> stream = Files.walk(Paths.get(dir.getAbsolutePath()))) {
+			stream.filter(Files::isRegularFile)
+					.filter(chemin -> chemin.toString().endsWith(".java"))
+					.filter(chemin -> {
+						try {
+							return !FileUtils.readFileToString(chemin.toFile(), "UTF-8").contains("* Translate: false");
+						} catch(Exception ex) {
+							return false;
+						}
+					})
+			.forEach(chemin -> {
+				String cheminStr = chemin.toString();
+//						System.out.println(String.format("%s %s", chemin.toString().endsWith(".java"), chemin.toString()));
+				RegarderClasse regarderClasse = new RegarderClasse();
+				try {
+					regarderClasse.setArgs(new String[] {SITE_CHEMIN, cheminStr});
+					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
+					SolrInputDocument classeDoc = new SolrInputDocument();
+					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
+					YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classeLangueNom));
+					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, langueConfig);
 					System.out.println(String.format("%s %s", classeLangueConfig.getString(ConfigCles.var_Indexe), cheminStr));
 				} catch(Exception ex) {
 					System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
@@ -383,11 +426,14 @@ public class RegarderRepertoire {
 	 * r: Erreur à ajouter chemin pour regarder.
 	 * r.enUS: Error adding path to watch. 
 	 */  
-	public void ajouterCheminsARegarder(YAMLConfiguration classeLangueConfig) {
+	public void ajouterCheminsARegarder(YAMLConfiguration classeLangueConfig, Boolean REGARDER) {
 		for(String cheminARegarder : cheminsARegarder) {
 			try {
 				chemins.add(enregistrerTout(Paths.get(cheminARegarder)));
-				LOG.info("{}: {}", classeLangueConfig.getString(ConfigCles.var_Regarder), cheminARegarder);
+				if(REGARDER)
+					LOG.info("{}: {}", classeLangueConfig.getString(ConfigCles.var_Regarder), cheminARegarder);
+				else
+					LOG.info("{}: {}", classeLangueConfig.getString(ConfigCles.var_Generer), cheminARegarder);
 			} catch (IOException e) { 
 				LOG.error("Erreur à ajouter chemin pour regarder.", e);
 			}

@@ -6404,7 +6404,11 @@ public class EcrireGenClasse extends EcrireClasse {
 							String jsonType = field.getString("type");
 							String description = field.getString("description");
 							String javaType = "JsonObject";
-							if("string".equals(jsonType))
+							if("areaServed".equals(fieldName))
+								javaType = "Polygon";
+							else if("location".equals(fieldName))
+								javaType = "Point";
+							else if("string".equals(jsonType))
 								javaType = "String";
 							else if("boolean".equals(jsonType))
 								javaType = "Boolean";
@@ -6417,6 +6421,13 @@ public class EcrireGenClasse extends EcrireClasse {
 							l(" * <br>");
 							l(" * {@literal 	/**}<br>");
 							l(" * {@literal 	 * {@inheritDoc}}<br>");
+							if("areaServed".equals(fieldName)) {
+								l(" * {@literal 	 * FiwareType: geo:linestring}<br>");
+								l(" * {@literal 	 * Location: true}<br>");
+							}
+							if("location".equals(fieldName)) {
+								l(" * {@literal 	 * FiwareType: geo:point}<br>");
+							}
 							l(" * {@literal 	 * DocValues: true}<br>");
 							l(" * {@literal 	 * Persist: true}<br>");
 							l(" * {@literal 	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase(), "}<br>");

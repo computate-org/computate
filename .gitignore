@@ -4,7 +4,6 @@ config/cp.txt
 .project
 .settings
 /target/
-/bin/
 **/*.swp
 **/*.retry
 .flattened-pom.xml
