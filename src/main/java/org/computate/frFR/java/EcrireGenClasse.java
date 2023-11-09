@@ -6016,6 +6016,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		l();
 		tl(1, "public static final String ", langueConfig.getString(ConfigCles.var_CLASSE_NOM_SIMPLE), " = \"", classeNomSimple, "\";");
+		tl(1, "public static final String ", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), " = \"", siteNom, "-", classeLangueNom, "-", classeNomSimple, "\";");
 		s(wVarsStatic);
 
 		if(classeIndexe) {
