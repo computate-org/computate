@@ -233,6 +233,8 @@ public class ConfigCles {
 	public static final String var_HtmCellule = "var_HtmCellule";
 	public static final String var_htmColonne = "var_htmColonne";
 	public static final String var_HtmColonne = "var_HtmColonne";
+	public static final String var_HtmInfobulle = "var_HtmInfobulle";
+	public static final String var_htmInfobulle = "var_htmInfobulle";
 	public static final String var_htmLigne = "var_htmLigne";
 	public static final String var_HtmLigne = "var_HtmLigne";
 	public static final String var_IconeGroupe = "var_IconeGroupe";
@@ -250,6 +252,7 @@ public class ConfigCles {
 	public static final String var_initLoin = "var_initLoin";
 	public static final String var_InitLoin = "var_InitLoin";
 	public static final String var_Interne = "var_Interne";
+	public static final String var_JsInfobulle = "var_JsInfobulle";
 	public static final String var_LANGUE_NOM = "var_LANGUE_NOM";
 	public static final String var_Langue = "var_Langue";
 	public static final String var_Largeur = "var_Largeur";

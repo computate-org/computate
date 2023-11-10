@@ -88,13 +88,13 @@ public class ToutEcrivain {
 
 	public ToutEcrivain t(int nombreTabulations, Object...objets) {
 		for(int i = 0; i < nombreTabulations; i++)
-			s("\t");
+			s(tab);
 		s(objets);
 		return this;
 	}
 	public ToutEcrivain tl(int nombreTabulations, Object...objets) {
 		for(int i = 0; i < nombreTabulations; i++)
-			s("\t");
+			s(tab);
 		s(objets);
 		s("\n");
 		return this;
@@ -238,6 +238,23 @@ public class ToutEcrivain {
 	}
 
 	///////////
+	// tab //
+	///////////
+
+	/**
+	 * The tab characters to use
+	 */
+	protected String tab = "\t";
+
+	public String getTab() {
+		return tab;
+	}
+
+	public void setTab(String o) {
+		this.tab = o;
+	}
+
+	///////////
 	// empty //
 	///////////
 
@@ -283,7 +300,7 @@ public class ToutEcrivain {
 		return null;
 	}
 
-	public String htmlTooltipEmpty() {
+	public String HtmInfobulleEmpty() {
 		return null;
 	}
 

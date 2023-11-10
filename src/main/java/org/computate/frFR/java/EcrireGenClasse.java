@@ -754,6 +754,11 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected String classeTitre;
 
+	protected String classeHtmInfobulle;
+	protected String classeJsInfobulle;
+	protected String classeJsPATCH;
+	protected String classeJsWebsocket;
+
 	/**
 	 * Var.enUS: contextTheNames
 	 */
@@ -1116,7 +1121,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	boolean entiteContientRequeteSite;
 
-	String entiteHtmlTooltip;
+	String entiteHtmInfobulle;
 
 	Integer entiteHtmColonne;
 
@@ -2284,6 +2289,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classePageFichierJs != null) {
 				classePageFichierJs.getParentFile().mkdirs();
 				auteurPageJs = ToutEcrivain.create(classePageFichierJs);
+				auteurPageJs.setTab("  ");
 			}
 			if(classePageFichierHbs != null && (!classePageFichierHbs.exists() || classePageFichierHbs.length() == 0L)) {
 				classePageFichierHbs.getParentFile().mkdirs();
@@ -2810,8 +2816,8 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: entityAttribute
 	 * r: entiteDefinir
 	 * r.enUS: entityDefined
-	 * r: entiteHtmlTooltip
-	 * r.enUS: entityHtmlTooltip
+	 * r: entiteHtmInfobulle
+	 * r.enUS: entityHtmInfobulle
 	 * r: urlSolrComputate
 	 * r.enUS: solrUrlComputate
 	 * r: partEstEntite
@@ -3072,7 +3078,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteTypeJson = doc.getString("entiteTypeJson_stored_string");
 	
 			entiteNomAffichage = doc.getString("entiteNomAffichage_" + langueNom + "_stored_string");
-			entiteHtmlTooltip = doc.getString("entiteHtmlTooltip_" + langueNom + "_stored_string");
+			entiteHtmInfobulle = doc.getString("entiteHtmInfobulle_" + langueNom + "_stored_string");
 			entiteHtmColonne = doc.getInteger("entiteHtmColonne_stored_int");
 			entiteHtmLigne = doc.getInteger("entiteHtmLigne_stored_int");
 			entiteHtmLigneTitre = doc.getString("entiteHtmLigneTitre_stored_string");

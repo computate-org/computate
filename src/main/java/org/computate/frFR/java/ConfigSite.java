@@ -15,6 +15,7 @@ package org.computate.frFR.java;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -805,6 +806,41 @@ public class ConfigSite {
 			return valeurDefaut;
 		else
 			return o;
+	}
+
+	public String regexYaml(String champ, String texte) {
+		String o = null;
+		if (champ != null && texte != null) {
+			String motif = "^" + champ + ": ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(^\\w|\\Z)";
+			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
+			boolean trouve = m.find();
+			if (trouve) {
+				String groupe1 = m.group(1);
+				String groupe2 = m.group(2);
+				String groupe3 = m.group(3);
+				Integer spaces = 2;
+				if(groupe2.length() > 0)
+					spaces = Integer.parseInt(groupe2);
+				o = groupe3.replaceAll("^" + String.join("", Collections.nCopies(spaces, " ")), "").replaceAll("\n" + String.join("", Collections.nCopies(spaces, " ")), "\n");
+
+				if(groupe1.contains(">"))
+					o = o.replaceAll("\\n([^\\n])", " $1");
+
+				if(groupe1.contains("-"))
+					o = o.replaceAll("\\n+\\Z", "");
+				else if(!groupe1.contains("+"))
+					o = o.replaceAll("\\n\\Z", "");
+			} else {
+				motif = "^" + champ + ": (.*)";
+				m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
+				trouve = m.find();
+				if (trouve) {
+					String groupe1 = m.group(1);
+					o = groupe1;
+				}
+			}
+		}
+		return o;
 	}
 
 	/**

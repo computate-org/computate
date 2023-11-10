@@ -1929,6 +1929,10 @@ public class IndexerClasse extends RegarderClasseBase {
 		String classeVarUrlApi = null;
 		String classeVarId = null;
 		String classeVarTitre = null;
+		String classeHtmInfobulle = null;
+		String classeJsInfobulle = null;
+		String classeJsPATCH = null;
+		String classeJsWebsocket = null;
 		String classeVarH1 = null;
 		String classeVarH2 = null;
 		String classeVarH3 = null;
@@ -3302,7 +3306,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteDescription", regexLangue(classeLangueNom, "^Description", methodeCommentaire));
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteUniteLabel", regexLangue(classeLangueNom, "^" + classeLangueConfig.getString(ConfigCles.var_UniteLabel), methodeCommentaire));
 						indexerStockerSolr(entiteDoc, "entiteOptionnel", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_Optionnel) + ":\\s*(true)$", methodeCommentaire));
-						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteHtmlTooltip", regexLangue(classeLangueNom, "^HtmlTooltip", methodeCommentaire));
+						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteHtmInfobulle", regex("^" + classeLangueConfig.getString(ConfigCles.var_HtmInfobulle) + ": (.*[>|-]{0,2}[\\s\\S]*)(^\\w|\\Z)", methodeCommentaire, 1));
 						indexerStockerSolrRegex(classeLangueNom, entiteDoc, "entiteVarApi", "VarApi", methodeCommentaire);
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteEnumNomSimple", regexLangue(classeLangueNom, "^" + classeLangueConfig.getString(ConfigCles.var_EnumNomSimple), methodeCommentaire));
 						indexerStockerSolr(classeLangueNom, entiteDoc, "entiteEnumVar", regexLangue(classeLangueNom, "^EnumVar", methodeCommentaire));
@@ -3381,7 +3385,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							for(String langueNom : classeAutresLangues) {  
 								indexerStockerSolr(langueNom, entiteDoc, "entiteNomAffichage", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_NomAffichage), methodeCommentaire));
 								indexerStockerSolr(langueNom, entiteDoc, "entiteEnumVarDescription", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_EnumVarDescription), methodeCommentaire));
-								indexerStockerSolr(langueNom, entiteDoc, "entiteHtmlTooltip", regexLangue(langueNom, "^HtmlTooltip", methodeCommentaire));
+								indexerStockerSolr(langueNom, entiteDoc, "entiteHtmInfobulle", regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_HtmInfobulle), methodeCommentaire));
 								indexerStockerSolrRegex(langueNom, entiteDoc, "entiteVarApi", "VarApi", methodeCommentaire);
 								indexerStockerSolr(langueNom, entiteDoc, "entiteEnumVar", regexLangue(langueNom, "^EnumVar", methodeCommentaire));
 								indexerStockerSolr(langueNom, entiteDoc, "entiteImageBase64Url", regexLangue(langueNom, "^ImageBase64Url", methodeCommentaire));
@@ -5562,6 +5566,11 @@ public class IndexerClasse extends RegarderClasseBase {
 				classeTitre = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_Titre), classeCommentaire, classeNomPluriel);
 				if(classeTitre != null)
 					indexerStockerSolr(langueNom, classeDoc, "classeTitre", classeTitre); 
+	
+				indexerStockerSolr(classeLangueNom, classeDoc, "classeHtmInfobulle", regexYaml(classeLangueConfig.getString(ConfigCles.var_HtmInfobulle), classeCommentaire));
+				indexerStockerSolr(classeLangueNom, classeDoc, "classeJsInfobulle", regexYaml(classeLangueConfig.getString(ConfigCles.var_JsInfobulle), classeCommentaire));
+				indexerStockerSolr(classeLangueNom, classeDoc, "classeJsPATCH", regexYaml("JsPATCH", classeCommentaire));
+				indexerStockerSolr(classeLangueNom, classeDoc, "classeJsWebsocket", regexYaml("JsWebsocket", classeCommentaire));
 	
 				classeH1 = regexLangue(langueNom, "^H1", classeCommentaire);
 				if(classeH1 != null)
