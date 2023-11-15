@@ -3768,11 +3768,17 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "if(o != null) {");
 					tl(3, "try {");
 					tl(4, entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " shape = new ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, "();");
-					tl(4, "o.getJsonArray(\"coordinates\").stream().map(a -> (JsonArray)a).forEach(g -> {");
-					tl(5, "g.stream().map(a -> (JsonArray)a).forEach(points -> {");
-					tl(6, "shape.addPoint(new Point(Double.parseDouble(points.getString(0)), Double.parseDouble(points.getString(1))));");
-					tl(5, "});");
-					tl(4, "});");
+					if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePath)) {
+						tl(4, "o.getJsonArray(\"coordinates\").stream().map(a -> (JsonArray)a).forEach(points -> {");
+						tl(5, "shape.addPoint(new Point(Double.parseDouble(points.getString(0)), Double.parseDouble(points.getString(1))));");
+						tl(4, "});");
+					} else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePolygon) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)) {
+						tl(4, "o.getJsonArray(\"coordinates\").stream().map(a -> (JsonArray)a).forEach(g -> {");
+						tl(5, "g.stream().map(a -> (JsonArray)a).forEach(points -> {");
+						tl(6, "shape.addPoint(new Point(Double.parseDouble(points.getString(0)), Double.parseDouble(points.getString(1))));");
+						tl(5, "});");
+						tl(4, "});");
+					}
 					tl(4, "return shape;");
 					tl(3, "} catch(Exception ex) {");
 					tl(4, "ExceptionUtils.rethrow(ex);");
