@@ -1333,10 +1333,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wWebsocket.s(wWebsocketInput1);
 					wWebsocket.l();
 					wWebsocket.s(wWebsocketInput2);
-					if(classeJsWebsocket != null) {
-						wWebsocket.l();
-						wWebsocket.l(classeJsWebsocket);
-					}
+					wWebsocket.tl(4, langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(vars, $response);");
 					wWebsocket.l();
 					wWebsocket.tl(4, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse($response.find('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", StringUtils.uncapitalize(classeNomSimple), "').val());");
 					wWebsocket.l();
@@ -2562,6 +2559,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htmScripts\"}}{{> htmScripts", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmScript\"}}{{> htmScript", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"websocket\"}}{{> websocket", classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"", langueConfig.getString(ConfigCles.var_jsWebsocket), "\"}}{{> ", langueConfig.getString(ConfigCles.var_jsWebsocket), classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"", langueConfig.getString(ConfigCles.var_jsInfobulle), "\"}}{{> ", langueConfig.getString(ConfigCles.var_jsInfobulle), "", classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"", langueConfig.getString(ConfigCles.var_htmInfobulle), "\"}}{{> ", langueConfig.getString(ConfigCles.var_htmInfobulle), "", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodySidebar\"}}{{> htmBodySidebar", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Milieu), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageNomSimple, "}}{{/partial}}");
@@ -3175,6 +3175,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "//calendar.render();");
 				tl(0, "{{#block \"websocket\"}}{{/block}}");
 				tl(3, "});");
+				l();
+				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(vars, $response) {");
+				tl(0, "{{#block \"", langueConfig.getString(ConfigCles.var_jsWebsocket), "\"}}{{/block}}");
+				tl(3, "}");
+				l();
+				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsInfobulle), classeNomSimple, "(e, feature) {");
+				tl(0, "{{#block \"", langueConfig.getString(ConfigCles.var_jsInfobulle), "\"}}{{/block}}");
+				tl(3, "}");
+				l();
+				tl(3, "function ", langueConfig.getString(ConfigCles.var_htmInfobulle), classeNomSimple, "(feature, layer) {");
+				tl(4, "return `{{#block \"", langueConfig.getString(ConfigCles.var_htmInfobulle), "\"}}{{/block}}`;");
+				tl(3, "}");
 				tl(2, "</script>");
 				tl(0, "{{/inline}}");
 
@@ -3182,6 +3194,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "<!-- inline \"websocket", classePageNomSimple, "\" -->");
 				tl(4, "websocket", classeApiClasseNomSimple, "(websocket", classeApiClasseNomSimple, "Inner);");
 				tl(0, "{{/inline}}");
+				tl(0, "{{#*inline \"websocket", classePageNomSimple, "\"}}{{/inline}}");
 			}
 			t(0, "{{#*inline \"htmUrl", classeApiClasseNomSimple, "\"}}");
 			s("{{pageUri}}");
@@ -4787,10 +4800,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //					auteurPageJs.tl(5, "});");
 					auteurPageJs.tl(4, "});");
 					auteurPageJs.tl(4, "function onEachFeature(feature, layer) {");
-					if(classeHtmInfobulle != null) {
-						auteurPageJs.tl(5, "let popupContent = `", classeHtmInfobulle, "`;");
-						auteurPageJs.tl(5, "layer.bindPopup(popupContent);");
-					}
+					auteurPageJs.tl(5, "let popupContent = ", langueConfig.getString(ConfigCles.var_htmInfobulle), classeNomSimple, "(feature, layer);");
+					auteurPageJs.tl(5, "layer.bindPopup(popupContent);");
 					auteurPageJs.tl(4, "}");
 					auteurPageJs.tl(4, "var geojsonLayer = L.geoJSON(features, {onEachFeature}).addTo(map);");
 //					auteurPageJs.tl(4, "}");
@@ -4798,9 +4809,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(2, "});");
 					auteurPageJs.tl(2, "map.on('popupopen', function(e) {");
 					auteurPageJs.tl(3, "var feature = e.popup._source.feature;");
-					if(classeJsInfobulle != null) {
-						auteurPageJs.l(classeJsInfobulle);
-					}
+					auteurPageJs.tl(3, langueConfig.getString(ConfigCles.var_jsInfobulle), classeNomSimple, "(e, feature);");
 					auteurPageJs.tl(2, "});");
 //					auteurPageJs.tl(2, "Plotly.react(, data, layout);");
 				}
