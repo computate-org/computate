@@ -1,0 +1,31 @@
+apiVersion: smartvillage.computate.org/v1
+kind: EdgeSolr
+metadata:
+  name: default
+  namespace: solr
+spec:
+  solr:
+    name: solr
+    replicas: 1
+    resources:
+      limits:
+        memory: 2Gi
+        cpu: '2'
+      requests:
+        memory: 2Gi
+        cpu: '1'
+    configsets:
+      - name: computate
+        configmap: computate-configset
+    collections:
+      - name: computate
+        configset: computate
+  zookeeper:
+    replicas: 1
+    host: zookeeper.zookeeper.svc
+    limits:
+      memory: 1Gi
+      cpu: '1'
+    requests:
+      memory: 1Gi
+      cpu: '1'
