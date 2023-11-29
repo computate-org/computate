@@ -3194,7 +3194,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "<!-- inline \"websocket", classePageNomSimple, "\" -->");
 				tl(4, "websocket", classeApiClasseNomSimple, "(websocket", classeApiClasseNomSimple, "Inner);");
 				tl(0, "{{/inline}}");
-				tl(0, "{{#*inline \"websocket", classePageNomSimple, "\"}}{{/inline}}");
+				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsWebsocket), classePageNomSimple, "\"}}{{/inline}}");
+				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsInfobulle), classePageNomSimple, "\"}}{{/inline}}");
+				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_htmInfobulle), classePageNomSimple, "\"}}{{/inline}}");
+
+				l("{{#partial \"", langueConfig.getString(ConfigCles.var_jsWebsocket), "\"}}{{> ", langueConfig.getString(ConfigCles.var_jsWebsocket), classePageNomSimple, "}}{{/partial}}");
+				l("{{#partial \"", langueConfig.getString(ConfigCles.var_jsInfobulle), "\"}}{{> ", langueConfig.getString(ConfigCles.var_jsInfobulle), "", classePageNomSimple, "}}{{/partial}}");
+				l("{{#partial \"", langueConfig.getString(ConfigCles.var_htmInfobulle), "\"}}{{> ", langueConfig.getString(ConfigCles.var_htmInfobulle), "", classePageNomSimple, "}}{{/partial}}");
 			}
 			t(0, "{{#*inline \"htmUrl", classeApiClasseNomSimple, "\"}}");
 			s("{{pageUri}}");
