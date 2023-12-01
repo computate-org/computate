@@ -1891,7 +1891,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "params.put(\"body\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getJsonObject());");
 						tl(6, "params.put(\"path\", new JsonObject());");
 						tl(6, "params.put(\"cookie\", new JsonObject());");
-						tl(6, "params.put(\"header\", new JsonObject());");
+						tl(6, "params.put(\"header\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams().getJsonObject(\"header\"));");
 						tl(6, "params.put(\"form\", new JsonObject());");
 						tl(6, "JsonObject query = new JsonObject();");
 						tl(6, "Boolean softCommit = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
@@ -2239,7 +2239,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "params.put(\"body\", obj);");
 						tl(5, "params.put(\"path\", new JsonObject());");
 						tl(5, "params.put(\"cookie\", new JsonObject());");
-						tl(5, "params.put(\"header\", new JsonObject());");
+						tl(5, "params.put(\"header\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams().getJsonObject(\"header\"));");
 						tl(5, "params.put(\"form\", new JsonObject());");
 						tl(5, "JsonObject query = new JsonObject();");
 						tl(5, "Boolean softCommit = Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams()).map(p -> p.getJsonObject(\"query\")).map( q -> q.getBoolean(\"softCommit\")).orElse(null);");
@@ -3901,7 +3901,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(5, "JsonObject params = new JsonObject();");
 					tl(5, "params.put(\"body\", new JsonObject());");
 					tl(5, "params.put(\"cookie\", new JsonObject());");
-					tl(5, "params.put(\"header\", new JsonObject());");
+					tl(5, "params.put(\"header\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteService), "().getParams().getJsonObject(\"header\"));");
 					tl(5, "params.put(\"form\", new JsonObject());");
 					tl(5, "params.put(\"path\", new JsonObject());");
 					tl(5, "JsonObject query = new JsonObject();");
