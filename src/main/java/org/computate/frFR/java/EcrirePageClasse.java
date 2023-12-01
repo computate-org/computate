@@ -1333,7 +1333,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wWebsocket.s(wWebsocketInput1);
 					wWebsocket.l();
 					wWebsocket.s(wWebsocketInput2);
-					wWebsocket.tl(4, langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(vars, $response);");
+					wWebsocket.tl(4, langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(", classeVarClePrimaire, ", vars, $response);");
 					wWebsocket.l();
 					wWebsocket.tl(4, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse($response.find('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", StringUtils.uncapitalize(classeNomSimple), "').val());");
 					wWebsocket.l();
@@ -3176,7 +3176,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{#block \"websocket\"}}{{/block}}");
 				tl(3, "});");
 				l();
-				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(vars, $response) {");
+				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(", classeVarClePrimaire, ", vars, $response) {");
 				tl(0, "{{#block \"", langueConfig.getString(ConfigCles.var_jsWebsocket), "\"}}{{/block}}");
 				tl(3, "}");
 				l();
@@ -3197,10 +3197,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsWebsocket), classePageNomSimple, "\"}}{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsInfobulle), classePageNomSimple, "\"}}{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_htmInfobulle), classePageNomSimple, "\"}}{{/inline}}");
-
-				l("{{#partial \"", langueConfig.getString(ConfigCles.var_jsWebsocket), "\"}}{{> ", langueConfig.getString(ConfigCles.var_jsWebsocket), classePageNomSimple, "}}{{/partial}}");
-				l("{{#partial \"", langueConfig.getString(ConfigCles.var_jsInfobulle), "\"}}{{> ", langueConfig.getString(ConfigCles.var_jsInfobulle), "", classePageNomSimple, "}}{{/partial}}");
-				l("{{#partial \"", langueConfig.getString(ConfigCles.var_htmInfobulle), "\"}}{{> ", langueConfig.getString(ConfigCles.var_htmInfobulle), "", classePageNomSimple, "}}{{/partial}}");
 			}
 			t(0, "{{#*inline \"htmUrl", classeApiClasseNomSimple, "\"}}");
 			s("{{pageUri}}");
