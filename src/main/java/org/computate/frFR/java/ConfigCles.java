@@ -252,6 +252,7 @@ public class ConfigCles {
 	public static final String var_initLoin = "var_initLoin";
 	public static final String var_InitLoin = "var_InitLoin";
 	public static final String var_Interne = "var_Interne";
+	public static final String var_jsStyle = "var_jsStyle";
 	public static final String var_jsInfobulle = "var_jsInfobulle";
 	public static final String var_JsInfobulle = "var_JsInfobulle";
 	public static final String var_jsWebsocket = "var_jsWebsocket";
