@@ -4092,19 +4092,19 @@ public class IndexerClasse extends RegarderClasseBase {
 							if(entiteFormatHtm == null) {
 								if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueTimestamp)) {
 									entiteFormatHtm = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-									entiteFormatJson = "date-time";
+//									entiteFormatJson = "date-time";
 								}
 								else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueLocalDateTime)) {
 									entiteFormatHtm = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-									entiteFormatJson = "date-time";
+//									entiteFormatJson = "date-time";
 								}
 								else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueDate)) {
 									entiteFormatHtm = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-									entiteFormatJson = "date";
+//									entiteFormatJson = "date";
 								}
 								else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniqueZonedDateTime)) {
 									entiteFormatHtm = "yyyy-MM-dd'T'HH:mm:ss.SSS'['VV']'";
-									entiteFormatJson = "date-time";
+//									entiteFormatJson = "date-time";
 								}
 							}
 						}
