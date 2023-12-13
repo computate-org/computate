@@ -5128,9 +5128,9 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(4, "if(val instanceof ", entiteNomSimple, "<?>) {");
 						tl(5, "((", entiteNomSimpleComplet, ")val).stream().forEach(v -> add", entiteVarCapitalise, "(v));");
 						tl(4, "} else if(val instanceof JsonArray) {");
-						tl(5, "((JsonArray)val).stream().forEach(v -> set", entiteVarCapitalise, "(v.toString()));");
+						tl(5, "((JsonArray)val).stream().forEach(v -> add", entiteVarCapitalise, "(staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, v.toString())));");
 						tl(4, "} else if(val instanceof ", entiteNomSimpleGenerique, "[]) {");
-						tl(5, "Arrays.asList((", entiteNomSimpleGenerique, "[])val).stream().forEach(v -> set", entiteVarCapitalise, "((", entiteNomSimpleGenerique, ")v));");
+						tl(5, "Arrays.asList((", entiteNomSimpleGenerique, "[])val).stream().forEach(v -> add", entiteVarCapitalise, "((", entiteNomSimpleGenerique, ")v));");
 						if(VAL_nomCanoniqueLong.equals(entiteNomCanoniqueGenerique)
 								|| VAL_nomCanoniqueInteger.equals(entiteNomCanoniqueGenerique)
 								|| VAL_nomCanoniqueDouble.equals(entiteNomCanoniqueGenerique)
