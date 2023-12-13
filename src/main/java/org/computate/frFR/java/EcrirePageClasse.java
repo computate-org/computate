@@ -871,7 +871,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				else {
 					tl(1, "{{#eq \"Page\" ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}");
 					if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson))
-						tl(15, "value=\"{{toJsonObjectString ", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
+						tl(15, "value=\"{{to", entiteNomSimpleVertxJson, "String ", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
 					else
 						tl(15, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
 					tl(1, "{{/eq}}");
