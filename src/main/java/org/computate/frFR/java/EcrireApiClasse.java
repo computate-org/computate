@@ -3362,7 +3362,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(2, "if(var", classeLangueConfig.getString(ConfigCles.var_Indexe), " == null)");
 			tl(3, "throw new RuntimeException(String.format(\"\\\"%s\\\" ", classeLangueConfig.getString(ConfigCles.str_nest_pas_une_entite_indexe), ". \", ", classeLangueConfig.getString(ConfigCles.var_entite), "Var));");
 			tl(2, "if(StringUtils.startsWith(", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", \"[\")) {");
-			tl(3, "String[] fqs = StringUtils.substringBefore(StringUtils.substringAfter(", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", \"[\"), \"]\").split(\" TO \");");
+			tl(3, "String[] fqs = StringUtils.substringAfter(StringUtils.substringBeforeLast(", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), ", \"]\"), \"[\").split(\" TO \");");
 			tl(3, "if(fqs.length != 2)");
 			tl(4, "throw new RuntimeException(String.format(\"\\\"%s\\\" invalid range query. \", ", classeLangueConfig.getString(ConfigCles.var_valeur), classeLangueConfig.getString(ConfigCles.var_Indexe), "));");
 			tl(3, "String fq1 = fqs[0].equals(\"*\") ? fqs[0] : ", classeNomSimple, ".staticSearchFq", classeLangueConfig.getString(ConfigCles.var_PourClasse), "(", classeLangueConfig.getString(ConfigCles.var_entite), "Var, ", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".get", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(", classePartsRequeteSite.nomSimple(classeLangueNom), ".class), fqs[0]);");
