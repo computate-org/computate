@@ -3834,7 +3834,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
 					tl(1, "}");
 					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
-					tl(2, "return Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME)));");
+					tl(2, "return Timestamp.valueOf((LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER)));");
 					tl(1, "}");
 					staticSet = true;
 				}
@@ -3849,7 +3849,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
 					tl(1, "}");
 					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
-					tl(2, "return Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).atZone(ZoneId.of(\"Z\")).toInstant());");
+					tl(2, "return Date.from(LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).atZone(ZoneId.of(\"Z\")).toInstant());");
 					tl(1, "}");
 					staticSet = true;
 				}
@@ -3889,7 +3889,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
 					tl(2, "if(o != null) {");
 					tl(3, "if(o.contains(\"T\")) {");
-					tl(4, "return java.time.LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toLocalDate();");
+					tl(4, "return java.time.LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toLocalDate();");
 					tl(3, "} else {");
 					tl(4, "return LocalDate.parse(o, DateTimeFormatter.ISO_DATE);");
 					tl(3, "}");
@@ -3924,7 +3924,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "else if(StringUtils.endsWith(o, \"Z\"))");
 					tl(3, "return o == null ? null : Instant.parse(o).atZone(Optional.ofNullable(", langueConfig.getString(ConfigCles.var_requeteSite), "_).map(r -> r.get", langueConfig.getString(ConfigCles.var_Config), "()).map(config -> config.getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), ")).map(z -> ZoneId.of(z)).orElse(ZoneId.of(\"UTC\"))).truncatedTo(ChronoUnit.MILLIS);");
 					tl(2, "else if(StringUtils.contains(o, \"T\"))");
-					tl(3, "return o == null ? null : ZonedDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).truncatedTo(ChronoUnit.MILLIS);");
+					tl(3, "return o == null ? null : ZonedDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).truncatedTo(ChronoUnit.MILLIS);");
 					tl(2, "else");
 					tl(3, "return o == null ? null : LocalDate.parse(o, DateTimeFormatter.ISO_DATE).atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).truncatedTo(ChronoUnit.MILLIS);");
 					tl(1, "}");
@@ -3949,7 +3949,7 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_requeteSite), "_, o);");
 					tl(1, "}");
 					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
-					tl(2, "return o == null ? null : LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).truncatedTo(ChronoUnit.MILLIS);");
+					tl(2, "return o == null ? null : LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).truncatedTo(ChronoUnit.MILLIS);");
 					tl(1, "}");
 					tl(1, "@JsonIgnore");
 					tl(1, "public void set", entiteVarCapitalise, "(Date o) {");
@@ -4166,7 +4166,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = Timestamp.valueOf((LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME)));");
+					tl(2, entiteNomSimpleCompletGenerique, " p = Timestamp.valueOf((LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER)));");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -4188,7 +4188,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME).atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant());");
+					tl(2, entiteNomSimpleCompletGenerique, " p = Date.from(LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).atZone(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant());");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -4237,7 +4237,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = ZonedDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME);");
+					tl(2, entiteNomSimpleCompletGenerique, " p = ZonedDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -4264,7 +4264,7 @@ public class EcrireGenClasse extends EcrireClasse {
 						tl(1, "/** Example: 2011-12-03T10:15:30+01:00 **/");
 					}
 					tl(1, "public ", classeNomSimple, " add", entiteVarCapitalise, "(String o) {");
-					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDateTime.parse(o, DateTimeFormatter.ISO_DATE_TIME);");
+					tl(2, entiteNomSimpleCompletGenerique, " p = LocalDateTime.parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER);");
 					tl(2, "add", entiteVarCapitalise, "(p);");
 					tl(2, "return (", classeNomSimple, ")this;");
 					tl(1, "}");
@@ -4501,23 +4501,23 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
 						if(entiteNomSimple.equals("Timestamp")) {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return \"\\\"\" + DateTimeFormatter.ISO_DATE_TIME.format(o.toInstant().atOffset(ZoneOffset.UTC)) + \"\\\"\";");
+							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return \"\\\"\" + DateTimeFormatter.ISO_DATE_TIME.format(o.toInstant().atOffset(ZoneOffset.UTC)) + \"\\\"\";");
+							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return \"\\\"\" + DateTimeFormatter.ISO_DATE_TIME.format(o.toInstant().atOffset(ZoneOffset.UTC)) + \"\\\"\";");
+							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("LocalDate")) {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-			//				tl(3, "doc.put(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
-							tl(2, "return \"\\\"\" + DateTimeFormatter.ISO_DATE_TIME.format(o.toInstant().atOffset(ZoneOffset.UTC)) + \"\\\"\";");
+			//				tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
+							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
 							tl(1, "}");
 						}
 						else if(entiteSolrNomCanonique.toString().equals("String")) {
@@ -4707,19 +4707,19 @@ public class EcrireGenClasse extends EcrireClasse {
 				if(entiteSuggere) {
 					// suggere
 					if(entiteNomSimple.equals("Timestamp")) {
-						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
+						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(java.time.ZonedDateTime.ofInstant(", entiteVar, ".toLocalDateTime(), java.time.OffsetDateTime.now().getOffset(), ZoneId.of(\"Z\"))));");
 					}
 					else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
-						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(", entiteVar, "));");
+						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, "));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
 						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
-						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
+						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atOffset(ZoneOffset.UTC)));");
 					}
 					else if(entiteNomSimple.toString().equals("LocalDate")) {
-						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", DateTimeFormatter.ISO_DATE_TIME.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
+						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
 					}
 					else {
 						tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", entiteVar, ");");
