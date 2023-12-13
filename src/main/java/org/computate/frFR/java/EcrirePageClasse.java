@@ -495,7 +495,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(11, "<div class=\"w3-cell-row w3-padding \">");
 					tl(13, "<div class=\"w3-cell \">");
 				}
-				tl(14, "{{#each ", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}<td>{{.}}</td>{{/each}}");
+//				tl(14, "{{#each ", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}<td>{{.}}</td>{{/each}}");
+				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), " ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), "}}");
 				if(entiteHtmLigneVerticaleActuel) {
 					tl(10, "</tr>");
 				} else {
@@ -1316,13 +1317,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						rechercheListe = rechercheReponse.getResults();
 					}
 
-					wWebsocket.tl(1, "var pk = ", langueConfig.getString(ConfigCles.var_requeteApi), "['pk'];");
-					wWebsocket.tl(1, "var pks = ", langueConfig.getString(ConfigCles.var_requeteApi), "['pks'];");
+					wWebsocket.tl(1, "var ", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, " = ", langueConfig.getString(ConfigCles.var_requeteApi), "['", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, "'];");
+					wWebsocket.tl(1, "var ", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, "s = ", langueConfig.getString(ConfigCles.var_requeteApi), "['", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, "s'];");
 					wWebsocket.tl(1, "var classes = ", langueConfig.getString(ConfigCles.var_requeteApi), "['classes'];");
 					wWebsocket.tl(1, "var vars = ", langueConfig.getString(ConfigCles.var_requeteApi), "['vars'];");
 					wWebsocket.tl(1, "var empty = ", langueConfig.getString(ConfigCles.var_requeteApi), "['empty'];");
 					wWebsocket.l();
-					wWebsocket.tl(1, "if(pk != null && vars.length > 0) {");
+					wWebsocket.tl(1, "if(", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, " != null && vars.length > 0) {");
 					wWebsocket.tl(2, "var queryParams = \"?\" + $(\".pageSearchVal\").get().filter(elem => elem.innerText.length > 0).map(elem => elem.innerText).join(\"&\");");
 					wWebsocket.tl(2, "var uri = location.pathname + queryParams;");
 					wWebsocket.tl(2, "$.get(uri, {}, function(data) {");
@@ -1333,7 +1334,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wWebsocket.s(wWebsocketInput1);
 					wWebsocket.l();
 					wWebsocket.s(wWebsocketInput2);
-					wWebsocket.tl(4, langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(", classeVarClePrimaire, ", vars, $response);");
+					wWebsocket.tl(4, langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, ", vars, $response);");
 					wWebsocket.l();
 					wWebsocket.tl(4, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse($response.find('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", StringUtils.uncapitalize(classeNomSimple), "').val());");
 					wWebsocket.l();
@@ -3177,7 +3178,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{#block \"websocket\"}}{{/block}}");
 				tl(3, "});");
 				l();
-				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(", classeVarClePrimaire, ", vars, $response) {");
+				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, ", vars, $response) {");
 				tl(0, "{{#block \"", langueConfig.getString(ConfigCles.var_jsWebsocket), "\"}}{{/block}}");
 				tl(3, "}");
 				l();
