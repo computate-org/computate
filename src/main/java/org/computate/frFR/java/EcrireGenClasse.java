@@ -253,9 +253,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */
 	protected List<String> classeSuperParametreTypeNoms;
 
-	protected List<String> classeEntiteClassesSuperEtMoiSansGen;
-
-	protected List<String> entiteClassesSuperEtMoiSansGen;
+	protected List<String> classesSuperEtMoiSansGen;
 
 	/**
 	 * Var.enUS: classSuperWriteMethods
@@ -2613,7 +2611,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: entityValsValue
 	 * r: entiteValValeur
 	 * r.enUS: entityValValue
-	 * r: entiteClassesSuperEtMoiSansGen
+	 * r: classesSuperEtMoiSansGen
 	 * r.enUS: entitySuperClassesAndMeWithoutGen
 	 * r: entiteVarCapitalise
 	 * r.enUS: entityVarCapitalized
@@ -3092,7 +3090,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteDefaut = doc.getString("entiteDefaut_stored_string");
 			entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");
 
-			entiteClassesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("entiteClassesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			classesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("classesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 	
 			entiteMethodesAvantVisibilite = Optional.ofNullable(doc.getJsonArray("entiteMethodesAvantVisibilite_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 			entiteMethodesAvantVar = Optional.ofNullable(doc.getJsonArray("entiteMethodesAvantVar_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
@@ -5702,8 +5700,8 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		if(classeApi 
 				|| (
-						classePartsModeleBase != null && classeEntiteClassesSuperEtMoiSansGen.contains(classePartsModeleBase.nomCanonique(langueNomGlobale))
-						|| classePartsResultatBase != null && classeEntiteClassesSuperEtMoiSansGen.contains(classePartsResultatBase.nomCanonique(langueNomGlobale))
+						classePartsModeleBase != null && classesSuperEtMoiSansGen.contains(classePartsModeleBase.nomCanonique(langueNomGlobale))
+						|| classePartsResultatBase != null && classesSuperEtMoiSansGen.contains(classePartsResultatBase.nomCanonique(langueNomGlobale))
 				) 
 				&& classeInitLoin 
 				&& (classeEtendBase || classeEstBase)

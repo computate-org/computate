@@ -90,6 +90,8 @@ import com.thoughtworks.qdox.model.JavaType;
 import com.thoughtworks.qdox.model.JavaTypeVariable;
 import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
 
+import io.vertx.core.json.JsonArray;
+
 /**
  * NomCanonique.enUS: org.computate.enUS.java.IndexClass
  */ 
@@ -711,14 +713,16 @@ public class IndexerClasse extends RegarderClasseBase {
 	 * r.enUS: qdoxSuperClasses
 	 * r: peuplerClassesSuperQdoxInterfacesEtMoi
 	 * r.enUS: populateQdoxSuperClassesInterfacesAndMe
+	 * @param classeSuperDoc 
 	 */       
-	public void peuplerClassesSuperQdoxInterfacesEtMoi (
+	public void peuplerClassesSuperQdoxInterfacesEtMoi(
 			JavaClass c
 			, ArrayList<JavaClass> classesSuperQdox
 			, ArrayList<JavaClass> classesSuperQdoxEtMoi
 			, ArrayList<JavaClass> classesSuperQdoxEtMoiSansGen
 			, ArrayList<JavaClass> classesSuperQdoxEtInterfaces
 			, ArrayList<JavaClass> classesSuperQdoxInterfacesEtMoi
+			, SolrDocument classeSuperDoc
 			) throws Exception { 
 		if(c != null) {
 			JavaClass classeSuper = c.getSuperJavaClass();
@@ -728,7 +732,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				if(interfaceQdox != null && !interfaceQdox.getCanonicalName().equals("java.lang.Object") && !c.equals(interfaceQdox)) {
 					classesSuperQdoxInterfacesEtMoi.add(interfaceQdox);
 					classesSuperQdoxEtInterfaces.add(classeSuper);
-					peuplerClassesSuperQdoxInterfacesEtMoi(interfaceQdox, classesSuperQdox, classesSuperQdoxEtMoi, classesSuperQdoxEtMoiSansGen, classesSuperQdoxEtInterfaces, classesSuperQdoxInterfacesEtMoi); // Doesn't seem to work for interfaces that extend other interfaces.
+					peuplerClassesSuperQdoxInterfacesEtMoi(interfaceQdox, classesSuperQdox, classesSuperQdoxEtMoi, classesSuperQdoxEtMoiSansGen, classesSuperQdoxEtInterfaces, classesSuperQdoxInterfacesEtMoi, classeSuperDoc); // Doesn't seem to work for interfaces that extend other interfaces.
 				}
 			}
 			classesSuperQdoxInterfacesEtMoi.add(c);
@@ -737,9 +741,22 @@ public class IndexerClasse extends RegarderClasseBase {
 				classesSuperQdoxEtMoiSansGen.add(c);
 			try {
 				if(classeSuper != null && !classeSuper.getCanonicalName().equals("java.lang.Object") && !c.equals(classeSuper)) {
-					classesSuperQdoxEtInterfaces.add(classeSuper);
-					classesSuperQdox.add(classeSuper);
-					peuplerClassesSuperQdoxInterfacesEtMoi(classeSuper, classesSuperQdox, classesSuperQdoxEtMoi, classesSuperQdoxEtMoiSansGen, classesSuperQdoxEtInterfaces, classesSuperQdoxInterfacesEtMoi);
+					if(classeSuperDoc == null) {
+						classesSuperQdoxEtInterfaces.add(classeSuper);
+						classesSuperQdox.add(classeSuper);
+						peuplerClassesSuperQdoxInterfacesEtMoi(classeSuper, classesSuperQdox, classesSuperQdoxEtMoi, classesSuperQdoxEtMoiSansGen, classesSuperQdoxEtInterfaces, classesSuperQdoxInterfacesEtMoi, classeSuperDoc);
+					} else {
+						LOG.info(String.format("classeSuperDoc: %s", classeSuperDoc.getFieldValue("classeNomSimple_enUS_stored_string")));
+						List<String> classesSuperEtMoiSansGen = Optional.ofNullable(classeSuperDoc.getFieldValues("classesSuperEtMoiSansGen_stored_strings")).orElse(Arrays.asList()).stream().map(v -> (String)v).collect(Collectors.toList());
+						LOG.info(String.format("classesSuperEtMoiSansGen: %s", classesSuperEtMoiSansGen));
+						for(String classeSuperNomCanonique: classesSuperEtMoiSansGen) {
+							LOG.info(String.format("classeSuperNomCanonique: %s", classeSuperNomCanonique));
+							JavaClass classeSuperActuel = bricoleur.getClassByName(classeSuperNomCanonique);
+							classesSuperQdoxEtMoiSansGen.add(classeSuperActuel);
+							classesSuperQdoxEtInterfaces.add(classeSuperActuel);
+							classesSuperQdox.add(classeSuperActuel);
+						}
+					}
 				}
 			} catch (Exception e) {
 			}
@@ -2163,15 +2180,48 @@ public class IndexerClasse extends RegarderClasseBase {
 		indexerStockerSolr(classeLangueNom, classeDoc, "classeCheminRepertoireGen", classeCheminRepertoireGen); 
 		indexerStockerSolr(classeDoc, "nomEnsembleDomaine", nomEnsembleDomaine); 
 
+		SolrDocument classeSuperDoc = null;   
+		if(classeEtendGen && StringUtils.isNotBlank(classeNomCompletSuperGenerique)) {
+			ClasseParts classePartsSuperGenerique = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, classeLangueNom);
+			classePartsGenAjouter(classePartsSuperGenerique, classeLangueNom);
+
+			if(StringUtils.startsWith(classeNomCanoniqueSuper, nomEnsembleDomaine) || StringUtils.startsWith(classeNomCanoniqueSuper, ClasseParts.NOM_ENSEMBLE_DOMAINE_COMPUTATE)) {
+				SolrQuery rechercheSolr = new SolrQuery();   
+				rechercheSolr.setQuery("*:*");
+				rechercheSolr.setRows(1);
+				rechercheSolr.addFilterQuery("classeNomCanonique_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classeNomCanoniqueSuperGenerique));
+				rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
+				QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+				SolrDocumentList listeRecherche = reponseRecherche.getResults();
+				if(listeRecherche.size() > 0) { 
+					classeSuperDoc = listeRecherche.get(0);
+				}
+			} 
+			else if(!StringUtils.contains(classeNomCanoniqueSuper, ".") && StringUtils.isNotBlank(classeNomCanoniqueSuper)) {
+				SolrQuery rechercheSolr = new SolrQuery();   
+				rechercheSolr.setQuery("*:*");
+				rechercheSolr.setRows(1);
+				rechercheSolr.addFilterQuery("classeNomCanonique_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classeNomCanoniqueSuperGenerique));
+				rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
+				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
+				QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+				SolrDocumentList listeRecherche = reponseRecherche.getResults();
+				if(listeRecherche.size() > 0) { 
+					classeSuperDoc = listeRecherche.get(0);
+				}
+			}
+		}
+
 		ArrayList<JavaClass> classesSuperQdox = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> classesSuperQdoxEtMoi = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> classesSuperQdoxEtMoiSansGen = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> classesSuperQdoxEtInterfaces = new ArrayList<JavaClass>();
 		ArrayList<JavaClass> classesSuperQdoxInterfacesEtMoi = new ArrayList<JavaClass>();
-		peuplerClassesSuperQdoxInterfacesEtMoi(classeQdox, classesSuperQdox, classesSuperQdoxEtMoi, classesSuperQdoxEtMoiSansGen, classesSuperQdoxEtInterfaces, classesSuperQdoxInterfacesEtMoi);
+		peuplerClassesSuperQdoxInterfacesEtMoi(classeQdox, classesSuperQdox, classesSuperQdoxEtMoi, classesSuperQdoxEtMoiSansGen, classesSuperQdoxEtInterfaces, classesSuperQdoxInterfacesEtMoi, classeSuperDoc);
 
 		for(JavaClass c : classesSuperQdoxEtMoiSansGen) {
-			indexerStockerListeSolr(classeDoc, "entiteClassesSuperEtMoiSansGen", c.getCanonicalName()); 
+			indexerStockerListeSolr(classeDoc, "classesSuperEtMoiSansGen", c.getCanonicalName()); 
 
 		}
 		String fqClassesSuperEtMoi = "(" + classesSuperQdoxEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c.getCanonicalName())).collect(Collectors.joining(" OR ")) + ")";
@@ -2558,39 +2608,6 @@ public class IndexerClasse extends RegarderClasseBase {
 			}
 		}
 
-		SolrDocument classeSuperDoc = null;   
-		if(classeEtendGen && StringUtils.isNotBlank(classeNomCompletSuperGenerique)) {
-			ClasseParts classePartsSuperGenerique = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, classeLangueNom);
-			classePartsGenAjouter(classePartsSuperGenerique, classeLangueNom);
-
-			if(StringUtils.startsWith(classeNomCanoniqueSuper, nomEnsembleDomaine) || StringUtils.startsWith(classeNomCanoniqueSuper, ClasseParts.NOM_ENSEMBLE_DOMAINE_COMPUTATE)) {
-				SolrQuery rechercheSolr = new SolrQuery();   
-				rechercheSolr.setQuery("*:*");
-				rechercheSolr.setRows(1);
-				rechercheSolr.addFilterQuery("classeNomCanonique_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classeNomCanoniqueSuperGenerique));
-				rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
-				QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-				SolrDocumentList listeRecherche = reponseRecherche.getResults();
-				if(listeRecherche.size() > 0) { 
-					classeSuperDoc = listeRecherche.get(0);
-				}
-			} 
-			else if(!StringUtils.contains(classeNomCanoniqueSuper, ".") && StringUtils.isNotBlank(classeNomCanoniqueSuper)) {
-				SolrQuery rechercheSolr = new SolrQuery();   
-				rechercheSolr.setQuery("*:*");
-				rechercheSolr.setRows(1);
-				rechercheSolr.addFilterQuery("classeNomCanonique_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(classeNomCanoniqueSuperGenerique));
-				rechercheSolr.addFilterQuery("partEstClasse_indexed_boolean:true");
-				rechercheSolr.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
-				QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
-				SolrDocumentList listeRecherche = reponseRecherche.getResults();
-				if(listeRecherche.size() > 0) { 
-					classeSuperDoc = listeRecherche.get(0);
-				}
-			}
-		}
-
 		List<String> classeSuperEcrireMethodes;
 		List<String> classeEcrireMethodes = new ArrayList<>();
 		if(classeSuperDoc != null) 
@@ -2889,22 +2906,22 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePartsGenAjouter(entiteClasseParts, classeLangueNom);
 
 							if(classePartsGenerique.getDocumentSolr() != null) {
-								List<String> entiteClassesSuperEtMoiSansGen = (List<String>)classePartsGenerique.getDocumentSolr().get("entiteClassesSuperEtMoiSansGen_stored_strings");
-								if(entiteClassesSuperEtMoiSansGen != null) {
-									for(String nomCanonique : entiteClassesSuperEtMoiSansGen) {
+								List<String> classesSuperEtMoiSansGen = (List<String>)classePartsGenerique.getDocumentSolr().get("classesSuperEtMoiSansGen_stored_strings");
+								if(classesSuperEtMoiSansGen != null) {
+									for(String nomCanonique : classesSuperEtMoiSansGen) {
 										entiteNomsCanoniquesSuperEtMoiSansGen.add(nomCanonique);
-										indexerStockerListeSolr(entiteDoc, "entiteClassesSuperEtMoiSansGen", nomCanonique); 
+										indexerStockerListeSolr(entiteDoc, "classesSuperEtMoiSansGen", nomCanonique); 
 									}
 								}
 							}
 						}
 						else if(entiteClasseParts != null && entiteClasseParts.getDocumentSolr() != null) {
 
-							List<String> entiteClassesSuperEtMoiSansGen = (List<String>)entiteClasseParts.getDocumentSolr().get("entiteClassesSuperEtMoiSansGen_stored_strings");
-							if(entiteClassesSuperEtMoiSansGen != null) {
-								for(String nomCanonique : entiteClassesSuperEtMoiSansGen) {
+							List<String> classesSuperEtMoiSansGen = (List<String>)entiteClasseParts.getDocumentSolr().get("classesSuperEtMoiSansGen_stored_strings");
+							if(classesSuperEtMoiSansGen != null) {
+								for(String nomCanonique : classesSuperEtMoiSansGen) {
 									entiteNomsCanoniquesSuperEtMoiSansGen.add(nomCanonique);
-									indexerStockerListeSolr(entiteDoc, "entiteClassesSuperEtMoiSansGen", nomCanonique); 
+									indexerStockerListeSolr(entiteDoc, "classesSuperEtMoiSansGen", nomCanonique); 
 								}
 							}
 						}
@@ -3011,7 +3028,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							rechercheSolrMethodeAvant.setQuery("*:*");
 							rechercheSolrMethodeAvant.setRows(10);
 							String fqMethodeAvant = "(" + entiteNomsCanoniquesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(classeLangueConfig.getString(ConfigCles.var_avant) + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
-							rechercheSolrMethodeAvant.addFilterQuery("entiteClassesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
+							rechercheSolrMethodeAvant.addFilterQuery("classesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
 							rechercheSolrMethodeAvant.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 							rechercheSolrMethodeAvant.addFilterQuery("partEstMethode_indexed_boolean:true");
 							rechercheSolrMethodeAvant.addFilterQuery("methodeVar_" + classeLangueNom + "_indexed_string:" + fqMethodeAvant);
@@ -3052,7 +3069,7 @@ public class IndexerClasse extends RegarderClasseBase {
 							rechercheSolrMethodeApres.setQuery("*:*");
 							rechercheSolrMethodeApres.setRows(10);
 							String fqMethodeApres = "(" + entiteNomsCanoniquesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(classeLangueConfig.getString(ConfigCles.var_apres) + StringUtils.substringAfterLast(c, "."))).collect(Collectors.joining(" OR ")) + ")";
-							rechercheSolrMethodeApres.addFilterQuery("entiteClassesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
+							rechercheSolrMethodeApres.addFilterQuery("classesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
 							rechercheSolrMethodeApres.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 							rechercheSolrMethodeApres.addFilterQuery("partEstMethode_indexed_boolean:true");
 							rechercheSolrMethodeApres.addFilterQuery("methodeVar_" + classeLangueNom + "_indexed_string:" + fqMethodeApres);
@@ -3394,7 +3411,7 @@ public class IndexerClasse extends RegarderClasseBase {
 									SolrQuery rechercheSolrVar = new SolrQuery();   
 									rechercheSolrVar.setQuery("*:*");
 									rechercheSolrVar.setRows(1);
-									rechercheSolrVar.addFilterQuery("entiteClassesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
+									rechercheSolrVar.addFilterQuery("classesSuperEtMoiSansGen_indexed_strings:" + fqClassesSuperEtMoi);
 									rechercheSolrVar.addFilterQuery("entiteVar_" + classeLangueNom + "_indexed_string:" + ClientUtils.escapeQueryChars(entiteVarUrl));
 									rechercheSolrVar.addFilterQuery("nomEnsembleDomaine_indexed_string:(" + computateEnsembleRecherchePrefixe + ClientUtils.escapeQueryChars(nomEnsembleDomaine) + ")");
 									rechercheSolrVar.addFilterQuery("partEstEntite_indexed_boolean:true");

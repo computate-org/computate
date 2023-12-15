@@ -1114,7 +1114,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				SolrQuery rechercheSolr = new SolrQuery();   
 				rechercheSolr.setQuery("*:*");
 				rechercheSolr.setRows(1000000);
-				String fqClassesSuperEtMoi = "(" + classeEntiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 //					rechercheSolr.addFilterQuery("entiteHtmLigne_indexed_int:[* TO *]");
@@ -2186,7 +2186,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				SolrQuery rechercheSolr = new SolrQuery();   
 				rechercheSolr.setQuery("*:*");
 				rechercheSolr.setRows(1000000);
-				String fqClassesSuperEtMoi = "(" + classeEntiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + this.langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				rechercheSolr.addFilterQuery("entiteHtmColonne_indexed_int:[* TO *]");
@@ -2291,7 +2291,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				SolrQuery rechercheSolr = new SolrQuery();   
 				rechercheSolr.setQuery("*:*");
 				rechercheSolr.setRows(1000000);
-				String fqClassesSuperEtMoi = "(" + classeEntiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+				String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 				rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 				rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 				rechercheSolr.addSort("entiteHtmLigne_indexed_int", ORDER.asc);
@@ -2950,7 +2950,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							SolrQuery rechercheSolr = new SolrQuery();   
 							rechercheSolr.setQuery("*:*");
 							rechercheSolr.setRows(1000000);
-							String fqClassesSuperEtMoi = "(" + classeEntiteClassesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
+							String fqClassesSuperEtMoi = "(" + classesSuperEtMoiSansGen.stream().map(c -> ClientUtils.escapeQueryChars(c)).collect(Collectors.joining(" OR ")) + ")";
 							rechercheSolr.addFilterQuery("partEstEntite_indexed_boolean:true");
 							rechercheSolr.addFilterQuery("classeNomCanonique_" + langueNomActuel + "_indexed_string:" + fqClassesSuperEtMoi);
 							rechercheSolr.addFilterQuery("(entiteSuggere_indexed_boolean:true OR entiteAttribuer_indexed_boolean:true)");
@@ -4386,11 +4386,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(3, "</tr>");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"tbody1", classePageNomSimple, "\"}}");
+			tl(0, "<!-- #*inline \"tbody1", classePageNomSimple, "\" -->");
 			tl(4, "<tbody>");
 			tl(0, "{{> tbody2", classePageNomSimple, "}}");
 			tl(4, "</tbody>");
 			tl(0, "{{/inline}}");
 			tl(0, "{{#*inline \"tbody2", classePageNomSimple, "\"}}");
+			tl(0, "<!-- #*inline \"tbody2", classePageNomSimple, "\" -->");
 //				TODO
 //				tl(2, "Map<String, Map<String, List<String>>> highlighting = ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getResponse().getHighlighting();");
 			tl(2, "{{#each ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, "}}");

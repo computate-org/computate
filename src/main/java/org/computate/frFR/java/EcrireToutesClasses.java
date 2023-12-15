@@ -271,7 +271,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 			classeInitLoinExceptions = new ArrayList<String>();
 		classeParametreTypeNoms = Optional.ofNullable(doc.getJsonArray("classeParametreTypeNoms_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 		classeSuperParametreTypeNoms = Optional.ofNullable(doc.getJsonArray("classeSuperParametreTypeNoms_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
-		classeEntiteClassesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("entiteClassesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+		classesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("classesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 		classePromesse = (Boolean)doc.getBoolean("classePromesse_stored_boolean");
 		classeEtendGen = (Boolean)doc.getBoolean("classeEtendGen_stored_boolean");
 		classeBaseEtendGen = (Boolean)doc.getBoolean("classeBaseEtendGen_stored_boolean");
