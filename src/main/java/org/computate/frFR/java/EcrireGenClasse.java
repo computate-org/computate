@@ -254,6 +254,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected List<String> classeSuperParametreTypeNoms;
 
 	protected List<String> classesSuperEtMoiSansGen;
+	protected List<String> entiteClassesSuperEtMoiSansGen;
 
 	/**
 	 * Var.enUS: classSuperWriteMethods
@@ -3090,7 +3091,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteDefaut = doc.getString("entiteDefaut_stored_string");
 			entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");
 
-			classesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("classesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
+			entiteClassesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("classesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 	
 			entiteMethodesAvantVisibilite = Optional.ofNullable(doc.getJsonArray("entiteMethodesAvantVisibilite_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 			entiteMethodesAvantVar = Optional.ofNullable(doc.getJsonArray("entiteMethodesAvantVar_" + langueNom + "_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
@@ -5698,6 +5699,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 		}
 
+		LOG.info(String.format("classesSuperEtMoiSansGen: %s", classesSuperEtMoiSansGen));
 		if(classeApi 
 				|| (
 						classePartsModeleBase != null && classesSuperEtMoiSansGen.contains(classePartsModeleBase.nomCanonique(langueNomGlobale))

@@ -747,6 +747,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						peuplerClassesSuperQdoxInterfacesEtMoi(classeSuper, classesSuperQdox, classesSuperQdoxEtMoi, classesSuperQdoxEtMoiSansGen, classesSuperQdoxEtInterfaces, classesSuperQdoxInterfacesEtMoi, classeSuperDoc);
 					} else {
 						List<String> classesSuperEtMoiSansGen = Optional.ofNullable(classeSuperDoc.getFieldValues("classesSuperEtMoiSansGen_stored_strings")).orElse(Arrays.asList()).stream().map(v -> (String)v).collect(Collectors.toList());
+						LOG.info(String.format("classesSuperEtMoiSansGen: %s", classesSuperEtMoiSansGen));
 						for(String classeSuperNomCanonique: classesSuperEtMoiSansGen) {
 							JavaClass classeSuperActuel = bricoleur.getClassByName(classeSuperNomCanonique);
 							classesSuperQdoxEtMoiSansGen.add(classeSuperActuel);
