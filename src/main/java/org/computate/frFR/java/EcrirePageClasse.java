@@ -1337,8 +1337,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wWebsocket.tl(4, langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, ", vars, $response);");
 					wWebsocket.l();
 					wWebsocket.tl(4, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse($response.find('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", StringUtils.uncapitalize(classeNomSimple), "').val());");
+					wWebsocket.tl(4, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " = JSON.parse($response.find('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "').val());");
 					wWebsocket.l();
 					wWebsocket.s(wWebsocketInput3);
+					wWebsocket.l();
+					wWebsocket.tl(4, langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), classeNomSimple, "();");
 //					wWebsocket.tl(3, "} else {");
 //					wWebsocket.tl(4, "window.location.href = '", classePageUriMethode + "';");
 //					wWebsocket.tl(3, "}");
