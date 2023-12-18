@@ -4742,6 +4742,20 @@ public class IndexerClasse extends RegarderClasseBase {
 				}
 			}
 		}
+		if(classeVarEmplacement == null && classeSuperDoc != null) {
+			classeVarEmplacement = (String)classeSuperDoc.get("classeVarEmplacement_" + classeLangueNom + "_stored_string");
+			if(classeVarEmplacement != null) {
+				stockerSolr(classeLangueNom, classeDoc, "classeVarEmplacement", classeVarEmplacement);
+				if(classeTraduire) {
+					for(String langueNom : classeAutresLangues) {  
+						String classeVarEmplacementLangue = (String)classeSuperDoc.get("classeVarEmplacement_" + langueNom + "_stored_string");
+						if(classeVarEmplacementLangue != null) {
+							stockerSolr(langueNom, classeDoc, "classeVarEmplacement", classeVarEmplacementLangue);
+						}
+					}
+				}
+			}
+		}
 		if(classeVarModifie == null && classeSuperDoc != null) {
 			classeVarModifie = (String)classeSuperDoc.get("classeVarModifie_" + classeLangueNom + "_stored_string");
 			if(classeVarModifie != null) {
