@@ -4421,12 +4421,12 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
 						if(entiteNomSimple.equals("Timestamp")) {
 							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o == null ? null : Date.from(o.toInstant());");
+							tl(2, "return o == null ? null : Date.from(o.toInstant()).toString();");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 							tl(1, "public static ", entiteSolrNomSimple, " staticSearch", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteNomSimpleComplet, " o) {");
-							tl(2, "return o == null ? null : Date.from(o.toInstant());");
+							tl(2, "return o == null ? null : Date.from(o.toInstant()).toString();");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(LocalTime.class.getCanonicalName())) {
@@ -4500,23 +4500,23 @@ public class EcrireGenClasse extends EcrireClasse {
 					if(classeContientRequeteSite && entiteNomSimple != null && entiteSolrNomCanonique != null) {
 						if(entiteNomSimple.equals("Timestamp")) {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
+							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteNomSimple, ".parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).toInstant().atOffset(ZoneOffset.UTC));");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(ZonedDateTime.class.getCanonicalName())) {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
+							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteNomSimple, ".parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).toInstant().atOffset(ZoneOffset.UTC));");
 							tl(1, "}");
 						}
 						else if(entiteNomCanonique.toString().equals(LocalDateTime.class.getCanonicalName())) {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
-							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
+							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteNomSimple, ".parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).toInstant().atOffset(ZoneOffset.UTC));");
 							tl(1, "}");
 						}
 						else if(entiteNomSimple.toString().equals("LocalDate")) {
 							tl(1, "public static String staticSearchStr", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, ", entiteSolrNomSimple, " o) {");
 			//				tl(3, "doc.put(\"", entiteVar, "_suggested", "\", ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteVar, ".atStartOfDay(ZoneId.of(", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Config), "().getString(", classePartsConfigCles.nomSimple(langueNom), ".", langueConfig.getString(ConfigCles.var_SITE_ZONE), "))).toInstant().atZone(ZoneId.of(\"Z\"))));");
-							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(o.toInstant().atOffset(ZoneOffset.UTC));");
+							tl(2, "return ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER.format(", entiteNomSimple, ".parse(o, ", classePartsZonedDateTimeSerializer.nomSimple(langueNom), ".UTC_DATE_TIME_FORMATTER).toInstant().atOffset(ZoneOffset.UTC));");
 							tl(1, "}");
 						}
 						else if(entiteSolrNomCanonique.toString().equals("String")) {
