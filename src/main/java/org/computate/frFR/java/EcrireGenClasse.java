@@ -5699,7 +5699,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			tl(1, "}");
 		}
 
-		LOG.info(String.format("classesSuperEtMoiSansGen: %s", classesSuperEtMoiSansGen));
 		if(classeApi 
 				|| (
 						classePartsModeleBase != null && classesSuperEtMoiSansGen.contains(classePartsModeleBase.nomCanonique(langueNomGlobale))

@@ -3203,7 +3203,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsWebsocket), classePageNomSimple, "\"}}{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsInfobulle), classePageNomSimple, "\"}}{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_htmInfobulle), classePageNomSimple, "\"}}{{/inline}}");
-				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsStyle), classePageNomSimple, "\"}}{{/inline}}");
+				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsStyle), classePageNomSimple, "\"}}");
+				tl(4, "return {");
+				tl(5, "radius: 8");
+				tl(5, ", fillColor: '#ff7800'");
+				tl(5, ", color: '#000'");
+				tl(5, ", weight: 1");
+				tl(5, ", opacity: 1");
+				tl(5, ", fillOpacity: 0.8");
+				tl(4, "};");
+				tl(0, "{{/inline}}");
 			}
 			t(0, "{{#*inline \"htmUrl", classeApiClasseNomSimple, "\"}}");
 			s("{{pageUri}}");
@@ -4754,7 +4763,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(7, ", \"properties\": ", StringUtils.uncapitalize(classeNomSimple));
 					auteurPageJs.tl(7, ", \"geometry\": shape");
 					auteurPageJs.tl(6, "}];");
-					auteurPageJs.tl(6, "window.geoJSONLayerGroup", classeNomSimple, ".addLayer(L.geoJSON(features, {onEachFeature: onEachFeature, style: ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "}));");
+					auteurPageJs.tl(6, "window.geoJSONLayerGroup", classeNomSimple, ".addLayer(L.geoJSON(features, {");
+					auteurPageJs.tl(7, "onEachFeature: onEachFeature");
+					auteurPageJs.tl(7, ", style: ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "");
+					auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
+					auteurPageJs.tl(8, "return L.circleMarker(latlng, ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "(feature));");
+					auteurPageJs.tl(7, "}");
+					auteurPageJs.tl(6, "}));");
 					auteurPageJs.tl(5, "});");
 					auteurPageJs.tl(4, "}");
 					auteurPageJs.tl(3, "});");
@@ -4792,7 +4807,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(7, ", \"properties\": ", StringUtils.uncapitalize(classeNomSimple));
 					auteurPageJs.tl(7, ", \"geometry\": shape");
 					auteurPageJs.tl(6, "}];");
-					auteurPageJs.tl(6, "window.geoJSONLayerGroup", classeNomSimple, ".addLayer(L.geoJSON(features, {onEachFeature: onEachFeature, style: ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "}));");
+					auteurPageJs.tl(6, "window.geoJSONLayerGroup", classeNomSimple, ".addLayer(L.geoJSON(features, {");
+					auteurPageJs.tl(7, "onEachFeature: onEachFeature");
+					auteurPageJs.tl(7, ", style: ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "");
+					auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
+					auteurPageJs.tl(8, "return L.circleMarker(latlng, ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "(feature));");
+					auteurPageJs.tl(7, "}");
+					auteurPageJs.tl(6, "}));");
 					auteurPageJs.tl(5, "});");
 					auteurPageJs.tl(4, "}");
 					auteurPageJs.tl(3, "});");
