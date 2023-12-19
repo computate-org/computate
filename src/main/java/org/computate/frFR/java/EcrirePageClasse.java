@@ -2582,7 +2582,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Graphique), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodyCount0\"}}{{> htmBodyCount0", classePageNomSimple, "}}{{/partial}}");
-					l("{{#partial \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{> htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "}}{{/partial}}");
 					if(classeNomCanonique.equals(classePartsUtilisateurSite.nomCanonique(classeLangueNom))) {
 						l("{{#partial \"htmBodyCount", langueConfig.getString(ConfigCles.var_Tous), "\"}}");
 						tl(0, "<div class=\"w3-margin-top \"");
@@ -3207,14 +3206,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsInfobulle), classePageNomSimple, "\"}}{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_htmInfobulle), classePageNomSimple, "\"}}{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsStyle), classePageNomSimple, "\"}}");
-				tl(4, "return {");
-				tl(5, "radius: 8");
-				tl(5, ", fillColor: '#ff7800'");
-				tl(5, ", color: '#000'");
-				tl(5, ", weight: 1");
-				tl(5, ", opacity: 1");
-				tl(5, ", fillOpacity: 0.8");
-				tl(4, "};");
+				tl(4, "if(feature.geometry.type == 'Point') {");
+				tl(5, "return {");
+				tl(6, "radius: 8");
+				tl(6, ", fillColor: '#ff7800'");
+				tl(6, ", color: '#000'");
+				tl(6, ", weight: 1");
+				tl(6, ", opacity: 1");
+				tl(6, ", fillOpacity: 0.8");
+				tl(5, "};");
+				tl(4, "} else {");
+				tl(5, "return {");
+				tl(6, " fillColor: '#ff7800'");
+				tl(6, ", color: (feature.properties.areaServedColors ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+				tl(6, ", weight: 5");
+				tl(6, ", opacity: 1");
+				tl(6, ", fillOpacity: 0.8");
+				tl(5, "};");
+				tl(4, "}");
 				tl(0, "{{/inline}}");
 			}
 			t(0, "{{#*inline \"htmUrl", classeApiClasseNomSimple, "\"}}");
@@ -3802,45 +3811,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(3, "</span>");
 			tl(2, "</h2>");
 
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{/block}}");
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
-			tl(1, "<div class=\"pageContent w3-content \">");
-			tl(2, "<div id=\"site-calendar-box\">");
-//			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
-			tl(3, "<div id=\"site-calendar\"><!-- // --></div>");
-			tl(2, "</div>");
-
-			l("{{/inline}}");
-
-			///////////////////////
-			// htmBodyCount1Tous //
-			///////////////////////
-
-
-			s("{{#*inline \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\"}}");
-			tl(2, "<!-- #*inline \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "\" -->");
-			tl(2, "<h1 class=\"w3-center \">");
-			tl(3, "<a href=\"{{pageUri}}\" class=\"w3-bar-item w3-btn w3-block w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
-			tl(3, "{{#if ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), "}}");
-			tl(4, "<i class=\"{{ ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), " }} site-menu-icon \"></i>");
-			tl(3, "{{/if}}");
-			tl(4, "<span class=\"\">", classeNomAdjectifSingulier, "</span>");
-			tl(3, "</a>");
-			tl(2, "</h1>");
-			tl(2, "<h2 class=\"w3-center \">");
-			tl(3, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", classeCouleur, "\">");
-			tl(4, "<span class=\"\">{{", uncapitalizeClasseApiClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");
-			tl(3, "</span>");
-			tl(2, "</h2>");
-
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{/block}}");
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
-			tl(1, "<div class=\"pageContent w3-content \">");
-			tl(2, "<div id=\"site-calendar-box\">");
-//			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
-			tl(3, "<div id=\"site-calendar\"><!-- // --></div>");
-			tl(2, "</div>");
-
 			l("{{/inline}}");
 
 			///////////////////
@@ -3862,14 +3832,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(4, "<span class=\"\">{{", uncapitalizeClasseApiClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");
 			tl(3, "</span>");
 			tl(2, "</h2>");
-
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{/block}}");
-			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
-			tl(1, "<div class=\"pageContent w3-content \">");
-			tl(2, "<div id=\"site-calendar-box\">");
-//			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
-			tl(3, "<div id=\"site-calendar\"><!-- // --></div>");
-			tl(2, "</div>");
 
 			l("{{/inline}}");
 
@@ -4343,6 +4305,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), "\"}}{{/block}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), "\"}}{{/block}}");
 			tl(1, "<div class=\"pageContent w3-content \">");
+			tl(2, "<div id=\"site-calendar-box\">");
+//			tl(3, "<h3 id=\"site-calendar-title\">Calendar</h3>");
+			tl(3, "<div id=\"site-calendar\"><!-- // --></div>");
+			tl(2, "</div>");
+			tl(1, "</div>");
+			tl(1, "<div class=\"pageContent w3-content \">");
 
 			// htmBodyCount0 //
 			tl(1, "{{#eq ", uncapitalizeClasseApiClasseNomSimple, "Count int0}}");
@@ -4355,7 +4323,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(0, "{{#block \"htmBodyCount1\"}}{{/block}}");
 			tl(3, "{{else}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{/block}}");
-//			tl(0, "{{#block \"htmBodyCount1", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{/block}}");
 			tl(3, "{{/if}}");
 			tl(2, "{{else}}");
 			tl(0, "{{#block \"htmBody", langueConfig.getString(ConfigCles.var_Tous), "\"}}{{/block}}");
@@ -4760,11 +4727,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(6, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
 					auteurPageJs.tl(5, "else");
 					auteurPageJs.tl(6, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
-					auteurPageJs.tl(5, "shapes.forEach(shape => {");
+					auteurPageJs.tl(5, "shapes.forEach(function(shape, index) {");
 					auteurPageJs.tl(6, "var features = [{");
 					auteurPageJs.tl(7, "\"type\": \"Feature\"");
 					auteurPageJs.tl(7, ", \"properties\": ", StringUtils.uncapitalize(classeNomSimple));
 					auteurPageJs.tl(7, ", \"geometry\": shape");
+					auteurPageJs.tl(7, ", \"index\": index");
 					auteurPageJs.tl(6, "}];");
 					auteurPageJs.tl(6, "window.geoJSONLayerGroup", classeNomSimple, ".addLayer(L.geoJSON(features, {");
 					auteurPageJs.tl(7, "onEachFeature: onEachFeature");
@@ -4809,6 +4777,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(7, "\"type\": \"Feature\"");
 					auteurPageJs.tl(7, ", \"properties\": ", StringUtils.uncapitalize(classeNomSimple));
 					auteurPageJs.tl(7, ", \"geometry\": shape");
+					auteurPageJs.tl(7, ", \"index\": index");
 					auteurPageJs.tl(6, "}];");
 					auteurPageJs.tl(6, "window.geoJSONLayerGroup", classeNomSimple, ".addLayer(L.geoJSON(features, {");
 					auteurPageJs.tl(7, "onEachFeature: onEachFeature");
