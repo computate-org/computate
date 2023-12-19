@@ -70,7 +70,6 @@ public class ConfigCles {
 	public static final String var_ACTIVER_SUPPRIME = "var_ACTIVER_SUPPRIME";
 	public static final String var_ACTIVER_UTILISATEUR_CLE = "var_ACTIVER_UTILISATEUR_CLE";
 	public static final String var_ACTIVER_VERTX = "var_ACTIVER_VERTX";
-	public static final String var_CLASSE_API_ADDRESSE = "var_CLASSE_API_ADDRESSE";
 	public static final String var_addresse = "var_addresse";
 	public static final String var_Adjectif = "var_Adjectif";
 	public static final String var_AdjectifPluriel = "var_AdjectifPluriel";
@@ -118,6 +117,8 @@ public class ConfigCles {
 	public static final String var_CLASSE_NOM_SIMPLE = "var_CLASSE_NOM_SIMPLE";
 	public static final String var_classe = "var_classe";
 	public static final String var_Classe = "var_Classe";
+	public static final String var_CLASSE_API_ADDRESSE = "var_CLASSE_API_ADDRESSE";
+	public static final String var_ClasseApiAddresse = "var_ClasseApiAddresse";
 	public static final String var_classeNomCanonique = "var_classeNomCanonique";
 	public static final String var_classeNomsCanoniques = "var_classeNomsCanoniques";
 	public static final String var_classeNomSimple = "var_classeNomSimple";

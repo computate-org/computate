@@ -296,7 +296,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			tl(8, "protected WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), ";");
 
 			auteurGenApiService.tl(1, "static void ", classeLangueConfig.getString(ConfigCles.var_enregistrer), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ", Vertx vertx) {");
-			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", classeNomSimple, ".", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), ").register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", "));");
+			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", classeNomSimple, ".get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "()).register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", "));");
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
@@ -1905,7 +1905,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(6, "params.put(\"query\", query);");
 						tl(6, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getUserPrincipal());");
 						tl(6, "JsonObject json = new JsonObject().put(\"context\", context);");
-						tl(6, "eventBus.request(", classeNomSimple, ".", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), ", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
+						tl(6, "eventBus.request(", classeNomSimple, ".get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "(), json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
 						tl(7, "JsonObject responseMessage = (JsonObject)a.body();");
 						tl(7, "JsonObject responseBody = new JsonObject(Buffer.buffer(JsonUtil.BASE64_DECODER.decode(responseMessage.getString(\"payload\"))));");
 						if(classeModele)
@@ -2253,7 +2253,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(5, "params.put(\"query\", query);");
 						tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getUserPrincipal());");
 						tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
-						tl(5, "eventBus.request(", classeNomSimple, ".", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), ", json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
+						tl(5, "eventBus.request(", classeNomSimple, ".get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "(), json, new DeliveryOptions().addHeader(\"action\", \"", classeApiOperationIdMethode, "Future\")).onSuccess(a -> {");
 						tl(6, "promise1.complete();");
 						tl(5, "}).onFailure(ex -> {");
 						tl(6, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
@@ -3917,7 +3917,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(5, "params.put(\"query\", query);");
 					tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getUserPrincipal());");
 					tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
-					tl(5, "eventBus.request(", classeNomSimple, ".", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), ", json, new DeliveryOptions().addHeader(\"action\", \"patch", classeNomSimple, "Future\")).onSuccess(c -> {");
+					tl(5, "eventBus.request(", classeNomSimple, ".get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "(), json, new DeliveryOptions().addHeader(\"action\", \"patch", classeNomSimple, "Future\")).onSuccess(c -> {");
 					tl(6, "JsonObject responseMessage = (JsonObject)c.body();");
 					tl(6, "Integer statusCode = responseMessage.getInteger(\"statusCode\");");
 					tl(6, "if(statusCode.equals(200))");
