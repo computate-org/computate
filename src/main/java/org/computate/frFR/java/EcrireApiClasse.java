@@ -1779,7 +1779,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH"))
 						tl(2, "LOG.debug(String.format(\"", classeApiOperationIdMethode, " ", classeLangueConfig.getString(ConfigCles.str_a_démarré), ". \"));");
 	
-					tl(2, classeLangueConfig.getString(ConfigCles.var_utilisateur), "(", classeLangueConfig.getString(ConfigCles.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), ", \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", classeLangueConfig.getString(ConfigCles.var_requeteSite), " -> {");
+					tl(2, classeLangueConfig.getString(ConfigCles.var_utilisateur), "(", classeLangueConfig.getString(ConfigCles.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", classeLangueConfig.getString(ConfigCles.var_requeteSite), " -> {");
 					if(
 							StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") 
 								&& !(classeRoleSession || classeRoleUtilisateur || classeRoleChacun)
@@ -2283,7 +2283,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", classeLangueConfig.getString(ConfigCles.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ") {");
-						tl(2, classeLangueConfig.getString(ConfigCles.var_utilisateur), "(", classeLangueConfig.getString(ConfigCles.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), ", \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", classeLangueConfig.getString(ConfigCles.var_requeteSite), " -> {");
+						tl(2, classeLangueConfig.getString(ConfigCles.var_utilisateur), "(", classeLangueConfig.getString(ConfigCles.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", classeLangueConfig.getString(ConfigCles.var_requeteSite), " -> {");
 						tl(3, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
 						tl(3, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setRows(1L);");
 						tl(3, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setNumFound(1L);");
@@ -2333,7 +2333,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", classeLangueConfig.getString(ConfigCles.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ") {");
-						tl(2, classeLangueConfig.getString(ConfigCles.var_utilisateur), "(", classeLangueConfig.getString(ConfigCles.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), ", \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", classeLangueConfig.getString(ConfigCles.var_requeteSite), " -> {");
+						tl(2, classeLangueConfig.getString(ConfigCles.var_utilisateur), "(", classeLangueConfig.getString(ConfigCles.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", classeLangueConfig.getString(ConfigCles.var_requeteSite), " -> {");
 						tl(3, "try {");
 						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".setJsonObject(body);");
 						tl(4, classeLangueConfig.getString(ConfigCles.var_requeteService), ".getParams().getJsonObject(\"query\").put(\"rows\", 1);");
@@ -2385,7 +2385,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						tl(1, "@Override");
 						tl(1, "public void ", classeApiOperationIdMethode, "Future(" , StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json") ? "JsonObject" : "String", " body, ServiceRequest ", classeLangueConfig.getString(ConfigCles.var_requeteService), ", Handler<AsyncResult<ServiceResponse>> ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ") {");
-						tl(2, classeLangueConfig.getString(ConfigCles.var_utilisateur), "(", classeLangueConfig.getString(ConfigCles.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), ", \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", classeLangueConfig.getString(ConfigCles.var_requeteSite), " -> {");
+						tl(2, classeLangueConfig.getString(ConfigCles.var_utilisateur), "(", classeLangueConfig.getString(ConfigCles.var_requeteService), ", ", classePartsRequeteSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".class, ", classePartsUtilisateurSite.nomSimple(classeLangueNom), ".get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "(), \"post", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\", \"patch", classePartsUtilisateurSite.nomSimple(classeLangueNom), "Future\").onSuccess(", classeLangueConfig.getString(ConfigCles.var_requeteSite), " -> {");
 						tl(3, "try {");
 						if(StringUtils.equals(classeApiTypeMediaRequeteMethode, "application/json")) {
 							tl(4, classePartsRequeteApi.nomSimple(classeLangueNom), " ", classeLangueConfig.getString(ConfigCles.var_requeteApi), " = new ", classePartsRequeteApi.nomSimple(classeLangueNom), "();");
@@ -3870,6 +3870,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				l();
 				tl(1, "public String ", classeLangueConfig.getString(ConfigCles.var_recherche), "Var(String var", classeLangueConfig.getString(ConfigCles.var_Indexe), ") {");
 				tl(2, "return ", classeNomSimple, ".", classeLangueConfig.getString(ConfigCles.var_recherche), "Var", classeNomSimple, "(var", classeLangueConfig.getString(ConfigCles.var_Indexe), ");");
+				tl(1, "}");
+				l();
+				tl(1, "@Override");
+				tl(1, "public String get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "() {");
+				tl(2, "return ", classeNomSimple, ".", classeLangueConfig.getString(ConfigCles.var_CLASSE_API_ADDRESSE), "_", classeNomSimple, ";");
 				tl(1, "}");
 			}
 			///////////////
