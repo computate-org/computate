@@ -1019,6 +1019,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			classeTitre = classeDoc.getString("classeTitre" + "_" + langueNom + "_stored_string");
 			classeHtmInfobulle = classeDoc.getString("classeHtmInfobulle" + "_" + langueNom + "_stored_string");
 			classeJsInfobulle = classeDoc.getString("classeJsInfobulle" + "_" + langueNom + "_stored_string");
+			classeHtmLegende = classeDoc.getString("classeHtmLegende" + "_" + langueNom + "_stored_string");
+			classeJsLegende = classeDoc.getString("classeJsLegende" + "_" + langueNom + "_stored_string");
 			classeJsPATCH = classeDoc.getString("classeJsPATCH" + "_" + langueNom + "_stored_string");
 			classeJsWebsocket = classeDoc.getString("classeJsWebsocket" + "_" + langueNom + "_stored_string");
 			classeH1 = classeDoc.getString("classeH1" + "_" + langueNom + "_stored_string");
@@ -2566,6 +2568,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l("{{#partial \"", langueConfig.getString(ConfigCles.var_jsWebsocket), "\"}}{{> ", langueConfig.getString(ConfigCles.var_jsWebsocket), classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"", langueConfig.getString(ConfigCles.var_jsInfobulle), "\"}}{{> ", langueConfig.getString(ConfigCles.var_jsInfobulle), "", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"", langueConfig.getString(ConfigCles.var_htmInfobulle), "\"}}{{> ", langueConfig.getString(ConfigCles.var_htmInfobulle), "", classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"", langueConfig.getString(ConfigCles.var_jsLegende), "\"}}{{> ", langueConfig.getString(ConfigCles.var_jsLegende), "", classePageNomSimple, "}}{{/partial}}");
+					l("{{#partial \"", langueConfig.getString(ConfigCles.var_htmLegende), "\"}}{{> ", langueConfig.getString(ConfigCles.var_htmLegende), "", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"", langueConfig.getString(ConfigCles.var_jsStyle), "\"}}{{> ", langueConfig.getString(ConfigCles.var_jsStyle), "", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBodySidebar\"}}{{> htmBodySidebar", classePageNomSimple, "}}{{/partial}}");
 					l("{{#partial \"htmBody", langueConfig.getString(ConfigCles.var_Debut), "\"}}{{> htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, "}}{{/partial}}");
@@ -3192,6 +3196,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "return `{{#block \"", langueConfig.getString(ConfigCles.var_htmInfobulle), "\"}}{{/block}}`;");
 				tl(3, "}");
 				l();
+				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsLegende), classeNomSimple, "(map) {");
+				tl(0, "{{#block \"", langueConfig.getString(ConfigCles.var_jsLegende), "\"}}{{/block}}");
+				tl(3, "}");
+				l();
+				tl(3, "function ", langueConfig.getString(ConfigCles.var_htmLegende), classeNomSimple, "(map) {");
+				tl(4, "return `{{#block \"", langueConfig.getString(ConfigCles.var_htmLegende), "\"}}{{/block}}`;");
+				tl(3, "}");
+				l();
 				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "(feature) {");
 				tl(0, "{{#block \"", langueConfig.getString(ConfigCles.var_jsStyle), "\"}}{{/block}}");
 				tl(3, "}");
@@ -3205,6 +3217,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsWebsocket), classePageNomSimple, "\"}}{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsInfobulle), classePageNomSimple, "\"}}{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_htmInfobulle), classePageNomSimple, "\"}}{{/inline}}");
+				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsLegende), classePageNomSimple, "\"}}");
+				tl(4, "var div = L.DomUtil.create('div', 'info legend');");
+				tl(4, "div.innerHTML = ", langueConfig.getString(ConfigCles.var_htmLegende), classeNomSimple, "(map);");
+				tl(4, "return div;");
+				tl(0, "{{/inline}}");
+				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_htmLegende), classePageNomSimple, "\"}}");
+				tl(0, "<div class=\"w3-white w3-padding w3-border w3-opacity w3-hover-opacity-off \">");
+				tl(1, "<div class=\"w3-larger font-weight-bold \">", classeNomAdjectifPluriel, "</div>");
+				tl(1, "<ul>");
+				tl(2, "<li><i class=\"fa-light fa-circle\" style=\"color: red\"></i></li>");
+				tl(1, "</ul>");
+				tl(0, "</div>");
+				tl(0, "{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsStyle), classePageNomSimple, "\"}}");
 				tl(4, "if(feature.geometry.type == 'Point') {");
 				tl(5, "return {");
@@ -3218,7 +3243,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(4, "} else {");
 				tl(5, "return {");
 				tl(6, " fillColor: '#ff7800'");
-				tl(6, ", color: (feature.properties.areaServedColors ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+				tl(6, ", color: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
 				tl(6, ", weight: 5");
 				tl(6, ", opacity: 1");
 				tl(6, ", fillOpacity: 0.8");
@@ -3784,8 +3809,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			s("{{#*inline \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageNomSimple, "\"}}");
 			tl(2, "<!-- #*inline \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageNomSimple, "\" -->");
-//			s("{{> \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageSuperNomSimple, "\"}}");
-			s("<div id=\"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageSuperNomSimple, "\" class=\"w3-content htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), " \"></div>");
+//			s("{{> \"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageNomSimple, "\"}}");
+			s("<div id=\"htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageNomSimple, "\" class=\"w3-content htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), " \"></div>");
 			l("{{/inline}}");
 
 			///////////////////
@@ -4745,12 +4770,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(4, "}");
 					auteurPageJs.tl(3, "});");
 					auteurPageJs.tl(2, "} else {");
-					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageSuperNomSimple, "');");
+					auteurPageJs.tl(3, "window.map", classeNomSimple, " = L.map('htmBody", langueConfig.getString(ConfigCles.var_Graphique), langueConfig.getString(ConfigCles.var_Emplacement), classePageNomSimple, "');");
 					auteurPageJs.tl(3, "var data = [];");
 					auteurPageJs.tl(3, "var layout = {};");
 					auteurPageJs.tl(3, "layout['showlegend'] = true;");
 					auteurPageJs.tl(3, "layout['dragmode'] = 'zoom';");
 					auteurPageJs.tl(3, "layout['uirevision'] = 'true';");
+					auteurPageJs.tl(3, "var legend = L.control({position: 'bottomright'});");
+					auteurPageJs.tl(3, "legend.onAdd = ", langueConfig.getString(ConfigCles.var_jsLegende), classeNomSimple, ";");
+					auteurPageJs.tl(3, "legend.addTo(window.map", classeNomSimple, ");");
 					auteurPageJs.tl(3, "L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {");
 					auteurPageJs.tl(4, "maxZoom: 19,");
 					auteurPageJs.tl(4, "attribution: '&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>'");

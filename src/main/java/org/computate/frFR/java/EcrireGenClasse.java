@@ -755,6 +755,8 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	protected String classeHtmInfobulle;
 	protected String classeJsInfobulle;
+	protected String classeHtmLegende;
+	protected String classeJsLegende;
 	protected String classeJsPATCH;
 	protected String classeJsWebsocket;
 
