@@ -478,6 +478,7 @@ public class ConfigCles {
 	public static final String var_UnNom = "var_UnNom";
 	public static final String var_Un = "var_Un";
 	public static final String var_Uri = "var_Uri";
+	public static final String var_Url = "var_Url";
 	public static final String var_utilisateurCles = "var_utilisateurCles";
 	public static final String var_UtilisateurCles = "var_UtilisateurCles";
 	public static final String var_utilisateurCle = "var_utilisateurCle";
