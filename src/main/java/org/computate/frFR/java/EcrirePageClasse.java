@@ -4789,7 +4789,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(7, ", \"geometry\": shape");
 					auteurPageJs.tl(7, ", \"index\": index");
 					auteurPageJs.tl(6, "}];");
-					auteurPageJs.tl(6, "L.geoJSON(features, {");
+					auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
 					auteurPageJs.tl(7, "onEachFeature: onEachFeature");
 					auteurPageJs.tl(7, ", style: ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "");
 					auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
@@ -4809,7 +4809,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "layout['uirevision'] = 'true';");
 					auteurPageJs.tl(3, "var legend = L.control({position: 'bottomright'});");
 					auteurPageJs.tl(3, "legend.onAdd = ", langueConfig.getString(ConfigCles.var_jsLegende), classeNomSimple, ";");
-					auteurPageJs.tl(3, "legend.addTo(window.map", classeNomSimple, ");");
+					auteurPageJs.tl(3, "//legend.addTo(window.map", classeNomSimple, ");");
 					auteurPageJs.tl(3, "L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {");
 					auteurPageJs.tl(4, "maxZoom: 19,");
 					auteurPageJs.tl(4, "attribution: '&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>'");
@@ -4838,7 +4838,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(7, ", \"geometry\": shape");
 					auteurPageJs.tl(7, ", \"index\": index");
 					auteurPageJs.tl(6, "}];");
-					auteurPageJs.tl(6, "L.geoJSON(features, {");
+					auteurPageJs.tl(6, "var layer = L.geoJSON(features, {");
 					auteurPageJs.tl(7, "onEachFeature: onEachFeature");
 					auteurPageJs.tl(7, ", style: ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "");
 					auteurPageJs.tl(7, ", pointToLayer: function(feature, latlng) {");
