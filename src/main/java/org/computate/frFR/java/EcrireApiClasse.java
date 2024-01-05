@@ -15,6 +15,7 @@ package org.computate.frFR.java;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -2424,7 +2425,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(8, "Object bodyVal = body.getValue(f);");
 							tl(8, "if(bodyVal instanceof JsonArray) {");
 							tl(9, "JsonArray bodyVals = (JsonArray)bodyVal;");
-							tl(9, "Collection<?> vals = bodyVals.getList();");
+							tl(9, "Object valsObj = o.", classeLangueConfig.getString(ConfigCles.var_obtenir), classeLangueConfig.getString(ConfigCles.var_PourClasse), "(f);");
+							tl(9, "Collection<?> vals = valsObj instanceof JsonArray ? ((JsonArray)valsObj).getList() : (Collection<?>)valsObj;");
 							tl(9, "if(bodyVals.size() == vals.size()) {");
 							tl(10, "Boolean match = true;");
 							tl(10, "for(Object val : vals) {");
