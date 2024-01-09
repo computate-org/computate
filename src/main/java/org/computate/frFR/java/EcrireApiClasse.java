@@ -1944,7 +1944,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(tBase + 8, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
 						tl(tBase + 9, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setOriginal(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first());");
 						if(classeModele)
-							tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.getPk()).orElse(null));");
+							tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 						tl(tBase + 8, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
 						l();
 						tl(tBase + 8, classeLangueConfig.getString(ConfigCles.var_liste), classeApiMethode, classeNomSimple, "(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ", ", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ").onSuccess(e -> {");
@@ -2354,7 +2354,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						tl(7, "if(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ".getNumFound() == 1L)");
 						tl(8, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setOriginal(o);");
 						if(classeModele)
-							tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.getPk()).orElse(null));");
+							tl(7, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".first()).map(o2 -> o2.get", StringUtils.capitalize(classeVarClePrimaire), "()).orElse(null));");
 //						tl(7, "eventBus.publish(\"websocket", classeNomSimple, "\", JsonObject.mapFrom(", classeLangueConfig.getString(ConfigCles.var_requeteApi), ").toString());");
 						tl(7, classeApiOperationIdMethode, "Future(o, false).onSuccess(o2 -> {");
 						tl(8, classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ".handle(Future.succeededFuture(ServiceResponse.completedWithJson(Buffer.buffer(new JsonObject().encodePrettily()))));");
@@ -2462,6 +2462,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(8, "}");
 							tl(7, "}");
 							tl(7, "if(body2.size() > 0) {");
+							tl(8, "if(", classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".size() == 1) {");
+							tl(9, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setOriginal(o);");
+							if(classeModele)
+								tl(9, classeLangueConfig.getString(ConfigCles.var_requeteApi), ".setPk(o.get", StringUtils.capitalize(classeVarClePrimaire), "());");
+							tl(8, "}");
 							tl(8, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_ObjetJson), "(body2);");
 							tl(8, "patch", classeNomSimple, "Future(", (classeModele ? "o" : "o2"), ", ", classeApiMethode.equals("PUTImport"), ").onSuccess(b -> {");
 							tl(9, "LOG.debug(\"Import ", classeNomSimple, " {} ", classeLangueConfig.getString(ConfigCles.str_a_réussi), ", ", classeLangueConfig.getString(ConfigCles.var_modifie), " ", classeNomSimple, ". \", body.getValue(", classeNomSimple, ".VAR_", classeModele ? classeVarClePrimaire : classeVarCleUnique, "));");
@@ -3920,7 +3925,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					tl(6, "query.put(\"softCommit\", softCommit);");
 					tl(5, "if(commitWithin != null)");
 					tl(6, "query.put(\"commitWithin\", commitWithin);");
-					tl(5, "query.put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + o.getPk())).put(\"var\", new JsonArray().add(\"refresh:false\"));");
+					tl(5, "query.put(\"q\", \"*:*\").put(\"fq\", new JsonArray().add(\"pk:\" + o.get", StringUtils.capitalize(classeVarClePrimaire), "())).put(\"var\", new JsonArray().add(\"refresh:false\"));");
 					tl(5, "params.put(\"query\", query);");
 					tl(5, "JsonObject context = new JsonObject().put(\"params\", params).put(\"user\", ", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getUserPrincipal());");
 					tl(5, "JsonObject json = new JsonObject().put(\"context\", context);");
