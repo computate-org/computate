@@ -3703,31 +3703,10 @@ public class EcrireGenClasse extends EcrireClasse {
 					staticSet = true;
 				}
 		
-				// Setter Point //
-				if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePoint)) {
-					tl(1, "@JsonIgnore");
-					tl(1, "public void set", entiteVarCapitalise, "(String o) {");
-					tl(2, "this.", entiteVar, " = ", classeNomSimple, ".staticSet", entiteVarCapitalise, "(", classeContientRequeteSite ? (langueConfig.getString(ConfigCles.var_requeteSite) + "_") : "null", ", o);");
-					tl(1, "}");
-					tl(1, "public static ", entiteNomSimpleComplet, " staticSet", entiteVarCapitalise, "(", classePartsRequeteSite.getEtendBase() ? classePartsRequeteSite.getNomSimpleSuperGenerique() : classePartsRequeteSite.nomSimple(langueNom), " ", langueConfig.getString(ConfigCles.var_requeteSite), "_, String o) {");
-					tl(2, "if(o != null) {");
-					tl(3, "Matcher m = Pattern.compile(\"\\\\{[\\\\w\\\\W]*\\\"coordinates\\\"\\\\s*:\\\\s*\\\\[\\\\s*(\\\\d*\\\\.\\\\d*)\\\\s*,\\\\s*(\\\\d*\\\\.\\\\d*)\\\\]\").matcher(o);");
-					tl(3, "if(m.find())");
-					tl(4, "return new Point(Double.parseDouble(m.group(1)), Double.parseDouble(m.group(2)));");
-					tl(3, "m = Pattern.compile(\"\\\\s*(\\\\d*\\\\.\\\\d*)\\\\s*,\\\\s*(\\\\d*\\\\.\\\\d*)\").matcher(o);");
-					tl(3, "if(m.find())");
-					tl(4, "return new Point(Double.parseDouble(m.group(1)), Double.parseDouble(m.group(2)));");
-					tl(3, "throw new RuntimeException(String.format(\"Invalid point format \\\"%s\\\", try these formats instead: 55.633703,13.49254 or {\\\"type\\\":\\\"Point\\\",\\\"coordinates\\\":[55.633703,13.49254]}\", o));");
-					tl(2, "}");
-					tl(2, "return null;");
-					tl(1, "}");
-					staticSet = true;
-				}
-		
 				// Setter Path //
 				if(
-						StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePolygon)
-						|| StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)
+						StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePoint) || StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePolygon)
+						|| StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePoint) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePolygon)
 						) {
 					tl(1, "@JsonIgnore");
 
@@ -3772,7 +3751,11 @@ public class EcrireGenClasse extends EcrireClasse {
 					tl(2, "if(o != null) {");
 					tl(3, "try {");
 					tl(4, entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, " shape = new ", entiteNomCanoniqueGenerique == null ? entiteNomSimple : entiteNomSimpleGenerique, "();");
-					if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePath)) {
+					if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePoint) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePoint)) {
+						tl(4, "JsonArray coordinates = o.getJsonArray(\"coordinates\");");
+						tl(4, "shape.setX(coordinates.getDouble(0));");
+						tl(4, "shape.setY(coordinates.getDouble(1));");
+					} else if(StringUtils.equals(entiteNomCanonique, VAL_nomCanoniquePath) || StringUtils.equals(entiteNomCanoniqueGenerique, VAL_nomCanoniquePath)) {
 						tl(4, "o.getJsonArray(\"coordinates\").stream().map(a -> (JsonArray)a).forEach(points -> {");
 						tl(5, "shape.addPoint(new Point(Double.parseDouble(points.getString(0)), Double.parseDouble(points.getString(1))));");
 						tl(4, "});");

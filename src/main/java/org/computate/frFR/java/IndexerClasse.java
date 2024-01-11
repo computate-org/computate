@@ -2947,8 +2947,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						}
 
 						if(
-								"Path".equals(entiteNomSimple) || "Polygon".equals(entiteNomSimple)
-								|| "Path".equals(entiteNomSimpleGenerique) || "Polygon".equals(entiteNomSimpleGenerique)
+								"Point".equals(entiteNomSimple) || "Path".equals(entiteNomSimple) || "Polygon".equals(entiteNomSimple)
+								|| "Point".equals(entiteNomSimpleGenerique) || "Path".equals(entiteNomSimpleGenerique) || "Polygon".equals(entiteNomSimpleGenerique)
 								) {
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.ObjectMapper", classeLangueNom), classeLangueNom);
 							classePartsGenAjouter(ClasseParts.initClasseParts(this, "com.fasterxml.jackson.databind.module.SimpleModule", classeLangueNom), classeLangueNom);
@@ -3705,8 +3705,8 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
 							}
 							else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePoint)) {
-								entiteNomSimpleVertxJson = "String";
-								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueString;
+								entiteNomSimpleVertxJson = "JsonObject";
+								entiteNomCanoniqueVertxJson = VAL_nomCanoniqueVertxJsonObject;
 							}
 							else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePath)) {
 								entiteNomSimpleVertxJson = "JsonObject";
@@ -4146,9 +4146,9 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteFormatHtm = "integer";
 						}
 						else if(StringUtils.equalsAny(entiteNomCanonique, VAL_nomCanoniquePoint)) {
-							entiteTypeJson = "string";
+							entiteTypeJson = "object";
 							if(entiteFiwareType == null)
-								entiteFiwareType = "string";
+								entiteFiwareType = "object";
 							entiteNgsiType = "GeoProperty";
 							if(entiteFormatHtm == null)
 								entiteFormatHtm = "default";
