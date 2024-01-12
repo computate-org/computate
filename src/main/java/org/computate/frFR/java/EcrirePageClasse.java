@@ -3226,7 +3226,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsWebsocket), classePageNomSimple, "\"}}{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsInfobulle), classePageNomSimple, "\"}}{{/inline}}");
-				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_htmInfobulle), classePageNomSimple, "\"}}{{/inline}}");
+				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_htmInfobulle), classePageNomSimple, "\"}}");
+				t(0, "<h3>");
+				if(langueConfig.getString(ConfigCles.var_classeIconeClassesCss) != null)
+					s("<i class=\"{{ ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), " }}  \"></i>");
+				s("<a href=\"${quoteattr(feature.properties.pageUrlPk)}\">${feature.properties.objectTitle}</a>");
+				l("</h3>");
+				tl(0, "{{/inline}}");
 				tl(0, "{{#*inline \"", langueConfig.getString(ConfigCles.var_jsLegende), classePageNomSimple, "\"}}");
 				tl(4, "var div = L.DomUtil.create('div', 'info legend');");
 				tl(4, "var htm = '';");
