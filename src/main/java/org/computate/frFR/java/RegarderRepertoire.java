@@ -229,6 +229,7 @@ public class RegarderRepertoire {
 		String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
 		String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
 		Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
+		Boolean GENERER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER"))).orElse("true"));
 
 		RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
 		regarderRepertoire.langueNom = lang;
@@ -259,7 +260,11 @@ public class RegarderRepertoire {
 				} else {
 					indexerClasses(SITE_CHEMIN, classeLangueConfig);
 					indexerClasses(SITE_CHEMIN, classeLangueConfig);
-					indexerEcrireClasses(SITE_CHEMIN, classeLangueConfig);
+					if(GENERER) {
+						indexerEcrireClasses(SITE_CHEMIN, classeLangueConfig);
+					} else {
+						indexerClasses(SITE_CHEMIN, classeLangueConfig);
+					}
 				}
 			} catch(Exception ex) {
 				System.out.println(String.format("Error indexing files on startup: %s", ex.getMessage()));
