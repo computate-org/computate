@@ -1246,10 +1246,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								}
 								wWebsocketInput1.tl(4, "var input", entiteVarCapitalise, " = null;");
 								wWebsocketInput2.tl(4, "if(vars.includes('", entiteVar, "'))");
-								wWebsocketInput2.tl(5, "input", entiteVarCapitalise, " = $response.find('.Page_", entiteVar, "');");
+								wWebsocketInput2.tl(5, "input", entiteVarCapitalise, " = $response.find('#Page_", entiteVar, "');");
 								wWebsocketInput3.tl(4, "if(input", entiteVarCapitalise, ") {");
-								wWebsocketInput3.tl(5, "input", entiteVarCapitalise, ".replaceAll('.Page_", entiteVar, "');");
-								wWebsocketInput3.tl(5, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.Page_", entiteVar, "'));");
+								wWebsocketInput3.tl(5, "input", entiteVarCapitalise, ".replaceAll('#Page_", entiteVar, "');");
+								wWebsocketInput3.tl(5, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#Page_", entiteVar, "'));");
 								wWebsocketInput3.tl(4, "}");
 //								if("LocalDate".equals(entiteNomSimple)) {
 //									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
