@@ -15,9 +15,11 @@ package org.computate.frFR.java;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.Normalizer;
 import java.text.NumberFormat;
@@ -52,6 +54,7 @@ import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
@@ -91,6 +94,7 @@ import com.thoughtworks.qdox.model.JavaTypeVariable;
 import com.thoughtworks.qdox.model.impl.DefaultJavaParameterizedType;
 
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.IndexClass
@@ -5385,11 +5389,28 @@ public class IndexerClasse extends RegarderClasseBase {
 
 		String classeSmartDataModelStr = regex("^SmartDataModel:\\s(.*)", classeCommentaire);
 		if(classeSmartDataModelStr != null) {
-			Matcher m = Pattern.compile("([\\w ]+) - ([\\w ]+) - ([\\w ]+)").matcher(classeCommentaire);
-			if (m.find()) {
-				indexerStockerSolr(classeDoc, "classeSmartDataDomain", m.group(3).replace(" ", "").trim()); 
-				indexerStockerSolr(classeDoc, "classeSmartDataSubModule", m.group(2).trim()); 
-				indexerStockerSolr(classeDoc, "classeSmartDataModel", m.group(1).trim()); 
+			String encodedStr = "\"" + Arrays.asList(classeSmartDataModelStr.replaceAll("([a-z])([A-Z])", "$1 $2").split(" +")).stream().map(s -> encodeUrl(s)).collect(Collectors.joining("\" OR \"")) + "\"";
+			System.out.println(encodedStr);
+			SolrQuery rechercheSolr = new SolrQuery();   
+			rechercheSolr.setQuery("domainName_suggested:" + encodedStr + "^2 OR domainName_text_enUS:" + encodedStr + "^5 OR submoduleShortName_suggested:" + encodedStr + "^3 OR submoduleShortName_text_enUS:" + encodedStr + "^10 OR modelName_suggested:" + encodedStr + "^3 OR modelName_text_enUS:" + encodedStr + "^20&fl=*,score&sort=score desc");
+			rechercheSolr.setRows(10);
+			rechercheSolr.addFilterQuery("computateFiwareSmartDataModel_docvalues_boolean:true");
+			rechercheSolr.setIncludeScore(true);
+			QueryResponse reponseRecherche = clientSolrComputate.query(rechercheSolr);
+			SolrDocumentList listeRecherche = reponseRecherche.getResults();
+			if(listeRecherche.size() > 0) { 
+				SolrDocument doc = listeRecherche.get(0);
+				indexerStockerSolr(classeDoc, "classeSmartDataDomain", doc.getFieldValue("domainName_docvalues_string").toString().replace(" ", "").trim()); 
+				indexerStockerSolr(classeDoc, "classeSmartDataSubModule", doc.getFieldValue("submoduleShortName_docvalues_string").toString().trim()); 
+				indexerStockerSolr(classeDoc, "classeSmartDataModel", doc.getFieldValue("modelName_docvalues_string").toString().trim()); 
+				System.out.println(String.format("Top %s Smart Data Model results were: ", listeRecherche.size()));
+				System.out.println(String.format("Model - Submodule - Domain - score", listeRecherche.size()));
+				System.out.println(String.format("--------------------------", listeRecherche.size()));
+				for(Integer i = 0; i < listeRecherche.size(); i++) {
+					SolrDocument model = listeRecherche.get(i);
+					System.out.println(String.format("%s. %s %s %s %s", String.format("%02d", (i + 1)), model.getFieldValue("modelName_docvalues_string"), model.getFieldValue("submoduleShortName_docvalues_string"), model.getFieldValue("domainName_docvalues_string"), model.getFieldValue("score")));
+				}
+				System.out.println(" ");
 			}
 		}
 
@@ -5759,5 +5780,13 @@ public class IndexerClasse extends RegarderClasseBase {
 		UpdateResponse d = clientSolrComputate.deleteByQuery(qSupprimer);
 		clientSolrComputate.commit(false, false, true); 
 		return classeDoc;
+	}
+
+	public String encodeUrl(String s) {
+		try {
+			return URLEncoder.encode(s, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return "";
+		}
 	}
 }

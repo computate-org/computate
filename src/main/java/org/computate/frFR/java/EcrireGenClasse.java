@@ -6359,47 +6359,49 @@ public class EcrireGenClasse extends EcrireClasse {
 			if(classeSmartDataModel != null && !classeFiware) {
 				File smartDataModelSpecFile = new File(System.getenv("HOME"), String.format(".local/src/smart-data-models/%s/dataModel.%s/%s/model.yaml", classeSmartDataDomain, classeSmartDataSubModule, classeSmartDataModel));
 				if(smartDataModelSpecFile.exists()) {
+					ToutEcrivain wSmartDataModel = ToutEcrivain.create();
 					Yaml yaml = new Yaml();
 					Map<String, Object> map = yaml.load(FileUtils.readFileToString(smartDataModelSpecFile, StandardCharsets.UTF_8));
 					JsonObject spec = new JsonObject(map);
 					JsonObject properties = spec.getJsonObject(classeSmartDataModel).getJsonObject("properties");
-					l();
-					tl(0, " * <h1>FIWARE SmartDataModel fields:</h1>");
+					wSmartDataModel.l();
+					wSmartDataModel.tl(0, "FIWARE SmartDataModel fields:");
+					wSmartDataModel.l();
 	
-					l(" * {@literal /}{@literal **}<br>");
-					l(" * {@literal 	 * SmartDataModel: ", classeSmartDataModel, " - ", classeSmartDataSubModule, " - ", classeSmartDataDomain, "}<br>");
-					l(" * {@literal 	 * Fiware: true}<br>");
-					l(" *<br>");
-					l(" * {@literal 	 * Model: true}<br>");
-					l(" * {@literal 	 * SqlOrder: 1}<br>");
-					l(" * {@literal 	 * Api: true}<br>");
-					l(" * {@literal 	 * Page: true}<br>");
-					l(" * {@literal 	 * SuperPage.enUS: BaseModelPage}<br>");
-					l(" * {@literal 	 * Indexed: true}<br>");
-					l(" * {@literal 	 * Order: 1}<br>");
-					l(" * {@literal 	 * Description: }<br>");
-					l(" * {@literal 	 * ApiTag.enUS: ", classeNomSimple, "}<br>");
-					l(" * {@literal 	 * ApiUri.enUS: /api/", classeNomSimple, "}<br>");
-					l(" * <br>");
-					l(" * {@literal 	 * ApiMethod.enUS: Search}<br>");
-					l(" * {@literal 	 * ApiMethod: GET}<br>");
-					l(" * {@literal 	 * ApiMethod: PATCH}<br>");
-					l(" * {@literal 	 * ApiMethod: POST}<br>");
-					l(" * {@literal 	 * ApiMethod: PUTImport}<br>");
-					l(" * <br>");
-					l(" * {@literal 	 * ApiMethod.enUS: SearchPage}<br>");
-					l(" * {@literal 	 * Page.SearchPage.enUS: ", classeNomSimple, "Page}<br>");
-					l(" * {@literal 	 * ApiUri.SearchPage.enUS: /", classeNomSimple, "}<br>");
-					l(" * <br>");
-					l(" * {@literal 	 * Role.enUS: SiteAdmin}<br>");
-					l(" * <br>");
-					l(" * {@literal 	 * AName.enUS: a ", classeNomSimple, "}<br>");
-					l(" * {@literal 	 * Color: 2017-shaded-spruce}<br>");
-					l(" * {@literal 	 * IconGroup: duotone}<br>");
-					l(" * {@literal 	 * IconName: map-location-dot}<br>");
-					l(" * {@literal 	 * Rows: 100}<br>");
-					l(" * {@literal 	 **}{@literal /}<br>");
-					l(" * {@literal 	public class ", classeNomSimple, " extends ", classeNomSimple, "Gen<BaseModel>} {<br>");
+					wSmartDataModel.l("/**");
+					wSmartDataModel.l(" * SmartDataModel: ", classeSmartDataModel, " - ", classeSmartDataSubModule, " - ", classeSmartDataDomain);
+					wSmartDataModel.l(" * Fiware: true");
+					wSmartDataModel.l(" *");
+					wSmartDataModel.l(" * Model: true");
+					wSmartDataModel.l(" * SqlOrder: 1");
+					wSmartDataModel.l(" * Api: true");
+					wSmartDataModel.l(" * Page: true");
+					wSmartDataModel.l(" * SuperPage.enUS: BaseModelPage");
+					wSmartDataModel.l(" * Indexed: true");
+					wSmartDataModel.l(" * Order: 1");
+					wSmartDataModel.l(" * Description: ");
+					wSmartDataModel.l(" * ApiTag.enUS: ", classeNomSimple);
+					wSmartDataModel.l(" * ApiUri.enUS: /api/", classeNomSimple);
+					wSmartDataModel.l(" *");
+					wSmartDataModel.l(" * ApiMethod.enUS: Search");
+					wSmartDataModel.l(" * ApiMethod: GET");
+					wSmartDataModel.l(" * ApiMethod: PATCH");
+					wSmartDataModel.l(" * ApiMethod: POST");
+					wSmartDataModel.l(" * ApiMethod: PUTImport");
+					wSmartDataModel.l(" *");
+					wSmartDataModel.l(" * ApiMethod.enUS: SearchPage");
+					wSmartDataModel.l(" * Page.SearchPage.enUS: ", classeNomSimple, "Page");
+					wSmartDataModel.l(" * ApiUri.SearchPage.enUS: /", classeNomSimple);
+					wSmartDataModel.l(" *");
+					wSmartDataModel.l(" * Role.enUS: SiteAdmin");
+					wSmartDataModel.l(" *");
+					wSmartDataModel.l(" * AName.enUS: a ", classeNomSimple);
+					wSmartDataModel.l(" * Color: 2017-shaded-spruce");
+					wSmartDataModel.l(" * IconGroup: duotone");
+					wSmartDataModel.l(" * IconName: map-location-dot");
+					wSmartDataModel.l(" * Rows: 100");
+					wSmartDataModel.l(" **/");
+					wSmartDataModel.l("public class ", classeNomSimple, " extends ", classeNomSimple, "Gen<BaseModel> {");
 
 					Integer row = 3;
 					Integer cell = 1;
@@ -6423,36 +6425,37 @@ public class EcrireGenClasse extends EcrireClasse {
 								javaType = "BigDecimal";
 							else if("location".equals(fieldName))
 								javaType = "Path";
-							l(" * <br>");
-							l(" * {@literal 	/**}<br>");
-							l(" * {@literal 	 * {@inheritDoc}}<br>");
+							wSmartDataModel.l();
+							wSmartDataModel.l("	/**");
+							wSmartDataModel.l("	 * {@inheritDoc}");
 							if("areaServed".equals(fieldName)) {
-								l(" * {@literal 	 * FiwareType: geo:linestring}<br>");
-								l(" * {@literal 	 * Location: true}<br>");
+								wSmartDataModel.l("	 * FiwareType: geo:linestring");
+								wSmartDataModel.l("	 * Location: true");
 							}
 							if("location".equals(fieldName)) {
-								l(" * {@literal 	 * FiwareType: geo:point}<br>");
+								wSmartDataModel.l("	 * FiwareType: geo:point");
 							}
-							l(" * {@literal 	 * DocValues: true}<br>");
-							l(" * {@literal 	 * Persist: true}<br>");
-							l(" * {@literal 	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase(), "}<br>");
+							wSmartDataModel.l("	 * DocValues: true");
+							wSmartDataModel.l("	 * Persist: true");
+							wSmartDataModel.l("	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase(), "");
 							if(description != null)
-								l(" * {@literal 	 * Description: ", description.replace("\r\n", " ").replace("\n", " "), "}<br>");
-							l(" * {@literal 	 * HtmRow: ", row, "}<br>");
-							l(" * {@literal 	 * HtmCell: ", cell, "}<br>");
-							l(" * {@literal 	 * Facet: true}<br>");
-							l(" *	 {@literal **}{@literal /}<br>");
-							l(" * 	{@literal protected void _", fieldName, "(Wrap<", javaType, "> w)} {}<br>");
+								wSmartDataModel.l("	 * Description: ", description.replace("\r\n", " ").replace("\n", " "), "");
+							wSmartDataModel.l("	 * HtmRow: ", row, "");
+							wSmartDataModel.l("	 * HtmCell: ", cell, "");
+							wSmartDataModel.l("	 * Facet: true");
+							wSmartDataModel.l("	 **/");
+							wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {}");
 							cell++;
 							if(cell > 3) {
 								row++;
 								cell = 1;
 							}
+							wSmartDataModel.l();
 						}
 					}
-					l(" * }<br>");
-					
-					l();
+					wSmartDataModel.l("}");
+					wSmartDataModel.l();
+					System.out.println(wSmartDataModel);
 				}
 			}
 		} catch(Exception ex) {
