@@ -495,8 +495,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(11, "<div class=\"w3-cell-row w3-padding \">");
 					tl(13, "<div class=\"w3-cell \">");
 				}
-//				tl(14, "{{#each ", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}<td>{{.}}</td>{{/each}}");
-				tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), " ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), "}}");
+				if(entiteHtmLigneEnTeteExpression == null) {
+					tl(14, "{{> \"input", entiteVarCapitalise, "\" ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), " ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), "}}");
+				} else {
+					tl(14, "{{#each ", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}<td>{{.}}</td>{{/each}}");
+				}
 				if(entiteHtmLigneVerticaleActuel) {
 					tl(10, "</tr>");
 				} else {
