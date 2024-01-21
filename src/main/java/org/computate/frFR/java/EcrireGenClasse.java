@@ -6426,7 +6426,7 @@ public class EcrireGenClasse extends EcrireClasse {
 							String description = field.getString("description");
 							String javaType = "JsonObject";
 							if("areaServed".equals(fieldName))
-								javaType = "Polygon";
+								javaType = "Path";
 							else if("location".equals(fieldName))
 								javaType = "Point";
 							else if("string".equals(jsonType))
@@ -6443,6 +6443,41 @@ public class EcrireGenClasse extends EcrireClasse {
 							wSmartDataModel.l("	/**");
 							wSmartDataModel.l("	 * {@inheritDoc}");
 							if("areaServed".equals(fieldName)) {
+								wSmartDataModel.l("	");
+								wSmartDataModel.l("	 * LocationColor: true");
+								wSmartDataModel.l("	 * Indexed: true");
+								wSmartDataModel.l("	 * Stored: true");
+								wSmartDataModel.l("	 * DisplayName: area served colors");
+								wSmartDataModel.l("	 * Description: The colors of each areaServed Paths. ");
+								wSmartDataModel.l("	 */");
+								wSmartDataModel.l("	protected void _areaServedColors(List<String> l) {");
+								wSmartDataModel.l("		l.add(color);");
+								wSmartDataModel.l("	}");
+								wSmartDataModel.l();
+								wSmartDataModel.l("	/**");
+								wSmartDataModel.l("	 * {@inheritDoc}");
+								wSmartDataModel.l("	 * LocationTitle: true");
+								wSmartDataModel.l("	 * Indexed: true");
+								wSmartDataModel.l("	 * Stored: true");
+								wSmartDataModel.l("	 * DisplayName: area served titles");
+								wSmartDataModel.l("	 * Description: The titles of each areaServed Paths. ");
+								wSmartDataModel.l("	 */");
+								wSmartDataModel.l("	protected void _areaServedTitles(List<String> l) {");
+								wSmartDataModel.l("	}");
+								wSmartDataModel.l();
+								wSmartDataModel.l("	/**");
+								wSmartDataModel.l("	 * {@inheritDoc}");
+								wSmartDataModel.l("	 * LocationUrl: true");
+								wSmartDataModel.l("	 * Indexed: true");
+								wSmartDataModel.l("	 * Stored: true");
+								wSmartDataModel.l("	 * DisplayName: area served links");
+								wSmartDataModel.l("	 * Description: The links of each areaServed Paths. ");
+								wSmartDataModel.l("	 */");
+								wSmartDataModel.l("	protected void _areaServedLinks(List<String> l) {");
+								wSmartDataModel.l("	}");
+								wSmartDataModel.l();
+								wSmartDataModel.l("	/**");
+								wSmartDataModel.l("	 * {@inheritDoc}");
 								wSmartDataModel.l("	 * FiwareType: geo:linestring");
 								wSmartDataModel.l("	 * Location: true");
 							}
