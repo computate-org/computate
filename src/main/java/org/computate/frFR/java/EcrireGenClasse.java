@@ -6367,7 +6367,20 @@ public class EcrireGenClasse extends EcrireClasse {
 					wSmartDataModel.l();
 					wSmartDataModel.tl(0, "FIWARE SmartDataModel fields:");
 					wSmartDataModel.l();
-	
+					wSmartDataModel.l("import java.math.BigDecimal;");
+					wSmartDataModel.l("import java.util.List;");
+					wSmartDataModel.l("import java.util.Optional;");
+					wSmartDataModel.l("import org.apache.commons.lang3.StringUtils;");
+					wSmartDataModel.l("import org.computate.search.tool.SearchTool;");
+					wSmartDataModel.l("import org.computate.search.wrap.Wrap;");
+					wSmartDataModel.l("import ", classePartsModeleBase.nomCanonique(langueNom), ";");
+					wSmartDataModel.l("import org.computate.vertx.search.list.SearchList;");
+					wSmartDataModel.l("import io.vertx.core.Promise;");
+					wSmartDataModel.l("import io.vertx.core.json.JsonArray;");
+					wSmartDataModel.l("import io.vertx.core.json.JsonObject;");
+					wSmartDataModel.l("import io.vertx.pgclient.data.Path;");
+					wSmartDataModel.l("import io.vertx.pgclient.data.Point;");
+					wSmartDataModel.l();
 					wSmartDataModel.l("/**");
 					wSmartDataModel.l(" * SmartDataModel: ", classeSmartDataModel, " - ", classeSmartDataSubModule, " - ", classeSmartDataDomain);
 					wSmartDataModel.l(" * Fiware: true");
