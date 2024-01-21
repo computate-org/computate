@@ -6357,7 +6357,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 		try {
 			if(classeSmartDataModel != null && !classeFiware) {
-				File smartDataModelSpecFile = new File(siteChemin,  String.format("../smart-data-models/%s/dataModel.%s/%s/model.yaml", classeSmartDataDomain, classeSmartDataSubModule, classeSmartDataModel));
+				File smartDataModelSpecFile = new File(siteChemin,  String.format("../smart-data-models/%s/dataModel.%s/%s/model.yaml", classeSmartDataDomain.replace(" ", ""), classeSmartDataSubModule, classeSmartDataModel));
 				if(smartDataModelSpecFile.exists()) {
 					ToutEcrivain wSmartDataModel = ToutEcrivain.create();
 					Yaml yaml = new Yaml();
