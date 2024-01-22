@@ -6451,7 +6451,6 @@ public class EcrireGenClasse extends EcrireClasse {
 								wSmartDataModel.l("	 * Description: The colors of each areaServed Paths. ");
 								wSmartDataModel.l("	 */");
 								wSmartDataModel.l("	protected void _areaServedColors(List<String> l) {");
-								wSmartDataModel.l("		l.add(color);");
 								wSmartDataModel.l("	}");
 								wSmartDataModel.l();
 								wSmartDataModel.l("	/**");
