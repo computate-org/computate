@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.text.Normalizer;
 import java.text.NumberFormat;
@@ -76,6 +77,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -5388,6 +5390,7 @@ public class IndexerClasse extends RegarderClasseBase {
 		}
 
 		String classeSmartDataModelStr = regex("^SmartDataModel:\\s(.*)", classeCommentaire);
+
 		if(classeSmartDataModelStr != null) {
 			String encodedStr = "\"" + Arrays.asList(classeSmartDataModelStr.replaceAll("([a-z])([A-Z])", "$1 $2").split(" +")).stream().map(s -> encodeUrl(s)).collect(Collectors.joining("\" OR \"")) + "\"";
 			System.out.println(encodedStr);
@@ -5400,9 +5403,9 @@ public class IndexerClasse extends RegarderClasseBase {
 			SolrDocumentList listeRecherche = reponseRecherche.getResults();
 			if(listeRecherche.size() > 0) { 
 				SolrDocument doc = listeRecherche.get(0);
-				indexerStockerSolr(classeDoc, "classeSmartDataDomain", doc.getFieldValue("domainName_docvalues_string").toString().replace(" ", "").trim()); 
-				indexerStockerSolr(classeDoc, "classeSmartDataSubModule", doc.getFieldValue("submoduleShortName_docvalues_string").toString().trim()); 
-				indexerStockerSolr(classeDoc, "classeSmartDataModel", doc.getFieldValue("modelName_docvalues_string").toString().trim()); 
+				String classeSmartDataDomain = indexerStockerSolr(classeDoc, "classeSmartDataDomain", doc.getFieldValue("domainName_docvalues_string").toString().replace(" ", "").trim()); 
+				String classeSmartDataSubModule = indexerStockerSolr(classeDoc, "classeSmartDataSubModule", doc.getFieldValue("submoduleShortName_docvalues_string").toString().trim()); 
+				String classeSmartDataModel = indexerStockerSolr(classeDoc, "classeSmartDataModel", doc.getFieldValue("modelName_docvalues_string").toString().trim()); 
 				System.out.println(String.format("Top %s Smart Data Model results were: ", listeRecherche.size()));
 				System.out.println(String.format("Model - Submodule - Domain - score", listeRecherche.size()));
 				System.out.println(String.format("--------------------------", listeRecherche.size()));
@@ -5411,6 +5414,156 @@ public class IndexerClasse extends RegarderClasseBase {
 					System.out.println(String.format("%s. %s %s %s %s", String.format("%02d", (i + 1)), model.getFieldValue("modelName_docvalues_string"), model.getFieldValue("submoduleShortName_docvalues_string"), model.getFieldValue("domainName_docvalues_string"), model.getFieldValue("score")));
 				}
 				System.out.println(" ");
+				if(classeSmartDataModel != null && !classeFiware) {
+					File smartDataModelSpecFile = new File(siteChemin,  String.format("../smart-data-models/%s/dataModel.%s/%s/model.yaml", classeSmartDataDomain.replace(" ", ""), classeSmartDataSubModule, classeSmartDataModel));
+					LOG.info(String.format("Loading smart data model at %s", smartDataModelSpecFile.getAbsolutePath()));
+					if(smartDataModelSpecFile.exists()) {
+						ToutEcrivain wSmartDataModel = ToutEcrivain.create();
+						Yaml yaml = new Yaml();
+						Map<String, Object> map = yaml.load(FileUtils.readFileToString(smartDataModelSpecFile, StandardCharsets.UTF_8));
+						JsonObject spec = new JsonObject(map);
+						JsonObject properties = spec.getJsonObject(classeSmartDataModel).getJsonObject("properties");
+						wSmartDataModel.l();
+						wSmartDataModel.tl(0, "FIWARE SmartDataModel fields:");
+						wSmartDataModel.l();
+						wSmartDataModel.l("import java.math.BigDecimal;");
+						wSmartDataModel.l("import java.util.List;");
+						wSmartDataModel.l("import java.util.Optional;");
+						wSmartDataModel.l("import org.apache.commons.lang3.StringUtils;");
+						wSmartDataModel.l("import org.computate.search.tool.SearchTool;");
+						wSmartDataModel.l("import org.computate.search.wrap.Wrap;");
+						wSmartDataModel.l("import ", classePartsModeleBase.nomCanonique(classeLangueNom), ";");
+						wSmartDataModel.l("import org.computate.vertx.search.list.SearchList;");
+						wSmartDataModel.l("import io.vertx.core.Promise;");
+						wSmartDataModel.l("import io.vertx.core.json.JsonArray;");
+						wSmartDataModel.l("import io.vertx.core.json.JsonObject;");
+						wSmartDataModel.l("import io.vertx.pgclient.data.Path;");
+						wSmartDataModel.l("import io.vertx.pgclient.data.Point;");
+						wSmartDataModel.l();
+						wSmartDataModel.l("/**");
+						wSmartDataModel.l(" * SmartDataModel: ", classeSmartDataModel, " - ", classeSmartDataSubModule, " - ", classeSmartDataDomain);
+						wSmartDataModel.l(" * Fiware: true");
+						wSmartDataModel.l(" *");
+						wSmartDataModel.l(" * Model: true");
+						wSmartDataModel.l(" * SqlOrder: 1");
+						wSmartDataModel.l(" * Api: true");
+						wSmartDataModel.l(" * Page: true");
+						wSmartDataModel.l(" * SuperPage.enUS: BaseModelPage");
+						wSmartDataModel.l(" * Indexed: true");
+						wSmartDataModel.l(" * Order: 1");
+						wSmartDataModel.l(" * Description: ");
+						wSmartDataModel.l(" * ApiTag.enUS: ", classeNomSimple);
+						wSmartDataModel.l(" * ApiUri.enUS: /api/", classeNomSimple);
+						wSmartDataModel.l(" *");
+						wSmartDataModel.l(" * ApiMethod.enUS: Search");
+						wSmartDataModel.l(" * ApiMethod: GET");
+						wSmartDataModel.l(" * ApiMethod: PATCH");
+						wSmartDataModel.l(" * ApiMethod: POST");
+						wSmartDataModel.l(" * ApiMethod: PUTImport");
+						wSmartDataModel.l(" *");
+						wSmartDataModel.l(" * ApiMethod.enUS: SearchPage");
+						wSmartDataModel.l(" * Page.SearchPage.enUS: ", classeNomSimple, "Page");
+						wSmartDataModel.l(" * ApiUri.SearchPage.enUS: /", classeNomSimple);
+						wSmartDataModel.l(" *");
+						wSmartDataModel.l(" * Role.enUS: SiteAdmin");
+						wSmartDataModel.l(" *");
+						wSmartDataModel.l(" * AName.enUS: a ", classeNomSimple);
+						wSmartDataModel.l(" * Color: 2017-shaded-spruce");
+						wSmartDataModel.l(" * IconGroup: duotone");
+						wSmartDataModel.l(" * IconName: map-location-dot");
+						wSmartDataModel.l(" * Rows: 100");
+						wSmartDataModel.l(" **/");
+						wSmartDataModel.l("public class ", classeNomSimple, " extends ", classeNomSimple, "Gen<BaseModel> {");
+	
+						Integer row = 3;
+						Integer cell = 1;
+						for(String fieldName : properties.fieldNames()) {
+							if(!fieldName.equals("id") && !fieldName.equals("type")) {
+								JsonObject field = properties.getJsonObject(fieldName);
+								String jsonType = field.getString("type");
+								String description = field.getString("description");
+								String javaType = "JsonObject";
+								if("areaServed".equals(fieldName))
+									javaType = "Path";
+								else if("location".equals(fieldName))
+									javaType = "Point";
+								else if("string".equals(jsonType))
+									javaType = "String";
+								else if("boolean".equals(jsonType))
+									javaType = "Boolean";
+								else if("integer".equals(jsonType))
+									javaType = "Integer";
+								else if("number".equals(jsonType))
+									javaType = "BigDecimal";
+								else if("location".equals(fieldName))
+									javaType = "Path";
+								wSmartDataModel.l();
+								wSmartDataModel.l("	/**");
+								wSmartDataModel.l("	 * {@inheritDoc}");
+								if("areaServed".equals(fieldName)) {
+									wSmartDataModel.l("	");
+									wSmartDataModel.l("	 * LocationColor: true");
+									wSmartDataModel.l("	 * Indexed: true");
+									wSmartDataModel.l("	 * Stored: true");
+									wSmartDataModel.l("	 * DisplayName: area served colors");
+									wSmartDataModel.l("	 * Description: The colors of each areaServed Paths. ");
+									wSmartDataModel.l("	 */");
+									wSmartDataModel.l("	protected void _areaServedColors(List<String> l) {");
+									wSmartDataModel.l("	}");
+									wSmartDataModel.l();
+									wSmartDataModel.l("	/**");
+									wSmartDataModel.l("	 * {@inheritDoc}");
+									wSmartDataModel.l("	 * LocationTitle: true");
+									wSmartDataModel.l("	 * Indexed: true");
+									wSmartDataModel.l("	 * Stored: true");
+									wSmartDataModel.l("	 * DisplayName: area served titles");
+									wSmartDataModel.l("	 * Description: The titles of each areaServed Paths. ");
+									wSmartDataModel.l("	 */");
+									wSmartDataModel.l("	protected void _areaServedTitles(List<String> l) {");
+									wSmartDataModel.l("	}");
+									wSmartDataModel.l();
+									wSmartDataModel.l("	/**");
+									wSmartDataModel.l("	 * {@inheritDoc}");
+									wSmartDataModel.l("	 * LocationUrl: true");
+									wSmartDataModel.l("	 * Indexed: true");
+									wSmartDataModel.l("	 * Stored: true");
+									wSmartDataModel.l("	 * DisplayName: area served links");
+									wSmartDataModel.l("	 * Description: The links of each areaServed Paths. ");
+									wSmartDataModel.l("	 */");
+									wSmartDataModel.l("	protected void _areaServedLinks(List<String> l) {");
+									wSmartDataModel.l("	}");
+									wSmartDataModel.l();
+									wSmartDataModel.l("	/**");
+									wSmartDataModel.l("	 * {@inheritDoc}");
+									wSmartDataModel.l("	 * FiwareType: geo:linestring");
+									wSmartDataModel.l("	 * Location: true");
+								}
+								if("location".equals(fieldName)) {
+									wSmartDataModel.l("	 * FiwareType: geo:point");
+								}
+								wSmartDataModel.l("	 * DocValues: true");
+								wSmartDataModel.l("	 * Persist: true");
+								wSmartDataModel.l("	 * DisplayName: ", StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), " ").toLowerCase(), "");
+								if(description != null)
+									wSmartDataModel.l("	 * Description: ", description.replace("\r\n", " ").replace("\n", " "), "");
+								wSmartDataModel.l("	 * HtmRow: ", row, "");
+								wSmartDataModel.l("	 * HtmCell: ", cell, "");
+								wSmartDataModel.l("	 * Facet: true");
+								wSmartDataModel.l("	 **/");
+								wSmartDataModel.l("	protected void _", fieldName, "(Wrap<", javaType, "> w) {}");
+								cell++;
+								if(cell > 3) {
+									row++;
+									cell = 1;
+								}
+								wSmartDataModel.l();
+							}
+						}
+						wSmartDataModel.l("}");
+						wSmartDataModel.l();
+						System.out.println(wSmartDataModel);
+					}
+				}
 			}
 		}
 
