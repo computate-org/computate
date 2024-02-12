@@ -195,7 +195,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 			Boolean classeTraduire = Optional.ofNullable(classeDoc.get("classeTraduire_stored_boolean")).map(o -> (Boolean)o.getValue()).orElse(null);
 			if(classeTraduire) {
 				String url = String.format(classeLangueConfig.getString(ConfigCles.str_chemin_absolu_url), siteUrlBase, classeNomSimple);
-				String log = String.format(classeLangueConfig.getString(ConfigCles.str_chemin_absolu), classeNomSimple, url);
+				String log = String.format(classeLangueConfig.getString(ConfigCles.str_chemin_absolu), classeNomSimple);
 				System.out.println(log);
 			}
 //			for(String langueNom : regarderClasse.autresLangues) {
