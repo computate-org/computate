@@ -48,6 +48,7 @@ public class ConfigCles {
 	public static final String str_le_projet_ = "str_le_projet_";
 	public static final String str_Modifier_des_ = "str_Modifier_des_";
 	public static final String str_nest_pas_une_entite_indexe = "str_nest_pas_une_entite_indexe";
+	public static final String str_Pret = "str_Pret";
 	public static final String str_Rechercher_ = "str_Rechercher_";
 	public static final String str_Remplacer_ = "str_Remplacer_";
 	public static final String str_roles_requis = "str_roles_requis";

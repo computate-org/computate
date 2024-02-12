@@ -256,6 +256,7 @@ public class RegarderRepertoire {
 					indexerClasses(SITE_CHEMIN, classeLangueConfig);
 					indexerClasses(SITE_CHEMIN, classeLangueConfig);
 					indexerClasses(SITE_CHEMIN, classeLangueConfig);
+					System.out.println(classeLangueConfig.getString(ConfigCles.str_Pret));
 					regarderRepertoire.traiterEvenements();
 				} else {
 					indexerClasses(SITE_CHEMIN, classeLangueConfig);
