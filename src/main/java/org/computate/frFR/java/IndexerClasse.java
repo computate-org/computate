@@ -75,6 +75,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
+import org.computate.search.wrap.Wrap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -5439,6 +5440,7 @@ public class IndexerClasse extends RegarderClasseBase {
 						wSmartDataModel.l("import io.vertx.core.json.JsonObject;");
 						wSmartDataModel.l("import io.vertx.pgclient.data.Path;");
 						wSmartDataModel.l("import io.vertx.pgclient.data.Point;");
+						wSmartDataModel.l("import io.vertx.pgclient.data.Polygon;");
 						wSmartDataModel.l();
 						wSmartDataModel.l("/**");
 						wSmartDataModel.l(" * SmartDataModel: ", classeSmartDataModel, " - ", classeSmartDataSubModule, " - ", classeSmartDataDomain);
@@ -5484,7 +5486,7 @@ public class IndexerClasse extends RegarderClasseBase {
 								String description = field.getString("description");
 								String javaType = "JsonObject";
 								if("areaServed".equals(fieldName))
-									javaType = "Path";
+									javaType = "Polygon";
 								else if("location".equals(fieldName))
 									javaType = "Point";
 								else if("string".equals(jsonType))
@@ -5559,7 +5561,53 @@ public class IndexerClasse extends RegarderClasseBase {
 								wSmartDataModel.l();
 							}
 						}
+
+						wSmartDataModel.l("");
+						wSmartDataModel.l("	/**");
+						wSmartDataModel.l("	 * {@inheritDoc}");
+						wSmartDataModel.l("	 * DocValues: true");
+						wSmartDataModel.l("	 * Persist: true");
+						wSmartDataModel.l("	 * DisplayName: entity ID");
+						wSmartDataModel.l("	 * Description: A unique ID for this Smart Data Model");
+						wSmartDataModel.l("	 * HtmRow: 3");
+						wSmartDataModel.l("	 * HtmCell: 1");
+						wSmartDataModel.l("	 * Facet: true");
+						wSmartDataModel.l("	 */");
+						wSmartDataModel.l("	protected void _entityId(Wrap<String> w) {");
+						if(properties.fieldNames().contains("name")) {
+							wSmartDataModel.l("		w.o(String.format(\"urn:ngsi-ld:%s:%s\", CLASS_SIMPLE_NAME, toId(name)));");
+						}
+						wSmartDataModel.l("	}");
+						wSmartDataModel.l("");
+						wSmartDataModel.l("	/**");
+						wSmartDataModel.l("	 * {@inheritDoc}");
+						wSmartDataModel.l("	 * DisplayName: short entity ID");
+						wSmartDataModel.l("	 * Description: A short ID for this Smart Data Model");
+						wSmartDataModel.l("	 * Facet: true");
+						wSmartDataModel.l("	 */");
+						wSmartDataModel.l("	protected void _entityShortId(Wrap<String> w) {");
+						wSmartDataModel.l("		if(entityId != null) {");
+						wSmartDataModel.l("			w.o(StringUtils.substringAfter(entityId, String.format(\"urn:ngsi-ld:%s:\", CLASS_SIMPLE_NAME)));");
+						wSmartDataModel.l("		}");
+						wSmartDataModel.l("	}");
+						wSmartDataModel.l("");
+						wSmartDataModel.l("	@Override");
+						wSmartDataModel.l("	protected void _objectTitle(Wrap<String> w) {");
+						wSmartDataModel.l("		StringBuilder b = new StringBuilder();");
+						wSmartDataModel.l("		b.append(Optional.ofNullable(entityShortId).map(s -> String.format(\"%s - %s\", ", classeNomSimple, "_NameAdjectiveSingular_enUS, s)).orElse(pk.toString()));");
+						wSmartDataModel.l("		w.o(b.toString().trim());");
+						wSmartDataModel.l("	}");
+						wSmartDataModel.l("");
+						wSmartDataModel.l("	@Override");
+						wSmartDataModel.l("	protected void _objectId(Wrap<String> w) {");
+						wSmartDataModel.l("	if(objectTitle != null) {");
+						wSmartDataModel.l("			w.o(toId(objectTitle));");
+						wSmartDataModel.l("		} else if(id != null){");
+						wSmartDataModel.l("			w.o(id.toString());");
+						wSmartDataModel.l("		}");
+						wSmartDataModel.l("	}");
 						wSmartDataModel.l("}");
+
 						wSmartDataModel.l();
 						System.out.println(wSmartDataModel);
 					}
