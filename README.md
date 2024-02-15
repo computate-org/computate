@@ -3,7 +3,7 @@
 Code that generates more code as you save. Internationalized. Integrated with Solr search. A new way to write code to make persistence easier. 
 
 
-## Written by Christopher Tate
+## Written by [Christopher Tate](https://www.computate.org/)
 
 - Red Hat Principal Software Engineer in Red Hat Research 
 
