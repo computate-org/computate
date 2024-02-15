@@ -2,6 +2,19 @@
 
 Code that generates more code as you save. Internationalized. Integrated with Solr search. A new way to write code to make persistence easier. 
 
+
+## Written by Christopher Tate
+
+- Red Hat Principal Software Engineer in Red Hat Research 
+
+- Creator of the Smart Village Operator and Smart Village Platform 
+
+- Architect of the Red Hat Social Innovation Program 
+
+- Founder of the Smarta Byar Smart Village Community FIWARE Innovation Hub 
+
+- Principal Software Engineer for the New England Research Cloud
+
 ## Try out the AI/ML Smart Device API Code Generation yourself
 
 Try out the computate platform yourself
