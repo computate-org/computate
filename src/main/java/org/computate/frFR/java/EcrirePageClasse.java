@@ -986,7 +986,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		classeModele = (Boolean)classeDoc.getBoolean("classeModele_stored_boolean");
 		classePageLangueConfig = null;
 		if(classePageLangueNom != null) {
-			classePageLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classePageLangueNom));
+			classePageLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classePageLangueNom));
 		}
 
 		classePageNomSimple = classeDoc.getString("classePageNomSimple"   + "_" + langueNom + "_stored_string");
@@ -1419,7 +1419,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				auteurPageClasse.l(" * ", langueConfig.getString(ConfigCles.var_Promesse), ": true");
 				for(String langueNom2 : autresLangues) {
-					YAMLConfiguration langueConfig2 = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classePageLangueNom));
+					YAMLConfiguration langueConfig2 = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classePageLangueNom));
 					String classePageNomSimple2 = classeDoc.getString("classePageNomCanonique" + langueConfig2.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
 					if(classePageNomSimple2 != null)
 						auteurPageClasse.	l(" * ", langueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom2, ": ", classePageNomSimple2);
@@ -1469,7 +1469,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			l(" * ", langueConfig.getString(ConfigCles.var_Traduire), ": false");
 			for(String langueNom2 : autresLangues) {
-				YAMLConfiguration langueConfig2 = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classePageLangueNom));
+				YAMLConfiguration langueConfig2 = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classePageLangueNom));
 				String classeGenPageNomSimple2 = classeDoc.getString("classeGenPageNomCanonique" + langueConfig2.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
 				if(classeGenPageNomSimple2 != null)
 					l(" * ", langueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom2, ": ", classeGenPageNomSimple2);

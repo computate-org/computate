@@ -76,7 +76,7 @@ public class ConfigSite {
 
 	public YAMLConfiguration langueConfigGlobale;
 	protected void _langueConfigGlobale() throws Exception {
-		langueConfigGlobale = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, langueNomGlobale));
+		langueConfigGlobale = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, langueNomGlobale));
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class ConfigSite {
 	 * r.enUS: sitePath r: siteNom r.enUS: siteName
 	 **/
 	protected void _configChemin() throws Exception {
-		configChemin = siteChemin + "/config/" + siteNom + ".yml";
+		configChemin = siteChemin + "/config/" + siteNom + ".yaml";
 	}
 //
 //	/**
@@ -353,7 +353,7 @@ public class ConfigSite {
 
 	/**
 	 * Var.enUS: configFileName enUS: The name of the config file which defaults to
-	 * the siteName followed by ".yml".
+	 * the siteName followed by ".yaml".
 	 */
 	public String nomFichierConfig;
 
@@ -363,7 +363,7 @@ public class ConfigSite {
 	 **/
 	protected void _nomFichierConfig() throws Exception {
 		nomFichierConfig = config.getString(
-				langueConfigGlobale.getString(ConfigCles.var_NOM_FICHIER_CONFIG), siteNom + ".yml");
+				langueConfigGlobale.getString(ConfigCles.var_NOM_FICHIER_CONFIG), siteNom + ".yaml");
 	}
 
 	public String siteZone;

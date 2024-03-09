@@ -225,7 +225,7 @@ public class RegarderRepertoire {
 		String lang = Optional.ofNullable(System.getenv("SITE_LANG")).orElse("frFR");
 		String appComputate = System.getenv("COMPUTATE_SRC");
 		Configurations configurations = new Configurations();
-		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, lang));
+		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, lang));
 		String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
 		String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
 		Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
@@ -242,7 +242,7 @@ public class RegarderRepertoire {
 		regarderRepertoire.cheminSrcGenJava = SITE_CHEMIN + "/src/gen/java";
 		regarderRepertoire.cheminsBin.add(SITE_CHEMIN + "/src/main/resources");
 
-		regarderRepertoire.configChemin = SITE_CHEMIN + "/config/" + SITE_NOM + ".yml";
+		regarderRepertoire.configChemin = SITE_CHEMIN + "/config/" + SITE_NOM + ".yaml";
 		regarderRepertoire.fichierConfig = new File(regarderRepertoire.configChemin);
 		regarderRepertoire.configuration = configurations.ini(regarderRepertoire.fichierConfig);
 
@@ -334,7 +334,7 @@ public class RegarderRepertoire {
 					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
 					SolrInputDocument classeDoc = new SolrInputDocument();
 					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
-					YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yml", appComputate, classeLangueNom));
+					YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classeLangueNom));
 					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, langueConfig);
 					System.out.println(String.format("%s %s", classeLangueConfig.getString(ConfigCles.var_Indexe), cheminStr));
 				} catch(Exception ex) {
