@@ -14,9 +14,12 @@
 package org.computate.frFR.java;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -38,6 +41,13 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
+
+import com.hubspot.jinjava.Jinjava;
+import com.hubspot.jinjava.JinjavaConfig;
+
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.SiteConfig enUS: Loads the
@@ -54,6 +64,9 @@ public class ConfigSite {
 	public ConfigSite() {
 	}
 
+	public String classeLangueNom;
+
+	public YAMLConfiguration classeLangueConfig;
 
 	/**
 	 * enUS: The Apache Commons Configurations object for reading config files.
@@ -91,6 +104,16 @@ public class ConfigSite {
 	protected void _siteNom() throws Exception {
 		if (siteNom == null)
 			siteNom = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_NOM));
+	}
+
+	public String sitePrefixe;
+
+	/**
+	 * Var.enUS: _sitePath r: siteChemin r.enUS: sitePath
+	 **/
+	protected void _sitePrefixe() throws Exception {
+		if (sitePrefixe == null)
+			sitePrefixe = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_PREFIXE));
 	}
 
 	/**
@@ -173,30 +196,8 @@ public class ConfigSite {
 	 * r.enUS: sitePath r: siteNom r.enUS: siteName
 	 **/
 	protected void _configChemin() throws Exception {
-		configChemin = siteChemin + "/config/" + siteNom + ".yaml";
+		configChemin = System.getenv(classeLangueConfig.getString("var_CONFIG_VARS_CHEMIN"));
 	}
-//
-//	/**
-//	 * Var.enUS: configPath
-//	 * enUS: The absolute path to the config file. 
-//	 */
-//	public String configChemin;
-//	/**	
-//	 * Var.enUS: _configPath
-//	 * r.enUS: configChemin
-//	 * configPath
-//	 * r.enUS: configChemin
-//	 * configPath
-//	 * r.enUS: siteNom
-//	 * siteName
-//	 * r.enUS: siteChemin
-//	 * sitePath
-//	 * r.enUS: nomFichierConfig
-//	 * configFileName
-//	 **/ 
-//	protected void _configChemin() throws Exception {
-//		configChemin = config.getString(StringUtils.replace(siteNom, ".", "..") + ".configChemin", siteChemin + "/config/" + nomFichierConfig);
-//	}
 
 	/**
 	 * Var.enUS: configFile enUS: The File Object for the app config file.
@@ -214,13 +215,27 @@ public class ConfigSite {
 	/**
 	 * The INI Configuration Object for the config file.
 	 */
-	public YAMLConfiguration config;
+	public JsonObject config;
 
 	/**
 	 * r: fichierConfig r.enUS: configFile
 	 **/
 	protected void _config() throws Exception {
-		config = configurations.fileBased(YAMLConfiguration.class, fichierConfig);
+		String siteConfigChemin = System.getenv(classeLangueConfig.getString("var_CONFIG_VARS_CHEMIN"));
+		JinjavaConfig jinjavaConfig = new JinjavaConfig();
+		Jinjava jinjava = new Jinjava(jinjavaConfig);
+		File configFichier = new File(siteConfigChemin);
+		String template = Files.readString(configFichier.toPath());
+   		template = template.replace("{{ lookup('env', 'HOME') }}", System.getenv("HOME"));
+		JsonObject ctx = new JsonObject();
+		ctx.put(classeLangueConfig.getString("var_SITE_NOM"), siteNom);
+		ctx.put(classeLangueConfig.getString("var_SITE_CHEMIN"), siteChemin);
+		ctx.put(classeLangueConfig.getString("var_SITE_PREFIXE"), sitePrefixe);
+		String configStr = jinjava.render(template, ctx.getMap());
+		System.out.println(configStr);
+		Yaml yaml = new Yaml();
+		Map<String, Object> map = yaml.load(configStr);
+		config = new JsonObject(map);
 	}
 
 	/**
@@ -253,8 +268,10 @@ public class ConfigSite {
 	 * siteNom r.enUS: siteName
 	 **/
 	protected void _autresLangues() throws Exception {
-		autresLangues = config
-				.getStringArray(langueConfigGlobale.getString(ConfigCles.var_AUTRES_LANGUES));
+		autresLangues = Optional.ofNullable(config
+				.getJsonArray(langueConfigGlobale.getString(ConfigCles.var_AUTRES_LANGUES)))
+				.orElse(new JsonArray())
+				.stream().map(o -> o.toString()).toArray(String[]::new);
 	}
 
 	/**
@@ -343,7 +360,7 @@ public class ConfigSite {
 	 **/
 	protected void _nomEnsembleDomaine() throws Exception {
 		nomEnsembleDomaine = config
-				.getString(langueConfigGlobale.getString(ConfigCles.var_NOM_ENSEMBLE_DOMAINE));
+				.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_JAVA_ENSEMBLE));
 		if (StringUtils.isEmpty(nomEnsembleDomaine)) {
 			String[] partis = StringUtils.split(nomDomaine, ".");
 			ArrayUtils.reverse(partis);
@@ -553,8 +570,9 @@ public class ConfigSite {
 	 * siteNom r.enUS: siteName
 	 **/
 	protected void _siteEcrireMethodes() throws Exception {
-		List<String> o = config.getList(String.class,
-				langueConfigGlobale.getString(ConfigCles.var_SITE_ECRIRE_METHODES));
+		List<String> o = Optional.ofNullable(config.getJsonArray(langueConfigGlobale.getString(ConfigCles.var_SITE_ECRIRE_METHODES)))
+				.orElse(new JsonArray())
+				.stream().map(i -> i.toString()).collect(Collectors.toList());
 		if (o != null)
 			siteEcrireMethodes.addAll(o);
 	}
@@ -562,7 +580,9 @@ public class ConfigSite {
 	public ArrayList<String> authRolesAdmin = new ArrayList<String>();
 
 	protected void _authRolesAdmin() throws Exception {
-		List<String> o = config.getList(String.class, langueConfigGlobale.getString(ConfigCles.var_AUTH_ROLE_ADMIN));
+		List<String> o = Optional.ofNullable(config.getJsonArray(langueConfigGlobale.getString(ConfigCles.var_AUTH_ROLE_ADMIN)))
+				.orElse(new JsonArray())
+				.stream().map(i -> i.toString()).collect(Collectors.toList());
 		if (o != null)
 			authRolesAdmin.addAll(o);
 	}
@@ -683,6 +703,7 @@ public class ConfigSite {
 		_appComputate();
 		_langueConfigGlobale();
 		_siteNom();
+		_sitePrefixe();
 		_siteChemin();
 		_siteCheminVertx();
 		_cheminSrcMainJava();

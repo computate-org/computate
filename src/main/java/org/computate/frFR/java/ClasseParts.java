@@ -32,7 +32,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  */  
 public class ClasseParts {
 
-	public static final String NOM_ENSEMBLE_DOMAINE_COMPUTATE = "org.computate.";
+	public static final String SITE_JAVA_ENSEMBLE_COMPUTATE = "org.computate.";
 
 	private String valeurGenerique;
 
@@ -190,7 +190,7 @@ public class ClasseParts {
 	public static SolrDocument documentSolr(ConfigSite configSite, String nomSimpleOuCanonique, String langueNom) throws Exception {
 		SolrDocument doc = null;   
 		Boolean contientPoint = nomSimpleOuCanonique.contains(".");
-		if(!contientPoint || StringUtils.startsWith(nomSimpleOuCanonique, configSite.nomEnsembleDomaine) || StringUtils.startsWith(nomSimpleOuCanonique, NOM_ENSEMBLE_DOMAINE_COMPUTATE)) {
+		if(!contientPoint || StringUtils.startsWith(nomSimpleOuCanonique, configSite.nomEnsembleDomaine) || StringUtils.startsWith(nomSimpleOuCanonique, SITE_JAVA_ENSEMBLE_COMPUTATE)) {
 			SolrQuery rechercheSolr = new SolrQuery();   
 			rechercheSolr.setQuery("*:*");
 			rechercheSolr.setRows(1);

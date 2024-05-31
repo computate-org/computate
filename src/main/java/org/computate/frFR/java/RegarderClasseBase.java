@@ -40,10 +40,6 @@ public class RegarderClasseBase extends ConfigSite {
 		this.args = args;
 	}
 
-	public String classeLangueNom;
-
-	public YAMLConfiguration classeLangueConfig;
-
 	/**
 	 * Description: A helper method for generating a URL friendly unique ID for this object
 	 */

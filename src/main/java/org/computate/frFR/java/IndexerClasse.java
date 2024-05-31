@@ -2192,7 +2192,7 @@ public class IndexerClasse extends RegarderClasseBase {
 			ClasseParts classePartsSuperGenerique = ClasseParts.initClasseParts(this, classeNomCompletSuperGenerique, classeLangueNom);
 			classePartsGenAjouter(classePartsSuperGenerique, classeLangueNom);
 
-			if(StringUtils.startsWith(classeNomCanoniqueSuper, nomEnsembleDomaine) || StringUtils.startsWith(classeNomCanoniqueSuper, ClasseParts.NOM_ENSEMBLE_DOMAINE_COMPUTATE)) {
+			if(StringUtils.startsWith(classeNomCanoniqueSuper, nomEnsembleDomaine) || StringUtils.startsWith(classeNomCanoniqueSuper, ClasseParts.SITE_JAVA_ENSEMBLE_COMPUTATE)) {
 				SolrQuery rechercheSolr = new SolrQuery();   
 				rechercheSolr.setQuery("*:*");
 				rechercheSolr.setRows(1);

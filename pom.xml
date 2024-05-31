@@ -32,6 +32,7 @@
 		<cloudevents.version>2.3.0</cloudevents.version>
 		<jfreechart.version>1.5.3</jfreechart.version>
 		<handlebars.version>4.3.0</handlebars.version>
+		<jinjava.version>2.7.2</jinjava.version>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -133,6 +134,12 @@
 			<groupId>org.apache.solr</groupId>
 			<artifactId>solr-solrj</artifactId>
 			<version>${solr.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.hubspot.jinjava</groupId>
+			<artifactId>jinjava</artifactId>
+			<version>${jinjava.version}</version>
 		</dependency>
 
 		<!-- Jackson Data -->

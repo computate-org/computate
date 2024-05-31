@@ -325,7 +325,6 @@ public class ConfigCles {
 	public static final String var_nomDomaine = "var_nomDomaine";
 	public static final String var_NOM_DOMAINE = "var_NOM_DOMAINE";
 	public static final String var_nomEnsembleDomaine = "var_nomEnsembleDomaine";
-	public static final String var_NOM_ENSEMBLE_DOMAINE = "var_NOM_ENSEMBLE_DOMAINE";
 	public static final String var_NomFamille = "var_NomFamille";
 	public static final String var_nomFichierConfig = "var_nomFichierConfig";
 	public static final String var_NOM_FICHIER_CONFIG = "var_NOM_FICHIER_CONFIG";
@@ -435,8 +434,10 @@ public class ConfigCles {
 	public static final String var_SITE_CRYPTE = "var_SITE_CRYPTE";
 	public static final String var_siteEcrireMethodes = "var_siteEcrireMethodes";
 	public static final String var_SITE_ECRIRE_METHODES = "var_SITE_ECRIRE_METHODES";
+	public static final String var_SITE_JAVA_ENSEMBLE = "var_SITE_JAVA_ENSEMBLE";
 	public static final String var_siteNom = "var_siteNom";
 	public static final String var_SITE_NOM = "var_SITE_NOM";
+	public static final String var_SITE_PREFIXE = "var_SITE_PREFIXE";
 	public static final String var_siteUrlBase = "var_siteUrlBase";
 	public static final String var_SiteUrlBase = "var_SiteUrlBase";
 	public static final String var_SITE_URL_BASE = "var_SITE_URL_BASE";

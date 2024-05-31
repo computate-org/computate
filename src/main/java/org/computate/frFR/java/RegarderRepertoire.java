@@ -23,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -49,6 +50,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.slf4j.Logger;
+import org.yaml.snakeyaml.Yaml;
+
+import com.google.common.io.Resources;
+import com.hubspot.jinjava.Jinjava;
+import com.hubspot.jinjava.JinjavaConfig;
+import com.hubspot.jinjava.loader.FileLocator;
+
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.WatchDirectory
@@ -144,7 +154,7 @@ public class RegarderRepertoire {
 	/**
 	 * Var.enUS: configuration
 	 */
-	protected INIConfiguration configuration;
+	protected JsonObject configuration;
 	protected String langueNom;
 	/**
 	 * Var.enUS: SITE_NAME
@@ -154,6 +164,7 @@ public class RegarderRepertoire {
 	 * Var.enUS: SITE_PATH
 	 */
 	protected String SITE_CHEMIN;
+	protected String SITE_PREFIXE;
 	protected String COMPUTATE_SRC;
 //
 //	public static String str_SITE_NOM(String langueNom) {
@@ -222,53 +233,65 @@ public class RegarderRepertoire {
 	 * r.enUS: configFile
 	 */
 	public static void main(String[] args) throws Exception { 
-		String lang = Optional.ofNullable(System.getenv("SITE_LANG")).orElse("frFR");
-		String appComputate = System.getenv("COMPUTATE_SRC");
-		Configurations configurations = new Configurations();
-		YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, lang));
-		String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
-		String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
-		Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
-		Boolean GENERER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER"))).orElse("true"));
-
-		RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
-		regarderRepertoire.langueNom = lang;
-		regarderRepertoire.SITE_NOM = SITE_NOM;
-		regarderRepertoire.SITE_CHEMIN = SITE_CHEMIN;
-		regarderRepertoire.COMPUTATE_SRC = appComputate;
-		regarderRepertoire.classeCheminRepertoireAppli = SITE_CHEMIN;
-
-		regarderRepertoire.cheminSrcMainJava = SITE_CHEMIN + "/src/main/java";
-		regarderRepertoire.cheminSrcGenJava = SITE_CHEMIN + "/src/gen/java";
-		regarderRepertoire.cheminsBin.add(SITE_CHEMIN + "/src/main/resources");
-
-		regarderRepertoire.configChemin = SITE_CHEMIN + "/config/" + SITE_NOM + ".yaml";
-		regarderRepertoire.fichierConfig = new File(regarderRepertoire.configChemin);
-		regarderRepertoire.configuration = configurations.ini(regarderRepertoire.fichierConfig);
-
-		regarderRepertoire.trace = true;
 		try {
+			String lang = Optional.ofNullable(System.getenv("SITE_LANG")).orElse("frFR");
+			String appComputate = System.getenv("COMPUTATE_SRC");
+			Configurations configurations = new Configurations();
+			YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, lang));
+			String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
+			String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
+			String SITE_PREFIXE = System.getenv(classeLangueConfig.getString("var_SITE_PREFIXE"));
+			Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
+			Boolean GENERER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER"))).orElse("true"));
+
+			RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
+			regarderRepertoire.langueNom = lang;
+			regarderRepertoire.SITE_NOM = SITE_NOM;
+			regarderRepertoire.SITE_CHEMIN = SITE_CHEMIN;
+			regarderRepertoire.SITE_PREFIXE = SITE_PREFIXE;
+			regarderRepertoire.COMPUTATE_SRC = appComputate;
+			regarderRepertoire.classeCheminRepertoireAppli = SITE_CHEMIN;
+
+			regarderRepertoire.cheminSrcMainJava = SITE_CHEMIN + "/src/main/java";
+			regarderRepertoire.cheminSrcGenJava = SITE_CHEMIN + "/src/gen/java";
+			regarderRepertoire.cheminsBin.add(SITE_CHEMIN + "/src/main/resources");
+
+			regarderRepertoire.configChemin = System.getenv(classeLangueConfig.getString("var_CONFIG_VARS_CHEMIN"));
+			System.out.println(regarderRepertoire.configChemin);
+			regarderRepertoire.fichierConfig = new File(regarderRepertoire.configChemin);
+			JinjavaConfig jinjavaConfig = new JinjavaConfig();
+			Jinjava jinjava = new Jinjava(jinjavaConfig);
+			File configFichier = new File(regarderRepertoire.configChemin);
+			String template = Files.readString(configFichier.toPath());
+    		template = template.replace("{{ lookup('env', 'HOME') }}", System.getenv("HOME"));
+			JsonObject ctx = new JsonObject();
+			ctx.put(classeLangueConfig.getString("var_SITE_NOM"), regarderRepertoire.SITE_NOM);
+			ctx.put(classeLangueConfig.getString("var_SITE_CHEMIN"), regarderRepertoire.SITE_CHEMIN);
+			ctx.put(classeLangueConfig.getString("var_SITE_PREFIXE"), regarderRepertoire.SITE_PREFIXE);
+			ctx.put("COMPUTATE_SRC", regarderRepertoire.COMPUTATE_SRC);
+			String configStr = jinjava.render(template, ctx.getMap());
+			Yaml yaml = new Yaml();
+			Map<String, Object> map = yaml.load(configStr);
+			regarderRepertoire.configuration = new JsonObject(map);
+
+			regarderRepertoire.trace = true;
 			regarderRepertoire.initialiserRegarderRepertoire(classeLangueConfig);
 			regarderRepertoire.ajouterCheminsARegarder(classeLangueConfig, REGARDER);
 
-			try {
-				if(REGARDER) {
-					indexerClasses(SITE_CHEMIN, classeLangueConfig);
-					indexerClasses(SITE_CHEMIN, classeLangueConfig);
-					indexerClasses(SITE_CHEMIN, classeLangueConfig);
-					System.out.println(classeLangueConfig.getString(ConfigCles.str_Pret));
-					regarderRepertoire.traiterEvenements();
+			if(REGARDER) {
+				indexerClasses(SITE_CHEMIN, classeLangueConfig);
+				indexerClasses(SITE_CHEMIN, classeLangueConfig);
+				indexerClasses(SITE_CHEMIN, classeLangueConfig);
+				System.out.println(classeLangueConfig.getString(ConfigCles.str_Pret));
+				regarderRepertoire.traiterEvenements(classeLangueConfig);
+			} else {
+				indexerClasses(SITE_CHEMIN, classeLangueConfig);
+				indexerClasses(SITE_CHEMIN, classeLangueConfig);
+				if(GENERER) {
+					indexerEcrireClasses(SITE_CHEMIN, classeLangueConfig);
 				} else {
 					indexerClasses(SITE_CHEMIN, classeLangueConfig);
-					indexerClasses(SITE_CHEMIN, classeLangueConfig);
-					if(GENERER) {
-						indexerEcrireClasses(SITE_CHEMIN, classeLangueConfig);
-					} else {
-						indexerClasses(SITE_CHEMIN, classeLangueConfig);
-					}
 				}
-			} catch(Exception ex) {
-				System.out.println(String.format("Error indexing files on startup: %s", ex.getMessage()));
 			}
 		}
 		catch(Exception e) {
@@ -394,11 +417,11 @@ public class RegarderRepertoire {
 	public void initialiserRegarderRepertoire(YAMLConfiguration classeLangueConfig) throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
 //		executeur.setStreamHandler(gestionnaireFluxPompe);
-		String[] CHEMINS_RELATIFS_A_REGARDER = configuration.getStringArray(classeLangueConfig.getString(ConfigCles.var_CHEMINS_RELATIFS_A_REGARDER));
-		for(String cheminRelatifARegarder : CHEMINS_RELATIFS_A_REGARDER) {
+		JsonArray CHEMINS_RELATIFS_A_REGARDER = configuration.getJsonArray(classeLangueConfig.getString(ConfigCles.var_CHEMINS_RELATIFS_A_REGARDER));
+		CHEMINS_RELATIFS_A_REGARDER.stream().map(o -> o.toString()).forEach(cheminRelatifARegarder -> {
 			String cheminARegarder = SITE_CHEMIN + "/" + cheminRelatifARegarder;
 			cheminsARegarder.add(cheminARegarder);
-		}
+		});
 
 		cheminsSource.add(cheminSrcMainJava);
 		toutCheminsSource.add(cheminSrcMainJava);
@@ -576,7 +599,9 @@ public class RegarderRepertoire {
 	 * r: classeCheminRepertoireAppli
 	 * r.enUS: classAppDirPath
 	 */
-	protected void traiterEvenements() {
+	protected void traiterEvenements(YAMLConfiguration classeLangueConfig) {
+		for(String cheminARegarder : cheminsARegarder)
+			System.out.println(classeLangueConfig.getString(ConfigCles.var_Regarder) + " " + cheminARegarder);
 		for (;;) {
 
 			WatchKey regarderCle;
