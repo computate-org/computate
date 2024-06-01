@@ -66,28 +66,8 @@ public class RegarderClasse extends EcrireToutesClasses {
 			String appComputate = System.getenv("COMPUTATE_SRC");
 			Configurations configurations = new Configurations();
 			YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classeLangueNom));
-			String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
-			String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
-			String SITE_PREFIXE = System.getenv(classeLangueConfig.getString("var_SITE_PREFIXE"));
-			String COMPUTATE_SRC = System.getenv("COMPUTATE_SRC");
 
-
-			String siteConfigChemin = System.getenv(classeLangueConfig.getString("var_CONFIG_VARS_CHEMIN"));
-			JinjavaConfig jinjavaConfig = new JinjavaConfig();
-			Jinjava jinjava = new Jinjava(jinjavaConfig);
-			File configFichier = new File(siteConfigChemin);
-			String template = Files.readString(configFichier.toPath());
-  	 		template = template.replace("{{ lookup('env', 'HOME') }}", System.getenv("HOME"));
-			JsonObject ctx = new JsonObject();
-			ctx.put(classeLangueConfig.getString("var_SITE_NOM"), SITE_NOM);
-			ctx.put(classeLangueConfig.getString("var_SITE_CHEMIN"), SITE_CHEMIN);
-			ctx.put(classeLangueConfig.getString("var_SITE_PREFIXE"), SITE_PREFIXE);
-			ctx.put("COMPUTATE_SRC", COMPUTATE_SRC);
-			String configStr = jinjava.render(template, ctx.getMap());
-			System.out.println(configStr);
-			Yaml yaml = new Yaml();
-			Map<String, Object> map = yaml.load(configStr);
-			JsonObject siteConfig = new JsonObject(map);
+			JsonObject siteConfig = ConfigSite.getConfiguration(classeLangueConfig);
 
 			regarderClasse.args = args;
 			regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);

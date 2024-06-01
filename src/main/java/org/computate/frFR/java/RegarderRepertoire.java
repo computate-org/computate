@@ -256,23 +256,7 @@ public class RegarderRepertoire {
 			regarderRepertoire.cheminSrcGenJava = SITE_CHEMIN + "/src/gen/java";
 			regarderRepertoire.cheminsBin.add(SITE_CHEMIN + "/src/main/resources");
 
-			regarderRepertoire.configChemin = System.getenv(classeLangueConfig.getString("var_CONFIG_VARS_CHEMIN"));
-			System.out.println(regarderRepertoire.configChemin);
-			regarderRepertoire.fichierConfig = new File(regarderRepertoire.configChemin);
-			JinjavaConfig jinjavaConfig = new JinjavaConfig();
-			Jinjava jinjava = new Jinjava(jinjavaConfig);
-			File configFichier = new File(regarderRepertoire.configChemin);
-			String template = Files.readString(configFichier.toPath());
-    		template = template.replace("{{ lookup('env', 'HOME') }}", System.getenv("HOME"));
-			JsonObject ctx = new JsonObject();
-			ctx.put(classeLangueConfig.getString("var_SITE_NOM"), regarderRepertoire.SITE_NOM);
-			ctx.put(classeLangueConfig.getString("var_SITE_CHEMIN"), regarderRepertoire.SITE_CHEMIN);
-			ctx.put(classeLangueConfig.getString("var_SITE_PREFIXE"), regarderRepertoire.SITE_PREFIXE);
-			ctx.put("COMPUTATE_SRC", regarderRepertoire.COMPUTATE_SRC);
-			String configStr = jinjava.render(template, ctx.getMap());
-			Yaml yaml = new Yaml();
-			Map<String, Object> map = yaml.load(configStr);
-			regarderRepertoire.configuration = new JsonObject(map);
+			regarderRepertoire.configuration = ConfigSite.getConfiguration(classeLangueConfig);
 
 			regarderRepertoire.trace = true;
 			regarderRepertoire.initialiserRegarderRepertoire(classeLangueConfig);

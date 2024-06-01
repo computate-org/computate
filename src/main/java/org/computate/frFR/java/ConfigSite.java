@@ -17,6 +17,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,6 +30,7 @@ import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
@@ -45,9 +47,17 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.hubspot.jinjava.Jinjava;
 import com.hubspot.jinjava.JinjavaConfig;
+import com.hubspot.jinjava.lib.fn.ELFunctionDefinition;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.ApiClient;
+import io.kubernetes.client.openapi.Configuration;
+import io.kubernetes.client.openapi.apis.CoreV1Api;
+import io.kubernetes.client.openapi.models.V1Secret;
+import io.kubernetes.client.util.Config;
+
 
 /**
  * NomCanonique.enUS: org.computate.enUS.java.SiteConfig enUS: Loads the
@@ -56,6 +66,79 @@ import io.vertx.core.json.JsonObject;
  * spécifiques.
  */
 public class ConfigSite {
+
+	public static String lookup(String type, String arg1) {
+		if("env".equals(type))
+			return System.getenv(arg1);
+		return null;
+	}
+
+	public static KubernetesObject query(String type, String kind, String resource_name, String namespace) {
+		try {
+			if("kubernetes.core.k8s".equals(type)) {
+				ApiClient client = Config.defaultClient();
+				Configuration.setDefaultApiClient(client);
+				CoreV1Api api = new CoreV1Api();
+				if("Secret".equals(kind)) {
+					V1Secret secret = api.readNamespacedSecret(resource_name, namespace, "false");
+					return secret;
+				}
+			}
+		} catch(Exception ex) {
+			ExceptionUtils.rethrow(ex);
+		}
+		return null;
+	}
+
+	public static JsonObject getConfiguration(YAMLConfiguration classeLangueConfig) {
+		JsonObject configuration = null;
+
+		try {
+			String configChemin = System.getenv(classeLangueConfig.getString("var_CONFIG_VARS_CHEMIN"));
+			JinjavaConfig jinjavaConfig = new JinjavaConfig();
+			Jinjava jinjava = new Jinjava(jinjavaConfig);
+			
+			jinjava.registerFunction(new ELFunctionDefinition("", "lookup", ConfigSite.class, "lookup", String.class, String.class));
+			jinjava.registerFunction(new ELFunctionDefinition("", "query", ConfigSite.class, "query", String.class, String.class, String.class, String.class));
+
+			File configFichier = new File(configChemin);
+			String template = Files.readString(configFichier.toPath());
+			HashMap<String, Object> ctx = new HashMap<>();
+			configuration = new JsonObject();
+			ctx.put(classeLangueConfig.getString("var_SITE_NOM"), System.getenv(classeLangueConfig.getString("var_SITE_NOM")));
+			ctx.put(classeLangueConfig.getString("var_SITE_CHEMIN"), System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN")));
+			ctx.put(classeLangueConfig.getString("var_SITE_PREFIXE"), System.getenv(classeLangueConfig.getString("var_SITE_PREFIXE")));
+			ctx.put("COMPUTATE_SRC", System.getenv("COMPUTATE_SRC"));
+			Yaml yaml = new Yaml();
+			Map<String, Object> map = yaml.load(template);
+			for(String key : map.keySet()) {
+				Object val = map.get(key);
+				if(val instanceof String) {
+					String rendered = jinjava.render(val.toString(), ctx);
+					ctx.put(key, rendered);
+					configuration.put(key, rendered);
+				} else if(val instanceof ArrayList) {
+					List<Object> list1 = (List<Object>)val;
+					JsonArray list2 = new JsonArray();
+					for(Object item : list1) {
+						if(item instanceof String) {
+							String rendered = jinjava.render(item.toString(), ctx);
+							list2.add(rendered);
+						} else {
+							list2.add(item);
+						}
+						configuration.put(key, list2);
+					}
+				} else {
+					ctx.put(key, val);
+					configuration.put(key, val);
+				}
+			}
+		} catch(Exception ex) {
+			ExceptionUtils.rethrow(ex);
+		}
+		return configuration;
+	}
 
 	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -221,21 +304,7 @@ public class ConfigSite {
 	 * r: fichierConfig r.enUS: configFile
 	 **/
 	protected void _config() throws Exception {
-		String siteConfigChemin = System.getenv(classeLangueConfig.getString("var_CONFIG_VARS_CHEMIN"));
-		JinjavaConfig jinjavaConfig = new JinjavaConfig();
-		Jinjava jinjava = new Jinjava(jinjavaConfig);
-		File configFichier = new File(siteConfigChemin);
-		String template = Files.readString(configFichier.toPath());
-   		template = template.replace("{{ lookup('env', 'HOME') }}", System.getenv("HOME"));
-		JsonObject ctx = new JsonObject();
-		ctx.put(classeLangueConfig.getString("var_SITE_NOM"), siteNom);
-		ctx.put(classeLangueConfig.getString("var_SITE_CHEMIN"), siteChemin);
-		ctx.put(classeLangueConfig.getString("var_SITE_PREFIXE"), sitePrefixe);
-		String configStr = jinjava.render(template, ctx.getMap());
-		System.out.println(configStr);
-		Yaml yaml = new Yaml();
-		Map<String, Object> map = yaml.load(configStr);
-		config = new JsonObject(map);
+		config = getConfiguration(classeLangueConfig);
 	}
 
 	/**
@@ -408,7 +477,6 @@ public class ConfigSite {
 	 * solrUrl r.enUS: solrUrl r: portSolr r.enUS: solrPort
 	 **/
 	protected void _solrUrlComputate() throws Exception {
-//		solrUrlComputate = config.getString("solr.solrUrl", "http://localhost:" + portSolr + "/solr/computate");
 		solrUrlComputate = config
 				.getString(langueConfigGlobale.getString(ConfigCles.var_SOLR_URL_COMPUTATE));
 	}
