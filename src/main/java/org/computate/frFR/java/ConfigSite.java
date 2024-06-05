@@ -645,14 +645,10 @@ public class ConfigSite {
 			siteEcrireMethodes.addAll(o);
 	}
 
-	public ArrayList<String> authRolesAdmin = new ArrayList<String>();
+	public String authRoleAdmin = null;
 
-	protected void _authRolesAdmin() throws Exception {
-		List<String> o = Optional.ofNullable(config.getJsonArray(langueConfigGlobale.getString(ConfigCles.var_AUTH_ROLE_ADMIN)))
-				.orElse(new JsonArray())
-				.stream().map(i -> i.toString()).collect(Collectors.toList());
-		if (o != null)
-			authRolesAdmin.addAll(o);
+	protected void _authRoleAdmin() throws Exception {
+		authRoleAdmin = langueConfigGlobale.getString(ConfigCles.var_AUTH_ROLE_ADMIN);
 	}
 
 	public Boolean authPolitiqueGranulee;
@@ -816,7 +812,7 @@ public class ConfigSite {
 		_customerProfileId9();
 		_customerProfileId10();
 		_siteEcrireMethodes();
-		_authRolesAdmin();
+		_authRoleAdmin();
 		_authPolitiqueGranulee();
 		_ecrireApi();
 		_ecrireCommentaire();

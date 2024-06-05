@@ -166,41 +166,6 @@ public class RegarderRepertoire {
 	protected String SITE_CHEMIN;
 	protected String SITE_PREFIXE;
 	protected String COMPUTATE_SRC;
-//
-//	public static String str_SITE_NOM(String langueNom) {
-//		if("frFR".equals(langueNom))
-//			return "SITE_NOM";
-//		else
-//			return "SITE_NAME";
-//	}
-//
-//	public static String str_Regarder(String langueNom) {
-//		if("frFR".equals(langueNom))
-//			return "Regarder";
-//		else
-//			return "Watch";
-//	}
-//
-//	public static String str_SITE_CHEMIN(String langueNom) {
-//		if("frFR".equals(langueNom))
-//			return "SITE_CHEMIN";
-//		else
-//			return "SITE_PATH";
-//	}
-//
-//	public static String str_COMPUTATE_SRC(String langueNom) {
-//		if("frFR".equals(langueNom))
-//			return "COMPUTATE_SRC";
-//		else
-//			return "COMPUTATE_SRC";
-//	}
-//
-//	public static String str_CHEMINS_RELATIFS_A_REGARDER(String langueNom) {
-//		if("frFR".equals(langueNom))
-//			return "CHEMINS_RELATIFS_A_REGARDER";
-//		else
-//			return "RELATIVE_PATHS_TO_WATCH";
-//	}
 
 	 /**
 	 * r: SITE_NOM
@@ -300,7 +265,6 @@ public class RegarderRepertoire {
 					})
 			.forEach(chemin -> {
 				String cheminStr = chemin.toString();
-//						System.out.println(String.format("%s %s", chemin.toString().endsWith(".java"), chemin.toString()));
 				RegarderClasse regarderClasse = new RegarderClasse();
 				try {
 					regarderClasse.setArgs(new String[] {SITE_CHEMIN, cheminStr});
@@ -334,7 +298,6 @@ public class RegarderRepertoire {
 					})
 			.forEach(chemin -> {
 				String cheminStr = chemin.toString();
-//						System.out.println(String.format("%s %s", chemin.toString().endsWith(".java"), chemin.toString()));
 				RegarderClasse regarderClasse = new RegarderClasse();
 				try {
 					regarderClasse.setArgs(new String[] {SITE_CHEMIN, cheminStr});
@@ -400,12 +363,9 @@ public class RegarderRepertoire {
 	 */
 	public void initialiserRegarderRepertoire(YAMLConfiguration classeLangueConfig) throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
-//		executeur.setStreamHandler(gestionnaireFluxPompe);
-		JsonArray CHEMINS_RELATIFS_A_REGARDER = configuration.getJsonArray(classeLangueConfig.getString(ConfigCles.var_CHEMINS_RELATIFS_A_REGARDER));
-		CHEMINS_RELATIFS_A_REGARDER.stream().map(o -> o.toString()).forEach(cheminRelatifARegarder -> {
-			String cheminARegarder = SITE_CHEMIN + "/" + cheminRelatifARegarder;
-			cheminsARegarder.add(cheminARegarder);
-		});
+		String cheminRelatifARegarder = configuration.getString(classeLangueConfig.getString(ConfigCles.var_CHEMINS_RELATIFS_A_REGARDER));
+		String cheminARegarder = SITE_CHEMIN + "/" + cheminRelatifARegarder;
+		cheminsARegarder.add(cheminARegarder);
 
 		cheminsSource.add(cheminSrcMainJava);
 		toutCheminsSource.add(cheminSrcMainJava);
@@ -651,145 +611,4 @@ public class RegarderRepertoire {
 			}
 		}
 	}  
-//
-//		public void entiteEstCmd(UnEntite entite) throws Exception {
-//			if(entite.nomSimple.equals("Cmd")) { 
-//				String commentaire = entite.commentaireQdox;
-//				Matcher m = Pattern.compile("^(cmd\\.param(\\d+)).val: (.*)", Pattern.MULTILINE).matcher(commentaire);
-//				boolean trouve = m.find();
-//				
-//				while(trouve) {
-//					String prefixe = m.group(1);
-//					Integer paramNumero = Integer.parseInt(m.group(2));
-//					String paramVal = m.group(3);
-//					UnEntite paramEntite = new UnEntite();
-//
-//					if(StringUtils.isEmpty(paramVal))
-//						paramVal = regex("^cmd\\.param" + paramNumero + ".val.var: (.*)", commentaire, 1);
-//					else
-//						paramVal = "\"" + paramVal + "\"";
-//		
-//					paramEntite.declarer(true);
-//					paramEntite.classe_(this);
-//					paramEntite.requeteSite(requeteSite);
-//					paramEntite.couverture(true);
-//		
-//					paramEntite.var.frFR(entite.var.frFR() + "Param" + paramNumero);
-//					paramEntite.var.enUS(entite.var.enUS() + "Param" + paramNumero);
-//
-//					paramEntite.codeSource.tabLigne(0);
-//					paramEntite.codeSource.tabLigne(2, "if(", entite.var, " != null) {");
-//					paramEntite.codeSource.tabLigne(3, "CmdParam o = new CmdParam();");
-//					paramEntite.codeSource.tabLigne(3, "o.valeur(", paramVal, ");");
-//					{
-//						Matcher m2 = Pattern.compile("^" + prefixe + ".description.enUS: (.*)", Pattern.MULTILINE).matcher(commentaire);
-//						boolean trouve2 = m2.find();
-//						while(trouve2) {
-//							String ligne = m2.group(1);
-//							paramEntite.commentaire.enUSLigne(ligne);
-//							paramEntite.codeSource.tabLigne(3, "o.description.enUS(\"", ligne.replace("\"", "\\\""), "\");");
-//							trouve2 = m2.find();
-//						}
-//					}
-//					{
-//						Matcher m2 = Pattern.compile("^" + prefixe + ".description.frFR: (.*)", Pattern.MULTILINE).matcher(commentaire);
-//						boolean trouve2 = m2.find();
-//						while(trouve2) {
-//							String ligne = m2.group(1);
-//							paramEntite.commentaire.frFRLigne(ligne);
-//							paramEntite.codeSource.tabLigne(3, "o.description.frFR(\"", ligne.replace("\"", "\\\""), "\");");
-//							trouve2 = m2.find();
-//						}
-//					}
-//					paramEntite.codeSource.tabLigne(3, entite.var, ".paramsAjouter(o);");
-//					paramEntite.codeSource.tabLigne(3, "c.o(o);");
-//					paramEntite.codeSource.tabLigne(2, "}");
-//					paramEntite.codeSource.tab(1);
-//		
-//					paramEntite.classeQdox(classeQdoxCmdParamActuel);
-////					paramEntite.methodeQdox(methodeQdox);
-//					paramEntite.initialiserLoinUnEntite(requeteSite);
-//					entites.add(paramEntite);
-//					if(!entitesTout.contains(paramEntite))
-//						entitesTout.add(paramEntite);
-//					tout.add(paramEntite);
-//					importationsAjouter(new Chaine().tout(classeQdoxCmdParamActuel.getCanonicalName()));
-//					importationsGenAjouter(new Chaine().tout(classeQdoxCmdParamActuel.getCanonicalName()));
-//
-//					trouve = m.find();
-//				}
-//			}
-//		}
-//		clientSolr.add(doc);
-//		clientSolr.commit();
-//	}
-//
-//	public Chaine texteGen(Chaine o) throws Exception {     
-//		o.requeteSite(requeteSite);
-//
-//		o.tout(texteClasseAvant);
-//
-//		o.tout("package ", nomEnsemble.frFR, ";\n");
-//		o.tout("\n");
-////		o.tout("import org.computate.dév.java.*;\n");
-////		o.tout("import org.computate.dév.temporal.*;\n");
-//		for(Chaine c : importationsGen) {
-//			o.tout("import ", c, ";\n");
-//		}
-//		o.tout("\n");
-////		o.tout("public class ", nomSimple.frFR, " extends ", nomSimple.frFR, "Généré<", nomSimpleSuper.frFR, "> {\n");
-//		o.tout("public abstract class ", nomSimpleGen.frFR, classeGenSuffixeGenerique);
-//		if(nomSimpleBase.pasVide()) {
-//			if(!nomSimpleBase.toString().equals("DEV"))
-//				o.tout(" extends ", nomSimpleBase);
-//		}
-//		else if(nomCanoniqueSuper.pasVide()) {
-//			o.tout(" extends ", nomSimpleSuper);
-//		}
-//
-////		if(nomCanoniqueSuper.pasVide() && nomCanoniqueSuper.terminePasPar(SuffixeGen)) {
-////			o.tout(" extends ", nomSimpleSuper);
-////		}
-////		else if(nomCanoniqueBase.pasVide() && nomCanoniqueBase.contient(".")) {
-////			o.tout(" extends ", nomSimpleBase);
-////		}
-//
-//		if(implementations.size() > 0) {
-//			o.tout(" implements");
-//			for(Chaine c : implementations) {
-//				o.enUS(" ", StringUtils.substringAfterLast(c.enUS(), "."));
-//				o.frFR(" ", StringUtils.substringAfterLast(c.frFR(), "."));
-//			}
-//		}
-//		o.toutLigne(" {\n");
-////		o.toutLigne("\tprotected Logger log = LoggerFactory.getLogger(getClass());");
-////		o.tout("\n");
-//		o.tout("\tpublic ", nomSimpleGen, "() {\n");
-//		o.tout("\t\tsuper();\n");
-//		o.tout(texteClasseConstructeur);
-//		o.tout("\t}\n");
-//		o.tout("\n");
-////		o.tout(texteClasseConstructeurApres);
-//
-//		ecrireEntitesGen(o);
-//		if(ecrireIndexer)
-//			ecrireIndexer(o);
-//		ecrireEntitesInitialiser(o);
-//		ecrireClasseGenere(o);
-//		if(ecrireSh)
-//			ecrireSh(o);
-//		if(ecrireCode)
-//			ecrireCode(o);
-//		if(ecrireShHtml)
-//			ecrireShHtml(o);
-//		if(ecrireHtml)
-//			ecrireHtml(o);
-//
-//		o.tout(texteClasseApres);
-//
-//		ecrireClasseFin(o);
-//
-//		o.tout("}\n");
-//		return o;
-//	}
 }
