@@ -76,6 +76,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.computate.search.wrap.Wrap;
+import org.computate.vertx.api.ApiRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -5903,12 +5904,16 @@ public class IndexerClasse extends RegarderClasseBase {
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.JsonArray", classeLangueNom), classeLangueNom);
 		}
 
+		if(classeApi) {
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, ApiRequest.class.getCanonicalName(), classeLangueNom), classeLangueNom);
+		}
 		if(classeIndexe) {
 //			classePartsGenAjouter(classePartsSolrInputDocument, classeLangueNom);
 //			classePartsGenAjouter(classePartsSolrClient, classeLangueNom);
 //			classePartsGenAjouter(classePartsSolrDocument, classeLangueNom);
 			classePartsGenAjouter(classePartsList, classeLangueNom);
 			classePartsGenAjouter(classePartsArrayList, classeLangueNom);
+			classePartsGenAjouter(ClasseParts.initClasseParts(this, JsonArray.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.apache.commons.lang3.exception.ExceptionUtils", classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, "org.computate.search.response.solr.SolrResponse", classeLangueNom), classeLangueNom);
 			classePartsGenAjouter(ClasseParts.initClasseParts(this, VAL_nomCanoniqueVertxJsonObject, classeLangueNom), classeLangueNom);
