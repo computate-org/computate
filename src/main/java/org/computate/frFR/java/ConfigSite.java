@@ -15,7 +15,10 @@ package org.computate.frFR.java;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +50,8 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.hubspot.jinjava.Jinjava;
 import com.hubspot.jinjava.JinjavaConfig;
+import com.hubspot.jinjava.interpret.JinjavaInterpreter;
+import com.hubspot.jinjava.lib.filter.Filter;
 import com.hubspot.jinjava.lib.fn.ELFunctionDefinition;
 
 import io.vertx.core.json.JsonArray;
@@ -67,13 +72,15 @@ import io.kubernetes.client.util.Config;
  */
 public class ConfigSite {
 
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+
 	public static String lookup(String type, String arg1) {
 		if("env".equals(type))
 			return System.getenv(arg1);
 		return null;
 	}
 
-	public static KubernetesObject query(String type, String kind, String resource_name, String namespace) {
+	public static KubernetesObject[] query(String type, String kind, String resource_name, String namespace) {
 		try {
 			if("kubernetes.core.k8s".equals(type)) {
 				ApiClient client = Config.defaultClient();
@@ -81,11 +88,13 @@ public class ConfigSite {
 				CoreV1Api api = new CoreV1Api();
 				if("Secret".equals(kind)) {
 					V1Secret secret = api.readNamespacedSecret(resource_name, namespace, "false");
-					return secret;
+					return new KubernetesObject[] {secret};
 				}
 			}
 		} catch(Exception ex) {
-			ExceptionUtils.rethrow(ex);
+			Logger LOG = LoggerFactory.getLogger(ConfigSite.class);
+			LOG.error("kubernetes.core.k8s error", ex);
+			return null;
 		}
 		return null;
 	}
@@ -100,6 +109,72 @@ public class ConfigSite {
 			
 			jinjava.registerFunction(new ELFunctionDefinition("", "lookup", ConfigSite.class, "lookup", String.class, String.class));
 			jinjava.registerFunction(new ELFunctionDefinition("", "query", ConfigSite.class, "query", String.class, String.class, String.class, String.class));
+
+			jinjava.registerFilter(new Filter() {
+				@Override
+				public String getName() {
+					return "b64decode";
+				}
+				@Override
+				public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
+					try {
+						if(var instanceof String) {
+							return new String(Base64.getDecoder().decode(var.toString()));
+						} else if(var instanceof byte[]) {
+							return new String(Base64.getDecoder().decode((byte[])var), "UTF-8");
+						}
+					} catch(Exception ex) {
+						try {
+							return new String(new String((byte[])var, "UTF-8"));
+						} catch(Exception ex2) {
+							ExceptionUtils.rethrow(ex2);
+						}
+					}
+					return null;
+				}
+			});
+
+			jinjava.registerFilter(new Filter() {
+				@Override
+				public String getName() {
+					return "basename";
+				}
+				@Override
+				public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
+					if(var != null) {
+						return new File(var.toString()).getName();
+					}
+					return null;
+				}
+			});
+
+			jinjava.registerFilter(new Filter() {
+				@Override
+				public String getName() {
+					return "dirname";
+				}
+				@Override
+				public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
+					if(var != null) {
+						return Paths.get(var.toString()).getParent().normalize().toAbsolutePath().toString();
+					}
+					return null;
+				}
+			});
+
+			jinjava.registerFilter(new Filter() {
+				@Override
+				public String getName() {
+					return "realpath";
+				}
+				@Override
+				public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
+					if(var != null) {
+						return Paths.get(var.toString()).normalize().toAbsolutePath().toString();
+					}
+					return null;
+				}
+			});
 
 			File configFichier = new File(configChemin);
 			String template = Files.readString(configFichier.toPath());
@@ -134,13 +209,12 @@ public class ConfigSite {
 					configuration.put(key, val);
 				}
 			}
+			System.out.println(configuration.encodePrettily());
 		} catch(Exception ex) {
 			ExceptionUtils.rethrow(ex);
 		}
 		return configuration;
 	}
-
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$\\\\|]");
 
