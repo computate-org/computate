@@ -20,7 +20,6 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;

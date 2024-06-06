@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -73,7 +72,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */   
-	public void ecrireGenClasses(String classeCheminAbsolu, String classeLangueNom, String langueNom, YAMLConfiguration langueConfig) throws Exception { 
+	public void ecrireGenClasses(String classeCheminAbsolu, String classeLangueNom, String langueNom, JsonObject langueConfig) throws Exception { 
 
 		SolrQuery rechercheSolr = new SolrQuery();   
 		rechercheSolr.setQuery("*:*");
@@ -96,7 +95,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */  
-	public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom, YAMLConfiguration langueConfig) throws Exception { 
+	public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom, JsonObject langueConfig) throws Exception { 
 		SolrDocumentList listeRecherche = reponseRecherche.getResults();
 
 		if(listeRecherche.size() > 0 && (langueIndexe || !StringUtils.equals(langueNom, this.langueNom))) {    
@@ -197,7 +196,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */  
-//	public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom, YAMLConfiguration langueConfig) throws Exception { 
+//	public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom, JsonObject langueConfig) throws Exception { 
 	public void ecrireGenClasse(JsonObject doc, String langueNom) throws Exception { 
 
 		classeCheminRepertoireGen = doc.getString("classeCheminRepertoireGen_" + langueNom + "_stored_string");

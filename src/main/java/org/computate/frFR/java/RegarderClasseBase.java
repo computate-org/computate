@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrDocument;
 
@@ -29,6 +28,8 @@ import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaType;
+
+import io.vertx.core.json.JsonObject;
 
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WatchClassBase
@@ -220,7 +221,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 * r: bricoleur
 	 * r.enUS: builder
 	 */
-	public void initRegarderClasseBase(String classeLangueNom, YAMLConfiguration classeLangueConfig) throws Exception {
+	public void initRegarderClasseBase(String classeLangueNom, JsonObject classeLangueConfig) throws Exception {
 		this.classeLangueNom = classeLangueNom;
 		this.classeLangueConfig = classeLangueConfig;
 

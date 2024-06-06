@@ -56,7 +56,6 @@ import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.io.FileUtils;
@@ -3560,7 +3559,6 @@ public class IndexerClasse extends RegarderClasseBase {
 
 									if(classeTraduire) {
 										for(String langueNom : classeAutresLangues) {  
-											YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, langueNom));
 											String entiteAttribuerNomCanoniqueLangue = (String)docEntite.get("classeNomCanonique_" + langueNom + "_stored_string");
 											String entiteAttribuerNomSimpleLangue = (String)docEntite.get("classeNomSimple_" + langueNom + "_stored_string");
 											String entiteAttribuerNomCanoniqueGenApiServiceImplLangue = (String)docClasse.get("classeNomCanoniqueGenApiServiceImpl_" + langueNom + "_stored_string");
@@ -3600,7 +3598,7 @@ public class IndexerClasse extends RegarderClasseBase {
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarH2", (String)docClasse.get("classeVarH2_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarH3", (String)docClasse.get("classeVarH3_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerApiUri", (String)docClasse.get("classeApiUri_" + langueNom + "_stored_string"));
-											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerPageUri", (String)docClasse.get("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string"));
+											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerPageUri", (String)docClasse.get("classeApiUri" + classeLangueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarDescription", (String)docClasse.get("classeVarDescription_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerVarImageUrl", (String)docClasse.get("classeVarImageUrl_" + langueNom + "_stored_string"));
 											indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerContexteUnNom", (String)docClasse.get("classeUnNom_" + langueNom + "_stored_string"));
@@ -3612,7 +3610,7 @@ public class IndexerClasse extends RegarderClasseBase {
 
 											entiteAttribuerOperationIdPATCH = (String)docClasse.get("classeApiOperationIdPATCH_" + langueNom + "_stored_string");
 
-											classeAttribuerNomSimplePage = (String)docClasse.get("classePageNomSimple" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string");
+											classeAttribuerNomSimplePage = (String)docClasse.get("classePageNomSimple" + classeLangueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string");
 											if(classeAttribuerNomSimplePage != null) {
 												if(!Optional.ofNullable(classeDoc.getFieldValues("classeAttribuerNomSimplePages_" + classeLangueNom + "_indexed_strings")).orElse(Arrays.asList()).contains(classeAttribuerNomSimplePage))
 													indexerStockerListeSolr(langueNom, classeDoc, "classeAttribuerNomSimplePages", classeAttribuerNomSimplePage);
@@ -3622,9 +3620,9 @@ public class IndexerClasse extends RegarderClasseBase {
 
 											if(entiteAttribuerOperationIdPATCH != null)
 												indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerOperationIdPATCH", entiteAttribuerOperationIdPATCH);
-											entiteAttribuerOperationIdRecherche = (String)docClasse.get("classeApiOperationId" + langueConfig.getString(ConfigCles.var_Recherche) + "_" + langueNom + "_stored_string");
+											entiteAttribuerOperationIdRecherche = (String)docClasse.get("classeApiOperationId" + classeLangueConfig.getString(ConfigCles.var_Recherche) + "_" + langueNom + "_stored_string");
 											if(entiteAttribuerOperationIdRecherche != null)
-												indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerOperationId" + langueConfig.getString(ConfigCles.var_Recherche), entiteAttribuerOperationIdRecherche);
+												indexerStockerSolr(langueNom, entiteDoc, "entiteAttribuerOperationId" + classeLangueConfig.getString(ConfigCles.var_Recherche), entiteAttribuerOperationIdRecherche);
 										}
 									}
 								}
@@ -4397,7 +4395,6 @@ public class IndexerClasse extends RegarderClasseBase {
 				
 						if(classeTraduire) {
 							for(String langueNom : classeAutresLangues) {  
-								YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, langueNom));
 //								ClasseParts entiteClassePartsLangue = ClasseParts.initClasseParts(this, entiteClasseParts, langueNom);
 					
 								indexerStockerSolr(langueNom, entiteDoc, "entiteNomCanonique", entiteClasseParts.nomCanonique(langueNom)); 
@@ -4414,10 +4411,10 @@ public class IndexerClasse extends RegarderClasseBase {
 								entiteVarLangue = indexerStockerSolr(langueNom, entiteDoc, "entiteVar", entiteVarLangue == null ? entiteVar : entiteVarLangue);
 								indexerStockerSolr(langueNom, entiteDoc, "entiteVarCapitalise", StringUtils.capitalize(entiteVarLangue));
 								indexerStockerListeSolr(langueNom, classeDoc, "classeEntiteVars", entiteVarLangue);
-								if(entiteSuggere && entiteVarLangue.equals(langueConfig.getString(ConfigCles.var_objetSuggere))) {
+								if(entiteSuggere && entiteVarLangue.equals(classeLangueConfig.getString(ConfigCles.var_objetSuggere))) {
 									stockerSolr(langueNom, classeDoc, "classeVarSuggere", entiteVarLangue);
 								}
-								if(entiteTexte && entiteVarLangue.equals(langueConfig.getString(ConfigCles.var_objetTexte))) {
+								if(entiteTexte && entiteVarLangue.equals(classeLangueConfig.getString(ConfigCles.var_objetTexte))) {
 									stockerSolr(langueNom, classeDoc, "classeVarTexte", entiteVarLangue);
 								}
 								if(entiteClePrimaire) {
@@ -4951,7 +4948,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		if(classeApi) {
 
 			for(String langueNom : toutesLangues) {
-				YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, langueNom));
 				String classeApiUri = indexerStockerSolrRegex(langueNom, classeDoc, "classeApiUri", "ApiUri", classeCommentaire);
 				String classeApiTag = indexerStockerSolrRegex(langueNom, classeDoc, "classeApiTag", "ApiTag", classeCommentaire);
 
@@ -5088,8 +5084,8 @@ public class IndexerClasse extends RegarderClasseBase {
 						Boolean classeRoleUtilisateurMethode = indexerStockerSolr(langueNom, classeDoc, "classeRoleUtilisateur" + classeApiMethode, regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_RoleUtilisateur) + "\\." + classeApiMethode + "\\." + langueNom + ":\\s*(true)$", classeCommentaire));
 		
 						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode, "ApiOperationId" + classeApiMethode + "." + langueNom, classeCommentaire, StringUtils.lowerCase(classeApiMethode) + classeNomSimpleLangue);
-						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Requete", "ApiOperationId" + classeApiMethode + "Requete" + "." + langueNom, classeCommentaire, classeApiMethode + classeNomSimpleLangue + langueConfig.getString(ConfigCles.var_Requete));
-						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Reponse", "ApiOperationId" + classeApiMethode + "Reponse" + "." + langueNom, classeCommentaire, classeApiMethode + classeNomSimpleLangue + langueConfig.getString(ConfigCles.var_Reponse));
+						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Requete", "ApiOperationId" + classeApiMethode + "Requete" + "." + langueNom, classeCommentaire, classeApiMethode + classeNomSimpleLangue + classeLangueConfig.getString(ConfigCles.var_Requete));
+						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Reponse", "ApiOperationId" + classeApiMethode + "Reponse" + "." + langueNom, classeCommentaire, classeApiMethode + classeNomSimpleLangue + classeLangueConfig.getString(ConfigCles.var_Reponse));
 						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiDescription" + classeApiMethode, "ApiDescription" + classeApiMethode + "." + langueNom, classeCommentaire, regexLangue(langueNom, "(classe)?Description" + "\\." + classeApiMethode, classeCommentaire));
 						indexerStockerSolr(langueNom, classeDoc, "classeApiInterne" + classeApiMethode, regexTrouve("^Api" + classeLangueConfig.getString(ConfigCles.var_Interne) + "\\." + classeApiMethode + ": \\s*(true)$", classeCommentaire));
 		
@@ -5101,11 +5097,11 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 						String classePageNomSimpleMethode = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_Page) + "\\." + classeApiMethode, classeCommentaire);
 						String classePageSuperNomSimpleMethode = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_PageSuper) + "\\." + classeApiMethode, classeCommentaire, "Object");
-						String classeApiTypeMediaRequeteMethode = regexLangue(langueNom, "^Api" + langueConfig.getString(ConfigCles.var_TypeMedia) + langueConfig.getString(ConfigCles.var_Requete) + "\\." + classeApiMethode, classeCommentaire, "application/json");
+						String classeApiTypeMediaRequeteMethode = regexLangue(langueNom, "^Api" + classeLangueConfig.getString(ConfigCles.var_TypeMedia) + classeLangueConfig.getString(ConfigCles.var_Requete) + "\\." + classeApiMethode, classeCommentaire, "application/json");
 						String classeApiTypeMedia200Methode = regexLangue(langueNom, "^ApiTypeMedia200" + "\\." + classeApiMethode, classeCommentaire, classePageNomSimpleMethode == null ? "application/json" : "text/html");
 						String classeApiMotCleMethode = regexLangue(langueNom, "^ApiMotCle" + classeApiMethode, classeCommentaire);
 						if(StringUtils.contains(classeApiMethode, "POST")
-								|| StringUtils.contains(classeApiMethode, langueConfig.getString(ConfigCles.var_Recherche))
+								|| StringUtils.contains(classeApiMethode, classeLangueConfig.getString(ConfigCles.var_Recherche))
 								|| StringUtils.contains(classeApiMethode, "PATCH")
 								|| StringUtils.contains(classeApiMethode, "PUT")
 								) {
@@ -5114,10 +5110,10 @@ public class IndexerClasse extends RegarderClasseBase {
 							if(StringUtils.isBlank(classeApiUriMethode)) {
 								if("PUTImport".equals(classeApiMethode))
 									classeApiUriMethode = classeApiUri + "-import";
-								else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
-									classeApiUriMethode = classeApiUri + "/" + langueConfig.getString(ConfigCles.var_copie);
-								else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))
-									classeApiUriMethode = classeApiUri + "/" + langueConfig.getString(ConfigCles.var_fusion);
+								else if(classeLangueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
+									classeApiUriMethode = classeApiUri + "/" + classeLangueConfig.getString(ConfigCles.var_copie);
+								else if(classeLangueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))
+									classeApiUriMethode = classeApiUri + "/" + classeLangueConfig.getString(ConfigCles.var_fusion);
 								else
 									classeApiUriMethode = classeApiUri;
 							}

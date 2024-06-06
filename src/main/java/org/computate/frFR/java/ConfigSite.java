@@ -29,8 +29,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.configuration2.YAMLConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -81,100 +79,29 @@ public class ConfigSite {
 	}
 
 	public static KubernetesObject[] query(String type, String kind, String resource_name, String namespace) {
+		Logger LOG = LoggerFactory.getLogger(ConfigSite.class);
 		try {
 			if("kubernetes.core.k8s".equals(type)) {
 				ApiClient client = Config.defaultClient();
 				Configuration.setDefaultApiClient(client);
 				CoreV1Api api = new CoreV1Api();
 				if("Secret".equals(kind)) {
-					V1Secret secret = api.readNamespacedSecret(resource_name, namespace, "false");
+					V1Secret secret = api.readNamespacedSecret(resource_name, namespace).execute();
 					return new KubernetesObject[] {secret};
 				}
 			}
-		} catch(Exception ex) {
-			Logger LOG = LoggerFactory.getLogger(ConfigSite.class);
+		} catch(Throwable ex) {
 			LOG.error("kubernetes.core.k8s error", ex);
 			return null;
 		}
 		return null;
 	}
 
-	public static JsonObject getConfiguration(YAMLConfiguration classeLangueConfig) {
+	public static JsonObject getConfiguration(Jinjava jinjava, JsonObject classeLangueConfig) {
 		JsonObject configuration = null;
 
 		try {
 			String configChemin = System.getenv(classeLangueConfig.getString("var_CONFIG_VARS_CHEMIN"));
-			JinjavaConfig jinjavaConfig = new JinjavaConfig();
-			Jinjava jinjava = new Jinjava(jinjavaConfig);
-			
-			jinjava.registerFunction(new ELFunctionDefinition("", "lookup", ConfigSite.class, "lookup", String.class, String.class));
-			jinjava.registerFunction(new ELFunctionDefinition("", "query", ConfigSite.class, "query", String.class, String.class, String.class, String.class));
-
-			jinjava.registerFilter(new Filter() {
-				@Override
-				public String getName() {
-					return "b64decode";
-				}
-				@Override
-				public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
-					try {
-						if(var instanceof String) {
-							return new String(Base64.getDecoder().decode(var.toString()));
-						} else if(var instanceof byte[]) {
-							return new String(Base64.getDecoder().decode((byte[])var), "UTF-8");
-						}
-					} catch(Exception ex) {
-						try {
-							return new String(new String((byte[])var, "UTF-8"));
-						} catch(Exception ex2) {
-							ExceptionUtils.rethrow(ex2);
-						}
-					}
-					return null;
-				}
-			});
-
-			jinjava.registerFilter(new Filter() {
-				@Override
-				public String getName() {
-					return "basename";
-				}
-				@Override
-				public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
-					if(var != null) {
-						return new File(var.toString()).getName();
-					}
-					return null;
-				}
-			});
-
-			jinjava.registerFilter(new Filter() {
-				@Override
-				public String getName() {
-					return "dirname";
-				}
-				@Override
-				public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
-					if(var != null) {
-						return Paths.get(var.toString()).getParent().normalize().toAbsolutePath().toString();
-					}
-					return null;
-				}
-			});
-
-			jinjava.registerFilter(new Filter() {
-				@Override
-				public String getName() {
-					return "realpath";
-				}
-				@Override
-				public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
-					if(var != null) {
-						return Paths.get(var.toString()).normalize().toAbsolutePath().toString();
-					}
-					return null;
-				}
-			});
 
 			File configFichier = new File(configChemin);
 			String template = Files.readString(configFichier.toPath());
@@ -209,7 +136,6 @@ public class ConfigSite {
 					configuration.put(key, val);
 				}
 			}
-			System.out.println(configuration.encodePrettily());
 		} catch(Exception ex) {
 			ExceptionUtils.rethrow(ex);
 		}
@@ -223,16 +149,7 @@ public class ConfigSite {
 
 	public String classeLangueNom;
 
-	public YAMLConfiguration classeLangueConfig;
-
-	/**
-	 * enUS: The Apache Commons Configurations object for reading config files.
-	 */
-	public static Configurations configurations;
-
-	protected void _configurations() throws Exception {
-		configurations = new Configurations();
-	}
+	public JsonObject classeLangueConfig;
 
 	public String langueNomGlobale;
 	protected void _langueNomGlobale() throws Exception {
@@ -244,9 +161,42 @@ public class ConfigSite {
 		appComputate = System.getenv("COMPUTATE_SRC");
 	}
 
-	public YAMLConfiguration langueConfigGlobale;
+	public static JsonObject getLangueConfigGlobale(Jinjava jinjava, String appComputate, String langueNomGlobale) throws Exception {
+		File configFichier = new File(String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, langueNomGlobale));
+		String template = Files.readString(configFichier.toPath());
+		Yaml yaml = new Yaml();
+		HashMap<String, Object> ctx = new HashMap<>();
+		Map<String, Object> map = yaml.load(template);
+		JsonObject configuration = new JsonObject();
+		for(String key : map.keySet()) {
+			Object val = map.get(key);
+			if(val instanceof String) {
+				String rendered = jinjava.render(val.toString(), ctx);
+				ctx.put(key, rendered);
+				configuration.put(key, rendered);
+			} else if(val instanceof ArrayList) {
+				List<Object> list1 = (List<Object>)val;
+				JsonArray list2 = new JsonArray();
+				for(Object item : list1) {
+					if(item instanceof String) {
+						String rendered = jinjava.render(item.toString(), ctx);
+						list2.add(rendered);
+					} else {
+						list2.add(item);
+					}
+					configuration.put(key, list2);
+				}
+			} else {
+				ctx.put(key, val);
+				configuration.put(key, val);
+			}
+		}
+		return configuration;
+	}
+
+	public JsonObject langueConfigGlobale;
 	protected void _langueConfigGlobale() throws Exception {
-		langueConfigGlobale = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, langueNomGlobale));
+		langueConfigGlobale = getLangueConfigGlobale(jinjava, appComputate, langueNomGlobale);
 	}
 
 	/**
@@ -368,6 +318,87 @@ public class ConfigSite {
 	protected void _fichierConfig() throws Exception {
 		fichierConfig = new File(configChemin);
 	}
+	
+	public static Jinjava getJinjava() {
+		JinjavaConfig jinjavaConfig = new JinjavaConfig();
+		Jinjava jinjava = new Jinjava(jinjavaConfig);
+		
+		jinjava.registerFunction(new ELFunctionDefinition("", "lookup", ConfigSite.class, "lookup", String.class, String.class));
+		jinjava.registerFunction(new ELFunctionDefinition("", "query", ConfigSite.class, "query", String.class, String.class, String.class, String.class));
+
+		jinjava.registerFilter(new Filter() {
+			@Override
+			public String getName() {
+				return "b64decode";
+			}
+			@Override
+			public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
+				try {
+					if(var instanceof String) {
+						return new String(Base64.getDecoder().decode(var.toString()));
+					} else if(var instanceof byte[]) {
+						return new String(Base64.getDecoder().decode((byte[])var), "UTF-8");
+					}
+				} catch(Exception ex) {
+					try {
+						return new String(new String((byte[])var, "UTF-8"));
+					} catch(Exception ex2) {
+						ExceptionUtils.rethrow(ex2);
+					}
+				}
+				return null;
+			}
+		});
+
+		jinjava.registerFilter(new Filter() {
+			@Override
+			public String getName() {
+				return "basename";
+			}
+			@Override
+			public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
+				if(var != null) {
+					return new File(var.toString()).getName();
+				}
+				return null;
+			}
+		});
+
+		jinjava.registerFilter(new Filter() {
+			@Override
+			public String getName() {
+				return "dirname";
+			}
+			@Override
+			public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
+				if(var != null) {
+					return Paths.get(var.toString()).getParent().normalize().toAbsolutePath().toString();
+				}
+				return null;
+			}
+		});
+
+		jinjava.registerFilter(new Filter() {
+			@Override
+			public String getName() {
+				return "realpath";
+			}
+			@Override
+			public Object filter(Object var, JinjavaInterpreter interpreter, String... args) {
+				if(var != null) {
+					return Paths.get(var.toString()).normalize().toAbsolutePath().toString();
+				}
+				return null;
+			}
+		});
+		return jinjava;
+	}
+
+	private Jinjava jinjava;
+
+	protected void _jinjava() throws Exception {
+		jinjava = getJinjava();
+	}
 
 	/**
 	 * The INI Configuration Object for the config file.
@@ -378,7 +409,7 @@ public class ConfigSite {
 	 * r: fichierConfig r.enUS: configFile
 	 **/
 	protected void _config() throws Exception {
-		config = getConfiguration(classeLangueConfig);
+		config = getConfiguration(jinjava, classeLangueConfig);
 	}
 
 	/**
@@ -836,9 +867,9 @@ public class ConfigSite {
 	 * r: siteUrlBase r.enUS: siteBaseUrl
 	 **/
 	public void initConfigSite() throws Exception {
-		_configurations();
 		_langueNomGlobale();
 		_appComputate();
+		_jinjava();
 		_langueConfigGlobale();
 		_siteNom();
 		_sitePrefixe();

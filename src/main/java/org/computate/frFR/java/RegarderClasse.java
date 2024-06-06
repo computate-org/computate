@@ -18,8 +18,6 @@ import java.nio.file.Files;
 import java.util.Map;
 import java.util.Optional;
 
-import org.apache.commons.configuration2.YAMLConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.common.SolrInputDocument;
@@ -64,10 +62,10 @@ public class RegarderClasse extends EcrireToutesClasses {
 			RegarderClasse regarderClasse = new RegarderClasse();
 			String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
 			String appComputate = System.getenv("COMPUTATE_SRC");
-			Configurations configurations = new Configurations();
-			YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classeLangueNom));
 
-			JsonObject siteConfig = ConfigSite.getConfiguration(classeLangueConfig);
+			Jinjava jinjava = ConfigSite.getJinjava();
+			JsonObject classeLangueConfig = ConfigSite.getLangueConfigGlobale(jinjava, appComputate, classeLangueNom);
+			JsonObject siteConfig = ConfigSite.getConfiguration(jinjava, classeLangueConfig);
 
 			regarderClasse.args = args;
 			regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
@@ -163,7 +161,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 	 * r: classeLangueNom
 	 * r.enUS: classLanguageName
 	 */   
-	public static SolrInputDocument regarderClasse(YAMLConfiguration classeLangueConfig, JsonObject siteConfig, RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
+	public static SolrInputDocument regarderClasse(JsonObject classeLangueConfig, JsonObject siteConfig, RegarderClasse regarderClasse, String classeLangueNom) throws Exception {
 		String appComputate = System.getenv("COMPUTATE_SRC");
 
 		if(new File(regarderClasse.classeCheminAbsolu).isFile() && regarderClasse.classeCheminAbsolu.endsWith(".java")) {
@@ -208,8 +206,7 @@ public class RegarderClasse extends EcrireToutesClasses {
 //				if(classeTraduire || StringUtils.equals(classeLangueNom, langueNom))
 //					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, langueNom, langueConfig);
 //			}
-			YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classeLangueNom));
-			regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, langueConfig);
+			regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, classeLangueConfig);
 			return classeDoc;
 		}
 		return null;

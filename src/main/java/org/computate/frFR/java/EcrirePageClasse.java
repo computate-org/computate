@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -37,6 +36,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 /**   
  * NomCanonique.enUS: org.computate.enUS.java.WritePageClass
@@ -137,7 +137,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	 * r: "suggere"
 	 * r.enUS: "suggest"
 	 */
-	public Boolean ecrireFormEntite(String langueNom, YAMLConfiguration langueConfig, ToutEcrivain wForm, String classeApiMethodeMethode) {
+	public Boolean ecrireFormEntite(String langueNom, JsonObject langueConfig, ToutEcrivain wForm, String classeApiMethodeMethode) {
 		int tIndex = 0;
 		Boolean resultat = false;
 
@@ -288,7 +288,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	// htm //
 	/////////
 
-	public void genCodeEntiteHtm(String langueNom, YAMLConfiguration langueConfig, String classeApiMethodeMethode) throws Exception {
+	public void genCodeEntiteHtm(String langueNom, JsonObject langueConfig, String classeApiMethodeMethode) throws Exception {
 		ToutEcrivain oAncien = o;
 		o = auteurGenPageHbsEntite;
 		Boolean entiteHtmLigneVerticaleActuel = entiteHtmLigneVerticaleActuelMap.get(classeApiMethodeMethode);
@@ -971,7 +971,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		o = oAncien;
 	}
 
-	public void pageCodeClasseJava(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void pageCodeClasseJava(String langueNom, JsonObject langueConfig) throws Exception {
 
 		classeVarClePrimaire = classeDoc.getString("classeVarClePrimaire"   + "_" + langueNom + "_stored_string");
 		classeGenPageChemin = classeDoc.getString("classeGenPageChemin"   + "_" + langueNom + "_stored_string");
@@ -986,7 +986,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		classeModele = (Boolean)classeDoc.getBoolean("classeModele_stored_boolean");
 		classePageLangueConfig = null;
 		if(classePageLangueNom != null) {
-			classePageLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classePageLangueNom));
+			classePageLangueConfig = langueConfig;
 		}
 
 		classePageNomSimple = classeDoc.getString("classePageNomSimple"   + "_" + langueNom + "_stored_string");
@@ -1419,8 +1419,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				auteurPageClasse.l(" * ", langueConfig.getString(ConfigCles.var_Promesse), ": true");
 				for(String langueNom2 : autresLangues) {
-					YAMLConfiguration langueConfig2 = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classePageLangueNom));
-					String classePageNomSimple2 = classeDoc.getString("classePageNomCanonique" + langueConfig2.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
+					String classePageNomSimple2 = classeDoc.getString("classePageNomCanonique" + langueConfig.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
 					if(classePageNomSimple2 != null)
 						auteurPageClasse.	l(" * ", langueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom2, ": ", classePageNomSimple2);
 				}
@@ -1469,8 +1468,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			l(" * ", langueConfig.getString(ConfigCles.var_Traduire), ": false");
 			for(String langueNom2 : autresLangues) {
-				YAMLConfiguration langueConfig2 = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classePageLangueNom));
-				String classeGenPageNomSimple2 = classeDoc.getString("classeGenPageNomCanonique" + langueConfig2.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
+				String classeGenPageNomSimple2 = classeDoc.getString("classeGenPageNomCanonique" + langueConfig.getString(ConfigCles.var_PageRecherche)  + "_" + langueNom2 + "_stored_string");
 				if(classeGenPageNomSimple2 != null)
 					l(" * ", langueConfig.getString(ConfigCles.var_NomCanonique), ".", langueNom2, ": ", classeGenPageNomSimple2);
 			}
@@ -2186,7 +2184,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		}
 	}
 
-	public void pageCodeClasseHbs(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void pageCodeClasseHbs(String langueNom, JsonObject langueConfig) throws Exception {
 
 		if(classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 

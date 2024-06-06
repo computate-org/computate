@@ -38,7 +38,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.apache.commons.configuration2.YAMLConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -1183,7 +1182,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String classePageNomCanonique;
 
-	YAMLConfiguration classePageLangueConfig;
+	JsonObject classePageLangueConfig;
 
 	List<String> classeValsVar;
 	List<String> classeValsLangue;
@@ -1356,7 +1355,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: nomSimple
 	 * r.enUS: simpleName
 	 */
-	public void genCodeInitLoin(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodeInitLoin(String langueNom, JsonObject langueConfig) throws Exception {
 		if(BooleanUtils.isTrue(classeInitLoin) && classePartsRequeteSite != null) {
 			wInitLoin.l(); 
 			wInitLoin.tl(1, "//////////////");
@@ -1503,7 +1502,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: nomSimple
 	 * r.enUS: simpleName
 	 */
-	public void genCodeRequeteSite(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodeRequeteSite(String langueNom, JsonObject langueConfig) throws Exception {
 		if(BooleanUtils.isTrue(classeContientRequeteSite) && classePartsRequeteSite != null) {
 			o = wRequeteSite;
 			l(); 
@@ -1536,7 +1535,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: obtenir
 	 * r.enUS: obtain
 	 */
-	public void genCodeObtenir(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodeObtenir(String langueNom, JsonObject langueConfig) throws Exception {
 		o = wObtenir;
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
@@ -1593,7 +1592,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: attribuer
 	 * r.enUS: attribute
 	 */
-	public void genCodeAttribuer(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodeAttribuer(String langueNom, JsonObject langueConfig) throws Exception {
 		o = wAttribuer;
 		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
 			l(); 
@@ -1654,7 +1653,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r.enUS: putForClass
 	 * 
 	 */
-	public void genCodePut(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodePut(String langueNom, JsonObject langueConfig) throws Exception {
 		o = wPut;
 		if(classeSauvegarde) {
 //		if(classeInitLoin && (classeEtendBase || classeEstBase)) {
@@ -1698,7 +1697,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: sauvegardes
 	 * r.enUS: saves
 	 */
-	public void genCodePeupler(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodePeupler(String langueNom, JsonObject langueConfig) throws Exception {
 		o = wPeupler;
 		if(classeSauvegarde) {
 		}
@@ -1981,7 +1980,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: classe
 	 * r.enUS: context
 	 */
-	public void genCodeClasseDebut(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodeClasseDebut(String langueNom, JsonObject langueConfig) throws Exception {
 		o = auteurGenClasseDebut;
 
 		if(classeDroitAuteur != null)
@@ -2403,7 +2402,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: classeNomSimpleGen
 	 * r.enUS: classSimpleNameGen
 	 */ 
-	public void genCodeConstructeur(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodeConstructeur(String langueNom, JsonObject langueConfig) throws Exception {
 		o = auteurGenClasseFin;
 		String constructeurCodeSource = doc.getString("constructeurCodeSource_" + langueNom + "_stored_string");
 		String constructeurCommentaire = doc.getString("constructeurCommentaire_" + langueNom + "_stored_string");
@@ -2507,7 +2506,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: methodeValValeur
 	 * r.enUS: methodValValue
 	 **/
-	public void genCodeMethode(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodeMethode(String langueNom, JsonObject langueConfig) throws Exception {
 		o = auteurGenClasseFin;
 
 		String methodeVar = doc.getString("methodeVar_" + langueNom + "_stored_string");
@@ -2992,7 +2991,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	 * r: definir
 	 * r.enUS: define
 	 */   
-	public void genCodeEntite(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodeEntite(String langueNom, JsonObject langueConfig) throws Exception {
 		o = auteurGenClasseFin;
 		entiteVar = doc.getString("entiteVar_" + langueNom + "_stored_string");
 		entiteVarUrl = doc.getString("entiteVarUrl_" + langueNom + "_stored_string");
@@ -5435,7 +5434,7 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	/**
 	 */
-	public void genCodeClasseFin(String langueNom, YAMLConfiguration langueConfig) throws Exception {
+	public void genCodeClasseFin(String langueNom, JsonObject langueConfig) throws Exception {
 
 		//////////////////
 		// codeInitLoin //
@@ -6237,25 +6236,25 @@ public class EcrireGenClasse extends EcrireClasse {
 		if(ecrireCommentaire) {
 			l("/**");
 			ecrireCommentairePart(classeCommentaireLangue, 0); 
-			String hackathonMission = classeDoc.getString("hackathonMissionGen_stored_string");
-			String hackathonColumn = classeDoc.getString("hackathonColumnGen_stored_string");
-			String hackathonLabels = classeDoc.getString("hackathonLabelsGen_stored_string");
-			if(hackathonMission != null)
-				l(String.format(" * Map.hackathonMission: %s", hackathonMission));
-			if(hackathonColumn != null)
-				l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
-			if(hackathonLabels != null)
-				l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
+			// String hackathonMission = classeDoc.getString("hackathonMissionGen_stored_string");
+			// String hackathonColumn = classeDoc.getString("hackathonColumnGen_stored_string");
+			// String hackathonLabels = classeDoc.getString("hackathonLabelsGen_stored_string");
+			// if(hackathonMission != null)
+			// 	l(String.format(" * Map.hackathonMission: %s", hackathonMission));
+			// if(hackathonColumn != null)
+			// 	l(String.format(" * Map.hackathonColumn: %s", hackathonColumn));
+			// if(hackathonLabels != null)
+			// 	l(String.format(" * Map.hackathonLabels: %s", hackathonLabels));
 
-			DumperOptions options = new DumperOptions();
-			Writer writer = new StringWriter();
-			langueConfig.dump(writer, options);
-			ObjectMapper yamlReader = new ObjectMapper(new YAMLFactory());
-			Object obj = yamlReader.readValue(writer.toString(), Object.class);
-			ObjectMapper jsonWriter = new ObjectMapper();
-			JsonObject langueConfigJson = new JsonObject(jsonWriter.writeValueAsString(obj));
-			// Todo
-			ecrireClasseCommentaire(langueConfigJson, siteNom, langueNom);
+			// DumperOptions options = new DumperOptions();
+			// Writer writer = new StringWriter();
+			// langueConfig.dump(writer, options);
+			// ObjectMapper yamlReader = new ObjectMapper(new YAMLFactory());
+			// Object obj = yamlReader.readValue(writer.toString(), Object.class);
+			// ObjectMapper jsonWriter = new ObjectMapper();
+			// JsonObject langueConfigJson = new JsonObject(jsonWriter.writeValueAsString(obj));
+			// // Todo
+			ecrireClasseCommentaire(langueConfigGlobale, siteNom, langueNom);
 			l(" **/");
 		}
 

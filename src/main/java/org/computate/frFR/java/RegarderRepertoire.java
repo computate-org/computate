@@ -40,9 +40,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.apache.commons.configuration2.INIConfiguration;
-import org.apache.commons.configuration2.YAMLConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.io.FileUtils;
@@ -201,8 +198,8 @@ public class RegarderRepertoire {
 		try {
 			String lang = Optional.ofNullable(System.getenv("SITE_LANG")).orElse("frFR");
 			String appComputate = System.getenv("COMPUTATE_SRC");
-			Configurations configurations = new Configurations();
-			YAMLConfiguration classeLangueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, lang));
+			Jinjava jinjava = ConfigSite.getJinjava();
+			JsonObject classeLangueConfig = ConfigSite.getLangueConfigGlobale(jinjava, appComputate, lang);
 			String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
 			String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
 			String SITE_PREFIXE = System.getenv(classeLangueConfig.getString("var_SITE_PREFIXE"));
@@ -221,7 +218,7 @@ public class RegarderRepertoire {
 			regarderRepertoire.cheminSrcGenJava = SITE_CHEMIN + "/src/gen/java";
 			regarderRepertoire.cheminsBin.add(SITE_CHEMIN + "/src/main/resources");
 
-			regarderRepertoire.configuration = ConfigSite.getConfiguration(classeLangueConfig);
+			regarderRepertoire.configuration = ConfigSite.getConfiguration(jinjava, classeLangueConfig);
 
 			regarderRepertoire.trace = true;
 			regarderRepertoire.initialiserRegarderRepertoire(classeLangueConfig);
@@ -249,7 +246,7 @@ public class RegarderRepertoire {
 		}
 	} 
 
-	public static void indexerClasses(String SITE_CHEMIN, YAMLConfiguration classeLangueConfig) throws Exception {
+	public static void indexerClasses(String SITE_CHEMIN, JsonObject classeLangueConfig) throws Exception {
 		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
 		File dir = new File(String.format("%s/src/main/java", SITE_CHEMIN));
 
@@ -280,11 +277,10 @@ public class RegarderRepertoire {
 	}
 
 
-	public static void indexerEcrireClasses(String SITE_CHEMIN, YAMLConfiguration classeLangueConfig) throws Exception {
+	public static void indexerEcrireClasses(String SITE_CHEMIN, JsonObject classeLangueConfig) throws Exception {
 		String appComputate = System.getenv("COMPUTATE_SRC");
 		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
 		File dir = new File(String.format("%s/src/main/java", SITE_CHEMIN));
-		Configurations configurations = new Configurations();
 
 		try (Stream<Path> stream = Files.walk(Paths.get(dir.getAbsolutePath()))) {
 			stream.filter(Files::isRegularFile)
@@ -304,8 +300,7 @@ public class RegarderRepertoire {
 					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
 					SolrInputDocument classeDoc = new SolrInputDocument();
 					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
-					YAMLConfiguration langueConfig = configurations.fileBased(YAMLConfiguration.class, String.format("%s/src/main/resources/org/computate/i18n/i18n_%s.yaml", appComputate, classeLangueNom));
-					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, langueConfig);
+					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, classeLangueNom, classeLangueNom, classeLangueConfig);
 					System.out.println(String.format("%s %s", classeLangueConfig.getString(ConfigCles.var_Indexe), cheminStr));
 				} catch(Exception ex) {
 					System.err.println(String.format("An exception occured while indexing files: %s", ExceptionUtils.getStackTrace(ex)));
@@ -361,7 +356,7 @@ public class RegarderRepertoire {
 	 * r: SITE_NOM
 	 * r.enUS: SITE_NAME
 	 */
-	public void initialiserRegarderRepertoire(YAMLConfiguration classeLangueConfig) throws Exception {
+	public void initialiserRegarderRepertoire(JsonObject classeLangueConfig) throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
 		String cheminRelatifARegarder = configuration.getString(classeLangueConfig.getString(ConfigCles.var_CHEMINS_RELATIFS_A_REGARDER));
 		String cheminARegarder = SITE_CHEMIN + "/" + cheminRelatifARegarder;
@@ -399,7 +394,7 @@ public class RegarderRepertoire {
 	 * r: Erreur à ajouter chemin pour regarder.
 	 * r.enUS: Error adding path to watch. 
 	 */  
-	public void ajouterCheminsARegarder(YAMLConfiguration classeLangueConfig, Boolean REGARDER) {
+	public void ajouterCheminsARegarder(JsonObject classeLangueConfig, Boolean REGARDER) {
 		for(String cheminARegarder : cheminsARegarder) {
 			try {
 				chemins.add(enregistrerTout(Paths.get(cheminARegarder)));
@@ -543,7 +538,7 @@ public class RegarderRepertoire {
 	 * r: classeCheminRepertoireAppli
 	 * r.enUS: classAppDirPath
 	 */
-	protected void traiterEvenements(YAMLConfiguration classeLangueConfig) {
+	protected void traiterEvenements(JsonObject classeLangueConfig) {
 		for(String cheminARegarder : cheminsARegarder)
 			System.out.println(classeLangueConfig.getString(ConfigCles.var_Regarder) + " " + cheminARegarder);
 		for (;;) {
