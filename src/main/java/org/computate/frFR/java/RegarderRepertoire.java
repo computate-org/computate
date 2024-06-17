@@ -161,7 +161,6 @@ public class RegarderRepertoire {
 	 * Var.enUS: SITE_PATH
 	 */
 	protected String SITE_CHEMIN;
-	protected String SITE_PREFIXE;
 	protected String COMPUTATE_SRC;
 
 	 /**
@@ -202,7 +201,6 @@ public class RegarderRepertoire {
 			JsonObject classeLangueConfig = ConfigSite.getLangueConfigGlobale(jinjava, appComputate, lang);
 			String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
 			String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
-			String SITE_PREFIXE = System.getenv(classeLangueConfig.getString("var_SITE_PREFIXE"));
 			Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
 			Boolean GENERER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER"))).orElse("true"));
 
@@ -210,7 +208,6 @@ public class RegarderRepertoire {
 			regarderRepertoire.langueNom = lang;
 			regarderRepertoire.SITE_NOM = SITE_NOM;
 			regarderRepertoire.SITE_CHEMIN = SITE_CHEMIN;
-			regarderRepertoire.SITE_PREFIXE = SITE_PREFIXE;
 			regarderRepertoire.COMPUTATE_SRC = appComputate;
 			regarderRepertoire.classeCheminRepertoireAppli = SITE_CHEMIN;
 

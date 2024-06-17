@@ -91,8 +91,7 @@ public class ConfigSite {
 				}
 			}
 		} catch(Throwable ex) {
-			LOG.error("kubernetes.core.k8s error", ex);
-			return null;
+			throw new RuntimeException(String.format("Unable to query oc get -n %s %s/%s: %s", namespace, kind, resource_name, ex.getMessage()), ex);
 		}
 		return null;
 	}
@@ -101,7 +100,7 @@ public class ConfigSite {
 		JsonObject configuration = null;
 
 		try {
-			String configChemin = System.getenv(classeLangueConfig.getString("var_CONFIG_VARS_CHEMIN"));
+			String configChemin = System.getenv(classeLangueConfig.getString("var_VARS_CHEMIN"));
 
 			File configFichier = new File(configChemin);
 			String template = Files.readString(configFichier.toPath());
@@ -109,7 +108,6 @@ public class ConfigSite {
 			configuration = new JsonObject();
 			ctx.put(classeLangueConfig.getString("var_SITE_NOM"), System.getenv(classeLangueConfig.getString("var_SITE_NOM")));
 			ctx.put(classeLangueConfig.getString("var_SITE_CHEMIN"), System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN")));
-			ctx.put(classeLangueConfig.getString("var_SITE_PREFIXE"), System.getenv(classeLangueConfig.getString("var_SITE_PREFIXE")));
 			ctx.put("COMPUTATE_SRC", System.getenv("COMPUTATE_SRC"));
 			Yaml yaml = new Yaml();
 			Map<String, Object> map = yaml.load(template);
@@ -213,16 +211,6 @@ public class ConfigSite {
 			siteNom = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_NOM));
 	}
 
-	public String sitePrefixe;
-
-	/**
-	 * Var.enUS: _sitePath r: siteChemin r.enUS: sitePath
-	 **/
-	protected void _sitePrefixe() throws Exception {
-		if (sitePrefixe == null)
-			sitePrefixe = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_PREFIXE));
-	}
-
 	/**
 	 * Var.enUS: sitePath frFR: Le chemin vers l'lappli. enUS: The path to the
 	 * application.
@@ -303,7 +291,7 @@ public class ConfigSite {
 	 * r.enUS: sitePath r: siteNom r.enUS: siteName
 	 **/
 	protected void _configChemin() throws Exception {
-		configChemin = System.getenv(classeLangueConfig.getString("var_CONFIG_VARS_CHEMIN"));
+		configChemin = System.getenv(classeLangueConfig.getString("var_VARS_CHEMIN"));
 	}
 
 	/**
@@ -872,7 +860,6 @@ public class ConfigSite {
 		_jinjava();
 		_langueConfigGlobale();
 		_siteNom();
-		_sitePrefixe();
 		_siteChemin();
 		_siteCheminVertx();
 		_cheminSrcMainJava();
