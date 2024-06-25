@@ -443,7 +443,9 @@ public class ConfigCles {
 	public static final String var_SITE_URL_BASE = "var_SITE_URL_BASE";
 	public static final String var_siteZone = "var_siteZone";
 	public static final String var_SITE_ZONE = "var_SITE_ZONE";
+	public static final String var_SOLR_MOT_DE_PASSE = "var_SOLR_MOT_DE_PASSE";
 	public static final String var_SOLR_URL_COMPUTATE = "var_SOLR_URL_COMPUTATE";
+	public static final String var_SOLR_UTILISATEUR = "var_SOLR_UTILISATEUR";
 	public static final String var_solrUrl = "var_solrUrl";
 	public static final String var_SOLR_URL = "var_SOLR_URL";
 	public static final String var_OrdreSql = "var_OrdreSql";

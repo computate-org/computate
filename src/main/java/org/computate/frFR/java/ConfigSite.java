@@ -14,6 +14,7 @@
 package org.computate.frFR.java;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,16 +33,30 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.http.HttpException;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.HttpClientUtil;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.impl.PreemptiveAuth;
+import org.apache.solr.client.solrj.impl.PreemptiveBasicAuthClientBuilderFactory;
+import org.apache.solr.client.solrj.impl.SolrHttpClientBuilder;
+import org.apache.solr.common.params.ModifiableSolrParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -87,6 +102,9 @@ public class ConfigSite {
 				CoreV1Api api = new CoreV1Api();
 				if("Secret".equals(kind)) {
 					V1Secret secret = api.readNamespacedSecret(resource_name, namespace).execute();
+					secret.getData().keySet().forEach(key -> {
+						secret.getData().put(key, Base64.getEncoder().encode(secret.getData().get(key)));
+					});
 					return new KubernetesObject[] {secret};
 				}
 			}
@@ -577,6 +595,20 @@ public class ConfigSite {
 		this.solrUrlComputate = solrUrlComputate;
 	}
 
+	public String solrUtilisateur;
+
+	protected void _solrUtilisateur() throws Exception {
+		solrUtilisateur = config
+				.getString(langueConfigGlobale.getString(ConfigCles.var_SOLR_UTILISATEUR));
+	}
+
+	public String solrMotDePasse;
+
+	protected void _solrMotDePasse() throws Exception {
+		solrMotDePasse = config
+				.getString(langueConfigGlobale.getString(ConfigCles.var_SOLR_MOT_DE_PASSE));
+	}
+
 	/**
 	 * Var.enUS: _solrUrlComputate r: solrUrlComputate r.enUS: solrUrlComputate r:
 	 * solrUrl r.enUS: solrUrl r: portSolr r.enUS: solrPort
@@ -598,10 +630,18 @@ public class ConfigSite {
 	 **/
 	protected void _clientSolrComputate() throws Exception {
 		SSLContextBuilder builder = new SSLContextBuilder();
-		builder.loadTrustMaterial(null, (chain, authType) -> true);
+		builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
 		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
-		CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
-		clientSolrComputate = new HttpSolrClient.Builder(solrUrlComputate).withHttpClient(httpclient).build();
+		UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(solrUtilisateur, solrMotDePasse);
+		CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+		PreemptiveAuth requestInterceptor = new PreemptiveAuth(new BasicScheme());
+		credentialsProvider.setCredentials(AuthScope.ANY, credentials);
+		CloseableHttpClient httpClient = HttpClients.custom()
+				.setSSLSocketFactory(sslsf)
+				.setDefaultCredentialsProvider(credentialsProvider)
+				.addInterceptorLast(requestInterceptor)
+				.build();
+		clientSolrComputate = new HttpSolrClient.Builder(solrUrlComputate).withHttpClient(httpClient).build();
 	}
 
 	/**
@@ -900,6 +940,8 @@ public class ConfigSite {
 //		_versionSolr();
 //		_prefixePortSolr();
 //		_portSolr();
+		_solrUtilisateur();
+		_solrMotDePasse();
 		_solrUrlComputate();
 		_clientSolrComputate();
 		_cheminsSource();
