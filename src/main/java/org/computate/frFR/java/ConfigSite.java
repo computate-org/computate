@@ -124,9 +124,6 @@ public class ConfigSite {
 			String template = Files.readString(configFichier.toPath());
 			HashMap<String, Object> ctx = new HashMap<>();
 			configuration = new JsonObject();
-			ctx.put(classeLangueConfig.getString("var_SITE_NOM"), System.getenv(classeLangueConfig.getString("var_SITE_NOM")));
-			ctx.put(classeLangueConfig.getString("var_SITE_CHEMIN"), System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN")));
-			ctx.put("COMPUTATE_SRC", System.getenv("COMPUTATE_SRC"));
 			Yaml yaml = new Yaml();
 			Map<String, Object> map = yaml.load(template);
 			for(String key : map.keySet()) {
@@ -216,6 +213,31 @@ public class ConfigSite {
 	}
 
 	/**
+	 * Var.enUS: configPath enUS: The absolute path to the app config file.
+	 */
+	public String configChemin;
+
+	/**
+	 * Var.enUS: _configPath r: configChemin r.enUS: configPath r: siteChemin
+	 * r.enUS: sitePath r: siteNom r.enUS: siteName
+	 **/
+	protected void _configChemin() throws Exception {
+		configChemin = System.getenv(classeLangueConfig.getString("var_VARS_CHEMIN"));
+	}
+
+	/**
+	 * The INI Configuration Object for the config file.
+	 */
+	public JsonObject config;
+
+	/**
+	 * r: fichierConfig r.enUS: configFile
+	 **/
+	protected void _config() throws Exception {
+		config = getConfiguration(jinjava, classeLangueConfig);
+	}
+
+	/**
 	 * Var.enUS: siteName frFR: Le nom de l'lappli. enUS: The name of the
 	 * application.
 	 **/
@@ -226,7 +248,7 @@ public class ConfigSite {
 	 **/
 	protected void _siteNom() throws Exception {
 		if (siteNom == null)
-			siteNom = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_NOM));
+			siteNom = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_NOM));
 	}
 
 	/**
@@ -240,7 +262,7 @@ public class ConfigSite {
 	 **/
 	protected void _siteChemin() throws Exception {
 		if (siteChemin == null)
-			siteChemin = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN));
+			siteChemin = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_SRC));
 	}
 
 	/**
@@ -254,7 +276,7 @@ public class ConfigSite {
 	 **/
 	protected void _siteCheminVertx() throws Exception {
 		if (siteCheminVertx == null)
-			siteCheminVertx = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN_VERTX));
+			siteCheminVertx = config.getString(langueConfigGlobale.getString(ConfigCles.var_COMPUTATE_VERTX_SRC));
 	}
 
 	/**
@@ -297,19 +319,6 @@ public class ConfigSite {
 	 **/
 	protected void _cheminSrcGenJava() throws Exception {
 		cheminSrcGenJava = siteChemin + "/src/gen/java";
-	}
-
-	/**
-	 * Var.enUS: configPath enUS: The absolute path to the app config file.
-	 */
-	public String configChemin;
-
-	/**
-	 * Var.enUS: _configPath r: configChemin r.enUS: configPath r: siteChemin
-	 * r.enUS: sitePath r: siteNom r.enUS: siteName
-	 **/
-	protected void _configChemin() throws Exception {
-		configChemin = System.getenv(classeLangueConfig.getString("var_VARS_CHEMIN"));
 	}
 
 	/**
@@ -404,18 +413,6 @@ public class ConfigSite {
 
 	protected void _jinjava() throws Exception {
 		jinjava = getJinjava();
-	}
-
-	/**
-	 * The INI Configuration Object for the config file.
-	 */
-	public JsonObject config;
-
-	/**
-	 * r: fichierConfig r.enUS: configFile
-	 **/
-	protected void _config() throws Exception {
-		config = getConfiguration(jinjava, classeLangueConfig);
 	}
 
 	/**
@@ -899,15 +896,15 @@ public class ConfigSite {
 		_appComputate();
 		_jinjava();
 		_langueConfigGlobale();
+		_configChemin();
+		_config();
 		_siteNom();
 		_siteChemin();
 		_siteCheminVertx();
 		_cheminSrcMainJava();
 		_cheminSrcMainResources();
 		_cheminSrcGenJava();
-		_configChemin();
 		_fichierConfig();
-		_config();
 		_langueNomActuel();
 		_autresLangues();
 		_toutesLangues();

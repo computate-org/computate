@@ -2360,10 +2360,14 @@ public class IndexerClasse extends RegarderClasseBase {
 					String classeNomCanoniqueApiServiceImplLangue = indexerStockerSolr(langueNom, classeDoc, "classeNomCanoniqueApiServiceImpl", classeNomEnsembleLangue + "." + classeNomSimpleApiServiceImplLangue);
 					String classeNomCanoniqueGenApiServiceLangue = indexerStockerSolr(langueNom, classeDoc, "classeNomCanoniqueGenApiService", classeNomEnsembleLangue + "." + classeNomSimpleGenApiServiceLangue);
 		
-					String classeCheminApiEnsembleInfoLangue = concat(cheminSrcGenJavaVertxLangue, "/", StringUtils.replace(classeNomCanoniqueApiEnsembleInfoLangue, ".", "/"), ".java");
-					String classeCheminGenApiServiceImplLangue = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomCanoniqueGenApiServiceImplLangue, ".", "/"), ".java");
-					String classeCheminApiServiceImplLangue = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomCanoniqueApiServiceImplLangue, ".", "/"), ".java");
-					String classeCheminGenApiServiceLangue = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomCanoniqueGenApiServiceLangue, ".", "/"), ".java");
+					// String classeCheminApiEnsembleInfoLangue = concat(cheminSrcGenJavaVertxLangue, "/", StringUtils.replace(classeNomCanoniqueApiEnsembleInfoLangue, ".", "/"), ".java");
+					// String classeCheminGenApiServiceImplLangue = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomCanoniqueGenApiServiceImplLangue, ".", "/"), ".java");
+					// String classeCheminApiServiceImplLangue = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomCanoniqueApiServiceImplLangue, ".", "/"), ".java");
+					// String classeCheminGenApiServiceLangue = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomCanoniqueGenApiServiceLangue, ".", "/"), ".java");
+					String classeCheminApiEnsembleInfoLangue = concat(cheminSrcGenJava, "/", StringUtils.replace(classeNomCanoniqueApiEnsembleInfoLangue, ".", "/"), ".java");
+					String classeCheminGenApiServiceImplLangue = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanoniqueGenApiServiceImplLangue, ".", "/"), ".java");
+					String classeCheminApiServiceImplLangue = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanoniqueApiServiceImplLangue, ".", "/"), ".java");
+					String classeCheminGenApiServiceLangue = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomCanoniqueGenApiServiceLangue, ".", "/"), ".java");
 		
 					indexerStockerSolr(langueNom, classeDoc, "classeCheminApiEnsembleInfo", classeCheminApiEnsembleInfoLangue); 
 					indexerStockerSolr(langueNom, classeDoc, "classeCheminGenApiServiceImpl", classeCheminGenApiServiceImplLangue); 
@@ -5165,16 +5169,19 @@ public class IndexerClasse extends RegarderClasseBase {
 								String classeGenPageChemin;
 								if(StringUtils.contains(classePageNomSimpleMethode, "Page")) {
 									classeGenPageNomSimple = StringUtils.substringBeforeLast(classePageNomSimpleMethode, "Page") + "GenPage" + StringUtils.substringAfterLast(classePageNomSimpleMethode, "Page");
-									classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+									// classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+									classeGenPageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
 								}
 								else {
 									classeGenPageNomSimple = "Gen" + classePageNomSimpleMethode;
-									classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+									// classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+									classeGenPageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
 								}
 								indexerStockerSolr(langueNom, classeDoc, "classeGenPageNomSimple" + classeApiMethode, classeGenPageNomSimple);
 								String classeGenPageNomCanonique = classeNomEnsembleLangue + "." + classeGenPageNomSimple;
 								indexerStockerSolr(langueNom, classeDoc, "classeGenPageNomCanonique" + classeApiMethode, classeGenPageNomCanonique);
-								String classePageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimpleMethode, ".java");
+								// String classePageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimpleMethode, ".java");
+								String classePageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimpleMethode, ".java");
 								indexerStockerSolr(langueNom, classeDoc, "classeGenPageChemin" + classeApiMethode, classeGenPageChemin); 
 								indexerStockerSolr(langueNom, classeDoc, "classePageChemin" + classeApiMethode, classePageChemin); 
 								classePageLangueNom = langueNom;
@@ -5193,13 +5200,17 @@ public class IndexerClasse extends RegarderClasseBase {
 
 								if(StringUtils.contains(classePageNomSimpleMethode, "Page")) {
 									classeGenPageNomSimple = StringUtils.substringBeforeLast(classePageNomSimpleMethode, "Page") + "GenPage" + StringUtils.substringAfterLast(classePageNomSimpleMethode, "Page");
-									classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
-									classePageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimpleMethode, ".java");
+									// classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+									classeGenPageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+									// classePageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimpleMethode, ".java");
+									classePageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimpleMethode, ".java");
 								}
 								else {
 									classeGenPageNomSimple = "Gen" + classePageNomSimpleMethode;
-									classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
-									classePageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimpleMethode, ".java");
+									// classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+									classeGenPageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+									// classePageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimpleMethode, ".java");
+									classePageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimpleMethode, ".java");
 								}
 								indexerStockerSolr(langueNom, classeDoc, "classeGenPageNomSimple" + classeApiMethode, classeGenPageNomSimple);
 								indexerStockerSolr(langueNom, classeDoc, "classeGenPageChemin" + classeApiMethode, classeGenPageChemin); 
@@ -5289,16 +5300,19 @@ public class IndexerClasse extends RegarderClasseBase {
 			String classeGenPageChemin;
 			if(StringUtils.contains(classePageNomSimple, "Page")) {
 				classeGenPageNomSimple = StringUtils.substringBeforeLast(classePageNomSimple, "Page") + "GenPage" + StringUtils.substringAfterLast(classePageNomSimple, "Page");
-				classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+				// classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+				classeGenPageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
 			}
 			else {
 				classeGenPageNomSimple = "Gen" + classePageNomSimple;
-				classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+				// classeGenPageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
+				classeGenPageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classeGenPageNomSimple, ".java");
 			}
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageNomSimple", classeGenPageNomSimple);
 			String classeGenPageNomCanonique = classeNomEnsembleLangue + "." + classeGenPageNomSimple;
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageNomCanonique", classeGenPageNomCanonique);
-			String classePageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimple, ".java");
+			// String classePageChemin = concat(cheminSrcMainJavaVertxLangue, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimple, ".java");
+			String classePageChemin = concat(cheminSrcMainJava, "/", StringUtils.replace(classeNomEnsembleLangue, ".", "/"), "/", classePageNomSimple, ".java");
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classeGenPageChemin", classeGenPageChemin); 
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageChemin", classePageChemin); 
 			indexerStockerSolr(langueNomGlobale, classeDoc, "classePageCheminCss", concat(siteChemin, "-static/css/", langueNomGlobale, "/", classePageNomSimple, ".css"));

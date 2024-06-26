@@ -160,13 +160,13 @@ public class RegarderRepertoire {
 	/**
 	 * Var.enUS: SITE_PATH
 	 */
-	protected String SITE_CHEMIN;
+	protected String SITE_SRC;
 	protected String COMPUTATE_SRC;
 
 	 /**
 	 * r: SITE_NOM
 	 * r.enUS: SITE_NAME
-	 * r: SITE_CHEMIN
+	 * r: SITE_SRC
 	 * r.enUS: SITE_PATH
 	 * r: cheminsBin
 	 * r.enUS: pathsBin
@@ -199,41 +199,42 @@ public class RegarderRepertoire {
 			String appComputate = System.getenv("COMPUTATE_SRC");
 			Jinjava jinjava = ConfigSite.getJinjava();
 			JsonObject classeLangueConfig = ConfigSite.getLangueConfigGlobale(jinjava, appComputate, lang);
-			String SITE_NOM = System.getenv(classeLangueConfig.getString("var_SITE_NOM"));
-			String SITE_CHEMIN = System.getenv(classeLangueConfig.getString("var_SITE_CHEMIN"));
+			RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
+			regarderRepertoire.configuration = ConfigSite.getConfiguration(jinjava, classeLangueConfig);
+
+			String SITE_NOM = regarderRepertoire.configuration.getString(classeLangueConfig.getString("var_SITE_NOM"));
+			String SITE_SRC = regarderRepertoire.configuration.getString(classeLangueConfig.getString("var_SITE_SRC"));
 			Boolean REGARDER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_REGARDER"))).orElse("true"));
 			Boolean GENERER = Boolean.parseBoolean(Optional.ofNullable(System.getenv(classeLangueConfig.getString("var_GENERER"))).orElse("true"));
 
-			RegarderRepertoire regarderRepertoire = new RegarderRepertoire();
 			regarderRepertoire.langueNom = lang;
 			regarderRepertoire.SITE_NOM = SITE_NOM;
-			regarderRepertoire.SITE_CHEMIN = SITE_CHEMIN;
+			regarderRepertoire.SITE_SRC = SITE_SRC;
 			regarderRepertoire.COMPUTATE_SRC = appComputate;
-			regarderRepertoire.classeCheminRepertoireAppli = SITE_CHEMIN;
+			regarderRepertoire.classeCheminRepertoireAppli = SITE_SRC;
 
-			regarderRepertoire.cheminSrcMainJava = SITE_CHEMIN + "/src/main/java";
-			regarderRepertoire.cheminSrcGenJava = SITE_CHEMIN + "/src/gen/java";
-			regarderRepertoire.cheminsBin.add(SITE_CHEMIN + "/src/main/resources");
+			regarderRepertoire.cheminSrcMainJava = SITE_SRC + "/src/main/java";
+			regarderRepertoire.cheminSrcGenJava = SITE_SRC + "/src/gen/java";
+			regarderRepertoire.cheminsBin.add(SITE_SRC + "/src/main/resources");
 
-			regarderRepertoire.configuration = ConfigSite.getConfiguration(jinjava, classeLangueConfig);
 
 			regarderRepertoire.trace = true;
 			regarderRepertoire.initialiserRegarderRepertoire(classeLangueConfig);
 			regarderRepertoire.ajouterCheminsARegarder(classeLangueConfig, REGARDER);
 
 			if(REGARDER) {
-				indexerClasses(SITE_CHEMIN, classeLangueConfig);
-				indexerClasses(SITE_CHEMIN, classeLangueConfig);
-				indexerClasses(SITE_CHEMIN, classeLangueConfig);
+				indexerClasses(SITE_SRC, classeLangueConfig);
+				indexerClasses(SITE_SRC, classeLangueConfig);
+				indexerClasses(SITE_SRC, classeLangueConfig);
 				System.out.println(classeLangueConfig.getString(ConfigCles.str_Pret));
 				regarderRepertoire.traiterEvenements(classeLangueConfig);
 			} else {
-				indexerClasses(SITE_CHEMIN, classeLangueConfig);
-				indexerClasses(SITE_CHEMIN, classeLangueConfig);
+				indexerClasses(SITE_SRC, classeLangueConfig);
+				indexerClasses(SITE_SRC, classeLangueConfig);
 				if(GENERER) {
-					indexerEcrireClasses(SITE_CHEMIN, classeLangueConfig);
+					indexerEcrireClasses(SITE_SRC, classeLangueConfig);
 				} else {
-					indexerClasses(SITE_CHEMIN, classeLangueConfig);
+					indexerClasses(SITE_SRC, classeLangueConfig);
 				}
 			}
 		}
@@ -243,9 +244,9 @@ public class RegarderRepertoire {
 		}
 	} 
 
-	public static void indexerClasses(String SITE_CHEMIN, JsonObject classeLangueConfig) throws Exception {
+	public static void indexerClasses(String SITE_SRC, JsonObject classeLangueConfig) throws Exception {
 		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
-		File dir = new File(String.format("%s/src/main/java", SITE_CHEMIN));
+		File dir = new File(String.format("%s/src/main/java", SITE_SRC));
 
 		try (Stream<Path> stream = Files.walk(Paths.get(dir.getAbsolutePath()))) {
 			stream.filter(Files::isRegularFile)
@@ -261,7 +262,7 @@ public class RegarderRepertoire {
 				String cheminStr = chemin.toString();
 				RegarderClasse regarderClasse = new RegarderClasse();
 				try {
-					regarderClasse.setArgs(new String[] {SITE_CHEMIN, cheminStr});
+					regarderClasse.setArgs(new String[] {SITE_SRC, cheminStr});
 					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
 					SolrInputDocument classeDoc = new SolrInputDocument();
 					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
@@ -274,10 +275,10 @@ public class RegarderRepertoire {
 	}
 
 
-	public static void indexerEcrireClasses(String SITE_CHEMIN, JsonObject classeLangueConfig) throws Exception {
+	public static void indexerEcrireClasses(String SITE_SRC, JsonObject classeLangueConfig) throws Exception {
 		String appComputate = System.getenv("COMPUTATE_SRC");
 		String classeLangueNom = StringUtils.defaultString(System.getenv("SITE_LANG"), "frFR");
-		File dir = new File(String.format("%s/src/main/java", SITE_CHEMIN));
+		File dir = new File(String.format("%s/src/main/java", SITE_SRC));
 
 		try (Stream<Path> stream = Files.walk(Paths.get(dir.getAbsolutePath()))) {
 			stream.filter(Files::isRegularFile)
@@ -293,7 +294,7 @@ public class RegarderRepertoire {
 				String cheminStr = chemin.toString();
 				RegarderClasse regarderClasse = new RegarderClasse();
 				try {
-					regarderClasse.setArgs(new String[] {SITE_CHEMIN, cheminStr});
+					regarderClasse.setArgs(new String[] {SITE_SRC, cheminStr});
 					regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig);
 					SolrInputDocument classeDoc = new SolrInputDocument();
 					regarderClasse.indexerClasse(cheminStr, classeDoc, classeLangueNom);
@@ -348,7 +349,7 @@ public class RegarderRepertoire {
 	 * r.enUS: classPath
 	 * r: CHEMINS_RELATIFS_A_REGARDER
 	 * r.enUS: RELATIVE_PATHS_TO_WATCH
-	 * r: SITE_CHEMIN
+	 * r: SITE_SRC
 	 * r.enUS: SITE_PATH
 	 * r: SITE_NOM
 	 * r.enUS: SITE_NAME
@@ -356,7 +357,7 @@ public class RegarderRepertoire {
 	public void initialiserRegarderRepertoire(JsonObject classeLangueConfig) throws Exception {
 		observateur = FileSystems.getDefault().newWatchService();
 		String cheminRelatifARegarder = configuration.getString(classeLangueConfig.getString(ConfigCles.var_CHEMINS_RELATIFS_A_REGARDER));
-		String cheminARegarder = SITE_CHEMIN + "/" + cheminRelatifARegarder;
+		String cheminARegarder = SITE_SRC + "/" + cheminRelatifARegarder;
 		cheminsARegarder.add(cheminARegarder);
 
 		cheminsSource.add(cheminSrcMainJava);
@@ -498,7 +499,7 @@ public class RegarderRepertoire {
 	 * r.enUS: classAbsolutePath
 	 * r: executeur
 	 * r.enUS: executor
-	 * r: SITE_CHEMIN
+	 * r: SITE_SRC
 	 * r.enUS: SITE_PATH
 	 * r: SITE_COMPUTATE_CHEMIN
 	 * r.enUS: COMPUTATE_SRC_PATH

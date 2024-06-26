@@ -135,6 +135,7 @@ public class ConfigCles {
 	public static final String var_ModeleBase = "var_ModeleBase";
 	public static final String var_Colonne = "var_Colonne";
 	public static final String var_COMPUTATE_ENSEMBLE_RECHERCHE_PREFIXE = "var_COMPUTATE_ENSEMBLE_RECHERCHE_PREFIXE";
+	public static final String var_COMPUTATE_VERTX_SRC = "var_COMPUTATE_VERTX_SRC";
 	public static final String var_ConfigChemin = "var_ConfigChemin";
 	public static final String var_ConfigCles = "var_ConfigCles";
 	public static final String var_Config = "var_Config";
@@ -426,8 +427,7 @@ public class ConfigCles {
 	public static final String var_SessionId = "var_SessionId";
 	public static final String var_Signature = "var_Signature";
 	public static final String var_siteChemin = "var_siteChemin";
-	public static final String var_SITE_CHEMIN = "var_SITE_CHEMIN";
-	public static final String var_SITE_CHEMIN_VERTX = "var_SITE_CHEMIN_VERTX";
+	public static final String var_SITE_SRC = "var_SITE_SRC";
 	public static final String var_siteContexte = "var_siteContexte";
 	public static final String var_SiteContexte = "var_SiteContexte";
 	public static final String var_siteCrypte = "var_siteCrypte";

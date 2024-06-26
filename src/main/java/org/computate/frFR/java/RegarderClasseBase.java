@@ -64,7 +64,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */ 
 	@Override protected void _siteChemin() throws Exception {
 		if(siteChemin == null) {
-			siteChemin = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN));
+			siteChemin = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_SRC));
 			if(siteChemin == null)
 				siteChemin = args[0]; 
 		}
@@ -77,7 +77,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */ 
 	@Override protected void _siteCheminVertx() throws Exception {
 		if(siteCheminVertx == null) {
-			siteCheminVertx = System.getenv(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN_VERTX)); 
+			siteCheminVertx = config.getString(langueConfigGlobale.getString(ConfigCles.var_COMPUTATE_VERTX_SRC)); 
 		}
 	}
 
@@ -92,7 +92,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _classeCheminAbsolu() throws Exception {
 		if(classeCheminAbsolu == null) {
-			classeCheminAbsolu = System.getenv(langueConfigGlobale.getString(ConfigCles.var_CLASSE_CHEMIN_ABSOLU)); 
+			classeCheminAbsolu = config.getString(langueConfigGlobale.getString(ConfigCles.var_CLASSE_CHEMIN_ABSOLU)); 
 			if(classeCheminAbsolu == null)
 				classeCheminAbsolu = args[1];
 		}
@@ -119,7 +119,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _siteChemins() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String siteCheminLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN) + "_" + langueNom); 
+			String siteCheminLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_SRC) + "_" + langueNom); 
 			if(StringUtils.isEmpty(siteCheminLangue)) {
 				siteChemins.put(langueNom, siteChemin);
 			}
@@ -148,7 +148,7 @@ public class RegarderClasseBase extends ConfigSite {
 	 */  
 	protected void _siteCheminsVertx() throws Exception {
 		for(String langueNom : toutesLangues) { 
-			String siteCheminVertxLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_SITE_CHEMIN_VERTX) + "_" + langueNom); 
+			String siteCheminVertxLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_COMPUTATE_VERTX_SRC) + "_" + langueNom); 
 			if(StringUtils.isEmpty(siteCheminVertxLangue)) {
 				siteCheminsVertx.put(langueNom, siteCheminVertx);
 			}
