@@ -70,16 +70,16 @@ public class RegarderClasseBase extends ConfigSite {
 		}
 	}
 
-	/**
-	 * Var.enUS: _sitePathVertx
-	 * r: siteCheminVertx
-	 * r.enUS: sitePathVertx
-	 */ 
-	@Override protected void _siteCheminVertx() throws Exception {
-		if(siteCheminVertx == null) {
-			siteCheminVertx = config.getString(langueConfigGlobale.getString(ConfigCles.var_COMPUTATE_VERTX_SRC)); 
-		}
-	}
+	// /**
+	//  * Var.enUS: _sitePathVertx
+	//  * r: siteCheminVertx
+	//  * r.enUS: sitePathVertx
+	//  */ 
+	// @Override protected void _siteCheminVertx() throws Exception {
+	// 	if(siteCheminVertx == null) {
+	// 		siteCheminVertx = config.getString(langueConfigGlobale.getString(ConfigCles.var_COMPUTATE_VERTX_SRC)); 
+	// 	}
+	// }
 
 	/**
 	 * Var.enUS: classAbsolutePath
@@ -129,34 +129,34 @@ public class RegarderClasseBase extends ConfigSite {
 		}
 	}
 	
-	/** 
-	 * Var.enUS: sitePathsVertx
-	 */
-	public LinkedHashMap<String, String> siteCheminsVertx = new LinkedHashMap<String, String>(); 
-	/** 
-	 * Var.enUS: _sitePathsVertx
-	 * r: autresLangues
-	 * r.enUS: otherLanguages
-	 * r: langueNom
-	 * r.enUS: languageName
-	 * r: siteCheminVertxLangue
-	 * r.enUS: sitePathVertxLanguage
-	 * r: siteNom
-	 * r.enUS: siteName
-	 * r: siteChemin
-	 * r.enUS: sitePath
-	 */  
-	protected void _siteCheminsVertx() throws Exception {
-		for(String langueNom : toutesLangues) { 
-			String siteCheminVertxLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_COMPUTATE_VERTX_SRC) + "_" + langueNom); 
-			if(StringUtils.isEmpty(siteCheminVertxLangue)) {
-				siteCheminsVertx.put(langueNom, siteCheminVertx);
-			}
-			else {
-				siteCheminsVertx.put(langueNom, siteCheminVertxLangue);
-			}
-		}
-	}
+	// /** 
+	//  * Var.enUS: sitePathsVertx
+	//  */
+	// public LinkedHashMap<String, String> siteCheminsVertx = new LinkedHashMap<String, String>(); 
+	// /** 
+	//  * Var.enUS: _sitePathsVertx
+	//  * r: autresLangues
+	//  * r.enUS: otherLanguages
+	//  * r: langueNom
+	//  * r.enUS: languageName
+	//  * r: siteCheminVertxLangue
+	//  * r.enUS: sitePathVertxLanguage
+	//  * r: siteNom
+	//  * r.enUS: siteName
+	//  * r: siteChemin
+	//  * r.enUS: sitePath
+	//  */  
+	// protected void _siteCheminsVertx() throws Exception {
+	// 	for(String langueNom : toutesLangues) { 
+	// 		String siteCheminVertxLangue = config.getString(langueConfigGlobale.getString(ConfigCles.var_COMPUTATE_VERTX_SRC) + "_" + langueNom); 
+	// 		if(StringUtils.isEmpty(siteCheminVertxLangue)) {
+	// 			siteCheminsVertx.put(langueNom, siteCheminVertx);
+	// 		}
+	// 		else {
+	// 			siteCheminsVertx.put(langueNom, siteCheminVertxLangue);
+	// 		}
+	// 	}
+	// }
 
 	/**  
 	 * Var.enUS: classDocs
@@ -229,8 +229,8 @@ public class RegarderClasseBase extends ConfigSite {
 		_classeCheminAbsolu();
 		_siteChemin();
 		_siteChemins();
-		_siteCheminVertx();
-		_siteCheminsVertx();
+		// _siteCheminVertx();
+		// _siteCheminsVertx();
 		_classeDocs();
 		_classePartsGen();
 		_bricoleur();

@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -153,13 +154,25 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	
 //					if(StringUtils.equals(classeLangueNom, langueNom)) {
 						if(BooleanUtils.isTrue(partEstConstructeur)) {
-							genCodeConstructeur(langueNom, langueConfig);
+							try {
+								genCodeConstructeur(langueNom, langueConfig);
+							} catch(Exception ex) {
+								throw new RuntimeException(String.format("%s %s %s", classeNomSimple, classeLangueConfig.getString(ConfigCles.var_constructeur), classeNomSimple), ex);
+							}
 						}
 						else if(BooleanUtils.isTrue(partEstMethode)) {
-							genCodeMethode(langueNom, langueConfig);
+							try {
+								genCodeMethode(langueNom, langueConfig);
+							} catch(Exception ex) {
+								throw new RuntimeException(String.format("%s %s %s", classeNomSimple, classeLangueConfig.getString(ConfigCles.var_methode), methodeVar), ex);
+							}
 						}
 						else if(BooleanUtils.isTrue(partEstEntite)) {
-							genCodeEntite(langueNom, langueConfig);
+							try {
+								genCodeEntite(langueNom, langueConfig);
+							} catch(Exception ex) {
+								throw new RuntimeException(String.format("%s %s %s", classeNomSimple, classeLangueConfig.getString(ConfigCles.var_entite), entiteVar), ex);
+							}
 						}
 //					}
 				}
@@ -171,7 +184,7 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 //					}
 					if(classePage) {
 						pageCodeClasseJava(langueNom, langueConfig);
-						pageCodeClasseHbs(langueNom, langueConfig);
+						pageCodeClasseJinja(langueNom, langueConfig);
 					}
 					if(classeApi) {
 //						ecrireApiEnsembleInfo(langueNom);
@@ -196,7 +209,6 @@ public class EcrireToutesClasses extends EcrirePageClasse {
 	 * enUS: Retrieve the records for the class from the search engine, 
 	 * enUS: process them and write them into class files for each supported language. 
 	 */  
-//	public void ecrireGenClasses(QueryResponse reponseRecherche, String classeLangueNom, String langueNom, JsonObject langueConfig) throws Exception { 
 	public void ecrireGenClasse(JsonObject doc, String langueNom) throws Exception { 
 
 		classeCheminRepertoireGen = doc.getString("classeCheminRepertoireGen_" + langueNom + "_stored_string");

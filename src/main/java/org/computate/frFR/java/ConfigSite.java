@@ -266,20 +266,6 @@ public class ConfigSite {
 	}
 
 	/**
-	 * Var.enUS: sitePathVertx frFR: Le chemin vers l'lappli. enUS: The path to the
-	 * application.
-	 **/
-	public String siteCheminVertx;
-
-	/**
-	 * Var.enUS: _sitePathVertx r: siteCheminVertx r.enUS: sitePathVertx
-	 **/
-	protected void _siteCheminVertx() throws Exception {
-		if (siteCheminVertx == null)
-			siteCheminVertx = config.getString(langueConfigGlobale.getString(ConfigCles.var_COMPUTATE_VERTX_SRC));
-	}
-
-	/**
 	 * Var.enUS: srcMainJavaPath enUS: The absolute path to the /src/main/java
 	 * directory.
 	 */
@@ -900,7 +886,6 @@ public class ConfigSite {
 		_config();
 		_siteNom();
 		_siteChemin();
-		_siteCheminVertx();
 		_cheminSrcMainJava();
 		_cheminSrcMainResources();
 		_cheminSrcGenJava();

@@ -144,6 +144,7 @@ public class ConfigCles {
 	public static final String var_Connexion = "var_Connexion";
 	public static final String var_connexionSql = "var_connexionSql";
 	public static final String var_ConnexionSql = "var_ConnexionSql";
+	public static final String var_constructeur = "var_constructeur";
 	public static final String var_Contexte = "var_Contexte";
 	public static final String var_CONTEXTE = "var_CONTEXTE";
 	public static final String var_classeIconeClassesCss = "var_classeIconeClassesCss";
@@ -294,6 +295,7 @@ public class ConfigCles {
 	public static final String var_Max = "var_Max";
 	public static final String var_Menu = "var_Menu";
 	public static final String var_Methode = "var_Methode";
+	public static final String var_methode = "var_methode";
 	public static final String var_methodeNom = "var_methodeNom";
 	public static final String var_methodeNoms = "var_methodeNoms";
 	public static final String var_Milieu = "var_Milieu";

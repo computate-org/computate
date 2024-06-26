@@ -290,7 +290,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 	public void genCodeEntiteHtm(String langueNom, JsonObject langueConfig, String classeApiMethodeMethode) throws Exception {
 		ToutEcrivain oAncien = o;
-		o = auteurGenPageHbsEntite;
+		o = auteurGenPageJinjaEntite;
 		Boolean entiteHtmLigneVerticaleActuel = entiteHtmLigneVerticaleActuelMap.get(classeApiMethodeMethode);
 
 		l();
@@ -978,8 +978,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		classePageChemin = classeDoc.getString("classePageChemin"   + "_" + langueNom + "_stored_string");
 		classePageCheminCss = classeDoc.getString("classePageCheminCss"   + "_" + langueNom + "_stored_string");
 		classePageCheminJs = classeDoc.getString("classePageCheminJs"   + "_" + langueNom + "_stored_string");
-		classePageCheminHbs = classeDoc.getString("classePageCheminHbs"   + "_" + langueNom + "_stored_string");
-		classeGenPageCheminHbs = classeDoc.getString("classeGenPageCheminHbs"   + "_" + langueNom + "_stored_string");
+		classePageCheminJinja = classeDoc.getString("classePageCheminJinja"   + "_" + langueNom + "_stored_string");
+		classeGenPageCheminJinja = classeDoc.getString("classeGenPageCheminJinja"   + "_" + langueNom + "_stored_string");
 		classeApiUri = classeDoc.getString("classeApiUri" + "_" + langueNom + "_stored_string");
 		classePageUriMethode = classeDoc.getString("classeApiUri" + langueConfig.getString(ConfigCles.var_PageRecherche) + "_" + langueNom + "_stored_string");
 		classePageLangueNom = classeDoc.getString("classePageLangueNom"  + "_" + langueNom + "_stored_string");
@@ -1112,7 +1112,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			wPks.setTab("  ");
 
 
-			o = auteurGenPageHbs;
+			o = auteurGenPageJinja;
 
 			o = auteurPageGenClasse;
 			{
@@ -2184,7 +2184,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		}
 	}
 
-	public void pageCodeClasseHbs(String langueNom, JsonObject langueConfig) throws Exception {
+	public void pageCodeClasseJinja(String langueNom, JsonObject langueConfig) throws Exception {
 
 		if(classePageCheminsGen.contains(classeGenPageChemin) && classeGenPageChemin != null && StringUtils.equals(classePageLangueNom, langueNom)) {
 
@@ -2542,12 +2542,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 			}
 
-			if(auteurPageHbs != null) {
-				o = auteurPageHbs;
-				if((classeEtendBase || !classeModele && (classePartsModeleBase == null || !classeNomCanonique.equals(classePartsModeleBase.nomCanonique(langueNom)))) && auteurPageHbs != null) {
-					String hackathonMission = classeDoc.getString("hackathonMissionPageHbs_stored_string");
-					String hackathonColumn = classeDoc.getString("hackathonColumnPageHbs_stored_string");
-					String hackathonLabels = classeDoc.getString("hackathonLabelsPageHbs_stored_string");
+			if(auteurPageJinja != null) {
+				o = auteurPageJinja;
+				if((classeEtendBase || !classeModele && (classePartsModeleBase == null || !classeNomCanonique.equals(classePartsModeleBase.nomCanonique(langueNom)))) && auteurPageJinja != null) {
+					String hackathonMission = classeDoc.getString("hackathonMissionPageJinja_stored_string");
+					String hackathonColumn = classeDoc.getString("hackathonColumnPageJinja_stored_string");
+					String hackathonLabels = classeDoc.getString("hackathonLabelsPageJinja_stored_string");
 					if(hackathonMission != null || hackathonColumn != null || hackathonLabels != null) {
 						l("<!--");
 						if(hackathonMission != null)
@@ -2632,12 +2632,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l("{{> ", classeGenPageNomSimple, "}}");
 			}
 
-			o = auteurGenPageHbs;
+			o = auteurGenPageJinja;
 
 			{
-				String hackathonMission = classeDoc.getString("hackathonMissionGenPageHbs_stored_string");
-				String hackathonColumn = classeDoc.getString("hackathonColumnGenPageHbs_stored_string");
-				String hackathonLabels = classeDoc.getString("hackathonLabelsGenPageHbs_stored_string");
+				String hackathonMission = classeDoc.getString("hackathonMissionGenPageJinja_stored_string");
+				String hackathonColumn = classeDoc.getString("hackathonColumnGenPageJinja_stored_string");
+				String hackathonLabels = classeDoc.getString("hackathonLabelsGenPageJinja_stored_string");
 				if(hackathonMission != null || hackathonColumn != null || hackathonLabels != null) {
 					l("<!--");
 					if(hackathonMission != null)
@@ -4891,9 +4891,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(0, "}");
 			}
 	
-			o = auteurGenPageHbs;
+			o = auteurGenPageJinja;
 
-			s(auteurGenPageHbsEntite);
+			s(auteurGenPageJinjaEntite);
 	
 			o = auteurPageGenClasse;
 
@@ -4911,30 +4911,22 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageCheminCss); 
 			auteurPageJs.flushClose();
 //			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageCheminJs); 
-			if(auteurPageHbs != null) {
-				auteurPageHbs.flushClose();
-//				System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageCheminHbs); 
+			if(auteurPageJinja != null) {
+				auteurPageJinja.flushClose();
+//				System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classePageCheminJinja); 
 			}
-			auteurGenPageHbs.flushClose();
-//			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeGenPageCheminHbs); 
-
-			String siteCheminVertx = siteCheminsVertx.get(langueNom);
-			String siteNomVertx = StringUtils.substringAfterLast(siteCheminVertx, "/");
-			String cheminSrcGenJavaVertx = (siteCheminVertx == null ? siteChemin : siteCheminVertx) + "/src/gen/java";
-			String cheminSrcMainJavaVertx = (siteCheminVertx == null ? siteChemin : siteCheminVertx) + "/src/main/java";
-			String cheminSrcMainResourcesVertx = (siteCheminVertx == null ? siteChemin : siteCheminVertx) + "/src/main/resources";
+			auteurGenPageJinja.flushClose();
+//			System.out.println(langueConfig.getString(ConfigCles.var_Ecrire) + ": " + classeGenPageCheminJinja); 
 
 			{
 				RegarderClasse regarderClasse = new RegarderClasse();
-				regarderClasse.siteChemin = siteCheminVertx;
-				regarderClasse.siteNom = siteNomVertx;
+				regarderClasse.siteChemin = siteChemin;
+				regarderClasse.siteNom = siteNom;
 				regarderClasse.classeCheminAbsolu = classePageChemin;
-				regarderClasse.cheminSrcGenJava = cheminSrcGenJavaVertx;
-				regarderClasse.cheminSrcMainJava = cheminSrcMainJavaVertx;
-				regarderClasse.cheminSrcMainResources = cheminSrcMainResourcesVertx;
+				regarderClasse.cheminSrcGenJava = cheminSrcGenJava;
+				regarderClasse.cheminSrcMainJava = cheminSrcMainJava;
+				regarderClasse.cheminSrcMainResources = cheminSrcMainResources;
 				regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
-//					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom);
-//					RegarderClasse.regarderClasse(regarderClasse, langueNom);
 				SolrInputDocument classeDoc = new SolrInputDocument();
 				regarderClasse.indexerClasse(regarderClasse.classeCheminAbsolu, classeDoc, langueNom);
 				regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom, langueConfig);
@@ -4942,12 +4934,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			{
 				RegarderClasse regarderClasse = new RegarderClasse();
-				regarderClasse.siteChemin = siteCheminVertx;
-				regarderClasse.siteNom = siteNomVertx;
+				regarderClasse.siteChemin = siteChemin;
+				regarderClasse.siteNom = siteNom;
 				regarderClasse.classeCheminAbsolu = classeGenPageChemin;
-				regarderClasse.cheminSrcGenJava = cheminSrcGenJavaVertx;
-				regarderClasse.cheminSrcMainJava = cheminSrcMainJavaVertx;
-				regarderClasse.cheminSrcMainResources = cheminSrcMainResourcesVertx;
+				regarderClasse.cheminSrcGenJava = cheminSrcGenJava;
+				regarderClasse.cheminSrcMainJava = cheminSrcMainJava;
+				regarderClasse.cheminSrcMainResources = cheminSrcMainResources;
 				regarderClasse.initRegarderClasseBase(classeLangueNom, classeLangueConfig); 
 //					regarderClasse.ecrireGenClasses(regarderClasse.classeCheminAbsolu, langueNom, langueNom);
 //					RegarderClasse.regarderClasse(regarderClasse, langueNom);

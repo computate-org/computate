@@ -532,6 +532,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	/**
 	 * Var.enUS: entityVar
 	 */
+	protected String methodeVar;
 	protected String entiteVar;
 	protected String entiteVarUrl;
 
@@ -665,9 +666,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	protected ToutEcrivain auteurPageClasse = null;
 	protected ToutEcrivain auteurPageCss = null;
 	protected ToutEcrivain auteurPageJs = null;
-	protected ToutEcrivain auteurPageHbs = null;
-	protected ToutEcrivain auteurGenPageHbs = null;
-	protected ToutEcrivain auteurGenPageHbsEntite = null;
+	protected ToutEcrivain auteurPageJinja = null;
+	protected ToutEcrivain auteurGenPageJinja = null;
+	protected ToutEcrivain auteurGenPageJinjaEntite = null;
 	protected ToutEcrivain auteurWebsocket = null;
 
 	/**
@@ -1168,9 +1169,9 @@ public class EcrireGenClasse extends EcrireClasse {
 
 	String classeGenPageChemin;
 
-	String classePageCheminHbs;
+	String classePageCheminJinja;
 
-	String classeGenPageCheminHbs;
+	String classeGenPageCheminJinja;
 
 	String classePageUriMethode;
 
@@ -2258,15 +2259,15 @@ public class EcrireGenClasse extends EcrireClasse {
 			classePageChemin = classeDoc.getString("classePageChemin"  + "_" + langueNom + "_stored_string");
 			classePageCheminCss = classeDoc.getString("classePageCheminCss"  + "_" + langueNom + "_stored_string");
 			classePageCheminJs = classeDoc.getString("classePageCheminJs"  + "_" + langueNom + "_stored_string");
-			classePageCheminHbs = classeDoc.getString("classePageCheminHbs"  + "_" + langueNom + "_stored_string");
-			classeGenPageCheminHbs = classeDoc.getString("classeGenPageCheminHbs"  + "_" + langueNom + "_stored_string");
+			classePageCheminJinja = classeDoc.getString("classePageCheminJinja"  + "_" + langueNom + "_stored_string");
+			classeGenPageCheminJinja = classeDoc.getString("classeGenPageCheminJinja"  + "_" + langueNom + "_stored_string");
 		
 			File classePageFichierGen = null;
 			File classePageFichier = null;
 			File classePageFichierCss = null;
 			File classePageFichierJs = null;
-			File classePageFichierHbs = null;
-			File classeGenPageFichierHbs = null;
+			File classePageFichierJinja = null;
+			File classeGenPageFichierJinja = null;
 
 			if(classeGenPageChemin != null)
 				classePageFichierGen = new File(classeGenPageChemin);
@@ -2276,10 +2277,10 @@ public class EcrireGenClasse extends EcrireClasse {
 				classePageFichierCss = new File(classePageCheminCss);
 			if(classePageCheminJs != null)
 				classePageFichierJs = new File(classePageCheminJs);
-			if(classePageCheminHbs != null)
-				classePageFichierHbs = new File(classePageCheminHbs);
-			if(classeGenPageCheminHbs != null)
-				classeGenPageFichierHbs = new File(classeGenPageCheminHbs);
+			if(classePageCheminJinja != null)
+				classePageFichierJinja = new File(classePageCheminJinja);
+			if(classeGenPageCheminJinja != null)
+				classeGenPageFichierJinja = new File(classeGenPageCheminJinja);
 
 			if(classePageFichierGen != null)
 				auteurPageGenClasse = ToutEcrivain.create(classePageFichierGen);
@@ -2294,14 +2295,14 @@ public class EcrireGenClasse extends EcrireClasse {
 				auteurPageJs = ToutEcrivain.create(classePageFichierJs);
 				auteurPageJs.setTab("  ");
 			}
-			if(classePageFichierHbs != null && (!classePageFichierHbs.exists() || classePageFichierHbs.length() == 0L)) {
-				classePageFichierHbs.getParentFile().mkdirs();
-				auteurPageHbs = ToutEcrivain.create(classePageFichierHbs);
+			if(classePageFichierJinja != null && (!classePageFichierJinja.exists() || classePageFichierJinja.length() == 0L)) {
+				classePageFichierJinja.getParentFile().mkdirs();
+				auteurPageJinja = ToutEcrivain.create(classePageFichierJinja);
 			}
-			if(classeGenPageFichierHbs != null) {
-				classeGenPageFichierHbs.getParentFile().mkdirs();
-				auteurGenPageHbs = ToutEcrivain.create(classeGenPageFichierHbs);
-				auteurGenPageHbsEntite = ToutEcrivain.create();
+			if(classeGenPageFichierJinja != null) {
+				classeGenPageFichierJinja.getParentFile().mkdirs();
+				auteurGenPageJinja = ToutEcrivain.create(classeGenPageFichierJinja);
+				auteurGenPageJinjaEntite = ToutEcrivain.create();
 			}
 		}
 	}
@@ -2509,7 +2510,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	public void genCodeMethode(String langueNom, JsonObject langueConfig) throws Exception {
 		o = auteurGenClasseFin;
 
-		String methodeVar = doc.getString("methodeVar_" + langueNom + "_stored_string");
+		methodeVar = doc.getString("methodeVar_" + langueNom + "_stored_string");
 
 		List<String> methodeValsVar = Optional.ofNullable(doc.getJsonArray("methodeValsVar_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
 		List<String> methodeValsLangue = Optional.ofNullable(doc.getJsonArray("methodeValsLangue_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());
@@ -2993,6 +2994,9 @@ public class EcrireGenClasse extends EcrireClasse {
 	 */   
 	public void genCodeEntite(String langueNom, JsonObject langueConfig) throws Exception {
 		o = auteurGenClasseFin;
+		Integer partNumero = (Integer)doc.getInteger("partNumero_stored_int");
+		classeNomSimple = doc.getString("classeNomSimple_" + langueNom + "_stored_string");
+		classeNomCanonique = doc.getString("classeNomCanonique_" + langueNom + "_stored_string");
 		entiteVar = doc.getString("entiteVar_" + langueNom + "_stored_string");
 		entiteVarUrl = doc.getString("entiteVarUrl_" + langueNom + "_stored_string");
 		entiteDescription = doc.getString("entiteDescription_" + langueNom + "_stored_string");
@@ -3132,7 +3136,6 @@ public class EcrireGenClasse extends EcrireClasse {
 			}
 	
 			o = auteurGenClasseFin;
-	
 			l();
 			String ligneCommentaire = "\t///" + String.join("", Collections.nCopies(entiteVar.length(), "/")) + "///";
 			l(ligneCommentaire);
