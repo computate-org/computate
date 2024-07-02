@@ -1804,18 +1804,19 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, ")");
 							tl(5, ".ssl(config.getBoolean(ConfigKeys.AUTH_SSL))");
 							tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
+							tl(5, ".expect(ResponsePredicate.status(200))");
 							tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
 							tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
 							tl(7, ".add(\"audience\", config.getString(ConfigKeys.AUTH_CLIENT))");
 							tl(7, ".add(\"response_mode\", \"decision\")");
 							tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
 							tl(3, ").onFailure(ex -> {");
-							tl(4, "String msg = String.format(\"401 UNAUTHORIZED user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+							tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 							tl(4, "eventHandler.handle(Future.succeededFuture(");
-							tl(5, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+							tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
 							tl(6, "Buffer.buffer().appendString(");
 							tl(7, "new JsonObject()");
-							tl(8, ".put(\"errorCode\", \"401\")");
+							tl(8, ".put(\"errorCode\", \"403\")");
 							tl(8, ".put(\"errorMessage\", msg)");
 							tl(8, ".encodePrettily()");
 							tl(7, "), MultiMap.caseInsensitiveMultiMap()");
@@ -1824,12 +1825,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "}).onSuccess(authorizationDecision -> {");
 							tl(4, "try {");
 							tl(5, "if(!authorizationDecision.bodyAsJsonObject().getBoolean(\"result\")) {");
-							tl(6, "String msg = String.format(\"401 UNAUTHORIZED user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+							tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 							tl(6, "eventHandler.handle(Future.succeededFuture(");
-							tl(7, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+							tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
 							tl(8, "Buffer.buffer().appendString(");
 							tl(9, "new JsonObject()");
-							tl(10, ".put(\"errorCode\", \"401\")");
+							tl(10, ".put(\"errorCode\", \"403\")");
 							tl(10, ".put(\"errorMessage\", msg)");
 							tl(10, ".encodePrettily()");
 							tl(9, "), MultiMap.caseInsensitiveMultiMap()");
@@ -1838,12 +1839,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, "} else {");
 						} else {
 							tl(3, "authorizationProvider.getAuthorizations(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "()).onFailure(ex -> {");
-							tl(4, "String msg = String.format(\"401 UNAUTHORIZED user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+							tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 							tl(4, "eventHandler.handle(Future.succeededFuture(");
-							tl(5, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+							tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
 							tl(6, "Buffer.buffer().appendString(");
 							tl(7, "new JsonObject()");
-							tl(8, ".put(\"errorCode\", \"401\")");
+							tl(8, ".put(\"errorCode\", \"403\")");
 							tl(8, ".put(\"errorMessage\", msg)");
 							tl(8, ".encodePrettily()");
 							tl(7, "), MultiMap.caseInsensitiveMultiMap()");
@@ -1854,12 +1855,12 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(6, "!Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
 							tl(6, StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") ? "||" : "&&", " !Optional.ofNullable(Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_LIRE_REQUIS), " + \"_", classeNomSimple, "\")).orElse(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\"))).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
 							tl(6, ") {");
-							tl(5, "String msg = String.format(\"401 UNAUTHORIZED user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+							tl(5, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 							tl(5, "eventHandler.handle(Future.succeededFuture(");
-							tl(6, "new ServiceResponse(401, \"UNAUTHORIZED\",");
+							tl(6, "new ServiceResponse(403, \"FORBIDDEN\",");
 							tl(7, "Buffer.buffer().appendString(");
 							tl(8, "new JsonObject()");
-							tl(9, ".put(\"errorCode\", \"401\")");
+							tl(9, ".put(\"errorCode\", \"403\")");
 							tl(9, ".put(\"errorMessage\", msg)");
 							tl(9, ".encodePrettily()");
 							tl(8, "), MultiMap.caseInsensitiveMultiMap()");
@@ -1871,8 +1872,46 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 					else {
 						if(authPolitiqueGranulee) {
+							tl(3, "webClient.post(");
+							tl(5, "config.getInteger(ConfigKeys.AUTH_PORT)");
+							tl(5, ", config.getString(ConfigKeys.AUTH_HOST_NAME)");
+							tl(5, ", config.getString(ConfigKeys.AUTH_TOKEN_URI)");
+							tl(5, ")");
+							tl(5, ".ssl(config.getBoolean(ConfigKeys.AUTH_SSL))");
+							tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
+							tl(5, ".expect(ResponsePredicate.status(200))");
+							tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
+							tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
+							tl(7, ".add(\"audience\", config.getString(ConfigKeys.AUTH_CLIENT))");
+							tl(7, ".add(\"response_mode\", \"decision\")");
+							tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
+							tl(3, ").onFailure(ex -> {");
+							tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+							tl(4, "eventHandler.handle(Future.succeededFuture(");
+							tl(5, "new ServiceResponse(403, \"FORBIDDEN\",");
+							tl(6, "Buffer.buffer().appendString(");
+							tl(7, "new JsonObject()");
+							tl(8, ".put(\"errorCode\", \"403\")");
+							tl(8, ".put(\"errorMessage\", msg)");
+							tl(8, ".encodePrettily()");
+							tl(7, "), MultiMap.caseInsensitiveMultiMap()");
+							tl(5, ")");
+							tl(4, "));");
+							tl(3, "}).onSuccess(authorizationDecision -> {");
 							tl(4, "try {");
-							tl(5, "{");
+							tl(5, "if(!authorizationDecision.bodyAsJsonObject().getBoolean(\"result\")) {");
+							tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
+							tl(6, "eventHandler.handle(Future.succeededFuture(");
+							tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
+							tl(8, "Buffer.buffer().appendString(");
+							tl(9, "new JsonObject()");
+							tl(10, ".put(\"errorCode\", \"403\")");
+							tl(10, ".put(\"errorMessage\", msg)");
+							tl(10, ".encodePrettily()");
+							tl(9, "), MultiMap.caseInsensitiveMultiMap()");
+							tl(7, ")");
+							tl(6, "));");
+							tl(5, "} else {");
 						} else {
 							tl(4, "{");
 							tl(5, "try {");
@@ -2090,7 +2129,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								&& ( classeRoles.size() > 0 || classeRoleLires.size() > 0)
 							)
 							) {
-					tl(3, "});");
+						tl(3, "});");
+					} else {
+						if(authPolitiqueGranulee) {
+							tl(3, "});");
+						}
 					}
 
 					tl(2, "}).onFailure(ex -> {");

@@ -2455,12 +2455,13 @@ public class IndexerClasse extends RegarderClasseBase {
 			classeRoleUtilisateur = indexerStockerSolr(classeDoc, "classeRoleUtilisateur", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_RoleUtilisateur) + ":\\s*(true)$", classeCommentaire));
 			classeRoleChacun = indexerStockerSolr(classeDoc, "classeRoleChacun", regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_RoleChacun) + ":\\s*(true)$", classeCommentaire));
 
-			Matcher classeRolesRecherche = Pattern.compile("^" + classeLangueConfig.getString(ConfigCles.var_Role) + "\\.([^:\n]+):\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
+			Matcher classeRolesRecherche = Pattern.compile("^" + classeLangueConfig.getString(ConfigCles.var_Role) + "(\\.([^:\n]+))?:\\s*(.*)\\s*", Pattern.MULTILINE).matcher(classeCommentaire);
 			classeRolesTrouves = classeRolesRecherche.find();
 			boolean classeRolesTrouvesActuel = classeRolesTrouves;
 			while(classeRolesTrouvesActuel) {
-				String classeRoleValeur = classeRolesRecherche.group(2);
-				String classeRoleLangue = classeRolesRecherche.group(1);
+				String classeRoleValeur = classeRolesRecherche.group(3);
+				String classeRoleLangue = classeRolesRecherche.group(2);
+				classeRoleLangue = classeRoleLangue == null ? classeLangueNom : classeRoleLangue;
 				stockerListeSolr(classeDoc, "classeRoles", classeRoleValeur);
 				stockerListeSolr(classeDoc, "classeRolesLangue", classeRoleLangue);
 				classeRolesTrouves = true;
