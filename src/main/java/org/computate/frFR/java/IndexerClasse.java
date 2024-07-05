@@ -4924,20 +4924,6 @@ public class IndexerClasse extends RegarderClasseBase {
 		
 		classePartsGenAjouter(classePartsCouverture, classeLangueNom);
 
-		ArrayList<String> classeApiMethodes = regexListe("^" + classeLangueConfig.getString(ConfigCles.var_ApiMethode) + ":\\s*(.*)", classeCommentaire);
-		if(!classeApiMethodes.contains("Recherche") && classeMotsClesTrouves && (classeMotsCles.contains("Recherche.requete") || classeMotsCles.contains("Recherche.reponse")))
-			classeApiMethodes.add("Recherche");
-		if(!classeApiMethodes.contains("POST") && classeMotsClesTrouves && (classeMotsCles.contains("POST.requete") || classeMotsCles.contains("POST.reponse")))
-			classeApiMethodes.add("POST");
-		if(!classeApiMethodes.contains("PATCH") && classeMotsClesTrouves && (classeMotsCles.contains("PATCH.requete") || classeMotsCles.contains("PATCH.reponse")))
-			classeApiMethodes.add("PATCH");
-		if(!classeApiMethodes.contains("GET") && classeMotsClesTrouves && (classeMotsCles.contains("GET.requete") || classeMotsCles.contains("GET.reponse")))
-			classeApiMethodes.add("GET");
-		if(!classeApiMethodes.contains("PUT") && classeMotsClesTrouves && (classeMotsCles.contains("PUT.requete") || classeMotsCles.contains("PUT.reponse")))
-			classeApiMethodes.add("PUT");
-		if(!classeApiMethodes.contains("DELETE") && classeMotsClesTrouves && (classeMotsCles.contains("DELETE.requete") || classeMotsCles.contains("DELETE.reponse")))
-			classeApiMethodes.add("DELETE");
-
 		String classeNomSimpleLangue = (String)classeDoc.get("classeNomSimple_" + langueNomGlobale + "_stored_string").getValue();
 
 		if(classeApi) {
@@ -4967,7 +4953,7 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.json.impl.JsonUtil", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.auth.authorization.AuthorizationProvider", classeLangueNom), classeLangueNom);
 				if(classePage)
-					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine", classeLangueNom), classeLangueNom);
+					classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "com.hubspot.jinjava.Jinjava", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.eventbus.DeliveryOptions", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.io.IOException", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.util.Collections", classeLangueNom), classeLangueNom);
@@ -4999,6 +4985,12 @@ public class IndexerClasse extends RegarderClasseBase {
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.RoutingContext", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, NumberUtils.class.getCanonicalName(), classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.web.Router", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "com.hubspot.jinjava.Jinjava", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.nio.file.Path", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.nio.file.Files", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "com.google.common.io.Resources", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "java.nio.charset.StandardCharsets", classeLangueNom), classeLangueNom);
+				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "org.computate.vertx.config.ComputateConfigKeys", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.core.Vertx", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.reactivestreams.ReactiveReadStream", classeLangueNom), classeLangueNom);
 				classePartsGenApiAjouter(ClasseParts.initClasseParts(this, "io.vertx.ext.reactivestreams.ReactiveWriteStream", classeLangueNom), classeLangueNom);
@@ -5052,11 +5044,10 @@ public class IndexerClasse extends RegarderClasseBase {
 
 				classePartsGenApiAjouter(classePartsListeRecherche, classeLangueNom);
 
-				Matcher classeApiMethodesRegex = Pattern.compile("^" + classeLangueConfig.getString(ConfigCles.var_ApiMethode) + "(\\.([^:\n]+))?:\\s*(.*)", Pattern.MULTILINE).matcher(classeCommentaire);
-				boolean classeApiMethodesTrouves = classeApiMethodesRegex.find();
-				while(classeApiMethodesTrouves) {
-					String classeApiMethode = classeApiMethodesRegex.group(3);
-					String classeApiMethodeLangue = classeApiMethodesRegex.group(2);
+				JsonObject apiMethodeObjet = regexYamlObject(classeLangueConfig.getString(ConfigCles.var_ApiMethode), classeCommentaire);
+				for(String classeApiMethode : apiMethodeObjet.fieldNames()) {
+					JsonObject apiMethode = Optional.ofNullable(apiMethodeObjet.getJsonObject(classeApiMethode)).orElse(new JsonObject());
+					String classeApiMethodeLangue = apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_Langue));
 	
 					if(classeApiMethodeLangue == null || StringUtils.equals(classeApiMethodeLangue, langueNom)) {
 
@@ -5074,16 +5065,16 @@ public class IndexerClasse extends RegarderClasseBase {
 						else
 							classeApiMethodeMethode = "GET";
 		
-						indexerStockerSolr(langueNom, classeDoc, "classeApiMethode" + classeApiMethode, regex("^" + classeLangueConfig.getString(ConfigCles.var_ApiMethode) + "\\." + classeApiMethode + "." + langueNom + ":\\s*(.*)", classeCommentaire, classeApiMethodeMethode));
+						classeApiMethodeMethode = indexerStockerSolr(langueNom, classeDoc, "classeApiMethode" + classeApiMethode, apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_ApiMethode), classeApiMethodeMethode));
 		
-						String classeApiUriMethode = regexLangue(langueNom, "(classe)?ApiUri" + "\\." + classeApiMethode + "." + langueNom, classeCommentaire);
-						Boolean classeRoleUtilisateurMethode = indexerStockerSolr(langueNom, classeDoc, "classeRoleUtilisateur" + classeApiMethode, regexTrouve("^" + classeLangueConfig.getString(ConfigCles.var_RoleUtilisateur) + "\\." + classeApiMethode + "\\." + langueNom + ":\\s*(true)$", classeCommentaire));
+						String classeApiUriMethode = apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_ApiUri));
+						Boolean classeRoleUtilisateurMethode = indexerStockerSolr(langueNom, classeDoc, "classeRoleUtilisateur" + classeApiMethode, apiMethode.getBoolean(classeLangueConfig.getString(ConfigCles.var_RoleUtilisateur), true));
 		
-						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode, "ApiOperationId" + classeApiMethode + "." + langueNom, classeCommentaire, StringUtils.lowerCase(classeApiMethode) + classeNomSimpleLangue);
-						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Requete", "ApiOperationId" + classeApiMethode + "Requete" + "." + langueNom, classeCommentaire, classeApiMethode + classeNomSimpleLangue + classeLangueConfig.getString(ConfigCles.var_Requete));
-						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Reponse", "ApiOperationId" + classeApiMethode + "Reponse" + "." + langueNom, classeCommentaire, classeApiMethode + classeNomSimpleLangue + classeLangueConfig.getString(ConfigCles.var_Reponse));
-						indexerStockerSolrRegex(langueNom, classeDoc, "classeApiDescription" + classeApiMethode, "ApiDescription" + classeApiMethode + "." + langueNom, classeCommentaire, regexLangue(langueNom, "(classe)?Description" + "\\." + classeApiMethode, classeCommentaire));
-						indexerStockerSolr(langueNom, classeDoc, "classeApiInterne" + classeApiMethode, regexTrouve("^Api" + classeLangueConfig.getString(ConfigCles.var_Interne) + "\\." + classeApiMethode + ": \\s*(true)$", classeCommentaire));
+						indexerStockerSolr(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode, apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_ApiOperationId), StringUtils.lowerCase(classeApiMethode) + classeNomSimpleLangue));
+						indexerStockerSolr(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Requete", apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_ApiOperationIdRequete), classeApiMethode + classeNomSimpleLangue + classeLangueConfig.getString(ConfigCles.var_Requete)));
+						indexerStockerSolr(langueNom, classeDoc, "classeApiOperationId" + classeApiMethode + "Reponse", apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_ApiOperationIdReponse), classeApiMethode + classeNomSimpleLangue + classeLangueConfig.getString(ConfigCles.var_Reponse)));
+						indexerStockerSolr(langueNom, classeDoc, "classeApiDescription" + classeApiMethode, apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_ApiDescription), classeDescription));
+						indexerStockerSolr(langueNom, classeDoc, "classeApiInterne" + classeApiMethode, apiMethode.getBoolean(classeLangueConfig.getString(ConfigCles.var_ApiInterne), true));
 		
 						if(classeEtendBase && classeSuperDoc != null) {
 							indexerStockerSolr(langueNom, classeDoc, "classeSuperApiOperationId" + classeApiMethode, (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string"));
@@ -5091,11 +5082,11 @@ public class IndexerClasse extends RegarderClasseBase {
 							indexerStockerSolr(langueNom, classeDoc, "classeSuperApiOperationId" + classeApiMethode + "Reponse", (String)classeSuperDoc.get("classeApiOperationId" + classeApiMethode + "Reponse" + "_" + langueNom + "_stored_string"));
 						}
 		
-						String classePageNomSimpleMethode = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_Page) + "\\." + classeApiMethode, classeCommentaire);
-						String classePageSuperNomSimpleMethode = regexLangue(langueNom, "^" + classeLangueConfig.getString(ConfigCles.var_PageSuper) + "\\." + classeApiMethode, classeCommentaire, "Object");
-						String classeApiTypeMediaRequeteMethode = regexLangue(langueNom, "^Api" + classeLangueConfig.getString(ConfigCles.var_TypeMedia) + classeLangueConfig.getString(ConfigCles.var_Requete) + "\\." + classeApiMethode, classeCommentaire, "application/json");
-						String classeApiTypeMedia200Methode = regexLangue(langueNom, "^ApiTypeMedia200" + "\\." + classeApiMethode, classeCommentaire, classePageNomSimpleMethode == null ? "application/json" : "text/html");
-						String classeApiMotCleMethode = regexLangue(langueNom, "^ApiMotCle" + classeApiMethode, classeCommentaire);
+						String classePageNomSimpleMethode = apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_Page));
+						String classePageSuperNomSimpleMethode = apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_PageSuper), "Object");
+						String classeApiTypeMediaRequeteMethode = apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_ApiTypeMediaRequete), "application/json");
+						String classeApiTypeMedia200Methode = apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_ApiTypeMedia) + "200", classePageNomSimpleMethode == null ? "application/json" : "text/html");
+						String classeApiMotCleMethode = apiMethode.getString(classeLangueConfig.getString(ConfigCles.var_ApiMotCle));
 						if(StringUtils.contains(classeApiMethode, "POST")
 								|| StringUtils.contains(classeApiMethode, classeLangueConfig.getString(ConfigCles.var_Recherche))
 								|| StringUtils.contains(classeApiMethode, "PATCH")
@@ -5252,7 +5243,6 @@ public class IndexerClasse extends RegarderClasseBase {
 							classePage = true;
 						}
 					}
-					classeApiMethodesTrouves = classeApiMethodesRegex.find();
 				}
 		
 				for(ClasseParts classePartGenApi : classePartsGenApi.values()) {
@@ -5858,10 +5848,10 @@ public class IndexerClasse extends RegarderClasseBase {
 				if(classeTitre != null)
 					indexerStockerSolr(langueNom, classeDoc, "classeTitre", classeTitre); 
 	
-				indexerStockerSolr(classeLangueNom, classeDoc, "classeHtmInfobulle", regexYaml(classeLangueConfig.getString(ConfigCles.var_HtmInfobulle), classeCommentaire));
-				indexerStockerSolr(classeLangueNom, classeDoc, "classeJsInfobulle", regexYaml(classeLangueConfig.getString(ConfigCles.var_JsInfobulle), classeCommentaire));
-				indexerStockerSolr(classeLangueNom, classeDoc, "classeJsPATCH", regexYaml("JsPATCH", classeCommentaire));
-				indexerStockerSolr(classeLangueNom, classeDoc, "classeJsWebsocket", regexYaml("JsWebsocket", classeCommentaire));
+				indexerStockerSolr(classeLangueNom, classeDoc, "classeHtmInfobulle", regexYamlString(classeLangueConfig.getString(ConfigCles.var_HtmInfobulle), classeCommentaire));
+				indexerStockerSolr(classeLangueNom, classeDoc, "classeJsInfobulle", regexYamlString(classeLangueConfig.getString(ConfigCles.var_JsInfobulle), classeCommentaire));
+				indexerStockerSolr(classeLangueNom, classeDoc, "classeJsPATCH", regexYamlString("JsPATCH", classeCommentaire));
+				indexerStockerSolr(classeLangueNom, classeDoc, "classeJsWebsocket", regexYamlString("JsWebsocket", classeCommentaire));
 	
 				classeH1 = regexLangue(langueNom, "^H1", classeCommentaire);
 				if(classeH1 != null)

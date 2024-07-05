@@ -1009,10 +1009,22 @@ public class ConfigSite {
 			return o;
 	}
 
-	public String regexYaml(String champ, String texte) {
+	public JsonObject regexYamlObject(String champ, String texte) {
+		Yaml yaml = new Yaml();
+		Map<String, Object> map = yaml.load(regexYamlString(champ, texte));
+		return new JsonObject(map);
+	}
+
+	public JsonArray regexYamlArray(String champ, String texte) {
+		Yaml yaml = new Yaml();
+		List<Object> map = yaml.load(regexYamlString(champ, texte));
+		return new JsonArray(map);
+	}
+
+	public String regexYamlString(String champ, String texte) {
 		String o = null;
 		if (champ != null && texte != null) {
-			String motif = "^" + champ + ": ([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(^\\w|\\Z)";
+			String motif = "^" + champ + ": ?([>|-]{0,2}(\\d*)\\n)?([\\s\\S]*?)(^\\w|\\Z)";
 			Matcher m = Pattern.compile(motif, Pattern.MULTILINE).matcher(texte);
 			boolean trouve = m.find();
 			if (trouve) {

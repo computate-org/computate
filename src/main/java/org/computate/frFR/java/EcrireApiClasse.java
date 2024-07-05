@@ -296,8 +296,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(8, "protected WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), ";");
 
-			auteurGenApiService.tl(1, "static void ", classeLangueConfig.getString(ConfigCles.var_enregistrer), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ", Vertx vertx) {");
-			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", classeNomSimple, ".get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "()).register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", "));");
+			auteurGenApiService.tl(1, "static void ", classeLangueConfig.getString(ConfigCles.var_enregistrer), "Service(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ", Vertx vertx) {");
+			auteurGenApiService.tl(2, "new ServiceBinder(vertx).setAddress(", classeNomSimple, ".get", classeLangueConfig.getString(ConfigCles.var_ClasseApiAddresse), "()).register(", classeNomSimpleGenApiService, ".class, new ", classeNomSimpleApiServiceImpl, "(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", "));");
 			auteurGenApiService.tl(1, "}");
 			auteurGenApiService.l();
 			for(String classeApiMethode : classeApiMethodes) {
@@ -394,8 +394,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l(" **/");
 			auteurApiServiceImpl.l("public class ", classeNomSimpleApiServiceImpl, " extends ", classeNomSimpleGenApiServiceImpl, " {");
 			auteurApiServiceImpl.l();
-			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ") {");
-			auteurApiServiceImpl.tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", ");");
+			auteurApiServiceImpl.tl(1, "public ", classeNomSimpleApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ") {");
+			auteurApiServiceImpl.tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
 			auteurApiServiceImpl.tl(1, "}");
 			auteurApiServiceImpl.l("}");
 
@@ -1742,8 +1742,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			l();
 			tl(1, "protected static final Logger LOG = LoggerFactory.getLogger(", classeNomSimpleGenApiServiceImpl, ".class);");
 			l();
-			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", HandlebarsTemplateEngine templateEngine" : "", ") {");
-			tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", templateEngine" : "", ");");
+			tl(1, "public ", classeNomSimpleGenApiServiceImpl, "(EventBus eventBus, JsonObject config, WorkerExecutor ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", PgPool pgPool, KafkaProducer<String, String> kafkaProducer, WebClient ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", OAuth2Auth oauth2AuthenticationProvider, AuthorizationProvider authorizationProvider" : "", classePage ? ", Jinjava jinjava" : "", ") {");
+			tl(2, "super(eventBus, config, ", classeLangueConfig.getString(ConfigCles.var_executeurTravailleur), ", pgPool, kafkaProducer, ", classeLangueConfig.getString(ConfigCles.var_clientWeb), activerOpenIdConnect ? ", oauth2AuthenticationProvider, authorizationProvider" : "", classePage ? ", jinjava" : "", ");");
 			tl(1, "}");
 
 			for(String classeApiMethode : classeApiMethodes) {
@@ -1798,16 +1798,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						l();
 						if(authPolitiqueGranulee) {
 							tl(3, "webClient.post(");
-							tl(5, "config.getInteger(ConfigKeys.AUTH_PORT)");
-							tl(5, ", config.getString(ConfigKeys.AUTH_HOST_NAME)");
-							tl(5, ", config.getString(ConfigKeys.AUTH_TOKEN_URI)");
+							tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
+							tl(5, ", config.getString(ComputateConfigKeys.AUTH_HOST_NAME)");
+							tl(5, ", config.getString(ComputateConfigKeys.AUTH_TOKEN_URI)");
 							tl(5, ")");
-							tl(5, ".ssl(config.getBoolean(ConfigKeys.AUTH_SSL))");
+							tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
 							tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
 							tl(5, ".expect(ResponsePredicate.status(200))");
 							tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
 							tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
-							tl(7, ".add(\"audience\", config.getString(ConfigKeys.AUTH_CLIENT))");
+							tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
 							tl(7, ".add(\"response_mode\", \"decision\")");
 							tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
 							tl(3, ").onFailure(ex -> {");
@@ -1852,8 +1852,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "));");
 							tl(3, "}).onSuccess(b -> {");
 							tl(4, "if(");
-							tl(6, "!Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
-							tl(6, StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") ? "||" : "&&", " !Optional.ofNullable(Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_LIRE_REQUIS), " + \"_", classeNomSimple, "\")).orElse(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\"))).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
+							tl(6, "!Optional.ofNullable(config.getString(ComputateConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
+							tl(6, StringUtils.containsAny(classeApiMethode, "POST", "PUT", "PATCH") ? "||" : "&&", " !Optional.ofNullable(Optional.ofNullable(config.getString(ComputateConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_LIRE_REQUIS), " + \"_", classeNomSimple, "\")).orElse(config.getString(ComputateConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\"))).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
 							tl(6, ") {");
 							tl(5, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 							tl(5, "eventHandler.handle(Future.succeededFuture(");
@@ -1873,16 +1873,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					else {
 						if(authPolitiqueGranulee) {
 							tl(3, "webClient.post(");
-							tl(5, "config.getInteger(ConfigKeys.AUTH_PORT)");
-							tl(5, ", config.getString(ConfigKeys.AUTH_HOST_NAME)");
-							tl(5, ", config.getString(ConfigKeys.AUTH_TOKEN_URI)");
+							tl(5, "config.getInteger(ComputateConfigKeys.AUTH_PORT)");
+							tl(5, ", config.getString(ComputateConfigKeys.AUTH_HOST_NAME)");
+							tl(5, ", config.getString(ComputateConfigKeys.AUTH_TOKEN_URI)");
 							tl(5, ")");
-							tl(5, ".ssl(config.getBoolean(ConfigKeys.AUTH_SSL))");
+							tl(5, ".ssl(config.getBoolean(ComputateConfigKeys.AUTH_SSL))");
 							tl(5, ".putHeader(\"Authorization\", String.format(\"Bearer %s\", siteRequest.getUser().principal().getString(\"access_token\")))");
 							tl(5, ".expect(ResponsePredicate.status(200))");
 							tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
 							tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
-							tl(7, ".add(\"audience\", config.getString(ConfigKeys.AUTH_CLIENT))");
+							tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
 							tl(7, ".add(\"response_mode\", \"decision\")");
 							tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
 							tl(3, ").onFailure(ex -> {");
@@ -1964,9 +1964,9 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(activerRoleAdmin) {
 							tBase = 1;
 							tl(8, "if(", classeLangueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".getResponse().getResponse().getNumFound() > 1");
-							tl(10, "&& !Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
+							tl(10, "&& !Optional.ofNullable(config.getString(ComputateConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)");
 							tl(10, ") {");
-							tl(9, "String message = String.format(\"", classeLangueConfig.getString(ConfigCles.str_roles_requis), "\" + config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\"));");
+							tl(9, "String message = String.format(\"", classeLangueConfig.getString(ConfigCles.str_roles_requis), "\" + config.getString(ComputateConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\"));");
 							tl(9, "LOG.error(message);");
 							tl(9, classeLangueConfig.getString(ConfigCles.var_erreur), "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ", ", classeLangueConfig.getString(ConfigCles.var_gestionnaireEvenements), ", new RuntimeException(message));");
 							tl(8, "} else {");
@@ -3164,6 +3164,10 @@ public class EcrireApiClasse extends EcrireGenClasse {
 						if(classePageNomCanoniqueMethode != null) {
 							if(classePartsToutEcrivain == null)
 								throw new RuntimeException(String.format("%s %s %s %s %s. ", classeLangueConfig.getString(ConfigCles.var_classe), classeLangueConfig.getString(ConfigCles.var_ToutEcrivain), classeLangueConfig.getString(ConfigCles.var_manquante), classeLangueConfig.getString(ConfigCles.var_dans), cheminSrcMainJava));
+							tl(3, "String pageTemplateUri = ", classeLangueConfig.getString(ConfigCles.var_template), classeApiMethode, classeNomSimple, "();");
+							tl(3, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
+							tl(3, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
+							tl(3, "String template = siteTemplatePath == null ? Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\")) : Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8);");
 							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
 							tl(3, "MultiMap ", classeLangueConfig.getString(ConfigCles.var_requeteEnTetes), " = MultiMap.caseInsensitiveMultiMap();");
 							tl(3, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteEnTetes), "(", classeLangueConfig.getString(ConfigCles.var_requeteEnTetes), ");");
@@ -3176,15 +3180,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(3, "page.set", classeLangueConfig.getString(ConfigCles.var_ListeRecherche), classeApiClasseNomSimple, "_(", classeLangueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ");");
 							tl(3, "page.set", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 							tl(3, "page.", classeLangueConfig.getString(ConfigCles.var_promesseLoin), classePageNomSimpleMethode, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(a -> {");
-							tl(4, "JsonObject json = JsonObject.mapFrom(page);");
-							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".STATIC_BASE_URL, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".STATIC_BASE_URL));");
-							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".GITHUB_ORG, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".GITHUB_ORG));");
-							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_NAME));");
-							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_DISPLAY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_DISPLAY_NAME));");
-							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_URL, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_URL));");
-							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_NAME));");
-							tl(4, "json.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_IMAGE_URI, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_IMAGE_URI));");
-							tl(4, "templateEngine.render(json, ", classeLangueConfig.getString(ConfigCles.var_template), classeApiMethode, classeNomSimple, "()).onSuccess(buffer -> {");
+							tl(4, "JsonObject ctx = JsonObject.mapFrom(page);");
+							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".STATIC_BASE_URL, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".STATIC_BASE_URL));");
+							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".GITHUB_ORG, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".GITHUB_ORG));");
+							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_NAME));");
+							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_DISPLAY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_DISPLAY_NAME));");
+							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_URL, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_URL));");
+							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_NAME));");
+							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_IMAGE_URI, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_IMAGE_URI));");
+							tl(4, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
+							tl(4, "Buffer buffer = Buffer.buffer(renderedTemplate);");
 						}
 						else {
 							tl(3, "List<String> fls = ", classeLangueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getRequest().getFields();");
@@ -3255,10 +3260,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 	
 					if((classeApiMethode.contains("GET") || classeApiMethode.contains(classeLangueConfig.getString(ConfigCles.var_Recherche))) && classePageNomCanoniqueMethode != null) {
-						tl(5, "promise.complete(new ServiceResponse(200, \"OK\", buffer, ", classeLangueConfig.getString(ConfigCles.var_requeteEnTetes), "));");
-						tl(4, "}).onFailure(ex -> {");
-						tl(5, "promise.fail(ex);");
-						tl(4, "});");
+						tl(4, "promise.complete(new ServiceResponse(200, \"OK\", buffer, ", classeLangueConfig.getString(ConfigCles.var_requeteEnTetes), "));");
 						tl(3, "}).onFailure(ex -> {");
 						tl(4, "promise.fail(ex);");
 						tl(3, "});");
@@ -3516,7 +3518,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			}
 			if(classeRoles.size() > 0 && (classeRoleSession || classeRoleUtilisateur)) {
 				l();
-				tl(3, "if(!Optional.ofNullable(config.getString(ConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)) {");
+				tl(3, "if(!Optional.ofNullable(config.getString(ComputateConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_ROLE_REQUIS), " + \"_", classeNomSimple, "\")).map(v -> RoleBasedAuthorization.create(v).match(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "())).orElse(false)) {");
 				tl(4, classeLangueConfig.getString(ConfigCles.var_listeRecherche), ".fq(\"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId()).orElse(\"-----\")) + \" OR \" + \"sessionId_docvalues_string:\" + SearchTool.escapeQueryChars(Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".getSessionId", classeLangueConfig.getString(ConfigCles.var_Avant), "()).orElse(\"-----\"))");
 				tl(6, "+ \" OR ", classeLangueConfig.getString(ConfigCles.var_utilisateur), classeLangueConfig.getString(ConfigCles.var_Cle), "s_docvalues_longs:\" + Optional.ofNullable(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), classeLangueConfig.getString(ConfigCles.var_Cle), "()).orElse(0L));");
 				tl(3, "}");
