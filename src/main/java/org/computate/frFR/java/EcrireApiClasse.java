@@ -249,7 +249,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurGenApiService.l("import io.vertx.ext.web.api.service.WebApiServiceGen;");
 			auteurGenApiService.l("import io.vertx.ext.web.api.service.ServiceRequest;");
 			auteurGenApiService.l("import io.vertx.ext.web.api.service.ServiceResponse;");
-			auteurGenApiService.l("import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;");
+			auteurGenApiService.l("import com.hubspot.jinjava.Jinjava;");
 			auteurGenApiService.l("import io.vertx.core.WorkerExecutor;");
 			auteurGenApiService.l("import io.vertx.pgclient.PgPool;");
 			auteurGenApiService.l("import io.vertx.kafka.client.producer.KafkaProducer;");
@@ -373,7 +373,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 			auteurApiServiceImpl.l("import io.vertx.pgclient.PgPool;");
 			auteurApiServiceImpl.l("import io.vertx.kafka.client.producer.KafkaProducer;");
 			if(classePage)
-				auteurApiServiceImpl.l("import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;");
+				auteurApiServiceImpl.l("import com.hubspot.jinjava.Jinjava;");
 //			auteurGenApiService.l("import ", classeNomEnsemble, ".", classeNomSimple, "ApiServiceVertxEBProxy;");
 			auteurApiServiceImpl.l();
 			auteurApiServiceImpl.l("/**");
@@ -1751,6 +1751,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 				String classePageNomSimpleMethode = classeDoc.getString("classePageNomSimple" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
+				String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classeApiTypeMedia200Methode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classeApiTypeMediaRequeteMethode = classeDoc.getString("classeApiTypeMediaRequete" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
 				String classePageLangueNom = classeDoc.getString("classePageLangueNom" + classeApiMethode + "_" + classeLangueNom + "_stored_string");
@@ -1808,8 +1809,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
 							tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
 							tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
-							tl(7, ".add(\"response_mode\", \"decision\")");
-							tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
+							tl(7, ".add(\"response_mode\", \"permissions\")");
+							if(classeApiMethode.equals(classeApiMethodeMethode)) {
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
+							} else {
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_PORTEE_ADMIN), ")))");
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"GET\"))");
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"POST\"))");
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"PATCH\"))");
+							}
 							tl(3, ").onFailure(ex -> {");
 							tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 							tl(4, "eventHandler.handle(Future.succeededFuture(");
@@ -1824,7 +1833,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "));");
 							tl(3, "}).onSuccess(authorizationDecision -> {");
 							tl(4, "try {");
-							tl(5, "if(!authorizationDecision.bodyAsJsonObject().getBoolean(\"result\")) {");
+							tl(5, "JsonArray scopes = authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
+							tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
 							tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 							tl(6, "eventHandler.handle(Future.succeededFuture(");
 							tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
@@ -1837,6 +1847,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, ")");
 							tl(6, "));");
 							tl(5, "} else {");
+							tl(6, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
 						} else {
 							tl(3, "authorizationProvider.getAuthorizations(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ".get", classeLangueConfig.getString(ConfigCles.var_Utilisateur), "()).onFailure(ex -> {");
 							tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
@@ -1883,8 +1894,16 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(5, ".sendForm(MultiMap.caseInsensitiveMultiMap()");
 							tl(7, ".add(\"grant_type\", \"urn:ietf:params:oauth:grant-type:uma-ticket\")");
 							tl(7, ".add(\"audience\", config.getString(ComputateConfigKeys.AUTH_CLIENT))");
-							tl(7, ".add(\"response_mode\", \"decision\")");
-							tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
+							tl(7, ".add(\"response_mode\", \"permissions\")");
+							if(classeApiMethode.equals(classeApiMethodeMethode)) {
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"", classeApiMethode, "\"))");
+							} else {
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_PORTEE_ADMIN), ")))");
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, config.getString(ComputateConfigKeys.", classeLangueConfig.getString(ConfigCles.var_AUTH_PORTEE_SUPER_ADMIN), ")))");
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"GET\"))");
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"POST\"))");
+								tl(7, ".add(\"permission\", String.format(\"%s#%s\", ", classeNomSimple, ".CLASS_SIMPLE_NAME, \"PATCH\"))");
+							}
 							tl(3, ").onFailure(ex -> {");
 							tl(4, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 							tl(4, "eventHandler.handle(Future.succeededFuture(");
@@ -1899,7 +1918,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(4, "));");
 							tl(3, "}).onSuccess(authorizationDecision -> {");
 							tl(4, "try {");
-							tl(5, "if(!authorizationDecision.bodyAsJsonObject().getBoolean(\"result\")) {");
+							tl(5, "JsonArray scopes = authorizationDecision.bodyAsJsonArray().stream().findFirst().map(decision -> ((JsonObject)decision).getJsonArray(\"scopes\")).orElse(new JsonArray());");
+							tl(5, "if(!scopes.contains(\"", classeApiMethodeMethode, "\")) {");
 							tl(6, "String msg = String.format(\"403 FORBIDDEN user %s to %s %s\", siteRequest.getUser().attributes().getJsonObject(\"accessToken\").getString(\"preferred_username\"), serviceRequest.getExtra().getString(\"method\"), serviceRequest.getExtra().getString(\"uri\"));");
 							tl(6, "eventHandler.handle(Future.succeededFuture(");
 							tl(7, "new ServiceResponse(403, \"FORBIDDEN\",");
@@ -1912,6 +1932,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(7, ")");
 							tl(6, "));");
 							tl(5, "} else {");
+							tl(6, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".setScopes(scopes.stream().map(o -> o.toString()).collect(Collectors.toList()));");
 						} else {
 							tl(4, "{");
 							tl(5, "try {");
@@ -3123,7 +3144,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					if(classePageNomCanoniqueMethode != null) {
 						l();
 						tl(1, "public String ", classeLangueConfig.getString(ConfigCles.var_template), classeApiMethode, classeNomSimple, "() {");
-						tl(2, "return Optional.ofNullable(config.getString(", classePartsConfigCles.nomSimple(classeLangueNom), ".TEMPLATE_PATH)).orElse(\"templates\") + \"/", classeLangueNom, "/", classePageNomSimpleMethode, "\";");
+						tl(2, "return \"/", classeLangueNom, "/", classePageNomSimpleMethode, ".htm\";");
 						t(1, "}");
 					}
 					l();
@@ -3167,7 +3188,7 @@ public class EcrireApiClasse extends EcrireGenClasse {
 							tl(3, "String pageTemplateUri = ", classeLangueConfig.getString(ConfigCles.var_template), classeApiMethode, classeNomSimple, "();");
 							tl(3, "String siteTemplatePath = config.getString(ComputateConfigKeys.TEMPLATE_PATH);");
 							tl(3, "Path resourceTemplatePath = Path.of(siteTemplatePath, pageTemplateUri);");
-							tl(3, "String template = siteTemplatePath == null ? Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\")) : Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8);");
+							tl(3, "String template = siteTemplatePath == null ? Resources.toString(Resources.getResource(resourceTemplatePath.toString()), StandardCharsets.UTF_8) : Files.readString(resourceTemplatePath, Charset.forName(\"UTF-8\"));");
 							tl(3, classePageNomSimpleMethode, " page = new ", classePageNomSimpleMethode, "();");
 							tl(3, "MultiMap ", classeLangueConfig.getString(ConfigCles.var_requeteEnTetes), " = MultiMap.caseInsensitiveMultiMap();");
 							tl(3, classeLangueConfig.getString(ConfigCles.var_requeteSite), ".set", classeLangueConfig.getString(ConfigCles.var_RequeteEnTetes), "(", classeLangueConfig.getString(ConfigCles.var_requeteEnTetes), ");");
@@ -3180,14 +3201,8 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(3, "page.set", classeLangueConfig.getString(ConfigCles.var_ListeRecherche), classeApiClasseNomSimple, "_(", classeLangueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ");");
 							tl(3, "page.set", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 							tl(3, "page.", classeLangueConfig.getString(ConfigCles.var_promesseLoin), classePageNomSimpleMethode, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(a -> {");
-							tl(4, "JsonObject ctx = JsonObject.mapFrom(page);");
-							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".STATIC_BASE_URL, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".STATIC_BASE_URL));");
-							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".GITHUB_ORG, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".GITHUB_ORG));");
-							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_NAME));");
-							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_DISPLAY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_DISPLAY_NAME));");
-							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_URL, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_URL));");
-							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_NAME, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_NAME));");
-							tl(4, "ctx.put(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_IMAGE_URI, config.getString(", classePartsConfigCles.nomSimple(langueNom), ".SITE_POWERED_BY_IMAGE_URI));");
+							tl(4, "JsonObject ctx = ComputateConfigKeys.getPageContext(config);");
+							tl(4, "ctx.mergeIn(JsonObject.mapFrom(page));");
 							tl(4, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
 							tl(4, "Buffer buffer = Buffer.buffer(renderedTemplate);");
 						}

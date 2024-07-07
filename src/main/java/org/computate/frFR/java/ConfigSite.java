@@ -761,12 +761,6 @@ public class ConfigSite {
 			siteEcrireMethodes.addAll(o);
 	}
 
-	public String authRoleAdmin = null;
-
-	protected void _authRoleAdmin() throws Exception {
-		authRoleAdmin = langueConfigGlobale.getString(ConfigCles.var_AUTH_ROLE_ADMIN);
-	}
-
 	public Boolean authPolitiqueGranulee;
 	/**
 	 **/
@@ -928,7 +922,6 @@ public class ConfigSite {
 		_customerProfileId9();
 		_customerProfileId10();
 		_siteEcrireMethodes();
-		_authRoleAdmin();
 		_authPolitiqueGranulee();
 		_ecrireApi();
 		_ecrireCommentaire();

@@ -101,9 +101,12 @@ public class ConfigCles {
 	public static final String var_attribuer = "var_attribuer";
 	public static final String var_Attribuer = "var_Attribuer";
 	public static final String var_AucunNomTrouve = "var_AucunNomTrouve";
+	public static final String var_authPorteeAdmin = "var_authPorteeAdmin";
+	public static final String var_authPorteeSuperAdmin = "var_authPorteeSuperAdmin";
 	public static final String var_authRoleAdmin = "var_authRoleAdmin";
 	public static final String var_authRoleSuperAdmin = "var_authRoleSuperAdmin";
-	public static final String var_AUTH_ROLE_ADMIN = "var_AUTH_ROLE_ADMIN";
+	public static final String var_AUTH_PORTEE_ADMIN = "var_AUTH_PORTEE_ADMIN";
+	public static final String var_AUTH_PORTEE_SUPER_ADMIN = "var_AUTH_PORTEE_SUPER_ADMIN";
 	public static final String var_AUTH_ROLE_LIRE_REQUIS = "var_AUTH_ROLE_LIRE_REQUIS";
 	public static final String var_AUTH_ROLE_REQUIS = "var_AUTH_ROLE_REQUIS";
 	public static final String var_AUTH_POLITIQUE_GRANULEE = "var_AUTH_POLITIQUE_GRANULEE";
@@ -370,6 +373,7 @@ public class ConfigCles {
 	public static final String var_Peupler = "var_Peupler";
 	public static final String var_pivot = "var_pivot";
 	public static final String var_Pivot = "var_Pivot";
+	public static final String var_portees = "var_portees";
 	public static final String var_PourClasse = "var_PourClasse";
 	public static final String var_Pour = "var_Pour";
 	public static final String var_Precedent = "var_Precedent";
@@ -447,6 +451,7 @@ public class ConfigCles {
 	public static final String var_SITE_JAVA_ENSEMBLE = "var_SITE_JAVA_ENSEMBLE";
 	public static final String var_siteNom = "var_siteNom";
 	public static final String var_SITE_NOM = "var_SITE_NOM";
+	public static final String var_SITE_THEME = "var_SITE_THEME";
 	public static final String var_siteUrlBase = "var_siteUrlBase";
 	public static final String var_SiteUrlBase = "var_SiteUrlBase";
 	public static final String var_SITE_URL_BASE = "var_SITE_URL_BASE";
