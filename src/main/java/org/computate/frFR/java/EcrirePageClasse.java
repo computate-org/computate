@@ -301,16 +301,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(entiteAttribuer) {
 				tl(14, "{% if '", langueConfig.getString(ConfigCles.var_PUTCopie), "' == ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), " %}");
 				tl(15, "<div>");
-				tl(16, "<input ");
-				tl(17, "type=\"checkbox\"");
+				tl(16, "<sl-checkbox ");
 				tl(17, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_vider), "\"");
 				tl(17, "class=\"", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_vider), " ", entiteVar, "_", langueConfig.getString(ConfigCles.var_vider), " \"");
+				tl(17, "help-text=\"", langueConfig.getString(ConfigCles.var_vider), "\"");
 				tl(17, ">");
-				tl(16, "<label for=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_vider), "\">", langueConfig.getString(ConfigCles.var_vider), "</label>");
+				tl(16, langueConfig.getString(ConfigCles.var_vider));
+				tl(16, "</sl-checkbox>");
 				tl(15, "</div>");
 				tl(14, "{% endif %}");
 
-				tl(14, "<input");
+				tl(14, "<sl-input");
 				tl(16, "type=\"text\"");
 
 				if(entiteNomAffichage != null) {
@@ -324,14 +325,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(15, "name=\"", "set", entiteVarCapitalise, "\"");
 				tl(15, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(15, "autocomplete=\"off\"");
-				t(15, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "($(this).val() ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", langueConfig.getString(ConfigCles.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
+				t(15, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "(this.value ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + this.value }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", langueConfig.getString(ConfigCles.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
 				s("{% if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}{'name':'fq','value':'", entiteAttribuerVar, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}'}{% else %}{% endif %}");
-				l("], $('#list", classeNomSimple, entiteVarCapitalise, "_{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}'), {{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}); \"");
-				tl(15, "/>");
+				l("], document.querySelector('#list", classeNomSimple, entiteVarCapitalise, "_{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}'), {{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}); \"");
+				tl(15, "></sl-input>");
 				l();
 			}
 			else if("LocalDate".equals(entiteNomSimple)) {
-				tl(14, "<input");
+				tl(14, "<sl-input");
 				tl(16, "type=\"date\"");
 				tl(16, "class=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, " w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(16, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
@@ -342,14 +343,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(14, "{% if 'Page' == ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), " %}");
 				t(15, "onchange=\"");
 					s("if(this.value) { ");
-						s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', this.value, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
+						s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', this.value, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
 				tl(14, "{% endif %}");
-				tl(14, "/>");
+				tl(14, "></sl-input>");
 			}
 			else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
-				tl(14, "<input");
+				tl(14, "<sl-input");
 				tl(16, "type=\"text\"");
 				tl(16, "class=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, " w3-input w3-border datetimepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(16, "placeholder=\"", entiteDefaut == null ? langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV) : entiteDefaut, "\"");
@@ -358,9 +359,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(entiteDescription != null)
 					t(16, "title=\"").sx(entiteDescription).l(" (", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), ")\"");
 //				tl(4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", langueConfig.getString(ConfigCles.var_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV), "\").format(", entiteVar, "));");
-				tl(16, "value=\"{% if ", uncapitalizeClasseNomSimple, "_.", entiteVar, " is defined %}{{ formatZonedDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", \"", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), "\", defaultLocaleId, defaultZoneId) }}{% endif %}\"");
+				tl(16, "value=\"{% if ", uncapitalizeClasseNomSimple, "_.", entiteVar, " is defined %}{{ formatZonedDateTimeTz(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", \"", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), "\", defaultLocaleId, defaultZoneId) }}{% endif %}\"");
 				tl(14, "{% if 'Page' == ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), " %}");
-				tl(15, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "($(this)); \";");
+				tl(15, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "(this); \";");
 				t(15, "onchange=\"");
 					s("var timeZone = this.value.split('[').pop().split(']')[0]; ");
 					s("var t1 = moment(this.value.split('[')[0].trim(), '", langueConfig.getString(ConfigCles.str_DDDashMMDashYYYY_HHColonmm), "'); ");
@@ -370,20 +371,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					s("var t = moment(t3); ");
 					s("if(t) { ");
 						s("var s = t.tz(timeZone).format('YYYY-MM-DDTHH:mm:ss.000') + '[' + timeZone + ']'; ");
-						s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
+						s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
 				tl(14, "{% endif %}");
-				tl(14, "/>");
+				tl(14, "></sl-input>");
 			}
 			else if("LocalTime".equals(entiteNomSimple)) {
-				tl(14, "<input");
+				tl(14, "<sl-input");
 				tl(16, "type=\"text\"");
 				tl(16, "class=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, " w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(16, "placeholder=\"", langueConfig.getString(ConfigCles.var_HHColonMM), "\"");
 				tl(16, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
-				tl(14, "<input");
+				tl(14, "<sl-input");
 				tl(16, "type=\"text\"");
 				tl(16, "class=\", \"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(16, "placeholder=\"", langueConfig.getString(ConfigCles.var_HHColonMM), "\"");
@@ -392,25 +393,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					t(16, "title=\"").sx(entiteDescription).l(" (", langueConfig.getString(ConfigCles.var_HAposhAposmm), ")\"");
 				tl(16, "value=\"{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}\"");
 				tl(14, "{% if 'Page' == ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "%}");
-				tl(15, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "($(this)); \"");
+				tl(15, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "(this); \"");
 				t(15, "onchange=\"");
 					s("var t = moment(this.value, '", langueConfig.getString(ConfigCles.var_HAposhAposmm), "'); ");
 					s("if(t) { ");
 						s("var s = t.format('HH:mm'); ");
-						s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
+						s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', s, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
 					s("} ");
 				l("\"");
 				tl(14, "{% endif %}");
-				tl(14, "/>");
+				tl(14, "></sl-input>");
 			}
 			else if("Boolean".equals(entiteNomSimple)) {
 				tl(1, "{% if 'Page' == ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), " %}");
-				tl(15, "<input");
-				tl(16, "type=\"checkbox\"");
+				tl(15, "<sl-checkbox");
 				tl(16, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(16, "value=\"true\"");
 				tl(1, "{% else %}");
-				tl(14, "<select");
+				tl(14, "<sl-select");
 				tl(15, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(1, "{% endif %}");
 
@@ -434,10 +434,10 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						) {
 					s("var confirmResponse = confirm('", langueConfig.getString(entiteVar.equals(langueConfig.getString(ConfigCles.var_supprime)) ? ConfigCles.str_confirmer_supprimer : ConfigCles.str_confirmer_archiver), "'); ");
 					s("if(confirmResponse) { ");
-					s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
+					s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', this.checked, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
 					s("}");
 				} else {
-					s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', $(this).prop('checked'), function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
+					s("patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', this.checked, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('.{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); ");
 				}
 				l("\"");
 				tl(1, "{% endif %}");
@@ -446,13 +446,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(2, "{% if ", uncapitalizeClasseNomSimple, "_.", entiteVar, " is defined %}");
 				tl(16, "checked=\"checked\"");
 				tl(2, "{% endif %}");
-				tl(16, "/>");
+				tl(16, "></sl-checkbox>");
 				tl(1, "{% else %}");
 				tl(15, ">");
-				tl(15, "<option value=\"\" selected=\"selected\"></option>");
-				tl(15, "<option value=\"true\">true</option>");
-				tl(15, "<option value=\"false\">false</option>");
-				tl(14, "</select>");
+				tl(15, "<sl-option value=\"\" selected=\"selected\"></sl-option>");
+				tl(15, "<sl-option value=\"true\">true</sl-option>");
+				tl(15, "<sl-option value=\"false\">false</sl-option>");
+				tl(14, "</sl-select>");
 				tl(1, "{% endif %}");
 				l();
 			}
@@ -461,9 +461,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				tl(15, "<h5>", langueConfig.getString(ConfigCles.str_Télécharger_image), "</h5>");
 				tl(15, "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"", entiteImageBase64Url, "\" class=\"\">");
-				tl(16, "<input type=\"hidden\" name=\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\" value=\"{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}\"/>");
-				tl(16, "<input type=\"hidden\" name=\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\" value=\"", classeNomSimple, "\"/>");
-				tl(16, "<input name=\"", langueConfig.getString(ConfigCles.var_fichier), "\" type=\"file\" onchange=\"$.ajax({ type: 'POST', enctype: 'multipart/form-data', url: '", entiteImageBase64Url, "', data: new FormData(this.form), processData: false, contentType: false}); \"/>");
+				tl(16, "<sl-input type=\"hidden\" name=\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\" value=\"{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}\"></sl-input>");
+				tl(16, "<sl-input type=\"hidden\" name=\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\" value=\"", classeNomSimple, "\"></sl-input>");
+				tl(16, "<sl-input name=\"", langueConfig.getString(ConfigCles.var_fichier), "\" type=\"file\" onchange=\"fetch('", entiteImageBase64Url, "', { method: 'POST', body: new FormData(this.form)}); \"></sl-input>");
 				tl(15, "</form>");
 
 				tl(15, "<img id=\"imageBase64Img", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "\");");
@@ -492,14 +492,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(15, "<button id=\"signatureButton", langueConfig.getString(ConfigCles.var_Vider), classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "\"");
 				tl(16, "class=\"w3-btn w3-round w3-border w3-border-black w3-section w3-ripple w3-padding w3-margin \"");
 				tl(16, "onclick=\"");
-				tl(17, "$('#signatureInput", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "').show(); ");
-				tl(17, "$('#signatureImg", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "').hide(); ");
-				tl(17, langueConfig.getString(ConfigCles.var_enleverLueur), "($('#signatureInput", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "')); ");
+				tl(17, "document.querySelector('#signatureInput", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "').classList.remove('display-none'); ");
+				tl(17, "document.querySelector('#signatureImg", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "').classList.add('display-none'); ");
+				tl(17, langueConfig.getString(ConfigCles.var_enleverLueur), "(document.querySelector('#signatureInput", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "')); ");
 				tl(17, "patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }], 'set", entiteVarCapitalise, "', null); ");
-				tl(17, "if($('#signatureInput", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "')) { ");
-				tl(17, "$('#signatureInput", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "').jSignature('reset'); ");
+				tl(17, "if(document.querySelector('#signatureInput", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "')) { ");
+				tl(17, "document.querySelector('#signatureInput", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "').jSignature('reset'); ");
 				tl(17, "} else { ");
-				tl(17, "$('#signatureInput", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "').jSignature({'height':200}); ");
+				tl(17, "document.querySelector('#signatureInput", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVar, "').jSignature({'height':200}); ");
 				tl(17, "}");
 				tl(16, "\"");
 				tl(16, ">", langueConfig.getString(ConfigCles.var_Vider));
@@ -510,9 +510,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			}
 			else {
 				if(entiteMultiligne)
-					tl(14, "<textarea");
+					tl(14, "<sl-textarea");
 				else {
-					tl(14, "<input");
+					tl(14, "<sl-input");
 					tl(15, "type=\"text\"");
 				}
 
@@ -532,20 +532,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(16, "class=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, " set", entiteVarCapitalise, " class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 				tl(16, "name=\"set", entiteVarCapitalise, "\"");
 				tl(2, "{% else %}");
-					tl(16, "{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\" class=\"", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " w3-input w3-border class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
+					tl(16, "class=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, " ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " w3-input w3-border class", classeNomSimple, " input", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " w3-input w3-border \"");
 					tl(16, "name=\"", entiteVar, "\"");
 				tl(2, "{% endif %}");
 				tl(1, "{% endif %}");
 				tl(1, "{% if \"Page\" == ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), " %}");
-					tl(16, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "($(this)); \"");
+					tl(16, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "(this); \"");
 					t(16, "onchange=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'softCommit', value: 'true' }, { name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }]");
 					if(entiteListeTypeJson != null)
-						s(", 'set", entiteVarCapitalise, "', $(this).val().replace('[','').replace(']','').split(/[ ,]+/)");
+						s(", 'set", entiteVarCapitalise, "', this.value.replace('[','').replace(']','').split(/[ ,]+/)");
 					else if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson))
-						s(", 'set", entiteVarCapitalise, "', $(this).val() == '' ? null : JSON.parse($(this).val())");
+						s(", 'set", entiteVarCapitalise, "', this.value == '' ? null : JSON.parse(this.value)");
 					else
-						s(", 'set", entiteVarCapitalise, "', $(this).val()");
-					l(", function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); \"");
+						s(", 'set", entiteVarCapitalise, "', this.value");
+					l(", function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "')); }); \"");
 				tl(1, "{% endif %}");
 
 				if(entiteMultiligne) {
@@ -561,9 +561,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				}
 
 				if(entiteMultiligne)
-					s("</textarea>");
+					s("</sl-textarea>");
 				else
-					tl(14, "/>");
+					tl(14, "></sl-input>");
 
 				l();
 			}
@@ -608,16 +608,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			if(entiteAttribuer) {
 				tl(14, "{% if '", langueConfig.getString(ConfigCles.var_PUTCopie), "' == ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), " %}");
 				tl(15, "<div>");
-				tl(16, "<input ");
-				tl(17, "type=\"checkbox\"");
+				tl(16, "<sl-checkbox ");
 				tl(17, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_vider), "\"");
 				tl(17, "class=\"", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_vider), " ", entiteVar, "_", langueConfig.getString(ConfigCles.var_vider), " \"");
+				tl(17, "help-text=\"", langueConfig.getString(ConfigCles.var_vider), "\"");
 				tl(17, ">");
-				tl(16, "<label for=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_vider), "\">", langueConfig.getString(ConfigCles.var_vider), "</label>");
+				tl(16, langueConfig.getString(ConfigCles.var_vider));
+				tl(16, "</sl-checkbox>");
 				tl(15, "</div>");
 				tl(14, "{% endif %}");
 
-				tl(14, "<input");
+				tl(14, "<sl-input");
 				tl(16, "type=\"text\"");
 
 				if(entiteNomAffichage != null) {
@@ -631,15 +632,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(15, "name=\"", "set", entiteVarCapitalise, "\"");
 				tl(15, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 				tl(15, "autocomplete=\"off\"");
-				t(15, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "($(this).val() ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", langueConfig.getString(ConfigCles.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
+				t(15, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "(this.value ? [ { 'name': 'q', 'value': '", entiteAttribuerVarSuggere, ":' + this.value }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", langueConfig.getString(ConfigCles.var_classeNomCanonique), ",", entiteAttribuerVar, ",", classeVarClePrimaire, entiteAttribuerVarUrlPk == null ? "" : "," + entiteAttribuerVarUrlPk, entiteAttribuerVarTitre == null ? "" : "," + entiteAttribuerVarTitre, "' } ] : [");
 				s("{% if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}{'name':'fq','value':'", entiteAttribuerVar, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}'}{% else %}{% endif %}");
-				l("], $('#list", classeNomSimple, entiteVarCapitalise, "_{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}'), {{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}); \"");
-				tl(15, "/>");
+				l("], document.querySelector('#list", classeNomSimple, entiteVarCapitalise, "_{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}'), {{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}); \"");
+				tl(15, "></sl-input>");
 				l();
 			} else if("LocalDateTime".equals(entiteNomSimple)) {
-				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \" title=\"{{ formatLocalDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV', defaultLocaleId, defaultZoneId) }}\">{{ formatZonedDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEE MMM d yyyy', defaultLocaleId, defaultZoneId) }}", (entiteVarUrl == null ? "</span>" : "</a>"));
+				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \" title=\"{{ formatLocalDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV', defaultLocaleId, defaultZoneId) }}\">{{ formatZonedDateTimeTz(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEE MMM d yyyy', defaultLocaleId, defaultZoneId) }}", (entiteVarUrl == null ? "</span>" : "</a>"));
 			} else if("ZonedDateTime".equals(entiteNomSimple)) {
-				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \" title=\"{{ formatZonedDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV', defaultLocaleId, defaultZoneId) }}\">{{ formatZonedDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEE MMM d yyyy h:mm a zz', defaultLocaleId, defaultZoneId) }}", (entiteVarUrl == null ? "</span>" : "</a>"));
+				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \" title=\"{{ formatZonedDateTimeTz(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV', defaultLocaleId, defaultZoneId) }}\">{{ formatZonedDateTimeTz(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEE MMM d yyyy h:mm a zz', defaultLocaleId, defaultZoneId) }}", (entiteVarUrl == null ? "</span>" : "</a>"));
 			} else {
 				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}", (entiteVarUrl == null ? "</span>" : "</a>"));
 			}
@@ -704,14 +705,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(18, " id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "\"");
 
 				if("array".equals(entiteAttribuerTypeJson))
-					t(18, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", langueConfig.getString(ConfigCles.var_Envoi), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ '{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' ] }");
+					t(18, " onclick=\"this.classList.add('w3-disabled'); this.disabled = true; this.innerHTML = '", langueConfig.getString(ConfigCles.var_Envoi), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": [ '{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' ] }");
 				else
-					t(18, " onclick=\"$(this).addClass('w3-disabled'); this.disabled = true; this.innerHTML = '", langueConfig.getString(ConfigCles.var_Envoi), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": '{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }");
+					t(18, " onclick=\"this.classList.add('w3-disabled'); this.disabled = true; this.innerHTML = '", langueConfig.getString(ConfigCles.var_Envoi), "…'; post", entiteAttribuerNomSimple, "Vals({ ", entiteAttribuerVar, ": '{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' }");
 				s(", function() { ");
-				s("$('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').disabled = false; ");
-				s("$('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').innerHTML = '", langueConfig.getString(ConfigCles.var_ajouter), " ", entiteAttribuerContexteUnNom, "';");
+				s("document.querySelector('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').disabled = false; ");
+				s("document.querySelector('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').innerHTML = '", langueConfig.getString(ConfigCles.var_ajouter), " ", entiteAttribuerContexteUnNom, "';");
 				s(" }");
-				s(", function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}", entiteVar, "')); });");
+				s(", function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('#{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}", entiteVar, "')); });");
 				s("\"");
 				l();
 
@@ -1160,33 +1161,33 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							}
 							if(entiteAttribuer) {
 								wJsInit.tl(2, "{% if \"PATCH\" in ", classeLangueConfig.getString(ConfigCles.var_portees), " %}");
-								wJsInit.tl(5, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, true);");
+								wJsInit.tl(5, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, true);");
 								wJsInit.tl(2, "{% else %}");
 								wJsInit.tl(2, "{% if \"GET\" in ", classeLangueConfig.getString(ConfigCles.var_portees), " %}");
-								wJsInit.tl(5, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, true);");
+								wJsInit.tl(5, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, true);");
 								wJsInit.tl(2, "{% else %}");
-								wJsInit.tl(5, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], $('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, false);");
+								wJsInit.tl(5, langueConfig.getString(ConfigCles.var_suggere), classeNomSimple, entiteVarCapitalise, "([{'name':'fq','value':'", entiteAttribuerVar, ":' + pk}], document.querySelector('#", "list", classeNomSimple, entiteVarCapitalise, "_", "Page", "'), pk, false);");
 								wJsInit.tl(2, "{% endif %}");
 								wJsInit.tl(2, "{% endif %}");
-//									wWebsocket.tl(2, "tl(2, \"", "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + \" + ", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {});\");");
+//									wWebsocket.tl(2, "tl(2, \"", "patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + \" + ", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {});\");");
 								wPks.tl(2, "if(c == '", entiteAttribuerNomSimple, "')");
-								wPks.tl(2, "await patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});");
+								wPks.tl(2, "patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});");
 							}
 							if(entiteSignature) {
-								wJsInit.tl(2, "$('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}).bind('change', function(e){ patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " }], 'set", entiteVarCapitalise, "', $('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default'));");
+								wJsInit.tl(2, "document.querySelector('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}).bind('change', function(e){ patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " }], 'set", entiteVarCapitalise, "', document.querySelector('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default'));");
 							}
 							if(entiteDefinir || entiteAttribuer || entiteIndexeOuStocke) {
 								wWebsocketInput3.l();
 								if(entiteHtmLigneTitre != null) {
-//									wWebsocketInput3.t(4, "$response.find(\"#").sx(genererId(entiteHtmLigneTitre)).s("\").replaceAll('#").sx(genererId(entiteHtmLigneTitre)).l("');");
+//									wWebsocketInput3.t(4, "$response.querySelector(\"#").sx(genererId(entiteHtmLigneTitre)).s("\").replaceAll('#").sx(genererId(entiteHtmLigneTitre)).l("');");
 //									wWebsocketInput3.l();
 								}
 								wWebsocketInput1.tl(4, "var input", entiteVarCapitalise, " = null;");
 								wWebsocketInput2.tl(4, "if(vars.includes('", entiteVar, "'))");
-								wWebsocketInput2.tl(5, "input", entiteVarCapitalise, " = $response.find('#Page_", entiteVar, "');");
+								wWebsocketInput2.tl(5, "input", entiteVarCapitalise, " = $response.querySelector('#Page_", entiteVar, "');");
 								wWebsocketInput3.tl(4, "if(input", entiteVarCapitalise, ") {");
 								wWebsocketInput3.tl(5, "input", entiteVarCapitalise, ".replaceAll('#Page_", entiteVar, "');");
-								wWebsocketInput3.tl(5, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#Page_", entiteVar, "'));");
+								wWebsocketInput3.tl(5, langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('#Page_", entiteVar, "'));");
 								wWebsocketInput3.tl(4, "}");
 //								if("LocalDate".equals(entiteNomSimple)) {
 //									wWebsocketInput.tl(4, "var val = o['", entiteVar, "'];");
@@ -1219,37 +1220,37 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //								if(entiteImageBase64Url != null) {
 //									wWebsocketInput.tl(5, "if(val === undefined)");
 //									wWebsocketInput.tl(6, "val = null;");
-//									wWebsocketInput.tl(5, "$('.img", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-//									wWebsocketInput.tl(6, "if(val !== $(this).attr('src'))");
-//									wWebsocketInput.tl(7, "$(this).attr('src', val);");
+//									wWebsocketInput.tl(5, "document.querySelector('.img", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+//									wWebsocketInput.tl(6, "if(val !== this.getAttribute('src'))");
+//									wWebsocketInput.tl(7, "this.setAttribute('src', val);");
 //									wWebsocketInput.tl(5, "});");
 //								}
 //								if(entiteSignature) {
 //									wWebsocketInput.tl(5, "if(val === undefined)");
 //									wWebsocketInput.tl(6, "val = null;");
-//									wWebsocketInput.tl(5, "$('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-//									wWebsocketInput.tl(6, "if(val !== $('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src'))");
-//									wWebsocketInput.tl(7, "$('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').attr('src', val == null ? 'data:image/png;base64,' : val);");
-//									wWebsocketInput.tl(6, langueConfig.getString(ConfigCles.var_ajouterLueur), "($('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
+//									wWebsocketInput.tl(5, "document.querySelector('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+//									wWebsocketInput.tl(6, "if(val !== document.querySelector('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').getAttribute('src'))");
+//									wWebsocketInput.tl(7, "document.querySelector('.signatureImg", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').setAttribute('src', val == null ? 'data:image/png;base64,' : val);");
+//									wWebsocketInput.tl(6, langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('.signatureInput", classeNomSimple, "' + pk + '", entiteVarCapitalise, "'));");
 //									wWebsocketInput.tl(5, "});");
 //								}
-//								wWebsocketInput.tl(5, "$('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-//								wWebsocketInput.tl(6, "if(val !== $(this).val())");
+//								wWebsocketInput.tl(5, "document.querySelector('.input", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+//								wWebsocketInput.tl(6, "if(val !== this.value)");
 //								if(entiteNomSimple.startsWith("Json")) {
-//									wWebsocketInput.tl(7, "$(this).val(JSON.stringify(val));");
+//									wWebsocketInput.tl(7, "this.val(JSON.stringify(val));");
 //								} else {
-//									wWebsocketInput.tl(7, "$(this).val(val);");
+//									wWebsocketInput.tl(7, "this.val(val);");
 //								}
-//								wWebsocketInput.tl(7, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
+//								wWebsocketInput.tl(7, langueConfig.getString(ConfigCles.var_ajouterLueur), "(this);");
 //								wWebsocketInput.tl(5, "});");
-//								wWebsocketInput.tl(5, "$('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
-//								wWebsocketInput.tl(6, "if(val !== $(this).text())");
+//								wWebsocketInput.tl(5, "document.querySelector('.var", classeNomSimple, "' + pk + '", entiteVarCapitalise, "').each(function() {");
+//								wWebsocketInput.tl(6, "if(val !== this.text())");
 //								if(entiteNomSimple.startsWith("Json")) {
-//									wWebsocketInput.tl(7, "$(this).val(JSON.stringify(val));");
+//									wWebsocketInput.tl(7, "this.val(JSON.stringify(val));");
 //								} else {
-//									wWebsocketInput.tl(7, "$(this).text(val);");
+//									wWebsocketInput.tl(7, "this.text(val);");
 //								}
-//								wWebsocketInput.tl(7, langueConfig.getString(ConfigCles.var_ajouterLueur), "($(this));");
+//								wWebsocketInput.tl(7, langueConfig.getString(ConfigCles.var_ajouterLueur), "(this);");
 //								wWebsocketInput.tl(5, "});");
 //								wWebsocketInput.tl(4, "}");
 							}
@@ -1278,8 +1279,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wWebsocket.s(wWebsocketInput2);
 					wWebsocket.tl(4, langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, ", vars, $response);");
 					wWebsocket.l();
-					wWebsocket.tl(4, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse($response.find('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", StringUtils.uncapitalize(classeNomSimple), "').val());");
-					wWebsocket.tl(4, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " = JSON.parse($response.find('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "').val());");
+					wWebsocket.tl(4, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse($response.querySelector('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", StringUtils.uncapitalize(classeNomSimple), "')?.value);");
+					wWebsocket.tl(4, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " = JSON.parse($response.querySelector('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "')?.value);");
 					wWebsocket.l();
 					wWebsocket.s(wWebsocketInput3);
 					wWebsocket.l();
@@ -1295,11 +1296,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //						wWebsocket.tl(3, "for(i=0; i < pks.length; i++) {");
 //						wWebsocket.tl(4, "var pk2 = pks[i];");
 //						wWebsocket.tl(4, "var c = classes[i];");
-//						wWebsocket.tl(4, "await window['patch' + c + 'Vals']( [ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + pk2} ], {});");
+//						wWebsocket.tl(4, "window['patch' + c + 'Vals']( [ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + pk2} ], {});");
 //						wWebsocket.tl(3, "}");
 //						wWebsocket.tl(2, "}");
 //						wWebsocket.tl(2, "if(pk)");
-//						wWebsocket.tl(3, "await patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + pk} ], {});");
+//						wWebsocket.tl(3, "patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + pk} ], {});");
 //						wWebsocket.tl(1, "}");
 
 					for(Integer i=0; i < wForms.size(); i++) {
@@ -2129,9 +2130,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							Boolean entiteFacetsTrouves = Optional.ofNullable((Boolean)entiteDocumentSolr.get("entiteFacetsTrouves_stored_boolean")).orElse(false);
 							List<String> entiteFacets = Optional.ofNullable((List<String>)entiteDocumentSolr.get("entiteFacets_stored_strings")).orElse(Arrays.asList());
 							if(entiteHtml) {
-								String jsVal = ".val()";
+								String jsVal = ".value";
 								if("Boolean".equals(entiteNomSimple)) {
-									jsVal = ".prop('checked')";
+									jsVal = ".checked";
 								}
 //	
 //								wGetters.l();
@@ -2143,22 +2144,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 //								wTd.tl(4, "{% if get", langueConfig.getString(ConfigCles.var_Colonne), entiteVarCapitalise, " is defined %}");
 								wTd.tl(12, "<td>");
-								wTd.tl(13, "<a href=\"{{", classeVarUrlPk, "}}\">");
+								wTd.tl(13, "<a href=\"item.{{", classeVarUrlPk, "}}\">");
 								if(classeIconeGroupe != null && classeIconeNom != null && BooleanUtils.isTrue(entiteVarTitre))
 									wTd.tl(14, "<i class=\"fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " \"></i>");
 								wTd.t(14, "<span class=\"white-space-pre-wrap \">");
+
 								if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
-									wTd.s("{{siteZonedDateTimeFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
+									wTd.s("{{ siteZonedDateTimeFormat(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
 								} else if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
-									wTd.s("{{siteLocalDateFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
+									wTd.s("{{ siteLocalDateFormat(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
 								} else if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
-									wTd.s("{{siteLocalDateTimeFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
+									wTd.s("{{ siteLocalDateTimeFormat(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
 								} else if(StringUtils.equals(entiteNomCanonique, LocalTime.class.getCanonicalName())) {
-									wTd.s("{{siteLocalTimeFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
+									wTd.s("{{ siteLocalTimeFormat(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
 								} else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
-									wTd.s("{{siteNumberFormat ", entiteVar, " \"", entiteFormatHtm, "\" siteLocale}}");
+									wTd.s("{{ siteNumberFormat(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
 								} else {
-									wTd.s("{{", entiteVar, "}}");
+									wTd.s("item.{{", entiteVar, "}}");
 								}
 								wTd.l("</span>");
 								wTd.tl(13, "</a>");
@@ -2232,23 +2234,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							entiteAttribuer = BooleanUtils.isTrue((Boolean)entiteDocumentSolr.get("entiteAttribuer_stored_boolean"));
 							entiteListeTypeJson = (String)entiteDocumentSolr.get("entiteListeTypeJson_stored_string");
 
-//									String jsVal = ".val()";
+//									String jsVal = ".value";
 
 							if(entiteIndexe) {
 	
 								wRecherche.l();
 								if("Boolean".equals(entiteNomSimple)) {
-									wRecherche.tl(2, "var $", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "Checkbox = $", langueConfig.getString(ConfigCles.var_formulaireFiltres), ".find('input.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "[type = \"checkbox\"]');");
-									wRecherche.tl(2, "var $", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "Select = $", langueConfig.getString(ConfigCles.var_formulaireFiltres), ".find('select.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "');");
-									wRecherche.tl(2, "var ", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "Select.length ? $", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "Select.val() : $", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "Checkbox.prop('checked');");
+									wRecherche.tl(2, "var $", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "Checkbox = $", langueConfig.getString(ConfigCles.var_formulaireFiltres), ".querySelector('input.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "[type = \"checkbox\"]');");
+									wRecherche.tl(2, "var $", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "Select = $", langueConfig.getString(ConfigCles.var_formulaireFiltres), ".querySelector('select.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "');");
+									wRecherche.tl(2, "var ", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "Select.length ? $", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "Select.value : $", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "Checkbox.checked;");
 
-									wRecherche.tl(2, "var ", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "SelectVal = $", langueConfig.getString(ConfigCles.var_formulaireFiltres), ".find('select.", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "').val();");
+									wRecherche.tl(2, "var ", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "SelectVal = $", langueConfig.getString(ConfigCles.var_formulaireFiltres), ".querySelector('select.", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "')?.value;");
 									wRecherche.tl(2, "var ", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, " = null;");
 									wRecherche.tl(2, "if(", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "SelectVal !== '')");
 									wRecherche.tl(3, langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, " = ", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, "SelectVal == 'true';");
 								}
 								else {
-									wRecherche.tl(2, "var ", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireFiltres), ".find('.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "').val();");
+									wRecherche.tl(2, "var ", langueConfig.getString(ConfigCles.var_filtre), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireFiltres), ".querySelector('.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "')?.value;");
 								}
 
 								if("Boolean".equals(entiteNomSimple))
@@ -2282,7 +2284,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								wPOST.l();
 								if(entiteAttribuer) {
 									if(entiteListeTypeJson == null) {
-										wPOST.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "').val();");
+										wPOST.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "')?.value;");
 										wPOST.tl(1, "if(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " != null && ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " !== '')");
 										if("Boolean".equals(entiteNomSimple)) {
 											wPOST.tl(2, "vals['", entiteVar, "'] = ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " == 'true';");
@@ -2292,15 +2294,15 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									}
 									else {
 										wPOST.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = [];");
-										wPOST.tl(1, "$", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('input.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ":checked').each(function(index) {");
-										wPOST.tl(2, langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ".push($(this).val());");
+										wPOST.tl(1, "$", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('input.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ":checked').each(function(index) {");
+										wPOST.tl(2, langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ".push(this.value);");
 										wPOST.tl(1, "});");
 										wPOST.tl(1, "if(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ".length > 0)");
 										wPOST.tl(2, "vals['", entiteVar, "'] = ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ";");
 									}
 								}
 								else {
-									wPOST.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "').val();");
+									wPOST.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "')?.value;");
 									wPOST.tl(1, "if(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " != null && ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " !== '')");
 									if("Boolean".equals(entiteNomSimple)) {
 										wPOST.tl(2, "vals['", entiteVar, "'] = ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " == 'true';");
@@ -2313,11 +2315,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 								wPUTCopie.l();
 								if(entiteAttribuer)
-									wPUTCopie.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('input.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ":checked').val();");
+									wPUTCopie.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('input.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ":checked')?.value;");
 								else
-									wPUTCopie.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "').val();");
+									wPUTCopie.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "')?.value;");
 								if(entiteAttribuer) {
-									wPUTCopie.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, langueConfig.getString(ConfigCles.var_Vider), " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('input.", entiteVar, "_", langueConfig.getString(ConfigCles.var_vider), ":checked').val();");
+									wPUTCopie.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, langueConfig.getString(ConfigCles.var_Vider), " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('input.", entiteVar, "_", langueConfig.getString(ConfigCles.var_vider), ":checked')?.value;");
 									wPUTCopie.tl(1, "if(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, langueConfig.getString(ConfigCles.var_Vider), " != null && ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, langueConfig.getString(ConfigCles.var_Vider), ")");
 									wPUTCopie.tl(2, "vals['", entiteVar, "'] = null;");
 									wPUTCopie.tl(1, "else if(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " != null && ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ")");
@@ -2340,9 +2342,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 								wPATCH.l();
 								if(entiteAttribuer)
-									wPATCH.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('input.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ":checked').val();");
+									wPATCH.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('input.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ":checked')?.value;");
 								else
-									wPATCH.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "').val();");
+									wPATCH.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "')?.value;");
 								if(entiteAttribuer) {
 									wPATCH.tl(1, "if(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " != null && ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " !== '')");
 									if(entiteListeTypeJson == null) {
@@ -2352,18 +2354,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									}
 								} else {
 
-									wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.remove", entiteVarCapitalise, "').val() === 'true';");
+									wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.remove", entiteVarCapitalise, "')?.value === 'true';");
 
 									if("Boolean".equals(entiteNomSimple)) {
-										wPATCH.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "SelectVal = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('select.set", entiteVarCapitalise, "').val();");
+										wPATCH.tl(1, "var ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "SelectVal = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('select.set", entiteVarCapitalise, "')?.value;");
 										wPATCH.tl(1, "if(", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "SelectVal != null && ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "SelectVal !== '')");
 										wPATCH.tl(2, langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " = ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, "SelectVal == 'true';");
 										wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : ", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, ";");
-										wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.add", entiteVarCapitalise, "').prop('checked');");
+										wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.add", entiteVarCapitalise, "').checked;");
 									}
 									else if("LocalDate".equals(entiteNomSimple)) {
-										wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.set", entiteVarCapitalise, "').val();");
-										wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.add", entiteVarCapitalise, "').val();");
+										wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.set", entiteVarCapitalise, "')?.value;");
+										wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.add", entiteVarCapitalise, "')?.value;");
 										wPATCH.tl(1, "var setMoment = set", entiteVarCapitalise, valSuffixe, " ? moment(", valPrefixe, "set", entiteVarCapitalise, valSuffixe, ", '", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), "') : null; ");
 										wPATCH.tl(1, "var addMoment = add", entiteVarCapitalise, valSuffixe, " ? moment(", valPrefixe, "add", entiteVarCapitalise, valSuffixe, ", '", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), "') : null; ");
 										wPATCH.tl(1, "if(setMoment) { ");
@@ -2376,7 +2378,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										wPATCH.tl(1, "} ");
 									}
 //												else if("LocalDateTime".equals(entiteNomSimple) || "ZonedDateTime".equals(entiteNomSimple)) {
-//													t(tIndex + 3).s(classePrefixe, "<input").l();
+//													t(tIndex + 3).s(classePrefixe, "<sl-input").l();
 //													t(tIndex + 5).dal("type", "text");
 //													t(tIndex + 5).s(classePrefixe).s(" {%- block htmBody", langueConfig.getString(ConfigCles.var_Recherche), classePageNomSimple, " %}lass=\"\"w3-input w3-border datepicker set", entiteVarCapitalise, " class", classeApiClasseNomSimple, " input", classeApiClasseNomSimple, "\", ", classeModele ? classeVarClePrimaire : classeVarCleUnique, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\"");
 //													t(tIndex + 5).dal("placeholder", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY_HHColonMM));
@@ -2386,19 +2388,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //														t(tIndex + 5).dal("title", entiteDescription + " (", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), ")");
 //													tl(tIndex + 4, " value=\"", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", langueConfig.getString(ConfigCles.var_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV), "\".format(", entiteVar, "));");
 //													t(tIndex + 3).l("if(\"Page\".equals(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ")) {");
-//													t(tIndex + 4).l("a(\"onclick\", \"", langueConfig.getString(ConfigCles.var_enleverLueur), "($(this)); \");");
+//													t(tIndex + 4).l("a(\"onclick\", \"", langueConfig.getString(ConfigCles.var_enleverLueur), "(this); \");");
 //													t(tIndex + 4).s("a(\"onchange\", \"");
 //														s("var t = moment(this.value, '", langueConfig.getString(ConfigCles.var_DDDashMMDashYYYY), "'); ");
 //														s("if(t) { ");
 //															s("var s = t.format('YYYY-MM-DD'); ");
-//															s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeModele ? classeVarClePrimaire : classeVarCleUnique, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#\", ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", \"_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#\", ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", \"_", entiteVar, "')); }); ");
+//															s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeModele ? classeVarClePrimaire : classeVarCleUnique, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('#\", ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", \"_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('#\", ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", \"_", entiteVar, "')); }); ");
 //														s("} ");
 //													l("\");");
 //													t(tIndex + 3).l("}");
 //													tl(tIndex + 3, "/>");
 //												}
 //												else if("LocalTime".equals(entiteNomSimple)) {
-//													t(tIndex + 3).s(classePrefixe, "<input").l();
+//													t(tIndex + 3).s(classePrefixe, "<sl-input").l();
 //													t(tIndex + 5).dal("type", "text");
 //													t(tIndex + 5).s(classePrefixe).s(" class=\"\"w3-input w3-border timepicker set", entiteVarCapitalise, " class", classeApiClasseNomSimple, " input", classeApiClasseNomSimple, "\", ", classeModele ? classeVarClePrimaire : classeVarCleUnique, ", \"", entiteVarCapitalise, " w3-input w3-border ").l("\"");
 //													t(tIndex + 5).dal("placeholder", langueConfig.getString(ConfigCles.var_HHColonMM));
@@ -2407,20 +2409,20 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //														t(tIndex + 5).da("title", entiteDescription + " (", langueConfig.getString(ConfigCles.var_HAposhAposmm), ")");
 //													tl(tIndex + 5, " value=\"", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", langueConfig.getString(ConfigCles.var_HAposhAposmm), "\".format(", entiteVar, "));");
 //													t(tIndex + 3).l("if(\"Page\".equals(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ")) {");
-//													t(tIndex + 4).l("a(\"onclick\", \"", langueConfig.getString(ConfigCles.var_enleverLueur), "($(this)); \");");
+//													t(tIndex + 4).l("a(\"onclick\", \"", langueConfig.getString(ConfigCles.var_enleverLueur), "(this); \");");
 //													t(tIndex + 4).s("a(\"onchange\", \"");
 //														s("var t = moment(this.value, '", langueConfig.getString(ConfigCles.var_HAposhAposmm), "'); ");
 //														s("if(t) { ");
 //															s("var s = t.format('HH:mm'); ");
-//															s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeModele ? classeVarClePrimaire : classeVarCleUnique, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#\", ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", \"_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#\", ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", \"_", entiteVar, "')); }); ");
+//															s("patch\", getClass().getSimpleName(), \"Val([{ name: 'fq', value: 'pk:\", ", classeModele ? classeVarClePrimaire : classeVarCleUnique, ", \"' }], 'set", entiteVarCapitalise, "', s, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('#\", ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", \"_", entiteVar, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('#\", ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", \"_", entiteVar, "')); }); ");
 //														s("} ");
 //													l("\");");
 //													t(tIndex + 3).l("}");
 //													tl(tIndex + 3, "/>");
 //												}
 									else {
-										wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.set", entiteVarCapitalise, "').val();");
-										wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.add", entiteVarCapitalise, "').val();");
+										wPATCH.tl(1, "var set", entiteVarCapitalise, " = remove", entiteVarCapitalise, " ? null : $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.set", entiteVarCapitalise, "')?.value;");
+										wPATCH.tl(1, "var add", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.add", entiteVarCapitalise, "')?.value;");
 									}
 									wPATCH.tl(1, "if(remove", entiteVarCapitalise, " || set", entiteVarCapitalise, " != null && set", entiteVarCapitalise, " !== '')");
 									if("JsonArray".equals(entiteNomSimpleVertxJson) || "JsonObject".equals(entiteNomSimpleVertxJson)) {
@@ -2431,9 +2433,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									wPATCH.tl(1, "if(add", entiteVarCapitalise, " != null && add", entiteVarCapitalise, " !== '')");
 									wPATCH.tl(2, "vals['add", entiteVarCapitalise, "'] = ", valPrefixe, "add", entiteVarCapitalise, valSuffixe, ";");
 									if("Boolean".equals(entiteNomSimple)) {
-										wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.remove", entiteVarCapitalise, "').prop('checked');");
+										wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.remove", entiteVarCapitalise, "').checked;");
 									} else {
-										wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.remove", entiteVarCapitalise, "').val();");
+										wPATCH.tl(1, "var remove", entiteVarCapitalise, " = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.remove", entiteVarCapitalise, "')?.value;");
 									}
 									wPATCH.tl(1, "if(remove", entiteVarCapitalise, " != null && remove", entiteVarCapitalise, " !== '')");
 									wPATCH.tl(2, "vals['remove", entiteVarCapitalise, "'] = ", valPrefixe, "remove", entiteVarCapitalise, valSuffixe, ";");
@@ -2593,7 +2595,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l();
 				tl(0, "{%- block htmScript", classePageSuperNomSimple, " %}");
 				tl(0, "{%- block htmScript", classePageNomSimple, " %}");
-				tl(2, "<script>");
+				tl(2, "<script type=\"module\">");
 				for(String classeApiMethode : classeApiMethodes) {
 					String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
 					String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
@@ -2614,18 +2616,6 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						auteurPageJs.l();
 						auteurPageJs.tl(0, "// ", classeApiMethode, " //");
 						auteurPageJs.l();
-//							auteurPageJs.l("/**");
-//							if(methodePATCH) {
-//							auteurPageJs.l(" * Modifier un ou plusiers ", classeNomPluriel, " sans valuers qui change, ");
-//							auteurPageJs.l(" * ou changer des valeurs pour un ou plusiers ", classeLeNom, ". ");
-//							auteurPageJs.l(" * @param params: [ \"q=*:*\", \"fq=", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":1\", \"sort=", classeModele ? classeVarClePrimaire : classeVarCleUnique, " asc\", \"rows=1\", \"fl=", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\" ]");
-//							auteurPageJs.l(" *        Une liste des opérations de recherche sur des ", classeNomPluriel, " ");
-//							auteurPageJs.l(" *        pour rechercher \"q=*:*\", filtrer \"fq=", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":1\", trier \"sort=", classeModele ? classeVarClePrimaire : classeVarCleUnique, " desc\", ");
-//							auteurPageJs.l(" *        limiter les résultats \"rows=1\", ou limiter les valeurs \"fl=", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\". ");
-//							auteurPageJs.l(" * @param valeurs Noms des champs et valeurs à changer selon les filtres fq. ");
-//							auteurPageJs.l(" *           Example: { ", classeModele ? classeVarClePrimaire : classeVarCleUnique, ": 1 }");
-//							}
-//							auteurPageJs.l(" */");
 						auteurPageJs.t(0, "async function ", classeApiOperationIdMethode, "(");
 						if(methodePOST) {
 							auteurPageJs.s("$", langueConfig.getString(ConfigCles.var_formulaireValeurs));
@@ -2673,7 +2663,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							auteurPageJs.l();
 						}
 						else if(methodePUTImport) {
-							auteurPageJs.tl(1, "var json = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.", "PUTImport", "_", langueConfig.getString(ConfigCles.var_listeRecherche), "').val();");
+							auteurPageJs.tl(1, "var json = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.", "PUTImport", "_", langueConfig.getString(ConfigCles.var_listeRecherche), "')?.value;");
 							auteurPageJs.tl(1, "if(json != null && json !== '')");
 							if(StringUtils.equals("application/json", classeApiTypeMediaRequete))
 								auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), success, error);");
@@ -2681,7 +2671,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(json, success, error);");
 						}
 						else if(methodePUTFusion) {
-							auteurPageJs.tl(1, "var json = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.", langueConfig.getString(ConfigCles.var_PUTFusion), "_", langueConfig.getString(ConfigCles.var_listeRecherche), "').val();");
+							auteurPageJs.tl(1, "var json = $", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".querySelector('.", langueConfig.getString(ConfigCles.var_PUTFusion), "_", langueConfig.getString(ConfigCles.var_listeRecherche), "')?.value;");
 							auteurPageJs.tl(1, "if(json != null && json !== '')");
 							if(StringUtils.equals("application/json", classeApiTypeMediaRequete))
 								auteurPageJs.tl(2, classeApiOperationIdMethode, "Vals(JSON.parse(json), success, error);");
@@ -2727,35 +2717,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 							auteurPageJs.tl(1, classeApiOperationIdMethode, "Vals(", langueConfig.getString(ConfigCles.var_filtres), ", success, error);");
 						}
 						else {
-							auteurPageJs.tl(1, "$.ajax({");
+							auteurPageJs.tl(1, "fetch(");
 		
 							if(methodeGET || methodeDELETE || methodePUTCopie)
-								auteurPageJs.tl(2, "url: '", StringUtils.replace(classeApiUriMethode, "{id}", "' + id"));
+								auteurPageJs.tl(2, "'", StringUtils.replace(classeApiUriMethode, "{id}", "' + id"));
 							else if(methodePATCH || methodeRecherche)
-								auteurPageJs.tl(2, "url: '", classeApiUriMethode, "?' + $.param(", langueConfig.getString(ConfigCles.var_filtres), ")");
+								auteurPageJs.tl(2, "'", classeApiUriMethode, "?' + $.param(", langueConfig.getString(ConfigCles.var_filtres), ")");
 							else
-								auteurPageJs.tl(2, "url: '", classeApiUriMethode, "'");
-		
-							auteurPageJs.tl(2, ", dataType: 'json'");
-							auteurPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
-							auteurPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
-							if(!"GET".equals(classeApiMethodeMethode) || "DELETE".equals(classeApiMethodeMethode))
-								auteurPageJs.tl(2, ", data: JSON.stringify(vals)");
-							auteurPageJs.tl(2, ", success: success");
-							auteurPageJs.tl(2, ", error: error");
-//								auteurPageJs.tl(2, ", success: function( data, textStatus, jQxhr ) {");
-//								auteurPageJs.tl(3, "$.each( vals, function( key, value ) {");
-//								auteurPageJs.tl(4, "$", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.' + key).removeClass('", langueConfig.getString(ConfigCles.var_lueur), langueConfig.getString(ConfigCles.var_Erreur), "');");
-//								auteurPageJs.tl(4, "$", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.' + key).addClass('", langueConfig.getString(ConfigCles.var_lueur), langueConfig.getString(ConfigCles.var_Succes), "');");
-//								auteurPageJs.tl(3, "});");
-//								auteurPageJs.tl(2, "}");
-//								auteurPageJs.tl(2, ", error: function( jqXhr, textStatus, errorThrown ) {");
-//								auteurPageJs.tl(3, "$.each( vals, function( key, value ) {");
-//								auteurPageJs.tl(4, "$", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.' + key).removeClass('", langueConfig.getString(ConfigCles.var_lueur), langueConfig.getString(ConfigCles.var_Succes), "');");
-//								auteurPageJs.tl(4, "$", langueConfig.getString(ConfigCles.var_formulaireValeurs), ".find('.' + key).addClass('", langueConfig.getString(ConfigCles.var_lueur), langueConfig.getString(ConfigCles.var_Erreur), "');");
-//								auteurPageJs.tl(3, "});");
-//								auteurPageJs.tl(2, "}");
-							auteurPageJs.tl(1, "});");
+								auteurPageJs.tl(2, "'", classeApiUriMethode, "'");
+
+							auteurPageJs.tl(2, ", {");
+							auteurPageJs.tl(3, "headers: {'Content-Type':'application/json; charset=utf-8'}");
+							if(!"GET".equals(classeApiMethodeMethode) || "DELETE".equals(classeApiMethodeMethode)) {
+								auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
+								auteurPageJs.tl(3, ", body: JSON.stringify(vals)");
+							}
+							auteurPageJs.tl(2, "}");
+							auteurPageJs.tl(2, ").then(success).catch(error);");
 						}
 						auteurPageJs.l("}");
 
@@ -2802,43 +2780,44 @@ public class EcrirePageClasse extends EcrireApiClasse {
 									auteurPageJs.tl(1, langueConfig.getString(ConfigCles.var_filtres), ".push({ name: '", "sort", "', value: '", classeTriVar, " ", classeTriOrdre, "' });");
 								}
 							}
-							auteurPageJs.tl(1, "$.ajax({");
-							auteurPageJs.tl(2, "url: '", classeApiUriMethode, "?' + $.param(", langueConfig.getString(ConfigCles.var_filtres), ")");
+							auteurPageJs.tl(1, "fetch(");
+							auteurPageJs.tl(2, "'", classeApiUriMethode, "?' + $.param(", langueConfig.getString(ConfigCles.var_filtres), ")");
 						}
 						if(methodePATCH || methodePUTCopie) {
 							auteurPageJs.l();
 							auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(", langueConfig.getString(ConfigCles.var_filtres), ", vals, success, error) {");
-							auteurPageJs.tl(1, "$.ajax({");
-							auteurPageJs.tl(2, "url: '", classeApiUriMethode, "?' + $.param(", langueConfig.getString(ConfigCles.var_filtres), ")");
+							auteurPageJs.tl(1, "fetch(");
+							auteurPageJs.tl(2, "'", classeApiUriMethode, "?' + $.param(", langueConfig.getString(ConfigCles.var_filtres), ")");
 						}
 						if(methodePUTImport || methodePUTFusion) {
 							auteurPageJs.l();
 							auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(json, success, error) {");
-							auteurPageJs.tl(1, "$.ajax({");
-							auteurPageJs.tl(2, "url: '", classeApiUriMethode, "'");
+							auteurPageJs.tl(1, "fetch(");
+							auteurPageJs.tl(2, "'", classeApiUriMethode, "'");
 						}
 						if(methodePOST) {
 							auteurPageJs.l();
 							auteurPageJs.tl(0, "function ", classeApiOperationIdMethode, "Vals(vals, success, error) {");
-							auteurPageJs.tl(1, "$.ajax({");
-							auteurPageJs.tl(2, "url: '", classeApiUriMethode, "'");
+							auteurPageJs.tl(1, "fetch(");
+							auteurPageJs.tl(2, "'", classeApiUriMethode, "'");
 						}
 						if(methodePATCH || methodePUTCopie || methodePUTImport || methodePUTFusion || methodePOST || methodeRecherche) {
-							auteurPageJs.tl(2, ", dataType: 'json'");
-							auteurPageJs.tl(2, ", type: '", classeApiMethodeMethode, "'");
-							auteurPageJs.tl(2, ", contentType: 'application/json; charset=utf-8'");
+							auteurPageJs.tl(2, ", {");
+							auteurPageJs.tl(3, "headers: {'Content-Type':'application/json; charset=utf-8'}");
+
 							if(methodePATCH || methodePOST) {
-								auteurPageJs.tl(2, ", data: JSON.stringify(vals)");
+								auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
+								auteurPageJs.tl(3, ", body: JSON.stringify(vals)");
 							}
 							if(methodePUTCopie) {
-								auteurPageJs.tl(2, ", data: JSON.stringify({patch: vals})");
+								auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
+								auteurPageJs.tl(3, ", body: JSON.stringify({patch: vals})");
 							}
 							if(methodePUTImport || methodePUTFusion) {
-								auteurPageJs.tl(2, ", data: JSON.stringify(json)");
+								auteurPageJs.tl(3, ", method: '", classeApiMethodeMethode, "'");
+								auteurPageJs.tl(3, ", body: JSON.stringify(json)");
 							}
-							auteurPageJs.tl(2, ", success: success");
-							auteurPageJs.tl(2, ", error: error");
-							auteurPageJs.tl(1, "});");
+							auteurPageJs.tl(2, "}).then(success).catch(error);");
 							auteurPageJs.l("}");
 						}
 						if(methodeRecherche) {
@@ -2905,14 +2884,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "($", langueConfig.getString(ConfigCles.var_formulaireFiltres), ", $list) {");
 											auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
 											auteurPageJs.tl(2, "$list.empty();");
-											auteurPageJs.tl(2, "$.each(data['list'], function(i, o) {");
-											auteurPageJs.tl(3, "var $i = $('<i>').attr('class', 'fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " ');");
-											auteurPageJs.t(3, "var $span = $('<span>').attr('class', '').text(");
+											auteurPageJs.tl(2, "data['list'].forEach((o, i) => {");
+											auteurPageJs.tl(3, "var $i = document.querySelector('<i>').setAttribute('class', 'fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " ');");
+											auteurPageJs.t(3, "var $span = document.querySelector('<span>').setAttribute('class', '').text(");
 											if(classeVarTitre != null)
 												auteurPageJs.s("o['", classeVarTitre, "']");
 											auteurPageJs.l(");");
-											auteurPageJs.tl(3, "var $li = $('<li>');");
-											auteurPageJs.tl(3, "var $a = $('<a>').attr('href', o['", classeVarUrlPk, "']);");
+											auteurPageJs.tl(3, "var $li = document.querySelector('<li>');");
+											auteurPageJs.tl(3, "var $a = document.querySelector('<a>').setAttribute('href', o['", classeVarUrlPk, "']);");
 											auteurPageJs.tl(3, "$a.append($i);");
 											auteurPageJs.tl(3, "$a.append($span);");
 											auteurPageJs.tl(3, "$li.append($a);");
@@ -2929,44 +2908,44 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(", langueConfig.getString(ConfigCles.var_filtres), ", $list, ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " = null, ", langueConfig.getString(ConfigCles.var_attribuer), "=true) {");
 											auteurPageJs.tl(1, "success = function( data, textStatus, jQxhr ) {");
 											auteurPageJs.tl(2, "$list.empty();");
-											auteurPageJs.tl(2, "$.each(data['list'], function(i, o) {");
-											auteurPageJs.tl(3, "var $i = $('<i>').attr('class', 'fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " ');");
-											auteurPageJs.t(3, "var $span = $('<span>').attr('class', '').text(");
+											auteurPageJs.tl(2, "data['list'].forEach((o, i) => {");
+											auteurPageJs.tl(3, "var $i = document.querySelector('<i>').setAttribute('class', 'fa", StringUtils.substring(entiteAttribuerContexteIconeGroupe, 0, 1), " fa-", entiteAttribuerContexteIconeNom, " ');");
+											auteurPageJs.t(3, "var $span = document.querySelector('<span>').setAttribute('class', '').text(");
 											if(entiteAttribuerVarTitre != null)
 												auteurPageJs.s("o['", entiteAttribuerVarTitre, "']");
 											auteurPageJs.l(");");
 
 											if(entiteAttribuerVarUrlPk != null)
-												auteurPageJs.tl(3, "var $a = $('<a>').attr('id', o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "']).attr('href', o['", entiteAttribuerVarUrlPk, "']);");
+												auteurPageJs.tl(3, "var $a = document.querySelector('<a>').setAttribute('id', o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "']).setAttribute('href', o['", entiteAttribuerVarUrlPk, "']);");
 											else
-												auteurPageJs.tl(3, "var $a = $('<span>');");
+												auteurPageJs.tl(3, "var $a = document.querySelector('<span>');");
 
 											auteurPageJs.tl(3, "$a.append($i);");
 											auteurPageJs.tl(3, "$a.append($span);");
 											auteurPageJs.tl(3, "var val = o['", entiteAttribuerVar, "'];");
 											auteurPageJs.tl(3, "var checked = pk == null ? false : Array.isArray(val) ? val.includes(", classeModele ? classeVarClePrimaire : classeVarCleUnique, ".toString()) : val == ", classeModele ? classeVarClePrimaire : classeVarCleUnique, ";");
-											auteurPageJs.tl(3, "var $input = $('<input>');");
-											auteurPageJs.tl(3, "$input.attr('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " + '_", entiteAttribuerVar, "_' + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "']);");
-											auteurPageJs.tl(3, "$input.attr('value', o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "']);");
-											auteurPageJs.tl(3, "$input.attr('class', '", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " w3-check ');");
+											auteurPageJs.tl(3, "var $input = document.querySelector('<sl-input>');");
+											auteurPageJs.tl(3, "$input.setAttribute('id', '", classeApiMethodeMethode, "_", entiteVar, "_' + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " + '_", entiteAttribuerVar, "_' + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "']);");
+											auteurPageJs.tl(3, "$input.setAttribute('value', o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "']);");
+											auteurPageJs.tl(3, "$input.setAttribute('class', '", langueConfig.getString(ConfigCles.var_valeur), entiteVarCapitalise, " w3-check ');");
 
 											auteurPageJs.tl(3, "if(", classeModele ? classeVarClePrimaire : classeVarCleUnique, " != null) {");
-											auteurPageJs.t(4, "$input.attr('onchange', \"var $input = $('#", classeApiMethodeMethode, "_", entiteVar, "_\" + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " + \"_", entiteAttribuerVar, "_\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"'); ");
+											auteurPageJs.t(4, "$input.setAttribute('onchange', \"var $input = document.querySelector('#", classeApiMethodeMethode, "_", entiteVar, "_\" + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " + \"_", entiteAttribuerVar, "_\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"'); ");
 											if("array".equals(entiteTypeJson)) {
-												auteurPageJs.s("", entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":\" + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " + \"' }], { [($input.prop('checked') ? 'add' : 'remove') + '", entiteVarCapitalise, "']: \\\"\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"\\\" }");
+												auteurPageJs.s("", entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":\" + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " + \"' }], { [($input.checked ? 'add' : 'remove') + '", entiteVarCapitalise, "']: \\\"\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"\\\" }");
 											}
 											else {
-												auteurPageJs.s("", entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":\" + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " + \"' }], { [($input.prop('checked') ? 'set' : 'remove') + '", entiteVarCapitalise, "']: \\\"\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"\\\" }");
+												auteurPageJs.s("", entiteOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":\" + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " + \"' }], { [($input.checked ? 'set' : 'remove') + '", entiteVarCapitalise, "']: \\\"\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"\\\" }");
 											}
 											auteurPageJs.l(" ); \");");
 
-											auteurPageJs.tl(4, "$input.attr('onclick', '", langueConfig.getString(ConfigCles.var_enleverLueur), "($(this)); ');");
+											auteurPageJs.tl(4, "$input.setAttribute('onclick', '", langueConfig.getString(ConfigCles.var_enleverLueur), "(this); ');");
 											auteurPageJs.tl(3, "}");
 
-											auteurPageJs.tl(3, "$input.attr('type', 'checkbox');");
+											auteurPageJs.tl(3, "$input.setAttribute('type', 'checkbox');");
 											auteurPageJs.tl(3, "if(checked)");
-											auteurPageJs.tl(4, "$input.attr('checked', 'checked');");
-											auteurPageJs.tl(3, "var $li = $('<li>');");
+											auteurPageJs.tl(4, "$input.setAttribute('checked', 'checked');");
+											auteurPageJs.tl(3, "var $li = document.querySelector('<li>');");
 											if(entiteAttribuerTrisVar != null && entiteAttribuerTrisSuffixeType != null && entiteAttribuerTrisSuffixeType.size() > 0 && "_double".equals(entiteAttribuerTrisSuffixeType.get(0))) {
 												for(String entiteAttribuerTriVar : entiteAttribuerTrisVar) {
 													auteurPageJs.tl(3, "var ", entiteAttribuerTriVar, " = o['", entiteAttribuerTriVar, "'];");
@@ -2980,17 +2959,17 @@ public class EcrirePageClasse extends EcrireApiClasse {
 													auteurPageJs.l();
 													if(entiteAttribuerTriVarAncien != null)
 														auteurPageJs.tl(3, "if(", entiteAttribuerTriVarAncien, " != null) {");
-													auteurPageJs.tl(k, "$sort = $('<span>').attr('class', 'w3-text-grey ').attr('style', 'padding-right: 8px; ');");
-													auteurPageJs.tl(k, "var $sortInput = $('<input>')");
-													auteurPageJs.tl(k, "$sortInput.attr('class', 'w3-tiny ');");
-													auteurPageJs.tl(k, "$sortInput.attr('style', 'width: 4em; ');");
-													auteurPageJs.tl(k, "$sortInput.attr('id', \"", langueConfig.getString(ConfigCles.var_attribuer), "_\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"_", langueConfig.getString(ConfigCles.var_tri), "_", entiteAttribuerTriVar, "\");");
-													auteurPageJs.tl(k, "$sortInput.attr('value', ", entiteAttribuerTriVar, ").attr('onchange', ");
-													auteurPageJs.tl(k + 1, "\"$('#", classeApiClasseNomSimple, "Form :input[name=\\\"focusId\\\"]').val($(this).attr('id')); \"");
-													auteurPageJs.tl(k + 1, "+ \"", entiteAttribuerOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"' }], { ['set", StringUtils.capitalize(entiteAttribuerTriVar), "']: $(this).val() ? $(this).val() : null }\"");
+													auteurPageJs.tl(k, "$sort = document.querySelector('<span>').setAttribute('class', 'w3-text-grey ').setAttribute('style', 'padding-right: 8px; ');");
+													auteurPageJs.tl(k, "var $sortInput = document.querySelector('<sl-input>')");
+													auteurPageJs.tl(k, "$sortInput.setAttribute('class', 'w3-tiny ');");
+													auteurPageJs.tl(k, "$sortInput.setAttribute('style', 'width: 4em; ');");
+													auteurPageJs.tl(k, "$sortInput.setAttribute('id', \"", langueConfig.getString(ConfigCles.var_attribuer), "_\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"_", langueConfig.getString(ConfigCles.var_tri), "_", entiteAttribuerTriVar, "\");");
+													auteurPageJs.tl(k, "$sortInput.setAttribute('value', ", entiteAttribuerTriVar, ").setAttribute('onchange', ");
+													auteurPageJs.tl(k + 1, "\"document.querySelector('#", classeApiClasseNomSimple, "Form :input[name=\\\"focusId\\\"]').value = this.getAttribute('id'); \"");
+													auteurPageJs.tl(k + 1, "+ \"", entiteAttribuerOperationIdPATCH, "Vals([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"' }], { ['set", StringUtils.capitalize(entiteAttribuerTriVar), "']: this.value ? this.value : null }\"");
 													auteurPageJs.tl(k + 2, "+ \", function() { \"");
 													auteurPageJs.tl(k + 2, "+ \"}\"");
-													auteurPageJs.tl(k + 2, "+ \", function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#", langueConfig.getString(ConfigCles.var_attribuer), "_\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"_", langueConfig.getString(ConfigCles.var_tri), "_", entiteAttribuerTriVar, "')); }\"");
+													auteurPageJs.tl(k + 2, "+ \", function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('#", langueConfig.getString(ConfigCles.var_attribuer), "_\" + o['", classeModele ? classeVarClePrimaire : classeVarCleUnique, "'] + \"_", langueConfig.getString(ConfigCles.var_tri), "_", entiteAttribuerTriVar, "')); }\"");
 													auteurPageJs.tl(k + 2, "+ \" ); \"); ");
 													auteurPageJs.tl(k, "$sort.append($sortInput);");
 													auteurPageJs.tl(k, "$li.append($sort);");
@@ -3005,9 +2984,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurPageJs.tl(3, "$li.append($a);");
 											auteurPageJs.tl(3, "$list.append($li);");
 											auteurPageJs.tl(2, "});");
-											auteurPageJs.tl(2, "var focusId = $('#", classeApiClasseNomSimple, "Form :input[name=\"focusId\"]').val();");
+											auteurPageJs.tl(2, "var focusId = document.querySelector('#", classeApiClasseNomSimple, "Form :input[name=\"focusId\"]')?.value;");
 											auteurPageJs.tl(2, "if(focusId)");
-											auteurPageJs.tl(3, "$('#' + focusId).parent().next().find('input').focus();");
+											auteurPageJs.tl(3, "document.querySelector('#' + focusId).parent().next().querySelector('input').focus();");
 											auteurPageJs.tl(1, "};");
 											auteurPageJs.tl(1, "error = function( jqXhr, textStatus, errorThrown ) {};");
 											auteurPageJs.tl(1, entiteAttribuerOperationIdRecherche, "Vals(", langueConfig.getString(ConfigCles.var_filtres), ", success, error);");
@@ -3017,11 +2996,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 											auteurWebsocket.tl(2, "window.eventBus.registerHandler('websocket", entiteAttribuerNomSimple, "', function (error, message) {");
 //												auteurWebsocket.tl(3, "var json = JSON.parse(message['body']);");
 //												auteurWebsocket.tl(3, "var id = json['id'];");
-//												auteurWebsocket.tl(3, langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "($('#' + ($(this).val() ? '", langueConfig.getString(ConfigCles.var_suggere), "' : 'form') + '", classeApiClasseNomSimple, entiteVarCapitalise, "'), $('#", "list", classeApiClasseNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "'));");
-											auteurWebsocket.tl(3, "$('.Page_", entiteVar, "').trigger('oninput');");
-											auteurWebsocket.tl(3, "$('.Page_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').text('", langueConfig.getString(ConfigCles.var_ajouter), " ", entiteAttribuerContexteUnNom, "');");
-											auteurWebsocket.tl(3, "$('.Page_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').removeClass('w3-disabled');");
-											auteurWebsocket.tl(3, "$('.Page_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').attr('disabled', false);");
+//												auteurWebsocket.tl(3, langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, entiteVarCapitalise, "(document.querySelector('#' + (this.value ? '", langueConfig.getString(ConfigCles.var_suggere), "' : 'form') + '", classeApiClasseNomSimple, entiteVarCapitalise, "'), document.querySelector('#", "list", classeApiClasseNomSimple, entiteVarCapitalise, "_", classeApiMethodeMethode, "'));");
+											auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "').trigger('oninput');");
+											auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').text('", langueConfig.getString(ConfigCles.var_ajouter), " ", entiteAttribuerContexteUnNom, "');");
+											auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').classList.remove('w3-disabled');");
+											auteurWebsocket.tl(3, "document.querySelector('.Page_", entiteVar, "_", langueConfig.getString(ConfigCles.var_ajouter), "').setAttribute('disabled', false);");
 											auteurWebsocket.tl(2, "});");
 										}
 									}
@@ -3033,7 +3012,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						}
 					}
 				}
-				tl(3, "$('#site-calendar-box').accordion({ collapsible: true, active: false });");
+				// tl(3, "document.querySelector('#site-calendar-box').accordion({ collapsible: true, active: false });");
 				l("{% if DEFAULT_MAP_LOCATION is defined %}");
 				tl(3, "window.DEFAULT_MAP_LOCATION = { lat: {{ DEFAULT_MAP_LOCATION.lat }}, lon: {{ DEFAULT_MAP_LOCATION.lon }} };");
 				l("{% endif %}");
@@ -3041,7 +3020,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "window.DEFAULT_MAP_ZOOM = {{ DEFAULT_MAP_ZOOM }};");
 				l("{% endif %}");
 				tl(3, "window.DEFAULT_ZONE_ID = '{{ defaultZoneId }}';");
-				tl(3, "$(document).ready(function() {");
+				tl(3, "Promise.all([");
+				tl(4, "customElements.whenDefined('sl-button')");
+				tl(4, ", customElements.whenDefined('sl-input')");
+				// tl(4, ", customElements.whenDefined('sl-checkbox')");
+				// tl(4, ", customElements.whenDefined('sl-option')");
+				// tl(4, ", customElements.whenDefined('sl-select')");
+				// tl(4, ", customElements.whenDefined('sl-textarea')");
+				tl(3, "]).then(() => {");
 				tl(4, "document.onkeydown = function(evt) {");
 				tl(5, "evt = evt || window.event;");
 				tl(5, "var isEscape = false;");
@@ -3051,28 +3037,54 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(6, "isEscape = (evt.keyCode === 27);");
 				tl(5, "}");
 				tl(5, "if (isEscape) {");
-				tl(6, "$('.w3-modal:visible').hide();");
+				tl(6, "document.querySelector('.w3-modal:visible').classList.add('display-none');");
 				tl(5, "}");
 				tl(4, "};");
 				tl(4, "window.eventBus = new EventBus('/eventbus');");
 				tl(4, "var pk = {% if pk is defined %}{{pk}}{% else %}null{% endif %};");
 				tl(4, "if(pk != null) {");
-				tl(5, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse($('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", StringUtils.uncapitalize(classeNomSimple), "').val());");
+				tl(5, "window.", StringUtils.uncapitalize(classeNomSimple), " = JSON.parse(document.querySelector('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", StringUtils.uncapitalize(classeNomSimple), "')?.value);");
 				s(wJsInit);
 				tl(4, "}");
-				tl(5, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " = JSON.parse($('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "').val());");
-				tl(4, "window.varsFq = JSON.parse(decodeURIComponent('{{ varsFq | urlencode() }}'));");
-				tl(4, "window.varsRange = JSON.parse(decodeURIComponent('{{ varsRange | urlencode() }}'));");
+				tl(4, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, " = JSON.parse(document.querySelector('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "')?.value);");
+				tl(4, "window.varsFq = JSON.parse('{{ toJsonObjectStringInApostrophes(varsFq) }}');");
+				tl(4, "window.varsRange = JSON.parse('{{ toJsonObjectStringInApostrophes(varsRange) }}');");
 				tl(4, "window.defaultRangeVar = '{{ defaultRangeVar }}';");
 				tl(4, langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), classeNomSimple, "();");
 				l();
-				tl(4, "var calendarEl = document.getElementById('site-calendar');");
-				tl(4, "var calendar = new FullCalendar.Calendar(calendarEl, {");
-				tl(5, "initialView: 'dayGridMonth'");
-				tl(4, "});");
-				tl(4, "//calendar.render();");
+				// tl(4, "var calendarEl = document.getElementById('site-calendar');");
+				// tl(4, "var calendar = new FullCalendar.Calendar(calendarEl, {");
+				// tl(5, "initialView: 'dayGridMonth'");
+				// tl(4, "});");
+				// tl(4, "//calendar.render();");
 				tl(0, "{%- block websocket", classePageNomSimple, " %}{%- endblock %}");
+				for(String classeApiMethode : classeApiMethodes) {
+					String classeApiOperationIdMethode = classeDoc.getString("classeApiOperationId" + classeApiMethode + "_" + langueNom + "_stored_string");
+					String classeApiUriMethode = classeDoc.getString("classeApiUri" + classeApiMethode + "_" + langueNom + "_stored_string");
+					String classeApiTypeMediaMethode = classeDoc.getString("classeApiTypeMedia200" + classeApiMethode + "_" + langueNom + "_stored_string");
+					String classeApiMethodeMethode = classeDoc.getString("classeApiMethode" + classeApiMethode + "_" + langueNom + "_stored_string");
+
+					if(classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) || classeApiMethode.equals("PATCH") || classeApiMethode.equals("POST") || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTCopie)) || classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PUTFusion)) || classeApiMethode.equals("PUTImport")) {
+						tl(4, "document.querySelector('#htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "')?.addEventListener('submit', event => {");
+						tl(5, "event.preventDefault();");
+						if("POST".equals(classeApiMethodeMethode))
+							tl(5, classeApiOperationIdMethode, "(document.querySelector('#", classeApiOperationIdMethode, "Form'));");
+						else if("PATCH".equals(classeApiMethode))
+							tl(5, classeApiOperationIdMethode, "(null, document.querySelector('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'));");
+						else if("PUTImport".equals(classeApiMethode))
+							tl(5, classeApiOperationIdMethode, "(document.querySelector('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'));");
+						else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))
+							tl(5, classeApiOperationIdMethode, "(document.querySelector('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}'", ");");
+						else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
+							tl(5, classeApiOperationIdMethode, "(document.querySelector('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}'", ");");
+						else
+							tl(5, classeApiOperationIdMethode, "();");
+						tl(4, "});");
+					}
+				}
 				tl(3, "});");
+				tl(2, "</script>");
+				tl(2, "<script>");
 				l();
 				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsWebsocket), classeNomSimple, "(", classeVarClePrimaire == null ? classeVarCleUnique : classeVarClePrimaire, ", vars, $response) {");
 				tl(0, "{%- block ", langueConfig.getString(ConfigCles.var_jsWebsocket), classePageNomSimple, " %}{%- endblock %}");
@@ -3096,7 +3108,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(0, "{%- block ", langueConfig.getString(ConfigCles.var_jsLegende), classePageNomSimple, " %}");
 				tl(4, "var div = L.DomUtil.create('div', 'info legend');");
 				tl(4, "var htm = '';");
-				tl(4, "$.each( window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ", function(index, ", StringUtils.uncapitalize(classeNomSimple), ") {");
+				tl(4, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".forEach((", StringUtils.uncapitalize(classeNomSimple), ", index) => {");
 				tl(5, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
 				tl(6, "var shapes = [];");
 				tl(6, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
@@ -3248,9 +3260,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					l();
 					l("{%- macro htm", langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
 					if(!classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche))) {
-						tl(2, "<button");
-						tl(3, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", classeCouleur, " \"");
-						tl(3, "onclick=\"$('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "').show(); \"");
+						tl(2, "<sl-button");
+						tl(3, "onclick=\"document.querySelector('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "').show(); \"");
 						tl(3, ">");
 	
 							if(classeApiMethodeMethode.contains("POST"))
@@ -3265,45 +3276,24 @@ public class EcrirePageClasse extends EcrireApiClasse {
 								tl(3, "<i class=\"fas fa-copy \"></i>");
 	
 							tl(3, methodeTitreValeurs);
-						tl(2, "</button>");
+						tl(2, "</sl-button>");
 					}
 					l("{%- endmacro %}");
 
 					l();
 					l("{%- macro htm", langueConfig.getString(ConfigCles.var_Formulaire), langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "() %}");
-					tl(6, "<button");
-					tl(7, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-margin w3-", classeCouleur, " \"");
-					if("POST".equals(classeApiMethodeMethode))
-						tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, "Form')); \"");
-					else if("PATCH".equals(classeApiMethode))
-						tl(7, "onclick=\"", classeApiOperationIdMethode, "(null, $('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "')); \"");
-					else if("PUTImport".equals(classeApiMethode))
-						tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "')); \"");
-					else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode))
-						tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}'", "); \"");
-					else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode))
-						tl(7, "onclick=\"", classeApiOperationIdMethode, "($('#", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "'), ", classeModele ? "{{ " + classeVarClePrimaire + " }}" : "'{{ " + classeVarCleUnique + " }}'", "); \"");
-					else
-						tl(7, "onclick=\"", classeApiOperationIdMethode, "(); \"");
-
-					tl(7, ">", methodeTitreValeurs, "</button>");
+					tl(6, "<sl-button type=\"submit\" variant=\"primary\">", methodeTitreValeurs, "</sl-button>");
 					l("{%- endmacro %}");
 
 					l();
 					l("{%- macro htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "() %}");
-					{ tl(2, "<div id=\"", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "\" class=\"", classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) ? "" : "w3-modal ", "\">");
-						{ tl(3, "<div class=\"", classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) ? "" : "w3-modal-content ", "\">");
-							{ tl(4, "<div class=\"w3-card-4 \">");
+					{ tl(2, "<", classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) ? "div" : "sl-dialog", " id=\"", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "\" label=\"", methodeTitreValeurs, "\">");
+						{ tl(3, "<form id=\"htm", langueConfig.getString(ConfigCles.var_Formulaire), "_", classeApiOperationIdMethode, "\">");
+							{ tl(4, "<div>");
 								if(!langueConfig.getString(ConfigCles.var_PageRecherche).equals(classeApiMethode)) {
-									{ tl(5, "<header class=\"w3-container w3-", classeCouleur, "\">");
-										tl(1, "{% if \"Page\" == ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), " %}");
-										tl(6, "<span class=\"w3-button w3-display-topright \" onclick=\"$('#", classeApiOperationIdMethode, langueConfig.getString(ConfigCles.var_Modale), "').hide(); \">×</span>");
-										tl(1, "{% endif %}");
-										tl(6, "<h2 class=\"w3-padding \">", methodeTitreValeurs, "</h2>");
-										if("POST".equals(classeApiMethode)) {
-											tl(6, "<div class=\"\">", langueConfig.getString(ConfigCles.str_Vous_pouvez_remplacer_les_valeurs_par_defaut_ci_dessous), "</div>");
-										}
-									} tl(5, "</header>");
+									if("POST".equals(classeApiMethode)) {
+										tl(6, "<div class=\"\">", langueConfig.getString(ConfigCles.str_Vous_pouvez_remplacer_les_valeurs_par_defaut_ci_dessous), "</div>");
+									}
 								}
 	
 								{ tl(5, "<div class=\"\" id=\"", classeApiOperationIdMethode, classePageLangueConfig.getString(ConfigCles.var_FormulaireValeurs), "\">");
@@ -3315,19 +3305,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 										if("PUTImport".equals(classeApiMethode)) {
 											tl(6, "<div class=\"w3-cell-row \">");
-											tl(7, "<textarea");
+											tl(7, "<sl-textarea");
 											tl(8, "class=\"", "PUTImport_", langueConfig.getString(ConfigCles.var_listeRecherche), " w3-input w3-border \"");
 											tl(8, "style=\"height: 300px; \"");
 											tl(8, "placeholder=\"{ '", langueConfig.getString(ConfigCles.var_listeRecherche), "': [ { 'pk': ... , '", langueConfig.getString(ConfigCles.var_sauvegardes), "': [ ... ] }, ... ] }\"");
-											tl(8, "></textarea>");
+											tl(8, "></sl-textarea>");
 											tl(6, "</div>");
 										} else if(langueConfig.getString(ConfigCles.var_PUTFusion).equals(classeApiMethode)) {
 											tl(6, "<div class=\"w3-cell-row \">");
-											tl(7, "<textarea");
+											tl(7, "<sl-textarea");
 											tl(8, "class=\"", "PUT", langueConfig.getString(ConfigCles.var_PUTFusion), "_", langueConfig.getString(ConfigCles.var_listeRecherche), " w3-input w3-border \"");
 											tl(8, "style=\"height: 300px; \"");
 											tl(8, "placeholder=\"{ '", langueConfig.getString(ConfigCles.var_listeRecherche), "': [ { 'pk': ... , '", langueConfig.getString(ConfigCles.var_sauvegardes), "': [ ... ] }, ... ] }\"");
-											tl(8, "></textarea>");
+											tl(8, "></sl-textarea>");
 											tl(6, "</div>");
 										} else if(langueConfig.getString(ConfigCles.var_PUTCopie).equals(classeApiMethode)) {
 											s(wFormPUTCopie);
@@ -3352,10 +3342,11 @@ public class EcrirePageClasse extends EcrireApiClasse {
 										if(!langueConfig.getString(ConfigCles.var_PageRecherche).equals(classeApiMethode)) {
 										}
 									}
+									tl(6, "{{ htm", langueConfig.getString(ConfigCles.var_Formulaire), langueConfig.getString(ConfigCles.var_Bouton), "_", classeApiOperationIdMethode, "() }}");
 								} tl(5, "</div>");
 							} tl(4, "</div>");
-						} tl(3, "</div>");
-					} tl(2, "</div>");
+						} tl(3, "</form>");
+					} tl(2, "</", classeApiMethode.equals(langueConfig.getString(ConfigCles.var_PageRecherche)) ? "div" : "sl-dialog", ">");
 					l("{%- endmacro %}");
 				}
 			}
@@ -3388,7 +3379,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(8, "{% else %}");
 			tl(9, "<i class=\"fas fa-arrow-square-left w3-opacity \"></i>");
 			tl(8, "{% endif %}");
-			tl(8, "{% if pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), " >= pagination.1L %}");
+			tl(8, "{% if pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), " >= pagination['1L'] %}");
 			tl(9, "<a href=\"{{pageUri}}?start={{pagination.", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{ pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), " }}\">");
 			tl(10, "<i class=\"fas fa-minus-square \"></i>");
 			tl(9, "</a>");
@@ -3407,22 +3398,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(8, "{% endif %}");
 			tl(8, "<span>{{ pagination.", langueConfig.getString(ConfigCles.var_debut), "Num }} - {{ pagination.", langueConfig.getString(ConfigCles.var_fin), "Num }} ", langueConfig.getString(ConfigCles.var_de), " {{ pagination.", langueConfig.getString(ConfigCles.var_numTrouve), " }}</span>");
 			tl(7, "</div>");
-			tl(7, "{%- block table1", classePageNomSimple, " %}");
 			tl(7, "<div class=\"w3-responsive \">");
 			tl(8, "<table class=\"w3-table w3-bordered w3-striped w3-border w3-hoverable \">");
-			tl(9, "{%- block table2", classePageNomSimple, " %}");
-			tl(9, "{%- block thead1", classePageNomSimple, " %}");
 			tl(9, "<thead class=\"w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
-			tl(10, "{%- block thead2", classePageNomSimple, " %}");
 			tl(10, "<tr>");
 			s(wTh);
 			tl(10, "</tr>");
-			tl(10, "{%- endblock thead2", classePageNomSimple, " %}");
 			tl(9, "</thead>");
-			tl(9, "{%- endblock thead1", classePageNomSimple, " %}");
-			tl(9, "{%- block tbody1", classePageNomSimple, " %}");
 			tl(9, "<tbody>");
-			tl(10, "{%- block tbody2", classePageNomSimple, " %}");
 //				TODO
 //				tl(2, "Map<String, Map<String, List<String>>> highlighting = ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getResponse().getHighlighting();");
 			tl(10, "{% for item in ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, "%}");
@@ -3435,26 +3418,18 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(wTd);
 			tl(11, "</tr>");
 			tl(10, "{% endfor %}");
-			tl(10, "{%- endblock tbody2", classePageNomSimple, " %}");
 			tl(9, "</tbody>");
-			tl(9, "{%- endblock tbody1", classePageNomSimple, " %}");
-			tl(9, "{%- block tfoot1", classePageNomSimple, " %}");
 			tl(9, "<tfoot class=\"w3-", classeCouleur, " w3-hover-", classeCouleur, "\">");
-			tl(10, "{%- block tfoot2", classePageNomSimple, " %}");
 			tl(10, "<tr>");
 //				TODO
 //				tl(3, "SimpleOrderedMap facets = (SimpleOrderedMap)Optional.ofNullable(", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getResponse()).map(QueryResponse::getResponse).map(r -> r.get(\"facets\")).orElse(new SimpleOrderedMap());");
 			s(wFoot);
 			tl(10, "</tr>");
-			tl(10, "{%- endblock tfoot2", classePageNomSimple, " %}");
 			tl(9, "</tfoot>");
-			tl(9, "{%- endblock tfoot1", classePageNomSimple, " %}");
-			tl(9, "{%- endblock table2", classePageNomSimple, " %}");
 			tl(8, "</table>");
 			tl(7, "</div>");
-			tl(7, "{%- endblock table1", classePageNomSimple, " %}");
 			tl(6, "</div>");
-			tl(6, "{%- endmacro %}");
+			tl(6, "{%- endmacro htmBody", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "() %}");
 
 //			l("{%- block htmBodyCount1", classePageNomSimple, " %}");
 //			l("{%- endblock %}");
@@ -3464,13 +3439,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			/////////////
 
 			l();
-			tl(0, "{%- block htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageSuperNomSimple, " %}");
-			tl(0, "{%- block htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, " %}");
-			tl(0, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, " %}");
-			tl(0, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageSuperNomSimple, " %}");
+			tl(2, "{%- block htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageSuperNomSimple, " %}");
+			tl(2, "{{ super() }}");
+			tl(2, "{%- block htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, " %}");
+			tl(2, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageNomSimple, " %}");
+			tl(2, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Debut), classePageSuperNomSimple, " %}");
 			l();
-			tl(0, "{%- block htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageSuperNomSimple, " %}");
-			tl(0, "{%- block htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageNomSimple, " %}");
+			tl(2, "{%- block htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageSuperNomSimple, " %}");
+			tl(2, "{%- block htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageNomSimple, " %}");
 
 			/////////////////
 			// pageContent //
@@ -3485,87 +3461,68 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			/////////////
 
 			tl(3, "<div class=\"w3-dropdown-click w3-bar-block min-width-300px \">");
-			tl(4, "<div class=\"min-width-300px \">");
+			tl(4, "<sl-button-group label=\"", langueConfig.getString(ConfigCles.var_Recherche), "\">");
 
 			//////////////
 			// bouton q //
 			//////////////
-			t(5, "<span");
-			s(" title=\"", langueConfig.getString(ConfigCles.var_Recherche), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
-			s(">");
-			s("<i class=\"fad fa-magnifying-glass hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Rechercher));
-			l("</span>");
+			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-magnifying-glass hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Rechercher));
+			l("</sl-button>");
 
 			///////////////
 			// bouton fq //
 			///////////////
-			t(5, "<span");
-			s(" title=\"", langueConfig.getString(ConfigCles.var_Filtres), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
-			s(">");
-			s("<i class=\"fad fa-filters hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Filtres));
-			l("</span>");
+			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-filters hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Filtres));
+			l("</sl-button>");
 
 			//////////////////
 			// bouton gamme //
 			//////////////////
-			t(5, "<span");
-			s(" title=\"", langueConfig.getString(ConfigCles.var_Gamme), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
-			s(">");
-			s("<i class=\"fad fa-calendar-range hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Gamme));
-			l("</span>");
+			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-calendar-range hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Gamme));
+			l("</sl-button>");
 
 			//////////////////
 			// bouton pivot //
 			//////////////////
-			t(5, "<span");
-			s(" title=\"", langueConfig.getString(ConfigCles.var_Pivot), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
-			s(">");
-			s("<i class=\"fad fa-table-pivot hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Pivot));
-			l("</span>");
+			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-table-pivot hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Pivot));
+			l("</sl-button>");
 
 			/////////////////////////
 			// bouton liste champs //
 			/////////////////////////
-			t(5, "<span");
-			s(" title=\"", langueConfig.getString(ConfigCles.var_ListeChamps), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
-			s(">");
-			s("<i class=\"fad fa-list-ul hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_ListeChamps));
-			l("</span>");
+			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-list-ul hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_ListeChamps));
+			l("</sl-button>");
 
 			//////////////////
 			// bouton stats //
 			//////////////////
-			tl(5, "<span");
-			s(" title=\"", langueConfig.getString(ConfigCles.var_Stats), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
-			s(" onclick=\"$('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').hide(); $('.siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').toggle(); $('.siteSidebarToggle').removeClass('w3-black'); $('.siteSidebarToggle').addClass('w3-", classeCouleur, "'); $(this).addClass('w3-black'); $(this).removeClass('w3-", classeCouleur, "'); \"");
-			s(">");
-			tl(6, "<i class=\"fad fa-chart-candlestick hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.var_Stats));
-			tl(5, "</span>");
+			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-chart-candlestick hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Stats));
+			l("</sl-button>");
 
 			////////////////
 			// bouton API //
 			////////////////
-			t(5, "<a");
-			s(" title=\"", langueConfig.getString(ConfigCles.str_API), "\"");
-			s(" class=\"siteSidebarToggle w3-padding-small w3-hover-black w3-", classeCouleur, " \"");
+			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Api), "').show(); \"");
 			s(" href=\"{{ apiUri }}{% if pk is defined %}/{{ pk }}{% else %}{% if id is defined %}/{{ id }}{% else %}{{ queryStr }}{% endif %}{% endif %}\"");
 			s(">");
-			s("<i class=\"fad fa-brackets-curly hover-box-shadow w3-xlarge \"></i> ", langueConfig.getString(ConfigCles.str_API));
-			l("</a>");
+			s("<i slot=\"prefix\" class=\"fad fa-brackets-curly hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Api));
+			l("</sl-button>");
 
 
-			tl(4, "</div>");
+			tl(4, "</sl-button-group>");
 			tl(4, "<div class=\" \">");
 
 
@@ -3573,7 +3530,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar q //
 			///////////////
 
-			tl(5, "<div class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "\">");
 			tl(6, "<div class=\"w3-bar w3-", classeCouleur, " \">");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(7, "<i class=\"fad fa-magnifying-glass \"></i>");
@@ -3598,7 +3555,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(9, "</div>");
 			tl(9, "<div class=\"w3-cell-row \">");
 			tl(10, "<div class=\"w3-cell w3-cell-top \">");
-			t(11, "<input");
+			t(11, "<sl-input");
 			s(" id=\"q", classeNomSimple, "_{{ key }}\"");
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"\"");
@@ -3610,7 +3567,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			s(" data-var=\"{{ var }}\"");
 			s(" autocomplete=\"off=\"");
-			l("/>");
+			l("></sl-input>");
 			tl(11, "<div class=\"pageSearchVal w3-tiny \"></div>");
 			tl(10, "</div>");
 			tl(9, "</div>");
@@ -3630,7 +3587,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(8, "</div>");
 			tl(8, "<div class=\"w3-cell-row \">");
 			tl(9, "<div class=\"w3-cell w3-cell-top \">");
-			t(10, "<input");
+			t(10, "<sl-input");
 			s(" id=\"q", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_debut), "\"");
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"\"");
@@ -3638,7 +3595,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" data-var=\"start\"");
 			s(" autocomplete=\"off=\"");
 			s(" value=\"{{ start }}\"");
-			l("/>");
+			l("></sl-input>");
 			tl(10, "<div class=\"pageSearchVal w3-tiny \">start={{ start }}</div>");
 			tl(9, "</div>");
 			tl(8, "</div>");
@@ -3657,7 +3614,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(8, "</div>");
 			tl(8, "<div class=\"w3-cell-row \">");
 			tl(9, "<div class=\"w3-cell w3-cell-top \">");
-			t(10, "<input");
+			t(10, "<sl-input");
 			s(" id=\"q", classeNomSimple, "_", langueConfig.getString(ConfigCles.var_lignes), "\"");
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"\"");
@@ -3665,7 +3622,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" data-var=\"rows\"");
 			s(" autocomplete=\"off\"");
 			s(" value=\"{{ rows }}\"");
-			l("/>");
+			l("></sl-input>");
 			tl(10, "<div class=\"pageSearchVal w3-tiny \">rows={{ rows }}</div>");
 			tl(9, "</div>");
 			tl(8, "</div>");
@@ -3673,13 +3630,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(7, "</div>");
 			tl(7, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Recherche), classePageNomSimple, " %}");
 			tl(6, "</div>");
-			tl(5, "</div>");
+			tl(5, "</sl-drawer>");
 
 			////////////////
 			// sidebar fq //
 			////////////////
 
-			tl(5, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "\">");
 			tl(6, "<div class=\"w3-bar w3-", classeCouleur, " \">");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(7, "<i class=\"fad fa-filters \"></i>");
@@ -3713,7 +3670,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(11, "</div>");
 
 			tl(11, "<div class=\"w3-cell w3-cell-top \">");
-			t(12, "<input");
+			t(12, "<sl-input");
 			s(" id=\"fq", classeNomSimple, "_{{ key }}\"");
 			s(" placeholder=\"{{ displayName }}\"");
 			s(" class=\"\"");
@@ -3723,7 +3680,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s(" data-var=\"{{ var }}\"");
 			s(" autocomplete=\"off=\"");
 			s(" value=\"{{ val }}\"");
-			l("/>");
+			l("></sl-input>");
 			tl(11, "</div>");
 			tl(10, "</div>");
 
@@ -3765,13 +3722,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			
 			tl(7, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Filtres), classePageNomSimple, " %}");
 			tl(6, "</div>");
-			tl(5, "</div>");
+			tl(5, "</sl-drawer>");
 
 			///////////////////
 			// sidebar gamme //
 			///////////////////
 
-			tl(5, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "\">");
 			tl(6, "<div class=\"w3-bar w3-", classeCouleur, "  \">");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(7, "<i class=\"fad fa-calendar-range \"></i>");
@@ -3821,19 +3778,19 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(10, "<span>Range Gap</span>");
 			tl(9, "</td>");
 			tl(9, "<td class=\"\">");
-			t(10, "<select");
+			t(10, "<sl-select");
 			s(" name=\"facet.range.gap\"");
 			s(" id=\"pageFacetRangeGap-", classeNomSimple, "\"");
 			s(" onchange=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "GapChange('", classeNomSimple, "', this); \"");
 			l(">");
-			tl(11, "<option value=\"+1YEAR\"{% if defaultRangeGap == '+1YEAR' %} selected=\"selected\"{% else %}{% endif %}>Year</option>");
-			tl(11, "<option value=\"+1MONTH\"{% if defaultRangeGap == '+1MONTH' %} selected=\"selected\"{% else %}{% endif %}>Month</option>");
-			tl(11, "<option value=\"+1WEEK\"{% if defaultRangeGap == '+1WEEK' %} selected=\"selected\"{% else %}{% endif %}>Week</option>");
-			tl(11, "<option value=\"+1DAY\"{% if defaultRangeGap == '+1DAY' %} selected=\"selected\"{% else %}{% if defaultRangeGap is defined %}{% else %} selected=\"selected\"{% endif %}{% endif %}>Day</option>");
-			tl(11, "<option value=\"+1HOUR\"{% if defaultRangeGap == '+1HOUR' %} selected=\"selected\"{% else %}{% endif %}>Hour</option>");
-			tl(11, "<option value=\"+1MINUTE\"{% if defaultRangeGap == '+1MINUTE' %} selected=\"selected\"{% else %}{% endif %}>Minute</option>");
-			tl(11, "<option value=\"+1SECOND\"{% if defaultRangeGap == '+1SECOND' %} selected=\"selected\"{% else %}{% endif %}>Second</option>");
-			tl(10, "</select>");
+			tl(11, "<sl-option value=\"+1YEAR\"{% if defaultRangeGap == '+1YEAR' %} selected=\"selected\"{% else %}{% endif %}>Year</sl-option>");
+			tl(11, "<sl-option value=\"+1MONTH\"{% if defaultRangeGap == '+1MONTH' %} selected=\"selected\"{% else %}{% endif %}>Month</sl-option>");
+			tl(11, "<sl-option value=\"+1WEEK\"{% if defaultRangeGap == '+1WEEK' %} selected=\"selected\"{% else %}{% endif %}>Week</sl-option>");
+			tl(11, "<sl-option value=\"+1DAY\"{% if defaultRangeGap == '+1DAY' %} selected=\"selected\"{% else %}{% if defaultRangeGap is defined %}{% else %} selected=\"selected\"{% endif %}{% endif %}>Day</sl-option>");
+			tl(11, "<sl-option value=\"+1HOUR\"{% if defaultRangeGap == '+1HOUR' %} selected=\"selected\"{% else %}{% endif %}>Hour</sl-option>");
+			tl(11, "<sl-option value=\"+1MINUTE\"{% if defaultRangeGap == '+1MINUTE' %} selected=\"selected\"{% else %}{% endif %}>Minute</sl-option>");
+			tl(11, "<sl-option value=\"+1SECOND\"{% if defaultRangeGap == '+1SECOND' %} selected=\"selected\"{% else %}{% endif %}>Second</sl-option>");
+			tl(10, "</sl-select>");
 			tl(9, "</td>");
 			tl(8, "</tr>");
 
@@ -3845,12 +3802,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(8, "<tr class=\"\">");
 			tl(9, "<td class=\"\" colspan=\"2\">");
 			t(10, "<span>");
-			s("<input type=\"datetime-local\"");
+			s("<sl-input type=\"datetime-local\"");
 			s(" name=\"facetRangeStart\"");
 			s(" id=\"pageFacetRangeStart-", classeNomSimple, "\"");
-			s(" value=\"{{ formatZonedDateTime(defaultRangeStart, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
+			s(" value=\"{{ formatZonedDateTimeTz(defaultRangeStart, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
 			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "StartChange('", classeNomSimple, "', this); \"");
-			l("/></span>");
+			l("></sl-input></span>");
 			tl(9, "</td>");
 			tl(8, "</tr>");
 
@@ -3862,12 +3819,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(8, "<tr class=\"\">");
 			tl(9, "<td class=\"\" colspan=\"2\">");
 			t(10, "<span>");
-			s("<input type=\"datetime-local\"");
+			s("<sl-input type=\"datetime-local\"");
 			s(" name=\"facetRangeEnd\"");
 			s(" id=\"pageFacetRangeEnd-", classeNomSimple, "\"");
-			s(" value=\"{{ formatZonedDateTime(defaultRangeEnd, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
+			s(" value=\"{{ formatZonedDateTimeTz(defaultRangeEnd, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
 			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "EndChange('", classeNomSimple, "', this); \"");
-			l("/></span>");
+			l("></sl-input></span>");
 			tl(9, "</td>");
 			tl(8, "</tr>");
 			tl(7, "</table>");
@@ -3877,14 +3834,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(9, "<tr class=\"\">");
 			tl(10, "<td class=\"\">");
 			t(11, "<span>");
-			s("<input type=\"radio\"");
+			s("<sl-radio-group");
 			s(" name=\"pageFacet", langueConfig.getString(ConfigCles.var_Gamme), "\"");
 			s(" class=\"pageFacet", langueConfig.getString(ConfigCles.var_Gamme), " \"");
 			s(" id=\"pageFacet", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimple, "_{{ key }}\"");
 			s(" value=\"{{ var }}\"");
 			s("{% if default", langueConfig.getString(ConfigCles.var_Gamme), "Var == var %} checked=\"checked\"{% endif %}");
 			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "Change('", classeNomSimple, "', value); \"");
-			l("/></span>");
+			l("></sl-radio></span>");
 			tl(10, "</td>");
 			tl(10, "<td class=\"\">");
 			tl(11, "<label for=\"pageFacet", langueConfig.getString(ConfigCles.var_Gamme), classeNomSimple, "_{{ key }}\">{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}</label>");
@@ -3894,13 +3851,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(7, "</table>");
 			tl(7, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Gamme), classePageNomSimple, " %}");
 			tl(6, "</div>");
-			tl(5, "</div>");
+			tl(5, "</sl-drawer>");
 
 			///////////////////
 			// sidebar pivot //
 			///////////////////
 
-			tl(5, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "\">");
 			tl(6, "<div class=\"w3-bar w3-", classeCouleur, " \">");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(7, "<i class=\"fad fa-table-pivot \"></i>");
@@ -3948,14 +3905,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(9, "<tr class=\"\">");
 			tl(10, "<td class=\"\">");
 			t(11, "<span>");
-			s("<input type=\"checkbox\"");
+			s("<sl-checkbox");
 			s(" name=\"pageFacetPivot\"");
 			s(" class=\"pageFacetPivot \"");
 			s(" id=\"pageFacetPivot", classeNomSimple, "_{{ key }}\"");
 			s(" value=\"{{ var }}\"");
 			s("{% if ", langueConfig.getString(ConfigCles.var_pivot), " is defined %} checked=\"checked\"{% endif %}");
 			s(" onclick=\"facetPivotChange('", classeNomSimple, "', value); \"");
-			l("/></span>");
+			l(">{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}</sl-checkbox>");
 			tl(10, "</td>");
 			tl(10, "<td class=\"w3-cell \">");
 			tl(11, "<label for=\"pageFacetPivot", classeNomSimple, "_{{ key }}\">{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}</label>");
@@ -3966,13 +3923,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			
 			tl(7, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Pivot), classePageNomSimple, " %}");
 			tl(6, "</div>");
-			tl(5, "</div>");
+			tl(5, "</sl-drawer>");
 
 			//////////////////////////
 			// sidebar liste champs //
 			//////////////////////////
 
-			tl(5, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "\">");
 			tl(6, "<div class=\"w3-bar w3-", classeCouleur, " \">");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(7, "<i class=\"fad fa-list-ul \"></i>");
@@ -4020,14 +3977,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(9, "<tr class=\"\">");
 			tl(10, "<td class=\"\">");
 			t(11, "<span>");
-			s("<input type=\"checkbox\"");
+			s("<sl-checkbox");
 			s(" name=\"page", langueConfig.getString(ConfigCles.var_ListeChamps), "\"");
 			s(" class=\"page", langueConfig.getString(ConfigCles.var_ListeChamps), " \"");
 			s(" id=\"page", langueConfig.getString(ConfigCles.var_ListeChamps), classeNomSimple, "_{{ key }}\"");
 			s(" value=\"{{ var }}\"");
 			s("{% if ", langueConfig.getString(ConfigCles.var_listeChamps), " is defined %} checked=\"checked\"{% endif %}");
 			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_ListeChamps), "Change('", classeNomSimple, "', value); \"");
-			l("/></span>");
+			l(">{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}</sl-checkbox></span>");
 			tl(10, "</td>");
 			tl(10, "<td class=\"w3-cell \">");
 			tl(11, "<label for=\"page", langueConfig.getString(ConfigCles.var_ListeChamps), classeNomSimple, "_{{ key }}\">{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}</label>");
@@ -4037,13 +3994,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(7, "</table>");
 			tl(7, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_ListeChamps), classePageNomSimple, " %}");
 			tl(6, "</div>");
-			tl(5, "</div>");
+			tl(5, "</sl-drawer>");
 
 			///////////////////
 			// sidebar stats //
 			///////////////////
 
-			tl(5, "<div  class=\"siteSidebarToggle siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), " w3-dropdown-content min-width-300px w3-white w3-border w3-border-", classeCouleur, " \" style=\"display: none; \">");
+			tl(5, "<sl-drawer placement=\"end\" id=\"siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "\">");
 			tl(6, "<div class=\"w3-bar w3-", classeCouleur, " \">");
 			tl(7, "<span class=\"w3-bar-item \">");
 			t(8, "<i class=\"fad fa-chart-candlestick \"></i>");
@@ -4093,14 +4050,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(10, "<tr class=\"\">");
 			tl(11, "<td class=\"\">");
 			t(12, "<span>");
-			s("<input type=\"checkbox\"");
+			s("<sl-checkbox");
 			s(" name=\"page", langueConfig.getString(ConfigCles.var_Stats), "\"");
 			s(" class=\"page", langueConfig.getString(ConfigCles.var_Stats), " \"");
 			s(" id=\"page", langueConfig.getString(ConfigCles.var_Stats), classeNomSimple, "_{{ key }}\"");
 			s(" value=\"{{ var }}\"");
 			s("{% if value.", langueConfig.getString(ConfigCles.var_stats), " is defined %} checked=\"checked\"{% endif %}");
 			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Stats), "Change('", classeNomSimple, "', value); \"");
-			l("/></span>");
+			l(">{{ ", langueConfig.getString(ConfigCles.var_nomAffichage), " }}</sl-checkbox></span>");
 			tl(11, "</td>");
 			tl(11, "<td class=\"w3-cell \">");
 			tl(12, "<div>");
@@ -4128,13 +4085,13 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(14, "{% if value.stats.max is defined %}");
 			tl(15, "<div>");
 			tl(16, "<span> step </span>");
-			tl(16, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Step\" placeholder=\"step\" value=\"1\" style=\"width: 4em; \"/>");
+			tl(16, "<sl-input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Step\" placeholder=\"step\" value=\"1\" style=\"width: 4em; \"></sl-input>");
 			tl(16, "<span> min </span>");
-			tl(16, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Min\" placeholder=\"min\" value=\"{{ value.stats.min }}\" style=\"width: 4em; \"/>");
+			tl(16, "<sl-input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Min\" placeholder=\"min\" value=\"{{ value.stats.min }}\" style=\"width: 4em; \"></sl-input>");
 			tl(16, "<span> max </span>");
-			tl(16, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Max\" placeholder=\"max\" value=\"{{ value.stats.max }}\" style=\"width: 4em; \"/>");
+			tl(16, "<sl-input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Max\" placeholder=\"max\" value=\"{{ value.stats.max }}\" style=\"width: 4em; \"></sl-input>");
 			tl(16, "<span> speed in seconds </span>");
-			tl(16, "<input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Speed\" placeholder=\"speed\" value=\"1\" style=\"width: 4em; \"/>");
+			tl(16, "<sl-input id=\"animate", langueConfig.getString(ConfigCles.var_Stats), "Speed\" placeholder=\"speed\" value=\"1\" style=\"width: 4em; \"></sl-input>");
 			tl(16, "<button onclick=\"animate", langueConfig.getString(ConfigCles.var_Stats), "(); \">animate</button>");
 			tl(15, "</div>");
 			tl(14, "{% endif %}");
@@ -4148,7 +4105,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(7, "</table>");
 			tl(6, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Stats), classePageNomSimple, " %}");
 			tl(6, "</div>");
-			tl(5, "</div>");
+			tl(5, "</sl-drawer>");
 
 
 			tl(4, "</div>");
@@ -4243,38 +4200,38 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "{%- block htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, " %}");
 				tl(3, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " \" style=\"\" onsubmit=\"event.preventDefault(); return false; \">");
 				tl(4, "{% if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}");
-				t(5, "<input");
+				t(5, "<sl-input");
 				s(" name=\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_valeur), StringUtils.capitalize(classeModele ? classeVarClePrimaire : classeVarCleUnique), "\"");
 				s(" type=\"hidden\"");
 				s(" value=\"{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}\"");
-				l("/>");
+				l("></sl-input>");
 				tl(4, "{% endif %}");
-				t(4, "<input");
+				t(4, "<sl-input");
 				s(" name=\"focusId\"");
 				s(" type=\"hidden\"");
-				l("/>");
-				t(4, "<input");
+				l("></sl-input>");
+				t(4, "<sl-input");
 				s(" name=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\"");
 				s(" id=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\" ");
 				s(" value='{{ toJsonObjectStringInApostrophes(", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), ") }}'");
 				s(" type=\"hidden\"");
-				l("/>");
-				t(4, "<input");
+				l("></sl-input>");
+				t(4, "<sl-input");
 				s(" name=\"", StringUtils.uncapitalize(classeNomSimple), "\"");
 				s(" id=\"", StringUtils.uncapitalize(classeNomSimple), "\"");
 				s(" class=\"", StringUtils.uncapitalize(classeNomSimple), "\" ");
 				s(" value='{{ toJsonObjectStringInApostrophes(", StringUtils.uncapitalize(classeNomSimple), "_) }}'");
 				s(" type=\"hidden\"");
-				l("/>");
-				t(4, "<input");
+				l("></sl-input>");
+				t(4, "<sl-input");
 				s(" name=\"", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "\"");
 				s(" id=\"", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "\" ");
 				s(" value='{{ toJsonArrayStringInApostrophes(", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ") }}'");
 				s(" type=\"hidden\"");
-				l("/>");
+				l("></sl-input>");
 				tl(3, "</form>");
 				tl(3, "{% if ", classeVarCleUnique, " is defined %}");
 				tl(4, "{{ htm", langueConfig.getString(ConfigCles.var_Bouton), "_", StringUtils.lowerCase(langueConfig.getString(ConfigCles.var_PageRecherche)), classeApiClasseNomSimple, "() }}");
@@ -4294,7 +4251,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(6, "<button");
 				tl(8, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", classeCouleur, " \"");
 				tl(8, "id=\"", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "\"");
-				tl(8, "onclick=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' } ], {}, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }); return false; \">");
+				tl(8, "onclick=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals( [ {name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}' } ], {}, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeCe)), classeGenPageNomSimple, "')); }); return false; \">");
 				tl(7, "<i class=\"fas fa-sync-alt \"></i>");
 				tl(7, langueConfig.getString(ConfigCles.var_recharger), " ", classeCeNom);
 				tl(6, "</button>");
@@ -4304,7 +4261,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(5, "{% if ", uncapitalizeClasseApiClasseNomSimple, "Count > 0 %}");
 				tl(6, "<div class=\"\">");
 				tl(7, "<button id=\"", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}\" class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-", classeCouleur, " \"");
-				tl(9, "onclick=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals([], {}, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "($('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}')); }); \"");
+				tl(9, "onclick=\"patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Vals([], {}, function() { ", langueConfig.getString(ConfigCles.var_ajouterLueur), "(document.querySelector('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}')); }, function() { ", langueConfig.getString(ConfigCles.var_ajouterErreur), "(document.querySelector('#", langueConfig.getString(ConfigCles.var_recharger), StringUtils.trim(StringUtils.capitalize(classeTous)), classeGenPageNomSimple, "{{id}}')); }); \"");
 				tl(9, ">");
 				tl(8, "<i class=\"fas fa-sync-alt \"></i>");
 				tl(8, langueConfig.getString(ConfigCles.var_recharger), " ", classeTousNom);
@@ -4366,6 +4323,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(2, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Milieu), classePageSuperNomSimple, " %}");
 			l();
 			tl(2, "{%- block htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageSuperNomSimple, " %}");
+			tl(0, "{{ super() }}");
 			tl(2, "{%- block htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageNomSimple, " %}");
 			tl(2, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageNomSimple, " %}");
 			tl(2, "{%- endblock htmBody", langueConfig.getString(ConfigCles.var_Fin), classePageSuperNomSimple, " %}");
@@ -4384,7 +4342,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(2, "</div>");
 				tl(2, "<div class=\"w3-bar \">");
 
-				tl(3, "<input");
+				tl(3, "<sl-input");
 				tl(5, "type=\"text\"");
 
 				if(classeRechercherTousNom != null) {
@@ -4395,12 +4353,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(5, "name=\"", langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, "\"");
 				tl(5, "id=\"", langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, "{{id}}\"");
 				tl(5, "autocomplete=\"off\"");
-				tl(5, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, StringUtils.capitalize(classeVarSuggere), "( [ { 'name': 'q', 'value': '", classeVarSuggere, ":' + $(this).val() }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", langueConfig.getString(ConfigCles.var_classeNomCanonique), ",", classeVarClePrimaire, classeVarUrlPk == null ? "" : "," + classeVarUrlPk, classeVarTitre == null ? "" : "," + classeVarTitre, "' } ], $('#", langueConfig.getString(ConfigCles.var_suggere), "List", classeApiClasseNomSimple, "{{id}}'), {{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}; \"");
+				tl(5, "oninput=\"", langueConfig.getString(ConfigCles.var_suggere), classeApiClasseNomSimple, StringUtils.capitalize(classeVarSuggere), "( [ { 'name': 'q', 'value': '", classeVarSuggere, ":' + this.value }, { 'name': 'rows', 'value': '10' }, { 'name': 'fl', 'value': '", langueConfig.getString(ConfigCles.var_classeNomCanonique), ",", classeVarClePrimaire, classeVarUrlPk == null ? "" : "," + classeVarUrlPk, classeVarTitre == null ? "" : "," + classeVarTitre, "' } ], document.querySelector('#", langueConfig.getString(ConfigCles.var_suggere), "List", classeApiClasseNomSimple, "{{id}}'), {{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}; \"");
 				tl(5, "onkeyup=\"if (event.keyCode === 13) { event.preventDefault(); window.location.href = '", classePageUriMethode + "?q={{ query1 }}:' + encodeURIComponent(this.value) + '{{fqs}}{{sorts}}&amp;rows={{start2}}&amp;rows={{rows1}}\"");
 				tl(4, "{% if ", langueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, " is defined %}");
 				tl(5, "value=\"{{query2}}\"");
 				tl(4, "{% endif %}");
-				tl(4, "/>");
+				tl(4, "></sl-input>");
 				tl(4, "<button");
 				tl(5, "class=\"w3-btn w3-round w3-border w3-border-black w3-ripple w3-padding w3-bar-item w3-", classeCouleur, " \"");
 				tl(5, "onclick=\"window.location.href = '", classePageUriMethode + "?q=&quot;, query1, &quot;:' + encodeURIComponent(this.previousElementSibling.value) + '&quot;, fqs, sorts, &quot;&amp;rows=&quot;, start2, &quot;&amp;rows=&quot;, rows1, &quot;'; \"");
@@ -4446,23 +4404,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "var json = JSON.parse(message['body']);");
 				auteurPageJs.tl(3, "var id = json['id'];");
 				auteurPageJs.tl(3, "var pk = json['pk'];");
-				auteurPageJs.tl(3, "var pkPage = $('#", classeApiClasseNomSimple, "Form :input[name=", classeModele ? classeVarClePrimaire : classeVarCleUnique, "]').val();");
+				auteurPageJs.tl(3, "var pkPage = document.querySelector('#", classeApiClasseNomSimple, "Form :input[name=", classeModele ? classeVarClePrimaire : classeVarCleUnique, "]')?.value;");
 				auteurPageJs.tl(3, "var pks = json['pks'];");
 				auteurPageJs.tl(3, "var empty = json['empty'];");
 //					auteurPageJs.tl(3, "if(!empty) {");
 				auteurPageJs.tl(3, "var numFound = parseInt(json['numFound']);");
 				auteurPageJs.tl(3, "var numPATCH = parseInt(json['numPATCH']);");
 				auteurPageJs.tl(3, "var percent = Math.floor( numPATCH / numFound * 100 ) + '%';");
-				auteurPageJs.tl(3, "var $box = $('<div>').attr('class', 'w3-quarter box-' + id + ' ').attr('id', 'box-' + id).attr('data-numPATCH', numPATCH);");
-				auteurPageJs.tl(3, "var $margin = $('<div>').attr('class', 'w3-margin ').attr('id', 'margin-' + id);");
-				auteurPageJs.tl(3, "var $card = $('<div>').attr('class', 'w3-card w3-white ').attr('id', 'card-' + id);");
-				auteurPageJs.tl(3, "var $header = $('<div>').attr('class', 'w3-container fa-", classeCouleur, " ').attr('id', 'header-' + id);");
-				auteurPageJs.tl(3, "var $i = $('<i>').attr('class', 'fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " w3-margin-right ').attr('id', 'icon-' + id);");
-				auteurPageJs.tl(3, "var $headerSpan = $('<span>').attr('class', '').text('", langueConfig.getString(ConfigCles.var_modifier), " ", classeNomAdjectifPluriel, " ", langueConfig.getString(ConfigCles.var_dans), " ' + json.", langueConfig.getString(ConfigCles.var_tempsRestant), ");");
-				auteurPageJs.tl(3, "var $x = $('<span>').attr('class', 'w3-button w3-display-topright ').attr('onclick', '$(\"#card-' + id + '\").hide(); ').attr('id', 'x-' + id);");
-				auteurPageJs.tl(3, "var $body = $('<div>').attr('class', 'w3-container w3-padding ').attr('id', 'text-' + id);");
-				auteurPageJs.tl(3, "var $bar = $('<div>').attr('class', 'w3-light-gray ').attr('id', 'bar-' + id);");
-				auteurPageJs.tl(3, "var $progress = $('<div>').attr('class', 'w3-", classeCouleur, " ').attr('style', 'height: 24px; width: ' + percent + '; ').attr('id', 'progress-' + id).text(numPATCH + '/' + numFound);");
+				auteurPageJs.tl(3, "var $box = document.querySelector('<div>').setAttribute('class', 'w3-quarter box-' + id + ' ').setAttribute('id', 'box-' + id).setAttribute('data-numPATCH', numPATCH);");
+				auteurPageJs.tl(3, "var $margin = document.querySelector('<div>').setAttribute('class', 'w3-margin ').setAttribute('id', 'margin-' + id);");
+				auteurPageJs.tl(3, "var $card = document.querySelector('<div>').setAttribute('class', 'w3-card w3-white ').setAttribute('id', 'card-' + id);");
+				auteurPageJs.tl(3, "var $header = document.querySelector('<div>').setAttribute('class', 'w3-container fa-", classeCouleur, " ').setAttribute('id', 'header-' + id);");
+				auteurPageJs.tl(3, "var $i = document.querySelector('<i>').setAttribute('class', 'fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " w3-margin-right ').setAttribute('id', 'icon-' + id);");
+				auteurPageJs.tl(3, "var $headerSpan = document.querySelector('<span>').setAttribute('class', '').text('", langueConfig.getString(ConfigCles.var_modifier), " ", classeNomAdjectifPluriel, " ", langueConfig.getString(ConfigCles.var_dans), " ' + json.", langueConfig.getString(ConfigCles.var_tempsRestant), ");");
+				auteurPageJs.tl(3, "var $x = document.querySelector('<span>').setAttribute('class', 'w3-button w3-display-topright ').setAttribute('onclick', '$(\"#card-' + id + '\").classList.add(\"display-none\"); ').setAttribute('id', 'x-' + id);");
+				auteurPageJs.tl(3, "var $body = document.querySelector('<div>').setAttribute('class', 'w3-container w3-padding ').setAttribute('id', 'text-' + id);");
+				auteurPageJs.tl(3, "var $bar = document.querySelector('<div>').setAttribute('class', 'w3-light-gray ').setAttribute('id', 'bar-' + id);");
+				auteurPageJs.tl(3, "var $progress = document.querySelector('<div>').setAttribute('class', 'w3-", classeCouleur, " ').setAttribute('style', 'height: 24px; width: ' + percent + '; ').setAttribute('id', 'progress-' + id).text(numPATCH + '/' + numFound);");
 				auteurPageJs.tl(3, "$card.append($header);");
 				auteurPageJs.tl(3, "$header.append($i);");
 				auteurPageJs.tl(3, "$header.append($headerSpan);");
@@ -4473,14 +4431,14 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "$box.append($margin);");
 				auteurPageJs.tl(3, "$margin.append($card);");
 				auteurPageJs.tl(3, "if(numPATCH < numFound) {");
-				auteurPageJs.tl(4, "var $old_box = $('.box-' + id);");
+				auteurPageJs.tl(4, "var $old_box = document.querySelector('.box-' + id);");
 				auteurPageJs.tl(4, "if(!$old_box.size()) {");
-				auteurPageJs.tl(5, "$('.top-box').append($box);");
-				auteurPageJs.tl(4, "} else if($old_box && $old_box.attr('data-numPATCH') < numFound) {");
-				auteurPageJs.tl(5, "$('.box-' + id).html($margin);");
+				auteurPageJs.tl(5, "document.querySelector('.top-box').append($box);");
+				auteurPageJs.tl(4, "} else if($old_box && $old_box.getAttribute('data-numPATCH') < numFound) {");
+				auteurPageJs.tl(5, "document.querySelector('.box-' + id).html($margin);");
 				auteurPageJs.tl(4, "}");
 				auteurPageJs.tl(3, "} else {");
-				auteurPageJs.tl(4, "$('.box-' + id).remove();");
+				auteurPageJs.tl(4, "document.querySelector('.box-' + id).remove();");
 				auteurPageJs.tl(3, "}");
 				auteurPageJs.tl(3, "if(pk && pkPage && pk == pkPage) {");
 				auteurPageJs.tl(4, "if(success)");
@@ -4497,7 +4455,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(0, "}");
 				auteurPageJs.l();
 				auteurPageJs.tl(0, "function ", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Graphique), classeNomSimple, "(", langueConfig.getString(ConfigCles.var_requeteApi), ") {");
-				auteurPageJs.tl(1, "var r = $('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "').val();");
+				auteurPageJs.tl(1, "var r = document.querySelector('.", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " .", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "')?.value;");
 				auteurPageJs.tl(1, "if(r) {");
 				auteurPageJs.tl(2, "var json = JSON.parse(r);");
 
@@ -4523,7 +4481,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(4, "var pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), " = pivot1Name;");
 				auteurPageJs.tl(4, "if(pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".includes(','))");
 				auteurPageJs.tl(5, "pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), " = pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".substring(0, pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ".indexOf(','));");
-				auteurPageJs.tl(4, "var pivot1VarObj = Object.values(window.varsFq).find(o => o.varIndexed === pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ");");
+				auteurPageJs.tl(4, "var pivot1VarObj = Object.values(window.varsFq).querySelector(o => o.varIndexed === pivot1Var", langueConfig.getString(ConfigCles.var_Indexe), ");");
 				auteurPageJs.tl(4, "var pivot1VarFq = pivot1VarObj ? pivot1VarObj.var : 'classSimpleName';");
 				auteurPageJs.tl(4, "var pivot1Map = facetCounts.facetPivot.pivotMap[pivot1Name].pivotMap;");
 				auteurPageJs.tl(4, "var pivot1Vals = Object.keys(pivot1Map);");
@@ -4536,7 +4494,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(5, "}");
 				auteurPageJs.tl(5, "if(pivot1Vals.length > 0 && pivot1Map[pivot1Vals[0]].pivotMap && Object.keys(pivot1Map[pivot1Vals[0]].pivotMap).length > 0) {");
 				auteurPageJs.tl(6, "var pivot2Var", langueConfig.getString(ConfigCles.var_Indexe), " = pivot1Map[pivot1Vals[0]].pivotMap[Object.keys(pivot1Map[pivot1Vals[0]].pivotMap)[0]].field;");
-				auteurPageJs.tl(6, "var pivot2VarObj = Object.values(window.varsFq).find(o => o.varIndexed === pivot2Var", langueConfig.getString(ConfigCles.var_Indexe), ");");
+				auteurPageJs.tl(6, "var pivot2VarObj = Object.values(window.varsFq).querySelector(o => o.varIndexed === pivot2Var", langueConfig.getString(ConfigCles.var_Indexe), ");");
 				auteurPageJs.tl(6, "var pivot2VarFq = pivot2VarObj ? pivot2VarObj.var : 'classSimpleName';");
 				auteurPageJs.tl(6, "layout['yaxis'] = {");
 				auteurPageJs.tl(7, "title: pivot2VarObj.displayName");
@@ -4620,7 +4578,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(2, "};");
 					auteurPageJs.tl(2, "if(window.map", classeNomSimple, ") {");
 					auteurPageJs.tl(3, "window.geoJSON", classeNomSimple, ".clearLayers();");
-					auteurPageJs.tl(3, "$.each( window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ", function(index, ", StringUtils.uncapitalize(classeNomSimple), ") {");
+					auteurPageJs.tl(3, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".forEach((", StringUtils.uncapitalize(classeNomSimple), ", index) => {");
 					auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
 					auteurPageJs.tl(5, "var shapes = [];");
 					auteurPageJs.tl(5, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
@@ -4670,7 +4628,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					auteurPageJs.tl(3, "layout['margin'] = { r: 0, t: 0, b: 0, l: 0 };");
 					auteurPageJs.tl(3, "window.geoJSON", classeNomSimple, " = L.geoJSON().addTo(window.map", classeNomSimple, ");");
 					//auteurPageJs.tl(3, "window.geoJSONLayerGroup", classeNomSimple, " = L.LayerGroup();");
-					auteurPageJs.tl(3, "$.each( window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ", function(index, ", StringUtils.uncapitalize(classeNomSimple), ") {");
+					auteurPageJs.tl(3, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".forEach((", StringUtils.uncapitalize(classeNomSimple), ", index) => {");
 					auteurPageJs.tl(4, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
 					auteurPageJs.tl(5, "var shapes = [];");
 					auteurPageJs.tl(5, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
@@ -4705,12 +4663,12 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(0, "}");
 				auteurPageJs.l();
 				auteurPageJs.tl(0, "function animate", langueConfig.getString(ConfigCles.var_Stats), "() {");
-				auteurPageJs.tl(1, "$('#pageSearchVal-fq", classeNomSimple, "_time').text('');");
+				auteurPageJs.tl(1, "document.querySelector('#pageSearchVal-fq", classeNomSimple, "_time').text('');");
 				auteurPageJs.tl(1, "searchPage('", classeNomSimple, "', function() {");
-				auteurPageJs.tl(2, "let speedRate = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Speed').val()) * 1000;");
-				auteurPageJs.tl(2, "let xStep = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Step').val());");
-				auteurPageJs.tl(2, "let xMin = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Min').val());");
-				auteurPageJs.tl(2, "let xMax = parseFloat($('#animate", langueConfig.getString(ConfigCles.var_Stats), "Max').val());");
+				auteurPageJs.tl(2, "let speedRate = parseFloat(document.querySelector('#animate", langueConfig.getString(ConfigCles.var_Stats), "Speed')?.value) * 1000;");
+				auteurPageJs.tl(2, "let xStep = parseFloat(document.querySelector('#animate", langueConfig.getString(ConfigCles.var_Stats), "Step')?.value);");
+				auteurPageJs.tl(2, "let xMin = parseFloat(document.querySelector('#animate", langueConfig.getString(ConfigCles.var_Stats), "Min')?.value);");
+				auteurPageJs.tl(2, "let xMax = parseFloat(document.querySelector('#animate", langueConfig.getString(ConfigCles.var_Stats), "Max')?.value);");
 				auteurPageJs.tl(2, "let x = xMin;");
 				auteurPageJs.l();
 				auteurPageJs.tl(2, "let animateInterval = window.setInterval(() => {");
@@ -4718,8 +4676,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				auteurPageJs.tl(3, "if (x > xMax || x < 0) {");
 				auteurPageJs.tl(4, "clearInterval(animateInterval);");
 				auteurPageJs.tl(3, "}");
-				auteurPageJs.tl(3, "$('#fq", classeNomSimple, "_time').val(x);");
-				auteurPageJs.tl(3, "$('#fq", classeNomSimple, "_time').change();");
+				auteurPageJs.tl(3, "document.querySelector('#fq", classeNomSimple, "_time').value = x;");
+				auteurPageJs.tl(3, "document.querySelector('#fq", classeNomSimple, "_time').onchange();");
 				auteurPageJs.tl(3, "searchPage('", classeNomSimple, "');");
 				auteurPageJs.tl(2, "}, speedRate);");
 				auteurPageJs.tl(1, "});");

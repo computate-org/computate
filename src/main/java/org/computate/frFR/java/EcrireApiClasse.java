@@ -3201,10 +3201,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 								tl(3, "page.set", classeLangueConfig.getString(ConfigCles.var_ListeRecherche), classeApiClasseNomSimple, "_(", classeLangueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ");");
 							tl(3, "page.set", classeLangueConfig.getString(ConfigCles.var_RequeteSite), "_(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ");");
 							tl(3, "page.", classeLangueConfig.getString(ConfigCles.var_promesseLoin), classePageNomSimpleMethode, "(", classeLangueConfig.getString(ConfigCles.var_requeteSite), ").onSuccess(a -> {");
-							tl(4, "JsonObject ctx = ComputateConfigKeys.getPageContext(config);");
-							tl(4, "ctx.mergeIn(JsonObject.mapFrom(page));");
-							tl(4, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
-							tl(4, "Buffer buffer = Buffer.buffer(renderedTemplate);");
+							tl(4, "try {");
+							tl(5, "JsonObject ctx = ComputateConfigKeys.getPageContext(config);");
+							tl(5, "ctx.mergeIn(JsonObject.mapFrom(page));");
+							tl(5, "String renderedTemplate = jinjava.render(template, ctx.getMap());");
+							tl(5, "Buffer buffer = Buffer.buffer(renderedTemplate);");
 						}
 						else {
 							tl(3, "List<String> fls = ", classeLangueConfig.getString(ConfigCles.var_liste), classeApiClasseNomSimple, ".getRequest().getFields();");
@@ -3275,7 +3276,11 @@ public class EcrireApiClasse extends EcrireGenClasse {
 					}
 	
 					if((classeApiMethode.contains("GET") || classeApiMethode.contains(classeLangueConfig.getString(ConfigCles.var_Recherche))) && classePageNomCanoniqueMethode != null) {
-						tl(4, "promise.complete(new ServiceResponse(200, \"OK\", buffer, ", classeLangueConfig.getString(ConfigCles.var_requeteEnTetes), "));");
+						tl(5, "promise.complete(new ServiceResponse(200, \"OK\", buffer, ", classeLangueConfig.getString(ConfigCles.var_requeteEnTetes), "));");
+						tl(4, "} catch(Exception ex) {");
+						tl(5, "LOG.error(String.format(\"", classeLangueConfig.getString(ConfigCles.var_reponse), "200", classeApiMethode, classeNomSimple, " ", classeLangueConfig.getString(ConfigCles.str_a_échoué), ". \"), ex);");
+						tl(5, "promise.fail(ex);");
+						tl(4, "}");
 						tl(3, "}).onFailure(ex -> {");
 						tl(4, "promise.fail(ex);");
 						tl(3, "});");
