@@ -220,61 +220,61 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				if(classeUtilisateurEcrire && classeSessionEcrire) {
 					wForm.l("{% if ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " in ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s or \"PATCH\" in ", langueConfig.getString(ConfigCles.var_portees), " or ", langueConfig.getString(ConfigCles.var_sessionId), " == ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), " %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 					wForm.l("{% else %}");
 					wForm.l("{% if ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " in ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s or \"GET\" in ", langueConfig.getString(ConfigCles.var_portees), " or ", langueConfig.getString(ConfigCles.var_sessionId), " == ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), " %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 					wForm.l("{% else %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
 					wForm.l("{% endif %}");
 					wForm.l("{% endif %}");
 				}
 				else if(classePublicLire) {
 					wForm.l("{% if \"PATCH\" in ", langueConfig.getString(ConfigCles.var_portees), " %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 					wForm.l("{% else %}");
 					wForm.l("{% if \"GET\" in ", langueConfig.getString(ConfigCles.var_portees), " %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 					wForm.l("{% else %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
 					wForm.l("{% endif %}");
 					wForm.l("{% endif %}");
 				}
 				else if(classeUtilisateurEcrire) {
 					if(classeRolesTrouves || classeRoleLiresTrouves) {
 						wForm.l("{% if \"PATCH\" in ", langueConfig.getString(ConfigCles.var_portees), " %}");
-						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
+						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 						wForm.l("{% else %}");
 						wForm.l("{% if \"GET\" in ", langueConfig.getString(ConfigCles.var_portees), " %}");
-						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
+						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 						wForm.l("{% else %}");
-						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
+						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
 						wForm.l("{% endif %}");
 						wForm.l("{% endif %}");
 					}
 					else {
 						wForm.l("{% if ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " in ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s %}");
-						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
+						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 						wForm.l("{% else %}");
-						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
+						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
 						wForm.l("{% endif %}");
 					}
 				}
 				else if(classeSessionEcrire) {
 					wForm.l("{% if ", langueConfig.getString(ConfigCles.var_sessionId), " == ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_sessionId), ") }}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 					wForm.l("{% else %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
 					wForm.l("{% endif %}");
 				}
 				else if(classeRolesTrouves || classeRoleLiresTrouves) {
 					wForm.l("{% if \"PATCH\" in ", langueConfig.getString(ConfigCles.var_portees), " %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 					wForm.l("{% else %}");
 					wForm.l("{% if \"GET\" ", langueConfig.getString(ConfigCles.var_portees), " %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 					wForm.l("{% else %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "='", classeApiMethodeMethode, "', ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
 					wForm.l("{% endif %}");
 					wForm.l("{% endif %}");
 				}
@@ -293,7 +293,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		///////////
 
 		l();
-		tl(0, "{%- macro input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") %}");
+		tl(0, "{%- macro input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") %}");
 		if(entiteModifier && (entiteDefinir || entiteAttribuer)) {
 
 			tl(2, "{% if ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool == true %}");
@@ -318,7 +318,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(16, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
-					t(16, "title=\"").sx(entiteDescription).s("\"");
+					t(16, "title=\"").sx(entiteDescription).l("\"");
 				}
 
 				tl(15, "class=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, " ", langueConfig.getString(ConfigCles.var_valeur), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", langueConfig.getString(ConfigCles.var_suggere), entiteVarCapitalise, " w3-input w3-border w3-cell w3-cell-middle \"");
@@ -359,7 +359,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				if(entiteDescription != null)
 					t(16, "title=\"").sx(entiteDescription).l(" (", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), ")\"");
 //				tl(4, ".a(\"value\", ", entiteVar, " == null ? \"\" : DateTimeFormatter.ofPattern(\"", langueConfig.getString(ConfigCles.var_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz_VV), "\").format(", entiteVar, "));");
-				tl(16, "value=\"{% if ", uncapitalizeClasseNomSimple, "_.", entiteVar, " is defined %}{{ formatZonedDateTimeTz(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", \"", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), "\", defaultLocaleId, defaultZoneId) }}{% endif %}\"");
+				tl(16, "value=\"{% if ", uncapitalizeClasseNomSimple, "_.", entiteVar, " is defined %}{{ formatZonedDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", \"", langueConfig.getString(ConfigCles.str_ddDashMMDashyyyy_HHColonmm_VV), "\", defaultLocaleId, defaultZoneId) }}{% endif %}\"");
 				tl(14, "{% if 'Page' == ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), " %}");
 				tl(15, "onclick=\"", langueConfig.getString(ConfigCles.var_enleverLueur), "(this); \";");
 				t(15, "onchange=\"");
@@ -428,6 +428,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(1, "{% endif %}");
 				tl(1, "{% if 'Page' == ", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), " %}");
 				t(15, "onchange=\"");
+				//STUFF
 				if(
 						entiteVar.equals(langueConfig.getString(ConfigCles.var_supprime))
 						|| entiteVar.equals(langueConfig.getString(ConfigCles.var_archive))
@@ -461,8 +462,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 				tl(15, "<h5>", langueConfig.getString(ConfigCles.str_Télécharger_image), "</h5>");
 				tl(15, "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"", entiteImageBase64Url, "\" class=\"\">");
-				tl(16, "<sl-input type=\"hidden\" name=\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\" value=\"{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}\"></sl-input>");
-				tl(16, "<sl-input type=\"hidden\" name=\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\" value=\"", classeNomSimple, "\"></sl-input>");
+				tl(16, "<input type=\"hidden\" name=\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\" value=\"{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}\"/>");
+				tl(16, "<input type=\"hidden\" name=\"", langueConfig.getString(ConfigCles.var_classeNomSimple), "\" value=\"", classeNomSimple, "\"/>");
 				tl(16, "<sl-input name=\"", langueConfig.getString(ConfigCles.var_fichier), "\" type=\"file\" onchange=\"fetch('", entiteImageBase64Url, "', { method: 'POST', body: new FormData(this.form)}); \"></sl-input>");
 				tl(15, "</form>");
 
@@ -513,6 +514,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(14, "<sl-textarea");
 				else {
 					tl(14, "<sl-input");
+					tl(15, "clearable");
 					tl(15, "type=\"text\"");
 				}
 
@@ -520,7 +522,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(15, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
-					t(15, "title=\"").sx(entiteDescription).s("\"");
+					t(15, "help-text=\"").sx(entiteDescription).l("\"");
 				}
 				tl(15, "id=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, "\"");
 
@@ -625,7 +627,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(16, "placeholder=\"", entiteDefaut == null ? entiteNomAffichage : entiteDefaut, "\"");
 				}
 				if(entiteDescription != null) {
-					t(16, "title=\"").sx(entiteDescription).s("\"");
+					t(16, "title=\"").sx(entiteDescription).l("\"");
 				}
 
 				tl(15, "class=\"{{", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "}}_", entiteVar, " ", langueConfig.getString(ConfigCles.var_valeur), StringUtils.capitalize(entiteAttribuerVarSuggere), " ", langueConfig.getString(ConfigCles.var_suggere), entiteVarCapitalise, " w3-input w3-border w3-cell w3-cell-middle \"");
@@ -638,9 +640,9 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(15, "></sl-input>");
 				l();
 			} else if("LocalDateTime".equals(entiteNomSimple)) {
-				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \" title=\"{{ formatLocalDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV', defaultLocaleId, defaultZoneId) }}\">{{ formatZonedDateTimeTz(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEE MMM d yyyy', defaultLocaleId, defaultZoneId) }}", (entiteVarUrl == null ? "</span>" : "</a>"));
+				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \" title=\"{{ formatLocalDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV', defaultLocaleId, defaultZoneId) }}\">{{ formatZonedDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEE MMM d yyyy', defaultLocaleId, defaultZoneId) }}", (entiteVarUrl == null ? "</span>" : "</a>"));
 			} else if("ZonedDateTime".equals(entiteNomSimple)) {
-				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \" title=\"{{ formatZonedDateTimeTz(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV', defaultLocaleId, defaultZoneId) }}\">{{ formatZonedDateTimeTz(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEE MMM d yyyy h:mm a zz', defaultLocaleId, defaultZoneId) }}", (entiteVarUrl == null ? "</span>" : "</a>"));
+				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \" title=\"{{ formatZonedDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEEE MMMM d yyyy H:mm:ss.SSS zz VV', defaultLocaleId, defaultZoneId) }}\">{{ formatZonedDateTime(", uncapitalizeClasseNomSimple, "_.", entiteVar, ", 'EEE MMM d yyyy h:mm a zz', defaultLocaleId, defaultZoneId) }}", (entiteVarUrl == null ? "</span>" : "</a>"));
 			} else {
 				tl(14, (entiteVarUrl == null ? "<span id=\"{{" + langueConfig.getString(ConfigCles.var_classeApiMethodeMethode) + "}}_" + entiteVar + "\"" : "<a href=\"{{ " + uncapitalizeClasseNomSimple + "_." + entiteVarUrl + " }}\""), " class=\"var", classeNomSimple, "{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}", entiteVarCapitalise, " var", classeNomSimple, entiteVarCapitalise, " \">{{", uncapitalizeClasseNomSimple, "_.", entiteVar, "}}", (entiteVarUrl == null ? "</span>" : "</a>"));
 			}
@@ -653,7 +655,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 		/////////
 
 		l();
-		l("{% macro htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) %}");
+		l("{% macro htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) %}");
 		if(!entiteHtmLigneVerticaleActuel) {
 			tl(8, "<div class=\"w3-cell w3-cell-top w3-center w3-mobile \">");
 		}
@@ -743,7 +745,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(12, "<div class=\"w3-cell-row  \">");
 					tl(13, "<div class=\"w3-cell \">");
 				}
-				tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
+				tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
 				if(entiteHtmLigneVerticaleActuel) {
 					tl(12, "</td>");
 					t(12, "<td>").sx(entiteDescription).l("</td>");
@@ -771,7 +773,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(12, "<div class=\"w3-cell-row w3-padding \">");
 					tl(13, "<div class=\"w3-cell \">");
 				}
-				tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
+				tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
 				if(entiteHtmLigneVerticaleActuel) {
 					tl(12, "</td>");
 					t(12, "<td>").sx(entiteDescription).l("</td>");
@@ -799,7 +801,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(12, "<div class=\"w3-cell-row w3-padding \">");
 					tl(13, "<div class=\"w3-cell \">");
 				}
-				tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
+				tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
 				if(entiteHtmLigneVerticaleActuel) {
 					tl(12, "</td>");
 					t(12, "<td>").sx(entiteDescription).l("</td>");
@@ -827,7 +829,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(12, "<div class=\"w3-cell-row w3-padding \">");
 					tl(13, "<div class=\"w3-cell \">");
 				}
-				tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
+				tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
 				if(entiteHtmLigneVerticaleActuel) {
 					tl(12, "</td>");
 					t(12, "<td>").sx(entiteDescription).l("</td>");
@@ -854,7 +856,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(13, "<div class=\"w3-cell \">");
 				}
 				if(entiteHtmLigneEnTeteExpression == null) {
-					tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
+					tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
 				} else {
 					tl(14, "{% for item in ", uncapitalizeClasseNomSimple, "_.", entiteVar, " %}<td>{{ item }}</td>{% endfor %}");
 				}
@@ -883,7 +885,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					tl(11, "<div class=\"w3-cell-row w3-padding \">");
 					tl(13, "<div class=\"w3-cell \">");
 				}
-				tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
+				tl(14, "{{ input", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), "=", langueConfig.getString(ConfigCles.var_classeApiMethodeMethode), ", ", langueConfig.getString(ConfigCles.var_rolePourEcrire), "=", langueConfig.getString(ConfigCles.var_rolePourEcrire), ", ", langueConfig.getString(ConfigCles.var_rolePourLire), "=", langueConfig.getString(ConfigCles.var_rolePourLire), ") }}");
 				if(entiteHtmLigneVerticaleActuel) {
 					tl(12, "</td>");
 					t(12, "<td>").sx(entiteDescription).l("</td>");
@@ -1172,10 +1174,16 @@ public class EcrirePageClasse extends EcrireApiClasse {
 //									wWebsocket.tl(2, "tl(2, \"", "patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + \" + ", langueConfig.getString(ConfigCles.var_requeteSite), "_.get", langueConfig.getString(ConfigCles.var_Requete), StringUtils.capitalize(classeVarClePrimaire), "() + \" } ], {});\");");
 								wPks.tl(2, "if(c == '", entiteAttribuerNomSimple, "')");
 								wPks.tl(2, "patch", entiteAttribuerNomSimple, "Vals( [ {name: 'fq', value: '", entiteAttribuerVar, ":' + pk2 } ], {});");
-							}
-							if(entiteSignature) {
+							} else if(entiteSignature) {
 								wJsInit.tl(2, "document.querySelector('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature({'height':200}).bind('change', function(e){ patch{{", langueConfig.getString(ConfigCles.var_classeNomSimple), "}}Val([{ name: 'fq', value: '", classeModele ? classeVarClePrimaire : classeVarCleUnique, ":' + ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " }], 'set", entiteVarCapitalise, "', document.querySelector('#signatureInput", classeNomSimple, "' + pk + '", entiteVar, "').jSignature('getData', 'default'));");
+							} else {
+								//STUFF
+								wJsInit.tl(2, "document.querySelector('#", langueConfig.getString(ConfigCles.var_Page), "_", entiteVar, "').addEventListener('sl-change', () => {;");
+								wJsInit.tl(3, "document.querySelector('#", langueConfig.getString(ConfigCles.var_Page), langueConfig.getString(ConfigCles.var_Formulaire), "_", entiteVar, "').submit();");
+								wJsInit.tl(3, "");
+								wJsInit.tl(2, "});");
 							}
+
 							if(entiteDefinir || entiteAttribuer || entiteIndexeOuStocke) {
 								wWebsocketInput3.l();
 								if(entiteHtmLigneTitre != null) {
@@ -2144,23 +2152,23 @@ public class EcrirePageClasse extends EcrireApiClasse {
 	
 //								wTd.tl(4, "{% if get", langueConfig.getString(ConfigCles.var_Colonne), entiteVarCapitalise, " is defined %}");
 								wTd.tl(12, "<td>");
-								wTd.tl(13, "<a href=\"item.{{", classeVarUrlPk, "}}\">");
+								wTd.tl(13, "<a href=\"{{ item.", classeVarUrlPk, " }}\">");
 								if(classeIconeGroupe != null && classeIconeNom != null && BooleanUtils.isTrue(entiteVarTitre))
 									wTd.tl(14, "<i class=\"fa", StringUtils.substring(classeIconeGroupe, 0, 1), " fa-", classeIconeNom, " \"></i>");
 								wTd.t(14, "<span class=\"white-space-pre-wrap \">");
 
 								if(StringUtils.equals(entiteNomCanonique, ZonedDateTime.class.getCanonicalName())) {
-									wTd.s("{{ siteZonedDateTimeFormat(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
+									wTd.s("<sl-format-date weekday=\"short\" month=\"short\" day=\"numeric\" year=\"numeric\" hour=\"numeric\" minute=\"numeric\" second=\"numeric\" time-zone-name=\"short\" date=\"{{ formatZonedDateTime(item.", entiteVar, ", \"yyyy-MM-dd'T'HH:mm:ss.SSSX\", defaultLocaleId, \"UTC\") }}\"></sl-format-date>");
 								} else if(StringUtils.equals(entiteNomCanonique, LocalDate.class.getCanonicalName())) {
-									wTd.s("{{ siteLocalDateFormat(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
+									wTd.s("{{ formatLocalDate(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
 								} else if(StringUtils.equals(entiteNomCanonique, LocalDateTime.class.getCanonicalName())) {
-									wTd.s("{{ siteLocalDateTimeFormat(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
+									wTd.s("{{ formatLocalDateTime(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
 								} else if(StringUtils.equals(entiteNomCanonique, LocalTime.class.getCanonicalName())) {
-									wTd.s("{{ siteLocalTimeFormat(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
+									wTd.s("{{ formatLocalTime(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
 								} else if(StringUtils.equals(entiteNomCanonique, BigDecimal.class.getCanonicalName())) {
-									wTd.s("{{ siteNumberFormat(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
+									wTd.s("{{ formatNumber(item.", entiteVar, ", \"", entiteFormatHtm, "\", defaultLocaleId) }}");
 								} else {
-									wTd.s("item.{{", entiteVar, "}}");
+									wTd.s("{{ item.", entiteVar, " }}");
 								}
 								wTd.l("</span>");
 								wTd.tl(13, "</a>");
@@ -3103,80 +3111,83 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				l("</h3>");
 				l("{%- endblock ", langueConfig.getString(ConfigCles.var_htmInfobulle), classePageNomSimple, " %}`;");
 				tl(3, "}");
-				l();
-				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsLegende), classeNomSimple, "(map) {");
-				tl(0, "{%- block ", langueConfig.getString(ConfigCles.var_jsLegende), classePageNomSimple, " %}");
-				tl(4, "var div = L.DomUtil.create('div', 'info legend');");
-				tl(4, "var htm = '';");
-				tl(4, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".forEach((", StringUtils.uncapitalize(classeNomSimple), ", index) => {");
-				tl(5, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
-				tl(6, "var shapes = [];");
-				tl(6, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
-				tl(7, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
-				tl(6, "else");
-				tl(7, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
-				tl(6, "shapes.forEach(function(shape, index) {");
-				tl(7, "htm += ", langueConfig.getString(ConfigCles.var_htmLegende), classeNomSimple, "(map, shape, ", StringUtils.uncapitalize(classeNomSimple), ", index, shapes.length);");
-				tl(6, "});");
-				tl(5, "}");
-				tl(4, "});");
-				tl(4, "div.innerHTML = htm;");
-				tl(4, "return div;");
-				tl(0, "{%- endblock ", langueConfig.getString(ConfigCles.var_jsLegende), classePageNomSimple, " %}");
-				tl(3, "}");
-				l();
-				tl(3, "function ", langueConfig.getString(ConfigCles.var_htmLegende), classeNomSimple, "(map, shape, ", StringUtils.uncapitalize(classeNomSimple), ", index, count) {");
-				tl(4, "var color = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacementCouleur, "[index];");
-				tl(4, "var title = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacementTitre, "[index];");
-				tl(4, "var url = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacementUrl, "[index];");
-				tl(4, "var htm = '';");
-				tl(4, "htm += `<div class=\"w3-white w3-padding w3-border w3-opacity w3-hover-opacity-off cursor-pointer \" style=\"max-width: 400px; \">");
-				tl(0, "`;");
-				t(4, "htm += `");
-				l("{%- block ", langueConfig.getString(ConfigCles.var_htmLegende), classePageNomSimple, " %}");
-				tl(2, "<div class=\"w3-row \" title=\"${quoteattr(title)}\">");
-				tl(2, "<div class=\"w3-col \" style=\"width: 20px; \">");
-				tl(3, "<i class=\"fa-light fa-circle\" style=\"color: ${color}; \"></i>");
-				tl(2, "</div>");
-				tl(2, "<div class=\"w3-rest text-overflow-ellipsis \">");
-				tl(3, "<span class=\"\" data-", classeVarCleUnique, "=\"${", uncapitalizeClasseApiClasseNomSimple, ".", classeVarCleUnique, "}\" onclick=\"window.mapLayers[this.getAttribute('data-", classeVarCleUnique, "')].openPopup(); return false;\" href=\"\">${title}</span>");
-				tl(2, "</div>");
-				tl(2, "</div>");
-				l("{%- endblock ", langueConfig.getString(ConfigCles.var_htmLegende), classePageNomSimple, " %}`;");
-				tl(4, "htm += `");
-				tl(0, "</div>");
-				tl(0, "`;");
-				tl(4, "return htm;");
-				tl(3, "}");
-				l();
-				tl(3, "function ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "(feature) {");
-				tl(0, "{%- block ", langueConfig.getString(ConfigCles.var_jsStyle), classePageNomSimple, " %}");
-				tl(4, "if(feature.geometry.type == 'Point') {");
-				tl(5, "return {");
-				tl(6, "radius: 8");
-				tl(6, ", fillColor: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
-				tl(6, ", color: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
-				tl(6, ", weight: 1");
-				tl(6, ", opacity: 0.7");
-				tl(6, ", fillOpacity: 0.7");
-				tl(5, "};");
-				tl(4, "} else if(feature.geometry.type == 'LineString') {");
-				tl(5, "return {");
-				tl(6, "color: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
-				tl(6, ", weight: 5");
-				tl(6, ", opacity: 0.7");
-				tl(5, "};");
-				tl(4, "} else {");
-				tl(5, "return {");
-				tl(6, " fillColor: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
-				tl(6, ", color: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
-				tl(6, ", weight: 3");
-				tl(6, ", opacity: 0.7");
-				tl(6, ", fillOpacity: 0.7");
-				tl(5, "};");
-				tl(4, "}");
-				tl(0, "{%- endblock ", langueConfig.getString(ConfigCles.var_jsStyle), classePageNomSimple, " %}");
-				tl(3, "}");
+
+				if(classeVarEmplacement != null) {
+					l();
+					tl(3, "function ", langueConfig.getString(ConfigCles.var_jsLegende), classeNomSimple, "(map) {");
+					tl(0, "{%- block ", langueConfig.getString(ConfigCles.var_jsLegende), classePageNomSimple, " %}");
+					tl(4, "var div = L.DomUtil.create('div', 'info legend');");
+					tl(4, "var htm = '';");
+					tl(4, "window.", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ".forEach((", StringUtils.uncapitalize(classeNomSimple), ", index) => {");
+					tl(5, "if(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ") {");
+					tl(6, "var shapes = [];");
+					tl(6, "if(Array.isArray(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, "))");
+					tl(7, "shapes = shapes.concat(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
+					tl(6, "else");
+					tl(7, "shapes.push(", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacement, ");");
+					tl(6, "shapes.forEach(function(shape, index) {");
+					tl(7, "htm += ", langueConfig.getString(ConfigCles.var_htmLegende), classeNomSimple, "(map, shape, ", StringUtils.uncapitalize(classeNomSimple), ", index, shapes.length);");
+					tl(6, "});");
+					tl(5, "}");
+					tl(4, "});");
+					tl(4, "div.innerHTML = htm;");
+					tl(4, "return div;");
+					tl(0, "{%- endblock ", langueConfig.getString(ConfigCles.var_jsLegende), classePageNomSimple, " %}");
+					tl(3, "}");
+					l();
+					tl(3, "function ", langueConfig.getString(ConfigCles.var_htmLegende), classeNomSimple, "(map, shape, ", StringUtils.uncapitalize(classeNomSimple), ", index, count) {");
+					tl(4, "var color = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacementCouleur, "[index];");
+					tl(4, "var title = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacementTitre, "[index];");
+					tl(4, "var url = ", StringUtils.uncapitalize(classeNomSimple), ".", classeVarEmplacementUrl, "[index];");
+					tl(4, "var htm = '';");
+					tl(4, "htm += `<div class=\"w3-white w3-padding w3-border w3-opacity w3-hover-opacity-off cursor-pointer \" style=\"max-width: 400px; \">");
+					tl(0, "`;");
+					t(4, "htm += `");
+					l("{%- block ", langueConfig.getString(ConfigCles.var_htmLegende), classePageNomSimple, " %}");
+					tl(2, "<div class=\"w3-row \" title=\"${quoteattr(title)}\">");
+					tl(2, "<div class=\"w3-col \" style=\"width: 20px; \">");
+					tl(3, "<i class=\"fa-light fa-circle\" style=\"color: ${color}; \"></i>");
+					tl(2, "</div>");
+					tl(2, "<div class=\"w3-rest text-overflow-ellipsis \">");
+					tl(3, "<span class=\"\" data-", classeVarCleUnique, "=\"${", uncapitalizeClasseApiClasseNomSimple, ".", classeVarCleUnique, "}\" onclick=\"window.mapLayers[this.getAttribute('data-", classeVarCleUnique, "')].openPopup(); return false;\" href=\"\">${title}</span>");
+					tl(2, "</div>");
+					tl(2, "</div>");
+					l("{%- endblock ", langueConfig.getString(ConfigCles.var_htmLegende), classePageNomSimple, " %}`;");
+					tl(4, "htm += `");
+					tl(0, "</div>");
+					tl(0, "`;");
+					tl(4, "return htm;");
+					tl(3, "}");
+					l();
+					tl(3, "function ", langueConfig.getString(ConfigCles.var_jsStyle), classeNomSimple, "(feature) {");
+					tl(0, "{%- block ", langueConfig.getString(ConfigCles.var_jsStyle), classePageNomSimple, " %}");
+					tl(4, "if(feature.geometry.type == 'Point') {");
+					tl(5, "return {");
+					tl(6, "radius: 8");
+					tl(6, ", fillColor: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+					tl(6, ", color: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+					tl(6, ", weight: 1");
+					tl(6, ", opacity: 0.7");
+					tl(6, ", fillOpacity: 0.7");
+					tl(5, "};");
+					tl(4, "} else if(feature.geometry.type == 'LineString') {");
+					tl(5, "return {");
+					tl(6, "color: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+					tl(6, ", weight: 5");
+					tl(6, ", opacity: 0.7");
+					tl(5, "};");
+					tl(4, "} else {");
+					tl(5, "return {");
+					tl(6, " fillColor: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+					tl(6, ", color: (feature.properties.areaServedColors && feature.properties.areaServedColors[feature.index] ? feature.properties.areaServedColors[feature.index] : (feature.properties.color ? feature.properties.color : '#000'))");
+					tl(6, ", weight: 3");
+					tl(6, ", opacity: 0.7");
+					tl(6, ", fillOpacity: 0.7");
+					tl(5, "};");
+					tl(4, "}");
+					tl(0, "{%- endblock ", langueConfig.getString(ConfigCles.var_jsStyle), classePageNomSimple, " %}");
+					tl(3, "}");
+				}
 				tl(2, "</script>");
 				tl(0, "{%- endblock htmScript", classePageNomSimple, " %}");
 				tl(0, "{%- endblock htmScript", classePageSuperNomSimple, " %}");
@@ -3838,7 +3849,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("<sl-input type=\"datetime-local\"");
 			s(" name=\"facetRangeStart\"");
 			s(" id=\"pageFacetRangeStart-", classeNomSimple, "\"");
-			s(" value=\"{{ formatZonedDateTimeTz(defaultRangeStart, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
+			s(" value=\"{{ formatZonedDateTime(defaultRangeStart, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
 			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "StartChange('", classeNomSimple, "', this); \"");
 			l("></sl-input></span>");
 			tl(9, "</td>");
@@ -3855,7 +3866,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			s("<sl-input type=\"datetime-local\"");
 			s(" name=\"facetRangeEnd\"");
 			s(" id=\"pageFacetRangeEnd-", classeNomSimple, "\"");
-			s(" value=\"{{ formatZonedDateTimeTz(defaultRangeEnd, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
+			s(" value=\"{{ formatZonedDateTime(defaultRangeEnd, \"yyyy-MM-dd'T'HH:mm\", defaultLocaleId, defaultZoneId) }}\"");
 			s(" onclick=\"facet", langueConfig.getString(ConfigCles.var_Gamme), "EndChange('", classeNomSimple, "', this); \"");
 			l("></sl-input></span>");
 			tl(9, "</td>");
@@ -4235,38 +4246,38 @@ public class EcrirePageClasse extends EcrireApiClasse {
 				tl(3, "{%- block htm", langueConfig.getString(ConfigCles.var_Formulaire), classePageNomSimple, " %}");
 				tl(3, "<form action=\"", classeApiUri, "\" id=\"", classeApiClasseNomSimple, "Form\" class=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Formulaire), " \" style=\"\" onsubmit=\"event.preventDefault(); return false; \">");
 				tl(4, "{% if ", classeModele ? classeVarClePrimaire : classeVarCleUnique, " is defined %}");
-				t(5, "<sl-input");
+				t(5, "<input");
 				s(" name=\"", classeModele ? classeVarClePrimaire : classeVarCleUnique, "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_valeur), StringUtils.capitalize(classeModele ? classeVarClePrimaire : classeVarCleUnique), "\"");
 				s(" type=\"hidden\"");
 				s(" value=\"{{", classeModele ? classeVarClePrimaire : classeVarCleUnique, "}}\"");
-				l("></sl-input>");
+				l("/>");
 				tl(4, "{% endif %}");
-				t(4, "<sl-input");
+				t(4, "<input");
 				s(" name=\"focusId\"");
 				s(" type=\"hidden\"");
-				l("></sl-input>");
-				t(4, "<sl-input");
+				l("/>");
+				t(4, "<input");
 				s(" name=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\"");
 				s(" id=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), "\" ");
 				s(" value='{{ toJsonObjectStringInApostrophes(", langueConfig.getString(ConfigCles.var_page), langueConfig.getString(ConfigCles.var_Reponse), ") }}'");
 				s(" type=\"hidden\"");
-				l("></sl-input>");
-				t(4, "<sl-input");
+				l("/>");
+				t(4, "<input");
 				s(" name=\"", StringUtils.uncapitalize(classeNomSimple), "\"");
 				s(" id=\"", StringUtils.uncapitalize(classeNomSimple), "\"");
 				s(" class=\"", StringUtils.uncapitalize(classeNomSimple), "\" ");
 				s(" value='{{ toJsonObjectStringInApostrophes(", StringUtils.uncapitalize(classeNomSimple), "_) }}'");
 				s(" type=\"hidden\"");
-				l("></sl-input>");
-				t(4, "<sl-input");
+				l("/>");
+				t(4, "<input");
 				s(" name=\"", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "\"");
 				s(" id=\"", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "\"");
 				s(" class=\"", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, "\" ");
 				s(" value='{{ toJsonArrayStringInApostrophes(", langueConfig.getString(ConfigCles.var_liste), classeNomSimple, ") }}'");
 				s(" type=\"hidden\"");
-				l("></sl-input>");
+				l("/>");
 				tl(3, "</form>");
 				tl(3, "{% if ", classeVarCleUnique, " is defined %}");
 				tl(4, "{{ htm", langueConfig.getString(ConfigCles.var_Bouton), "_", StringUtils.lowerCase(langueConfig.getString(ConfigCles.var_PageRecherche)), classeApiClasseNomSimple, "() }}");
