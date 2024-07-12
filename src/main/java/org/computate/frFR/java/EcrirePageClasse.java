@@ -236,7 +236,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 					wForm.l("{% if \"GET\" in ", langueConfig.getString(ConfigCles.var_portees), " %}");
 					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 					wForm.l("{% else %}");
-					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=\"false) }}");
+					wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
 					wForm.l("{% endif %}");
 					wForm.l("{% endif %}");
 				}
@@ -248,7 +248,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						wForm.l("{% if \"GET\" in ", langueConfig.getString(ConfigCles.var_portees), " %}");
 						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 						wForm.l("{% else %}");
-						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=\"false) }}");
+						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
 						wForm.l("{% endif %}");
 						wForm.l("{% endif %}");
 					}
@@ -256,7 +256,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 						wForm.l("{% if ", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), " in ", uncapitalizeClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_utilisateur), langueConfig.getString(ConfigCles.var_Cle), "s %}");
 						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=true, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=true) }}");
 						wForm.l("{% else %}");
-						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=\"false) }}");
+						wForm.l("{{ htm", entiteVarCapitalise, classePageNomSimple, "(", langueConfig.getString(ConfigCles.var_rolePourEcrire), "Bool=false, ", langueConfig.getString(ConfigCles.var_rolePourLire), "Bool=false) }}");
 						wForm.l("{% endif %}");
 					}
 				}
@@ -3364,6 +3364,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(8, "<span class=\"\">", classeNomAdjectifPluriel, "</span>");
 			tl(7, "</a>");
 			tl(6, "</h1>");
+			tl(6, "{{ htm", langueConfig.getString(ConfigCles.var_BoutonsRecherche), classePageNomSimple, "() }}");
 
 			tl(6, "<div id=\"site-calendar-box\">");
 //			tl(7, "<h3 id=\"site-calendar-title\">Calendar</h3>");
@@ -3372,30 +3373,47 @@ public class EcrirePageClasse extends EcrireApiClasse {
 
 			tl(6, "<div class=\"\">");
 			tl(7, "<div>");
-			tl(8, "{% if pagination.page", langueConfig.getString(ConfigCles.var_Precedent), " is defined %}");
-			tl(9, "<a href=\"{{pageUri}}?start={{pagination.page", langueConfig.getString(ConfigCles.var_Precedent), ".", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{pagination.", langueConfig.getString(ConfigCles.var_lignes), "}}\">");
-			tl(10, "<i class=\"fas fa-arrow-square-left \"></i>");
-			tl(9, "</a>");
-			tl(8, "{% else %}");
-			tl(9, "<i class=\"fas fa-arrow-square-left w3-opacity \"></i>");
-			tl(8, "{% endif %}");
-			tl(8, "{% if pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), " >= pagination['1L'] %}");
-			tl(9, "<a href=\"{{pageUri}}?start={{pagination.", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{ pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), " }}\">");
-			tl(10, "<i class=\"fas fa-minus-square \"></i>");
-			tl(9, "</a>");
-			tl(8, "{% else %}");
-			tl(9, "<i class=\"fas fa-minus-square w3-opacity \"></i>");
-			tl(8, "{% endif %}");
-			tl(8, "<a href=\"{{pageUri}}?start={{pagination.", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{ pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Prochaine), " }}\">");
-			tl(9, "<i class=\"fas fa-plus-square \"></i>");
-			tl(8, "</a>");
-			tl(8, "{% if pagination.page", langueConfig.getString(ConfigCles.var_Prochaine), " is defined %}");
-			tl(9, "<a href=\"{{pageUri}}?start={{pagination.page", langueConfig.getString(ConfigCles.var_Prochaine), ".", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{pagination.", langueConfig.getString(ConfigCles.var_lignes), "}}\">");
-			tl(10, "<i class=\"fas fa-arrow-square-right \"></i>");
-			tl(9, "</a>");
-			tl(8, "{% else %}");
-			tl(9, "<i class=\"fas fa-arrow-square-right w3-opacity \"></i>");
-			tl(8, "{% endif %}");
+			tl(9, "<sl-tooltip placement=\"top\" content=\"", String.format(langueConfig.getString(ConfigCles.str_Doubler_le_nombre_de_resultats_affiches), classeNomAdjectifPluriel), "\">");
+			t(10, "<sl-button size=\"small\"");
+			s("{% if pagination.page", langueConfig.getString(ConfigCles.var_Precedent), " is defined %}");
+			s(" href=\"{{pageUri}}?start={{pagination.page", langueConfig.getString(ConfigCles.var_Precedent), ".", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{pagination.", langueConfig.getString(ConfigCles.var_lignes), "}}\"");
+			s("{% else %}");
+			s(" disabled");
+			s("{% endif %}");
+			l(">");
+			tl(11, "<i slot=\"prefix\" class=\"fas fa-arrow-square-left \"></i>");
+			tl(10, "</sl-button>");
+			tl(9, "</sl-tooltip>");
+			tl(9, "<sl-tooltip placement=\"top\" content=\"", String.format(langueConfig.getString(ConfigCles.str_Doubler_le_nombre_de_resultats_affiches), classeNomAdjectifPluriel), "\">");
+			t(10, "<sl-button size=\"small\"");
+			s("{% if pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), " >= pagination['1L'] %}");
+			s(" href=\"{{pageUri}}?start={{pagination.", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{ pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Precedent), " }}\"");
+			s("{% else %}");
+			s(" disabled");
+			s("{% endif %}");
+			l(">");
+			tl(11, "<i slot=\"prefix\" class=\"fas fa-minus-square \"></i>");
+			tl(10, "</sl-button>");
+			tl(9, "</sl-tooltip>");
+
+			tl(9, "<sl-tooltip placement=\"top\" content=\"", String.format(langueConfig.getString(ConfigCles.str_Doubler_le_nombre_de_resultats_affiches), classeNomAdjectifPluriel), "\">");
+			t(10, "<sl-button size=\"small\"");
+			s(" href=\"{{pageUri}}?start={{pagination.", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{ pagination.", langueConfig.getString(ConfigCles.var_lignes), langueConfig.getString(ConfigCles.var_Prochaine), " }}\"");
+			l(">");
+			tl(11, "<i slot=\"prefix\" class=\"fas fa-plus-square \"></i>");
+			tl(10, "</sl-button>");
+			tl(9, "</sl-tooltip>");
+			tl(9, "<sl-tooltip placement=\"top\" content=\"", String.format(langueConfig.getString(ConfigCles.str_Doubler_le_nombre_de_resultats_affiches), classeNomAdjectifPluriel), "\">");
+			t(10, "<sl-button size=\"small\"");
+			s("{% if pagination.page", langueConfig.getString(ConfigCles.var_Prochaine), " is defined %}");
+			s(" href=\"{{pageUri}}?start={{pagination.page", langueConfig.getString(ConfigCles.var_Prochaine), ".", langueConfig.getString(ConfigCles.var_debut), "}}&amp;rows={{pagination.", langueConfig.getString(ConfigCles.var_lignes), "}}\"");
+			s("{% else %}");
+			s(" disabled");
+			s("{% endif %}");
+			l(">");
+			tl(11, "<i slot=\"prefix\" class=\"fas fa-arrow-square-right \"></i>");
+			tl(10, "</sl-button>");
+			tl(9, "</sl-tooltip>");
 			tl(8, "<span>{{ pagination.", langueConfig.getString(ConfigCles.var_debut), "Num }} - {{ pagination.", langueConfig.getString(ConfigCles.var_fin), "Num }} ", langueConfig.getString(ConfigCles.var_de), " {{ pagination.", langueConfig.getString(ConfigCles.var_numTrouve), " }}</span>");
 			tl(7, "</div>");
 			tl(7, "<div class=\"w3-responsive \">");
@@ -3431,6 +3449,84 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(6, "</div>");
 			tl(6, "{%- endmacro htmBody", langueConfig.getString(ConfigCles.var_Tous), classePageNomSimple, "() %}");
 
+			tl(0, "{%- macro htm", langueConfig.getString(ConfigCles.var_BoutonsRecherche), classePageNomSimple, "() %}");
+			t(3, "<div>");
+
+			//////////////
+			// bouton q //
+			//////////////
+			s("<sl-tooltip placement=\"top\" content=\"", langueConfig.getString(ConfigCles.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+			s("<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-magnifying-glass hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Rechercher));
+			s("</sl-button>");
+			s("</sl-tooltip>");
+
+			///////////////
+			// bouton fq //
+			///////////////
+			s("<sl-tooltip placement=\"top\" content=\"", langueConfig.getString(ConfigCles.str_Filtres_et_nombres_de_facettes_pour_), classeNomAdjectifPluriel, "\">");
+			s("<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-filters hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Filtres));
+			s("</sl-button>");
+			s("</sl-tooltip>");
+
+			//////////////////
+			// bouton gamme //
+			//////////////////
+			s("<sl-tooltip placement=\"top\" content=\"", langueConfig.getString(ConfigCles.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+			s("<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-calendar-range hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Gamme));
+			s("</sl-button>");
+			s("</sl-tooltip>");
+
+			//////////////////
+			// bouton pivot //
+			//////////////////
+			s("<sl-tooltip placement=\"top\" content=\"", langueConfig.getString(ConfigCles.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+			s("<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-table-pivot hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Pivot));
+			s("</sl-button>");
+			s("</sl-tooltip>");
+
+			/////////////////////////
+			// bouton liste champs //
+			/////////////////////////
+			s("<sl-tooltip placement=\"top\" content=\"", langueConfig.getString(ConfigCles.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+			s("<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-list-ul hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_ListeChamps));
+			s("</sl-button>");
+			s("</sl-tooltip>");
+
+			//////////////////
+			// bouton stats //
+			//////////////////
+			s("<sl-tooltip placement=\"top\" content=\"", langueConfig.getString(ConfigCles.str_Recherche_avancee_pour_), classeNomAdjectifPluriel, "\">");
+			s("<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').show(); \">");
+			s("<i slot=\"prefix\" class=\"fad fa-chart-candlestick hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Stats));
+			s("</sl-button>");
+			s("</sl-tooltip>");
+
+			////////////////
+			// bouton API //
+			////////////////
+			s("<sl-tooltip placement=\"top\" content=\"", langueConfig.getString(ConfigCles.str_Interroger_lAPI_REST_JSON_pour_), classeNomAdjectifPluriel, "\">");
+			s("<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Api), "').show(); \"");
+			s(" href=\"{{ apiUri }}{% if pk is defined %}/{{ pk }}{% else %}{% if id is defined %}/{{ id }}{% else %}{{ queryStr }}{% endif %}{% endif %}\"");
+			s(">");
+			s("<i slot=\"prefix\" class=\"fad fa-brackets-curly hover-box-shadow w3-xlarge \"></i> ");
+			s(langueConfig.getString(ConfigCles.var_Api));
+			s("</sl-button>");
+			s("</sl-tooltip>");
+
+			l("</div>");
+			tl(0, "{%- endmacro htm", langueConfig.getString(ConfigCles.var_BoutonsRecherche), classePageNomSimple, "() %}");
+
 //			l("{%- block htmBodyCount1", classePageNomSimple, " %}");
 //			l("{%- endblock %}");
 
@@ -3460,71 +3556,8 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			// sidebar //
 			/////////////
 
-			tl(3, "<div class=\"w3-dropdown-click w3-bar-block min-width-300px \">");
-			tl(4, "<sl-button-group label=\"", langueConfig.getString(ConfigCles.var_Recherche), "\">");
-
-			//////////////
-			// bouton q //
-			//////////////
-			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Recherche), "').show(); \">");
-			s("<i slot=\"prefix\" class=\"fad fa-magnifying-glass hover-box-shadow w3-xlarge \"></i> ");
-			s(langueConfig.getString(ConfigCles.var_Rechercher));
-			l("</sl-button>");
-
-			///////////////
-			// bouton fq //
-			///////////////
-			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Filtres), "').show(); \">");
-			s("<i slot=\"prefix\" class=\"fad fa-filters hover-box-shadow w3-xlarge \"></i> ");
-			s(langueConfig.getString(ConfigCles.var_Filtres));
-			l("</sl-button>");
-
-			//////////////////
-			// bouton gamme //
-			//////////////////
-			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Gamme), "').show(); \">");
-			s("<i slot=\"prefix\" class=\"fad fa-calendar-range hover-box-shadow w3-xlarge \"></i> ");
-			s(langueConfig.getString(ConfigCles.var_Gamme));
-			l("</sl-button>");
-
-			//////////////////
-			// bouton pivot //
-			//////////////////
-			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Pivot), "').show(); \">");
-			s("<i slot=\"prefix\" class=\"fad fa-table-pivot hover-box-shadow w3-xlarge \"></i> ");
-			s(langueConfig.getString(ConfigCles.var_Pivot));
-			l("</sl-button>");
-
-			/////////////////////////
-			// bouton liste champs //
-			/////////////////////////
-			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_ListeChamps), "').show(); \">");
-			s("<i slot=\"prefix\" class=\"fad fa-list-ul hover-box-shadow w3-xlarge \"></i> ");
-			s(langueConfig.getString(ConfigCles.var_ListeChamps));
-			l("</sl-button>");
-
-			//////////////////
-			// bouton stats //
-			//////////////////
-			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Stats), "').show(); \">");
-			s("<i slot=\"prefix\" class=\"fad fa-chart-candlestick hover-box-shadow w3-xlarge \"></i> ");
-			s(langueConfig.getString(ConfigCles.var_Stats));
-			l("</sl-button>");
-
-			////////////////
-			// bouton API //
-			////////////////
-			t(5, "<sl-button onclick=\"document.querySelector('#siteSidebarToggle", langueConfig.getString(ConfigCles.var_Api), "').show(); \"");
-			s(" href=\"{{ apiUri }}{% if pk is defined %}/{{ pk }}{% else %}{% if id is defined %}/{{ id }}{% else %}{{ queryStr }}{% endif %}{% endif %}\"");
-			s(">");
-			s("<i slot=\"prefix\" class=\"fad fa-brackets-curly hover-box-shadow w3-xlarge \"></i> ");
-			s(langueConfig.getString(ConfigCles.var_Api));
-			l("</sl-button>");
-
-
-			tl(4, "</sl-button-group>");
-			tl(4, "<div class=\" \">");
-
+			tl(3, "<div>");
+			tl(4, "<div>");
 
 			///////////////
 			// sidebar q //
@@ -4155,6 +4188,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(6, "<span class=\"\">", classeNomAdjectifPluriel, "</span>");
 			tl(5, "</a>");
 			tl(4, "</h1>");
+			tl(4, "{{ htm", langueConfig.getString(ConfigCles.var_BoutonsRecherche), classePageNomSimple, "() }}");
 			tl(4, "<h2>");
 			tl(5, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", classeCouleur, "\">");
 			tl(6, "{% if ", langueConfig.getString(ConfigCles.var_classeIconeClassesCss), " is defined %}");
@@ -4182,6 +4216,7 @@ public class EcrirePageClasse extends EcrireApiClasse {
 			tl(8, "<span class=\"\">", classeNomAdjectifSingulier, "</span>");
 			tl(7, "</a>");
 			tl(6, "</h1>");
+			tl(6, "{{ htm", langueConfig.getString(ConfigCles.var_BoutonsRecherche), classePageNomSimple, "() }}");
 			tl(6, "<h2 class=\"w3-center \">");
 			tl(7, "<span class=\"w3-bar-item w3-padding w3-center w3-block w3-", classeCouleur, "\">");
 			tl(8, "<span class=\"\">{{", uncapitalizeClasseApiClasseNomSimple, "_.", langueConfig.getString(ConfigCles.var_objetTitre), "}}</span>");

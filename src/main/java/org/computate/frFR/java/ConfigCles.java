@@ -30,6 +30,7 @@ public class ConfigCles {
 	public static final String str_DDDashMMDashYYYY_HHColonmm = "str_DDDashMMDashYYYY_HHColonmm";
 	public static final String str_ddDashMMDashyyyy_HHColonmm_VV = "str_ddDashMMDashyyyy_HHColonmm_VV";
 	public static final String str_deuxPoints = "str_deuxPoints";
+	public static final String str_Doubler_le_nombre_de_resultats_affiches = "str_Doubler_le_nombre_de_resultats_affiches";
 	public static final String str_Dupliquer_ = "str_Dupliquer_";
 	public static final String str_EEE_d_MMM_yyyy = "str_EEE_d_MMM_yyyy";
 	public static final String str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz = "str_EEE_d_MMM_yyyy_HAposhAposmmColonss_zz";
@@ -37,10 +38,12 @@ public class ConfigCles {
 	public static final String str__est_défini_comme_null_avant_d_être_initialisé__ = "str__est_défini_comme_null_avant_d_être_initialisé__";
 	public static final String str__est_l_entité_déjà_construit__ = "str__est_l_entité_déjà_construit__";
 	public static final String str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__ = "str__est_pour_envelopper_une_valeur_à_assigner_à_cette_entité_lors_de_l_initialisation__";
+	public static final String str_Filtres_et_nombres_de_facettes_pour_ = "str_Filtres_et_nombres_de_facettes_pour_";
 	public static final String str_Fusionner_ = "str_Fusionner_";
 	public static final String str_Genere = "str_Genere";
 	public static final String str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut = "str_Il_est_construit_avant_d_être_initialisé_avec_le_constructeur_par_défaut";
 	public static final String str_Importer_ = "str_Importer_";
+	public static final String str_Interroger_lAPI_REST_JSON_pour_ = "str_Interroger_lAPI_REST_JSON_pour_";
 	public static final String str_la_classe_ = "str_la_classe_";
 	public static final String str_l_ensemble_ = "str_l_ensemble_";
 	public static final String str_L_entité_ = "str_L_entité_";
@@ -49,6 +52,7 @@ public class ConfigCles {
 	public static final String str_Modifier_des_ = "str_Modifier_des_";
 	public static final String str_nest_pas_une_entite_indexe = "str_nest_pas_une_entite_indexe";
 	public static final String str_Pret = "str_Pret";
+	public static final String str_Recherche_avancee_pour_ = "str_Recherche_avancee_pour_";
 	public static final String str_Rechercher_ = "str_Rechercher_";
 	public static final String str_Remplacer_ = "str_Remplacer_";
 	public static final String str_roles_requis = "str_roles_requis";
@@ -116,6 +120,7 @@ public class ConfigCles {
 	public static final String var_Avant = "var_Avant";
 	public static final String var_BaseApiServiceImpl = "var_BaseApiServiceImpl";
 	public static final String var_Bouton = "var_Bouton";
+	public static final String var_BoutonsRecherche = "var_BoutonsRecherche";
 	public static final String var_PageBase = "var_PageBase";
 	public static final String var_calendrier = "var_calendrier";
 	public static final String var_Calendrier = "var_Calendrier";
@@ -483,6 +488,7 @@ public class ConfigCles {
 	public static final String var_tempsTransmission = "var_tempsTransmission";
 	public static final String var_texte = "var_texte";
 	public static final String var_Texte = "var_Texte";
+	public static final String var_TiroirRecherche = "var_TiroirRecherche";
 	public static final String var_Titre = "var_Titre";
 	public static final String var_TousNom = "var_TousNom";
 	public static final String var_Tous = "var_Tous";
