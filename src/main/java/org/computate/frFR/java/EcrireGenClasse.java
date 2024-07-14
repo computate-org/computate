@@ -969,6 +969,7 @@ public class EcrireGenClasse extends EcrireClasse {
 	String entiteDefaut;
 
 	Boolean entiteIndexe;
+	Boolean entiteRequis;
 
 	/**
 	 * Var.enUS: entityText
@@ -3097,6 +3098,7 @@ public class EcrireGenClasse extends EcrireClasse {
 			entiteMin = doc.getInteger("entiteMin_stored_int");
 			entiteMax = doc.getInteger("entiteMax_stored_int");
 			entiteDefaut = doc.getString("entiteDefaut_stored_string");
+			entiteRequis = doc.getBoolean("entiteRequis_stored_boolean");
 			entiteHtml = doc.getBoolean("entiteHtml_stored_boolean");
 
 			entiteClassesSuperEtMoiSansGen = Optional.ofNullable(doc.getJsonArray("classesSuperEtMoiSansGen_stored_strings")).orElse(new JsonArray()).stream().map(v -> (String)v).collect(Collectors.toList());

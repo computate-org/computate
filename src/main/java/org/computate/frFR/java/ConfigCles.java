@@ -524,6 +524,7 @@ public class ConfigCles {
 	public static final String var_Valeurs = "var_Valeurs";
 	public static final String var_valeur = "var_valeur";
 	public static final String var_Valeur = "var_Valeur";
+	public static final String var_valide = "var_valide";
 	public static final String var_Valider = "var_Valider";
 	public static final String var_VarCree = "var_VarCree";
 	public static final String var_VarDescription = "var_VarDescription";
