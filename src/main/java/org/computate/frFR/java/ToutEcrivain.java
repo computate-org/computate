@@ -48,9 +48,40 @@ public class ToutEcrivain {
 	 * r: ToutEcrivain
 	 * r.enUS: AllWriter
 	 */
+	public static ToutEcrivain create(String tab) {
+		ToutEcrivain o = new ToutEcrivain();
+		try {
+			o.setTab(tab);
+			o.initDeepForClass();
+		} catch (FileNotFoundException e) {
+			ExceptionUtils.rethrow(e);
+		}
+		return o;
+	}
+
+	/**
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 */
 	public static ToutEcrivain create(File file) {
 		ToutEcrivain o = new ToutEcrivain();
 		o.setFile(file);
+		try {
+			o.initDeepForClass();
+		} catch (FileNotFoundException e) {
+			ExceptionUtils.rethrow(e);
+		}
+		return o;
+	}
+
+	/**
+	 * r: ToutEcrivain
+	 * r.enUS: AllWriter
+	 */
+	public static ToutEcrivain create(File file, String tab) {
+		ToutEcrivain o = new ToutEcrivain();
+		o.setFile(file);
+		o.setTab(tab);
 		try {
 			o.initDeepForClass();
 		} catch (FileNotFoundException e) {

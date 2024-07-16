@@ -628,7 +628,7 @@ public class EcrireClasse extends IndexerClasse {
 						if(champTraduire) {
 							l(); 
 							ecrireCommentaire(champCommentaire, 1);
-							s("\t");
+							s(o.getTab());
 							if(BooleanUtils.isTrue((Boolean)doc.get("champEstPublic_stored_boolean")))
 								s("public ");
 							if(BooleanUtils.isTrue((Boolean)doc.get("champEstProtege_stored_boolean")))
@@ -666,7 +666,7 @@ public class EcrireClasse extends IndexerClasse {
 								l("\t@", constructeurAnnotationNomSimpleComplet, constructeurAnnotationBlocCode, "");
 							}
 						}
-						s("\t");
+						s(o.getTab());
 						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstPublic_stored_boolean")))
 							s("public ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("constructeurEstProtege_stored_boolean")))
@@ -736,7 +736,7 @@ public class EcrireClasse extends IndexerClasse {
 								l("\t@", methodeAnnotationNomSimpleComplet, methodeAnnotationBlocCode, "");
 							}
 						}
-						s("\t");
+						s(o.getTab());
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstPublic_stored_boolean")))
 							s("public ");
 						if(BooleanUtils.isTrue((Boolean)doc.get("methodeEstProtege_stored_boolean")))
@@ -831,7 +831,7 @@ public class EcrireClasse extends IndexerClasse {
 								l("\t@", entiteAnnotationNomSimpleComplet, entiteAnnotationBlocCode, "");
 							}
 						}
-						s("\t");
+						s(o.getTab());
 						s("protected void _");
 						s(entiteVar);
 
@@ -1136,7 +1136,7 @@ public class EcrireClasse extends IndexerClasse {
 	 */
 	public EcrireClasse t(int nombreTabulations, Object...objets) {
 		for(int i = 0; i < nombreTabulations; i++)
-			o.s("\t");
+			o.s(o.getTab());
 		for(Object objet : objets)
 			if(objet != null)
 				o.s(objet.toString());
@@ -1170,7 +1170,7 @@ public class EcrireClasse extends IndexerClasse {
 	 */
 	public EcrireClasse tl(int nombreTabulations, Object...objets) {
 		for(int i = 0; i < nombreTabulations; i++)
-			o.s("\t");
+			o.s(o.getTab());
 		for(Object objet : objets)
 			if(objet != null)
 				o.s(objet.toString());

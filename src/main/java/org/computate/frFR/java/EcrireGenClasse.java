@@ -2284,26 +2284,25 @@ public class EcrireGenClasse extends EcrireClasse {
 				classeGenPageFichierJinja = new File(classeGenPageCheminJinja);
 
 			if(classePageFichierGen != null)
-				auteurPageGenClasse = ToutEcrivain.create(classePageFichierGen);
+				auteurPageGenClasse = ToutEcrivain.create(classePageFichierGen, "  ");
 			if(classePageFichier != null && (!classePageFichier.exists() || classePageFichier.length() == 0L))
-				auteurPageClasse = ToutEcrivain.create(classePageFichier);
+				auteurPageClasse = ToutEcrivain.create(classePageFichier, "  ");
 			if(classePageFichierCss != null) {
 				classePageFichierCss.getParentFile().mkdirs();
-				auteurPageCss = ToutEcrivain.create(classePageFichierCss);
+				auteurPageCss = ToutEcrivain.create(classePageFichierCss, "  ");
 			}
 			if(classePageFichierJs != null) {
 				classePageFichierJs.getParentFile().mkdirs();
-				auteurPageJs = ToutEcrivain.create(classePageFichierJs);
-				auteurPageJs.setTab("  ");
+				auteurPageJs = ToutEcrivain.create(classePageFichierJs, "  ");
 			}
 			if(classePageFichierJinja != null && (!classePageFichierJinja.exists() || classePageFichierJinja.length() == 0L)) {
 				classePageFichierJinja.getParentFile().mkdirs();
-				auteurPageJinja = ToutEcrivain.create(classePageFichierJinja);
+				auteurPageJinja = ToutEcrivain.create(classePageFichierJinja, "  ");
 			}
 			if(classeGenPageFichierJinja != null) {
 				classeGenPageFichierJinja.getParentFile().mkdirs();
-				auteurGenPageJinja = ToutEcrivain.create(classeGenPageFichierJinja);
-				auteurGenPageJinjaEntite = ToutEcrivain.create();
+				auteurGenPageJinja = ToutEcrivain.create(classeGenPageFichierJinja, "  ");
+				auteurGenPageJinjaEntite = ToutEcrivain.create("  ");
 			}
 		}
 	}

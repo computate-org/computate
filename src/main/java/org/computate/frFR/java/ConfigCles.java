@@ -193,6 +193,7 @@ public class ConfigCles {
 	public static final String var_description = "var_description";
 	public static final String var_DescriptionAlternatif = "var_DescriptionAlternatif";
 	public static final String var_desindexer = "var_desindexer";
+	public static final String var_Dialogue = "var_Dialogue";
 	public static final String var_DocsAlternatif = "var_DocsAlternatif";
 	public static final String var_documentSolr = "var_documentSolr";
 	public static final String var_DocumentSolr = "var_DocumentSolr";
