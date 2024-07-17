@@ -59,6 +59,8 @@ public class I18n {
 	public static final String str_Stats = "str_Stats";
 	public static final String str_Supprimer_ = "str_Supprimer_";
 	public static final String str_Télécharger_image = "str_Télécharger_image";
+	public static final String str_trier_par___croissante = "str_trier_par___croissante";
+	public static final String str_trier_par___decroissante = "str_trier_par___decroissante";
 	public static final String str_Trouver_la_classe_ = "str_Trouver_la_classe_";
 	public static final String str_Trouver_l_entité_ = "str_Trouver_l_entité_";
 	public static final String str_ValiderLaSignature = "str_ValiderLaSignature";
@@ -120,6 +122,7 @@ public class I18n {
 	public static final String var_Avant = "var_Avant";
 	public static final String var_BaseApiServiceImpl = "var_BaseApiServiceImpl";
 	public static final String var_Bouton = "var_Bouton";
+	public static final String var_BoutonsPagination = "var_BoutonsPagination";
 	public static final String var_BoutonsRecherche = "var_BoutonsRecherche";
 	public static final String var_PageBase = "var_PageBase";
 	public static final String var_calendrier = "var_calendrier";
